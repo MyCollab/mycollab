@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.EventMapperExt">
+
+
+	<resultMap id="SimpleEventResult"
+		type="com.esofthead.mycollab.module.crm.domain.SimpleActivity">
+
+		<result column="id" jdbcType="INTEGER" property="id" />
+
+		<result column="status" jdbcType="VARCHAR" property="status" />
+
+		<result column="subject" jdbcType="VARCHAR" property="subject" />
+
+		<result column="eventType" jdbcType="VARCHAR" property="eventType" />
+
+		<result column="type" jdbcType="VARCHAR" property="type" />
+
+		<result column="typeid" jdbcType="INTEGER" property="typeid" />
+
+		<result column="typeName" jdbcType="VARCHAR" property="typeName" />
+
+		<result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
+
+		<result column="endDate" jdbcType="TIMESTAMP" property="endDate" />
+
+		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
+
+		<result column="assignUserFullName" jdbcType="VARCHAR"
+			property="assignUserFullName" />
+		<result column="createdTime" jdbcType="TIMESTAMP" property="createdTime" />
+		<result column="lastUpdatedTime" jdbcType="TIMESTAMP" property="lastUpdatedTime" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
+		<result column="priority" jdbcType="VARCHAR" property="priority" />
+		<result column="contactFullName" jdbcType="VARCHAR" property="contactFullName" />
+		<result column="contactId" jdbcType="INTEGER" property="contactId" />
+		<result column="callDuration" jdbcType="INTEGER" property="callDuration" />
+		<result column="callPurpose" jdbcType="VARCHAR" property="callPurpose" />
+		<result column="callResult" jdbcType="VARCHAR" property="callResult" />
+		<result column="meetingLocation" jdbcType="VARCHAR" property="meetingLocation" />
+		<result column="assignUserAvatarId" jdbcType="VARCHAR" property="assignUserAvatarId" />
+	</resultMap>
+
+	<sql id="queryTaskSearchCriteria">
+		<if
+			test='searchCriteria.startDate != null and searchCriteria.endDate != null'>
+            <![CDATA[${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} #{searchCriteria.startDate.value,javaType=DATE} ]]>
+		</if>
+		<if test='searchCriteria.endDate != null'>
+            <![CDATA[${searchCriteria.endDate.operation} startdate ${searchCriteria.endDate.comparision} #{searchCriteria.endDate.value,javaType=DATE}]]>
+		</if>
+
+		<if test='searchCriteria.saccountid != null'>
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_task.sAccountId = ${searchCriteria.saccountid.value} ]]>
+		</if>
+		<if test='searchCriteria.type != null'>
+            <![CDATA[${searchCriteria.type.operation} type = #{searchCriteria.type.value} ]]>
+		</if>
+		<if test='searchCriteria.typeid != null'>
+            <![CDATA[${searchCriteria.typeid.operation} typeid = ${searchCriteria.typeid.value} ]]>
+		</if>
+		<if test="searchCriteria.isClosed != null">
+            <![CDATA[${searchCriteria.isClosed.operation} m_crm_task.isClosed IS ${searchCriteria.isClosed.value}]]>
+		</if>
+	</sql>
+
+	<sql id="queryCallSearchCriteria">
+		<if test='searchCriteria.startDate != null'>
+            <![CDATA[${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} #{searchCriteria.startDate.value,javaType=DATE} ]]>
+		</if>
+		<if test='searchCriteria.endDate != null'>
+            <![CDATA[${searchCriteria.endDate.operation} startdate ${searchCriteria.endDate.comparision} #{searchCriteria.endDate.value,javaType=DATE}]]>
+		</if>
+		<if test='searchCriteria.saccountid != null'>
+            <![CDATA[${searchCriteria.saccountid.operation} sAccountId = ${searchCriteria.saccountid.value} ]]>
+		</if>
+		<if test='searchCriteria.type != null'>
+            <![CDATA[${searchCriteria.type.operation} type = #{searchCriteria.type.value} ]]>
+		</if>
+		<if test='searchCriteria.typeid != null'>
+            <![CDATA[${searchCriteria.typeid.operation} typeid = ${searchCriteria.typeid.value} ]]>
+		</if>
+		<if test="searchCriteria.isClosed != null">
+            <![CDATA[${searchCriteria.isClosed.operation} m_crm_call.isClosed IS ${searchCriteria.isClosed.value}]]>
+		</if>
+	</sql>
+
+	<sql id="queryMeetingSearchCriteria">
+		<if test='searchCriteria.startDate != null'>
+            <![CDATA[${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} #{searchCriteria.startDate.value,javaType=DATE} ]]>
+		</if>
+		<if test='searchCriteria.endDate != null'>
+            <![CDATA[${searchCriteria.endDate.operation} startdate ${searchCriteria.endDate.comparision} #{searchCriteria.endDate.value,javaType=DATE}]]>
+		</if>
+		<if test='searchCriteria.saccountid != null'>
+            <![CDATA[${searchCriteria.saccountid.operation} sAccountId = ${searchCriteria.saccountid.value} ]]>
+		</if>
+		<if test='searchCriteria.type != null'>
+            <![CDATA[${searchCriteria.type.operation} type = #{searchCriteria.type.value} ]]>
+		</if>
+		<if test='searchCriteria.typeid != null'>
+            <![CDATA[${searchCriteria.typeid.operation} typeid = ${searchCriteria.typeid.value} ]]>
+		</if>
+		<if test="searchCriteria.isClosed != null">
+            <![CDATA[${searchCriteria.isClosed.operation} m_crm_meeting.isClosed IS ${searchCriteria.isClosed.value}]]>
+		</if>
+	</sql>
+
+	<sql id="selectSimpleEventFromTask">
+        <![CDATA[
+        SELECT m_crm_task.id, m_crm_task.subject, 'Task' as eventType, m_crm_task.startdate,
+            m_crm_task.duedate as endDate, m_crm_task.typeid, m_crm_task.description, m_crm_task.createdTime, m_crm_task.createdUser, m_crm_task.sAccountId,
+            m_crm_task.status, m_crm_task.assignUser, m_crm_task.type, 'Error' as typeName, m_crm_task.lastUpdatedTime,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            m_crm_task.priority as priority,
+			concat(m_crm_contact.firstname,' ',m_crm_contact.lastname) as contactFullName,
+			m_crm_task.contactId as contactId, null as callDuration, null as callPurpose, null as callResult, null as meetingLocation,
+			s_user.avatarId as assignUserAvatarId
+        FROM m_crm_task
+            LEFT OUTER JOIN s_user ON m_crm_task.assignUser = s_user.username
+            LEFT OUTER JOIN m_crm_contact ON m_crm_task.contactId = m_crm_contact.id
+        ]]>
+	</sql>
+
+	<sql id="selectSimpleEventFromCall">
+        <![CDATA[
+        SELECT m_crm_call.id, m_crm_call.subject, 'Call' as eventType, m_crm_call.startdate, m_crm_call.startdate as endDate, m_crm_call.typeid, m_crm_call.description, m_crm_call.createdTime,
+            m_crm_call.createdUser, m_crm_call.sAccountId, m_crm_call.status, m_crm_call.assignUser, m_crm_call.type, 'Error' as typeName, m_crm_call.lastUpdatedTime,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            null as priority , null as contactFullName , null as contactId,m_crm_call.durationInSeconds as callDuration, m_crm_call.purpose as callPurpose,
+    		m_crm_call.result as callResult,null as meetingLocation,s_user.avatarId as assignUserAvatarId
+        FROM m_crm_call
+            LEFT OUTER JOIN s_user ON m_crm_call.assignUser = s_user.username
+        ]]>
+	</sql>
+
+	<sql id="selectSimpleEventFromMeeting">
+        <![CDATA[
+            SELECT m_crm_meeting.id, m_crm_meeting.subject, 'Event' as eventType, m_crm_meeting.startdate,
+                m_crm_meeting.endDate, m_crm_meeting.typeid, m_crm_meeting.description, m_crm_meeting.createdTime, m_crm_meeting.createdUser,
+                m_crm_meeting.sAccountId, m_crm_meeting.status, m_crm_meeting.createdUser as assignUser, m_crm_meeting.type, 'Error' as  typeName,
+                m_crm_meeting.lastUpdatedTime, concat(s_user.firstname, LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+                null as priority,null as contactFullName,null as contactId,null as callDuration, null as callPurpose, null as callResult,
+				m_crm_meeting.location as meetingLocation,s_user.avatarId as assignUserAvatarId
+            FROM m_crm_meeting
+                LEFT OUTER JOIN s_user ON m_crm_meeting.createdUser = s_user.username
+        ]]>
+	</sql>
+
+	<sql id="orderStatement">
+		ORDER BY
+		<if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+			${searchCriteria.sortDirection},
+		</if>
+        <![CDATA[
+            lastUpdatedTime DESC
+        ]]>
+	</sql>
+
+	<select id="getTotalCountFromTask" parameterType="map"
+		resultType="java.lang.Integer">
+		SELECT count(*) as totalCount FROM
+		m_crm_task
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryTaskSearchCriteria" />
+			</trim>
+		</if>
+	</select>
+
+	<select id="getTotalCountFromCall" parameterType="map"
+		resultType="java.lang.Integer">
+		SELECT count(*) as totalCount FROM
+		m_crm_call
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryCallSearchCriteria" />
+			</trim>
+		</if>
+	</select>
+
+	<select id="getTotalCountFromMeeting" parameterType="map"
+		resultType="java.lang.Integer">
+		SELECT count(*) as totalCount FROM
+		m_crm_meeting
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryMeetingSearchCriteria" />
+			</trim>
+		</if>
+	</select>
+
+	<select id="findPagableListByCriteria" parameterType="map"
+		resultMap="SimpleEventResult">
+		(
+		<include
+			refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.selectSimpleEventFromTask" />
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryTaskSearchCriteria" />
+			</trim>
+		</if>
+		)
+
+		UNION
+
+		(
+		<include
+			refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.selectSimpleEventFromCall" />
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryCallSearchCriteria" />
+			</trim>
+		</if>
+		)
+
+		UNION
+
+		(
+		<include
+			refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.selectSimpleEventFromMeeting" />
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.EventMapperExt.queryMeetingSearchCriteria" />
+			</trim>
+		</if>
+		)
+
+		<if test="searchCriteria != null">
+			<include refid="orderStatement" />
+		</if>
+	</select>
+</mapper>

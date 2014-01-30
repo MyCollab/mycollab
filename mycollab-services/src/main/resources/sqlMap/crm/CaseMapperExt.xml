@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.CaseMapperExt">
+    
+    <resultMap id="SimpleCaseResult"
+        type="com.esofthead.mycollab.module.crm.domain.SimpleCase"
+        extends="com.esofthead.mycollab.module.crm.dao.CaseMapper.ResultMapWithBLOBs">
+        <result column="assignUserAvatarId" property="assignUserAvatarId"
+            jdbcType="VARCHAR" />
+        <result column="assignUserFullName" property="assignUserFullName"
+            jdbcType="VARCHAR" />
+        <result column="accountName" property="accountName"
+            jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.subject != null">
+            <![CDATA[${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%']]>
+        </if>
+        <if test="searchCriteria.assignUser != null">
+            <![CDATA[
+                ${searchCriteria.assignUser.operation} m_crm_case.assignUser = #{searchCriteria.assignUser.value}
+            ]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[
+               ${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.accountName != null">
+            <![CDATA[${searchCriteria.accountName.operation} m_crm_account.accountName like '%${searchCriteria.accountName.value}%']]>
+        </if>
+        <if test="searchCriteria.accountId != null">
+            <![CDATA[${searchCriteria.accountId.operation} m_crm_account.id=#{searchCriteria.accountId.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.contactId != null">
+            <![CDATA[
+                ${searchCriteria.contactId.operation}
+                (SELECT COUNT(*) 
+                 FROM m_crm_type_relationship, m_crm_contact
+                 WHERE m_crm_type_relationship.type=8 
+                     AND m_crm_contact.id=m_crm_type_relationship.type2id 
+                     AND m_crm_case.id=m_crm_type_relationship.type1id
+                     AND m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_case.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.statuses">
+            ${searchCriteria.statuses.operation}
+            m_crm_case.status IN
+            <foreach collection="searchCriteria.statuses.values"
+                item="status" open="(" close=")" separator=",">
+                #{status}
+            </foreach>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_case.assignUser IN
+            <foreach collection="searchCriteria.assignUsers.values"
+                item="user" open="(" close=")" separator=",">
+                #{user}
+            </foreach>
+        </if>
+        <if test="searchCriteria.priorities != null">
+            ${searchCriteria.priorities.operation} m_crm_case.priority
+            IN
+            <foreach collection="searchCriteria.priorities.values"
+                open="(" close=")" separator="," item="priority">
+                #{priority}
+            </foreach>
+        </if>
+    </sql>
+
+
+    <sql id="queryTotalCountSearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_crm_case.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.subject != null">
+            <![CDATA[${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%']]>
+        </if>
+        <if test="searchCriteria.assignUser != null">
+            <![CDATA[
+                ${searchCriteria.assignUser.operation} m_crm_case.assignUser = #{searchCriteria.assignUser.value}
+            ]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[
+            ${searchCriteria.assignUserName.operation}
+            (SELECT COUNT(*)
+                FROM s_user
+                WHERE m_crm_case.assignUser = s_user.username AND
+                  (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'))>0
+            ]]>
+        </if>
+        <if test="searchCriteria.accountName != null">
+            <![CDATA[
+            ${searchCriteria.accountName.operation}
+            (SELECT COUNT(*) 
+                FROM m_crm_account 
+                WHERE m_crm_account.accountName like '%${searchCriteria.accountName.value}%' 
+                    AND m_crm_account.id=m_crm_case.accountId) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.accountId != null">
+            <![CDATA[
+            ${searchCriteria.accountId.operation}
+            (SELECT COUNT(*) 
+                FROM m_crm_account 
+                WHERE m_crm_account.id = #{searchCriteria.accountId.value,jdbcType=NUMERIC} 
+                    AND m_crm_account.id=m_crm_case.accountId) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.contactId != null">
+            <![CDATA[
+                ${searchCriteria.contactId.operation}
+                (SELECT COUNT(*) 
+                 FROM m_crm_type_relationship, m_crm_contact
+                 WHERE m_crm_type_relationship.type=8 
+                     AND m_crm_contact.id=m_crm_type_relationship.type2id 
+                     AND m_crm_case.id=m_crm_type_relationship.type1id
+                     AND m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.statuses != null">
+            ${searchCriteria.statuses.operation}
+            m_crm_case.status IN
+            <foreach collection="searchCriteria.statuses.values"
+                item="status" open="(" close=")" separator=",">
+                #{status}
+            </foreach>
+        </if>
+        <if test="searchCriteria.priorities != null">
+            ${searchCriteria.priorities.operation}
+            m_crm_case.priority IN
+            <foreach collection="searchCriteria.priorities.values"
+                item="priority" open="(" close=")" separator=",">
+                #{priority}
+            </foreach>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_case.assignUser IN
+            <foreach collection="searchCriteria.assignUsers.values"
+                item="user" open="(" close=")" separator=",">
+                #{user}
+            </foreach>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_case.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleCase">
+        <![CDATA[
+        SELECT m_crm_case.id, m_crm_case.priority, m_crm_case.status, m_crm_case.type, m_crm_case.subject, m_crm_case.description, 
+               m_crm_case.resolution, m_crm_case.accountId, m_crm_case.createdTime, m_crm_case.createdUser, m_crm_case.sAccountId, 
+               s_user.avatarId AS assignUserAvatarId,
+               m_crm_case.assignUser, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               m_crm_account.accountName, m_crm_case.lastUpdatedTime,  m_crm_case.reason,  m_crm_case.origin, m_crm_case.phonenumber, m_crm_case.email
+        FROM m_crm_case
+            LEFT OUTER JOIN m_crm_account ON (m_crm_case.accountId = m_crm_account.id)
+            LEFT OUTER JOIN s_user ON (m_crm_case.assignUser = s_user.username)
+        ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_crm_case.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="CaseSearchCriteria">
+        SELECT count(*) as totalCount FROM m_crm_case
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <delete id="removeByCriteria" parameterType="CaseSearchCriteria">
+        DELETE FROM m_crm_case
+        <if test="searchCriteria != null">
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
+        </if>
+    </delete>
+
+    <select id="findPagableListByCriteria" resultMap="SimpleCaseResult"
+        parameterType="CaseSearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.selectSimpleCase" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="SimpleCaseResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.selectSimpleCase" />
+
+        WHERE m_crm_case.id=#{caseId,jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_crm_case
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_crm_case
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </update>
+</mapper>

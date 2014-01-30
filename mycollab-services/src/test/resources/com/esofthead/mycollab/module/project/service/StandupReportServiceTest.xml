@@ -1,0 +1,26 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_account id="1" createdTime="2013-04-10 13:29:23"
+        paymentMethod="Credit Card" status="Active" />
+    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai"
+        email="hainguyen@esofthead.com" />
+    <s_user username="linhduong" firstname="Linh" lastname="Duong"
+        email="linhduong@esofthead.com" />
+    <m_prj_project id="1" name="A" priority="1" shortname="ddd"
+        projectStatus="Open" sAccountId="1" />
+
+    <m_prj_standup id="1" lastUpdatedTime="2013-03-13 15:59:44"
+        projectId="1" forday="2013-03-13 15:59:44" logBy="hainguyen"
+        createdTime="2013-03-13 15:59:44" sAccountId="1" whatlastday="a"
+        whatproblem="a" whattoday="a" />
+
+    <m_prj_standup id="2" lastUpdatedTime="2013-03-14 15:59:44"
+        projectId="1" forday="2013-03-14 15:59:44" logBy="hainguyen"
+        createdTime="2013-03-14 15:59:44" sAccountId="1" whatlastday="b"
+        whatproblem="b" whattoday="b" />
+
+    <m_prj_standup id="3" lastUpdatedTime="2013-03-14 15:59:44"
+        projectId="1" forday="2013-03-14 15:59:44" logBy="linhduong"
+        createdTime="2013-03-14 15:59:44" sAccountId="1" whatlastday="b"
+        whatproblem="b" whattoday="b" />
+</dataset>

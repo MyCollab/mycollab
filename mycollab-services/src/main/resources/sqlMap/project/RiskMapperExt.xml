@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.RiskMapperExt">
+
+    <resultMap
+        extends="com.esofthead.mycollab.module.project.dao.RiskMapper.ResultMapWithBLOBs"
+        id="RiskResult" type="com.esofthead.mycollab.module.project.domain.SimpleRisk">
+
+        <result column="risksource" property="risksource"
+            jdbcType="VARCHAR" />
+
+        <result column="raisedByUserAvatarId" property="raisedByUserAvatarId"
+            jdbcType="VARCHAR" />
+
+        <result column="raisedByUserFullName" property="raisedByUserFullName"
+            jdbcType="VARCHAR" />
+
+        <result column="assignToUserAvatarId" property="assignToUserAvatarId"
+            jdbcType="VARCHAR" />
+
+        <result column="assignedToUserFullName" property="assignedToUserFullName"
+            jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_prj_risk.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.riskname != null">
+            ${searchCriteria.riskname.operation}
+            m_prj_risk.riskname
+            LIKE
+            '%${searchCriteria.riskname.value}%'
+        </if>
+        <if test="searchCriteria.projectId != null">
+            ${searchCriteria.projectId.operation}
+            m_prj_risk.projectid =
+            #{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        </if>
+        <if test="searchCriteria.raisedByUser != null">
+            ${searchCriteria.raisedByUser.operation}
+            m_prj_risk.raisedbyuser =
+            #{searchCriteria.raisedByUser.value}
+        </if>
+        <if test="searchCriteria.assignToUser != null">
+            ${searchCriteria.assignToUser.operation}
+            m_prj_risk.assigntouser =
+            #{searchCriteria.assignToUser.value}
+        </if>
+        <if test="searchCriteria.isCompleted != null">
+            ${searchCriteria.isCompleted.operation}
+            m_prj_risk.status IS
+            ${searchCriteria.isCompleted.value}
+        </if>
+    </sql>
+
+    <sql id="selectRisk">
+        <![CDATA[
+          SELECT m_prj_risk.id, m_prj_risk.riskname, m_prj_risk.description, m_prj_risk.projectid, m_prj_risk.raisedbyuser, 
+                 m_prj_risk.assigntouser, m_prj_risk.consequence, m_prj_risk.probalitity, m_prj_risk.status, m_prj_risk.dateraised, 
+                 m_prj_risk.datedue, m_prj_risk.response, m_prj_risk.resolution, m_prj_risk.level,
+                 m_prj_risk.source, m_prj_risk.createdTime, m_prj_risk.lastUpdatedTime, m_prj_risk.type, m_prj_risk.typeid,  m_prj_risk.sAccountId,
+                 raisedUser.avatarId AS raisedByUserAvatarId,
+                 concat(raisedUser.firstname, ' ', LTRIM(concat(IFNULL(raisedUser.middlename, ''), ' ')), raisedUser.lastname) AS raisedByUserFullName,
+                 assignedUser.avatarId AS assignToUserAvatarId,
+                 concat(assignedUser.firstname, ' ', LTRIM(concat(IFNULL(assignedUser.middlename, ''), ' ')), assignedUser.lastname) AS assignedToUserFullName 
+          FROM m_prj_risk
+              LEFT OUTER JOIN s_user as raisedUser ON (m_prj_risk.raisedbyuser=raisedUser.username)
+              LEFT OUTER JOIN s_user as assignedUser ON ( m_prj_risk.assigntouser=assignedUser.username)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="RiskSearchCriteria">
+        SELECT count(*) as totalCount FROM m_prj_risk
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+             m_prj_risk.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" resultMap="RiskResult"
+        parameterType="RiskSearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.selectRisk" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findRiskById" parameterType="java.lang.Integer"
+        resultMap="RiskResult">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.selectRisk" />
+
+        WHERE m_prj_risk.id=#{riskId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_prj_risk
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_prj_risk
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.RiskMapper.massUpdateWithSessionSql" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.RiskMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </update>
+</mapper>

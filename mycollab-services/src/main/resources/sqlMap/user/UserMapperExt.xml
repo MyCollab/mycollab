@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esofthead.mycollab.module.user.dao.UserMapperExt">
+    <resultMap
+        extends="com.esofthead.mycollab.module.user.dao.UserMapper.ResultMapWithBLOBs"
+        id="SimpleUserResult" type="com.esofthead.mycollab.module.user.domain.SimpleUser">
+        <result column="displayName" jdbcType="VARCHAR" property="displayName" />
+        <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+        <result column="subdomain" jdbcType="VARCHAR" property="subdomain" />
+        <result column="roleid" jdbcType="INTEGER" property="roleid" />
+        <result column="isAccountOwner" jdbcType="BIT" property="isAccountOwner" />
+        <result column="accountId" jdbcType="INTEGER" property="accountId" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.displayName != null">
+          <![CDATA[
+            ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
+            ]]>
+        </if>
+        <if test="searchCriteria.username != null">
+          <![CDATA[
+            ${searchCriteria.username.operation} s_user.username = #{searchCriteria.username.value}
+            ]]>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} s_user_account.accountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.subdomain != null">
+            <![CDATA[${searchCriteria.subdomain.operation} (SELECT COUNT(*) 
+                FROM s_account, s_user_account AS user_account 
+                WHERE s_account.subdomain=#{searchCriteria.subdomain.value} AND  user_account.accountId=s_account.id AND user_account.username=s_user.username
+            ) > 0                                
+            ]]>
+        </if>
+        <if test="searchCriteria.registerStatuses != null">
+            ${searchCriteria.registerStatuses.operation}
+            s_user_account.registerStatus IN
+            <foreach close=")"
+                collection="searchCriteria.registerStatuses.values"
+                item="registerStatus" open="(" separator=",">
+                #{registerStatus}
+            </foreach>
+        </if>
+        <if test="searchCriteria.status != null">
+            ${searchCriteria.status.operation}
+            s_user.status IN
+            <foreach close=")"
+                collection="searchCriteria.status.values" item="userstatus"
+                open="(" separator=",">
+                #{userstatus}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="queryTotalCountSearchCriteria">
+        <if test="searchCriteria.displayName != null">
+          <![CDATA[
+            ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
+            ]]>
+        </if>
+        <if test="searchCriteria.username != null">
+          <![CDATA[
+            ${searchCriteria.username.operation} s_user.username = #{searchCriteria.username.value}
+            ]]>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} (SELECT COUNT(*) 
+                FROM s_user_account 
+                WHERE s_user_account.accountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND s_user_account.username=s_user.username) > 0]]>
+        </if>
+        <if test="searchCriteria.subdomain != null">
+            <![CDATA[${searchCriteria.subdomain.operation} (SELECT COUNT(*) 
+                FROM s_account, s_user_account AS user_account 
+                WHERE s_account.subdomain=#{searchCriteria.subdomain.value} AND  user_account.accountId=s_account.id AND user_account.username=s_user.username
+            ) > 0                                
+            ]]>
+        </if>
+        <if test="searchCriteria.registerStatuses != null">
+            ${searchCriteria.registerStatuses.operation}
+            (SELECT COUNT(*)
+            FROM s_user_account WHERE
+            s_user.username=s_user_account.username AND
+            s_user_account.registerStatus IN
+            <foreach close=")"
+                collection="searchCriteria.registerStatuses.values"
+                item="registerStatus" open="(" separator=",">
+                #{registerStatus}
+            </foreach>
+            ) > 0
+        </if>
+    </sql>
+
+    <sql id="selectUser">
+        <![CDATA[
+        SELECT DISTINCT s_user.username, s_user.firstname, s_user.middlename, s_user.lastname, s_user.nickname, s_user.dateofbirth, 
+            s_user.email, s_user.website, s_user.registeredTime, 
+            s_user_preference.lastAccessedTime, s_user.company, 
+            s_user.timezone, s_user.language, 
+            s_user.country, s_user.workPhone, s_user.homePhone, 
+            s_user.facebookAccount, s_user.twitterAccount, s_user.skypeContact,
+            s_user.password, s_user.avatarId, s_user.status, s_account.subdomain AS subdomain,
+            s_roles.rolename AS roleName,  s_user_account.isAccountOwner, s_user_account.roleid, s_user_account.accountId AS accountId, 
+            s_user_account.registerStatus
+        FROM s_user 
+                LEFT OUTER JOIN s_user_account ON (s_user.username=s_user_account.username)
+                LEFT OUTER JOIN s_account ON (s_user_account.accountId = s_account.id)
+                LEFT OUTER JOIN s_roles ON (s_roles.id = s_user_account.roleid)
+                LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=s_user_account.accountId)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="UserSearchCriteria">
+        SELECT count(*) as totalCount FROM s_user
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include refid="queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="findPagableListByCriteria" resultMap="SimpleUserResult"
+        parameterType="UserSearchCriteria">
+        <include refid="selectUser" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <delete id="removeByCriteria" parameterType="UserSearchCriteria">
+        DELETE FROM s_user
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.user.dao.UserMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </delete>
+
+    <select id="findUserByUserName" resultMap="SimpleUserResult"
+        parameterType="java.lang.String">
+        <include refid="selectUser" />
+        WHERE s_user.username=#{username}
+    </select>
+
+    <delete id="removeKeysWithSession" parameterType="java.util.List">
+        <!--WARNING - @mbggenerated -->
+        delete from s_user where username IN
+        <foreach close=")" collection="list" index="index" item="item"
+            open="(" separator=","> #{item} </foreach>
+    </delete>
+</mapper>

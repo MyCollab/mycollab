@@ -1,0 +1,77 @@
+@mixin common {
+	@font-face {
+		font-family: 'icomoon';
+		src:url('fonts/icomoon.eot');
+		src:url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+			url('fonts/icomoon.woff') format('woff'),
+			url('fonts/icomoon.ttf') format('truetype'),
+			url('fonts/icomoon.svg#icomoon') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+	
+	[data-icon]:before {
+		font-family: 'icomoon';
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		content: attr(data-icon);
+	
+		/* Better Font Rendering =========== */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	
+	html {
+		height: 100%;
+		font-size: 10px;
+	}
+
+    .v-app {
+        font: 1.2rem Arial,Verdana,Helvetica,sans-serif;
+    }
+    .v-app,
+    .v-window,
+    .v-popupview-popup,
+    .v-app input,
+    .v-app button,
+    .v-app textarea,
+    .v-window input,
+    .v-window button,
+    .v-window textarea,
+    .v-popupview-popup input,
+    .v-popupview-popup button,
+    .v-popupview-popup textarea,
+    .v-filterselect-suggestpopup,
+    .v-datefield-popup,
+    .v-datefield-calendarpanel-header button,
+    .v-contextmenu,
+    .v-Notification,
+    .v-menubar-submenu,
+    .v-table-header-drag,
+    .v-filterselect-select-button .v-filterselect-input,
+    .v-drag-element,
+    .v-label,
+    div.v-widget {
+        font-size: 1.2rem;
+    }
+    
+    :focus {outline:none;}
+	::-moz-focus-inner {border:0;}
+
+    input {
+        box-shadow: none;
+    }
+
+    body.v-generated-body {
+        background: none repeat scroll 0% 0% rgb(245, 245, 245);
+        position: fixed;
+    }
+
+    div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
+        display: inline-block;
+    }
+}

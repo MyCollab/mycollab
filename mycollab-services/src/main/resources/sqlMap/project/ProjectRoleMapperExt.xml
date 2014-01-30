@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.project.dao.ProjectRoleMapper.BaseResultMap"
+        id="SimpleRoleResult"
+        type="com.esofthead.mycollab.module.project.domain.SimpleProjectRole">
+        <result column="permissionVal" jdbcType="LONGVARCHAR"
+            property="permissionVal" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_prj_role.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.rolename != null">
+            ${searchCriteria.rolename.operation}
+            m_prj_role.rolename
+            LIKE
+            '%${searchCriteria.rolename.value}%'
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_prj_role.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.projectId != null">
+            <![CDATA[${searchCriteria.projectId.operation} m_prj_role.projectid = #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleRole">
+        <![CDATA[
+            SELECT m_prj_role.id, m_prj_role.rolename, m_prj_role.description, m_prj_role.sAccountId, 
+                m_prj_role.projectid, m_prj_role_permission.roleVal AS permissionVal
+            FROM m_prj_role
+                LEFT OUTER JOIN m_prj_role_permission ON (m_prj_role_permission.roleid = m_prj_role.id)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria">
+        SELECT count(*) as totalCount FROM m_prj_role
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findPagableListByCriteria"
+        resultMap="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.SimpleRoleResult"
+        parameterType="RoleSearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.selectSimpleRole" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findRoleById" parameterType="java.lang.Integer"
+        resultMap="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.SimpleRoleResult">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.selectSimpleRole" />
+
+        WHERE m_prj_role.id=#{roleId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_prj_role
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_prj_role
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+</mapper>

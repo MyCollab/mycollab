@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esofthead.mycollab.common.dao.MonitorItemMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.common.dao.MonitorItemMapper.BaseResultMap"
+        id="MonitorItemResult" type="com.esofthead.mycollab.common.domain.SimpleMonitorItem">
+        <result column="userFullname" jdbcType="VARCHAR"
+            property="userFullname" />
+
+        <result column="userAvatarId" jdbcType="VARCHAR"
+            property="userAvatarId" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.typeId != null">
+            <![CDATA[${searchCriteria.typeId.operation} m_monitor_item.typeid ${searchCriteria.typeId.compareOperator} #{searchCriteria.typeId.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.type != null ">
+            <![CDATA[${searchCriteria.type.operation} m_monitor_item.type = #{searchCriteria.type.value} ]]>
+        </if>
+
+        <if test="searchCriteria.user != null ">
+            <![CDATA[${searchCriteria.user.operation} m_monitor_item.user = #{searchCriteria.user.value} ]]>
+        </if>
+
+        <if test="searchCriteria.extraTypeIds != null ">
+            ${searchCriteria.extraTypeIds.operation}
+            m_monitor_item.extratypeid IN
+            <foreach close=")" collection="searchCriteria.extraTypeIds.values"
+                item="extraTypeId" open="(" separator=",">
+                #{extraTypeId}
+            </foreach>
+
+        </if>
+    </sql>
+
+    <sql id="selectItem">
+        <![CDATA[
+          SELECT m_monitor_item.id, m_monitor_item.user, m_monitor_item.monitor_date, m_monitor_item.type, m_monitor_item.typeid, 
+                 m_monitor_item.extratypeid,
+                 changeUser.avatarId AS userAvatarId,
+                 concat(changeUser.firstname, ' ', LTRIM(IFNULL(concat(changeUser.middlename,' '), '')), changeUser.lastname) as userFullname
+            FROM m_monitor_item
+              LEFT OUTER JOIN s_user AS changeUser ON (m_monitor_item.user=changeUser.username)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="MonitorSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_monitor_item
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_monitor_item.monitor_date DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
+        resultMap="MonitorItemResult">
+
+        <include
+            refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.selectItem" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+</mapper>

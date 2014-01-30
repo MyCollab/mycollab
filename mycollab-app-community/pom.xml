@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>mycollab-app-community</name>
+    <artifactId>mycollab-app-community</artifactId>
+    <parent>
+        <groupId>com.esofthead.mycollab</groupId>
+        <artifactId>parent-community</artifactId>
+        <version>3.0.0</version>
+        <relativePath>../mycollab-parent-community/pom.xml</relativePath>
+    </parent>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-server-runner</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-services-community</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-web-community</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+<!-- 
+         <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-client-compiler</artifactId> 
+            <version>${vaadinVersion}</version> <scope>provided</scope> </dependency>
+            --> 
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <wtpversion>2.0</wtpversion>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <!-- The configuration of the plugin -->
+                <executions>
+                    <execution>
+                        <id>make-a-jar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>runner</finalName>
+                            <!-- Configuration of the archiver -->
+                            <archive>
+                                <!-- Manifest specific configuration -->
+                                <manifest>
+                                    <!-- Classpath is added to the manifest 
+                                        of the created jar file. -->
+                                    <addClasspath>true</addClasspath>
+                                    <!-- Configures the classpath prefix. 
+                                        This configuration option is used to specify that all needed libraries are 
+                                        found under lib/ directory. -->
+                                    <classpathPrefix>lib/</classpathPrefix>
+                                    <!-- Specifies the main class of the 
+                                        application -->
+                                    <mainClass>com.esofthead.mycollab.jetty.CommunityServerRunner</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+
+            </plugin>
+
+            <!-- START SNIPPET: assembly -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/src.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- END SNIPPET: assembly -->
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.ProblemMapperExt">
+
+    <resultMap id="ProblemResult"
+        extends="com.esofthead.mycollab.module.project.dao.ProblemMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.module.project.domain.SimpleProblem">
+
+        <result column="raisedByUserAvatarId" jdbcType="VARCHAR"
+            property="raisedByUserAvatarId" />
+
+        <result column="raisedByUserFullName" jdbcType="VARCHAR"
+            property="raisedByUserFullName" />
+
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
+
+        <result column="assignedUserFullName" jdbcType="VARCHAR"
+            property="assignedUserFullName" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_prj_problem.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.problemname != null">
+            ${searchCriteria.problemname.operation}
+            m_prj_problem.issuename LIKE
+            '%${searchCriteria.problemname.value}%'
+
+        </if>
+
+        <if test="searchCriteria.projectId != null">
+            ${searchCriteria.projectId.operation}
+            m_prj_problem.projectid =
+            #{searchCriteria.projectId.value,jdbcType=NUMERIC}
+
+        </if>
+
+        <if test="searchCriteria.raisedByUser != null">
+            ${searchCriteria.raisedByUser.operation}
+            m_prj_problem.raisedbyuser =
+            #{searchCriteria.raisedByUser.value}
+
+        </if>
+
+        <if test="searchCriteria.assignToUser != null">
+            ${searchCriteria.assignToUser.operation}
+            m_prj_problem.assigntouser =
+            #{searchCriteria.assignToUser.value}
+
+        </if>
+    </sql>
+
+    <sql id="selectProblem">
+
+<![CDATA[
+          SELECT m_prj_problem.id, m_prj_problem.issuename, m_prj_problem.description, m_prj_problem.projectid, 
+                 m_prj_problem.raisedbyuser, m_prj_problem.assigntouser, m_prj_problem.impact,
+                 m_prj_problem.priority, m_prj_problem.status, m_prj_problem.dateraised, m_prj_problem.datedue, 
+                 m_prj_problem.actualstartdate, m_prj_problem.actualenddate, 
+                 m_prj_problem.createdTime, m_prj_problem.lastUpdatedTime, m_prj_problem.type, m_prj_problem.typeid,
+                 m_prj_problem.level, m_prj_problem.resolution, m_prj_problem.problemsource, m_prj_problem.state,
+                 m_prj_problem.sAccountId,
+                 raisedUser.avatarId AS raisedByUserAvatarId,
+                 concat(raisedUser.firstname, ' ', LTRIM(concat(IFNULL(raisedUser.middlename, ''), ' ')), raisedUser.lastname) AS raisedByUserFullName,
+                 assignedUser.avatarId AS assignUserAvatarId,
+                 concat(assignedUser.firstname, ' ', LTRIM(concat(IFNULL(assignedUser.middlename, ''), ' ')), assignedUser.lastname) AS assignedUserFullName 
+                 
+          FROM m_prj_problem
+              LEFT OUTER JOIN s_user as raisedUser ON (m_prj_problem.raisedbyuser=raisedUser.username)
+              LEFT OUTER JOIN s_user as assignedUser ON (m_prj_problem.assigntouser=assignedUser.username)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="ProblemSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_prj_problem
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_prj_problem.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
+        resultMap="ProblemResult">
+
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.selectProblem" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findProblemById" parameterType="java.lang.Integer"
+        resultMap="ProblemResult">
+
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.selectProblem" />
+        WHERE m_prj_problem.id=#{problemId, jdbcType=NUMERIC}
+
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_prj_problem
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_prj_problem
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProblemMapper.massUpdateWithSessionSql" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </update>
+</mapper>

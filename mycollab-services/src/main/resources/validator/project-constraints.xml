@@ -1,0 +1,141 @@
+<constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping
+	http://jboss.org/xml/ns/javax/validation/mapping/validation-mapping-1.0.xsd"
+    xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+    <default-package>com.esofthead.mycollab.module.project.domain</default-package>
+
+    <bean class="Project" ignore-annotations="false">
+        <class>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Plan start date must be less than Plan end date</message>
+                <element name="firstDateField">planstartdate</element>
+                <element name="lastDateField">planenddate</element>
+            </constraint>
+        </class>
+        <field name="name">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+        <field name="shortname">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Short name must not be null</message>
+            </constraint>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.StringLimitLength">
+                <message>Project short name must contain 3 characters</message>
+            </constraint>
+        </field>
+        <field name="projectstatus">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>The project status must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Message" ignore-annotations="false">
+        <field name="title">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Title must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Milestone" ignore-annotations="false">
+        <class>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Start date must be less than end date</message>
+                <element name="firstDateField">startdate</element>
+                <element name="lastDateField">enddate</element>
+            </constraint>
+        </class>
+        <field name="name">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+        <field name="owner">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Responsible user must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Task" ignore-annotations="false">
+        <class>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Start date must be less than end date</message>
+                <element name="firstDateField">startdate</element>
+                <element name="lastDateField">enddate</element>
+            </constraint>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Actual start date must be less than actual end date</message>
+                <element name="firstDateField">actualstartdate</element>
+                <element name="lastDateField">actualenddate</element>
+            </constraint>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>Start date must be less than deadline date</message>
+                <element name="firstDateField">startdate</element>
+                <element name="lastDateField">deadline</element>
+            </constraint>
+            <constraint
+                annotation="com.esofthead.mycollab.validator.constraints.DateComparision">
+                <message>End date must be less than deadline date</message>
+                <element name="firstDateField">enddate</element>
+                <element name="lastDateField">deadline</element>
+            </constraint>
+        </class>
+        <field name="taskname">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="TaskList" ignore-annotations="false">
+        <field name="name">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Risk" ignore-annotations="false">
+        <field name="riskname">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+        <field name="description">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Description must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="Problem" ignore-annotations="false">
+        <field name="issuename">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Name must not be null</message>
+            </constraint>
+        </field>
+        <field name="description">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>Description must not be null</message>
+            </constraint>
+        </field>
+    </bean>
+
+    <bean class="ProjectMember" ignore-annotations="false">
+        <field name="username">
+            <constraint annotation="javax.validation.constraints.NotNull">
+                <message>You must select an user</message>
+            </constraint>
+        </field>
+    </bean>
+</constraint-mappings>

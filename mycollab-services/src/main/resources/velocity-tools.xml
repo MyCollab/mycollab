@@ -1,0 +1,5 @@
+<tools>
+    <toolbox scope="application">
+        <tool class="org.apache.velocity.tools.generic.DateTool" />
+    </toolbox>
+</tools>

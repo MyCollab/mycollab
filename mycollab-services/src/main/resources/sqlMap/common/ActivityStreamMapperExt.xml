@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt">
+
+    <resultMap id="SimpleActivityStreamResult"
+        extends="com.esofthead.mycollab.common.dao.ActivityStreamMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.common.domain.SimpleActivityStream">
+
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
+
+        <association property="assoAuditLog" columnPrefix="log_"
+            javaType="com.esofthead.mycollab.common.domain.SimpleAuditLog"
+            resultMap="com.esofthead.mycollab.common.dao.AuditLogMapperExt.SimpleAuditLogResult" />
+
+        <collection property="comments" columnPrefix="comment_"
+            ofType="com.esofthead.mycollab.common.domain.SimpleComment"
+            resultMap="com.esofthead.mycollab.common.dao.CommentMapperExt.BaseResultMap" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.createdUser != null">
+            ${searchCriteria.createdUser.operation}
+            s_activitystream.createdUser =
+            #{searchCriteria.createdUser.value}
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            ${searchCriteria.saccountid.operation}
+            s_activitystream.sAccountId =
+            #{searchCriteria.saccountid.value}
+        </if>
+        <if test="searchCriteria.moduleSet != null">
+            ${searchCriteria.moduleSet.operation}
+            s_activitystream.module IN
+            <foreach close=")" collection="searchCriteria.moduleSet.values"
+                item="module" open="(" separator=",">
+                #{module}
+            </foreach>
+        </if>
+        <if test="searchCriteria.extraTypeIds != null">
+            ${searchCriteria.extraTypeIds.operation}
+            s_activitystream.extraTypeId IN
+            <foreach close=")" collection="searchCriteria.extraTypeIds.values"
+                item="extraTypeId" open="(" separator=",">
+                #{extraTypeId}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleActivityStream">
+        <![CDATA[
+        SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, 
+               s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
+               s_activitystream.module, m_comment.comment as comment_comment, m_comment.createdUser as comment_createdUser,
+               m_comment.createdTime as comment_createdTime, m_comment.type as comment_type, m_comment.typeid as comment_typeid,
+               m_comment.sAccountId as comment_sAccountId, 
+               concat(comment_user.firstname, ' ', LTRIM(IFNULL(comment_user.middlename, '')), comment_user.lastname) as comment_ownerFullName,
+               s_user.avatarId AS createdUserAvatarId,
+               concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as createdUserFullName,
+               m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
+               m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeid AS log_typeid, m_audit_log.module AS log_module, 
+               m_audit_log.changeset AS log_changeset
+        FROM s_activitystream
+        LEFT OUTER JOIN s_user ON (s_user.username = s_activitystream.createdUser)
+        LEFT OUTER JOIN m_comment ON (s_activitystream.sAccountId = m_comment.sAccountId AND s_activitystream.id = m_comment.typeid AND m_comment.type='Common_ActivityStream')
+        LEFT OUTER JOIN s_user AS comment_user ON (m_comment.createdUser = comment_user.username)
+        LEFT OUTER JOIN m_audit_log ON (s_activitystream.id=m_audit_log.activityLogId)
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="ActivityStreamSearchCriteria"
+        resultMap="SimpleActivityStreamResult">
+        <include
+            refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.selectSimpleActivityStream" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            s_activitystream.createdTime DESC
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="ActivityStreamSearchCriteria"
+        resultType="java.lang.Integer">
+        SELECT count(*) as totalCount FROM s_activitystream
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+</mapper>

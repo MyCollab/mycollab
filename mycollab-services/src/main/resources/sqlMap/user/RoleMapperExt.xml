@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esofthead.mycollab.module.user.dao.RoleMapperExt">
+
+    <resultMap
+        extends="com.esofthead.mycollab.module.user.dao.RoleMapper.BaseResultMap"
+        id="SimpleRoleUser" type="com.esofthead.mycollab.module.user.domain.SimpleRole">
+        <result column="permissionVal" jdbcType="LONGVARCHAR"
+            property="permissionVal" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.saccountid != null">
+          <![CDATA[
+            ${searchCriteria.saccountid.operation} s_roles.sAccountId = #{searchCriteria.saccountid.value}
+            ]]>
+        </if>
+        <if test="searchCriteria.roleName != null">
+          <![CDATA[
+            ${searchCriteria.roleName.operation} s_roles.rolename like '%${searchCriteria.roleName.value}%'
+            ]]>
+        </if>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria">
+        SELECT count(*) as totalCount FROM s_roles
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="selectSimpleRole">
+        <![CDATA[
+            SELECT s_roles.id, s_roles.rolename, s_roles.description, s_roles.sAccountId, s_roles.isSystemRole, s_role_permission.roleVal AS permissionVal
+            FROM s_roles
+                LEFT OUTER JOIN s_role_permission ON (s_role_permission.roleid = s_roles.id)
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" resultMap="SimpleRoleUser"
+        parameterType="RoleSearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.user.dao.RoleMapperExt.selectSimpleRole" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findById" parameterType="java.lang.Integer"
+        resultMap="SimpleRoleUser">
+        <include
+            refid="com.esofthead.mycollab.module.user.dao.RoleMapperExt.selectSimpleRole" />
+
+        WHERE s_roles.id=#{roleId, jdbcType=NUMERIC}
+    </select>
+</mapper>

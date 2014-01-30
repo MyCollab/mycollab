@@ -1,0 +1,11 @@
+<validation-config
+	xmlns="http://jboss.org/xml/ns/javax/validation/configuration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/configuration">
+	<default-provider>org.hibernate.validator.HibernateValidator</default-provider>
+	<message-interpolator>org.hibernate.validator.engine.ResourceBundleMessageInterpolator</message-interpolator>
+	<traversable-resolver>org.hibernate.validator.engine.resolver.DefaultTraversableResolver</traversable-resolver>
+	<constraint-validator-factory>org.hibernate.validator.engine.ConstraintValidatorFactoryImpl</constraint-validator-factory>
+	<constraint-mapping>/validator/crm-constraints.xml</constraint-mapping>
+	<constraint-mapping>/validator/user-constraints.xml</constraint-mapping>
+</validation-config>

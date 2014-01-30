@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapper.BaseResultMap"
+        id="RelatedBugResult"
+        type="com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug">
+        <result column="bugName" jdbcType="VARCHAR" property="bugName" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.bugId != null">
+            <![CDATA[${searchCriteria.bugId.operation} m_tracker_related_bug.bugid ${searchCriteria.bugId.compareOperator} #{searchCriteria.bugId.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.relatedId != null">
+            <![CDATA[${searchCriteria.relatedId.operation} m_tracker_related_bug.relatedid ${searchCriteria.relatedId.compareOperator} #{searchCriteria.relatedId.value,jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <sql id="selectItem">
+        <![CDATA[
+          SELECT m_tracker_related_bug.id, m_tracker_related_bug.bugid, m_tracker_related_bug.relatedid, m_tracker_related_bug.relatetype, m_tracker_related_bug.comment, 
+                 m_tracker_bug.summary AS bugName
+            FROM m_tracker_related_bug
+              LEFT OUTER JOIN m_tracker_bug ON (m_tracker_related_bug.relatedid=m_tracker_bug.id)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="BugRelatedSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_tracker_related_bug
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection}, </if>
+        <![CDATA[
+            m_tracker_related_bug.bugid DESC
+        ]]>
+    </sql>
+
+    <delete id="removeByCriteria" parameterType="BugRelatedSearchCriteria">
+        DELETE FROM m_tracker_related_bug
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </delete>
+
+    <select id="findPagableListByCriteria" parameterType="BugRelatedSearchCriteria"
+        resultMap="RelatedBugResult">
+
+        <include
+            refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.selectItem" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+</mapper>

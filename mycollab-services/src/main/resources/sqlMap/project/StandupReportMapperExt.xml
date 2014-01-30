@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+    namespace="com.esofthead.mycollab.module.project.dao.StandupReportMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.project.dao.StandupReportMapper.ResultMapWithBLOBs"
+        id="StandupResult"
+        type="com.esofthead.mycollab.module.project.domain.SimpleStandupReport">
+        <result column="logByFullName" property="logByFullName"
+            jdbcType="VARCHAR" />
+        <result column="logByAvatarId" property="logByAvatarId"
+            jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.projectId != null">
+            <![CDATA[${searchCriteria.projectId.operation} m_prj_standup.projectId=#{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.logBy != null">
+            <![CDATA[${searchCriteria.logBy.operation} m_prj_standup.logBy=#{searchCriteria.logBy.value}]]>
+        </if>
+        <if test="searchCriteria.onDate != null">
+            <![CDATA[${searchCriteria.onDate.operation} CAST(m_prj_standup.forday AS DATE) = #{searchCriteria.onDate.value}]]>
+        </if>
+        <if test="searchCriteria.reportDateRange != null">
+        <![CDATA[
+            ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= #{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= #{searchCriteria.reportDateRange.to}
+            ]]>
+        </if>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+             m_prj_standup.forday DESC, logByFullName DESC
+        ]]>
+    </sql>
+
+    <sql id="selectStandupReport">
+        <![CDATA[
+          SELECT m_prj_standup.id, m_prj_standup.sAccountId, m_prj_standup.projectId, m_prj_standup.forday, 
+            m_prj_standup.logBy, m_prj_standup.createdTime, m_prj_standup.lastUpdatedTime, 
+            m_prj_standup.whatlastday, m_prj_standup.whattoday, m_prj_standup.whatproblem, 
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logByFullName,
+            s_user.avatarId AS logByAvatarId
+          FROM m_prj_standup
+            LEFT OUTER JOIN s_user ON ( m_prj_standup.logBy=s_user.username)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int"
+        parameterType="StandupReportSearchCriteria">
+        SELECT count(*) as totalCount FROM m_prj_standup
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findPagableListByCriteria" resultMap="StandupResult"
+        parameterType="StandupReportSearchCriteria">
+        <include refid="selectStandupReport" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findReportById" parameterType="java.lang.Integer"
+        resultMap="StandupResult">
+        <include refid="selectStandupReport" />
+
+        WHERE m_prj_standup.id=#{standupId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getReportsCount" parameterType="StandupReportSearchCriteria"
+        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap">
+        <![CDATA[
+                SELECT m_prj_standup.projectId AS groupid, 
+                    COUNT(*)  AS value, concat(MONTH(m_prj_standup.forDay), "/", DAY(m_prj_standup.forDay), "/", YEAR(m_prj_standup.forDay))
+                     as groupname
+        FROM m_prj_standup]]>
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            <include refid="querySearchCriteria" />
+        </trim>
+        GROUP BY groupname
+        ORDER BY groupname
+    </select>
+</mapper>

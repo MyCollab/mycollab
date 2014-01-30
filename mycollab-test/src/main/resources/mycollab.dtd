@@ -1,0 +1,1480 @@
+<!ELEMENT dataset (
+    JGROUPSPING*,
+    QRTZ_BLOB_TRIGGERS*,
+    QRTZ_CALENDARS*,
+    QRTZ_CRON_TRIGGERS*,
+    QRTZ_FIRED_TRIGGERS*,
+    QRTZ_JOB_DETAILS*,
+    QRTZ_LOCKS*,
+    QRTZ_PAUSED_TRIGGER_GRPS*,
+    QRTZ_SCHEDULER_STATE*,
+    QRTZ_SIMPLE_TRIGGERS*,
+    QRTZ_SIMPROP_TRIGGERS*,
+    QRTZ_TRIGGERS*,
+    m_audit_log*,
+    m_comment*,
+    m_crm_account*,
+    m_crm_accounts_leads*,
+    m_crm_call*,
+    m_crm_campaign*,
+    m_crm_campaigns_accounts*,
+    m_crm_campaigns_contacts*,
+    m_crm_campaigns_leads*,
+    m_crm_case*,
+    m_crm_contact*,
+    m_crm_contacts_cases*,
+    m_crm_contacts_opportunities*,
+    m_crm_contract*,
+    m_crm_customer*,
+    m_crm_lead*,
+    m_crm_meeting*,
+    m_crm_meeting_invitees*,
+    m_crm_note*,
+    m_crm_notifications*,
+    m_crm_opportunities_contacts*,
+    m_crm_opportunities_leads*,
+    m_crm_opportunity*,
+    m_crm_product*,
+    m_crm_product_catalog*,
+    m_crm_quote*,
+    m_crm_quote_group_product*,
+    m_crm_target*,
+    m_crm_target_list*,
+    m_crm_task*,
+    m_ecm_activity_log*,
+    m_ecm_driveinfo*,
+    m_ecm_external_drive*,
+    m_form_custom_field_value*,
+    m_form_section*,
+    m_form_section_field*,
+    m_monitor_item*,
+    m_prj_member*,
+    m_prj_message*,
+    m_prj_milestone*,
+    m_prj_notifications*,
+    m_prj_problem*,
+    m_prj_project*,
+    m_prj_risk*,
+    m_prj_role*,
+    m_prj_role_permission*,
+    m_prj_standup*,
+    m_prj_task*,
+    m_prj_task_list*,
+    m_prj_time_logging*,
+    m_tracker_bug*,
+    m_tracker_bug_related_item*,
+    m_tracker_component*,
+    m_tracker_metadata*,
+    m_tracker_query*,
+    m_tracker_related_bug*,
+    m_tracker_version*,
+    s_account*,
+    s_account_settings*,
+    s_activitystream*,
+    s_billing_plan*,
+    s_country*,
+    s_currency*,
+    s_customer_feedback*,
+    s_relay_email_notification*,
+    s_relay_mail*,
+    s_report_bug_issue*,
+    s_role_permission*,
+    s_roles*,
+    s_save_search_result*,
+    s_table_customize_view*,
+    s_user*,
+    s_user_account*,
+    s_user_account_invitation*,
+    s_user_information*,
+    s_user_permission*,
+    s_user_preference*,
+    s_user_tracking*,
+    schema_version*)>
+
+<!ELEMENT JGROUPSPING EMPTY>
+<!ATTLIST JGROUPSPING
+    own_addr CDATA #REQUIRED
+    cluster_name CDATA #REQUIRED
+    ping_data CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_BLOB_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_BLOB_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    BLOB_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_CALENDARS EMPTY>
+<!ATTLIST QRTZ_CALENDARS
+    SCHED_NAME CDATA #REQUIRED
+    CALENDAR_NAME CDATA #REQUIRED
+    CALENDAR CDATA #REQUIRED
+>
+
+<!ELEMENT QRTZ_CRON_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_CRON_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    CRON_EXPRESSION CDATA #REQUIRED
+    TIME_ZONE_ID CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_FIRED_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_FIRED_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    ENTRY_ID CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    INSTANCE_NAME CDATA #REQUIRED
+    FIRED_TIME CDATA #REQUIRED
+    SCHED_TIME CDATA #REQUIRED
+    PRIORITY CDATA #REQUIRED
+    STATE CDATA #REQUIRED
+    JOB_NAME CDATA #IMPLIED
+    JOB_GROUP CDATA #IMPLIED
+    IS_NONCONCURRENT CDATA #IMPLIED
+    REQUESTS_RECOVERY CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_JOB_DETAILS EMPTY>
+<!ATTLIST QRTZ_JOB_DETAILS
+    SCHED_NAME CDATA #REQUIRED
+    JOB_NAME CDATA #REQUIRED
+    JOB_GROUP CDATA #REQUIRED
+    DESCRIPTION CDATA #IMPLIED
+    JOB_CLASS_NAME CDATA #REQUIRED
+    IS_DURABLE CDATA #REQUIRED
+    IS_NONCONCURRENT CDATA #REQUIRED
+    IS_UPDATE_DATA CDATA #REQUIRED
+    REQUESTS_RECOVERY CDATA #REQUIRED
+    JOB_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_LOCKS EMPTY>
+<!ATTLIST QRTZ_LOCKS
+    SCHED_NAME CDATA #REQUIRED
+    LOCK_NAME CDATA #REQUIRED
+>
+
+<!ELEMENT QRTZ_PAUSED_TRIGGER_GRPS EMPTY>
+<!ATTLIST QRTZ_PAUSED_TRIGGER_GRPS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+>
+
+<!ELEMENT QRTZ_SCHEDULER_STATE EMPTY>
+<!ATTLIST QRTZ_SCHEDULER_STATE
+    SCHED_NAME CDATA #REQUIRED
+    INSTANCE_NAME CDATA #REQUIRED
+    LAST_CHECKIN_TIME CDATA #REQUIRED
+    CHECKIN_INTERVAL CDATA #REQUIRED
+>
+
+<!ELEMENT QRTZ_SIMPLE_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_SIMPLE_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    REPEAT_COUNT CDATA #REQUIRED
+    REPEAT_INTERVAL CDATA #REQUIRED
+    TIMES_TRIGGERED CDATA #REQUIRED
+>
+
+<!ELEMENT QRTZ_SIMPROP_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_SIMPROP_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    STR_PROP_1 CDATA #IMPLIED
+    STR_PROP_2 CDATA #IMPLIED
+    STR_PROP_3 CDATA #IMPLIED
+    INT_PROP_1 CDATA #IMPLIED
+    INT_PROP_2 CDATA #IMPLIED
+    LONG_PROP_1 CDATA #IMPLIED
+    LONG_PROP_2 CDATA #IMPLIED
+    DEC_PROP_1 CDATA #IMPLIED
+    DEC_PROP_2 CDATA #IMPLIED
+    BOOL_PROP_1 CDATA #IMPLIED
+    BOOL_PROP_2 CDATA #IMPLIED
+>
+
+<!ELEMENT QRTZ_TRIGGERS EMPTY>
+<!ATTLIST QRTZ_TRIGGERS
+    SCHED_NAME CDATA #REQUIRED
+    TRIGGER_NAME CDATA #REQUIRED
+    TRIGGER_GROUP CDATA #REQUIRED
+    JOB_NAME CDATA #REQUIRED
+    JOB_GROUP CDATA #REQUIRED
+    DESCRIPTION CDATA #IMPLIED
+    NEXT_FIRE_TIME CDATA #IMPLIED
+    PREV_FIRE_TIME CDATA #IMPLIED
+    PRIORITY CDATA #IMPLIED
+    TRIGGER_STATE CDATA #REQUIRED
+    TRIGGER_TYPE CDATA #REQUIRED
+    START_TIME CDATA #REQUIRED
+    END_TIME CDATA #IMPLIED
+    CALENDAR_NAME CDATA #IMPLIED
+    MISFIRE_INSTR CDATA #IMPLIED
+    JOB_DATA CDATA #IMPLIED
+>
+
+<!ELEMENT m_audit_log EMPTY>
+<!ATTLIST m_audit_log
+    id CDATA #REQUIRED
+    object_class CDATA #REQUIRED
+    changeset CDATA #REQUIRED
+    posteddate CDATA #REQUIRED
+    posteduser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    module CDATA #REQUIRED
+    activityLogId CDATA #IMPLIED
+>
+
+<!ELEMENT m_comment EMPTY>
+<!ATTLIST m_comment
+    id CDATA #REQUIRED
+    comment CDATA #IMPLIED
+    createdUser CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    type CDATA #IMPLIED
+    typeId CDATA #IMPLIED
+    sAccountId CDATA #IMPLIED
+    extraTypeId CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_account EMPTY>
+<!ATTLIST m_crm_account
+    id CDATA #REQUIRED
+    accountName CDATA #REQUIRED
+    website CDATA #IMPLIED
+    phoneOffice CDATA #IMPLIED
+    fax CDATA #IMPLIED
+    alternatePhone CDATA #IMPLIED
+    annualRevenue CDATA #IMPLIED
+    billingAddress CDATA #IMPLIED
+    city CDATA #IMPLIED
+    postalCode CDATA #IMPLIED
+    description CDATA #IMPLIED
+    state CDATA #IMPLIED
+    email CDATA #IMPLIED
+    ownership CDATA #IMPLIED
+    shippingAddress CDATA #IMPLIED
+    shippingCity CDATA #IMPLIED
+    shippingPostalCode CDATA #IMPLIED
+    shippingState CDATA #IMPLIED
+    numemployees CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    type CDATA #IMPLIED
+    industry CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    billingCountry CDATA #IMPLIED
+    shippingCountry CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_accounts_leads EMPTY>
+<!ATTLIST m_crm_accounts_leads
+    id CDATA #REQUIRED
+    accountId CDATA #REQUIRED
+    leadId CDATA #REQUIRED
+    createTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_call EMPTY>
+<!ATTLIST m_crm_call
+    id CDATA #REQUIRED
+    subject CDATA #REQUIRED
+    startDate CDATA #IMPLIED
+    durationInSeconds CDATA #IMPLIED
+    calltype CDATA #IMPLIED
+    type CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    assignUser CDATA #IMPLIED
+    description CDATA #IMPLIED
+    contactId CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #IMPLIED
+    purpose CDATA #IMPLIED
+    result CDATA #IMPLIED
+    isClosed CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_campaign EMPTY>
+<!ATTLIST m_crm_campaign
+    id CDATA #REQUIRED
+    campaignName CDATA #REQUIRED
+    startDate CDATA #IMPLIED
+    endDate CDATA #IMPLIED
+    currencyId CDATA #IMPLIED
+    impressionnote CDATA #IMPLIED
+    budget CDATA #IMPLIED
+    actualCost CDATA #IMPLIED
+    expectedRevenue CDATA #IMPLIED
+    expectedCost CDATA #IMPLIED
+    objective CDATA #IMPLIED
+    description CDATA #IMPLIED
+    impression CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #IMPLIED
+    type CDATA #IMPLIED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_campaigns_accounts EMPTY>
+<!ATTLIST m_crm_campaigns_accounts
+    id CDATA #REQUIRED
+    campaignId CDATA #REQUIRED
+    accountId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_campaigns_contacts EMPTY>
+<!ATTLIST m_crm_campaigns_contacts
+    id CDATA #REQUIRED
+    campaignId CDATA #REQUIRED
+    contactId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_campaigns_leads EMPTY>
+<!ATTLIST m_crm_campaigns_leads
+    id CDATA #REQUIRED
+    campaignId CDATA #REQUIRED
+    leadId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_case EMPTY>
+<!ATTLIST m_crm_case
+    id CDATA #REQUIRED
+    priority CDATA #IMPLIED
+    status CDATA #IMPLIED
+    type CDATA #IMPLIED
+    subject CDATA #REQUIRED
+    description CDATA #IMPLIED
+    resolution CDATA #IMPLIED
+    accountId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    reason CDATA #IMPLIED
+    origin CDATA #IMPLIED
+    email CDATA #IMPLIED
+    phonenumber CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_contact EMPTY>
+<!ATTLIST m_crm_contact
+    id CDATA #REQUIRED
+    prefix CDATA #IMPLIED
+    firstname CDATA #IMPLIED
+    lastname CDATA #REQUIRED
+    leadSource CDATA #IMPLIED
+    campaignId CDATA #IMPLIED
+    isCallable CDATA #IMPLIED
+    officePhone CDATA #IMPLIED
+    mobile CDATA #IMPLIED
+    homePhone CDATA #IMPLIED
+    otherPhone CDATA #IMPLIED
+    fax CDATA #IMPLIED
+    birthday CDATA #IMPLIED
+    assistant CDATA #IMPLIED
+    primAddress CDATA #IMPLIED
+    primCity CDATA #IMPLIED
+    primState CDATA #IMPLIED
+    primPostalCode CDATA #IMPLIED
+    primCountry CDATA #IMPLIED
+    description CDATA #IMPLIED
+    title CDATA #IMPLIED
+    assistantPhone CDATA #IMPLIED
+    email CDATA #IMPLIED
+    department CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    otherAddress CDATA #IMPLIED
+    otherCity CDATA #IMPLIED
+    otherState CDATA #IMPLIED
+    otherPostalCode CDATA #IMPLIED
+    otherCountry CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    accountId CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_contacts_cases EMPTY>
+<!ATTLIST m_crm_contacts_cases
+    id CDATA #REQUIRED
+    contactId CDATA #REQUIRED
+    caseId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_contacts_opportunities EMPTY>
+<!ATTLIST m_crm_contacts_opportunities
+    id CDATA #REQUIRED
+    contactId CDATA #REQUIRED
+    opportunityId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_contract EMPTY>
+<!ATTLIST m_crm_contract
+    id CDATA #REQUIRED
+    contractname CDATA #REQUIRED
+    status CDATA #IMPLIED
+    code CDATA #IMPLIED
+    accountid CDATA #IMPLIED
+    opportunityid CDATA #IMPLIED
+    currencyid CDATA #IMPLIED
+    customersigneddate CDATA #IMPLIED
+    companysigneddate CDATA #IMPLIED
+    type CDATA #IMPLIED
+    description CDATA #IMPLIED
+    startdate CDATA #IMPLIED
+    enddate CDATA #IMPLIED
+    contractvalue CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_customer EMPTY>
+<!ATTLIST m_crm_customer
+    id CDATA #REQUIRED
+    firstname CDATA #IMPLIED
+    lastname CDATA #REQUIRED
+    leadsource CDATA #IMPLIED
+    assignUser CDATA #IMPLIED
+    department CDATA #IMPLIED
+    officePhone CDATA #IMPLIED
+    mobile CDATA #IMPLIED
+    homePhone CDATA #IMPLIED
+    assisstant CDATA #IMPLIED
+    assisstantPhone CDATA #IMPLIED
+    birthday CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+    title CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_lead EMPTY>
+<!ATTLIST m_crm_lead
+    id CDATA #REQUIRED
+    campaignId CDATA #IMPLIED
+    leadSourceDesc CDATA #IMPLIED
+    statusDesc CDATA #IMPLIED
+    referredBy CDATA #IMPLIED
+    prefixName CDATA #IMPLIED
+    firstname CDATA #IMPLIED
+    lastname CDATA #REQUIRED
+    accountName CDATA #IMPLIED
+    title CDATA #IMPLIED
+    department CDATA #IMPLIED
+    isCallable CDATA #IMPLIED
+    officePhone CDATA #IMPLIED
+    homePhone CDATA #IMPLIED
+    mobile CDATA #IMPLIED
+    otherPhone CDATA #IMPLIED
+    fax CDATA #IMPLIED
+    primAddress CDATA #IMPLIED
+    primState CDATA #IMPLIED
+    primCity CDATA #IMPLIED
+    primPostalCode CDATA #IMPLIED
+    primCountry CDATA #IMPLIED
+    description CDATA #IMPLIED
+    email CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    status CDATA #IMPLIED
+    source CDATA #IMPLIED
+    website CDATA #IMPLIED
+    otherAddress CDATA #IMPLIED
+    otherState CDATA #IMPLIED
+    otherCity CDATA #IMPLIED
+    otherPostalCode CDATA #IMPLIED
+    otherCountry CDATA #IMPLIED
+    industry CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    noEmployees CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_meeting EMPTY>
+<!ATTLIST m_crm_meeting
+    id CDATA #REQUIRED
+    subject CDATA #IMPLIED
+    status CDATA #IMPLIED
+    type CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    startDate CDATA #IMPLIED
+    endDate CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    location CDATA #IMPLIED
+    description CDATA #IMPLIED
+    isRecurrence CDATA #IMPLIED
+    recurrenceType CDATA #IMPLIED
+    recurrenceStartDate CDATA #IMPLIED
+    recurrenceEndDate CDATA #IMPLIED
+    contactType CDATA #IMPLIED
+    contactTypeId CDATA #IMPLIED
+    isClosed CDATA #IMPLIED
+    isNotified CDATA #IMPLIED
+    isNotifiedPrior CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_meeting_invitees EMPTY>
+<!ATTLIST m_crm_meeting_invitees
+    id CDATA #REQUIRED
+    meetingId CDATA #REQUIRED
+    username CDATA #REQUIRED
+    isModerator CDATA #REQUIRED
+    status CDATA #REQUIRED
+    source CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_note EMPTY>
+<!ATTLIST m_crm_note
+    id CDATA #REQUIRED
+    subject CDATA #REQUIRED
+    note CDATA #IMPLIED
+    type CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_notifications EMPTY>
+<!ATTLIST m_crm_notifications
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    level CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_opportunities_contacts EMPTY>
+<!ATTLIST m_crm_opportunities_contacts
+    id CDATA #REQUIRED
+    opportunityId CDATA #REQUIRED
+    contactId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_opportunities_leads EMPTY>
+<!ATTLIST m_crm_opportunities_leads
+    id CDATA #REQUIRED
+    opportunityId CDATA #REQUIRED
+    leadId CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_crm_opportunity EMPTY>
+<!ATTLIST m_crm_opportunity
+    id CDATA #REQUIRED
+    opportunityName CDATA #REQUIRED
+    currencyid CDATA #IMPLIED
+    accountid CDATA #REQUIRED
+    amount CDATA #IMPLIED
+    type CDATA #IMPLIED
+    source CDATA #IMPLIED
+    expectedClosedDate CDATA #IMPLIED
+    campaignid CDATA #IMPLIED
+    nextStep CDATA #IMPLIED
+    probability CDATA #IMPLIED
+    description CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    opportunityType CDATA #IMPLIED
+    salesStage CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_product EMPTY>
+<!ATTLIST m_crm_product
+    id CDATA #REQUIRED
+    productname CDATA #REQUIRED
+    status CDATA #IMPLIED
+    accountid CDATA #IMPLIED
+    website CDATA #IMPLIED
+    quantity CDATA #IMPLIED
+    serialnumber CDATA #IMPLIED
+    assessnumber CDATA #IMPLIED
+    contactid CDATA #IMPLIED
+    supportstartdate CDATA #IMPLIED
+    supportenddate CDATA #IMPLIED
+    salesdate CDATA #IMPLIED
+    unitprice CDATA #IMPLIED
+    description CDATA #IMPLIED
+    producturl CDATA #IMPLIED
+    supportcontact CDATA #IMPLIED
+    supportterm CDATA #IMPLIED
+    supportdesc CDATA #IMPLIED
+    cost CDATA #IMPLIED
+    listprice CDATA #IMPLIED
+    groupid CDATA #IMPLIED
+    tax CDATA #IMPLIED
+    taxClass CDATA #IMPLIED
+    mftNumber CDATA #IMPLIED
+    vendorPartNumber CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_product_catalog EMPTY>
+<!ATTLIST m_crm_product_catalog
+    id CDATA #REQUIRED
+    url CDATA #IMPLIED
+    taxclass CDATA #IMPLIED
+    mft_partnumber CDATA #IMPLIED
+    vendor_partnumber CDATA #IMPLIED
+    currencyid CDATA #IMPLIED
+    cost CDATA #IMPLIED
+    listprice CDATA #IMPLIED
+    discountprice CDATA #IMPLIED
+    pricing_formula CDATA #IMPLIED
+    description CDATA #IMPLIED
+    date_available CDATA #IMPLIED
+    availability CDATA #IMPLIED
+    quantity_in_stock CDATA #IMPLIED
+    support_name CDATA #IMPLIED
+    support_contact CDATA #IMPLIED
+    support_desc CDATA #IMPLIED
+    support_term CDATA #IMPLIED
+    productname CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_quote EMPTY>
+<!ATTLIST m_crm_quote
+    id CDATA #REQUIRED
+    subject CDATA #REQUIRED
+    quotestage CDATA #IMPLIED
+    opportunityid CDATA #IMPLIED
+    validuntil CDATA #IMPLIED
+    shipping CDATA #IMPLIED
+    billaccount CDATA #REQUIRED
+    billcontact CDATA #IMPLIED
+    shipaccount CDATA #IMPLIED
+    shipcontact CDATA #IMPLIED
+    billingaddress CDATA #REQUIRED
+    billingcity CDATA #IMPLIED
+    billingstate CDATA #IMPLIED
+    billingpostalcode CDATA #IMPLIED
+    billingcountry CDATA #IMPLIED
+    shippingaddress CDATA #REQUIRED
+    shippingcity CDATA #IMPLIED
+    shippingstate CDATA #IMPLIED
+    shippingpostalcode CDATA #IMPLIED
+    shippingcountry CDATA #IMPLIED
+    description CDATA #IMPLIED
+    paymentterm CDATA #IMPLIED
+    originalpodate CDATA #IMPLIED
+    purchaseordernum CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_quote_group_product EMPTY>
+<!ATTLIST m_crm_quote_group_product
+    id CDATA #REQUIRED
+    groupname CDATA #IMPLIED
+    groupstate CDATA #IMPLIED
+    tax CDATA #IMPLIED
+    shipping CDATA #IMPLIED
+    quoteid CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_target EMPTY>
+<!ATTLIST m_crm_target
+    id CDATA #REQUIRED
+    prefixname CDATA #IMPLIED
+    firstname CDATA #IMPLIED
+    lastname CDATA #REQUIRED
+    title CDATA #IMPLIED
+    department CDATA #IMPLIED
+    birthday CDATA #IMPLIED
+    accountname CDATA #IMPLIED
+    isCallable CDATA #IMPLIED
+    officePhone CDATA #IMPLIED
+    mobile CDATA #IMPLIED
+    homePhone CDATA #IMPLIED
+    otherPhone CDATA #IMPLIED
+    fax CDATA #IMPLIED
+    assistant CDATA #IMPLIED
+    assistantPhone CDATA #IMPLIED
+    primaryAddress CDATA #IMPLIED
+    primaryCity CDATA #IMPLIED
+    primaryState CDATA #IMPLIED
+    primaryPostal CDATA #IMPLIED
+    primaryCountryId CDATA #IMPLIED
+    description CDATA #IMPLIED
+    email CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_target_list EMPTY>
+<!ATTLIST m_crm_target_list
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    type CDATA #IMPLIED
+    description CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    assignUser CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_crm_task EMPTY>
+<!ATTLIST m_crm_task
+    id CDATA #REQUIRED
+    subject CDATA #REQUIRED
+    startdate CDATA #IMPLIED
+    duedate CDATA #IMPLIED
+    contactId CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    description CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #IMPLIED
+    assignUser CDATA #IMPLIED
+    priority CDATA #IMPLIED
+    type CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    isClosed CDATA #IMPLIED
+>
+
+<!ELEMENT m_ecm_activity_log EMPTY>
+<!ATTLIST m_ecm_activity_log
+    id CDATA #REQUIRED
+    createdUser CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    createdUserFullName CDATA #IMPLIED
+    actionDesc CDATA #REQUIRED
+    baseFolderPath CDATA #IMPLIED
+>
+
+<!ELEMENT m_ecm_driveinfo EMPTY>
+<!ATTLIST m_ecm_driveinfo
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    usedVolume CDATA #IMPLIED
+>
+
+<!ELEMENT m_ecm_external_drive EMPTY>
+<!ATTLIST m_ecm_external_drive
+    id CDATA #REQUIRED
+    storageName CDATA #REQUIRED
+    owner CDATA #REQUIRED
+    accessToken CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+    folderName CDATA #REQUIRED
+>
+
+<!ELEMENT m_form_custom_field_value EMPTY>
+<!ATTLIST m_form_custom_field_value
+    id CDATA #REQUIRED
+    module CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    number1 CDATA #IMPLIED
+    number2 CDATA #IMPLIED
+    number3 CDATA #IMPLIED
+    number4 CDATA #IMPLIED
+    number5 CDATA #IMPLIED
+    int1 CDATA #IMPLIED
+    int2 CDATA #IMPLIED
+    int3 CDATA #IMPLIED
+    int4 CDATA #IMPLIED
+    int5 CDATA #IMPLIED
+    date1 CDATA #IMPLIED
+    date2 CDATA #IMPLIED
+    date3 CDATA #IMPLIED
+    date4 CDATA #IMPLIED
+    date5 CDATA #IMPLIED
+    text1 CDATA #IMPLIED
+    text2 CDATA #IMPLIED
+    text3 CDATA #IMPLIED
+    text4 CDATA #IMPLIED
+    text5 CDATA #IMPLIED
+    textarea1 CDATA #IMPLIED
+    textarea2 CDATA #IMPLIED
+    textarea3 CDATA #IMPLIED
+    textarea4 CDATA #IMPLIED
+    textarea5 CDATA #IMPLIED
+    bool1 CDATA #IMPLIED
+    bool2 CDATA #IMPLIED
+    bool3 CDATA #IMPLIED
+    bool4 CDATA #IMPLIED
+    bool5 CDATA #IMPLIED
+    pick1 CDATA #IMPLIED
+    pick2 CDATA #IMPLIED
+    pick3 CDATA #IMPLIED
+    pick4 CDATA #IMPLIED
+    pick5 CDATA #IMPLIED
+    multipick1 CDATA #IMPLIED
+    multipick2 CDATA #IMPLIED
+    multipick3 CDATA #IMPLIED
+    multipick4 CDATA #IMPLIED
+    multipick5 CDATA #IMPLIED
+>
+
+<!ELEMENT m_form_section EMPTY>
+<!ATTLIST m_form_section
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    layoutIndex CDATA #REQUIRED
+    module CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    layoutType CDATA #REQUIRED
+    isDeleteSection CDATA #REQUIRED
+>
+
+<!ELEMENT m_form_section_field EMPTY>
+<!ATTLIST m_form_section_field
+    id CDATA #REQUIRED
+    sectionId CDATA #REQUIRED
+    isMandatory CDATA #REQUIRED
+    fieldIndex CDATA #REQUIRED
+    displayName CDATA #REQUIRED
+    fieldFormat CDATA #REQUIRED
+    fieldname CDATA #REQUIRED
+    fieldType CDATA #REQUIRED
+    isRequired CDATA #REQUIRED
+    isCustom CDATA #REQUIRED
+>
+
+<!ELEMENT m_monitor_item EMPTY>
+<!ATTLIST m_monitor_item
+    id CDATA #REQUIRED
+    user CDATA #REQUIRED
+    monitor_date CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    extraTypeId CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_member EMPTY>
+<!ATTLIST m_prj_member
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    joinDate CDATA #REQUIRED
+    projectRoleId CDATA #IMPLIED
+    isAdmin CDATA #REQUIRED
+    status CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_message EMPTY>
+<!ATTLIST m_prj_message
+    id CDATA #REQUIRED
+    title CDATA #REQUIRED
+    message CDATA #IMPLIED
+    posteddate CDATA #REQUIRED
+    posteduser CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    category CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    isStick CDATA #IMPLIED
+>
+
+<!ELEMENT m_prj_milestone EMPTY>
+<!ATTLIST m_prj_milestone
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED
+    startdate CDATA #IMPLIED
+    enddate CDATA #IMPLIED
+    owner CDATA #IMPLIED
+    flag CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_notifications EMPTY>
+<!ATTLIST m_prj_notifications
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    level CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_problem EMPTY>
+<!ATTLIST m_prj_problem
+    id CDATA #REQUIRED
+    issuename CDATA #REQUIRED
+    description CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    raisedbyuser CDATA #IMPLIED
+    assigntouser CDATA #IMPLIED
+    impact CDATA #IMPLIED
+    priority CDATA #IMPLIED
+    status CDATA #IMPLIED
+    dateraised CDATA #IMPLIED
+    datedue CDATA #IMPLIED
+    actualstartdate CDATA #IMPLIED
+    actualenddate CDATA #IMPLIED
+    level CDATA #IMPLIED
+    resolution CDATA #IMPLIED
+    state CDATA #IMPLIED
+    problemsource CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    type CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_project EMPTY>
+<!ATTLIST m_prj_project
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    owner CDATA #IMPLIED
+    account CDATA #IMPLIED
+    priority CDATA #IMPLIED
+    shortname CDATA #REQUIRED
+    planStartDate CDATA #IMPLIED
+    planEndDate CDATA #IMPLIED
+    targetBudget CDATA #IMPLIED
+    homePage CDATA #IMPLIED
+    actualBudget CDATA #IMPLIED
+    projectType CDATA #IMPLIED
+    projectStatus CDATA #REQUIRED
+    description CDATA #IMPLIED
+    defaultBillingRate CDATA #IMPLIED
+    actualStartDate CDATA #IMPLIED
+    actualEndDate CDATA #IMPLIED
+    defaultOvertimeBillingRate CDATA #IMPLIED
+    currencyid CDATA #IMPLIED
+    progress CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+>
+
+<!ELEMENT m_prj_risk EMPTY>
+<!ATTLIST m_prj_risk
+    id CDATA #REQUIRED
+    riskname CDATA #REQUIRED
+    description CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    raisedbyuser CDATA #IMPLIED
+    assigntouser CDATA #IMPLIED
+    consequence CDATA #IMPLIED
+    probalitity CDATA #IMPLIED
+    status CDATA #IMPLIED
+    dateraised CDATA #IMPLIED
+    datedue CDATA #IMPLIED
+    response CDATA #IMPLIED
+    resolution CDATA #IMPLIED
+    level CDATA #IMPLIED
+    source CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    type CDATA #IMPLIED
+    typeid CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_role EMPTY>
+<!ATTLIST m_prj_role
+    id CDATA #REQUIRED
+    rolename CDATA #REQUIRED
+    description CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    projectid CDATA #REQUIRED
+    isSystemRole CDATA #IMPLIED
+>
+
+<!ELEMENT m_prj_role_permission EMPTY>
+<!ATTLIST m_prj_role_permission
+    id CDATA #REQUIRED
+    roleid CDATA #REQUIRED
+    roleVal CDATA #REQUIRED
+    projectid CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_standup EMPTY>
+<!ATTLIST m_prj_standup
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    whatlastday CDATA #IMPLIED
+    whattoday CDATA #IMPLIED
+    whatproblem CDATA #IMPLIED
+    forday CDATA #REQUIRED
+    logBy CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_task EMPTY>
+<!ATTLIST m_prj_task
+    id CDATA #REQUIRED
+    taskname CDATA #REQUIRED
+    percentagecomplete CDATA #REQUIRED
+    startdate CDATA #IMPLIED
+    enddate CDATA #IMPLIED
+    priority CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    isestimated CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    deadline CDATA #IMPLIED
+    notes CDATA #IMPLIED
+    taskindex CDATA #IMPLIED
+    actualStartDate CDATA #IMPLIED
+    actualEndDate CDATA #IMPLIED
+    tasklistid CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    assignUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    status CDATA #IMPLIED
+    logBy CDATA #IMPLIED
+    taskkey CDATA #IMPLIED
+    originalEstimate CDATA #IMPLIED
+    remainEstimate CDATA #IMPLIED
+>
+
+<!ELEMENT m_prj_task_list EMPTY>
+<!ATTLIST m_prj_task_list
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    sAccountId CDATA #IMPLIED
+    milestoneId CDATA #IMPLIED
+    owner CDATA #IMPLIED
+    groupIndex CDATA #IMPLIED
+    status CDATA #REQUIRED
+>
+
+<!ELEMENT m_prj_time_logging EMPTY>
+<!ATTLIST m_prj_time_logging
+    id CDATA #REQUIRED
+    projectId CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    note CDATA #IMPLIED
+    logValue CDATA #REQUIRED
+    loguser CDATA #IMPLIED
+    createdTime CDATA #REQUIRED
+    lastUpdatedTime CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT m_tracker_bug EMPTY>
+<!ATTLIST m_tracker_bug
+    id CDATA #REQUIRED
+    summary CDATA #REQUIRED
+    detail CDATA #IMPLIED
+    assignuser CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    logby CDATA #IMPLIED
+    severity CDATA #IMPLIED
+    priority CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    status CDATA #REQUIRED
+    duedate CDATA #IMPLIED
+    environment CDATA #IMPLIED
+    resolution CDATA #IMPLIED
+    cus_int_01 CDATA #IMPLIED
+    cus_int_02 CDATA #IMPLIED
+    cus_int_03 CDATA #IMPLIED
+    cus_int_04 CDATA #IMPLIED
+    cus_int_05 CDATA #IMPLIED
+    cus_int_06 CDATA #IMPLIED
+    cus_int_07 CDATA #IMPLIED
+    cus_int_08 CDATA #IMPLIED
+    cus_int_09 CDATA #IMPLIED
+    cus_int_10 CDATA #IMPLIED
+    cus_str_01 CDATA #IMPLIED
+    cus_str_02 CDATA #IMPLIED
+    cus_str_03 CDATA #IMPLIED
+    cus_str_04 CDATA #IMPLIED
+    cus_str_05 CDATA #IMPLIED
+    cus_time_01 CDATA #IMPLIED
+    cus_time_02 CDATA #IMPLIED
+    cus_time_03 CDATA #IMPLIED
+    cus_time_04 CDATA #IMPLIED
+    cus_dbl_01 CDATA #IMPLIED
+    cus_dbl_02 CDATA #IMPLIED
+    cus_dbl_03 CDATA #IMPLIED
+    projectid CDATA #REQUIRED
+    resolveddate CDATA #IMPLIED
+    description CDATA #IMPLIED
+    estimateTime CDATA #IMPLIED
+    estimateRemainTime CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    milestoneId CDATA #IMPLIED
+    bugkey CDATA #IMPLIED
+>
+
+<!ELEMENT m_tracker_bug_related_item EMPTY>
+<!ATTLIST m_tracker_bug_related_item
+    id CDATA #REQUIRED
+    bugid CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+>
+
+<!ELEMENT m_tracker_component EMPTY>
+<!ATTLIST m_tracker_component
+    id CDATA #REQUIRED
+    projectid CDATA #REQUIRED
+    componentname CDATA #REQUIRED
+    userlead CDATA #IMPLIED
+    description CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    status CDATA #IMPLIED
+>
+
+<!ELEMENT m_tracker_metadata EMPTY>
+<!ATTLIST m_tracker_metadata
+    id CDATA #REQUIRED
+    projectid CDATA #REQUIRED
+    xmlstring CDATA #IMPLIED
+>
+
+<!ELEMENT m_tracker_query EMPTY>
+<!ATTLIST m_tracker_query
+    id CDATA #REQUIRED
+    queryname CDATA #REQUIRED
+    sharetype CDATA #REQUIRED
+    createddate CDATA #IMPLIED
+    updateddate CDATA #IMPLIED
+    owner CDATA #IMPLIED
+    querytext CDATA #IMPLIED
+    description CDATA #IMPLIED
+    projectid CDATA #IMPLIED
+>
+
+<!ELEMENT m_tracker_related_bug EMPTY>
+<!ATTLIST m_tracker_related_bug
+    id CDATA #REQUIRED
+    bugid CDATA #REQUIRED
+    relatedid CDATA #REQUIRED
+    relatetype CDATA #REQUIRED
+    comment CDATA #IMPLIED
+>
+
+<!ELEMENT m_tracker_version EMPTY>
+<!ATTLIST m_tracker_version
+    id CDATA #REQUIRED
+    projectid CDATA #REQUIRED
+    description CDATA #IMPLIED
+    duedate CDATA #IMPLIED
+    versionname CDATA #REQUIRED
+    createdUser CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    lastUpdatedTime CDATA #IMPLIED
+    createdTime CDATA #IMPLIED
+    status CDATA #IMPLIED
+>
+
+<!ELEMENT s_account EMPTY>
+<!ATTLIST s_account
+    id CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    billingPlanId CDATA #IMPLIED
+    accountName CDATA #IMPLIED
+    status CDATA #REQUIRED
+    paymentMethod CDATA #REQUIRED
+    pricing CDATA #IMPLIED
+    pricingEffectFrom CDATA #IMPLIED
+    pricingEffectTo CDATA #IMPLIED
+    subdomain CDATA #IMPLIED
+>
+
+<!ELEMENT s_account_settings EMPTY>
+<!ATTLIST s_account_settings
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    logoPath CDATA #IMPLIED
+    defaultTimezone CDATA #IMPLIED
+>
+
+<!ELEMENT s_activitystream EMPTY>
+<!ATTLIST s_activitystream
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeId CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    action CDATA #IMPLIED
+    createdUser CDATA #IMPLIED
+    module CDATA #IMPLIED
+    nameField CDATA #IMPLIED
+    extraTypeId CDATA #IMPLIED
+    createdUserDisplayName CDATA #IMPLIED
+>
+
+<!ELEMENT s_billing_plan EMPTY>
+<!ATTLIST s_billing_plan
+    id CDATA #REQUIRED
+    billingType CDATA #REQUIRED
+    numUsers CDATA #REQUIRED
+    volume CDATA #REQUIRED
+    numProjects CDATA #REQUIRED
+    pricing CDATA #REQUIRED
+    description CDATA #IMPLIED
+    hasBugEnable CDATA #IMPLIED
+    hasStandupMeetingEnable CDATA #IMPLIED
+    hasTimeTracking CDATA #IMPLIED
+>
+
+<!ELEMENT s_country EMPTY>
+<!ATTLIST s_country
+    id CDATA #REQUIRED
+    countryname CDATA #REQUIRED
+>
+
+<!ELEMENT s_currency EMPTY>
+<!ATTLIST s_currency
+    id CDATA #REQUIRED
+    shortname CDATA #REQUIRED
+    isocode CDATA #REQUIRED
+    symbol CDATA #REQUIRED
+    conversionrate CDATA #IMPLIED
+    fullname CDATA #IMPLIED
+>
+
+<!ELEMENT s_customer_feedback EMPTY>
+<!ATTLIST s_customer_feedback
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    username CDATA #REQUIRED
+    reasonToLeave CDATA #IMPLIED
+    leaveType CDATA #IMPLIED
+    otherTool CDATA #IMPLIED
+    reasonToBack CDATA #IMPLIED
+>
+
+<!ELEMENT s_relay_email_notification EMPTY>
+<!ATTLIST s_relay_email_notification
+    id CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    type CDATA #REQUIRED
+    typeid CDATA #REQUIRED
+    action CDATA #REQUIRED
+    changeBy CDATA #REQUIRED
+    changeComment CDATA #IMPLIED
+    extraTypeId CDATA #IMPLIED
+    emailHandlerBean CDATA #IMPLIED
+>
+
+<!ELEMENT s_relay_mail EMPTY>
+<!ATTLIST s_relay_mail
+    id CDATA #REQUIRED
+    bodyContent CDATA #REQUIRED
+    recipients CDATA #REQUIRED
+    subject CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    fromName CDATA #REQUIRED
+    fromEmail CDATA #REQUIRED
+    emailHandlerBean CDATA #IMPLIED
+>
+
+<!ELEMENT s_report_bug_issue EMPTY>
+<!ATTLIST s_report_bug_issue
+    id CDATA #REQUIRED
+    sAccountId CDATA #IMPLIED
+    username CDATA #IMPLIED
+    userAgent CDATA #IMPLIED
+    errorTrace CDATA #REQUIRED
+    ipaddress CDATA #IMPLIED
+    country_code CDATA #IMPLIED
+>
+
+<!ELEMENT s_role_permission EMPTY>
+<!ATTLIST s_role_permission
+    id CDATA #REQUIRED
+    roleid CDATA #REQUIRED
+    roleVal CDATA #REQUIRED
+>
+
+<!ELEMENT s_roles EMPTY>
+<!ATTLIST s_roles
+    rolename CDATA #REQUIRED
+    description CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+    id CDATA #REQUIRED
+    isSystemRole CDATA #IMPLIED
+>
+
+<!ELEMENT s_save_search_result EMPTY>
+<!ATTLIST s_save_search_result
+    id CDATA #REQUIRED
+    saveUser CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+    queryText CDATA #REQUIRED
+    type CDATA #REQUIRED
+    createdTime CDATA #IMPLIED
+    lastUpdatedTime CDATA #IMPLIED
+    queryName CDATA #REQUIRED
+>
+
+<!ELEMENT s_table_customize_view EMPTY>
+<!ATTLIST s_table_customize_view
+    id CDATA #REQUIRED
+    createdUser CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    viewId CDATA #REQUIRED
+    viewInfo CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT s_user EMPTY>
+<!ATTLIST s_user
+    username CDATA #REQUIRED
+    firstname CDATA #REQUIRED
+    middlename CDATA #IMPLIED
+    lastname CDATA #REQUIRED
+    nickname CDATA #IMPLIED
+    dateofbirth CDATA #IMPLIED
+    password CDATA #IMPLIED
+    email CDATA #REQUIRED
+    website CDATA #IMPLIED
+    registeredTime CDATA #IMPLIED
+    lastAccessedTime CDATA #IMPLIED
+    company CDATA #IMPLIED
+    timezone CDATA #IMPLIED
+    language CDATA #IMPLIED
+    country CDATA #IMPLIED
+    workPhone CDATA #IMPLIED
+    homePhone CDATA #IMPLIED
+    facebookAccount CDATA #IMPLIED
+    twitterAccount CDATA #IMPLIED
+    skypeContact CDATA #IMPLIED
+    avatarId CDATA #IMPLIED
+    status CDATA #IMPLIED
+>
+
+<!ELEMENT s_user_account EMPTY>
+<!ATTLIST s_user_account
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    accountId CDATA #REQUIRED
+    isAccountOwner CDATA #REQUIRED
+    roleId CDATA #IMPLIED
+    registeredTime CDATA #REQUIRED
+    registerStatus CDATA #REQUIRED
+    lastAccessedTime CDATA #IMPLIED
+    registrationSource CDATA #IMPLIED
+>
+
+<!ELEMENT s_user_account_invitation EMPTY>
+<!ATTLIST s_user_account_invitation
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    accountId CDATA #REQUIRED
+    invitationStatus CDATA #REQUIRED
+    sentDate CDATA #IMPLIED
+    createdTime CDATA #REQUIRED
+    inviteUser CDATA #IMPLIED
+>
+
+<!ELEMENT s_user_information EMPTY>
+<!ATTLIST s_user_information
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT s_user_permission EMPTY>
+<!ATTLIST s_user_permission
+    Id CDATA #REQUIRED
+    module CDATA #REQUIRED
+    type CDATA #REQUIRED
+    hasPermission CDATA #REQUIRED
+    username CDATA #REQUIRED
+>
+
+<!ELEMENT s_user_preference EMPTY>
+<!ATTLIST s_user_preference
+    id CDATA #REQUIRED
+    username CDATA #IMPLIED
+    lastModuleVisit CDATA #IMPLIED
+    lastAccessedTime CDATA #IMPLIED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT s_user_tracking EMPTY>
+<!ATTLIST s_user_tracking
+    id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    userAgent CDATA #REQUIRED
+    createdTime CDATA #REQUIRED
+    sAccountId CDATA #REQUIRED
+>
+
+<!ELEMENT schema_version EMPTY>
+<!ATTLIST schema_version
+    version_rank CDATA #REQUIRED
+    installed_rank CDATA #REQUIRED
+    version CDATA #REQUIRED
+    description CDATA #REQUIRED
+    type CDATA #REQUIRED
+    script CDATA #REQUIRED
+    checksum CDATA #IMPLIED
+    installed_by CDATA #REQUIRED
+    installed_on CDATA #REQUIRED
+    execution_time CDATA #REQUIRED
+    success CDATA #REQUIRED
+>
+

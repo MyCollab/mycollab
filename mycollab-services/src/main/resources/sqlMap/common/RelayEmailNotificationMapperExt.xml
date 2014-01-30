@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+    namespace="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt">
+    <resultMap id="SimpleEmailRelayNotificationResult"
+        type="com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification"
+        extends="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapper.ResultMapWithBLOBs">
+        <result column="changeByUserFullName" jdbcType="VARCHAR"
+            property="changeByUserFullName" />
+
+        <collection property="notifyUsers" columnPrefix="notifiers_"
+            ofType="com.esofthead.mycollab.module.user.domain.SimpleUser"
+            resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.types != null">
+            ${searchCriteria.types.operation}
+            s_relay_email_notification.type IN
+            <foreach close=")" collection="searchCriteria.types.values"
+                item="typeitem" open="(" separator=",">
+                #{typeitem}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="selectSimpleRelayEmailNotification">
+        <![CDATA[
+            SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
+                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
+                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
+                    s_relay_email_notification.changeBy, s_relay_email_notification.changeComment,
+                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
+                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+                    notifier.email AS notifiers_email
+                FROM s_relay_email_notification
+                    LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeBy)
+                    LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
+                    LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="RelayEmailNotificationSearchCriteria"
+        resultMap="SimpleEmailRelayNotificationResult">
+        <include
+            refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.selectSimpleRelayEmailNotification" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+    <delete id="removeByCriteria" parameterType="RelayEmailNotificationSearchCriteria">
+        DELETE FROM s_relay_email_notification
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </delete>
+</mapper>

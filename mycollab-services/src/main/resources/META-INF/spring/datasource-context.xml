@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <import resource="core-context.xml" />
+
+    <!-- <context:property-placeholder location="classpath:resources.properties" 
+        /> -->
+
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource">
+            <ref local="mainDataSource" />
+        </property>
+    </bean>
+
+    <bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+        destroy-method="close" depends-on="myCollabProperties">
+        <property name="driverClass" value="${db.driverClassName}" />
+        <property name="jdbcUrl" value="${db.url}" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+        <property name="maxConnectionsPerPartition" value="50" />
+        <property name="minConnectionsPerPartition" value="10" />
+        <property name="partitionCount" value="3" />
+        <property name="acquireIncrement" value="5" />
+    </bean>
+
+    <bean id="txManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManager" />
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.esofthead.mycollab" />
+        <property name="typeAliasesSuperType"
+            value="com.esofthead.mycollab.core.arguments.SearchCriteria" />
+        <property name="typeHandlersPackage" value="com.esofthead.mybatis.plugin.ext" />
+        <property name="mapperLocations" value="classpath*:sqlMap/**/*.xml" />
+    </bean>
+
+    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlMapClient">
+        <constructor-arg ref="sqlSessionFactory" />
+    </bean>
+
+</beans>

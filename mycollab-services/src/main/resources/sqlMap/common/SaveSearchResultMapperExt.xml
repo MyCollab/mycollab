@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.common.dao.SaveSearchResultMapperExt">
+    
+    <sql id="selectSaveSearchResult">
+        <![CDATA[
+        SELECT s_save_search_result.id, s_save_search_result.saveUser, s_save_search_result.sAccountId, s_save_search_result.type, 
+                s_save_search_result.createdTime, s_save_search_result.lastUpdatedTime, s_save_search_result.queryText, s_save_search_result.queryName
+        FROM s_save_search_result
+        ]]>
+    </sql>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.saccountid != null ">
+            <![CDATA[${searchCriteria.saccountid.operation} s_save_search_result.sAccountId = #{searchCriteria.saccountid.value, jdbcType=NUMERIC} ]]>
+        </if>
+
+        <if test="searchCriteria.type != null ">
+            <![CDATA[${searchCriteria.type.operation} s_save_search_result.type = #{searchCriteria.type.value} ]]>
+        </if>
+
+        <if test="searchCriteria.createUser != null ">
+            <![CDATA[${searchCriteria.createUser.operation} s_save_search_result.saveUser = #{searchCriteria.createUser.value} ]]>
+        </if>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            s_save_search_result.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="SaveSearchResultCriteria"
+        resultMap="com.esofthead.mycollab.common.dao.SaveSearchResultMapper.ResultMapWithBLOBs">
+        <include refid="selectSaveSearchResult" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include refid="querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+</mapper>

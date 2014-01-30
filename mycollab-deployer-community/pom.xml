@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>mycollab-deployer-community</name>
+    <groupId>com.esofthead.mycollab</groupId>
+    <artifactId>mycollab-deployer-community</artifactId>
+    <version>3.0.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>../mycollab-parent-community</module>
+        <module>../mycollab-core</module>
+        <module>../mycollab-dao</module>
+        <module>../mycollab-config</module>
+        <module>../mycollab-test</module>
+        <module>../mycollab-caching</module>
+        <module>../mycollab-jackrabbit</module>
+        <module>../mycollab-migration</module>
+        <module>../mycollab-services</module>
+        <module>../mycollab-server-runner</module>
+        <module>../mycollab-esb</module>
+        <module>../mycollab-reporting</module>
+        <module>../mycollab-scheduler</module>
+        <module>../mycollab-ui</module>
+        <module>../mycollab-web</module>
+        <module>../mycollab-mobile</module>
+        <module>../mycollab-services-community</module>
+        <module>../mycollab-web-community</module>
+        <module>../mycollab-app-community</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/src.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

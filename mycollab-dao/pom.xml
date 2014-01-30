@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>mycollab-dao</name>
+    <artifactId>mycollab-dao</artifactId>
+    <parent>
+        <groupId>com.esofthead.mycollab</groupId>
+        <artifactId>parent-community</artifactId>
+        <version>3.0.0</version>
+        <relativePath>../mycollab-parent-community/pom.xml</relativePath>
+    </parent>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.scripting</groupId>
+            <artifactId>mybatis-velocity</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.26</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+</project>

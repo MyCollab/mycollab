@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="validation-api-1.0.0.GA.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar!/"/>
+	</lib>
+	<lib name="jta-1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/javax/transaction/jta/1.1/jta-1.1-sources.jar!/"/>
+	</lib>
+	<lib name="persistence-api-1.0.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/javax/persistence/persistence-api/1.0/persistence-api-1.0-sources.jar!/"/>
+	</lib>
+	<lib name="java-image-scaling-0.8.5.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/mortennobel/java-image-scaling/0.8.5/java-image-scaling-0.8.5-sources.jar!/"/>
+	</lib>
+	<lib name="filters-2.0.235.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/jhlabs/filters/2.0.235/filters-2.0.235-sources.jar!/"/>
+	</lib>
+	<lib name="cal10n-api-0.8.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/ch/qos/cal10n/cal10n-api/0.8.1/cal10n-api-0.8.1-sources.jar!/"/>
+	</lib>
+	<lib name="velocity-1.7.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/velocity/velocity/1.7/velocity-1.7-sources.jar!/"/>
+	</lib>
+	<lib name="commons-collections-3.2.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1-sources.jar!/"/>
+	</lib>
+	<lib name="commons-lang-2.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-lang/commons-lang/2.4/commons-lang-2.4-sources.jar!/"/>
+	</lib>
+	<lib name="commons-beanutils-1.8.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-beanutils/commons-beanutils/1.8.3/commons-beanutils-1.8.3-sources.jar!/"/>
+	</lib>
+	<lib name="commons-logging-1.1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar!/"/>
+	</lib>
+	<lib name="commons-digester-1.8.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-digester/commons-digester/1.8/commons-digester-1.8-sources.jar!/"/>
+	</lib>
+	<lib name="commons-chain-1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-chain/commons-chain/1.1/commons-chain-1.1-sources.jar!/"/>
+	</lib>
+	<lib name="commons-validator-1.3.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-validator/commons-validator/1.3.1/commons-validator-1.3.1-sources.jar!/"/>
+	</lib>
+	<lib name="oro-2.0.8.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/oro/oro/2.0.8/oro-2.0.8-sources.jar!/"/>
+	</lib>
+	<lib name="sslext-1.2-0.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/sslext/sslext/1.2-0/sslext-1.2-0-sources.jar!/"/>
+	</lib>
+	<lib name="camel-core-2.12.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/camel/camel-core/2.12.1/camel-core-2.12.1-sources.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.6.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4-sources.jar!/"/>
+	</lib>
+	<lib name="jaxb-impl-2.2.6.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/sun/xml/bind/jaxb-impl/2.2.6/jaxb-impl-2.2.6-sources.jar!/"/>
+	</lib>
+	<lib name="camel-spring-2.12.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/camel/camel-spring/2.12.1/camel-spring-2.12.1-sources.jar!/"/>
+	</lib>
+	<lib name="spring-context-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-context/3.2.4.RELEASE/spring-context-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-aop-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-aop/3.2.4.RELEASE/spring-aop-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="aopalliance-1.0.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/"/>
+	</lib>
+	<lib name="spring-beans-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-beans/3.2.4.RELEASE/spring-beans-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-core-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-core/3.2.4.RELEASE/spring-core-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-expression-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-expression/3.2.4.RELEASE/spring-expression-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-tx-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-tx/3.2.4.RELEASE/spring-tx-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="gson-2.2.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/google/code/gson/gson/2.2.4/gson-2.2.4-sources.jar!/"/>
+	</lib>
+	<lib name="jsoup-1.7.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/jsoup/jsoup/1.7.3/jsoup-1.7.3-sources.jar!/"/>
+	</lib>
+	<lib name="slf4j-log4j12-1.6.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4-sources.jar!/"/>
+	</lib>
+	<lib name="log4j-1.2.16.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/log4j/log4j/1.2.16/log4j-1.2.16-sources.jar!/"/>
+	</lib>
+	<lib name="jcl-over-slf4j-1.6.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4-sources.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/commons-io/commons-io/2.4/commons-io-2.4-sources.jar!/"/>
+	</lib>
+	<lib name="commons-lang3-3.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1-sources.jar!/"/>
+	</lib>
+	<lib name="httpclient-4.2.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/httpcomponents/httpclient/4.2.3/httpclient-4.2.3-sources.jar!/"/>
+	</lib>
+	<lib name="httpcore-4.2.2.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/apache/httpcomponents/httpcore/4.2.2/httpcore-4.2.2-sources.jar!/"/>
+	</lib>
+	<lib name="joda-time-2.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/joda-time/joda-time/2.3/joda-time-2.3-sources.jar!/"/>
+	</lib>
+	<lib name="spring-jdbc-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-jdbc/3.2.4.RELEASE/spring-jdbc-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-web-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-web/3.2.4.RELEASE/spring-web-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="spring-aspects-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-aspects/3.2.4.RELEASE/spring-aspects-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="aspectjweaver-1.7.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/aspectj/aspectjweaver/1.7.3/aspectjweaver-1.7.3-sources.jar!/"/>
+	</lib>
+	<lib name="spring-context-support-3.2.4.RELEASE.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/springframework/spring-context-support/3.2.4.RELEASE/spring-context-support-3.2.4.RELEASE-sources.jar!/"/>
+	</lib>
+	<lib name="aspectjrt-1.7.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/aspectj/aspectjrt/1.7.3/aspectjrt-1.7.3-sources.jar!/"/>
+	</lib>
+	<lib name="mybatis-3.2.3.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/mybatis/mybatis/3.2.3/mybatis-3.2.3-sources.jar!/"/>
+	</lib>
+	<lib name="mybatis-spring-1.2.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/mybatis/mybatis-spring/1.2.1/mybatis-spring-1.2.1-sources.jar!/"/>
+	</lib>
+	<lib name="aws-java-sdk-1.6.4.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/amazonaws/aws-java-sdk/1.6.4/aws-java-sdk-1.6.4-sources.jar!/"/>
+	</lib>
+	<lib name="jackson-core-2.1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/fasterxml/jackson/core/jackson-core/2.1.1/jackson-core-2.1.1-sources.jar!/"/>
+	</lib>
+	<lib name="jackson-databind-2.1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/fasterxml/jackson/core/jackson-databind/2.1.1/jackson-databind-2.1.1-sources.jar!/"/>
+	</lib>
+	<lib name="jackson-annotations-2.1.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/fasterxml/jackson/core/jackson-annotations/2.1.1/jackson-annotations-2.1.1-sources.jar!/"/>
+	</lib>
+	<lib name="jasypt-1.9.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/jasypt/jasypt/1.9.1/jasypt-1.9.1-sources.jar!/"/>
+	</lib>
+	<lib name="jasypt-spring31-1.9.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/org/jasypt/jasypt-spring31/1.9.1/jasypt-spring31-1.9.1-sources.jar!/"/>
+	</lib>
+	<lib name="flyway-core-2.2.1.jar" scope="COMPILE">
+		<srcroot url="jar://$M2_REPO$/com/googlecode/flyway/flyway-core/2.2.1/flyway-core-2.2.1-sources.jar!/"/>
+	</lib>
+</component>

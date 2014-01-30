@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.CallMapperExt">
+
+    <resultMap id="SimpleCallResult"
+        extends="com.esofthead.mycollab.module.crm.dao.CallMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.module.crm.domain.SimpleCall">
+
+        <result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
+
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
+       	<result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
+    </resultMap>
+
+    <sql id="selectSimpleCall">
+        <![CDATA[
+        SELECT m_crm_call.id, m_crm_call.subject,
+            m_crm_call.startDate, m_crm_call.durationInSeconds,
+            m_crm_call.calltype, m_crm_call.type, m_crm_call.typeid,
+            m_crm_call.lastUpdatedTime,
+            m_crm_call.createdTime, m_crm_call.createdUser, m_crm_call.assignUser,
+            m_crm_call.description,
+            m_crm_call.contactId, m_crm_call.sAccountId, m_crm_call.status, m_crm_call.isClosed,
+            m_crm_call.purpose, m_crm_call.result, s_user.avatarId AS assignUserAvatarId,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName 
+        FROM m_crm_call
+        LEFT OUTER JOIN s_user ON (m_crm_call.assignUser = s_user.username)
+        ]]>
+    </sql>
+
+    <select id="findById" parameterType="int" resultMap="SimpleCallResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.selectSimpleCall" />
+
+        WHERE m_crm_call.id=#{callId,jdbcType=NUMERIC}
+    </select>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_crm_call.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.isClosed != null">
+            <![CDATA[${searchCriteria.isClosed.operation} m_crm_call.isClosed = ${searchCriteria.isClosed.value}]]>
+        </if>
+
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_call.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation} m_crm_call.assignUser IN
+            <foreach close=")" collection="searchCriteria.assignUsers.values"
+                item="user" open="(" separator=",">
+                #{user}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField} ${searchCriteria.sortDirection}, </if>
+        <![CDATA[
+            m_crm_call.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="CallSearchCriteria"
+        resultMap="SimpleCallResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.selectSimpleCall" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+
+    </select>
+
+    <select id="getTotalCount" parameterType="CallSearchCriteria"
+        resultType="java.lang.Integer">
+        SELECT count(*) as totalCount FROM m_crm_call
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_crm_call
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_crm_call
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CallMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+</mapper>

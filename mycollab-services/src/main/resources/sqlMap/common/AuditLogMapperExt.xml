@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.common.dao.AuditLogMapperExt">
+    
+    <resultMap id="SimpleAuditLogResult"
+        extends="com.esofthead.mycollab.common.dao.AuditLogMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.common.domain.SimpleAuditLog">
+        
+        <result column="postedUserFullName" jdbcType="VARCHAR"
+            property="postedUserFullName" />
+            
+        <result column="postedUserAvatarId" jdbcType="VARCHAR"
+            property="postedUserAvatarId" />
+
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.module != null">
+            <![CDATA[${searchCriteria.module.operation} m_audit_log.module=#{searchCriteria.module.value}]]>
+        </if>
+        <if test="searchCriteria.type != null">
+            <![CDATA[${searchCriteria.type.operation} m_audit_log.type=#{searchCriteria.type.value}]]>
+        </if>
+        <if test="searchCriteria.typeid != null">
+            <![CDATA[${searchCriteria.typeid.operation} m_audit_log.typeid=#{searchCriteria.typeid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_audit_log.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleAuditLog">
+        <![CDATA[
+        SELECT m_audit_log.id, m_audit_log.object_class, m_audit_log.posteddate, m_audit_log.posteduser, 
+            m_audit_log.sAccountId, m_audit_log.type, m_audit_log.typeid, m_audit_log.module, m_audit_log.changeset,
+            s_user.avatarId AS postedUserAvatarId,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as postedUserFullName
+        FROM m_audit_log
+        LEFT OUTER JOIN s_user ON (s_user.username = m_audit_log.posteduser)
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria"
+        resultMap="SimpleAuditLogResult">
+        <include
+            refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.selectSimpleAuditLog" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findLatestLog" parameterType="java.lang.Integer"
+        resultMap="SimpleAuditLogResult">
+        <include
+            refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.selectSimpleAuditLog" />
+
+        WHERE m_audit_log.typeid=#{auditLogId, jdbcType=NUMERIC}
+        ORDER BY m_audit_log.id DESC
+        LIMIT 1
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_audit_log.posteddate DESC
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="AuditLogSearchCriteria"
+        resultType="java.lang.Integer">
+        SELECT count(*) as totalCount FROM s_activitystream
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+</mapper>    

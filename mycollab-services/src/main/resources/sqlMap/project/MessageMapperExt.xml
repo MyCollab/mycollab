@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.MessageMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.project.dao.MessageMapper.ResultMapWithBLOBs"
+        id="MessageResult" type="com.esofthead.mycollab.module.project.domain.SimpleMessage">
+        <result column="commentsCount" property="commentsCount"
+            jdbcType="INTEGER" />
+        <result column="messageCategoryName" property="messageCategoryName"
+            jdbcType="VARCHAR" />
+        <result column="postedUserAvatarId" property="postedUserAvatarId"
+            jdbcType="VARCHAR" />
+        <result column="fullPostedUserName" property="fullPostedUserName"
+            jdbcType="VARCHAR" />
+        <result column="projectName" property="projectName"
+            jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.id != null">
+            ${searchCriteria.id.operation} m_prj_message.id =
+            #{searchCriteria.id.value,jdbcType=NUMERIC}
+        </if>
+        <if test="searchCriteria.projectids != null">
+            ${searchCriteria.projectids.operation}
+            m_prj_message.projectid IN
+            <foreach close=")" collection="searchCriteria.projectids.values"
+                item="projectid" open="(" separator="OR">
+                #{projectid.value,jdbcType=NUMERIC}
+            </foreach>
+        </if>
+        <if test="searchCriteria.category != null">
+            ${searchCriteria.category.operation}
+            m_prj_message.category =
+            #{searchCriteria.category.value,javaType=VARCHAR}
+        </if>
+        <if test="searchCriteria.title != null">
+          <![CDATA[
+            ${searchCriteria.title.operation} m_prj_message.title like '%${searchCriteria.title.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.message != null">
+          <![CDATA[
+            ${searchCriteria.message.operation} m_prj_message.message like '%${searchCriteria.message.value}%' OR m_prj_message.title like '%${searchCriteria.message.value}%'
+            ]]>
+        </if>
+    </sql>
+
+    <sql id="selectMessage">
+        <![CDATA[
+          SELECT m_prj_message.id, m_prj_message.category, m_prj_message.title, m_prj_message.message,
+          m_prj_message.posteddate, m_prj_message.posteduser, m_prj_message.projectid,
+              (SELECT COUNT(*) 
+                    FROM m_comment 
+                    WHERE m_comment.type='Project-Message' AND m_comment.typeid=m_prj_message.id) AS commentsCount,
+              m_prj_message.createdTime, m_prj_message.lastUpdatedTime, m_prj_message.isStick,
+              concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS fullPostedUserName,
+              m_prj_project.name AS projectName, s_user.avatarId AS postedUserAvatarId
+              FROM m_prj_message
+                LEFT OUTER JOIN s_user ON (m_prj_message.posteduser = s_user.username)
+                LEFT OUTER JOIN m_prj_project ON (m_prj_message.projectid=m_prj_project.id)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int" parameterType="MessageSearchCriteria">
+        SELECT count(*) as totalCount FROM m_prj_message
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findPagableListByCriteria" resultMap="MessageResult"
+        parameterType="MessageSearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.selectMessage" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+
+        ORDER BY m_prj_message.isStick DESC, m_prj_message.posteddate
+        DESC
+    </select>
+
+    <select id="findMessageById" parameterType="java.lang.Integer"
+        resultMap="MessageResult">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.selectMessage" />
+
+        WHERE m_prj_message.id=#{messageId, jdbcType=NUMERIC}
+    </select>
+</mapper>

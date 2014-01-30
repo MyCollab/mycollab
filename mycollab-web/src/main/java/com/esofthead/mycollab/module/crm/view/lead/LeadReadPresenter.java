@@ -1,0 +1,269 @@
+/**
+ * This file is part of mycollab-web.
+ *
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.esofthead.mycollab.module.crm.view.lead;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Set;
+
+import org.vaadin.dialogs.ConfirmDialog;
+
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.CampaignLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCall;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
+import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.events.CampaignEvent;
+import com.esofthead.mycollab.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
+import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.view.AbstractRelatedListHandler;
+import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
+import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
+
+    private static final long serialVersionUID = 1L;
+
+    public LeadReadPresenter() {
+        super(LeadReadView.class);
+    }
+
+    @Override
+    protected void postInitView() {
+        view.getPreviewFormHandlers().addFormHandler(
+                new DefaultPreviewFormHandler<SimpleLead>() {
+                    @Override
+                    public void onEdit(SimpleLead data) {
+                        EventBus.getInstance().fireEvent(
+                                new LeadEvent.GotoEdit(this, data));
+                    }
+
+                    @Override
+                    public void onDelete(final SimpleLead data) {
+                        ConfirmDialogExt.show(
+                                UI.getCurrent(),
+                                LocalizationHelper.getMessage(
+                                        GenericI18Enum.DELETE_DIALOG_TITLE,
+                                        SiteConfiguration.getSiteName()),
+                                LocalizationHelper
+                                        .getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+                                LocalizationHelper
+                                        .getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+                                LocalizationHelper
+                                        .getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+                                new ConfirmDialog.Listener() {
+                                    private static final long serialVersionUID = 1L;
+
+                                    @Override
+                                    public void onClose(ConfirmDialog dialog) {
+                                        if (dialog.isConfirmed()) {
+                                            LeadService LeadService = ApplicationContextUtil
+                                                    .getSpringBean(LeadService.class);
+                                            LeadService.removeWithSession(
+                                                    data.getId(),
+                                                    AppContext.getUsername(),
+                                                    AppContext.getAccountId());
+                                            EventBus.getInstance().fireEvent(
+                                                    new LeadEvent.GotoList(
+                                                            this, null));
+                                        }
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onClone(SimpleLead data) {
+                        SimpleLead cloneData = (SimpleLead) data.copy();
+                        cloneData.setId(null);
+                        EventBus.getInstance().fireEvent(
+                                new LeadEvent.GotoEdit(this, cloneData));
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        EventBus.getInstance().fireEvent(
+                                new LeadEvent.GotoList(this, null));
+                    }
+
+                    @Override
+                    public void gotoNext(SimpleLead data) {
+                        LeadService contactService = ApplicationContextUtil
+                                .getSpringBean(LeadService.class);
+                        LeadSearchCriteria criteria = new LeadSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext
+                                .getAccountId()));
+                        criteria.setId(new NumberSearchField(data.getId(),
+                                NumberSearchField.GREATER));
+                        Integer nextId = contactService
+                                .getNextItemKey(criteria);
+                        if (nextId != null) {
+                            EventBus.getInstance().fireEvent(
+                                    new LeadEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoLastRecordNotification();
+                        }
+
+                    }
+
+                    @Override
+                    public void gotoPrevious(SimpleLead data) {
+                        LeadService contactService = ApplicationContextUtil
+                                .getSpringBean(LeadService.class);
+                        LeadSearchCriteria criteria = new LeadSearchCriteria();
+                        criteria.setSaccountid(new NumberSearchField(AppContext
+                                .getAccountId()));
+                        criteria.setId(new NumberSearchField(data.getId(),
+                                NumberSearchField.LESSTHAN));
+                        Integer nextId = contactService
+                                .getPreviousItemKey(criteria);
+                        if (nextId != null) {
+                            EventBus.getInstance().fireEvent(
+                                    new LeadEvent.GotoRead(this, nextId));
+                        } else {
+                            NotificationUtil.showGotoFirstRecordNotification();
+                        }
+                    }
+
+                    @Override
+                    public void onExtraAction(String action, SimpleLead data) {
+                        final LeadConvertInfoWindow convertWindow = new LeadConvertInfoWindow(
+                                data);
+                        UI.getCurrent().addWindow(convertWindow);
+                    }
+                });
+
+        view.getRelatedActivityHandlers().addRelatedListHandler(
+                new AbstractRelatedListHandler<SimpleActivity>() {
+                    @Override
+                    public void createNewRelatedItem(String itemId) {
+                        if (itemId.equals("task")) {
+                            SimpleTask task = new SimpleTask();
+                            task.setType(CrmTypeConstants.LEAD);
+                            task.setTypeid(view.getItem().getId());
+                            EventBus.getInstance().fireEvent(
+                                    new ActivityEvent.TaskEdit(
+                                            LeadReadPresenter.this, task));
+                        } else if (itemId.equals("meeting")) {
+                            SimpleMeeting meeting = new SimpleMeeting();
+                            meeting.setType(CrmTypeConstants.LEAD);
+                            meeting.setTypeid(view.getItem().getId());
+                            EventBus.getInstance().fireEvent(
+                                    new ActivityEvent.MeetingEdit(
+                                            LeadReadPresenter.this, meeting));
+                        } else if (itemId.equals("call")) {
+                            SimpleCall call = new SimpleCall();
+                            call.setType(CrmTypeConstants.LEAD);
+                            call.setTypeid(view.getItem().getId());
+                            EventBus.getInstance().fireEvent(
+                                    new ActivityEvent.CallEdit(
+                                            LeadReadPresenter.this, call));
+                        }
+                    }
+                });
+
+        view.getRelatedCampaignHandlers().addRelatedListHandler(
+                new AbstractRelatedListHandler<SimpleCampaign>() {
+                    @Override
+                    public void createNewRelatedItem(String itemId) {
+                        SimpleCampaign campaign = new SimpleCampaign();
+                        campaign.setExtraData(view.getItem());
+                        EventBus.getInstance().fireEvent(
+                                new CampaignEvent.GotoEdit(
+                                        LeadReadPresenter.this, campaign));
+                    }
+
+                    @Override
+                    public void selectAssociateItems(Set<SimpleCampaign> items) {
+                        if (!items.isEmpty()) {
+                            SimpleLead lead = view.getItem();
+                            List<CampaignLead> associateCampaigns = new ArrayList<CampaignLead>();
+                            for (SimpleCampaign campaign : items) {
+                                CampaignLead associateCampaign = new CampaignLead();
+                                associateCampaign.setCampaignid(campaign
+                                        .getId());
+                                associateCampaign.setLeadid(lead.getId());
+                                associateCampaign
+                                        .setCreatedtime(new GregorianCalendar()
+                                                .getTime());
+                                associateCampaigns.add(associateCampaign);
+                            }
+
+                            CampaignService campaignService = ApplicationContextUtil
+                                    .getSpringBean(CampaignService.class);
+                            campaignService.saveCampaignLeadRelationship(
+                                    associateCampaigns,
+                                    AppContext.getAccountId());
+                            view.getRelatedCampaignHandlers().refresh();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void onGo(ComponentContainer container, ScreenData<?> data) {
+        if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
+            CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+            crmToolbar.gotoItem(LocalizationHelper
+                    .getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
+
+            if (data.getParams() instanceof SimpleLead) {
+                SimpleLead lead = (SimpleLead) data.getParams();
+                super.onGo(container, data);
+                view.previewItem(lead);
+
+                AppContext.addFragment(CrmLinkGenerator
+                        .generateLeadPreviewLink(lead.getId()),
+                        LocalizationHelper.getMessage(
+                                GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+                                "Lead", lead.getLeadName()));
+
+            }
+        } else {
+            NotificationUtil.showMessagePermissionAlert();
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_account id="1" createdTime="2013-04-10 13:29:23"
+        paymentMethod="Credit Card" status="Active" />
+    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai"
+        email="hainguyen@esofthead.com" />
+    <s_user_account id="1" isAccountOwner="true"
+        registerStatus="Active" username="hainguyen" accountId="1"
+        registeredTime="2013-04-10 13:29:23" />
+
+    <s_activitystream id="1" module="aa" type="task"
+        typeId="1" action="save" sAccountId="1" />
+    <s_activitystream id="2" module="aa" type="task"
+        typeId="1" action="save" sAccountId="1" />
+    <s_activitystream id="3" module="bb" type="task"
+        typeId="1" action="update" sAccountId="1" />
+
+    <m_comment id="1" comment="comment1" createdUser="hainguyen"
+        sAccountId="1" type="Common_ActivityStream" typeId="3"
+        createdTime="2011-11-05 00:00:00" />
+    <m_comment id="2" comment="comment2" createdUser="hainguyen"
+        sAccountId="1" type="Common_ActivityStream" typeId="3"
+        createdTime="2011-11-05 00:00:00" />
+</dataset>

@@ -1,0 +1,49 @@
+#=====================================================
+# You can visit link http://wiki.mycollab.com/Configuration
+# to get all configuration parameters and their meanings
+#=====================================================
+
+#=====================================================
+#    SITE CONFIGURATION
+#=====================================================
+site.name=${sitename}
+running.mode=development
+server.address=${serveraddress}
+server.port=${serverport}
+
+
+#=====================================================
+#    DATABASE CONFIGURATION
+#=====================================================
+db.driverClassName=com.mysql.jdbc.Driver
+db.url=${dbUrl}
+db.username=${dbUser}
+db.password=${dbPassword}
+
+#=====================================================
+#    MAIL CONFIGURATION
+#
+# SMTP Mail setting to use in 
+#=====================================================
+mail.smtphost=${smtpAddress}
+mail.port=${smtpPort}
+mail.username=${smtpUserName}
+mail.password=${smtpPassword}
+mail.isTLS=${smtpTLSEnable}
+
+#=====================================================
+#    ERROR REPORTING
+# This email is used to receive any error causes during 
+# MyCollab running. It just collect java stack trace not
+# any end user sensitive data. In case you are serious not
+# want to send report automatically to our team, you can
+# leave this field to empty
+#=====================================================
+error.sendTo=support@mycollab.com
+
+#=====================================================
+#    LINK CONFIGURATION
+# You should not change these values. 
+#=====================================================
+cdn.url=http://%s:%d/assets/images/email/
+app.url=http://%s:%d/

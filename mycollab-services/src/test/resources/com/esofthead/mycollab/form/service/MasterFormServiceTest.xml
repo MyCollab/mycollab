@@ -1,0 +1,33 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+    <s_account id="1" createdTime="2013-04-10 13:29:23"
+        paymentMethod="Credit Card" status="Active" />
+    <s_user username="hainguyen" firstname="Nguyen" lastname="Hai"
+        email="hainguyen@esofthead.com" />
+    <s_user_account id="1" isAccountOwner="true"
+        registerStatus="Active" username="hainguyen" accountId="1"
+        registeredTime="2013-04-10 13:29:23" />
+
+    <m_form_section layoutIndex="0" name="Account Info"
+        sAccountId="1" module="Account" id="1" layoutType="1"
+        isDeleteSection="false" />
+
+    <m_form_section layoutIndex="1" name="Address Info"
+        sAccountId="1" module="Account" id="2" layoutType="1"
+        isDeleteSection="false" />
+
+    <m_form_section_field fieldType="TextDynaField"
+        displayName="Name" isMandatory="true" fieldname="string1"
+        fieldIndex="0" sectionId="1" fieldFormat="" id="1" isCustom="false"
+        isRequired="false" />
+
+    <m_form_section_field fieldType="IntDynaField"
+        displayName="numEmp" isMandatory="false" fieldname="int1"
+        fieldIndex="1" sectionId="1" fieldFormat="" id="2" isCustom="false"
+        isRequired="false" />
+
+    <m_form_section_field fieldType="TextDynaField"
+        displayName="desc" isMandatory="true" fieldname="string2"
+        fieldIndex="0" sectionId="2" fieldFormat="" id="3" isCustom="false"
+        isRequired="false" />
+</dataset>

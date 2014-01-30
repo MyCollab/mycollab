@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+    namespace="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapper.ResultMapWithBLOBs"
+        id="TimeLoggingResult"
+        type="com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging">
+        <result column="logUserAvatarId" jdbcType="VARCHAR"
+            property="logUserAvatarId" />
+        <result column="logUserFullName" jdbcType="VARCHAR"
+            property="logUserFullName" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="projectShortName" jdbcType="VARCHAR"
+            property="projectShortName" />
+        <result column="percentageComplete" jdbcType="DOUBLE"
+            property="percentageComplete" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.projectId != null">
+            <![CDATA[${searchCriteria.projectId.operation} m_prj_time_logging.projectId ${searchCriteria.projectId.compareOperator} #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.type != null">
+            <![CDATA[${searchCriteria.type.operation} m_prj_time_logging.type like '%${searchCriteria.type.value}%']]>
+        </if>
+
+        <if test="searchCriteria.typeId != null">
+            <![CDATA[${searchCriteria.typeId.operation} m_prj_time_logging.typeid ${searchCriteria.typeId.compareOperator} #{searchCriteria.typeId.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.rangeDate != null">
+            ${searchCriteria.rangeDate.operation}
+            CAST(m_prj_time_logging.createdTime AS DATE ) BETWEEN
+            #{searchCriteria.rangeDate.from} AND
+            #{searchCriteria.rangeDate.to}
+        </if>
+
+        <if test="searchCriteria.logUsers != null">
+            ${searchCriteria.logUsers.operation}
+            m_prj_time_logging.loguser IN
+            <foreach close=")" collection="searchCriteria.logUsers.values"
+                item="loguser" open="(" separator=",">
+                #{loguser}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="selectTask">
+        <![CDATA[
+          	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
+                 s_user.avatarId AS logUserAvatarId,
+                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
+                 m_prj_task.taskname as summary,  m_prj_task.status, m_prj_task.deadline AS dueDate, m_prj_task.percentagecomplete AS percentageComplete,
+                 m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+                
+            FROM m_prj_time_logging
+              LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
+              INNER JOIN m_prj_task ON ( m_prj_time_logging.typeid = m_prj_task.id and m_prj_time_logging.type = "Project-Task" )
+              INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_task.projectid)
+        ]]>
+    </sql>
+
+    <sql id="selectBug">
+        <![CDATA[
+        SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
+                 s_user.avatarId AS logUserAvatarId,
+                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
+                 m_tracker_bug.summary,  m_tracker_bug.status, m_tracker_bug.duedate AS dueDate, NULL as percentageComplete,
+                 m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+            FROM m_prj_time_logging
+              LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
+              INNER JOIN m_tracker_bug ON ( m_prj_time_logging.typeid = m_tracker_bug.id and m_prj_time_logging.type = "Project-Bug" )
+              INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectid)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="ItemTimeLoggingSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_prj_time_logging
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="getTotalHoursByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
+        resultType="double">
+        SELECT sum(logValue) as totalHour FROM m_prj_time_logging
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            createdTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
+        resultMap="TimeLoggingResult">
+        (
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.selectTask" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+        ) UNION (
+
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.selectBug" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+        )
+        <if test="searchCriteria != null">
+            <include refid="orderStatement" />
+        </if>
+    </select>
+</mapper>

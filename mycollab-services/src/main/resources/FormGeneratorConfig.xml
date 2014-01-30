@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="MySQL" targetRuntime="MyBatis3">
+
+        <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
+
+        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab"
+            driverClass="com.mysql.jdbc.Driver" password="esofthead321"
+            userId="root" />
+
+        <javaModelGenerator targetPackage="com.esofthead.mycollab.form.domain"
+            targetProject="src/main/java">
+
+            <property name="rootClass"
+                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="."
+            targetProject="src/main/resources/sqlMap/form" />
+
+        <javaClientGenerator targetPackage="com.esofthead.mycollab.form.dao"
+            targetProject="src/main/java" type="XMLMAPPER">
+
+            <property name="exampleMethodVisibility" value="public" />
+
+            <property name="rootInterface"
+                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+        </javaClientGenerator>
+
+        <table domainObjectName="FormSection" schema="mycollab"
+            tableName="m_form_section" />
+
+        <table domainObjectName="FormSectionField" schema="mycollab"
+            tableName="m_form_section_field" />
+
+        <table domainObjectName="FormCustomFieldValue" schema="mycollab"
+            tableName="m_form_custom_field_value" />
+    </context>
+
+</generatorConfiguration>

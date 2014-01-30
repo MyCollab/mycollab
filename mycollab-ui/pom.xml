@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>mycollab-ui</name>
+    <artifactId>mycollab-ui</artifactId>
+    <parent>
+        <groupId>com.esofthead.mycollab</groupId>
+        <artifactId>parent-community</artifactId>
+        <version>3.0.0</version>
+        <relativePath>../mycollab-parent-community/pom.xml</relativePath>
+    </parent>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-core</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-dao</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-services</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin.addon</groupId>
+            <artifactId>vaadin-touchkit-agpl</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servletVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>com.esofthead.vaadin</groupId>
+        	<artifactId>mobilecomponent</artifactId>
+        	<version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

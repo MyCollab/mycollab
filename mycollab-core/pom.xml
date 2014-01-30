@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>mycollab-core</name>
+    <artifactId>mycollab-core</artifactId>
+    <parent>
+        <groupId>com.esofthead.mycollab</groupId>
+        <artifactId>parent-community</artifactId>
+        <version>3.0.0</version>
+        <relativePath>../mycollab-parent-community/pom.xml</relativePath>
+    </parent>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.mortennobel</groupId>
+            <artifactId>java-image-scaling</artifactId>
+            <version>0.8.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.cal10n</groupId>
+            <artifactId>cal10n-api</artifactId>
+            <version>0.8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.struts</groupId>
+                    <artifactId>struts-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.struts</groupId>
+                    <artifactId>struts-taglib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.struts</groupId>
+                    <artifactId>struts-tiles</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
+        <!-- 
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
+        </dependency>
+        -->
+
+        <!-- Camel dependency -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.7.3</version>
+        </dependency>
+    </dependencies>
+</project>

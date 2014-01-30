@@ -1,0 +1,28 @@
+CACHE MANIFEST
+# Build timeWed Jan 29 23:24:58 ICT 2014
+
+CACHE:
+../../../VAADIN/themes/touchkit/styles.css
+../../../VAADIN/vaadinBootstrap.js
+650109D413E2C231EC22108817C9E71A.cache.woff
+FBFDA2F0932B06ABE1580FF84139881F.cache.js
+clear.cache.gif
+com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet.devmode.js
+com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet.nocache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/1.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/2.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/3.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/4.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/5.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/6.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/7.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/8.cache.js
+deferredjs/FBFDA2F0932B06ABE1580FF84139881F/9.cache.js
+mobilecomponent/img/drawer_shadow.png
+mobilecomponent/img/header_shadow.png
+mobilecomponent/img/menu_icon.png
+mobilecomponent/mobilecomponent.css
+
+NETWORK:
+*
+

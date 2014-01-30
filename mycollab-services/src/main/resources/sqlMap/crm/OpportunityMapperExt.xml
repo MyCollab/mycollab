@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt">
+
+    <resultMap
+        extends="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.ResultMapWithBLOBs"
+        id="SimpleOpportunityResult" type="com.esofthead.mycollab.module.crm.domain.SimpleOpportunity">
+        <result column="accountName" jdbcType="VARCHAR" property="accountName" />
+        <result column="campaignName" jdbcType="VARCHAR"
+            property="campaignName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
+        <association property="currency"
+            resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
+            columnPrefix="curr_"></association>
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.opportunityName != null">
+            <![CDATA[${searchCriteria.opportunityName.operation} m_crm_opportunity.opportunityName like '%${searchCriteria.opportunityName.value}%']]>
+        </if>
+        <if test="searchCriteria.accountName != null">
+            <![CDATA[
+            ${searchCriteria.accountName.operation}
+            m_crm_account.accountName like '%${searchCriteria.accountName.value}%']]>
+        </if>
+        <if test="searchCriteria.accountId != null">
+            <![CDATA[
+                ${searchCriteria.accountId.operation} m_crm_opportunity.accountid = #{searchCriteria.accountId.value,jdbcType=NUMERIC}
+                ]]>
+        </if>
+        <if test="searchCriteria.contactId != null">
+            <![CDATA[
+                ${searchCriteria.contactId.operation} 
+                (SELECT COUNT(*) 
+                    FROM m_crm_contacts_opportunities, m_crm_contact 
+                    WHERE m_crm_contact.id=#{searchCriteria.contactId.value, jdbcType=NUMERIC} AND m_crm_opportunity.id= m_crm_contacts_opportunities.opportunityId
+                            AND m_crm_contacts_opportunities.contactId=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.campaignName != null">
+            <![CDATA[
+            ${searchCriteria.campaignName.operation} m_crm_campaign.campaignName like '%${searchCriteria.campaignName.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[
+            ${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) like '%${searchCriteria.assignUserName.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_opportunity.assignUser IN
+            <foreach close=")" collection="searchCriteria.assignUsers.values"
+                item="assignUser" open="(" separator=",">
+                #{assignUser}
+            </foreach>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_opportunity.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.nextStep != null">
+            <![CDATA[
+            ${searchCriteria.nextStep.operation} m_crm_opportunity.nextStep like '%${searchCriteria.nextStep.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.salesStages != null">
+            ${searchCriteria.salesStages.operation}
+            m_crm_opportunity.salesStage IN
+            <foreach item="salesStage" open="(" close=")"
+                collection="searchCriteria.salesStages.values"
+                separator=",">
+                #{salesStage}
+            </foreach>
+        </if>
+        <if test="searchCriteria.leadSources != null">
+            ${searchCriteria.leadSources.operation}
+            m_crm_opportunity.source IN
+            <foreach item="source" open="(" close=")"
+                collection="searchCriteria.leadSources.values"
+                separator=",">
+                #{source}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="queryTotalCountSearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_crm_opportunity.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.opportunityName != null">
+            <![CDATA[${searchCriteria.opportunityName.operation} m_crm_opportunity.opportunityName like '%${searchCriteria.opportunityName.value}%']]>
+        </if>
+        <if test="searchCriteria.accountName != null">
+            <![CDATA[
+            ${searchCriteria.accountName.operation}
+            (SELECT COUNT(*)
+            FROM m_crm_account 
+            WHERE m_crm_opportunity.accountid = m_crm_account.id 
+                AND m_crm_account.accountName like '%${searchCriteria.accountName.value}%') > 0
+                ]]>
+        </if>
+        <if test="searchCriteria.accountId != null">
+            <![CDATA[
+                ${searchCriteria.accountId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_account 
+                WHERE m_crm_opportunity.accountid = m_crm_account.id 
+                    AND m_crm_account.id = #{searchCriteria.accountId.value,jdbcType=NUMERIC}) > 0
+                ]]>
+        </if>
+        <if test="searchCriteria.contactId != null">
+            <![CDATA[
+                ${searchCriteria.contactId.operation} 
+                (SELECT COUNT(*) 
+                    FROM m_crm_contacts_opportunities, m_crm_contact 
+                    WHERE m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC} AND m_crm_opportunity.id= m_crm_contacts_opportunities.opportunityId
+                            AND m_crm_contacts_opportunities.contactId=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.campaignName != null">
+            <![CDATA[
+            ${searchCriteria.campaignName.operation}
+            (SELECT COUNT(*) 
+            FROM m_crm_campaign 
+            WHERE m_crm_opportunity.campaignid = m_crm_campaign.id 
+                AND m_crm_campaign.campaignName like '%${searchCriteria.campaignName.value}%') > 0
+                ]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[
+            ${searchCriteria.assignUserName.operation}
+            (SELECT COUNT(*)
+            FROM s_user 
+            WHERE m_crm_opportunity.assignUser = s_user.username 
+                AND (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) like '%${searchCriteria.assignUserName.value}%')) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_opportunity.assignUser IN
+            <foreach close=")" collection="searchCriteria.assignUsers.values"
+                item="assignUser" open="(" separator=",">
+                #{assignUser}
+            </foreach>
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_opportunity.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.nextStep != null">
+            <![CDATA[
+            ${searchCriteria.nextStep.operation} m_crm_opportunity.nextStep like '%${searchCriteria.nextStep.value}%'
+            ]]>
+        </if>
+        <if test="searchCriteria.salesStages != null">
+            ${searchCriteria.salesStages.operation}
+            m_crm_opportunity.salesStage IN
+            <foreach item="salesStage" open="(" close=")"
+                collection="searchCriteria.salesStages.values"
+                separator=",">
+                #{salesStage}
+            </foreach>
+        </if>
+        <if test="searchCriteria.leadSources != null">
+            ${searchCriteria.leadSources.operation}
+            m_crm_opportunity.source IN
+            <foreach item="source" open="(" close=")"
+                collection="searchCriteria.leadSources.values"
+                separator=",">
+                #{source}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleOpportunity">
+        <![CDATA[
+        select m_crm_opportunity.id, m_crm_opportunity.opportunityName, m_crm_opportunity.currencyid, m_crm_opportunity.accountid, 
+               m_crm_opportunity.amount, m_crm_opportunity.type, m_crm_opportunity.source, m_crm_opportunity.expectedClosedDate,
+               m_crm_opportunity.campaignid, m_crm_opportunity.nextStep, m_crm_opportunity.probability, m_crm_opportunity.description, 
+               m_crm_opportunity.createdTime, m_crm_opportunity.createdUser, m_crm_opportunity.sAccountId, m_crm_opportunity.assignUser, 
+               m_crm_opportunity.opportunityType, m_crm_opportunity.salesStage, m_crm_opportunity.lastUpdatedTime,
+               s_user.avatarId AS assignUserAvatarId,
+               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+               m_crm_account.accountName, m_crm_campaign.campaignName,
+               s_currency.id, s_currency.shortname AS curr_shortname,  s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
+               s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate
+      
+        FROM m_crm_opportunity
+               LEFT OUTER JOIN m_crm_account ON (m_crm_opportunity.accountid=m_crm_account.id)
+               LEFT OUTER JOIN s_user ON (m_crm_opportunity.assignUser = s_user.username)
+               LEFT OUTER JOIN m_crm_campaign ON (m_crm_opportunity.campaignid = m_crm_campaign.id) 
+               LEFT OUTER JOIN s_currency ON (m_crm_opportunity.currencyid=s_currency.id)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" resultType="int"
+        parameterType="OpportunitySearchCriteria">
+        SELECT count(*) as totalCount FROM m_crm_opportunity
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <delete id="removeByCriteria" parameterType="OpportunitySearchCriteria">
+        DELETE FROM m_crm_opportunity
+        <if test="searchCriteria != null">
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+        </if>
+    </delete>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_crm_opportunity.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" resultMap="SimpleOpportunityResult"
+        parameterType="OpportunitySearchCriteria">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.selectSimpleOpportunity" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="SimpleOpportunityResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.selectSimpleOpportunity" />
+
+        WHERE m_crm_opportunity.id=#{opportunityId,jdbcType=NUMERIC}
+    </select>
+
+    <select id="findOpportunityAssoWithConvertedLead" parameterType="int"
+        resultMap="SimpleOpportunityResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.selectSimpleOpportunity" />
+
+        INNER JOIN m_crm_opportunities_leads ON
+        (m_crm_opportunities_leads.opportunityId=m_crm_opportunity.id
+        AND m_crm_opportunities_leads.isConvertRel=1 AND
+        m_crm_opportunities_leads.leadId=#{leadId,jdbcType=NUMERIC})
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_crm_opportunity
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_crm_opportunity
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPipeline" parameterType="OpportunitySearchCriteria"
+        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap">
+        SELECT m_crm_opportunity.salesStage AS groupid,
+        SUM(m_crm_opportunity.amount) AS value, '' AS groupname
+        FROM
+        m_crm_opportunity
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+        GROUP BY m_crm_opportunity.salesStage
+    </select>
+
+    <select id="getSalesStageSummary" parameterType="OpportunitySearchCriteria"
+        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap">
+        SELECT m_crm_opportunity.salesStage AS groupid,
+        COUNT(m_crm_opportunity.salesStage) AS
+        value, '' as groupname
+        FROM m_crm_opportunity
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+        GROUP BY m_crm_opportunity.salesStage
+    </select>
+
+    <select id="getLeadSourcesSummary" parameterType="OpportunitySearchCriteria"
+        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap">
+        SELECT m_crm_opportunity.source AS groupid,
+        SUM((SELECT
+        m_crm_opportunity.amount FROM m_crm_opportunity n WHERE n.id =
+        m_crm_opportunity.id AND n.salesStage = 'Closed Won'))AS value,
+        (SELECT count(*) FROM m_crm_opportunity mm WHERE
+        m_crm_opportunity.source = mm.source) AS countNum,
+        '' AS
+        groupname
+        FROM
+        m_crm_opportunity
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+                    <![CDATA[AND m_crm_opportunity.source <> '']]>
+            </trim>
+        </if>
+        GROUP BY m_crm_opportunity.source
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.massUpdateWithSessionSql" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </update>
+
+</mapper>

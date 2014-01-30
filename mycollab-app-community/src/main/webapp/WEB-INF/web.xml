@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    id="WebApp_ID" version="3.0">
+    <display-name>mycollab-web</display-name>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>ExpiresFilter</filter-name>
+        <filter-class>fr.xebia.servlet.filter.ExpiresFilter</filter-class>
+        <init-param>
+            <param-name>ExpiresByType image</param-name>
+            <param-value>access plus 1 week</param-value>
+        </init-param>
+        <init-param>
+            <param-name>ExpiresByType text</param-name>
+            <param-value>access plus 1 week</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>ExpiresFilter</filter-name>
+        <url-pattern>/assets/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:/META-INF/spring/*-context.xml
+            classpath:/META-INF/spring-scheduler/*-context.xml
+            classpath:/META-INF/spring-web/initialize-context.xml
+        </param-value>
+    </context-param>
+
+    <!-- VAADIN PARAMS -->
+    <context-param>
+        <description>
+        Vaadin production mode</description>
+        <param-name>productionMode</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>MyCollabApplication</servlet-name>
+        <servlet-class>com.esofthead.mycollab.vaadin.MyCollabServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MyCollabApplication</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- mapping all .vm files to velocity servlets -->
+    <servlet>
+        <servlet-name>velocity</servlet-name>
+        <servlet-class>org.apache.velocity.tools.view.servlet.VelocityViewServlet</servlet-class>
+        <!-- load my toolbox -->
+        <init-param>
+            <param-name>org.apache.velocity.toolbox</param-name>
+            <param-value>/WEB-INF/toolbox.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>velocity</servlet-name>
+        <url-pattern>/templates/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>AssetsHandlerServlet</display-name>
+        <servlet-name>assetsHandlerServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>assetsHandlerServlet</servlet-name>
+        <url-pattern>/assets/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- REGISTER MYCOLLAB SERVLETS -->
+    <servlet>
+        <display-name>UserAvatarServlet</display-name>
+        <servlet-name>userAvatarFSServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>userAvatarFSServlet</servlet-name>
+        <url-pattern>/avatar/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>DroboxCallbackServlet</display-name>
+        <servlet-name>dropboxAuthServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dropboxAuthServlet</servlet-name>
+        <url-pattern>/drive/dropboxAuth</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>GoogleDriveCallbackServlet</display-name>
+        <servlet-name>ggDriveAuthServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ggDriveAuthServlet</servlet-name>
+        <url-pattern>/drive/ggDriveAuth</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>DenyUserInviteServlet</display-name>
+        <servlet-name>denyUserInviteServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>denyUserInviteServlet</servlet-name>
+        <url-pattern>/user/deny_invite/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>RecoverUserPasswordServlet</display-name>
+        <servlet-name>recoverUserPasswordServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>recoverUserPasswordServlet</servlet-name>
+        <url-pattern>/user/recoverypassword/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>UpdateUserPasswordServlet</display-name>
+        <servlet-name>updateUserPasswordServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>updateUserPasswordServlet</servlet-name>
+        <url-pattern>/user/recoverypassword/action/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>UpdateUserInfoServlet</display-name>
+        <servlet-name>updateUserInfoServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>updateUserInfoServlet</servlet-name>
+        <url-pattern>/user/confirm_invite/update_info/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>AcceptUserInvitationServlet</display-name>
+        <servlet-name>acceptUserInvitationServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>acceptUserInvitationServlet</servlet-name>
+        <url-pattern>/user/confirm_invite/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>UserConfirmSignUpServlet</display-name>
+        <servlet-name>userconfirmsignupServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>userconfirmsignupServlet</servlet-name>
+        <url-pattern>/user/confirm_signup/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>AcceptMemberInvitationServlet</display-name>
+        <servlet-name>acceptMemberInvitationServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>acceptMemberInvitationServlet</servlet-name>
+        <url-pattern>/project/member/invitation/confirm_invite/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>DenyMemberInvitationFeedbackServlet</display-name>
+        <servlet-name>denyMemberInvitationFeedbackServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>denyMemberInvitationFeedbackServlet</servlet-name>
+        <url-pattern>/project/member/feedback/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>DenyMemberInvitationServlet</display-name>
+        <servlet-name>denyMemberInvitationServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>denyMemberInvitationServlet</servlet-name>
+        <url-pattern>/project/member/invitation/deny_invite/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>AcceptMemberInvitationCreateAccountServlet</display-name>
+        <servlet-name>acceptMemberInvitationCreateAccountServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>acceptMemberInvitationCreateAccountServlet</servlet-name>
+        <url-pattern>/project/outside/createAccount/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>TooltipGeneratorServlet</display-name>
+        <servlet-name>tooltipGeneratorServlet</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>tooltipGeneratorServlet</servlet-name>
+        <url-pattern>/tooltip/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <display-name>AppExceptionHandlerServlet</display-name>
+        <servlet-name>appExceptionHandlerServlet</servlet-name>
+        <servlet-class>com.esofthead.mycollab.servlet.AppExceptionHandler</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>appExceptionHandlerServlet</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>com.esofthead.mycollab.core.ResourceNotFoundException</exception-type>
+        <location>/error</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/error</location>
+    </error-page>
+</web-app>

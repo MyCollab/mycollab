@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esofthead.mycollab.form.dao.FormSectionMapperExt">
+    <resultMap id="SimpleFormSectionResult"
+        extends="com.esofthead.mycollab.form.dao.FormSectionMapper.BaseResultMap"
+        type="com.esofthead.mycollab.form.domain.SimpleFormSection">
+        <collection columnPrefix="field_"
+            ofType="com.esofthead.mycollab.form.domain.FormSectionField"
+            property="fields"
+            resultMap="com.esofthead.mycollab.form.dao.FormSectionFieldMapper.BaseResultMap" />
+    </resultMap>
+
+    <select id="findSections" resultMap="SimpleFormSectionResult"
+        parameterType="map">
+    <![CDATA[
+    SELECT m_form_section.id, m_form_section.name, m_form_section.layoutIndex, m_form_section.module, 
+        m_form_section.sAccountId, m_form_section.layoutType, m_form_section.isDeleteSection,
+        m_form_section_field.id AS field_id, m_form_section_field.sectionId AS field_sectionId,
+        m_form_section_field.isMandatory AS field_isMandatory, m_form_section_field.fieldIndex AS field_fieldIndex,
+        m_form_section_field.displayName AS field_displayName, m_form_section_field.fieldFormat AS field_fieldFormat,
+        m_form_section_field.fieldname AS field_fieldname, m_form_section_field.fieldType AS field_fieldtype,
+        m_form_section_field.isRequired AS field_isRequired, m_form_section_field.isCustom AS field_isCustom
+    FROM m_form_section
+        LEFT OUTER JOIN m_form_section_field ON (m_form_section_field.sectionId=m_form_section.id)
+        
+    WHERE m_form_section.sAccountId=#{accountId,jdbcType=INTEGER} AND m_form_section.module=#{modueName,jdbcType=VARCHAR}    
+        
+    ]]>
+    </select>
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt">
+
+    <resultMap id="MilestoneResult"
+        extends="com.esofthead.mycollab.module.project.dao.MilestoneMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.module.project.domain.SimpleMilestone">
+        <result column="ownerAvatarId" jdbcType="VARCHAR"
+            property="ownerAvatarId" />
+        <result column="ownerFullName" jdbcType="VARCHAR"
+            property="ownerFullName" />
+        <result column="numOpenTasks" jdbcType="INTEGER"
+            property="numOpenTasks" />
+        <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
+        <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
+        <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_prj_milestone.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.assignUser != null">
+            <![CDATA[${searchCriteria.assignUser.operation} m_prj_milestone.owner = #{searchCriteria.assignUser.value}]]>
+        </if>
+        <if test="searchCriteria.status != null">
+            <![CDATA[${searchCriteria.status.operation} m_prj_milestone.status = #{searchCriteria.status.value}]]>
+        </if>
+        <if test="searchCriteria.projectId != null">
+            <![CDATA[${searchCriteria.projectId.operation} m_prj_milestone.projectid = #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
+        </if>
+        <if test="searchCriteria.milestoneName != null">
+          <![CDATA[
+            ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
+            ]]>
+        </if>
+    </sql>
+
+    <sql id="selectMilestone">
+        <![CDATA[
+            SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startdate, m_prj_milestone.enddate, 
+                   m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectid, m_prj_milestone.status, m_prj_milestone.createdTime, 
+                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.sAccountId,
+                   s_user.avatarId AS ownerAvatarId,
+                   concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
+                   (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numTasks,
+                   (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task.status='Open' AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numOpenTasks,
+                   (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
+                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')) AS numOpenBugs
+                   
+                FROM m_prj_milestone
+                    LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="MilestoneSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_prj_milestone
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
+        resultMap="MilestoneResult">
+
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.selectMilestone" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+        <include refid="orderStatement" />
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_prj_milestone.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer"
+        resultMap="MilestoneResult">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.selectMilestone" />
+
+        WHERE m_prj_milestone.id=#{milestoneId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_prj_milestone
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_prj_milestone
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+</mapper>    

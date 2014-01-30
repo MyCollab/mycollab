@@ -1,0 +1,50 @@
+.v-popupbutton. .v-button-wrap * {
+	float: left;
+}	
+
+.v-popupbutton .v-popup-indicator {
+	display: inline-block;
+	cursor: pointer;
+	width: 13px;
+	height: 11px;
+	background: transparent url(../../../themes/base/common/img/sprites.png) no-repeat -5px -10px;
+}
+
+.v-popupbutton.v-disabled .v-popup-indicator {
+	cursor: default;
+}
+
+.v-ie6 .v-popupbutton .v-popup-indicator {
+	display: inline;
+	zoom: 1;
+}
+.v-ie7 .v-popupbutton .v-popup-indicator {
+	display: inline;
+	zoom: 1;
+	position: relative;
+	top: -4px;
+}
+
+.v-popupbutton-popup {
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+	font-size: 12px;
+	line-height: normal;
+	color: #222;
+	
+	background: #f8f8f9;
+	border: none;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+}
+
+.v-popupbutton-popup.fixed {
+	position: fixed !important;
+	z-index: 20001 !important;
+}
+
+.v-shadow-fixed {
+	position: fixed !important;
+	z-index: 20000 !important;
+}

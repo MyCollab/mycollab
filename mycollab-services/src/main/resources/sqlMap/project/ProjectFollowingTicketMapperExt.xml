@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+    namespace="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt">
+    <resultMap id="FollowingTicketResult"
+        type="com.esofthead.mycollab.module.project.domain.FollowingTicket">
+        <result column="projectId" jdbcType="INTEGER" property="projectId" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
+        <result column="summary" jdbcType="VARCHAR" property="summary" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="typeId" jdbcType="INTEGER" property="typeId" />
+        <result column="monitorDate" jdbcType="TIMESTAMP"
+            property="monitorDate" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
+    </resultMap>
+
+    <sql id="selectFollowingTicketOfTask">
+        <![CDATA[
+        SELECT 'Task' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+            m_prj_task.taskname AS summary, m_prj_task.assignUser AS assignUser,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            s_user.avatarId AS assignUserAvatarId, m_monitor_item.monitor_date AS monitorDate,
+            m_prj_task.id AS typeId, m_prj_task.deadline AS dueDate, m_prj_task.status AS status
+               
+        FROM m_monitor_item
+            INNER JOIN m_prj_task ON (m_monitor_item.type='Project-Task' AND m_monitor_item.typeid=m_prj_task.id)
+            INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
+            INNER JOIN s_user ON (s_user.username=m_prj_task.assignUser)
+        ]]>
+    </sql>
+
+    <sql id="selectFollowingTicketOfBug">
+        <![CDATA[
+        SELECT 'Bug' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+            m_tracker_bug.summary AS summary, s_user.username AS assignUser,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            s_user.avatarId AS assignUserAvatarId, m_monitor_item.monitor_date AS monitorDate,
+            m_tracker_bug.id AS typeId, m_tracker_bug.duedate AS dueDate, m_tracker_bug.status AS status
+               
+        FROM m_monitor_item
+            INNER JOIN m_tracker_bug ON (m_monitor_item.type='Project-Bug' AND m_monitor_item.typeid=m_tracker_bug.id)
+            INNER JOIN m_prj_project ON (m_prj_project.id=m_monitor_item.extraTypeId)
+            INNER JOIN s_user ON (s_user.username=m_tracker_bug.assignuser)
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
+        resultMap="FollowingTicketResult">
+        (
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt.selectFollowingTicketOfTask" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+        )
+        UNION
+
+        (
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt.selectFollowingTicketOfBug" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+        )
+        ORDER BY monitorDate DESC
+    </select>
+
+    <select id="getTotalCount" resultType="int"
+        parameterType="MonitorSearchCriteria">
+        SELECT count(*) as totalCount FROM m_monitor_item
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+</mapper>

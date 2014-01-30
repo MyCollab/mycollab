@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan xsi:schemaLocation="urn:infinispan:config:6.0 infinispan-config-6.0.xsd"
+    xmlns="urn:infinispan:config:6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <default>
+        <jmxStatistics enabled="true" />
+        <eviction maxEntries="10000" strategy="LRU" />
+    </default>
+</infinispan>

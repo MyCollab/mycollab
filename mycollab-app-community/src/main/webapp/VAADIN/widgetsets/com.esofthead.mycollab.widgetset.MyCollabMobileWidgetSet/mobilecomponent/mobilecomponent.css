@@ -1,0 +1,65 @@
+html {
+	height: 100%;
+	font-size: 10px;
+}
+.v-mobilecomponent {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+div.v-cache-loading-indicator {
+	right: 6px;
+}
+
+.v-mobilecomponent .v-touchkit-navpanel-navigation, .v-mobilecomponent .v-touchkit-navpanel {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+.v-mobilecomponent .v-touchkit-navpanel-navigation {
+	z-index: 0;
+}
+.v-mobilecomponent .v-touchkit-navpanel {
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	box-shadow: -3px 0px 5px 0px #444;
+	-webkit-box-shadow: -3px 0px 5px 0px #444;
+	-moz-box-shadow: -3px 0px 5px 0px #444;
+	z-index: 1;
+}
+.mobilenavview {
+	background-color: rgb(255, 255, 255);
+}
+.mobilenavview .v-touchkit-navbar {
+	height: 4rem;
+	box-shadow: none;
+	background-color: #49a3e1;
+}
+.mobilenavview .v-touchkit-navbar:after {
+	content: "";
+	display: block;
+	height: 0.3rem;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: url(img/header_shadow.png) repeat-x;
+	background-size: auto 100%;
+}
+.mobilenavview .v-touchkit-navview-wrapper {
+	top: 4rem;
+}
+.mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left {
+	top: 0;
+	left: 0;
+}
+.mobilenavview .toggle-nav-btn {
+	height: 4rem;
+	width: 4.5rem;
+	background: url("img/menu_icon.png") no-repeat left top transparent;
+	cursor: pointer;
+}

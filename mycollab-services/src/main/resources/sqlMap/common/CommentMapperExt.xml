@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.common.dao.CommentMapperExt">
+    
+    <resultMap id="BaseResultMap"
+        extends="com.esofthead.mycollab.common.dao.CommentMapper.BaseResultMap"
+        type="com.esofthead.mycollab.common.domain.SimpleComment">
+
+        <result column="ownerAvatarId" jdbcType="VARCHAR"
+            property="ownerAvatarId" />
+
+        <result column="ownerFullName" jdbcType="VARCHAR"
+            property="ownerFullName" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.type != null ">
+            <![CDATA[${searchCriteria.type.operation} m_comment.type = #{searchCriteria.type.value} ]]>
+        </if>
+        <if test="searchCriteria.typeid != null ">
+            <![CDATA[${searchCriteria.typeid.operation} m_comment.typeid = #{searchCriteria.typeid.value} ]]>
+        </if>
+    </sql>
+
+    <sql id="selectSimpleComment">
+        <![CDATA[
+            SELECT m_comment.id, m_comment.comment, m_comment.createdUser, m_comment.createdTime, 
+                   m_comment.type, m_comment.typeId, m_comment.sAccountId, m_comment.extraTypeId,
+                   s_user.avatarId AS ownerAvatarId,
+                   concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename, '')), s_user.lastname) as ownerFullName
+                FROM m_comment
+                    LEFT OUTER JOIN s_user ON m_comment.createdUser = s_user.username
+        ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            createdTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="CommentSearchCriteria"
+        resultMap="BaseResultMap">
+        <include
+            refid="com.esofthead.mycollab.common.dao.CommentMapperExt.selectSimpleComment" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.common.dao.CommentMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+</mapper>

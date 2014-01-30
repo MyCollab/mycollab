@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<xsd:schema xmlns="http://www.springsource.org/extensions/se-jcr/schema/jcr"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	targetNamespace="http://www.springsource.org/extensions/se-jcr/schema/jcr"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"
+     schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd" />
+    
+	<xsd:complexType name="repository" abstract="true">
+		<xsd:attribute name="configuration" type="xsd:string"
+			use="required" />
+		<xsd:attribute name="id" type="xsd:ID" use="required" />
+	</xsd:complexType>
+
+	<xsd:element name="eventListenerDefinition">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="listener" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+				<xsd:element name="uuid" minOccurs="0" maxOccurs="unbounded" type="xsd:string"/>
+				<xsd:element name="nodeTypeName" minOccurs="0" maxOccurs="unbounded" type="xsd:string"/>
+				<xsd:element name="eventType" minOccurs="0" maxOccurs="5">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="NODE_ADDED"/>
+							<xsd:enumeration value="NODE_REMOVED"/>
+							<xsd:enumeration value="PROPERTY_ADDED"/>
+							<xsd:enumeration value="PROPERTY_CHANGED"/>
+							<xsd:enumeration value="PROPERTY_REMOVED"/>																												
+						</xsd:restriction>
+					</xsd:simpleType>
+					<!-- 
+					<xsd:unique name="eventTypeMustBeUnique">
+						<xsd:selector xpath="eventType"/>
+						<xsd:field xpath="eventType"/>
+					</xsd:unique>
+					 -->
+				</xsd:element>
+			</xsd:sequence>
+			
+			<xsd:attribute name="id" type="xsd:ID" use="required"/>
+			<xsd:attribute name="absPath" type="xsd:string" default="/"/>
+			<xsd:attribute name="deep" type="xsd:boolean" default="true"/>
+			<xsd:attribute name="noLocal" type="xsd:boolean" default="false"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="sessionFactory">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="namespace" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType mixed="true"> 
+						<xsd:attribute name="name" type="xsd:string" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="repository" type="xsd:string" use="required" />
+			<xsd:attribute name="keepNamespaces" type="xsd:boolean" default="false"/>
+		</xsd:complexType>
+	</xsd:element>	
+	
+</xsd:schema>

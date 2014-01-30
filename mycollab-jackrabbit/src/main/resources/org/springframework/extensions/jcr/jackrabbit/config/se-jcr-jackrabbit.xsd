@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<xsd:schema
+	xmlns="http://www.springsource.org/extensions/se-jcr/schema/jcr/jackrabbit"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:jcr="http://www.springsource.org/extensions/se-jcr/schema/jcr"
+	targetNamespace="http://www.springsource.org/extensions/se-jcr/schema/jcr/jackrabbit"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+
+	<xsd:import namespace="http://www.springsource.org/extensions/se-jcr/schema/jcr"
+		schemaLocation="../../config/se-jcr.xsd" />
+
+	<xsd:element name="repository">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="jcr:repository">
+					<xsd:attribute name="homeDir" type="xsd:string" />
+					<!-- change this to use beans namespace -->
+					<xsd:attribute name="repositoryConfig"
+						type="xsd:string" />
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="transaction-manager">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="sessionFactory" type="xsd:string"
+				use="required" />
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

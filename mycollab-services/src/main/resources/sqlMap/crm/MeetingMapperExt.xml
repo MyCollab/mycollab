@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt">
+
+
+
+	<resultMap id="SimpleMeetingResult"
+		extends="com.esofthead.mycollab.module.crm.dao.MeetingMapper.ResultMapWithBLOBs"
+		type="com.esofthead.mycollab.module.crm.domain.SimpleMeeting">
+
+		<result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
+
+		<result column="createdUserFullName" jdbcType="VARCHAR"
+			property="createdUserFullName" />
+
+		<result column="contactTypeName" jdbcType="VARCHAR" property="contactTypeName" />
+	</resultMap>
+
+	<sql id="selectSimpleMeeting">
+        <![CDATA[
+        SELECT m_crm_meeting.id, m_crm_meeting.subject,
+            m_crm_meeting.status, m_crm_meeting.type, m_crm_meeting.typeid,
+            m_crm_meeting.startDate, m_crm_meeting.endDate,
+            m_crm_meeting.lastUpdatedTime, m_crm_meeting.createdTime,
+            m_crm_meeting.createdUser, m_crm_meeting.sAccountId,
+            m_crm_meeting.location, m_crm_meeting.description,
+            m_crm_meeting.isRecurrence, m_crm_meeting.recurrenceType,
+            m_crm_meeting.recurrenceInfo,
+            m_crm_meeting.recurrenceStartDate,
+            m_crm_meeting.recurrenceEndDate, m_crm_meeting.contactType,
+            m_crm_meeting.contactTypeId, m_crm_meeting.isClosed,
+            m_crm_meeting.isNotified, m_crm_meeting.isNotifiedPrior,
+            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName
+        FROM m_crm_meeting
+        LEFT OUTER JOIN s_user ON (m_crm_meeting.createdUser = s_user.username)
+        ]]>
+	</sql>
+
+	<select id="findById" parameterType="int" resultMap="SimpleMeetingResult">
+		<include
+			refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.selectSimpleMeeting" />
+
+		WHERE m_crm_meeting.id=#{meetingId,jdbcType=NUMERIC}
+	</select>
+
+	<sql id="queryEventByStartEndDate">
+    	<![CDATA[
+    		AND (
+					(	
+						m_crm_meeting.startDate >= #{searchCriteria.startDate.value,javaType=DATE}
+						AND m_crm_meeting.endDate <= #{searchCriteria.endDate.value,javaType=DATE}
+					)OR(
+						m_crm_meeting.endDate > #{searchCriteria.startDate.value,javaType=DATE}
+					)OR(
+						m_crm_meeting.startDate > #{searchCriteria.endDate.value,javaType=DATE}
+					)OR(
+						m_crm_meeting.startDate < #{searchCriteria.startDate.value,javaType=DATE}
+						AND m_crm_meeting.endDate > #{searchCriteria.endDate.value,javaType=DATE}
+					)
+				)
+    	]]>
+	</sql>
+
+	<sql id="querySearchCriteria">
+		<if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_crm_meeting.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+		</if>
+		<if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_meeting.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
+		</if>
+		<if test="searchCriteria.assignUsers != null">
+			${searchCriteria.assignUsers.operation}
+			m_crm_meeting.createdUser IN
+			<foreach close=")" collection="searchCriteria.assignUsers.values"
+				item="user" open="(" separator=",">
+				#{user}
+			</foreach>
+		</if>
+		<if test="searchCriteria.isClosed != null">
+            <![CDATA[${searchCriteria.isClosed.operation} m_crm_meeting.isClosed = ${searchCriteria.isClosed.value}]]>
+		</if>
+		<if test="searchCriteria.startDate != null and searchCriteria.endDate != null">
+			<include refid="queryEventByStartEndDate" />
+		</if>
+	</sql>
+
+	<sql id="orderStatement">
+		ORDER BY
+		<if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+			${searchCriteria.sortDirection},
+		</if>
+        <![CDATA[
+            m_crm_meeting.lastUpdatedTime DESC
+        ]]>
+	</sql>
+
+	<select id="findPagableListByCriteria" parameterType="MeetingSearchCriteria"
+		resultMap="SimpleMeetingResult">
+		<include
+			refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.selectSimpleMeeting" />
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.querySearchCriteria" />
+			</trim>
+			<include refid="orderStatement" />
+		</if>
+	</select>
+
+	<select id="getTotalCount" parameterType="MeetingSearchCriteria"
+		resultType="java.lang.Integer">
+		SELECT count(*) as totalCount FROM m_crm_meeting
+		<if test="searchCriteria != null">
+			<trim prefix="WHERE" prefixOverrides="AND | OR ">
+				1=1
+				<include
+					refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.querySearchCriteria" />
+			</trim>
+		</if>
+	</select>
+
+	<select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+		SELECT MIN(id) FROM m_crm_meeting
+
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			1=1
+			<include
+				refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.querySearchCriteria" />
+		</trim>
+	</select>
+
+	<select id="getPreviousItemKey" parameterType="map"
+		resultType="java.lang.Integer">
+		SELECT MAX(id) FROM m_crm_meeting
+
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			1=1
+			<include
+				refid="com.esofthead.mycollab.module.crm.dao.MeetingMapperExt.querySearchCriteria" />
+		</trim>
+	</select>
+
+</mapper>

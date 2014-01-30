@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.project.dao.TaskListMapperExt">
+    
+    <resultMap id="SimpleTaskListResult"
+        extends="com.esofthead.mycollab.module.project.dao.TaskListMapper.ResultMapWithBLOBs"
+        type="com.esofthead.mycollab.module.project.domain.SimpleTaskList">
+
+        <result column="milestoneName" jdbcType="VARCHAR"
+            property="milestoneName" />
+
+        <result column="percentageComplete" jdbcType="DOUBLE"
+            property="percentageComplete" />
+
+        <result column="numOpenTasks" jdbcType="INTEGER"
+            property="numOpenTasks" />
+
+        <result column="numAllTasks" jdbcType="INTEGER" property="numAllTasks" />
+        
+        <result column="numComments" property="numComments"
+            jdbcType="INTEGER" />
+
+        <result column="ownerAvatarId" jdbcType="VARCHAR"
+            property="ownerAvatarId" />
+
+        <result column="ownerFullName" jdbcType="VARCHAR"
+            property="ownerFullName" />
+
+        <collection property="subTasks"
+            ofType="com.esofthead.mycollab.module.project.domain.SimpleTask"
+            resultMap="com.esofthead.mycollab.module.project.dao.TaskMapperExt.TaskResult"
+            columnPrefix="subTask_" />
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_prj_task_list.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.projectId != null">
+            ${searchCriteria.projectId.operation}
+            m_prj_task_list.projectid =
+            #{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        </if>
+
+        <if test="searchCriteria.status != null">
+            ${searchCriteria.status.operation}
+            m_prj_task_list.status =
+            #{searchCriteria.status.value}
+        </if>
+        <if test='searchCriteria.milestoneIds != null'>
+            ${searchCriteria.milestoneIds.operation}
+            m_prj_task_list.milestoneId IN
+            <foreach close=")" collection="searchCriteria.milestoneIds.values"
+                item="milestoneid" open="(" separator="OR">
+                #{milestoneid}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="selectTaskList">
+        <![CDATA[SELECT m_prj_task_list.id, m_prj_task_list.name, m_prj_task_list.description, 
+                    m_prj_task_list.projectid, m_prj_task_list.createdTime, m_prj_task_list.lastUpdatedTime, 
+                    m_prj_task_list.sAccountId, m_prj_task_list.milestoneId, m_prj_task_list.groupIndex,
+                    m_prj_task_list.owner, m_prj_task_list.status, m_prj_milestone.name AS milestoneName,
+                    s_user.avatarId AS ownerAvatarId,
+                    concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
+                    m_prj_task.id AS subTask_id, m_prj_task.taskname AS subTask_taskname, m_prj_task.percentagecomplete AS subTask_percentagecomplete, 
+                    m_prj_task.startdate AS subTask_startdate, m_prj_task.enddate AS subTask_enddate, m_prj_task.priority AS subTask_priority, 
+                    m_prj_task.duration AS subTask_duration, m_prj_task.isestimated AS subTask_isestimated, m_prj_task.projectid AS subTask_projectid, 
+                    m_prj_task.deadline AS subTask_deadline, m_prj_task.notes AS subTask_notes, m_prj_task.taskindex AS subTask_taskindex, 
+                    m_prj_task.actualStartDate AS subTask_actualStartDate, m_prj_task.actualEndDate AS subTask_actualEndDate, m_prj_task.originalEstimate AS subTask_originalEstimate, 
+                    m_prj_task.remainEstimate AS subTask_remainEstimate, m_prj_task.tasklistid AS subTask_tasklistid, 
+                    m_prj_task.createdTime AS subTask_createdTime, m_prj_task.lastUpdatedTime AS subTask_lastUpdatedTime, 
+                    m_prj_task.assignUser AS subTask_assignUser, m_prj_task.sAccountId AS subTask_sAccountId, m_prj_task.status AS subTask_status,
+                     m_prj_task.taskkey AS subTask_taskkey, taskUser.avatarId AS subTask_assignUserAvatarId,
+                    concat(taskUser.firstname, ' ', LTRIM(concat(IFNULL(taskUser.middlename, ''), ' ')), taskUser.lastname) AS subTask_assignUserFullName,
+                    (SELECT AVG(task.percentagecomplete) FROM m_prj_task AS task WHERE m_prj_task_list.id = task.tasklistid) AS percentageComplete,
+                    (SELECT COUNT(task_all.id) FROM  m_prj_task AS task_all WHERE m_prj_task_list.id = task_all.tasklistid) AS numAllTasks,
+                    (SELECT COUNT(task_open.id) FROM  m_prj_task AS task_open WHERE m_prj_task_list.id = task_open.tasklistid AND (task_open.status='Open')) AS numOpenTasks
+                    FROM m_prj_task_list
+                        LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task_list.owner)
+                        LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task_list.milestoneId)
+                        LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND (m_prj_task.status='Open'))
+                        LEFT OUTER JOIN s_user AS taskUser ON (taskUser.username = m_prj_task.assignUser)
+        ]]>
+    </sql>
+
+    <select id="getTotalCount" parameterType="TaskListSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_prj_task_list
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.querySearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection},
+        </if>
+        <![CDATA[
+            m_prj_task_list.groupIndex, m_prj_task_list.lastUpdatedTime ASC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="TaskListSearchCriteria"
+        resultMap="SimpleTaskListResult">
+
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.selectTaskList" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+
+                <include
+                    refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findTaskListById" parameterType="java.lang.Integer"
+        resultMap="SimpleTaskListResult">
+        <include
+            refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.selectTaskList" />
+
+        WHERE m_prj_task_list.id=#{taskListId, jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_prj_task_list
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_prj_task_list
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.project.dao.TaskListMapperExt.querySearchCriteria" />
+        </trim>
+    </select>
+</mapper>

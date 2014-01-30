@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt">
+    
+    <resultMap
+        extends="com.esofthead.mycollab.module.crm.dao.CampaignMapper.ResultMapWithBLOBs"
+        id="SimpleCampaignResult" type="com.esofthead.mycollab.module.crm.domain.SimpleCampaign">
+
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
+
+        <result column="assignUserFullName" jdbcType="VARCHAR"
+            property="assignUserFullName" />
+
+        <association property="currency"
+            resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
+            columnPrefix="curr_"></association>
+    </resultMap>
+
+    <sql id="querySearchCriteria">
+        <if test="searchCriteria.campaignName != null">
+          <![CDATA[
+            ${searchCriteria.campaignName.operation} m_crm_campaign.campaignName like '%${searchCriteria.campaignName.value}%']]>
+        </if>
+        <if test="searchCriteria.assignUser != null">
+            <![CDATA[${searchCriteria.assignUser.operation} m_crm_campaign.assignUser = #{searchCriteria.assignUser.value}]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%']]>
+        </if>
+        <if test="searchCriteria.leadId != null">
+            <![CDATA[
+            ${searchCriteria.leadId.operation} 
+            (SELECT COUNT(*) 
+                FROM m_crm_lead, m_crm_campaigns_leads
+                WHERE m_crm_lead.id=#{searchCriteria.leadId.value,jdbcType=NUMERIC} AND m_crm_campaigns_leads.leadId=m_crm_lead.id 
+                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id ) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.statuses != null">
+            ${searchCriteria.statuses.operation}
+            m_crm_campaign.status IN
+            <foreach close=")" collection="searchCriteria.statuses.values"
+                item="status" open="(" separator=",">
+                #{status}
+            </foreach>
+        </if>
+        <if test="searchCriteria.types != null">
+            ${searchCriteria.types.operation} m_crm_campaign.type IN
+            <foreach close=")" collection="searchCriteria.types.values"
+                item="type" open="(" separator=",">
+                #{type}
+            </foreach>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_campaign.assignUser IN
+            <foreach close=")" collection="searchCriteria.assignUsers.values"
+                item="user" open="(" separator=",">
+                #{user}
+            </foreach>
+        </if>
+        <if test="searchCriteria.startDate != null">
+            ${searchCriteria.startDate.operation}
+            CAST(m_crm_campaign.startDate
+            AS DATE )
+            ${searchCriteria.startDate.comparision}
+            #{searchCriteria.startDate.value}
+        </if>
+        <if test="searchCriteria.endDate != null">
+            ${searchCriteria.endDate.operation}
+            CAST(m_crm_campaign.endDate AS
+            DATE )
+            ${searchCriteria.endDate.comparision}
+            #{searchCriteria.endDate.value}
+        </if>
+        <if test="searchCriteria.startDateRange != null">
+            ${searchCriteria.startDateRange.operation}
+            CAST(m_crm_campaign.startDate AS DATE ) BETWEEN
+            #{searchCriteria.startDateRange.from} AND
+            #{searchCriteria.startDateRange.to}
+        </if>
+        <if test="searchCriteria.endDateRange != null">
+            ${searchCriteria.endDateRange.operation}
+            CAST(m_crm_campaign.endDate AS DATE ) BETWEEN
+            #{searchCriteria.endDateRange.from} AND
+            #{searchCriteria.endDateRange.to}
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_campaign.sAccountId = #{searchCriteria.saccountid.value, jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <sql id="queryTotalCountSearchCriteria">
+
+        <if test="searchCriteria.id != null">
+            <![CDATA[${searchCriteria.id.operation} m_crm_campaign.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
+        </if>
+
+        <if test="searchCriteria.campaignName != null">
+          <![CDATA[
+          ${searchCriteria.campaignName.operation} m_crm_campaign.campaignName like '%${searchCriteria.campaignName.value}%']]>
+        </if>
+        <if test="searchCriteria.assignUser != null">
+            <![CDATA[${searchCriteria.assignUser.operation} m_crm_campaign.assignUser = #{searchCriteria.assignUser.value}]]>
+        </if>
+        <if test="searchCriteria.assignUserName != null">
+            <![CDATA[
+                ${searchCriteria.assignUserName.operation}
+                (SELECT COUNT(*) FROM s_user
+                WHERE m_crm_campaign.assignUser = s_user.username AND
+                    (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%')) > 0]]>
+        </if>
+        <if test="searchCriteria.leadId != null">
+            <![CDATA[
+            ${searchCriteria.leadId.operation} 
+            (SELECT COUNT(*) 
+                FROM m_crm_lead, m_crm_campaigns_leads
+                WHERE m_crm_lead.id=#{searchCriteria.leadId.value,jdbcType=NUMERIC} AND m_crm_campaigns_leads.leadId=m_crm_lead.id 
+                    AND  m_crm_campaigns_leads.campaignId=m_crm_campaign.id ) > 0
+            ]]>
+        </if>
+        <if test="searchCriteria.statuses != null">
+            ${searchCriteria.statuses.operation}
+            m_crm_campaign.status IN
+            <foreach close=")" collection="searchCriteria.statuses.values"
+                item="status" open="(" separator=",">
+                #{status}
+            </foreach>
+        </if>
+        <if test="searchCriteria.types != null">
+            ${searchCriteria.types.operation}
+            m_crm_campaign.type IN
+            <foreach close=")" collection="searchCriteria.types.values"
+                item="type" open="(" separator=",">
+                #{type}
+            </foreach>
+        </if>
+        <if test="searchCriteria.assignUsers != null">
+            ${searchCriteria.assignUsers.operation}
+            m_crm_campaign.assignUser IN
+            <foreach close=")" collection="searchCriteria.assignUsers.values"
+                item="user" open="(" separator=",">
+                #{user}
+            </foreach>
+        </if>
+        <if test="searchCriteria.startDate != null">
+            ${searchCriteria.startDate.operation}
+            CAST(m_crm_campaign.startDate
+            AS DATE )
+            ${searchCriteria.startDate.comparision}
+            #{searchCriteria.startDate.value}
+        </if>
+        <if test="searchCriteria.endDate != null">
+            ${searchCriteria.endDate.operation}
+            CAST(m_crm_campaign.endDate AS
+            DATE )
+            ${searchCriteria.endDate.comparision}
+            #{searchCriteria.endDate.value}
+        </if>
+        <if test="searchCriteria.startDateRange != null">
+            ${searchCriteria.startDateRange.operation}
+            CAST(m_crm_campaign.startDate AS DATE ) BETWEEN
+            #{searchCriteria.startDateRange.from} AND
+            #{searchCriteria.startDateRange.to}
+        </if>
+        <if test="searchCriteria.endDateRange != null">
+            ${searchCriteria.endDateRange.operation}
+            CAST(m_crm_campaign.endDate AS DATE ) BETWEEN
+            #{searchCriteria.endDateRange.from} AND
+            #{searchCriteria.endDateRange.to}
+        </if>
+        <if test="searchCriteria.saccountid != null">
+            <![CDATA[${searchCriteria.saccountid.operation} m_crm_campaign.sAccountId = #{searchCriteria.saccountid.value, jdbcType=NUMERIC}]]>
+        </if>
+    </sql>
+
+    <select id="getTotalCount" parameterType="CampaignSearchCriteria"
+        resultType="int">
+        SELECT count(*) as totalCount FROM m_crm_campaign
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </select>
+
+    <delete id="removeByCriteria" parameterType="CampaignSearchCriteria">
+        DELETE FROM m_crm_campaign
+        <if test="searchCriteria != null">
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.queryTotalCountSearchCriteria" />
+        </if>
+    </delete>
+
+    <sql id="selectSimpleCampaign">
+        <![CDATA[
+        SELECT m_crm_campaign.id, m_crm_campaign.campaignName, m_crm_campaign.startDate, m_crm_campaign.endDate, m_crm_campaign.currencyId, 
+               m_crm_campaign.impressionnote, m_crm_campaign.budget, m_crm_campaign.actualCost, m_crm_campaign.expectedRevenue, 
+               m_crm_campaign.expectedCost, m_crm_campaign.objective, m_crm_campaign.description, m_crm_campaign.impression, m_crm_campaign.createdTime, 
+               m_crm_campaign.createdUser, m_crm_campaign.sAccountId, m_crm_campaign.status, m_crm_campaign.type, m_crm_campaign.assignUser,
+               m_crm_campaign.lastUpdatedTime,
+               s_user.avatarId AS assignUserAvatarId,
+               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               s_currency.id, s_currency.shortname AS curr_shortname, s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
+               s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate
+        FROM m_crm_campaign       
+            LEFT OUTER JOIN s_user ON (m_crm_campaign.assignUser=s_user.username)
+            LEFT OUTER JOIN s_currency ON (m_crm_campaign.currencyId=s_currency.id)
+        ]]>
+    </sql>
+
+    <sql id="orderStatement">
+        ORDER BY
+        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection}, </if>
+        <![CDATA[
+            m_crm_campaign.lastUpdatedTime DESC
+        ]]>
+    </sql>
+
+    <select id="findPagableListByCriteria" parameterType="CampaignSearchCriteria"
+        resultMap="SimpleCampaignResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.selectSimpleCampaign" />
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.querySearchCriteria" />
+            </trim>
+            <include refid="orderStatement" />
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int"
+        resultMap="SimpleCampaignResult">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.selectSimpleCampaign" />
+
+        WHERE m_crm_campaign.id=#{campaignId,jdbcType=NUMERIC}
+    </select>
+
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+        SELECT MIN(id) FROM m_crm_campaign
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <select id="getPreviousItemKey" parameterType="map"
+        resultType="java.lang.Integer">
+        SELECT MAX(id) FROM m_crm_campaign
+
+        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+            1=1
+            <include
+                refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.queryTotalCountSearchCriteria" />
+        </trim>
+    </select>
+
+    <!-- Here for Mass Update -->
+    <update id="updateBySearchCriteria" parameterType="map">
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.CampaignMapper.massUpdateWithSessionSql" />
+
+        <if test="searchCriteria != null">
+            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+                1=1
+                <include
+                    refid="com.esofthead.mycollab.module.crm.dao.CampaignMapperExt.queryTotalCountSearchCriteria" />
+            </trim>
+        </if>
+    </update>
+
+</mapper>
