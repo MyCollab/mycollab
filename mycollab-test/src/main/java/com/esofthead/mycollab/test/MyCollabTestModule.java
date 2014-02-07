@@ -37,27 +37,28 @@ package com.esofthead.mycollab.test;
  * </code>
  * 
  * @author Hai Nguyen (hainguyen@esofthead.com)
+ * @since 1.0
  */
 public interface MyCollabTestModule {
-    /**
-     * Assign the test host to this module. Depend on the functionality of this
-     * module, it get some variables from this host like data source, test
-     * configurations etc and serves for setUp and tearDown actions.
-     * 
-     * @param host
-     *            The test class attach to this module
-     */
-    void setHost(Class host);
+	/**
+	 * Assign the test host to this module. Depend on the functionality of this
+	 * module, it get some variables from this host like data source, test
+	 * configurations etc and serves for setUp and tearDown actions.
+	 * 
+	 * @param host
+	 *            The test class attach to this module
+	 */
+	void setHost(Class host);
 
-    /**
-     * Init the module. Note that this method is invoked after the test host
-     * init the testing.
-     */
-    void setUp();
+	/**
+	 * Init the module. Note that this method is invoked after the test host
+	 * init the testing.
+	 */
+	void setUp();
 
-    /**
-     * Clean up the testing includes resources or extra configuration settings.
-     * This method is invoked after the test host clean up testing.
-     */
-    void tearDown();
+	/**
+	 * Clean up the testing includes resources or extra configuration settings.
+	 * This method is invoked after the test host clean up testing.
+	 */
+	void tearDown();
 }

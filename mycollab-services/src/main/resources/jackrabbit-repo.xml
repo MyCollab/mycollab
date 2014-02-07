@@ -6,6 +6,7 @@
     <!-- virtual file system where the repository stores global state (e.g. 
         registered namespaces, custom node types, etc.) -->
     <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+        <param name="schemaObjectPrefix" value="ecm_s_" />
     </FileSystem>
 
     <!-- security configuration -->
@@ -26,6 +27,7 @@
     <Workspaces rootPath='repo/workspaces' defaultWorkspace='default' />
     <Workspace name="mycollab">
         <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+            <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
 
         <PersistenceManager
@@ -39,6 +41,7 @@
             <param name='supportHighlighting' value='true' />
             <FileSystem
                 class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+                <param name="schemaObjectPrefix" value="ecm_s_" />
             </FileSystem>
         </SearchIndex>
     </Workspace>
@@ -46,6 +49,7 @@
 
     <Versioning rootPath='repo/version'>
         <FileSystem class='com.esofthead.mycollab.module.ecm.DbFileSystemExt'>
+            <param name="schemaObjectPrefix" value="ecm_s_" />
         </FileSystem>
         <PersistenceManager
             class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
@@ -65,7 +69,9 @@
     <!-- Cluster configuration with system variables. -->
     <Cluster>
         <Journal
-            class="com.esofthead.mycollab.module.ecm.MyCollabDatabaseJournal" />
+            class="com.esofthead.mycollab.module.ecm.MyCollabDatabaseJournal">
+            <param name="schemaObjectPrefix" value="ecm_journal" />
+        </Journal>
     </Cluster>
 
 </Repository>

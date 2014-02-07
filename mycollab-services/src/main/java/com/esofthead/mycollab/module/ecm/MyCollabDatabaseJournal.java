@@ -21,6 +21,12 @@ import org.apache.jackrabbit.core.journal.DatabaseJournal;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class MyCollabDatabaseJournal extends DatabaseJournal {
 
 	public MyCollabDatabaseJournal() {
@@ -30,7 +36,6 @@ public class MyCollabDatabaseJournal extends DatabaseJournal {
 		this.setUrl(dbConfiguration.getDbUrl());
 		this.setUser(dbConfiguration.getUser());
 		this.setPassword(dbConfiguration.getPassword());
-		this.setSchemaObjectPrefix("ecm_journal");
 		this.setDatabaseType("mysql");
 	}
 }

@@ -25,10 +25,16 @@
         <property name="jdbcUrl" value="${db.url}" />
         <property name="username" value="${db.username}" />
         <property name="password" value="${db.password}" />
-        <property name="maxConnectionsPerPartition" value="50" />
-        <property name="minConnectionsPerPartition" value="10" />
+        <property name="idleConnectionTestPeriodInMinutes"
+            value="1" />
+        <property name="idleMaxAgeInMinutes" value="4" />
+        <property name="maxConnectionsPerPartition" value="30" />
+        <property name="minConnectionsPerPartition" value="1" />
         <property name="partitionCount" value="3" />
         <property name="acquireIncrement" value="5" />
+        <property name="statementsCacheSize" value="50" />
+        <property name="releaseHelperThreads" value="3" />
+        <property name="connectionTestStatement" value="SELECT 1" />
     </bean>
 
     <bean id="txManager"
@@ -43,6 +49,8 @@
         <property name="typeAliasesPackage" value="com.esofthead.mycollab" />
         <property name="typeAliasesSuperType"
             value="com.esofthead.mycollab.core.arguments.SearchCriteria" />
+        <property name="typeAliases"
+            value="com.esofthead.mycollab.core.persistence.VelocityDriverDeclare" />
         <property name="typeHandlersPackage" value="com.esofthead.mybatis.plugin.ext" />
         <property name="mapperLocations" value="classpath*:sqlMap/**/*.xml" />
     </bean>

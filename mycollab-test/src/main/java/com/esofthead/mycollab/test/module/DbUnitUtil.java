@@ -29,6 +29,12 @@ import org.dbunit.dataset.xml.FlatDtdDataSet;
 
 import com.esofthead.mycollab.test.DataSourceFactoryBean;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class DbUnitUtil {
 
 	public static void main(String[] args) throws Exception {

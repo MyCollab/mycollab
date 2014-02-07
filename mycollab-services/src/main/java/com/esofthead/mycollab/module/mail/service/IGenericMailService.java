@@ -23,6 +23,12 @@ import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface IGenericMailService extends IService {
 	void sendHTMLMail(String fromEmail, String fromName,
 			List<MailRecipientField> toEmail, List<MailRecipientField> ccEmail,

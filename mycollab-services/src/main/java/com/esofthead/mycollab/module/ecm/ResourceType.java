@@ -21,6 +21,7 @@ package com.esofthead.mycollab.module.ecm;
  * (Jackrabbit) and Dropbox integration.
  * 
  * @author MyCollab Ltd.
+ * @since 2.0
  * 
  */
 public enum ResourceType {

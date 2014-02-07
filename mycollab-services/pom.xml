@@ -100,19 +100,6 @@
             <artifactId>dropbox-core-sdk</artifactId>
             <version>[1.7,1.8)</version>
         </dependency>
-
-        <!-- Bonecp -->
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>0.8.0.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp-spring</artifactId>
-            <version>0.8.0.RELEASE</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>

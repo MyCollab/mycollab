@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.service;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import junit.framework.Assert;
 
@@ -40,9 +39,6 @@ import com.esofthead.mycollab.test.service.ServiceTest;
 
 @RunWith(MyCollabClassRunner.class)
 public class CampaignServiceTest extends ServiceTest {
-	static {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
 
 	@Autowired
 	protected CampaignService campaignService;

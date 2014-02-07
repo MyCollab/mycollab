@@ -26,39 +26,45 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.test.module.DbUnitModule;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class MyCollabClassRunner extends SpringJUnit4ClassRunner {
 
-    private List<MyCollabTestModule> testModules;
+	private List<MyCollabTestModule> testModules;
 
-    public MyCollabClassRunner(Class<?> clazz) throws InitializationError {
-        super(clazz);
-    }
+	public MyCollabClassRunner(Class<?> clazz) throws InitializationError {
+		super(clazz);
+	}
 
-    @Override
-    protected Statement methodInvoker(FrameworkMethod method, Object test) {
-        preInvokeMethod(method);
-        Statement methodInvoker = super.methodInvoker(method, test);
-        postInvokeMethod(method);
-        return methodInvoker;
-    }
+	@Override
+	protected Statement methodInvoker(FrameworkMethod method, Object test) {
+		preInvokeMethod(method);
+		Statement methodInvoker = super.methodInvoker(method, test);
+		postInvokeMethod(method);
+		return methodInvoker;
+	}
 
-    private void preInvokeMethod(FrameworkMethod method) {
-        testModules = new ArrayList<MyCollabTestModule>();
-        DataSet dataSetAnno = method.getAnnotation(DataSet.class);
-        if (dataSetAnno != null) {
-            DbUnitModule dbModule = new DbUnitModule();
-            dbModule.setHost(this.getTestClass().getJavaClass());
-            testModules.add(dbModule);
-        }
+	private void preInvokeMethod(FrameworkMethod method) {
+		testModules = new ArrayList<MyCollabTestModule>();
+		DataSet dataSetAnno = method.getAnnotation(DataSet.class);
+		if (dataSetAnno != null) {
+			DbUnitModule dbModule = new DbUnitModule();
+			dbModule.setHost(this.getTestClass().getJavaClass());
+			testModules.add(dbModule);
+		}
 
-        for (MyCollabTestModule module : testModules) {
-            module.setUp();
-        }
-    }
+		for (MyCollabTestModule module : testModules) {
+			module.setUp();
+		}
+	}
 
-    private void postInvokeMethod(FrameworkMethod method) {
-        for (MyCollabTestModule module : testModules) {
-            module.tearDown();
-        }
-    }
+	private void postInvokeMethod(FrameworkMethod method) {
+		for (MyCollabTestModule module : testModules) {
+			module.tearDown();
+		}
+	}
 }

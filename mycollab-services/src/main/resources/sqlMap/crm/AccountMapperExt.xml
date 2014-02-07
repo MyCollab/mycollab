@@ -13,150 +13,160 @@
 
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.accountname != null ">
-            <![CDATA[${searchCriteria.accountname.operation} m_crm_account.accountname LIKE '%${searchCriteria.accountname.value}%' ]]>
-        </if>
-        <if test="searchCriteria.assignUser != null">
-            <![CDATA[${searchCriteria.assignUser.operation} m_crm_account.assignUser = #{searchCriteria.assignUser.value}]]>
-        </if>
-        <if test="searchCriteria.assignUserName != null ">
-            <![CDATA[${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%']]>
-        </if>
-        <if test="searchCriteria.website != null">
-            <![CDATA[${searchCriteria.website.operation} m_crm_account.website like '%${searchCriteria.website.value}%']]>
-        </if>
-        <if test="searchCriteria.anyCity != null">
-            ${searchCriteria.anyCity.operation} (shippingCity
-            LIKE '%${searchCriteria.anyCity.value}%' OR city LIKE
-            '%${searchCriteria.anyCity.value}%')
-        </if>
-        <if test="searchCriteria.types != null">
-            ${searchCriteria.types.operation} m_crm_account.type IN
-            <foreach close=")" collection="searchCriteria.types.values"
-                item="type" open="(" separator=",">
-                #{type}
-            </foreach>
-        </if>
-        <if test="searchCriteria.industries != null">
-            ${searchCriteria.industries.operation}
+        <![CDATA[
+        #ifnotnull($_parameter.searchCriteria.accountname)
+            ${_parameter.searchCriteria.accountname.operation} m_crm_account.accountname LIKE '%${_parameter.searchCriteria.accountname.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUser)
+            ${_parameter.searchCriteria.assignUser.operation} m_crm_account.assignUser = @{_parameter.searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUserName)
+            ${_parameter.searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${_parameter.searchCriteria.assignUserName.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.website)
+            ${_parameter.searchCriteria.website.operation} m_crm_account.website LIKE '%${_parameter.searchCriteria.website.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyCity)
+             ${_parameter.searchCriteria.anyCity.operation} (shippingCity LIKE '%${_parameter.searchCriteria.anyCity.value}%' 
+                OR city LIKE '%${_parameter.searchCriteria.anyCity.value}%')
+        #end 
+        
+        #ifnotnull($_parameter.searchCriteria.anyPhone)
+             ${_parameter.searchCriteria.anyPhone.operation} (alternatePhone LIKE '%${_parameter.searchCriteria.anyPhone.value}%' 
+                OR phoneOffice LIKE '%${_parameter.searchCriteria.anyPhone.value}%')
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyAddress)
+            ${_parameter.searchCriteria.anyAddress.operation} (shippingAddress LIKE '%${_parameter.searchCriteria.anyAddress.value}%'
+                OR billingAddress LIKE '%${_parameter.searchCriteria.anyAddress.value}%')
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyMail)
+            ${_parameter.searchCriteria.anyMail.operation} email LIKE '%${_parameter.searchCriteria.anyMail.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.saccountid)
+            ${_parameter.searchCriteria.saccountid.operation} m_crm_account.sAccountId = @{_parameter.searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.types)
+            ${_parameter.searchCriteria.types.operation} m_crm_account.type IN
+            #repeat(${_parameter.searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.industries)
+            ${_parameter.searchCriteria.industries.operation}
             m_crm_account.industry IN
-            <foreach close=")" collection="searchCriteria.industries.values"
-                item="industry" open="(" separator=",">
-                #{industry}
-            </foreach>
-        </if>
-
-        <if test="searchCriteria.assignUsers != null">
-            ${searchCriteria.assignUsers.operation}
-            m_crm_account.assignuser IN
-            <foreach close=")" collection="searchCriteria.assignUsers.values"
-                item="user" open="(" separator=",">
-                #{user}
-            </foreach>
-        </if>
-
-        <if test="searchCriteria.anyPhone != null">
-            ${searchCriteria.anyPhone.operation} (alternatePhone
-            LIKE '%${searchCriteria.anyPhone.value}%' OR phoneOffice
-            LIKE '%${searchCriteria.anyPhone.value}%')
-        </if>
-
-        <if test="searchCriteria.anyAddress != null">
-            ${searchCriteria.anyAddress.operation}
-            (shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
-            OR billingAddress LIKE
-            '%${searchCriteria.anyAddress.value}%')
-        </if>
-
-        <if test="searchCriteria.anyMail != null">
-            ${searchCriteria.anyMail.operation}
-            m_crm_account.email LIKE '%${searchCriteria.anyMail.value}%'
-        </if>
-
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_crm_account.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.campaignId != null">
-            <![CDATA[
-            ${searchCriteria.campaignId.operation} 
+            #repeat(${_parameter.searchCriteria.industries.values} $industry "," "(" ")")
+                @{industry}
+            #end
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUsers)
+            ${_parameter.searchCriteria.assignUsers.operation}
+            m_crm_account.assignUser IN
+            #repeat(${_parameter.searchCriteria.assignUsers.values} $user "," "(" ")")
+                @{user}
+            #end
+        #end
+        
+         #ifnotnull($_parameter.searchCriteria.campaignId)
+            ${_parameter.searchCriteria.campaignId.operation} 
             (SELECT COUNT(*) 
                 FROM m_crm_campaign, m_crm_campaigns_accounts 
-                WHERE m_crm_campaign.id=#{searchCriteria.campaignId.value,jdbcType=NUMERIC} AND m_crm_account.id=m_crm_campaigns_accounts.accountId AND
-                    m_crm_campaigns_accounts.campaignId=#{searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0]]>
-        </if>
+                WHERE m_crm_campaign.id=@{_parameter.searchCriteria.campaignId.value,jdbcType=NUMERIC} 
+                    AND m_crm_account.id=m_crm_campaigns_accounts.accountId 
+                    AND m_crm_campaigns_accounts.campaignId=@{_parameter.searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0
+         #end
+         ]]>
     </sql>
 
     <sql id="queryTotalCountSearchCriteria">
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_crm_account.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.accountname != null">
-             <![CDATA[${searchCriteria.accountname.operation} m_crm_account.accountname LIKE '%${searchCriteria.accountname.value}%']]>
-        </if>
-        <if test="searchCriteria.assignUser != null"><![CDATA[${searchCriteria.assignUser.operation} m_crm_account.assignUser = #{searchCriteria.assignUser.value}]]>
-        </if>
-        <if test="searchCriteria.assignUserName != null"><![CDATA[${searchCriteria.assignUserName.operation}  
-            (SELECT COUNT(*)
-            FROM s_user
-            WHERE m_crm_account.assignUser = s_user.username AND
-                  (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'))>0]]>
-        </if>
-        <if test="searchCriteria.website != null"><![CDATA[${searchCriteria.website.operation} m_crm_account.website LiKE '%${searchCriteria.website.value}%']]>
-        </if>
-        <if test="searchCriteria.anyCity != null">
-            ${searchCriteria.anyCity.operation} (shippingCity
-            LIKE '%${searchCriteria.anyCity.value}%' OR city LIKE
-            '%${searchCriteria.anyCity.value}%')
-        </if>
-        <if test="searchCriteria.types != null">
-            ${searchCriteria.types.operation} m_crm_account.type IN
-            <foreach close=")" collection="searchCriteria.types.values"
-                item="type" open="(" separator=",">
-                #{type}
-            </foreach>
-        </if>
-        <if test="searchCriteria.industries != null">
-            ${searchCriteria.industries.operation}
-            m_crm_account.industry IN
-            <foreach close=")" collection="searchCriteria.industries.values"
-                item="industry" open="(" separator=",">
-                #{industry}
-            </foreach>
-        </if>
-        <if test="searchCriteria.anyPhone != null">
-            ${searchCriteria.anyPhone.operation} (alternatePhone
-            LIKE '%${searchCriteria.anyPhone.value}%' OR phoneOffice
-            LIKE '%${searchCriteria.anyPhone.value}%')
-        </if>
-        <if test="searchCriteria.anyAddress != null">
-            ${searchCriteria.anyAddress.operation}
-            (shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
-            OR billingAddress LIKE
-            '%${searchCriteria.anyAddress.value}%')
-        </if>
-        <if test="searchCriteria.anyMail != null">
-            ${searchCriteria.anyMail.operation} email LIKE
-            '%${searchCriteria.anyMail.value}%'
-        </if>
-        <if test="searchCriteria.assignUsers != null">
-            ${searchCriteria.assignUsers.operation}
-            m_crm_account.assignUser IN
-            <foreach close=")" collection="searchCriteria.assignUsers.values"
-                item="user" open="(" separator=",">
-                #{user}
-            </foreach>
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_crm_account.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.campaignId != null">
-            <![CDATA[
-            ${searchCriteria.campaignId.operation} 
+        <![CDATA[
+        #ifnotnull($_parameter.searchCriteria.id)
+            ${_parameter.searchCriteria.id.operation} m_crm_account.id ${_parameter.searchCriteria.id.compareOperator} @{_parameter.searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.accountname)
+            ${_parameter.searchCriteria.accountname.operation} m_crm_account.accountname LIKE '%${_parameter.searchCriteria.accountname.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUser)
+            ${_parameter.searchCriteria.assignUser.operation} m_crm_account.assignUser = @{_parameter.searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUserName)
+            ${_parameter.searchCriteria.assignUserName.operation}
+             (SELECT COUNT(*)
+                FROM s_user
+                WHERE m_crm_account.assignUser = s_user.username AND
+                  (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${_parameter.searchCriteria.assignUserName.value}%'))>0
+        #end
+       
+        #ifnotnull($_parameter.searchCriteria.website)
+            ${_parameter.searchCriteria.website.operation} m_crm_account.website LIKE '%${_parameter.searchCriteria.website.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyCity)
+             ${_parameter.searchCriteria.anyCity.operation} (shippingCity LIKE '%${_parameter.searchCriteria.anyCity.value}%' 
+                OR city LIKE '%${_parameter.searchCriteria.anyCity.value}%')
+        #end 
+        
+        #ifnotnull($_parameter.searchCriteria.anyPhone)
+             ${_parameter.searchCriteria.anyPhone.operation} (alternatePhone LIKE '%${_parameter.searchCriteria.anyPhone.value}%' 
+                OR phoneOffice LIKE '%${_parameter.searchCriteria.anyPhone.value}%')
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyAddress)
+            ${_parameter.searchCriteria.anyAddress.operation} (shippingAddress LIKE '%${_parameter.searchCriteria.anyAddress.value}%'
+                OR billingAddress LIKE '%${_parameter.searchCriteria.anyAddress.value}%')
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.anyMail)
+            ${_parameter.searchCriteria.anyMail.operation} email LIKE '%${_parameter.searchCriteria.anyMail.value}%'
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.saccountid)
+            ${_parameter.searchCriteria.saccountid.operation} m_crm_account.sAccountId = @{_parameter.searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.campaignId)
+            ${_parameter.searchCriteria.campaignId.operation} 
             (SELECT COUNT(*) 
                 FROM m_crm_campaign, m_crm_campaigns_accounts 
-                WHERE m_crm_campaign.id=#{searchCriteria.campaignId.value,jdbcType=NUMERIC} AND m_crm_account.id=m_crm_campaigns_accounts.accountId AND
-                    m_crm_campaigns_accounts.campaignId=#{searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0]]>
-        </if>
+                WHERE m_crm_campaign.id=@{_parameter.searchCriteria.campaignId.value,jdbcType=NUMERIC} AND m_crm_account.id=m_crm_campaigns_accounts.accountId AND
+                    m_crm_campaigns_accounts.campaignId=@{_parameter.searchCriteria.campaignId.value,jdbcType=NUMERIC}) > 0
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.types)
+            ${_parameter.searchCriteria.types.operation} m_crm_account.type IN
+            #repeat(${_parameter.searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.industries)
+            ${_parameter.searchCriteria.industries.operation}
+            m_crm_account.industry IN
+            #repeat(${_parameter.searchCriteria.industries.values} $industry "," "(" ")")
+                @{industry}
+            #end
+        #end
+        
+        #ifnotnull($_parameter.searchCriteria.assignUsers)
+            ${_parameter.searchCriteria.assignUsers.operation}
+            m_crm_account.assignUser IN
+            #repeat(${_parameter.searchCriteria.assignUsers.values} $user "," "(" ")")
+                @{user}
+            #end
+        #end
+        ]]>
     </sql>
 
     <sql id="selectSimpleAccount">
@@ -176,101 +186,102 @@
     </sql>
 
     <sql id="orderStatement">
-        ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
         <![CDATA[
-            m_crm_account.lastUpdatedTime DESC
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_crm_account.lastUpdatedTime DESC
         ]]>
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="AccountSearchCriteria"
-        resultMap="SimpleAccountResult">
+        resultMap="SimpleAccountResult" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.selectSimpleAccount" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 1=1
                 <include
                     refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+            #end
+        #end
+        <include refid="orderStatement" />
     </select>
 
     <select id="getTotalCount" parameterType="AccountSearchCriteria"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_account
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 1=1
                 <include
                     refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="AccountSearchCriteria">
+    <delete id="removeByCriteria" parameterType="AccountSearchCriteria" lang="velocity">
         DELETE FROM m_crm_account
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 1=1
                 <include
                     refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </delete>
 
     <select id="findById" parameterType="java.lang.Integer"
-        resultMap="SimpleAccountResult">
+        resultMap="SimpleAccountResult" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.selectSimpleAccount" />
 
-        WHERE m_crm_account.id=#{accountId, jdbcType=NUMERIC}
+        WHERE m_crm_account.id=@{accountId, jdbcType=NUMERIC}
     </select>
     
     <select id="findAccountAssoWithConvertedLead" parameterType="java.lang.Integer"
-        resultMap="SimpleAccountResult">
+        resultMap="SimpleAccountResult" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.selectSimpleAccount" />
 
-        INNER JOIN m_crm_accounts_leads ON (m_crm_accounts_leads.isConvertRel=1 AND m_crm_accounts_leads.accountId= m_crm_account.id
-            AND m_crm_accounts_leads.leadId=#{leadId, jdbcType=NUMERIC})
+        INNER JOIN m_crm_accounts_leads ON (m_crm_accounts_leads.isConvertRel=1 
+            AND m_crm_accounts_leads.accountId= m_crm_account.id
+            AND m_crm_accounts_leads.leadId=@{leadId, jdbcType=NUMERIC})
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"  lang="velocity">
         SELECT MIN(id) FROM m_crm_account
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #trim("WHERE" "AND|OR")
             1=1
             <include
                 refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer"  lang="velocity">
         SELECT MAX(id) FROM m_crm_account
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #trim("WHERE" "AND|OR")
             1=1
             <include
                 refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #end
     </select>
 
     <!-- Here for Mass Update -->
-    <update id="updateBySearchCriteria" parameterType="map">
+    <update id="updateBySearchCriteria" parameterType="map"  lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 1=1
                 <include
                     refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </update>
 </mapper>

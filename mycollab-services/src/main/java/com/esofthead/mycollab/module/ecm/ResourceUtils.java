@@ -32,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * Utility class of processing MyCollab resources.
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 public class ResourceUtils {

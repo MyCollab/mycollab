@@ -45,134 +45,122 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class DynaFormLayout implements IFormLayoutFactory {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static Logger log = LoggerFactory.getLogger(DynaFormLayout.class);
+	private static Logger log = LoggerFactory.getLogger(DynaFormLayout.class);
 
-    private DynaForm dynaForm;
+	private DynaForm dynaForm;
 
-    private VerticalLayout layout;
+	private VerticalLayout layout;
 
-    private Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
-    private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
+	private Map<String, AbstractDynaField> fieldMappings = new HashMap<String, AbstractDynaField>();
+	private Map<DynaSection, GridFormLayoutHelper> sectionMappings;
 
-    public DynaFormLayout(String moduleName, DynaForm defaultForm) {
-        MasterFormService formService = ApplicationContextUtil
-                .getSpringBean(MasterFormService.class);
-        DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
-                moduleName);
+	public DynaFormLayout(String moduleName, DynaForm defaultForm) {
+		MasterFormService formService = ApplicationContextUtil
+				.getSpringBean(MasterFormService.class);
+		DynaForm form = formService.findCustomForm(AppContext.getAccountId(),
+				moduleName);
 
-        if (form != null) {
-            this.dynaForm = form;
-        } else {
-            this.dynaForm = defaultForm;
-        }
+		if (form != null) {
+			this.dynaForm = form;
+		} else {
+			this.dynaForm = defaultForm;
+		}
 
-        log.debug("Fill fields of originSection to map field");
+		log.debug("Fill fields of originSection to map field");
 
-        int sectionCount = dynaForm.getSectionCount();
-        for (int i = 0; i < sectionCount; i++) {
-            DynaSection section = dynaForm.getSection(i);
-            if (section.isDeletedSection()) {
-                continue;
-            }
-            int fieldCount = section.getFieldCount();
-            for (int j = 0; j < fieldCount; j++) {
-                AbstractDynaField dynaField = section.getField(j);
-                if (dynaField.isCustom()) {
-                    fieldMappings.put(
-                            "customfield." + dynaField.getFieldName(),
-                            dynaField);
-                } else {
-                    fieldMappings.put(dynaField.getFieldName(), dynaField);
-                }
+		int sectionCount = dynaForm.getSectionCount();
+		for (int i = 0; i < sectionCount; i++) {
+			DynaSection section = dynaForm.getSection(i);
+			if (section.isDeletedSection()) {
+				continue;
+			}
+			int fieldCount = section.getFieldCount();
+			for (int j = 0; j < fieldCount; j++) {
+				AbstractDynaField dynaField = section.getField(j);
+				if (dynaField.isCustom()) {
+					fieldMappings.put(
+							"customfield." + dynaField.getFieldName(),
+							dynaField);
+				} else {
+					fieldMappings.put(dynaField.getFieldName(), dynaField);
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    public boolean isVisibleProperty(Object propertyId) {
-        return fieldMappings.containsKey(propertyId);
-    }
+	public boolean isVisibleProperty(Object propertyId) {
+		return fieldMappings.containsKey(propertyId);
+	}
 
-    @Override
-    public Layout getLayout() {
-        layout = new VerticalLayout();
-        int sectionCount = dynaForm.getSectionCount();
-        sectionMappings = new HashMap<DynaSection, GridFormLayoutHelper>();
+	@Override
+	public Layout getLayout() {
+		layout = new VerticalLayout();
+		int sectionCount = dynaForm.getSectionCount();
+		sectionMappings = new HashMap<DynaSection, GridFormLayoutHelper>();
 
-        for (int i = 0; i < sectionCount; i++) {
-            DynaSection section = dynaForm.getSection(i);
-            if (section.isDeletedSection()) {
-                continue;
-            }
-            Label header = new Label(section.getHeader());
-            header.setStyleName("h2");
-            layout.addComponent(header);
+		for (int i = 0; i < sectionCount; i++) {
+			DynaSection section = dynaForm.getSection(i);
+			if (section.isDeletedSection()) {
+				continue;
+			}
+			Label header = new Label(section.getHeader());
+			header.setStyleName("h2");
+			layout.addComponent(header);
 
-            GridFormLayoutHelper gridLayout;
+			GridFormLayoutHelper gridLayout;
 
-            if (section.isDeletedSection() || section.getFieldCount() == 0) {
-                continue;
-            }
+			if (section.isDeletedSection() || section.getFieldCount() == 0) {
+				continue;
+			}
 
-            if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-                gridLayout = new GridFormLayoutHelper(2,
-                        section.getFieldCount(), "100%", "167px",
-                        Alignment.MIDDLE_LEFT);
-            } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-                gridLayout = new GridFormLayoutHelper(2,
-                        (section.getFieldCount() + 3) / 2, "100%", "167px",
-                        Alignment.MIDDLE_LEFT);
-            } else {
-                throw new MyCollabException(
-                        "Does not support attachForm layout except 1 or 2 columns");
-            }
+			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+				gridLayout = new GridFormLayoutHelper(2,
+						section.getFieldCount(), "100%", "167px",
+						Alignment.MIDDLE_LEFT);
+			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+				gridLayout = new GridFormLayoutHelper(2,
+						(section.getFieldCount() + 3) / 2, "100%", "167px",
+						Alignment.MIDDLE_LEFT);
+			} else {
+				throw new MyCollabException(
+						"Does not support attachForm layout except 1 or 2 columns");
+			}
 
-            gridLayout.getLayout().setWidth("100%");
-            gridLayout.getLayout().setMargin(false);
-            gridLayout.getLayout().setSpacing(false);
-            gridLayout.getLayout().addStyleName("colored-gridlayout");
-            layout.addComponent(gridLayout.getLayout());
+			gridLayout.getLayout().setWidth("100%");
+			gridLayout.getLayout().setMargin(false);
+			gridLayout.getLayout().setSpacing(false);
+			gridLayout.getLayout().addStyleName("colored-gridlayout");
+			layout.addComponent(gridLayout.getLayout());
 
-            sectionMappings.put(section, gridLayout);
-        }
-        return layout;
-    }
+			sectionMappings.put(section, gridLayout);
+		}
+		return layout;
+	}
 
-    @Override
-    public boolean attachField(Object propertyId, Field<?> field) {
-        AbstractDynaField dynaField = fieldMappings.get(propertyId);
-        if (dynaField != null) {
-            log.debug("Attach prop {}", propertyId);
-            DynaSection section = dynaField.getOwnSection();
-            GridFormLayoutHelper gridLayout = sectionMappings.get(section);
+	@Override
+	public boolean attachField(Object propertyId, Field<?> field) {
+		AbstractDynaField dynaField = fieldMappings.get(propertyId);
+		if (dynaField != null) {
+			DynaSection section = dynaField.getOwnSection();
+			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
 
-            if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-                log.debug(
-                        "Put field {} of section {} to grid layout at column, row {}, {}",
-                        new Object[] { dynaField.getDisplayName(),
-                                section.getHeader(), 0,
-                                dynaField.getFieldIndex() });
-                gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
-                        dynaField.getFieldIndex(), 2, "100%",
-                        Alignment.MIDDLE_LEFT);
-            } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-                log.debug(
-                        "Put field {} of section {} to grid layout at column, row {}, {}",
-                        new Object[] { dynaField.getDisplayName(),
-                                section.getHeader(),
-                                dynaField.getFieldIndex() % 2,
-                                dynaField.getFieldIndex() / 2 });
-                gridLayout.addComponent(field, dynaField.getDisplayName(),
-                        dynaField.getFieldIndex() % 2,
-                        dynaField.getFieldIndex() / 2);
-            }
+			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+				gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
+						dynaField.getFieldIndex(), 2, "100%",
+						Alignment.MIDDLE_LEFT);
+			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+				gridLayout.addComponent(field, dynaField.getDisplayName(),
+						dynaField.getFieldIndex() % 2,
+						dynaField.getFieldIndex() / 2);
+			}
 
-            return true;
+			return true;
 
-        }
+		}
 
-        return false;
-    }
+		return false;
+	}
 }

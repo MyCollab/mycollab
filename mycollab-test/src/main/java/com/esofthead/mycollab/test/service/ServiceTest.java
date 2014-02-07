@@ -17,11 +17,15 @@
 
 package com.esofthead.mycollab.test.service;
 
+import java.util.TimeZone;
+
+import org.joda.time.DateTimeZone;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @ContextConfiguration(locations = {
 		"classpath:META-INF/spring/common-context.xml",
@@ -34,5 +38,8 @@ import org.springframework.test.context.ContextConfiguration;
 		"classpath:META-INF/spring-test/datasource-context-test.xml",
 		"classpath:META-INF/spring-test/service-context-test.xml" })
 public class ServiceTest {
-
+	static {
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		DateTimeZone.setDefault(DateTimeZone.UTC);
+	}
 }

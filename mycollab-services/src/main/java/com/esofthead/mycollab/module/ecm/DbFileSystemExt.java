@@ -25,6 +25,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
  * Db file system of mycollab jackrabbit stora
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 public class DbFileSystemExt extends DbFileSystem {
@@ -37,6 +38,5 @@ public class DbFileSystemExt extends DbFileSystem {
 		this.url = dbConfiguration.getDbUrl();
 		this.user = dbConfiguration.getUser();
 		this.password = dbConfiguration.getPassword();
-		this.schemaObjectPrefix = "ecm_s_";
 	}
 }

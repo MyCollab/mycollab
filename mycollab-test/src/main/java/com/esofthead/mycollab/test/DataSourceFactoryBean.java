@@ -16,22 +16,26 @@
  */
 package com.esofthead.mycollab.test;
 
-import java.io.InputStream;
-import java.util.Properties;
-
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
+import com.jolbox.bonecp.BoneCPDataSource;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 
 	private static Logger log = LoggerFactory
 			.getLogger(DataSourceFactoryBean.class);
 
-	private BasicDataSource dataSource;
+	private BoneCPDataSource dataSource;
 
 	public DataSource getDataSource() {
 		try {
@@ -43,28 +47,20 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 
 	@Override
 	protected DataSource createInstance() throws Exception {
-		InputStream stream = DataSourceFactoryBean.class.getClassLoader()
-				.getResourceAsStream("mycollab-test.properties");
-		if (stream == null) {
-			stream = DataSourceFactoryBean.class.getClassLoader()
-					.getResourceAsStream("default-mycollab-test.properties");
-		}
-
-		Properties props = new Properties();
-		if (stream != null) {
-			props.load(stream);
-		}
-
-		log.debug("Use database settings is: " + props);
-
-		dataSource = new BasicDataSource();
-		dataSource.setDriverClassName(props.getProperty("db.driverClassName",
-				"com.mysql.jdbc.Driver"));
-		dataSource.setUrl(props.getProperty("db.url",
-				"jdbc:mysql://localhost/mycollab_test?autoReconnect=true"));
-		dataSource.setUsername(props.getProperty("db.username", "root"));
-		dataSource
-				.setPassword(props.getProperty("db.password", "esofthead321"));
+		TestDbConfiguration dbConf = new TestDbConfiguration();
+		dataSource = new BoneCPDataSource();
+		dataSource.setDriverClass(dbConf.getDriverClassName());
+		dataSource.setJdbcUrl(dbConf.getJdbcUrl());
+		dataSource.setUsername(dbConf.getUsername());
+		dataSource.setPassword(dbConf.getPassword());
+		dataSource.setIdleConnectionTestPeriodInMinutes(1);
+		dataSource.setIdleMaxAgeInMinutes(4);
+		dataSource.setMaxConnectionsPerPartition(5);
+		dataSource.setMinConnectionsPerPartition(1);
+		dataSource.setPoolAvailabilityThreshold(5);
+		dataSource.setPartitionCount(1);
+		dataSource.setAcquireIncrement(3);
+		dataSource.setConnectionTestStatement("SELECT 1");
 		return dataSource;
 	}
 

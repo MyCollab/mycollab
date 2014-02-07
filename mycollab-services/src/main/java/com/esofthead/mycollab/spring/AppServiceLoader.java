@@ -28,7 +28,8 @@ import org.springframework.core.io.Resource;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 2.0
+ * 
  */
 @Configuration
 public class AppServiceLoader {

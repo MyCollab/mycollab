@@ -25,6 +25,7 @@ import org.apache.tika.Tika;
  * Utility class mainly used to detect mimetype of file upload to MyCollab
  * 
  * @author MyCollab Ltd.
+ * @since 2.0
  * 
  */
 public class MimeTypesUtil {

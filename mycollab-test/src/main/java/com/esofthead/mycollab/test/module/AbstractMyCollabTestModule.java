@@ -18,10 +18,16 @@ package com.esofthead.mycollab.test.module;
 
 import com.esofthead.mycollab.test.MyCollabTestModule;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public abstract class AbstractMyCollabTestModule implements MyCollabTestModule {
-    protected Class host;
+	protected Class host;
 
-    public void setHost(Class host) {
-        this.host = host;
-    }
+	public void setHost(Class host) {
+		this.host = host;
+	}
 }

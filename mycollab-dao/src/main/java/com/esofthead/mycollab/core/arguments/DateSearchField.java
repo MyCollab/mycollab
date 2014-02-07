@@ -46,11 +46,11 @@ public class DateSearchField extends SearchField {
 		this(oper, DateTimeSearchField.LESSTHAN, value);
 	}
 
-	public DateSearchField(String oper, String comparision, Date value) {
+	public DateSearchField(String oper, String comparision, Date dateVal) {
 		this.operation = oper;
 		this.comparision = comparision;
 		this.value = DateTimeUtils.trimHMSOfDate(DateTimeUtils
-				.convertTimeFromSystemTimezoneToUTC(value.getTime()));
+				.convertTimeFromSystemTimezoneToUTC(dateVal.getTime()));
 	}
 
 	public Date getValue() {

@@ -22,6 +22,7 @@ import javax.jcr.Node;
  * Utility class relate to jackrabbit node processing.
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 public class NodesUtil {

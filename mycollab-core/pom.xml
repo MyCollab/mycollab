@@ -13,6 +13,11 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-test</artifactId>
+            <version>3.0.0 </version>
+        </dependency>
+        <dependency>
             <groupId>com.mortennobel</groupId>
             <artifactId>java-image-scaling</artifactId>
             <version>0.8.5</version>
@@ -55,15 +60,9 @@
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
         </dependency>
-        <!-- 
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        -->
+        <!-- <dependency> <groupId>javax.validation</groupId> <artifactId>validation-api</artifactId> 
+            <version>1.0.0.GA</version> <classifier>sources</classifier> <scope>provided</scope> 
+            </dependency> -->
 
         <!-- Camel dependency -->
         <dependency>

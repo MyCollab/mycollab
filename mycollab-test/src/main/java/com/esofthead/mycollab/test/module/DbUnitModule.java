@@ -21,12 +21,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import javax.sql.DataSource;
-
 import junit.framework.Assert;
 
-import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.IDatabaseTester;
+import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -34,24 +32,21 @@ import org.dbunit.operation.DatabaseOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.test.DataSourceFactoryBean;
+import com.esofthead.mycollab.test.TestDbConfiguration;
 import com.esofthead.mycollab.test.TestException;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public final class DbUnitModule extends AbstractMyCollabTestModule {
-
-	private DataSource dataSource;
-
 	private static Logger log = LoggerFactory.getLogger(DbUnitModule.class);
 
 	private IDatabaseTester databaseTester;
 
 	public void setUp() {
-		try {
-			this.dataSource = (DataSource) new DataSourceFactoryBean()
-					.getDataSource();
-		} catch (Exception e1) {
-			throw new RuntimeException("Error while getting data source", e1);
-		}
 
 		// Load dataset from xml file
 		IDataSet dataSet = null;
@@ -83,7 +78,10 @@ public final class DbUnitModule extends AbstractMyCollabTestModule {
 		}
 
 		try {
-			this.databaseTester = new DataSourceDatabaseTester(this.dataSource);
+			TestDbConfiguration dbConf = new TestDbConfiguration();
+			this.databaseTester = new JdbcDatabaseTester(
+					dbConf.getDriverClassName(), dbConf.getJdbcUrl(),
+					dbConf.getUsername(), dbConf.getPassword());
 			this.databaseTester
 					.getConnection()
 					.getConfig()
