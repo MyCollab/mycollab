@@ -28,7 +28,7 @@ MyCollab is an online system comprising project management, CRM and document man
     </td>
     <td align="center">
       <a href="http://farm4.staticflickr.com/3828/9407988736_693119b2f5_o.png" target="_blank" title=“View Account”>
-        <img src="http://farm4.staticflickr.com/3828/9407988736_0da49397fd_t.jpg.png" alt=“View Account“>
+        <img src="http://farm4.staticflickr.com/3828/9407988736_0da49397fd_t.jpg" alt=“View Account“>
       </a>
       <br />
       <em>View Account</em>
