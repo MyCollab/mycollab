@@ -26,6 +26,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 /**
  * Utility class for processing class meta data.
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class ClassUtils {
 	/**

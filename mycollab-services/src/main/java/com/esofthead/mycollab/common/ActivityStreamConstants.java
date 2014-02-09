@@ -16,9 +16,15 @@
  */
 package com.esofthead.mycollab.common;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ActivityStreamConstants {
 
-    public static final String MODULE_CRM = "Crm";
-    public static final String ACTION_CREATE = "create";
-    public static final String ACTION_UPDATE = "update";
+	public static final String MODULE_CRM = "Crm";
+	public static final String ACTION_CREATE = "create";
+	public static final String ACTION_UPDATE = "update";
 }

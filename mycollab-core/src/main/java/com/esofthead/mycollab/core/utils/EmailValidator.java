@@ -22,7 +22,8 @@ import java.util.regex.Pattern;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  */
 public class EmailValidator {
 

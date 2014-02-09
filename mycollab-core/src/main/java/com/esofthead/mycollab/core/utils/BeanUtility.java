@@ -22,6 +22,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Utility class to print bean properties. This class is used for debug purpose
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
  */
 public class BeanUtility {
 

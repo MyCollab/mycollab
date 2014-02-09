@@ -31,6 +31,8 @@ import com.mortennobel.imagescaling.ResampleOp;
 /**
  * Utility class to process image
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class ImageUtil {
 	private static Logger log = LoggerFactory.getLogger(ImageUtil.class);

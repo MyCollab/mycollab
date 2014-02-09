@@ -21,6 +21,8 @@ import org.jsoup.Jsoup;
 /**
  * Utility class to process string
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class StringUtils {
 	public static String subString(String input, int length) {
@@ -106,8 +108,8 @@ public class StringUtils {
 			return str;
 		}
 	}
-	
-	public static String getStringRemoveHtmlTag(Object o){
+
+	public static String getStringRemoveHtmlTag(Object o) {
 		if (o == null) {
 			return "";
 		} else {

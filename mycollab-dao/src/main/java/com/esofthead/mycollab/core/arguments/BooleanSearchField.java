@@ -35,7 +35,7 @@ package com.esofthead.mycollab.core.arguments;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
  */
 public class BooleanSearchField extends SearchField {
 
@@ -44,7 +44,7 @@ public class BooleanSearchField extends SearchField {
 	private boolean value;
 
 	private String comparision;
-	
+
 	public BooleanSearchField() {
 		this(false);
 	}

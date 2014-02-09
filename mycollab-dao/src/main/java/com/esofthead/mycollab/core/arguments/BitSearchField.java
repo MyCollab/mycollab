@@ -35,34 +35,35 @@ package com.esofthead.mycollab.core.arguments;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 
 /**
- *
+ * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class BitSearchField extends NumberSearchField {
-    public static final BitSearchField TRUE = new BitSearchField(AND, 1);
-    public static final BitSearchField FALSE = new BitSearchField(AND, 0);
-    
-    public BitSearchField() {
-    	this(AND, 0);
-    }
-    
-    public BitSearchField(Number value) {
-        this(SearchField.AND, value, EQUAL);
-    }
+	public static final BitSearchField TRUE = new BitSearchField(AND, 1);
+	public static final BitSearchField FALSE = new BitSearchField(AND, 0);
 
-    public BitSearchField(String oper, Number value) {
-        this(oper, value, EQUAL);
-    }
-    
-    public BitSearchField(Number value, String compareOperator) {
-        this(SearchField.AND, value, compareOperator);
-    }
+	public BitSearchField() {
+		this(AND, 0);
+	}
 
-    public BitSearchField(String oper, Number value, String compareOperator) {
-        super(oper, value, compareOperator);
-    }
-    
-    public String toString() {
+	public BitSearchField(Number value) {
+		this(SearchField.AND, value, EQUAL);
+	}
+
+	public BitSearchField(String oper, Number value) {
+		this(oper, value, EQUAL);
+	}
+
+	public BitSearchField(Number value, String compareOperator) {
+		this(SearchField.AND, value, compareOperator);
+	}
+
+	public BitSearchField(String oper, Number value, String compareOperator) {
+		super(oper, value, compareOperator);
+	}
+
+	public String toString() {
 		return BeanUtility.printBeanObj(this);
 	}
 }

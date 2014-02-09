@@ -37,7 +37,7 @@ import java.util.Date;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
  */
 public class RangeDateTimeSearchField extends SearchField {
 	protected Date from;

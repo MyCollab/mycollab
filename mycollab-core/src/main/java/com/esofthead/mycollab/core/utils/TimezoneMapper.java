@@ -23,6 +23,8 @@ import java.util.TimeZone;
 /**
  * Class keep all timezones of system
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class TimezoneMapper {
 	public static Map<String, TimezoneExt> timeMap;

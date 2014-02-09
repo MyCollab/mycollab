@@ -1,15 +1,62 @@
-# MyCollab
-
-## Introduction
+# MyCollab CRM, Project and Document Management
+ 
+## An open source, Java CRM, Project and Document Management Platform
 MyCollab is an online system comprising project management, CRM and document management that helps manage your team, projects, tasks, assignments, customers and documents. It is specially designed for companies who are involved in lots of projects dealing with remote teams. MyCollab removes the hassle of tracking large email threads, going back and forth. It manages all of your project documents, images, tasks, bugs and risks in one place and easier to find. MyCollab help teams to plan, monitor and control their projects quickly, cost-effectively and efficiently. In addition, it assists you to increase sales and keep in touch with your value customers. You can use sales information from customers records to finely tune your marketing campaigns. CRM system helps salespeople to identify various trends in their customers behavior it can assist them when selling products.
 
+<table>
+  <tr>
+    <td align="center">
+      <a href="http://farm6.staticflickr.com/5441/9407986524_f665fca815_o.png" target="_blank" title=“Project Dashboard”>
+        <img src="http://farm6.staticflickr.com/5441/9407986524_ac64a1ba46_t.jpg" alt=“Project Dashboard”>
+      </a>
+      <br />
+      <em>Project Dashboard</em>
+    </td>
+    <td align="center">
+      <a href="http://farm4.staticflickr.com/3723/10020843993_a8c7a00f06_o.png" target="_blank" title=“Bug Dashboard”>
+        <img src="http://farm4.staticflickr.com/3723/10020843993_b19b7e2be9_t.jpg" alt=“Bug Dashboard>
+      </a>
+      <br />
+      <em>Bug Dashboard</em>
+    </td>
+    <td align="center">
+      <a href="http://farm8.staticflickr.com/7396/10020730193_3784b74850_o.png" target="_blank" title=“Crm Dashboard”>
+        <img src="http://farm8.staticflickr.com/7396/10020730193_c184e9f9bc_t.jpg" alt=“Crm Dashboard“>
+      </a>
+      <br />
+      <em>Crm Dashboard</em>
+    </td>
+    <td align="center">
+      <a href="http://farm4.staticflickr.com/3828/9407988736_693119b2f5_o.png" target="_blank" title=“View Account”>
+        <img src="http://farm4.staticflickr.com/3828/9407988736_0da49397fd_t.jpg.png" alt=“View Account“>
+      </a>
+      <br />
+      <em>View Account</em>
+    </td>
+  </tr>
+</table>
+
+More MyCollab’s screenshots could be viewed at here http://www.flickr.com/photos/34441795@N06/sets/72157634867411915/
+
+New features, enhancements, and updates appear on regular basis.
+
+Pull requests and bug reports are always welcome!
+
+Visit our website at http://www.mycollab.com/
+
 ## History
-MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we think there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
+We start development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we think there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
 
 You can try MyCollab on-demand edition on site http://www.mycollab.com
 
 ## Document
-MyCollab is documented at http://wiki.mycollab.com
+MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
+* Installation http://wiki.mycollab.com/Installation_Guideline
+* Configuration http://wiki.mycollab.com/Configuration
+
+If you want to customize MyCollab:
+* Setup MyCollab in Eclipse workspace http://wiki.mycollab.com/Set_up_Eclipse_workspace
+* Start customize MyCollab http://wiki.mycollab.com/How_to_customize_MyCollab
 
 ## Contact
 Contact the MyCollab team at:

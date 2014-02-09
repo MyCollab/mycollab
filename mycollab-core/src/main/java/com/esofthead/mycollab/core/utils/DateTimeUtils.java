@@ -34,6 +34,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 /**
  * Utility class to process date instance
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class DateTimeUtils {
 	private static Logger log = LoggerFactory.getLogger(DateTimeUtils.class);
