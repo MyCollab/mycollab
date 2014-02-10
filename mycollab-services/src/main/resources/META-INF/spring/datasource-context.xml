@@ -32,8 +32,7 @@
         <property name="minConnectionsPerPartition" value="1" />
         <property name="partitionCount" value="3" />
         <property name="acquireIncrement" value="5" />
-        <property name="statementsCacheSize" value="50" />
-        <property name="releaseHelperThreads" value="3" />
+        <property name="statementsCacheSize" value="500" />
         <property name="connectionTestStatement" value="SELECT 1" />
     </bean>
 

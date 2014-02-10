@@ -33,11 +33,11 @@ public class AccountSearchCriteria extends SearchCriteria {
 	private StringSearchField accountname;
 	private StringSearchField assignUser;
 	private StringSearchField assignUserName;
-	private StringSearchField anyCity;
 	private StringSearchField website;
 	private SetSearchField<String> types;
 	private SetSearchField<String> industries;
 	private SetSearchField<String> assignUsers;
+	private StringSearchField anyCity;
 	private StringSearchField anyPhone;
 	private StringSearchField anyAddress;
 	private StringSearchField anyMail;

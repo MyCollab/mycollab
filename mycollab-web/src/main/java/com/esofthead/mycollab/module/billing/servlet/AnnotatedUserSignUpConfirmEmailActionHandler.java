@@ -41,7 +41,8 @@ import com.esofthead.mycollab.servlet.GenericServlet;
  * 
  */
 @Component("userconfirmsignupServlet")
-public class AnnotatedUserSignUpConfirmEmailActionHandler extends GenericServlet {
+public class AnnotatedUserSignUpConfirmEmailActionHandler extends
+		GenericServlet {
 
 	@Autowired
 	private UserService userServices;
@@ -68,9 +69,7 @@ public class AnnotatedUserSignUpConfirmEmailActionHandler extends GenericServlet
 					if (user != null) {
 						user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
 						userServices.updateWithSession(user, username);
-						request.getRequestDispatcher(
-								request.getContextPath() + "/").forward(
-								request, response);
+						response.sendRedirect(request.getContextPath() + "/");
 						return;
 					} else {
 						PageUserNotExistGenerator.responeUserNotExistPage(

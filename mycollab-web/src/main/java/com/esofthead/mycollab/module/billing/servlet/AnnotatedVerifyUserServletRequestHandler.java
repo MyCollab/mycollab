@@ -141,10 +141,8 @@ public class AnnotatedVerifyUserServletRequestHandler extends GenericServlet {
 							log.debug("Forward user {} to page {}",
 									user.getUsername(),
 									request.getContextPath());
-							// redirect to account site
-							request.getRequestDispatcher(
-									request.getContextPath() + "/").forward(
-									request, response);
+							response.sendRedirect(request.getContextPath()
+									+ "/");
 							return;
 						} else {
 							// remove account invitation
@@ -179,9 +177,8 @@ public class AnnotatedVerifyUserServletRequestHandler extends GenericServlet {
 								userService.updateUserAccountStatus(username,
 										accountId,
 										RegisterStatusConstants.ACTIVE);
-								request.getRequestDispatcher(
-										request.getContextPath() + "/")
-										.forward(request, response);
+								response.sendRedirect(request.getContextPath()
+										+ "/");
 								return;
 							}
 						}
