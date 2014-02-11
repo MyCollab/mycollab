@@ -33,6 +33,12 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class AmazonRawContentServiceImpl implements RawContentService {
 
 	private S3StorageConfiguration storageConfiguration;
@@ -49,6 +55,7 @@ public class AmazonRawContentServiceImpl implements RawContentService {
 		try {
 			ObjectMetadata metaData = new ObjectMetadata();
 			metaData.setCacheControl("max-age=8640000");
+			metaData.setContentLength(stream.available());
 			PutObjectRequest request = new PutObjectRequest(
 					storageConfiguration.getBucket(), objectPath, stream,
 					metaData);

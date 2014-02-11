@@ -39,7 +39,7 @@ import com.vaadin.ui.Button.ClickListener;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 @ViewComponent
 public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
@@ -106,16 +106,17 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 			headPath = folderPath.substring(0, folderPath.indexOf("/"));
 			folderPath = folderPath.substring(folderPath.indexOf("/") + 1);
 			path = folderPath.split("/");
-		} else
+		} else {
 			path = folder.getPath().split("/");
+		}
 
 		final StringBuffer curPath = new StringBuffer("");
 		curPath.append(headPath);
 
 		boolean isNeedAdd3dot = (path.length > 6) ? true : false;
 		int holder = 0;
-		if (folder instanceof ExternalFolder && path.length == 0) { // home
-																	// folder
+		// Home folder
+		if (folder instanceof ExternalFolder && path.length == 0) {
 			Button btn = new Button(((ExternalFolder) folder)
 					.getExternalDrive().getFoldername());
 			btn.addClickListener(new Button.ClickListener() {
@@ -137,6 +138,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 			this.setLinkEnabled(true, 2);
 			return;
 		}
+
 		for (int i = 0; i < path.length; i++) {
 			String pathName = path[i];
 			if (i == 0) {
@@ -154,13 +156,13 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 			} else {
 				curPath.append("/").append(pathName);
 			}
+
 			if (!pathName.equals(AppContext.getAccountId().toString())
 					|| folder instanceof ExternalFolder) {
 				final Button btn = new Button();
 				if (pathName.length() > 25) {
 					btn.setCaption(pathName.substring(0, 20) + "...");
 				} else {
-
 					btn.setCaption(pathName);
 				}
 				btn.setDescription(pathName);
@@ -188,6 +190,7 @@ public class FileBreadcrumb extends Breadcrumb implements CacheableComponent,
 						notifySelectHandler(criteria);
 					}
 				});
+
 				if (i > 1 || folder instanceof ExternalFolder) {
 					int index = (folder instanceof ExternalFolder) ? i + 2 : i;
 					if (path.length <= 6) {

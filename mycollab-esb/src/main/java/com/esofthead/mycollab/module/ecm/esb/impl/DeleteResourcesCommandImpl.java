@@ -30,6 +30,12 @@ import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @Component
 public class DeleteResourcesCommandImpl implements DeleteResourcesCommand {
 

@@ -31,6 +31,12 @@ import com.esofthead.mycollab.module.ecm.domain.DriveInfo;
 import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @Component
 public class SaveContentCommandImpl implements SaveContentCommand {
 	private static Logger log = LoggerFactory

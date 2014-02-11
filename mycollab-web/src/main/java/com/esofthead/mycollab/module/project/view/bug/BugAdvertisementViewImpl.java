@@ -25,7 +25,6 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.BrowserFrame;
-import com.vaadin.ui.Embedded;
 
 /**
  * 

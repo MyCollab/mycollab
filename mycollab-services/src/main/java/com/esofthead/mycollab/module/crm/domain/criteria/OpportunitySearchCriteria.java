@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 public class OpportunitySearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
 	private StringSearchField opportunityName;
 	private StringSearchField accountName;

@@ -32,6 +32,12 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class FileRawContentServiceImpl implements RawContentService {
 
 	private static final int BUFFER_SIZE = 1024;

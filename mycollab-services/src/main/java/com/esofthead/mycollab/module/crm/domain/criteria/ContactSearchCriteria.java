@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 public class ContactSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
 	private StringSearchField contactName;
 	private StringSearchField accountName;

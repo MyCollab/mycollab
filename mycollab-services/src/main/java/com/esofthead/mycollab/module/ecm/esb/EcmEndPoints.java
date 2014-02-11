@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.ecm.esb;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class EcmEndPoints {
 
 	public static final String SAVE_CONTENT_ENDPOINT = "direct:saveContent";

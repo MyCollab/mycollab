@@ -1,4 +1,4 @@
-# MyCollab An open source Java CRM, Project and Document Management Platform
+# MyCollab an open source Java CRM, Project and Document Management Platform
  
 ## Introduction
 MyCollab is an online system comprising project management, CRM and document management that helps manage your team, projects, tasks, assignments, customers and documents. It is specially designed for companies who are involved in lots of projects dealing with remote teams. MyCollab removes the hassle of tracking large email threads, going back and forth. It manages all of your project documents, images, tasks, bugs and risks in one place and easier to find. MyCollab help teams to plan, monitor and control their projects quickly, cost-effectively and efficiently. In addition, it assists you to increase sales and keep in touch with your value customers. You can use sales information from customers records to finely tune your marketing campaigns. CRM system helps salespeople to identify various trends in their customers behavior it can assist them when selling products.

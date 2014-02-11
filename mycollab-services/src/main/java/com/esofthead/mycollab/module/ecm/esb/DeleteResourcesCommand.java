@@ -19,7 +19,8 @@ package com.esofthead.mycollab.module.ecm.esb;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  */
 public interface DeleteResourcesCommand {
 	/**

@@ -140,7 +140,7 @@ public class ResourceServiceImpl implements ResourceService {
 		contentActivityLogService.saveWithSession(activityLog, "");
 
 		DeleteResourcesCommand deleteResourcesCommand = new BeanProxyBuilder()
-				.build(EcmEndPoints.SAVE_CONTENT_ENDPOINT,
+				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
 						DeleteResourcesCommand.class);
 		deleteResourcesCommand.removeResource(path, deleteUser, sAccountId);
 	}

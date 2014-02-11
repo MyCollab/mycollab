@@ -25,8 +25,11 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class CallSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private SetSearchField<String> assignUsers;
 	private NumberSearchField id;
 	private BitSearchField isClosed;

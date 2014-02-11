@@ -39,6 +39,12 @@ import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.User;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @Service(value = "userAvatarService")
 public class UserAvatarServiceImpl implements UserAvatarService {
 	private static Logger log = LoggerFactory

@@ -27,7 +27,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  */
 @Component
 public class EcmRouteBuilder extends SpringRouteBuilder {
@@ -40,15 +41,18 @@ public class EcmRouteBuilder extends SpringRouteBuilder {
 				ExchangePattern.InOnly).to("seda:saveContent.queue");
 		from("seda:saveContent.queue")
 				.threads()
-				.bean(ApplicationContextUtil.getSpringBean(SaveContentCommand.class),
-						"saveContent(com.esofthead.mycollab.module.ecm.domain.Content, int, int)");
+				.bean(ApplicationContextUtil
+						.getSpringBean(SaveContentCommand.class),
+						"saveContent(com.esofthead.mycollab.module.ecm.domain.Content, String, int)");
 
 		log.debug("Configure contents deleted route");
 		from(EcmEndPoints.DELETE_RESOURCES_ENDPOINT).setExchangePattern(
 				ExchangePattern.InOnly).to("seda:deleteResources.queue");
-		from("seda:deleteResources.queue").threads().bean(
-				ApplicationContextUtil.getSpringBean(DeleteResourcesCommand.class),
-				"removeResource(String, String, int)");
+		from("seda:deleteResources.queue")
+				.threads()
+				.bean(ApplicationContextUtil
+						.getSpringBean(DeleteResourcesCommand.class),
+						"removeResource(String, String, int)");
 
 	}
 

@@ -3126,7 +3126,7 @@ div.v-lazyloadingwrapper-loading {
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
-	background: url(img/grad-light-top.png) repeat-x 0 0 rgb(169, 193, 229);
+	background: none no-repeat 0 0 rgb(169, 193, 229);
 	margin: -1px;
 	border: 1px solid rgb(45, 107, 165);
 }
@@ -5116,9 +5116,17 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	background-color: rgb(232, 160, 82);
 	color: white;
 	padding: 0px 10px;
-	display: table-cell;
+	display: inline-block;
 	vertical-align: middle;
 	cursor: pointer;
+}
+
+.trialEndingNotification:before {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+	width: 0px;
 }
 
 .trialEndingNotification a {
@@ -5127,7 +5135,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 .trialEndingNotification .informBlock {
-	display: table-cell;
+	display: inline-block;
 	vertical-align: middle;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -5873,4 +5881,9 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 .contactrole-row.odd {
 	background-color: rgb(212, 223, 239);
+}
+
+/* Message List fix */
+.message-list > .v-slot > .v-verticallayout {
+	display: block;
 }

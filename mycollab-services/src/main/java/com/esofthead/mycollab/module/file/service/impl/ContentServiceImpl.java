@@ -24,6 +24,12 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.module.file.service.ContentService;
 import com.esofthead.mycollab.module.file.service.RawContentService;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @Service
 public class ContentServiceImpl implements ContentService {
 

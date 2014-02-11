@@ -30,6 +30,8 @@ import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -69,11 +71,19 @@ public class FileDownloadWindow extends Window {
 		final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
 				"100%", "80px", Alignment.MIDDLE_LEFT);
 		info.getLayout().setWidth("100%");
-		info.getLayout().setMargin(false);
+		info.getLayout().setMargin(new MarginInfo(false, true, false, true));
 		info.getLayout().setSpacing(false);
 
 		if (this.content.getDescription() != null) {
-			final Label desvalue = new Label(this.content.getDescription());
+			
+			final Label desvalue = new Label();
+			if(!this.content.getDescription().equals("")) {
+				desvalue.setData(this.content.getDescription());
+			}
+			else {
+				desvalue.setValue("&nbsp;");
+				desvalue.setContentMode(ContentMode.HTML);
+			}
 			info.addComponent(desvalue, "Description", 0, 0);
 		}
 		final Label author = new Label(this.content.getCreatedBy());
@@ -91,6 +101,7 @@ public class FileDownloadWindow extends Window {
 
 		final HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.setSpacing(true);
+		buttonControls.setMargin(new MarginInfo(true, false, true, false));
 		final Button downloadBtn = new Button("Download");
 		List<Resource> lstRes = new ArrayList<Resource>();
 		lstRes.add(content);
