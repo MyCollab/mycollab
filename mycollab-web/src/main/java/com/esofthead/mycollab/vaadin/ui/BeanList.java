@@ -95,6 +95,10 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		this.isDisplayEmptyListText = isDisplayEmptyListText;
 	}
 
+	public void removeRow(Component row) {
+		contentLayout.removeComponent(row);
+	}
+
 	public void insetItemOnBottom(T item) {
 		RowDisplayHandler<T> rowHandler = constructRowndisplayHandler();
 		Component row = rowHandler.generateRow(item,
@@ -176,7 +180,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	 * 
 	 * @author MyCollab Ltd.
 	 * @since 1.0
-	 *
+	 * 
 	 * @param <T>
 	 */
 	public static interface RowDisplayHandler<T> extends Serializable {

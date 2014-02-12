@@ -239,8 +239,8 @@ public class TaskGroupDisplayWidget
 									AppContext.getUsername());
 							final Component parentComp = TaskListDepot.this
 									.getParent();
-							((ComponentContainer) parentComp.getParent())
-									.removeComponent(parentComp);
+							((TaskGroupDisplayWidget) parentComp.getParent())
+									.removeRow(parentComp);
 						}
 					});
 			closeBtn.setEnabled(CurrentProjectVariables
@@ -290,8 +290,8 @@ public class TaskGroupDisplayWidget
 													((CssLayout) parentComp)
 															.removeComponent(TaskListDepot.this);
 												} else {
-													((ComponentContainer) parentComp)
-															.removeComponent(TaskListDepot.this);
+													((TaskGroupDisplayWidget) parentComp)
+															.removeRow(TaskListDepot.this);
 												}
 
 											}

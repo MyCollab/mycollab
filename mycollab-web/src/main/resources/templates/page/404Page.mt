@@ -219,7 +219,7 @@
 					<span style="color: #000000">|</span>
 					&nbsp&nbsp&nbsp<a javascrip="void(0);" href="https://www.mycollab.com/privacy" style="text-decoration : none;"><span style="font: 11px 'Lucida Grande', sans-serif; color: #1777AD; font-weight:bold;">Privacy Policy</span></a>&nbsp&nbsp&nbsp
 					<span style="color: #000000">|</span>
-					&nbsp&nbsp&nbsp<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;"><span style="font: 11px 'Lucida Grande', sans-serif; color: #1777AD; font-weight:bold;">Copyright 2013 MyCollab. All rights reserved.</span></a>
+					&nbsp&nbsp&nbsp<a javascrip="void(0);" href="https://www.mycollab.com" style="text-decoration : none;"><span style="font: 11px 'Lucida Grande', sans-serif; color: #1777AD; font-weight:bold;">Copyright 2014 MyCollab. All rights reserved.</span></a>
 				</p>
 			</div>
 		</div>

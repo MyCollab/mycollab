@@ -106,9 +106,9 @@ public class DesktopApplication extends UI {
 					if (securityException != null) {
 						NotificationUtil.showMessagePermissionAlert();
 					} else {
+						log.error("Error", e);
 						NotificationUtil.showErrorNotification(LocalizationHelper
 								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
-						log.error("Error", e);
 					}
 				}
 

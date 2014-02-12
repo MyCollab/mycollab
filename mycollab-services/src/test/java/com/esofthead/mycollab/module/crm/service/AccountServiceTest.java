@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.core.arguments.NoValueSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -249,5 +250,15 @@ public class AccountServiceTest extends ServiceTest {
 		for (SimpleAccount account1 : accountList) {
 			Assert.assertEquals("hai79", account1.getAssignuser());
 		}
+	}
+
+	@Test
+	@DataSet
+	public void testQueryAccountWithExtSearchField() {
+		AccountSearchCriteria criteria = new AccountSearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(1));
+		criteria.addExtraField(new NoValueSearchField(SearchField.AND,
+				"accountName is null"));
+		Assert.assertEquals(0, accountService.getTotalCount(criteria));
 	}
 }
