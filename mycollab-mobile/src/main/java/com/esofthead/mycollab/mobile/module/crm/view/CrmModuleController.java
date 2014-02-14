@@ -22,9 +22,11 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent.GotoRead;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmNavigationMenu;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.account.AccountReadPresenter;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
@@ -97,5 +99,24 @@ public class CrmModuleController implements IController {
 					
 				}
 		);
+		
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<AccountEvent.GotoRead>() {
+					private static final long serialVersionUID = -5805283303669877715L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return AccountEvent.GotoRead.class;
+					}
+
+					@SuppressWarnings({ "rawtypes", "unchecked" })
+					@Override
+					public void handle(GotoRead event) {
+						AccountReadPresenter presenter = PresenterResolver
+								.getPresenter(AccountReadPresenter.class);
+						presenter.go(crmViewNavigation,
+								new ScreenData.Preview(event.getData()));
+					}
+				});
 	}
 }

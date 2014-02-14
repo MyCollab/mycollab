@@ -45,6 +45,22 @@ import java.util.List;
 public abstract class SearchCriteria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private static String NULL_EXPR = "%s.%s is null";
+
+	private static String NOT_NULL_EXPR = "%s.%s is not null";
+
+	private static String EQUAL_EXPR = "%s.%s = ";
+
+	private static String NOT_EQUAL_EXPR = "%s.%s <> ";
+
+	private static String LIKE_EXPR = "%s.%s like ";
+
+	private static String NOT_LIKE_EXPR = "%s.%s not like ";
+
+	private static String IN_EXPR = "%s.%s in ";
+
+	private static String NOT_IN_EXPR = "%s.%s not in ";
+
 	public static String ASC = "ASC";
 
 	public static String DESC = "DESC";
@@ -93,10 +109,58 @@ public abstract class SearchCriteria implements Serializable {
 		this.extraFields = extraFields;
 	}
 
-	public void addExtraField(ExtSearchField extraField) {
+	public SearchCriteria addExtraField(ExtSearchField extraField) {
 		if (extraFields == null) {
 			extraFields = new ArrayList<ExtSearchField>();
 		}
 		extraFields.add(extraField);
+		return this;
+	}
+
+	public SearchCriteria andFieldIsNull(String oper, String table, String field) {
+		return addExtraField(new NoValueSearchField(oper, String.format(
+				NULL_EXPR, table, field)));
+	}
+
+	public SearchCriteria andFieldIsNotNull(String oper, String table,
+			String field) {
+		return addExtraField(new NoValueSearchField(oper, String.format(
+				NOT_NULL_EXPR, table, field)));
+	}
+
+	public SearchCriteria andFieldIsEqual(String oper, String table,
+			String field, String value) {
+		return addExtraField(new OneValueSearchField(oper, String.format(
+				EQUAL_EXPR, table, field), value));
+	}
+
+	public SearchCriteria andFieldIsNotEqual(String oper, String table,
+			String field, String value) {
+		return addExtraField(new OneValueSearchField(oper, String.format(
+				NOT_EQUAL_EXPR, table, field), value));
+	}
+
+	public SearchCriteria andFieldIsLike(String oper, String table,
+			String field, String value) {
+		return addExtraField(new OneValueSearchField(oper, String.format(
+				LIKE_EXPR, table, field), value));
+	}
+
+	public SearchCriteria andFieldIsNotLike(String oper, String table,
+			String field, String value) {
+		return addExtraField(new OneValueSearchField(oper, String.format(
+				NOT_LIKE_EXPR, table, field), value));
+	}
+
+	public SearchCriteria andFieldInList(String oper, String table,
+			String field, List<?> value) {
+		return addExtraField(new ListValueSearchField(oper, String.format(
+				IN_EXPR, table, field), value));
+	}
+
+	public SearchCriteria andFieldNotInList(String oper, String table,
+			String field, List<?> value) {
+		return addExtraField(new ListValueSearchField(oper, String.format(
+				NOT_IN_EXPR, table, field), value));
 	}
 }

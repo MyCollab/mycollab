@@ -31,6 +31,10 @@
 	}
 }
 
+html {
+	overflow:hidden;
+}
+
 button::-moz-focus-inner {
 	border: 0;
 }
