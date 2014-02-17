@@ -2,13 +2,16 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.ComponentContainer;
 
 @ViewComponent
 public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> implements AccountReadView {
@@ -68,6 +71,12 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount> 
 	@Override
 	public HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers() {
 		return this.previewForm;
+	}
+
+	@Override
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleAccount>(previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
 	}
 
 }

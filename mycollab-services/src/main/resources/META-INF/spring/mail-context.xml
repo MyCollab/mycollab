@@ -5,7 +5,7 @@
 
     <bean id="mailRepository"
         class="org.springframework.extensions.jcr.jackrabbit.JackrabbitRepositoryFactoryBean"
-        p:configuration="classpath:/mail-repo.xml" p:homeDir="file:mail-repo">
+        p:configuration="classpath:/mail-repo.xml" p:homeDir="file:repo/mail-workspace">
     </bean>
     <bean id="jcrMailSessionFactory"
         class="com.esofthead.mycollab.module.mail.MailContentSessionFactory">

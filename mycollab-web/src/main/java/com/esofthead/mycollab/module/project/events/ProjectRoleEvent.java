@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.project.events;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectRoleEvent {
 	public static class Search extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;

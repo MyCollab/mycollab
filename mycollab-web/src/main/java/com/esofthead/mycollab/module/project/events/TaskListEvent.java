@@ -22,8 +22,17 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class TaskListEvent {
+
+	public static class GotoGanttChartView extends ApplicationEvent {
+		private static final long serialVersionUID = 1L;
+
+		public GotoGanttChartView(Object source, Object data) {
+			super(source, data);
+		}
+	}
 
 	public static class GotoRead extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;

@@ -24,6 +24,8 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
+ * 
  */
 public class ProjectMemberEvent {
 

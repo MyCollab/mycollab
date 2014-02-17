@@ -45,6 +45,13 @@ public class TaskGroupScreenData {
 			super(null);
 		}
 	}
+	
+	public static class GotoGanttChartView extends ScreenData {
+
+		public GotoGanttChartView() {
+			super(null);
+		}
+	} 
 
 	public static class Edit extends ScreenData<TaskList> {
 

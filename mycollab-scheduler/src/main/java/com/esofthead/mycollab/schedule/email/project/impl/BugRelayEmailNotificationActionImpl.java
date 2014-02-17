@@ -63,33 +63,6 @@ public class BugRelayEmailNotificationActionImpl extends
 		mapper = new BugFieldNameMapper();
 	}
 
-	@Override
-	public TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int bugId = emailNotification.getTypeid();
-		SimpleBug bug = bugService.findById(bugId,
-				emailNotification.getSaccountid());
-		if (bug != null) {
-			String subject = bug.getSummary();
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"[$bug.projectname]: Bug \"" + subject
-							+ "\" has been created",
-					"templates/email/project/bugCreatedNotifier.mt");
-
-			ScheduleUserTimeZoneUtils.formatDateTimeZone(bug,
-					user.getTimezone(), new String[] { "duedate" });
-			templateGenerator.putVariable("bug", bug);
-			templateGenerator.putVariable("hyperLinks",
-					constructHyperLinks(bug));
-			constructBugComponentVersionLink(bug, templateGenerator);
-			return templateGenerator;
-		} else {
-			return null;
-		}
-
-	}
-
 	private Map<String, String> constructHyperLinks(SimpleBug bug) {
 		Map<String, String> hyperLinks = new HashMap<String, String>();
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
@@ -142,6 +115,33 @@ public class BugRelayEmailNotificationActionImpl extends
 			}
 			templateGenerator.putVariable("lstBugVersion", lstBugVersion);
 		}
+	}
+
+	@Override
+	public TemplateGenerator templateGeneratorForCreateAction(
+			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+		int bugId = emailNotification.getTypeid();
+		SimpleBug bug = bugService.findById(bugId,
+				emailNotification.getSaccountid());
+		if (bug != null) {
+			String subject = bug.getSummary();
+
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					"[$bug.projectname]: Bug \"" + subject
+							+ "\" has been created",
+					"templates/email/project/bugCreatedNotifier.mt");
+
+			ScheduleUserTimeZoneUtils.formatDateTimeZone(bug,
+					user.getTimezone(), new String[] { "duedate" });
+			templateGenerator.putVariable("bug", bug);
+			templateGenerator.putVariable("hyperLinks",
+					constructHyperLinks(bug));
+			constructBugComponentVersionLink(bug, templateGenerator);
+			return templateGenerator;
+		} else {
+			return null;
+		}
+
 	}
 
 	@Override

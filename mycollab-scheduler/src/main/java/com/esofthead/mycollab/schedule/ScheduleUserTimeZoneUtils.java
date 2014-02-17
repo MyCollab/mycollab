@@ -32,6 +32,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
  * value to the right time value associate with user timezone
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 public class ScheduleUserTimeZoneUtils {

@@ -314,6 +314,26 @@ public class ProjectController implements IController {
 					}
 				});
 
+		EventBus.getInstance()
+				.addListener(
+						new ApplicationEventListener<TaskListEvent.GotoGanttChartView>() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public Class<? extends ApplicationEvent> getEventType() {
+								return TaskListEvent.GotoGanttChartView.class;
+							}
+
+							@Override
+							public void handle(
+									TaskListEvent.GotoGanttChartView event) {
+								ProjectView projectView = ViewManager
+										.getView(ProjectView.class);
+								TaskGroupScreenData.GotoGanttChartView data = new TaskGroupScreenData.GotoGanttChartView();
+								projectView.gotoTaskList(data);
+							}
+						});
+
 	}
 
 	private void bindTaskEvents() {

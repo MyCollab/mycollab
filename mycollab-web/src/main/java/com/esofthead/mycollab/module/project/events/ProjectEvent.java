@@ -18,26 +18,34 @@ package com.esofthead.mycollab.module.project.events;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 
-@SuppressWarnings("serial")
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectEvent {
 
     public static class GotoEdit extends ApplicationEvent {
+		private static final long serialVersionUID = 1L;
 
-        public GotoEdit(Object source, Object data) {
+		public GotoEdit(Object source, Object data) {
             super(source, data);
         }
     }
 
     public static class GetMyProjects extends ApplicationEvent {
+		private static final long serialVersionUID = 1L;
 
-        public GetMyProjects(Object source, Object data) {
+		public GetMyProjects(Object source, Object data) {
             super(source, data);
         }
     }
 
     public static class GotoMyProject extends ApplicationEvent {
+		private static final long serialVersionUID = 1L;
 
-        public GotoMyProject(Object source, Object data) {
+		public GotoMyProject(Object source, Object data) {
             super(source, data);
         }
     }
