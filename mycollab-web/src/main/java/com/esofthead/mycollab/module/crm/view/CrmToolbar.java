@@ -40,7 +40,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;

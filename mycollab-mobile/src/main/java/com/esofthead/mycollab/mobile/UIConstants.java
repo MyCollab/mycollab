@@ -25,4 +25,6 @@ public class UIConstants {
 	public static final String BUTTON_BIG = "big-btn";
 	public static final String COLOR_GRAY = "gray";
 	public static final String COLOR_BLUE = "blue";
+	public static final String LINK_COMPLETED = "completed";
+	public static final String LINK_OVERDUE = "overdue";
 }

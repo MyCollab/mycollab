@@ -56,6 +56,13 @@
             value="com.esofthead.mycollab.schedule.jobs.BillingSendingNotificationJobs" />
         <property name="durability" value="true" />
     </bean>
+    
+    <bean id="sendCountUserLoginByDateJob"
+        class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass"
+            value="com.esofthead.mycollab.schedule.jobs.SendingCountUserLoginByDateJob" />
+        <property name="durability" value="true" />
+    </bean>
 
     <!-- Trigger -->
     <bean id="sendingRelayEmailTrigger"
@@ -79,7 +86,7 @@
     <bean id="userSignUpNotificationEmailTrigger"
         class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
         <property name="jobDetail" ref="userSignUpNotificationEmailJob" />
-        <property name="cronExpression" value="0 5 * * * ?" />
+        <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="sendErrorReportEmailTrigger"
@@ -98,6 +105,12 @@
         class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
         <property name="jobDetail" ref="sendAccountBillingEmailJob" />
         <property name="cronExpression" value="0 0 0 * * ?" />
+    </bean>
+    
+    <bean id="sendingCountUserLoginByDateTrigger"
+        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        <property name="jobDetail" ref="sendCountUserLoginByDateJob" />
+        <property name="cronExpression" value="0 0 * * * ?" />
     </bean>
 
     <bean id="quartzScheduler"
@@ -135,6 +148,7 @@
                 <ref bean="sendInviteUserEmailJob" />
                 <ref bean="sendAccountBillingEmailJob" />
                 <ref bean="userSignUpNotificationEmailJob" />
+                <ref bean="sendCountUserLoginByDateJob" />
             </list>
         </property>
         <property name="triggers">
@@ -146,6 +160,7 @@
                 <ref bean="sendInviteUserEmailTrigger" />
                 <ref bean="sendAccountBillingEmailTrigger" />
                 <ref bean="userSignUpNotificationEmailTrigger" />
+                <ref bean="sendingCountUserLoginByDateTrigger" />
             </list>
         </property>
     </bean>

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
 

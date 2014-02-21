@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.community.view;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;

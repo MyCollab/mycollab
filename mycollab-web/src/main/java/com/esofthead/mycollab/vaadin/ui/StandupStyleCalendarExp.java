@@ -25,7 +25,6 @@ import org.vaadin.risto.stylecalendar.DateOptionsGenerator;
 import org.vaadin.risto.stylecalendar.StyleCalendar;
 
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;

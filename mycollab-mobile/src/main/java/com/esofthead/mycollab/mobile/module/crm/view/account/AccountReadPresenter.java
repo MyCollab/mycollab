@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
-import com.esofthead.mycollab.mobile.utils.NotificationUtil;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -33,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 
 /**
@@ -147,7 +147,7 @@ public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
 					}
 				});
 
-		
+
 	}
 
 	@Override

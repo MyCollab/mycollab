@@ -19,9 +19,9 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;

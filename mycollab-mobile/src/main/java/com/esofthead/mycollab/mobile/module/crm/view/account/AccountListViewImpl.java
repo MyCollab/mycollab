@@ -19,9 +19,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  */
 
 @ViewComponent
-public class AccountListViewImpl extends
-		AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements
-		AccountListView {
+public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
 
 	private static final long serialVersionUID = -500810154594390148L;
 
@@ -34,31 +32,30 @@ public class AccountListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<AccountSearchCriteria, SimpleAccount> createBeanTable() {
-		AccountTableDisplay accountTableDisplay = new AccountTableDisplay(
+		AccountListDisplay accountListDisplay = new AccountListDisplay(
 				"accountname");
 
-		accountTableDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		accountListDisplay.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+			@Override
+			public Class<? extends ApplicationEvent> getEventType() {
+				return TableClickEvent.class;
+			}
 
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleAccount account = (SimpleAccount) event
-								.getData();
-						if ("accountname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(
-											AccountListViewImpl.this, account
-													.getId()));
-						}
-					}
-				});
-		return accountTableDisplay;
+			@Override
+			public void handle(final TableClickEvent event) {
+				final SimpleAccount account = (SimpleAccount) event
+						.getData();
+				if ("accountname".equals(event.getFieldName())) {
+					EventBus.getInstance().fireEvent(
+							new AccountEvent.GotoRead(
+									AccountListViewImpl.this, account
+									.getId()));
+				}
+			}
+		});
+		return accountListDisplay;
 	}
 
 }

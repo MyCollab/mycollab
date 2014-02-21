@@ -23,7 +23,7 @@ import java.util.Map;
 import com.esofthead.mycollab.module.project.view.bug.BugPriorityStatusConstants;
 import com.esofthead.mycollab.module.project.view.bug.BugSeverityConstants;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneStatusConstant;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.server.Resource;
 
 /**

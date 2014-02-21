@@ -121,7 +121,7 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 		}
 	}
 
-	public class AccountBillingSendEmail {
+	private static class AccountBillingSendEmail {
 		private static final String remindAccountIsAboutEndTemplate = "templates/email/billing/remindAccountIsAboutExpiredNotification.mt";
 		private static final String informAccountIsExpiredTemplate = "templates/email/billing/informAccountIsExpiredNotification.mt";
 		private Integer afterDay;

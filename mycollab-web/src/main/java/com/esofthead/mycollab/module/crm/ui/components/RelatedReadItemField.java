@@ -40,7 +40,7 @@ import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -87,15 +87,15 @@ public class RelatedReadItemField extends CustomField {
 				if (account != null) {
 					relatedLink = new ButtonLink(account.getAccountname(),
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new AccountEvent.GotoRead(this,
-													account.getId()));
-								}
-							});
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoRead(this,
+											account.getId()));
+						}
+					});
 					relatedLink.setIcon(MyCollabResource
 							.newResource("icons/16/crm/account.png"));
 				}
@@ -107,16 +107,16 @@ public class RelatedReadItemField extends CustomField {
 				if (campaign != null) {
 					relatedLink = new ButtonLink(campaign.getCampaignname(),
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new CampaignEvent.GotoRead(this,
-													campaign.getId()));
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new CampaignEvent.GotoRead(this,
+											campaign.getId()));
 
-								}
-							});
+						}
+					});
 					relatedLink.setIcon(MyCollabResource
 							.newResource("icons/16/crm/campaign.png"));
 				}
@@ -128,15 +128,15 @@ public class RelatedReadItemField extends CustomField {
 				if (contact != null) {
 					relatedLink = new ButtonLink(contact.getContactName(),
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new ContactEvent.GotoRead(this,
-													contact.getId()));
-								}
-							});
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new ContactEvent.GotoRead(this,
+											contact.getId()));
+						}
+					});
 					relatedLink.setIcon(MyCollabResource
 							.newResource("icons/16/crm/contact.png"));
 				}
@@ -148,15 +148,15 @@ public class RelatedReadItemField extends CustomField {
 				if (lead != null) {
 					relatedLink = new ButtonLink(lead.getLeadName(),
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new LeadEvent.GotoRead(this, lead
-													.getId()));
-								}
-							});
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new LeadEvent.GotoRead(this, lead
+											.getId()));
+						}
+					});
 					relatedLink.setIcon(MyCollabResource
 							.newResource("icons/16/crm/lead.png"));
 				}
@@ -189,16 +189,16 @@ public class RelatedReadItemField extends CustomField {
 				if (cases != null) {
 					relatedLink = new ButtonLink(cases.getSubject(),
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new CaseEvent.GotoRead(this, cases
-													.getId()));
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new CaseEvent.GotoRead(this, cases
+											.getId()));
 
-								}
-							});
+						}
+					});
 					relatedLink.setIcon(MyCollabResource
 							.newResource("icons/16/crm/case.png"));
 				}

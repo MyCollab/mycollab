@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 
 /**
  * 

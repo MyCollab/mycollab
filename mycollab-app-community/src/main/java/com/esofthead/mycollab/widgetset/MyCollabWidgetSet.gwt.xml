@@ -26,8 +26,10 @@
         name="org.vaadin.tepi.listbuilder.widgetset.ListBuilderWidgetset" />
 
     <inherits name="org.vaadin.easyuploads.Widgetset" />
-    
+
     <inherits name="com.esofthead.vaadin.cropField.WidgetSet" />
 
     <inherits name="org.tltv.gantt.WidgetSet" />
+
+    <inherits name="org.vaadin.artur.icepush.IcepushaddonWidgetset" />
 </module>

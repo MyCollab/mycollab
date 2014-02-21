@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
+
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -37,9 +38,9 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Button.ClickEvent;
@@ -196,23 +197,23 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
 
-		this.viewGanttChartBtn = new Button("Gantt chart",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance()
-								.fireEvent(
-										new TaskListEvent.GotoGanttChartView(
-												this, null));
-
-					}
-				});
-		this.viewGanttChartBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		header.addComponent(this.viewGanttChartBtn);
-		header.setComponentAlignment(this.viewGanttChartBtn,
-				Alignment.MIDDLE_RIGHT);
+//		this.viewGanttChartBtn = new Button("Gantt chart",
+//				new Button.ClickListener() {
+//					private static final long serialVersionUID = 1L;
+//
+//					@Override
+//					public void buttonClick(ClickEvent event) {
+//						EventBus.getInstance()
+//								.fireEvent(
+//										new TaskListEvent.GotoGanttChartView(
+//												this, null));
+//
+//					}
+//				});
+//		this.viewGanttChartBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+//		header.addComponent(this.viewGanttChartBtn);
+//		header.setComponentAlignment(this.viewGanttChartBtn,
+//				Alignment.MIDDLE_RIGHT);
 
 		mainLayout.addComponent(header);
 

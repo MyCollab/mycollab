@@ -6,7 +6,7 @@ package com.esofthead.mycollab.core.arguments;
  * @since 4.0
  * 
  */
-public class TwoValuesSearchField extends ExtSearchField {
+public class TwoValuesSearchField extends SearchField {
 	private String expression;
 
 	private Object value;

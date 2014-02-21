@@ -34,11 +34,11 @@ import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.esofthead.mycollab.web.MyCollabResource;
 
 /**
  * 

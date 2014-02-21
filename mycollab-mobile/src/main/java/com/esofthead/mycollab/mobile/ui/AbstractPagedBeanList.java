@@ -24,12 +24,12 @@ import com.vaadin.ui.Table.ColumnHeaderMode;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout {
+public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
 	private static final long serialVersionUID = 1504984093640864283L;
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
 	protected List<B> currentListData;
-	
+
 	protected SearchRequest<S> searchRequest;
 	protected int currentPage = 1;
 	protected int totalPage = 1;
@@ -37,12 +37,12 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 	protected int totalCount;
 
 	protected Table tableItem;
-	
+
 	protected String displayColumnId;
 	protected final Class<B> type;
-	
+
 	protected Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> mapEventListener;
-	
+
 	protected final Map<Object, ColumnGenerator> columnGenerators = new HashMap<Object, Table.ColumnGenerator>();
 
 	public AbstractPagedBeanList(Class<B> type,
@@ -51,7 +51,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 		this.displayColumnId = displayColumnId;
 		this.setStyleName("data-list-view");
 	}
-	
+
 	public int currentViewCount() {
 		return this.currentViewCount;
 	}
@@ -59,11 +59,13 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 	public int totalItemsCount() {
 		return this.totalCount;
 	}
-	
+
+	@Override
 	public List<B> getCurrentDataList() {
 		return currentListData;
 	}
-	
+
+	@Override
 	public void addTableListener(
 			final ApplicationEventListener<? extends ApplicationEvent> listener) {
 		if (this.mapEventListener == null) {
@@ -79,7 +81,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 
 		listenerSet.add(listener);
 	}
-	
+
 	protected void fireTableEvent(final ApplicationEvent event) {
 
 		final Class<? extends ApplicationEvent> eventType = event.getClass();
@@ -101,18 +103,21 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 			}
 		}
 	}
-	
+
+	@Override
 	public void addGeneratedColumn(final Object id,
 			final ColumnGenerator generatedColumn) {
 		this.columnGenerators.put(id, generatedColumn);
 	}
 
+	@Override
 	public void setSearchCriteria(final S searchCriteria) {
 		this.searchRequest = new SearchRequest<S>(searchCriteria,
 				this.currentPage, this.displayNumItems);
 		this.doSearch();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public B getBeanByIndex(final Object itemId) {
 		final Container container = this.tableItem.getContainerDataSource();
@@ -120,10 +125,11 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 		return (item == null) ? null : item.getBean();
 	}
 
+	@Override
 	public void refresh() {
 		this.doSearch();
 	}
-	
+
 	abstract protected int queryTotalCount();
 
 	abstract protected List<B> queryCurrentData();

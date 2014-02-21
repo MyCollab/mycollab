@@ -27,8 +27,8 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 

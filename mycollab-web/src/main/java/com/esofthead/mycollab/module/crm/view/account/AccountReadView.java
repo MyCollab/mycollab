@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.view.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
  * 

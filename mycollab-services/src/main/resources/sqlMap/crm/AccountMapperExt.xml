@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.crm.dao.AccountMapperExt">
-    
+
     <resultMap
         extends="com.esofthead.mycollab.module.crm.dao.AccountMapper.ResultMapWithBLOBs"
         id="SimpleAccountResult" type="com.esofthead.mycollab.module.crm.domain.SimpleAccount">
@@ -89,7 +89,16 @@
             AND
             #repeat($_parameter.searchCriteria.extraFields $extraField "AND")
                 #novalexpr($extraField)
-                    @{extraField.querySelect}
+                    ${extraField.querySelect}
+                #end
+                #onevalexpr($extraField)
+                    ${extraField.querySelect} @{extraField.value}
+                #end
+                #collectionvalexpr($extraField)
+                    ${extraField.querySelect}
+                    #repeat(${extraField.value} $listItem "," "(" ")")
+                        @{listItem}
+                    #end
                 #end
             #end
          #end
@@ -180,7 +189,16 @@
             AND
             #repeat($_parameter.searchCriteria.extraFields $extraField "AND")
                 #novalexpr($extraField)
-                    @{extraField.queryCount}
+                    ${extraField.queryCount}
+                #end
+                #onevalexpr($extraField)
+                    ${extraField.queryCount} @{extraField.value}
+                #end
+                #collectionvalexpr($extraField)
+                    ${extraField.queryCount}
+                    #repeat(${extraField.value} $listItem "," "(" ")")
+                        @{listItem}
+                    #end
                 #end
             #end
          #end
@@ -218,11 +236,11 @@
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.selectSimpleAccount" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.querySearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.querySearchCriteria" />
+        #end
         #end
         <include refid="orderStatement" />
     </select>
@@ -231,22 +249,23 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
+        #end
         #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="AccountSearchCriteria" lang="velocity">
+    <delete id="removeByCriteria" parameterType="AccountSearchCriteria"
+        lang="velocity">
         DELETE FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
+        #end
         #end
     </delete>
 
@@ -257,49 +276,53 @@
 
         WHERE m_crm_account.id=@{accountId, jdbcType=NUMERIC}
     </select>
-    
+
     <select id="findAccountAssoWithConvertedLead" parameterType="java.lang.Integer"
         resultMap="SimpleAccountResult" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.selectSimpleAccount" />
 
-        INNER JOIN m_crm_accounts_leads ON (m_crm_accounts_leads.isConvertRel=1 
-            AND m_crm_accounts_leads.accountId= m_crm_account.id
-            AND m_crm_accounts_leads.leadId=@{leadId, jdbcType=NUMERIC})
+        INNER JOIN m_crm_accounts_leads ON
+        (m_crm_accounts_leads.isConvertRel=1
+        AND
+        m_crm_accounts_leads.accountId= m_crm_account.id
+        AND
+        m_crm_accounts_leads.leadId=@{leadId, jdbcType=NUMERIC})
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"  lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
+        lang="velocity">
         SELECT MIN(id) FROM m_crm_account
 
         #trim("WHERE" "AND|OR")
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
         #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer"  lang="velocity">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_account
 
         #trim("WHERE" "AND|OR")
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
         #end
     </select>
 
     <!-- Here for Mass Update -->
-    <update id="updateBySearchCriteria" parameterType="map"  lang="velocity">
+    <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        1=1
+        <include
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapperExt.queryTotalCountSearchCriteria" />
+        #end
         #end
     </update>
 </mapper>

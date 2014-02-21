@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;

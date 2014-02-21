@@ -6,24 +6,35 @@ package com.esofthead.mycollab.core.arguments;
  * @since 4.0
  * 
  */
-public class OneValueSearchField extends ExtSearchField {
+public class OneValueSearchField extends SearchField {
 
-	private String expression;
+	private String queryCount;
+
+	private String querySelect;
 
 	private Object value;
 
 	public OneValueSearchField(String oper, String expression, Object value) {
 		this.operation = oper;
-		this.expression = expression;
+		this.queryCount = expression;
+		this.querySelect = expression;
 		this.value = value;
 	}
 
-	public String getExpression() {
-		return expression;
+	public String getQueryCount() {
+		return queryCount;
 	}
 
-	public void setExpression(String expression) {
-		this.expression = expression;
+	public void setQueryCount(String queryCount) {
+		this.queryCount = queryCount;
+	}
+
+	public String getQuerySelect() {
+		return querySelect;
+	}
+
+	public void setQuerySelect(String querySelect) {
+		this.querySelect = querySelect;
 	}
 
 	public Object getValue() {

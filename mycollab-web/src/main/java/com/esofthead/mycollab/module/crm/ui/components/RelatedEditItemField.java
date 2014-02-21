@@ -41,8 +41,8 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySelectionWi
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.MouseEvents;

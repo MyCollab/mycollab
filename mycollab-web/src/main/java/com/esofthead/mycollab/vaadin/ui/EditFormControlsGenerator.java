@@ -18,7 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.io.Serializable;
 
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

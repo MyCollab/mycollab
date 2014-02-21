@@ -22,8 +22,8 @@ import java.util.Set;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.module.crm.view.IRelatedListHandlers;
-import com.esofthead.mycollab.module.crm.view.RelatedListHandler;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.vaadin.ui.VerticalLayout;
 

@@ -20,11 +20,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
-
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.SelectionOptionHandler;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

@@ -38,7 +38,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.google.gson.reflect.TypeToken;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;

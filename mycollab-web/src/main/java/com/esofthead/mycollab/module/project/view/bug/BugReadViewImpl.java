@@ -61,9 +61,9 @@ import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewFiel
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;

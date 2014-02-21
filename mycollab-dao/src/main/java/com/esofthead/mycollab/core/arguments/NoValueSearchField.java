@@ -6,7 +6,7 @@ package com.esofthead.mycollab.core.arguments;
  * @since 4.0
  * 
  */
-public class NoValueSearchField extends ExtSearchField {
+public class NoValueSearchField extends SearchField {
 
 	private String queryCount;
 	

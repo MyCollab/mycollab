@@ -17,11 +17,11 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
-import com.esofthead.mycollab.module.crm.view.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -31,8 +31,8 @@ import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;

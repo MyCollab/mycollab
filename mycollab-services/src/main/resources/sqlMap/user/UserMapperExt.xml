@@ -18,6 +18,11 @@
             ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
             ]]>
         </if>
+        <if test="searchCriteria.lastAccessedTime != null">
+        	<![CDATA[
+            ${searchCriteria.lastAccessedTime.operation} CAST(s_user_preference.lastAccessedTime AS DATE )  = #{searchCriteria.lastAccessedTime.value}
+            ]]>
+        </if>
         <if test="searchCriteria.username != null">
           <![CDATA[
             ${searchCriteria.username.operation} s_user.username = #{searchCriteria.username.value}
@@ -45,9 +50,8 @@
         <if test="searchCriteria.status != null">
             ${searchCriteria.status.operation}
             s_user.status IN
-            <foreach close=")"
-                collection="searchCriteria.status.values" item="userstatus"
-                open="(" separator=",">
+            <foreach close=")" collection="searchCriteria.status.values"
+                item="userstatus" open="(" separator=",">
                 #{userstatus}
             </foreach>
         </if>
@@ -57,6 +61,11 @@
         <if test="searchCriteria.displayName != null">
           <![CDATA[
             ${searchCriteria.displayName.operation} (concat(s_user.firstname, ' ', LTRIM(IFNULL(s_user.middlename + ' ', '')), s_user.lastname) like '%${searchCriteria.displayName.value}%')
+            ]]>
+        </if>
+        <if test="searchCriteria.lastAccessedTime != null">
+        	<![CDATA[
+            ${searchCriteria.lastAccessedTime.operation} (SELECT count(*) FROM s_user_preference WHERE (s_user_preference.username = s_user.username) AND CAST(s_user_preference.lastAccessedTime AS DATE ) = #{searchCriteria.lastAccessedTime.value}) > 0 ;
             ]]>
         </if>
         <if test="searchCriteria.username != null">
@@ -89,6 +98,7 @@
             </foreach>
             ) > 0
         </if>
+        
     </sql>
 
     <sql id="selectUser">

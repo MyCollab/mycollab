@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.esofthead.mycollab.core.cache.CacheEvict;

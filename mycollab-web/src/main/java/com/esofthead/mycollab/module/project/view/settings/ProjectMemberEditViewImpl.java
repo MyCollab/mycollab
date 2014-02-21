@@ -28,7 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.web.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;

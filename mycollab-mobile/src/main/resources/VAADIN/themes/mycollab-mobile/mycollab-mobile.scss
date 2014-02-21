@@ -228,7 +228,43 @@
 	    	.v-touchkit-navview-wrapper {
 				-webkit-tap-highlight-color: transparent;
 	    	}
+	    	
+	    	.v-touchkit-navview-toolbar {
+	    		overflow-x: hidden;
+	    		box-shadow: none;
+	    		border-top: 1px solid rgb(187, 187, 187);
+	    		background-color: rgb(222, 222, 222);
+	    		
+	    		.related-items {
+	    			.v-button {
+		    			color: rgb(106, 106, 106);
+		    			background-color: rgb(222, 222, 222);
+		    		
+		    			span[data-icon]:before {
+		    				font-size: 2.1rem;
+		    			}
+					}
+	    		}
+	    	}
 	    }
+	}
+	
+	/* Controls Popover */
+	.controls-popover {
+		top: 4rem !important;
+		
+		.v-window-contents {
+			background-color: #252c34;
+			
+			.v-button {
+				background-color: #515a62;
+				color: #FFFFFF;
+				
+				.v-button-wrap {
+					padding: 5px 0px;
+				}
+			}
+		}
 	}
 	
 	/* Data List View */
@@ -274,6 +310,28 @@
 		}
 		.v-gridlayout {
 			color: rgb(145, 145, 145);
+			
+			.even-row {
+				background-color: rgb(246, 246, 246);
+			}
+		}
+	}
+	
+	/* Message Row */
+	.message {
+		border-bottom: 1px solid rgb(203, 203, 203);
+		
+		.message-header {
+			.user-name {
+				color: rgb(227, 146, 65);
+			}
+			.time-post {
+				color: rgb(191, 191, 191);
+			}
+		}
+		
+		.message-body {
+			color: rgb(149, 149, 149);
 		}
 	}
 	

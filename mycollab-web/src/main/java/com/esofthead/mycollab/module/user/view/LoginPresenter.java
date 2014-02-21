@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,8 +103,13 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 		log.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
+		
+	  
+		
 
 		AppContext.getInstance().setSession(user, pref, billingAccount);
+		pref.setLastaccessedtime(new Date());
+		preferenceService.updateWithSession(pref, AppContext.getUsername());
 		EventBus.getInstance().fireEvent(
 				new ShellEvent.GotoMainPage(this, null));
 	}

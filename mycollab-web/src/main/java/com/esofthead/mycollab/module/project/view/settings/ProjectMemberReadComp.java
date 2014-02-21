@@ -57,10 +57,10 @@ import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkView
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
-import com.esofthead.mycollab.web.MyCollabResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;

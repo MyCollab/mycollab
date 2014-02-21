@@ -67,7 +67,6 @@ public class AppContext implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static int UPDATE_TIME_DURATION = 300000;
 
 	static Logger log = LoggerFactory.getLogger(AppContext.class);
 
@@ -132,9 +131,9 @@ public class AppContext implements Serializable {
 	/**
 	 * Request on every transaction between client and server finish
 	 */
-	public void transactionEnd() {
+	/*public void transactionEnd() {
 		long currentTime = new GregorianCalendar().getTimeInMillis();
-		if (currentTime - lastAccessTime > UPDATE_TIME_DURATION) {
+
 			try {
 				if (userPreference != null) {
 					UserPreference pref = userPreference;
@@ -153,8 +152,8 @@ public class AppContext implements Serializable {
 				log.error("There is error when try to update user preference",
 						e);
 			}
-		}
-	}
+
+	}*/
 
 	/**
 	 * Update last module visit then the next sign in, MyCollab will lead user
