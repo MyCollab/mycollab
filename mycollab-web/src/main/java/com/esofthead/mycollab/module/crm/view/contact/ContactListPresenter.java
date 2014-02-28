@@ -58,7 +58,7 @@ public class ContactListPresenter
 	private ContactService contactService;
 
 	public ContactListPresenter() {
-		super(ContactListView.class);
+		super(ContactListView.class, ContactListNoItemView.class);
 	}
 
 	@Override
@@ -124,8 +124,15 @@ public class ContactListPresenter
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 
-			super.onGo(container, data);
-			doSearch((ContactSearchCriteria) data.getParams());
+			searchCriteria = (ContactSearchCriteria) data.getParams();
+			int totalCount = contactService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
+
 			AppContext.addFragment("crm/contact/list", LocalizationHelper
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Contact"));

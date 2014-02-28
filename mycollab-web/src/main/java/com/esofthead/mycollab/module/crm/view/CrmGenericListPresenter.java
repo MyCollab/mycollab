@@ -20,7 +20,9 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -36,14 +38,46 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 		extends ListSelectionPresenter<V, S, B> {
 	private static final long serialVersionUID = 1L;
 
+	private PageView candidateView;
+
+	private Class<? extends PageView> noItemFallbackViewClass;
+
 	public CrmGenericListPresenter(Class<V> viewClass) {
+		this(viewClass, null);
+	}
+
+	public CrmGenericListPresenter(Class<V> viewClass,
+			Class<? extends PageView> noItemFallbackViewClass) {
 		super(viewClass);
+		this.noItemFallbackViewClass = noItemFallbackViewClass;
+	}
+
+	@Override
+	public V initView() {
+		super.initView();
+		this.candidateView = view;
+		return view;
+	}
+
+	public void displayListView(ComponentContainer container, ScreenData<?> data) {
+		this.candidateView = view;
+		displayView(container, data);
+	}
+
+	public void displayNoExistItems(ComponentContainer container,
+			ScreenData<?> data) {
+		this.candidateView = ViewManager.getView(noItemFallbackViewClass);
+		displayView(container, data);
+	}
+
+	private void displayView(ComponentContainer container, ScreenData<?> data) {
+		CrmModule crmModule = (CrmModule) container;
+		crmModule.addView(candidateView);
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		CrmModule crmModule = (CrmModule) container;
-		crmModule.addView(view);
+		displayListView(container, data);
 	}
 
 }

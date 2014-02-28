@@ -1,0 +1,18 @@
+#macro(selectExpr)
+    #ifnotnull($_parameter.searchCriteria.extraFields)
+        #repeat($_parameter.searchCriteria.extraFields $extraField)
+            #novalexpr($extraField)
+                ${extraField.operation} ${extraField.querySelect}
+            #end
+            #onevalexpr($extraField)
+                ${extraField.operation} ${extraField.querySelect} @{extraField.value}
+            #end
+            #collectionvalexpr($extraField)
+                ${extraField.operation} ${extraField.querySelect}
+                #repeat(${extraField.value} $listItem "," "(" ")")
+                    @{listItem}
+                #end
+            #end
+        #end
+    #end
+#end    

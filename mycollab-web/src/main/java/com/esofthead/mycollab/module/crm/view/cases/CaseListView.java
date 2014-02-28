@@ -20,6 +20,12 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface CaseListView extends ListView<CaseSearchCriteria, SimpleCase> {
 	public static final String VIEW_DEF_ID = "crm-case-list";
 }

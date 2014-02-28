@@ -16,17 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -34,18 +29,17 @@ import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultAdvancedSearchLayout;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -65,10 +59,12 @@ public class AccountSearchPanel extends
 
 	private static Param[] paramFields = new Param[] {
 			AccountSearchCriteria.p_accountName,
+			AccountSearchCriteria.p_anyPhone,
 			AccountSearchCriteria.p_numemployees,
 			AccountSearchCriteria.p_assignee,
 			AccountSearchCriteria.p_createdtime,
-			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types };
+			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
+			AccountSearchCriteria.p_assignee };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();
@@ -116,28 +112,35 @@ public class AccountSearchPanel extends
 		return new AccountAdvancedSearchLayout();
 	}
 
-	// private class AccountAdvancedSearchLayout extends
-	// DefaultAdvancedSearchLayout2<AccountSearchCriteria> {
-	//
-	// public AccountAdvancedSearchLayout() {
-	// super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
-	// }
-	//
-	// @Override
-	// public ComponentContainer constructHeader() {
-	// return AccountSearchPanel.this.createSearchTopPanel();
-	// }
-	//
-	// @Override
-	// public Param[] getParamFields() {
-	// return paramFields;
-	// }
-	//
-	// @Override
-	// protected Class<AccountSearchCriteria> getType() {
-	// return AccountSearchCriteria.class;
-	// }
-	// }
+	private class AccountAdvancedSearchLayout extends
+			DynamicQueryParamLayout<AccountSearchCriteria> {
+
+		public AccountAdvancedSearchLayout() {
+			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
+		}
+
+		@Override
+		public ComponentContainer constructHeader() {
+			return AccountSearchPanel.this.createSearchTopPanel();
+		}
+
+		@Override
+		public Param[] getParamFields() {
+			return paramFields;
+		}
+
+		@Override
+		protected Class<AccountSearchCriteria> getType() {
+			return AccountSearchCriteria.class;
+		}
+
+		protected Component buildSelectionComp(String fieldId) {
+			if ("account-assignuser".equals(fieldId)) {
+				return new ActiveUserListSelect();
+			}
+			return null;
+		}
+	}
 
 	private class AccountBasicSearchLayout extends
 			BasicSearchLayout<AccountSearchCriteria> {
@@ -245,225 +248,226 @@ public class AccountSearchPanel extends
 		}
 	}
 
-	public class AccountAdvancedSearchLayout extends
-			DefaultAdvancedSearchLayout<AccountSearchCriteria> {
-
-		private TextField nameField;
-		private TextField websiteField;
-		private TextField anyPhoneField;
-		private TextField anyMailField;
-		private TextField anyAddressField;
-		private TextField cityField;
-		private AccountIndustryListSelect industryField;
-		private AccountTypeListSelect typeField;
-		private ActiveUserListSelect userField;
-
-		public AccountAdvancedSearchLayout() {
-			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
-		}
-
-		@Override
-		public ComponentContainer constructBody() {
-
-			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(3, 3,
-					"100%", "90px");
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setMargin(
-					new MarginInfo(true, true, true, false));
-
-			this.nameField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(), "nameField"),
-					"Name", 0, 0);
-
-			this.websiteField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(),
-							"websiteField"), "Website", 1, 0);
-
-			this.anyPhoneField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(),
-							"anyPhoneField"), "Any Phone", 2, 0);
-
-			this.anyMailField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(),
-							"anyMailField"), "Any Email", 0, 1);
-
-			this.anyAddressField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(),
-							"anyAddressField"), "Any Address", 1, 1);
-
-			this.cityField = (TextField) gridLayout.addComponent(this
-					.createSeachSupportTextField(new TextField(), "cityField"),
-					"City", 2, 1);
-
-			this.industryField = (AccountIndustryListSelect) gridLayout
-					.addComponent(
-							this.createSeachSupportComboBox(new AccountIndustryListSelect()),
-							"Industry", 0, 2);
-
-			this.typeField = (AccountTypeListSelect) gridLayout
-					.addComponent(
-							this.createSeachSupportComboBox(new AccountTypeListSelect()),
-							"Type", 1, 2);
-
-			this.userField = (ActiveUserListSelect) gridLayout
-					.addComponent(
-							this.createSeachSupportComboBox(new ActiveUserListSelect()),
-							LocalizationHelper
-									.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
-							2, 2);
-			gridLayout.getLayout().setSpacing(true);
-			return gridLayout.getLayout();
-		}
-
-		@Override
-		public ComponentContainer constructHeader() {
-			return AccountSearchPanel.this.createSearchTopPanel();
-		}
-
-		@Override
-		protected AccountSearchCriteria fillupSearchCriteria() {
-			final AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
-			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
-			searchCriteria.setAccountname(new StringSearchField(
-					SearchField.AND, (String) this.nameField.getValue()));
-
-			if (StringUtils
-					.isNotNullOrEmpty((String) this.nameField.getValue())) {
-				searchCriteria.setAccountname(new StringSearchField(
-						SearchField.AND, (String) this.nameField.getValue()));
-			}
-
-			if (StringUtils.isNotNullOrEmpty((String) this.websiteField
-					.getValue())) {
-				searchCriteria
-						.setWebsite(new StringSearchField(SearchField.AND,
-								(String) this.websiteField.getValue()));
-			}
-
-			if (StringUtils.isNotNullOrEmpty((String) this.anyPhoneField
-					.getValue())) {
-				searchCriteria
-						.setAnyPhone(new StringSearchField(SearchField.AND,
-								(String) this.anyPhoneField.getValue()));
-			}
-
-			if (StringUtils.isNotNullOrEmpty((String) this.anyAddressField
-					.getValue())) {
-				searchCriteria.setAnyAddress(new StringSearchField(
-						SearchField.AND, (String) this.anyAddressField
-								.getValue()));
-			}
-
-			if (StringUtils.isNotNullOrEmpty((String) this.anyMailField
-					.getValue())) {
-				searchCriteria
-						.setAnyMail(new StringSearchField(SearchField.AND,
-								(String) this.anyMailField.getValue()));
-			}
-
-			if (StringUtils
-					.isNotNullOrEmpty((String) this.cityField.getValue())) {
-				searchCriteria.setAnyCity(new StringSearchField(
-						SearchField.AND, (String) this.cityField.getValue()));
-			}
-
-			final Collection<String> industries = (Collection<String>) this.industryField
-					.getValue();
-			if (industries != null && industries.size() > 0) {
-				searchCriteria.setIndustries(new SetSearchField(
-						SearchField.AND, industries));
-			}
-
-			final Collection<String> types = (Collection<String>) this.typeField
-					.getValue();
-			if (types != null && types.size() > 0) {
-				searchCriteria.setTypes(new SetSearchField(SearchField.AND,
-						types));
-			}
-
-			final Collection<String> users = (Collection<String>) this.userField
-					.getValue();
-			if (users != null && users.size() > 0) {
-				searchCriteria.setAssignUsers(new SetSearchField(
-						SearchField.AND, users));
-			}
-
-			return searchCriteria;
-		}
-
-		@Override
-		protected void clearFields() {
-			this.nameField.setValue("");
-			this.websiteField.setValue("");
-			this.anyPhoneField.setValue("");
-			this.anyMailField.setValue("");
-			this.anyAddressField.setValue("");
-			this.cityField.setValue("");
-			this.industryField.setValue(null);
-			this.typeField.setValue(null);
-			this.userField.setValue(null);
-		}
-
-		@Override
-		protected void loadSaveSearchToField(final AccountSearchCriteria value) {
-			if (value != null) {
-				if (value.getAccountname() != null) {
-					this.nameField.setValue(value.getAccountname().getValue());
-				} else {
-					this.nameField.setValue("");
-				}
-				if (value.getWebsite() != null) {
-					this.websiteField.setValue(value.getWebsite().getValue());
-				} else {
-					this.websiteField.setValue("");
-				}
-				if (value.getAnyPhone() != null) {
-					this.anyPhoneField.setValue(value.getAnyPhone().getValue());
-				} else {
-					this.anyPhoneField.setValue("");
-				}
-				if (value.getAnyMail() != null) {
-					this.anyMailField.setValue(value.getAnyMail().getValue());
-				} else {
-					this.anyMailField.setValue("");
-				}
-				if (value.getAnyAddress() != null) {
-					this.anyAddressField.setValue(value.getAnyAddress()
-							.getValue());
-				} else {
-					this.anyAddressField.setValue("");
-				}
-				if (value.getAnyCity() != null) {
-					this.cityField.setValue(value.getAnyCity().getValue());
-				} else {
-					this.cityField.setValue("");
-				}
-				if (value.getIndustries() != null) {
-					final Object[] userString = value.getIndustries().values;
-					this.industryField.setValue(Arrays.asList(userString));
-				} else {
-					this.industryField.setValue(null);
-				}
-				if (value.getTypes() != null) {
-					final Object[] typeObj = value.getTypes().values;
-					this.typeField.setValue(Arrays.asList(typeObj));
-				} else {
-					this.typeField.setValue(null);
-				}
-				if (value.getAssignUsers() != null) {
-					final Object[] userObj = value.getAssignUsers().values;
-					this.userField.setValue(Arrays.asList(userObj));
-				} else {
-					this.userField.setValue(null);
-				}
-			}
-		}
-
-		@Override
-		protected Class<AccountSearchCriteria> getType() {
-			return AccountSearchCriteria.class;
-		}
-	}
+	// public class AccountAdvancedSearchLayout extends
+	// DefaultAdvancedSearchLayout<AccountSearchCriteria> {
+	//
+	// private TextField nameField;
+	// private TextField websiteField;
+	// private TextField anyPhoneField;
+	// private TextField anyMailField;
+	// private TextField anyAddressField;
+	// private TextField cityField;
+	// private AccountIndustryListSelect industryField;
+	// private AccountTypeListSelect typeField;
+	// private ActiveUserListSelect userField;
+	//
+	// public AccountAdvancedSearchLayout() {
+	// super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
+	// }
+	//
+	// @Override
+	// public ComponentContainer constructBody() {
+	//
+	// GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(3, 3,
+	// "100%", "90px");
+	// gridLayout.getLayout().setWidth("100%");
+	// gridLayout.getLayout().setMargin(
+	// new MarginInfo(true, true, true, false));
+	//
+	// this.nameField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(), "nameField"),
+	// "Name", 0, 0);
+	//
+	// this.websiteField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(),
+	// "websiteField"), "Website", 1, 0);
+	//
+	// this.anyPhoneField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(),
+	// "anyPhoneField"), "Any Phone", 2, 0);
+	//
+	// this.anyMailField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(),
+	// "anyMailField"), "Any Email", 0, 1);
+	//
+	// this.anyAddressField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(),
+	// "anyAddressField"), "Any Address", 1, 1);
+	//
+	// this.cityField = (TextField) gridLayout.addComponent(this
+	// .createSeachSupportTextField(new TextField(), "cityField"),
+	// "City", 2, 1);
+	//
+	// this.industryField = (AccountIndustryListSelect) gridLayout
+	// .addComponent(
+	// this.createSeachSupportComboBox(new AccountIndustryListSelect()),
+	// "Industry", 0, 2);
+	//
+	// this.typeField = (AccountTypeListSelect) gridLayout
+	// .addComponent(
+	// this.createSeachSupportComboBox(new AccountTypeListSelect()),
+	// "Type", 1, 2);
+	//
+	// this.userField = (ActiveUserListSelect) gridLayout
+	// .addComponent(
+	// this.createSeachSupportComboBox(new ActiveUserListSelect()),
+	// LocalizationHelper
+	// .getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+	// 2, 2);
+	// gridLayout.getLayout().setSpacing(true);
+	// return gridLayout.getLayout();
+	// }
+	//
+	// @Override
+	// public ComponentContainer constructHeader() {
+	// return AccountSearchPanel.this.createSearchTopPanel();
+	// }
+	//
+	// @Override
+	// protected AccountSearchCriteria fillupSearchCriteria() {
+	// final AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
+	// searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+	// AppContext.getAccountId()));
+	// searchCriteria.setAccountname(new StringSearchField(
+	// SearchField.AND, (String) this.nameField.getValue()));
+	//
+	// if (StringUtils
+	// .isNotNullOrEmpty((String) this.nameField.getValue())) {
+	// searchCriteria.setAccountname(new StringSearchField(
+	// SearchField.AND, (String) this.nameField.getValue()));
+	// }
+	//
+	// if (StringUtils.isNotNullOrEmpty((String) this.websiteField
+	// .getValue())) {
+	// searchCriteria
+	// .setWebsite(new StringSearchField(SearchField.AND,
+	// (String) this.websiteField.getValue()));
+	// }
+	//
+	// if (StringUtils.isNotNullOrEmpty((String) this.anyPhoneField
+	// .getValue())) {
+	// searchCriteria
+	// .setAnyPhone(new StringSearchField(SearchField.AND,
+	// (String) this.anyPhoneField.getValue()));
+	// }
+	//
+	// if (StringUtils.isNotNullOrEmpty((String) this.anyAddressField
+	// .getValue())) {
+	// searchCriteria.setAnyAddress(new StringSearchField(
+	// SearchField.AND, (String) this.anyAddressField
+	// .getValue()));
+	// }
+	//
+	// if (StringUtils.isNotNullOrEmpty((String) this.anyMailField
+	// .getValue())) {
+	// searchCriteria
+	// .setAnyMail(new StringSearchField(SearchField.AND,
+	// (String) this.anyMailField.getValue()));
+	// }
+	//
+	// if (StringUtils
+	// .isNotNullOrEmpty((String) this.cityField.getValue())) {
+	// searchCriteria.setAnyCity(new StringSearchField(
+	// SearchField.AND, (String) this.cityField.getValue()));
+	// }
+	//
+	// final Collection<String> industries = (Collection<String>)
+	// this.industryField
+	// .getValue();
+	// if (industries != null && industries.size() > 0) {
+	// searchCriteria.setIndustries(new SetSearchField(
+	// SearchField.AND, industries));
+	// }
+	//
+	// final Collection<String> types = (Collection<String>) this.typeField
+	// .getValue();
+	// if (types != null && types.size() > 0) {
+	// searchCriteria.setTypes(new SetSearchField(SearchField.AND,
+	// types));
+	// }
+	//
+	// final Collection<String> users = (Collection<String>) this.userField
+	// .getValue();
+	// if (users != null && users.size() > 0) {
+	// searchCriteria.setAssignUsers(new SetSearchField(
+	// SearchField.AND, users));
+	// }
+	//
+	// return searchCriteria;
+	// }
+	//
+	// @Override
+	// protected void clearFields() {
+	// this.nameField.setValue("");
+	// this.websiteField.setValue("");
+	// this.anyPhoneField.setValue("");
+	// this.anyMailField.setValue("");
+	// this.anyAddressField.setValue("");
+	// this.cityField.setValue("");
+	// this.industryField.setValue(null);
+	// this.typeField.setValue(null);
+	// this.userField.setValue(null);
+	// }
+	//
+	// @Override
+	// protected void loadSaveSearchToField(final AccountSearchCriteria value) {
+	// if (value != null) {
+	// if (value.getAccountname() != null) {
+	// this.nameField.setValue(value.getAccountname().getValue());
+	// } else {
+	// this.nameField.setValue("");
+	// }
+	// if (value.getWebsite() != null) {
+	// this.websiteField.setValue(value.getWebsite().getValue());
+	// } else {
+	// this.websiteField.setValue("");
+	// }
+	// if (value.getAnyPhone() != null) {
+	// this.anyPhoneField.setValue(value.getAnyPhone().getValue());
+	// } else {
+	// this.anyPhoneField.setValue("");
+	// }
+	// if (value.getAnyMail() != null) {
+	// this.anyMailField.setValue(value.getAnyMail().getValue());
+	// } else {
+	// this.anyMailField.setValue("");
+	// }
+	// if (value.getAnyAddress() != null) {
+	// this.anyAddressField.setValue(value.getAnyAddress()
+	// .getValue());
+	// } else {
+	// this.anyAddressField.setValue("");
+	// }
+	// if (value.getAnyCity() != null) {
+	// this.cityField.setValue(value.getAnyCity().getValue());
+	// } else {
+	// this.cityField.setValue("");
+	// }
+	// if (value.getIndustries() != null) {
+	// final Object[] userString = value.getIndustries().values;
+	// this.industryField.setValue(Arrays.asList(userString));
+	// } else {
+	// this.industryField.setValue(null);
+	// }
+	// if (value.getTypes() != null) {
+	// final Object[] typeObj = value.getTypes().values;
+	// this.typeField.setValue(Arrays.asList(typeObj));
+	// } else {
+	// this.typeField.setValue(null);
+	// }
+	// if (value.getAssignUsers() != null) {
+	// final Object[] userObj = value.getAssignUsers().values;
+	// this.userField.setValue(Arrays.asList(userObj));
+	// } else {
+	// this.userField.setValue(null);
+	// }
+	// }
+	// }
+	//
+	// @Override
+	// protected Class<AccountSearchCriteria> getType() {
+	// return AccountSearchCriteria.class;
+	// }
+	// }
 
 }

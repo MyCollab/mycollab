@@ -22,11 +22,12 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.CompositionColumnParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.db.query.PropertyParam;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
@@ -45,11 +46,18 @@ public class AccountSearchCriteria extends SearchCriteria {
 	public static Param p_numemployees = new NumberParam("account-employees",
 			"Employees", "m_crm_account", "numemployees");
 
-	public static Param p_assignee = new PropertyParam("account-assignuser",
-			"Assignee");
+	public static Param p_assignee = new PropertyListParam(
+			"account-assignuser", "Assignee", "m_crm_account", "assignUser");
 
 	public static Param p_createdtime = new DateParam("account-createdtime",
 			"Created Time", "m_crm_account", "createdTime");
+
+	public static Param p_anyPhone = new CompositionColumnParam<StringParam>(
+			"account-anyPhone", "Any Phone", StringParam.class,
+			new StringParam[] {
+					new StringParam("", "", "m_crm_account", "alternatePhone"),
+					new StringParam("", "", "m_crm_account", "phoneOffice") },
+			StringParam.OPTIONS);
 
 	public static Param p_industries = new StringListParam("account-industry",
 			"Industry", "m_crm_account", "industry",

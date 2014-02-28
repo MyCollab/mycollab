@@ -60,7 +60,7 @@ public class AccountListPresenter
 	private AccountService accountService;
 
 	public AccountListPresenter() {
-		super(AccountListView.class);
+		super(AccountListView.class, AccountListNoItemView.class);
 	}
 
 	@Override
@@ -150,9 +150,17 @@ public class AccountListPresenter
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
+			
+			searchCriteria = (AccountSearchCriteria) data.getParams();
+			int totalCount = accountService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
 
-			super.onGo(container, data);
-			doSearch((AccountSearchCriteria) data.getParams());
+
 			AppContext.addFragment("crm/account/list", LocalizationHelper
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Account"));

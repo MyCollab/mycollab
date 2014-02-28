@@ -135,13 +135,12 @@ public class CaseListViewImpl extends
 	@Override
 	protected DefaultMassItemActionHandlersContainer createActionControls() {
 		DefaultMassItemActionHandlersContainer container = new DefaultMassItemActionHandlersContainer();
-		
+
 		if (AppContext.canAccess(RolePermissionCollections.CRM_CASE)) {
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
 					MyCollabResource.newResource("icons/16/action/delete.png"),
 					"delete");
 		}
-		
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
 				MyCollabResource.newResource("icons/16/action/mail.png"),
@@ -161,10 +160,11 @@ public class CaseListViewImpl extends
 
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
 			container.addActionItem(MassItemActionHandler.MASS_UPDATE_ACTION,
-					MyCollabResource.newResource("icons/16/action/massupdate.png"),
+					MyCollabResource
+							.newResource("icons/16/action/massupdate.png"),
 					"update");
 		}
-		
+
 		return container;
 	}
 }

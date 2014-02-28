@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Resource;
@@ -30,7 +33,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -45,8 +48,12 @@ import com.vaadin.ui.VerticalLayout;
 public class VerticalTabsheet extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 
+	private static Logger log = LoggerFactory.getLogger(VerticalTabsheet.class);
+
 	private VerticalLayout tabNavigator;
 	private CssLayout tabContainer;
+	private VerticalLayout contentWrapper;
+	private CssLayout navigatorWrapper;
 
 	private Map<Button, Tab> compMap = new HashMap<Button, Tab>();
 
@@ -58,16 +65,30 @@ public class VerticalTabsheet extends CustomComponent {
 	private final String TAB_SELECTED_STYLENAME = "tab-selected";
 
 	public VerticalTabsheet() {
-		HorizontalLayout contentLayout = new HorizontalLayout();
+		GridLayout contentLayout = new GridLayout(2, 1);
+		navigatorWrapper = new CssLayout();
+		navigatorWrapper.setStyleName("navigator-wrap");
+		navigatorWrapper.setHeight("100%");
 		tabNavigator = new VerticalLayout();
+		navigatorWrapper.addComponent(tabNavigator);
+
+		contentWrapper = new VerticalLayout();
+		contentWrapper.setStyleName("container-wrap");
+		contentWrapper.setWidth("100%");
+
 		tabContainer = new CssLayout();
 		tabContainer.setWidth("100%");
+		contentWrapper.addComponent(tabContainer);
 
-		contentLayout.addComponent(tabNavigator);
-		contentLayout.addComponent(tabContainer);
-		contentLayout.setExpandRatio(tabContainer, 1.0f);
+		contentLayout.addComponent(navigatorWrapper, 0, 0);
+		contentLayout.addComponent(contentWrapper, 1, 0);
+		contentLayout.setColumnExpandRatio(1, 1.0f);
 		this.setCompositionRoot(contentLayout);
 		this.setStyleName(TABSHEET_STYLENAME);
+	}
+
+	public void addTab(Component component, String caption) {
+		addTab(component, caption, null);
 	}
 
 	public void addTab(Component component, String caption, Resource resource) {
@@ -87,10 +108,17 @@ public class VerticalTabsheet extends CustomComponent {
 						VerticalTabsheet.this));
 			}
 		});
+		if (resource != null){
+			button.setIcon(resource);
+		}
+		else
+		{
+			setDefaulButtonIcon(button, false);
+		}
 		button.setStyleName(TAB_STYLENAME);
 		button.setWidth("100%");
 
-		button.setIcon(resource);
+		//button.setIcon(resource);
 		tabNavigator.addComponent(button);
 
 		tabContainer.removeAllComponents();
@@ -99,6 +127,8 @@ public class VerticalTabsheet extends CustomComponent {
 		TabImpl tabImpl = new TabImpl(caption, component);
 		compMap.put(button, tabImpl);
 	}
+
+
 
 	private void fireTabChangeEvent(SelectedTabChangeEvent event) {
 		this.fireEvent(event);
@@ -124,7 +154,8 @@ public class VerticalTabsheet extends CustomComponent {
 				SELECTED_TAB_CHANGE_METHOD);
 	}
 
-	public Component selectTab(String viewName) {
+	public Component selectTab(String viewName)
+	{
 		Collection<Button> tabs = compMap.keySet();
 		for (Button btn : tabs) {
 			Tab tab = compMap.get(btn);
@@ -132,6 +163,7 @@ public class VerticalTabsheet extends CustomComponent {
 				selectedButton = btn;
 				clearTabSelection();
 				selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+				setDefaulButtonIcon(selectedButton, true);
 				selectedComp = tab;
 				tabContainer.removeAllComponents();
 				tabContainer.addComponent(tab.getComponent());
@@ -147,7 +179,7 @@ public class VerticalTabsheet extends CustomComponent {
 
 	public static class TabImpl implements Tab {
 		private static final long serialVersionUID = 1L;
-		
+
 		private String caption;
 		private Component component;
 
@@ -287,8 +319,80 @@ public class VerticalTabsheet extends CustomComponent {
 	private void clearTabSelection() {
 		Collection<Button> tabs = compMap.keySet();
 		for (Button btn : tabs) {
-			btn.removeStyleName(TAB_SELECTED_STYLENAME);
+			if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
+				btn.removeStyleName(TAB_SELECTED_STYLENAME);       
+				setDefaulButtonIcon(btn, false);
+			}
 		}
 	}
 
+	public void setDefaulButtonIcon(Button btn, Boolean selected){
+		String caption = btn.getCaption();
+		String suffix;
+		if (selected == true)
+			suffix = "_selected";
+		else
+			suffix = "";
+
+		switch (caption){
+		case "Dashboard":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_dashboard.png"));
+			break;
+
+		case "Messages":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_message.png"));
+			break;
+		case "Phases":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_milestone.png"));
+			break;
+
+		case "Tasks":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_task" + suffix + ".png"));
+			break;
+
+		case "Bugs":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_bug.png"));
+			break;
+
+		case "Files":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_file.png"));
+			break;
+		case "Risks":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_risk.png"));
+			break;
+		case "Problems":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_problem.png"));
+			break;
+		case "Time":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_time.png"));
+			break;
+		case "StandUp":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_standup.png"));
+			break;
+		case "Users & Settings":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/project/menu_user.png"));
+			break;
+		default:
+			log.debug("cannot find resource for" + caption);
+		}
+	}
+
+	public VerticalLayout getContentWrapper() {
+		return this.contentWrapper;
+	}
+
+	public CssLayout getNavigatorWrapper() {
+		return this.navigatorWrapper;
+	}
 }

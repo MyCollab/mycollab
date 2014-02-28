@@ -1,5 +1,6 @@
 package com.esofthead.mycollab.mobile.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -11,6 +12,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -24,7 +26,8 @@ import com.vaadin.ui.Table.ColumnHeaderMode;
  * @author MyCollab Ltd.
  * @since 3.0
  */
-public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends CssLayout implements IPagedBeanList<S, B> {
+public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
+extends CssLayout implements IPagedBeanList<S, B> {
 	private static final long serialVersionUID = 1504984093640864283L;
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
@@ -36,6 +39,8 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 	protected int currentViewCount;
 	protected int totalCount;
 
+	BeanItemContainer<B> container;
+
 	protected Table tableItem;
 
 	protected String displayColumnId;
@@ -45,8 +50,19 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 
 	protected final Map<Object, ColumnGenerator> columnGenerators = new HashMap<Object, Table.ColumnGenerator>();
 
-	public AbstractPagedBeanList(Class<B> type,
-			String displayColumnId) {
+	public AbstractPagedBeanList(Class<B> type, String displayColumnId) {
+		super();
+		setSizeFull();
+		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
+		scrollLayout
+		.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
+
+			@Override
+			public void onReachBottom() {
+				loadMore();
+			}
+		});
+
 		this.type = type;
 		this.displayColumnId = displayColumnId;
 		this.setStyleName("data-list-view");
@@ -122,11 +138,13 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 	public B getBeanByIndex(final Object itemId) {
 		final Container container = this.tableItem.getContainerDataSource();
 		final BeanItem<B> item = (BeanItem<B>) container.getItem(itemId);
-		return (item == null) ? null : item.getBean();
+		return item == null ? null : item.getBean();
 	}
 
 	@Override
 	public void refresh() {
+		this.currentPage = 1;
+		this.searchRequest.setCurrentPage(this.currentPage);
 		this.doSearch();
 	}
 
@@ -156,12 +174,11 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 					this.columnGenerators.get(propertyId));
 		}
 
-		final BeanItemContainer<B> container = new BeanItemContainer<B>(
-				this.type, this.currentListData);
+		container = new BeanItemContainer<B>(this.type, this.currentListData);
 		this.tableItem.setPageLength(0);
 		this.tableItem.setContainerDataSource(container);
 		this.tableItem.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
-		this.tableItem.setVisibleColumns(new String[]{this.displayColumnId});
+		this.tableItem.setVisibleColumns(new String[] { this.displayColumnId });
 		this.tableItem.setWidth("100%");
 
 		if (this.getComponentCount() > 0) {
@@ -175,6 +192,17 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B> extends
 			this.addComponent(tableItem, 0);
 		}
 
+	}
+
+	protected void loadMore() {
+		this.currentPage += 1;
+		this.searchRequest.setCurrentPage(this.currentPage);
+		List<B> currentData = this.queryCurrentData();
+		if (this.currentListData == null)
+			this.currentListData = new ArrayList<B>();
+		this.currentListData.addAll(currentData);
+		this.currentViewCount = this.currentListData.size();
+		container.addAll(currentData);
 	}
 
 	public String getDisplayColumnId() {

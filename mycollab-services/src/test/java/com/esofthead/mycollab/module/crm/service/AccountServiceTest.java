@@ -259,7 +259,7 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.addExtraField(new OneValueSearchField(SearchField.AND,
 				"m_crm_account.accountName = ", "xyz"));
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
+		 Assert.assertEquals(1, accountService.getTotalCount(criteria));
 		Assert.assertEquals(
 				1,
 				accountService.findPagableListByCriteria(

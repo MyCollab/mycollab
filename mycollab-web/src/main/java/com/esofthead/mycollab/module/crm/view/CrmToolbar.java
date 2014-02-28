@@ -138,6 +138,8 @@ public class CrmToolbar extends CssLayout implements PageView {
 				LocalizationHelper
 						.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER),
 				listener);
+		fileBtn.setEnabled(AppContext
+				.canRead(RolePermissionCollections.CRM_DOCUMENT));
 		fileBtn.setStyleName("link");
 		addComponent(fileBtn);
 

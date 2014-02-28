@@ -1,0 +1,18 @@
+#macro(totalCountExpr)
+    #ifnotnull($_parameter.searchCriteria.extraFields)
+        #repeat($_parameter.searchCriteria.extraFields $extraField) 
+            #novalexpr($extraField) 
+                ${extraField.operation} ${extraField.queryCount} 
+            #end 
+            #onevalexpr($extraField) 
+                ${extraField.operation} ${extraField.queryCount} @{extraField.value} 
+            #end 
+            #collectionvalexpr($extraField) 
+                ${extraField.operation} ${extraField.queryCount} 
+                #repeat(${extraField.value} $listItem "," "(" ")") 
+                    @{listItem} 
+                #end 
+            #end 
+        #end 
+    #end
+#end

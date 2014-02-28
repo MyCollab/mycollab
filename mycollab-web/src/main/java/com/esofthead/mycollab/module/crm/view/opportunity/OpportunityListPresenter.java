@@ -57,7 +57,7 @@ public class OpportunityListPresenter
 	private OpportunityService opportunityService;
 
 	public OpportunityListPresenter() {
-		super(OpportunityListView.class);
+		super(OpportunityListView.class, OpportunityListNoItemView.class);
 	}
 
 	@Override
@@ -105,8 +105,14 @@ public class OpportunityListPresenter
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER));
 
-			super.onGo(container, data);
-			doSearch((OpportunitySearchCriteria) data.getParams());
+			searchCriteria = (OpportunitySearchCriteria) data.getParams();
+			int totalCount = opportunityService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
 
 			AppContext.addFragment("crm/opportunity/list", LocalizationHelper
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,

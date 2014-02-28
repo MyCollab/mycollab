@@ -84,4 +84,5 @@ public class UIConstants {
     public static final String WHITE_TABSHEET = "white-tabsheet";
     public static final String TEXT_BLUE = "bluetxt";
     public static final String LABEL_CHECKED = "has-checkmark";
+    public static final String H2_NO_PADDING = "h2-no-padding";
 }

@@ -178,4 +178,10 @@ public class SplitButton extends CustomComponent {
 		parentButton.addStyleName(stylename);
 		popupButton.addStyleName(stylename);
 	}
+	
+	public void setWidthPopupButton(String width)
+	{
+		popupButton.setWidth(width);
+	}
+
 }

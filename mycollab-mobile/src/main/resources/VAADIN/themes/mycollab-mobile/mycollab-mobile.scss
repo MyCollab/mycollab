@@ -245,6 +245,13 @@
 		    			}
 					}
 	    		}
+	    		
+	    		.v-mobileview-toolbar {
+	    			.v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar-nextBtn {
+	    				color: rgb(94, 80, 85);
+	    				background-color: rgba(187, 187, 187, 0.6);
+	    			}
+	    		}
 	    	}
 	    }
 	}

@@ -24,6 +24,7 @@ import org.reflections.Reflections;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 public abstract class ViewManager {

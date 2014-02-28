@@ -58,7 +58,7 @@ public class CaseListPresenter extends
 	private CaseService caseService;
 
 	public CaseListPresenter() {
-		super(CaseListView.class);
+		super(CaseListView.class, CaseListNoItemView.class);
 	}
 
 	@Override
@@ -123,8 +123,14 @@ public class CaseListPresenter extends
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
 
-			super.onGo(container, data);
-			doSearch((CaseSearchCriteria) data.getParams());
+			searchCriteria = (CaseSearchCriteria) data.getParams();
+			int totalCount = caseService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
 
 			AppContext.addFragment("crm/cases/list",
 					LocalizationHelper.getMessage(

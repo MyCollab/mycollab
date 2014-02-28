@@ -76,7 +76,9 @@ public class TaskDisplayWidget extends
 			layout.addComponent(taskLink);
 			Label taskName = new Label(task.getTaskname());
 			layout.addComponent(taskName);
-			layout.setComponentAlignment(taskName, Alignment.MIDDLE_LEFT);
+			layout.setExpandRatio(taskName, 1);
+			layout.setSpacing(true);
+			layout.setComponentAlignment(taskName, Alignment.TOP_LEFT);
 			layout.setDescription("Task Information");
 			return layout;
 		}

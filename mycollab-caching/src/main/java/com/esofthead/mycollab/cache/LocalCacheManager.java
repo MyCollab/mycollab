@@ -49,7 +49,7 @@ public class LocalCacheManager {
 
 			if (configInputStream == null) {
 				configInputStream = LocalCacheManager.class.getClassLoader()
-						.getResourceAsStream("infinispan-local-default.xml");
+						.getResourceAsStream("infinispan-default.xml");
 			}
 			instance = new DefaultCacheManager(configInputStream);
 

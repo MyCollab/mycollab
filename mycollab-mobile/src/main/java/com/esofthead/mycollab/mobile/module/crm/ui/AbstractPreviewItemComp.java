@@ -4,6 +4,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
+import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
@@ -48,10 +49,13 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		});
 		editBtn.setStyleName("edit-btn");
 		this.setRightComponent(editBtn);
-		ComponentContainer toolbar = createBottomPanel();
-		toolbar.setStyleName("related-items");
-		toolbar.setHeight("100%");
-		toolbar.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
+		ComponentContainer toolbarContent = createBottomPanel();
+		toolbarContent.setStyleName("related-items");
+		toolbarContent.setHeight("100%");
+		toolbarContent.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
+
+		MobileViewToolbar toolbar = new MobileViewToolbar();
+		toolbar.setComponent(toolbarContent);
 		this.setToolbar(toolbar);
 	}
 
@@ -79,7 +83,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 	abstract protected AdvancedPreviewBeanForm<B> initPreviewForm();
 
-	//abstract protected void initRelatedComponents();
+	// abstract protected void initRelatedComponents();
 
 	abstract protected IFormLayoutFactory initFormLayoutFactory();
 

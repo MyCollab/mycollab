@@ -58,7 +58,7 @@ public class LeadListPresenter extends
 	private LeadService leadService;
 
 	public LeadListPresenter() {
-		super(LeadListView.class);
+		super(LeadListView.class, LeadListNoItemView.class);
 	}
 
 	@Override
@@ -125,8 +125,14 @@ public class LeadListPresenter extends
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 
-			super.onGo(container, data);
-			doSearch((LeadSearchCriteria) data.getParams());
+			searchCriteria = (LeadSearchCriteria) data.getParams();
+			int totalCount = leadService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
 
 			AppContext.addFragment("crm/lead/list",
 					LocalizationHelper.getMessage(

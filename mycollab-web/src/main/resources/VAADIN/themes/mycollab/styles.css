@@ -6,7 +6,7 @@
 		margin: 15px;
 	}
 	.projectDashboardView {
-		margin: 20px 15px 20px 0px;
+		margin: 0px 15px 20px 0px;
 	}
 	.menuContent .v-csslayout-projectTabContent {
 		min-width: 700px;
@@ -23,7 +23,7 @@
 		margin: 15px auto;
 	}
 	.projectDashboardView {
-		margin: 20px auto;
+		margin: 0px auto;
 	}
 	.member-block {
 		width: 290px;
@@ -1425,25 +1425,78 @@ input.v-textfield-errorField {
 /* End Account Settings */
 
 /* Project Management */
-.projectDashboardView {
-	margin: 20px auto;
+
+.projectDashboardView.main-content-wrapper.v-verticallayout.v-margin-top {
+	padding-top: 20px;
 }
 
-.projectDashboardView {
-	background-color: #F5F5F5;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5),
-		to(#DDDDDD));
-	background-image: -webkit-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -ms-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -o-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: linear-gradient(top, #F5F5F5, #DDDDDD);
-	border-top-left-radius: 5px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 5px;
-	border: 1px solid #8F8F8F;
-	overflow: hidden;
+.projectDashboardView.main-content-wrapper.v-verticallayout.v-margin-bottom {
+	padding-bottom: 20px;
+}
+
+.projectDashboardView .navigator-wrap {
+	background-color: #FFFFFF;
+	border: 1px solid #BCBCBC;
+}
+.projectDashboardView .navigator-wrap .project-list-comp {
+	border-bottom: 1px solid #CFCFCF;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr {
+	background-color: #EEEEEE;
+	border-bottom: 1px solid #CFCFCF;
+	cursor: pointer;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr .v-label {
+	cursor: pointer;
+}
+
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr.v-margin-top {
+	padding-top: 15px;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr.v-margin-right {
+	padding-right: 15px;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr.v-margin-bottom {
+	padding-bottom: 15px;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr.v-margin-left {
+	padding-left: 15px;
+}
+
+.projectDashboardView .navigator-wrap .project-list-comp .project-name {
+	background-color: #F7F7F7;
+	cursor: pointer;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-name .v-label {
+	cursor: pointer;
+}
+
+.projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-top {
+	padding-top: 9px
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-bottom {
+	padding-bottom: 9px;
+}
+.projectDashboardView .navigator-wrap .project-list-comp .project-name.v-margin-left {
+	padding-left: 13px;
+}
+
+.projectDashboardView .container-wrap.main-content.v-verticallayout.v-margin-left {
+	padding-left: 20px;
+}
+
+.projectDashboardView .container-wrap.main-content .top-panel {
+	background-color: #EEEEEE;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #BCBCBC #BCBCBC #CFCFCF #BCBCBC;
+	border-radius: 5px 5px 0px 0px;
+}
+
+.projectDashboardView .container-wrap.main-content > .v-slot > .tab-content {
+	border-width: 0px 1px 1px;
+	border-color: #BCBCBC;
+	border-radius: 0px 0px 5px 5px;
 }
 
 .projectDashboardView .v-label-h1,.projectDashboardView .v-label h1 {
@@ -1472,7 +1525,7 @@ input.v-textfield-errorField {
 }
 
 .projectDashboardView .sidebar-menu {
-	padding: 10px 0px;
+	padding: 0px 0px;
 }
 
 .projectDashboardView .sidebar-menu .v-label.sectionHeader {
@@ -1488,7 +1541,7 @@ input.v-textfield-errorField {
 
 .projectDashboardView .sidebar-menu .tab-selected,.accountViewContainer .sidebar-menu .selected
 	{
-	background: none no-repeat scroll 0px 0px rgb(40, 126, 206);
+	/* background: none no-repeat scroll 0px 0px rgb(40, 126, 206); */
 }
 
 .projectDashboardView .v-nativebutton .v-nativebutton-caption {
@@ -2942,8 +2995,8 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 	font-size: 13px !important;
 }
 
-.v-button-xbreadcrumbbutton-home .v-button-caption {
-	background-position: center center !important;
+.v-button-xbreadcrumbbutton-home span.v-button-caption {
+	padding-left: 18px;
 }
 div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 	padding: 0px;
@@ -3406,7 +3459,7 @@ div.v-lazyloadingwrapper-loading {
 /* Main body */
 .main-body {
 	overflow-y: scroll; /*CSS fix for Vaadin 7 */
-	background-color: #FFFFFF;
+	background-color: #DBDBDB;
 	position: relative;
 }
 
@@ -3911,6 +3964,15 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 	border: none;
 }
 
+.readViewLayout .v-label-h2-no-padding
+{
+	text-shadow: #F0F0F0 0 1px 0;
+	padding: 0px 0px 0px 0px;
+	font-size: 13px;
+	border-bottom: 1px solid #a9a9a9;
+	color: rgb(69, 69, 69);
+	font-weight: bold;
+}
 .readViewBottomControls .v-verticallayout {
 	display: block;
 }
@@ -5534,14 +5596,14 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 /* new splitbutton */
 .splitbutton .v-button,.splitbutton .v-button.v-disabled,.splitbutton .v-button:active
 {
-	background-image: url("icons/grad-dark-bottom.png");
+	background-image: none;
 	background-repeat: repeat-x;
 	background-position: left bottom;
-	background-color: rgb(252, 252, 252);
+	background-color: #F9F9F9;
 	border-radius: 3px 0px 0px 3px;
 	border-width: 1px 0px 1px 1px;
-	/* padding: 4px 6px 4px 15px; */
-	padding: 3px 6px 3px 8px;
+	/*padding: 4px 6px 4px 15px;
+	padding: 3px 6px 3px 8px;*/
 	font-weight: bold;
 }
 .splitbutton .v-button.bluebtn {
@@ -5553,6 +5615,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .splitbutton .v-button .v-button-wrap, .splitbutton .v-button:active .v-button-wrap {
 	background-image: none;
 	border: none;
+	/* padding: 6px 11px 6px 11px; */
 }
 
 .v-ie .splitbutton .bluebtn,.v-ie .splitbutton .graybtn {
@@ -5600,7 +5663,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	border: none;
 	background: none no-repeat 0 0 transparent;
 	border-radius: 0px;
-	padding: 4px 13px;
+	/* padding: 4px 13px; */
 }
 
 .vertical-tabsheet .v-button-tab>.v-button-wrap {
@@ -5608,10 +5671,19 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	border-radius: 0px;
 	text-align: left;
 	border: none;
+	padding: 9px 13px;
+	transition:All 0.2s ease;
+	-webkit-transition:All 0.2s ease;
+	-moz-transition:All 0.2s ease;
+	-o-transition:All 0.2s ease;
 }
-
+.vertical-tabsheet .v-button-tab>.v-button-wrap:hover {
+	background: none no-repeat 0 0 #007EBB;
+	color:white;
+}
 .vertical-tabsheet .v-button-tab.tab-selected>.v-button-wrap {
-	background: none no-repeat 0 0 rgb(40, 126, 206);
+	background: none no-repeat 0 0 #007EBB;
+
 }
 
 .vertical-tabsheet .v-button-tab>.v-button-wrap>.v-icon {
@@ -5620,6 +5692,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 .vertical-tabsheet .v-button-tab>.v-button-wrap>.v-button-caption {
 	line-height: 24px;
+	font-size: 13px;
 }
 /* End VerticalTabsheet */
 
@@ -5891,3 +5964,58 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .message-list > .v-slot > .v-verticallayout {
 	display: block;
 }
+
+/* case list no item */
+.case-noitem {
+	background-color:#FFFBF8;
+	box-shadow: 0 0 8px 0px rgb(114, 94, 94);
+	border-radius: 2px;
+}
+
+/* change style for all button */
+
+
+/* new style for action button */
+.splitbutton .v-popupbutton.action-button
+{
+	padding: 0px 0px 0px 0px !important;
+	border:0 !important;
+}
+.splitbutton .v-button.action-button {
+	
+	border-radius:0;
+	border-width: 1px 1px 1px 1px !important;
+	
+	height:100%;
+	border-width: 0;
+	
+}
+.splitbutton .v-button.action-button:active {
+	border-color:#a9a9a9;	
+}
+.splitbutton .v-button.action-button .v-button-wrap {
+	padding: 7px 12px 7px 12px;
+	border-top:1px solid transparent;
+}
+
+.splitbutton .v-button.action-button .v-button-wrap:active, 
+.splitbutton .v-button.action-button .v-button-wrap:hover {
+	/*background-color: #E7E7E7;*/
+	background-image: -webkit-linear-gradient(top,#F0F0F0,#E7E7E7);
+	background-image: -moz-linear-gradient(top,#F0F0F0,#E7E7E7);
+	background-image: -ms-linear-gradient(top,#F0F0F0,#E7E7E7);
+	background-image: -o-linear-gradient(top,#F0F0F0,#E7E7E7);
+	background-image: linear-gradient(top,#F0F0F0,#E7E7E7);
+}
+.splitbutton .v-button.action-button .v-button-wrap:active {
+	border-top-color: #C7C7C7;
+	background-color:#F0F0F0;
+}	
+.splitbutton .v-button.action-button .v-icon {
+	margin-right:0;
+}
+.v-customcomponent.action-button {
+	position: absolute;
+	top: 18px;
+} 
+

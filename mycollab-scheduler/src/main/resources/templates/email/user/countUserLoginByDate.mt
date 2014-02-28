@@ -7,8 +7,7 @@
 <body>
 	<table border="1">
 		<tr>
-			<th>Count</th>
-			<th>$!count</th>
+			<th>Count: $!count</th>
 		</tr>
 	</table>
 	<br/>
@@ -16,12 +15,13 @@
 		<tr>
 			<th>User name</th>
 			<th>Email</th>
+			<th>Last accessed time</th>
 		</tr>
 		#foreach( $user in $lstUser )
 		<tr>
 			<th>$!user.username</th>
 			<th>$!user.email</th>
-		
+			<th>$!user.lastaccessedtime</th>
 		</tr>
 		#end
 	</table>

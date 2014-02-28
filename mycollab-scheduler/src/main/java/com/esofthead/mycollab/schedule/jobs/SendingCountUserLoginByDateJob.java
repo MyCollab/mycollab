@@ -83,7 +83,7 @@ public class SendingCountUserLoginByDateJob extends QuartzJobBean {
 					log.debug("Start generate template");
 					extMailService.sendHTMLMail("noreply@mycollab.com",
 							"noreply@mycollab.com",
-							Arrays.asList(new MailRecipientField("huynguyen@esofthead.com", "Huy Nguyen")), null,
+							Arrays.asList(new MailRecipientField("hainguyen@esofthead.com", "Hai Nguyen")), null,
 							null, templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				} catch (Exception e) {

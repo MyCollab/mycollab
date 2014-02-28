@@ -100,7 +100,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 			header.setSpacing(true);
 			header.setWidth("100%");
 			Label taskGroupSelection = new Label("Tasks");
-			taskGroupSelection.addStyleName("h2");
+			taskGroupSelection.addStyleName(UIConstants.H2_NO_PADDING);
 			taskGroupSelection.addStyleName(UIConstants.THEME_NO_BORDER);
 			header.addComponent(taskGroupSelection);
 			header.setExpandRatio(taskGroupSelection, 1.0f);
