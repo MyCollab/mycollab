@@ -26,6 +26,8 @@ import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -38,7 +40,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 public class CommentRowDisplayHandler implements
-		BeanList.RowDisplayHandler<SimpleComment> {
+BeanList.RowDisplayHandler<SimpleComment> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -47,9 +49,18 @@ public class CommentRowDisplayHandler implements
 		layout.setStyleName("message");
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.addComponent(UserAvatarControlFactory
-				.createUserAvatarButtonLink(comment.getOwnerAvatarId(),
+		VerticalLayout userBlock = new VerticalLayout();
+		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		userBlock.setWidth("80px");
+		userBlock.setSpacing(true);
+		userBlock.addComponent(UserAvatarControlFactory
+				.createUserAvatarButtonLink(
+						comment.getOwnerAvatarId(),
 						comment.getOwnerFullName()));
+		Label userName = new Label(comment.getOwnerFullName());
+		userName.setStyleName("user-name");
+		userBlock.addComponent(userName);
+		layout.addComponent(userBlock);
 
 		CssLayout rowLayout = new CssLayout();
 		rowLayout.setStyleName("message-container");
@@ -58,9 +69,6 @@ public class CommentRowDisplayHandler implements
 		HorizontalLayout messageHeader = new HorizontalLayout();
 		messageHeader.setStyleName("message-header");
 		VerticalLayout leftHeader = new VerticalLayout();
-		Label username = new Label(comment.getOwnerFullName());
-		username.setStyleName("user-name");
-		leftHeader.addComponent(username);
 
 		VerticalLayout rightHeader = new VerticalLayout();
 		Label timePostLbl = new Label(
@@ -73,6 +81,7 @@ public class CommentRowDisplayHandler implements
 		messageHeader.setExpandRatio(leftHeader, 1.0f);
 		messageHeader.addComponent(timePostLbl);
 		messageHeader.setWidth("100%");
+		messageHeader.setMargin(new MarginInfo(true, true, false, true));
 
 		rowLayout.addComponent(messageHeader);
 
@@ -82,7 +91,14 @@ public class CommentRowDisplayHandler implements
 
 		List<Content> attachments = comment.getAttachments();
 		if (attachments != null && !attachments.isEmpty()) {
-			rowLayout.addComponent(new AttachmentDisplayComponent(attachments));
+			VerticalLayout messageFooter = new VerticalLayout();
+			messageFooter.setWidth("100%");
+			messageFooter.setStyleName("message-footer");
+			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
+			messageFooter.addComponent(attachmentDisplay);
+			messageFooter.setMargin(true);
+			messageFooter.setComponentAlignment(attachmentDisplay, Alignment.MIDDLE_RIGHT);
+			rowLayout.addComponent(messageFooter);
 		}
 
 		layout.addComponent(rowLayout);

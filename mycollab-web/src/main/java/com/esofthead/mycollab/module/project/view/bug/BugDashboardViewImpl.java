@@ -61,13 +61,13 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @ViewComponent
 public class BugDashboardViewImpl extends AbstractPageView implements
-		BugDashboardView {
+BugDashboardView {
 
 	private VerticalLayout leftColumn, rightColumn, headerWrapper;
 
 	public BugDashboardViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(true);
 		this.initUI();
 	}
 
@@ -188,7 +188,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		this.leftColumn.addComponent(myBugListWidget);
 		final BugSearchCriteria myBugsSearchCriteria = new BugSearchCriteria();
 		myBugsSearchCriteria
-				.setProjectId(new NumberSearchField(project.getId()));
+		.setProjectId(new NumberSearchField(project.getId()));
 		myBugsSearchCriteria.setStatuses(new SetSearchField<String>(
 				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
 						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
@@ -204,7 +204,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		dueDefectsCriteria.setProjectId(new NumberSearchField(project.getId()));
 		dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
 				DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
-						.getTime()));
+		.getTime()));
 		dueDefectsCriteria.setStatuses(new SetSearchField<String>(
 				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
 						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
@@ -220,12 +220,12 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		unresolvedByAssigneeSearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByAssigneeSearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+		.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { BugStatusConstants.INPROGRESS,
+				BugStatusConstants.OPEN,
+				BugStatusConstants.REOPENNED }));
 		unresolvedByAssigneeWidget
-				.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
+		.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 		this.rightColumn.addComponent(unresolvedByAssigneeWidget);
 
 		// Unresolve by priority widget
@@ -234,12 +234,12 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		unresolvedByPrioritySearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByPrioritySearchCriteria
-				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+		.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { BugStatusConstants.INPROGRESS,
+				BugStatusConstants.OPEN,
+				BugStatusConstants.REOPENNED }));
 		unresolvedByPriorityWidget
-				.setSearchCriteria(unresolvedByPrioritySearchCriteria);
+		.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 		this.rightColumn.addComponent(unresolvedByPriorityWidget);
 
 		// bug chart

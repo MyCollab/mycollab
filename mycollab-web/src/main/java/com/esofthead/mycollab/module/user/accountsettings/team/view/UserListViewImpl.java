@@ -53,8 +53,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -81,14 +81,14 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		this.setSpacing(true);
 		Button createBtn = new Button("Invite user",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new UserEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new UserEvent.GotoAdd(this, null));
+			}
+		});
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.USERS));
 		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
@@ -112,7 +112,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		VerticalLayout blockContent = new VerticalLayout();
 		HorizontalLayout blockTop = new HorizontalLayout();
 		blockTop.setSpacing(true);
-		Embedded memberAvatar = UserAvatarControlFactory
+		Image memberAvatar = UserAvatarControlFactory
 				.createUserAvatarEmbeddedComponent(member.getAvatarid(), 100);
 		blockTop.addComponent(memberAvatar);
 
@@ -138,13 +138,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 						LocalizationHelper.getMessage(
 								GenericI18Enum.DELETE_DIALOG_TITLE,
 								SiteConfiguration.getSiteName()),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-						new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -155,12 +155,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 									userService.pendingUserAccounts(Arrays
 											.asList(new String[] { member
 													.getUsername() }),
-											AppContext.getAccountId());
+													AppContext.getAccountId());
 									EventBus.getInstance()
-											.fireEvent(
-													new UserEvent.GotoList(
-															UserListViewImpl.this,
-															null));
+									.fireEvent(
+											new UserEvent.GotoList(
+													UserListViewImpl.this,
+													null));
 								}
 							}
 						});
@@ -254,8 +254,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
 			if (member.getRoleName().equals(SimpleRole.ADMIN)
-					|| (member.getIsAccountOwner() != null && member
-							.getIsAccountOwner())) {
+					|| member.getIsAccountOwner() != null && member
+					.getIsAccountOwner()) {
 				memberRole.setValue(memberRoleLinkPrefix
 						+ "style=\"color: #B00000;\">" + "Administrator"
 						+ "</a>");

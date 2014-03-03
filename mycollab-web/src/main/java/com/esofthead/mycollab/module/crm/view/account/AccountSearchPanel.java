@@ -59,7 +59,7 @@ public class AccountSearchPanel extends
 
 	private static Param[] paramFields = new Param[] {
 			AccountSearchCriteria.p_accountName,
-			AccountSearchCriteria.p_anyPhone,
+			AccountSearchCriteria.p_anyCity, AccountSearchCriteria.p_anyPhone,
 			AccountSearchCriteria.p_numemployees,
 			AccountSearchCriteria.p_assignee,
 			AccountSearchCriteria.p_createdtime,

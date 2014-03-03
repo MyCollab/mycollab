@@ -48,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -55,8 +56,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -68,19 +69,27 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProjectMemberListViewImpl extends AbstractPageView implements
-		ProjectMemberListView {
+ProjectMemberListView {
 	private static final long serialVersionUID = 1L;
+	private CssLayout contentLayout;
 
-	@Override
-	public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
-		ProjectMemberService prjMemberService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-		List<SimpleProjectMember> memberLists = prjMemberService
-				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
-						searchCriteria, 0, Integer.MAX_VALUE));
+	public ProjectMemberListViewImpl() {
+		super();
+		HorizontalLayout viewHeader = new HorizontalLayout();
+		viewHeader.setStyleName("view-hdr");
+		viewHeader.setMargin(true);
+		viewHeader.setSpacing(true);
+		viewHeader.setWidth("100%");
+		viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		this.removeAllComponents();
-		this.setSpacing(true);
+		viewHeader.addComponent(new Image(null, MyCollabResource.newResource("icons/22/project/menu_user.png")));
+
+		Label headerText = new Label("Project Members");
+		headerText.setStyleName("hdr-text");
+
+		viewHeader.addComponent(headerText);
+		viewHeader.setExpandRatio(headerText, 1.0f);
+
 		Button createBtn = new Button(
 				LocalizationHelper.getMessage(PeopleI18nEnum.NEW_USER_ACTION),
 				new Button.ClickListener() {
@@ -99,14 +108,29 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 
-		this.addComponent(createBtn);
-		this.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
-		CssLayout contentLayout = new CssLayout();
+		viewHeader.addComponent(createBtn);
+
+		this.addComponent(viewHeader);
+
+		contentLayout = new CssLayout();
 		contentLayout.setWidth("100%");
+		contentLayout.setStyleName("view-content");
+
+		this.addComponent(contentLayout);
+	}
+
+	@Override
+	public void setSearchCriteria(ProjectMemberSearchCriteria searchCriteria) {
+		ProjectMemberService prjMemberService = ApplicationContextUtil
+				.getSpringBean(ProjectMemberService.class);
+		List<SimpleProjectMember> memberLists = prjMemberService
+				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
+						searchCriteria, 0, Integer.MAX_VALUE));
+
+		contentLayout.removeAllComponents();
 		for (SimpleProjectMember member : memberLists) {
 			contentLayout.addComponent(generateMemberBlock(member));
 		}
-		this.addComponent(contentLayout);
 	}
 
 	private Component generateMemberBlock(final SimpleProjectMember member) {
@@ -116,40 +140,32 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		VerticalLayout blockContent = new VerticalLayout();
 		HorizontalLayout blockTop = new HorizontalLayout();
 		blockTop.setSpacing(true);
-		Embedded memberAvatar = UserAvatarControlFactory
+		Image memberAvatar = UserAvatarControlFactory
 				.createUserAvatarEmbeddedComponent(member.getMemberAvatarId(),
 						100);
 		blockTop.addComponent(memberAvatar);
 
 		VerticalLayout memberInfo = new VerticalLayout();
 
-		HorizontalLayout layoutButtonDelete = new HorizontalLayout();
-		layoutButtonDelete.setVisible(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.USERS));
-		layoutButtonDelete.setWidth("100%");
-
-		Label emptylb = new Label("");
-		layoutButtonDelete.addComponent(emptylb);
-		layoutButtonDelete.setExpandRatio(emptylb, 1.0f);
-
-		Button btnDelete = new Button();
-		btnDelete.addClickListener(new Button.ClickListener() {
+		Image btnDelete = new Image(null, MyCollabResource
+				.newResource("icons/12/project/icon_x.png"));
+		btnDelete.addClickListener(new MouseEvents.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void buttonClick(ClickEvent event) {
+			public void click(MouseEvents.ClickEvent event) {
 				ConfirmDialogExt.show(
 						UI.getCurrent(),
 						LocalizationHelper.getMessage(
 								GenericI18Enum.DELETE_DIALOG_TITLE,
 								SiteConfiguration.getSiteName()),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						LocalizationHelper
+								LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-						new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -162,21 +178,21 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 											AppContext.getUsername());
 
 									EventBus.getInstance()
-											.fireEvent(
-													new ProjectMemberEvent.GotoList(
-															ProjectMemberListViewImpl.this,
-															null));
+									.fireEvent(
+											new ProjectMemberEvent.GotoList(
+													ProjectMemberListViewImpl.this,
+													null));
 								}
 							}
 						});
 			}
 		});
-		btnDelete.setIcon(MyCollabResource
-				.newResource("icons/12/project/icon_x.png"));
-		btnDelete.setStyleName("link");
-		layoutButtonDelete.addComponent(btnDelete);
+		btnDelete.addStyleName("icon-btn");
 
-		memberInfo.addComponent(layoutButtonDelete);
+		blockContent.addComponent(btnDelete);
+		btnDelete.setVisible(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.USERS));
+		blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
 		ButtonLink memberLink = new ButtonLink(member.getMemberFullName());
 		memberLink.addClickListener(new ClickListener() {
@@ -186,15 +202,37 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 			@Override
 			public void buttonClick(ClickEvent event) {
 				EventBus.getInstance()
-						.fireEvent(
-								new ProjectMemberEvent.GotoRead(
-										ProjectMemberListViewImpl.this, member
-												.getId()));
+				.fireEvent(
+						new ProjectMemberEvent.GotoRead(
+								ProjectMemberListViewImpl.this, member
+								.getId()));
 			}
 		});
 		memberLink.setWidth("100%");
+		memberLink.addStyleName("member-name");
 
 		memberInfo.addComponent(memberLink);
+
+		String memerRoleLinkPrefix = "<a href=\""
+				+ AppContext.getSiteUrl()
+				+ GenericLinkUtils.URL_PREFIX_PARAM
+				+ ProjectLinkUtils.generateRolePreviewLink(
+						member.getProjectid(), member.getProjectRoleId())
+						+ "\"";
+		Label memberRole = new Label();
+		memberRole.setContentMode(ContentMode.HTML);
+		memberRole.setStyleName("member-role");
+		if (member.getIsadmin() != null && member.getIsadmin() == Boolean.TRUE
+				|| member.getProjectroleid() == null) {
+			memberRole.setValue(memerRoleLinkPrefix
+					+ "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
+		} else {
+			memberRole.setValue(memerRoleLinkPrefix
+					+ "style=\"color:gray;font-size:12px;\">"
+					+ member.getRoleName() + "</a>");
+		}
+		memberRole.setSizeUndefined();
+		memberInfo.addComponent(memberRole);
 
 		Label memberEmailLabel = new Label("<a href='mailto:"
 				+ member.getUsername() + "'>" + member.getUsername() + "</a>",
@@ -220,7 +258,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 									.getSpringBean(ProjectMemberMapper.class);
 							member.setStatus(RegisterStatusConstants.VERIFICATING);
 							projectMemberMapper
-									.updateByPrimaryKeySelective(member);
+							.updateByPrimaryKeySelective(member);
 							waitingNotLayout.removeAllComponents();
 							Label statusEmail = new Label(
 									"Sending invitation email");
@@ -264,26 +302,6 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		blockTop.setWidth("100%");
 		blockContent.addComponent(blockTop);
 
-		String memerRoleLinkPrefix = "<a href=\""
-				+ AppContext.getSiteUrl()
-				+ GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateRolePreviewLink(
-						member.getProjectid(), member.getProjectRoleId())
-				+ "\"";
-		Label memberRole = new Label();
-		memberRole.setContentMode(ContentMode.HTML);
-		if ((member.getIsadmin() != null && member.getIsadmin() == Boolean.TRUE)
-				|| member.getProjectroleid() == null) {
-			memberRole.setValue(memerRoleLinkPrefix
-					+ "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
-		} else {
-			memberRole.setValue(memerRoleLinkPrefix
-					+ "style=\"color:gray;font-size:12px;\">"
-					+ member.getRoleName() + "</a>");
-		}
-		memberRole.setSizeUndefined();
-		blockContent.addComponent(memberRole);
-		blockContent.setComponentAlignment(memberRole, Alignment.MIDDLE_RIGHT);
 		blockContent.setWidth("100%");
 
 		memberBlock.addComponent(blockContent);

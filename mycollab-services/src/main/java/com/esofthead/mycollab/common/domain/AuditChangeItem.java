@@ -16,7 +16,17 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-public class AuditChangeItem {
+import java.io.Serializable;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class AuditChangeItem implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private String field;
 
 	private String oldvalue;

@@ -18,6 +18,12 @@ package com.esofthead.mycollab.common.domain;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class GroupItem extends ValuedBean {
 	private static final long serialVersionUID = 1L;
 

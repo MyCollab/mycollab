@@ -99,7 +99,7 @@ public class VerticalTabsheet extends CustomComponent {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (selectedButton != button) {
-					clearTabSelection();
+					clearTabSelection(true);
 					selectedButton = button;
 					selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
 					selectedComp = compMap.get(selectedButton);
@@ -161,7 +161,7 @@ public class VerticalTabsheet extends CustomComponent {
 			Tab tab = compMap.get(btn);
 			if (tab.getCaption().equals(viewName)) {
 				selectedButton = btn;
-				clearTabSelection();
+				clearTabSelection(true);
 				selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
 				setDefaulButtonIcon(selectedButton, true);
 				selectedComp = tab;
@@ -317,13 +317,31 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	private void clearTabSelection() {
+		boolean setDefaultIcon = false;
+		clearTabSelection(setDefaultIcon);
+	}
+	
+	private void clearTabSelection(boolean setDefaultIcon) {
 		Collection<Button> tabs = compMap.keySet();
-		for (Button btn : tabs) {
-			if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
-				btn.removeStyleName(TAB_SELECTED_STYLENAME);       
-				setDefaulButtonIcon(btn, false);
+		if (setDefaultIcon == true)
+		{
+			for (Button btn : tabs) {
+				if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
+					btn.removeStyleName(TAB_SELECTED_STYLENAME);       
+					setDefaulButtonIcon(btn, false);
+				}
 			}
 		}
+		else 
+		{
+			for (Button btn : tabs) {
+				if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
+					btn.removeStyleName(TAB_SELECTED_STYLENAME);     
+					/*setDefaulButtonIcon(btn, false);*/
+				}
+			}
+		}
+			
 	}
 
 	public void setDefaulButtonIcon(Button btn, Boolean selected){
@@ -337,51 +355,51 @@ public class VerticalTabsheet extends CustomComponent {
 		switch (caption){
 		case "Dashboard":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_dashboard.png"));
+					.newResource("icons/22/project/dashboard" + suffix + ".png"));
 			break;
 
 		case "Messages":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_message.png"));
+					.newResource("icons/22/project/message" + suffix + ".png"));
 			break;
 		case "Phases":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_milestone.png"));
+					.newResource("icons/22/project/phase" + suffix + ".png"));
 			break;
 
 		case "Tasks":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_task" + suffix + ".png"));
+					.newResource("icons/22/project/task" + suffix + ".png"));
 			break;
 
 		case "Bugs":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_bug.png"));
+					.newResource("icons/22/project/bug" + suffix + ".png"));
 			break;
 
 		case "Files":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_file.png"));
+					.newResource("icons/22/project/file" + suffix + ".png"));
 			break;
 		case "Risks":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_risk.png"));
+					.newResource("icons/22/project/risk" + suffix + ".png"));
 			break;
 		case "Problems":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_problem.png"));
+					.newResource("icons/22/project/problem" + suffix + ".png"));
 			break;
 		case "Time":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_time.png"));
+					.newResource("icons/22/project/time" + suffix + ".png"));
 			break;
 		case "StandUp":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_standup.png"));
+					.newResource("icons/22/project/standup" + suffix + ".png"));
 			break;
 		case "Users & Settings":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/menu_user.png"));
+					.newResource("icons/22/project/user" + suffix + ".png"));
 			break;
 		default:
 			log.debug("cannot find resource for" + caption);

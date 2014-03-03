@@ -19,6 +19,12 @@ package com.esofthead.mycollab.module.project.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class FollowingTicket implements Serializable {
 	private static final long serialVersionUID = 1L;
 

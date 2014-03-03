@@ -12,29 +12,26 @@
     <!-- <context:property-placeholder location="classpath:resources.properties" 
         /> -->
 
-    <bean id="dataSource"
-        class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
-        <property name="targetDataSource">
-            <ref local="mainDataSource" />
-        </property>
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/mycollabdatasource" />
+        <property name="lookupOnStartup" value="true" />
+        <property name="proxyInterface" value="javax.sql.DataSource" />
+        <property name="resourceRef" value="true" />
     </bean>
 
-    <bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
-        destroy-method="close" depends-on="myCollabProperties">
-        <property name="driverClass" value="${db.driverClassName}" />
-        <property name="jdbcUrl" value="${db.url}" />
-        <property name="username" value="${db.username}" />
-        <property name="password" value="${db.password}" />
-        <property name="idleConnectionTestPeriodInMinutes"
-            value="1" />
-        <property name="idleMaxAgeInMinutes" value="4" />
-        <property name="maxConnectionsPerPartition" value="30" />
-        <property name="minConnectionsPerPartition" value="1" />
-        <property name="partitionCount" value="3" />
-        <property name="acquireIncrement" value="5" />
-        <property name="statementsCacheSize" value="500" />
-        <property name="connectionTestStatement" value="SELECT 1" />
-    </bean>
+    <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"> 
+        <property name="targetDataSource"> <ref local="mainDataSource" /> </property> 
+        </bean> -->
+    <!-- <bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource" 
+        destroy-method="close" depends-on="myCollabProperties"> <property name="driverClass" 
+        value="${db.driverClassName}" /> <property name="jdbcUrl" value="${db.url}" 
+        /> <property name="username" value="${db.username}" /> <property name="password" 
+        value="${db.password}" /> <property name="idleConnectionTestPeriodInMinutes" 
+        value="1" /> <property name="idleMaxAgeInMinutes" value="4" /> <property 
+        name="maxConnectionsPerPartition" value="30" /> <property name="minConnectionsPerPartition" 
+        value="1" /> <property name="partitionCount" value="3" /> <property name="acquireIncrement" 
+        value="5" /> <property name="statementsCacheSize" value="500" /> <property 
+        name="connectionTestStatement" value="SELECT 1" /> </bean> -->
 
     <bean id="txManager"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

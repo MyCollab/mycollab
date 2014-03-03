@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
+import com.esofthead.mycollab.core.arguments.CompositionSearchField;
 import com.esofthead.mycollab.core.arguments.NoValueSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.OneValueSearchField;
@@ -123,7 +124,7 @@ public class AccountServiceTest extends ServiceTest {
 
 		criteria = new AccountSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
+		Assert.assertEquals(2, accountService.getTotalCount(criteria));
 	}
 
 	@Test
@@ -259,7 +260,7 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.addExtraField(new OneValueSearchField(SearchField.AND,
 				"m_crm_account.accountName = ", "xyz"));
-		 Assert.assertEquals(1, accountService.getTotalCount(criteria));
+		Assert.assertEquals(1, accountService.getTotalCount(criteria));
 		Assert.assertEquals(
 				1,
 				accountService.findPagableListByCriteria(
@@ -281,5 +282,21 @@ public class AccountServiceTest extends ServiceTest {
 				accountService.findPagableListByCriteria(
 						new SearchRequest<AccountSearchCriteria>(criteria, 0,
 								Integer.MAX_VALUE)).size());
+	}
+
+	@Test
+	@DataSet
+	public void testQueryAccountWithCompositeValueSearchField() {
+		AccountSearchCriteria criteria = new AccountSearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(1));
+
+		CompositionSearchField compoField = new CompositionSearchField(
+				SearchField.AND);
+		compoField.addField(new OneValueSearchField("",
+				"m_crm_account.city = ", "ha noi"));
+		compoField.addField(new OneValueSearchField("",
+				"m_crm_account.shippingCity = ", "ha noi"));
+		criteria.addExtraField(compoField);
+		Assert.assertEquals(1, accountService.getTotalCount(criteria));
 	}
 }

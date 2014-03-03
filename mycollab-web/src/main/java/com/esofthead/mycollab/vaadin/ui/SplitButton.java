@@ -57,6 +57,7 @@ public class SplitButton extends CustomComponent {
 		contentLayout = new HorizontalLayout();
 		contentLayout.setStyleName("splitbutton");
 		this.parentButton = parentButton;
+		this.parentButton.addStyleName("parent-button");
 		this.parentButton.setImmediate(true);
 		this.parentButton.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;

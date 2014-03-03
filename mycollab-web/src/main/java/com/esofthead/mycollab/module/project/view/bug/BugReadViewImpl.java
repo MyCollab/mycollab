@@ -104,11 +104,17 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 	}
 
 	private void displayWorkflowControl() {
+		
+		
+	
+		
+		
+		
 		if (BugStatusConstants.OPEN.equals(this.bug.getStatus())
 				|| BugStatusConstants.REOPENNED.equals(this.bug.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			navButton.addButton(new Button("Start Progress",
+			final Button startProgressBtn = new Button("Start Progress",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -123,8 +129,11 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 									AppContext.getUsername());
 							BugReadViewImpl.this.displayWorkflowControl();
 						}
-					}));
-			navButton.addButton(new Button("Resolved",
+					});
+			startProgressBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(startProgressBtn);
+			
+			final Button resolveBtn = new Button("Resolved",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -135,9 +144,11 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 											BugReadViewImpl.this,
 											BugReadViewImpl.this.bug));
 						}
-					}));
-
-			navButton.addButton(new Button("Won't Fix",
+					});
+			resolveBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(resolveBtn);
+			
+			final Button wontFixBtn = new Button("Won't Fix",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -148,12 +159,14 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 											BugReadViewImpl.this,
 											BugReadViewImpl.this.bug));
 						}
-					}));
+					});
+			wontFixBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(wontFixBtn);
 			this.bugWorkflowControl.addComponent(navButton);
 		} else if (BugStatusConstants.INPROGRESS.equals(this.bug.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			navButton.addButton(new Button("Stop Progress",
+			final Button stopProgressBtn = new Button("Stop Progress",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -168,8 +181,11 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 									AppContext.getUsername());
 							BugReadViewImpl.this.displayWorkflowControl();
 						}
-					}));
-			navButton.addButton(new Button("Resolved",
+					});
+			stopProgressBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(stopProgressBtn);
+			
+			final Button resolveBtn = new Button("Resolved",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -180,7 +196,9 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 											BugReadViewImpl.this,
 											BugReadViewImpl.this.bug));
 						}
-					}));
+					});
+			resolveBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(resolveBtn);
 			this.bugWorkflowControl.addComponent(navButton);
 		} else if (BugStatusConstants.VERIFIED.equals(this.bug.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
@@ -196,35 +214,9 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 											BugReadViewImpl.this.bug));
 						}
 					});
+			reopenBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(reopenBtn);
 
-			this.bugWorkflowControl.addComponent(navButton);
-		} else if (BugStatusConstants.RESOLVED.equals(this.bug.getStatus())) {
-			this.bugWorkflowControl.removeAllComponents();
-			final ButtonGroup navButton = new ButtonGroup();
-			navButton.addButton(new Button("Reopen",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							UI.getCurrent().addWindow(
-									new ReOpenWindow(BugReadViewImpl.this,
-											BugReadViewImpl.this.bug));
-						}
-					}));
-			navButton.addButton(new Button("Approve & Close",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							UI.getCurrent().addWindow(
-									new ApproveInputWindow(
-											BugReadViewImpl.this,
-											BugReadViewImpl.this.bug));
-						}
-					}));
 			this.bugWorkflowControl.addComponent(navButton);
 		} else if (BugStatusConstants.RESOLVED.equals(this.bug.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
@@ -240,7 +232,39 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 											BugReadViewImpl.this.bug));
 						}
 					});
-			reopenBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
+			reopenBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(reopenBtn);
+			
+			final Button approveNCloseBtn = new Button("Approve & Close",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UI.getCurrent().addWindow(
+									new ApproveInputWindow(
+											BugReadViewImpl.this,
+											BugReadViewImpl.this.bug));
+						}
+					});
+			approveNCloseBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
+			navButton.addButton(approveNCloseBtn);
+			this.bugWorkflowControl.addComponent(navButton);
+		} else if (BugStatusConstants.RESOLVED.equals(this.bug.getStatus())) {
+			this.bugWorkflowControl.removeAllComponents();
+			final ButtonGroup navButton = new ButtonGroup();
+			final Button reopenBtn = new Button("Reopen",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UI.getCurrent().addWindow(
+									new ReOpenWindow(BugReadViewImpl.this,
+											BugReadViewImpl.this.bug));
+						}
+					});
+			reopenBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(reopenBtn);
 
 			this.bugWorkflowControl.addComponent(navButton);
@@ -558,7 +582,7 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 						.newResource("icons/16/delete2.png"));
 				deleteBtn.setEnabled(CurrentProjectVariables
 						.canAccess(ProjectRolePermissionCollections.BUGS));
-				deleteBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 				buttonControls.addComponent(deleteBtn);
 				buttonControls.setComponentAlignment(deleteBtn,
 						Alignment.MIDDLE_CENTER);

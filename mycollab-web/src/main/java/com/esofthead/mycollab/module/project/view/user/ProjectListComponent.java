@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -33,6 +34,8 @@ public class ProjectListComponent extends CssLayout {
 
 	private HorizontalLayout headerLayout;
 	private Label componentHeader;
+
+	private CssLayout contentLayout;
 
 	private ProjectPagedList projectList;
 
@@ -68,9 +71,12 @@ public class ProjectListComponent extends CssLayout {
 		headerLayout.setExpandRatio(componentHeader, 1.0f);
 		addComponent(headerLayout);
 
+		contentLayout = new CssLayout();
+		contentLayout.setStyleName("project-list-comp-content");
+
 		projectList = new ProjectPagedList();
-		addComponent(projectList);
-		updateListState();
+		addComponent(contentLayout);
+
 	}
 
 	public void showProjects() {
@@ -81,18 +87,21 @@ public class ProjectListComponent extends CssLayout {
 				new String[] { ProjectStatusConstants.OPEN }));
 		this.projectList.setSearchCriteria(searchCriteria);
 		this.componentHeader.setValue(CurrentProjectVariables.getProject().getName());
+		isExpanded = false;
+		updateListState();
 	}
 
 	protected void updateListState() {
-		projectList.setVisible(isExpanded);
 		if (isExpanded) {
-			headerLayout.addStyleName("isExpanded");
+			this.addStyleName("isExpanded");
+			contentLayout.addComponent(projectList);
 		} else {
-			headerLayout.removeStyleName("isExpanded");
+			this.removeStyleName("isExpanded");
+			contentLayout.removeComponent(projectList);
 		}
 	}
 
-	static class ProjectPagedList extends
+	private class ProjectPagedList extends
 	BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
@@ -101,7 +110,13 @@ public class ProjectListComponent extends CssLayout {
 					.getSpringBean(ProjectService.class),
 					ProjectRowDisplayHandler.class);
 		}
-	}
+
+		@Override
+		public int setSearchCriteria(ProjectSearchCriteria searchCriteria) {
+			SearchRequest<ProjectSearchCriteria> searchRequest = new SearchRequest<ProjectSearchCriteria>(searchCriteria, 0, 3);
+			return setSearchRequest(searchRequest);
+		}
+	}	
 
 	public static class ProjectRowDisplayHandler implements
 	BeanList.RowDisplayHandler<SimpleProject> {
@@ -113,6 +128,10 @@ public class ProjectListComponent extends CssLayout {
 			layout.setWidth("100%");
 			layout.setStyleName("project-name");
 			layout.setMargin(new MarginInfo(true, false, true, true));
+
+			if (obj.getId() == CurrentProjectVariables.getProject().getId()) {
+				layout.addStyleName("current-project");
+			}
 
 			Label prjName = new Label(obj.getName());
 			layout.addComponent(prjName);

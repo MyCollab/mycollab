@@ -19,6 +19,7 @@ package org.vaadin.easyuploads;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -57,7 +58,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		this.attachmentDisplayComponent = attachmentDisplayComponent;
 		this.attachmentDisplayComponent.registerMultiUpload(this);
 		setWidth("200px");
-        setStyleName("v-multifileupload-ext");
+		setStyleName("v-multifileupload-ext");
 		addComponent(progressBars);
 		uploads.setStyleName("v-multifileupload-uploads");
 		addComponent(uploads);
@@ -74,7 +75,8 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		final FileBuffer receiver = createReceiver();
 
 		upload = new MultiUpload();
-		MultiUploadHandler handler = new MultiUploadHandler() {
+		MultiUploadHandlerExt handler = new MultiUploadHandlerExt() {
+			private static final long serialVersionUID = 1L;
 			private LinkedList<ProgressIndicator> indicators;
 
 			public void streamingStarted(
@@ -315,6 +317,11 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				}
 			});
 		}
+
+	}
+
+	private static interface MultiUploadHandlerExt extends MultiUploadHandler,
+			Serializable {
 
 	}
 }

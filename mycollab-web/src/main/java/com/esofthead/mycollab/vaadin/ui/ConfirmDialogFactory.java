@@ -19,7 +19,10 @@ package com.esofthead.mycollab.vaadin.ui;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.dialogs.DefaultConfirmDialogFactory;
 
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 
 /**
  * 
@@ -40,6 +43,9 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 
 		final Button ok = d.getOkButton();
 		ok.setStyleName(UIConstants.THEME_BLUE_LINK);
+
+		HorizontalLayout buttons = (HorizontalLayout) ok.getParent();
+		buttons.setHeight(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
 
 		final Button cancel = d.getCancelButton();
 		cancel.setStyleName(UIConstants.THEME_LINK);

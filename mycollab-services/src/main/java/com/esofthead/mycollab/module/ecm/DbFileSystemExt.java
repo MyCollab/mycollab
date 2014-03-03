@@ -18,9 +18,6 @@ package com.esofthead.mycollab.module.ecm;
 
 import org.apache.jackrabbit.core.fs.db.DbFileSystem;
 
-import com.esofthead.mycollab.configuration.DatabaseConfiguration;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-
 /**
  * Db file system of mycollab jackrabbit stora
  * 
@@ -32,11 +29,7 @@ public class DbFileSystemExt extends DbFileSystem {
 
 	public DbFileSystemExt() {
 		this.schema = "mysql";
-		DatabaseConfiguration dbConfiguration = SiteConfiguration
-				.getDatabaseConfiguration();
-		this.driver = dbConfiguration.getDriverClass();
-		this.url = dbConfiguration.getDbUrl();
-		this.user = dbConfiguration.getUser();
-		this.password = dbConfiguration.getPassword();
+		this.driver = "javax.naming.InitialContext";
+		this.url = "java:comp/env/jdbc/mycollabdatasource";
 	}
 }

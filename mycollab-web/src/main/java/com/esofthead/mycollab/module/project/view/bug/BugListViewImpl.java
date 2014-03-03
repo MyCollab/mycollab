@@ -36,15 +36,14 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
+import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.server.StreamResource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -71,7 +70,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 	public BugListViewImpl() {
 
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(true);
 
 		this.bugSearchPanel = new BugSearchPanel();
 		this.addComponent(this.bugSearchPanel);
@@ -91,24 +90,24 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 						BugTableFieldDef.duedate));
 
 		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+			@Override
+			public Class<? extends ApplicationEvent> getEventType() {
+				return TableClickEvent.class;
+			}
 
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleBug bug = (SimpleBug) event.getData();
-						if ("summary".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoRead(BugListViewImpl.this,
-											bug.getId()));
-						}
-					}
-				});
+			@Override
+			public void handle(final TableClickEvent event) {
+				final SimpleBug bug = (SimpleBug) event.getData();
+				if ("summary".equals(event.getFieldName())) {
+					EventBus.getInstance().fireEvent(
+							new BugEvent.GotoRead(BugListViewImpl.this,
+									bug.getId()));
+				}
+			}
+		});
 
 		this.bugListLayout.addComponent(this.constructTableActionControls());
 		this.bugListLayout.addComponent(this.tableItem);
@@ -179,22 +178,22 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 					public StreamResource getStreamResource() {
 						String title = "Bugs of Project "
 								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
+								.getProject().getName() != null) ? CurrentProjectVariables
 										.getProject().getName() : "");
 						BugSearchCriteria searchCriteria = new BugSearchCriteria();
 						searchCriteria.setProjectId(new NumberSearchField(
 								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+								.getProject().getId()));
 
 						StreamResource res = new StreamResource(
 								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
-										ReportExportType.PDF,
-										ApplicationContextUtil
+												ReportExportType.PDF,
+												ApplicationContextUtil
 												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
+												searchCriteria, SimpleBug.class),
 								"export.pdf");
 						return res;
 					}
@@ -214,22 +213,22 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 					public StreamResource getStreamResource() {
 						String title = "Bugs of Project "
 								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
+								.getProject().getName() != null) ? CurrentProjectVariables
 										.getProject().getName() : "");
 						BugSearchCriteria searchCriteria = new BugSearchCriteria();
 						searchCriteria.setProjectId(new NumberSearchField(
 								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+								.getProject().getId()));
 
 						StreamResource res = new StreamResource(
 								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
-										ReportExportType.EXCEL,
-										ApplicationContextUtil
+												ReportExportType.EXCEL,
+												ApplicationContextUtil
 												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
+												searchCriteria, SimpleBug.class),
 								"export.xlsx");
 						return res;
 					}
@@ -249,22 +248,22 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 					public StreamResource getStreamResource() {
 						String title = "Bugs of Project "
 								+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-										.getProject().getName() != null) ? CurrentProjectVariables
+								.getProject().getName() != null) ? CurrentProjectVariables
 										.getProject().getName() : "");
 						BugSearchCriteria searchCriteria = new BugSearchCriteria();
 						searchCriteria.setProjectId(new NumberSearchField(
 								SearchField.AND, CurrentProjectVariables
-										.getProject().getId()));
+								.getProject().getId()));
 
 						StreamResource res = new StreamResource(
 								new SimpleGridExportItemsStreamResource.AllItems<BugSearchCriteria, SimpleBug>(
 										title,
 										new RpParameterBuilder(tableItem
 												.getDisplayColumns()),
-										ReportExportType.CSV,
-										ApplicationContextUtil
+												ReportExportType.CSV,
+												ApplicationContextUtil
 												.getSpringBean(BugService.class),
-										searchCriteria, SimpleBug.class),
+												searchCriteria, SimpleBug.class),
 								"export.csv");
 						return res;
 					}

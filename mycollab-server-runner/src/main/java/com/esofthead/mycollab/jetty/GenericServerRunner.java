@@ -26,12 +26,19 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
+import org.eclipse.jetty.deploy.DeploymentManager;
+import org.eclipse.jetty.deploy.providers.WebAppProvider;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.FragmentConfiguration;
@@ -42,14 +49,19 @@ import org.eclipse.jetty.webapp.WebXmlConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.jetty.console.TextDevice;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 /**
  * Generic MyCollab embedded server
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public abstract class GenericServerRunner {
 	private static Logger log = LoggerFactory
@@ -404,16 +416,49 @@ public abstract class GenericServerRunner {
 		String webappDirLocation = detectWebApp();
 
 		WebAppContext appContext = buildContext(webappDirLocation);
+		appContext.setServer(server);
 		appContext.setConfigurations(new Configuration[] {
 				new AnnotationConfiguration(), new WebXmlConfiguration(),
 				new WebInfConfiguration(), new PlusConfiguration(),
 				new MetaInfConfiguration(), new FragmentConfiguration(),
 				new EnvConfiguration() });
+
+		// Register a mock DataSource scoped to the webapp
+		// This must be linked to the webapp via an entry in web.xml:
+		// <resource-ref>
+		// <res-ref-name>jdbc/mydatasource</res-ref-name>
+		// <res-type>javax.sql.DataSource</res-type>
+		// <res-auth>Container</res-auth>
+		// </resource-ref>
+		// At runtime the webapp accesses this as
+		// java:comp/env/jdbc/mydatasource
+		org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
+				appContext, "jdbc/mycollabdatasource", buildDataSource());
+
 		HandlerList handlers = new HandlerList();
 		handlers.setHandlers(new Handler[] { appContext });
 		server.setHandler(handlers);
 
 		server.setStopAtShutdown(true);
+
+		// set up hotdeploy manager
+		DeploymentManager deployManager = new DeploymentManager();
+		deployManager.setContextAttribute(
+				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+				".*/servlet-api-[^/]*\\.jar$");
+
+		ContextHandlerCollection contextCollection = new ContextHandlerCollection();
+		contextCollection.setServer(server);
+		contextCollection.setHandlers(new Handler[] { appContext });
+		deployManager.setContexts(contextCollection);
+
+		WebAppProvider appProvider = new WebAppProvider();
+		List<String> scanFolders = Arrays
+				.asList(webappDirLocation + "/classes");
+		appProvider.setMonitoredDirectories(scanFolders);
+		deployManager.addAppProvider(appProvider);
+
+		server.addBean(deployManager);
 
 		server.start();
 
@@ -435,5 +480,24 @@ public abstract class GenericServerRunner {
 		System.err
 				.println(" --stop-key n                       - security string for stop command (required if --stop-port is present)");
 		System.exit(1);
+	}
+
+	private DataSource buildDataSource() {
+		DatabaseConfiguration dbConf = SiteConfiguration
+				.getDatabaseConfiguration();
+		BoneCPDataSource dataSource = new BoneCPDataSource();
+		dataSource.setDriverClass(dbConf.getDriverClass());
+		dataSource.setJdbcUrl(dbConf.getDbUrl());
+		dataSource.setUsername(dbConf.getUser());
+		dataSource.setPassword(dbConf.getPassword());
+		dataSource.setIdleConnectionTestPeriodInMinutes(1);
+		dataSource.setIdleMaxAgeInMinutes(4);
+		dataSource.setMaxConnectionsPerPartition(5);
+		dataSource.setMinConnectionsPerPartition(1);
+		dataSource.setPoolAvailabilityThreshold(5);
+		dataSource.setPartitionCount(1);
+		dataSource.setAcquireIncrement(3);
+		dataSource.setConnectionTestStatement("SELECT 1");
+		return dataSource;
 	}
 }

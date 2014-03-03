@@ -32,7 +32,7 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @ViewComponent
 public class ProjectSummaryViewImpl extends AbstractPageView implements
-		ProjectSummaryView {
+ProjectSummaryView {
 
 	private final ProjectActivityStreamComponent activityPanel;
 	private final ProjectInformationComponent prjView;
@@ -41,6 +41,7 @@ public class ProjectSummaryViewImpl extends AbstractPageView implements
 	private final ProjectMessageListComponent messageWidget;
 
 	public ProjectSummaryViewImpl() {
+		this.setMargin(true);
 		this.setSpacing(true);
 
 		this.prjView = new ProjectInformationComponent();

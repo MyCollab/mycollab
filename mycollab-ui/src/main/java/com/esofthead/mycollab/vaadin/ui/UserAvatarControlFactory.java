@@ -24,7 +24,7 @@ import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Image;
 
 /**
  * 
@@ -33,10 +33,9 @@ import com.vaadin.ui.Embedded;
  * 
  */
 public class UserAvatarControlFactory {
-	public static Embedded createUserAvatarEmbeddedComponent(String avatarId,
+	public static Image createUserAvatarEmbeddedComponent(String avatarId,
 			int size) {
-		Embedded embedded = new Embedded(null);
-		embedded.setSource(createAvatarResource(avatarId, size));
+		Image embedded = new Image(null, createAvatarResource(avatarId, size));
 		return embedded;
 
 	}

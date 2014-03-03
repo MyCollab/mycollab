@@ -1,6 +1,6 @@
-#macro(selectExpr)
-    #ifnotnull($_parameter.searchCriteria.extraFields)
-        #repeat($_parameter.searchCriteria.extraFields $extraField)
+#macro(selectExpr $extraFields)
+    #ifnotnull($extraFields)
+        #repeat($extraFields $extraField)
             #novalexpr($extraField)
                 ${extraField.operation} ${extraField.querySelect}
             #end
@@ -12,6 +12,23 @@
                 #repeat(${extraField.value} $listItem "," "(" ")")
                     @{listItem}
                 #end
+            #end
+            #compositionvalexpr($extraField)
+                ${extraField.operation} 
+                 #repeat(${extraField.fields} $subItem " OR " "(" ")")
+                    #novalexpr($subItem) 
+                        ${subItem.operation} ${subItem.querySelect} 
+                    #end 
+                    #onevalexpr($subItem) 
+                        ${subItem.operation} ${subItem.querySelect} @{subItem.value} 
+                    #end 
+                    #collectionvalexpr($subItem) 
+                        ${subItem.operation} ${subItem.querySelect} 
+                        #repeat(${subItem.value} $listItem "," "(" ")") 
+                            @{listItem} 
+                        #end 
+                    #end 
+                 #end
             #end
         #end
     #end

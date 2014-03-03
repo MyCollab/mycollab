@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.db.query.CompositionColumnParam;
+import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.DateTimeParam;
 import com.esofthead.mycollab.core.db.query.NumberParam;
@@ -195,10 +195,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						} else if (field instanceof StringListParam) {
 							compareSelectionBox
 									.loadData(StringListParam.OPTIONS);
-						} else if (field instanceof CompositionColumnParam<?>) {
-							compareSelectionBox
-									.loadData(((CompositionColumnParam<?>) field)
-											.getCompareOptions());
+						} else if (field instanceof CompositionStringParam) {
+							compareSelectionBox.loadData(StringParam.OPTIONS);
 						}
 
 						displayAssociateInputField((Param) fieldSelectionBox
@@ -253,12 +251,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				listSelect.loadData(((StringListParam) field).getLstValues()
 						.toArray(new String[0]));
 				valueBox.addComponent(listSelect);
-			} else if (field instanceof CompositionColumnParam<?>) {
-				if (((CompositionColumnParam) field).getType() == StringParam.class) {
-					valueBox.addComponent(new TextField());
-				} else {
-					throw new MyCollabException("Not support yet");
-				}
+			} else if (field instanceof CompositionStringParam) {
+				valueBox.addComponent(new TextField());
 			}
 		}
 
@@ -338,14 +332,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				} else if (param instanceof PropertyParam) {
 					return null;
-				} else if (param instanceof CompositionColumnParam<?>) {
-					if (((CompositionColumnParam) param).getType() == StringParam.class) {
-						if (valueBox.getComponentCount() != 1) {
-							return null;
-						}
-						TextField field = (TextField) valueBox.getComponent(0);
-						String value = field.getValue();
+				} else if (param instanceof CompositionStringParam) {
+					if (valueBox.getComponentCount() != 1) {
+						return null;
 					}
+					TextField field = (TextField) valueBox.getComponent(0);
+					String value = field.getValue();
+					CompositionStringParam wrapParam = (CompositionStringParam) param;
+					return wrapParam.buildSearchField(prefixOperation,
+							compareOper, value);
 				} else {
 					throw new MyCollabException("Not support yet");
 				}
