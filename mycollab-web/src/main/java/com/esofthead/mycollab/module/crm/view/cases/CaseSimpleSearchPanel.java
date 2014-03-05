@@ -116,10 +116,6 @@ public class CaseSimpleSearchPanel extends
 								searchCriteria
 										.setSubject(new StringSearchField(
 												SearchField.AND, strSearch));
-							} else if (searchType.equals("Account Name")) {
-								searchCriteria
-										.setAccountName(new StringSearchField(
-												SearchField.AND, strSearch));
 							} else if (searchType.equals("Status")) {
 								searchCriteria
 										.setStatuses(new SetSearchField<String>(

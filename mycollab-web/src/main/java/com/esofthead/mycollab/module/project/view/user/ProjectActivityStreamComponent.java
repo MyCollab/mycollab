@@ -24,28 +24,26 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.CssLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectActivityStreamComponent extends Depot {
+public class ProjectActivityStreamComponent extends CssLayout {
 	private static final long serialVersionUID = 1L;
 
 	private final ProjectActivityStreamPagedList activityStreamList;
 
 	public ProjectActivityStreamComponent() {
-		super("Project Feeds", new VerticalLayout());
+		this.setStyleName("project-activity-list");
 		this.activityStreamList = new ProjectActivityStreamPagedList();
-		((VerticalLayout) this.bodyContent).setMargin(false);
 	}
 
 	public void showProjectFeeds() {
-		this.bodyContent.removeAllComponents();
-		this.bodyContent.addComponent(this.activityStreamList);
+		this.removeAllComponents();
+		this.addComponent(this.activityStreamList);
 		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
 		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
 				new String[] { ModuleNameConstants.PRJ }));

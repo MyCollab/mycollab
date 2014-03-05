@@ -97,7 +97,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 				ProjectInformationComponent.this.prjDisplay.show();
 			}
 		});
-		toggleBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		toggleBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		this.projectInfoFooter.addComponent(toggleBtn);
 		this.addComponent(this.projectInfoFooter);
 	}

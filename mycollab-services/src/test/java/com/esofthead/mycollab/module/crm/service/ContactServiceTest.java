@@ -55,9 +55,8 @@ public class ContactServiceTest extends ServiceTest {
 
 	private ContactSearchCriteria getCriteria() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
-		criteria.setAssignUserName(new StringSearchField(SearchField.AND,
-				"Duong"));
-		criteria.setAccountName(new StringSearchField(SearchField.AND, "x"));
+		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+				new String[] { "linh" }));
 		criteria.setContactName(new StringSearchField(SearchField.AND, "Hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		return criteria;

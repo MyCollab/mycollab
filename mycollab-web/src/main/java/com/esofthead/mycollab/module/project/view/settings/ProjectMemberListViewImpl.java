@@ -76,7 +76,7 @@ ProjectMemberListView {
 	public ProjectMemberListViewImpl() {
 		super();
 		HorizontalLayout viewHeader = new HorizontalLayout();
-		viewHeader.setStyleName("view-hdr");
+		viewHeader.setStyleName("hdr-view");
 		viewHeader.setMargin(true);
 		viewHeader.setSpacing(true);
 		viewHeader.setWidth("100%");

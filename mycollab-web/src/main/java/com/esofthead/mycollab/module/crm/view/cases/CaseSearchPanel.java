@@ -16,38 +16,33 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultAdvancedSearchLayout;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -67,160 +62,25 @@ public class CaseSearchPanel extends
 	private static final long serialVersionUID = 1L;
 	private CaseSearchCriteria searchCriteria;
 
+	private static Param[] paramFields = new Param[] {
+			CaseSearchCriteria.p_priority, CaseSearchCriteria.p_status,
+			CaseSearchCriteria.p_email, CaseSearchCriteria.p_origin,
+			CaseSearchCriteria.p_reason, CaseSearchCriteria.p_subject,
+			CaseSearchCriteria.p_type };
+
 	public CaseSearchPanel() {
 		super();
 	}
 
-	private class CaseAdvancedSearchLayout extends
-			DefaultAdvancedSearchLayout<CaseSearchCriteria> {
+	@SuppressWarnings("unchecked")
+	@Override
+	protected BasicSearchLayout<CaseSearchCriteria> createBasicSearchLayout() {
+		return new CaseBasicSearchLayout();
+	}
 
-		public CaseAdvancedSearchLayout() {
-			super(CaseSearchPanel.this, CrmTypeConstants.CASE);
-		}
-
-		private static final long serialVersionUID = 1L;
-		private TextField numberField;
-		private TextField subjectField;
-		private AccountSelectionField accountField;
-		private CaseStatusListSelect statusField;
-		private ActiveUserListSelect userField;
-		private CasePriorityListSelect priorityField;
-
-		@Override
-		public ComponentContainer constructHeader() {
-			return CaseSearchPanel.this.createSearchTopPanel();
-		}
-
-		@Override
-		public ComponentContainer constructBody() {
-			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(3, 3,
-					"100%", "90px");
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setMargin(
-					new MarginInfo(true, true, true, false));
-
-			this.numberField = (TextField) gridLayout.addComponent(
-					new TextField(), "Number", 0, 0);
-			this.subjectField = (TextField) gridLayout.addComponent(
-					new TextField(), "Subject", 1, 0);
-			this.accountField = (AccountSelectionField) gridLayout
-					.addComponent(new AccountSelectionField(), "Account", 2, 0);
-
-			this.statusField = (CaseStatusListSelect) gridLayout.addComponent(
-					new CaseStatusListSelect(), "Status", 0, 1);
-			this.userField = (ActiveUserListSelect) gridLayout.addComponent(
-					new ActiveUserListSelect(), LocalizationHelper
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1,
-					1);
-			this.priorityField = (CasePriorityListSelect) gridLayout
-					.addComponent(new CasePriorityListSelect(), "Priority", 2,
-							1);
-
-			gridLayout.getLayout().setSpacing(true);
-			return gridLayout.getLayout();
-		}
-
-		@Override
-		protected CaseSearchCriteria fillupSearchCriteria() {
-			CaseSearchPanel.this.searchCriteria = new CaseSearchCriteria();
-			CaseSearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
-
-			if (StringUtils.isNotNullOrEmpty((String) this.subjectField
-					.getValue())) {
-				CaseSearchPanel.this.searchCriteria
-						.setSubject(new StringSearchField(SearchField.AND,
-								((String) this.subjectField.getValue()).trim()));
-			}
-
-			final Integer accountId = this.accountField.getValue();
-			if (accountId != null) {
-				CaseSearchPanel.this.searchCriteria
-						.setAccountId(new NumberSearchField(SearchField.AND,
-								accountId));
-			}
-
-			final Collection<String> statuses = (Collection<String>) this.statusField
-					.getValue();
-			if (statuses != null && statuses.size() > 0) {
-				CaseSearchPanel.this.searchCriteria
-						.setStatuses(new SetSearchField<String>(
-								SearchField.AND, statuses));
-			}
-
-			final Collection<String> assignUsers = (Collection<String>) this.userField
-					.getValue();
-			if (assignUsers != null && assignUsers.size() > 0) {
-				CaseSearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
-								SearchField.AND, assignUsers));
-			}
-
-			final Collection<String> priorities = (Collection<String>) this.priorityField
-					.getValue();
-			if (priorities != null && priorities.size() > 0) {
-				CaseSearchPanel.this.searchCriteria
-						.setPriorities(new SetSearchField<String>(
-								SearchField.AND, priorities));
-			}
-			return CaseSearchPanel.this.searchCriteria;
-		}
-
-		@Override
-		protected void clearFields() {
-			this.numberField.setValue("");
-			this.subjectField.setValue("");
-			this.accountField.clearValue();
-			this.statusField.setValue(null);
-			this.userField.setValue(null);
-			this.priorityField.setValue(null);
-		}
-
-		@Override
-		protected void loadSaveSearchToField(final CaseSearchCriteria value) {
-			if (value.getSubject() != null) {
-				this.subjectField.setValue(value.getSubject().getValue());
-			}
-
-			if (value.getAccountId() != null) {
-				final Integer accountId = (Integer) value.getAccountId()
-						.getValue();
-
-				this.accountField
-						.setPropertyDataSource(new AbstractField<Integer>() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public Integer getValue() {
-								return accountId;
-							}
-
-							@Override
-							public Class<Integer> getType() {
-								return Integer.class;
-							}
-						});
-			}
-			if (value.getStatuses() != null) {
-				this.statusField.setValue(Arrays.asList((Object[]) value
-						.getStatuses().values));
-			}
-
-			if (value.getAssignUsers() != null) {
-				this.userField.setValue(Arrays.asList((Object[]) value
-						.getAssignUsers().values));
-			}
-			if (value.getPriorities() != null) {
-				this.priorityField.setValue(Arrays.asList((Object[]) value
-						.getPriorities().values));
-			}
-		}
-
-		@Override
-		protected Class<CaseSearchCriteria> getType() {
-			return CaseSearchCriteria.class;
-		}
+	@Override
+	protected SearchLayout<CaseSearchCriteria> createAdvancedSearchLayout() {
+		return new CaseAdvancedSearchLayout();
 	}
 
 	private HorizontalLayout createSearchTopPanel() {
@@ -258,6 +118,37 @@ public class CaseSearchPanel extends
 		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
 
 		return layout;
+	}
+
+	private class CaseAdvancedSearchLayout extends
+			DynamicQueryParamLayout<CaseSearchCriteria> {
+		private static final long serialVersionUID = 1L;
+
+		public CaseAdvancedSearchLayout() {
+			super(CaseSearchPanel.this, CrmTypeConstants.CASE);
+		}
+
+		@Override
+		public ComponentContainer constructHeader() {
+			return CaseSearchPanel.this.createSearchTopPanel();
+		}
+
+		@Override
+		public Param[] getParamFields() {
+			return paramFields;
+		}
+
+		@Override
+		protected Class<CaseSearchCriteria> getType() {
+			return CaseSearchCriteria.class;
+		}
+
+		protected Component buildSelectionComp(String fieldId) {
+			if ("case-assignuser".equals(fieldId)) {
+				return new ActiveUserListSelect();
+			}
+			return null;
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -376,16 +267,5 @@ public class CaseSearchPanel extends
 			}
 			return CaseSearchPanel.this.searchCriteria;
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected BasicSearchLayout<CaseSearchCriteria> createBasicSearchLayout() {
-		return new CaseBasicSearchLayout();
-	}
-
-	@Override
-	protected SearchLayout<CaseSearchCriteria> createAdvancedSearchLayout() {
-		return new CaseAdvancedSearchLayout();
 	}
 }

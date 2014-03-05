@@ -14,145 +14,126 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.subject != null">
-            <![CDATA[${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%']]>
-        </if>
-        <if test="searchCriteria.assignUser != null">
-            <![CDATA[
-                ${searchCriteria.assignUser.operation} m_crm_case.assignUser = #{searchCriteria.assignUser.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.assignUserName != null">
-            <![CDATA[
-               ${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'
-            ]]>
-        </if>
-        <if test="searchCriteria.accountName != null">
-            <![CDATA[${searchCriteria.accountName.operation} m_crm_account.accountName like '%${searchCriteria.accountName.value}%']]>
-        </if>
-        <if test="searchCriteria.accountId != null">
-            <![CDATA[${searchCriteria.accountId.operation} m_crm_account.id=#{searchCriteria.accountId.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.contactId != null">
-            <![CDATA[
-                ${searchCriteria.contactId.operation}
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.subject)
+            ${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_crm_case.assignUser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.accountId)
+            ${searchCriteria.accountId.operation} m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.contactId)
+            ${searchCriteria.contactId.operation}
                 (SELECT COUNT(*) 
                  FROM m_crm_type_relationship, m_crm_contact
                  WHERE m_crm_type_relationship.type=8 
                      AND m_crm_contact.id=m_crm_type_relationship.type2id 
                      AND m_crm_case.id=m_crm_type_relationship.type1id
-                     AND m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_crm_case.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.statuses">
+                     AND m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_crm_case.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.statuses)
             ${searchCriteria.statuses.operation}
             m_crm_case.status IN
-            <foreach collection="searchCriteria.statuses.values"
-                item="status" open="(" close=")" separator=",">
-                #{status}
-            </foreach>
-        </if>
-        <if test="searchCriteria.assignUsers != null">
+            #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                @{status}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.priorities)
+            ${searchCriteria.priorities.operation} m_crm_case.priority IN
+            #repeat(${searchCriteria.priorities.values} $priority "," "(" ")")
+                @{priority}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.assignUsers)
             ${searchCriteria.assignUsers.operation}
             m_crm_case.assignUser IN
-            <foreach collection="searchCriteria.assignUsers.values"
-                item="user" open="(" close=")" separator=",">
-                #{user}
-            </foreach>
-        </if>
-        <if test="searchCriteria.priorities != null">
-            ${searchCriteria.priorities.operation} m_crm_case.priority
-            IN
-            <foreach collection="searchCriteria.priorities.values"
-                open="(" close=")" separator="," item="priority">
-                #{priority}
-            </foreach>
-        </if>
+            #repeat(${searchCriteria.assignUsers.values} $assignUserItem "," "(" ")")
+                @{assignUserItem}
+            #end
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
 
     <sql id="queryTotalCountSearchCriteria">
-
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_crm_case.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.subject != null">
-            <![CDATA[${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%']]>
-        </if>
-        <if test="searchCriteria.assignUser != null">
-            <![CDATA[
-                ${searchCriteria.assignUser.operation} m_crm_case.assignUser = #{searchCriteria.assignUser.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.assignUserName != null">
-            <![CDATA[
-            ${searchCriteria.assignUserName.operation}
-            (SELECT COUNT(*)
-                FROM s_user
-                WHERE m_crm_case.assignUser = s_user.username AND
-                  (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'))>0
-            ]]>
-        </if>
-        <if test="searchCriteria.accountName != null">
-            <![CDATA[
-            ${searchCriteria.accountName.operation}
-            (SELECT COUNT(*) 
-                FROM m_crm_account 
-                WHERE m_crm_account.accountName like '%${searchCriteria.accountName.value}%' 
-                    AND m_crm_account.id=m_crm_case.accountId) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.accountId != null">
-            <![CDATA[
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_crm_case.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.subject)
+            ${searchCriteria.subject.operation} m_crm_case.subject LIKE '%${searchCriteria.subject.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_crm_case.assignUser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.accountId)
             ${searchCriteria.accountId.operation}
             (SELECT COUNT(*) 
                 FROM m_crm_account 
-                WHERE m_crm_account.id = #{searchCriteria.accountId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_account.id = @{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_account.id=m_crm_case.accountId) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.contactId != null">
-            <![CDATA[
-                ${searchCriteria.contactId.operation}
+        #end
+        
+        #ifnotnull($searchCriteria.contactId)
+            ${searchCriteria.contactId.operation}
                 (SELECT COUNT(*) 
                  FROM m_crm_type_relationship, m_crm_contact
                  WHERE m_crm_type_relationship.type=8 
                      AND m_crm_contact.id=m_crm_type_relationship.type2id 
                      AND m_crm_case.id=m_crm_type_relationship.type1id
-                     AND m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.statuses != null">
+                     AND m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC}) > 0
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_crm_case.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.statuses)
             ${searchCriteria.statuses.operation}
             m_crm_case.status IN
-            <foreach collection="searchCriteria.statuses.values"
-                item="status" open="(" close=")" separator=",">
-                #{status}
-            </foreach>
-        </if>
-        <if test="searchCriteria.priorities != null">
-            ${searchCriteria.priorities.operation}
-            m_crm_case.priority IN
-            <foreach collection="searchCriteria.priorities.values"
-                item="priority" open="(" close=")" separator=",">
-                #{priority}
-            </foreach>
-        </if>
-        <if test="searchCriteria.assignUsers != null">
+            #repeat(${searchCriteria.statuses.values} $status "," "(" ")")
+                @{status}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.priorities)
+            ${searchCriteria.priorities.operation} m_crm_case.priority IN
+            #repeat(${searchCriteria.priorities.values} $priority "," "(" ")")
+                @{priority}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.assignUsers)
             ${searchCriteria.assignUsers.operation}
             m_crm_case.assignUser IN
-            <foreach collection="searchCriteria.assignUsers.values"
-                item="user" open="(" close=")" separator=",">
-                #{user}
-            </foreach>
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_crm_case.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
+            #repeat(${searchCriteria.assignUsers.values} $assignUserItem "," "(" ")")
+                @{assignUserItem}
+            #end
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="selectSimpleCase">
@@ -170,86 +151,73 @@
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_crm_case.lastUpdatedTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_crm_case.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="CaseSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="CaseSearchCriteria"  lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_case
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+         #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
     </select>
 
-    <delete id="removeByCriteria" parameterType="CaseSearchCriteria">
+    <delete id="removeByCriteria" parameterType="CaseSearchCriteria" lang="velocity">
         DELETE FROM m_crm_case
-        <if test="searchCriteria != null">
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
-        </if>
+         #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
     </delete>
 
     <select id="findPagableListByCriteria" resultMap="SimpleCaseResult"
-        parameterType="CaseSearchCriteria">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.selectSimpleCase" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        parameterType="CaseSearchCriteria" lang="velocity">
+        <include refid="selectSimpleCase" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
-    <select id="findById" parameterType="int" resultMap="SimpleCaseResult">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.selectSimpleCase" />
+    <select id="findById" parameterType="int" resultMap="SimpleCaseResult" lang="velocity">
+        <include refid="selectSimpleCase" />
 
-        WHERE m_crm_case.id=#{caseId,jdbcType=NUMERIC}
+        WHERE m_crm_case.id=@{caseId,jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_case
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #trim("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_case
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #trim("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <!-- Here for Mass Update -->
-    <update id="updateBySearchCriteria" parameterType="map">
+    <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.crm.dao.CaseMapper.massUpdateWithSessionSql" />
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.CaseMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
     </update>
 </mapper>

@@ -16,10 +16,19 @@
  */
 package com.esofthead.mycollab.module.crm.domain.criteria;
 
+import java.util.Arrays;
+
+import com.esofthead.mycollab.common.CountryValueFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.CompositionStringParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.StringParam;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
 /**
  * 
@@ -28,43 +37,52 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
  */
 public class LeadSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
-	
-	private StringSearchField campaignName;
-	private StringSearchField referredBy;
+
+	public static Param p_accountName = new StringParam("lead-accountname",
+			"Account Name", "m_crm_lead", "accountName");
+
+	public static Param p_anyEmail = new CompositionStringParam(
+			"lead-anyEmail", "Any Email", new StringParam[] { new StringParam(
+					"", "", "m_crm_lead", "email") });
+
+	public static Param p_anyPhone = new CompositionStringParam(
+			"lead-anyPhone", "Any Phone", new StringParam[] {
+					new StringParam("", "", "m_crm_lead", "officePhone"),
+					new StringParam("", "", "m_crm_lead", "homePhone"),
+					new StringParam("", "", "m_crm_lead", "mobile"),
+					new StringParam("", "", "m_crm_lead", "otherPhone"),
+					new StringParam("", "", "m_crm_lead", "fax") });
+
+	public static Param p_anyCity = new CompositionStringParam("lead-anyCity",
+			"Any City", new StringParam[] {
+					new StringParam("", "", "m_crm_lead", "primCity"),
+					new StringParam("", "", "m_crm_lead", "otherCity") });
+
+	public static Param p_billingCountry = new StringListParam(
+			"lead-billingCountry", "Billing Country", "m_crm_lead",
+			"primCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+
+	public static Param p_shippingCountry = new StringListParam(
+			"lead-shippingCountry", "Shipping Country", "m_crm_lead",
+			"otherCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+
+	public static Param p_statuses = new StringListParam("lead-status",
+			"Status", "m_crm_lead", "status", Arrays.asList(CrmDataTypeFactory
+					.getLeadStatusList()));
+
+	public static Param p_sources = new StringListParam("lead-source",
+			"Source", "m_crm_lead", "source", Arrays.asList(CrmDataTypeFactory
+					.getLeadSourceList()));
+
+	public static Param p_assignee = new PropertyListParam("lead-assignuser",
+			"Assignee", "m_crm_lead", "assignUser");
+
 	private StringSearchField leadName;
-	private StringSearchField accountName;
 	private SetSearchField<String> assignUsers;
-	private StringSearchField assignUserName;
 	private NumberSearchField campaignId;
 	private NumberSearchField opportunityId;
-	private StringSearchField firstname;
-	private StringSearchField lastname;
-	private StringSearchField anyEmail;
-	private StringSearchField anyAddress;
-	private StringSearchField anyCountry;
-	private SetSearchField<String> sources;
-	private StringSearchField anyPhone;
-	private StringSearchField anyCity;
-	private StringSearchField anyState;
-	private SetSearchField<String> statuses;
 	private NumberSearchField id;
 	private NumberSearchField accountId;
-
-	public StringSearchField getCampaignName() {
-		return campaignName;
-	}
-
-	public void setCampaignName(StringSearchField campaignName) {
-		this.campaignName = campaignName;
-	}
-
-	public StringSearchField getReferredBy() {
-		return referredBy;
-	}
-
-	public void setReferredBy(StringSearchField referredBy) {
-		this.referredBy = referredBy;
-	}
 
 	public StringSearchField getLeadName() {
 		return leadName;
@@ -74,28 +92,12 @@ public class LeadSearchCriteria extends SearchCriteria {
 		this.leadName = leadName;
 	}
 
-	public StringSearchField getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(StringSearchField accountName) {
-		this.accountName = accountName;
-	}
-
 	public void setAssignUsers(SetSearchField<String> assignUsers) {
 		this.assignUsers = assignUsers;
 	}
 
 	public SetSearchField<String> getAssignUsers() {
 		return assignUsers;
-	}
-
-	public StringSearchField getAssignUserName() {
-		return assignUserName;
-	}
-
-	public void setAssignUserName(StringSearchField assignUserName) {
-		this.assignUserName = assignUserName;
 	}
 
 	public NumberSearchField getCampaignId() {
@@ -112,86 +114,6 @@ public class LeadSearchCriteria extends SearchCriteria {
 
 	public void setOpportunityId(NumberSearchField opportunityId) {
 		this.opportunityId = opportunityId;
-	}
-
-	public StringSearchField getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(StringSearchField firstname) {
-		this.firstname = firstname;
-	}
-
-	public StringSearchField getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(StringSearchField lastname) {
-		this.lastname = lastname;
-	}
-
-	public StringSearchField getAnyEmail() {
-		return anyEmail;
-	}
-
-	public void setAnyEmail(StringSearchField anyEmail) {
-		this.anyEmail = anyEmail;
-	}
-
-	public StringSearchField getAnyAddress() {
-		return anyAddress;
-	}
-
-	public void setAnyAddress(StringSearchField anyAddress) {
-		this.anyAddress = anyAddress;
-	}
-
-	public StringSearchField getAnyCountry() {
-		return anyCountry;
-	}
-
-	public void setAnyCountry(StringSearchField anyCountry) {
-		this.anyCountry = anyCountry;
-	}
-
-	public void setSources(SetSearchField<String> sources) {
-		this.sources = sources;
-	}
-
-	public SetSearchField<String> getSources() {
-		return sources;
-	}
-
-	public StringSearchField getAnyPhone() {
-		return anyPhone;
-	}
-
-	public void setAnyPhone(StringSearchField anyPhone) {
-		this.anyPhone = anyPhone;
-	}
-
-	public StringSearchField getAnyCity() {
-		return anyCity;
-	}
-
-	public void setAnyCity(StringSearchField anyCity) {
-		this.anyCity = anyCity;
-	}
-
-	public StringSearchField getAnyState() {
-		return anyState;
-	}
-
-	public void setAnyState(StringSearchField anyState) {
-		this.anyState = anyState;
-	}
-
-	public void setStatuses(SetSearchField<String> statuses) {
-		this.statuses = statuses;
-	}
-
-	public SetSearchField<String> getStatuses() {
-		return statuses;
 	}
 
 	public void setId(NumberSearchField id) {

@@ -16,19 +16,73 @@
  */
 package com.esofthead.mycollab.module.crm.domain.criteria;
 
+import java.util.Arrays;
+
+import com.esofthead.mycollab.common.CountryValueFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.CompositionStringParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.StringParam;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ContactSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
+	public static Param p_firstname = new StringParam("contact-firstname",
+			"First Name", "m_crm_contact", "firstname");
+
+	public static Param p_lastname = new StringParam("contact-lastname",
+			"Last Name", "m_crm_contact", "lastname");
+
+	public static Param p_leadsource = new StringListParam(
+			"contact-leadsource", "Lead Source", "m_crm_contact", "leadSource",
+			Arrays.asList(CrmDataTypeFactory.getLeadSourceList()));
+
+	public static Param p_billingCountry = new StringListParam(
+			"contact-billingCountry", "Billing Country", "m_crm_contact",
+			"primCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+
+	public static Param p_shippingCountry = new StringListParam(
+			"contact-shippingCountry", "Shipping Country", "m_crm_contact",
+			"otherCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+
+	public static Param p_anyPhone = new CompositionStringParam(
+			"contact-anyPhone",
+			"Any Phone",
+			new StringParam[] {
+					new StringParam("", "", "m_crm_contact", "officePhone"),
+					new StringParam("", "", "m_crm_contact", "mobile"),
+					new StringParam("", "", "m_crm_contact", "homePhone"),
+					new StringParam("", "", "m_crm_contact", "otherPhone"),
+					new StringParam("", "", "m_crm_contact", "fax"),
+					new StringParam("", "", "m_crm_contact", "assistantPhone") });
+
+	public static Param p_anyEmail = new CompositionStringParam(
+			"contact-anyEmail", "Any Email",
+			new StringParam[] { new StringParam("", "", "m_crm_contact",
+					"email") });
+
+	public static Param p_anyCity = new CompositionStringParam(
+			"contact-anyCity", "Any City", new StringParam[] {
+					new StringParam("", "", "m_crm_contact", "primCity"),
+					new StringParam("", "", "m_crm_contact", "otherCity") });
+
+	public static Param p_assignee = new PropertyListParam(
+			"contact-assignuser", "Assignee", "m_crm_contact", "assignUser");
+
 	private StringSearchField contactName;
-	private StringSearchField accountName;
 	private SetSearchField<String> assignUsers;
-	private StringSearchField assignUserName;
-	private StringSearchField username;
 	private NumberSearchField accountId;
 	private StringSearchField firstname;
 	private StringSearchField lastname;
@@ -53,14 +107,6 @@ public class ContactSearchCriteria extends SearchCriteria {
 		this.contactName = contactName;
 	}
 
-	public StringSearchField getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(StringSearchField accountName) {
-		this.accountName = accountName;
-	}
-
 	public void setAssignUsers(SetSearchField<String> assignUsers) {
 		this.assignUsers = assignUsers;
 	}
@@ -69,28 +115,12 @@ public class ContactSearchCriteria extends SearchCriteria {
 		return assignUsers;
 	}
 
-	public StringSearchField getUsername() {
-		return username;
-	}
-
-	public void setUsername(StringSearchField username) {
-		this.username = username;
-	}
-
 	public NumberSearchField getAccountId() {
 		return accountId;
 	}
 
 	public void setAccountId(NumberSearchField accountId) {
 		this.accountId = accountId;
-	}
-
-	public StringSearchField getAssignUserName() {
-		return assignUserName;
-	}
-
-	public void setAssignUserName(StringSearchField assignUserName) {
-		this.assignUserName = assignUserName;
 	}
 
 	public StringSearchField getFirstname() {

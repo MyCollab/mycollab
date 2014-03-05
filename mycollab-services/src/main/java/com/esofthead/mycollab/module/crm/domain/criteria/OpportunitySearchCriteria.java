@@ -16,22 +16,55 @@
  */
 package com.esofthead.mycollab.module.crm.domain.criteria;
 
+import java.util.Arrays;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.StringParam;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class OpportunitySearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
+	public static Param p_opportunityName = new StringParam("opportunity-name",
+			"Opportunity Name", "m_crm_opportunity", "opportunityName");
+
+	public static Param p_nextStep = new StringParam("opportunity-nextstep",
+			"Next Step", "m_crm_opportunity", "nextStep");
+
+	public static Param p_saleStage = new StringListParam(
+			"opportunity-saleStage", "Sales Stage", "m_crm_opportunity",
+			"salesStage", Arrays.asList(CrmDataTypeFactory
+					.getOpportunitySalesStageList()));
+
+	public static Param p_leadSource = new StringListParam(
+			"opportunity-leadSource", "Lead Source", "m_crm_opportunity",
+			"source", Arrays.asList(CrmDataTypeFactory.getLeadSourceList()));
+
+	public static Param p_type = new StringListParam("opportunity-type",
+			"Type", "m_crm_opportunity", "type",
+			Arrays.asList(CrmDataTypeFactory.getOpportunityTypeList()));
+
+	public static Param p_assignee = new PropertyListParam(
+			"opportunity-assignee", "Assignee", "m_crm_opportunity",
+			"assignUser");
+
 	private StringSearchField opportunityName;
-	private StringSearchField accountName;
-	private StringSearchField campaignName;
 	private SetSearchField<String> assignUsers;
-	private StringSearchField assignUserName;
 	private NumberSearchField accountId;
 	private NumberSearchField contactId;
-	private StringSearchField nextStep;
+	private NumberSearchField campaignId;
 	private SetSearchField<String> salesStages;
 	private SetSearchField<String> leadSources;
 	private NumberSearchField id;
@@ -44,36 +77,12 @@ public class OpportunitySearchCriteria extends SearchCriteria {
 		this.opportunityName = opportunityName;
 	}
 
-	public StringSearchField getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(StringSearchField accountName) {
-		this.accountName = accountName;
-	}
-
-	public StringSearchField getCampaignName() {
-		return campaignName;
-	}
-
-	public void setCampaignName(StringSearchField campaignName) {
-		this.campaignName = campaignName;
-	}
-
 	public void setAssignUsers(SetSearchField<String> assignUsers) {
 		this.assignUsers = assignUsers;
 	}
 
 	public SetSearchField<String> getAssignUsers() {
 		return assignUsers;
-	}
-
-	public StringSearchField getAssignUserName() {
-		return assignUserName;
-	}
-
-	public void setAssignUserName(StringSearchField assignUserName) {
-		this.assignUserName = assignUserName;
 	}
 
 	public NumberSearchField getAccountId() {
@@ -92,12 +101,12 @@ public class OpportunitySearchCriteria extends SearchCriteria {
 		this.contactId = contactId;
 	}
 
-	public StringSearchField getNextStep() {
-		return nextStep;
+	public NumberSearchField getCampaignId() {
+		return campaignId;
 	}
 
-	public void setNextStep(StringSearchField nextStep) {
-		this.nextStep = nextStep;
+	public void setCampaignId(NumberSearchField campaignId) {
+		this.campaignId = campaignId;
 	}
 
 	public void setSalesStages(SetSearchField<String> salesStages) {

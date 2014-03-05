@@ -119,14 +119,6 @@ public class LeadSimpleSearchPanel extends
 								searchCriteria
 										.setLeadName(new StringSearchField(
 												SearchField.AND, strSearch));
-							} else if (searchType.equals("Email")) {
-								searchCriteria
-										.setAnyEmail(new StringSearchField(
-												SearchField.AND, strSearch));
-							} else if (searchType.equals("Phone")) {
-								searchCriteria
-										.setAnyPhone(new StringSearchField(
-												SearchField.AND, strSearch));
 							}
 						}
 					}

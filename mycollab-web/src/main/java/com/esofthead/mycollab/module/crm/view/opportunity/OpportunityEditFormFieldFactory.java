@@ -45,7 +45,6 @@ public class OpportunityEditFormFieldFactory<B extends Opportunity> extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
-		B opportunity = attachForm.getBean();
 
 		if (propertyId.equals("campaignid")) {
 			return new CampaignSelectionField();

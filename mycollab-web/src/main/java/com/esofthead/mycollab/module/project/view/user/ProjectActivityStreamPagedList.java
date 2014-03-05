@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
@@ -38,9 +41,16 @@ import com.esofthead.mycollab.module.project.view.ProjectLinkBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 
 /**
@@ -50,8 +60,8 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ProjectActivityStreamPagedList
-		extends
-		AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+extends
+AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = 1L;
 
 	private final ActivityStreamService activityStreamService;
@@ -90,17 +100,17 @@ public class ProjectActivityStreamPagedList
 
 		Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
+		CssLayout currentFeedBlock = new CssLayout();
+
 		try {
+
 			for (final SimpleActivityStream activityStream : currentListData) {
 				final Date itemCreatedDate = activityStream.getCreatedtime();
 
 				if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
-					final CssLayout dateWrapper = new CssLayout();
-					dateWrapper.setWidth("100%");
-					dateWrapper.addStyleName("date-wrapper");
-					dateWrapper.addComponent(new Label(AppContext
-							.formatDate(itemCreatedDate)));
-					this.listContainer.addComponent(dateWrapper);
+					currentFeedBlock = new CssLayout();
+					currentFeedBlock.setStyleName("feed-block");
+					feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
 					currentDate = itemCreatedDate;
 				}
 				String content = "";
@@ -189,11 +199,90 @@ public class ProjectActivityStreamPagedList
 				streamWrapper.setWidth("100%");
 				streamWrapper.addStyleName("stream-wrapper");
 				streamWrapper.addComponent(actionLbl);
-				this.listContainer.addComponent(streamWrapper);
+				/*this.listContainer.addComponent(streamWrapper);*/
+				currentFeedBlock.addComponent(streamWrapper);
 			}
 		} catch (final Exception e) {
 			throw new MyCollabException(e);
 		}
+	}
+
+	protected void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
+		HorizontalLayout blockWrapper = new HorizontalLayout();
+		blockWrapper.setStyleName("feed-block-wrap");
+		blockWrapper.setWidth("100%");
+		blockWrapper.setSpacing(true);
+
+		blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(currentDate);
+
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(nextDate);
+
+		if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
+			int currentYear = cal2.get(Calendar.YEAR);
+			Label yearLbl = new Label(String.valueOf(currentYear));
+			yearLbl.setStyleName("year-lbl");
+			yearLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			yearLbl.setHeight("49px");
+			this.listContainer.addComponent(yearLbl);
+		} else {
+			blockWrapper.setMargin(new MarginInfo(true, false, false, false));
+		}
+		Label dateLbl = new Label(DateFormatUtils.format(nextDate, "dd/MM"));
+		dateLbl.setSizeUndefined();
+		dateLbl.setStyleName("date-lbl");
+		blockWrapper.addComponent(dateLbl);
+		blockWrapper.addComponent(currentBlock);
+		blockWrapper.setExpandRatio(currentBlock, 1.0f);
+
+		this.listContainer.addComponent(blockWrapper);
+	}
+
+	@Override
+	protected CssLayout createPageControls() {
+		this.controlBarWrapper = new CssLayout();
+		this.controlBarWrapper.setWidth("100%");
+		this.controlBarWrapper.setStyleName("page-controls");
+		ButtonGroup controlBtns = new ButtonGroup();
+		controlBtns.setStyleName(UIConstants.THEME_BLUE_LINK);
+		Button prevBtn = new Button("Previous", new Button.ClickListener() {
+			private static final long serialVersionUID = -94021599166105307L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				ProjectActivityStreamPagedList.this
+				.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+			}
+		});
+		if (currentPage == 1) {
+			prevBtn.setEnabled(false);
+		}
+		prevBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		prevBtn.setWidth("70px");
+
+		Button nextBtn = new Button("Next", new Button.ClickListener() {
+			private static final long serialVersionUID = 3095522916508256018L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				ProjectActivityStreamPagedList.this
+				.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+			}
+		});
+		if (currentPage == totalPage) {
+			nextBtn.setEnabled(false);
+		}
+		nextBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		nextBtn.setWidth("70px");
+
+		controlBtns.addButton(prevBtn);
+		controlBtns.addButton(nextBtn);
+
+		this.controlBarWrapper.addComponent(controlBtns);
+
+		return this.controlBarWrapper;
 	}
 
 	@Override

@@ -71,7 +71,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	private void constructHeader() {
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
-		headerWrapper.addStyleName("taskgroup-header");
+		//headerWrapper.addStyleName("taskgroup-header");
+		headerWrapper.addStyleName("hdr-view");
 		final VerticalLayout mainLayout = new VerticalLayout();
 		mainLayout.setSpacing(true);
 		headerWrapper.addComponent(mainLayout);
@@ -84,7 +85,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.taskGroupSelection.setEnabled(CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS));
 		this.taskGroupSelection.addStyleName("link");
-		this.taskGroupSelection.addStyleName("h2");
+		this.taskGroupSelection.addStyleName("hdr-text");
 		final Image icon = new Image(null,
 				MyCollabResource.newResource("icons/24/project/task.png"));
 		header.addComponent(icon);

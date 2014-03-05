@@ -101,14 +101,15 @@ BugDashboardView {
 		headerWrapper.removeAllComponents();
 		final CssLayout headerTop = new CssLayout();
 		headerTop.setWidth("100%");
-		headerTop.addStyleName("bugdashboard-header-top");
+		//headerTop.addStyleName("bugdashboard-header-top");
+		headerTop.addStyleName("hdr-view");
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		final Label title = new Label(
 				LocalizationHelper.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
-		title.setStyleName("h2");
+		title.setStyleName("hdr-text");
 		final Image icon = new Image(null, MyCollabResource.newResource("icons/24/project/bug.png"));
 		header.addComponent(icon);
 		header.addComponent(title);

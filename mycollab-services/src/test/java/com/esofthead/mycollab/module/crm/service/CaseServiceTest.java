@@ -55,8 +55,6 @@ public class CaseServiceTest extends ServiceTest {
 	public void testGetSearchCriteria() {
 		CaseSearchCriteria criteria = new CaseSearchCriteria();
 		criteria.setAccountId(new NumberSearchField(SearchField.AND, 1));
-		criteria.setAccountName(new StringSearchField(SearchField.AND, "a"));
-		criteria.setAssignUserName(new StringSearchField(SearchField.AND, "Hai"));
 		criteria.setAssignUser(new StringSearchField(SearchField.AND, "admin"));
 		criteria.setSubject(new StringSearchField(SearchField.AND, "a"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));

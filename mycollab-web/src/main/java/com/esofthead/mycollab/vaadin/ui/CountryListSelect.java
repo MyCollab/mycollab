@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.vaadin.ui.data.CountryValueFactory;
+import com.esofthead.mycollab.common.CountryValueFactory;
 
 /**
  * 

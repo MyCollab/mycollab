@@ -25,6 +25,13 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 3.0
+ * 
+ * @param <B>
+ */
 public class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 		AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
@@ -34,7 +41,7 @@ public class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 	}
 
 	@Override
-	protected Field onCreateField(Object propertyId) {
+	protected Field<?> onCreateField(Object propertyId) {
 		if (propertyId.equals("priority")) {
 			return new CasePriorityComboBox();
 		} else if (propertyId.equals("status")) {
@@ -56,16 +63,6 @@ public class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 		} else if (propertyId.equals("accountid")) {
 			AccountSelectionField accountField = new AccountSelectionField();
 			accountField.setRequired(true);
-
-			// if (attachForm.getBean().getAccountid() != null) {
-			// AccountService accountService = ApplicationContextUtil
-			// .getSpringBean(AccountService.class);
-			// SimpleAccount account = accountService.findById(attachForm
-			// .getBean().getAccountid(), AppContext.getAccountId());
-			// if (account != null) {
-			// accountField.setAccount(account);
-			// }
-			// }
 			return accountField;
 		} else if (propertyId.equals("subject")) {
 			TextField tf = new TextField();

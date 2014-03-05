@@ -68,10 +68,11 @@ public class MilestoneListViewImpl extends AbstractPageView implements
 	public MilestoneListViewImpl() {
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
-		headerWrapper.addStyleName("milestonelist-header");
+		//headerWrapper.addStyleName("milestonelist-header");
+		headerWrapper.addStyleName("hdr-view");
 		final HorizontalLayout header = new HorizontalLayout();
 		final Label titleLbl = new Label("Phases");
-		titleLbl.addStyleName("h2");
+		titleLbl.addStyleName("hdr-text");
 		header.setWidth("100%");
 		final Image icon = new Image(null,
 				MyCollabResource.newResource("icons/24/project/phase.png"));

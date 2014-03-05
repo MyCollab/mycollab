@@ -56,44 +56,10 @@ public class OpportunityServiceTest extends ServiceTest {
 	private OpportunitySearchCriteria getCriteria() {
 		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
 		criteria.setAccountId(new NumberSearchField(SearchField.AND, 1));
-		criteria.setAssignUserName(new StringSearchField(SearchField.AND,
-				"Nguyen"));
-		criteria.setCampaignName(new StringSearchField(SearchField.AND, "yz"));
+		criteria.setCampaignId(new NumberSearchField(SearchField.AND, 1));
 		criteria.setOpportunityName(new StringSearchField(SearchField.AND, "aa"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
 		return criteria;
-	}
-
-	@Test
-	@DataSet
-	public void testSearchLeadSources() {
-		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setLeadSources(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Cold Call", "Employee" }));
-		criteria.setSaccountid(new NumberSearchField(1));
-
-		Assert.assertEquals(2, opportunityService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				opportunityService.findPagableListByCriteria(
-						new SearchRequest<OpportunitySearchCriteria>(criteria,
-								0, Integer.MAX_VALUE)).size());
-	}
-
-	@Test
-	@DataSet
-	public void testSearchSalesState() {
-		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSalesStages(new SetSearchField<String>(SearchField.AND,
-				new String[] { "1", "2" }));
-		criteria.setSaccountid(new NumberSearchField(1));
-
-		Assert.assertEquals(2, opportunityService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				opportunityService.findPagableListByCriteria(
-						new SearchRequest<OpportunitySearchCriteria>(criteria,
-								0, Integer.MAX_VALUE)).size());
 	}
 
 	@Test
@@ -107,21 +73,6 @@ public class OpportunityServiceTest extends ServiceTest {
 		Assert.assertEquals(2, opportunityService.getTotalCount(criteria));
 		Assert.assertEquals(
 				2,
-				opportunityService.findPagableListByCriteria(
-						new SearchRequest<OpportunitySearchCriteria>(criteria,
-								0, Integer.MAX_VALUE)).size());
-	}
-
-	@Test
-	@DataSet
-	public void testSearchNextStep() {
-		OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setNextStep(new StringSearchField(SearchField.AND, "ABC"));
-		criteria.setSaccountid(new NumberSearchField(1));
-
-		Assert.assertEquals(1, opportunityService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
 				opportunityService.findPagableListByCriteria(
 						new SearchRequest<OpportunitySearchCriteria>(criteria,
 								0, Integer.MAX_VALUE)).size());

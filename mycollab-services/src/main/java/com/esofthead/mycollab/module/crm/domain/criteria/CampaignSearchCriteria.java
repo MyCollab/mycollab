@@ -16,12 +16,18 @@
  */
 package com.esofthead.mycollab.module.crm.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.DateSearchField;
+import java.util.Arrays;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
+import com.esofthead.mycollab.core.db.query.StringParam;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 
 /**
  * 
@@ -31,18 +37,40 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
  */
 public class CampaignSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
-	
+
+	public static Param p_campaignName = new StringParam("campaign-name",
+			"Campaign Name", "m_crm_campaign", "campaignName");
+
+	public static Param p_startDate = new DateParam("campaign-startdate",
+			"Start Date", "m_crm_campaign", "startDate");
+
+	public static Param p_endDate = new DateParam("campaign-enddate",
+			"End Date", "m_crm_campaign", "endDate");
+
+	public static Param p_createdtime = new DateParam("campaign-createdtime",
+			"Created Time", "m_crm_campaign", "createdTime");
+
+	public static Param p_lastUpdatedTime = new DateParam(
+			"campaign-lastUpdatedTime", "Last Updated Time", "m_crm_campaign",
+			"lastUpdatedTime");
+
+	public static Param p_types = new StringListParam("campaign-type", "Type",
+			"m_crm_campaign", "type", Arrays.asList(CrmDataTypeFactory
+					.getCampaignTypeList()));
+
+	public static Param p_statuses = new StringListParam("campaign-status",
+			"Status", "m_crm_campaign", "status",
+			Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
+
+	public static Param p_assignee = new PropertyListParam(
+			"campaign-assignuser", "Assignee", "m_crm_campaign", "assignUser");
+
 	private StringSearchField campaignName;
-	private StringSearchField assignUserName;
 	private StringSearchField assignUser;
 	private NumberSearchField leadId;
 	private SetSearchField<String> statuses;
 	private SetSearchField<String> types;
 	private SetSearchField<String> assignUsers;
-	private DateSearchField startDate;
-	private DateSearchField endDate;
-	private RangeDateTimeSearchField startDateRange;
-	private RangeDateTimeSearchField endDateRange;
 	private NumberSearchField id;
 
 	public StringSearchField getCampaignName() {
@@ -91,46 +119,6 @@ public class CampaignSearchCriteria extends SearchCriteria {
 
 	public void setAssignUsers(SetSearchField<String> assignUsers) {
 		this.assignUsers = assignUsers;
-	}
-
-	public StringSearchField getAssignUserName() {
-		return assignUserName;
-	}
-
-	public void setAssignUserName(StringSearchField assignUserName) {
-		this.assignUserName = assignUserName;
-	}
-
-	public DateSearchField getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(DateSearchField startDate) {
-		this.startDate = startDate;
-	}
-
-	public DateSearchField getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(DateSearchField endDate) {
-		this.endDate = endDate;
-	}
-
-	public RangeDateTimeSearchField getStartDateRange() {
-		return startDateRange;
-	}
-
-	public void setStartDateRange(RangeDateTimeSearchField startDateRange) {
-		this.startDateRange = startDateRange;
-	}
-
-	public RangeDateTimeSearchField getEndDateRange() {
-		return endDateRange;
-	}
-
-	public void setEndDateRange(RangeDateTimeSearchField endDateRange) {
-		this.endDateRange = endDateRange;
 	}
 
 	public void setId(NumberSearchField id) {

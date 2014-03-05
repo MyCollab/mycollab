@@ -16,9 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -110,30 +108,6 @@ public class CampaignSimpleSearchPanel extends
 						}
 					}
 
-					if (dateSearchField != null) {
-						SearchField searchDate = dateSearchField.getValue();
-						if (searchType.equals("Start Date")) {
-							if (searchDate != null
-									&& (searchDate instanceof DateSearchField)) {
-								searchCriteria
-										.setStartDate((DateSearchField) searchDate);
-							} else if (searchDate != null
-									&& (searchDate instanceof RangeDateSearchField)) {
-								searchCriteria
-										.setStartDateRange((RangeDateSearchField) searchDate);
-							}
-						} else if (searchType.equals("End Date")) {
-							if (searchDate != null
-									&& (searchDate instanceof DateSearchField)) {
-								searchCriteria
-										.setEndDate((DateSearchField) searchDate);
-							} else if (searchDate != null
-									&& (searchDate instanceof RangeDateSearchField)) {
-								searchCriteria
-										.setEndDateRange((RangeDateSearchField) searchDate);
-							}
-						}
-					}
 				}
 				CampaignSimpleSearchPanel.this
 						.notifySearchHandler(searchCriteria);

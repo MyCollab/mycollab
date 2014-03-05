@@ -16,42 +16,33 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.Account;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
-import com.esofthead.mycollab.module.crm.view.lead.LeadSourceListSelect;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DefaultAdvancedSearchLayout;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -68,6 +59,13 @@ import com.vaadin.ui.themes.Reindeer;
 @SuppressWarnings("serial")
 public class OpportunitySearchPanel extends
 		DefaultGenericSearchPanel<OpportunitySearchCriteria> {
+
+	private static Param[] paramFields = new Param[] {
+			OpportunitySearchCriteria.p_opportunityName,
+			OpportunitySearchCriteria.p_nextStep,
+			OpportunitySearchCriteria.p_leadSource,
+			OpportunitySearchCriteria.p_saleStage,
+			OpportunitySearchCriteria.p_type };
 
 	protected OpportunitySearchCriteria searchCriteria;
 
@@ -111,6 +109,17 @@ public class OpportunitySearchPanel extends
 		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
 
 		return layout;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected BasicSearchLayout<OpportunitySearchCriteria> createBasicSearchLayout() {
+		return new OpportunityBasicSearchLayout();
+	}
+
+	@Override
+	protected SearchLayout<OpportunitySearchCriteria> createAdvancedSearchLayout() {
+		return new OpportunityAdvancedSearchLayout();
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -225,17 +234,8 @@ public class OpportunitySearchPanel extends
 	}
 
 	private class OpportunityAdvancedSearchLayout extends
-			DefaultAdvancedSearchLayout<OpportunitySearchCriteria> {
+			DynamicQueryParamLayout<OpportunitySearchCriteria> {
 
-		private static final long serialVersionUID = 1L;
-		private TextField opportunityNameField;
-		private AccountSelectionField accountField;
-		private TextField nextStepField;
-		private ActiveUserListSelect userField;
-		private OpportunitySalesStageListSelect stageField;
-		private LeadSourceListSelect sourceField;
-
-		@SuppressWarnings("unchecked")
 		public OpportunityAdvancedSearchLayout() {
 			super(OpportunitySearchPanel.this, CrmTypeConstants.OPPORTUNITY);
 		}
@@ -246,146 +246,20 @@ public class OpportunitySearchPanel extends
 		}
 
 		@Override
-		public ComponentContainer constructBody() {
-			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(3, 3,
-					"100%", "90px");
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setMargin(
-					new MarginInfo(true, true, true, false));
-
-			this.opportunityNameField = (TextField) gridLayout.addComponent(
-					new TextField(), "Name", 0, 0);
-			this.accountField = (AccountSelectionField) gridLayout
-					.addComponent(new AccountSelectionField(), "Account", 1, 0);
-			this.nextStepField = (TextField) gridLayout.addComponent(
-					new TextField(), "Next Step", 2, 0);
-
-			this.userField = (ActiveUserListSelect) gridLayout.addComponent(
-					new ActiveUserListSelect(), LocalizationHelper
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
-					1);
-			this.stageField = (OpportunitySalesStageListSelect) gridLayout
-					.addComponent(new OpportunitySalesStageListSelect(),
-							"Sales Stage", 1, 1);
-			this.sourceField = (LeadSourceListSelect) gridLayout.addComponent(
-					new LeadSourceListSelect(), "Lead Source", 2, 1);
-
-			gridLayout.getLayout().setSpacing(true);
-			return gridLayout.getLayout();
-		}
-
-		@Override
-		protected OpportunitySearchCriteria fillupSearchCriteria() {
-			OpportunitySearchPanel.this.searchCriteria = new OpportunitySearchCriteria();
-			OpportunitySearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
-
-			if (StringUtils.isNotNullOrEmpty((String) this.opportunityNameField
-					.getValue())) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setOpportunityName(new StringSearchField(
-								SearchField.AND,
-								((String) this.opportunityNameField.getValue())
-										.trim()));
-			}
-
-			final Account account = this.accountField.getAccount();
-			if (account.getId() != null) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setAccountId(new NumberSearchField(SearchField.AND,
-								account.getId()));
-			}
-
-			if (StringUtils.isNotNullOrEmpty((String) this.nextStepField
-					.getValue())) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setNextStep(new StringSearchField(SearchField.AND,
-								((String) this.nextStepField.getValue()).trim()));
-			}
-
-			final Collection<String> assignUsers = (Collection<String>) this.userField
-					.getValue();
-			if (assignUsers != null && assignUsers.size() > 0) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
-								SearchField.AND, assignUsers));
-			}
-
-			final Collection<String> saleStages = (Collection<String>) this.stageField
-					.getValue();
-			if (saleStages != null && saleStages.size() > 0) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setSalesStages(new SetSearchField<String>(
-								SearchField.AND, saleStages));
-			}
-
-			final Collection<String> leadSources = (Collection<String>) this.sourceField
-					.getValue();
-			if (leadSources != null && leadSources.size() > 0) {
-				OpportunitySearchPanel.this.searchCriteria
-						.setLeadSources(new SetSearchField<String>(
-								SearchField.AND, leadSources));
-			}
-			return OpportunitySearchPanel.this.searchCriteria;
-		}
-
-		@Override
-		protected void clearFields() {
-			this.opportunityNameField.setValue("");
-			this.accountField.clearValue();
-			this.nextStepField.setValue("");
-			this.userField.setValue(null);
-			this.stageField.setValue(null);
-			this.sourceField.setValue(null);
-		}
-
-		@Override
-		protected void loadSaveSearchToField(
-				final OpportunitySearchCriteria value) {
-			if (value.getOpportunityName() != null) {
-				this.opportunityNameField.setValue(value.getOpportunityName()
-						.getValue());
-			}
-			if (value.getAccountId() != null) {
-				final AccountService accountService = ApplicationContextUtil
-						.getSpringBean(AccountService.class);
-				final SimpleAccount account = accountService.findById(
-						(Integer) value.getAccountId().getValue(),
-						AppContext.getAccountId());
-				// this.accountField.setAccount(account);
-			}
-			if (value.getNextStep() != null) {
-				this.nextStepField.setValue(value.getNextStep().getValue());
-			}
-			if (value.getAssignUsers() != null) {
-				this.userField.setValue(Arrays.asList((Object[]) value
-						.getAssignUsers().values));
-			}
-			if (value.getSalesStages() != null) {
-				this.stageField.setValue(Arrays.asList((Object[]) value
-						.getSalesStages().values));
-			}
-			if (value.getLeadSources() != null) {
-				this.sourceField.setValue(Arrays.asList((Object[]) value
-						.getLeadSources().values));
-			}
+		public Param[] getParamFields() {
+			return paramFields;
 		}
 
 		@Override
 		protected Class<OpportunitySearchCriteria> getType() {
 			return OpportunitySearchCriteria.class;
 		}
-	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected BasicSearchLayout<OpportunitySearchCriteria> createBasicSearchLayout() {
-		return new OpportunityBasicSearchLayout();
-	}
-
-	@Override
-	protected SearchLayout<OpportunitySearchCriteria> createAdvancedSearchLayout() {
-		return new OpportunityAdvancedSearchLayout();
+		protected Component buildSelectionComp(String fieldId) {
+			if ("opportunity-assignee".equals(fieldId)) {
+				return new ActiveUserListSelect();
+			}
+			return null;
+		}
 	}
 }

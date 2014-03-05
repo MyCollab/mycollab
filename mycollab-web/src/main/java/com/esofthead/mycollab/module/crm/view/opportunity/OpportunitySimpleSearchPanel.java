@@ -117,15 +117,6 @@ public class OpportunitySimpleSearchPanel extends
 								searchCriteria
 										.setOpportunityName(new StringSearchField(
 												SearchField.AND, strSearch));
-							} else if (searchType.equals("Account Name")) {
-								searchCriteria
-										.setAccountName(new StringSearchField(
-												SearchField.AND, strSearch));
-							} else if (searchType.equals("Sales Stage")) {
-								searchCriteria
-										.setSalesStages(new SetSearchField<String>(
-												SearchField.AND,
-												new String[] { strSearch }));
 							}
 						}
 					}
