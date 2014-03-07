@@ -26,6 +26,7 @@ import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
@@ -129,7 +130,10 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 			this.addComponent(this.body, "basicSearchBody");
 		}
 
-		abstract public ComponentContainer constructHeader();
+		/*abstract public ComponentContainer constructHeader();*/
+		public ComponentContainer constructHeader() {
+			return new CssLayout();
+		}
 
 		abstract public ComponentContainer constructBody();
 	}
@@ -155,8 +159,12 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 			this.addComponent(this.body, "advSearchBody");
 			this.addComponent(this.footer, "advSearchFooter");
 		}
-
-		public abstract ComponentContainer constructHeader();
+		
+		/*abstract public ComponentContainer constructHeader();*/
+		
+		public ComponentContainer constructHeader() {
+			return new CssLayout();
+		}
 
 		public abstract ComponentContainer constructBody();
 

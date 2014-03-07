@@ -62,8 +62,10 @@ public class LeadSearchPanel extends
 	private static final long serialVersionUID = 1L;
 
 	private static Param[] paramFields = new Param[] {
-			LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_anyEmail,
-			LeadSearchCriteria.p_anyPhone, LeadSearchCriteria.p_billingCountry,
+			LeadSearchCriteria.p_leadContactName,
+			LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
+			LeadSearchCriteria.p_anyEmail, LeadSearchCriteria.p_anyPhone,
+			LeadSearchCriteria.p_billingCountry,
 			LeadSearchCriteria.p_shippingCountry,
 			LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
 			LeadSearchCriteria.p_assignee };

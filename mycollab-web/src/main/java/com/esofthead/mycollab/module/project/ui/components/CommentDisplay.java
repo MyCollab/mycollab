@@ -24,9 +24,17 @@ import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -36,7 +44,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class CommentDisplay extends VerticalLayout implements
-		ReloadableComponent {
+ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
@@ -53,19 +61,18 @@ public class CommentDisplay extends VerticalLayout implements
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		setSpacing(true);
 		this.type = type;
-        this.setStyleName("comment-display");
-
-		if (isDisplayCommentInput) {
-			commentBox = new ProjectCommentInput(this, type, extraTypeId,
-					false, isSendingRelayEmail, emailHandler);
-			this.addComponent(commentBox);
-		}
+		this.setStyleName("comment-display");
 
 		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
 		this.addComponent(commentList);
+
+		if (isDisplayCommentInput) {
+			commentBox = new ProjectCommentInput(this, type, extraTypeId, false, isSendingRelayEmail, emailHandler);
+			this.addComponent(createCommentBox());
+		}
 
 		displayCommentList();
 	}
@@ -101,5 +108,37 @@ public class CommentDisplay extends VerticalLayout implements
 	@Override
 	public void reload() {
 		displayCommentList();
+	}
+
+	protected Component createCommentBox() {
+
+		HorizontalLayout commentWrap = new HorizontalLayout();
+		commentWrap.setSpacing(true);
+		commentWrap.addStyleName("message");
+		commentWrap.setWidth("100%");
+
+		SimpleUser currentUser = AppContext.getSession();
+		VerticalLayout userBlock = new VerticalLayout();
+		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		userBlock.setWidth("80px");
+		userBlock.setSpacing(true);
+		userBlock.addComponent(UserAvatarControlFactory
+				.createUserAvatarButtonLink(
+						currentUser.getAvatarid(),
+						currentUser.getDisplayName()));
+		Label userName = new Label(currentUser.getDisplayName());
+		userName.setStyleName("user-name");
+		userBlock.addComponent(userName);
+
+		commentWrap.addComponent(userBlock);
+		CssLayout textAreaWrap = new CssLayout();
+		textAreaWrap.setStyleName("message-container");
+		textAreaWrap.setWidth("100%");
+		textAreaWrap.addComponent(commentBox);
+		commentBox.setWidth("100%");
+		commentWrap.addComponent(textAreaWrap);
+		commentWrap.setExpandRatio(textAreaWrap, 1.0f);
+
+		return commentWrap;
 	}
 }

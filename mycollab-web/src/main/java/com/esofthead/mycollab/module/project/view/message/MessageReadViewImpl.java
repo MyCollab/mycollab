@@ -48,6 +48,8 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -76,12 +78,23 @@ MessageReadView {
 
 	private final AdvancedPreviewBeanForm<SimpleMessage> previewForm;
 	private SimpleMessage message;
+	private CssLayout contentWrapper;
+	private HorizontalLayout header;
+	private CommentDisplay commentDisplay;
 
 	public MessageReadViewImpl() {
 		super();
+
+		this.header = new HorizontalLayout();
+		this.addComponent(header);
 		previewForm = new AdvancedPreviewBeanForm<SimpleMessage>();
-		this.addComponent(previewForm);
-		this.setMargin(new MarginInfo(false, true, true, true));
+
+		contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		contentWrapper.addComponent(previewForm);
+		contentWrapper.setWidth("900px");
+		this.addComponent(contentWrapper);
+		this.setMargin(false);
 	}
 
 	@Override
@@ -120,48 +133,12 @@ MessageReadView {
 			VerticalLayout messageAddLayout = new VerticalLayout();
 			messageAddLayout.setSpacing(true);
 
-			HorizontalLayout messageLayout = new HorizontalLayout();
-			messageLayout.setStyleName("message");
-			messageLayout.setWidth("100%");
-			if (message.getIsstick() != null && message.getIsstick()) {
-				messageLayout.addStyleName("important-message");
-			}
-			VerticalLayout userBlock = new VerticalLayout();
-			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
-			userBlock.setWidth("80px");
-			userBlock.setSpacing(true);
-			userBlock.addComponent(UserAvatarControlFactory
-					.createUserAvatarButtonLink(
-							message.getPostedUserAvatarId(),
-							message.getFullPostedUserName()));
-			Label userName = new Label(message.getFullPostedUserName());
-			userName.setStyleName("user-name");
-			userBlock.addComponent(userName);
-			messageLayout.addComponent(userBlock);
+			header.removeAllComponents();
 
-			final CssLayout rowLayout = new CssLayout();
-			rowLayout.setStyleName("message-container");
-			rowLayout.setWidth("100%");
-			Label title = new Label("<h2 style='color: #006699;'>"
-					+ message.getTitle() + "</h2>", ContentMode.HTML);
+			Label headerText = new Label(message.getTitle());
+			headerText.setStyleName("hdr-text");
 
-			final HorizontalLayout messageHeader = new HorizontalLayout();
-			messageHeader.setStyleName("message-header");
-			messageHeader.setMargin(new MarginInfo(true, true, false, true));
-			final VerticalLayout leftHeader = new VerticalLayout();
-
-			title.addStyleName("message-title");
-			leftHeader.addComponent(title);
-
-			final HorizontalLayout rightHeader = new HorizontalLayout();
-			rightHeader.setSpacing(true);
-
-			final Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate()));
-			timePostLbl.setSizeUndefined();
-			timePostLbl.setStyleName("time-post");
-
-			Button deleteBtn = new Button("", new Button.ClickListener() {
+			Button deleteBtn = new Button("Delete", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -196,13 +173,60 @@ MessageReadView {
 				}
 			});
 			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
-			deleteBtn.addStyleName("link");
+					.newResource("icons/16/delete2.png"));
+			deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
+			UiUtils.addComponent(header, new Image(null,
+					MyCollabResource.newResource("icons/22/project/message_selected.png")), Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, deleteBtn, Alignment.MIDDLE_RIGHT);
+			header.setExpandRatio(headerText, 1.0f);
+
+			header.setStyleName("hdr-view");
+			header.setWidth("100%");
+			header.setSpacing(true);
+			header.setMargin(true);
+
+			HorizontalLayout messageLayout = new HorizontalLayout();
+			messageLayout.setStyleName("message");
+			messageLayout.setWidth("100%");
+			messageLayout.setSpacing(true);
+			if (message.getIsstick() != null && message.getIsstick()) {
+				messageLayout.addStyleName("important-message");
+			}
+			VerticalLayout userBlock = new VerticalLayout();
+			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+			userBlock.setWidth("80px");
+			userBlock.setSpacing(true);
+			userBlock.addComponent(UserAvatarControlFactory
+					.createUserAvatarButtonLink(
+							message.getPostedUserAvatarId(),
+							message.getFullPostedUserName()));
+			Label userName = new Label(message.getFullPostedUserName());
+			userName.setStyleName("user-name");
+			userBlock.addComponent(userName);
+			messageLayout.addComponent(userBlock);
+
+			final CssLayout rowLayout = new CssLayout();
+			rowLayout.setStyleName("message-container");
+			rowLayout.setWidth("100%");
+
+			final HorizontalLayout messageHeader = new HorizontalLayout();
+			messageHeader.setStyleName("message-header");
+			messageHeader.setMargin(new MarginInfo(true, true, false, true));
+			final VerticalLayout leftHeader = new VerticalLayout();
+
+			final HorizontalLayout rightHeader = new HorizontalLayout();
+			rightHeader.setSpacing(true);
+
+			final Label timePostLbl = new Label(
+					DateTimeUtils.getStringDateFromNow(message.getPosteddate()));
+			timePostLbl.setSizeUndefined();
+			timePostLbl.setStyleName("time-post");
+
 			rightHeader.addComponent(timePostLbl);
-			rightHeader.addComponent(deleteBtn);
 			rightHeader.setExpandRatio(timePostLbl, 1.0f);
 
 			messageHeader.addComponent(leftHeader);
@@ -252,149 +276,26 @@ MessageReadView {
 
 			messageLayout.addComponent(rowLayout);
 			messageLayout.setExpandRatio(rowLayout, 1.0f);
-			/*messageLayout.setSpacing(true);
-			messageLayout.addComponent(UserAvatarControlFactory
-					.createUserAvatarButtonLink(
-							message.getPostedUserAvatarId(),
-							message.getFullPostedUserName()));
-
-			CssLayout rowLayout = new CssLayout();
-			rowLayout.setStyleName("message-container");
-			rowLayout.setWidth("100%");
-
-			Label title = new Label("<h2 style='color: #006699;'>"
-					+ message.getTitle() + "</h2>", ContentMode.HTML);
-
-			HorizontalLayout messageHeader = new HorizontalLayout();
-			messageHeader.setStyleName("message-header");
-			VerticalLayout leftHeader = new VerticalLayout();
-			leftHeader.setSpacing(true);
-
-			Label username = new Label(message.getFullPostedUserName());
-			username.setStyleName("user-name");
-			leftHeader.addComponent(username);
-
-			title.addStyleName("message-title");
-			leftHeader.addComponent(title);
-
-			final HorizontalLayout rightHeader = new HorizontalLayout();
-			rightHeader.setSpacing(true);
-			final VerticalLayout infoLayout = new VerticalLayout();
-			Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate()));
-			timePostLbl.setSizeUndefined();
-			timePostLbl.setStyleName("time-post");
-			infoLayout.addComponent(timePostLbl);
-			infoLayout.setSizeUndefined();
-
-			Button deleteBtn = new Button("", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					ConfirmDialogExt.show(
-							UI.getCurrent(),
-							LocalizationHelper.getMessage(
-									GenericI18Enum.DELETE_DIALOG_TITLE,
-									SiteConfiguration.getSiteName()),
-							LocalizationHelper
-									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-							LocalizationHelper
-									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-							LocalizationHelper
-									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void onClose(final ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										final MessageService messageService = ApplicationContextUtil
-												.getSpringBean(MessageService.class);
-										messageService.removeWithSession(
-												message.getId(),
-												AppContext.getUsername(),
-												AppContext.getAccountId());
-										previewForm.fireCancelForm(message);
-									}
-								}
-							});
-				}
-			});
-			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
-			deleteBtn.addStyleName("link");
-			deleteBtn.setEnabled(CurrentProjectVariables
-					.canAccess(ProjectRolePermissionCollections.MESSAGES));
-
-			rightHeader.addComponent(infoLayout);
-			rightHeader.addComponent(deleteBtn);
-			rightHeader.setExpandRatio(infoLayout, 1.0f);
-
-			messageHeader.addComponent(leftHeader);
-			messageHeader.setExpandRatio(leftHeader, 1.0f);
-			messageHeader.addComponent(rightHeader);
-			messageHeader.setWidth("100%");
-
-			rowLayout.addComponent(messageHeader);
-
-			Label messageContent = new Label(
-					StringUtils.formatExtraLink(message.getMessage()),
-					ContentMode.HTML);
-			messageContent.setStyleName("message-body");
-			rowLayout.addComponent(messageContent);
-
-			HorizontalLayout attachmentField = new HorizontalLayout();
-			Embedded attachmentIcon = new Embedded();
-			attachmentIcon.setSource(MyCollabResource
-					.newResource("icons/16/attachment.png"));
-			attachmentField.addComponent(attachmentIcon);
-
-			Label lbAttachment = new Label("Attachment: ");
-			attachmentField.addComponent(lbAttachment);
-
-			rowLayout.addComponent(attachmentField);
-
-			Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
-					.getAttachmentDisplayComponent(message.getProjectid(),
-							AttachmentType.PROJECT_MESSAGE, message.getId());
-			rowLayout.addComponent(attachmentDisplayComp);
-
-			ResourceService attachmentService = ApplicationContextUtil
-					.getSpringBean(ResourceService.class);
-			List<Content> attachments = attachmentService
-					.getContents(AttachmentUtils
-							.getProjectEntityAttachmentPath(
-									AppContext.getAccountId(),
-									message.getProjectid(),
-									AttachmentType.PROJECT_MESSAGE,
-									message.getId()));
-			if (attachments == null || attachments.isEmpty()) {
-				attachmentField.setVisible(false);
-			}
-
-			messageLayout.addComponent(rowLayout);
-			messageLayout.setExpandRatio(rowLayout, 1.0f);*/
 
 			messageAddLayout.addComponent(messageLayout);
-			messageAddLayout.addComponent(createBottomPanel());
+			messageAddLayout.setWidth("100%");
+
+			if (commentDisplay != null && commentDisplay.getParent() == contentWrapper) {
+				contentWrapper.removeComponent(commentDisplay);
+			}
+			commentDisplay = createCommentPanel();
+			contentWrapper.addComponent(commentDisplay);
 
 			return messageAddLayout;
 		}
 
-		protected Layout createBottomPanel() {
-			VerticalLayout bottomPanel = new VerticalLayout();
-			bottomPanel.setMargin(true);
-			bottomPanel.setWidth("900px");
-			bottomPanel.setStyleName("messageread-bottompanel");
-
+		protected CommentDisplay createCommentPanel() {
 			CommentDisplay commentDisplay = new CommentDisplay(
 					CommentType.PRJ_MESSAGE,
 					CurrentProjectVariables.getProjectId(), true, true,
 					MessageRelayEmailNotificationAction.class);
 			commentDisplay.loadComments(message.getId());
-			bottomPanel.addComponent(commentDisplay);
-			return bottomPanel;
+			return commentDisplay;
 		}
 
 		@Override

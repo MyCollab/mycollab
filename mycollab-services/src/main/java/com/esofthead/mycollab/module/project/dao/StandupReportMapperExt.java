@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -24,6 +25,7 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
+import com.esofthead.mycollab.module.user.domain.User;
 
 public interface StandupReportMapperExt extends
 		ISearchableDAO<StandupReportSearchCriteria> {
@@ -33,4 +35,6 @@ public interface StandupReportMapperExt extends
 	List<GroupItem> getReportsCount(
 			@Param("searchCriteria") StandupReportSearchCriteria criteria);
 
+	List<User> findUsersNotDoReportYet(@Param("projectId") Integer projectId,
+			@Param("onDate") Date onDate);
 }

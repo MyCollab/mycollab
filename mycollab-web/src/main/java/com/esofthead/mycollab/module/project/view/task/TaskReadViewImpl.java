@@ -83,7 +83,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private Button quickActionStatusBtn;
 
 	public TaskReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/project/menu_task.png"));
+		super("Task Detail", MyCollabResource.newResource( "icons/22/project/menu_task.png"));
 
 		this.setMargin(new MarginInfo(true, false, false, false));
 	}
@@ -192,7 +192,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				previewForm);
 		final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
 				ProjectRolePermissionCollections.TASKS, true);
-		topPanel.setMargin(true);
 
 		quickActionStatusBtn = new Button("", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;

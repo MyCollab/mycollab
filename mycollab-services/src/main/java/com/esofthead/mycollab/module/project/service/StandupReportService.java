@@ -26,7 +26,14 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
+import com.esofthead.mycollab.module.user.domain.User;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface StandupReportService
 		extends
 		IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
@@ -41,5 +48,9 @@ public interface StandupReportService
 	@Cacheable
 	List<GroupItem> getReportsCount(
 			@CacheKey StandupReportSearchCriteria criteria);
+
+	@Cacheable
+	List<User> findUsersNotDoReportYet(int projectId, Date onDate,
+			@CacheKey Integer sAccountId);
 
 }

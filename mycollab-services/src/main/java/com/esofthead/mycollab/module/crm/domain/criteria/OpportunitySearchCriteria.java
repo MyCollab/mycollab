@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.PropertyParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
@@ -39,6 +40,12 @@ public class OpportunitySearchCriteria extends SearchCriteria {
 
 	public static Param p_opportunityName = new StringParam("opportunity-name",
 			"Opportunity Name", "m_crm_opportunity", "opportunityName");
+
+	public static Param p_account = new PropertyParam("opportunity-account",
+			"Account", "m_crm_opportunity", "accountid");
+
+	public static Param p_campaign = new PropertyParam("opportunity-campaign",
+			"Campaign", "m_crm_opportunity", "campaignid");
 
 	public static Param p_nextStep = new StringParam("opportunity-nextstep",
 			"Next Step", "m_crm_opportunity", "nextStep");

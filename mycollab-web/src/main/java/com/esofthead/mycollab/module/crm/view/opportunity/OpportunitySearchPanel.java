@@ -29,6 +29,8 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
+import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -62,7 +64,9 @@ public class OpportunitySearchPanel extends
 
 	private static Param[] paramFields = new Param[] {
 			OpportunitySearchCriteria.p_opportunityName,
+			OpportunitySearchCriteria.p_account,
 			OpportunitySearchCriteria.p_nextStep,
+			OpportunitySearchCriteria.p_campaign,
 			OpportunitySearchCriteria.p_leadSource,
 			OpportunitySearchCriteria.p_saleStage,
 			OpportunitySearchCriteria.p_type };
@@ -258,6 +262,10 @@ public class OpportunitySearchPanel extends
 		protected Component buildSelectionComp(String fieldId) {
 			if ("opportunity-assignee".equals(fieldId)) {
 				return new ActiveUserListSelect();
+			} else if ("opportunity-account".equals(fieldId)) {
+				return new AccountSelectionField();
+			} else if ("opportunity-campaign".equals(fieldId)) {
+				return new CampaignSelectionField();
 			}
 			return null;
 		}

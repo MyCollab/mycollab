@@ -411,7 +411,7 @@ MessageListView, HasEditFormHandlers<Message> {
 			});
 			searchBtn.setStyleName("search-icon-button");
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
 			this.setCompositionRoot(basicSearchBody);

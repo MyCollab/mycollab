@@ -47,12 +47,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
         final ReadViewLayout userAddLayout = new ReadViewLayout(this.title,
                 MyCollabResource.newResource("icons/22/user/group.png"));
 
-        final Layout topPanel = this.createTopPanel();
-        if (topPanel != null) {
-            userAddLayout.addTopControls(topPanel);
-        }
-
-        this.userInformationLayout = new RoleInformationLayout();
+         this.userInformationLayout = new RoleInformationLayout();
         this.userInformationLayout.getLayout().setWidth("100%");
         userAddLayout.addBody(this.userInformationLayout.getLayout());
 

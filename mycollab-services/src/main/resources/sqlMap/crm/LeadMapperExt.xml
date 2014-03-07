@@ -79,7 +79,7 @@
                     FROM m_crm_opportunity, m_crm_opportunities_leads
                     WHERE m_crm_opportunities_leads.opportunityId=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                         AND m_crm_opportunities_leads.leadId=m_crm_lead.id
-                        AND m_crm_opportunity.id=#{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
         #end
         
         #selectExpr($searchCriteria.extraFields)
@@ -130,7 +130,7 @@
                     FROM m_crm_opportunity, m_crm_opportunities_leads
                     WHERE m_crm_opportunities_leads.opportunityId=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                         AND m_crm_opportunities_leads.leadId=m_crm_lead.id
-                        AND m_crm_opportunity.id=#{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
+                        AND m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC}) > 0
         #end
             
         #totalCountExpr($searchCriteria.extraFields)
@@ -161,9 +161,9 @@
         lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
         #end
     </select>
 
@@ -171,16 +171,16 @@
         lang="velocity">
         DELETE FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
         #end
     </delete>
 
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
+        ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
         #end
         m_crm_lead.lastUpdatedTime DESC
     </sql>
@@ -189,9 +189,9 @@
         parameterType="LeadSearchCriteria" lang="velocity">
         <include refid="selectSimpleLead" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
         #end
         <include refid="orderStatement" />
     </select>
@@ -238,7 +238,7 @@
         SELECT MIN(id) FROM m_crm_lead
 
         #trim("WHERE" "AND|OR")
-            <include refid="queryTotalCountSearchCriteria" />
+        <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
@@ -247,7 +247,7 @@
         SELECT MAX(id) FROM m_crm_lead
 
         #trim("WHERE" "AND|OR")
-            <include refid="queryTotalCountSearchCriteria" />
+        <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
@@ -257,9 +257,9 @@
             refid="com.esofthead.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
         #end
     </update>
 

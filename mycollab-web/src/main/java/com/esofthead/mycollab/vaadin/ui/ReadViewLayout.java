@@ -46,7 +46,7 @@ public class ReadViewLayout extends CustomLayoutExt {
 
         this.icon = new Image();
         this.setTitleIcon(icon);
-        this.header.addComponent(this.icon);
+        /*this.header.addComponent(this.icon);*/
         this.titleLbl = new Label();
         this.titleLbl.setStyleName("headerName");
         this.titleLbl.setImmediate(true);
@@ -87,10 +87,6 @@ public class ReadViewLayout extends CustomLayoutExt {
 
     public void removeTitleStyleName(final String styleName) {
         this.titleLbl.removeStyleName(styleName);
-    }
-
-    public void addTopControls(final ComponentContainer topControls) {
-        this.addComponent(topControls, "readViewTopControls");
     }
 
     public void setTitle(final String title) {

@@ -260,7 +260,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			prevBtn.setEnabled(false);
 		}
 		prevBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		prevBtn.setWidth("70px");
+		prevBtn.setWidth("64px");
 
 		Button nextBtn = new Button("Next", new Button.ClickListener() {
 			private static final long serialVersionUID = 3095522916508256018L;
@@ -275,7 +275,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			nextBtn.setEnabled(false);
 		}
 		nextBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		nextBtn.setWidth("70px");
+		nextBtn.setWidth("64px");
 
 		controlBtns.addButton(prevBtn);
 		controlBtns.addButton(nextBtn);

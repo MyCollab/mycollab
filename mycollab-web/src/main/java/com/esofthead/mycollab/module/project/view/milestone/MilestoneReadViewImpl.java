@@ -36,8 +36,11 @@ public class MilestoneReadViewImpl extends AbstractPageView implements
 
 	public MilestoneReadViewImpl() {
 		super();
+		
 		this.milestonePreview = new MilestoneReadComp();
+		
 		this.addComponent(this.milestonePreview);
+
 	}
 
 	@Override

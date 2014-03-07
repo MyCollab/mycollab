@@ -20,12 +20,15 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -34,16 +37,18 @@ import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
+import com.esofthead.mycollab.vaadin.ui.AbstractProjectPageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.server.StreamResource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -60,7 +65,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class BugListViewImpl extends AbstractPageView implements BugListView {
+public class BugListViewImpl extends AbstractProjectPageView implements BugListView {
 
 	private static final long serialVersionUID = 1L;
 	private final BugSearchPanel bugSearchPanel;
@@ -69,18 +74,24 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	private SplitButton exportButtonControl;
 
 	public BugListViewImpl() {
+		super(LocalizationHelper.getMessage(BugI18nEnum.BUG_SEARCH_TITLE), "bug_selected.png");
 
-		this.setMargin(true);
-
+		this.addHeaderRightContent(createHeaderRight());
+		
+		CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		
 		this.bugSearchPanel = new BugSearchPanel();
-		this.addComponent(this.bugSearchPanel);
+		contentWrapper.addComponent(this.bugSearchPanel);
 
 		this.bugListLayout = new VerticalLayout();
-		this.addComponent(this.bugListLayout);
+		contentWrapper.addComponent(this.bugListLayout);
 
 		this.generateDisplayTable();
+		this.addComponent(contentWrapper);
+		
 	}
-
+	
 	private void generateDisplayTable() {
 
 		this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
@@ -294,5 +305,28 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		if (this.bugSearchPanel != null) {
 			this.bugSearchPanel.setBugTitle(title);
 		}
+	}
+	
+	private HorizontalLayout createHeaderRight() {
+		final HorizontalLayout layout = new HorizontalLayout();
+		final Button createAccountBtn = new Button(
+				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new BugEvent.GotoAdd(this, null));
+					}
+				});
+		createAccountBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.BUGS));
+		createAccountBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createAccountBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
+		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_LEFT);
+		
+		return layout;
 	}
 }

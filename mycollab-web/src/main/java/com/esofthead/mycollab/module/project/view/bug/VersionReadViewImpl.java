@@ -71,7 +71,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
     private Button quickActionStatusBtn;
 
     public VersionReadViewImpl() {
-        super(MyCollabResource.newResource("icons/22/project/version.png"));
+        super("Version Detail", MyCollabResource.newResource("icons/22/project/version.png"));
 
         this.setMargin(new MarginInfo(true, false, false, false));
     }

@@ -16,12 +16,42 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.view.CrmResources;
+import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -30,55 +60,181 @@ import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
  * 
  */
 @ViewComponent
-public class AccountReadViewImpl extends AbstractPageView implements
-		AccountReadView {
+public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
+		implements AccountReadView {
 
 	private static final long serialVersionUID = 1L;
-	private AccountReadComp accountPreview;
+
+	protected AccountContactListComp associateContactList;
+	protected AccountOpportunityListComp associateOpportunityList;
+	protected AccountLeadListComp associateLeadList;
+	protected AccountCaseListComp associateCaseList;
+	protected ActivityRelatedItemListComp associateActivityList;
+	protected NoteListItems noteListItems;
 
 	public AccountReadViewImpl() {
-		super();
-		accountPreview = new AccountReadComp();
-		this.addComponent(accountPreview);
+		super(MyCollabResource.newResource("icons/22/crm/account.png"));
 	}
 
 	@Override
-	public void previewItem(SimpleAccount item) {
-		accountPreview.previewItem(item);
+	protected ComponentContainer createBottomPanel() {
+		return noteListItems;
 	}
 
 	@Override
-	public HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers() {
-		return accountPreview.getPreviewForm();
+	protected AdvancedPreviewBeanForm<SimpleAccount> initPreviewForm() {
+		return new AdvancedPreviewBeanForm<SimpleAccount>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showHistory() {
+				final AccountHistoryLogWindow historyLog = new AccountHistoryLogWindow(
+						ModuleNameConstants.CRM, CrmTypeConstants.ACCOUNT,
+						beanItem.getId());
+				historyLog.loadHistory(beanItem.getId());
+				UI.getCurrent().addWindow(historyLog);
+			}
+		};
+	}
+
+	@Override
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleAccount>(previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_ACCOUNT);
+
+	}
+
+	protected void displayActivities() {
+		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.ACCOUNT));
+		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+		associateActivityList.setSearchCriteria(criteria);
+	}
+
+	protected void displayAssociateCaseList() {
+		final CaseSearchCriteria criteria = new CaseSearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+		criteria.setAccountId(new NumberSearchField(beanItem.getId()));
+		associateCaseList.setSearchCriteria(criteria);
+	}
+
+	protected void displayAssociateLeadList() {
+		associateLeadList.displayLeads(beanItem);
+	}
+
+	protected void displayAssociateOpportunityList() {
+		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+		criteria.setAccountId(new NumberSearchField(SearchField.AND, beanItem
+				.getId()));
+		associateOpportunityList.setSearchCriteria(criteria);
+	}
+
+	protected void displayNotes() {
+		noteListItems.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
+	}
+
+	public AdvancedPreviewBeanForm<SimpleAccount> getPreviewForm() {
+		return previewForm;
+	}
+
+	@Override
+	protected String initFormTitle() {
+		// check if there is converted lead associates with this account
+		LeadService leadService = ApplicationContextUtil
+				.getSpringBean(LeadService.class);
+		SimpleLead lead = leadService.findConvertedLeadOfAccount(
+				beanItem.getId(), AppContext.getAccountId());
+		if (lead != null) {
+			return "<h2>"
+					+ beanItem.getAccountname()
+					+ LocalizationHelper
+							.getMessage(
+									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+									CrmResources
+											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmLinkGenerator.generateCrmItemLink(
+											CrmTypeConstants.LEAD, lead.getId()),
+									lead.getLeadName()) + "</h2>";
+		} else {
+			return "<h2>" + beanItem.getAccountname() + "</h2>";
+		}
+	}
+
+	protected final void initRelatedComponents() {
+		associateContactList = new AccountContactListComp();
+		associateActivityList = new ActivityRelatedItemListComp(true);
+		associateOpportunityList = new AccountOpportunityListComp();
+		associateLeadList = new AccountLeadListComp();
+		associateCaseList = new AccountCaseListComp();
+		noteListItems = new NoteListItems("Notes");
+
+		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.addTab(associateContactList, "Contacts");
+		previewItemContainer.addTab(associateLeadList, "Leads");
+		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
+		previewItemContainer.addTab(associateCaseList, "Cases");
+		
+		previewItemContainer.selectTab("About");
+	}
+
+	@Override
+	protected IFormLayoutFactory initFormLayoutFactory() {
+		return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
+				AccountDefaultDynaFormLayoutFactory.getForm());
+	}
+
+	@Override
+	protected AbstractBeanFieldGroupViewFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
+		return new AccountReadFormFieldFactory(previewForm);
+	}
+
+	@Override
+	protected void onPreviewItem() {
+		displayNotes();
+		displayActivities();
+		associateContactList.displayContacts(beanItem);
+		displayAssociateCaseList();
+		displayAssociateOpportunityList();
+		displayAssociateLeadList();
 	}
 
 	@Override
 	public SimpleAccount getItem() {
-		return accountPreview.getBeanItem();
+		return beanItem;
+	}
+
+	@Override
+	public HasPreviewFormHandlers<SimpleAccount> getPreviewFormHandlers() {
+		return previewForm;
 	}
 
 	@Override
 	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-		return accountPreview.getAssociateContactList();
+		return associateContactList;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedOpportunityHandlers() {
-		return accountPreview.getAssociateOpportunityList();
+	public IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers() {
+		return associateOpportunityList;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedLeadHandlers() {
-		return accountPreview.getAssociateLeadList();
+	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+		return associateLeadList;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedCaseHandlers() {
-		return accountPreview.getAssociateCaseList();
+	public IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers() {
+		return associateCaseList;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedActivityHandlers() {
-		return accountPreview.getAssociateActivityList();
+	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+		return associateActivityList;
 	}
 }

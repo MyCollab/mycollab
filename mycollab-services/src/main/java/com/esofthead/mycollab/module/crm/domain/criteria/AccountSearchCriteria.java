@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.CountryValueFactory;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -43,6 +44,9 @@ public class AccountSearchCriteria extends SearchCriteria {
 	public static Param p_accountName = new StringParam("account-name",
 			"Account Name", "m_crm_account", "accountName");
 
+	public static Param p_website = new StringParam("account-website",
+			"Website", "m_crm_account", "website");
+
 	public static Param p_numemployees = new NumberParam("account-employees",
 			"Employees", "m_crm_account", "numemployees");
 
@@ -51,6 +55,10 @@ public class AccountSearchCriteria extends SearchCriteria {
 
 	public static Param p_createdtime = new DateParam("account-createdtime",
 			"Created Time", "m_crm_account", "createdTime");
+
+	public static Param p_lastupdatedtime = new DateParam(
+			"account-lastupdatedtime", "Last Updated Time", "m_crm_account",
+			"lastUpdatedTime");
 
 	public static Param p_anyCity = new CompositionStringParam(
 			"account-anyCity", "Any City", new StringParam[] {
@@ -69,6 +77,16 @@ public class AccountSearchCriteria extends SearchCriteria {
 	public static Param p_types = new StringListParam("account-type", "Type",
 			"m_crm_account", "type", Arrays.asList(CrmDataTypeFactory
 					.getAccountTypeList()));
+
+	public static Param p_billingCountry = new StringListParam(
+			"account-billingCountry", "Billing Country", "m_crm_account",
+			"billingCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
+
+	public static Param p_shippingCountry = new StringListParam(
+			"account-shippingCountry", "Shipping Country", "m_crm_account",
+			"shippingCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
 
 	private StringSearchField accountname;
 	private StringSearchField assignUser;

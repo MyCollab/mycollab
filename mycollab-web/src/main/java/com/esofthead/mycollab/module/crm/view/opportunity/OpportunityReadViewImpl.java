@@ -16,14 +16,38 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.view.CrmResources;
+import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -32,46 +56,152 @@ import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
  * 
  */
 @ViewComponent
-public class OpportunityReadViewImpl extends AbstractPageView implements
+public class OpportunityReadViewImpl extends
+		AbstractPreviewItemComp<SimpleOpportunity> implements
 		OpportunityReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	private OpportunityReadComp opportunityPreview;
+	protected OpportunityContactListComp associateContactList;
+	protected OpportunityLeadListComp associateLeadList;
+	protected NoteListItems noteListItems;
+	protected ActivityRelatedItemListComp associateActivityList;
 
 	public OpportunityReadViewImpl() {
-		super();
-		opportunityPreview = new OpportunityReadComp();
-		this.addComponent(opportunityPreview);
+		super(MyCollabResource.newResource("icons/22/crm/opportunity.png"));
 	}
 
 	@Override
-	public void previewItem(SimpleOpportunity item) {
-		opportunityPreview.previewItem(item);
+	protected AdvancedPreviewBeanForm<SimpleOpportunity> initPreviewForm() {
+		return new AdvancedPreviewBeanForm<SimpleOpportunity>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showHistory() {
+				OpportunityHistoryLogWindow historyLog = new OpportunityHistoryLogWindow(
+						ModuleNameConstants.CRM, CrmTypeConstants.OPPORTUNITY);
+				historyLog.loadHistory(beanItem.getId());
+				UI.getCurrent().addWindow(historyLog);
+			}
+		};
 	}
 
 	@Override
-	public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
-		return opportunityPreview.getPreviewForm();
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleOpportunity>(
+				previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_OPPORTUNITY);
+	}
+
+	@Override
+	protected ComponentContainer createBottomPanel() {
+		return noteListItems;
+	}
+
+	@Override
+	protected void onPreviewItem() {
+		displayNotes();
+		displayActivities();
+		displayContacts();
+		displayLeads();
+	}
+
+	@Override
+	protected String initFormTitle() {
+		// check if there is converted lead associates with this account
+		LeadService leadService = ApplicationContextUtil
+				.getSpringBean(LeadService.class);
+		SimpleLead lead = leadService.findConvertedLeadOfOpportunity(
+				beanItem.getId(), AppContext.getAccountId());
+		if (lead != null) {
+			return "<h2>"
+					+ beanItem.getOpportunityname()
+					+ LocalizationHelper
+							.getMessage(
+									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+									CrmResources
+											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmLinkGenerator.generateCrmItemLink(
+											CrmTypeConstants.LEAD, lead.getId()),
+									lead.getLeadName()) + "</h2>";
+		} else {
+			return beanItem.getOpportunityname();
+		}
+	}
+
+	@Override
+	protected void initRelatedComponents() {
+		associateContactList = new OpportunityContactListComp();
+		associateLeadList = new OpportunityLeadListComp();
+		associateActivityList = new ActivityRelatedItemListComp(true);
+		noteListItems = new NoteListItems("Notes");
+
+		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.addTab(associateContactList, "Contacts");
+		previewItemContainer.addTab(associateLeadList, "Leads");
+		previewItemContainer.addTab(associateActivityList, "Activities");
+
+		previewItemContainer.selectTab("About");
+	}
+
+	@Override
+	protected IFormLayoutFactory initFormLayoutFactory() {
+		return new DynaFormLayout(CrmTypeConstants.OPPORTUNITY,
+				OpportunityDefaultDynaFormLayoutFactory.getForm());
+	}
+
+	@Override
+	protected AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> initBeanFormFieldFactory() {
+		return new OpportunityReadFormFieldFactory(previewForm);
+	}
+
+	protected void displayNotes() {
+		noteListItems.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
+	}
+
+	public SimpleOpportunity getOpportunity() {
+		return beanItem;
+	}
+
+	protected void displayActivities() {
+		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.OPPORTUNITY));
+		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+		associateActivityList.setSearchCriteria(criteria);
+	}
+
+	protected void displayContacts() {
+		associateContactList.displayContacts(beanItem);
+	}
+
+	protected void displayLeads() {
+		associateLeadList.displayLeads(beanItem);
 	}
 
 	@Override
 	public SimpleOpportunity getItem() {
-		return opportunityPreview.getOpportunity();
+		return beanItem;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedActivityHandlers() {
-		return opportunityPreview.getAssociateActivityList();
+	public HasPreviewFormHandlers<SimpleOpportunity> getPreviewFormHandlers() {
+		return previewForm;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+		return associateActivityList;
 	}
 
 	@Override
 	public IRelatedListHandlers<SimpleContactOpportunityRel> getRelatedContactHandlers() {
-		return opportunityPreview.getAssociateContactList();
+		return associateContactList;
 	}
 
 	@Override
 	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
-		return opportunityPreview.getAssociateLeadList();
+		return associateLeadList;
 	}
 }

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -61,8 +62,7 @@ public class ContactSearchPanel extends
 		DefaultGenericSearchPanel<ContactSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-			ContactSearchCriteria.p_firstname,
-			ContactSearchCriteria.p_lastname,
+			ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
 			ContactSearchCriteria.p_leadsource,
 			ContactSearchCriteria.p_billingCountry,
 			ContactSearchCriteria.p_shippingCountry,
@@ -140,7 +140,6 @@ public class ContactSearchPanel extends
 			final HorizontalLayout layout = new HorizontalLayout();
 			layout.setSpacing(false);
 			layout.setMargin(true);
-			// layout.addComponent(new Label("Name"));
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfBasicSearch");
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
@@ -254,6 +253,8 @@ public class ContactSearchPanel extends
 		protected Component buildSelectionComp(String fieldId) {
 			if ("contact-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();
+			} else if ("contact-account".equals(fieldId)) {
+				return new AccountSelectionField();
 			}
 			return null;
 		}

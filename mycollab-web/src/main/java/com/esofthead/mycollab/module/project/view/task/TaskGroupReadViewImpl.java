@@ -72,7 +72,7 @@ public class TaskGroupReadViewImpl extends
 	private TaskGroupHistoryLogList historyList;
 
 	public TaskGroupReadViewImpl() {
-		super(MyCollabResource.newResource("icons/22/project/task_group.png"));
+		super("Task Group",MyCollabResource.newResource("icons/22/project/task_group.png"));
 
 		this.setMargin(new MarginInfo(true, false, false, false));
 	}

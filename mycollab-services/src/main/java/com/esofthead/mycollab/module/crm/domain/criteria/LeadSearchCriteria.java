@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
+import com.esofthead.mycollab.core.db.query.ConcatStringParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
@@ -38,8 +39,15 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 public class LeadSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
+	public static Param p_leadContactName = new ConcatStringParam(
+			"lead-contactname", "Contact Name", "m_crm_lead", new String[] {
+					"firstname", "lastname" });
+
 	public static Param p_accountName = new StringParam("lead-accountname",
 			"Account Name", "m_crm_lead", "accountName");
+
+	public static Param p_website = new StringParam("lead-accountname",
+			"Website", "m_crm_lead", "website");
 
 	public static Param p_anyEmail = new CompositionStringParam(
 			"lead-anyEmail", "Any Email", new StringParam[] { new StringParam(

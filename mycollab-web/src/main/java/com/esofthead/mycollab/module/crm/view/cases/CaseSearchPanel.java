@@ -29,6 +29,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
+import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -63,10 +64,10 @@ public class CaseSearchPanel extends
 	private CaseSearchCriteria searchCriteria;
 
 	private static Param[] paramFields = new Param[] {
-			CaseSearchCriteria.p_priority, CaseSearchCriteria.p_status,
-			CaseSearchCriteria.p_email, CaseSearchCriteria.p_origin,
-			CaseSearchCriteria.p_reason, CaseSearchCriteria.p_subject,
-			CaseSearchCriteria.p_type };
+			CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
+			CaseSearchCriteria.p_status, CaseSearchCriteria.p_email,
+			CaseSearchCriteria.p_origin, CaseSearchCriteria.p_reason,
+			CaseSearchCriteria.p_subject, CaseSearchCriteria.p_type };
 
 	public CaseSearchPanel() {
 		super();
@@ -146,6 +147,8 @@ public class CaseSearchPanel extends
 		protected Component buildSelectionComp(String fieldId) {
 			if ("case-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();
+			} else if ("case-account".equals(fieldId)) {
+				return new AccountSelectionField();
 			}
 			return null;
 		}

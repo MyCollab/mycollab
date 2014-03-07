@@ -16,12 +16,32 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
+import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -30,39 +50,123 @@ import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
  * 
  */
 @ViewComponent
-public class CaseReadViewImpl extends AbstractPageView implements CaseReadView {
+public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
+		implements CaseReadView {
 
 	private static final long serialVersionUID = 1L;
-	private CaseReadComp casePreview;
+	protected CaseContactListComp associateContactList;
+	protected NoteListItems noteListItems;
+	protected ActivityRelatedItemListComp associateActivityList;
 
 	public CaseReadViewImpl() {
-		super();
-		casePreview = new CaseReadComp();
-		this.addComponent(casePreview);
+		super(MyCollabResource.newResource("icons/22/crm/case.png"));
 	}
 
 	@Override
-	public void previewItem(SimpleCase item) {
-		casePreview.previewItem(item);
+	protected AdvancedPreviewBeanForm<SimpleCase> initPreviewForm() {
+		return new AdvancedPreviewBeanForm<SimpleCase>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showHistory() {
+				CaseHistoryLogWindow historyLog = new CaseHistoryLogWindow(
+						ModuleNameConstants.CRM, CrmTypeConstants.CASE);
+				historyLog.loadHistory(beanItem.getId());
+				UI.getCurrent().addWindow(historyLog);
+			}
+		};
 	}
 
 	@Override
-	public HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers() {
-		return casePreview.getPreviewForm();
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleCase>(previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_CASE);
+	}
+
+	@Override
+	protected ComponentContainer createBottomPanel() {
+		final TabSheet tabContainer = new TabSheet();
+		tabContainer.setWidth("100%");
+
+		tabContainer.addTab(noteListItems, "Notes",
+				MyCollabResource.newResource("icons/16/crm/note.png"));
+		tabContainer.addTab(this.associateContactList, "Contacts",
+				MyCollabResource.newResource("icons/16/crm/contact.png"));
+		tabContainer.addTab(this.associateActivityList, "Activities",
+				MyCollabResource.newResource("icons/16/crm/calendar.png"));
+		return tabContainer;
+	}
+
+	@Override
+	protected void onPreviewItem() {
+		displayNotes();
+		displayActivities();
+		displayContacts();
+	}
+
+	@Override
+	protected String initFormTitle() {
+		return beanItem.getSubject();
+	}
+
+	@Override
+	protected void initRelatedComponents() {
+		associateContactList = new CaseContactListComp();
+		associateActivityList = new ActivityRelatedItemListComp(true);
+		noteListItems = new NoteListItems("Notes");
+
+		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.addTab(associateContactList, "Contacts");
+		previewItemContainer.addTab(associateActivityList, "Activities");
+
+		previewItemContainer.selectTab("About");
+	}
+
+	@Override
+	protected IFormLayoutFactory initFormLayoutFactory() {
+		return new DynaFormLayout(CrmTypeConstants.CASE,
+				CasesDefaultFormLayoutFactory.getForm());
+	}
+
+	@Override
+	protected AbstractBeanFieldGroupViewFieldFactory<SimpleCase> initBeanFormFieldFactory() {
+		return new CaseReadFormFieldFactory(previewForm);
+	}
+
+	protected void displayNotes() {
+		noteListItems.showNotes(CrmTypeConstants.CASE, beanItem.getId());
+	}
+
+	protected void displayActivities() {
+		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.CASE));
+		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+		associateActivityList.setSearchCriteria(criteria);
+	}
+
+	protected void displayContacts() {
+		associateContactList.displayContacts(beanItem);
 	}
 
 	@Override
 	public SimpleCase getItem() {
-		return casePreview.getCase();
+		return beanItem;
 	}
 
 	@Override
-	public IRelatedListHandlers getRelatedActivityHandlers() {
-		return casePreview.getAssociateActivityList();
+	public HasPreviewFormHandlers<SimpleCase> getPreviewFormHandlers() {
+		return previewForm;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+		return associateActivityList;
 	}
 
 	@Override
 	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
-		return casePreview.getAssociateContactList();
+		return associateContactList;
 	}
 }

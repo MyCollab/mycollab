@@ -49,7 +49,7 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadComp() {
-		super(MyCollabResource.newResource("icons/22/user/group.png"));
+		super("Role Detail",MyCollabResource.newResource("icons/22/user/group.png"));
 	}
 
 	@Override

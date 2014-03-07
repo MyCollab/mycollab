@@ -22,9 +22,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.Resource;
@@ -48,8 +45,6 @@ import com.vaadin.ui.VerticalLayout;
 public class VerticalTabsheet extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 
-	private static Logger log = LoggerFactory.getLogger(VerticalTabsheet.class);
-
 	private VerticalLayout tabNavigator;
 	private CssLayout tabContainer;
 	private VerticalLayout contentWrapper;
@@ -65,6 +60,10 @@ public class VerticalTabsheet extends CustomComponent {
 	private final String TAB_SELECTED_STYLENAME = "tab-selected";
 
 	public VerticalTabsheet() {
+		this(true);
+	}
+
+	public VerticalTabsheet(boolean isLeft) {
 		GridLayout contentLayout = new GridLayout(2, 1);
 		navigatorWrapper = new CssLayout();
 		navigatorWrapper.setStyleName("navigator-wrap");
@@ -80,9 +79,16 @@ public class VerticalTabsheet extends CustomComponent {
 		tabContainer.setWidth("100%");
 		contentWrapper.addComponent(tabContainer);
 
-		contentLayout.addComponent(navigatorWrapper, 0, 0);
-		contentLayout.addComponent(contentWrapper, 1, 0);
-		contentLayout.setColumnExpandRatio(1, 1.0f);
+		if (isLeft) {
+			contentLayout.addComponent(navigatorWrapper, 0, 0);
+			contentLayout.addComponent(contentWrapper, 1, 0);
+			contentLayout.setColumnExpandRatio(1, 1.0f);
+		} else {
+			contentLayout.addComponent(contentWrapper, 0, 0);
+			contentLayout.addComponent(navigatorWrapper, 1, 0);
+			contentLayout.setColumnExpandRatio(0, 1.0f);
+		}
+
 		this.setCompositionRoot(contentLayout);
 		this.setStyleName(TABSHEET_STYLENAME);
 	}
@@ -108,17 +114,13 @@ public class VerticalTabsheet extends CustomComponent {
 						VerticalTabsheet.this));
 			}
 		});
-		if (resource != null){
-			button.setIcon(resource);
-		}
-		else
-		{
+		if (resource == null)
 			setDefaulButtonIcon(button, false);
-		}
+		else
+		button.setIcon(resource);
 		button.setStyleName(TAB_STYLENAME);
 		button.setWidth("100%");
 
-		//button.setIcon(resource);
 		tabNavigator.addComponent(button);
 
 		tabContainer.removeAllComponents();
@@ -127,8 +129,6 @@ public class VerticalTabsheet extends CustomComponent {
 		TabImpl tabImpl = new TabImpl(caption, component);
 		compMap.put(button, tabImpl);
 	}
-
-
 
 	private void fireTabChangeEvent(SelectedTabChangeEvent event) {
 		this.fireEvent(event);
@@ -154,8 +154,7 @@ public class VerticalTabsheet extends CustomComponent {
 				SELECTED_TAB_CHANGE_METHOD);
 	}
 
-	public Component selectTab(String viewName)
-	{
+	public Component selectTab(String viewName) {
 		Collection<Button> tabs = compMap.keySet();
 		for (Button btn : tabs) {
 			Tab tab = compMap.get(btn);
@@ -175,6 +174,74 @@ public class VerticalTabsheet extends CustomComponent {
 
 	public Tab getSelectedTab() {
 		return selectedComp;
+	}
+
+	@Override
+	public void setWidth(float width, Unit unit) {
+		super.setWidth(width, unit);
+
+		if (getCompositionRoot() != null)
+			getCompositionRoot().setWidth(width, unit);
+	}
+
+	public void setNavigatorWidth(String width) {
+		tabNavigator.setWidth(width);
+		Iterator<Component> i = tabNavigator.iterator();
+		while (i.hasNext()) {
+			Component childComponent = i.next();
+			childComponent.setWidth(width);
+		}
+	}
+
+	public void setNavigatorStyleName(String styleName) {
+		tabNavigator.setStyleName(styleName);
+	}
+
+	public void addNavigatorStyleName(String styleName) {
+		tabNavigator.addStyleName(styleName);
+	}
+
+	public void setContainerWidth(String width) {
+		tabContainer.setWidth(width);
+	}
+
+	public void setContainerStyleName(String styleName) {
+		tabContainer.setStyleName(styleName);
+	}
+
+	public void addContainerStyleName(String styleName) {
+		tabContainer.addStyleName(styleName);
+	}
+
+	private void clearTabSelection(boolean setDefaultIcon) {
+		Collection<Button> tabs = compMap.keySet();
+		if (setDefaultIcon == true) {
+			for (Button btn : tabs) {
+				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
+					btn.removeStyleName(TAB_SELECTED_STYLENAME);
+					setDefaulButtonIcon(btn, false);
+				}
+			}
+		} else {
+			for (Button btn : tabs) {
+				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
+					btn.removeStyleName(TAB_SELECTED_STYLENAME);
+				}
+			}
+		}
+
+	}
+
+	public VerticalLayout getContentWrapper() {
+		return this.contentWrapper;
+	}
+
+	public CssLayout getNavigatorWrapper() {
+		return this.navigatorWrapper;
+	}
+
+	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
+
 	}
 
 	public static class TabImpl implements Tab {
@@ -277,140 +344,5 @@ public class VerticalTabsheet extends CustomComponent {
 			return component.getStyleName();
 		}
 
-	}
-
-	@Override
-	public void setWidth(float width, Unit unit) {
-		super.setWidth(width, unit);
-
-		if (getCompositionRoot() != null)
-			getCompositionRoot().setWidth(width, unit);
-	}
-
-	public void setNavigatorWidth(String width) {
-		tabNavigator.setWidth(width);
-		Iterator<Component> i = tabNavigator.iterator();
-		while (i.hasNext()) {
-			Component childComponent = i.next();
-			childComponent.setWidth(width);
-		}
-	}
-
-	public void setNavigatorStyleName(String styleName) {
-		tabNavigator.setStyleName(styleName);
-	}
-
-	public void addNavigatorStyleName(String styleName) {
-		tabNavigator.addStyleName(styleName);
-	}
-
-	public void setContainerWidth(String width) {
-		tabContainer.setWidth(width);
-	}
-
-	public void setContainerStyleName(String styleName) {
-		tabContainer.setStyleName(styleName);
-	}
-
-	public void addContainerStyleName(String styleName) {
-		tabContainer.addStyleName(styleName);
-	}
-
-	private void clearTabSelection() {
-		boolean setDefaultIcon = false;
-		clearTabSelection(setDefaultIcon);
-	}
-	
-	private void clearTabSelection(boolean setDefaultIcon) {
-		Collection<Button> tabs = compMap.keySet();
-		if (setDefaultIcon == true)
-		{
-			for (Button btn : tabs) {
-				if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
-					btn.removeStyleName(TAB_SELECTED_STYLENAME);       
-					setDefaulButtonIcon(btn, false);
-				}
-			}
-		}
-		else 
-		{
-			for (Button btn : tabs) {
-				if(btn.getStyleName().contains(TAB_SELECTED_STYLENAME)){
-					btn.removeStyleName(TAB_SELECTED_STYLENAME);     
-					/*setDefaulButtonIcon(btn, false);*/
-				}
-			}
-		}
-			
-	}
-
-	public void setDefaulButtonIcon(Button btn, Boolean selected){
-		String caption = btn.getCaption();
-		String suffix;
-		if (selected == true)
-			suffix = "_selected";
-		else
-			suffix = "";
-
-		switch (caption){
-		case "Dashboard":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/dashboard" + suffix + ".png"));
-			break;
-
-		case "Messages":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/message" + suffix + ".png"));
-			break;
-		case "Phases":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/phase" + suffix + ".png"));
-			break;
-
-		case "Tasks":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/task" + suffix + ".png"));
-			break;
-
-		case "Bugs":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/bug" + suffix + ".png"));
-			break;
-
-		case "Files":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/file" + suffix + ".png"));
-			break;
-		case "Risks":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/risk" + suffix + ".png"));
-			break;
-		case "Problems":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/problem" + suffix + ".png"));
-			break;
-		case "Time":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/time" + suffix + ".png"));
-			break;
-		case "StandUp":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/standup" + suffix + ".png"));
-			break;
-		case "Users & Settings":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/project/user" + suffix + ".png"));
-			break;
-		default:
-			log.debug("cannot find resource for" + caption);
-		}
-	}
-
-	public VerticalLayout getContentWrapper() {
-		return this.contentWrapper;
-	}
-
-	public CssLayout getNavigatorWrapper() {
-		return this.navigatorWrapper;
 	}
 }

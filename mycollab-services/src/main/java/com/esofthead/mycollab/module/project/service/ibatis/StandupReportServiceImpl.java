@@ -31,6 +31,7 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -41,6 +42,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
+import com.esofthead.mycollab.module.user.domain.User;
 
 /**
  * 
@@ -85,7 +87,7 @@ public class StandupReportServiceImpl
 		criteria.setOnDate(new DateSearchField(SearchField.AND, onDate));
 		List reports = standupReportMapperExt.findPagableListByCriteria(
 				criteria, new RowBounds(0, Integer.MAX_VALUE));
-		
+
 		if (reports != null && reports.size() > 0) {
 			return (SimpleStandupReport) reports.get(0);
 		}
@@ -96,6 +98,14 @@ public class StandupReportServiceImpl
 	@Override
 	public List<GroupItem> getReportsCount(StandupReportSearchCriteria criteria) {
 		return standupReportMapperExt.getReportsCount(criteria);
+	}
+
+	@Override
+	public List<User> findUsersNotDoReportYet(int projectId, Date onDate,
+			@CacheKey Integer sAccountId) {
+
+		return standupReportMapperExt
+				.findUsersNotDoReportYet(projectId, onDate);
 	}
 
 }

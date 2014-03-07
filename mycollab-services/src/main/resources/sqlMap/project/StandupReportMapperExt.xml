@@ -14,30 +14,59 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.projectId != null">
-            <![CDATA[${searchCriteria.projectId.operation} m_prj_standup.projectId=#{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.logBy != null">
-            <![CDATA[${searchCriteria.logBy.operation} m_prj_standup.logBy=#{searchCriteria.logBy.value}]]>
-        </if>
-        <if test="searchCriteria.onDate != null">
-            <![CDATA[${searchCriteria.onDate.operation} CAST(m_prj_standup.forday AS DATE) = #{searchCriteria.onDate.value}]]>
-        </if>
-        <if test="searchCriteria.reportDateRange != null">
         <![CDATA[
-            ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= #{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= #{searchCriteria.reportDateRange.to}
-            ]]>
-        </if>
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_standup.projectId=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.logBy)
+            ${searchCriteria.logBy.operation} m_prj_standup.logBy=@{searchCriteria.logBy.value}
+        #end
+        
+        #ifnotnull($searchCriteria.onDate)
+           ${searchCriteria.onDate.operation} CAST(m_prj_standup.forday AS DATE) = @{searchCriteria.onDate.value}
+        #end
+        
+        #ifnotnull($searchCriteria.reportDateRange)
+            ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= @{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= @{searchCriteria.reportDateRange.to}
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
+        ]]>
+    </sql>
+    
+    <sql id="queryTotalCountSearchCriteria">
+         <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_standup.projectId=@{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.logBy)
+            ${searchCriteria.logBy.operation} m_prj_standup.logBy=@{searchCriteria.logBy.value}
+        #end
+        
+        #ifnotnull($searchCriteria.onDate)
+           ${searchCriteria.onDate.operation} CAST(m_prj_standup.forday AS DATE) = @{searchCriteria.onDate.value}
+        #end
+        
+        #ifnotnull($searchCriteria.reportDateRange)
+            ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= @{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= @{searchCriteria.reportDateRange.to}
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-             m_prj_standup.forday DESC, logByFullName DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end    
+        m_prj_standup.forday DESC, logByFullName DESC
     </sql>
 
     <sql id="selectStandupReport">
@@ -53,46 +82,59 @@
     </sql>
 
     <select id="getTotalCount" resultType="int"
-        parameterType="StandupReportSearchCriteria">
+        parameterType="StandupReportSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_standup
         <if test="searchCriteria != null">
             <trim prefix="WHERE" prefixOverrides="AND | OR ">
                 1=1
-                <include refid="querySearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             </trim>
         </if>
     </select>
 
     <select id="findPagableListByCriteria" resultMap="StandupResult"
-        parameterType="StandupReportSearchCriteria">
+        parameterType="StandupReportSearchCriteria" lang="velocity">
         <include refid="selectStandupReport" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
     <select id="findReportById" parameterType="java.lang.Integer"
-        resultMap="StandupResult">
+        resultMap="StandupResult" lang="velocity">
         <include refid="selectStandupReport" />
 
-        WHERE m_prj_standup.id=#{standupId, jdbcType=NUMERIC}
+        WHERE m_prj_standup.id=@{standupId, jdbcType=NUMERIC}
     </select>
 
     <select id="getReportsCount" parameterType="StandupReportSearchCriteria"
-        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap">
+        resultMap="com.esofthead.mycollab.common.dao.GroupItemMapper.BaseResultMap"
+        lang="velocity">
         <![CDATA[
                 SELECT m_prj_standup.projectId AS groupid, 
                     COUNT(*)  AS value, concat(MONTH(m_prj_standup.forDay), "/", DAY(m_prj_standup.forDay), "/", YEAR(m_prj_standup.forDay))
                      as groupname
         FROM m_prj_standup]]>
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            <include refid="querySearchCriteria" />
-        </trim>
+        #trim("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
         GROUP BY groupname
         ORDER BY groupname
     </select>
+    
+    <select id="findUsersNotDoReportYet" parameterType="StandupReportSearchCriteria"
+        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+        <![CDATA[
+        SELECT s_user.username, s_user.firstname, s_user.lastname, s_user.avatarId
+            FROM s_user, m_prj_member
+            WHERE m_prj_member.status = "Active"  AND m_prj_member.username = s_user.username AND
+                m_prj_member.projectId = @{_parameter.projectId} AND
+            (SELECT COUNT(*) FROM m_prj_standup WHERE m_prj_standup.projectId = @{_parameter.projectId} AND
+                CAST(m_prj_standup.forday AS DATE) = @{_parameter.onDate}
+                AND m_prj_standup.logBy = s_user.username) = 0
+        ]]>
+    </select>    
 </mapper>

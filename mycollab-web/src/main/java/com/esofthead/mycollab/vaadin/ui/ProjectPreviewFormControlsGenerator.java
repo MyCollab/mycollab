@@ -71,8 +71,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 		backBtn.setDescription("Back to list");
 		backBtn.setStyleName("link");
-		layout.addComponent(backBtn);
-		layout.setComponentAlignment(backBtn, Alignment.MIDDLE_LEFT);
+		//UiUtils.addComponent(layout, backBtn, Alignment.MIDDLE_LEFT);
 
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);

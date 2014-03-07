@@ -87,7 +87,7 @@ class ProjectMemberReadComp extends
 	protected UserStandupReportDepot standupComp;
 
 	ProjectMemberReadComp() {
-		super(MyCollabResource.newResource("icons/22/project/menu_user.png"));
+		super("Member Detail",MyCollabResource.newResource("icons/22/project/user_selected.png"));
 	}
 
 	@Override

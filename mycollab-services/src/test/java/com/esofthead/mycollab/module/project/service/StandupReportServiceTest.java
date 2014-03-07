@@ -34,6 +34,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
+import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
 import com.esofthead.mycollab.test.service.ServiceTest;
@@ -68,9 +69,17 @@ public class StandupReportServiceTest extends ServiceTest {
 		List<GroupItem> reportsCount = reportService.getReportsCount(criteria);
 
 		Assert.assertEquals(2, reportsCount.size());
-		for (GroupItem item : reportsCount) {
-			System.out.println(BeanUtility.printBeanObj(item));
-		}
 
+	}
+
+	@Test
+	@DataSet
+	public void testFindUsersNotDoReportYet() {
+		Date d = new GregorianCalendar(2013, 2, 13).getTime();
+		List<User> users = reportService.findUsersNotDoReportYet(1, d, 1);
+		Assert.assertEquals(1, users.size());
+
+		User user = users.get(0);
+		Assert.assertEquals("linhduong", user.getUsername());
 	}
 }

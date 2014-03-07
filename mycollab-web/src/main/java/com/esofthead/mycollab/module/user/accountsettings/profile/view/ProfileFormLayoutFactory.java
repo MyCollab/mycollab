@@ -65,11 +65,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
         final ReadViewLayout userAddLayout = new ReadViewLayout(this.title,
                 userAvatarIcon);
 
-        final Layout topPanel = this.createTopPanel();
-        if (topPanel != null) {
-            userAddLayout.addTopControls(topPanel);
-        }
-
+  
         this.userInformationLayout = new UserInformationLayout();
         this.userInformationLayout.getLayout().setWidth("100%");
         userAddLayout.addBody(this.userInformationLayout.getLayout());

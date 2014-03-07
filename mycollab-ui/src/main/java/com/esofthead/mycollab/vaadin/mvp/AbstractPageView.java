@@ -42,22 +42,7 @@ public abstract class AbstractPageView extends VerticalLayout implements
 		PageView, Serializable {
 
 	private static Logger log = LoggerFactory.getLogger(AbstractPageView.class);
-	public static String SAVE_ACTION = "Save";
-	public static String SAVE_AND_NEW_ACTION = "Save & New";
-	public static String EDIT_ACTION = "Edit";
-	public static String CANCEL_ACTION = "Cancel";
-	public static String DELETE_ACTION = "Delete";
-	public static String CLONE_ACTION = "Clone";
 	private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> map;
-	protected ViewState viewState;
-
-	public ViewState getViewState() {
-		return viewState;
-	}
-
-	public void setViewState(ViewState viewState) {
-		this.viewState = viewState;
-	}
 
 	@Override
 	public ComponentContainer getWidget() {

@@ -33,6 +33,7 @@ public class ProjectModule extends AbstractPageView implements IModule {
 	private static final long serialVersionUID = 1L;
 
 	public ProjectModule() {
+		setStyleName("project-module");
 		ControllerRegistry.addController(
 				new ProjectController(this));
 	}

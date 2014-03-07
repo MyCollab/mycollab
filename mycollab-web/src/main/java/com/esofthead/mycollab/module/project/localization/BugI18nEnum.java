@@ -24,6 +24,7 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData({ @Locale("en_US") })
 public enum BugI18nEnum {
 	BUG_DASHBOARD_TITLE,
+	BUG_SEARCH_TITLE,
 	MY_BUGS_WIDGET_TITLE,
 	DUE_BUGS_WIDGET_TITLE,
 	UPDATED_RECENTLY_WIDGET_TITLE,

@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.PropertyParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
@@ -40,6 +41,9 @@ public class CaseSearchCriteria extends SearchCriteria {
 	public static Param p_priority = new StringListParam("case-priority",
 			"Priority", "m_crm_case", "priority",
 			Arrays.asList(CrmDataTypeFactory.getCasesPriorityList()));
+
+	public static Param p_account = new PropertyParam("case-account",
+			"Account", "m_crm_case", "accountId");
 
 	public static Param p_status = new StringListParam("case-status", "Status",
 			"m_crm_case", "status", Arrays.asList(CrmDataTypeFactory

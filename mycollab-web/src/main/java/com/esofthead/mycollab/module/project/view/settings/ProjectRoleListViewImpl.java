@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
+import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
@@ -35,20 +36,20 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractProjectPageView;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
@@ -64,7 +65,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class ProjectRoleListViewImpl extends AbstractPageView implements
+public class ProjectRoleListViewImpl extends AbstractProjectPageView implements
 		ProjectRoleListView {
 	private static final long serialVersionUID = 1L;
 
@@ -76,16 +77,24 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 	private final Label selectedItemsNumberLabel = new Label();
 
 	public ProjectRoleListViewImpl() {
+		
+		super("Roles", "user_selected.png");
 
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.addHeaderRightContent(createHeaderRight());
+		
+		CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		
+		/*this.setMargin(new MarginInfo(true, false, false, false));*/
 
 		this.searchPanel = new ProjectRoleSearchPanel();
-		this.addComponent(this.searchPanel);
+		contentWrapper.addComponent(this.searchPanel);
 
 		this.listLayout = new VerticalLayout();
-		this.addComponent(this.listLayout);
+		contentWrapper.addComponent(this.listLayout);
 
 		this.generateDisplayTable();
+		this.addComponent(contentWrapper);
 	}
 
 	private void generateDisplayTable() {
@@ -242,5 +251,30 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 	@Override
 	public AbstractPagedBeanTable<ProjectRoleSearchCriteria, SimpleProjectRole> getPagedBeanTable() {
 		return this.tableItem;
+	}
+	
+	private HorizontalLayout createHeaderRight() {
+		final HorizontalLayout layout = new HorizontalLayout();
+	
+		final Button createBtn = new Button(
+				LocalizationHelper.getMessage(PeopleI18nEnum.NEW_ROLE_ACTION),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ProjectRoleEvent.GotoAdd(this, null));
+					}
+				});
+		createBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.ROLES));
+		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
+
+		UiUtils.addComponent(layout, createBtn, Alignment.MIDDLE_RIGHT);
+
+		return layout;
 	}
 }

@@ -16,36 +16,106 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
+import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @ViewComponent
-public class MeetingReadViewImpl extends AbstractPageView implements
-		MeetingReadView {
+public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
+		implements MeetingReadView {
 
 	private static final long serialVersionUID = 1L;
-	private MeetingReadComp previewForm;
+	protected NoteListItems noteListItems;
 
 	public MeetingReadViewImpl() {
-		super();
-		previewForm = new MeetingReadComp();
-		this.addComponent(previewForm);
+		super(MyCollabResource.newResource("icons/22/crm/meeting.png"));
 	}
 
 	@Override
-	public void previewItem(SimpleMeeting meeting) {
-		previewForm.previewItem(meeting);
+	protected AdvancedPreviewBeanForm<SimpleMeeting> initPreviewForm() {
+		return new AdvancedPreviewBeanForm<SimpleMeeting>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showHistory() {
+				final MeetingHistoryLogWindow historyLog = new MeetingHistoryLogWindow(
+						ModuleNameConstants.CRM, CrmTypeConstants.MEETING);
+				historyLog.loadHistory(beanItem.getId());
+				UI.getCurrent().addWindow(historyLog);
+			}
+		};
 	}
 
 	@Override
-	public HasPreviewFormHandlers<SimpleMeeting> getPreviewFormHandlers() {
-		return previewForm.getPreviewForm();
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleMeeting>(previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_MEETING);
+	}
+
+	@Override
+	protected ComponentContainer createBottomPanel() {
+		return noteListItems;
+	}
+
+	@Override
+	protected void onPreviewItem() {
+		displayNotes();
+	}
+
+	@Override
+	protected String initFormTitle() {
+		return beanItem.getSubject();
+	}
+
+	@Override
+	protected void initRelatedComponents() {
+		noteListItems = new NoteListItems("Notes");
+
+		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.selectTab("About");
+	}
+
+	@Override
+	protected IFormLayoutFactory initFormLayoutFactory() {
+		return new DynaFormLayout(CrmTypeConstants.MEETING,
+				MeetingDefaultFormLayoutFactory.getForm());
+	}
+
+	@Override
+	protected AbstractBeanFieldGroupViewFieldFactory<SimpleMeeting> initBeanFormFieldFactory() {
+		return new MeetingReadFormFieldFactory(previewForm);
+	}
+
+	protected void displayNotes() {
+		noteListItems.showNotes(CrmTypeConstants.MEETING, beanItem.getId());
 	}
 
 	@Override
 	public SimpleMeeting getItem() {
-		return previewForm.getBeanItem();
+		return beanItem;
+	}
+
+	@Override
+	public HasPreviewFormHandlers<SimpleMeeting> getPreviewFormHandlers() {
+		return previewForm;
 	}
 }

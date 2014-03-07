@@ -16,10 +16,22 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.form.view.DynaFormLayout;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -28,30 +40,82 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  * 
  */
 @ViewComponent
-public class AssignmentReadViewImpl extends AbstractPageView implements
-		AssignmentReadView {
+public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
+		implements AssignmentReadView {
 	private static final long serialVersionUID = 1L;
 
-	private AssignmentReadComp assignmentPreview;
+	protected NoteListItems noteListItems;
 
 	public AssignmentReadViewImpl() {
-		super();
-		assignmentPreview = new AssignmentReadComp();
-		this.addComponent(assignmentPreview);
+		super(MyCollabResource.newResource("icons/22/crm/task.png"));
 	}
 
 	@Override
-	public void previewItem(SimpleTask task) {
-		assignmentPreview.previewItem(task);
+	protected AdvancedPreviewBeanForm<SimpleTask> initPreviewForm() {
+		return new AdvancedPreviewBeanForm<SimpleTask>() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void showHistory() {
+				final AssignmentHistoryLogWindow historyLog = new AssignmentHistoryLogWindow(
+						ModuleNameConstants.CRM, CrmTypeConstants.TASK);
+				historyLog.loadHistory(beanItem.getId());
+				UI.getCurrent().addWindow(historyLog);
+			}
+		};
 	}
 
 	@Override
-	public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
-		return assignmentPreview.getPreviewForm();
+	protected ComponentContainer createButtonControls() {
+		return new CrmPreviewFormControlsGenerator<SimpleTask>(previewForm)
+				.createButtonControls(RolePermissionCollections.CRM_TASK);
+	}
+
+	@Override
+	protected ComponentContainer createBottomPanel() {
+		return noteListItems;
+	}
+
+	@Override
+	protected void onPreviewItem() {
+		displayNotes();
+	}
+
+	@Override
+	protected String initFormTitle() {
+		return beanItem.getSubject();
+	}
+
+	@Override
+	protected void initRelatedComponents() {
+		noteListItems = new NoteListItems("Notes");
+
+		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.selectTab("About");
+	}
+
+	@Override
+	protected IFormLayoutFactory initFormLayoutFactory() {
+		return new DynaFormLayout(CrmTypeConstants.TASK,
+				AssignmentDefaultFormLayoutFactory.getForm());
+	}
+
+	@Override
+	protected AbstractBeanFieldGroupViewFieldFactory<SimpleTask> initBeanFormFieldFactory() {
+		return new AssignmentReadFormFieldFactory(previewForm);
+	}
+
+	protected void displayNotes() {
+		noteListItems.showNotes(CrmTypeConstants.TASK, beanItem.getId());
 	}
 
 	@Override
 	public SimpleTask getItem() {
-		return assignmentPreview.getBeanItem();
+		return beanItem;
+	}
+
+	@Override
+	public HasPreviewFormHandlers<SimpleTask> getPreviewFormHandlers() {
+		return previewForm;
 	}
 }

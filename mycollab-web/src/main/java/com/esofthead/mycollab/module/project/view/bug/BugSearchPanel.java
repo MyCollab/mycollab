@@ -96,44 +96,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		this.setCompositionRoot(layout);
 	}
 
-	private HorizontalLayout createSearchTopPanel() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		layout.setWidth("100%");
-		layout.setSpacing(true);
-		layout.setMargin(true);
-
-		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/bug.png"));
-		layout.addComponent(titleIcon);
-		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
-
-		this.bugtitle.setStyleName(Reindeer.LABEL_H2);
-		layout.addComponent(this.bugtitle);
-		layout.setExpandRatio(this.bugtitle, 1.0f);
-		layout.setComponentAlignment(this.bugtitle, Alignment.MIDDLE_LEFT);
-
-		final Button createAccountBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new BugEvent.GotoAdd(this, null));
-					}
-				});
-		createAccountBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createAccountBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		createAccountBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
-
-		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
-
-		return layout;
-	}
-
+	
 	public void setBugTitle(final String title) {
 		this.bugtitle.setValue(title);
 	}
@@ -150,11 +113,6 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
 
-		@Override
-		public ComponentContainer constructHeader() {
-			/*return BugSearchPanel.this.createSearchTopPanel();*/
-			return new CssLayout();
-		}
 
 		@SuppressWarnings("serial")
 		@Override
@@ -247,10 +205,6 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			super(BugSearchPanel.this);
 		}
 
-		@Override
-		public ComponentContainer constructHeader() {
-			return BugSearchPanel.this.createSearchTopPanel();
-		}
 
 		@Override
 		public ComponentContainer constructBody() {

@@ -16,13 +16,18 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
+import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
+import com.vaadin.ui.TabSheet.Tab;
 
 /**
  * 
@@ -31,21 +36,42 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @param <B>
  */
-public abstract class AbstractPreviewItemComp<B> extends VerticalLayout {
+public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
 	protected AddViewLayout2 previewLayout;
 	protected AdvancedPreviewBeanForm<B> previewForm;
+	protected VerticalTabsheet previewItemContainer;
 
 	public AbstractPreviewItemComp(Resource iconResource) {
+		previewItemContainer = new VerticalTabsheet(false);
+
+		this.addComponent(previewItemContainer);
+		previewItemContainer.setSizeFull();
+		previewItemContainer.setNavigatorWidth("100%");
+		previewItemContainer.setNavigatorStyleName("sidebar-menu");
+		previewItemContainer.setContainerStyleName("tab-content");
+		previewItemContainer.setHeight(null);
+
+		previewItemContainer
+				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void selectedTabChange(SelectedTabChangeEvent event) {
+						Tab tab = ((VerticalTabsheet) event.getSource())
+								.getSelectedTab();
+						previewItemContainer.selectTab(tab.getCaption());
+					}
+				});
+
 		previewLayout = new AddViewLayout2("", iconResource);
-		this.addComponent(previewLayout);
 
 		initRelatedComponents();
 
 		previewForm = initPreviewForm();
-        previewLayout.setStyleName("readview-layout");
+		previewLayout.setStyleName("readview-layout");
 
 		VerticalLayout informationLayout = new VerticalLayout();
 		informationLayout.addStyleName("main-info");

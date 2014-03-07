@@ -29,8 +29,8 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AbstractProjectPageView;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
@@ -54,57 +54,37 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class MilestoneListViewImpl extends AbstractPageView implements
+public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		MilestoneListView {
 	private static final long serialVersionUID = 1L;
 
-	private final VerticalLayout inProgressContainer;
+	private VerticalLayout inProgressContainer;
 
-	private final VerticalLayout futureContainer;
+	private VerticalLayout futureContainer;
 
-	private final VerticalLayout closeContainer;
+	private VerticalLayout closeContainer;
 	private final Button createBtn;
+	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		final CssLayout headerWrapper = new CssLayout();
-		headerWrapper.setWidth("100%");
-		//headerWrapper.addStyleName("milestonelist-header");
-		headerWrapper.addStyleName("hdr-view");
-		final HorizontalLayout header = new HorizontalLayout();
-		final Label titleLbl = new Label("Phases");
-		titleLbl.addStyleName("hdr-text");
-		header.setWidth("100%");
-		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/phase.png"));
-		header.addComponent(icon);
-		header.setComponentAlignment(icon, Alignment.MIDDLE_LEFT);
-		header.addComponent(titleLbl);
-		header.setComponentAlignment(titleLbl, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(titleLbl, 1.0f);
-		header.setSpacing(true);
-
-		this.createBtn = new Button(
-				LocalizationHelper.getMessage(TaskI18nEnum.NEW_PHASE_ACTION),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new MilestoneEvent.GotoAdd(
-										MilestoneListViewImpl.this, null));
-					}
-				});
-		this.createBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
-		this.createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		header.addComponent(this.createBtn);
-		header.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
-		headerWrapper.addComponent(header);
-		this.addComponent(headerWrapper);
-
-		final CustomLayout bodyContent = CustomLayoutLoader
+		super("Phases list", "phase_selected.png" );
+		createBtn = new Button();
+		
+		this.addHeaderRightContent(createHeaderRight());
+		
+		CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		
+		this.bodyContent = CustomLayoutLoader
 				.createLayout("milestoneView");
+		contentWrapper.addComponent(bodyContent);
+		
+		constructBody();
+		this.addComponent(contentWrapper);
+	}
+	
+	private void constructBody () {
+		
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 
@@ -123,8 +103,8 @@ public class MilestoneListViewImpl extends AbstractPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(closedHeaderLayout, "closed-header");
-		this.closeContainer = new VerticalLayout();
-		this.closeContainer.setWidth("100%");
+		closeContainer = new VerticalLayout();
+		closeContainer.setWidth("100%");
 		bodyContent.addComponent(this.closeContainer, "closed-milestones");
 
 		final HorizontalLayout inProgressHeaderLayout = new HorizontalLayout();
@@ -142,8 +122,8 @@ public class MilestoneListViewImpl extends AbstractPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
-		this.inProgressContainer = new VerticalLayout();
-		this.inProgressContainer.setWidth("100%");
+		inProgressContainer = new VerticalLayout();
+		inProgressContainer.setWidth("100%");
 		bodyContent.addComponent(this.inProgressContainer,
 				"in-progress-milestones");
 
@@ -162,14 +142,39 @@ public class MilestoneListViewImpl extends AbstractPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(futureHeaderLayout, "future-header");
-		this.futureContainer = new VerticalLayout();
-		this.futureContainer.setWidth("100%");
+		futureContainer = new VerticalLayout();
+		futureContainer.setWidth("100%");
 		bodyContent.addComponent(this.futureContainer, "future-milestones");
-
-		this.addComponent(bodyContent);
-		this.setExpandRatio(bodyContent, 1.0f);
+		
 	}
+	
+	private HorizontalLayout createHeaderRight() {
+		final HorizontalLayout layout= new HorizontalLayout();
 
+		this.createBtn.setCaption(LocalizationHelper.getMessage(TaskI18nEnum.NEW_PHASE_ACTION));
+		this.createBtn.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new MilestoneEvent.GotoAdd(
+								MilestoneListViewImpl.this, null));
+			}
+		});
+				
+		this.createBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
+		this.createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		layout.addComponent(this.createBtn);
+		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
+		
+		
+		
+		return layout;
+	}
+	
+	
 	private ComponentContainer constructMilestoneBox(
 			final SimpleMilestone milestone) {
 		final CssLayout layout = new CssLayout();

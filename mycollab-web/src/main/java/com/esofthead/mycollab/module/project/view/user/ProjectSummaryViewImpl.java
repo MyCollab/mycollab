@@ -20,6 +20,7 @@ import com.esofthead.mycollab.module.project.view.ProjectInformationComponent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -41,16 +42,21 @@ ProjectSummaryView {
 	private final ProjectMessageListComponent messageWidget;
 
 	public ProjectSummaryViewImpl() {
-		this.setMargin(true);
+		this.setMargin(new MarginInfo(true, false, false, false));
 		this.setSpacing(true);
 
+		CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		contentWrapper.setWidth("100%");
+		this.addComponent(contentWrapper);
+
 		this.prjView = new ProjectInformationComponent();
-		this.addComponent(this.prjView);
+		contentWrapper.addComponent(this.prjView);
 
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		this.addComponent(layout);
+		contentWrapper.addComponent(layout);
 
 		final VerticalLayout leftPanel = new VerticalLayout();
 

@@ -602,8 +602,6 @@ public class BugReadViewImpl extends AbstractPageView implements BugReadView,
 						BugReadViewImpl.this.bugWorkflowControl,
 						Alignment.MIDDLE_RIGHT);
 
-				bugAddLayout.addTopControls(topPanel);
-
 				this.informationLayout = new GridFormLayoutHelper(2, 12,
 						"100%", "167px", Alignment.MIDDLE_LEFT);
 				this.informationLayout.getLayout().addStyleName(

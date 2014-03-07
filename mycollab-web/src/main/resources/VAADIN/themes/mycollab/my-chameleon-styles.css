@@ -416,7 +416,7 @@ body.v-ie7 .v-menubar-submenu,
 .v-drag-element {
 	font-size: 13px;
 	/*color: rgb(34,34,34);*/
-	color: #454545;
+	color: #525252;
 	}
 
 .v-app select,
@@ -618,7 +618,7 @@ td.v-datefield-calendarpanel-month,
 .v-popupview,
 .sidebar-menu .v-label {
 	/*color: rgb(40,126,206);*/
-	color: #0a58cd;
+	color: #006dac;
 	}
 
 .v-button-default,

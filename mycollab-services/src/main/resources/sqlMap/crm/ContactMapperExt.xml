@@ -342,7 +342,7 @@
         INNER JOIN m_crm_contacts_leads ON
         (m_crm_contacts_leads.contactId=m_crm_contact.id AND
         m_crm_contacts_leads.isConvertRel=1 AND
-        m_crm_contacts_leads.leadId=#{leadId, jdbcType=NUMERIC})
+        m_crm_contacts_leads.leadId=@{leadId, jdbcType=NUMERIC})
         LIMIT 1
     </select>
 

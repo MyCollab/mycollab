@@ -59,12 +59,16 @@ public class AccountSearchPanel extends
 
 	private static Param[] paramFields = new Param[] {
 			AccountSearchCriteria.p_accountName,
-			AccountSearchCriteria.p_anyCity, AccountSearchCriteria.p_anyPhone,
+			AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
 			AccountSearchCriteria.p_numemployees,
 			AccountSearchCriteria.p_assignee,
-			AccountSearchCriteria.p_createdtime,
 			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
-			AccountSearchCriteria.p_assignee };
+			AccountSearchCriteria.p_assignee,
+			AccountSearchCriteria.p_billingCountry,
+			AccountSearchCriteria.p_shippingCountry,
+			AccountSearchCriteria.p_anyCity,
+			AccountSearchCriteria.p_createdtime,
+			AccountSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();

@@ -73,7 +73,7 @@ public class ComponentReadViewImpl extends
     private ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm;
 
     public ComponentReadViewImpl() {
-        super(MyCollabResource.newResource("icons/22/project/component.png"));
+        super("Component Detail", MyCollabResource.newResource("icons/22/project/component.png"));
 
         this.setMargin(new MarginInfo(true, false, false, false));
     }

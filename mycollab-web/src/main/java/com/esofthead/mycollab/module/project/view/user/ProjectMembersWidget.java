@@ -20,18 +20,24 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -47,10 +53,11 @@ public class ProjectMembersWidget extends Depot {
 
 	public ProjectMembersWidget() {
 		super("Members", new VerticalLayout());
+		this.addStyleName("project-member-widget");
 
 		memberList = new BeanList<ProjectMemberService, ProjectMemberSearchCriteria, SimpleProjectMember>(
 				ApplicationContextUtil
-						.getSpringBean(ProjectMemberService.class),
+				.getSpringBean(ProjectMemberService.class),
 				MemberRowDisplayHandler.class);
 		this.addStyleName("activity-panel");
 		((VerticalLayout) this.bodyContent).setMargin(false);
@@ -68,40 +75,54 @@ public class ProjectMembersWidget extends Depot {
 	}
 
 	public static class MemberRowDisplayHandler implements
-			BeanList.RowDisplayHandler<SimpleProjectMember> {
+	BeanList.RowDisplayHandler<SimpleProjectMember> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component generateRow(SimpleProjectMember member, int rowIndex) {
-			CssLayout layout = new CssLayout();
+		public Component generateRow(final SimpleProjectMember member, int rowIndex) {
+			HorizontalLayout layout = new HorizontalLayout();
 			layout.setWidth("100%");
 			layout.setStyleName("activity-stream");
+			layout.addStyleName("odd");
+			layout.setSpacing(true);
+			layout.addComponent(new Image(null, UserAvatarControlFactory.createAvatarResource(
+					member.getMemberAvatarId(), 48)));
 
-			CssLayout header = new CssLayout();
-			header.setStyleName("stream-content");
-			header.addComponent(new ProjectUserLink(member.getUsername(),
-					member.getMemberAvatarId(), member.getDisplayName(), false,
-					true));
-			layout.addComponent(header);
+			VerticalLayout content = new VerticalLayout();
+			content.setStyleName("stream-content");
+			Button userLink = new Button(member.getDisplayName(), new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
 
-			CssLayout body = new CssLayout();
-			body.setStyleName("activity-date");
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new ProjectMemberEvent.GotoRead(this, member.getUsername()));
+				}
+			});
+			userLink.addStyleName("link");
+			userLink.addStyleName("username");
+			content.addComponent(userLink);
+			layout.addComponent(content);
+			layout.setExpandRatio(content, 1.0f);
+
+			CssLayout footer = new CssLayout();
+			footer.setStyleName("activity-date");
 
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
 			String textRole = "";
 			if (member.getIsadmin() != null
 					&& member.getIsadmin() == Boolean.TRUE) {
-				textRole = "<a style=\"color: #b00000;\"> Project Admin </a>";
+				textRole = "<span style=\"color: #b00000;\"> Project Admin </span>";
 			} else {
 				textRole = member.getRoleName();
 			}
-			textRole += " - Joined from "
-					+ DateTimeUtils.getStringDateFromNow(member.getJoindate());
+			textRole += "<br/><span>Joined from "
+					+ DateTimeUtils.getStringDateFromNow(member.getJoindate()) + "</span>";
 			memberRole.setValue(textRole);
 
-			body.addComponent(memberRole);
-			layout.addComponent(body);
+			footer.addComponent(memberRole);
+			content.addComponent(footer);
 			return layout;
 		}
 
