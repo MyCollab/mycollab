@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
@@ -48,6 +49,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 /**
@@ -65,6 +67,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	protected ContactOpportunityListComp associateOpportunityList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
+	private DateInfoComp dateInfoComp;
 
 	public ContactReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/contact.png"));
@@ -128,6 +131,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		this.displayNotes();
 		this.displayActivities();
 		this.displayAssociateOpportunityList();
+
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -159,10 +164,14 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
 		this.noteListItems = new NoteListItems("Notes");
 
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
 		previewItemContainer.addTab(associateActivityList, "Activities");
-		
+
 		previewItemContainer.selectTab("About");
 	}
 

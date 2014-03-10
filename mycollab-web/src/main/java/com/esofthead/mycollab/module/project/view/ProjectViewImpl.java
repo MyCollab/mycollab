@@ -363,12 +363,16 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
 		Button quickActionBtn = new Button("",
 				new Button.ClickListener() {
-
+			
 			@Override
 			public void buttonClick(ClickEvent event) {
+				if (controlsBtn.getPopupVisible())
+				controlsBtn.setPopupVisible(false);
+				else				
 				controlsBtn.setPopupVisible(true);
 			}
 		});
+		
 		quickActionBtn.setDescription("Quick action");
 		controlsBtn = new SplitButton(quickActionBtn);
 		controlsBtn.setIcon(MyCollabResource

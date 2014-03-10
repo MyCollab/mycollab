@@ -40,13 +40,13 @@
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
-            <version>6.0.0.Final</version>
+            <version>6.0.1.Final</version>
         </dependency>
 
         <dependency>
             <groupId>org.jgroups</groupId>
             <artifactId>jgroups</artifactId>
-            <version>3.4.1.Final</version>
+            <version>3.4.3.Final</version>
         </dependency>
 
     </dependencies>

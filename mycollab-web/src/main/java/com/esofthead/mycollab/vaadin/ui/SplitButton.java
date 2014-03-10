@@ -102,6 +102,10 @@ public class SplitButton extends CustomComponent {
 		this.isPopupVisible = isvisible;
 		popupButton.setPopupVisible(isPopupVisible);
 	}
+	
+	public boolean getPopupVisible() {
+		return this.isPopupVisible;
+	}
 
 	public void setContent(ComponentContainer content) {
 		popupButton.setContent(content);

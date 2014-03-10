@@ -105,4 +105,16 @@
         <property name="mapperInterface"
             value="com.esofthead.mycollab.common.dao.ReportBugIssueMapper" />
     </bean>
+
+    <bean id="tagMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionTemplate" ref="sqlMapClient" />
+        <property name="mapperInterface"
+            value="com.esofthead.mycollab.common.dao.TagMapper" />
+    </bean>
+
+    <bean id="tagRelationshipMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionTemplate" ref="sqlMapClient" />
+        <property name="mapperInterface"
+            value="com.esofthead.mycollab.common.dao.TagRelationshipMapper" />
+    </bean>
 </beans>

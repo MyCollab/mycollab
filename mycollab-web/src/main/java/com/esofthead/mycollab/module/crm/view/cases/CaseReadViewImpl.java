@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -40,6 +41,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 
@@ -57,6 +59,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	protected CaseContactListComp associateContactList;
 	protected NoteListItems noteListItems;
 	protected ActivityRelatedItemListComp associateActivityList;
+	private DateInfoComp dateInfoComp;
 
 	public CaseReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/case.png"));
@@ -102,6 +105,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		displayNotes();
 		displayActivities();
 		displayContacts();
+
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -114,6 +119,10 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		associateContactList = new CaseContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems("Notes");
+
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");

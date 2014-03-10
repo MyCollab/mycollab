@@ -43,6 +43,7 @@ import java.util.Collection;
  * @param <T>
  */
 public class SetSearchField<T> extends SearchField {
+	private static final long serialVersionUID = 1L;
 	public T[] values;
 
 	public SetSearchField() {

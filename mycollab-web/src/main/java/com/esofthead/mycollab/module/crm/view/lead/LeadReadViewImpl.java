@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -43,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 /**
@@ -59,6 +61,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	protected LeadCampaignListComp associateCampaignList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
+	private DateInfoComp dateInfoComp;
 
 	public LeadReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/lead.png"));
@@ -112,6 +115,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		displayNotes();
 		displayActivities();
 		displayCampaigns();
+
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -124,6 +129,10 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		associateCampaignList = new LeadCampaignListComp();
 		noteListItems = new NoteListItems("Notes");
 		associateActivityList = new ActivityRelatedItemListComp(true);
+
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateCampaignList, "Campaigns");

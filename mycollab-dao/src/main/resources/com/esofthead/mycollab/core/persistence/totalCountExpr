@@ -6,7 +6,10 @@
             #end 
             #onevalexpr($extraField) 
                 ${extraField.operation} ${extraField.queryCount} @{extraField.value} 
-            #end 
+            #end
+            #betweenvalexpr($extraField)
+                ${extraField.operation} ${extraField.queryCount} @{extraField.value} AND @{extraField.secondValue} 
+            #end
             #collectionvalexpr($extraField) 
                 ${extraField.operation} ${extraField.queryCount} 
                 #repeat(${extraField.value} $listItem "," "(" ")") 
@@ -22,6 +25,9 @@
                     #onevalexpr($subItem) 
                         ${subItem.operation} ${subItem.queryCount} @{subItem.value} 
                     #end 
+                    #betweenvalexpr($extraField)
+                        ${extraField.operation} ${extraField.queryCount} @{extraField.value} AND @{extraField.secondValue} 
+                    #end
                     #collectionvalexpr($subItem) 
                         ${subItem.operation} ${subItem.queryCount} 
                         #repeat(${subItem.value} $listItem "," "(" ")") 

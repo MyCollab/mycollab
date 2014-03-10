@@ -83,7 +83,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 
 		tabContainer.addTab(this.associateCommentListComp, "Comments",
 				MyCollabResource
-						.newResource("icons/16/project/gray/comment.png"));
+				.newResource("icons/16/project/gray/comment.png"));
 		tabContainer.addTab(historyList, "History", MyCollabResource
 				.newResource("icons/16/project/gray/history.png"));
 		tabContainer.addTab(this.associateTaskGroupListComp, "Related Task",
@@ -104,6 +104,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 				CommentType.PRJ_MILESTONE,
 				CurrentProjectVariables.getProjectId(), true, true,
 				ProjectMilestoneRelayEmailNotificationAction.class);
+		this.associateCommentListComp.setMargin(true);
 	}
 
 	@Override
@@ -143,7 +144,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 	}
 
 	private class MilestoneFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
+	AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> {
 
 		private static final long serialVersionUID = 1L;
 

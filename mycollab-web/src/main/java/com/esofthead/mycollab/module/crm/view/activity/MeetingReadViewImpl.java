@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 /**
@@ -45,6 +47,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 	private static final long serialVersionUID = 1L;
 	protected NoteListItems noteListItems;
+	private DateInfoComp dateInfoComp;
 
 	public MeetingReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/meeting.png"));
@@ -79,6 +82,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	@Override
 	protected void onPreviewItem() {
 		displayNotes();
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -89,6 +93,10 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	@Override
 	protected void initRelatedComponents() {
 		noteListItems = new NoteListItems("Notes");
+
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.selectTab("About");

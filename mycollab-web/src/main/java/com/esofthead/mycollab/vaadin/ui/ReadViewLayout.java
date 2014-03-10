@@ -30,72 +30,71 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ReadViewLayout extends CustomLayoutExt {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final Label titleLbl;
-    private final Image icon;
-    private final HorizontalLayout header;
+	private final Label titleLbl;
+	private final Image icon;
+	private final HorizontalLayout header;
 
-    public ReadViewLayout(final String title, final Resource icon) {
-        super("readView");
+	public ReadViewLayout(final String title, final Resource icon) {
+		super("readView");
 
-        this.header = new HorizontalLayout();
-        this.header.setWidth("100%");
-        this.header.setSpacing(true);
-        this.header.setHeight("30px");
+		this.header = new HorizontalLayout();
+		this.header.setWidth("100%");
+		this.header.setSpacing(true);
 
-        this.icon = new Image();
-        this.setTitleIcon(icon);
-        /*this.header.addComponent(this.icon);*/
-        this.titleLbl = new Label();
-        this.titleLbl.setStyleName("headerName");
-        this.titleLbl.setImmediate(true);
+		this.icon = new Image();
+		this.setTitleIcon(icon);
+		/*this.header.addComponent(this.icon);*/
+		this.titleLbl = new Label();
+		this.titleLbl.setStyleName("headerName");
+		this.titleLbl.setImmediate(true);
 
-        this.header.addComponent(this.titleLbl);
-        this.header.setExpandRatio(titleLbl, 1.0f);
+		this.header.addComponent(this.titleLbl);
+		this.header.setExpandRatio(titleLbl, 1.0f);
 
-        if (title == null) {
-            if (icon != null) {
-                this.setTitle("Undefined");
-            }
-        } else {
-            this.setTitle(title);
-        }
+		if (title == null) {
+			if (icon != null) {
+				this.setTitle("Undefined");
+			}
+		} else {
+			this.setTitle(title);
+		}
 
-        this.addComponent(this.header, "readViewHeader");
-    }
+		this.addComponent(this.header, "readViewHeader");
+	}
 
-    public void addBody(final ComponentContainer body) {
-        this.addComponent(body, "readViewBody");
-    }
+	public void addBody(final ComponentContainer body) {
+		this.addComponent(body, "readViewBody");
+	}
 
-    public void addBottomControls(final ComponentContainer bottomControls) {
-        this.addComponent(bottomControls, "readViewBottomControls");
-    }
+	public void addBottomControls(final ComponentContainer bottomControls) {
+		this.addComponent(bottomControls, "readViewBottomControls");
+	}
 
-    public void addHeaderRight(final ComponentContainer headerRight) {
-        this.header.addComponent(headerRight);
-    }
+	public void addHeaderRight(final ComponentContainer headerRight) {
+		this.header.addComponent(headerRight);
+	}
 
-    public void addTitleStyleName(final String styleName) {
-        this.titleLbl.addStyleName(styleName);
-    }
+	public void addTitleStyleName(final String styleName) {
+		this.titleLbl.addStyleName(styleName);
+	}
 
-    public void setTitleStyleName(final String styleName) {
-        this.titleLbl.setStyleName(styleName);
-    }
+	public void setTitleStyleName(final String styleName) {
+		this.titleLbl.setStyleName(styleName);
+	}
 
-    public void removeTitleStyleName(final String styleName) {
-        this.titleLbl.removeStyleName(styleName);
-    }
+	public void removeTitleStyleName(final String styleName) {
+		this.titleLbl.removeStyleName(styleName);
+	}
 
-    public void setTitle(final String title) {
-        this.titleLbl.setValue(title);
-    }
+	public void setTitle(final String title) {
+		this.titleLbl.setValue(title);
+	}
 
-    public void setTitleIcon(final Resource resource) {
-        if (resource != null) {
-            this.icon.setSource(resource);
-        }
-    }
+	public void setTitleIcon(final Resource resource) {
+		if (resource != null) {
+			this.icon.setSource(resource);
+		}
+	}
 }

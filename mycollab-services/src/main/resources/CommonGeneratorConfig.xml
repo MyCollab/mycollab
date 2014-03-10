@@ -63,6 +63,12 @@
 
         <table schema="mycollab" tableName="s_table_customize_view"
             domainObjectName="CustomViewStore" />
+
+        <table schema="mycollab" tableName="s_tag"
+            domainObjectName="Tag" />
+
+        <table schema="mycollab" tableName="s_tag_relationship"
+            domainObjectName="TagRelationship" />
     </context>
 
 </generatorConfiguration>

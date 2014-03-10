@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.esofthead.mycollab.core.MyCollabException;
@@ -235,7 +236,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			} else if (field instanceof NumberParam) {
 				valueBox.addComponent(new TextField());
 			} else if (field instanceof DateParam) {
-				if (DateParam.BETWEEN.equals(compareItem)) {
+				if (DateParam.BETWEEN.equals(compareItem)
+						|| DateParam.NOT_BETWEEN.equals(compareItem)) {
 					DateField field1 = new DateField();
 					DateField field2 = new DateField();
 					valueBox.addComponent(field1);
@@ -364,7 +366,28 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					return wrapParam.buildSearchField(prefixOperation,
 							compareOper, value);
 				} else if (param instanceof DateParam) {
+					DateParam wrapParam = (DateParam) param;
 
+					if (DateParam.BETWEEN.equals(compareOper)
+							|| DateParam.NOT_BETWEEN.equals(compareOper)) {
+						if (valueBox.getComponentCount() != 2) {
+							return null;
+						}
+						Date dateValue1 = ((DateField) valueBox.getComponent(0))
+								.getValue();
+						Date dateValue2 = ((DateField) valueBox.getComponent(1))
+								.getValue();
+						return wrapParam.buildSearchField(prefixOperation,
+								compareOper, dateValue1, dateValue2);
+					} else {
+						if (valueBox.getComponentCount() != 1) {
+							return null;
+						}
+						Date dateValue = ((DateField) valueBox.getComponent(0))
+								.getValue();
+						return wrapParam.buildSearchField(prefixOperation,
+								compareOper, dateValue);
+					}
 				} else {
 					throw new MyCollabException("Not support yet");
 				}

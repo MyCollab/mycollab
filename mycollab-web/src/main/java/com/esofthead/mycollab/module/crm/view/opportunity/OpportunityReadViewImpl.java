@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
@@ -47,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 /**
@@ -66,6 +68,7 @@ public class OpportunityReadViewImpl extends
 	protected OpportunityLeadListComp associateLeadList;
 	protected NoteListItems noteListItems;
 	protected ActivityRelatedItemListComp associateActivityList;
+	private DateInfoComp dateInfoComp;
 
 	public OpportunityReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/opportunity.png"));
@@ -104,6 +107,8 @@ public class OpportunityReadViewImpl extends
 		displayActivities();
 		displayContacts();
 		displayLeads();
+
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -135,6 +140,10 @@ public class OpportunityReadViewImpl extends
 		associateLeadList = new OpportunityLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems("Notes");
+
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");

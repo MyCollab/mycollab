@@ -463,6 +463,8 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 }
 .splitbutton .parent-button .v-button-wrap {
 	border-right:1px solid #F9F9F9;
+	padding-right:6px;
+	padding-left: 8px;
 }
 .splitbutton .v-popupbutton {
 	border-right-width: 1px;
@@ -3733,14 +3735,21 @@ div.v-lazyloadingwrapper-loading {
 
 /* Milestone Box */
 .milestone-box {
-	/* margin-top: 10px; */
-	background-color: rgb(247, 247, 247);
-	border-top: 1px solid rgb(215, 215, 215);
+	margin-top: 25px;
+	background-color: #e9f2f7;
+	border-color: #BEBEBE;
+	border-style: solid;
+	border-width: 1px 1px 1px 6px;
 	padding: 12px 20px 10px;
 }
 
 .milestone-box .v-button-link {
 	margin: 0 auto;
+}
+.milestone-box .milestone-name, .milestone-box .milestone-name:focus {
+	font-size: 14px;
+	border-bottom: 1px dashed #BEBEBE;
+	padding-bottom: 8px;
 }
 
 .milestone-box > .v-horizontallayout {
@@ -3915,7 +3924,7 @@ table.legendBox .legendBoxContent .v-csslayout > div {
 /* Project Member Block */
 div.v-csslayout.member-block {
 	display: inline-block;
-	background-color: #f7f7f7;
+	background-color: #e9f2f7;
 	margin-bottom: 15px;
 	font-size: 12px;
 	vertical-align: top;
@@ -4009,8 +4018,12 @@ div.v-csslayout.member-block {
 
 .milestone-view-body {
 	width: 33%;
-	background-color: #f7f7f7;
-	padding: 0px 0px 15px;
+	background-color: #FFFFFF;
+	padding: 0px;
+}
+
+.milestone-view-body .milestone-col {
+	padding: 0px 25px 25px;
 }
 
 .milestone-view-body>div>div>div>div:first-child>div>div>.milestone-box
@@ -4123,19 +4136,16 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 /* New ReadViewLayout */
 
 .readViewLayout {
-	background-color: #F5F5F5;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border: 1px solid #8F8F8F;
+	background-color: #FFFFFF;
+	border-radius: 0px;
+	border: 1px solid #CFCFCF;
 }
 
 .readViewLayout .readViewTopControls {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	border-bottom: 1px solid rgb(169, 169, 169);
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .readViewLayout .readViewTopControls .readNewControl {
@@ -4161,12 +4171,10 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 }
 
 .readViewHeader {
-	height: 25px;
-	padding: 3px 5px 3px 18px;
-	background: url('icons/grad-light-top2.png') repeat-x left top
-		rgb(227, 227, 227);
-	border-radius: 3px 3px 0px 0px;
-	border-bottom: 1px solid rgb(169, 169, 169);
+	padding: 10px 5px 10px 18px;
+	background: none repeat-x left top #EEEEEE;
+	border-radius: 0px;
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .readViewHeader .readViewHeaderLeft {
@@ -4183,17 +4191,14 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 }
 
 .readViewLayout .readViewHeader .headerName {
-	font-size: 13px;
-	font-weight: bold;
-/* 	margin-top: 3px; */
-	line-height: 20px !important;
-	padding-top:2px;
+	font-size: 15px;
+	color: #303030;
 }
 
 .readViewLayout .v-label-h2 {
 	text-shadow: #F0F0F0 0 1px 0;
 	padding: 8px 0px 8px 18px;
-	font-size: 13px;
+	font-size: 14px;
 	border-bottom: 1px solid #BCBCBC;
 	color: rgb(69, 69, 69);
 }
@@ -4469,7 +4474,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 	padding-top: 5px;
 }
 .control-buttons.v-margin-right {
-	padding-right: 5px;
+	padding-right: 0;
 }
 .control-buttons.v-margin-bottom {
 	padding-bottom: 5px;
@@ -4600,13 +4605,13 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 
 /* The New GridLayout */
 .colored-gridlayout {
-	border-bottom: 1px solid #BCBCBC;
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .task-list .colored-gridlayout {
 	border-width: 0px 1px 1px 1px;
 	border-style: solid;
-	border-color: rgb(169, 169, 169);
+	border-color: #CFCFCF;
 }
 
 /*.task-list {
@@ -4616,7 +4621,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 .task-list-footer {
 	border-width: 0px 1px 1px 1px;
 	border-style: solid;
-	border-color: rgb(169, 169, 169);
+	border-color: #CFCFCF;
 }
 .task-list-footer.v-margin-top {
 	padding-top: 5px;
@@ -4700,7 +4705,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 
 /* Bug Dashboard */
 .bugdashboard-header {
-	border: 1px solid #CFCFCF;
+	/* border: 1px solid #CFCFCF; */
 	border-radius: 3px 3px 0px 0px;
 	background: url("icons/grad-light-top2.png") repeat-x left top
 		rgb(245, 245, 245);
@@ -5868,8 +5873,8 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 .splitbutton .v-popupbutton.bluebtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator
 	{
-	/* background: url("icons/sprites.png") no-repeat scroll -5px -10px
-		transparent; */
+	background: url("icons/sprites.png") no-repeat scroll -5px -10px
+		transparent;
 }
 /* End new splitbutton */
 
@@ -6380,4 +6385,13 @@ img.icon-btn {
 /*Project Members Widget */
 .project-member-widget .username .v-button-wrap {
 	padding: 0px;
+}
+
+/*Navigation Buttons styles */
+.v-buttongroup.navigation-btns .v-button-wrap {
+	padding: 7px 10px 6px;
+}
+.v-buttongroup.navigation-btns .v-button-caption {
+	font-size: 16px;
+	font-weight: bold;
 }

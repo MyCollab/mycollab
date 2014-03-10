@@ -32,6 +32,8 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
+import java.io.Serializable;
+
 import com.esofthead.mycollab.core.utils.BeanUtility;
 
 /**
@@ -39,7 +41,8 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class SearchField {
+public class SearchField implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public static final String OR = "OR";
 	public static final String AND = "AND";

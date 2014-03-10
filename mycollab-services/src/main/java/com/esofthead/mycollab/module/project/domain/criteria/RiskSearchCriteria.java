@@ -21,7 +21,15 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class RiskSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private StringSearchField riskname;
 
 	private StringSearchField raisedByUser;
@@ -31,8 +39,8 @@ public class RiskSearchCriteria extends SearchCriteria {
 	private BooleanSearchField isCompleted;
 
 	private NumberSearchField projectId;
-	
-	 private NumberSearchField id;
+
+	private NumberSearchField id;
 
 	public StringSearchField getRiskname() {
 		return riskname;

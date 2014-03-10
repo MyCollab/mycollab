@@ -46,7 +46,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -55,36 +54,36 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class MilestoneListViewImpl extends AbstractProjectPageView implements
-		MilestoneListView {
+MilestoneListView {
 	private static final long serialVersionUID = 1L;
 
-	private VerticalLayout inProgressContainer;
+	private CssLayout inProgressContainer;
 
-	private VerticalLayout futureContainer;
+	private CssLayout futureContainer;
 
-	private VerticalLayout closeContainer;
+	private CssLayout closeContainer;
 	private final Button createBtn;
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
 		super("Phases list", "phase_selected.png" );
 		createBtn = new Button();
-		
+
 		this.addHeaderRightContent(createHeaderRight());
-		
+
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
-		
+
 		this.bodyContent = CustomLayoutLoader
 				.createLayout("milestoneView");
 		contentWrapper.addComponent(bodyContent);
-		
+
 		constructBody();
 		this.addComponent(contentWrapper);
 	}
-	
+
 	private void constructBody () {
-		
+
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 
@@ -92,7 +91,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		closedHeaderLayout.setSpacing(true);
 		final Image embeddClosed = new Image(null,
 				MyCollabResource
-						.newResource("icons/16/project/phase_closed.png"));
+				.newResource("icons/16/project/phase_closed.png"));
 		closedHeaderLayout.addComponent(embeddClosed);
 		closedHeaderLayout.setComponentAlignment(embeddClosed,
 				Alignment.MIDDLE_CENTER);
@@ -103,7 +102,8 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(closedHeaderLayout, "closed-header");
-		closeContainer = new VerticalLayout();
+		closeContainer = new CssLayout();
+		closeContainer.setStyleName("milestone-col");
 		closeContainer.setWidth("100%");
 		bodyContent.addComponent(this.closeContainer, "closed-milestones");
 
@@ -111,7 +111,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		inProgressHeaderLayout.setSpacing(true);
 		final Image embeddInProgress = new Image(null,
 				MyCollabResource
-						.newResource("icons/16/project/phase_progress.png"));
+				.newResource("icons/16/project/phase_progress.png"));
 		inProgressHeaderLayout.addComponent(embeddInProgress);
 		inProgressHeaderLayout.setComponentAlignment(embeddInProgress,
 				Alignment.MIDDLE_CENTER);
@@ -122,7 +122,8 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(inProgressHeaderLayout, "in-progress-header");
-		inProgressContainer = new VerticalLayout();
+		inProgressContainer = new CssLayout();
+		inProgressContainer.setStyleName("milestone-col");
 		inProgressContainer.setWidth("100%");
 		bodyContent.addComponent(this.inProgressContainer,
 				"in-progress-milestones");
@@ -131,7 +132,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		futureHeaderLayout.setSpacing(true);
 		final Image embeddFuture = new Image(null,
 				MyCollabResource
-						.newResource("icons/16/project/phase_future.png"));
+				.newResource("icons/16/project/phase_future.png"));
 		futureHeaderLayout.addComponent(embeddFuture);
 		futureHeaderLayout.setComponentAlignment(embeddFuture,
 				Alignment.MIDDLE_CENTER);
@@ -142,12 +143,13 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		bodyContent.addComponent(futureHeaderLayout, "future-header");
-		futureContainer = new VerticalLayout();
+		futureContainer = new CssLayout();
+		futureContainer.setStyleName("milestone-col");
 		futureContainer.setWidth("100%");
 		bodyContent.addComponent(this.futureContainer, "future-milestones");
-		
+
 	}
-	
+
 	private HorizontalLayout createHeaderRight() {
 		final HorizontalLayout layout= new HorizontalLayout();
 
@@ -162,19 +164,19 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 								MilestoneListViewImpl.this, null));
 			}
 		});
-				
+
 		this.createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		this.createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		layout.addComponent(this.createBtn);
 		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
-		
-		
-		
+
+
+
 		return layout;
 	}
-	
-	
+
+
 	private ComponentContainer constructMilestoneBox(
 			final SimpleMilestone milestone) {
 		final CssLayout layout = new CssLayout();
@@ -183,19 +185,20 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 
 		final Button milestoneLink = new Button(milestone.getName(),
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new MilestoneEvent.GotoRead(
-										MilestoneListViewImpl.this, milestone
-												.getId()));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new MilestoneEvent.GotoRead(
+								MilestoneListViewImpl.this, milestone
+								.getId()));
+			}
+		});
 		milestoneLink.setStyleName("link");
 		milestoneLink.addStyleName("bold");
 		milestoneLink.addStyleName(UIConstants.WORD_WRAP);
+		milestoneLink.addStyleName("milestone-name");
 		milestoneLink.setWidth("100%");
 		milestone.setDescription(milestone.getDescription());
 
@@ -211,11 +214,11 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getStartdate(),
 						"<<Not Set>>")), "Start Date", 0, 0,
-				Alignment.MIDDLE_LEFT);
+						Alignment.MIDDLE_LEFT);
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getEnddate(),
 						"<<Not Set>>")), "End Date", 0, 1,
-				Alignment.MIDDLE_LEFT);
+						Alignment.MIDDLE_LEFT);
 
 		CssLayout linkWrapper = new CssLayout();
 		linkWrapper.setWidth("100%");

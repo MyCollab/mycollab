@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
@@ -51,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 /**
@@ -71,6 +73,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 	protected AccountCaseListComp associateCaseList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
+	private DateInfoComp dateInfoComp;
 
 	public AccountReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/account.png"));
@@ -173,12 +176,16 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateCaseList = new AccountCaseListComp();
 		noteListItems = new NoteListItems("Notes");
 
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		dateInfoComp = new DateInfoComp();
+		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");
 		previewItemContainer.addTab(associateLeadList, "Leads");
 		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
 		previewItemContainer.addTab(associateCaseList, "Cases");
-		
+
 		previewItemContainer.selectTab("About");
 	}
 
@@ -201,6 +208,8 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		displayAssociateCaseList();
 		displayAssociateOpportunityList();
 		displayAssociateLeadList();
+
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override

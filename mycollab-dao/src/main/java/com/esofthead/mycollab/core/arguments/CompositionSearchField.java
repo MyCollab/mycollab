@@ -10,6 +10,8 @@ import java.util.List;
  * 
  */
 public class CompositionSearchField extends SearchField {
+	private static final long serialVersionUID = 1L;
+	
 	private List<SearchField> fields;
 
 	public CompositionSearchField(String oper) {
