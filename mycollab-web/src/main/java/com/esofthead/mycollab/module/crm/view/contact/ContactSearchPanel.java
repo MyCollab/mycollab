@@ -67,7 +67,9 @@ public class ContactSearchPanel extends
 			ContactSearchCriteria.p_billingCountry,
 			ContactSearchCriteria.p_shippingCountry,
 			ContactSearchCriteria.p_anyPhone, ContactSearchCriteria.p_anyEmail,
-			ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee };
+			ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee,
+			ContactSearchCriteria.p_createdtime,
+			ContactSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();

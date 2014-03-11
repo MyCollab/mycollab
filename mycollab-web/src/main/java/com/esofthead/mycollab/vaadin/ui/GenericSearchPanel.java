@@ -39,7 +39,7 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class GenericSearchPanel<S extends SearchCriteria> extends
-		CustomComponent implements HasSearchHandlers<S> {
+CustomComponent implements HasSearchHandlers<S> {
 
 	private List<SearchHandler<S>> handers;
 
@@ -60,7 +60,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 	}
 
 	abstract public static class SearchLayout<S extends SearchCriteria> extends
-			CustomLayoutExt {
+	CustomLayoutExt {
 		protected GenericSearchPanel<S> searchPanel;
 
 		public SearchLayout(final GenericSearchPanel<S> parent,
@@ -112,7 +112,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 	}
 
 	abstract public static class BasicSearchLayout<S extends SearchCriteria>
-			extends SearchLayout<S> {
+	extends SearchLayout<S> {
 		private static final long serialVersionUID = 1L;
 		protected ComponentContainer header;
 		protected ComponentContainer body;
@@ -130,16 +130,16 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 			this.addComponent(this.body, "basicSearchBody");
 		}
 
-		/*abstract public ComponentContainer constructHeader();*/
-		public ComponentContainer constructHeader() {
+		abstract public ComponentContainer constructHeader();
+		/*public ComponentContainer constructHeader() {
 			return new CssLayout();
-		}
+		}*/
 
 		abstract public ComponentContainer constructBody();
 	}
 
 	abstract public static class AdvancedSearchLayout<S extends SearchCriteria>
-			extends SearchLayout<S> {
+	extends SearchLayout<S> {
 
 		protected ComponentContainer header;
 		protected ComponentContainer body;
@@ -159,9 +159,9 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 			this.addComponent(this.body, "advSearchBody");
 			this.addComponent(this.footer, "advSearchFooter");
 		}
-		
+
 		/*abstract public ComponentContainer constructHeader();*/
-		
+
 		public ComponentContainer constructHeader() {
 			return new CssLayout();
 		}

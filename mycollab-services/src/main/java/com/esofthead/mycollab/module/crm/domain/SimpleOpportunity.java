@@ -28,6 +28,10 @@ import com.esofthead.mycollab.core.arguments.NotBindable;
 public class SimpleOpportunity extends Opportunity {
 	private static final long serialVersionUID = 1L;
 
+	private String createdUserAvatarId;
+
+	private String createdUserFullName;
+
 	private String accountName;
 
 	private String campaignName;
@@ -38,6 +42,22 @@ public class SimpleOpportunity extends Opportunity {
 
 	@NotBindable
 	private Currency currency;
+
+	public String getCreatedUserAvatarId() {
+		return createdUserAvatarId;
+	}
+
+	public void setCreatedUserAvatarId(String createdUserAvatarId) {
+		this.createdUserAvatarId = createdUserAvatarId;
+	}
+
+	public String getCreatedUserFullName() {
+		return createdUserFullName;
+	}
+
+	public void setCreatedUserFullName(String createdUserFullName) {
+		this.createdUserFullName = createdUserFullName;
+	}
 
 	public String getAccountName() {
 		return accountName;

@@ -67,7 +67,9 @@ public class CaseSearchPanel extends
 			CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
 			CaseSearchCriteria.p_status, CaseSearchCriteria.p_email,
 			CaseSearchCriteria.p_origin, CaseSearchCriteria.p_reason,
-			CaseSearchCriteria.p_subject, CaseSearchCriteria.p_type };
+			CaseSearchCriteria.p_subject, CaseSearchCriteria.p_type,
+			CaseSearchCriteria.p_createdtime,
+			CaseSearchCriteria.p_lastupdatedtime };
 
 	public CaseSearchPanel() {
 		super();

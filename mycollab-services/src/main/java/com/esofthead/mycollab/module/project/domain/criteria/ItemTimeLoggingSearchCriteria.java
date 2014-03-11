@@ -26,7 +26,15 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private NumberSearchField projectId;
 
 	private SetSearchField<String> logUsers;

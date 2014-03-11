@@ -20,7 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectRoleSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
 	private StringSearchField rolename;
 	private NumberSearchField projectId;

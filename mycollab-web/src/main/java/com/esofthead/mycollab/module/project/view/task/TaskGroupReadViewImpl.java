@@ -17,8 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import org.vaadin.hene.popupbutton.PopupButton;
-
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -36,16 +34,17 @@ import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
-import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -61,7 +60,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TaskGroupReadViewImpl extends
-		AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
+AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -70,11 +69,11 @@ public class TaskGroupReadViewImpl extends
 	private SubTasksDisplayComp taskDisplayComp;
 
 	private TaskGroupHistoryLogList historyList;
+	private SplitButton taskListFilterControl;
+	
 
 	public TaskGroupReadViewImpl() {
 		super("Task Group",MyCollabResource.newResource("icons/22/project/task_group.png"));
-
-		this.setMargin(new MarginInfo(true, false, false, false));
 	}
 
 	@Override
@@ -122,7 +121,7 @@ public class TaskGroupReadViewImpl extends
 	protected ComponentContainer createButtonControls() {
 		return (new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
 				previewForm)).createButtonControls(
-				ProjectRolePermissionCollections.TASKS, true);
+						ProjectRolePermissionCollections.TASKS, true);
 	}
 
 	@Override
@@ -164,42 +163,62 @@ public class TaskGroupReadViewImpl extends
 			final CssLayout componentHeader = new CssLayout();
 			componentHeader.setStyleName("comp-header");
 
-			final PopupButton taskListFilterControl;
-			taskListFilterControl = new PopupButton("Active Tasks");
-			taskListFilterControl.setWidth("120px");
-			taskListFilterControl.addStyleName("link");
 
+			
+			
+						
+			final Button parentTaskListFilterButton = new Button("Active Tasks only", new Button.ClickListener() {
+				
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					taskListFilterControl.setPopupVisible(false);
+					SubTasksDisplayComp.this.displayActiveTasksOnly();
+				}
+				
+			}); 
+			
+			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
+			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
+			taskListFilterControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
+			
+			filterBtnLayout.setWidth("120px");
+			
 			filterBtnLayout.setMargin(true);
 			filterBtnLayout.setSpacing(true);
 
 			final Button allTasksFilterBtn = new Button("All Tasks",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption("All Tasks");
-							SubTasksDisplayComp.this.displayAllTasks();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					taskListFilterControl.setPopupVisible(false);
+					taskListFilterControl.setCaption("All Tasks");
+					SubTasksDisplayComp.this.displayAllTasks();
+				}
+			});
 			allTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(allTasksFilterBtn);
 
+
 			final Button activeTasksFilterBtn = new Button("Active Tasks Only",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption("Active Tasks");
-							SubTasksDisplayComp.this.displayActiveTasksOnly();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					taskListFilterControl.setPopupVisible(false);
+					taskListFilterControl.setCaption("Active Tasks");
+					SubTasksDisplayComp.this.displayActiveTasksOnly();
+				}
+			});
 			activeTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(activeTasksFilterBtn);
+
 
 			final Button archievedTasksFilterBtn = new Button(
 					"Archieved Tasks Only", new Button.ClickListener() {
@@ -270,7 +289,7 @@ public class TaskGroupReadViewImpl extends
 								}
 							},
 							MyCollabResource
-									.newResource("icons/16/project/milestone.png"));
+							.newResource("icons/16/project/milestone.png"));
 				} else if (propertyId.equals("owner")) {
 					return new ProjectUserFormLinkField(beanItem.getOwner(),
 							beanItem.getOwnerAvatarId(),

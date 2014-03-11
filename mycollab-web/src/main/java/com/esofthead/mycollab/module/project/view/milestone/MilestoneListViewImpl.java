@@ -71,15 +71,11 @@ MilestoneListView {
 
 		this.addHeaderRightContent(createHeaderRight());
 
-		CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");
-
 		this.bodyContent = CustomLayoutLoader
 				.createLayout("milestoneView");
-		contentWrapper.addComponent(bodyContent);
 
 		constructBody();
-		this.addComponent(contentWrapper);
+		this.addComponent(bodyContent);
 	}
 
 	private void constructBody () {

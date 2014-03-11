@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -41,7 +42,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -49,7 +49,7 @@ import com.vaadin.ui.themes.Reindeer;
  * @since 1.0
  */
 public class VersionSearchPanel extends
-		GenericSearchPanel<VersionSearchCriteria> {
+GenericSearchPanel<VersionSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	private final SimpleProject project;
@@ -74,15 +74,16 @@ public class VersionSearchPanel extends
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setStyleName("hdr-view");
+		layout.setMargin(new MarginInfo(true, false, true, false));
 
 		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/version.png"));
+				MyCollabResource.newResource("icons/22/project/version.png"));
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label versionTitle = new Label("Versions");
-		versionTitle.setStyleName(Reindeer.LABEL_H2);
+		versionTitle.setStyleName("hdr-text");
 		layout.addComponent(versionTitle);
 		layout.setComponentAlignment(versionTitle, Alignment.MIDDLE_LEFT);
 		layout.setExpandRatio(versionTitle, 1.0f);
@@ -111,7 +112,7 @@ public class VersionSearchPanel extends
 
 	@SuppressWarnings("rawtypes")
 	private class VersionBasicSearchLayout extends
-			GenericSearchPanel.BasicSearchLayout {
+	GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public VersionBasicSearchLayout() {
@@ -143,26 +144,26 @@ public class VersionSearchPanel extends
 
 			final Button searchBtn = new Button("Search",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							VersionBasicSearchLayout.this.callSearchAction();
-						}
-					});
+				@Override
+				public void buttonClick(final Button.ClickEvent event) {
+					VersionBasicSearchLayout.this.callSearchAction();
+				}
+			});
 			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							VersionBasicSearchLayout.this.nameField
-									.setValue("");
-						}
-					});
+				@Override
+				public void buttonClick(final Button.ClickEvent event) {
+					VersionBasicSearchLayout.this.nameField
+					.setValue("");
+				}
+			});
 			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;
@@ -172,11 +173,11 @@ public class VersionSearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			VersionSearchPanel.this.searchCriteria = new VersionSearchCriteria();
 			VersionSearchPanel.this.searchCriteria
-					.setProjectId(new NumberSearchField(SearchField.AND,
-							VersionSearchPanel.this.project.getId()));
+			.setProjectId(new NumberSearchField(SearchField.AND,
+					VersionSearchPanel.this.project.getId()));
 			VersionSearchPanel.this.searchCriteria
-					.setVersionname(new StringSearchField(this.nameField
-							.getValue().toString().trim()));
+			.setVersionname(new StringSearchField(this.nameField
+					.getValue().toString().trim()));
 			return VersionSearchPanel.this.searchCriteria;
 		}
 	}

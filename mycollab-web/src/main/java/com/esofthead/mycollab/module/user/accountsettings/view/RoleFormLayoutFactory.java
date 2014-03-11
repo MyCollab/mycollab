@@ -49,7 +49,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
 		final Layout topPanel = this.createTopPanel();
 		if (topPanel != null) {
-			userAddLayout.addTopControls(topPanel);
+			userAddLayout.addHeaderRight(topPanel);
 		}
 
 		this.userInformationLayout = new RoleInformationLayout();

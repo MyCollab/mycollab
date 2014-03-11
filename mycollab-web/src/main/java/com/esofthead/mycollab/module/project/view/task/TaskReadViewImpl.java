@@ -42,16 +42,15 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -68,7 +67,7 @@ import com.vaadin.ui.Label;
  */
 @ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
-		implements TaskReadView {
+implements TaskReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -83,9 +82,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private Button quickActionStatusBtn;
 
 	public TaskReadViewImpl() {
-		super("Task Detail", MyCollabResource.newResource( "icons/22/project/menu_task.png"));
-
-		this.setMargin(new MarginInfo(true, false, false, false));
+		super("Task Detail", MyCollabResource.newResource( "icons/22/project/task_selected.png"));
 	}
 
 	@Override
@@ -125,7 +122,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected void onPreviewItem() {
-
+		previewLayout.clearTitleStyleName();
 		if (beanItem.getPercentagecomplete() != null
 				&& 100d == beanItem.getPercentagecomplete()) {
 			addLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -137,9 +134,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					|| (beanItem.getActualenddate() != null && (beanItem
 							.getActualenddate().before(new GregorianCalendar()
 							.getTime())))
-					|| (beanItem.getDeadline() != null && (beanItem
-							.getDeadline().before(new GregorianCalendar()
-							.getTime())))) {
+							|| (beanItem.getDeadline() != null && (beanItem
+									.getDeadline().before(new GregorianCalendar()
+									.getTime())))) {
 				addLayoutStyleName(UIConstants.LINK_OVERDUE);
 			}
 		}
@@ -202,7 +199,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 						&& beanItem.getStatus().equals("Close")) {
 					beanItem.setStatus("Open");
 					TaskReadViewImpl.this
-							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+					.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("Close");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
@@ -210,7 +207,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					beanItem.setStatus("Close");
 
 					TaskReadViewImpl.this
-							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+					.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("ReOpen");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
@@ -255,7 +252,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	}
 
 	private class ReadFormFieldFactory extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+	AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
 		private static final long serialVersionUID = 1L;
 
 		public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
@@ -301,7 +298,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 							}
 						},
 						MyCollabResource
-								.newResource("icons/16/project/task_group.png"));
+						.newResource("icons/16/project/task_group.png"));
 			} else if (propertyId.equals("id")) {
 				return new ProjectFormAttachmentDisplayField(
 						beanItem.getProjectid(),

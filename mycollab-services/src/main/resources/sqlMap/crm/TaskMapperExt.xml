@@ -5,6 +5,10 @@
     <resultMap
         extends="com.esofthead.mycollab.module.crm.dao.TaskMapper.ResultMapWithBLOBs"
         id="SimpleTaskResult" type="com.esofthead.mycollab.module.crm.domain.SimpleTask">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="contactName" jdbcType="VARCHAR" property="contactName" />
         <result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
         <result column="assignUserFullName" jdbcType="VARCHAR"
@@ -14,160 +18,223 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_crm_task.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.subject != null">
-            <![CDATA[${searchCriteria.subject.operation} m_crm_task.subject like '%${searchCriteria.subject.value}%']]>
-        </if>
-        <if test="searchCriteria.assignUser != null">
-            <![CDATA[
-                 ${searchCriteria.assignUser.operation} m_crm_task.assignUser = #{searchCriteria.assignUser.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.status != null">
-            <![CDATA[
-                 ${searchCriteria.status.operation} m_crm_task.status = #{searchCriteria.status.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.contact != null">
-            <![CDATA[
-            ${searchCriteria.contact.operation}
-            (SELECT COUNT(*)
-            FROM m_crm_contact 
-            WHERE m_crm_task.contactId=m_crm_contact.id 
-                AND concat(m_crm_contact.firstname, m_crm_contact.lastname) like '%${searchCriteria.contact.value}%') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.contactId != null">
         <![CDATA[
-                ${searchCriteria.contactId.operation}
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_crm_task.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_crm_task.assignUser = @{searchCriteria.assignUser.value,jdbcType=VARCHAR}
+        #end
+        
+        #ifnotnull($searchCriteria.contactId)
+            ${searchCriteria.contactId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_contact 
-                WHERE m_crm_contact.id=#{searchCriteria.contactId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_contact.id 
                     AND m_crm_task.type='Contact') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.campaignId != null">
-            <![CDATA[
-                ${searchCriteria.campaignId.operation}
+        #end
+        
+        #ifnotnull($searchCriteria.campaignId)
+            ${searchCriteria.campaignId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_campaign 
-                WHERE m_crm_campaign.id=#{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
-                    AND m_crm_task.typeid=m_crm_campaign.id AND m_crm_task.type='Campaign') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.accountId != null">
-            <![CDATA[
-                ${searchCriteria.accountId.operation}
+                WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_campaign.id 
+                    AND m_crm_task.type='Campaign') > 0
+        #end 
+        
+        #ifnotnull($searchCriteria.accountId)
+            ${searchCriteria.accountId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_account 
-                WHERE m_crm_account.id=#{searchCriteria.accountId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_account.id 
                     AND m_crm_task.type='Account') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.targetId != null">
-            <![CDATA[
-                ${searchCriteria.targetId.operation}
+        #end
+        
+        #ifnotnull($searchCriteria.targetId)
+            ${searchCriteria.targetId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_target 
-                WHERE m_crm_target.id=#{searchCriteria.targetId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_target.id 
                     AND m_crm_task.type='Target') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.leadId != null">
-            <![CDATA[
-                ${searchCriteria.leadId.operation}
+        #end
+        
+        #ifnotnull($searchCriteria.leadId)
+            ${searchCriteria.leadId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_lead 
-                WHERE m_crm_lead.id=#{searchCriteria.leadId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_lead.id 
                     AND m_crm_task.type='Lead') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.opportunityId != null">
-            <![CDATA[
-                ${searchCriteria.opportunityId.operation}
+        #end
+        
+        #ifnotnull($searchCriteria.opportunityId)
+            ${searchCriteria.opportunityId.operation}
                 (SELECT COUNT(*) 
                 FROM m_crm_opportunity 
-                WHERE m_crm_opportunity.id=#{opportunityId.value,jdbcType=NUMERIC} 
+                WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
                     AND m_crm_task.typeid=m_crm_opportunity.id 
                     AND m_crm_task.type='Opportunity') > 0
-                ]]>
-        </if>
-        <if test="searchCriteria.quoteId != null">
-            <![CDATA[
+        #end
+        
+        #ifnotnull($searchCriteria.quoteId)
             ${searchCriteria.quoteId.operation}
             (SELECT COUNT(*) 
             FROM m_crm_quote 
-            WHERE m_crm_quote.id=#{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
+            WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_quote.id 
                 AND m_crm_task.type='Quote') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.productId != null">
-            <![CDATA[
+        #end
+        
+        #ifnotnull($searchCriteria.productId)
             ${searchCriteria.productId.operation}
             (SELECT COUNT(*) 
             FROM m_crm_product 
-            WHERE m_crm_product.id=#{searchCriteria.productId.value,jdbcType=NUMERIC} 
+            WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
                 AND m_crm_task.typeid=m_crm_product.id 
                 AND m_crm_task.type='Product') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.caseId != null">
-            <![CDATA[
+        #end
+        
+        #ifnotnull($searchCriteria.caseId)
             ${searchCriteria.caseId.operation}
             (SELECT COUNT(*) 
              FROM m_crm_case 
-             WHERE m_crm_case.id=#{searchCriteria.caseId.value,jdbcType=NUMERIC} 
+             WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
                  AND m_crm_task.typeid=m_crm_case.id 
                  AND m_crm_task.type='Case') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.type != null">
-            <![CDATA[${searchCriteria.type.operation} m_crm_task.type = #{searchCriteria.type.value}]]>
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_crm_task.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.isClosed != null">
-            <![CDATA[${searchCriteria.isClosed.operation} m_crm_task.isClosed = ${searchCriteria.isClosed.value}]]>
-        </if>
-    </sql>
-
-    <select id="getTotalCount" parameterType="TodoSearchCriteria"
-        resultType="int">
-        SELECT count(*) as totalCount FROM m_crm_task
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
-    </select>
-
-    <delete id="removeByCriteria" parameterType="TodoSearchCriteria">
-        DELETE FROM m_crm_task
-        <if test="searchCriteria != null">
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-        </if>
-    </delete>
-
-    <sql id="orderStatement">
-        ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection}, </if>
-        <![CDATA[
-            lastUpdatedTime DESC
+        #end
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_crm_task.type = @{searchCriteria.type.value,jdbcType=VARCHAR}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_crm_task.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.isClosed)
+            ${searchCriteria.isClosed.operation} m_crm_task.isClosed = ${searchCriteria.isClosed.value}
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
         ]]>
     </sql>
-
+    
+    <sql id="queryTotalCountSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_crm_task.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_crm_task.assignUser = @{searchCriteria.assignUser.value,jdbcType=VARCHAR}
+        #end
+        
+        #ifnotnull($searchCriteria.contactId)
+            ${searchCriteria.contactId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_contact 
+                WHERE m_crm_contact.id=@{searchCriteria.contactId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_contact.id 
+                    AND m_crm_task.type='Contact') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.campaignId)
+            ${searchCriteria.campaignId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_campaign 
+                WHERE m_crm_campaign.id=@{searchCriteria.campaignId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_campaign.id 
+                    AND m_crm_task.type='Campaign') > 0
+        #end 
+        
+        #ifnotnull($searchCriteria.accountId)
+            ${searchCriteria.accountId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_account 
+                WHERE m_crm_account.id=@{searchCriteria.accountId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_account.id 
+                    AND m_crm_task.type='Account') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.targetId)
+            ${searchCriteria.targetId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_target 
+                WHERE m_crm_target.id=@{searchCriteria.targetId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_target.id 
+                    AND m_crm_task.type='Target') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.leadId)
+            ${searchCriteria.leadId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_lead 
+                WHERE m_crm_lead.id=@{searchCriteria.leadId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_lead.id 
+                    AND m_crm_task.type='Lead') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.opportunityId)
+            ${searchCriteria.opportunityId.operation}
+                (SELECT COUNT(*) 
+                FROM m_crm_opportunity 
+                WHERE m_crm_opportunity.id=@{searchCriteria.opportunityId.value,jdbcType=NUMERIC} 
+                    AND m_crm_task.typeid=m_crm_opportunity.id 
+                    AND m_crm_task.type='Opportunity') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.quoteId)
+            ${searchCriteria.quoteId.operation}
+            (SELECT COUNT(*) 
+            FROM m_crm_quote 
+            WHERE m_crm_quote.id=@{searchCriteria.quoteId.value,jdbcType=NUMERIC} 
+                AND m_crm_task.typeid=m_crm_quote.id 
+                AND m_crm_task.type='Quote') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.productId)
+            ${searchCriteria.productId.operation}
+            (SELECT COUNT(*) 
+            FROM m_crm_product 
+            WHERE m_crm_product.id=@{searchCriteria.productId.value,jdbcType=NUMERIC} 
+                AND m_crm_task.typeid=m_crm_product.id 
+                AND m_crm_task.type='Product') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.caseId)
+            ${searchCriteria.caseId.operation}
+            (SELECT COUNT(*) 
+             FROM m_crm_case 
+             WHERE m_crm_case.id=@{searchCriteria.caseId.value,jdbcType=NUMERIC} 
+                 AND m_crm_task.typeid=m_crm_case.id 
+                 AND m_crm_task.type='Case') > 0
+        #end
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_crm_task.type = @{searchCriteria.type.value,jdbcType=VARCHAR}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_crm_task.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.isClosed)
+            ${searchCriteria.isClosed.operation} m_crm_task.isClosed = ${searchCriteria.isClosed.value}
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
+    </sql>
+    
     <sql id="selectSimpleTask">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject,
@@ -185,16 +252,42 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId)
         ]]>
     </sql>
+    
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
+        #end
+        lastUpdatedTime DESC
+    </sql>
 
-    <select id="findById" parameterType="int" resultMap="SimpleTaskResult">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.selectSimpleTask" />
+    <select id="getTotalCount" parameterType="TodoSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_crm_task
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
+    </select>
 
-        WHERE m_crm_task.id=#{taskId,jdbcType=NUMERIC}
+    <delete id="removeByCriteria" parameterType="TodoSearchCriteria" lang="velocity">
+        DELETE FROM m_crm_task
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end    
+        #end
+    </delete>
+
+    <select id="findById" parameterType="int" resultMap="SimpleTaskResult" lang="velocity">
+        <include refid="selectSimpleTask" />
+
+        WHERE m_crm_task.id=@{taskId,jdbcType=NUMERIC}
     </select>
 
     <select id="findPagableListByCriteria" parameterType="TodoSearchCriteria"
-        resultMap="SimpleTaskResult">
+        resultMap="SimpleTaskResult" lang="velocity">
         <![CDATA[
         SELECT m_crm_task.id, m_crm_task.subject, m_crm_task.startdate, m_crm_task.duedate, m_crm_task.contactId, m_crm_task.typeid, 
                m_crm_task.description, m_crm_task.createdTime, m_crm_task.lastUpdatedTime, m_crm_task.createdUser, m_crm_task.sAccountId, m_crm_task.status, 
@@ -208,13 +301,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_contact as contact2 ON (m_crm_task.type='Contact' AND m_crm_task.typeid=contact2.id )
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
         UNION ALL
 
@@ -231,13 +322,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_account ON (m_crm_task.type='Account' AND m_crm_task.typeid=m_crm_account.id )
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
         UNION ALL
         <![CDATA[
@@ -253,13 +342,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_campaign ON (m_crm_task.type='Campaign' AND m_crm_task.typeid=m_crm_campaign.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
 
         UNION ALL
@@ -275,13 +362,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_target ON (m_crm_task.type='Target' AND m_crm_task.typeid=m_crm_target.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
         UNION ALL
         <![CDATA[
@@ -297,13 +382,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_lead ON (m_crm_task.type='Lead' AND m_crm_task.typeid=m_crm_lead.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
         UNION ALL
         <![CDATA[
@@ -319,13 +402,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_opportunity ON (m_crm_task.type = 'Opportunity' AND m_crm_task.typeid=m_crm_opportunity.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
 
         UNION ALL
@@ -342,13 +423,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_quote ON (m_crm_task.type = 'Quote' AND m_crm_task.typeid=m_crm_quote.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
 
         UNION ALL
@@ -365,13 +444,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_product ON (m_crm_task.type = 'Product' AND m_crm_task.typeid=m_crm_product.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
 
         UNION ALL
@@ -388,13 +465,11 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId) 
             INNER JOIN m_crm_case ON (m_crm_task.type = 'Case' AND m_crm_task.typeid=m_crm_case.id)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
 
 
@@ -411,35 +486,29 @@
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username) 
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId)
         ]]>
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
             <![CDATA[AND ((m_crm_task.type IS NULL) OR (m_crm_task.typeid IS NULL))]]>
-            </trim>
-        </if>
+            #end
+        #end
         <include refid="orderStatement" />
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_task
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-        </trim>
+        #trim("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_task
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.crm.dao.TaskMapperExt.querySearchCriteria" />
-        </trim>
+        #trim("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 </mapper>

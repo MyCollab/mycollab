@@ -48,22 +48,23 @@ public class EditFormControlsGenerator<T> implements Serializable {
 			final boolean isCancelBtnVisible) {
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
+		layout.setSizeUndefined();
 		layout.setStyleName("addNewControl");
 
 		if (isSaveBtnVisible) {
 			final Button saveBtn = new Button(GenericBeanForm.SAVE_ACTION,
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							if (EditFormControlsGenerator.this.editForm
-									.validateForm()) {
-								EditFormControlsGenerator.this.editForm
-										.fireSaveForm();
-							}
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					if (EditFormControlsGenerator.this.editForm
+							.validateForm()) {
+						EditFormControlsGenerator.this.editForm
+						.fireSaveForm();
+					}
+				}
+			});
 			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 			saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 			layout.addComponent(saveBtn);
@@ -81,7 +82,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 							if (EditFormControlsGenerator.this.editForm
 									.validateForm()) {
 								EditFormControlsGenerator.this.editForm
-										.fireSaveAndNewForm();
+								.fireSaveAndNewForm();
 							}
 						}
 					});
@@ -95,14 +96,14 @@ public class EditFormControlsGenerator<T> implements Serializable {
 		if (isCancelBtnVisible) {
 			final Button cancelBtn = new Button(GenericBeanForm.CANCEL_ACTION,
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							EditFormControlsGenerator.this.editForm
-									.fireCancelForm();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					EditFormControlsGenerator.this.editForm
+					.fireCancelForm();
+				}
+			});
 			cancelBtn.setIcon(MyCollabResource
 					.newResource("icons/16/cancel.png"));
 			cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);

@@ -59,6 +59,7 @@ implements PageView {
 		this.headerRight = new CssLayout();
 		this.titleIcon = new Image(null,iconResource);
 		this.headerText = new Label(headerText);
+		this.headerText.setSizeUndefined();
 		this.addComponent(constructHeader());
 
 		previewForm = initPreviewForm();

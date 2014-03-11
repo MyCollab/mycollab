@@ -1,0 +1,62 @@
+package com.esofthead.mycollab.module.crm.ui.components;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
+public class PeopleInfoComp extends VerticalLayout {
+	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory.getLogger(PeopleInfoComp.class);
+
+	public void displayEntryPeople(ValuedBean bean) {
+		this.removeAllComponents();
+
+		GridLayout layout = new GridLayout(2, 2);
+		try {
+			layout.addComponent(new Label("Created:"), 0, 0);
+
+			String createdUserName = (String) PropertyUtils.getProperty(bean,
+					"createduser");
+			String createdUserAvatarId = (String) PropertyUtils.getProperty(
+					bean, "createdUserAvatarId");
+			String createdUserDisplayName = (String) PropertyUtils.getProperty(
+					bean, "createdUserFullName");
+
+			UserLink createdUserLink = new UserLink(createdUserName,
+					createdUserAvatarId, createdUserDisplayName);
+			layout.addComponent(createdUserLink, 1, 0);
+
+			layout.addComponent(new Label("Assignee: "), 0, 1);
+			String assignUserName = (String) PropertyUtils.getProperty(bean,
+					"assignuser");
+			String assignUserAvatarId = (String) PropertyUtils.getProperty(
+					bean, "assignUserAvatarId");
+			String assignUserDisplayName = (String) PropertyUtils.getProperty(
+					bean, "assignUserFullName");
+
+			UserLink assignUserLink = new UserLink(assignUserName,
+					assignUserAvatarId, assignUserDisplayName);
+			layout.addComponent(assignUserLink, 1, 1);
+		} catch (Exception e) {
+			log.error("Can not build user link {} ",
+					BeanUtility.printBeanObj(bean));
+		}
+
+		this.addComponent(layout);
+
+	}
+}

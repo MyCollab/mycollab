@@ -366,9 +366,9 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (controlsBtn.getPopupVisible())
+				/*if (controlsBtn.getPopupVisible())
 				controlsBtn.setPopupVisible(false);
-				else				
+				else	*/			
 				controlsBtn.setPopupVisible(true);
 			}
 		});

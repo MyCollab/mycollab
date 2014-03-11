@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.PropertyParam;
@@ -69,6 +70,13 @@ public class CaseSearchCriteria extends SearchCriteria {
 
 	public static Param p_assignee = new PropertyListParam("case-assignuser",
 			"Assignee", "m_crm_case", "assignUser");
+
+	public static Param p_createdtime = new DateParam("case-createdtime",
+			"Created Time", "m_crm_case", "createdTime");
+
+	public static Param p_lastupdatedtime = new DateParam(
+			"case-lastupdatedtime", "Last Updated Time", "m_crm_case",
+			"lastUpdatedTime");
 
 	private StringSearchField subject;
 

@@ -90,7 +90,6 @@ public class AccountSearchCriteria extends SearchCriteria {
 
 	private StringSearchField accountname;
 	private StringSearchField assignUser;
-	private StringSearchField assignUserName;
 	private StringSearchField website;
 	private SetSearchField<String> types;
 	private SetSearchField<String> industries;
@@ -172,14 +171,6 @@ public class AccountSearchCriteria extends SearchCriteria {
 
 	public void setAssignUsers(SetSearchField<String> assignUsers) {
 		this.assignUsers = assignUsers;
-	}
-
-	public StringSearchField getAssignUserName() {
-		return assignUserName;
-	}
-
-	public void setAssignUserName(StringSearchField assignUserName) {
-		this.assignUserName = assignUserName;
 	}
 
 	public StringSearchField getAnyPhone() {

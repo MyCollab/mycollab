@@ -15,26 +15,31 @@ public class AbstractProjectPageView extends AbstractPageView{
 	private static final long serialVersionUID = 1L;
 	private Label headerText;
 	private CssLayout headerRight;
+	private CssLayout contentWrapper;
 	private Image titleIcon;
 	public AbstractProjectPageView(String headerText, String iconName) {
 		super();
-		
+
 		this.headerRight = new CssLayout();
 		this.titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/project/"+iconName));
 		this.headerText = new Label(headerText);
-		this.addComponent(constructHeader());
+		super.addComponent(constructHeader());
+
+		contentWrapper = new CssLayout();
+		contentWrapper.setStyleName("content-wrapper");
+		super.addComponent(contentWrapper);
 
 	}
 	public ComponentContainer constructHeader() {
 		HorizontalLayout header = new HorizontalLayout();
 		this.headerText.setStyleName("hdr-text");
-		
+
 		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(header, headerRight, Alignment.MIDDLE_RIGHT);
 		header.setExpandRatio(headerText, 1.0f);
-				
+
 		header.setStyleName("hdr-view");
 		header.setWidth("100%");
 		header.setSpacing(true);
@@ -43,5 +48,10 @@ public class AbstractProjectPageView extends AbstractPageView{
 	}
 	public void addHeaderRightContent(Component c) {
 		headerRight.addComponent(c);
+	}
+
+	@Override
+	public void addComponent(Component c) {
+		contentWrapper.addComponent(c);
 	}
 }

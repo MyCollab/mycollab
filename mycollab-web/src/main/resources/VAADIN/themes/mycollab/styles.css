@@ -272,6 +272,10 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	background-image:none;
 }
 
+.v-popupbutton .v-button-wrap, .v-popupbutton:active .v-button-wrap {
+	padding:6px 8px;
+}
+
 .v-button, .splitbutton .v-button.v-disabled
 	{
 	/*background-image: url("icons/grad-dark-bottom2.png");*/
@@ -286,6 +290,12 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	/* padding: 3px 13px; */
 	background-image:none;
 	padding:0;
+}
+
+.v-button.v-button-blankbtn {
+	background-color:#8FAFAFA;
+	font-weight:normal;
+	border-color:#B3B3B3;
 }
 
 .v-button-blankbtn:active, .v-button-blankbtn:hover, .v-button-blankbtn:focus {
@@ -461,6 +471,9 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	border-bottom-right-radius:0;
 	
 }
+.splitbutton .parent-button.blankbtn .v-button-wrap {
+	border-right-color: #B3B3B3;
+}
 .splitbutton .parent-button .v-button-wrap {
 	border-right:1px solid #F9F9F9;
 	padding-right:6px;
@@ -549,8 +562,6 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 .v-table-body-wrapper.v-table-body {
 	height: 100% !important;
 	border-width: 0px 1px 1px 1px;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
 }
 
 .v-table-cell-wrapper {
@@ -879,39 +890,15 @@ input.v-textfield-pagedtable-pagefield {
 /* End Top Menu */
 
 /* Advanced Search Template */
-.advSearch {
-	background-color: #F5F5F5;
-	/* margin: 10px 0px 0px; */
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border: 1px solid #8F8F8F;
-}
-
-.advSearch .advSearchHeader {
-	background: url('icons/grad-light-top2.png') repeat-x 0 0 #e7e7e7;
-	border-radius: 3px 3px 0px 0px;
-	border-bottom: 1px solid #BCBCBC;
-}
-
-.advSearchHeader .v-horizontallayout.v-margin-top {
-	padding-top: 3px;
-}
-
-.advSearchHeader .v-horizontallayout.v-margin-right {
-	padding-right: 5px;
-}
-.advSearchHeader .v-horizontallayout.v-margin-bottom {
-	padding-bottom: 3px;
-}
-.advSearchHeader .v-horizontallayout.v-margin-left {
-	padding-left: 15px;
-}
 
 .advSearch .advSearchHeader .h2 {
 	padding-top: 0px;
 	font-size: 13px;
+}
+
+.advSearch .advSearchBody {
+	border: 1px solid #CFCFCF;
+	background-color: #F7F7F7;
 }
 
 .advSearch .advSearchBody .v-label {
@@ -921,6 +908,10 @@ input.v-textfield-pagedtable-pagefield {
 .advSearch .advSearchFooterContainer {
 	width: 100%;
 	padding: 20px 0px 5px;
+	border-color: #CFCFCF;
+	border-width: 0px 1px 1px;
+	border-style: solid;
+	background-color: #F7F7F7;
 }
 
 .advSearch .advSearchFooterContainer .advSearchFooter {
@@ -937,54 +928,11 @@ input.v-textfield-pagedtable-pagefield {
 /* End Advanced Search Template */
 
 /* Basic Search Template */
-.basicSearch {
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5),
-		to(#DDDDDD));
-	background-image: -webkit-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -ms-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -o-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-color: #F5F5F5;
-	/* margin: 10px 0px 0px; */
-	border-top-left-radius: 3px;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border: 1px solid #BCBCBC;
-}
 
-.basicSearch .basicSearchHeader {
-	background: url('icons/grad-light-top2.png') repeat-x 0 0 #e7e7e7;
-	border-radius: 3px 3px 0px 0px;
-	border-bottom: 1px solid #BCBCBC;
-}
-
-/*.basicSearchHeader .v-horizontallayout.v-margin-top {
-	padding-top: 3px;
-}
-.basicSearchHeader .v-horizontallayout.v-margin-right {
-	padding-right: 5px;
-}
-.basicSearchHeader .v-horizontallayout.v-margin-bottom {
-	padding-bottom: 3px;
-}
-.basicSearchHeader .v-horizontallayout.v-margin-left {
-	padding-left: 15px;
-}
-
-.basicSearchHeader .v-horizontallayout-control-buttons .v-horizontallayout-margin
-	{
-	padding: 0px;
-}
-
-.basicSearch .basicSearchHeader .h2 {
-	padding-top: 0px;
-	font-size: 13px;
-}
-*/
 .basicSearch .basicSearchBody {
-	background-color: #f5f5f5;
+	background-color: #F7F7F7;
+	border: 1px solid #CFCFCF;
+	border-radius: 0;
 }
 
 .basicSearch .basicSearchBody>.v-horizontallayout .v-horizontallayout-margin
@@ -1350,14 +1298,9 @@ input.v-textfield-errorField {
 /* End Login Form */
 
 /* Add View Styles */
-.addViewLayout {
-	background-color: #F5F5F5;
-	margin: 10px 2px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
-	border: 1px solid #8F8F8F;
+.addViewBody {
+	background-color: #FFFFFF;
+	border: 1px solid #CFCFCF;
 }
 
 .addViewLayout .addViewTopControls {
@@ -1389,13 +1332,21 @@ input.v-textfield-errorField {
 	padding: 0px;
 }
 
+.addViewTitle {
+	padding: 10px 5px 10px 18px;
+	background: none repeat-x left top #EEEEEE;
+	border-color: #cfcfcf;
+	border-style: solid;
+	border-width: 1px 1px 0px;
+	font-size: 15px;
+}
+.addViewTitle .v-label {
+	font-size: 15px;
+	color: #303030;
+}
+
 .addViewHeader {
-	height: 25px;
-	padding: 3px 5px 3px 18px;
-	background: url('icons/grad-light-top2.png') repeat-x left top
-		rgb(227, 227, 227);
-	border-radius: 3px 3px 0px 0px;
-	border-bottom: 1px solid rgb(169, 169, 169);
+	padding: 12px 0px;
 }
 
 .addViewHeader .addViewHeaderLeft {
@@ -1412,6 +1363,12 @@ input.v-textfield-errorField {
 }
 
 .addViewLayout .addViewHeader .headerName {
+	font-size: 15px;
+	font-weight: bold;
+	color: #525252;
+}
+
+.addViewLayout .addViewTitle .titleName {
 	font-size: 13px;
 	font-weight: bold;
 /* 	margin-top: 3px; */
@@ -1821,11 +1778,12 @@ input.v-textfield-errorField {
 }
 
 .projectDashboardView .addViewLayout {
-	border: 1px solid rgb(169, 169, 169);
+	/* border: 1px solid rgb(169, 169, 169);
 	background: none no-repeat left top rgb(245, 245, 245);
 	box-shadow: none;
 	margin: 0px 0px 10px;
-	border-radius: 3px 3px 0px 0px;
+	border-radius: 3px 3px 0px 0px; */
+	padding: 0px 30px 10px;
 }
 
 .projectDashboardView .addViewLayout .h2 {
@@ -2054,20 +2012,20 @@ input.v-textfield-errorField {
 .depotComp .depotHeader {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #BCBCBC;
+	border-color: #CFCFCF;
 	border-radius: 0px;
 	background: none no-repeat 0 0 #F1F1F1;
 }
 
 .depotComp .depotHeader .header-elements.colored-header .v-button .v-button-caption
 	{
-	color: white;
+	/* color: white; */
 }
 
 .depotComp .depotHeader .header-elements.colored-header .v-popupbutton .v-popup-indicator
 	{
-	background: url("icons/sprites-white.png") no-repeat scroll -5px -10px
-		transparent;
+	/* background: url("icons/sprites-white.png") no-repeat scroll -5px -10px
+		transparent; */
 }
 
 .depotComp.collapsed .header-wrapper {
@@ -2108,7 +2066,7 @@ input.v-textfield-errorField {
 }
 
 .depotComp .header-elements.colored-header {
-	background-color: rgb(113, 113, 113);
+	/* background-color: rgb(113, 113, 113); */
 }
 .depotComp .header-elements.v-margin-top {
 	padding-top: 3px;
@@ -2802,19 +2760,19 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 	padding: 3px 7px 3px 2px;
 }
 
-.v-popupbutton.bluebtn .v-popup-indicator, .v-popupbutton.graybtn .v-popup-indicator
+.v-popupbutton.bluebtn .v-popup-indicator
 	{
-	/* background: url("icons/sprites.png") no-repeat scroll -5px -10px
-		transparent; */
+	background: url("icons/sprites.png") no-repeat scroll -5px -10px
+		transparent;
 }
 /* End Split button*/
 
 /* New Table */
 .v-table-header-wrap {
-	background: none no-repeat 0 0 rgb(245, 245, 245);
+	background: none no-repeat 0 0 #EEEEEE;
 	border-radius: 0px;
 	border-width: 0 1px 1px 1px;
-	border-bottom: 1px solid #A9A9A9;
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .v-table-header-wrap .v-table-caption-container {
@@ -2854,7 +2812,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 }
 
 .v-table-row-spacer {
-	background: none no-repeat 0 0 rgb(212, 223, 239);
+	background: none no-repeat 0 0 #F7F7F7;
 }
 /* End New Table */
 
@@ -3576,16 +3534,6 @@ div.v-lazyloadingwrapper-loading {
 	font-size: 14px;
 }
 
-.standupreport-list-content {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	border-width: 0px 1px 1px 1px;
-	border-style: solid;
-	border-color: rgb(169, 169, 169);
-	background-color: rgb(245, 245, 245);
-}
-
 .standupreport-list-content .depotComp {
 	margin: 0px;
 }
@@ -3608,6 +3556,31 @@ div.v-lazyloadingwrapper-loading {
 .standupreport-list-content .depotComp .depotContent.v-margin-left
 {
 	padding-left: 10px;
+}
+
+.standup-block {
+	background-color: #F7F7F7;
+	border: 1px solid #CFCFCF;
+}
+.standup-block .report-content {
+	border-left: 1px solid #CFCFCF;
+	background-color: #FFFFFF;
+}
+.standup-block .report-content.v-margin-top {
+	padding-top: 20px;
+}
+.standup-block .report-content.v-margin-right {
+	padding-right: 20px;
+}
+.standup-block .report-content.v-margin-bottom {
+	padding-bottom: 20px;
+}
+.standup-block .report-content.v-margin-left {
+	padding-left: 20px;
+}
+.standup-block .report-content .v-label.h2 {
+	color: #a56116;
+	font-size: 14px;
 }
 /* End StandUp Report List */
 
@@ -3817,8 +3790,8 @@ div.v-lazyloadingwrapper-loading {
 
 /* Stand Up List View */
 .v-label.standup-row-content {
-	padding: 10px 0px 10px 20px;
-	font-size: 12px
+	padding: 10px 0px 10px 0px;
+	font-size: 13px;
 }
 
 .v-label.standup-row-content ul {
@@ -4922,7 +4895,7 @@ div.v-ratingstars-bar {
 .table-actionctls {
 	border-width: 0 1px 1px 1px;
 	border-style: solid;
-	border-color: rgb(169, 169, 169);
+	border-color: #CFCFCF;
 	background-color: rgb(245, 245, 245);
 	padding: 5px 6px 5px 14px;
 }
@@ -4955,8 +4928,8 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 .v-label.separator {
 	border-right: 1px solid rgb(169, 169, 169);
-	padding-left: 3px;
-	margin-right: 3px;
+	/* padding-left: 3px; */
+	/* margin-right: 3px; */
 }
 
 .v-label-hr {
@@ -5509,11 +5482,8 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	border-width: 0px 1px;
-	border-style: solid;
-	border-color: rgb(169, 169, 169);
-	background-color: rgb(245, 245, 245);
-	border: 1px solid rgb(169, 169, 169);
+	background-color: #F7F7F7;
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .timeAdd-popup .popup-header {
@@ -5525,7 +5495,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	font-weight: bold;
 	text-align: left;
 	padding-top: 8px;
-	border-bottom: 1px solid rgb(169, 169, 169);
+	border-bottom: 1px solid #CFCFCF;
 }
 
 .timeAdd-popup .popup-groupBtn {
@@ -5840,7 +5810,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 /* new splitbutton */
 .splitbutton .v-button,.splitbutton .v-button.v-disabled,.splitbutton .v-button:active
 {
-	font-weight: bold;
+	/* font-weight: bold; */
 }
 .splitbutton .v-button.bluebtn {
 	/* background-color: rgb(37, 153, 200); */
@@ -6263,15 +6233,29 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .splitbutton .v-button.action-button .v-button-wrap:active {
 	border-top-color: #C7C7C7;
 }	
+.splitbutton .parent-button.action-button .v-button-wrap {
+	padding-left:11px;
+	padding-right:11px;
+}
 .splitbutton .v-button.action-button .v-icon {
 	margin-right:0;
 }
 
 /* New View's Styles */
-.hdr-view, .v-horizontallayout.hdr-view, .advSearchHeader .v-horizontallayout.hdr-view, .basicSearchHeader .hdr-view{
+.hdr-view, .v-horizontallayout.hdr-view, .advSearchHeader .v-horizontallayout.hdr-view, .basicSearchHeader .hdr-view {
 	background-color: #FFFFFF;
-	/* border-bottom: 1px solid #CFCFCF; */
-	padding: 12px 30px;
+}
+.hdr-view.v-margin-top, .advSearchHeader .hdr-view.v-margin-top, .basicSearchHeader .hdr-view.v-margin-top {
+	padding-top: 12px;
+}
+.hdr-view.v-margin-right, .advSearchHeader .hdr-view.v-margin-right, .basicSearchHeader .hdr-view.v-margin-right {
+	padding-right: 30px;
+}
+.hdr-view.v-margin-bottom, .advSearchHeader .hdr-view.v-margin-bottom, .basicSearchHeader .hdr-view.v-margin-bottom {
+	padding-bottom: 12px;
+}
+.hdr-view.v-margin-left, .advSearchHeader .hdr-view.v-margin-left, .basicSearchHeader .hdr-view.v-margin-left {
+	padding-left: 30px;
 }
 .hdr-view .hdr-text,.hdr-view .hdr-text  span{
 	font-size: 15px;
@@ -6282,7 +6266,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	height:14px;
 }
 .view-content {
-	padding: 12px;
+	padding: 12px 0px;
 }
 
 .basicSearchHeader .v-horizontallayout.hdr-view, .advSearchHeader .v-horizontallayout.hdr-view {
@@ -6394,4 +6378,11 @@ img.icon-btn {
 .v-buttongroup.navigation-btns .v-button-caption {
 	font-size: 16px;
 	font-weight: bold;
+}
+/* Project Page View */
+.project-module .page-view.v-margin-left {
+	padding-left: 30px;
+}
+.project-module .page-view.v-margin-right {
+	padding-right: 30px;
 }

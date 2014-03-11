@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -32,15 +34,19 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -60,7 +66,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 	protected MilestoneTaskGroupListComp associateTaskGroupListComp;
 
 	MilestoneReadComp() {
-		super("Milestone detail", MyCollabResource
+		super("Phase detail", MyCollabResource
 				.newResource("icons/22/project/phase_selected.png"));
 	}
 
@@ -123,7 +129,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new MilestoneFormLayoutFactory();
+		return new FormLayoutFactory();
 	}
 
 	@Override
@@ -141,6 +147,51 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 
 	protected void displayTaskGroups() {
 		this.associateTaskGroupListComp.displayTakLists(this.beanItem);
+	}
+
+	private class FormLayoutFactory implements IFormLayoutFactory {
+		private static final long serialVersionUID = -180624742521398683L;
+		private GridFormLayoutHelper informationLayout;
+
+		@Override
+		public boolean attachField(final Object propertyId, final Field<?> field) {
+			if (propertyId.equals("startdate")) {
+				this.informationLayout.addComponent(field, "Start Date", 0, 0);
+			} else if (propertyId.equals("enddate")) {
+				this.informationLayout.addComponent(field, "End Date", 0, 1);
+			} else if (propertyId.equals("owner")) {
+				this.informationLayout.addComponent(field, LocalizationHelper
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 0);
+			} else if (propertyId.equals("status")) {
+				this.informationLayout.addComponent(field, "Status", 1, 1);
+			} else if (propertyId.equals("numOpenTasks")) {
+				this.informationLayout.addComponent(field, "Tasks", 0, 2);
+			} else if (propertyId.equals("numOpenBugs")) {
+				this.informationLayout.addComponent(field, "Bugs", 1, 2);
+			} else if (propertyId.equals("description")) {
+				this.informationLayout.addComponent(field, "Description", 0, 3, 2,
+						"100%");
+			} else {
+				return false;
+			}
+
+			return true;
+		}
+
+		@Override
+		public Layout getLayout() {
+			final VerticalLayout layout = new VerticalLayout();
+
+			this.informationLayout = new GridFormLayoutHelper(2, 4, "100%",
+					"145px", Alignment.MIDDLE_LEFT);
+			this.informationLayout.getLayout().setWidth("100%");
+			this.informationLayout.getLayout().addStyleName("colored-gridlayout");
+			this.informationLayout.getLayout().setMargin(false);
+			layout.addComponent(this.informationLayout.getLayout());
+			layout.setComponentAlignment(this.informationLayout.getLayout(),
+					Alignment.BOTTOM_CENTER);
+			return layout;
+		}
 	}
 
 	private class MilestoneFormFieldFactory extends

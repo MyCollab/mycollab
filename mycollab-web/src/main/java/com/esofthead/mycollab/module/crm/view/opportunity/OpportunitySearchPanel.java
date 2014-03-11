@@ -69,7 +69,10 @@ public class OpportunitySearchPanel extends
 			OpportunitySearchCriteria.p_campaign,
 			OpportunitySearchCriteria.p_leadSource,
 			OpportunitySearchCriteria.p_saleStage,
-			OpportunitySearchCriteria.p_type };
+			OpportunitySearchCriteria.p_type,
+			OpportunitySearchCriteria.p_expectedcloseddate,
+			OpportunitySearchCriteria.p_createdtime,
+			OpportunitySearchCriteria.p_lastupdatedtime };
 
 	protected OpportunitySearchCriteria searchCriteria;
 

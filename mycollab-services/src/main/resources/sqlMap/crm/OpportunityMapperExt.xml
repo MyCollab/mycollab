@@ -5,6 +5,10 @@
     <resultMap
         extends="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.ResultMapWithBLOBs"
         id="SimpleOpportunityResult" type="com.esofthead.mycollab.module.crm.domain.SimpleOpportunity">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="accountName" jdbcType="VARCHAR" property="accountName" />
         <result column="campaignName" jdbcType="VARCHAR"
             property="campaignName" />
@@ -146,11 +150,14 @@
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                m_crm_account.accountName, m_crm_campaign.campaignName,
                s_currency.id, s_currency.shortname AS curr_shortname,  s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
-               s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate
+               s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate,
+               createdUserTabl.avatarId AS createdUserAvatarId,
+               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
       
         FROM m_crm_opportunity
                LEFT OUTER JOIN m_crm_account ON (m_crm_opportunity.accountid=m_crm_account.id)
                LEFT OUTER JOIN s_user ON (m_crm_opportunity.assignUser = s_user.username)
+               LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_opportunity.createdUser = createdUserTabl.username)
                LEFT OUTER JOIN m_crm_campaign ON (m_crm_opportunity.campaignid = m_crm_campaign.id) 
                LEFT OUTER JOIN s_currency ON (m_crm_opportunity.currencyid=s_currency.id)
         ]]>

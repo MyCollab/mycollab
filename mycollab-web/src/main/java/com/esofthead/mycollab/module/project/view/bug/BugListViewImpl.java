@@ -37,10 +37,10 @@ import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
-import com.esofthead.mycollab.vaadin.ui.AbstractProjectPageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -48,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.server.StreamResource;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -65,7 +66,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class BugListViewImpl extends AbstractProjectPageView implements BugListView {
+public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 	private static final long serialVersionUID = 1L;
 	private final BugSearchPanel bugSearchPanel;
@@ -74,24 +75,25 @@ public class BugListViewImpl extends AbstractProjectPageView implements BugListV
 	private SplitButton exportButtonControl;
 
 	public BugListViewImpl() {
-		super(LocalizationHelper.getMessage(BugI18nEnum.BUG_SEARCH_TITLE), "bug_selected.png");
+		/*super(LocalizationHelper.getMessage(BugI18nEnum.BUG_SEARCH_TITLE), "bug_selected.png");
 
 		this.addHeaderRightContent(createHeaderRight());
-		
+
 		CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");
-		
+		contentWrapper.setStyleName("content-wrapper");*/
+		this.setMargin(new MarginInfo(false, true, false, true));
+
 		this.bugSearchPanel = new BugSearchPanel();
-		contentWrapper.addComponent(this.bugSearchPanel);
+		addComponent(this.bugSearchPanel);
 
 		this.bugListLayout = new VerticalLayout();
-		contentWrapper.addComponent(this.bugListLayout);
+		addComponent(this.bugListLayout);
 
 		this.generateDisplayTable();
-		this.addComponent(contentWrapper);
-		
+		//this.addComponent(contentWrapper);
+
 	}
-	
+
 	private void generateDisplayTable() {
 
 		this.tableItem = new BugTableDisplay(BugListView.VIEW_DEF_ID,
@@ -306,7 +308,7 @@ public class BugListViewImpl extends AbstractProjectPageView implements BugListV
 			this.bugSearchPanel.setBugTitle(title);
 		}
 	}
-	
+
 	private HorizontalLayout createHeaderRight() {
 		final HorizontalLayout layout = new HorizontalLayout();
 		final Button createAccountBtn = new Button(
@@ -326,7 +328,7 @@ public class BugListViewImpl extends AbstractProjectPageView implements BugListV
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_LEFT);
-		
+
 		return layout;
 	}
 }

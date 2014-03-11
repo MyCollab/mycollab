@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.ConcatStringParam;
+import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.PropertyParam;
@@ -83,6 +84,13 @@ public class ContactSearchCriteria extends SearchCriteria {
 
 	public static Param p_assignee = new PropertyListParam(
 			"contact-assignuser", "Assignee", "m_crm_contact", "assignUser");
+
+	public static Param p_createdtime = new DateParam("contact-createdtime",
+			"Created Time", "m_crm_contact", "createdTime");
+
+	public static Param p_lastupdatedtime = new DateParam(
+			"contact-lastupdatedtime", "Last Updated Time", "m_crm_contact",
+			"lastUpdatedTime");
 
 	private StringSearchField contactName;
 	private SetSearchField<String> assignUsers;

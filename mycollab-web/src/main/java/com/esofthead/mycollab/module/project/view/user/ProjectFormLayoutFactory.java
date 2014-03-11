@@ -53,7 +53,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
 		final Layout topPanel = this.createTopPanel();
 		if (topPanel != null) {
-			projectAddLayout.addTopControls(topPanel);
+			projectAddLayout.addHeaderRight(topPanel);
 		}
 
 		projectAddLayout.addBody(this.projectInformationLayout.getLayout());
@@ -133,7 +133,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
 				this.informationLayout
-						.addComponent(field, "Project Name", 0, 0);
+				.addComponent(field, "Project Name", 0, 0);
 			} else if (propertyId.equals("homepage")) {
 				this.informationLayout.addComponent(field, "Home Page", 1, 0);
 			} else if (propertyId.equals("shortname")) {

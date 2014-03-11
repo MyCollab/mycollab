@@ -24,9 +24,10 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 	private Button assignBtn;
 	private boolean haveAssignButton;
-	
+
 	private SplitButton optionBtn;
 	private Button optionParentBtn;
 	private VerticalLayout popupButtonsControl;
@@ -64,7 +65,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
-		layout.setMargin(true);
 		layout.setWidth("100%");
 
 		backBtn = new Button(null, new Button.ClickListener() {
@@ -78,10 +78,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		});
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 		backBtn.setDescription("Back to list");
-		backBtn.setStyleName("link");
-		//UiUtils.addComponent(layout, backBtn, Alignment.MIDDLE_LEFT);
-		
-		
+		backBtn.setStyleName("link");		
 
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
@@ -108,52 +105,52 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
 				new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						final T item = previewForm.getBean();
-						previewForm.fireDeleteForm(item);
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				final T item = previewForm.getBean();
+				previewForm.fireDeleteForm(item);
+			}
+		});
 		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
 		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
 
-	
 		optionParentBtn = new Button("Option",
 				new Button.ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (optionBtn.getPopupVisible())
+				/*	if (optionBtn.getPopupVisible())
 				optionBtn.setPopupVisible(false);
-				else				
+				else*/				
 				optionBtn.setPopupVisible(true);
 			}
 		});
-		
+
 		optionBtn = new SplitButton(optionParentBtn);
 		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-		
+
+
 		popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setWidth("100px");
-		
-		
+		popupButtonsControl.setMargin(true);
+
 		editBtn = new Button(GenericBeanForm.EDIT_ACTION,
 				new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						optionBtn.setPopupVisible(false);
-						final T item = previewForm.getBean();
-						previewForm.fireEditForm(item);
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				optionBtn.setPopupVisible(false);
+				final T item = previewForm.getBean();
+				previewForm.fireEditForm(item);
+			}
+		});
 		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
 		editBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editBtn);
@@ -178,7 +175,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		optionBtn.setContent(popupButtonsControl);
 		editButtons.addComponent(optionBtn);
 		editButtons.setComponentAlignment(optionBtn, Alignment.MIDDLE_CENTER);
-		
+
 		layout.addComponent(editButtons);
 		layout.setComponentAlignment(editButtons, Alignment.MIDDLE_CENTER);
 		layout.setExpandRatio(editButtons, 1.0f);
@@ -237,7 +234,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		return layout;
 	}
 
-	public void insertToControlBlock(Button button) {
+	public void insertToControlBlock(Component button) {
 		editButtons.addComponent(button, 0);
 	}
 

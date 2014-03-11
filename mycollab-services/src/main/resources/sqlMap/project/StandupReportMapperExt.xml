@@ -84,12 +84,11 @@
     <select id="getTotalCount" resultType="int"
         parameterType="StandupReportSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_standup
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+         #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </select>
 
     <select id="findPagableListByCriteria" resultMap="StandupResult"

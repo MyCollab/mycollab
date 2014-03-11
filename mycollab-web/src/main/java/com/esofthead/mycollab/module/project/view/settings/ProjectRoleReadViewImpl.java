@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.shared.ui.MarginInfo;
 
 /**
  * 
@@ -30,7 +29,7 @@ import com.vaadin.shared.ui.MarginInfo;
  */
 @ViewComponent
 public class ProjectRoleReadViewImpl extends AbstractPageView implements
-		ProjectRoleReadView {
+ProjectRoleReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +37,6 @@ public class ProjectRoleReadViewImpl extends AbstractPageView implements
 
 	public ProjectRoleReadViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(true, false, true, false));
 		this.roleReadComp = new ProjectRoleReadComp();
 		this.addComponent(this.roleReadComp);
 	}

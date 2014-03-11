@@ -24,13 +24,15 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class ProjectMemberSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
 	private NumberSearchField projectId;
 
 	private NumberSearchField id;
-	
+
 	private StringSearchField status;
 
 	public NumberSearchField getId() {

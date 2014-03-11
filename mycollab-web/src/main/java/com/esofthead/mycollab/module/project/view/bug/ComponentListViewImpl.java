@@ -79,7 +79,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ComponentListViewImpl extends AbstractPageView implements
-		ComponentListView {
+ComponentListView {
 	private static Logger log = LoggerFactory
 			.getLogger(ComponentListViewImpl.class);
 
@@ -93,7 +93,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 
 	public ComponentListViewImpl() {
 
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.componentSearchPanel = new ComponentSearchPanel();
 		this.addComponent(this.componentSearchPanel);
@@ -109,92 +109,92 @@ public class ComponentListViewImpl extends AbstractPageView implements
 				ApplicationContextUtil.getSpringBean(ComponentService.class),
 				SimpleComponent.class, new TableViewField("", "selected",
 						UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-						new TableViewField("Name", "componentname",
-								UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField("Lead Name", "userLeadFullName",
-								UIConstants.TABLE_X_LABEL_WIDTH),
-						new TableViewField("Description", "description",
-								UIConstants.TABLE_EX_LABEL_WIDTH)));
+								new TableViewField("Name", "componentname",
+										UIConstants.TABLE_EX_LABEL_WIDTH),
+										new TableViewField("Lead Name", "userLeadFullName",
+												UIConstants.TABLE_X_LABEL_WIDTH),
+												new TableViewField("Description", "description",
+														UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				cb.setImmediate(true);
+				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Object generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final CheckBoxDecor cb = new CheckBoxDecor("", false);
-						cb.setImmediate(true);
-						cb.addValueChangeListener(new Property.ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void valueChange(ValueChangeEvent event) {
-								final SimpleComponent component = ComponentListViewImpl.this.tableItem
-										.getBeanByIndex(itemId);
-								ComponentListViewImpl.this.tableItem
-										.fireSelectItemEvent(component);
-
-							}
-						});
-
+					public void valueChange(ValueChangeEvent event) {
 						final SimpleComponent component = ComponentListViewImpl.this.tableItem
 								.getBeanByIndex(itemId);
-						component.setExtraData(cb);
-						return cb;
+						ComponentListViewImpl.this.tableItem
+						.fireSelectItemEvent(component);
+
 					}
 				});
+
+				final SimpleComponent component = ComponentListViewImpl.this.tableItem
+						.getBeanByIndex(itemId);
+				component.setExtraData(cb);
+				return cb;
+			}
+		});
 
 		this.tableItem.addGeneratedColumn("componentname",
 				new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public com.vaadin.ui.Component generateCell(
+					final Table source, final Object itemId,
+					final Object columnId) {
+				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
+						.getBeanByIndex(itemId);
+				final ButtonLink b = new ButtonLink(bugComponent
+						.getComponentname(),
+						new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						final ButtonLink b = new ButtonLink(bugComponent
-								.getComponentname(),
-								new Button.ClickListener() {
-									private static final long serialVersionUID = 1L;
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										EventBus.getInstance().fireEvent(
-												new BugComponentEvent.GotoRead(
-														this, bugComponent
-																.getId()));
-									}
-								});
-						if (bugComponent.getStatus() != null
-								&& bugComponent.getStatus().equals("Close")) {
-							b.addStyleName(UIConstants.LINK_COMPLETED);
-						}
-						b.setDescription(generateToolTip(bugComponent));
-						return b;
-
+					public void buttonClick(
+							final Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new BugComponentEvent.GotoRead(
+										this, bugComponent
+										.getId()));
 					}
 				});
+				if (bugComponent.getStatus() != null
+						&& bugComponent.getStatus().equals("Close")) {
+					b.addStyleName(UIConstants.LINK_COMPLETED);
+				}
+				b.setDescription(generateToolTip(bugComponent));
+				return b;
+
+			}
+		});
 
 		this.tableItem.addGeneratedColumn("userLeadFullName",
 				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						return new ProjectUserLink(bugComponent.getUserlead(),
-								bugComponent.getUserLeadAvatarId(),
-								bugComponent.getUserLeadFullName());
+			@Override
+			public com.vaadin.ui.Component generateCell(
+					final Table source, final Object itemId,
+					final Object columnId) {
+				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
+						.getBeanByIndex(itemId);
+				return new ProjectUserLink(bugComponent.getUserlead(),
+						bugComponent.getUserLeadAvatarId(),
+						bugComponent.getUserLeadFullName());
 
-					}
-				});
+			}
+		});
 
 		this.tableItem.setWidth("100%");
 
@@ -302,15 +302,15 @@ public class ComponentListViewImpl extends AbstractPageView implements
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Component Name:"))
-					.appendChild(
-							new Td().appendText(StringUtils
-									.getStringFieldValue(component
-											.getComponentname())));
+							.appendChild(
+									new Td().appendText(StringUtils
+											.getStringFieldValue(component
+													.getComponentname())));
 
 			Tr trRow2 = new Tr();
 			Td trRow2_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+			.setStyle(
+					"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
 							StringUtils.getStringRemoveHtmlTag(component
 									.getDescription()));
@@ -319,36 +319,36 @@ public class ComponentListViewImpl extends AbstractPageView implements
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Description:")).appendChild(
-					trRow2_value);
+									trRow2_value);
 			Tr trRow3 = new Tr();
 			trRow3.appendChild(
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Lead:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(component.getUserlead() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	AppContext
+							.appendChild(
+									new Td().setStyle(
+											"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+											.appendChild(
+													new A().setHref(
+															(component.getUserlead() != null) ? UserLinkUtils
+																	.generatePreviewFullUserLink(
+																			AppContext
 																			.getSiteUrl(),
-																	component
+																			component
 																			.getUserlead())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					component
-																							.getUserLeadAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(component
-																			.getUserLeadFullName()))));
+																			: "")
+																			.appendChild(
+																					new Img(
+																							"",
+																							UserAvatarControlFactory
+																							.getAvatarLink(
+																									component
+																									.getUserLeadAvatarId(),
+																									16)))
+																									.appendText(
+																											StringUtils
+																											.getStringFieldValue(component
+																													.getUserLeadFullName()))));
 
 			table.appendChild(trRow1);
 			table.appendChild(trRow2);

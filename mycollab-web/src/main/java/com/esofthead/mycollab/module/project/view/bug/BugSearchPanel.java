@@ -46,17 +46,16 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -96,7 +95,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		this.setCompositionRoot(layout);
 	}
 
-	
+
 	public void setBugTitle(final String title) {
 		this.bugtitle.setValue(title);
 	}
@@ -120,17 +119,19 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
-			basicSearchBody.addComponent(new Label("Name"));
+			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
+
+			final HorizontalLayout comboSearchField = new HorizontalLayout();
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
-					Alignment.MIDDLE_CENTER);
-			this.myItemCheckbox = new CheckBox("My Items");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+			UiUtils.addComponent(comboSearchField, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button("Search");
-			searchBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
+			final Button searchBtn = new Button();
+			searchBtn.setStyleName("search-icon-button");
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search_white.png"));
+
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {
@@ -139,8 +140,13 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					.notifySearchHandler(BugSearchPanel.this.searchCriteria);
 				}
 			});
-			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-			basicSearchBody.addComponent(searchBtn);
+			UiUtils.addComponent(comboSearchField, searchBtn,
+					Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(basicSearchBody, comboSearchField, Alignment.MIDDLE_CENTER);
+
+			this.myItemCheckbox = new CheckBox("My Items");
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+					Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button("Clear");
 			cancelBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
@@ -150,7 +156,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					BugBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
@@ -177,6 +183,44 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			.setSummary(new StringSearchField(this.nameField.getValue()
 					.toString().trim()));
 			return BugSearchPanel.this.searchCriteria;
+		}
+
+		@Override
+		public ComponentContainer constructHeader() {
+			Image titleIcon = new Image(null,
+					MyCollabResource.newResource("icons/22/project/bug_selected.png"));
+			Label headerText = new Label("Bug List");
+
+			final Button createBtn = new Button(
+					LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new BugEvent.GotoAdd(this, null));
+						}
+					});
+			createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			createBtn.setIcon(MyCollabResource
+					.newResource("icons/16/addRecord.png"));
+			createBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.BUGS));
+
+			HorizontalLayout header = new HorizontalLayout();
+			headerText.setStyleName("hdr-text");
+
+			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
+			header.setExpandRatio(headerText, 1.0f);
+
+			header.setStyleName("hdr-view");
+			header.setWidth("100%");
+			header.setSpacing(true);
+			header.setMargin(new MarginInfo(true, false, true, false));
+			return header;
 		}
 	}
 
@@ -336,7 +380,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					.setValue(true);
 				}
 			});
-			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			/*clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);*/
 			buttonControls.addComponent(clearBtn);
 
 			final Button basicSearchBtn = new Button("Basic Search",

@@ -49,6 +49,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.event.MouseEvents;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -75,14 +76,15 @@ ProjectMemberListView {
 
 	public ProjectMemberListViewImpl() {
 		super();
+		this.setMargin(new MarginInfo(false, true, false, true));
 		HorizontalLayout viewHeader = new HorizontalLayout();
 		viewHeader.setStyleName("hdr-view");
-		viewHeader.setMargin(true);
+		viewHeader.setMargin(new MarginInfo(true, false, true, false));
 		viewHeader.setSpacing(true);
 		viewHeader.setWidth("100%");
 		viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		viewHeader.addComponent(new Image(null, MyCollabResource.newResource("icons/22/project/menu_user.png")));
+		viewHeader.addComponent(new Image(null, MyCollabResource.newResource("icons/22/project/user_selected.png")));
 
 		Label headerText = new Label("Project Members");
 		headerText.setStyleName("hdr-text");

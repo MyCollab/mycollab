@@ -39,6 +39,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -73,7 +74,9 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 	protected AccountCaseListComp associateCaseList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
+
 	private DateInfoComp dateInfoComp;
+	private PeopleInfoComp peopleInfoComp;
 
 	public AccountReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/account.png"));
@@ -177,6 +180,8 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		peopleInfoComp = new PeopleInfoComp();
+		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
 		dateInfoComp = new DateInfoComp();
 		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 
@@ -209,6 +214,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		displayAssociateOpportunityList();
 		displayAssociateLeadList();
 
+		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 

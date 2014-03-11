@@ -62,7 +62,7 @@ public abstract class UserFormLayoutFactory implements IFormLayoutFactory {
 
 		final Layout topPanel = this.createTopPanel();
 		if (topPanel != null) {
-			userAddLayout.addTopControls(topPanel);
+			userAddLayout.addHeaderRight(topPanel);
 		}
 
 		this.userInformationLayout = new UserInformationLayout();

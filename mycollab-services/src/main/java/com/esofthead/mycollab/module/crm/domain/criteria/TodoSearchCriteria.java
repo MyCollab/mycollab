@@ -21,11 +21,15 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class TodoSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	private StringSearchField subject;
-	private StringSearchField contact;
 	private NumberSearchField contactId;
 	private NumberSearchField accountId;
 	private NumberSearchField campaignId;
@@ -36,27 +40,9 @@ public class TodoSearchCriteria extends SearchCriteria {
 	private NumberSearchField productId;
 	private NumberSearchField caseId;
 	private StringSearchField assignUser;
-	private StringSearchField type;
-	private StringSearchField status;
 	private NumberSearchField id;
 
 	private BitSearchField isClosed;
-
-	public StringSearchField getSubject() {
-		return subject;
-	}
-
-	public void setSubject(StringSearchField subject) {
-		this.subject = subject;
-	}
-
-	public StringSearchField getContact() {
-		return contact;
-	}
-
-	public void setContact(StringSearchField contact) {
-		this.contact = contact;
-	}
 
 	public NumberSearchField getContactId() {
 		return contactId;
@@ -136,22 +122,6 @@ public class TodoSearchCriteria extends SearchCriteria {
 
 	public void setAssignUser(StringSearchField assignUser) {
 		this.assignUser = assignUser;
-	}
-
-	public StringSearchField getType() {
-		return type;
-	}
-
-	public void setType(StringSearchField type) {
-		this.type = type;
-	}
-
-	public StringSearchField getStatus() {
-		return status;
-	}
-
-	public void setStatus(StringSearchField status) {
-		this.status = status;
 	}
 
 	public void setId(NumberSearchField id) {

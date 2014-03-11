@@ -466,7 +466,7 @@ div.v-table-focus-slot-right,
 input.v-textfield,
 textarea.v-textarea,
 .v-filterselect {
-	border-color: #a9a9a9;
+	border-color: #CFCFCF;
 	}
 
 
@@ -506,7 +506,7 @@ td.v-datefield-calendarpanel-month,
 .v-csslayout-toolbar,
 .v-menubar {
 	background-color: rgb(201,201,201);
-	border-color: #a9a9a9;
+	border-color: #CFCFCF;
 	}
 
 .v-button .v-button-wrap,

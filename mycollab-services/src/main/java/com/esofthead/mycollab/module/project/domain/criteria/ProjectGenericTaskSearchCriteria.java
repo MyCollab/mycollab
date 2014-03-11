@@ -25,8 +25,11 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	public static final String OPEN_STATUS = "Open";
 
 	public static final String CLOSE_STATUS = "Closed";

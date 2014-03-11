@@ -37,7 +37,7 @@ public class ProgressBarIndicator extends CustomLayoutExt {
 			final Boolean displayPercentage) {
 		super("progressBar");
 
-		float value = (total != 0) ? ((float)(total - remaining) / total) : 0;
+		float value = (total != 0) ? ((float)(total - remaining) / total) : 1;
 
 		this.progressIndicator = new ProgressBar(new Float(value));
 		this.progressIndicator.setWidth("100%");

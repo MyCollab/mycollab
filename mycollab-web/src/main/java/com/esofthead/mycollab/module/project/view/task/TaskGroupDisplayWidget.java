@@ -38,13 +38,18 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.Depot;
-import com.esofthead.mycollab.vaadin.ui.Separator;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -79,7 +84,7 @@ public class TaskGroupDisplayWidget
 	static class TaskListDepot extends Depot {
 		private static final long serialVersionUID = 1L;
 		private final SimpleTaskList taskList;
-		private PopupButton taskListFilterControl;
+		private SplitButton taskListFilterControl;
 		private PopupButton taskListActionControl;
 		private TaskDisplayComponent taskDisplayComponent;
 
@@ -97,9 +102,29 @@ public class TaskGroupDisplayWidget
 		}
 
 		private void initHeader() {
+			final HorizontalLayout headerElement = new HorizontalLayout();
+			final Button parentTaskListFilterButton = new Button("Active Tasks only",
+				
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			this.taskListFilterControl = new PopupButton("Active Tasks");
-			this.taskListFilterControl.addStyleName("link");
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						TaskListDepot.this.taskListFilterControl
+								.setPopupVisible(false);
+						TaskListDepot.this.displayActiveTasksOnly();
+					}
+				
+			}); 
+			parentTaskListFilterButton.setIcon(MyCollabResource.newResource("icons/12/project/task_filter.png"));
+			
+			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
+			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
+			
+			headerElement.setSpacing(true);
+			headerElement.setMargin(false);
+			UiUtils.addComponent(headerElement, this.taskListFilterControl, Alignment.TOP_CENTER);
+			/*taskListFilterControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);*/
 
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
 			filterBtnLayout.setMargin(true);
@@ -114,8 +139,8 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListFilterControl
 									.setPopupVisible(false);
-							TaskListDepot.this.taskListFilterControl
-									.setCaption("All Tasks");
+							/*TaskListDepot.this.taskListFilterControl
+									.setCaption("All Tasks");*/
 							TaskListDepot.this.displayAllTasks();
 						}
 					});
@@ -130,8 +155,8 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListFilterControl
 									.setPopupVisible(false);
-							TaskListDepot.this.taskListFilterControl
-									.setCaption("Active Tasks");
+							/*TaskListDepot.this.taskListFilterControl
+									.setCaption("Active Tasks Only");*/
 							TaskListDepot.this.displayActiveTasksOnly();
 						}
 					});
@@ -146,8 +171,8 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListFilterControl
 									.setPopupVisible(false);
-							TaskListDepot.this.taskListFilterControl
-									.setCaption("Pending Tasks");
+							/*TaskListDepot.this.taskListFilterControl
+									.setCaption("Pending Tasks");*/
 							TaskListDepot.this.displayPendingTasksOnly();
 						}
 					});
@@ -160,8 +185,8 @@ public class TaskGroupDisplayWidget
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							TaskListDepot.this.taskListFilterControl
-									.setCaption("Archieved Tasks");
+							/*TaskListDepot.this.taskListFilterControl
+									.setCaption("Archieved Tasks");*/
 							TaskListDepot.this.taskListFilterControl
 									.setPopupVisible(false);
 							TaskListDepot.this.displayInActiveTasks();
@@ -170,14 +195,17 @@ public class TaskGroupDisplayWidget
 			archievedTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(archievedTasksFilterBtn);
 			this.taskListFilterControl.setContent(filterBtnLayout);
-			this.addHeaderElement(this.taskListFilterControl);
+			
 
-			final Separator divider = new Separator();
-			this.addHeaderElement(divider);
+			/*final Separator divider = new Separator();
+			this.addHeaderElement(divider);*/
 
-			this.taskListActionControl = new PopupButton("Action");
-			this.taskListActionControl.addStyleName("link");
-			this.addHeaderElement(this.taskListActionControl);
+			this.taskListActionControl = new PopupButton();
+			this.taskListActionControl.addStyleName(UIConstants.THEME_BLANK_LINK);
+			this.taskListActionControl.setIcon(MyCollabResource.newResource("icons/16/option.png"));
+			taskListActionControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			UiUtils.addComponent(headerElement, this.taskListActionControl, Alignment.MIDDLE_CENTER);
+			this.addHeaderElement(headerElement);
 
 			final VerticalLayout actionBtnLayout = new VerticalLayout();
 			actionBtnLayout.setMargin(true);

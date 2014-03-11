@@ -30,12 +30,12 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.AttachmentUploadField;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormAttachmentUploadField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.AttachmentUploadField;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormAttachmentUploadField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -52,7 +52,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
-		TaskAddView {
+TaskAddView {
 
 	private static final long serialVersionUID = 1L;
 	private FormAttachmentUploadField attachmentUploadField;
@@ -68,14 +68,19 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 	}
 
 	@Override
+	protected String initFormHeader() {
+		return (beanItem.getId() == null) ? "Create Task" : "Task Edit";
+	}
+
+	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Task" : beanItem
+		return (beanItem.getId() == null) ? null : beanItem
 				.getTaskname();
 	}
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/menu_task.png");
+		return MyCollabResource.newResource("icons/22/project/task_selected.png");
 	}
 
 	@Override
@@ -108,7 +113,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 	}
 
 	private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<Task> {
+	AbstractBeanFieldGroupEditFieldFactory<Task> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<Task> form) {
@@ -145,7 +150,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 									AttachmentType.PROJECT_TASK_TYPE,
 									beanItem.getId());
 					TaskAddViewImpl.this.attachmentUploadField
-							.getAttachments(attachmentPath);
+					.getAttachments(attachmentPath);
 				}
 				return TaskAddViewImpl.this.attachmentUploadField;
 			}

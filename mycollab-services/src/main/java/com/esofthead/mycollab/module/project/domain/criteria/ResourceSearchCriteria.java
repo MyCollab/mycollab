@@ -21,12 +21,20 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ResourceSearchCriteria extends SearchCriteria {
-    private StringSearchField resourcename;
-    
-    private NumberSearchField projectId;
-    
-    private BooleanSearchField assignedToProject;
+	private static final long serialVersionUID = 1L;
+
+	private StringSearchField resourcename;
+
+	private NumberSearchField projectId;
+
+	private BooleanSearchField assignedToProject;
 
 	public StringSearchField getResourcename() {
 		return resourcename;

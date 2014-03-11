@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -59,6 +60,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	protected CaseContactListComp associateContactList;
 	protected NoteListItems noteListItems;
 	protected ActivityRelatedItemListComp associateActivityList;
+
+	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
 
 	public CaseReadViewImpl() {
@@ -88,16 +91,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		final TabSheet tabContainer = new TabSheet();
-		tabContainer.setWidth("100%");
-
-		tabContainer.addTab(noteListItems, "Notes",
-				MyCollabResource.newResource("icons/16/crm/note.png"));
-		tabContainer.addTab(this.associateContactList, "Contacts",
-				MyCollabResource.newResource("icons/16/crm/contact.png"));
-		tabContainer.addTab(this.associateActivityList, "Activities",
-				MyCollabResource.newResource("icons/16/crm/calendar.png"));
-		return tabContainer;
+		return noteListItems;
 	}
 
 	@Override
@@ -106,6 +100,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		displayActivities();
 		displayContacts();
 
+		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
@@ -121,6 +116,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		peopleInfoComp = new PeopleInfoComp();
+		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
 		dateInfoComp = new DateInfoComp();
 		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 

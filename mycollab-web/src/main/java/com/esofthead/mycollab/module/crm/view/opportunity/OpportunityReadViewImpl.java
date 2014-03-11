@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -68,6 +69,8 @@ public class OpportunityReadViewImpl extends
 	protected OpportunityLeadListComp associateLeadList;
 	protected NoteListItems noteListItems;
 	protected ActivityRelatedItemListComp associateActivityList;
+
+	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
 
 	public OpportunityReadViewImpl() {
@@ -109,6 +112,7 @@ public class OpportunityReadViewImpl extends
 		displayLeads();
 
 		dateInfoComp.displayEntryDateTime(beanItem);
+		peopleInfoComp.displayEntryPeople(beanItem);
 	}
 
 	@Override
@@ -142,6 +146,8 @@ public class OpportunityReadViewImpl extends
 		noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		peopleInfoComp = new PeopleInfoComp();
+		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
 		dateInfoComp = new DateInfoComp();
 		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 

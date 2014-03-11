@@ -6,6 +6,12 @@
         extends="com.esofthead.mycollab.module.crm.dao.LeadMapper.ResultMapWithBLOBs"
         id="SimpleLeadResult" type="com.esofthead.mycollab.module.crm.domain.SimpleLead">
 
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+            
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
+            
         <result column="assignUserAvatarId" jdbcType="VARCHAR"
             property="assignUserAvatarId" />
 
@@ -149,11 +155,14 @@
                s_user.avatarId AS assignUserAvatarId, 
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName, 
                concat (IFNULL(m_crm_lead.firstname,''), ' ', m_crm_lead.lastname) AS leadName,
-               m_crm_campaign.campaignName, m_crm_lead.website, m_crm_lead.lastUpdatedTime, m_crm_lead.noemployees
+               m_crm_campaign.campaignName, m_crm_lead.website, m_crm_lead.lastUpdatedTime, m_crm_lead.noemployees,
+               createdUserTabl.avatarId AS createdUserAvatarId,
+               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
 
         FROM m_crm_lead
                LEFT OUTER JOIN s_user ON (m_crm_lead.assignUser = s_user.username) 
                LEFT OUTER JOIN m_crm_campaign ON (m_crm_lead.campaignId = m_crm_campaign.id)
+               LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_lead.createdUser = createdUserTabl.username)
         ]]>
     </sql>
 

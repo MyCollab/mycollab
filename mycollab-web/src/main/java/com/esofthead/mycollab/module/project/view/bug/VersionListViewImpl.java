@@ -77,7 +77,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class VersionListViewImpl extends AbstractPageView implements
-		VersionListView {
+VersionListView {
 
 	private static Logger log = LoggerFactory
 			.getLogger(VersionListViewImpl.class);
@@ -92,7 +92,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 
 	public VersionListViewImpl() {
 
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.componentSearchPanel = new VersionSearchPanel();
 		this.addComponent(this.componentSearchPanel);
@@ -108,75 +108,75 @@ public class VersionListViewImpl extends AbstractPageView implements
 				ApplicationContextUtil.getSpringBean(VersionService.class),
 				SimpleVersion.class, new TableViewField("", "selected",
 						UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-						new TableViewField("Name", "versionname",
-								UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField("Description", "description",
-								UIConstants.TABLE_EX_LABEL_WIDTH)));
+								new TableViewField("Name", "versionname",
+										UIConstants.TABLE_EX_LABEL_WIDTH),
+										new TableViewField("Description", "description",
+												UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				cb.setImmediate(true);
+				cb.addValueChangeListener(new ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Object generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final CheckBoxDecor cb = new CheckBoxDecor("", false);
-						cb.setImmediate(true);
-						cb.addValueChangeListener(new ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void valueChange(ValueChangeEvent event) {
-								final SimpleVersion version = VersionListViewImpl.this.tableItem
-										.getBeanByIndex(itemId);
-								VersionListViewImpl.this.tableItem
-										.fireSelectItemEvent(version);
-
-							}
-						});
-
-						final Version version = VersionListViewImpl.this.tableItem
+					public void valueChange(ValueChangeEvent event) {
+						final SimpleVersion version = VersionListViewImpl.this.tableItem
 								.getBeanByIndex(itemId);
-						version.setExtraData(cb);
-						return cb;
+						VersionListViewImpl.this.tableItem
+						.fireSelectItemEvent(version);
+
 					}
 				});
+
+				final Version version = VersionListViewImpl.this.tableItem
+						.getBeanByIndex(itemId);
+				version.setExtraData(cb);
+				return cb;
+			}
+		});
 
 		this.tableItem.addGeneratedColumn("versionname",
 				new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final Version bugVersion = VersionListViewImpl.this.tableItem
+						.getBeanByIndex(itemId);
+				final ButtonLink b = new ButtonLink(bugVersion
+						.getVersionname(), new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Component generateCell(final Table source,
-							final Object itemId, final Object columnId) {
-						final Version bugVersion = VersionListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						final ButtonLink b = new ButtonLink(bugVersion
-								.getVersionname(), new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								EventBus.getInstance().fireEvent(
-										new BugVersionEvent.GotoRead(this,
-												bugVersion.getId()));
-							}
-						});
-						if (bugVersion.getStatus() != null
-								&& bugVersion.getStatus().equals("Close")) {
-							b.addStyleName(UIConstants.LINK_COMPLETED);
-						} else if (bugVersion.getDuedate() != null
-								&& (bugVersion.getDuedate()
-										.before(new GregorianCalendar()
-												.getTime()))) {
-							b.addStyleName(UIConstants.LINK_OVERDUE);
-						}
-						b.setDescription(generateToolTip(bugVersion));
-						return b;
-
+					public void buttonClick(
+							final Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new BugVersionEvent.GotoRead(this,
+										bugVersion.getId()));
 					}
 				});
+				if (bugVersion.getStatus() != null
+						&& bugVersion.getStatus().equals("Close")) {
+					b.addStyleName(UIConstants.LINK_COMPLETED);
+				} else if (bugVersion.getDuedate() != null
+						&& (bugVersion.getDuedate()
+								.before(new GregorianCalendar()
+								.getTime()))) {
+					b.addStyleName(UIConstants.LINK_OVERDUE);
+				}
+				b.setDescription(generateToolTip(bugVersion));
+				return b;
+
+			}
+		});
 
 		this.tableItem.setWidth("100%");
 
@@ -274,7 +274,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 			Div div = new Div();
 			H3 versionName = new H3();
 			versionName
-					.appendText(Jsoup.parse(version.getVersionname()).html());
+			.appendText(Jsoup.parse(version.getVersionname()).html());
 			div.appendChild(versionName);
 
 			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
@@ -284,14 +284,14 @@ public class VersionListViewImpl extends AbstractPageView implements
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Version Name:")).appendChild(
-					new Td().appendText(StringUtils.getStringFieldValue(version
-							.getVersionname())));
+									new Td().appendText(StringUtils.getStringFieldValue(version
+											.getVersionname())));
 
 			Tr trRow2 = new Tr();
 
 			Td trRow2_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+			.setStyle(
+					"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
 							StringUtils.getStringRemoveHtmlTag(version
 									.getDescription()));
@@ -300,14 +300,14 @@ public class VersionListViewImpl extends AbstractPageView implements
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Description:")).appendChild(
-					trRow2_value);
+									trRow2_value);
 			Tr trRow3 = new Tr();
 			trRow3.appendChild(
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Due Date:")).appendChild(
-					new Td().appendText(AppContext.formatDate(version
-							.getDuedate())));
+									new Td().appendText(AppContext.formatDate(version
+											.getDuedate())));
 
 			table.appendChild(trRow1);
 			table.appendChild(trRow2);

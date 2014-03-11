@@ -20,7 +20,15 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ContractSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private StringSearchField contractName;
 
 	private NumberSearchField accountId;
@@ -30,7 +38,7 @@ public class ContractSearchCriteria extends SearchCriteria {
 	private StringSearchField accountName;
 
 	private StringSearchField opportunityName;
-	
+
 	private StringSearchField assignUser;
 
 	private StringSearchField assignUserName;
@@ -78,8 +86,6 @@ public class ContractSearchCriteria extends SearchCriteria {
 	public void setOpportunityName(StringSearchField opportunityName) {
 		this.opportunityName = opportunityName;
 	}
-	
-	
 
 	public StringSearchField getAssignUserName() {
 		return assignUserName;

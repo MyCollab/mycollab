@@ -5,6 +5,10 @@
     <resultMap id="SimpleCaseResult"
         type="com.esofthead.mycollab.module.crm.domain.SimpleCase"
         extends="com.esofthead.mycollab.module.crm.dao.CaseMapper.ResultMapWithBLOBs">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="assignUserAvatarId" property="assignUserAvatarId"
             jdbcType="VARCHAR" />
         <result column="assignUserFullName" property="assignUserFullName"
@@ -142,10 +146,13 @@
                m_crm_case.resolution, m_crm_case.accountId, m_crm_case.createdTime, m_crm_case.createdUser, m_crm_case.sAccountId, 
                s_user.avatarId AS assignUserAvatarId,
                m_crm_case.assignUser, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
-               m_crm_account.accountName, m_crm_case.lastUpdatedTime,  m_crm_case.reason,  m_crm_case.origin, m_crm_case.phonenumber, m_crm_case.email
+               m_crm_account.accountName, m_crm_case.lastUpdatedTime,  m_crm_case.reason,  m_crm_case.origin, m_crm_case.phonenumber, m_crm_case.email,
+               createdUserTabl.avatarId AS createdUserAvatarId,
+               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
         FROM m_crm_case
             LEFT OUTER JOIN m_crm_account ON (m_crm_case.accountId = m_crm_account.id)
             LEFT OUTER JOIN s_user ON (m_crm_case.assignUser = s_user.username)
+            LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_case.createdUser = createdUserTabl.username)
         ]]>
     </sql>
 

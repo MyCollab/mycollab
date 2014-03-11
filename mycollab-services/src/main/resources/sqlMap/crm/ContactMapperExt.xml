@@ -5,12 +5,16 @@
     <resultMap
         extends="com.esofthead.mycollab.module.crm.dao.ContactMapper.ResultMapWithBLOBs"
         id="SimpleContactResult" type="com.esofthead.mycollab.module.crm.domain.SimpleContact">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
         <result column="assignUserFullName" jdbcType="VARCHAR"
             property="assignUserFullName" />
         <result column="contactName" jdbcType="VARCHAR" property="contactName" />
         <result column="accountName" jdbcType="VARCHAR" property="accountName" />
-        <result column="assignUserAvatarId" jdbcType="VARCHAR"
-            property="assignUserAvatarId" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -276,11 +280,14 @@
                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
                s_user.avatarId as assignUserAvatarId,
                concat (LTRIM(concat(IFNULL(m_crm_contact.firstname, ''), ' ')), ' ', m_crm_contact.lastname) AS contactName,
-               m_crm_contact.lastUpdatedTime, m_crm_account.accountName accountName
+               m_crm_contact.lastUpdatedTime, m_crm_account.accountName accountName,
+               createdUserTabl.avatarId as createdUserAvatarId,
+               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
 
         FROM m_crm_contact 
                LEFT OUTER JOIN m_crm_account ON (m_crm_contact.accountId = m_crm_account.id) 
                LEFT OUTER JOIN s_user ON (m_crm_contact.assignUser = s_user.username)
+               LEFT OUTER JOIN s_user AS createdUserTabl ON (createdUserTabl.username = m_crm_contact.createdUser)
         ]]>
     </sql>
 
@@ -316,11 +323,10 @@
 
     <select id="findPagableListByCriteria" resultMap="SimpleContactResult"
         parameterType="ContactSearchCriteria" lang="velocity">
-        <include
-            refid="selectSimpleContact" />
+        <include refid="selectSimpleContact" />
         #ifnotnull($_parameter.searchCriteria)
             #trim("WHERE" "AND|OR")
-            <include refid="querySearchCriteria" />
+                <include refid="querySearchCriteria" />
             #end
         #end
         <include refid="orderStatement" />
@@ -336,8 +342,7 @@
 
     <select id="findContactAssoWithConvertedLead" parameterType="int"
         resultMap="SimpleContactResult" lang="velocity">
-        <include
-            refid="selectSimpleContact" />
+        <include refid="selectSimpleContact" />
 
         INNER JOIN m_crm_contacts_leads ON
         (m_crm_contacts_leads.contactId=m_crm_contact.id AND
@@ -351,7 +356,7 @@
         SELECT MIN(id) FROM m_crm_contact
 
         #trim("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
@@ -360,7 +365,7 @@
         SELECT MAX(id) FROM m_crm_contact
 
         #trim("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 

@@ -23,34 +23,36 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- *
+ * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class TaskListSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
-    private NumberSearchField projectId;
-    
-    private StringSearchField status;
-    
-    private SetSearchField<Integer> milestoneIds;
-    
-    private NumberSearchField id;
+	private NumberSearchField projectId;
 
-    public NumberSearchField getProjectId() {
-        return projectId;
-    }
+	private StringSearchField status;
 
-    public void setProjectId(NumberSearchField projectId) {
-        this.projectId = projectId;
-    }
+	private SetSearchField<Integer> milestoneIds;
 
-    public StringSearchField getStatus() {
-        return status;
-    }
+	private NumberSearchField id;
 
-    public void setStatus(StringSearchField status) {
-        this.status = status;
-    }
+	public NumberSearchField getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(NumberSearchField projectId) {
+		this.projectId = projectId;
+	}
+
+	public StringSearchField getStatus() {
+		return status;
+	}
+
+	public void setStatus(StringSearchField status) {
+		this.status = status;
+	}
 
 	public SetSearchField<Integer> getMilestoneIds() {
 		return milestoneIds;

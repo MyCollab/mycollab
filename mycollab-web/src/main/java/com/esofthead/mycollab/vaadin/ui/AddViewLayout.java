@@ -18,9 +18,12 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.server.Resource;
+import com.vaadin.server.Sizeable;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 
 /**
@@ -34,7 +37,7 @@ public class AddViewLayout extends CustomLayoutExt {
 	private static final long serialVersionUID = 1L;
 
 	private final Label titleLbl;
-	private final Embedded icon;
+	private final Image icon;
 	private final HorizontalLayout header;
 
 	public AddViewLayout(final String title, final Resource resource) {
@@ -43,24 +46,25 @@ public class AddViewLayout extends CustomLayoutExt {
 		this.header = new HorizontalLayout();
 		this.header.setWidth("100%");
 		this.header.setSpacing(true);
-		this.header.setHeight("30px");
+		this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		this.icon = new Embedded();
+		this.icon = new Image(null);
 		this.setTitleIcon(resource);
 		this.header.addComponent(this.icon);
 		this.titleLbl = new Label();
 		this.titleLbl.setStyleName("headerName");
 		this.titleLbl.setImmediate(true);
+		this.titleLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 		this.header.addComponent(this.titleLbl);
 		this.header.setExpandRatio(titleLbl, 1.0f);
 
 		if (title == null) {
 			if (resource != null) {
-				this.setTitle("Undefined");
+				this.setHeader("Undefined");
 			}
 		} else {
-			this.setTitle(title);
+			this.setHeader(title);
 		}
 
 		this.addComponent(this.header, "addViewHeader");
@@ -90,12 +94,24 @@ public class AddViewLayout extends CustomLayoutExt {
 		this.titleLbl.removeStyleName(styleName);
 	}
 
-	public void addTopControls(final ComponentContainer topControls) {
+	/*public void addTopControls(final ComponentContainer topControls) {
 		this.addComponent(topControls, "addViewTopControls");
+	}*/
+
+	public void setHeader(final String title) {
+		this.titleLbl.setValue(title);
 	}
 
 	public void setTitle(final String title) {
-		this.titleLbl.setValue(title);
+		if(title != null) {
+			CssLayout titleWrap = new CssLayout();
+			titleWrap.setStyleName("addViewTitle");
+			titleWrap.setWidth("100%");
+			titleWrap.addComponent(new Label(title));
+			this.addComponent(titleWrap, "addViewTitle");
+		} else {
+			this.removeComponent("addViewTitle");
+		}
 	}
 
 	public void setTitleIcon(final Resource resource) {

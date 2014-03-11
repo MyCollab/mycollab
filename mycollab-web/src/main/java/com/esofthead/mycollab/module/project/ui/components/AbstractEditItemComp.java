@@ -36,7 +36,7 @@ import com.vaadin.ui.Layout;
  * @param <B>
  */
 public abstract class AbstractEditItemComp<B> extends AbstractPageView
-		implements IFormAddView<B> {
+implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -46,7 +46,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		super();
 		this.editForm = new AdvancedEditBeanForm<B>();
 		this.addComponent(this.editForm);
-		this.setMargin(false);
+		//this.setMargin(false);
 	}
 
 	@Override
@@ -70,12 +70,14 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		@Override
 		public Layout getLayout() {
 			final AddViewLayout formAddLayout = new AddViewLayout(
-					initFormTitle(), initFormIconResource());
+					initFormHeader(), initFormIconResource());
 
 			final ComponentContainer topLayout = createButtonControls();
 			if (topLayout != null) {
-				formAddLayout.addTopControls(topLayout);
+				formAddLayout.addHeaderRight(topLayout);
 			}
+
+			formAddLayout.setTitle(initFormTitle());
 
 			informationLayout = initFormLayoutFactory();
 
@@ -98,6 +100,8 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 	protected ComponentContainer createBottomPanel() {
 		return null;
 	}
+
+	abstract protected String initFormHeader();
 
 	abstract protected String initFormTitle();
 

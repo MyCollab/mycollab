@@ -5,6 +5,10 @@
     <resultMap
         extends="com.esofthead.mycollab.module.crm.dao.AccountMapper.ResultMapWithBLOBs"
         id="SimpleAccountResult" type="com.esofthead.mycollab.module.crm.domain.SimpleAccount">
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR"
             property="assignUserAvatarId" />
         <result column="assignUserFullName" jdbcType="VARCHAR"
@@ -22,10 +26,6 @@
         
         #ifnotnull($searchCriteria.assignUser)
             ${searchCriteria.assignUser.operation} m_crm_account.assignUser = @{searchCriteria.assignUser.value}
-        #end
-        
-        #ifnotnull($searchCriteria.assignUserName)
-            ${searchCriteria.assignUserName.operation} concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'
         #end
         
         #ifnotnull($searchCriteria.website)
@@ -106,14 +106,6 @@
         #ifnotnull($_parameter.searchCriteria.assignUser)
             ${searchCriteria.assignUser.operation} m_crm_account.assignUser = @{searchCriteria.assignUser.value}
         #end
-        
-        #ifnotnull($searchCriteria.assignUserName)
-            ${searchCriteria.assignUserName.operation}
-             (SELECT COUNT(*)
-                FROM s_user
-                WHERE m_crm_account.assignUser = s_user.username AND
-                  (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) LIKE '%${searchCriteria.assignUserName.value}%'))>0
-        #end
        
         #ifnotnull($searchCriteria.website)
             ${searchCriteria.website.operation} m_crm_account.website LIKE '%${searchCriteria.website.value}%'
@@ -187,9 +179,12 @@
                m_crm_account.lastUpdatedTime,
                m_crm_account.createdUser, m_crm_account.sAccountId, m_crm_account.assignUser, m_crm_account.type, m_crm_account.industry,
                s_user.avatarId AS assignUserAvatarId, 
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName
+               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               createdUserTabl.avatarId AS createdUserAvatarId,
+               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
         FROM m_crm_account
             LEFT OUTER JOIN s_user ON m_crm_account.assignUser = s_user.username
+            LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_account.createdUser = createdUserTabl.username)
         ]]>
     </sql>
 
@@ -205,12 +200,10 @@
 
     <select id="findPagableListByCriteria" parameterType="AccountSearchCriteria"
         resultMap="SimpleAccountResult" lang="velocity">
-        <include
-            refid="selectSimpleAccount" />
+        <include refid="selectSimpleAccount" />
         #ifnotnull($_parameter.searchCriteria)
             #trim("WHERE" "AND|OR")
-            <include
-                refid="querySearchCriteria" />
+                <include refid="querySearchCriteria" />
             #end
         #end
         <include refid="orderStatement" />
@@ -222,8 +215,7 @@
         SELECT count(*) as totalCount FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
             #trim("WHERE" "AND|OR")
-                <include
-                    refid="queryTotalCountSearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
     </select>
@@ -233,24 +225,21 @@
         DELETE FROM m_crm_account
         #ifnotnull($_parameter.searchCriteria)
             #trim("WHERE" "AND|OR")
-                <include
-                    refid="queryTotalCountSearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
     </delete>
 
     <select id="findById" parameterType="java.lang.Integer"
         resultMap="SimpleAccountResult" lang="velocity">
-        <include
-            refid="selectSimpleAccount" />
+        <include refid="selectSimpleAccount" />
 
         WHERE m_crm_account.id=@{accountId, jdbcType=NUMERIC}
     </select>
 
     <select id="findAccountAssoWithConvertedLead" parameterType="java.lang.Integer"
         resultMap="SimpleAccountResult" lang="velocity">
-        <include
-            refid="selectSimpleAccount" />
+        <include refid="selectSimpleAccount" />
     <![CDATA[
         INNER JOIN m_crm_accounts_leads ON (m_crm_accounts_leads.isConvertRel=1
             AND m_crm_accounts_leads.accountId= m_crm_account.id
@@ -263,8 +252,7 @@
         SELECT MIN(id) FROM m_crm_account
 
         #trim("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
@@ -273,20 +261,18 @@
         SELECT MAX(id) FROM m_crm_account
 
         #trim("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+            <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
 
     <!-- Here for Mass Update -->
     <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
         <include
-    refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
+            refid="com.esofthead.mycollab.module.crm.dao.AccountMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
             #trim("WHERE" "AND|OR")
-            <include
-                refid="queryTotalCountSearchCriteria" />
+                <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
     </update>

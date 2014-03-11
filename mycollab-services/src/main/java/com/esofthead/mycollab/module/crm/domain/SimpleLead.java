@@ -25,6 +25,10 @@ package com.esofthead.mycollab.module.crm.domain;
 public class SimpleLead extends Lead {
 	private static final long serialVersionUID = 1L;
 
+	private String createdUserAvatarId;
+
+	private String createdUserFullName;
+
 	private String assignUserAvatarId;
 
 	private String assignUserFullName;
@@ -32,6 +36,22 @@ public class SimpleLead extends Lead {
 	private String campaignName;
 
 	private String leadName;
+
+	public String getCreatedUserAvatarId() {
+		return createdUserAvatarId;
+	}
+
+	public void setCreatedUserAvatarId(String createdUserAvatarId) {
+		this.createdUserAvatarId = createdUserAvatarId;
+	}
+
+	public String getCreatedUserFullName() {
+		return createdUserFullName;
+	}
+
+	public void setCreatedUserFullName(String createdUserFullName) {
+		this.createdUserFullName = createdUserFullName;
+	}
 
 	public String getCampaignName() {
 		return campaignName;

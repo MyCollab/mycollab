@@ -26,9 +26,7 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 
 /**
@@ -38,33 +36,32 @@ import com.vaadin.ui.Layout;
  */
 @ViewComponent
 public class MilestoneAddViewImpl extends AbstractEditItemComp<Milestone>
-		implements MilestoneAddView {
+implements MilestoneAddView {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Phase" : beanItem.getName();
+		return (beanItem.getId() == null) ? null : beanItem.getName();
+	}
+
+	@Override
+	protected String initFormHeader() {
+		return (beanItem.getId() == null) ? "Create Phase" : "Phase Edit";
 	}
 
 	@Override
 	protected Resource initFormIconResource() {
 		return MyCollabResource
-				.newResource("icons/22/project/menu_milestone.png");
+				.newResource("icons/22/project/phase_selected.png");
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final HorizontalLayout controlPanel = new HorizontalLayout();
-		controlPanel.setMargin(true);
 		final Layout controlButtons = (new EditFormControlsGenerator<Milestone>(
 				editForm)).createButtonControls();
 		controlButtons.setSizeUndefined();
-		controlPanel.addComponent(controlButtons);
-		controlPanel.setWidth("100%");
-		controlPanel.setComponentAlignment(controlButtons,
-				Alignment.MIDDLE_CENTER);
-		return controlPanel;
+		return controlButtons;
 	}
 
 	@Override

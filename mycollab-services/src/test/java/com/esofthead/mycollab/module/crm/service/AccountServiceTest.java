@@ -205,8 +205,7 @@ public class AccountServiceTest extends ServiceTest {
 	@DataSet
 	public void testSearchByAssignUserName() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
-		criteria.setAssignUserName(new StringSearchField(SearchField.AND,
-				"Nguyen Phuc Hai"));
+		criteria.setAssignUser(new StringSearchField("hai79"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		Assert.assertEquals(1, accountService.getTotalCount(criteria));

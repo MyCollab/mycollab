@@ -57,6 +57,7 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class OpportunityLeadListComp extends
 		RelatedListComp<SimpleLead, LeadSearchCriteria> {

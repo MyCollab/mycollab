@@ -21,7 +21,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.shared.ui.MarginInfo;
 
 /**
  * 
@@ -30,7 +29,7 @@ import com.vaadin.shared.ui.MarginInfo;
  */
 @ViewComponent
 public class ProjectMemberReadViewImpl extends AbstractPageView implements
-		ProjectMemberReadView {
+ProjectMemberReadView {
 
 	private static final long serialVersionUID = 1L;
 	protected ProjectMemberReadComp projectMemberPreview;
@@ -38,7 +37,6 @@ public class ProjectMemberReadViewImpl extends AbstractPageView implements
 	public ProjectMemberReadViewImpl() {
 		super();
 		this.setStyleName("projectmember-view");
-		this.setMargin(new MarginInfo(true, false, false, false));
 		this.projectMemberPreview = new ProjectMemberReadComp();
 		this.addComponent(this.projectMemberPreview);
 	}

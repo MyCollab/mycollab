@@ -46,7 +46,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -63,20 +62,23 @@ import com.vaadin.ui.VerticalLayout;
 public class BugDashboardViewImpl extends AbstractPageView implements
 BugDashboardView {
 
-	private VerticalLayout leftColumn, rightColumn, headerWrapper;
+	private VerticalLayout leftColumn, rightColumn;
+	private HorizontalLayout header;
 
 	public BugDashboardViewImpl() {
 		super();
-		this.setMargin(true);
+		this.setMargin(new MarginInfo(false, true, false, true));
 		this.initUI();
 	}
 
 	private void initUI() {
-		headerWrapper = new VerticalLayout();
-		headerWrapper.setWidth("100%");
-		headerWrapper.addStyleName("bugdashboard-header");
-
-		this.addComponent(headerWrapper);
+		header = new HorizontalLayout();
+		header.setWidth("100%");
+		header.addStyleName("hdr-view");
+		header.setSpacing(true);
+		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		header.setMargin(new MarginInfo(true, false, true, false));
+		this.addComponent(header);
 
 		final HorizontalLayout body = new HorizontalLayout();
 		body.setWidth("100%");
@@ -98,24 +100,18 @@ BugDashboardView {
 	}
 
 	private void initHeader() {
-		headerWrapper.removeAllComponents();
-		final CssLayout headerTop = new CssLayout();
-		headerTop.setWidth("100%");
-		//headerTop.addStyleName("bugdashboard-header-top");
-		headerTop.addStyleName("hdr-view");
-		final HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		header.removeAllComponents();
 
 		final Label title = new Label(
 				LocalizationHelper.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
 		title.setStyleName("hdr-text");
-		final Image icon = new Image(null, MyCollabResource.newResource("icons/24/project/bug.png"));
+		title.setSizeUndefined();
+		final Image icon = new Image(null, MyCollabResource.newResource("icons/22/project/bug_selected.png"));
 		header.addComponent(icon);
 		header.addComponent(title);
 		header.setExpandRatio(title, 1.0f);
 		header.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
-		header.setSpacing(true);
+
 
 		final Button createBugBtn = new Button(
 				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
@@ -134,7 +130,6 @@ BugDashboardView {
 		controlsBtn.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
-		btnControlsLayout.setWidth("150px");
 		final Button createComponentBtn = new Button(
 				LocalizationHelper.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
 				new Button.ClickListener() {
@@ -166,13 +161,7 @@ BugDashboardView {
 		btnControlsLayout.addComponent(createVersionBtn);
 
 		controlsBtn.setContent(btnControlsLayout);
-
-		headerTop.addComponent(header);
-		headerWrapper.addComponent(headerTop);
-
 		header.addComponent(controlsBtn);
-		header.setExpandRatio(controlsBtn, 1.0f);
-		header.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 	}
 
 	@Override

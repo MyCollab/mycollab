@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -41,7 +42,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -49,7 +49,7 @@ import com.vaadin.ui.themes.Reindeer;
  * @since 1.0
  */
 public class ComponentSearchPanel extends
-		GenericSearchPanel<ComponentSearchCriteria> {
+GenericSearchPanel<ComponentSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	private final SimpleProject project;
@@ -74,15 +74,16 @@ public class ComponentSearchPanel extends
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setStyleName("hdr-view");
+		layout.setMargin(new MarginInfo(true, false, true, false));
 
 		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/24/project/component.png"));
+				MyCollabResource.newResource("icons/22/project/component.png"));
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label componenttitle = new Label("Components");
-		componenttitle.setStyleName(Reindeer.LABEL_H2);
+		componenttitle.setStyleName("hdr-text");
 		layout.addComponent(componenttitle);
 		layout.setExpandRatio(componenttitle, 1.0f);
 		layout.setComponentAlignment(componenttitle, Alignment.MIDDLE_LEFT);
@@ -111,7 +112,7 @@ public class ComponentSearchPanel extends
 
 	@SuppressWarnings("rawtypes")
 	private class ComponentBasicSearchCriteria extends
-			GenericSearchPanel.BasicSearchLayout {
+	GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public ComponentBasicSearchCriteria() {
@@ -143,27 +144,27 @@ public class ComponentSearchPanel extends
 
 			final Button searchBtn = new Button("Search",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							ComponentBasicSearchCriteria.this
-									.callSearchAction();
-						}
-					});
+				@Override
+				public void buttonClick(final Button.ClickEvent event) {
+					ComponentBasicSearchCriteria.this
+					.callSearchAction();
+				}
+			});
 			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							ComponentBasicSearchCriteria.this.nameField
-									.setValue("");
-						}
-					});
+				@Override
+				public void buttonClick(final Button.ClickEvent event) {
+					ComponentBasicSearchCriteria.this.nameField
+					.setValue("");
+				}
+			});
 			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;
@@ -173,11 +174,11 @@ public class ComponentSearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			ComponentSearchPanel.this.searchCriteria = new ComponentSearchCriteria();
 			ComponentSearchPanel.this.searchCriteria
-					.setProjectid(new NumberSearchField(SearchField.AND,
-							ComponentSearchPanel.this.project.getId()));
+			.setProjectid(new NumberSearchField(SearchField.AND,
+					ComponentSearchPanel.this.project.getId()));
 			ComponentSearchPanel.this.searchCriteria
-					.setComponentName(new StringSearchField(this.nameField
-							.getValue().toString().trim()));
+			.setComponentName(new StringSearchField(this.nameField
+					.getValue().toString().trim()));
 			return ComponentSearchPanel.this.searchCriteria;
 		}
 	}

@@ -22,18 +22,26 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class TaskSearchCriteria extends SearchCriteria {
-    private NumberSearchField projectid;
-    private DateTimeSearchField greaterThan;
-    private DateTimeSearchField lessThan;
-    private NumberSearchField taskListId;
-    private NumberSearchField milestoneId;
-    private NumberSearchField id;
-    private StringSearchField assignUser;
-    
-    private SetSearchField<String> statuses;
+	private static final long serialVersionUID = 1L;
 
-    public SetSearchField<String> getStatuses() {
+	private NumberSearchField projectid;
+	private DateTimeSearchField greaterThan;
+	private DateTimeSearchField lessThan;
+	private NumberSearchField taskListId;
+	private NumberSearchField milestoneId;
+	private NumberSearchField id;
+	private StringSearchField assignUser;
+
+	private SetSearchField<String> statuses;
+
+	public SetSearchField<String> getStatuses() {
 		return statuses;
 	}
 
@@ -42,36 +50,36 @@ public class TaskSearchCriteria extends SearchCriteria {
 	}
 
 	public NumberSearchField getProjectid() {
-        return projectid;
-    }
+		return projectid;
+	}
 
-    public void setProjectid(NumberSearchField projectid) {
-        this.projectid = projectid;
-    }
+	public void setProjectid(NumberSearchField projectid) {
+		this.projectid = projectid;
+	}
 
-    public DateTimeSearchField getLessThan() {
-        return lessThan;
-    }
+	public DateTimeSearchField getLessThan() {
+		return lessThan;
+	}
 
-    public void setLessThan(DateTimeSearchField lessThan) {
-        this.lessThan = lessThan;
-    }
+	public void setLessThan(DateTimeSearchField lessThan) {
+		this.lessThan = lessThan;
+	}
 
-    public DateTimeSearchField getGreaterThan() {
-        return greaterThan;
-    }
+	public DateTimeSearchField getGreaterThan() {
+		return greaterThan;
+	}
 
-    public void setGreaterThan(DateTimeSearchField greaterThan) {
-        this.greaterThan = greaterThan;
-    }
+	public void setGreaterThan(DateTimeSearchField greaterThan) {
+		this.greaterThan = greaterThan;
+	}
 
-    public NumberSearchField getTaskListId() {
-        return taskListId;
-    }
+	public NumberSearchField getTaskListId() {
+		return taskListId;
+	}
 
-    public void setTaskListId(NumberSearchField taskListId) {
-        this.taskListId = taskListId;
-    }
+	public void setTaskListId(NumberSearchField taskListId) {
+		this.taskListId = taskListId;
+	}
 
 	public void setId(NumberSearchField id) {
 		this.id = id;

@@ -36,6 +36,7 @@ import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
+import com.esofthead.mycollab.module.crm.ui.components.PeopleInfoComp;
 import com.esofthead.mycollab.module.crm.view.CrmResources;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityRelatedItemListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -67,7 +68,9 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	protected ContactOpportunityListComp associateOpportunityList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
+
 	private DateInfoComp dateInfoComp;
+	private PeopleInfoComp peopleInfoComp;
 
 	public ContactReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/contact.png"));
@@ -132,6 +135,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		this.displayActivities();
 		this.displayAssociateOpportunityList();
 
+		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
@@ -165,6 +169,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		this.noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		peopleInfoComp = new PeopleInfoComp();
+		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
 		dateInfoComp = new DateInfoComp();
 		navigatorWrapper.addComponentAsFirst(dateInfoComp);
 

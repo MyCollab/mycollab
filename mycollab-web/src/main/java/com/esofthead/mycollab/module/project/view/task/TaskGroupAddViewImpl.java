@@ -26,17 +26,15 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.RichTextArea;
@@ -49,7 +47,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
-		implements TaskGroupAddView {
+implements TaskGroupAddView {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -58,29 +56,27 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 	}
 
 	@Override
-	protected String initFormTitle() {
-		return (beanItem.getId() != null) ? beanItem.getName()
+	protected String initFormHeader() {
+		return (beanItem.getId() != null) ? "Task Group Edit"
 				: "Create Task Group";
 	}
 
 	@Override
+	protected String initFormTitle() {
+		return (beanItem.getId() != null) ? beanItem.getName()
+				: null;
+	}
+
+	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/menu_task.png");
+		return MyCollabResource.newResource("icons/22/project/task_selected.png");
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final HorizontalLayout controlPanel = new HorizontalLayout();
 		final Layout controlButtons = (new EditFormControlsGenerator<TaskList>(
 				editForm)).createButtonControls();
-		controlButtons.setSizeUndefined();
-		controlPanel.addComponent(controlButtons);
-		controlPanel.setWidth("100%");
-		controlPanel.setComponentAlignment(controlButtons,
-				Alignment.MIDDLE_CENTER);
-		controlPanel.setMargin(true);
-		controlPanel.setStyleName("control-buttons");
-		return controlPanel;
+		return controlButtons;
 	}
 
 	@Override
@@ -99,7 +95,7 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 	}
 
 	private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<TaskList> {
+	AbstractBeanFieldGroupEditFieldFactory<TaskList> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<TaskList> form) {
@@ -125,21 +121,21 @@ public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
 			} else if (propertyId.equals("percentageComplete")) {
 				final double percentage = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getPercentageComplete() : 0;
-				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
-				final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
-						percentage);
-				fieldContainer.addComponentField(progressField);
-				return fieldContainer;
+						final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+						final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
+								percentage);
+						fieldContainer.addComponentField(progressField);
+						return fieldContainer;
 			} else if (propertyId.equals("numOpenTasks")) {
 				final int openTask = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getNumOpenTasks() : 0;
-				final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
-						.getNumAllTasks() : 0;
-				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
-				final Label numTaskLbl = new Label("(" + openTask + "/"
-						+ allTasks + ")");
-				fieldContainer.addComponentField(numTaskLbl);
-				return fieldContainer;
+						final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
+								.getNumAllTasks() : 0;
+								final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+								final Label numTaskLbl = new Label("(" + openTask + "/"
+										+ allTasks + ")");
+								fieldContainer.addComponentField(numTaskLbl);
+								return fieldContainer;
 			}
 
 			return null;

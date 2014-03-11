@@ -22,6 +22,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.PropertyParam;
@@ -66,6 +67,18 @@ public class OpportunitySearchCriteria extends SearchCriteria {
 	public static Param p_assignee = new PropertyListParam(
 			"opportunity-assignee", "Assignee", "m_crm_opportunity",
 			"assignUser");
+
+	public static Param p_expectedcloseddate = new DateParam(
+			"opportunity-expectedcloseddate", "Expected Close Date",
+			"m_crm_opportunity", "expectedClosedDate");
+
+	public static Param p_createdtime = new DateParam(
+			"opportunity-createdtime", "Created Time", "m_crm_opportunity",
+			"createdTime");
+
+	public static Param p_lastupdatedtime = new DateParam(
+			"opportunity-lastUpdatedTime", "Last Updated Time",
+			"m_crm_opportunity", "lastUpdatedTime");
 
 	private StringSearchField opportunityName;
 	private SetSearchField<String> assignUsers;
