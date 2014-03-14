@@ -111,7 +111,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		MenuActionListener listener = new MenuActionListener();
 
 		calendarActionBtn = new PopupButton("Create");
-		calendarActionBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		calendarActionBtn.addStyleName("esofthead");
 
 		HorizontalLayout actionPanel = new HorizontalLayout();
@@ -462,7 +462,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 							});
 					saveBtn.setIcon(MyCollabResource
 							.newResource("icons/16/save.png"));
-					saveBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 					layout.addComponent(saveBtn);
 					layout.setComponentAlignment(saveBtn,
 							Alignment.MIDDLE_CENTER);
@@ -475,7 +475,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 									QuickCreateEventWindow.this.close();
 								}
 							});
-					cancelBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+					cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 					cancelBtn.setIcon(MyCollabResource
 							.newResource("icons/16/cancel.png"));
 					layout.addComponent(cancelBtn);

@@ -64,7 +64,7 @@ public class AccountContactSelectionWindow extends
 						AccountContactSelectionWindow.this.close();
 					}
 				});
-		selectBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		final ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
 		contactSimpleSearchPanel

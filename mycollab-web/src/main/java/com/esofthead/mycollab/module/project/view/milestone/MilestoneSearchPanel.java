@@ -88,7 +88,7 @@ public class MilestoneSearchPanel extends
 						new MilestoneEvent.GotoAdd(this, null));
 			}
 		});
-		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createBtn.setEnabled(CurrentProjectVariables
@@ -138,7 +138,8 @@ public class MilestoneSearchPanel extends
 					MilestoneBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			searchBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
 			Button clearBtn = new Button("Clear", new Button.ClickListener() {

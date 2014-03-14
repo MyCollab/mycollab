@@ -125,7 +125,7 @@ public class ResolvedInputWindow extends Window {
 								ResolvedInputWindow.this.close();
 							}
 						});
-				cancelBtn.setStyleName("link");
+				cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				controlsBtn.addComponent(cancelBtn);
 				controlsBtn.setComponentAlignment(cancelBtn,
 						Alignment.MIDDLE_LEFT);
@@ -190,7 +190,7 @@ public class ResolvedInputWindow extends Window {
 
 							}
 						});
-				wonFixBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				wonFixBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				controlsBtn.addComponent(wonFixBtn);
 				controlsBtn.setComponentAlignment(wonFixBtn,
 						Alignment.MIDDLE_RIGHT);

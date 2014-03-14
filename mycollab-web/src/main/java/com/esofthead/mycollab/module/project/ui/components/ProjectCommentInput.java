@@ -30,6 +30,7 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -94,7 +95,7 @@ public class ProjectCommentInput extends VerticalLayout {
 							component.cancel();
 						}
 					});
-			cancelBtn.setStyleName("link");
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			controlsLayout.addComponent(cancelBtn);
 			controlsLayout.setComponentAlignment(cancelBtn,
 					Alignment.MIDDLE_RIGHT);
@@ -139,7 +140,8 @@ public class ProjectCommentInput extends VerticalLayout {
 						component.reload();
 					}
 				});
-		newCommentBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		newCommentBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 		controlsLayout.addComponent(newCommentBtn);
 
 		this.addComponent(commentArea);

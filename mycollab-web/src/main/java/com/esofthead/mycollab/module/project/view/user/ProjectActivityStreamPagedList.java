@@ -246,7 +246,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 		this.controlBarWrapper.setWidth("100%");
 		this.controlBarWrapper.setStyleName("page-controls");
 		ButtonGroup controlBtns = new ButtonGroup();
-		controlBtns.setStyleName(UIConstants.THEME_BLUE_LINK);
+		controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
 		Button prevBtn = new Button("Previous", new Button.ClickListener() {
 			private static final long serialVersionUID = -94021599166105307L;
 
@@ -259,7 +259,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 		if (currentPage == 1) {
 			prevBtn.setEnabled(false);
 		}
-		prevBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		prevBtn.setWidth("64px");
 
 		Button nextBtn = new Button("Next", new Button.ClickListener() {
@@ -274,7 +274,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 		if (currentPage == totalPage) {
 			nextBtn.setEnabled(false);
 		}
-		nextBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		nextBtn.setWidth("64px");
 
 		controlBtns.addButton(prevBtn);

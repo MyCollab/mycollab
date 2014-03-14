@@ -271,7 +271,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					}
 				}
 			});
-			nextBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+			nextBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			UiUtils.addComponent(controlGroupBtn, nextBtn,
 					Alignment.MIDDLE_CENTER);
 
@@ -284,7 +284,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					EntityImportWindow.this.close();
 				}
 			});
-			cancleBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+			cancleBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 			UiUtils.addComponent(controlGroupBtn, cancleBtn,
 					Alignment.MIDDLE_CENTER);
 
@@ -619,7 +619,7 @@ public abstract class EntityImportWindow<E> extends Window {
 				}
 			});
 
-			saveBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			controlGroupBtn.addComponent(saveBtn);
 
 			Button previousBtn = new Button("Previous", new ClickListener() {
@@ -634,7 +634,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					EntityImportWindow.this.center();
 				}
 			});
-			previousBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+			previousBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			controlGroupBtn.addComponent(previousBtn);
 
 			Button btnClose = new Button("Close", new ClickListener() {
@@ -646,7 +646,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					reloadWhenBackToListView();
 				}
 			});
-			btnClose.addStyleName(UIConstants.THEME_BLUE_LINK);
+			btnClose.addStyleName(UIConstants.THEME_GREEN_LINK);
 			controlGroupBtn.addComponent(btnClose);
 			bodyLayout.addComponent(columnMappingCrmLayout);
 			this.addComponent(bodyLayout);

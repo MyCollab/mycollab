@@ -95,7 +95,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 												this, null));
 					}
 				});
-		backToListBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		backToListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(backToListBtn);
 		header.setComponentAlignment(backToListBtn, Alignment.MIDDLE_RIGHT);
 
@@ -108,7 +108,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 						new TaskListEvent.SaveReoderTaskList(event, changeSet));
 			}
 		});
-		saveOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		saveOrderBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(saveOrderBtn);
 		header.setComponentAlignment(saveOrderBtn, Alignment.MIDDLE_RIGHT);
 

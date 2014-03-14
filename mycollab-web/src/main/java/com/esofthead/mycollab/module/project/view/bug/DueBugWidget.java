@@ -34,11 +34,10 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -59,19 +58,20 @@ public class DueBugWidget extends BugDisplayWidget {
 	}
 
 	public static class DueBugRowDisplayHandler implements
-			BeanList.RowDisplayHandler<SimpleBug> {
+	BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public Component generateRow(final SimpleBug bug, final int rowIndex) {
-			final GridLayout layout = new GridLayout(2, 4);
+			final HorizontalLayout layout = new HorizontalLayout();
 			layout.setWidth("100%");
-			layout.setSpacing(false);
+			layout.setSpacing(true);
+			layout.setMargin(true);
 			layout.addComponent(
-					new Embedded(null, MyCollabResource
-							.newResource("icons/16/project/bug.png")), 0, 0, 0,
-					3);
+					new Image(null, MyCollabResource
+							.newResource("icons/16/project/bug.png")));
 
+			VerticalLayout rowContent = new VerticalLayout();
 			final ButtonLink defectLink = new ButtonLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
@@ -91,19 +91,18 @@ public class DueBugWidget extends BugDisplayWidget {
 				defectLink.addStyleName(UIConstants.LINK_OVERDUE);
 			}
 
-			layout.addComponent(defectLink);
-			layout.setColumnExpandRatio(1, 1.0f);
+			rowContent.addComponent(defectLink);
 
 			final LabelHTMLDisplayWidget descInfo = new LabelHTMLDisplayWidget(
 					bug.getDescription());
 			descInfo.setWidth("100%");
-			layout.addComponent(descInfo);
+			rowContent.addComponent(descInfo);
 
 			final Label dateInfo = new Label("Due on "
 					+ AppContext.formatDate(bug.getDuedate()) + ". Status: "
 					+ bug.getStatus());
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
-			layout.addComponent(dateInfo, 1, 2);
+			rowContent.addComponent(dateInfo);
 
 			final HorizontalLayout hLayoutDateInfo = new HorizontalLayout();
 			hLayoutDateInfo.setSpacing(true);
@@ -120,16 +119,15 @@ public class DueBugWidget extends BugDisplayWidget {
 			hLayoutDateInfo.setComponentAlignment(userLink,
 					Alignment.MIDDLE_CENTER);
 
-			layout.addComponent(hLayoutDateInfo, 1, 3);
-
-			final CssLayout rowLayout = new CssLayout();
-			rowLayout.addComponent(layout);
-			rowLayout.setStyleName(UIConstants.WIDGET_ROW);
+			rowContent.addComponent(hLayoutDateInfo);
+			layout.addComponent(rowContent);
+			layout.setExpandRatio(rowContent, 1.0f);
+			layout.setStyleName(UIConstants.WIDGET_ROW);
 			if ((rowIndex + 1) % 2 != 0) {
-				rowLayout.addStyleName("odd");
+				layout.addStyleName("odd");
 			}
-			rowLayout.setWidth("100%");
-			return rowLayout;
+			layout.setWidth("100%");
+			return layout;
 		}
 	}
 }

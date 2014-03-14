@@ -310,7 +310,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 			}
 
 		});
-		moveBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		moveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlGroupBtnLayout.addComponent(moveBtn);
 		Button cancelBtn = new Button("Cancel", new ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -320,7 +320,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 				AbstractResourceMovingWindow.this.close();
 			}
 		});
-		cancelBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 		controlGroupBtnLayout.addComponent(cancelBtn);
 
 		UiUtils.addComponent(contentLayout, controlGroupBtnLayout,

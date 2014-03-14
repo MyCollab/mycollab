@@ -88,7 +88,7 @@ public class OpportunityLeadListComp extends
 		final SplitButton controlsBtn = new SplitButton();
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		controlsBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setCaption("New Lead");
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));

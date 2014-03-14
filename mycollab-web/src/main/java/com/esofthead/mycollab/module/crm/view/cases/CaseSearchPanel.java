@@ -115,7 +115,7 @@ public class CaseSearchPanel extends
 				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		createAccountBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
 		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
@@ -177,7 +177,7 @@ public class CaseSearchPanel extends
 		@Override
 		public ComponentContainer constructBody() {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
-			basicSearchBody.setSpacing(false);
+			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
 
 			this.subjectField = this.createSeachSupportTextField(
@@ -189,10 +189,17 @@ public class CaseSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, this.subjectField,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
+			this.myItemCheckbox = new CheckBox(
+					LocalizationHelper
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+			this.myItemCheckbox.setWidth("75px");
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+					Alignment.MIDDLE_CENTER);
+
+			final Button searchBtn = new Button("Search");
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -202,22 +209,10 @@ public class CaseSearchPanel extends
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-
-			this.myItemCheckbox = new CheckBox(
-					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
-
-			final Separator separator1 = new Separator();
-
-			UiUtils.addComponent(basicSearchBody, separator1,
-					Alignment.MIDDLE_LEFT);
-
+			
 			final Button cancelBtn = new Button(
 					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			cancelBtn.setStyleName(UIConstants.THEME_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override

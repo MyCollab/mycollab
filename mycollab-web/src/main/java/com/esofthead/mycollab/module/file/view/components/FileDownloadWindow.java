@@ -112,7 +112,7 @@ public class FileDownloadWindow extends Window {
 		FileDownloader fileDownloader = new FileDownloader(downloadResource);
 		fileDownloader.extend(downloadBtn);
 
-		downloadBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		downloadBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		UiUtils.addComponent(buttonControls, downloadBtn,
 				Alignment.MIDDLE_CENTER);
 
@@ -124,7 +124,7 @@ public class FileDownloadWindow extends Window {
 				FileDownloadWindow.this.close();
 			}
 		});
-		cancle.addStyleName(UIConstants.THEME_BLUE_LINK);
+		cancle.addStyleName(UIConstants.THEME_GRAY_LINK);
 
 		UiUtils.addComponent(buttonControls, cancle, Alignment.MIDDLE_CENTER);
 		UiUtils.addComponent(layout, buttonControls, Alignment.MIDDLE_CENTER);

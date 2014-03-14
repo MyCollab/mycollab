@@ -70,7 +70,7 @@ public abstract class BugDisplayWidget extends Depot {
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		final int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
-			moreBtn = new Button("More ...", new Button.ClickListener() {
+			moreBtn = new Button("More", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -81,7 +81,7 @@ public abstract class BugDisplayWidget extends Depot {
 											constructMoreDisplayFilter())));
 				}
 			});
-			moreBtn.setStyleName(UIConstants.THEME_LINK);
+			moreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			final VerticalLayout widgetFooter = new VerticalLayout();
 			widgetFooter.addStyleName("widget-footer");
 			widgetFooter.setWidth("100%");

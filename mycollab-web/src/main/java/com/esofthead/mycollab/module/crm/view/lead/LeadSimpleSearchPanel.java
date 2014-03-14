@@ -98,7 +98,7 @@ public class LeadSimpleSearchPanel extends
 		addTextFieldSearch();
 
 		Button searchBtn = new Button("Search");
-		searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 

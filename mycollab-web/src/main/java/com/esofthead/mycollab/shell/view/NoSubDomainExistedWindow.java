@@ -62,7 +62,7 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 									"https://www.mycollab.com");
 						}
 					});
-			backToHome.addStyleName(UIConstants.THEME_BLUE_LINK);
+			backToHome.addStyleName(UIConstants.THEME_GREEN_LINK);
 			warningContent.addComponent(backToHome);
 			warningContent.setComponentAlignment(backToHome,
 					Alignment.MIDDLE_CENTER);

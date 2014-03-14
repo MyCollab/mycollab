@@ -105,7 +105,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
                 }
             });
 
-            loginBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+            loginBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
             custom.addComponent(loginBtn, "loginButton");
 
             if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {

@@ -42,7 +42,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
-import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
  * 
@@ -54,9 +54,9 @@ import com.esofthead.mycollab.module.user.domain.User;
 @Transactional
 @Traceable(module = ModuleNameConstants.PRJ, nameField = "forday", type = ProjectContants.STANDUP, extraFieldName = "projectid")
 public class StandupReportServiceImpl
-		extends
-		DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
-		implements StandupReportService {
+extends
+DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
+implements StandupReportService {
 	@Autowired
 	private StandupReportMapper standupReportMapper;
 	@Autowired
@@ -101,7 +101,7 @@ public class StandupReportServiceImpl
 	}
 
 	@Override
-	public List<User> findUsersNotDoReportYet(int projectId, Date onDate,
+	public List<SimpleUser> findUsersNotDoReportYet(int projectId, Date onDate,
 			@CacheKey Integer sAccountId) {
 
 		return standupReportMapperExt

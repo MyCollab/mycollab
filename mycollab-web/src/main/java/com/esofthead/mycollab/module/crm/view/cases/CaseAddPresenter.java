@@ -57,6 +57,8 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 	protected void postInitView() {
 		view.getEditFormHandlers().addFormHandler(
 				new EditFormHandler<SimpleCase>() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void onSave(final SimpleCase cases) {
 						saveCase(cases);

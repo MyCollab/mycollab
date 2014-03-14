@@ -22,10 +22,12 @@ import java.util.Date;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 
 /**
  * 
@@ -44,13 +46,15 @@ public class DateRangeField extends CustomField {
 	protected Component initContent() {
 		HorizontalLayout container = new HorizontalLayout();
 		container.setSpacing(true);
-		dateStart.setCaption("From: ");
-		dateEnd.setCaption("To: ");
+		Label dateStartLb = new Label("From:");
+		Label dateEndLb = new Label("To:");
 
+		UiUtils.addComponent(container,dateStartLb, Alignment.MIDDLE_CENTER);
 		container.addComponent(dateStart);
+		UiUtils.addComponent(container,dateEndLb, Alignment.MIDDLE_CENTER);
 		container.addComponent(dateEnd);
 
-		setDateWidth(140);
+		setDateWidth(120);
 		setDefaultValue();
 
 		return container;

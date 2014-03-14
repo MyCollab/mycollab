@@ -6,7 +6,7 @@ package com.esofthead.mycollab.core.db.query;
  * @since 4.0
  * 
  */
-public abstract class Param {
+public class Param {
 
 	protected String id;
 
@@ -36,6 +36,5 @@ public abstract class Param {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	
-	
+
 }

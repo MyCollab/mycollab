@@ -44,7 +44,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 
 		final Label organizationHeader = new Label("Bug Information");
 		organizationHeader.setStyleName("h2");
-		layout.addComponent(organizationHeader);
+		/*layout.addComponent(organizationHeader);*/
 
 		this.informationLayout = new GridFormLayoutHelper(2, 9, "100%",
 				"167px", Alignment.MIDDLE_LEFT);

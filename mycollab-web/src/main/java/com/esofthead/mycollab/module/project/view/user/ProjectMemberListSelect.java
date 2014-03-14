@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.util.BeanContainer;
-import com.vaadin.ui.ListSelect;
 
 /**
  * 
@@ -35,12 +35,12 @@ import com.vaadin.ui.ListSelect;
  * 
  */
 public @SuppressWarnings("serial")
-class ProjectMemberListSelect extends ListSelect {
+class ProjectMemberListSelect extends ValueComboBox {
 
 	public ProjectMemberListSelect() {
-		super("username");
-		this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-		this.setMultiSelect(true);
+		//super("username");
+		//this.setItemCaptionMode(ItemCaptionMode.PROPERTY);
+		//this.setMultiSelect(true);
 
 		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
@@ -62,6 +62,6 @@ class ProjectMemberListSelect extends ListSelect {
 
 		this.setContainerDataSource(beanItem);
 		this.setItemCaptionPropertyId("displayName");
-		this.setRows(4);
+		//this.setRows(4);
 	}
 }

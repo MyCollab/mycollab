@@ -106,7 +106,7 @@ BugDashboardView {
 				LocalizationHelper.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
 		title.setStyleName("hdr-text");
 		title.setSizeUndefined();
-		final Image icon = new Image(null, MyCollabResource.newResource("icons/22/project/bug_selected.png"));
+		final Image icon = new Image(null, MyCollabResource.newResource("icons/24/project/bug.png"));
 		header.addComponent(icon);
 		header.addComponent(title);
 		header.setExpandRatio(title, 1.0f);
@@ -124,9 +124,9 @@ BugDashboardView {
 				});
 		createBugBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-
+		createBugBtn.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
 		final SplitButton controlsBtn = new SplitButton(createBugBtn);
-		controlsBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();

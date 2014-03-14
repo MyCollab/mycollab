@@ -104,7 +104,7 @@ public class CampaignSearchPanel extends
 				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		createAccountBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
 		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
@@ -139,20 +139,20 @@ public class CampaignSearchPanel extends
 
 		@Override
 		public ComponentContainer constructBody() {
-			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setSpacing(false);
-			layout.setMargin(true);
+			final HorizontalLayout basicSearchBody = new HorizontalLayout();
+			basicSearchBody.setSpacing(true);
+			basicSearchBody.setMargin(true);
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfBasicSearch");
 
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(layout, this.nameField,
+			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
+			final Button searchBtn = new Button("Search");
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -161,22 +161,22 @@ public class CampaignSearchPanel extends
 					CampaignBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			UiUtils.addComponent(layout, searchBtn, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(basicSearchBody, searchBtn, Alignment.MIDDLE_LEFT);
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
 							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(layout, this.myItemCheckbox,
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Separator separator1 = new Separator();
 
-			UiUtils.addComponent(layout, separator1, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(basicSearchBody, separator1, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			cancelBtn.setStyleName(UIConstants.THEME_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
@@ -186,11 +186,8 @@ public class CampaignSearchPanel extends
 					CampaignBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(layout, cancelBtn, Alignment.MIDDLE_CENTER);
+			UiUtils.addComponent(basicSearchBody, cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Separator separator2 = new Separator();
-
-			UiUtils.addComponent(layout, separator2, Alignment.MIDDLE_LEFT);
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
@@ -203,9 +200,9 @@ public class CampaignSearchPanel extends
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
-			UiUtils.addComponent(layout, advancedSearchBtn,
+			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
-			return layout;
+			return basicSearchBody;
 		}
 
 		@Override

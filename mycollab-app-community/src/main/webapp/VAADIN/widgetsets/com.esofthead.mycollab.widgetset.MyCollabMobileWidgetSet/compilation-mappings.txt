@@ -1,21 +1,21 @@
-0F4CB1DFF118642877A017108C9DB97E.cache.js
+899362B6836767DF973480548B5F9410.cache.js
 user.agent gecko1_8
 webkitvariant std
 
-28A1C80E7A0B279CFC162980320ED196.cache.js
+B69F92AD3ABB052593BCC51360560275.cache.js
+user.agent ie10
+webkitvariant std
+
+C6DC18C9D820AFAC79AD10BE69E2A6D7.cache.js
 user.agent safari
 webkitvariant android2
 
-28A1C80E7A0B279CFC162980320ED196.cache.js
+C6DC18C9D820AFAC79AD10BE69E2A6D7.cache.js
 user.agent safari
 webkitvariant ios7hswa
 
-28A1C80E7A0B279CFC162980320ED196.cache.js
+C6DC18C9D820AFAC79AD10BE69E2A6D7.cache.js
 user.agent safari
-webkitvariant std
-
-9C44563A1C8F3C9084DF92A687CD51DE.cache.js
-user.agent ie10
 webkitvariant std
 
 Devmode:devmode.js

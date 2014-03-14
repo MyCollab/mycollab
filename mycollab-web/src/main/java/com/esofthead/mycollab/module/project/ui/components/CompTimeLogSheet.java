@@ -179,7 +179,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			CompTimeLogSheet.this.btnAdd.setEnabled(CompTimeLogSheet.this
 					.isEnableAdd());
 			CompTimeLogSheet.this.btnAdd
-					.setStyleName(UIConstants.THEME_BLUE_LINK);
+					.setStyleName(UIConstants.THEME_GREEN_LINK);
 			CompTimeLogSheet.this.btnAdd.setIcon(MyCollabResource
 					.newResource("icons/16/addRecord.png"));
 			addLayout.addComponent(CompTimeLogSheet.this.btnAdd);
@@ -421,7 +421,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			CompTimeLogSheet.this.btnAdd.setEnabled(CompTimeLogSheet.this
 					.isEnableAdd());
 			CompTimeLogSheet.this.btnAdd
-					.setStyleName(UIConstants.THEME_BLUE_LINK);
+					.setStyleName(UIConstants.THEME_GREEN_LINK);
 			addLayout.addComponent(CompTimeLogSheet.this.btnAdd);
 			addLayout.setComponentAlignment(CompTimeLogSheet.this.btnAdd,
 					Alignment.MIDDLE_LEFT);

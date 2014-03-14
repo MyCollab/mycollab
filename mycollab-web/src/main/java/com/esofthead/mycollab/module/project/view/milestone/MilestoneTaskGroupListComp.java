@@ -90,7 +90,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 					.newResource("icons/16/project/new_task_list.png"));
 			newTaskListBtn.setDescription(LocalizationHelper
 					.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
-			newTaskListBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			mainLayout.addComponent(newTaskListBtn);
 			mainLayout
 					.setComponentAlignment(newTaskListBtn, Alignment.TOP_LEFT);

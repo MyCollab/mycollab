@@ -90,7 +90,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 				MassUpdateWindow.this.close();
 			}
 		});
-		updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(updateBtn);
 		controlsLayout
 				.setComponentAlignment(updateBtn, Alignment.MIDDLE_CENTER);
@@ -103,7 +103,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 				MassUpdateWindow.this.close();
 			}
 		});
-		closeBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		closeBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(closeBtn);
 		controlsLayout.setComponentAlignment(closeBtn, Alignment.MIDDLE_CENTER);
 		return controlsLayout;

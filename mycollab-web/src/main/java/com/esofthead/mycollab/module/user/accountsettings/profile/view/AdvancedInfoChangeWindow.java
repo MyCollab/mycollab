@@ -105,7 +105,7 @@ public class AdvancedInfoChangeWindow extends Window {
 					}
 				});
 
-		cancelBtn.setStyleName("link");
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		hlayoutControls.addComponent(cancelBtn);
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);
@@ -118,7 +118,7 @@ public class AdvancedInfoChangeWindow extends Window {
 				AdvancedInfoChangeWindow.this.changePassword();
 			}
 		});
-		sendBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		hlayoutControls.addComponent(sendBtn);
 		hlayoutControls.setComponentAlignment(sendBtn, Alignment.MIDDLE_CENTER);
 

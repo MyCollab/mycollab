@@ -115,7 +115,7 @@ ProjectMemberInviteView {
 		this.roleComboBox = new ProjectRoleComboBox();
 
 		final AddViewLayout userAddLayout = new AddViewLayout("Invite Members",
-				MyCollabResource.newResource("icons/22/project/user_selected.png"));
+				MyCollabResource.newResource("icons/24/project/user.png"));
 
 		userAddLayout.addHeaderRight(createButtonControls());
 
@@ -151,7 +151,7 @@ ProjectMemberInviteView {
 
 			}
 		});
-		inviteBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlButtons.addComponent(inviteBtn);
 
 		Button cancelBtn = new Button("Cancel", new Button.ClickListener() {
@@ -167,7 +167,7 @@ ProjectMemberInviteView {
 
 			}
 		});
-		cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlButtons.addComponent(cancelBtn);
 
 		controlButtons.setSizeUndefined();

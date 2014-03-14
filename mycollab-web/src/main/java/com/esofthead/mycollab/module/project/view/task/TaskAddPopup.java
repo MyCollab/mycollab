@@ -107,7 +107,7 @@ public class TaskAddPopup extends CustomComponent {
 					}
 				});
 
-		cancelBtn.setStyleName("link");
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlsLayout.addComponent(cancelBtn);
 		controlsLayout
 				.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
@@ -138,7 +138,7 @@ public class TaskAddPopup extends CustomComponent {
 					}
 				});
 		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
-		saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsLayout.addComponent(saveBtn);
 		controlsLayout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 		controlsLayout.addStyleName("popup-footer");

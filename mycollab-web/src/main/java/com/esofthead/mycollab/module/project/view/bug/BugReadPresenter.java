@@ -16,18 +16,29 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import org.vaadin.dialogs.ConfirmDialog;
+
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -41,6 +52,66 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 
 	public BugReadPresenter() {
 		super(BugReadView.class);
+	}
+
+	@Override
+	protected void postInitView() {
+		view.getPreviewFormHandlers().addFormHandler(
+				new DefaultPreviewFormHandler<SimpleBug>() {
+					@Override
+					public void onEdit(SimpleBug data) {
+						EventBus.getInstance().fireEvent(
+								new BugEvent.GotoEdit(this, data));
+					}
+
+					@Override
+					public void onDelete(final SimpleBug data) {
+						ConfirmDialogExt.show(
+								UI.getCurrent(),
+								LocalizationHelper.getMessage(
+										GenericI18Enum.DELETE_DIALOG_TITLE,
+										SiteConfiguration.getSiteName()),
+										LocalizationHelper
+										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+										LocalizationHelper
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+										LocalizationHelper
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+										new ConfirmDialog.Listener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(
+											final ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											final BugService bugService = ApplicationContextUtil
+													.getSpringBean(BugService.class);
+											bugService.removeWithSession(data.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											EventBus.getInstance().fireEvent(
+													new BugEvent.GotoList(this, null));
+										}
+									}
+								});
+					}
+
+					@Override
+					public void onClone(SimpleBug data) {
+						Component cloneData = (Component) data.copy();
+						cloneData.setId(null);
+						EventBus.getInstance()
+						.fireEvent(
+								new BugEvent.GotoEdit(this,
+										cloneData));
+					}
+
+					@Override
+					public void onCancel() {
+						EventBus.getInstance().fireEvent(
+								new BugEvent.GotoList(this, null));
+					}
+				});
 	}
 
 	@Override

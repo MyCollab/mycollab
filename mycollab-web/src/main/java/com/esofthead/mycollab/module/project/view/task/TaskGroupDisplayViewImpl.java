@@ -89,7 +89,7 @@ TaskGroupDisplayView {
 		this.taskGroupSelection.addStyleName("link");
 		this.taskGroupSelection.addStyleName("hdr-text");
 		final Image icon = new Image(null,
-				MyCollabResource.newResource("icons/22/project/task_selected.png"));
+				MyCollabResource.newResource("icons/24/project/task.png"));
 		header.addComponent(icon);
 		header.addComponent(this.taskGroupSelection);
 		header.setExpandRatio(this.taskGroupSelection, 1.0f);
@@ -174,10 +174,10 @@ TaskGroupDisplayView {
 		newTaskListBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		newTaskListBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/new_task_list.png"));
+ 				.newResource("icons/16/addRecord.png"));
 		newTaskListBtn.setDescription(LocalizationHelper
 				.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
-		newTaskListBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(newTaskListBtn);
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
 
@@ -194,27 +194,19 @@ TaskGroupDisplayView {
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		this.reOrderBtn.setIcon(MyCollabResource
 				.newResource("icons/16/project/reorder.png"));
-		this.reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		this.reOrderBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		this.reOrderBtn.setDescription(LocalizationHelper
 				.getMessage(TaskI18nEnum.REODER_TASKGROUP_ACTION));
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
 
 		mainLayout.addComponent(header);
-
-		Button exportBtn = new Button("Export", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				exportButtonControl.setPopupVisible(true);
-			}
-		});
-		//exportButtonControl = new SplitButton(exportBtn);
+		
 		exportButtonControl = new PopupButton();
-		exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
+		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
+		exportButtonControl.setDescription("Export to file");
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);

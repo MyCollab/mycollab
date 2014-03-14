@@ -132,7 +132,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			}
 		});
 
-		backBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 		HorizontalLayout controlBtns = new HorizontalLayout();
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
@@ -168,7 +168,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 						searchTimeReporting(from, to);
 					}
 				});
-		queryBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		dateSelectionLayout.addComponent(queryBtn);
 

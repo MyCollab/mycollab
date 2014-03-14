@@ -100,7 +100,7 @@ public class OpportunityContactListComp extends
 				});
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
-		controlsBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		controlsBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setCaption("Add Contact Roles");
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));

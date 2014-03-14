@@ -104,7 +104,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 						contactRoleList.addRow(row);
 					}
 				});
-		addMoreContactRolesBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		addMoreContactRolesBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.addComponent(addMoreContactRolesBtn);
@@ -132,7 +132,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 			}
 		});
 		updateBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
-		updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		buttonWrapper.addComponent(updateBtn);
 
 		Button cancelBtn = new Button("Cancel", new Button.ClickListener() {
@@ -150,7 +150,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 			}
 		});
 		cancelBtn.setIcon(MyCollabResource.newResource("icons/16/cancel.png"));
-		cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		buttonWrapper.addComponent(cancelBtn);
 
 		layout.addComponent(buttonWrapper);

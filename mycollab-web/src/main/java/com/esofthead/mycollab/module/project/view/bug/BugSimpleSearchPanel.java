@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -64,7 +65,8 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 				Alignment.MIDDLE_CENTER);
 
 		Button searchBtn = new Button("Search");
-		searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -91,7 +93,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 				Alignment.MIDDLE_CENTER);
 
 		Button clearBtn = new Button("Clear");
-		clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		clearBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

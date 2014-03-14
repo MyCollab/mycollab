@@ -72,7 +72,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 								new RoleEvent.GotoAdd(this, null));
 					}
 				});
-		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createBtn.setEnabled(AppContext
@@ -107,16 +107,17 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
 
-			final HorizontalLayout searchComp = new HorizontalLayout();
-			searchComp.addStyleName("search-comp");
+			
+		
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			searchComp.addComponent(this.nameField);
+			basicSearchBody.addComponent(this.nameField);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
+			final Button searchBtn = new Button("Search");
+			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -125,8 +126,8 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 					RoleBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			searchComp.addComponent(searchBtn);
-			basicSearchBody.addComponent(searchComp);
+			basicSearchBody.addComponent(searchBtn);
+			
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
@@ -137,7 +138,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 							RoleBasicSearchLayout.this.nameField.setValue("");
 						}
 					});
-			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
 			basicSearchBody.setComponentAlignment(clearBtn,

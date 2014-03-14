@@ -26,7 +26,7 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
-import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
  * 
@@ -35,8 +35,8 @@ import com.esofthead.mycollab.module.user.domain.User;
  * 
  */
 public interface StandupReportService
-		extends
-		IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
+extends
+IDefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria> {
 	@Cacheable
 	SimpleStandupReport findStandupReportById(int standupId,
 			@CacheKey Integer sAccountId);
@@ -50,7 +50,7 @@ public interface StandupReportService
 			@CacheKey StandupReportSearchCriteria criteria);
 
 	@Cacheable
-	List<User> findUsersNotDoReportYet(int projectId, Date onDate,
+	List<SimpleUser> findUsersNotDoReportYet(int projectId, Date onDate,
 			@CacheKey Integer sAccountId);
 
 }

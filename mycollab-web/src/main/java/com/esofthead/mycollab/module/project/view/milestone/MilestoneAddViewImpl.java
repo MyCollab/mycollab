@@ -53,7 +53,7 @@ implements MilestoneAddView {
 	@Override
 	protected Resource initFormIconResource() {
 		return MyCollabResource
-				.newResource("icons/22/project/phase_selected.png");
+				.newResource("icons/24/project/phase.png");
 	}
 
 	@Override

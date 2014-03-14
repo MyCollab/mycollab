@@ -144,7 +144,7 @@ public class TaskGroupAddWindow extends Window {
 								}
 							}
 						});
-				saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
@@ -164,7 +164,7 @@ public class TaskGroupAddWindow extends Window {
 								}
 							}
 						});
-				saveAndNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(
@@ -178,7 +178,7 @@ public class TaskGroupAddWindow extends Window {
 								TaskGroupAddWindow.this.close();
 							}
 						});
-				cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				layout.addComponent(cancelBtn);
 
 				return layout;

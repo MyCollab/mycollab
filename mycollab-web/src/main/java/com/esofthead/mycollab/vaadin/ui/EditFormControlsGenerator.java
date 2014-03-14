@@ -66,7 +66,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 				}
 			});
 			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
-			saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveBtn);
 			layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 		}
@@ -88,7 +88,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 					});
 			saveAndNewBtn.setIcon(MyCollabResource
 					.newResource("icons/16/save_new.png"));
-			saveAndNewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveAndNewBtn);
 			layout.setComponentAlignment(saveAndNewBtn, Alignment.MIDDLE_CENTER);
 		}
@@ -106,7 +106,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 			});
 			cancelBtn.setIcon(MyCollabResource
 					.newResource("icons/16/cancel.png"));
-			cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			layout.addComponent(cancelBtn);
 			layout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 		}

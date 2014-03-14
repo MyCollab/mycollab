@@ -53,14 +53,11 @@ public class ProjectListComponent extends VerticalLayout {
 		componentHeader.setStyleName("h2");
 
 		headerLayout.setIcon(MyCollabResource.newResource("icons/project_dropdown.png"));
-
-		/*headerLayout.addComponent(componentHeader);
-		headerLayout.setExpandRatio(componentHeader, 1.0f);*/
 		addComponent(headerLayout);
 
 		contentLayout = new VerticalLayout();
 		contentLayout.setStyleName("project-list-comp-content");
-		contentLayout.setWidth("202px");
+		contentLayout.setWidth("234px");
 
 		projectList = new ProjectPagedList();
 		headerLayout.setContent(projectList);

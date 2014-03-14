@@ -63,7 +63,7 @@ public class CaseListNoItemView extends AbstractPageView {
 		HorizontalLayout links = new HorizontalLayout();
 		
 		links.addComponent(btCreateContact);
-		btCreateContact.addStyleName(UIConstants.THEME_BLUE_LINK);
+		btCreateContact.addStyleName(UIConstants.THEME_GREEN_LINK);
 		
 		/*
 		Label or = new Label("Or");

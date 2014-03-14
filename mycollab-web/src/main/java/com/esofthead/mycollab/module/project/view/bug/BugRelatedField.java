@@ -183,7 +183,7 @@ public class BugRelatedField extends CustomField {
 		layoutAdd.setComponentAlignment(comboRelation, Alignment.MIDDLE_LEFT);
 
 		btnRelate = new Button("Relate");
-		btnRelate.setStyleName(UIConstants.THEME_BLUE_LINK);
+		btnRelate.setStyleName(UIConstants.THEME_GREEN_LINK);
 		btnRelate.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 

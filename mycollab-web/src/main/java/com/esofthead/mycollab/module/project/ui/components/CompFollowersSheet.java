@@ -143,7 +143,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 		});
 
 		btnSave.setEnabled(isEnableAdd());
-		btnSave.setStyleName(UIConstants.THEME_BLUE_LINK);
+		btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
 		btnSave.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
 
 		layoutAdd.addComponent(btnSave);

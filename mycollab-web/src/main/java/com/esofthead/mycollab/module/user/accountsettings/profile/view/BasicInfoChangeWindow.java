@@ -120,7 +120,7 @@ public class BasicInfoChangeWindow extends Window {
                     }
                 });
 
-        cancelBtn.setStyleName("link");
+        cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
         hlayoutControls.addComponent(cancelBtn);
         hlayoutControls.setComponentAlignment(cancelBtn,
                 Alignment.MIDDLE_CENTER);
@@ -133,7 +133,7 @@ public class BasicInfoChangeWindow extends Window {
                 BasicInfoChangeWindow.this.changeUserInfo();
             }
         });
-        saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
         hlayoutControls.addComponent(saveBtn);
         hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

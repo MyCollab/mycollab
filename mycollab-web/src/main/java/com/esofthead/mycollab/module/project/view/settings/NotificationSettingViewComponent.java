@@ -170,7 +170,7 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 							}
 						}
 					});
-			upgradeBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+			upgradeBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			body.addComponent(upgradeBtn);
 			body.setComponentAlignment(upgradeBtn, Alignment.MIDDLE_LEFT);
 		} catch (Exception e) {

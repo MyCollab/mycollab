@@ -49,14 +49,13 @@ implements PageView {
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected ReadViewLayout previewLayout;
 	private Label headerText;
-	private CssLayout headerRight;
+	private HorizontalLayout header;
 	private Image titleIcon;
 
 	abstract protected void initRelatedComponents();
 
 	public AbstractPreviewItemComp(String headerText, Resource iconResource) {
 
-		this.headerRight = new CssLayout();
 		this.titleIcon = new Image(null,iconResource);
 		this.headerText = new Label(headerText);
 		this.headerText.setSizeUndefined();
@@ -91,12 +90,11 @@ implements PageView {
 	}
 
 	public ComponentContainer constructHeader() {
-		HorizontalLayout header = new HorizontalLayout();
+		header = new HorizontalLayout();
 		this.headerText.setStyleName("hdr-text");
 
 		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, headerRight, Alignment.MIDDLE_RIGHT);
 		header.setExpandRatio(headerText, 1.0f);
 
 		header.setStyleName("hdr-view");
@@ -108,7 +106,7 @@ implements PageView {
 	}
 
 	public void addHeaderRightContent(Component c) {
-		headerRight.addComponent(c);
+		header.addComponent(c);
 	}
 
 	public void previewItem(final B item) {

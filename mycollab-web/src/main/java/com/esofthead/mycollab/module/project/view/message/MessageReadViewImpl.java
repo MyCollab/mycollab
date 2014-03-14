@@ -27,6 +27,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
@@ -56,6 +58,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
@@ -179,7 +182,7 @@ MessageReadView {
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
 			UiUtils.addComponent(header, new Image(null,
-					MyCollabResource.newResource("icons/22/project/message_selected.png")), Alignment.MIDDLE_LEFT);
+					MyCollabResource.newResource("icons/24/project/message.png")), Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, deleteBtn, Alignment.MIDDLE_RIGHT);
 			header.setExpandRatio(headerText, 1.0f);
@@ -200,13 +203,28 @@ MessageReadView {
 			userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 			userBlock.setWidth("80px");
 			userBlock.setSpacing(true);
-			userBlock.addComponent(UserAvatarControlFactory
+			ClickListener gotoUser = new ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(new ProjectMemberEvent.GotoRead(MessageReadViewImpl.this, message.getPosteduser()));
+				}
+			};
+			Button userAvatarBtn = UserAvatarControlFactory
 					.createUserAvatarButtonLink(
 							message.getPostedUserAvatarId(),
-							message.getFullPostedUserName()));
-			Label userName = new Label(message.getFullPostedUserName());
+							message.getFullPostedUserName());
+			userAvatarBtn.addClickListener(gotoUser);
+			userBlock.addComponent(userAvatarBtn);
+
+			Button userName = new Button(message.getFullPostedUserName());
 			userName.setStyleName("user-name");
+			userName.addStyleName("link");
+			userName.addStyleName(UIConstants.WORD_WRAP);
+			userName.addClickListener(gotoUser);
 			userBlock.addComponent(userName);
+
 			messageLayout.addComponent(userBlock);
 
 			final CssLayout rowLayout = new CssLayout();
@@ -216,22 +234,16 @@ MessageReadView {
 			final HorizontalLayout messageHeader = new HorizontalLayout();
 			messageHeader.setStyleName("message-header");
 			messageHeader.setMargin(new MarginInfo(true, true, false, true));
-			final VerticalLayout leftHeader = new VerticalLayout();
+			messageHeader.setSpacing(true);
+			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-			final HorizontalLayout rightHeader = new HorizontalLayout();
-			rightHeader.setSpacing(true);
-
-			final Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate()));
+			final Label timePostLbl = new Label("<span class=\"post-owner\"><b>" + message.getFullPostedUserName() + "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;" +
+					DateTimeUtils.getStringDateFromNow(message.getPosteddate()), ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 
-			rightHeader.addComponent(timePostLbl);
-			rightHeader.setExpandRatio(timePostLbl, 1.0f);
-
-			messageHeader.addComponent(leftHeader);
-			messageHeader.setExpandRatio(leftHeader, 1.0f);
-			messageHeader.addComponent(rightHeader);
+			messageHeader.addComponent(timePostLbl);
+			messageHeader.setExpandRatio(timePostLbl, 1.0f);
 			messageHeader.setWidth("100%");
 
 			rowLayout.addComponent(messageHeader);

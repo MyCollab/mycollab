@@ -66,7 +66,7 @@ public class BugListWidget extends Depot {
 		final VerticalLayout backBtnWrapper = new VerticalLayout();
 		backBtnWrapper.setMargin(new MarginInfo(false, false, true, false));
 
-		backToBugReportsBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		backToBugReportsBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtnWrapper.addComponent(backToBugReportsBtn);
 
 		this.addComponentAsFirst(backBtnWrapper);

@@ -37,7 +37,6 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
@@ -58,13 +57,12 @@ implements ProjectRoleAddView {
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Role" : beanItem
-				.getRolename();
+		return (beanItem.getId() == null) ? "Create Role" : "Role Edit";
 	}
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Role" : beanItem
+		return (beanItem.getId() == null) ? null : beanItem
 				.getRolename();
 	}
 
@@ -75,16 +73,9 @@ implements ProjectRoleAddView {
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final HorizontalLayout controlPanel = new HorizontalLayout();
 		final Layout controlButtons = (new EditFormControlsGenerator<ProjectRole>(
 				editForm)).createButtonControls();
-		controlButtons.setSizeUndefined();
-		controlPanel.addComponent(controlButtons);
-		controlPanel.setWidth("100%");
-		controlPanel.setMargin(true);
-		controlPanel.setComponentAlignment(controlButtons,
-				Alignment.MIDDLE_CENTER);
-		return controlPanel;
+		return controlButtons;
 	}
 
 	@Override

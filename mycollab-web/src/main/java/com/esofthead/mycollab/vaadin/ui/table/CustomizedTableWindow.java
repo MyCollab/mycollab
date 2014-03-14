@@ -151,7 +151,7 @@ public abstract class CustomizedTableWindow extends Window {
 								.saveOrUpdateViewLayoutDef(viewDef);
 					}
 				});
-		saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		buttonControls.addComponent(saveBtn);
 
 		final Button cancelBtn = new Button(
@@ -165,7 +165,7 @@ public abstract class CustomizedTableWindow extends Window {
 						CustomizedTableWindow.this.close();
 					}
 				});
-		cancelBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		buttonControls.addComponent(cancelBtn);
 
 		contentLayout.addComponent(buttonControls);

@@ -110,7 +110,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 						backView();
 					}
 				});
-		backButton.addStyleName(UIConstants.THEME_BLUE_LINK);
+		backButton.addStyleName(UIConstants.THEME_GREEN_LINK);
 		headerLayout.addComponent(backButton);
 
 		this.resourceTable = new ResourceTableDisplay();
@@ -434,7 +434,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 					}
 				}
 			});
-			save.addStyleName(UIConstants.THEME_BLUE_LINK);
+			save.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
 
@@ -446,7 +446,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 					RenameResourceWindow.this.close();
 				}
 			});
-			cancel.addStyleName(UIConstants.THEME_BLUE_LINK);
+			cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
 			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);
 			this.setContent(layout);

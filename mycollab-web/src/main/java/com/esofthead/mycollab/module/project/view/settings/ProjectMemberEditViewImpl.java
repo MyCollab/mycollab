@@ -68,7 +68,7 @@ AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/user_selected.png");
+		return MyCollabResource.newResource("icons/24/project/user.png");
 	}
 
 	@Override

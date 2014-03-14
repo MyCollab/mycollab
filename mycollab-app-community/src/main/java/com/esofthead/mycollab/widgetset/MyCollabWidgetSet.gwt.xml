@@ -6,11 +6,16 @@
     <!-- WS Compiler: manually edited -->
 
     <inherits name="org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset" />
+
     <inherits name="org.vaadin.peter.contextmenu.ContextmenuWidgetset" />
+
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
+
     <inherits
         name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+
     <inherits name="org.vaadin.tokenfield.TokenfieldWidgetset" />
+
     <inherits
         name="org.vaadin.risto.stylecalendar.widgetset.StyleCalendarWidgetset" />
 
@@ -32,4 +37,6 @@
     <inherits name="org.tltv.gantt.WidgetSet" />
 
     <inherits name="org.vaadin.artur.icepush.IcepushaddonWidgetset" />
+
+    <inherits name="com.esofthead.vaadin.popupbutton.WidgetSet" />
 </module>

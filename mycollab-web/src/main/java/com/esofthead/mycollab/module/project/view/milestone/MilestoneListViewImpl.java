@@ -66,7 +66,7 @@ MilestoneListView {
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		super("Phases list", "phase_selected.png" );
+		super("Phases list", "phase.png" );
 		createBtn = new Button();
 
 		this.addHeaderRightContent(createHeaderRight());
@@ -163,7 +163,7 @@ MilestoneListView {
 
 		this.createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		this.createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		layout.addComponent(this.createBtn);
 		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
 

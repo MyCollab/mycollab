@@ -463,7 +463,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		editProjectBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PROJECT));
 		editProjectBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/edit_project.png"));
+				.newResource("icons/16/project/edit.png"));
 		editProjectBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editProjectBtn);
 

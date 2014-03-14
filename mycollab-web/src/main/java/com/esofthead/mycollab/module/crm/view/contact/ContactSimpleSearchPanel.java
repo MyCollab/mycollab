@@ -96,7 +96,7 @@ public class ContactSimpleSearchPanel extends
 		addTextFieldSearch();
 
 		Button searchBtn = new Button("Search");
-		searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

@@ -139,7 +139,7 @@ public class LeadConvertInfoWindow extends Window {
 												.getId()));
 					}
 				});
-		convertButton.setStyleName(UIConstants.THEME_BLUE_LINK);
+		convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
 		layout.addComponent(convertButton);
 		layout.setComponentAlignment(convertButton, Alignment.MIDDLE_CENTER);
 
@@ -152,7 +152,7 @@ public class LeadConvertInfoWindow extends Window {
 
 			}
 		});
-		cancelButton.setStyleName(UIConstants.THEME_BLUE_LINK);
+		cancelButton.setStyleName(UIConstants.THEME_GRAY_LINK);
 		layout.addComponent(cancelButton);
 		layout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
 		return layout;

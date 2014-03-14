@@ -82,7 +82,7 @@ implements TaskReadView {
 	private Button quickActionStatusBtn;
 
 	public TaskReadViewImpl() {
-		super("Task Detail", MyCollabResource.newResource( "icons/22/project/task_selected.png"));
+		super("Task Detail", MyCollabResource.newResource( "icons/24/project/task.png"));
 	}
 
 	@Override
@@ -220,7 +220,7 @@ implements TaskReadView {
 			}
 		});
 
-		quickActionStatusBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		taskPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
 		if (!CurrentProjectVariables

@@ -101,7 +101,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 				});
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.COMPONENTS));
-		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 
@@ -133,17 +133,23 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
-			basicSearchBody.addComponent(new Label("Name"));
+			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
+
+			
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
+
 			this.myItemCheckbox = new CheckBox("My Items");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
+			final Button searchBtn = new Button("Search");
+			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-			final Button searchBtn = new Button("Search",
-					new Button.ClickListener() {
+			searchBtn.addClickListener(new Button.ClickListener() {
+
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -152,11 +158,12 @@ GenericSearchPanel<ComponentSearchCriteria> {
 					.callSearchAction();
 				}
 			});
-			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-			basicSearchBody.addComponent(searchBtn);
-
-			final Button clearBtn = new Button("Clear",
-					new Button.ClickListener() {
+			UiUtils.addComponent(basicSearchBody, searchBtn,
+					Alignment.MIDDLE_LEFT);
+			
+			final Button cancelBtn = new Button("Clear");
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			cancelBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -165,8 +172,10 @@ GenericSearchPanel<ComponentSearchCriteria> {
 					.setValue("");
 				}
 			});
-			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-			basicSearchBody.addComponent(clearBtn);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			basicSearchBody.addComponent(cancelBtn);
+
+
 			return basicSearchBody;
 		}
 

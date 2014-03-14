@@ -20,8 +20,8 @@ import com.vaadin.ui.HorizontalLayout;
  * 
  * @param <S>
  */
-public abstract class DynamicQueryParamLayout<S extends SearchCriteria>
-		extends SearchLayout<S> {
+public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
+		SearchLayout<S> {
 	private static final long serialVersionUID = 1L;
 
 	protected String type;
@@ -48,6 +48,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria>
 	private HorizontalLayout createButtonControls() {
 		HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.setSpacing(true);
+		buttonControls.setMargin(true);
 		final Button searchBtn = new Button(
 				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_SEARCH),
 				new Button.ClickListener() {
@@ -59,7 +60,8 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria>
 					}
 				});
 		UiUtils.addComponent(buttonControls, searchBtn, Alignment.MIDDLE_CENTER);
-		searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 
 		final Button clearBtn = new Button(
 				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR),
@@ -71,7 +73,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria>
 						clearFields();
 					}
 				});
-		clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
 		final Button basicSearchBtn = new Button(
 				LocalizationHelper
@@ -108,7 +110,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria>
 
 	public ComponentContainer constructBody() {
 		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(),
-				getType()) {
+				getType(), type) {
 			protected Component buildPropertySearchComp(String fieldId) {
 				return buildSelectionComp(fieldId);
 			}

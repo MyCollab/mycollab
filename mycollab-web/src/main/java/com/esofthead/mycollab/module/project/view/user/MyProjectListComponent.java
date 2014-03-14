@@ -81,7 +81,7 @@ public class MyProjectListComponent extends Depot {
 	}
 
 	static class ProjectPagedList extends
-			BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
+	BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
 		public ProjectPagedList() {
@@ -92,7 +92,7 @@ public class MyProjectListComponent extends Depot {
 	}
 
 	public static class ProjectRowDisplayHandler implements
-			BeanList.RowDisplayHandler<SimpleProject> {
+	BeanList.RowDisplayHandler<SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -116,22 +116,23 @@ public class MyProjectListComponent extends Depot {
 			linkWrapper.addStyleName("projectlink-wrapper");
 			final HorizontalLayout linkIconFix = new HorizontalLayout();
 			linkIconFix.setWidth("100%");
+			linkIconFix.setSpacing(true);
 			final ButtonLink projectLink = new ButtonLink(project.getName(),
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new ProjectEvent.GotoMyProject(this,
-											new PageActionChain(
-													new ProjectScreenData.Goto(
-															project.getId()))));
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new ProjectEvent.GotoMyProject(this,
+									new PageActionChain(
+											new ProjectScreenData.Goto(
+													project.getId()))));
+				}
+			});
 			final Image projectIcon = new Image(null,
 					MyCollabResource
-							.newResource("icons/16/project/project.png"));
+					.newResource("icons/16/project/project.png"));
 			linkIconFix.addComponent(projectIcon);
 			linkIconFix.addComponent(projectLink);
 			linkIconFix.setExpandRatio(projectLink, 1.0f);

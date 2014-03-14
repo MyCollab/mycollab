@@ -174,7 +174,7 @@ implements VersionReadView {
 			}
 		});
 
-		quickActionStatusBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		quickActionStatusBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		versionPreviewForm.insertToControlBlock(quickActionStatusBtn);
 
 		if (!CurrentProjectVariables

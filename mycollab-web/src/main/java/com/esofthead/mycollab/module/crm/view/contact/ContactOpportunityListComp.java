@@ -87,7 +87,7 @@ public class ContactOpportunityListComp extends
 	private void initUI() {
 
 		final SplitButton controlsBtn = new SplitButton();
-		controlsBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setCaption("New Opportunity");
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));

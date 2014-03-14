@@ -119,7 +119,7 @@ public class AssignTaskWindow extends Window {
 								AssignTaskWindow.this.close();
 							}
 						});
-				cancelBtn.setStyleName("link");
+				cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				controlsBtn.addComponent(cancelBtn);
 				controlsBtn.setComponentAlignment(cancelBtn,
 						Alignment.MIDDLE_LEFT);
@@ -170,7 +170,7 @@ public class AssignTaskWindow extends Window {
 								}
 							}
 						});
-				approveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+				approveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				controlsBtn.addComponent(approveBtn);
 				controlsBtn.setComponentAlignment(approveBtn,
 						Alignment.MIDDLE_RIGHT);

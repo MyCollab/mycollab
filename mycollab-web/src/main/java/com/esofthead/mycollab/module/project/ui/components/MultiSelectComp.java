@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.vaadin.popupbutton.PopupButtonExt;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
@@ -46,7 +46,7 @@ public class MultiSelectComp<T> extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 
 	protected TextField componentsDisplay;
-	protected PopupButton componentPopupSelection;
+	protected PopupButtonExt componentPopupSelection;
 
 	private String propertyDisplayField;
 	private String widthVal;
@@ -73,7 +73,7 @@ public class MultiSelectComp<T> extends CustomComponent {
 		this.componentsDisplay.addStyleName("noBorderRight");
 		this.componentsDisplay.setWidth("100%");
 
-		this.componentPopupSelection = new PopupButton();
+		this.componentPopupSelection = new PopupButtonExt();
 		this.componentPopupSelection
 				.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -91,6 +91,7 @@ public class MultiSelectComp<T> extends CustomComponent {
 		this.componentPopupSelection.addStyleName("nonPopupIndicator");
 		this.componentPopupSelection.addStyleName(UIConstants.SELECT_BG);
 		this.componentPopupSelection.setWidth("25px");
+		this.componentPopupSelection.setPopupPositionComponent(content);
 
 		CssLayout btnWrapper = new CssLayout();
 		btnWrapper.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
@@ -131,6 +132,7 @@ public class MultiSelectComp<T> extends CustomComponent {
 			popupContent.addComponent(chkItem);
 		}
 
+		popupContent.setWidth("200px");
 		componentPopupSelection.setContent(popupContent);
 
 	}

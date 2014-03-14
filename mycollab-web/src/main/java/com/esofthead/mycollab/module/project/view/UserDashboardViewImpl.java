@@ -129,7 +129,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 					});
 			createProjectBtn.setIcon(MyCollabResource
 					.newResource("icons/16/addRecord.png"));
-			createProjectBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			createProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			headerContentTop.addComponent(createProjectBtn);
 			headerContentTop.setComponentAlignment(createProjectBtn,
 					Alignment.MIDDLE_LEFT);

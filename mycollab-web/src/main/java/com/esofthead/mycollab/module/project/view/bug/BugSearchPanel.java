@@ -52,6 +52,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -69,7 +70,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 	private final SimpleProject project;
 	protected BugSearchCriteria searchCriteria;
 	protected Label bugtitle;
-
+	private ComponentContainer rightComponent;
 	public BugSearchPanel() {
 		this("Bugs");
 	}
@@ -77,6 +78,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 	public BugSearchPanel(final String title) {
 		this.project = CurrentProjectVariables.getProject();
 		this.bugtitle = new Label(title);
+		this.rightComponent = new HorizontalLayout();
 	}
 
 	@Override
@@ -121,17 +123,20 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			basicSearchBody.setMargin(true);
 			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
 
-			final HorizontalLayout comboSearchField = new HorizontalLayout();
+			
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(comboSearchField, this.nameField,
+			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
-			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
-
+			this.myItemCheckbox = new CheckBox("My Items");
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+					Alignment.MIDDLE_CENTER);
+			
+			final Button searchBtn = new Button("Search");
+			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {
@@ -140,16 +145,12 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					.notifySearchHandler(BugSearchPanel.this.searchCriteria);
 				}
 			});
-			UiUtils.addComponent(comboSearchField, searchBtn,
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(basicSearchBody, comboSearchField, Alignment.MIDDLE_CENTER);
-
-			this.myItemCheckbox = new CheckBox("My Items");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
-
+			
 			final Button cancelBtn = new Button("Clear");
-			cancelBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {
@@ -188,7 +189,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		@Override
 		public ComponentContainer constructHeader() {
 			Image titleIcon = new Image(null,
-					MyCollabResource.newResource("icons/22/project/bug_selected.png"));
+					MyCollabResource.newResource("icons/24/project/bug.png"));
 			Label headerText = new Label("Bug List");
 
 			final Button createBtn = new Button(
@@ -202,7 +203,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 									new BugEvent.GotoAdd(this, null));
 						}
 					});
-			createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			createBtn.setIcon(MyCollabResource
 					.newResource("icons/16/addRecord.png"));
 			createBtn.setEnabled(CurrentProjectVariables
@@ -214,6 +215,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
+			UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
 			header.setExpandRatio(headerText, 1.0f);
 
 			header.setStyleName("hdr-view");
@@ -346,7 +348,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			});
 
 			buttonControls.addComponent(searchBtn);
-			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
@@ -380,7 +382,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					.setValue(true);
 				}
 			});
-			/*clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);*/
+			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			buttonControls.addComponent(clearBtn);
 
 			final Button basicSearchBtn = new Button("Basic Search",
@@ -533,5 +535,52 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			}
 			return BugSearchPanel.this.searchCriteria;
 		}
+
+
+		@Override
+		public ComponentContainer constructHeader() {
+			Image titleIcon = new Image(null,
+					MyCollabResource.newResource("icons/24/project/bug.png"));
+			Label headerText = new Label("Bug List");
+
+			final Button createBtn = new Button(
+					LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new BugEvent.GotoAdd(this, null));
+						}
+					});
+			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			createBtn.setIcon(MyCollabResource
+					.newResource("icons/16/addRecord.png"));
+			createBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.BUGS));
+
+			HorizontalLayout header = new HorizontalLayout();
+			headerText.setStyleName("hdr-text");
+
+			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
+			UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
+			header.setExpandRatio(headerText, 1.0f);
+
+			header.setStyleName("hdr-view");
+			header.setWidth("100%");
+			header.setSpacing(true);
+			header.setMargin(new MarginInfo(true, false, true, false));
+
+			return header;
+		}
 	}
+
+
+	public void addRightComponent(ComponentContainer c) {
+		rightComponent.addComponent(c);
+	}
+
 }

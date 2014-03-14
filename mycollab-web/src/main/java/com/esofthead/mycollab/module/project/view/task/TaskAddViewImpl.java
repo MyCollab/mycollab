@@ -80,21 +80,17 @@ TaskAddView {
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/task_selected.png");
+		return MyCollabResource.newResource("icons/24/project/task.png");
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final HorizontalLayout controlPanel = new HorizontalLayout();
+		
 		final Layout controlButtons = (new EditFormControlsGenerator<Task>(
-				editForm)).createButtonControls();
+				editForm)).createButtonControls(true,true,true);
 		controlButtons.setSizeUndefined();
-		controlPanel.addComponent(controlButtons);
-		controlPanel.setWidth("100%");
-		controlPanel.setComponentAlignment(controlButtons,
-				Alignment.MIDDLE_CENTER);
-		controlPanel.setMargin(true);
-		return controlPanel;
+
+		return controlButtons;
 	}
 
 	@Override

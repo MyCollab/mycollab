@@ -75,7 +75,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 								new UserEvent.GotoAdd(this, null));
 					}
 				});
-		createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createBtn.setEnabled(AppContext
@@ -115,10 +115,10 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			searchComp.addComponent(this.nameField);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
+			final Button searchBtn = new Button("Search");
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -139,7 +139,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 							UserBasicSearchLayout.this.nameField.setValue("");
 						}
 					});
-			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
 			basicSearchBody.setComponentAlignment(clearBtn,

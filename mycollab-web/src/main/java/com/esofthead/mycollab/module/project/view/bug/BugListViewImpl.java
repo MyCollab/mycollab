@@ -18,17 +18,16 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import java.util.Arrays;
 
+import org.vaadin.hene.popupbutton.PopupButton;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -42,14 +41,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
@@ -72,25 +68,19 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	private final BugSearchPanel bugSearchPanel;
 	private BugTableDisplay tableItem;
 	private final VerticalLayout bugListLayout;
-	private SplitButton exportButtonControl;
+	private PopupButton exportButtonControl;
 
 	public BugListViewImpl() {
-		/*super(LocalizationHelper.getMessage(BugI18nEnum.BUG_SEARCH_TITLE), "bug_selected.png");
-
-		this.addHeaderRightContent(createHeaderRight());
-
-		CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("content-wrapper");*/
+	
 		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.bugSearchPanel = new BugSearchPanel();
-		addComponent(this.bugSearchPanel);
-
 		this.bugListLayout = new VerticalLayout();
+		this.generateDisplayTable();
+		this.bugSearchPanel.addRightComponent(constructTableActionControls());
+		addComponent(this.bugSearchPanel);
 		addComponent(this.bugListLayout);
 
-		this.generateDisplayTable();
-		//this.addComponent(contentWrapper);
 
 	}
 
@@ -121,8 +111,6 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 				}
 			}
 		});
-
-		this.bugListLayout.addComponent(this.constructTableActionControls());
 		this.bugListLayout.addComponent(this.tableItem);
 	}
 
@@ -132,13 +120,12 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 	}
 
 	private ComponentContainer constructTableActionControls() {
-		final CssLayout layoutWrapper = new CssLayout();
-		layoutWrapper.setWidth("100%");
+
+
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		layout.setWidth("100%");
-		layoutWrapper.addStyleName(UIConstants.TABLE_ACTION_CONTROLS);
-		layoutWrapper.addComponent(layout);
+
 
 		final Label lbEmpty = new Label("");
 		layout.addComponent(lbEmpty);
@@ -160,24 +147,17 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/customize.png"));
+				.newResource("icons/16/option_white.png"));
 		customizeViewBtn.setDescription("Layout Options");
 		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonControls.addComponent(customizeViewBtn);
 
-		Button exportBtn = new Button("Export", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				exportButtonControl.setPopupVisible(true);
-
-			}
-		});
-		exportButtonControl = new SplitButton(exportBtn);
+		
+		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
+		exportButtonControl.setDescription("Exports");
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);
@@ -289,7 +269,7 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		popupButtonsControl.addComponent(exportCsvBtn);
 
 		buttonControls.addComponent(exportButtonControl);
-		return layoutWrapper;
+		return layout;
 	}
 
 	@Override
@@ -309,26 +289,4 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		}
 	}
 
-	private HorizontalLayout createHeaderRight() {
-		final HorizontalLayout layout = new HorizontalLayout();
-		final Button createAccountBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new BugEvent.GotoAdd(this, null));
-					}
-				});
-		createAccountBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createAccountBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		createAccountBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
-		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_LEFT);
-
-		return layout;
-	}
 }

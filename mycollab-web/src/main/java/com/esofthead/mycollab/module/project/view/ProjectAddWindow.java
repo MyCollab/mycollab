@@ -171,7 +171,7 @@ public class ProjectAddWindow extends Window {
 						}
 
 					});
-			saveBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			buttonControls.addComponent(saveBtn);
 			buttonControls.setComponentAlignment(saveBtn,
 					Alignment.MIDDLE_CENTER);
@@ -188,7 +188,7 @@ public class ProjectAddWindow extends Window {
 						}
 
 					});
-			closeBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			closeBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			buttonControls.addComponent(closeBtn);
 			buttonControls.setComponentAlignment(closeBtn,
 					Alignment.MIDDLE_CENTER);

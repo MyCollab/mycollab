@@ -60,7 +60,7 @@ public class AccountCaseListComp extends
 					}
 				});
 		newBtn.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
-		newBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		newBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		newBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
 

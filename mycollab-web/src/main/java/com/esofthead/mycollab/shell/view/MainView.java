@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -40,11 +41,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.FeedbackWindow;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -56,6 +57,7 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -106,8 +108,23 @@ public final class MainView extends AbstractPageView {
 
 	private CustomLayout createFooter() {
 		final CustomLayout footer = CustomLayoutLoader.createLayout("footer");
+
+		Link companyLink = new Link("Esofthead", new ExternalResource("http://www.esofthead.com"));
+		companyLink.setTargetName("_blank");
+
+		footer.addComponent(companyLink, "company-url");
+
+		Calendar currentCal = Calendar.getInstance();
+
+		Label currentYear = new Label(String.valueOf(currentCal.get(Calendar.YEAR)));
+		currentYear.setSizeUndefined();
+		footer.addComponent(currentYear, "current-year");
+
+		HorizontalLayout footerRight = new HorizontalLayout();
+		footerRight.setSpacing(true);
+
 		final Button sendFeedback = new Button("Feedback");
-		sendFeedback.setStyleName(UIConstants.THEME_ROUND_BUTTON);
+		sendFeedback.setStyleName("link");
 		sendFeedback.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -116,7 +133,21 @@ public final class MainView extends AbstractPageView {
 				UI.getCurrent().addWindow(new FeedbackWindow());
 			}
 		});
-		footer.addComponent(sendFeedback, "footer-right");
+		Link blogLink = new Link("Blog", new ExternalResource("http://blog.mycollab.com"));
+		blogLink.setTargetName("_blank");
+
+		Link forumLink = new Link("Forum", new ExternalResource("http://forum.mycollab.com"));
+		forumLink.setTargetName("_blank");
+
+		Link wikiLink = new Link("Knowledge Base", new ExternalResource("http://wiki.mycollab.com"));
+		wikiLink.setTargetName("_blank");
+
+		footerRight.addComponent(blogLink);
+		footerRight.addComponent(forumLink);
+		footerRight.addComponent(wikiLink);
+		footerRight.addComponent(sendFeedback);
+
+		footer.addComponent(footerRight, "footer-right");
 		return footer;
 	}
 

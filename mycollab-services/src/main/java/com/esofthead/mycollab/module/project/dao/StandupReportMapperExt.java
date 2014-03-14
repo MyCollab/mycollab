@@ -25,16 +25,16 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
-import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 public interface StandupReportMapperExt extends
-		ISearchableDAO<StandupReportSearchCriteria> {
+ISearchableDAO<StandupReportSearchCriteria> {
 
 	SimpleStandupReport findReportById(int standupId);
 
 	List<GroupItem> getReportsCount(
 			@Param("searchCriteria") StandupReportSearchCriteria criteria);
 
-	List<User> findUsersNotDoReportYet(@Param("projectId") Integer projectId,
+	List<SimpleUser> findUsersNotDoReportYet(@Param("projectId") Integer projectId,
 			@Param("onDate") Date onDate);
 }

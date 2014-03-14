@@ -32,9 +32,8 @@ import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
-import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
 import com.esofthead.mycollab.test.service.ServiceTest;
@@ -76,10 +75,10 @@ public class StandupReportServiceTest extends ServiceTest {
 	@DataSet
 	public void testFindUsersNotDoReportYet() {
 		Date d = new GregorianCalendar(2013, 2, 13).getTime();
-		List<User> users = reportService.findUsersNotDoReportYet(1, d, 1);
+		List<SimpleUser> users = reportService.findUsersNotDoReportYet(1, d, 1);
 		Assert.assertEquals(1, users.size());
 
-		User user = users.get(0);
+		SimpleUser user = users.get(0);
 		Assert.assertEquals("linhduong", user.getUsername());
 	}
 }

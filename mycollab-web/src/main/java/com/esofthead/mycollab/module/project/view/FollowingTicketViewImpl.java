@@ -121,7 +121,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 			}
 		});
 
-		backBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 		HorizontalLayout controlBtns = new HorizontalLayout();
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));

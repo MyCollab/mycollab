@@ -115,7 +115,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 					});
 			editBtn.setIcon(MyCollabResource
 					.newResource("icons/16/edit_white.png"));
-			editBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editButtons.addComponent(editBtn);
 			editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
 			editBtn.setEnabled(canWrite);
@@ -153,7 +153,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 						}
 					});
 			cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
-			cloneBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			cloneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editButtons.addComponent(cloneBtn);
 			editButtons
 					.setComponentAlignment(cloneBtn, Alignment.MIDDLE_CENTER);

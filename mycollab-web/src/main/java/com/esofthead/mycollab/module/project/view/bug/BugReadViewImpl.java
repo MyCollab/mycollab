@@ -46,6 +46,7 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
@@ -101,7 +102,7 @@ IBugCallbackStatusComp {
 	private ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls;
 
 	public BugReadViewImpl() {
-		super("Bug Detail", MyCollabResource.newResource("icons/22/project/bug_selected.png"));
+		super("Bug Detail", MyCollabResource.newResource("icons/24/project/bug.png"));
 	}
 
 	private void displayWorkflowControl() {
@@ -345,7 +346,7 @@ IBugCallbackStatusComp {
 	@Override
 	protected ComponentContainer createButtonControls() {
 		bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<SimpleBug>(previewForm);
-		final HorizontalLayout topPanel = bugPreviewFormControls.createButtonControls(ProjectRolePermissionCollections.BUGS);
+		final HorizontalLayout topPanel = bugPreviewFormControls.createButtonControls(ProjectRolePermissionCollections.BUGS, false, false);
 
 		final Button assignBtn = new Button("Assign",
 				new Button.ClickListener() {
@@ -364,7 +365,7 @@ IBugCallbackStatusComp {
 		assignBtn.setIcon(MyCollabResource
 				.newResource("icons/16/assign.png"));
 
-		assignBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		this.bugWorkflowControl = new HorizontalLayout();
 		this.bugWorkflowControl.setMargin(false);
@@ -372,6 +373,7 @@ IBugCallbackStatusComp {
 
 		bugPreviewFormControls.insertToControlBlock(bugWorkflowControl);
 		bugPreviewFormControls.insertToControlBlock(assignBtn);
+		topPanel.setSizeUndefined();
 
 		return topPanel;
 	}
@@ -676,5 +678,10 @@ IBugCallbackStatusComp {
 			}
 			return null;
 		}
+	}
+
+	@Override
+	public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
+		return this.previewForm;
 	}
 }

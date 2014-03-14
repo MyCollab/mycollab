@@ -79,7 +79,7 @@ public class PreviewFormControlsGenerator<B> {
 					}
 				});
 		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
-		editBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		editButtons.addComponent(editBtn);
 		editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
 
@@ -109,7 +109,7 @@ public class PreviewFormControlsGenerator<B> {
 					}
 				});
 		cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
-		cloneBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		cloneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		editButtons.addComponent(cloneBtn);
 		editButtons.setComponentAlignment(cloneBtn, Alignment.MIDDLE_CENTER);
 

@@ -26,7 +26,6 @@ import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
@@ -131,10 +130,6 @@ CustomComponent implements HasSearchHandlers<S> {
 		}
 
 		abstract public ComponentContainer constructHeader();
-		/*public ComponentContainer constructHeader() {
-			return new CssLayout();
-		}*/
-
 		abstract public ComponentContainer constructBody();
 	}
 
@@ -160,12 +155,9 @@ CustomComponent implements HasSearchHandlers<S> {
 			this.addComponent(this.footer, "advSearchFooter");
 		}
 
-		/*abstract public ComponentContainer constructHeader();*/
+		public abstract ComponentContainer constructHeader();
 
-		public ComponentContainer constructHeader() {
-			return new CssLayout();
-		}
-
+		
 		public abstract ComponentContainer constructBody();
 
 		public abstract ComponentContainer constructFooter();

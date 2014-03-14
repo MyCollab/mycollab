@@ -120,7 +120,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 										ProfilePhotoUploadViewImpl.this, null));
 					}
 				});
-		cancelBtn.setStyleName("link");
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlBtns.addComponent(cancelBtn);
 		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
@@ -156,7 +156,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 
 					}
 				});
-		acceptBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		acceptBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlBtns.addComponent(acceptBtn);
 		controlBtns.setComponentAlignment(acceptBtn, Alignment.TOP_LEFT);
 

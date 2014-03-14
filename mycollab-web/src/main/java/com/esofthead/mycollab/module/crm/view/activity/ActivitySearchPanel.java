@@ -86,7 +86,7 @@ public class ActivitySearchPanel extends
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL)
 				|| AppContext.canWrite(RolePermissionCollections.CRM_MEETING));
-		controlsBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn.setCaption("Create Task");
@@ -160,16 +160,23 @@ public class ActivitySearchPanel extends
 		public ComponentContainer constructBody() {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setMargin(true);
+			basicSearchBody.setSpacing(true);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button();
-			searchBtn.setStyleName("search-icon-button");
+			
+			this.myItemCheckbox = new CheckBox("My Items");
+			this.myItemCheckbox.setWidth("75px");
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+					Alignment.MIDDLE_CENTER);
+			
+			final Button searchBtn = new Button("Search");
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
-					.newResource("icons/16/search_white.png"));
+					.newResource("icons/16/search.png"));
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -179,18 +186,10 @@ public class ActivitySearchPanel extends
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-
-			this.myItemCheckbox = new CheckBox("My Items");
-			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
-
-			final Separator separator1 = new Separator();
-			UiUtils.addComponent(basicSearchBody, separator1,
-					Alignment.MIDDLE_LEFT);
+			
 
 			final Button cancelBtn = new Button("Clear");
-			cancelBtn.setStyleName(UIConstants.THEME_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override

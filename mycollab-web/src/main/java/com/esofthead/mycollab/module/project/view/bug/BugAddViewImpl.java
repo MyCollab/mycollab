@@ -180,7 +180,7 @@ BugAddView {
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/project/bug_selected.png");
+		return MyCollabResource.newResource("icons/24/project/bug.png");
 	}
 
 	@Override

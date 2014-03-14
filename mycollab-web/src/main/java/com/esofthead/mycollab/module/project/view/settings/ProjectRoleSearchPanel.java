@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
+import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
-import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -90,14 +90,14 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
+			basicSearchBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
 			basicSearchBody.addComponent(new Label("Name"));
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
-			UiUtils.addComponent(basicSearchBody, this.nameField,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.addComponent(this.nameField);
 			this.myItemCheckbox = new CheckBox("My Items");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
+			basicSearchBody.addComponent(this.myItemCheckbox);
 
 			final Button searchBtn = new Button("Search",
 					new Button.ClickListener() {
@@ -109,7 +109,8 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 					.callSearchAction();
 				}
 			});
-			searchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button("Clear",
@@ -122,7 +123,7 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 					.setValue("");
 				}
 			});
-			clearBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;
 		}
@@ -139,7 +140,7 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 		@Override
 		public ComponentContainer constructHeader() {
 			Image titleIcon = new Image(null,
-					MyCollabResource.newResource("icons/22/project/user_selected.png"));
+					MyCollabResource.newResource("icons/24/project/user.png"));
 			Label headerText = new Label("Role List");
 
 			final Button createBtn = new Button(
@@ -150,10 +151,10 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							EventBus.getInstance().fireEvent(
-									new RoleEvent.GotoAdd(this, null));
+									new ProjectRoleEvent.GotoAdd(this, null));
 						}
 					});
-			createBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			createBtn.setIcon(MyCollabResource
 					.newResource("icons/16/addRecord.png"));
 			createBtn.setEnabled(CurrentProjectVariables

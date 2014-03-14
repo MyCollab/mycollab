@@ -59,7 +59,7 @@ public class AccountCampaignSelectionWindow extends
 				close();
 			}
 		});
-		selectBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		AccountSimpleSearchPanel accountSimpleSearchPanel = new AccountSimpleSearchPanel();
 		accountSimpleSearchPanel

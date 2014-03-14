@@ -227,7 +227,7 @@ class TaskDisplayComponent extends CssLayout {
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		this.createTaskBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		this.createTaskBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		this.createTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		final VerticalLayout taskGroupFooter = new VerticalLayout();
 		taskGroupFooter.setMargin(true);
 		taskGroupFooter.addStyleName("task-list-footer");

@@ -22,6 +22,7 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -56,6 +57,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private HorizontalLayout editButtons;
 	private HorizontalLayout layout;
 
+	private boolean haveNavigationBtns;
+
 	public ProjectPreviewFormControlsGenerator(
 			final AdvancedPreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
@@ -65,7 +68,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
-		layout.setWidth("100%");
+		layout.setSizeUndefined();
 
 		backBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -97,7 +100,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 			});
 			assignBtn.setIcon(MyCollabResource
 					.newResource("icons/16/assign.png"));
-			assignBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+			assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editButtons.addComponent(assignBtn);
 			editButtons.setComponentAlignment(assignBtn,
 					Alignment.MIDDLE_CENTER);
@@ -137,7 +140,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setWidth("100px");
-		popupButtonsControl.setMargin(true);
+		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
+		popupButtonsControl.setSpacing(true);
 
 		editBtn = new Button(GenericBeanForm.EDIT_ACTION,
 				new Button.ClickListener() {
@@ -180,39 +184,40 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout.setComponentAlignment(editButtons, Alignment.MIDDLE_CENTER);
 		layout.setExpandRatio(editButtons, 1.0f);
 
-		ButtonGroup navigationBtns = new ButtonGroup();
-		navigationBtns.setStyleName("navigation-btns");
-		previousItem = new Button("<", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		if (haveNavigationBtns) {
+			ButtonGroup navigationBtns = new ButtonGroup();
+			navigationBtns.setStyleName("navigation-btns");
+			previousItem = new Button("<", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final T item = previewForm.getBean();
-				previewForm.fireGotoPrevious(item);
-			}
-		});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					final T item = previewForm.getBean();
+					previewForm.fireGotoPrevious(item);
+				}
+			});
 
-		previousItem.setStyleName(UIConstants.THEME_BLUE_LINK);
-		previousItem.setDescription("Show previous item");
-		navigationBtns.addButton(previousItem);
+			previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
+			previousItem.setDescription("Show previous item");
+			navigationBtns.addButton(previousItem);
 
-		nextItemBtn = new Button(">", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+			nextItemBtn = new Button(">", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final T item = previewForm.getBean();
-				previewForm.fireGotoNextItem(item);
-			}
-		});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					final T item = previewForm.getBean();
+					previewForm.fireGotoNextItem(item);
+				}
+			});
 
-		nextItemBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		nextItemBtn.setDescription("Show next item");
+			nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			nextItemBtn.setDescription("Show next item");
 
-		navigationBtns.addButton(nextItemBtn);
-		layout.addComponent(navigationBtns);
-		layout.setComponentAlignment(navigationBtns, Alignment.MIDDLE_RIGHT);
-
+			navigationBtns.addButton(nextItemBtn);
+			layout.addComponent(navigationBtns);
+			layout.setComponentAlignment(navigationBtns, Alignment.MIDDLE_RIGHT);
+		}
 
 		if (permissionItem != null) {
 			final boolean canRead = CurrentProjectVariables
@@ -242,5 +247,11 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 			final boolean haveAssignButton) {
 		this.haveAssignButton = haveAssignButton;
 		return createButtonControls(permissionItem);
+	}
+
+	public HorizontalLayout createButtonControls(final String permissionItem,
+			final boolean haveAssignButton, boolean haveNavigationButtons) {
+		this.haveNavigationBtns = haveNavigationButtons;
+		return createButtonControls(permissionItem, haveAssignButton);
 	}
 }
