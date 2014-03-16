@@ -30,20 +30,21 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriter
 import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class VersionMultiSelectField extends CustomField {
+public class VersionMultiSelectField extends MultiSelectComp {
 	private static final long serialVersionUID = 1L;
 
-	private MultiSelectComp<Version> versionSelection;
-
 	public VersionMultiSelectField() {
+		super("versionname");
+	}
+
+	@Override
+	protected List<Version> createData() {
 		VersionSearchCriteria searchCriteria = new VersionSearchCriteria();
 		searchCriteria.setStatus(new StringSearchField("Open"));
 
@@ -52,37 +53,23 @@ public class VersionMultiSelectField extends CustomField {
 
 		VersionService versionService = ApplicationContextUtil
 				.getSpringBean(VersionService.class);
-		List versions = versionService
+		List<Version> versions = versionService
 				.findPagableListByCriteria(new SearchRequest<VersionSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-
-		versionSelection = new MultiSelectComp<Version>("versionname", versions);
-	}
-
-	public void resetComp() {
-		versionSelection.resetComp();
-	}
-
-	@Override
-	protected Component initContent() {
-		return versionSelection;
+		return versions;
 	}
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
 		List<Version> versions = (List<Version>) newDataSource.getValue();
 		if (versions != null) {
-			versionSelection.setSelectedItems(versions);
+			this.setSelectedItems(versions);
 		}
 		super.setPropertyDataSource(newDataSource);
 	}
 
-	public List<Version> getSelectedItems() {
-		return versionSelection.getSelectedItems();
-	}
-
 	@Override
-	public Class getType() {
+	public Class<?> getType() {
 		return Object.class;
 	}
 }

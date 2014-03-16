@@ -33,7 +33,6 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.MultiSelectComp;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.CustomComponent;
 
 /**
  * 
@@ -41,16 +40,18 @@ import com.vaadin.ui.CustomComponent;
  * @since 1.0
  * 
  */
-public class ProjectMemberMultiSelectComp extends CustomComponent {
+public class ProjectMemberMultiSelectComp extends MultiSelectComp<SimpleProjectMember> {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectMemberMultiSelectComp.class);
 
-	private static String displayName = "memberFullName";
-	private MultiSelectComp<SimpleProjectMember> memberSelectionComp;
-
 	public ProjectMemberMultiSelectComp() {
+		super("memberFullName");
+	}
+
+	@Override
+	protected List<SimpleProjectMember> createData() {
 		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
@@ -62,37 +63,33 @@ public class ProjectMemberMultiSelectComp extends CustomComponent {
 		List<SimpleProjectMember> items = projectMemberService
 				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-
-		memberSelectionComp = new MultiSelectComp<SimpleProjectMember>(
-				displayName, items) {
-			protected ItemSelectionComp<SimpleProjectMember> buildItem(
-					final SimpleProjectMember item) {
-				ItemSelectionComp<SimpleProjectMember> buildItem = super
-						.buildItem(item);
-				String userAvatarId = "";
-
-				try {
-					userAvatarId = (String) PropertyUtils.getProperty(item,
-							"memberAvatarId");
-				} catch (Exception e) {
-					log.error("Error while getting project member avatar", e);
-				}
-
-				buildItem.setIcon(UserAvatarControlFactory
-						.createAvatarResource(userAvatarId, 16));
-				return buildItem;
-			}
-		};
-
-		this.setCompositionRoot(memberSelectionComp);
+		return items;
 	}
 
-	public List<SimpleProjectMember> getSelectedItems() {
-		return memberSelectionComp.getSelectedItems();
+	@Override
+	public Class<? extends SimpleProjectMember> getType() {
+		return SimpleProjectMember.class;
 	}
 
-	public void resetComp() {
-		memberSelectionComp.resetComp();
+
+
+	@Override
+	protected ItemSelectionComp<SimpleProjectMember> buildItem(
+			final SimpleProjectMember item) {
+		ItemSelectionComp<SimpleProjectMember> buildItem = super
+				.buildItem(item);
+		String userAvatarId = "";
+
+		try {
+			userAvatarId = (String) PropertyUtils.getProperty(item,
+					"memberAvatarId");
+		} catch (Exception e) {
+			log.error("Error while getting project member avatar", e);
+		}
+
+		buildItem.setIcon(UserAvatarControlFactory
+				.createAvatarResource(userAvatarId, 16));
+		return buildItem;
 	}
 
 }

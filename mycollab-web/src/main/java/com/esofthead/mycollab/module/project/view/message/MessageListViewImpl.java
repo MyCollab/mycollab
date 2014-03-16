@@ -575,6 +575,7 @@ MessageListView, HasEditFormHandlers<Message> {
 				}
 			});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 			controls.addComponent(saveBtn);
 			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.shared.ui.MarginInfo;
@@ -172,6 +173,7 @@ public class ProjectAddWindow extends Window {
 
 					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 			buttonControls.addComponent(saveBtn);
 			buttonControls.setComponentAlignment(saveBtn,
 					Alignment.MIDDLE_CENTER);

@@ -37,4 +37,13 @@ public class Param {
 		this.displayName = displayName;
 	}
 
+	@Override
+	public boolean equals(Object value) {
+		if (!(value instanceof Param)) {
+			return false;
+		} else {
+			return id.equals(((Param) value).id);
+		}
+	}
+
 }

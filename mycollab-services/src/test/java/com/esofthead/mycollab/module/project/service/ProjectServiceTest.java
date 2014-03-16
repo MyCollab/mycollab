@@ -51,25 +51,12 @@ public class ProjectServiceTest extends ServiceTest {
 	@Test
 	public void testGetListProjectsByCriteria() {
 		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setAccountName(new StringSearchField(StringSearchField.AND,
-				"a"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		List projects = projectService
 				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		Assert.assertEquals(1, projects.size());
-	}
-
-	@DataSet
-	@Test
-	public void testGetTotalCountProjectsByCriteria() {
-		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setOwnerName(new StringSearchField(StringSearchField.AND,
-				"Nguyen"));
-		criteria.setSaccountid(new NumberSearchField(1));
-
-		Assert.assertEquals(2, projectService.getTotalCount(criteria));
 	}
 
 	@DataSet

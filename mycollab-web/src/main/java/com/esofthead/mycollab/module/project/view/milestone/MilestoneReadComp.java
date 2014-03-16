@@ -67,7 +67,7 @@ class MilestoneReadComp extends AbstractPreviewItemComp<SimpleMilestone> {
 
 	MilestoneReadComp() {
 		super("Phase detail", MyCollabResource
-				.newResource("icons/24/project/elected.png"));
+				.newResource("icons/24/project/selected.png"));
 	}
 
 	@Override

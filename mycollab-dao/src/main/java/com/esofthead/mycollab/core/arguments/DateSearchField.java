@@ -27,7 +27,8 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
  * 
  */
 public class DateSearchField extends SearchField {
-
+	private static final long serialVersionUID = 1L;
+	
 	public static String LESSTHAN = "<";
 	public static String LESSTHANEQUAL = "<=";
 	public static String GREATERTHAN = ">";

@@ -18,6 +18,8 @@
         <result column="numOpenRisks" jdbcType="INTEGER"
             property="numOpenRisks" />
         <result column="numRisks" jdbcType="INTEGER" property="numRisks" />
+        <result column="numActiveMembers" jdbcType="INTEGER"
+            property="numActiveMembers" />
         <association property="currency"
             resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
             columnPrefix="curr_"></association>
@@ -32,121 +34,70 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.username != null">
-            <![CDATA[
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.username)
             ${searchCriteria.username.operation}
             (SELECT COUNT(*)
             FROM s_user as user 
             WHERE m_prj_project.owner = user.username 
-                AND user.username = #{searchCriteria.username.value} ) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.ownerName != null">
-            <![CDATA[
-            ${searchCriteria.ownerName.operation}
-            (SELECT COUNT(*) 
-             FROM s_user AS user
-             WHERE m_prj_project.owner = user.username 
-                 AND (concat(user.firstname, ' ', LTRIM(concat(IFNULL(user.middlename, ''), ' ')), user.lastname) like '%${searchCriteria.ownerName.value}%') ) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.accountName != null">
-            <![CDATA[
-            ${searchCriteria.accountName.operation}
-            (SELECT COUNT(*) 
-             FROM m_crm_account 
-             WHERE m_prj_project.account = m_crm_account.id 
-                 AND m_crm_account.accountName LIKE '%${searchCriteria.accountName.value}%') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.projectStatuses != null">
+                AND user.username = @{searchCriteria.username.value} ) > 0
+        #end
+        
+        #ifnotnull($searchCriteria.projectStatuses)
             ${searchCriteria.projectStatuses.operation}
             m_prj_project.projectStatus IN
-            <foreach close=")"
-                collection="searchCriteria.projectStatuses.values" item="status"
-                open="(" separator=",">
-                #{status}
-            </foreach>
-        </if>
-        <if test="searchCriteria.projectType != null">
-            ${searchCriteria.projectType.operation}
-            m_prj_project.projectType
-            like
-            '%${searchCriteria.projectType.value}%'
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_prj_project.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.projectName != null">
-          <![CDATA[
-            ${searchCriteria.projectName.operation} m_prj_project.name like '%${searchCriteria.projectName.value}%'
-            ]]>
-        </if>
-        <if test="searchCriteria.involvedMember != null">
-          <![CDATA[
+            #repeat(${searchCriteria.projectStatuses.values} $status "," "(" ")")
+                @{status}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.involvedMember)
             ${searchCriteria.involvedMember.operation} 
-            (SELECT COUNT(*) FROM m_prj_member WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=#{searchCriteria.involvedMember.value}) > 0
-            ]]>
-        </if>
+            (SELECT COUNT(*) FROM m_prj_member 
+                WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=@{searchCriteria.involvedMember.value}) > 0
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="queryTotalCountSearchCriteria">
-        <if test="searchCriteria.username != null">
-            <![CDATA[
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.username)
             ${searchCriteria.username.operation}
             (SELECT COUNT(*) 
              FROM s_user as user 
              WHERE m_prj_project.owner = user.username 
-                 AND user.username = #{searchCriteria.username.value} ) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.ownerName != null">
-            <![CDATA[
-            ${searchCriteria.ownerName.operation}
-            (SELECT COUNT(*) 
-             FROM s_user as user 
-             WHERE m_prj_project.owner = user.username 
-                 AND (concat(user.firstname, ' ', LTRIM(concat(IFNULL(user.middlename, ''), ' ')), user.lastname) like '%${searchCriteria.ownerName.value}%') ) > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.accountName != null">
-            <![CDATA[
-            ${searchCriteria.accountName.operation}
-            (SELECT COUNT(*)
-                FROM m_crm_account 
-                WHERE m_prj_project.account = m_crm_account.id 
-                    AND m_crm_account.accountName LIKE '%${searchCriteria.accountName.value}%') > 0
-            ]]>
-        </if>
-        <if test="searchCriteria.projectStatuses != null">
+                 AND user.username = @{searchCriteria.username.value} ) > 0
+        #end
+        #ifnotnull($searchCriteria.projectStatuses)
             ${searchCriteria.projectStatuses.operation}
             m_prj_project.projectStatus IN
-            <foreach close=")"
-                collection="searchCriteria.projectStatuses.values" item="status"
-                open="(" separator=",">
-                #{status}
-            </foreach>
-        </if>
-        <if test="searchCriteria.projectType != null">
-            ${searchCriteria.projectType.operation}
-            m_prj_project.projectType
-            like
-            '%${searchCriteria.projectType.value}%'
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_prj_project.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.projectName != null">
-          <![CDATA[
-            ${searchCriteria.projectName.operation} m_prj_project.name like '%${searchCriteria.projectName.value}%'
-            ]]>
-        </if>
-        <if test="searchCriteria.involvedMember != null">
-          <![CDATA[
+            #repeat(${searchCriteria.projectStatuses.values} $status "," "(" ")")
+                @{status}
+            #end
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_project.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.involvedMember)
             ${searchCriteria.involvedMember.operation} 
-            (SELECT COUNT(*) FROM m_prj_member WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=#{searchCriteria.involvedMember.value}) > 0
-            ]]>
-        </if>
+            (SELECT COUNT(*) FROM m_prj_member 
+                WHERE m_prj_member.status='Active' AND m_prj_member.projectId=m_prj_project.id AND m_prj_member.username=@{searchCriteria.involvedMember.value}) > 0
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="selectSimpleProject">
@@ -162,6 +113,7 @@
         (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.projectid=m_prj_project.id AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')) AS numOpenBugs, 
         (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.projectid=m_prj_project.id) AS numTasks,
         (SELECT COUNT(*) FROM m_prj_task WHERE m_prj_task.projectid=m_prj_project.id AND m_prj_task.status='Open') AS numOpenTasks,
+        (SELECT COUNT(*) FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id AND m_prj_member.status='Active') AS numActiveMembers, 
         s_currency.id, s_currency.shortname AS curr_shortname, s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
         s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate
         FROM m_prj_project 
@@ -172,47 +124,42 @@
     </sql>
 
     <select id="findProjectById" parameterType="java.lang.Integer"
-        resultMap="SimpleProjectResult">
+        resultMap="SimpleProjectResult" lang="velocity">
         <include refid="selectSimpleProject" />
 
-        WHERE m_prj_project.id=#{projectId, jdbcType=NUMERIC}
+        WHERE m_prj_project.id=@{projectId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getTotalCount" resultType="int" parameterType="ProjectSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="ProjectSearchCriteria"
+        lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_project
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
     </select>
 
-    <select id="getUserProjectKeys" resultType="java.lang.Integer">
+    <select id="getUserProjectKeys" resultType="java.lang.Integer"
+        lang="velocity">
         SELECT m_prj_project.id
         FROM m_prj_project
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+        #trim("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
+        #end
     </select>
 
 
     <select id="findPagableListByCriteria" resultMap="SimpleProjectResult"
-        parameterType="ProjectSearchCriteria">
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.selectSimpleProject" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        parameterType="ProjectSearchCriteria" lang="velocity">
+        <include refid="selectSimpleProject" />
+        #ifnotnull($_parameter.searchCriteria)
+        #trim("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
+        #end
     </select>
 
     <sql id="selectSimpleActivityStream">
@@ -233,157 +180,253 @@
     </sql>
 
     <select id="getProjectActivityStreams" parameterType="ActivityStreamSearchCriteria"
-        resultMap="ActivityStreamResult">
+        resultMap="ActivityStreamResult" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.selectSimpleActivityStream" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-            </trim>
-            <include
-                refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.orderStatement" />
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+        #trim("WHERE" "AND|OR")
+        <include
+            refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+        #end
+        #end
+        <include
+            refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.orderStatement" />
     </select>
 
     <select id="getTotalActivityStream" resultType="int"
-        parameterType="ActivityStreamSearchCriteria">
+        parameterType="ActivityStreamSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+        #trim("WHERE" "AND|OR")
+        <include
+            refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+        #end
+        #end
     </select>
 
     <select id="getSubdomainOfProject" resultType="java.lang.String"
-        parameterType="java.lang.Integer">
+        parameterType="java.lang.Integer" lang="velocity">
         <![CDATA[
         SELECT s_account.subdomain
             FROM s_account, m_prj_project
             WHERE m_prj_project.sAccountId=s_account.id AND
-                  m_prj_project.id=#{projectId,jdbcType=NUMERIC}
+                  m_prj_project.id=@{projectId,jdbcType=NUMERIC}
                   ]]>
     </select>
 
     <resultMap id="ProjectEmailRelayNotificationResult"
         type="com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification"
         extends="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.SimpleEmailRelayNotificationResult">
-        <result column="projectId" jdbcType="INTEGER"
-            property="projectId" />
+        <result column="projectId" jdbcType="INTEGER" property="projectId" />
     </resultMap>
+
     <select id="findProjectRelayEmailNotifications" resultMap="ProjectEmailRelayNotificationResult">
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-                    notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_tracker_bug.projectid AS projectId 
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_tracker_bug.projectid AS projectId
         FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_tracker_bug ON (s_relay_email_notification.type="Project-Bug" AND m_tracker_bug.id=s_relay_email_notification.typeid)
-       )
-       UNION
-       (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-                     notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_task.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_task ON (s_relay_email_notification.type="Project-Task" AND m_prj_task.id=s_relay_email_notification.typeid)
-  		)
-        
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_tracker_bug ON (s_relay_email_notification.type="Project-Bug" AND
+        m_tracker_bug.id=s_relay_email_notification.typeid)
+        )
         UNION
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-                    notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_task_list.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_task_list ON (s_relay_email_notification.type="Project-TaskList" AND m_prj_task_list.id=s_relay_email_notification.typeid)
-         )
-        
-         UNION
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-                    notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_message.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_message ON (s_relay_email_notification.type="Project-Message" AND m_prj_message.id=s_relay_email_notification.typeid)    
-        )      
-             
-         UNION
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,  notifier.username AS notifiers_username,
-                    notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_milestone.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_milestone ON (s_relay_email_notification.type="Project-Milestone" AND m_prj_milestone.id=s_relay_email_notification.typeid)
-        )      
-             
+        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_task.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_task ON (s_relay_email_notification.type="Project-Task" AND
+        m_prj_task.id=s_relay_email_notification.typeid)
+        )
+
         UNION
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,  notifier.username AS notifiers_username,
-                    notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_risk.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND m_prj_risk.id=s_relay_email_notification.typeid)  
-         )    
-             
-         UNION
-        (SELECT s_relay_email_notification.id, s_relay_email_notification.sAccountId, s_relay_email_notification.type, 
-                    s_relay_email_notification.typeid, s_relay_email_notification.action, 
-                    s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
-                    s_relay_email_notification.changeby, s_relay_email_notification.changeComment,
-                    concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
-                    notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-                    notifier.email AS notifiers_email, m_prj_problem.projectid AS projectId
-        FROM s_relay_email_notification
-             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
-             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
-             LEFT OUTER JOIN s_user AS notifier ON (m_monitor_item.user=notifier.username)
-             JOIN m_prj_problem ON (s_relay_email_notification.type="Project-Problem" AND m_prj_problem.id=s_relay_email_notification.typeid)     
-         )            
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_task_list.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_task_list ON
+        (s_relay_email_notification.type="Project-TaskList" AND
+        m_prj_task_list.id=s_relay_email_notification.typeid)
+        )
+
+        UNION
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_message.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_message ON (s_relay_email_notification.type="Project-Message"
+        AND m_prj_message.id=s_relay_email_notification.typeid)
+        )
+
+        UNION
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_milestone.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_milestone ON
+        (s_relay_email_notification.type="Project-Milestone" AND
+        m_prj_milestone.id=s_relay_email_notification.typeid)
+        )
+
+        UNION
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username,
+        notifier.timezone AS notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_risk.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_risk ON (s_relay_email_notification.type="Project-Risk" AND
+        m_prj_risk.id=s_relay_email_notification.typeid)
+        )
+
+        UNION
+        (SELECT s_relay_email_notification.id,
+        s_relay_email_notification.sAccountId,
+        s_relay_email_notification.type,
+        s_relay_email_notification.typeid,
+        s_relay_email_notification.action,
+        s_relay_email_notification.extraTypeId,
+        s_relay_email_notification.emailHandlerBean,
+        s_relay_email_notification.changeby,
+        s_relay_email_notification.changeComment,
+        concat(changeUser.firstname, ' ',
+        LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname)
+        as changeByUserFullName,
+        notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+        notifier.username AS notifiers_username, notifier.timezone AS
+        notifiers_timezone,
+        notifier.email AS notifiers_email, m_prj_problem.projectid AS projectId
+        FROM
+        s_relay_email_notification
+        LEFT OUTER JOIN s_user AS changeUser ON
+        (changeUser.username=s_relay_email_notification.changeby)
+        LEFT OUTER JOIN m_monitor_item ON
+        (m_monitor_item.typeid=s_relay_email_notification.typeid AND
+        s_relay_email_notification.type=m_monitor_item.type)
+        LEFT OUTER JOIN s_user AS notifier ON
+        (m_monitor_item.user=notifier.username)
+        JOIN m_prj_problem ON (s_relay_email_notification.type="Project-Problem"
+        AND m_prj_problem.id=s_relay_email_notification.typeid)
+        )
     </select>
 </mapper>

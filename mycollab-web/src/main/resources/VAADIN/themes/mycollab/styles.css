@@ -198,6 +198,27 @@ input.v-widget.v-textfield[type="text"], .v-filterselect  {
 	background-color: rgb(245, 245, 245);
 }
 
+.popupContent .v-window-outerheader {
+	background-color: #8B8B8B;
+	padding: 0;
+}
+.popupContent .v-window-outerheader .v-window-header {
+	padding: 12px 10px;
+	font-size: 14px;
+	color: rgb(247, 247, 247);
+}
+
+.v-window-closebox {
+	background: transparent url(icons/16/action/delete.png) no-repeat;
+	width:16px;
+	height:16px;
+	background-position: 0 0;
+	margin: 5px;
+}
+.v-window-closebox:active, .v-window-closebox:hover  {
+	background-position: 0 0;
+	opacity:0.7;
+}
 body div>input.v-filterselect-input[type="text"] {
 	height: 16px;
 	line-height: 12px !important;
@@ -284,8 +305,7 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 		padding: 3px 4px;
 }
 .splitbutton .small-padding.v-popupbutton .v-button-wrap, .splitbutton .small-padding.v-popupbutton:active .v-button-wrap {
-	padding:3px 1px
-}
+	padding: 3px 1px;}
 .small-padding .v-spacing {
 	width:3px;
 }
@@ -3335,9 +3355,24 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 .v-button.select-bg {
 	height: 25px;
 	width: 22px;
-	background: url('icons/16/select.png') no-repeat center center
-		transparent;
+	background: none no-repeat 0px 0px transparent;
 	border-radius: 0px 2px 2px 0px;
+	border-width: 1px 1px 1px 0px;
+	border-color: #CFCFCF;
+	position: relative;
+}
+.v-button.select-bg::after {
+	background: url('icons/sprites-black.png') no-repeat 0px -9px transparent;
+	content: "";
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	opacity: .4;
+}
+.v-button.select-bg:hover::after {
+	opacity: .7;
 }
 
 .v-button.select-bg .v-button-wrap,.v-button.select-bg:active .v-button-wrap
@@ -3355,8 +3390,8 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 }
 
 .v-window-outerheader {
-	background: url('icons/grad-light-top.png') repeat-x left top
-		rgb(228, 228, 228);
+	/* background: url('icons/grad-light-top.png') repeat-x left top
+		rgb(228, 228, 228); */
 	border-bottom: 1px solid #CFCFCF;
 	border-radius: 1px;
 	min-height: 23px;
@@ -5383,11 +5418,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 /* Multiple Select Comp */
-.v-csslayout.select-bg {
-	background: url("icons/grad-light-top.png") repeat-x 0 1px
-		rgb(218, 218, 218);
-}
-
 .colored-gridlayout .v-gridlayout-margin .gridform-field .v-csslayout.select-bg>.v-csslayout-margin
 	{
 	padding: 0px;
@@ -5944,10 +5974,9 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	padding: 3px 7px 3px 2px;
 }
 
-.splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator
+.splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
 	{
-	background: url("icons/sprites.png") no-repeat scroll -5px -10px
-		transparent;
+	background: url("icons/sprites.png") no-repeat scroll -6px -10px transparent;
 }
 /* End new splitbutton */
 
@@ -6532,5 +6561,5 @@ img.icon-btn {
 	background-color: #FFFFFF;
 	border: 1px solid #A8A8A8;
 	border-radius: 3px;
+	padding: 0px;
 }
-

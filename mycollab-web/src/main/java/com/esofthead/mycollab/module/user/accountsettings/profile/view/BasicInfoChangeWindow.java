@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -134,6 +135,7 @@ public class BasicInfoChangeWindow extends Window {
             }
         });
         saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+        saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
         hlayoutControls.addComponent(saveBtn);
         hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 

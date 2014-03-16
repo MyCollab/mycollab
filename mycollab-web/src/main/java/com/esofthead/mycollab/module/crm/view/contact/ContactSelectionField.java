@@ -40,7 +40,7 @@ import com.vaadin.ui.UI;
  * @since 1.0
  * 
  */
-public class ContactSelectionField extends CustomField<Object> implements
+public class ContactSelectionField extends CustomField<Integer> implements
 		FieldSelection<Contact> {
 	private static final long serialVersionUID = 1L;
 
@@ -99,18 +99,28 @@ public class ContactSelectionField extends CustomField<Object> implements
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof Integer) {
-			ContactService contactService = ApplicationContextUtil
-					.getSpringBean(ContactService.class);
-			SimpleContact contactVal = contactService.findById((Integer) value,
-					AppContext.getAccountId());
-			if (contactVal != null) {
-				setInternalContact(contactVal);
-			}
+			setContactByVal((Integer) value);
 
 		} else if (value instanceof SimpleContact) {
 			setInternalContact((SimpleContact) value);
 		}
 		super.setPropertyDataSource(newDataSource);
+	}
+
+	@Override
+	public void setValue(Integer value) {
+		this.setContactByVal(value);
+		super.setValue(value);
+	}
+
+	private void setContactByVal(Integer contactId) {
+		ContactService contactService = ApplicationContextUtil
+				.getSpringBean(ContactService.class);
+		SimpleContact contactVal = contactService.findById(contactId,
+				AppContext.getAccountId());
+		if (contactVal != null) {
+			setInternalContact(contactVal);
+		}
 	}
 
 	private void setInternalContact(SimpleContact contact) {
@@ -142,7 +152,7 @@ public class ContactSelectionField extends CustomField<Object> implements
 	}
 
 	@Override
-	public Class<Object> getType() {
-		return Object.class;
+	public Class<Integer> getType() {
+		return Integer.class;
 	}
 }

@@ -59,17 +59,27 @@ public class AccountSelectionField extends CustomField<Integer> implements
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof Integer) {
-			AccountService accountService = ApplicationContextUtil
-					.getSpringBean(AccountService.class);
-			SimpleAccount account = accountService.findById((Integer) value,
-					AppContext.getAccountId());
-			if (account != null) {
-				setInternalAccount(account);
-			}
+			setAccountByVal((Integer) value);
 
 			super.setPropertyDataSource(newDataSource);
 		} else {
 			super.setPropertyDataSource(newDataSource);
+		}
+	}
+
+	@Override
+	public void setValue(Integer value) {
+		this.setAccountByVal(value);
+		super.setValue(value);
+	}
+
+	private void setAccountByVal(Integer accountId) {
+		AccountService accountService = ApplicationContextUtil
+				.getSpringBean(AccountService.class);
+		SimpleAccount account = accountService.findById(accountId,
+				AppContext.getAccountId());
+		if (account != null) {
+			setInternalAccount(account);
 		}
 	}
 

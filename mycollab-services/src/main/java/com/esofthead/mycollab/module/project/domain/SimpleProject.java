@@ -41,6 +41,8 @@ public class SimpleProject extends Project {
 	private int numOpenRisks;
 
 	private int numRisks;
+	
+	private int numActiveMembers;
 
 	@NotBindable
 	private Currency currency;
@@ -131,5 +133,13 @@ public class SimpleProject extends Project {
 
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+	}
+
+	public int getNumActiveMembers() {
+		return numActiveMembers;
+	}
+
+	public void setNumActiveMembers(int numActiveMembers) {
+		this.numActiveMembers = numActiveMembers;
 	}
 }

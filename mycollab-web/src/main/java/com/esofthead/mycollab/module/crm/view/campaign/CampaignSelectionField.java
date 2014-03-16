@@ -54,17 +54,27 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof Integer) {
-			CampaignService campaignService = ApplicationContextUtil
-					.getSpringBean(CampaignService.class);
-			SimpleCampaign campaign = campaignService.findById((Integer) value,
-					AppContext.getAccountId());
-			if (campaign != null) {
-				setInternalCampaign(campaign);
-			}
+			setCampaignByVal((Integer) value);
 
 			super.setPropertyDataSource(newDataSource);
 		} else {
 			super.setPropertyDataSource(newDataSource);
+		}
+	}
+
+	@Override
+	public void setValue(Integer value) {
+		this.setCampaignByVal(value);
+		super.setValue(value);
+	}
+
+	private void setCampaignByVal(Integer campaignId) {
+		CampaignService campaignService = ApplicationContextUtil
+				.getSpringBean(CampaignService.class);
+		SimpleCampaign campaign = campaignService.findById(campaignId,
+				AppContext.getAccountId());
+		if (campaign != null) {
+			setInternalCampaign(campaign);
 		}
 	}
 

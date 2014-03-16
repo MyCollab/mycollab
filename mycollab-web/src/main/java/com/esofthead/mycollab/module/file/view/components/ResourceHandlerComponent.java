@@ -187,7 +187,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		UiUtils.addComponent(controllGroupBtn, selectAllBtn,
 				Alignment.MIDDLE_LEFT);
 
-		Button goUpBtn = new Button();
+		Button goUpBtn = new Button("Up");
 		goUpBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/up_to_root.png"));
 		goUpBtn.addClickListener(new Button.ClickListener() {
@@ -230,7 +230,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 		ButtonGroup navButton = new ButtonGroup();
 		navButton.addStyleName(UIConstants.THEME_BLUE_LINK);
-		Button createBtn = new Button("", new Button.ClickListener() {
+		Button createBtn = new Button("Create", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -246,7 +246,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		navButton.addButton(createBtn);
 
-		Button uploadBtn = new Button("", new ClickListener() {
+		Button uploadBtn = new Button("Upload", new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -263,7 +263,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		navButton.addButton(uploadBtn);
 
-		Button downloadBtn = new Button("");
+		Button downloadBtn = new Button("Download");
 
 		LazyStreamSource streamSource = new LazyStreamSource() {
 			private static final long serialVersionUID = 1L;
@@ -294,7 +294,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 				.canRead(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		navButton.addButton(downloadBtn);
 
-		Button moveToBtn = new Button("", new Button.ClickListener() {
+		Button moveToBtn = new Button("Move", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -318,7 +318,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		moveToBtn.setDescription("Move to");
 		navButton.addButton(moveToBtn);
 
-		deleteBtn = new Button(""
+		deleteBtn = new Button("Delete"
 				,
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -1153,6 +1153,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 						}
 					});
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(

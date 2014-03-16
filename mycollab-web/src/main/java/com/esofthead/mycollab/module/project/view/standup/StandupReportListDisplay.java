@@ -36,7 +36,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 public class StandupReportListDisplay
 		extends
@@ -109,7 +109,6 @@ public class StandupReportListDisplay
 			reportContent.setExpandRatio(report3, 1.0f);
 
 			reportContent.setWidth("100%");
-			// reportContent.setSpacing(true);
 
 			layout.addComponent(reportContent);
 			return layout;

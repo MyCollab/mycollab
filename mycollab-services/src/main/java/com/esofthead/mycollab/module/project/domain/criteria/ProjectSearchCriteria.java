@@ -30,11 +30,7 @@ public class ProjectSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	private StringSearchField username;
-	private StringSearchField ownerName;
-	private StringSearchField accountName;
 	private SetSearchField<String> projectStatuses;
-	private StringSearchField projectType;
-	private StringSearchField projectName;
 	private StringSearchField involvedMember;
 
 	public StringSearchField getUsername() {
@@ -45,44 +41,12 @@ public class ProjectSearchCriteria extends SearchCriteria {
 		this.username = username;
 	}
 
-	public StringSearchField getOwnerName() {
-		return ownerName;
-	}
-
-	public void setOwnerName(StringSearchField ownerName) {
-		this.ownerName = ownerName;
-	}
-
-	public StringSearchField getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(StringSearchField accountName) {
-		this.accountName = accountName;
-	}
-
 	public SetSearchField<String> getProjectStatuses() {
 		return projectStatuses;
 	}
 
 	public void setProjectStatuses(SetSearchField<String> projectStatuses) {
 		this.projectStatuses = projectStatuses;
-	}
-
-	public StringSearchField getProjectType() {
-		return projectType;
-	}
-
-	public void setProjectType(StringSearchField projectType) {
-		this.projectType = projectType;
-	}
-
-	public void setProjectName(StringSearchField projectName) {
-		this.projectName = projectName;
-	}
-
-	public StringSearchField getProjectName() {
-		return projectName;
 	}
 
 	public StringSearchField getInvolvedMember() {

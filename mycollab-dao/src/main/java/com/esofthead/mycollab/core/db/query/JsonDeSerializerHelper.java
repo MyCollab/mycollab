@@ -36,13 +36,14 @@ public class JsonDeSerializerHelper {
 
 			JsonElement paramClsName = jsonObj.get("paramClsName");
 			if (paramClsName != null) {
+				String clsName = paramClsName.getAsString();
 				SearchFieldInfo fieldInfo = new SearchFieldInfo();
 				fieldInfo
 						.setPrefixOper(jsonObj.get("prefixOper").getAsString());
-				fieldInfo.setCompareOper(jsonObj.get("compareOper")
-						.getAsString());
+				String compareOper = jsonObj.get("compareOper").getAsString();
+				fieldInfo.setCompareOper(compareOper);
+				fieldInfo.setParamClsName(clsName);
 
-				String clsName = paramClsName.getAsString();
 				if (StringParam.class.getName().equals(clsName)) {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							StringParam.class));
@@ -65,8 +66,14 @@ public class JsonDeSerializerHelper {
 				} else if (DateParam.class.getName().equals(clsName)) {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							DateParam.class));
-					fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),
-							Date.class));
+					if (DateParam.BETWEEN.equals(compareOper)
+							|| DateParam.NOT_BETWEEN.equals(compareOper)) {
+						fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),
+								Date[].class));
+					} else {
+						fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),
+								Date.class));
+					}
 				} else if (PropertyParam.class.getName().equals(clsName)) {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							PropertyParam.class));
@@ -76,7 +83,7 @@ public class JsonDeSerializerHelper {
 							PropertyListParam.class));
 					fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),
 							Collection.class));
-				} else if (StringListParam.class.equals(clsName)) {
+				} else if (StringListParam.class.getName().equals(clsName)) {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							StringListParam.class));
 					fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),

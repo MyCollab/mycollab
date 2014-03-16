@@ -32,4 +32,9 @@ public class BugStaticItemMultiSelectField extends MultiSelectComp<String> {
 	public BugStaticItemMultiSelectField(String[] arrItemData) {
 		super("", Arrays.asList(arrItemData));
 	}
+
+	@Override
+	public Class<? extends String> getType() {
+		return String.class;
+	}
 }

@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -145,6 +146,7 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+				saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
@@ -165,6 +167,7 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+				saveAndNewBtn.setIcon(MyCollabResource.newResource("icons/16/save_new.png"));
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(
