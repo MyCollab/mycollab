@@ -284,7 +284,9 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 			final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();
 			this.addComponent(displayWidget);
+			this.setMargin(true);
 			displayWidget.setSearchCriteria(criteria);
+			
 		}
 
 		private void displayAdvancedView() {

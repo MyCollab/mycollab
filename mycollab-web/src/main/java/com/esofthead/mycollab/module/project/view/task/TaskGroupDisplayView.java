@@ -28,5 +28,5 @@ public interface TaskGroupDisplayView extends PageView {
 
     void insertTaskList(SimpleTaskList taskList);
 
-    void displayActiveTakLists();
+    void displayTaskList();
 }

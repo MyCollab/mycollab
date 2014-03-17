@@ -17,12 +17,15 @@
 
 package com.esofthead.mycollab.module.crm.view;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
@@ -44,31 +47,34 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ActivityStreamPanel extends Depot {
+public class ActivityStreamPanel extends CssLayout {
 	private static final long serialVersionUID = 1L;
 
 	private final CrmActivityStreamPagedList activityStreamList;
 
 	public ActivityStreamPanel() {
-		super("Activity Channels", new VerticalLayout(), "100%");
 		this.activityStreamList = new CrmActivityStreamPagedList();
 
 		this.activityStreamList.addStyleName("stream-list");
-		this.bodyContent.addComponent(this.activityStreamList);
-		this.addStyleName("activity-panel");
-		((VerticalLayout) this.bodyContent).setMargin(false);
+		this.addComponent(this.activityStreamList);
+		this.setStyleName("crm-activity-list");
 	}
 
 	public void display() {
@@ -81,8 +87,8 @@ public class ActivityStreamPanel extends Depot {
 	}
 
 	static class CrmActivityStreamPagedList
-			extends
-			AbstractBeanPagedList<ActivityStreamSearchCriteria, SimpleActivityStream> {
+	extends
+	AbstractBeanPagedList<ActivityStreamSearchCriteria, SimpleActivityStream> {
 		private static final long serialVersionUID = 1L;
 
 		private final ActivityStreamService activityStreamService;
@@ -124,6 +130,7 @@ public class ActivityStreamPanel extends Depot {
 			this.listContainer.removeAllComponents();
 
 			Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
+			CssLayout currentFeedBlock = new CssLayout();
 
 			try {
 				for (final SimpleActivityStream activityStream : currentListData) {
@@ -131,47 +138,47 @@ public class ActivityStreamPanel extends Depot {
 					if (CrmTypeConstants.ACCOUNT.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+							.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
 						continue;
 					} else if (CrmTypeConstants.CONTACT.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CONTACT)) {
+							.canRead(RolePermissionCollections.CRM_CONTACT)) {
 						continue;
 					} else if (CrmTypeConstants.CAMPAIGN.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+							.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
 						continue;
 					} else if (CrmTypeConstants.LEAD.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_LEAD)) {
+							.canRead(RolePermissionCollections.CRM_LEAD)) {
 						continue;
 					} else if (CrmTypeConstants.OPPORTUNITY
 							.equals(activityStream.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+							.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
 						continue;
 					} else if (CrmTypeConstants.CASE.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CASE)) {
+							.canRead(RolePermissionCollections.CRM_CASE)) {
 						continue;
 					} else if (CrmTypeConstants.TASK.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_TASK)) {
+							.canRead(RolePermissionCollections.CRM_TASK)) {
 						continue;
 					} else if (CrmTypeConstants.MEETING.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_MEETING)) {
+							.canRead(RolePermissionCollections.CRM_MEETING)) {
 						continue;
 					} else if (CrmTypeConstants.CALL.equals(activityStream
 							.getType())
 							&& !AppContext
-									.canRead(RolePermissionCollections.CRM_CALL)) {
+							.canRead(RolePermissionCollections.CRM_CALL)) {
 						continue;
 					}
 
@@ -179,12 +186,9 @@ public class ActivityStreamPanel extends Depot {
 							.getCreatedtime();
 
 					if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
-						final CssLayout dateWrapper = new CssLayout();
-						dateWrapper.setWidth("100%");
-						dateWrapper.addStyleName("date-wrapper");
-						dateWrapper.addComponent(new Label(AppContext
-								.formatDate(itemCreatedDate)));
-						this.listContainer.addComponent(dateWrapper);
+						currentFeedBlock = new CssLayout();
+						currentFeedBlock.setStyleName("feed-block");
+						feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
 						currentDate = itemCreatedDate;
 					}
 
@@ -221,7 +225,7 @@ public class ActivityStreamPanel extends Depot {
 					String arg2 = UserLinkUtils.generatePreviewFullUserLink(
 							SiteConfiguration.getSiteUrl(AppContext
 									.getSession().getSubdomain()),
-							activityStream.getCreateduser());
+									activityStream.getCreateduser());
 					String arg3 = "'" + randomStrId + "'";
 					String arg4 = "'" + activityStream.getCreateduser() + "'";
 					String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
@@ -270,11 +274,90 @@ public class ActivityStreamPanel extends Depot {
 					streamWrapper.setWidth("100%");
 					streamWrapper.addStyleName("stream-wrapper");
 					streamWrapper.addComponent(activityLink);
-					this.listContainer.addComponent(streamWrapper);
+					/*this.listContainer.addComponent(streamWrapper);*/
+					currentFeedBlock.addComponent(streamWrapper);
 				}
 			} catch (final Exception e) {
 				throw new MyCollabException(e);
 			}
+		}
+
+		protected void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
+			HorizontalLayout blockWrapper = new HorizontalLayout();
+			blockWrapper.setStyleName("feed-block-wrap");
+			blockWrapper.setWidth("100%");
+			blockWrapper.setSpacing(true);
+
+			blockWrapper.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(currentDate);
+
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(nextDate);
+
+			if (cal1.get(Calendar.YEAR) != cal2.get(Calendar.YEAR)) {
+				int currentYear = cal2.get(Calendar.YEAR);
+				Label yearLbl = new Label(String.valueOf(currentYear));
+				yearLbl.setStyleName("year-lbl");
+				yearLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+				yearLbl.setHeight("49px");
+				this.listContainer.addComponent(yearLbl);
+			} else {
+				blockWrapper.setMargin(new MarginInfo(true, false, false, false));
+			}
+			Label dateLbl = new Label(DateFormatUtils.format(nextDate, "dd/MM"));
+			dateLbl.setSizeUndefined();
+			dateLbl.setStyleName("date-lbl");
+			blockWrapper.addComponent(dateLbl);
+			blockWrapper.addComponent(currentBlock);
+			blockWrapper.setExpandRatio(currentBlock, 1.0f);
+
+			this.listContainer.addComponent(blockWrapper);
+		}
+
+		@Override
+		protected CssLayout createPageControls() {
+			this.controlBarWrapper = new CssLayout();
+			this.controlBarWrapper.setWidth("100%");
+			this.controlBarWrapper.setStyleName("page-controls");
+			ButtonGroup controlBtns = new ButtonGroup();
+			controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
+			Button prevBtn = new Button("Previous", new Button.ClickListener() {
+				private static final long serialVersionUID = -94021599166105307L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					CrmActivityStreamPagedList.this
+					.pageChange(CrmActivityStreamPagedList.this.currentPage - 1);
+				}
+			});
+			if (currentPage == 1) {
+				prevBtn.setEnabled(false);
+			}
+			prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			prevBtn.setWidth("64px");
+
+			Button nextBtn = new Button("Next", new Button.ClickListener() {
+				private static final long serialVersionUID = 3095522916508256018L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					CrmActivityStreamPagedList.this
+					.pageChange(CrmActivityStreamPagedList.this.currentPage + 1);
+				}
+			});
+			if (currentPage == totalPage) {
+				nextBtn.setEnabled(false);
+			}
+			nextBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			nextBtn.setWidth("64px");
+
+			controlBtns.addButton(prevBtn);
+			controlBtns.addButton(nextBtn);
+
+			this.controlBarWrapper.addComponent(controlBtns);
+
+			return this.controlBarWrapper;
 		}
 
 		@Override

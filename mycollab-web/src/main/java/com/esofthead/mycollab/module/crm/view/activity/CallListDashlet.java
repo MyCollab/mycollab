@@ -57,36 +57,36 @@ public class CallListDashlet extends Depot {
 
 		tableItem = new CallTableDisplay(new TableViewField("", "isClosed",
 				UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-				new TableViewField(LocalizationHelper
-						.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
-						"subject", UIConstants.TABLE_X_LABEL_WIDTH),
-				new TableViewField(LocalizationHelper
-						.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-						"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
-				new TableViewField(LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
-						"status", UIConstants.TABLE_S_LABEL_WIDTH)));
+						new TableViewField(LocalizationHelper
+								.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
+								"subject", UIConstants.TABLE_X_LABEL_WIDTH),
+								new TableViewField(LocalizationHelper
+										.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
+										"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
+										new TableViewField(LocalizationHelper
+												.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
+												"status", UIConstants.TABLE_S_LABEL_WIDTH)));
 
 		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+			@Override
+			public Class<? extends ApplicationEvent> getEventType() {
+				return TableClickEvent.class;
+			}
 
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleCall call = (SimpleCall) event.getData();
-						if ("isClosed".equals(event.getFieldName())) {
-							call.setIsclosed(true);
-							final CallService callService = ApplicationContextUtil
-									.getSpringBean(CallService.class);
-							callService.updateWithSession(call,
-									AppContext.getUsername());
-							display();
-						}
-					}
-				});
+			@Override
+			public void handle(final TableClickEvent event) {
+				final SimpleCall call = (SimpleCall) event.getData();
+				if ("isClosed".equals(event.getFieldName())) {
+					call.setIsclosed(true);
+					final CallService callService = ApplicationContextUtil
+							.getSpringBean(CallService.class);
+					callService.updateWithSession(call,
+							AppContext.getUsername());
+					display();
+				}
+			}
+		});
 		bodyContent.addComponent(tableItem);
 
 		Button customizeViewBtn = new Button("", new Button.ClickListener() {
@@ -98,9 +98,9 @@ public class CallListDashlet extends Depot {
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/customize.png"));
+				.newResource("icons/16/customize_black.png"));
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		customizeViewBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 
 		this.addHeaderElement(customizeViewBtn);
 	}

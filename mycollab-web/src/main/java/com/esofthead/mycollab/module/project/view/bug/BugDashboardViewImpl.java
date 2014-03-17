@@ -60,7 +60,7 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @ViewComponent
 public class BugDashboardViewImpl extends AbstractPageView implements
-BugDashboardView {
+		BugDashboardView {
 
 	private VerticalLayout leftColumn, rightColumn;
 	private HorizontalLayout header;
@@ -106,12 +106,12 @@ BugDashboardView {
 				LocalizationHelper.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
 		title.setStyleName("hdr-text");
 		title.setSizeUndefined();
-		final Image icon = new Image(null, MyCollabResource.newResource("icons/24/project/bug.png"));
+		final Image icon = new Image(null,
+				MyCollabResource.newResource("icons/24/project/bug.png"));
 		header.addComponent(icon);
 		header.addComponent(title);
 		header.setExpandRatio(title, 1.0f);
 		header.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
-
 
 		final Button createBugBtn = new Button(
 				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
@@ -124,7 +124,8 @@ BugDashboardView {
 				});
 		createBugBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createBugBtn.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
+		createBugBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
 		final SplitButton controlsBtn = new SplitButton(createBugBtn);
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
@@ -178,7 +179,7 @@ BugDashboardView {
 		this.leftColumn.addComponent(myBugListWidget);
 		final BugSearchCriteria myBugsSearchCriteria = new BugSearchCriteria();
 		myBugsSearchCriteria
-		.setProjectId(new NumberSearchField(project.getId()));
+				.setProjectId(new NumberSearchField(project.getId()));
 		myBugsSearchCriteria.setStatuses(new SetSearchField<String>(
 				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
 						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
@@ -194,7 +195,7 @@ BugDashboardView {
 		dueDefectsCriteria.setProjectId(new NumberSearchField(project.getId()));
 		dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
 				DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
-		.getTime()));
+						.getTime()));
 		dueDefectsCriteria.setStatuses(new SetSearchField<String>(
 				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
 						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
@@ -210,12 +211,12 @@ BugDashboardView {
 		unresolvedByAssigneeSearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByAssigneeSearchCriteria
-		.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { BugStatusConstants.INPROGRESS,
-				BugStatusConstants.OPEN,
-				BugStatusConstants.REOPENNED }));
+				.setStatuses(new SetSearchField<String>(SearchField.AND,
+						new String[] { BugStatusConstants.INPROGRESS,
+								BugStatusConstants.OPEN,
+								BugStatusConstants.REOPENNED }));
 		unresolvedByAssigneeWidget
-		.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
+				.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 		this.rightColumn.addComponent(unresolvedByAssigneeWidget);
 
 		// Unresolve by priority widget
@@ -224,12 +225,12 @@ BugDashboardView {
 		unresolvedByPrioritySearchCriteria.setProjectId(new NumberSearchField(
 				project.getId()));
 		unresolvedByPrioritySearchCriteria
-		.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { BugStatusConstants.INPROGRESS,
-				BugStatusConstants.OPEN,
-				BugStatusConstants.REOPENNED }));
+				.setStatuses(new SetSearchField<String>(SearchField.AND,
+						new String[] { BugStatusConstants.INPROGRESS,
+								BugStatusConstants.OPEN,
+								BugStatusConstants.REOPENNED }));
 		unresolvedByPriorityWidget
-		.setSearchCriteria(unresolvedByPrioritySearchCriteria);
+				.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 		this.rightColumn.addComponent(unresolvedByPriorityWidget);
 
 		// bug chart

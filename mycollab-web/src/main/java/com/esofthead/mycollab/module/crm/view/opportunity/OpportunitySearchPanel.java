@@ -149,13 +149,20 @@ public class OpportunitySearchPanel extends
 		@Override
 		public ComponentContainer constructBody() {
 			final HorizontalLayout layout = new HorizontalLayout();
-			layout.setSpacing(false);
+			layout.setSpacing(true);
 			layout.setMargin(true);
 
 			this.nameField = this.createSeachSupportTextField(new TextField(),
 					"NameFieldOfSearch");
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(layout, this.nameField,
+					Alignment.MIDDLE_CENTER);
+
+			this.myItemCheckbox = new CheckBox(
+					LocalizationHelper
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+			this.myItemCheckbox.setWidth("75px");
+			UiUtils.addComponent(layout, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button("Search");
@@ -170,16 +177,6 @@ public class OpportunitySearchPanel extends
 				}
 			});
 			UiUtils.addComponent(layout, searchBtn, Alignment.MIDDLE_LEFT);
-
-			this.myItemCheckbox = new CheckBox(
-					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(layout, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
-
-			final Separator separator1 = new Separator();
-			UiUtils.addComponent(layout, separator1, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));

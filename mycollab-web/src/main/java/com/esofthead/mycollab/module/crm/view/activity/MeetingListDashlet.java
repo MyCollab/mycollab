@@ -50,12 +50,12 @@ public class MeetingListDashlet extends Depot {
 				new TableViewField(LocalizationHelper
 						.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
 						"subject", UIConstants.TABLE_X_LABEL_WIDTH),
-				new TableViewField(LocalizationHelper
-						.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-						"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
-				new TableViewField(LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
-						"status", UIConstants.TABLE_S_LABEL_WIDTH)));
+						new TableViewField(LocalizationHelper
+								.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
+								"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
+								new TableViewField(LocalizationHelper
+										.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
+										"status", UIConstants.TABLE_S_LABEL_WIDTH)));
 
 		bodyContent.addComponent(tableItem);
 
@@ -68,9 +68,9 @@ public class MeetingListDashlet extends Depot {
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/customize.png"));
+				.newResource("icons/16/customize_black.png"));
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		customizeViewBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 
 		this.addHeaderElement(customizeViewBtn);
 	}

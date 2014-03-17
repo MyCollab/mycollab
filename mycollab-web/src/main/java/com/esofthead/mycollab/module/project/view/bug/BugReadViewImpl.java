@@ -644,7 +644,7 @@ IBugCallbackStatusComp {
 				if (StringUtils.isNotNullOrEmpty(beanItem
 						.getPriority())) {
 					final Resource iconPriority = ProjectResources
-							.getIconResource12ByPriority(beanItem
+							.getIconResource12ByBugPriority(beanItem
 									.getPriority());
 					final Image iconEmbedded = new Image(null, iconPriority);
 					final Label lbPriority = new Label(
@@ -661,7 +661,7 @@ IBugCallbackStatusComp {
 				if (StringUtils.isNotNullOrEmpty(beanItem
 						.getSeverity())) {
 					final Resource iconPriority = ProjectResources
-							.getIconResource12BySeverity(beanItem
+							.getIconResource12ByBugSeverity(beanItem
 									.getSeverity());
 					final Image iconEmbedded = new Image();
 					iconEmbedded.setSource(iconPriority);

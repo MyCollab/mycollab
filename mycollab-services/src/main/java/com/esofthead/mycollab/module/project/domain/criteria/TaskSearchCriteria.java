@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.DateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -32,14 +31,12 @@ public class TaskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	private NumberSearchField projectid;
-	private DateTimeSearchField greaterThan;
-	private DateTimeSearchField lessThan;
 	private NumberSearchField taskListId;
 	private NumberSearchField milestoneId;
 	private NumberSearchField id;
 	private StringSearchField assignUser;
-
 	private SetSearchField<String> statuses;
+	private SetSearchField<String> priorities;
 
 	public SetSearchField<String> getStatuses() {
 		return statuses;
@@ -55,22 +52,6 @@ public class TaskSearchCriteria extends SearchCriteria {
 
 	public void setProjectid(NumberSearchField projectid) {
 		this.projectid = projectid;
-	}
-
-	public DateTimeSearchField getLessThan() {
-		return lessThan;
-	}
-
-	public void setLessThan(DateTimeSearchField lessThan) {
-		this.lessThan = lessThan;
-	}
-
-	public DateTimeSearchField getGreaterThan() {
-		return greaterThan;
-	}
-
-	public void setGreaterThan(DateTimeSearchField greaterThan) {
-		this.greaterThan = greaterThan;
 	}
 
 	public NumberSearchField getTaskListId() {
@@ -103,5 +84,13 @@ public class TaskSearchCriteria extends SearchCriteria {
 
 	public void setMilestoneId(NumberSearchField milestoneId) {
 		this.milestoneId = milestoneId;
+	}
+
+	public SetSearchField<String> getPriorities() {
+		return priorities;
+	}
+
+	public void setPriorities(SetSearchField<String> priorities) {
+		this.priorities = priorities;
 	}
 }

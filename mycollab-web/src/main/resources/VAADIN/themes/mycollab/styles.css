@@ -2,9 +2,6 @@
 
 @media only screen and (max-width : 1024px) , only screen and
 	(max-device-width : 1024px) {
-	.crmContainer {
-		margin: 15px;
-	}
 	.projectDashboardView {
 		margin: 0px 15px 20px 0px;
 	}
@@ -19,9 +16,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-	.crmContainer {
-		margin: 15px auto;
-	}
 	.projectDashboardView {
 		margin: 0px auto;
 	}
@@ -302,15 +296,15 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 .splitbutton .small-padding.v-parent .v-button-wrap
 
 {
-		padding: 3px 4px;
+		padding: 4px 6px;
 }
 .splitbutton .small-padding.v-popupbutton .v-button-wrap, .splitbutton .small-padding.v-popupbutton:active .v-button-wrap {
-	padding: 3px 1px;}
+	padding: 4px 2px;}
 .small-padding .v-spacing {
-	width:3px;
+	/* width: 4px; */
 }
 .small-padding .v-icon {
-	margin:0;
+	margin-right: 2px;
 }
 
 .v-popupbutton .v-button-wrap, .v-popupbutton:active .v-button-wrap {
@@ -698,18 +692,12 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 }
 
 .h-sidebar-menu {
-	height: 32px;
-	background: url('icons/grad-dark-bottom.png') repeat-x left bottom
-		rgb(230, 230, 230);
-	border: 1px solid #8F8F8F;
-	border-radius: 3px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
+	height: 50px;
+	background: none repeat-x left bottom rgb(71, 116, 157);
 }
 
 .h-sidebar-menu {
-	height: 32px;
+	height: 50px;
 	position: relative;
 }
 
@@ -720,12 +708,20 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 	position: relative;
 }
 
-.h-sidebar-menu .v-button-link,.h-sidebar-menu .v-button-link:active,.h-sidebar-menu .v-button-link:focus
-	{
-	color: #4D4D4D;
-	height: 30px;
+.h-sidebar-menu .v-button.v-button-link:focus, .h-sidebar-menu .v-button.v-button-link:active, .h-sidebar-menu .v-button.v-button-link
+{
+	height: 50px;
 	margin: 0px;
 	padding: 0px;
+	background: none no-repeat 0 0 transparent;
+}
+
+.h-sidebar-menu .v-button.v-button-link.isSelected {
+	background-color: #FFFFFF;
+}
+
+.h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .h-sidebar-menu .v-button.v-button-link:active .v-button-caption {
+	color: #FFFFFF;
 }
 
 .h-sidebar-menu .v-button,.h-sidebar-menu .v-button .v-button-wrap
@@ -746,15 +742,12 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 }
 
 .h-sidebar-menu .v-button-link .v-button-wrap,.v-ie .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap,.v-ie7 .h-sidebar-menu .v-pressed.v-button-link .v-button-wrap,.h-sidebar-menu div.v-button-link:active .v-button-wrap,.h-sidebar-menu div.v-button-link:focus .v-button-wrap,.h-sidebar-menu .v-button-link .v-button-wrap:active,.h-sidebar-menu .v-popupbutton .v-button-wrap,.h-sidebar-menu .v-popupbutton:active .v-button-wrap, .h-sidebar-menu div.v-disabled.v-button-link .v-button-wrap
-	{
-	margin: 7px auto 0px;
+{
 	display: inline-block;
 	*display: inline;
 	zoom: 1;
 	position: relative;
-	padding: 0px 18px;
-	border-left: 1px solid #8F8F8F;
-	height: 16px;
+	padding: 17px 18px;
 }
 
 .h-sidebar-menu .v-button-link:first-child .v-button-wrap,.v-ie .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap,.v-ie7 .h-sidebar-menu .v-pressed.v-button-link:first-child .v-button-wrap,.h-sidebar-menu div.v-button-link:active:first-child .v-button-wrap,.h-sidebar-menu div.v-button-link:focus:first-child .v-button-wrap,.h-sidebar-menu .v-button-link:first-child .v-button-wrap:active
@@ -765,23 +758,17 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 .h-sidebar-menu .v-button-link .v-button-caption
 	{
 	text-decoration: none;
-	color: #5E5E5E;
+	color: #FFFFFF;
 	text-shadow: none;
 	font-weight: bold;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
 
-.h-sidebar-menu .v-button-link.isSelected .v-button-caption,.h-sidebar-menu .v-button-link.isSelected .v-button-caption:hover
+.h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption,.h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover
 	{
-	color: #0a58cd;
+	color: #535353;
 }
-
-.h-sidebar-menu .v-button-link .v-button-caption:hover
-	{
-	color: #333;
-}
-
 .pagedtable .v-table-header td:last-child .v-table-resizer {
 	border-right-width: 0px;
 }
@@ -1080,11 +1067,16 @@ input.v-textfield-pagedtable-pagefield {
 /* End Basic Search Template */
 
 /* CRM Service */
-.crmContainer {
-	margin: 15px auto;
-	padding: 0px 25px;
-}
 
+.crmContainer .main-view {
+	background-color: #FFFFFF;
+}
+.crmContainer .crm-toolbar.v-margin-right, .crmContainer .main-view.v-margin-right {
+	padding-right: 30px;
+}
+.crmContainer .crm-toolbar.v-margin-left, .crmContainer .main-view.v-margin-left {
+	padding-left: 30px;
+}
 .crmContainer .v-table-body-noselection {
 	height: 100% !important;
 }
@@ -2889,7 +2881,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 }
 
 .v-table-row-spacer {
-	background: none no-repeat 0 0 #F7F7F7;
+	background: none no-repeat 0 0 #FFFFFF;
 }
 /* End New Table */
 
@@ -3356,7 +3348,7 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 	height: 25px;
 	width: 22px;
 	background: none no-repeat 0px 0px transparent;
-	border-radius: 0px 2px 2px 0px;
+ 	border-radius: 0px 2px 2px 0px;
 	border-width: 1px 1px 1px 0px;
 	border-color: #CFCFCF;
 	position: relative;
@@ -3387,6 +3379,7 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 .v-window,.v-Notification {
 	background-color: white;
 	border-radius: 2px;
+	border:0;
 }
 
 .v-window-outerheader {
@@ -3779,8 +3772,8 @@ div.v-lazyloadingwrapper-loading {
 
 /* Main body */
 .main-body {
-	overflow-y: scroll; /*CSS fix for Vaadin 7 */
-	background-color: #DBDBDB;
+	overflow-y: auto; /*CSS fix for Vaadin 7 */
+	background-color: #FFFFFF;
 	position: relative;
 }
 
@@ -4111,7 +4104,7 @@ div.v-csslayout.member-block {
 
 .milestone-view-header {
 	text-align: center;
-	background: url('icons/grad-light-top2.png') repeat-x left top
+	background: none repeat-x left top
 		rgb(212, 223, 239);
 	height: 30px;
 	color: #5e5e5e;
@@ -5419,7 +5412,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 /* Multiple Select Comp */
 .colored-gridlayout .v-gridlayout-margin .gridform-field .v-csslayout.select-bg>.v-csslayout-margin
-	{
+{
 	padding: 0px;
 }
 
@@ -6420,7 +6413,7 @@ img.icon-btn {
 }
 
 /* Project Feed Block */
-.project-activity-list {
+.crm-activity-list, .project-activity-list {
 	padding-top: 20px;
 }
 .feed-block-wrap.v-margin-bottom {
@@ -6563,3 +6556,4 @@ img.icon-btn {
 	border-radius: 3px;
 	padding: 0px;
 }
+

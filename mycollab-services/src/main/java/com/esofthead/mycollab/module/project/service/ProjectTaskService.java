@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import java.util.List;
+
+import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -23,9 +26,22 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface ProjectTaskService extends
 		IDefaultService<Integer, Task, TaskSearchCriteria> {
-	
+
 	@Cacheable
 	SimpleTask findById(int taskId, @CacheKey int sAccountId);
+
+	@Cacheable
+	List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
+
+	@Cacheable
+	List<GroupItem> getAssignedDefectsSummary(
+			@CacheKey TaskSearchCriteria criteria);
 }

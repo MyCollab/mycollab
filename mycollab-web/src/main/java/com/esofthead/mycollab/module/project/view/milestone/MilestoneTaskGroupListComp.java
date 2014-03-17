@@ -159,7 +159,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		}
 
 		@Override
-		public void displayActiveTakLists() {
+		public void displayTaskList() {
 
 		}
 

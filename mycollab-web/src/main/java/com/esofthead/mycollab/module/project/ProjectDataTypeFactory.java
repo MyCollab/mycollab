@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.module.project.view.bug.BugPriorityStatusConstants;
+import com.esofthead.mycollab.module.project.view.task.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 
@@ -36,6 +37,12 @@ public class ProjectDataTypeFactory {
 
 	private static String[] PROJECT_TYPE_LIST = new String[] { "Unknown",
 			"Administrative", "Operative" };
+
+	private static String[] TASK_PRIORITY_LIST = new String[] {
+			TaskPriorityStatusContants.PRIORITY_URGENT,
+			TaskPriorityStatusContants.PRIORITY_HIGHT,
+			TaskPriorityStatusContants.PRIORITY_MEDIUM,
+			TaskPriorityStatusContants.PRIORITY_NONE };
 
 	private static String[] BUG_PRIORITY_LIST = new String[] {
 			BugPriorityStatusConstants.PRIORITY_BLOCKER,
@@ -61,6 +68,10 @@ public class ProjectDataTypeFactory {
 
 	public static String[] getProjectTypeList() {
 		return PROJECT_TYPE_LIST;
+	}
+
+	public static String[] getTaskPriorityList() {
+		return TASK_PRIORITY_LIST;
 	}
 
 	public static String[] getBugPriorityList() {

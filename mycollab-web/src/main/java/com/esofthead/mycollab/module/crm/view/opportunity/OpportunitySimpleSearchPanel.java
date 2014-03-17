@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.data.Property;
@@ -98,6 +99,7 @@ public class OpportunitySimpleSearchPanel extends
 
 		Button searchBtn = new Button("Search");
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {
 
 			@Override

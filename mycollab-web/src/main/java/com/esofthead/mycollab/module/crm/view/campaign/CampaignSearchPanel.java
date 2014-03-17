@@ -149,6 +149,13 @@ public class CampaignSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
+			this.myItemCheckbox = new CheckBox(
+					LocalizationHelper
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+			this.myItemCheckbox.setWidth("75px");
+			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
+					Alignment.MIDDLE_CENTER);
+			
 			final Button searchBtn = new Button("Search");
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
@@ -162,17 +169,6 @@ public class CampaignSearchPanel extends
 				}
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn, Alignment.MIDDLE_LEFT);
-
-			this.myItemCheckbox = new CheckBox(
-					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
-			this.myItemCheckbox.setWidth("75px");
-			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
-					Alignment.MIDDLE_CENTER);
-
-			final Separator separator1 = new Separator();
-
-			UiUtils.addComponent(basicSearchBody, separator1, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -188,7 +184,10 @@ public class CampaignSearchPanel extends
 			});
 			UiUtils.addComponent(basicSearchBody, cancelBtn, Alignment.MIDDLE_CENTER);
 
-
+			final Separator separator1 = new Separator();
+			UiUtils.addComponent(basicSearchBody, separator1,
+				Alignment.MIDDLE_LEFT);
+				
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

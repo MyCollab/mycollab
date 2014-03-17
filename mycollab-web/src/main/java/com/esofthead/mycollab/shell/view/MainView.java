@@ -109,7 +109,7 @@ public final class MainView extends AbstractPageView {
 	private CustomLayout createFooter() {
 		final CustomLayout footer = CustomLayoutLoader.createLayout("footer");
 
-		Link companyLink = new Link("Esofthead", new ExternalResource("http://www.esofthead.com"));
+		Link companyLink = new Link("eSoftHead", new ExternalResource("http://www.esofthead.com"));
 		companyLink.setTargetName("_blank");
 
 		footer.addComponent(companyLink, "company-url");

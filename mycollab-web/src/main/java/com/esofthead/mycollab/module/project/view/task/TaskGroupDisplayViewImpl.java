@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
@@ -56,7 +57,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TaskGroupDisplayViewImpl extends AbstractPageView implements
-TaskGroupDisplayView {
+		TaskGroupDisplayView {
 	private static final long serialVersionUID = 1L;
 
 	private PopupButton taskGroupSelection;
@@ -65,18 +66,17 @@ TaskGroupDisplayView {
 	private Button viewGanttChartBtn;
 
 	private PopupButton exportButtonControl;
+	private VerticalLayout rightColumn;
 
 	public TaskGroupDisplayViewImpl() {
 		super();
 		this.setMargin(new MarginInfo(false, true, false, true));
+		this.setSpacing(true);
 
-		this.constructHeader();
+		this.constructUI();
 	}
 
-	private void constructHeader() {
-		final VerticalLayout mainLayout = new VerticalLayout();
-		mainLayout.setSpacing(true);
-
+	private void constructUI() {
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setMargin(new MarginInfo(true, false, true, false));
 		header.setStyleName("hdr-view");
@@ -103,14 +103,14 @@ TaskGroupDisplayView {
 
 		final Button allTasksFilterBtn = new Button(
 				LocalizationHelper
-				.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
+						.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
-						.setPopupVisible(false);
+								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
 								.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.displayAllTaskGroups();
@@ -121,17 +121,17 @@ TaskGroupDisplayView {
 
 		final Button activeTasksFilterBtn = new Button(
 				LocalizationHelper
-				.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
+						.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
-						.setPopupVisible(false);
+								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
 								.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
-						TaskGroupDisplayViewImpl.this.displayActiveTakLists();
+						TaskGroupDisplayViewImpl.this.displayActiveTaskGroups();
 					}
 				});
 		activeTasksFilterBtn.setStyleName("link");
@@ -139,7 +139,7 @@ TaskGroupDisplayView {
 
 		final Button archievedTasksFilterBtn = new Button(
 				LocalizationHelper
-				.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
+						.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -148,9 +148,9 @@ TaskGroupDisplayView {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
 								.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
-						.setPopupVisible(false);
+								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this
-						.displayInActiveTaskGroups();
+								.displayInActiveTaskGroups();
 					}
 				});
 		archievedTasksFilterBtn.setStyleName("link");
@@ -160,7 +160,7 @@ TaskGroupDisplayView {
 
 		final Button newTaskListBtn = new Button(
 				LocalizationHelper
-				.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
+						.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -174,7 +174,7 @@ TaskGroupDisplayView {
 		newTaskListBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		newTaskListBtn.setIcon(MyCollabResource
- 				.newResource("icons/16/addRecord.png"));
+				.newResource("icons/16/addRecord.png"));
 		newTaskListBtn.setDescription(LocalizationHelper
 				.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
 		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -200,8 +200,8 @@ TaskGroupDisplayView {
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
 
-		mainLayout.addComponent(header);
-		
+		this.addComponent(header);
+
 		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
@@ -234,22 +234,23 @@ TaskGroupDisplayView {
 		header.setComponentAlignment(exportButtonControl,
 				Alignment.MIDDLE_RIGHT);
 
+		HorizontalLayout mainLayout = new HorizontalLayout();
 		mainLayout.setWidth("100%");
-
-
-
-
-		this.addComponent(mainLayout);
-
+		mainLayout.setSpacing(true);
 		this.taskLists = new TaskGroupDisplayWidget();
-		this.addComponent(this.taskLists);
+		this.rightColumn = new VerticalLayout();
+		this.rightColumn.setWidth("350px");
+		mainLayout.addComponent(taskLists);
+		mainLayout.addComponent(rightColumn);
+		mainLayout.setExpandRatio(taskLists, 1.0f);
+		this.addComponent(mainLayout);
 
 	}
 
 	private StreamResource constructStreamResource(ReportExportType exportType) {
 		final String title = "Task report of Project "
 				+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
-				.getProject().getName() != null) ? CurrentProjectVariables
+						.getProject().getName() != null) ? CurrentProjectVariables
 						.getProject().getName() : "");
 
 		final TaskListSearchCriteria tasklistSearchCriteria = new TaskListSearchCriteria();
@@ -261,19 +262,19 @@ TaskGroupDisplayView {
 			res = new StreamResource(new ExportTaskListStreamResource(title,
 					exportType,
 					ApplicationContextUtil
-					.getSpringBean(ProjectTaskListService.class),
+							.getSpringBean(ProjectTaskListService.class),
 					tasklistSearchCriteria, null), "task_list.pdf");
 		} else if (exportType.equals(ReportExportType.CSV)) {
 			res = new StreamResource(new ExportTaskListStreamResource(title,
 					exportType,
 					ApplicationContextUtil
-					.getSpringBean(ProjectTaskListService.class),
+							.getSpringBean(ProjectTaskListService.class),
 					tasklistSearchCriteria, null), "task_list.csv");
 		} else {
 			res = new StreamResource(new ExportTaskListStreamResource(title,
 					exportType,
 					ApplicationContextUtil
-					.getSpringBean(ProjectTaskListService.class),
+							.getSpringBean(ProjectTaskListService.class),
 					tasklistSearchCriteria, null), "task_list.xls");
 		}
 
@@ -288,7 +289,28 @@ TaskGroupDisplayView {
 	}
 
 	@Override
-	public void displayActiveTakLists() {
+	public void displayTaskList() {
+		displayActiveTaskGroups();
+		displayTaskStatistic();
+	}
+
+	private void displayTaskStatistic() {
+		rightColumn.removeAllComponents();
+
+		UnresolvedTaskByAssigneeWidget unresolvedTaskByAssigneeWidget = new UnresolvedTaskByAssigneeWidget();
+		rightColumn.addComponent(unresolvedTaskByAssigneeWidget);
+
+		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+		searchCriteria.setProjectid(new NumberSearchField(
+				CurrentProjectVariables.getProjectId()));
+		unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
+
+		UnresolvedTaskByPriorityWidget unresolvedTaskByPriorityWidget = new UnresolvedTaskByPriorityWidget();
+		rightColumn.addComponent(unresolvedTaskByPriorityWidget);
+		unresolvedTaskByPriorityWidget.setSearchCriteria(searchCriteria);
+	}
+
+	private void displayActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
 		criteria.setStatus(new StringSearchField("Open"));
 		this.taskLists.setSearchCriteria(criteria);

@@ -23,6 +23,7 @@ import java.util.Map;
 import com.esofthead.mycollab.module.project.view.bug.BugPriorityStatusConstants;
 import com.esofthead.mycollab.module.project.view.bug.BugSeverityConstants;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneStatusConstant;
+import com.esofthead.mycollab.module.project.view.task.TaskPriorityStatusContants;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.server.Resource;
 
@@ -114,10 +115,10 @@ public class ProjectResources {
 		return iconseverity;
 	}
 
-	public static Resource getIconResource12BySeverity(String severity) {
+	public static Resource getIconResource12ByBugSeverity(String severity) {
 		Resource iconseverity = MyCollabResource
 				.newResource(BugSeverityConstants.MINOR_IMG_12);
-		
+
 		if (BugSeverityConstants.CRITICAL.equals(severity)) {
 			iconseverity = MyCollabResource
 					.newResource(BugSeverityConstants.CRITICAL_IMG_12);
@@ -134,7 +135,7 @@ public class ProjectResources {
 		return iconseverity;
 	}
 
-	public static Resource getIconResource16BySeverity(String severity) {
+	public static Resource getIconResource16ByBugSeverity(String severity) {
 		Resource iconseverity = MyCollabResource
 				.newResource(BugSeverityConstants.MINOR_IMG_16);
 		if (BugSeverityConstants.CRITICAL.equals(severity)) {
@@ -153,7 +154,7 @@ public class ProjectResources {
 		return iconseverity;
 	}
 
-	public static Resource getIconResource12ByPriority(String priority) {
+	public static Resource getIconResource12ByBugPriority(String priority) {
 		Resource iconPriority = MyCollabResource
 				.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_12);
 
@@ -177,7 +178,7 @@ public class ProjectResources {
 		return iconPriority;
 	}
 
-	public static Resource getIconResource16ByPriority(String priority) {
+	public static Resource getIconResource16ByBugPriority(String priority) {
 		Resource iconPriority = MyCollabResource
 				.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_16);
 		if (BugPriorityStatusConstants.PRIORITY_BLOCKER.equals(priority)) {
@@ -196,6 +197,27 @@ public class ProjectResources {
 		} else if (BugPriorityStatusConstants.PRIORITY_TRIVIAL.equals(priority)) {
 			iconPriority = MyCollabResource
 					.newResource(BugPriorityStatusConstants.PRIORITY_TRIVIAL_IMG_16);
+		}
+		return iconPriority;
+	}
+
+	public static Resource getIconResource12ByTaskPriority(String priority) {
+		Resource iconPriority = MyCollabResource
+				.newResource(TaskPriorityStatusContants.PRIORITY_HIGHT_IMG);
+
+		if (TaskPriorityStatusContants.PRIORITY_URGENT.equals(priority)) {
+			iconPriority = MyCollabResource
+					.newResource(TaskPriorityStatusContants.PRIORITY_URGENT_IMG);
+		} else if (TaskPriorityStatusContants.PRIORITY_HIGHT.equals(priority)) {
+			iconPriority = MyCollabResource
+					.newResource(TaskPriorityStatusContants.PRIORITY_HIGHT_IMG);
+		} else if (TaskPriorityStatusContants.PRIORITY_MEDIUM
+				.endsWith(priority)) {
+			iconPriority = MyCollabResource
+					.newResource(TaskPriorityStatusContants.PRIORITY_MEDIUM_IMG);
+		} else if (TaskPriorityStatusContants.PRIORITY_NONE.equals(priority)) {
+			iconPriority = MyCollabResource
+					.newResource(TaskPriorityStatusContants.PRIORITY_NONE_IMG);
 		}
 		return iconPriority;
 	}

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
@@ -118,6 +121,16 @@ public class ProjectTaskServiceImpl extends
 		LocalCacheManager.removeCacheItems(accountId + "",
 				ProjectTaskListService.class.getName());
 		return result;
+	}
+
+	@Override
+	public List<GroupItem> getPrioritySummary(TaskSearchCriteria criteria) {
+		return taskMapperExt.getPrioritySummary(criteria);
+	}
+
+	@Override
+	public List<GroupItem> getAssignedDefectsSummary(TaskSearchCriteria criteria) {
+		return taskMapperExt.getAssignedDefectsSummary(criteria);
 	}
 
 }

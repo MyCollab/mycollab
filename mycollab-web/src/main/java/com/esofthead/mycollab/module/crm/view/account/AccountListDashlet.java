@@ -33,8 +33,8 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -55,26 +55,26 @@ public class AccountListDashlet extends Depot {
 				AccountTableFieldDef.phoneoffice, AccountTableFieldDef.email));
 
 		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+			@Override
+			public Class<? extends ApplicationEvent> getEventType() {
+				return TableClickEvent.class;
+			}
 
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleAccount account = (SimpleAccount) event
-								.getData();
-						if ("accountname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(
-											AccountListDashlet.this, account
-													.getId()));
-						}
-					}
-				});
+			@Override
+			public void handle(final TableClickEvent event) {
+				final SimpleAccount account = (SimpleAccount) event
+						.getData();
+				if ("accountname".equals(event.getFieldName())) {
+					EventBus.getInstance().fireEvent(
+							new AccountEvent.GotoRead(
+									AccountListDashlet.this, account
+									.getId()));
+				}
+			}
+		});
 		bodyContent.addComponent(tableItem);
 
 		Button customizeViewBtn = new Button("", new Button.ClickListener() {
@@ -89,9 +89,9 @@ public class AccountListDashlet extends Depot {
 			}
 		});
 		customizeViewBtn.setIcon(MyCollabResource
-				.newResource("icons/16/customize.png"));
+				.newResource("icons/16/customize_black.png"));
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		customizeViewBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 
 		this.addHeaderElement(customizeViewBtn);
 	}

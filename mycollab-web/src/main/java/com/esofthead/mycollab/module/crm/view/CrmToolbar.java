@@ -41,11 +41,13 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 
 /**
  * 
@@ -54,21 +56,25 @@ import com.vaadin.ui.GridLayout;
  * 
  */
 @ViewComponent
-public class CrmToolbar extends CssLayout implements PageView {
+public class CrmToolbar extends HorizontalLayout implements PageView {
 	private static final long serialVersionUID = 1L;
 
 	private final PopupButton addBtn;
 
 	public CrmToolbar() {
+		super();
+		this.setStyleName("crm-toolbar");
+		this.setWidth("100%");
+		this.setMargin(new MarginInfo(false, true, false, true));
 		final NavigatorItemListener listener = new NavigatorItemListener();
-		final Button homeBtn = new Button(null, listener);
+		final Button homeBtn = new Button(LocalizationHelper
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER), listener);
 		homeBtn.setStyleName("link");
-		homeBtn.setIcon(MyCollabResource.newResource("icons/16/home.png"));
 		addComponent(homeBtn);
 
 		final Button accountList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER),
 				listener);
 		accountList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_ACCOUNT));
@@ -77,7 +83,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button contactList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER),
 				listener);
 		contactList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CONTACT));
@@ -86,7 +92,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button campaignList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER),
 				listener);
 		campaignList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CAMPAIGN));
@@ -95,7 +101,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button leadList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER),
 				listener);
 		leadList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_LEAD));
@@ -104,7 +110,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button opportunityList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER),
 				listener);
 		opportunityList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_OPPORTUNITY));
@@ -113,7 +119,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button caseList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER),
 				listener);
 		caseList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CASE));
@@ -122,7 +128,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button activitiesList = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER),
 				listener);
 		final boolean isActivityEnable = AppContext
 				.canRead(RolePermissionCollections.CRM_MEETING)
@@ -132,11 +138,11 @@ public class CrmToolbar extends CssLayout implements PageView {
 		activitiesList.setStyleName("link");
 		addComponent(activitiesList);
 
-		setStyleName("h-sidebar-menu");
+		addStyleName("h-sidebar-menu");
 
 		final Button fileBtn = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER),
 				listener);
 		fileBtn.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_DOCUMENT));
@@ -145,12 +151,12 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final Button notificationBtn = new Button(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER),
 				listener);
 		notificationBtn.setStyleName("link");
 		addComponent(notificationBtn);
 
-		addBtn = new PopupButton("Add");
+		addBtn = new PopupButton("Create");
 		final GridLayout addBtnLayout = new GridLayout(3, 2);
 		addBtnLayout.setMargin(true);
 		addBtnLayout.setWidth("370px");
@@ -158,7 +164,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newAccountBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
 				listener, false);
 		newAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
@@ -168,7 +174,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newContactBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
 				listener, false);
 		newContactBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
@@ -178,7 +184,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newCampaignBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
 				listener, false);
 		newCampaignBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
@@ -188,7 +194,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newOpportunityBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
 				listener, false);
 		newOpportunityBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
@@ -198,7 +204,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newLeadBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
 				listener, false);
 		newLeadBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
@@ -208,7 +214,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newCaseBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
 				listener, false);
 		newCaseBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
@@ -218,7 +224,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newTaskBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION),
 				listener, false);
 		newTaskBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
@@ -228,7 +234,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newCallBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION),
 				listener, false);
 		newCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
@@ -238,7 +244,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 
 		final ButtonLink newMeetingBtn = new ButtonLink(
 				LocalizationHelper
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION),
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION),
 				listener, false);
 		newMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
@@ -249,6 +255,9 @@ public class CrmToolbar extends CssLayout implements PageView {
 		addBtn.setContent(addBtnLayout);
 		addBtn.setStyleName("link");
 		addComponent(addBtn);
+
+		setExpandRatio(addBtn, 1.0f);
+		setComponentAlignment(addBtn, Alignment.MIDDLE_RIGHT);
 	}
 
 	private class NavigatorItemListener implements Button.ClickListener {
@@ -259,12 +268,13 @@ public class CrmToolbar extends CssLayout implements PageView {
 		public void buttonClick(final ClickEvent event) {
 			final String caption = event.getButton().getCaption();
 
-			if (caption == null) {
+			if (LocalizationHelper.getMessage(
+					CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new CrmEvent.GotoHome(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new AccountEvent.GotoAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
@@ -273,7 +283,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 						new AccountEvent.GotoList(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new CampaignEvent.GotoAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
@@ -294,7 +304,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 						new ContactEvent.GotoList(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new ContactEvent.GotoAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
@@ -307,12 +317,12 @@ public class CrmToolbar extends CssLayout implements PageView {
 						new LeadEvent.GotoList(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new OpportunityEvent.GotoAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new OpportunityEvent.GotoList(this, null));
 			} else if (LocalizationHelper.getMessage(
@@ -330,7 +340,7 @@ public class CrmToolbar extends CssLayout implements PageView {
 						new ActivityEvent.CallAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.MeetingAdd(this, null));
 			} else if (LocalizationHelper.getMessage(
@@ -339,11 +349,11 @@ public class CrmToolbar extends CssLayout implements PageView {
 						new DocumentEvent.GotoDashboard(this, null));
 			} else if (LocalizationHelper.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER).equals(
-					caption)) {
+							caption)) {
 				EventBus.getInstance()
-						.fireEvent(
-								new CrmSettingEvent.GotoNotificationSetting(
-										this, null));
+				.fireEvent(
+						new CrmSettingEvent.GotoNotificationSetting(
+								this, null));
 			}
 
 			addBtn.setPopupVisible(false);

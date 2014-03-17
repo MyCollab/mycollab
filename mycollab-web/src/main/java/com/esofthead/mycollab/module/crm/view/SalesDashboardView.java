@@ -26,9 +26,11 @@ import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunitySalesStage
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -39,11 +41,11 @@ import com.vaadin.ui.VerticalLayout;
 public class SalesDashboardView extends Depot {
 	private static final long serialVersionUID = 1L;
 	private final String[] reportDashboard = { "OpportunitySalesStage",
-			"OpportunityLeadSource" };
+	"OpportunityLeadSource" };
 	private int currentReportIndex = 0;
 
 	public SalesDashboardView() {
-		super("Sales Dashboard", null, new CssLayout(), "100%", "200px");
+		super("Sales Dashboard", null, new VerticalLayout(), "100%", "200px");
 		this.bodyContent.setSizeFull();
 		this.initUI();
 		this.setHeaderColor(true);
@@ -53,10 +55,12 @@ public class SalesDashboardView extends Depot {
 	public void displayReport() {
 		final String reportName = this.reportDashboard[this.currentReportIndex];
 
-		final CssLayout bodyContent = (CssLayout) this.bodyContent;
+		final VerticalLayout bodyContent = (VerticalLayout) this.bodyContent;
 		bodyContent.removeAllComponents();
+		bodyContent.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
 		if ("OpportunitySalesStage".equals(reportName)) {
+			this.setTitle("Opportunity Sales Stage");
 			final IOpportunitySalesStageDashboard salesStageDashboard = ViewManager
 					.getView(IOpportunitySalesStageDashboard.class);
 			bodyContent.addComponent(salesStageDashboard);
@@ -66,6 +70,7 @@ public class SalesDashboardView extends Depot {
 					.getAccountId()));
 			salesStageDashboard.setSearchCriteria(criteria);
 		} else if ("OpportunityLeadSource".equals(reportName)) {
+			this.setTitle("Opportunity Lead Source");
 			final IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager
 					.getView(IOpportunityLeadSourceDashboard.class);
 			bodyContent.addComponent(leadSourceDashboard);
@@ -79,9 +84,9 @@ public class SalesDashboardView extends Depot {
 
 	private void initUI() {
 
-		final PopupButton saleChartPopup = new PopupButton(
-				"Opportunity Sales Stage");
-		saleChartPopup.addStyleName("link");
+		final PopupButton saleChartPopup = new PopupButton("");
+		saleChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
+		saleChartPopup.setIcon(MyCollabResource.newResource("icons/12/filter.png"));
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);
@@ -95,7 +100,6 @@ public class SalesDashboardView extends Depot {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						saleChartPopup.setPopupVisible(false);
-						saleChartPopup.setCaption("Opportunity Sales Stage");
 						SalesDashboardView.this.currentReportIndex = 0;
 						SalesDashboardView.this.displayReport();
 					}
@@ -105,16 +109,15 @@ public class SalesDashboardView extends Depot {
 
 		final Button btnOpportunityLead = new Button("Opportunity Lead Source",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						saleChartPopup.setPopupVisible(false);
-						saleChartPopup.setCaption("Opportunity Lead Source");
-						SalesDashboardView.this.currentReportIndex = 1;
-						SalesDashboardView.this.displayReport();
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				saleChartPopup.setPopupVisible(false);
+				SalesDashboardView.this.currentReportIndex = 1;
+				SalesDashboardView.this.displayReport();
+			}
+		});
 		btnOpportunityLead.setStyleName("link");
 		filterBtnLayout.addComponent(btnOpportunityLead);
 

@@ -270,7 +270,7 @@ public class TaskAddPopup extends CustomComponent {
 				return new TaskPercentageCompleteComboBox();
 			} else if ("priority".equals(propertyId)) {
 				if (task.getPriority() == null) {
-					task.setPriority(TaskPriorityComboBox.PRIORITY_MEDIUM);
+					task.setPriority(TaskPriorityStatusContants.PRIORITY_MEDIUM);
 				}
 				return new TaskPriorityComboBox();
 			}

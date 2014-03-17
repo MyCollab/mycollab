@@ -43,6 +43,12 @@ public class SimpleProject extends Project {
 	private int numRisks;
 	
 	private int numActiveMembers;
+	
+	private int numClosedPhase;
+	
+	private int numInProgressPhase;
+	
+	private int numFuturePhase;
 
 	@NotBindable
 	private Currency currency;
@@ -141,5 +147,29 @@ public class SimpleProject extends Project {
 
 	public void setNumActiveMembers(int numActiveMembers) {
 		this.numActiveMembers = numActiveMembers;
+	}
+
+	public int getNumClosedPhase() {
+		return numClosedPhase;
+	}
+
+	public void setNumClosedPhase(int numClosedPhase) {
+		this.numClosedPhase = numClosedPhase;
+	}
+
+	public int getNumInProgressPhase() {
+		return numInProgressPhase;
+	}
+
+	public void setNumInProgressPhase(int numInProgressPhase) {
+		this.numInProgressPhase = numInProgressPhase;
+	}
+
+	public int getNumFuturePhase() {
+		return numFuturePhase;
+	}
+
+	public void setNumFuturePhase(int numFuturePhase) {
+		this.numFuturePhase = numFuturePhase;
 	}
 }

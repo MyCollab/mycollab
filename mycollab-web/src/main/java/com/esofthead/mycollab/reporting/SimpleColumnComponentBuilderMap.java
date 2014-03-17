@@ -58,7 +58,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.view.bug.BugPriorityStatusConstants;
-import com.esofthead.mycollab.module.project.view.task.TaskPriorityComboBox;
+import com.esofthead.mycollab.module.project.view.task.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -589,23 +589,25 @@ public class SimpleColumnComponentBuilderMap {
 
 				if (priority.equals(BugPriorityStatusConstants.PRIORITY_MAJOR)
 						|| priority
-								.equals(TaskPriorityComboBox.PRIORITY_MEDIUM)) {
+								.equals(TaskPriorityStatusContants.PRIORITY_MEDIUM)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_medium.png");
 				} else if (priority
 						.equals(BugPriorityStatusConstants.PRIORITY_MINOR)
-						|| priority.equals(TaskPriorityComboBox.PRIORITY_LOW)) {
+						|| priority
+								.equals(TaskPriorityStatusContants.PRIORITY_LOW)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_low.png");
 				} else if (priority
 						.equals(BugPriorityStatusConstants.PRIORITY_CRITICAL)
-						|| priority.equals(TaskPriorityComboBox.PRIORITY_HIGHT)) {
+						|| priority
+								.equals(TaskPriorityStatusContants.PRIORITY_HIGHT)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_high.png");
 				} else if (priority
 						.equals(BugPriorityStatusConstants.PRIORITY_BLOCKER)
 						|| priority
-								.equals(TaskPriorityComboBox.PRIORITY_URGENT)) {
+								.equals(TaskPriorityStatusContants.PRIORITY_URGENT)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_urgent.png");
 				} else

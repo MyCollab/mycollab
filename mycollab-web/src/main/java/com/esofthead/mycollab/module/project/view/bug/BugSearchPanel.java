@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.shared.ui.MarginInfo;
@@ -52,7 +53,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -159,6 +159,10 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
+			
+			final Separator separator1 = new Separator();
+			UiUtils.addComponent(basicSearchBody, separator1,
+				Alignment.MIDDLE_LEFT);
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {

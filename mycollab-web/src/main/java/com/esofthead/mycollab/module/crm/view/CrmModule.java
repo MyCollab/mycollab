@@ -56,8 +56,9 @@ public class CrmModule extends AbstractPageView implements IModule {
 		container.addComponent(toolbar, "crmToolbar");
 
 		currentView = new VerticalLayout();
-		currentView.setMargin(new MarginInfo(true, false, false, false));
-		
+		currentView.setStyleName("main-view");
+		currentView.setMargin(new MarginInfo(false, true, true, true));
+
 		container.addComponent(currentView, "currentView");
 		this.addComponent(container);
 		this.setComponentAlignment(container, Alignment.MIDDLE_CENTER);

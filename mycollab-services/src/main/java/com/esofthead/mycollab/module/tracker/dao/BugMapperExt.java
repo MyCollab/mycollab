@@ -26,6 +26,12 @@ import com.esofthead.mycollab.module.tracker.domain.BugStatusGroupItem;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface BugMapperExt extends ISearchableDAO<BugSearchCriteria> {
 
 	SimpleBug getBugById(int bugid);

@@ -54,18 +54,21 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 		this.setSpacing(true);
 	}
 
+	@Deprecated
 	public void addActionItem(final String id, Resource resource, String groupId) {
+		addActionItem(id, resource, groupId, "");
+	}
+
+	public void addActionItem(final String id, Resource resource,
+			String groupId, String description) {
 		ButtonGroup group = groupMap.get(groupId);
 
 		if (group == null) {
 			group = new ButtonGroup();
 			groupMap.put(groupId, group);
-			
+
 			this.addComponent(group);
 		}
-		
-		//group.addStyleName(UIConstants.THEME_BLUE_LINK);
-	
 
 		Button optionBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -75,19 +78,29 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 				changeOption(id);
 			}
 		});
+		
 		optionBtn.setIcon(resource);
-		if (groupId != "delete")
-		optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
-		else 
-		optionBtn.addStyleName(UIConstants.THEME_RED_LINK);
-		
+		if ("delete".equals(groupId)) {
+			
+			optionBtn.addStyleName(UIConstants.THEME_RED_LINK);
+		} else {
+			optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		}
+
 		optionBtn.addStyleName("small-padding");
-		
+		optionBtn.setDescription(description);
+
 		group.addButton(optionBtn);
 	}
-
+	
+	@Deprecated
 	public void addDownloadActionItem(final String id, Resource resource,
 			String groupId, String downloadFileName) {
+		addDownloadActionItem(id, resource, groupId, downloadFileName, "");
+	}
+	
+	public void addDownloadActionItem(final String id, Resource resource,
+			String groupId, String downloadFileName, String description) {
 		ButtonGroup group = groupMap.get(groupId);
 
 		if (group == null) {
@@ -95,8 +108,6 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 			groupMap.put(groupId, group);
 			this.addComponent(group);
 		}
-	/*	group.addStyleName(UIConstants.THEME_BLUE_LINK);
-		group.addStyleName("small-padding");*/
 
 		Button optionBtn = new Button(null);
 
@@ -106,6 +117,7 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 		optionBtn.setIcon(resource);
 		optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 		optionBtn.addStyleName("small-padding");
+		optionBtn.setDescription(description);
 		group.addButton(optionBtn);
 	}
 

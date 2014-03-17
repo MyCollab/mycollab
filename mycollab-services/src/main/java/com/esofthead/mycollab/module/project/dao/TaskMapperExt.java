@@ -16,13 +16,30 @@
  */
 package com.esofthead.mycollab.module.project.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface TaskMapperExt extends ISearchableDAO<TaskSearchCriteria> {
 
-    SimpleTask findTaskById(int taskId);
-    
-    Integer getMaxKey(int projectId);
+	SimpleTask findTaskById(int taskId);
+
+	Integer getMaxKey(int projectId);
+
+	List<GroupItem> getPrioritySummary(
+			@Param("searchCriteria") TaskSearchCriteria criteria);
+
+	List<GroupItem> getAssignedDefectsSummary(
+			@Param("searchCriteria") TaskSearchCriteria criteria);
 }

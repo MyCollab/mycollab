@@ -193,9 +193,6 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				UiUtils.addComponent(basicSearchBody, this.nameField,
 						Alignment.MIDDLE_CENTER);
 
-				
-				
-
 				this.myItemCheckbox = new CheckBox("My Items");
 				UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 						Alignment.MIDDLE_CENTER);

@@ -93,13 +93,13 @@ public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
 		streamsLayout.setMargin(new MarginInfo(false, false, false, true));
 
 		salesDashboard = new SalesDashboardView();
-		salesDashboard.setWidth("400px");
+		salesDashboard.setWidth("550px");
 		streamsLayout.addComponent(salesDashboard);
 		streamsLayout.setComponentAlignment(salesDashboard,
 				Alignment.MIDDLE_RIGHT);
 
 		activityStreamPanel = new ActivityStreamPanel();
-		activityStreamPanel.setWidth("400px");
+		activityStreamPanel.setWidth("550px");
 		streamsLayout.addComponent(activityStreamPanel);
 		streamsLayout.setComponentAlignment(activityStreamPanel,
 				Alignment.MIDDLE_RIGHT);
@@ -115,19 +115,19 @@ public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
 		if (accountDashlet != null) {
 			accountDashlet.display();
 		}
-		
+
 		if (meetingDashlet != null) {
 			meetingDashlet.display();
 		}
-		
+
 		if (callDashlet != null) {
 			callDashlet.display();
 		}
-		
+
 		if (leadDashlet != null) {
 			leadDashlet.display();
 		}
-		
+
 		if (opportunityChartDashlet != null) {
 			opportunityChartDashlet.display();
 		}
@@ -135,7 +135,7 @@ public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
 		if (activityStreamPanel != null) {
 			activityStreamPanel.display();
 		}
-		
+
 		if (salesDashboard != null) {
 			salesDashboard.displayReport();
 		}

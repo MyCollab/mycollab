@@ -1,20 +1,4 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.esofthead.mycollab.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.List;
 
@@ -22,13 +6,9 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
@@ -41,15 +21,15 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.0
  * 
  */
-public class UnresolvedBugsByAssigneeWidget2 extends Depot {
+public class UnresolvedTaskByAssigneeWidget extends Depot {
 	private static final long serialVersionUID = 1L;
 
-	private BugSearchCriteria bugSearchCriteria;
+	private TaskSearchCriteria searchCriteria;
 
-	public UnresolvedBugsByAssigneeWidget2() {
+	public UnresolvedTaskByAssigneeWidget() {
 		super(LocalizationHelper
 				.getMessage(BugI18nEnum.UNRESOLVED_BY_ASSIGNEE_WIDGET_TITLE),
 				new VerticalLayout());
@@ -58,14 +38,15 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 		((VerticalLayout) this.bodyContent).setMargin(true);
 	}
 
-	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
-		this.bugSearchCriteria = searchCriteria;
+	public void setSearchCriteria(final TaskSearchCriteria searchCriteria) {
+		this.searchCriteria = searchCriteria;
 		this.bodyContent.removeAllComponents();
-		final BugService bugService = ApplicationContextUtil
-				.getSpringBean(BugService.class);
-		final int totalCount = bugService.getTotalCount(searchCriteria);
-		final List<GroupItem> groupItems = bugService
+		ProjectTaskService projectTaskService = ApplicationContextUtil
+				.getSpringBean(ProjectTaskService.class);
+		int totalCountItems = projectTaskService.getTotalCount(searchCriteria);
+		final List<GroupItem> groupItems = projectTaskService
 				.getAssignedDefectsSummary(searchCriteria);
+
 		if (!groupItems.isEmpty()) {
 			for (final GroupItem item : groupItems) {
 				final HorizontalLayout assigneeLayout = new HorizontalLayout();
@@ -75,11 +56,12 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				final String assignUser = item.getGroupid();
 				final String assignUserFullName = (item.getGroupid() == null) ? "Undefined"
 						: item.getGroupname();
-				final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
-						item.getExtraValue(), assignUserFullName);
+				final TaskAssigneeLink userLbl = new TaskAssigneeLink(
+						assignUser, item.getExtraValue(), assignUserFullName);
 				assigneeLayout.addComponent(userLbl);
 				final ProgressBarIndicator indicator = new ProgressBarIndicator(
-						totalCount, totalCount - item.getValue(), false);
+						totalCountItems, totalCountItems - item.getValue(),
+						false);
 				indicator.setWidth("100%");
 				assigneeLayout.addComponent(indicator);
 				assigneeLayout.setExpandRatio(indicator, 1.0f);
@@ -89,25 +71,19 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 		}
 	}
 
-	class BugAssigneeLink extends Button {
+	class TaskAssigneeLink extends Button {
 		private static final long serialVersionUID = 1L;
 
-		public BugAssigneeLink(final String assignee,
+		public TaskAssigneeLink(final String assignee,
 				final String assigneeAvatarId, final String assigneeFullName) {
 			super(assigneeFullName, new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
-					UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
-							.setAssignuser(new StringSearchField(
-									SearchField.AND, assignee));
-					final BugSearchParameter param = new BugSearchParameter(
-							"Unresolved Bug List of " + assigneeFullName,
-							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
-					EventBus.getInstance().fireEvent(
-							new BugEvent.GotoList(this,
-									new BugScreenData.Search(param)));
+					searchCriteria.setAssignUser(new StringSearchField(
+							SearchField.AND, assignee));
+
 				}
 			});
 
