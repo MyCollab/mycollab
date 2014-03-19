@@ -33,9 +33,9 @@ public class BugScreenData {
 		}
 	}
 
-	public static class Search extends ScreenData<BugSearchParameter> {
+	public static class Search extends ScreenData<BugFilterParameter> {
 
-		public Search(BugSearchParameter params) {
+		public Search(BugFilterParameter params) {
 			super(params);
 		}
 	}

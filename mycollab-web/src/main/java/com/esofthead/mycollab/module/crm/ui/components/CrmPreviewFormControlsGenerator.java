@@ -16,15 +16,20 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -41,39 +46,43 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
 
-	private Button backBtn, editBtn, deleteBtn, cloneBtn, previousItem,
-			nextItemBtn, historyBtn;
+	private Button editBtn, deleteBtn, cloneBtn, previousItem,
+	nextItemBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
-	private HorizontalLayout editButtons;
+	private VerticalLayout popupButtonsControl;
+
+	private SplitButton editButtons;
 	private HorizontalLayout layout;
 
 	public CrmPreviewFormControlsGenerator(
 			final AdvancedPreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
 
-		editButtons = new HorizontalLayout();
-		editButtons.setSpacing(true);
-		editButtons.addStyleName("edit-btn");
+		layout = new HorizontalLayout();
+
+		editButtons = new SplitButton();
+		editButtons.setCaption("Option");
+		editButtons.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		editButtons.addStyleName(UIConstants.THEME_GRAY_LINK);
 	}
 
 	public void insertToControlBlock(Button button) {
-		editButtons.addComponent(button, 0);
+		layout.addComponent(button, 0);
 	}
 
 	public HorizontalLayout createButtonControls(final String permissionItem) {
-		return createButtonControls(BACK_BTN_PRESENTED | EDIT_BTN_PRESENTED
+		return createButtonControls(EDIT_BTN_PRESENTED
 				| DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED
-				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
-				| HISTORY_BTN_PRESENTED, permissionItem);
+				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED, permissionItem);
 	}
 
 	public HorizontalLayout createButtonControls(int buttonEnableFlags,
 			final String permissionItem) {
-		layout = new HorizontalLayout();
+
+		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
-		layout.setMargin(true);
-		layout.setWidth("100%");
+		layout.setSizeUndefined();
 
 		boolean canRead = true;
 		boolean canWrite = true;
@@ -84,88 +93,71 @@ public class CrmPreviewFormControlsGenerator<T> {
 			canAccess = AppContext.canAccess(permissionItem);
 		}
 
-		if ((buttonEnableFlags & BACK_BTN_PRESENTED) == BACK_BTN_PRESENTED) {
-			backBtn = new Button(null, new Button.ClickListener() {
+		popupButtonsControl = new VerticalLayout();
+		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
+		popupButtonsControl.setSpacing(true);
+
+		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+			editBtn = new Button(GenericBeanForm.EDIT_ACTION,
+					new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					final T item = previewForm.getBean();
-					previewForm.fireCancelForm(item);
+					previewForm.fireEditForm(item);
 				}
 			});
-			backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
-			backBtn.setDescription("Back to list");
-			backBtn.setStyleName("link");
-			layout.addComponent(backBtn);
-			layout.setComponentAlignment(backBtn, Alignment.MIDDLE_LEFT);
-			backBtn.setEnabled(canRead);
-		}
-
-		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new Button(GenericBeanForm.EDIT_ACTION,
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							final T item = previewForm.getBean();
-							previewForm.fireEditForm(item);
-						}
-					});
 			editBtn.setIcon(MyCollabResource
-					.newResource("icons/16/edit_white.png"));
-			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			editButtons.addComponent(editBtn);
-			editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
+					.newResource("icons/16/edit.png"));
+			editBtn.setStyleName("link");
 			editBtn.setEnabled(canWrite);
-		}
+			popupButtonsControl.addComponent(editBtn);
+		}		
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
 			deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							final T item = previewForm.getBean();
-							previewForm.fireDeleteForm(item);
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					final T item = previewForm.getBean();
+					previewForm.fireDeleteForm(item);
+				}
+			});
 			deleteBtn.setIcon(MyCollabResource
 					.newResource("icons/16/delete2.png"));
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
-			editButtons.addComponent(deleteBtn);
-			editButtons.setComponentAlignment(deleteBtn,
-					Alignment.MIDDLE_CENTER);
+			layout.addComponent(deleteBtn);
 			deleteBtn.setEnabled(canAccess);
 		}
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
 			cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							final T item = previewForm.getBean();
-							previewForm.fireCloneForm(item);
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					final T item = previewForm.getBean();
+					previewForm.fireCloneForm(item);
+				}
+			});
 			cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
-			cloneBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			editButtons.addComponent(cloneBtn);
-			editButtons
-					.setComponentAlignment(cloneBtn, Alignment.MIDDLE_CENTER);
-			cloneBtn.setEnabled(canWrite);
+			cloneBtn.setStyleName("link");
+			popupButtonsControl.addComponent(cloneBtn);
 		}
 
+		editButtons.setContent(popupButtonsControl);
+
 		layout.addComponent(editButtons);
-		layout.setComponentAlignment(editButtons, Alignment.MIDDLE_CENTER);
-		layout.setExpandRatio(editButtons, 1.0f);
+
+		ButtonGroup navigationBtns = new ButtonGroup();
+		navigationBtns.setStyleName("navigation-btns");
 
 		if ((buttonEnableFlags & PREVIOUS_BTN_PRESENTED) == PREVIOUS_BTN_PRESENTED) {
-			previousItem = new Button(null, new Button.ClickListener() {
+			previousItem = new Button("<", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -174,18 +166,14 @@ public class CrmPreviewFormControlsGenerator<T> {
 					previewForm.fireGotoPrevious(item);
 				}
 			});
-
-			previousItem.setIcon(MyCollabResource
-					.newResource("icons/16/previous.png"));
-			previousItem.setStyleName("link");
+			previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
 			previousItem.setDescription("Read previous item");
-			layout.addComponent(previousItem);
-			layout.setComponentAlignment(previousItem, Alignment.MIDDLE_RIGHT);
+			navigationBtns.addButton(previousItem);
 			previousItem.setEnabled(canRead);
 		}
 
 		if ((buttonEnableFlags & NEXT_BTN_PRESENTED) == NEXT_BTN_PRESENTED) {
-			nextItemBtn = new Button(null, new Button.ClickListener() {
+			nextItemBtn = new Button(">", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -194,33 +182,13 @@ public class CrmPreviewFormControlsGenerator<T> {
 					previewForm.fireGotoNextItem(item);
 				}
 			});
-
-			nextItemBtn.setIcon(MyCollabResource
-					.newResource("icons/16/next.png"));
-			nextItemBtn.setStyleName("link");
+			nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			nextItemBtn.setDescription("Read next item");
-			layout.addComponent(nextItemBtn);
-			layout.setComponentAlignment(nextItemBtn, Alignment.MIDDLE_RIGHT);
+			navigationBtns.addButton(nextItemBtn);
 			nextItemBtn.setEnabled(canRead);
 		}
 
-		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
-			historyBtn = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					previewForm.showHistory();
-				}
-			});
-			historyBtn.setIcon(MyCollabResource
-					.newResource("icons/16/history.png"));
-			historyBtn.setStyleName("link");
-			historyBtn.setDescription("Show history log");
-			layout.addComponent(historyBtn);
-			layout.setComponentAlignment(historyBtn, Alignment.MIDDLE_RIGHT);
-			historyBtn.setEnabled(canRead);
-		}
+		layout.addComponent(navigationBtns);
 
 		return layout;
 	}

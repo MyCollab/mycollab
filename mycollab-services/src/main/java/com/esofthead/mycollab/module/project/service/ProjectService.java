@@ -18,30 +18,26 @@ package com.esofthead.mycollab.module.project.service;
 
 import java.util.List;
 
-import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.Project;
-import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface ProjectService extends
 		IDefaultService<Integer, Project, ProjectSearchCriteria> {
 
 	@Cacheable
-	int getTotalActivityStream(@CacheKey ActivityStreamSearchCriteria criteria);
-
-	@Cacheable
 	List<Integer> getUserProjectKeys(String username,
 			@CacheKey Integer sAccountId);
-
-	@Cacheable
-	List<ProjectActivityStream> getProjectActivityStreams(
-			@CacheKey SearchRequest<ActivityStreamSearchCriteria> searchRequest);
 
 	@Cacheable
 	SimpleProject findById(int projectId, @CacheKey int sAccountId);
@@ -53,6 +49,6 @@ public interface ProjectService extends
 	List<SimpleProject> getActiveProjectsInAccount(@CacheKey Integer sAccountId);
 
 	String getSubdomainOfProject(int projectId);
-	
+
 	List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
 }

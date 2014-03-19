@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ListSelect;
@@ -42,6 +43,8 @@ CustomComponent implements HasSearchHandlers<S> {
 
 	private List<SearchHandler<S>> handers;
 
+	Component headerRight;
+
 	@Override
 	public void addSearchHandler(final SearchHandler<S> handler) {
 		if (this.handers == null) {
@@ -55,6 +58,24 @@ CustomComponent implements HasSearchHandlers<S> {
 			for (final SearchHandler<S> handler : this.handers) {
 				handler.onSearch(criteria);
 			}
+		}
+	}
+
+	@Override
+	protected void setCompositionRoot(Component compositionRoot) {
+		super.setCompositionRoot(compositionRoot);
+		addHeaderRight(headerRight);
+	}
+
+	public void addHeaderRight(Component c) {
+		if (c != null)
+			this.headerRight = c;
+		else
+			return;
+
+		Component root = getCompositionRoot();
+		if (root != null && root instanceof SearchLayout) {
+			((SearchLayout<?>) root).addHeaderRight(this.headerRight);
 		}
 	}
 
@@ -108,6 +129,8 @@ CustomComponent implements HasSearchHandlers<S> {
 		}
 
 		abstract protected S fillupSearchCriteria();
+		abstract protected void addHeaderRight(Component c);
+
 	}
 
 	abstract public static class BasicSearchLayout<S extends SearchCriteria>
@@ -127,6 +150,14 @@ CustomComponent implements HasSearchHandlers<S> {
 			this.body = this.constructBody();
 			this.addComponent(this.header, "basicSearchHeader");
 			this.addComponent(this.body, "basicSearchBody");
+		}
+
+		@Override
+		protected void addHeaderRight(Component c) {
+			if(this.header == null)
+				return;
+
+			this.header.addComponent(c);
 		}
 
 		abstract public ComponentContainer constructHeader();
@@ -155,9 +186,17 @@ CustomComponent implements HasSearchHandlers<S> {
 			this.addComponent(this.footer, "advSearchFooter");
 		}
 
+		@Override
+		protected void addHeaderRight(Component c) {
+			if(this.header == null)
+				return;
+
+			this.header.addComponent(c);
+		}
+
 		public abstract ComponentContainer constructHeader();
 
-		
+
 		public abstract ComponentContainer constructBody();
 
 		public abstract ComponentContainer constructFooter();

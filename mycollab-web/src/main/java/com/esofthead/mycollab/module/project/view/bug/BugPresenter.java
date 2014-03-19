@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -65,7 +65,7 @@ public class BugPresenter extends AbstractPresenter<BugContainer> {
 			BugSearchCriteria criteria = new BugSearchCriteria();
 			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 					.getProjectId()));
-			data = new BugScreenData.Search(new BugSearchParameter("All Bugs",
+			data = new BugScreenData.Search(new BugFilterParameter("All Bugs",
 					criteria));
 
 		} else {

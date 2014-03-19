@@ -55,6 +55,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -64,7 +65,7 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
-		implements AccountReadView {
+implements AccountReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -144,6 +145,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		noteListItems.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
 	}
 
+	@Override
 	public AdvancedPreviewBeanForm<SimpleAccount> getPreviewForm() {
 		return previewForm;
 	}
@@ -156,21 +158,21 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		SimpleLead lead = leadService.findConvertedLeadOfAccount(
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
-			return "<h2>"
-					+ beanItem.getAccountname()
+			return beanItem.getAccountname()
 					+ LocalizationHelper
-							.getMessage(
-									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
-									CrmLinkGenerator.generateCrmItemLink(
-											CrmTypeConstants.LEAD, lead.getId()),
-									lead.getLeadName()) + "</h2>";
+					.getMessage(
+							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+							CrmResources
+							.getResourceLink(CrmTypeConstants.LEAD),
+							CrmLinkGenerator.generateCrmItemLink(
+									CrmTypeConstants.LEAD, lead.getId()),
+									lead.getLeadName());
 		} else {
-			return "<h2>" + beanItem.getAccountname() + "</h2>";
+			return beanItem.getAccountname();
 		}
 	}
 
+	@Override
 	protected final void initRelatedComponents() {
 		associateContactList = new AccountContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
@@ -180,10 +182,20 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		peopleInfoComp = new PeopleInfoComp();
-		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
+
 		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		basicInfo.addComponent(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		basicInfo.addComponent(peopleInfoComp);
+
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewLayout, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");

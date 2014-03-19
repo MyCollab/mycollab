@@ -23,34 +23,34 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.projectId != null">
-            <![CDATA[${searchCriteria.projectId.operation} m_prj_time_logging.projectId ${searchCriteria.projectId.compareOperator} #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.type != null">
-            <![CDATA[${searchCriteria.type.operation} m_prj_time_logging.type like '%${searchCriteria.type.value}%']]>
-        </if>
-
-        <if test="searchCriteria.typeId != null">
-            <![CDATA[${searchCriteria.typeId.operation} m_prj_time_logging.typeid ${searchCriteria.typeId.compareOperator} #{searchCriteria.typeId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.rangeDate != null">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_time_logging.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_prj_time_logging.type = @{searchCriteria.type.value}
+        #end
+        
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_prj_time_logging.typeid = @{searchCriteria.typeId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.rangeDate)
             ${searchCriteria.rangeDate.operation}
-            CAST(m_prj_time_logging.createdTime AS DATE ) BETWEEN
-            #{searchCriteria.rangeDate.from} AND
-            #{searchCriteria.rangeDate.to}
-        </if>
-
-        <if test="searchCriteria.logUsers != null">
+            CAST(m_prj_time_logging.createdTime AS DATE ) BETWEEN @{searchCriteria.rangeDate.from} AND @{searchCriteria.rangeDate.to}
+        #end
+        
+        #ifnotnull($searchCriteria.logUsers)
             ${searchCriteria.logUsers.operation}
             m_prj_time_logging.loguser IN
-            <foreach close=")" collection="searchCriteria.logUsers.values"
-                item="loguser" open="(" separator=",">
-                #{loguser}
-            </foreach>
-        </if>
+            #repeat(${searchCriteria.assignUsers.logUsers} $logUser "," "(" ")")
+                @{logUser}
+            #end
+        #end
+        ]]>
     </sql>
 
     <sql id="selectTask">
@@ -83,72 +83,57 @@
               INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectid)
         ]]>
     </sql>
+    
+    <sql id="orderStatement">
+        ORDER BY
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
+        #end
+        createdTime DESC
+    </sql>
 
     <select id="getTotalCount" parameterType="ItemTimeLoggingSearchCriteria"
-        resultType="int">
+        resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_time_logging
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 
     <select id="getTotalHoursByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
-        resultType="double">
+        resultType="double" lang="velocity">
         SELECT sum(logValue) as totalHour FROM m_prj_time_logging
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 
-    <sql id="orderStatement">
-        ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            createdTime DESC
-        ]]>
-    </sql>
-
     <select id="findPagableListByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
-        resultMap="TimeLoggingResult">
+        resultMap="TimeLoggingResult" lang="velocity">
         (
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.selectTask" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        <include refid="selectTask" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
         ) UNION (
 
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.selectBug" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        <include refid="selectBug" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trim("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
         )
-        <if test="searchCriteria != null">
+        #ifnotnull($_parameter.searchCriteria)
             <include refid="orderStatement" />
-        </if>
+        #end
     </select>
 </mapper>

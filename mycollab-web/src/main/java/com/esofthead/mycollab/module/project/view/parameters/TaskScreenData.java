@@ -23,7 +23,7 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 public class TaskScreenData {
 	public static class Read extends ScreenData<Integer> {
@@ -44,6 +44,12 @@ public class TaskScreenData {
 
 		public Add(Task task) {
 			super(task);
+		}
+	}
+
+	public static class Filter extends ScreenData<TaskFilterParameter> {
+		public Filter(TaskFilterParameter criteria) {
+			super(criteria);
 		}
 	}
 }

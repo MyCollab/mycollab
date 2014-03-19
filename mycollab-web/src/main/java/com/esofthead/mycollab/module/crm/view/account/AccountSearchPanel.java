@@ -29,12 +29,13 @@ import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -45,7 +46,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -55,26 +55,27 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @SuppressWarnings("serial")
 public class AccountSearchPanel extends
-		DefaultGenericSearchPanel<AccountSearchCriteria> {
+DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-			AccountSearchCriteria.p_accountName,
-			AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
-			AccountSearchCriteria.p_numemployees,
-			AccountSearchCriteria.p_assignee,
-			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
-			AccountSearchCriteria.p_assignee,
-			AccountSearchCriteria.p_billingCountry,
-			AccountSearchCriteria.p_shippingCountry,
-			AccountSearchCriteria.p_anyCity,
-			AccountSearchCriteria.p_createdtime,
-			AccountSearchCriteria.p_lastupdatedtime };
+		AccountSearchCriteria.p_accountName,
+		AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
+		AccountSearchCriteria.p_numemployees,
+		AccountSearchCriteria.p_assignee,
+		AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
+		AccountSearchCriteria.p_assignee,
+		AccountSearchCriteria.p_billingCountry,
+		AccountSearchCriteria.p_shippingCountry,
+		AccountSearchCriteria.p_anyCity,
+		AccountSearchCriteria.p_createdtime,
+		AccountSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/account.png"));
@@ -82,19 +83,19 @@ public class AccountSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label("Accounts");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create",
+		final Button createAccountBtn = new Button("Create Account",
 				new Button.ClickListener() {
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new AccountEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new AccountEvent.GotoAdd(this, null));
+			}
+		});
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
@@ -117,7 +118,7 @@ public class AccountSearchPanel extends
 	}
 
 	private class AccountAdvancedSearchLayout extends
-			DynamicQueryParamLayout<AccountSearchCriteria> {
+	DynamicQueryParamLayout<AccountSearchCriteria> {
 
 		public AccountAdvancedSearchLayout() {
 			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
@@ -138,6 +139,7 @@ public class AccountSearchPanel extends
 			return AccountSearchCriteria.class;
 		}
 
+		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("account-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();
@@ -147,7 +149,7 @@ public class AccountSearchPanel extends
 	}
 
 	private class AccountBasicSearchLayout extends
-			BasicSearchLayout<AccountSearchCriteria> {
+	BasicSearchLayout<AccountSearchCriteria> {
 
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
@@ -171,7 +173,7 @@ public class AccountSearchPanel extends
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
@@ -209,12 +211,12 @@ public class AccountSearchPanel extends
 
 			final Button advancedSearchBtn = new Button(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AccountSearchPanel.this
-									.moveToAdvancedSearchLayout();
+							.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
@@ -234,8 +236,8 @@ public class AccountSearchPanel extends
 			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 					AppContext.getAccountId()));
 			searchCriteria.setAccountname(new StringSearchField(
-					SearchField.AND, ((String) this.nameField.getValue())
-							.trim()));
+					SearchField.AND, this.nameField.getValue()
+					.trim()));
 			if (this.myItemCheckbox.getValue()) {
 				searchCriteria.setAssignUser(new StringSearchField(
 						SearchField.AND, AppContext.getUsername()));

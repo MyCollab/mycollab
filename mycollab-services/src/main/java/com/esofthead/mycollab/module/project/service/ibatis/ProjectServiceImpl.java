@@ -27,12 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -48,7 +46,6 @@ import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.Project;
-import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
@@ -116,7 +113,7 @@ public class ProjectServiceImpl extends
 		// add client role to project
 		ProjectRole clientRole = createProjectRole(projectid,
 				record.getSaccountid(), "Client", "Default role for client");
-		
+
 		int clientRoleId = projectRoleService.saveWithSession(clientRole,
 				username);
 
@@ -204,22 +201,6 @@ public class ProjectServiceImpl extends
 		projectRole.setRolename(roleName);
 		projectRole.setDescription(description);
 		return projectRole;
-	}
-
-	@Override
-	public List<ProjectActivityStream> getProjectActivityStreams(
-			SearchRequest<ActivityStreamSearchCriteria> searchRequest) {
-		return projectMapperExt.getProjectActivityStreams(
-				searchRequest.getSearchCriteria(),
-				new RowBounds((searchRequest.getCurrentPage() - 1)
-						* searchRequest.getNumberOfItems(), searchRequest
-						.getNumberOfItems()));
-	}
-
-	@Override
-	public int getTotalActivityStream(
-			ActivityStreamSearchCriteria searchCriteria) {
-		return projectMapperExt.getTotalActivityStream(searchCriteria);
 	}
 
 	@Override

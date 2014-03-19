@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esofthead.mycollab.cache.LocalCacheManager;
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -357,8 +357,7 @@ public class UserServiceDBImpl extends
 		pendingUserAccounts(Arrays.asList(username), accountId);
 
 		// clean cache of related items
-		LocalCacheManager.removeCacheItems(accountId.toString(),
-				UserService.class.getName());
+		CacheUtils.cleanCaches(accountId, UserService.class);
 	}
 
 	private void internalPendingUserAccount(String username, Integer accountId) {
@@ -407,8 +406,7 @@ public class UserServiceDBImpl extends
 		}
 
 		// clean cache of related items
-		LocalCacheManager.removeCacheItems(accountId.toString(),
-				UserService.class.getName());
+		CacheUtils.cleanCaches(accountId, UserService.class);
 	}
 
 	@Override

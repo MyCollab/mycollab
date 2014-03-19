@@ -49,6 +49,10 @@ public class SimpleProject extends Project {
 	private int numInProgressPhase;
 	
 	private int numFuturePhase;
+	
+	private double totalBillableHours;
+	
+	private double totalNonBillableHours;
 
 	@NotBindable
 	private Currency currency;
@@ -171,5 +175,21 @@ public class SimpleProject extends Project {
 
 	public void setNumFuturePhase(int numFuturePhase) {
 		this.numFuturePhase = numFuturePhase;
+	}
+
+	public double getTotalBillableHours() {
+		return totalBillableHours;
+	}
+
+	public void setTotalBillableHours(double totalBillableHours) {
+		this.totalBillableHours = totalBillableHours;
+	}
+
+	public double getTotalNonBillableHours() {
+		return totalNonBillableHours;
+	}
+
+	public void setTotalNonBillableHours(double totalNonBillableHours) {
+		this.totalNonBillableHours = totalNonBillableHours;
 	}
 }

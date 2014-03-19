@@ -157,6 +157,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addComponent(notificationBtn);
 
 		addBtn = new PopupButton("Create");
+		addBtn.setIcon(MyCollabResource.newResource("icons/18/create.png"));
 		final GridLayout addBtnLayout = new GridLayout(3, 2);
 		addBtnLayout.setMargin(true);
 		addBtnLayout.setWidth("370px");

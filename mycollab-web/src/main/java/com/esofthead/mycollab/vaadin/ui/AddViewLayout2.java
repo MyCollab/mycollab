@@ -17,11 +17,10 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -33,57 +32,75 @@ import com.vaadin.ui.VerticalLayout;
  * @since 2.0
  * 
  */
-public class AddViewLayout2 extends CssLayout {
-    private static final long serialVersionUID = 1L;
+public class AddViewLayout2 extends VerticalLayout {
+	private static final long serialVersionUID = 1L;
 
-    private final HorizontalLayout header;
-    private final Image iconEmbed;
-    private final Label titleLbl;
-    private final VerticalLayout body;
+	private final HorizontalLayout header;
+	private final Image iconEmbed;
+	private final Label titleLbl;
+	private final VerticalLayout body;
 
-    public AddViewLayout2(final String title, final Resource icon) {
-        setStyleName("addview-layout");
+	public AddViewLayout2(final String title, final Resource icon) {
+		setStyleName("addview-layout");
 
-        header = new HorizontalLayout();
-        header.setWidth("100%");
-        header.setSpacing(true);
-        header.setMargin(true);
-        header.setStyleName("addview-layout-header");
-        header.setHeight("39px");
-        this.addComponent(header);
+		this.header = new HorizontalLayout();
+		this.header.setWidth("100%");
+		this.header.setSpacing(true);
+		this.header.setMargin(new MarginInfo(true, false, true, false));
+		this.header.setStyleName(UIConstants.HEADER_VIEW);
+		this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-        iconEmbed = new Image(null, icon);
-        header.addComponent(iconEmbed);
-        header.setComponentAlignment(iconEmbed, Alignment.MIDDLE_LEFT);
+		this.iconEmbed = new Image();
+		this.setTitleIcon(icon);
+		this.header.addComponent(iconEmbed);
 
-        titleLbl = new Label(title);
-        titleLbl.setContentMode(ContentMode.HTML);
-        titleLbl.setStyleName("h2");
-        titleLbl.setWidth("100%");
-        header.addComponent(titleLbl);
-        header.setComponentAlignment(titleLbl, Alignment.MIDDLE_LEFT);
-        header.setExpandRatio(titleLbl, 1.0f);
+		this.titleLbl = new Label();
+		this.titleLbl.setStyleName(UIConstants.HEADER_TEXT);
+		this.titleLbl.setImmediate(true);
 
-        body = new VerticalLayout();
-        body.setStyleName("addview-layout-body");
-        this.addComponent(body);
-    }
+		this.header.addComponent(this.titleLbl);
+		this.header.setExpandRatio(titleLbl, 1.0f);
 
-    public void addBody(final ComponentContainer body) {
-        this.body.addComponent(body);
-        this.body.setExpandRatio(body, 1.0f);
-    }
+		if (title == null) {
+			if (icon != null) {
+				this.setTitle("Undefined");
+			}
+		} else {
+			this.setTitle(title);
+		}
 
-    public VerticalLayout getBody() {
-        return this.body;
-    }
+		this.addComponent(header);
 
-    public void addControlButtons(final Component controlsBtn) {
-        controlsBtn.addStyleName("control-buttons");
-        body.addComponent(controlsBtn);
-    }
+		body = new VerticalLayout();
+		body.setStyleName("addview-layout-body");
+		this.addComponent(body);
+	}
 
-    public void setTitle(final String title) {
-        titleLbl.setValue(title);
-    }
+	public void addBody(final ComponentContainer body) {
+		this.body.addComponent(body);
+		this.body.setExpandRatio(body, 1.0f);
+	}
+
+	public VerticalLayout getBody() {
+		return this.body;
+	}
+
+	public void addControlButtons(final Component controlsBtn) {
+		controlsBtn.addStyleName("control-buttons");
+		body.addComponent(controlsBtn);
+	}
+
+	public void setTitle(final String title) {
+		titleLbl.setValue(title);
+	}
+
+	public void setTitleIcon(final Resource resource) {
+		if (resource != null) {
+			this.iconEmbed.setSource(resource);
+		}
+	}
+
+	public void addHeaderRight(final ComponentContainer headerRight) {
+		this.header.addComponent(headerRight);
+	}
 }

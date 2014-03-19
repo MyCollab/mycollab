@@ -51,7 +51,7 @@ public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
 
 	public CrmHomeViewImpl() {
 		this.setSpacing(true);
-		this.setMargin(false);
+		this.setMargin(new MarginInfo(false, true, false, true));
 
 		HorizontalLayout contentLayout = new HorizontalLayout();
 		contentLayout.setSpacing(true);

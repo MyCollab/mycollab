@@ -145,7 +145,7 @@ public class AccountListViewImpl extends
 		customizeViewBtn.setIcon(MyCollabResource
 				.newResource("icons/16/customize.png"));
 		customizeViewBtn.setDescription("Layout Options");
-		customizeViewBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		customizeViewBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		this.addExtraComponent(customizeViewBtn);
 
 		Button importBtn = new Button("", new Button.ClickListener() {
@@ -159,7 +159,7 @@ public class AccountListViewImpl extends
 		});
 		importBtn.setDescription("Import");
 		importBtn.setIcon(MyCollabResource.newResource("icons/16/import.png"));
-		importBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+		importBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 		importBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 		this.addExtraComponent(importBtn);

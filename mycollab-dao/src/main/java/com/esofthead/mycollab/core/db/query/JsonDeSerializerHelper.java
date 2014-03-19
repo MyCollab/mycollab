@@ -58,7 +58,7 @@ public class JsonDeSerializerHelper {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							CompositionStringParam.class));
 					fieldInfo.setValue(gson.fromJson(jsonObj.get("value"),
-							String[].class));
+							String.class));
 				} else if (ConcatStringParam.class.getName().equals(clsName)) {
 					fieldInfo.setParam(gson.fromJson(jsonObj.get("param"),
 							ConcatStringParam.class));

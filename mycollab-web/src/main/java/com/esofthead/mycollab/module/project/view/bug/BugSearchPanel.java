@@ -123,7 +123,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			basicSearchBody.setMargin(true);
 			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
 
-			
+
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
@@ -132,11 +132,11 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			this.myItemCheckbox = new CheckBox("My Items");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
-			
+
 			final Button searchBtn = new Button("Search");
 			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			
+
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {
@@ -148,7 +148,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-			
+
 			final Button cancelBtn = new Button("Clear");
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
@@ -159,10 +159,10 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
-			
+
 			final Separator separator1 = new Separator();
 			UiUtils.addComponent(basicSearchBody, separator1,
-				Alignment.MIDDLE_LEFT);
+					Alignment.MIDDLE_LEFT);
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
@@ -214,7 +214,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					.canWrite(ProjectRolePermissionCollections.BUGS));
 
 			HorizontalLayout header = new HorizontalLayout();
-			headerText.setStyleName("hdr-text");
+			headerText.setStyleName(UIConstants.HEADER_TEXT);
 
 			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
@@ -222,7 +222,7 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 			UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
 			header.setExpandRatio(headerText, 1.0f);
 
-			header.setStyleName("hdr-view");
+			header.setStyleName(UIConstants.HEADER_VIEW);
 			header.setWidth("100%");
 			header.setSpacing(true);
 			header.setMargin(new MarginInfo(true, false, true, false));

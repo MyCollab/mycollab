@@ -188,22 +188,26 @@ input.v-widget.v-textfield[type="text"], .v-filterselect  {
     font-size: 1.85em;
 }
 
+.v-window-modalitycurtain {
+	background-color: #000000;
+}
+
 .popupContent .v-window-contents {
-	background-color: rgb(245, 245, 245);
+	background-color: #FFFFFF;
 }
 
 .popupContent .v-window-outerheader {
-	background-color: #8B8B8B;
+	background-color: #F7F7F7;
 	padding: 0;
 }
 .popupContent .v-window-outerheader .v-window-header {
 	padding: 12px 10px;
 	font-size: 14px;
-	color: rgb(247, 247, 247);
+	color: #525252;
 }
 
 .v-window-closebox {
-	background: transparent url(icons/16/action/delete.png) no-repeat;
+	background: url('icons/16/delete3.png') no-repeat left top transparent;
 	width:16px;
 	height:16px;
 	background-position: 0 0;
@@ -368,9 +372,7 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	border-top-color: #5F5F5F;
 }
 
-.v-button-graybtn.v-popupbutton .v-popup-indicator {
-	
-} 
+
 .v-button.v-button-redbtn, .v-button-redbtn:focus {
 	background-color:#F64A46;
 	color:white;
@@ -452,6 +454,29 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	border-top-color: #2E5788;
 }
 
+.v-button.v-button-transparentbtn, .v-button-transparentbtn:focus  {
+	background-color: transparent;
+	color:white;
+	font-weight:normal;
+	border:none;
+	padding:0;
+}
+
+.v-button-transparentbtn:hover, .v-button-transparentbtn:active{
+	background-color: transparent;
+	padding:0;
+	background-image:none;
+	
+}
+
+.v-button.v-button-transparentbtn:active .v-button-wrap{
+	border-top-color: transparent;
+	background-image:none;
+	padding:0;
+}
+.v-button.v-button-transparentbtn .v-button-wrap {
+	padding:0;
+}
 /* .v-buttongroup .v-button.v-button-left,.v-buttongroup .v-button.v-button-middle,.v-buttongroup .v-button.v-button-right
 {
 	background-color: #C06B11;
@@ -793,6 +818,7 @@ input.v-textfield-pagedtable-pagefield {
 	padding: 3px 0 4px;
 	border-radius: 0px 2px 2px 0px;
 	height: 24px;
+	background: url(icons/16/crm/date_btn.png) no-repeat 50%;
 }
 
 /* Top Menu */
@@ -834,8 +860,7 @@ input.v-textfield-pagedtable-pagefield {
 
 #topNavigation .service-menu.v-buttongroup .v-button.selected {
 	background: none no-repeat 0 0 #E4E4E4;
-	border-radius: 3px 3px 3px 3px;
-	/* padding: 3px 13px 0px; */
+	border-radius: 2px;
 }
 
 #topNavigation .service-menu.v-buttongroup .v-button.selected .v-button-caption {
@@ -1077,12 +1102,35 @@ input.v-textfield-pagedtable-pagefield {
 .crmContainer .crm-toolbar.v-margin-left, .crmContainer .main-view.v-margin-left {
 	padding-left: 30px;
 }
+.crmContainer .crm-toolbar .v-popupbutton .v-popup-indicator {
+	width: 0px;
+	background: none no-repeat left top transparent;
+}
 .crmContainer .v-table-body-noselection {
 	height: 100% !important;
 }
 
+.crmContainer .navigator-wrap .basic-info {
+	color: #FFFFFF;
+}
+
+.crmContainer .navigator-wrap .basic-info .info-hdr {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.crmContainer .main-view .preview-comp {
+	min-height: 100%;
+}
+
 input.v-textfield-errorField {
 	border-color: red;
+}
+.crmContainer .page-view.v-margin-left {
+	padding-left: 30px;
+}
+.crmContainer .page-view.v-margin-right {
+	padding-right: 30px;
 }
 
 /* End CRM Service */
@@ -1642,7 +1690,7 @@ input.v-textfield-errorField {
 	padding-bottom: 0;
 }
 
-.projectDashboardView .navigator-wrap {
+.navigator-wrap {
 	background-color: #7B7B7B;
 }
 .projectDashboardView .navigator-wrap .project-list-comp {
@@ -1725,7 +1773,7 @@ input.v-textfield-errorField {
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.projectDashboardView .container-wrap.main-content .tab-content {
+.projectDashboardView .container-wrap.main-content .tab-content, .crmContainer .container-wrap .tab-content {
 	min-height: 599px;
 	border-width: 1px 0px 0px 1px;
 	padding: 0px;
@@ -4325,16 +4373,18 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 }
 
 .readview-layout {
-	border: 1px solid #CFCFCF;
-	background-color: #f5f5f5;
-	border-radius: 3px 3px 0px 0px;
+	background-color: #FFFFFF;
 	padding: 0px;
 }
 
+.readview-layout.v-margin-left {
+	padding-left: 30px;
+}
+.readview-layout.v-margin-right {
+	padding-right: 30px;
+}
+
 .readview-layout-header {
-	background: url('icons/grad-light-top2.png') repeat-x 0 0 #e5e5e5;
-	border-radius: 3px 3px 0px 0px;
-	border-bottom: 1px solid #CFCFCF;
 	position: relative;
 	z-index: 0;
 	overflow: visible !important;
@@ -4584,6 +4634,10 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 	padding-left: 5px;
 }
 
+.addview-layout-body {
+	border: 1px solid #CFCFCF;
+}
+
 .addview-layout-body .h2 {
 	padding: 8px 0px 8px 18px;
 	font-size: 13px;
@@ -4592,6 +4646,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    background-color: #EEEEEE;
 }
 
 .addview-layout-body .control-buttons {
@@ -4786,7 +4841,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 }
 
 .colored-gridlayout .gridform-caption {
-	background-color: #E0E0E0;
+	background-color: #F9F9F9;
 	border-left: 1px solid #CFCFCF;
 	border-right: 1px solid #c8c8c8;
 }
@@ -5967,7 +6022,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	padding: 3px 7px 3px 2px;
 }
 
-.splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
+.v-button-graybtn.v-popupbutton .v-popup-indicator , .splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
 	{
 	background: url("icons/sprites.png") no-repeat scroll -6px -10px transparent;
 }
@@ -5975,10 +6030,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 /* VerticalTabsheet */
 .tab-content {
-	padding: 12px;
-	border-style: solid;
-	border-color: #8f8f8f;
-	border-width: 0px 0px 0px 1px;
 	background-color: #fff;
 	height: 100%;
 }

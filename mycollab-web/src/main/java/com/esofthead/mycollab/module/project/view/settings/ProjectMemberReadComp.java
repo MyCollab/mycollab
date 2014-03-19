@@ -28,7 +28,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -44,11 +43,11 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
-import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugTableDisplay;
 import com.esofthead.mycollab.module.project.view.bug.BugTableFieldDef;
 import com.esofthead.mycollab.module.project.view.standup.StandupReportListDisplay;
 import com.esofthead.mycollab.module.project.view.task.TaskTableDisplay;
+import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -88,8 +87,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 3.0
  * 
  */
-class ProjectMemberReadComp extends
-AbstractProjectPageView {
+class ProjectMemberReadComp extends AbstractProjectPageView {
 	private static final long serialVersionUID = 1L;
 
 	protected SimpleProjectMember beanItem;
@@ -166,7 +164,7 @@ AbstractProjectPageView {
 		tabContainer.setWidth("100%");
 		tabContainer.addTab(this.userActivityComp, "Activities",
 				MyCollabResource
-				.newResource("icons/16/project/gray/user_feed.png"));
+						.newResource("icons/16/project/gray/user_feed.png"));
 		tabContainer.addTab(this.standupComp, "Stand Ups", MyCollabResource
 				.newResource("icons/16/project/gray/standup.png"));
 		tabContainer.addTab(this.userTaskComp, "Task Assignments",
@@ -203,7 +201,8 @@ AbstractProjectPageView {
 		return new ProjectMemberFormFieldFactory(previewForm);
 	}
 
-	protected class ProjectMemberReadLayoutFactory implements IFormLayoutFactory {
+	protected class ProjectMemberReadLayoutFactory implements
+			IFormLayoutFactory {
 		private static final long serialVersionUID = 8833593761607165873L;
 
 		@Override
@@ -213,8 +212,8 @@ AbstractProjectPageView {
 
 			HorizontalLayout blockContent = new HorizontalLayout();
 			Image memberAvatar = UserAvatarControlFactory
-					.createUserAvatarEmbeddedComponent(beanItem.getMemberAvatarId(),
-							100);
+					.createUserAvatarEmbeddedComponent(
+							beanItem.getMemberAvatarId(), 100);
 			blockContent.addComponent(memberAvatar);
 
 			VerticalLayout memberInfo = new VerticalLayout();
@@ -231,15 +230,17 @@ AbstractProjectPageView {
 					+ AppContext.getSiteUrl()
 					+ GenericLinkUtils.URL_PREFIX_PARAM
 					+ ProjectLinkUtils.generateRolePreviewLink(
-							beanItem.getProjectid(), beanItem.getProjectRoleId())
-							+ "\"";
+							beanItem.getProjectid(),
+							beanItem.getProjectRoleId()) + "\"";
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
 			memberRole.setStyleName("member-role");
-			if (beanItem.getIsadmin() != null && beanItem.getIsadmin() == Boolean.TRUE
+			if (beanItem.getIsadmin() != null
+					&& beanItem.getIsadmin() == Boolean.TRUE
 					|| beanItem.getProjectroleid() == null) {
 				memberRole.setValue(memerRoleLinkPrefix
-						+ "style=\"color: #B00000;\">" + "Project Admin" + "</a>");
+						+ "style=\"color: #B00000;\">" + "Project Admin"
+						+ "</a>");
 			} else {
 				memberRole.setValue(memerRoleLinkPrefix
 						+ "style=\"color:gray;font-size:12px;\">"
@@ -249,8 +250,8 @@ AbstractProjectPageView {
 			memberInfo.addComponent(memberRole);
 
 			Label memberEmailLabel = new Label("<a href='mailto:"
-					+ beanItem.getUsername() + "'>" + beanItem.getUsername() + "</a>",
-					ContentMode.HTML);
+					+ beanItem.getUsername() + "'>" + beanItem.getUsername()
+					+ "</a>", ContentMode.HTML);
 			memberEmailLabel.addStyleName("member-email");
 			memberEmailLabel.setWidth("100%");
 			memberInfo.addComponent(memberEmailLabel);
@@ -272,7 +273,7 @@ AbstractProjectPageView {
 										.getSpringBean(ProjectMemberMapper.class);
 								beanItem.setStatus(RegisterStatusConstants.VERIFICATING);
 								projectMemberMapper
-								.updateByPrimaryKeySelective(beanItem);
+										.updateByPrimaryKeySelective(beanItem);
 								waitingNotLayout.removeAllComponents();
 								Label statusEmail = new Label(
 										"Sending invitation email");
@@ -284,7 +285,8 @@ AbstractProjectPageView {
 				resendInvitationLink.addStyleName("member-email");
 				waitingNotLayout.addComponent(resendInvitationLink);
 				memberInfo.addComponent(waitingNotLayout);
-			} else if (RegisterStatusConstants.ACTIVE.equals(beanItem.getStatus())) {
+			} else if (RegisterStatusConstants.ACTIVE.equals(beanItem
+					.getStatus())) {
 				Label lastAccessTimeLbl = new Label("Logged in "
 						+ DateTimeUtils.getStringDateFromNow(beanItem
 								.getLastAccessTime()));
@@ -328,7 +330,7 @@ AbstractProjectPageView {
 	}
 
 	protected class ProjectMemberFormFieldFactory extends
-	AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
+			AbstractBeanFieldGroupViewFieldFactory<SimpleProjectMember> {
 
 		private static final long serialVersionUID = 1L;
 
@@ -350,12 +352,12 @@ AbstractProjectPageView {
 								@Override
 								public void buttonClick(ClickEvent event) {
 									EventBus.getInstance()
-									.fireEvent(
-											new ProjectRoleEvent.GotoRead(
-													ProjectMemberFormFieldFactory.this,
-													attachForm
-													.getBean()
-													.getProjectroleid()));
+											.fireEvent(
+													new ProjectRoleEvent.GotoRead(
+															ProjectMemberFormFieldFactory.this,
+															attachForm
+																	.getBean()
+																	.getProjectroleid()));
 								}
 							});
 					return roleLink;
@@ -366,8 +368,8 @@ AbstractProjectPageView {
 			} else if (propertyId.equals("username")) {
 				return new UserLinkViewField(
 						attachForm.getBean().getUsername(), attachForm
-						.getBean().getMemberAvatarId(), attachForm
-						.getBean().getMemberFullName());
+								.getBean().getMemberAvatarId(), attachForm
+								.getBean().getMemberFullName());
 			}
 			return null;
 		}
@@ -384,50 +386,42 @@ AbstractProjectPageView {
 		public UserTaskComp() {
 			super();
 
-			this.taskDisplay = new TaskTableDisplay(
-					new String[] { "id", "taskname", "startdate", "deadline",
-					"percentagecomplete" },
-					new String[] {
-							"",
-							LocalizationHelper
-							.getMessage(TaskI18nEnum.TABLE_TASK_NAME_HEADER),
-							LocalizationHelper
-							.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-							LocalizationHelper
-							.getMessage(TaskI18nEnum.TABLE_DUE_DATE_HEADER),
-							LocalizationHelper
-							.getMessage(TaskI18nEnum.TABLE_PER_COMPLETE_HEADER) });
+			this.taskDisplay = new TaskTableDisplay(TaskTableFieldDef.id,
+					Arrays.asList(TaskTableFieldDef.taskname,
+							TaskTableFieldDef.startdate,
+							TaskTableFieldDef.duedate,
+							TaskTableFieldDef.percentagecomplete));
 
 			this.taskDisplay
-			.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-				private static final long serialVersionUID = 1L;
+					.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public Class<? extends ApplicationEvent> getEventType() {
-					return TableClickEvent.class;
-				}
+						@Override
+						public Class<? extends ApplicationEvent> getEventType() {
+							return TableClickEvent.class;
+						}
 
-				@Override
-				public void handle(final TableClickEvent event) {
-					final SimpleTask task = (SimpleTask) event
-							.getData();
-					if ("taskname".equals(event.getFieldName())) {
-						EventBus.getInstance().fireEvent(
-								new TaskEvent.GotoRead(
-										ProjectMemberReadComp.this,
-										task.getId()));
-					} else if ("closeTask".equals(event.getFieldName())
-							|| "reopenTask".equals(event.getFieldName())
-							|| "pendingTask".equals(event
-									.getFieldName())
+						@Override
+						public void handle(final TableClickEvent event) {
+							final SimpleTask task = (SimpleTask) event
+									.getData();
+							if ("taskname".equals(event.getFieldName())) {
+								EventBus.getInstance().fireEvent(
+										new TaskEvent.GotoRead(
+												ProjectMemberReadComp.this,
+												task.getId()));
+							} else if ("closeTask".equals(event.getFieldName())
+									|| "reopenTask".equals(event.getFieldName())
+									|| "pendingTask".equals(event
+											.getFieldName())
 									|| "reopenTask".equals(event.getFieldName())
 									|| "deleteTask".equals(event.getFieldName())) {
 
-						UserTaskComp.this.taskDisplay
-						.setSearchCriteria(UserTaskComp.this.taskSearchCriteria);
-					}
-				}
-			});
+								UserTaskComp.this.taskDisplay
+										.setSearchCriteria(UserTaskComp.this.taskSearchCriteria);
+							}
+						}
+					});
 
 			this.initHeader();
 			this.addComponent(this.taskDisplay);
@@ -448,33 +442,33 @@ AbstractProjectPageView {
 
 			final Button allTasksFilterBtn = new Button("All Tasks",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UserTaskComp.this.taskListFilterControl
-					.setPopupVisible(false);
-					UserTaskComp.this.taskListFilterControl
-					.setCaption("All Tasks");
-					UserTaskComp.this.displayAllTasks();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UserTaskComp.this.taskListFilterControl
+									.setPopupVisible(false);
+							UserTaskComp.this.taskListFilterControl
+									.setCaption("All Tasks");
+							UserTaskComp.this.displayAllTasks();
+						}
+					});
 			allTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(allTasksFilterBtn);
 
 			final Button activeTasksFilterBtn = new Button("Active Tasks Only",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UserTaskComp.this.taskListFilterControl
-					.setPopupVisible(false);
-					UserTaskComp.this.taskListFilterControl
-					.setCaption("Active Tasks");
-					UserTaskComp.this.displayActiveTasksOnly();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UserTaskComp.this.taskListFilterControl
+									.setPopupVisible(false);
+							UserTaskComp.this.taskListFilterControl
+									.setCaption("Active Tasks");
+							UserTaskComp.this.displayActiveTasksOnly();
+						}
+					});
 			activeTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(activeTasksFilterBtn);
 
@@ -485,9 +479,9 @@ AbstractProjectPageView {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							UserTaskComp.this.taskListFilterControl
-							.setPopupVisible(false);
+									.setPopupVisible(false);
 							UserTaskComp.this.taskListFilterControl
-							.setCaption("Pending Tasks");
+									.setCaption("Pending Tasks");
 							UserTaskComp.this.displayPendingTasksOnly();
 						}
 					});
@@ -501,9 +495,9 @@ AbstractProjectPageView {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							UserTaskComp.this.taskListFilterControl
-							.setCaption("Archived Tasks");
+									.setCaption("Archived Tasks");
 							UserTaskComp.this.taskListFilterControl
-							.setPopupVisible(false);
+									.setPopupVisible(false);
 							UserTaskComp.this.displayInActiveTasks();
 						}
 					});
@@ -568,25 +562,25 @@ AbstractProjectPageView {
 							BugTableFieldDef.duedate));
 
 			this.bugDisplay
-			.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-				private static final long serialVersionUID = 1L;
+					.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public Class<? extends ApplicationEvent> getEventType() {
-					return TableClickEvent.class;
-				}
+						@Override
+						public Class<? extends ApplicationEvent> getEventType() {
+							return TableClickEvent.class;
+						}
 
-				@Override
-				public void handle(final TableClickEvent event) {
-					final SimpleBug bug = (SimpleBug) event.getData();
-					if ("summary".equals(event.getFieldName())) {
-						EventBus.getInstance().fireEvent(
-								new BugEvent.GotoRead(
-										ProjectMemberReadComp.this, bug
-										.getId()));
-					}
-				}
-			});
+						@Override
+						public void handle(final TableClickEvent event) {
+							final SimpleBug bug = (SimpleBug) event.getData();
+							if ("summary".equals(event.getFieldName())) {
+								EventBus.getInstance().fireEvent(
+										new BugEvent.GotoRead(
+												ProjectMemberReadComp.this, bug
+														.getId()));
+							}
+						}
+					});
 
 			this.initHeader();
 
@@ -610,17 +604,17 @@ AbstractProjectPageView {
 
 			final Button openBugBtn = new Button("Open Bugs",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UserBugComp.this.bugActionControl
-					.setPopupVisible(false);
-					UserBugComp.this.bugActionControl
-					.setCaption("Open Bugs");
-					UserBugComp.this.displayOpenBugs();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UserBugComp.this.bugActionControl
+									.setPopupVisible(false);
+							UserBugComp.this.bugActionControl
+									.setCaption("Open Bugs");
+							UserBugComp.this.displayOpenBugs();
+						}
+					});
 			openBugBtn.setEnabled(CurrentProjectVariables
 					.canRead(ProjectRolePermissionCollections.BUGS));
 			openBugBtn.setStyleName("link");
@@ -628,17 +622,17 @@ AbstractProjectPageView {
 
 			final Button pendingBugBtn = new Button("Resolved Bugs",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UserBugComp.this.bugActionControl
-					.setPopupVisible(false);
-					UserBugComp.this.bugActionControl
-					.setCaption("Resolved Bugs");
-					UserBugComp.this.displayResolvedBugs();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UserBugComp.this.bugActionControl
+									.setPopupVisible(false);
+							UserBugComp.this.bugActionControl
+									.setCaption("Resolved Bugs");
+							UserBugComp.this.displayResolvedBugs();
+						}
+					});
 			pendingBugBtn.setEnabled(CurrentProjectVariables
 					.canRead(ProjectRolePermissionCollections.BUGS));
 			pendingBugBtn.setStyleName("link");
@@ -646,17 +640,17 @@ AbstractProjectPageView {
 
 			final Button closeBugBtn = new Button("Verified Bugs",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					UserBugComp.this.bugActionControl
-					.setPopupVisible(false);
-					UserBugComp.this.bugActionControl
-					.setCaption("Verified Bugs");
-					UserBugComp.this.displayClosedBugs();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							UserBugComp.this.bugActionControl
+									.setPopupVisible(false);
+							UserBugComp.this.bugActionControl
+									.setCaption("Verified Bugs");
+							UserBugComp.this.displayClosedBugs();
+						}
+					});
 			closeBugBtn.setEnabled(CurrentProjectVariables
 					.canWrite(ProjectRolePermissionCollections.BUGS));
 			closeBugBtn.setStyleName("link");
@@ -677,8 +671,8 @@ AbstractProjectPageView {
 			final BugSearchCriteria criteria = this.createBugSearchCriteria();
 			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
 					new String[] { BugStatusConstants.INPROGRESS,
-					BugStatusConstants.OPEN,
-					BugStatusConstants.REOPENNED }));
+							BugStatusConstants.OPEN,
+							BugStatusConstants.REOPENNED }));
 			this.bugDisplay.setSearchCriteria(criteria);
 		}
 

@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -38,7 +39,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -142,7 +142,8 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 			final HorizontalLayout layout = new HorizontalLayout();
 			layout.setWidth("100%");
 			layout.setSpacing(true);
-			layout.setMargin(true);
+			layout.setMargin(new MarginInfo(true, false, true, false));
+			layout.setStyleName(UIConstants.HEADER_VIEW);
 
 			final Image titleIcon = new Image(null,
 					MyCollabResource.newResource("icons/24/project/file.png"));
@@ -150,7 +151,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 			layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 			final Label searchtitle = new Label("Files");
-			searchtitle.setStyleName(Reindeer.LABEL_H2);
+			searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 			layout.addComponent(searchtitle);
 			layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 			layout.setExpandRatio(searchtitle, 1.0f);
@@ -187,7 +188,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				basicSearchBody.setMargin(true);
 				UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
 
-				
+
 				this.nameField = new TextField();
 				this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 				UiUtils.addComponent(basicSearchBody, this.nameField,
@@ -200,7 +201,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				final Button searchBtn = new Button("Search");
 				searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 				searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
-				
+
 				searchBtn.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -214,7 +215,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 						Alignment.MIDDLE_LEFT);
 				final Button cancelBtn = new Button(LocalizationHelper
 						.getMessage(GenericI18Enum.BUTTON_CLEAR));
-			
+
 
 				cancelBtn.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -227,7 +228,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				basicSearchBody.addComponent(cancelBtn);
 
-				
+
 				return basicSearchBody;
 			}
 

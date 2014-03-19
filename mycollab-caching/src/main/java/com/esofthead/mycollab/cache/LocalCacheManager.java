@@ -75,16 +75,11 @@ public class LocalCacheManager {
 		return instance.getCache(GLOBAL_CACHE);
 	}
 
-	public static void removeCache(String id) {
-		BasicCache<String, Object> cache = instance.getCache(id);
-		cache.clear();
-	}
-
 	public static DefaultCacheManager getCacheManager() {
 		return instance;
 	}
 
-	public static void removeCacheItems(String id, String prefixKey) {
+	static void removeCacheItems(String id, String prefixKey) {
 		BasicCache<String, Object> cache = instance.getCache(id);
 		log.debug("Remove cache has prefix {} in group {}", prefixKey, id);
 		Set<String> keys = cache.keySet();

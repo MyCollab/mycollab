@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.module.project.dao.ItemTimeLoggingMapperExt;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 
 /**
  * 
@@ -53,6 +55,25 @@ public class ItemTimeLoggingServiceImpl extends
 	@Override
 	public ISearchableDAO<ItemTimeLoggingSearchCriteria> getSearchMapper() {
 		return itemTimeLoggingMapperExt;
+	}
+
+	@Override
+	public int saveWithSession(ItemTimeLogging record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
+		return super.saveWithSession(record, username);
+	}
+
+	@Override
+	public int updateWithSession(ItemTimeLogging record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class);
+		return super.updateWithSession(record, username);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
 	}
 
 	@Override

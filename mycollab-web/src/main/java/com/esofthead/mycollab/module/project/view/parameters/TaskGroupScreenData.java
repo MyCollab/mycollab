@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  *
  */
 public class TaskGroupScreenData {
+	
 	public static class GotoDashboard extends ScreenData {
 		public GotoDashboard() {
 			super(null);

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.cache.LocalCacheManager;
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
@@ -74,8 +74,7 @@ public class UserRemovedCommandImpl implements UserRemovedCommand {
 
 		// Remove cache of project member
 		// clean cache of related items
-		LocalCacheManager.removeCacheItems(accountid.toString(),
-				ProjectMemberService.class.getName());
+		CacheUtils.cleanCaches(accountid, ProjectMemberService.class);
 	}
 
 }

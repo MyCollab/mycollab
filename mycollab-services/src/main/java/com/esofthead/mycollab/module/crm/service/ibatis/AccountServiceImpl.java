@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
@@ -112,11 +113,8 @@ public class AccountServiceImpl extends
 
 	private void cleanAccountLeadCaches(Integer accountId) {
 		// Clean cache relate to account and lead
-		LocalCacheManager.removeCacheItems(accountId.toString(),
-				LeadService.class.getName());
-
-		LocalCacheManager.removeCacheItems(accountId.toString(),
-				AccountService.class.getName());
+		CacheUtils.cleanCaches(accountId, LeadService.class,
+				AccountService.class);
 	}
 
 	@Override

@@ -329,8 +329,7 @@ td.v-datefield-calendarpanel-month,
 	}
 
 .v-panel-caption,
-.v-table-striped .v-table-row-odd,
-.sidebar-menu {
+.v-table-striped .v-table-row-odd {
 	background: rgb(247, 247, 247);
 	}
 

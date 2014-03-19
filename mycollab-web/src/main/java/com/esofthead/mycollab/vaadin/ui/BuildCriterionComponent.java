@@ -30,11 +30,13 @@ import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.vaadin.popupbutton.PopupButtonExt;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanContainer;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -86,6 +88,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 		this.searchContainer = new VerticalLayout();
 		this.searchContainer.setSpacing(true);
+		this.searchContainer
+				.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		controlsBtn = new HorizontalLayout();
 		controlsBtn.setSpacing(true);
@@ -109,8 +113,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 	private void buildFilterBox(String queryname) {
 		filterBox.removeAllComponents();
+		filterBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
+		placeHolder.setWidth("85px");
+		filterBox.addComponent(placeHolder);
 
 		filterComboBox = new SavedSearchResultComboBox();
+		filterComboBox.setWidth("125px");
 		filterBox.addComponent(filterComboBox);
 
 		Button saveSearchBtn = new Button("New Filter",
@@ -155,6 +164,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				buildFilterBox(null);
 			}
 		});
+		cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 		filterBox.addComponent(cancelBtn);
 	}
 
@@ -217,6 +227,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			SearchFieldInfo searchFieldInfo = searchFieldInfos.get(i);
 			CriteriaSelectionLayout newCriteriaBar = new CriteriaSelectionLayout(
 					searchContainer.getComponentCount() + 1);
+
 			newCriteriaBar.fillSearchFieldInfo(searchFieldInfo);
 			searchContainer.addComponent(newCriteriaBar);
 		}
@@ -237,22 +248,29 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			super(6, 1);
 			this.index = index;
 			this.setSpacing(true);
+			this.setMargin(new MarginInfo(false, true, false, true));
+			this.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			indexLbl = new Label(index + "");
 			this.addComponent(indexLbl, 0, 0);
-			operatorSelectionBox = new ValueComboBox(false, SearchField.AND,
-					SearchField.OR);
-			operatorSelectionBox.setWidth("60px");
-			this.addComponent(operatorSelectionBox, 1, 0);
 
 			if (index == 1) {
-				operatorSelectionBox.setVisible(false);
+				Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
+				placeHolder.setWidth("60px");
+				this.addComponent(placeHolder, 1, 0);
+			} else {
+				operatorSelectionBox = new ValueComboBox(false,
+						SearchField.AND, SearchField.OR);
+				operatorSelectionBox.setWidth("60px");
+				this.addComponent(operatorSelectionBox, 1, 0);
 			}
 
 			buildFieldSelectionBox();
 
 			valueBox = new VerticalLayout();
-			deleteBtn = new Button("Delete", new Button.ClickListener() {
+			valueBox.setSpacing(true);
+			valueBox.setWidth("200px");
+			deleteBtn = new Button("", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -269,11 +287,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 				}
 			});
+			deleteBtn.addStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+			deleteBtn.setIcon(MyCollabResource
+					.newResource("icons/16/crm/basket.png"));
 
 			this.addComponent(fieldSelectionBox, 2, 0);
 			this.addComponent(compareSelectionBox, 3, 0);
 			this.addComponent(valueBox, 4, 0);
 			this.addComponent(deleteBtn, 5, 0);
+
 		}
 
 		private void updateIndex() {
@@ -285,7 +307,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		}
 
 		private void fillSearchFieldInfo(SearchFieldInfo searchFieldInfo) {
-			operatorSelectionBox.setValue(searchFieldInfo.getPrefixOper());
+			String width = "200px";
+			if (operatorSelectionBox != null) {
+				operatorSelectionBox.setValue(searchFieldInfo.getPrefixOper());
+			}
 
 			Param param = searchFieldInfo.getParam();
 			Collection<?> itemIds = fieldSelectionBox.getItemIds();
@@ -303,10 +328,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					|| param instanceof ConcatStringParam) {
 				TextField valueField = new TextField();
 				valueField.setValue((String) searchFieldInfo.getValue());
+				valueField.setWidth(width);
 				valueBox.addComponent(valueField);
+
 			} else if (param instanceof NumberParam) {
 				TextField valueField = new TextField();
 				valueField.setValue(String.valueOf(searchFieldInfo.getValue()));
+				valueField.setWidth(width);
 				valueBox.addComponent(valueField);
 			} else if (param instanceof DateParam) {
 				String compareItem = (String) compareSelectionBox.getValue();
@@ -318,11 +346,14 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					DateField field2 = new DateField();
 					field2.setValue((Date) Array.get(
 							searchFieldInfo.getValue(), 1));
+					field1.setWidth(width);
+					field2.setWidth(width);
 					valueBox.addComponent(field1);
 					valueBox.addComponent(field2);
 				} else {
 					DateField field = new DateField();
 					field.setValue((Date) searchFieldInfo.getValue());
+					field.setWidth(width);
 					valueBox.addComponent(field);
 				}
 			} else if (param instanceof PropertyParam
@@ -336,7 +367,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					} else {
 						((Field) comp).setValue(searchFieldInfo.getValue());
 					}
-
+					comp.setWidth(width);
 					valueBox.addComponent(comp);
 				}
 			} else if (param instanceof StringListParam) {
@@ -345,15 +376,22 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				listSelect.loadData(((StringListParam) param).getLstValues()
 						.toArray(new String[0]));
 				listSelect.setValue(searchFieldInfo.getValue());
+				listSelect.setWidth(width);
 				valueBox.addComponent(listSelect);
+
 			} else if (param instanceof CompositionStringParam) {
-				valueBox.addComponent(new TextField());
+				TextField tempTextField = new TextField();
+				tempTextField.setValue(String.valueOf(searchFieldInfo
+						.getValue()));
+				tempTextField.setWidth(width);
+				valueBox.addComponent(tempTextField);
 			}
 		}
 
 		private void buildFieldSelectionBox() {
 			fieldSelectionBox = new ComboBox();
 			fieldSelectionBox.setImmediate(true);
+			fieldSelectionBox.setWidth("125px");
 			fieldSelectionBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 			for (Param field : paramFields) {
 				fieldSelectionBox.addItem(field);
@@ -412,28 +450,38 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		}
 
 		private void displayAssociateInputField(Param field) {
+			String width = "200px";
 			String compareItem = (String) compareSelectionBox.getValue();
 			valueBox.removeAllComponents();
 
 			if (field instanceof StringParam
 					|| field instanceof ConcatStringParam) {
-				valueBox.addComponent(new TextField());
+				TextField tempTextField = new TextField();
+				tempTextField.setWidth(width);
+				valueBox.addComponent(tempTextField);
 			} else if (field instanceof NumberParam) {
-				valueBox.addComponent(new TextField());
+				TextField tempTextField = new TextField();
+				tempTextField.setWidth(width);
+				valueBox.addComponent(tempTextField);
 			} else if (field instanceof DateParam) {
 				if (DateParam.BETWEEN.equals(compareItem)
 						|| DateParam.NOT_BETWEEN.equals(compareItem)) {
 					DateField field1 = new DateField();
 					DateField field2 = new DateField();
+					field1.setWidth(width);
+					field2.setWidth(width);
 					valueBox.addComponent(field1);
 					valueBox.addComponent(field2);
 				} else {
-					valueBox.addComponent(new DateField());
+					DateField tempDateField = new DateField();
+					tempDateField.setWidth(width);
+					valueBox.addComponent(tempDateField);
 				}
 			} else if (field instanceof PropertyParam
 					|| field instanceof PropertyListParam) {
 				Component comp = buildPropertySearchComp(field.getId());
 				if (comp != null) {
+					comp.setWidth(width);
 					valueBox.addComponent(comp);
 				}
 			} else if (field instanceof StringListParam) {
@@ -441,14 +489,18 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				listSelect.setCaption(null);
 				listSelect.loadData(((StringListParam) field).getLstValues()
 						.toArray(new String[0]));
+				listSelect.setWidth(width);
 				valueBox.addComponent(listSelect);
 			} else if (field instanceof CompositionStringParam) {
-				valueBox.addComponent(new TextField());
+				TextField tempTextField = new TextField();
+				tempTextField.setWidth(width);
+				valueBox.addComponent(tempTextField);
 			}
 		}
 
 		private SearchFieldInfo buildSearchFieldInfo() {
-			String prefixOper = (String) operatorSelectionBox.getValue();
+			String prefixOper = (operatorSelectionBox != null) ? (String) operatorSelectionBox
+					.getValue() : "AND";
 			Param param = (Param) fieldSelectionBox.getValue();
 			String compareOper = (String) compareSelectionBox.getValue();
 			Object value = null;

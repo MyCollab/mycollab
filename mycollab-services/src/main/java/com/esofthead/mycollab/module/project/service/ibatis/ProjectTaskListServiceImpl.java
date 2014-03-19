@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
@@ -33,6 +34,7 @@ import com.esofthead.mycollab.module.project.dao.TaskListMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 
 /**
@@ -66,6 +68,27 @@ public class ProjectTaskListServiceImpl extends
 	@Override
 	public SimpleTaskList findById(int taskListId, int sAccountId) {
 		return projectTaskListMapperExt.findTaskListById(taskListId);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectGenericTaskService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
+	}
+
+	@Override
+	public int saveWithSession(TaskList record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectGenericTaskService.class);
+		return super.saveWithSession(record, username);
+	}
+
+	@Override
+	public int updateWithSession(TaskList record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectGenericTaskService.class);
+		return super.updateWithSession(record, username);
 	}
 
 	@Override

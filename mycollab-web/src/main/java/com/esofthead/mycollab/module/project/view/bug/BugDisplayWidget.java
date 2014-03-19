@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -62,7 +62,7 @@ public abstract class BugDisplayWidget extends Depot {
 
 	}
 
-	protected abstract BugSearchParameter constructMoreDisplayFilter();
+	protected abstract BugFilterParameter constructMoreDisplayFilter();
 
 	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
 		this.searchCriteria = searchCriteria;

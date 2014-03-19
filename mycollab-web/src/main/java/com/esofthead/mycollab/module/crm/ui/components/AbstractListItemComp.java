@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -48,7 +49,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
-		AbstractPageView implements ListView<S, B> {
+AbstractPageView implements ListView<S, B> {
 	private static final long serialVersionUID = 1L;
 
 	protected VerticalLayout contentLayout;
@@ -62,6 +63,9 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 	protected HorizontalLayout extraControlsLayout;
 
 	public AbstractListItemComp() {
+		super();
+		this.setMargin(new MarginInfo(false, true, false, true));
+
 		this.searchPanel = createSearchPanel();
 		this.addComponent(this.searchPanel);
 
@@ -109,6 +113,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 		contentLayout.addComponent(this.tableItem);
 
 		buildExtraControls();
+		searchPanel.addHeaderRight(extraControlsLayout);
 	}
 
 	@Override

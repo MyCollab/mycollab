@@ -69,8 +69,8 @@ import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
 import com.esofthead.mycollab.module.project.view.parameters.ComponentScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.FileScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.FollowingTicketsScreenData;
@@ -82,6 +82,7 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenDa
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.RiskScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.StandupScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.VersionScreenData;
@@ -393,6 +394,25 @@ public class ProjectController implements IController {
 						projectView.gotoTaskList(data);
 					}
 				});
+
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<TaskEvent.Filter>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TaskEvent.Filter.class;
+					}
+
+					@Override
+					public void handle(TaskEvent.Filter event) {
+						ProjectView projectView = ViewManager
+								.getView(ProjectView.class);
+						TaskScreenData.Filter data = new TaskScreenData.Filter(
+								(TaskFilterParameter) event.getData());
+						projectView.gotoTaskList(data);
+					}
+				});
 	}
 
 	@SuppressWarnings("serial")
@@ -648,7 +668,7 @@ public class ProjectController implements IController {
 											BugStatusConstants.INPROGRESS,
 											BugStatusConstants.OPEN,
 											BugStatusConstants.REOPENNED }));
-							BugSearchParameter parameter = new BugSearchParameter(
+							BugFilterParameter parameter = new BugFilterParameter(
 									"Open Bugs", criteria);
 							projectView.gotoBugView(new BugScreenData.Search(
 									parameter));

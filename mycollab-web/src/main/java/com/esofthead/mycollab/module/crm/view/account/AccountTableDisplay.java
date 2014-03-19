@@ -128,15 +128,6 @@ public class AccountTableDisplay
 				final SimpleAccount account = AccountTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				// Insert embedLink --------
-				List<TableViewField> lstTableViewField = AccountTableDisplay.this
-						.getDisplayColumns();
-				for (TableViewField tableViewField : lstTableViewField) {
-					if (tableViewField.getField().equals("accountname")) {
-						tableViewField.setEmbedLink("www.google.com.vn");
-						break;
-					}
-				}
 				final ButtonLink b = new ButtonLink(account.getAccountname(),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;

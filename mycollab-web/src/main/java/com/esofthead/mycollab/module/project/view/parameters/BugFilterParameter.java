@@ -24,12 +24,12 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
  * @since 1.0
  *
  */
-public class BugSearchParameter {
+public class BugFilterParameter {
 	private BugSearchCriteria searchCriteria;
 
 	private String screenTitle;
 	
-	public BugSearchParameter(String screenTitle, BugSearchCriteria searchCriteria) {
+	public BugFilterParameter(String screenTitle, BugSearchCriteria searchCriteria) {
 		this.searchCriteria = searchCriteria;
 		this.screenTitle = screenTitle;
 	}

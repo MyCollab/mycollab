@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.table.BeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.H3;
@@ -76,9 +78,14 @@ public class TaskTableDisplay extends
 	private static final long serialVersionUID = 1L;
 	private static Logger log = LoggerFactory.getLogger(TaskTableDisplay.class);
 
-	public TaskTableDisplay(String[] visibleColumns, String[] columnHeaders) {
+	public TaskTableDisplay(List<TableViewField> displayColumns) {
+		this(null, displayColumns);
+	}
+
+	public TaskTableDisplay(TableViewField requiredColumn,
+			List<TableViewField> displayColumns) {
 		super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
-				SimpleTask.class, visibleColumns, columnHeaders);
+				SimpleTask.class, requiredColumn, displayColumns);
 
 		this.addGeneratedColumn("taskname", new Table.ColumnGenerator() {
 			private static final long serialVersionUID = 1L;
@@ -388,15 +395,6 @@ public class TaskTableDisplay extends
 
 					}
 				});
-
-		this.setColumnExpandRatio("taskname", 1);
-		this.setColumnWidth("id", 22);
-		this.setColumnWidth("assignUserFullName",
-				UIConstants.TABLE_X_LABEL_WIDTH);
-		this.setColumnWidth("startdate", UIConstants.TABLE_DATE_WIDTH);
-		this.setColumnWidth("deadline", UIConstants.TABLE_DATE_WIDTH);
-		this.setColumnWidth("percentagecomplete",
-				UIConstants.TABLE_S_LABEL_WIDTH);
 		this.setWidth("100%");
 	}
 

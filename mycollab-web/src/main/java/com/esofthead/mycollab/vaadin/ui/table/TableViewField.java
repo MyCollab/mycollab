@@ -33,8 +33,6 @@ public class TableViewField implements Serializable {
 
 	private int defaultWidth;
 
-	private String embedLink;
-
 	public TableViewField() {
 		this("", "");
 	}
@@ -71,13 +69,5 @@ public class TableViewField implements Serializable {
 
 	public void setDefaultWidth(int defaultWidth) {
 		this.defaultWidth = defaultWidth;
-	}
-
-	public String getEmbedLink() {
-		return embedLink;
-	}
-
-	public void setEmbedLink(String embedLink) {
-		this.embedLink = embedLink;
 	}
 }

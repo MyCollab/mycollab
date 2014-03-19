@@ -44,6 +44,8 @@ public class BugHistoryList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("priority", "Priority");
 		this.generateFieldDisplayHandler("severity", "Severity");
 		this.generateFieldDisplayHandler("resolution", "Resolution");
+		this.generateFieldDisplayHandler("estimateremaintime",
+				"Estimated Remain Time");
 		this.generateFieldDisplayHandler("duedate", "Due Date",
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("createdTime", "Created Time",

@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -49,7 +50,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -58,18 +58,18 @@ import com.vaadin.ui.themes.Reindeer;
  * 
  */
 public class CaseSearchPanel extends
-		DefaultGenericSearchPanel<CaseSearchCriteria> {
+DefaultGenericSearchPanel<CaseSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	private CaseSearchCriteria searchCriteria;
 
 	private static Param[] paramFields = new Param[] {
-			CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
-			CaseSearchCriteria.p_status, CaseSearchCriteria.p_email,
-			CaseSearchCriteria.p_origin, CaseSearchCriteria.p_reason,
-			CaseSearchCriteria.p_subject, CaseSearchCriteria.p_type,
-			CaseSearchCriteria.p_createdtime,
-			CaseSearchCriteria.p_lastupdatedtime };
+		CaseSearchCriteria.p_account, CaseSearchCriteria.p_priority,
+		CaseSearchCriteria.p_status, CaseSearchCriteria.p_email,
+		CaseSearchCriteria.p_origin, CaseSearchCriteria.p_reason,
+		CaseSearchCriteria.p_subject, CaseSearchCriteria.p_type,
+		CaseSearchCriteria.p_createdtime,
+		CaseSearchCriteria.p_lastupdatedtime };
 
 	public CaseSearchPanel() {
 		super();
@@ -90,7 +90,8 @@ public class CaseSearchPanel extends
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/case.png"));
@@ -98,21 +99,21 @@ public class CaseSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label("Cases");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create",
+		final Button createAccountBtn = new Button("Create Case",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new CaseEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new CaseEvent.GotoAdd(this, null));
+			}
+		});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -124,7 +125,7 @@ public class CaseSearchPanel extends
 	}
 
 	private class CaseAdvancedSearchLayout extends
-			DynamicQueryParamLayout<CaseSearchCriteria> {
+	DynamicQueryParamLayout<CaseSearchCriteria> {
 		private static final long serialVersionUID = 1L;
 
 		public CaseAdvancedSearchLayout() {
@@ -146,6 +147,7 @@ public class CaseSearchPanel extends
 			return CaseSearchCriteria.class;
 		}
 
+		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("case-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();
@@ -191,7 +193,7 @@ public class CaseSearchPanel extends
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
@@ -209,7 +211,7 @@ public class CaseSearchPanel extends
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-			
+
 			final Button cancelBtn = new Button(
 					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
@@ -230,13 +232,13 @@ public class CaseSearchPanel extends
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							CaseSearchPanel.this.moveToAdvancedSearchLayout();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					CaseSearchPanel.this.moveToAdvancedSearchLayout();
+				}
+			});
 			advancedSearchBtn.setStyleName("link");
 			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
@@ -247,21 +249,21 @@ public class CaseSearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			CaseSearchPanel.this.searchCriteria = new CaseSearchCriteria();
 			CaseSearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
+			.setSaccountid(new NumberSearchField(SearchField.AND,
+					AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.subjectField.getValue()
 					.toString().trim())) {
 				CaseSearchPanel.this.searchCriteria
-						.setSubject(new StringSearchField(SearchField.AND,
-								((String) this.subjectField.getValue()).trim()));
+				.setSubject(new StringSearchField(SearchField.AND,
+						this.subjectField.getValue().trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				CaseSearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
-								SearchField.AND, new String[] { AppContext
-										.getUsername() }));
+				.setAssignUsers(new SetSearchField<String>(
+						SearchField.AND, new String[] { AppContext
+								.getUsername() }));
 			} else {
 				CaseSearchPanel.this.searchCriteria.setAssignUsers(null);
 			}

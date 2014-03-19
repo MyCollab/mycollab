@@ -26,6 +26,10 @@
             property="numInProgressPhase" />
         <result column="numFuturePhase" jdbcType="INTEGER"
             property="numFuturePhase" />
+        <result column="totalBillableHours" jdbcType="DOUBLE"
+            property="totalBillableHours" />
+        <result column="totalNonBillableHours" jdbcType="DOUBLE"
+            property="totalNonBillableHours" />
         <association property="currency"
             resultMap="com.esofthead.mycollab.common.dao.CurrencyMapper.BaseResultMap"
             columnPrefix="curr_"></association>
@@ -123,6 +127,8 @@
         (SELECT COUNT(*) FROM m_prj_milestone WHERE m_prj_milestone.projectid = m_prj_project.id AND m_prj_milestone.status = 'Closed') AS numClosedPhase,
         (SELECT COUNT(*) FROM m_prj_milestone WHERE m_prj_milestone.projectid = m_prj_project.id AND m_prj_milestone.status = 'In Progress') AS numInProgressPhase,
         (SELECT COUNT(*) FROM m_prj_milestone WHERE m_prj_milestone.projectid = m_prj_project.id AND m_prj_milestone.status = 'Future') AS numFuturePhase,
+        (SELECT SUM(m_prj_time_logging.logValue) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_project.id AND m_prj_time_logging.isBillable = 1) AS totalBillableHours,
+        (SELECT SUM(m_prj_time_logging.logValue) FROM m_prj_time_logging WHERE m_prj_time_logging.projectId = m_prj_project.id AND m_prj_time_logging.isBillable = 0) AS totalNonBillableHours,
         s_currency.id, s_currency.shortname AS curr_shortname, s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
         s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate
         FROM m_prj_project 
@@ -143,9 +149,9 @@
         lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="queryTotalCountSearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
         #end
     </select>
 
@@ -154,9 +160,9 @@
         SELECT m_prj_project.id
         FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
         #end
     </select>
 
@@ -165,9 +171,9 @@
         parameterType="ProjectSearchCriteria" lang="velocity">
         <include refid="selectSimpleProject" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
         #end
     </select>
 
@@ -206,9 +212,10 @@
         parameterType="ActivityStreamSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
-            #end
+        #trim("WHERE" "AND|OR")
+        <include
+            refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
+        #end
         #end
     </select>
 

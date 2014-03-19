@@ -164,6 +164,7 @@ class AccountReadComp extends AbstractPreviewItemComp<SimpleAccount> {
 		return associateOpportunityList;
 	}
 
+	@Override
 	public AdvancedPreviewBeanForm<SimpleAccount> getPreviewForm() {
 		return previewForm;
 	}
@@ -176,21 +177,21 @@ class AccountReadComp extends AbstractPreviewItemComp<SimpleAccount> {
 		SimpleLead lead = leadService.findConvertedLeadOfAccount(
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
-			return "<h2>"
-					+ beanItem.getAccountname()
+			return beanItem.getAccountname()
 					+ LocalizationHelper
-							.getMessage(
-									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
-									CrmLinkGenerator.generateCrmItemLink(
-											CrmTypeConstants.LEAD, lead.getId()),
-									lead.getLeadName()) + "</h2>";
+					.getMessage(
+							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+							CrmResources
+							.getResourceLink(CrmTypeConstants.LEAD),
+							CrmLinkGenerator.generateCrmItemLink(
+									CrmTypeConstants.LEAD, lead.getId()),
+									lead.getLeadName());
 		} else {
-			return "<h2>" + beanItem.getAccountname() + "</h2>";
+			return beanItem.getAccountname();
 		}
 	}
 
+	@Override
 	protected final void initRelatedComponents() {
 		associateContactList = new AccountContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);

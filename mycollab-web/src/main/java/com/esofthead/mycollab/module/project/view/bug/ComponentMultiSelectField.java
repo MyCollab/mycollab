@@ -70,11 +70,6 @@ public class ComponentMultiSelectField extends MultiSelectComp {
 	}
 
 	@Override
-	public List<Component> getSelectedItems() {
-		return this.getSelectedItems();
-	}
-
-	@Override
 	public Class<?> getType() {
 		return Object.class;
 	}

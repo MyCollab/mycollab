@@ -33,9 +33,9 @@ import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.googlecode.flyway.core.api.migration.spring.SpringJdbcMigration;
 
-public class V01112013_3__Insert_Default_Values implements SpringJdbcMigration {
+public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 	private static Logger log = LoggerFactory
-			.getLogger(V01112013_3__Insert_Default_Values.class);
+			.getLogger(V20131101_3__Insert_Default_Values.class);
 
 	public void migrate(JdbcTemplate jdbcTemplate) throws Exception {
 		log.info("Set up initial values");

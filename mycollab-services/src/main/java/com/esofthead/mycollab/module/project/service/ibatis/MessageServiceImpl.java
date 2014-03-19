@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
@@ -35,6 +36,7 @@ import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 
 /**
@@ -69,7 +71,25 @@ public class MessageServiceImpl extends
 		int recordId = super.saveWithSession(record, username);
 		relayEmailNotificationService.saveWithSession(
 				createNotification(record, username, recordId), username);
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
 		return recordId;
+	}
+
+	@Override
+	public int updateWithSession(Message record, String username) {
+		relayEmailNotificationService.saveWithSession(
+				createNotification(record, username, record.getId()), username);
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
+		return super.updateWithSession(record, username);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
 	}
 
 	private RelayEmailNotification createNotification(Message record,
@@ -87,13 +107,6 @@ public class MessageServiceImpl extends
 		relayNotification.setTypeid(recordId);
 		relayNotification.setExtratypeid(record.getProjectid());
 		return relayNotification;
-	}
-
-	@Override
-	public int updateWithSession(Message record, String username) {
-		relayEmailNotificationService.saveWithSession(
-				createNotification(record, username, record.getId()), username);
-		return super.updateWithSession(record, username);
 	}
 
 	@Override

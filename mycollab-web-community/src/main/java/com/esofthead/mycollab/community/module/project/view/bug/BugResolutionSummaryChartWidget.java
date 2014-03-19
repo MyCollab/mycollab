@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.IBugResolutionSummaryChartWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -111,7 +111,7 @@ public class BugResolutionSummaryChartWidget extends
 				SearchField.AND, new String[] { key }));
 		searchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
-		BugSearchParameter param = new BugSearchParameter(key + " Bug List",
+		BugFilterParameter param = new BugFilterParameter(key + " Bug List",
 				searchCriteria);
 		EventBus.getInstance().fireEvent(
 				new BugEvent.GotoList(this, new BugScreenData.Search(param)));

@@ -74,7 +74,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setStyleName("hdr-view");
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 		layout.setMargin(new MarginInfo(true, false, true, false));
 
 		final Image titleIcon = new Image(null,
@@ -83,7 +83,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label componenttitle = new Label("Components");
-		componenttitle.setStyleName("hdr-text");
+		componenttitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(componenttitle);
 		layout.setExpandRatio(componenttitle, 1.0f);
 		layout.setComponentAlignment(componenttitle, Alignment.MIDDLE_LEFT);
@@ -135,7 +135,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			basicSearchBody.setMargin(true);
 			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
 
-			
+
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
@@ -160,7 +160,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-			
+
 			final Button cancelBtn = new Button("Clear");
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {

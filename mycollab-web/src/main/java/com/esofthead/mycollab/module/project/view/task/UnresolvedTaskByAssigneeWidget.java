@@ -6,9 +6,12 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
@@ -83,7 +86,11 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 				public void buttonClick(final ClickEvent event) {
 					searchCriteria.setAssignUser(new StringSearchField(
 							SearchField.AND, assignee));
-
+					TaskFilterParameter filterParam = new TaskFilterParameter(
+							searchCriteria, "Filter Tasks by Assignee: "
+									+ assigneeFullName);
+					EventBus.getInstance().fireEvent(
+							new TaskEvent.Filter(this, filterParam));
 				}
 			});
 

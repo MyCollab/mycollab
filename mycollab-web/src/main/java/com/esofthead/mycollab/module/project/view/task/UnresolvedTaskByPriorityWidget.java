@@ -5,13 +5,14 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
@@ -112,6 +113,10 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 			final String caption = event.getButton().getCaption();
 			searchCriteria.setPriorities(new SetSearchField<String>(
 					new String[] { caption }));
+			TaskFilterParameter filterParam = new TaskFilterParameter(
+					searchCriteria, "Task Filter by Priority: " + caption);
+			EventBus.getInstance().fireEvent(
+					new TaskEvent.Filter(this, filterParam));
 
 		}
 	}

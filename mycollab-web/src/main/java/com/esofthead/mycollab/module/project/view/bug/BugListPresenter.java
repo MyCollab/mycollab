@@ -16,23 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.Collection;
-
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
-import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.esofthead.mycollab.vaadin.mvp.ListCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -46,30 +40,12 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean isSelectAll = false;
-
 	public BugListPresenter() {
 		super(BugListView.class);
 	}
 
 	@Override
 	protected void postInitView() {
-		view.getPagedBeanTable().addPagableHandler(new PagableHandler() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void move(int newPageNumber) {
-				pageChange();
-			}
-
-			private void pageChange() {
-				if (isSelectAll) {
-					selectAllItemsInCurrentPage();
-				}
-
-				checkWhetherEnableTableActionControl();
-			}
-		});
 
 		view.getSearchHandlers().addSearchHandler(
 				new SearchHandler<BugSearchCriteria>() {
@@ -79,37 +55,6 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 					}
 				});
 
-		view.getSelectableItemHandlers().addSelectableItemHandler(
-				new SelectableItemHandler<SimpleBug>() {
-					@Override
-					public void onSelect(SimpleBug item) {
-						isSelectAll = false;
-						item.setSelected(!item.isSelected());
-
-						checkWhetherEnableTableActionControl();
-					}
-				});
-	}
-
-	private void selectAllItemsInCurrentPage() {
-		Collection<SimpleBug> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		for (SimpleBug item : currentDataList) {
-			item.setSelected(true);
-			CheckBox checkBox = (CheckBox) item.getExtraData();
-			checkBox.setValue(true);
-		}
-	}
-
-	private void checkWhetherEnableTableActionControl() {
-		Collection<SimpleBug> currentDataList = view.getPagedBeanTable()
-				.getCurrentDataList();
-		int countItems = 0;
-		for (SimpleBug item : currentDataList) {
-			if (item.isSelected()) {
-				countItems++;
-			}
-		}
 	}
 
 	@Override
@@ -120,7 +65,7 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 			trackerContainer.removeAllComponents();
 			trackerContainer.addComponent(view.getWidget());
 
-			BugSearchParameter param = (BugSearchParameter) data.getParams();
+			BugFilterParameter param = (BugFilterParameter) data.getParams();
 
 			view.setTitle(param.getScreenTitle());
 			doSearch(param.getSearchCriteria());
@@ -136,6 +81,5 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 	@Override
 	public void doSearch(BugSearchCriteria searchCriteria) {
 		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
-		checkWhetherEnableTableActionControl();
 	}
 }

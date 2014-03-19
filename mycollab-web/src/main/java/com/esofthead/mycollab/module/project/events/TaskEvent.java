@@ -73,4 +73,12 @@ public class TaskEvent {
 			super(source, data);
 		}
 	}
+
+	public static class Filter extends ApplicationEvent {
+		private static final long serialVersionUID = 1L;
+
+		public Filter(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

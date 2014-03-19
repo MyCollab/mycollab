@@ -15,7 +15,7 @@
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.esofthead.mycollab.module.project.view.user;
+package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -29,7 +29,7 @@ import com.vaadin.ui.Layout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectInformationLayout implements IFormLayoutFactory {
+class ProjectInformationLayout implements IFormLayoutFactory {
 	private static final long serialVersionUID = 1L;
 	private GridFormLayoutHelper moreInfoLayout;
 
@@ -65,8 +65,14 @@ public class ProjectInformationLayout implements IFormLayoutFactory {
 		} else if (propertyId.equals("actualbudget")) {
 			this.moreInfoLayout.addComponent(field, "Actual Budget", 1, 4,
 					Alignment.TOP_LEFT);
+		} else if (propertyId.equals("totalBillableHours")) {
+			this.moreInfoLayout.addComponent(field, "Billable Hours", 0, 5,
+					Alignment.TOP_LEFT);
+		} else if (propertyId.equals("totalNonBillableHours")) {
+			this.moreInfoLayout.addComponent(field, "Non-Billable Hours", 1, 5,
+					Alignment.TOP_LEFT);
 		} else if (propertyId.equals("description")) {
-			this.moreInfoLayout.addComponent(field, "Description", 0, 5, 2,
+			this.moreInfoLayout.addComponent(field, "Description", 0, 6, 2,
 					UIConstants.DEFAULT_2XCONTROL_WIDTH, Alignment.TOP_LEFT);
 		} else {
 			return false;
@@ -77,8 +83,7 @@ public class ProjectInformationLayout implements IFormLayoutFactory {
 
 	@Override
 	public Layout getLayout() {
-
-		this.moreInfoLayout = new GridFormLayoutHelper(2, 6, "100%", "167px",
+		this.moreInfoLayout = new GridFormLayoutHelper(2, 7, "100%", "167px",
 				Alignment.MIDDLE_LEFT);
 		this.moreInfoLayout.getLayout().setWidth("100%");
 		this.moreInfoLayout.getLayout().setMargin(false);

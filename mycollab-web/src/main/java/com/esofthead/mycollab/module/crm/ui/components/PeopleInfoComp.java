@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -24,8 +25,14 @@ public class PeopleInfoComp extends VerticalLayout {
 
 	public void displayEntryPeople(ValuedBean bean) {
 		this.removeAllComponents();
+		this.setSpacing(true);
+
+		Label peopleInfoHeader = new Label("People");
+		peopleInfoHeader.setStyleName("info-hdr");
+		this.addComponent(peopleInfoHeader);
 
 		GridLayout layout = new GridLayout(2, 2);
+		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
 			layout.addComponent(new Label("Created:"), 0, 0);
 

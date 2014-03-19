@@ -63,6 +63,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -228,7 +229,7 @@ public class NoteListItems extends VerticalLayout {
 			messageHeader.setStyleName("message-header");
 
 			Label timePostLbl = new Label("<span class=\"post-owner\"><b>" + note.getCreateUserFullName() + "</b>&nbsp;added a note</span>&nbsp;-&nbsp;" +
-					DateTimeUtils.getStringDateFromNow(note.getCreatedtime()));
+					DateTimeUtils.getStringDateFromNow(note.getCreatedtime()), ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 			messageHeader.addComponent(timePostLbl);
@@ -248,6 +249,7 @@ public class NoteListItems extends VerticalLayout {
 			}
 
 			final VerticalLayout messageFooter = new VerticalLayout();
+			messageFooter.setMargin(new MarginInfo(false, true, false, false));
 			replyBtn = new Button("Reply", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 

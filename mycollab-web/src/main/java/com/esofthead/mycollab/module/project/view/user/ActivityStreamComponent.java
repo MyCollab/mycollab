@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.localization.ProjectLocalizationTypeMap;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLinkBuilder;
@@ -91,18 +92,18 @@ public class ActivityStreamComponent extends Depot {
 			extends
 			AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 		private static final long serialVersionUID = 1L;
-		private final ProjectService projectService;
+		private final ProjectActivityStreamService projectActivityStreamService;
 
 		public ProjectActivityStreamPagedList() {
 			super(null, 20);
 
-			this.projectService = ApplicationContextUtil
-					.getSpringBean(ProjectService.class);
+			this.projectActivityStreamService = ApplicationContextUtil
+					.getSpringBean(ProjectActivityStreamService.class);
 		}
 
 		@Override
 		protected void doSearch() {
-			this.totalCount = this.projectService
+			this.totalCount = this.projectActivityStreamService
 					.getTotalActivityStream(this.searchRequest
 							.getSearchCriteria());
 			this.totalPage = (this.totalCount - 1)
@@ -122,7 +123,7 @@ public class ActivityStreamComponent extends Depot {
 				}
 			}
 
-			final List<ProjectActivityStream> currentListData = this.projectService
+			final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
 					.getProjectActivityStreams(this.searchRequest);
 			this.listContainer.removeAllComponents();
 

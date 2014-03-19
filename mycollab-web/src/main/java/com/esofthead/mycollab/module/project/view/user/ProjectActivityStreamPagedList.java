@@ -29,13 +29,13 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.common.service.ActivityStreamService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLinkBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -60,23 +60,23 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ProjectActivityStreamPagedList
-extends
-AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+		extends
+		AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = 1L;
 
-	private final ActivityStreamService activityStreamService;
+	private final ProjectActivityStreamService projectActivityStreamService;
 
 	public ProjectActivityStreamPagedList() {
 		super(null, 20);
-		this.activityStreamService = ApplicationContextUtil
-				.getSpringBean(ActivityStreamService.class);
+		this.projectActivityStreamService = ApplicationContextUtil
+				.getSpringBean(ProjectActivityStreamService.class);
 
 	}
 
 	@Override
 	public void doSearch() {
-		this.totalCount = this.activityStreamService
-				.getTotalCount(this.searchRequest.getSearchCriteria());
+		this.totalCount = this.projectActivityStreamService
+				.getTotalActivityStream(this.searchRequest.getSearchCriteria());
 		this.totalPage = (this.totalCount - 1)
 				/ this.searchRequest.getNumberOfItems() + 1;
 		if (this.searchRequest.getCurrentPage() > this.totalPage) {
@@ -94,8 +94,8 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			}
 		}
 
-		final List<SimpleActivityStream> currentListData = this.activityStreamService
-				.findPagableListByCriteria(this.searchRequest);
+		final List<ProjectActivityStream> currentListData = this.projectActivityStreamService
+				.getProjectActivityStreams(this.searchRequest);
 		this.listContainer.removeAllComponents();
 
 		Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
@@ -110,7 +110,8 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 				if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
 					currentFeedBlock = new CssLayout();
 					currentFeedBlock.setStyleName("feed-block");
-					feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
+					feedBlocksPut(currentDate, itemCreatedDate,
+							currentFeedBlock);
 					currentDate = itemCreatedDate;
 				}
 				String content = "";
@@ -199,7 +200,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 				streamWrapper.setWidth("100%");
 				streamWrapper.addStyleName("stream-wrapper");
 				streamWrapper.addComponent(actionLbl);
-				/*this.listContainer.addComponent(streamWrapper);*/
+				/* this.listContainer.addComponent(streamWrapper); */
 				currentFeedBlock.addComponent(streamWrapper);
 			}
 		} catch (final Exception e) {
@@ -207,7 +208,8 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 		}
 	}
 
-	protected void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
+	protected void feedBlocksPut(Date currentDate, Date nextDate,
+			CssLayout currentBlock) {
 		HorizontalLayout blockWrapper = new HorizontalLayout();
 		blockWrapper.setStyleName("feed-block-wrap");
 		blockWrapper.setWidth("100%");
@@ -253,7 +255,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-				.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+						.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
 			}
 		});
 		if (currentPage == 1) {
@@ -268,7 +270,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-				.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+						.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
 			}
 		});
 		if (currentPage == totalPage) {

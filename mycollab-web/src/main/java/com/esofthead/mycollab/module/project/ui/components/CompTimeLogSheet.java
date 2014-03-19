@@ -34,6 +34,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
@@ -41,6 +42,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -84,7 +86,6 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 	}
 
 	private void initUI() {
-
 		this.investTimeLayout = this.new AddTimeInvest();
 		this.addComponent(this.investTimeLayout);
 		this.setExpandRatio(this.investTimeLayout, 1);
@@ -102,6 +103,10 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 	protected double getInvestValue() {
 		return Double.parseDouble(this.investTimeLayout.numberField.getValue()
 				.toString());
+	}
+
+	protected Boolean isBillableHours() {
+		return this.investTimeLayout.isBillableField.getValue();
 	}
 
 	protected abstract void saveTimeInvest();
@@ -122,9 +127,11 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 	private class AddTimeInvest extends VerticalLayout {
 		private static final long serialVersionUID = 1L;
 
-		public Label lbTimeTotal;
+		private Label lbTimeTotal;
 
-		public NumbericTextField numberField;
+		private NumbericTextField numberField;
+
+		private CheckBox isBillableField;
 
 		public AddTimeInvest() {
 
@@ -153,23 +160,29 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			addLayout.setComponentAlignment(this.numberField,
 					Alignment.MIDDLE_LEFT);
 
+			this.isBillableField = new CheckBox("Is Billable", true);
+			addLayout.addComponent(this.isBillableField);
+			addLayout.setComponentAlignment(this.isBillableField,
+					Alignment.MIDDLE_LEFT);
+
 			CompTimeLogSheet.this.btnAdd = new Button("Add",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
+							double d = 0;
 							try {
-								final double d = Double
+								d = Double
 										.parseDouble(AddTimeInvest.this.numberField
 												.getValue().toString());
-								if (d > 0) {
-									CompTimeLogSheet.this.saveTimeInvest();
-									AddTimeInvest.this.loadTimeInvestItem();
-									AddTimeInvest.this.numberField
-											.setValue("0.0");
-								}
-							} catch (final Exception e) {
+							} catch (NumberFormatException e) {
+								NotificationUtil
+										.showWarningNotification("You must enter a positive number value");
+							}
+							if (d > 0) {
+								CompTimeLogSheet.this.saveTimeInvest();
+								AddTimeInvest.this.loadTimeInvestItem();
 								AddTimeInvest.this.numberField.setValue("0.0");
 							}
 						}
@@ -198,7 +211,8 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 					SimpleItemTimeLogging.class, Arrays.asList(
 							new TableViewField("User", "logUserFullName",
 									UIConstants.TABLE_X_LABEL_WIDTH),
-							new TableViewField("Created Time", "createdtime"),
+							new TableViewField("Created Time", "createdtime",
+									UIConstants.TABLE_DATE_TIME_WIDTH),
 							new TableViewField("Value", "logvalue",
 									UIConstants.TABLE_S_LABEL_WIDTH),
 							new TableViewField("", "id",
@@ -399,9 +413,15 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						public void buttonClick(final ClickEvent event) {
 
 							try {
-								final double d = Double
-										.parseDouble(UpdateTimeRemain.this.numberField
-												.getValue().toString());
+								double d = 0;
+								try {
+									d = Double
+											.parseDouble(UpdateTimeRemain.this.numberField
+													.getValue().toString());
+								} catch (Exception e) {
+									NotificationUtil
+											.showWarningNotification("You must enter a positive number value");
+								}
 								if (d > 0) {
 									CompTimeLogSheet.this.updateTimeRemain();
 									UpdateTimeRemain.this.lbUpdateTime

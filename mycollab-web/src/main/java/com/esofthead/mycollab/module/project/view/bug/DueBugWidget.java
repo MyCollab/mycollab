@@ -22,7 +22,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -53,8 +53,8 @@ public class DueBugWidget extends BugDisplayWidget {
 	}
 
 	@Override
-	protected BugSearchParameter constructMoreDisplayFilter() {
-		return new BugSearchParameter("Due Bugs", searchCriteria);
+	protected BugFilterParameter constructMoreDisplayFilter() {
+		return new BugFilterParameter("Due Bugs", searchCriteria);
 	}
 
 	public static class DueBugRowDisplayHandler implements

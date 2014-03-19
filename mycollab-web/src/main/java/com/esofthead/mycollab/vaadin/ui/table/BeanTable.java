@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui.table;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -36,6 +37,7 @@ import com.vaadin.ui.Table;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  * @param <SearchService>
  * @param <S>
@@ -45,19 +47,20 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		extends Table implements IBeanTable {
 
 	private static final long serialVersionUID = 1L;
-	private String[] visibleColumns;
-	private String[] columnHeaders;
+	private TableViewField requiredColumn;
+	private List<TableViewField> displayColumns;
+
 	private Class typeClass;
 	private SearchService searchService;
 	private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> mapEventListener;
 
 	public BeanTable(SearchService searchService, Class typeClass,
-			String[] visibleColumns, String[] columnHeaders) {
+			TableViewField requiredColumn, List<TableViewField> displayColumns) {
 		super();
 		this.searchService = searchService;
 		this.typeClass = typeClass;
-		this.visibleColumns = visibleColumns;
-		this.columnHeaders = columnHeaders;
+		this.requiredColumn = requiredColumn;
+		this.displayColumns = displayColumns;
 		this.setStyleName("list-view");
 	}
 
@@ -68,12 +71,42 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		setItems(itemsCol);
 	}
 
+	private void displayTableColumns() {
+		List<String> visibleColumnsCol = new ArrayList<String>();
+		List<String> columnHeadersCol = new ArrayList<String>();
+
+		if (requiredColumn != null) {
+			visibleColumnsCol.add(requiredColumn.getField());
+			columnHeadersCol.add(requiredColumn.getDesc());
+			this.setColumnWidth(requiredColumn.getField(),
+					requiredColumn.getDefaultWidth());
+		}
+
+		for (int i = 0; i < displayColumns.size(); i++) {
+			TableViewField viewField = displayColumns.get(i);
+			visibleColumnsCol.add(viewField.getField());
+			columnHeadersCol.add(viewField.getDesc());
+
+			if (i == 0) {
+				this.setColumnExpandRatio(viewField.getField(), 1.0f);
+			} else {
+				this.setColumnWidth(viewField.getField(),
+						viewField.getDefaultWidth());
+			}
+		}
+
+		String[] visibleColumns = visibleColumnsCol.toArray(new String[0]);
+		String[] columnHeaders = columnHeadersCol.toArray(new String[0]);
+
+		this.setVisibleColumns(visibleColumns);
+		this.setColumnHeaders(columnHeaders);
+	}
+
 	public void setItems(List<T> itemsCol) {
 		BeanItemContainer<T> container = new BeanItemContainer<T>(typeClass,
 				itemsCol);
 		this.setContainerDataSource(container);
-		this.setVisibleColumns(visibleColumns);
-		this.setColumnHeaders(columnHeaders);
+		displayTableColumns();
 		this.setPageLength(itemsCol.size());
 	}
 

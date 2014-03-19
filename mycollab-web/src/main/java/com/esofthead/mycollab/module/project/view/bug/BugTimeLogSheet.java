@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -51,6 +53,8 @@ public class BugTimeLogSheet extends CompTimeLogSheet<SimpleBug> {
 		item.setType(MonitorTypeConstants.PRJ_BUG);
 		item.setSaccountid(AppContext.getAccountId());
 		item.setProjectid(CurrentProjectVariables.getProjectId());
+		item.setLogforday(new GregorianCalendar().getTime());
+		item.setIsbillable(isBillableHours());
 
 		itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
 
@@ -58,7 +62,8 @@ public class BugTimeLogSheet extends CompTimeLogSheet<SimpleBug> {
 
 	@Override
 	protected void updateTimeRemain() {
-		BugService bugService = ApplicationContextUtil.getSpringBean(BugService.class);
+		BugService bugService = ApplicationContextUtil
+				.getSpringBean(BugService.class);
 		bean.setEstimateremaintime(getUpdateRemainTime());
 		bugService.updateWithSession(bean, AppContext.getUsername());
 	}

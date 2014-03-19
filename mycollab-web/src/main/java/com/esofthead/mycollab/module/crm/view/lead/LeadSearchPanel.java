@@ -38,6 +38,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -48,7 +49,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -58,17 +58,17 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @SuppressWarnings("serial")
 public class LeadSearchPanel extends
-		DefaultGenericSearchPanel<LeadSearchCriteria> {
+DefaultGenericSearchPanel<LeadSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	private static Param[] paramFields = new Param[] {
-			LeadSearchCriteria.p_leadContactName,
-			LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
-			LeadSearchCriteria.p_anyEmail, LeadSearchCriteria.p_anyPhone,
-			LeadSearchCriteria.p_billingCountry,
-			LeadSearchCriteria.p_shippingCountry,
-			LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
-			LeadSearchCriteria.p_assignee };
+		LeadSearchCriteria.p_leadContactName,
+		LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
+		LeadSearchCriteria.p_anyEmail, LeadSearchCriteria.p_anyPhone,
+		LeadSearchCriteria.p_billingCountry,
+		LeadSearchCriteria.p_shippingCountry,
+		LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
+		LeadSearchCriteria.p_assignee };
 
 	protected LeadSearchCriteria searchCriteria;
 
@@ -80,7 +80,8 @@ public class LeadSearchPanel extends
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/lead.png"));
@@ -88,20 +89,20 @@ public class LeadSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label("Leads");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create",
+		final Button createAccountBtn = new Button("Create Lead",
 				new Button.ClickListener() {
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new LeadEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new LeadEvent.GotoAdd(this, null));
+			}
+		});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -149,14 +150,14 @@ public class LeadSearchPanel extends
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(layout, this.nameField,
 					Alignment.MIDDLE_CENTER);
-			
+
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(layout, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
-			
+
 			final Button searchBtn = new Button("Search");
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
@@ -187,7 +188,7 @@ public class LeadSearchPanel extends
 
 			final Button advancedSearchBtn = new Button(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 
 						@Override
@@ -205,21 +206,21 @@ public class LeadSearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			LeadSearchPanel.this.searchCriteria = new LeadSearchCriteria();
 			LeadSearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
+			.setSaccountid(new NumberSearchField(SearchField.AND,
+					AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue()
 					.toString().trim())) {
 				LeadSearchPanel.this.searchCriteria
-						.setLeadName(new StringSearchField(SearchField.AND,
-								(String) this.nameField.getValue()));
+				.setLeadName(new StringSearchField(SearchField.AND,
+						this.nameField.getValue()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				LeadSearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
-								SearchField.AND, new String[] { AppContext
-										.getUsername() }));
+				.setAssignUsers(new SetSearchField<String>(
+						SearchField.AND, new String[] { AppContext
+								.getUsername() }));
 			} else {
 				LeadSearchPanel.this.searchCriteria.setAssignUsers(null);
 			}
@@ -228,7 +229,7 @@ public class LeadSearchPanel extends
 	}
 
 	private class LeadAdvancedSearchLayout extends
-			DynamicQueryParamLayout<LeadSearchCriteria> {
+	DynamicQueryParamLayout<LeadSearchCriteria> {
 
 		public LeadAdvancedSearchLayout() {
 			super(LeadSearchPanel.this, CrmTypeConstants.LEAD);
@@ -249,6 +250,7 @@ public class LeadSearchPanel extends
 			return LeadSearchCriteria.class;
 		}
 
+		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("lead-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();

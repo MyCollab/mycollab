@@ -20,7 +20,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
@@ -100,7 +100,7 @@ public class TrackerContainer extends AbstractPageView {
 									.getId()));
 							bugPresenter.go(TrackerContainer.this,
 									new BugScreenData.Search(
-											new BugSearchParameter("All Bugs",
+											new BugFilterParameter("All Bugs",
 													criteria)));
 						} else if ("Components".equals(caption)) {
 							componentPresenter.go(TrackerContainer.this, null);

@@ -40,6 +40,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -50,7 +51,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -60,19 +60,19 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @SuppressWarnings("serial")
 public class OpportunitySearchPanel extends
-		DefaultGenericSearchPanel<OpportunitySearchCriteria> {
+DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-			OpportunitySearchCriteria.p_opportunityName,
-			OpportunitySearchCriteria.p_account,
-			OpportunitySearchCriteria.p_nextStep,
-			OpportunitySearchCriteria.p_campaign,
-			OpportunitySearchCriteria.p_leadSource,
-			OpportunitySearchCriteria.p_saleStage,
-			OpportunitySearchCriteria.p_type,
-			OpportunitySearchCriteria.p_expectedcloseddate,
-			OpportunitySearchCriteria.p_createdtime,
-			OpportunitySearchCriteria.p_lastupdatedtime };
+		OpportunitySearchCriteria.p_opportunityName,
+		OpportunitySearchCriteria.p_account,
+		OpportunitySearchCriteria.p_nextStep,
+		OpportunitySearchCriteria.p_campaign,
+		OpportunitySearchCriteria.p_leadSource,
+		OpportunitySearchCriteria.p_saleStage,
+		OpportunitySearchCriteria.p_type,
+		OpportunitySearchCriteria.p_expectedcloseddate,
+		OpportunitySearchCriteria.p_createdtime,
+		OpportunitySearchCriteria.p_lastupdatedtime };
 
 	protected OpportunitySearchCriteria searchCriteria;
 
@@ -84,7 +84,8 @@ public class OpportunitySearchPanel extends
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/opportunity.png"));
@@ -92,22 +93,22 @@ public class OpportunitySearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label("Opportunities");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create",
+		final Button createAccountBtn = new Button("Create Opportunity",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new OpportunityEvent.GotoAdd(
-										OpportunitySearchPanel.this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new OpportunityEvent.GotoAdd(
+								OpportunitySearchPanel.this, null));
+			}
+		});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -160,7 +161,7 @@ public class OpportunitySearchPanel extends
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(layout, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
@@ -195,14 +196,14 @@ public class OpportunitySearchPanel extends
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							OpportunitySearchPanel.this
-									.moveToAdvancedSearchLayout();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					OpportunitySearchPanel.this
+					.moveToAdvancedSearchLayout();
+				}
+			});
 			advancedSearchBtn.setStyleName("link");
 			UiUtils.addComponent(layout, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
@@ -213,22 +214,22 @@ public class OpportunitySearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			OpportunitySearchPanel.this.searchCriteria = new OpportunitySearchCriteria();
 			OpportunitySearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
+			.setSaccountid(new NumberSearchField(SearchField.AND,
+					AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue()
 					.toString().trim())) {
 				OpportunitySearchPanel.this.searchCriteria
-						.setOpportunityName(new StringSearchField(
-								SearchField.AND, ((String) this.nameField
-										.getValue()).trim()));
+				.setOpportunityName(new StringSearchField(
+						SearchField.AND, this.nameField
+						.getValue().trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				OpportunitySearchPanel.this.searchCriteria
-						.setAssignUsers(new SetSearchField<String>(
-								SearchField.AND, new String[] { AppContext
-										.getUsername() }));
+				.setAssignUsers(new SetSearchField<String>(
+						SearchField.AND, new String[] { AppContext
+								.getUsername() }));
 			} else {
 				OpportunitySearchPanel.this.searchCriteria.setAssignUsers(null);
 			}
@@ -238,7 +239,7 @@ public class OpportunitySearchPanel extends
 	}
 
 	private class OpportunityAdvancedSearchLayout extends
-			DynamicQueryParamLayout<OpportunitySearchCriteria> {
+	DynamicQueryParamLayout<OpportunitySearchCriteria> {
 
 		public OpportunityAdvancedSearchLayout() {
 			super(OpportunitySearchPanel.this, CrmTypeConstants.OPPORTUNITY);
@@ -259,6 +260,7 @@ public class OpportunitySearchPanel extends
 			return OpportunitySearchCriteria.class;
 		}
 
+		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("opportunity-assignee".equals(fieldId)) {
 				return new ActiveUserListSelect();

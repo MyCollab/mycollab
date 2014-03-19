@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
@@ -36,6 +39,9 @@ import com.esofthead.mycollab.module.project.domain.Problem;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.criteria.ProblemSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProblemService;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 
 /**
@@ -82,6 +88,9 @@ public class ProblemServiceImpl extends
 		relayEmailNotificationService.saveWithSession(
 				createNotification(record, username, recordId,
 						MonitorTypeConstants.CREATE_ACTION), username);
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
 		return recordId;
 	}
 
@@ -90,7 +99,42 @@ public class ProblemServiceImpl extends
 		relayEmailNotificationService.saveWithSession(
 				createNotification(record, username, record.getId(),
 						MonitorTypeConstants.UPDATE_ACTION), username);
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
+	}
+
+	@Override
+	public void removeByCriteria(ProblemSearchCriteria criteria, int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		super.removeByCriteria(criteria, accountId);
+	}
+
+	@Override
+	public void massRemoveWithSession(List<Integer> primaryKeys,
+			String username, int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		super.massRemoveWithSession(primaryKeys, username, accountId);
+	}
+
+	@Override
+	public void massUpdateWithSession(Problem record,
+			List<Integer> primaryKeys, int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+		super.massUpdateWithSession(record, primaryKeys, accountId);
 	}
 
 	private RelayEmailNotification createNotification(Problem record,

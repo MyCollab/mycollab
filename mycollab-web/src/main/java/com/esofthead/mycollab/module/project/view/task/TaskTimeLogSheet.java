@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -51,6 +53,8 @@ public class TaskTimeLogSheet extends CompTimeLogSheet<SimpleTask> {
 		item.setType(MonitorTypeConstants.PRJ_TASK);
 		item.setSaccountid(AppContext.getAccountId());
 		item.setProjectid(CurrentProjectVariables.getProjectId());
+		item.setLogforday(new GregorianCalendar().getTime());
+		item.setIsbillable(isBillableHours());
 
 		itemTimeLoggingService.saveWithSession(item, AppContext.getUsername());
 	}

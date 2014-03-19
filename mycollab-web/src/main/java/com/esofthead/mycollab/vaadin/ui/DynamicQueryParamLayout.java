@@ -21,11 +21,12 @@ import com.vaadin.ui.HorizontalLayout;
  * @param <S>
  */
 public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
-		SearchLayout<S> {
+SearchLayout<S> {
 	private static final long serialVersionUID = 1L;
 
 	protected String type;
 	protected BuildCriterionComponent<S> buildCriterionComp;
+	protected ComponentContainer header;
 
 	public DynamicQueryParamLayout(DefaultGenericSearchPanel<S> parent,
 			String type) {
@@ -37,12 +38,22 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	}
 
 	protected void initLayout() {
-		ComponentContainer header = constructHeader();
+		header = constructHeader();
 		ComponentContainer body = constructBody();
 		ComponentContainer footer = constructFooter();
 		this.addComponent(header, "advSearchHeader");
 		this.addComponent(body, "advSearchBody");
 		this.addComponent(footer, "advSearchFooter");
+	}
+
+
+
+	@Override
+	protected void addHeaderRight(Component c) {
+		if(this.header == null)
+			return;
+
+		this.header.addComponent(c);
 	}
 
 	private HorizontalLayout createButtonControls() {
@@ -75,21 +86,21 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 				});
 		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
-		
+
 		final Separator separator1 = new Separator();
 		UiUtils.addComponent(buttonControls, separator1,
-			Alignment.MIDDLE_LEFT);
-		
+				Alignment.MIDDLE_LEFT);
+
 		final Button basicSearchBtn = new Button(
 				LocalizationHelper
-						.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+				.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
-								.moveToBasicSearchLayout();
+						.moveToBasicSearchLayout();
 					}
 				});
 		basicSearchBtn.setStyleName("link");
@@ -116,6 +127,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	public ComponentContainer constructBody() {
 		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(),
 				getType(), type) {
+			@Override
 			protected Component buildPropertySearchComp(String fieldId) {
 				return buildSelectionComp(fieldId);
 			}

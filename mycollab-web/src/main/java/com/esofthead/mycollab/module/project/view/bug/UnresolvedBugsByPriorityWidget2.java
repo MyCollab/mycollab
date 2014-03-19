@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
-import com.esofthead.mycollab.module.project.view.parameters.BugSearchParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -131,7 +131,7 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 			UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria
 					.setPriorities(new SetSearchField<String>(
 							new String[] { caption }));
-			final BugSearchParameter param = new BugSearchParameter(
+			final BugFilterParameter param = new BugFilterParameter(
 					"Unresolved " + caption + " Bug List",
 					UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
 			EventBus.getInstance()

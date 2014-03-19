@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -49,7 +50,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -59,23 +59,24 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @SuppressWarnings("serial")
 public class ContactSearchPanel extends
-		DefaultGenericSearchPanel<ContactSearchCriteria> {
+DefaultGenericSearchPanel<ContactSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-			ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
-			ContactSearchCriteria.p_leadsource,
-			ContactSearchCriteria.p_billingCountry,
-			ContactSearchCriteria.p_shippingCountry,
-			ContactSearchCriteria.p_anyPhone, ContactSearchCriteria.p_anyEmail,
-			ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee,
-			ContactSearchCriteria.p_createdtime,
-			ContactSearchCriteria.p_lastupdatedtime };
+		ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
+		ContactSearchCriteria.p_leadsource,
+		ContactSearchCriteria.p_billingCountry,
+		ContactSearchCriteria.p_shippingCountry,
+		ContactSearchCriteria.p_anyPhone, ContactSearchCriteria.p_anyEmail,
+		ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee,
+		ContactSearchCriteria.p_createdtime,
+		ContactSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setStyleName(UIConstants.HEADER_VIEW);
 
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/contact.png"));
@@ -83,21 +84,21 @@ public class ContactSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label("Contacts");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create",
+		final Button createAccountBtn = new Button("Create Contact",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new ContactEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new ContactEvent.GotoAdd(this, null));
+			}
+		});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -148,11 +149,11 @@ public class ContactSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			
+
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
@@ -188,14 +189,14 @@ public class ContactSearchPanel extends
 
 			final Button advancedSearchBtn = new Button(
 					LocalizationHelper
-							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							ContactSearchPanel.this
-									.moveToAdvancedSearchLayout();
+							.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
@@ -213,7 +214,7 @@ public class ContactSearchPanel extends
 					.toString().trim())) {
 				searchCriteria.setContactName(new StringSearchField(
 						SearchField.AND, this.nameField.getValue().toString()
-								.trim()));
+						.trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
@@ -228,7 +229,7 @@ public class ContactSearchPanel extends
 	}
 
 	private class ContactAdvancedSearchLayout extends
-			DynamicQueryParamLayout<ContactSearchCriteria> {
+	DynamicQueryParamLayout<ContactSearchCriteria> {
 
 		public ContactAdvancedSearchLayout() {
 			super(ContactSearchPanel.this, CrmTypeConstants.CONTACT);
@@ -249,6 +250,7 @@ public class ContactSearchPanel extends
 			return ContactSearchCriteria.class;
 		}
 
+		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("contact-assignuser".equals(fieldId)) {
 				return new ActiveUserListSelect();

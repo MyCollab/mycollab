@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esofthead.mycollab.cache.LocalCacheManager;
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
@@ -38,6 +38,11 @@ import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
@@ -90,8 +95,9 @@ public class ProjectTaskServiceImpl extends
 		Integer key = taskMapperExt.getMaxKey(record.getProjectid());
 		record.setTaskkey((key == null) ? 1 : (key + 1));
 
-		LocalCacheManager.removeCacheItems(record.getSaccountid() + "",
-				ProjectTaskListService.class.getName());
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class, ProjectMemberService.class);
 
 		return super.saveWithSession(record, username);
 	}
@@ -105,9 +111,8 @@ public class ProjectTaskServiceImpl extends
 			record.setStatus("Open");
 		}
 
-		// Clean cache of task group
-		LocalCacheManager.removeCacheItems(record.getSaccountid() + "",
-				ProjectTaskListService.class.getName());
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
 
 		return super.updateWithSession(record, username);
 	}
@@ -116,10 +121,11 @@ public class ProjectTaskServiceImpl extends
 	public int removeWithSession(Integer primaryKey, String username,
 			int accountId) {
 		int result = super.removeWithSession(primaryKey, username, accountId);
+		CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
+				ProjectService.class, ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class,
+				ItemTimeLoggingService.class);
 
-		// Clean cache of task group
-		LocalCacheManager.removeCacheItems(accountId + "",
-				ProjectTaskListService.class.getName());
 		return result;
 	}
 

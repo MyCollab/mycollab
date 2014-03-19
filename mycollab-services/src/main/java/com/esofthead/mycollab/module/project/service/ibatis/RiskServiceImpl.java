@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
@@ -35,6 +38,9 @@ import com.esofthead.mycollab.module.project.dao.RiskMapperExt;
 import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
 
@@ -82,6 +88,9 @@ public class RiskServiceImpl extends
 		relayEmailNotificationService.saveWithSession(
 				createNotification(record, username, recordId,
 						MonitorTypeConstants.CREATE_ACTION), username);
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
 		return recordId;
 	}
 
@@ -90,7 +99,35 @@ public class RiskServiceImpl extends
 		relayEmailNotificationService.saveWithSession(
 				createNotification(record, username, record.getId(),
 						MonitorTypeConstants.UPDATE_ACTION), username);
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
+	}
+
+	@Override
+	public void removeByCriteria(RiskSearchCriteria criteria, int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		super.removeByCriteria(criteria, accountId);
+	}
+
+	@Override
+	public void massRemoveWithSession(List<Integer> primaryKeys,
+			String username, int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectService.class,
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
+		super.massRemoveWithSession(primaryKeys, username, accountId);
 	}
 
 	private RelayEmailNotification createNotification(Risk record,

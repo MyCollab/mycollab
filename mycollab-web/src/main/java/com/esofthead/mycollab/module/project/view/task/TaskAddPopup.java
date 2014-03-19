@@ -58,7 +58,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskAddPopup extends CustomComponent {
+class TaskAddPopup extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 	private final TabSheet taskContainer;
 	private final SimpleTask task;
@@ -145,6 +145,8 @@ public class TaskAddPopup extends CustomComponent {
 		controlsLayout.setMargin(true);
 
 		taskLayout.addComponent(controlsLayout);
+		taskLayout
+				.setComponentAlignment(controlsLayout, Alignment.MIDDLE_RIGHT);
 
 		this.setCompositionRoot(taskLayout);
 	}
@@ -219,7 +221,7 @@ public class TaskAddPopup extends CustomComponent {
 			this.setSpacing(true);
 			this.setMargin(true);
 			this.noteArea = new RichTextArea();
-			this.noteArea.setWidth("800px");
+			this.noteArea.setWidth("100%");
 			this.noteArea.setHeight("200px");
 			this.addComponent(this.noteArea);
 

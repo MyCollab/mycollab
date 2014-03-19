@@ -23,8 +23,9 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -46,6 +47,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 
 	public AbstractPreviewItemComp(Resource iconResource) {
 		previewItemContainer = new VerticalTabsheet(false);
+		previewItemContainer.addStyleName("preview-comp");
 
 		this.addComponent(previewItemContainer);
 		previewItemContainer.setSizeFull();
@@ -54,17 +56,20 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 		previewItemContainer.setContainerStyleName("tab-content");
 		previewItemContainer.setHeight(null);
 
-		previewItemContainer
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+		navigatorWrapper.setWidth("250px");
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						previewItemContainer.selectTab(tab.getCaption());
-					}
-				});
+		previewItemContainer
+		.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				Tab tab = ((VerticalTabsheet) event.getSource())
+						.getSelectedTab();
+				previewItemContainer.selectTab(tab.getCaption());
+			}
+		});
 
 		previewLayout = new AddViewLayout2("", iconResource);
 
@@ -72,17 +77,14 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 
 		previewForm = initPreviewForm();
 		previewLayout.setStyleName("readview-layout");
+		previewLayout.setMargin(new MarginInfo(false, true, false, true));
 
-		VerticalLayout informationLayout = new VerticalLayout();
-		informationLayout.addStyleName("main-info");
 		ComponentContainer actionControls = createButtonControls();
 		if (actionControls != null) {
-			actionControls.addStyleName("control-buttons");
-			informationLayout.addComponent(actionControls);
+			previewLayout.addHeaderRight(actionControls);
 		}
 
-		informationLayout.addComponent(previewForm);
-		previewLayout.addBody(informationLayout);
+		previewLayout.addBody(previewForm);
 		previewLayout.addBody(createBottomPanel());
 	}
 
