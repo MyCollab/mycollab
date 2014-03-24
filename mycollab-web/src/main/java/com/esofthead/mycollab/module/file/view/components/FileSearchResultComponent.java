@@ -119,7 +119,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 		this.bodyLayout = new VerticalLayout();
 		this.bodyLayout.addComponent(this.resourceTable);
 		this.addComponent(this.bodyLayout);
-		this.setMargin(true);
+	
 	}
 
 	abstract protected void backView();

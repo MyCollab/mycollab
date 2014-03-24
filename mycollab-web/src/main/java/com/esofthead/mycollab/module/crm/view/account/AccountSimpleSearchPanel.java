@@ -45,8 +45,8 @@ import com.vaadin.ui.TextField;
  * 
  */
 @SuppressWarnings("serial")
-class AccountSimpleSearchPanel extends
-		GenericSearchPanel<AccountSearchCriteria> {
+public class AccountSimpleSearchPanel extends
+GenericSearchPanel<AccountSearchCriteria> {
 
 	private AccountSearchCriteria searchCriteria;
 	private TextField textValueField;
@@ -72,7 +72,7 @@ class AccountSimpleSearchPanel extends
 						"Website",
 						"Phone",
 						LocalizationHelper
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -116,25 +116,25 @@ class AccountSimpleSearchPanel extends
 				if (StringUtils.isNotNullOrEmpty(searchType)) {
 
 					if (textValueField != null) {
-						String strSearch = (String) textValueField.getValue();
+						String strSearch = textValueField.getValue();
 						if (StringUtils.isNotNullOrEmpty(strSearch)) {
 
 							if (searchType.equals("Name")) {
 								searchCriteria
-										.setAccountname(new StringSearchField(
-												SearchField.AND, strSearch));
+								.setAccountname(new StringSearchField(
+										SearchField.AND, strSearch));
 							} else if (searchType.equals("Email")) {
 								searchCriteria
-										.setAnyMail(new StringSearchField(
-												SearchField.AND, strSearch));
+								.setAnyMail(new StringSearchField(
+										SearchField.AND, strSearch));
 							} else if (searchType.equals("Website")) {
 								searchCriteria
-										.setWebsite(new StringSearchField(
-												SearchField.AND, strSearch));
+								.setWebsite(new StringSearchField(
+										SearchField.AND, strSearch));
 							} else if (searchType.equals("Phone")) {
 								searchCriteria
-										.setAnyPhone(new StringSearchField(
-												SearchField.AND, strSearch));
+								.setAnyPhone(new StringSearchField(
+										SearchField.AND, strSearch));
 							}
 						}
 					}
@@ -143,15 +143,15 @@ class AccountSimpleSearchPanel extends
 						String user = (String) userBox.getValue();
 						if (StringUtils.isNotNullOrEmpty(user)) {
 							searchCriteria
-									.setAssignUsers(new SetSearchField<String>(
-											SearchField.AND,
-											new String[] { user }));
+							.setAssignUsers(new SetSearchField<String>(
+									SearchField.AND,
+									new String[] { user }));
 						}
 					}
 				}
 
 				AccountSimpleSearchPanel.this
-						.notifySearchHandler(searchCriteria);
+				.notifySearchHandler(searchCriteria);
 			}
 		});
 		layoutSearchPane.addComponent(searchBtn, 2, 0);
@@ -172,7 +172,7 @@ class AccountSimpleSearchPanel extends
 		userBox.setImmediate(true);
 		layoutSearchPane.addComponent(userBox, 0, 0);
 		layoutSearchPane
-				.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+		.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
 	}
 
 	private void removeComponents() {

@@ -225,11 +225,6 @@ DefaultGenericSearchPanel<CaseSearchCriteria> {
 			UiUtils.addComponent(basicSearchBody, cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
-			final Separator separator2 = new Separator();
-
-			UiUtils.addComponent(basicSearchBody, separator2,
-					Alignment.MIDDLE_LEFT);
-
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;

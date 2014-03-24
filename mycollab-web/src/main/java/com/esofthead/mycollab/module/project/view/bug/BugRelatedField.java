@@ -48,8 +48,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
@@ -65,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-public class BugRelatedField extends CustomField {
+public class BugRelatedField extends CustomComponent {
 
 	private static final long serialVersionUID = 1L;
 	private TextField itemField;
@@ -78,19 +77,17 @@ public class BugRelatedField extends CustomField {
 	private RelatedBugService relatedBugService;
 	private RichTextArea txtComment;
 
-	private SimpleBug bean;
+	private SimpleBug bug;
 	private SimpleBug relatedBean;
 
-	public BugRelatedField(final SimpleBug bean) {
-		this.bean = bean;
-
+	public BugRelatedField() {
 		relatedBugService = ApplicationContextUtil
 				.getSpringBean(RelatedBugService.class);
 	}
 
 	private void setCriteria() {
 		BugRelatedSearchCriteria searchCriteria = new BugRelatedSearchCriteria();
-		searchCriteria.setBugId(new NumberSearchField(bean.getId()));
+		searchCriteria.setBugId(new NumberSearchField(bug.getId()));
 		tableItem.setSearchCriteria(searchCriteria);
 	}
 
@@ -109,19 +106,14 @@ public class BugRelatedField extends CustomField {
 		setItemFieldValue(bugname);
 	}
 
-	@Override
-	public Class<?> getType() {
-		return (new String[2]).getClass();
-	}
-
 	private void setItemFieldValue(String value) {
 		itemField.setReadOnly(false);
 		itemField.setValue(value);
 		itemField.setReadOnly(true);
 	}
 
-	@Override
-	protected Component initContent() {
+	public void displayRelatedBugs(final SimpleBug bug) {
+		this.bug = bug;
 		VerticalLayout mainLayout = new VerticalLayout();
 		mainLayout.setWidth("100%");
 		mainLayout.setMargin(true);
@@ -197,9 +189,9 @@ public class BugRelatedField extends CustomField {
 		if (member != null) {
 			btnRelate
 					.setEnabled((member.getIsadmin()
-							|| (AppContext.getUsername().equals(bean
+							|| (AppContext.getUsername().equals(bug
 									.getAssignuser())) || (AppContext
-								.getUsername().equals(bean.getLogby())))
+								.getUsername().equals(bug.getLogby())))
 							&& CurrentProjectVariables
 									.canWrite(ProjectRolePermissionCollections.BUGS));
 		}
@@ -211,9 +203,9 @@ public class BugRelatedField extends CustomField {
 			public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
 				if (!itemField.getValue().toString().trim().equals("")
 						&& relatedBean != null
-						&& !relatedBean.getSummary().equals(bean.getSummary())) {
+						&& !relatedBean.getSummary().equals(bug.getSummary())) {
 					SimpleRelatedBug relatedBug = new SimpleRelatedBug();
-					relatedBug.setBugid(bean.getId());
+					relatedBug.setBugid(bug.getId());
 					relatedBug.setRelatedid(relatedBean.getId());
 					relatedBug.setRelatetype((String) comboRelation.getValue());
 					relatedBug.setComment(txtComment.getValue().toString());
@@ -222,7 +214,7 @@ public class BugRelatedField extends CustomField {
 
 					SimpleRelatedBug oppositeRelation = new SimpleRelatedBug();
 					oppositeRelation.setBugid(relatedBean.getId());
-					oppositeRelation.setRelatedid(bean.getId());
+					oppositeRelation.setRelatedid(bug.getId());
 					oppositeRelation.setComment(txtComment.getValue()
 							.toString());
 
@@ -252,9 +244,9 @@ public class BugRelatedField extends CustomField {
 								.setRelatetype(BugRelationConstants.DUPLICATED);
 						BugService bugService = ApplicationContextUtil
 								.getSpringBean(BugService.class);
-						bean.setStatus(BugStatusConstants.RESOLVED);
-						bean.setResolution(BugResolutionConstants.DUPLICATE);
-						bugService.updateWithSession(bean,
+						bug.setStatus(BugStatusConstants.RESOLVED);
+						bug.setResolution(BugResolutionConstants.DUPLICATE);
+						bugService.updateWithSession(bug,
 								AppContext.getUsername());
 					}
 					relatedBugService.saveWithSession(oppositeRelation,
@@ -449,9 +441,9 @@ public class BugRelatedField extends CustomField {
 
 				if (member != null) {
 					deleteBtn.setEnabled(member.getIsadmin()
-							|| (AppContext.getUsername().equals(bean
+							|| (AppContext.getUsername().equals(bug
 									.getAssignuser()))
-							|| (AppContext.getUsername().equals(bean.getLogby())));
+							|| (AppContext.getUsername().equals(bug.getLogby())));
 				}
 				return deleteBtn;
 			}
@@ -461,6 +453,6 @@ public class BugRelatedField extends CustomField {
 
 		setCriteria();
 
-		return mainLayout;
+		this.setCompositionRoot(mainLayout);
 	}
 }

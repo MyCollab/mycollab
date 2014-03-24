@@ -74,7 +74,7 @@ CustomComponent implements HasSearchHandlers<S> {
 			return;
 
 		Component root = getCompositionRoot();
-		if (root != null && root instanceof SearchLayout) {
+		if (root != null ) {
 			((SearchLayout<?>) root).addHeaderRight(this.headerRight);
 		}
 	}

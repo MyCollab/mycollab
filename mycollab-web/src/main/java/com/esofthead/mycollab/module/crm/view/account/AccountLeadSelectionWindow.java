@@ -1,27 +1,10 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.esofthead.mycollab.module.crm.view.account;
 
 import java.util.Arrays;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
+import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow2;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableFieldDef;
@@ -36,7 +19,7 @@ import com.vaadin.ui.Button;
  */
 @SuppressWarnings("serial")
 public class AccountLeadSelectionWindow extends
-		RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
+RelatedItemSelectionWindow2<SimpleLead, LeadSearchCriteria> {
 
 	public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
 		super("Select Leads", associateLeadList);
@@ -61,14 +44,14 @@ public class AccountLeadSelectionWindow extends
 
 		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
 		leadSimpleSearchPanel
-				.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+		.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
 
-					@Override
-					public void onSearch(LeadSearchCriteria criteria) {
-						tableItem.setSearchCriteria(criteria);
-					}
+			@Override
+			public void onSearch(LeadSearchCriteria criteria) {
+				tableItem.setSearchCriteria(criteria);
+			}
 
-				});
+		});
 
 		this.bodyContent.addComponent(leadSimpleSearchPanel);
 		this.bodyContent.addComponent(selectBtn);

@@ -12,6 +12,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.vaadin.ui.IPagedBeanList;
 import com.esofthead.vaadin.mobilecomponent.InfiniteScrollLayout;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
@@ -81,7 +82,6 @@ extends CssLayout implements IPagedBeanList<S, B> {
 		return currentListData;
 	}
 
-	@Override
 	public void addTableListener(
 			final ApplicationEventListener<? extends ApplicationEvent> listener) {
 		if (this.mapEventListener == null) {
@@ -120,7 +120,6 @@ extends CssLayout implements IPagedBeanList<S, B> {
 		}
 	}
 
-	@Override
 	public void addGeneratedColumn(final Object id,
 			final ColumnGenerator generatedColumn) {
 		this.columnGenerators.put(id, generatedColumn);

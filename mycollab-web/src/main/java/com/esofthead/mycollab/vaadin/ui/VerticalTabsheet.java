@@ -28,6 +28,7 @@ import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
@@ -117,7 +118,7 @@ public class VerticalTabsheet extends CustomComponent {
 		if (resource == null)
 			setDefaulButtonIcon(button, false);
 		else
-		button.setIcon(resource);
+			button.setIcon(resource);
 		button.setStyleName(TAB_STYLENAME);
 		button.setWidth("100%");
 
@@ -242,6 +243,21 @@ public class VerticalTabsheet extends CustomComponent {
 
 	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
 
+	}
+
+	public void replaceContainer(ComponentContainer newContainer) {
+		replaceContainer(newContainer, null);
+	}
+
+	public void replaceContainer(ComponentContainer newContainer, ComponentContainer newPosition) {
+		ComponentContainer containerParent = (ComponentContainer) tabContainer.getParent();
+		if (containerParent != null) {
+			containerParent.removeComponent(tabContainer);
+		}
+		if (newPosition == null)
+			newPosition = newContainer;
+		newPosition.addComponent(tabContainer);
+		contentWrapper.addComponent(newContainer);
 	}
 
 	public static class TabImpl implements Tab {

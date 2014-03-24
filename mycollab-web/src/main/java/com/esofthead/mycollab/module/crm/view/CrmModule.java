@@ -27,7 +27,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomLayout;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -40,24 +39,19 @@ public class CrmModule extends AbstractPageView implements IModule {
 
 	private static final long serialVersionUID = 1L;
 
-	private final VerticalLayout currentView;
+	private final CustomLayout container;
 
 	private final CrmToolbar toolbar;
 
 	public CrmModule() {
+		this.setStyleName("crm-module");
 		ControllerRegistry.addController(new CrmController(this));
-		CustomLayout container = CustomLayoutLoader
-				.createLayout("crmContainer");
-		container.setStyleName("crmContainer");
+		container = CustomLayoutLoader.createLayout("crmContainer");
 		container.setWidth("100%");
 
 		toolbar = ViewManager.getView(CrmToolbar.class);
 		container.addComponent(toolbar, "crmToolbar");
 
-		currentView = new VerticalLayout();
-		currentView.setStyleName("main-view");
-
-		container.addComponent(currentView, "currentView");
 		this.addComponent(container);
 		this.setComponentAlignment(container, Alignment.MIDDLE_CENTER);
 	}
@@ -67,8 +61,8 @@ public class CrmModule extends AbstractPageView implements IModule {
 	}
 
 	public void addView(PageView view) {
-		currentView.removeAllComponents();
-		currentView.addComponent(view.getWidget());
+		container.setStyleName("crmContainer-wrap");
+		container.addComponent(view.getWidget(), "currentView");
 	}
 
 }

@@ -81,10 +81,6 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 		this.initUI();
 	}
 
-	public void setBean(V bean) {
-		this.bean = bean;
-	}
-
 	private void initUI() {
 		this.investTimeLayout = this.new AddTimeInvest();
 		this.addComponent(this.investTimeLayout);
@@ -95,7 +91,8 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 		this.setWidth("100%");
 	}
 
-	public void loadTimeValue() {
+	public void loadTimeValue(V bean) {
+		this.bean = bean;
 		investTimeLayout.loadTimeInvestItem();
 		updateTimeRemainLayout.setUpdateTimeValue();
 	}

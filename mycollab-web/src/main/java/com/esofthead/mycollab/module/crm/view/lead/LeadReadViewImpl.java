@@ -47,6 +47,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -56,10 +57,10 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
-		implements LeadReadView {
+implements LeadReadView {
 	private static final long serialVersionUID = 1L;
 
-	protected LeadCampaignListComp associateCampaignList;
+	protected LeadCampaignListComp2 associateCampaignList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -92,13 +93,13 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		Button convertButton = new Button("Convert",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						previewForm.fireExtraAction("convert", beanItem);
-					}
-				});
+			@Override
+			public void buttonClick(ClickEvent event) {
+				previewForm.fireExtraAction("convert", beanItem);
+			}
+		});
 		convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
 		convertButton.setIcon(MyCollabResource
 				.newResource("icons/16/convert.png"));
@@ -121,6 +122,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
+
+		previewItemContainer.selectTab("About");
 	}
 
 	@Override
@@ -130,21 +133,29 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	@Override
 	protected void initRelatedComponents() {
-		associateCampaignList = new LeadCampaignListComp();
+		associateCampaignList = new LeadCampaignListComp2();
 		noteListItems = new NoteListItems("Notes");
 		associateActivityList = new ActivityRelatedItemListComp(true);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		peopleInfoComp = new PeopleInfoComp();
-		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
-		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
 
-		previewItemContainer.addTab(previewLayout, "About");
+		dateInfoComp = new DateInfoComp();
+		basicInfo.addComponent(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		basicInfo.addComponent(peopleInfoComp);
+
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
+
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.addTab(associateCampaignList, "Campaigns");
 		previewItemContainer.addTab(associateActivityList, "Activities");
-
-		previewItemContainer.selectTab("About");
 	}
 
 	@Override

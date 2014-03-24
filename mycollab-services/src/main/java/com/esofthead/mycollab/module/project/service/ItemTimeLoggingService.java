@@ -16,12 +16,21 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import java.util.List;
+
+import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface ItemTimeLoggingService
 		extends
 		IDefaultService<Integer, ItemTimeLogging, ItemTimeLoggingSearchCriteria> {
@@ -29,4 +38,8 @@ public interface ItemTimeLoggingService
 	@Cacheable
 	Double getTotalHoursByCriteria(
 			@CacheKey ItemTimeLoggingSearchCriteria criteria);
+
+	@CacheEvict
+	void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
+			@CacheKey int sAccountId);
 }

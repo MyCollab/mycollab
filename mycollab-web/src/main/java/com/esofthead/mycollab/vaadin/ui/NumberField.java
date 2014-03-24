@@ -16,20 +16,35 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.vaadin.server.AbstractClientConnector;
-import com.vaadin.server.AbstractExtension;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.TextField;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 3.0
+ * @since 4.0
  * 
  */
-public class NumberField extends AbstractExtension {
+public class NumberField extends TextField implements TextChangeListener {
 	private static final long serialVersionUID = 1L;
 
-	public static void extend(TextField field) {
-		new NumberField().extend((AbstractClientConnector) field);
+	private String lastValue;
+
+	public NumberField() {
+		setImmediate(true);
+		setTextChangeEventMode(TextChangeEventMode.EAGER);
+		addTextChangeListener(this);
+	}
+
+	@Override
+	public void textChange(TextChangeEvent event) {
+		String text = event.getText();
+		try {
+			new Double(text);
+			lastValue = text;
+		} catch (NumberFormatException e) {
+			setValue(lastValue);
+		}
 	}
 }

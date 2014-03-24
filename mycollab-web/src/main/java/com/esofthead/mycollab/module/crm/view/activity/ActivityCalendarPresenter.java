@@ -16,9 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -28,7 +32,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class ActivityCalendarPresenter extends
-		AbstractPresenter<ActivityCalendarView> {
+CrmGenericPresenter<ActivityCalendarView> {
 	private static final long serialVersionUID = 1L;
 
 	public ActivityCalendarPresenter() {
@@ -37,8 +41,12 @@ public class ActivityCalendarPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		ActivityRootView activityContainer = (ActivityRootView) container;
-		activityContainer.gotoView("Calendar");
+		super.onGo(container, data);
+
+		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+		crmToolbar.gotoItem(LocalizationHelper
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+
 		AppContext.addFragment("crm/activity/calendar", "Activity Calendar");
 	}
 

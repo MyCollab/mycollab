@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -43,7 +44,7 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
-		implements CallReadView {
+implements CallReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,11 +96,20 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 	protected void initRelatedComponents() {
 		this.noteListItems = new NoteListItems("Notes");
 
-		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
 
-		previewItemContainer.addTab(previewLayout, "About");
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+
+		dateInfoComp = new DateInfoComp();
+		basicInfo.addComponent(dateInfoComp);
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
+
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.selectTab("About");
 	}
 

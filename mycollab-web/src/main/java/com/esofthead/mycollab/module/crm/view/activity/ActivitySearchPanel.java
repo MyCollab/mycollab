@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -26,12 +28,13 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
@@ -48,7 +51,7 @@ import com.vaadin.ui.themes.Reindeer;
  * 
  */
 public class ActivitySearchPanel extends
-		GenericSearchPanel<ActivitySearchCriteria> {
+GenericSearchPanel<ActivitySearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	protected ActivitySearchCriteria searchCriteria;
@@ -69,7 +72,8 @@ public class ActivitySearchPanel extends
 		layout.setSizeUndefined();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		final Image iconComp = new Image();
 		iconComp.setSource(MyCollabResource
@@ -91,51 +95,72 @@ public class ActivitySearchPanel extends
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn.setCaption("Create Task");
 		controlsBtn
-				.addClickListener(new SplitButton.SplitButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		.addClickListener(new SplitButton.SplitButtonClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void splitButtonClick(
-							final SplitButton.SplitButtonClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new ActivityEvent.TaskAdd(this, null));
-					}
-				});
+			@Override
+			public void splitButtonClick(
+					final SplitButton.SplitButtonClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new ActivityEvent.TaskAdd(this, null));
+			}
+		});
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
 		controlsBtn.setContent(btnControlsLayout);
 
 		final Button createMeetingBtn = new Button("Create Event",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
-								new ActivityEvent.MeetingAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final Button.ClickEvent event) {
+				controlsBtn.setPopupVisible(false);
+				EventBus.getInstance().fireEvent(
+						new ActivityEvent.MeetingAdd(this, null));
+			}
+		});
 		createMeetingBtn.setStyleName("link");
 		btnControlsLayout.addComponent(createMeetingBtn);
 		createMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
 		final Button createCallBtn = new Button("Create Call",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
-								new ActivityEvent.CallAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final Button.ClickEvent event) {
+				controlsBtn.setPopupVisible(false);
+				EventBus.getInstance().fireEvent(
+						new ActivityEvent.CallAdd(this, null));
+			}
+		});
 		createCallBtn.setStyleName("link");
 		createCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
 		btnControlsLayout.addComponent(createCallBtn);
 		UiUtils.addComponent(layout, controlsBtn, Alignment.MIDDLE_RIGHT);
+
+		ButtonGroup viewSwitcher = new ButtonGroup();
+
+		Button calendarViewBtn = new Button("Calendar", new Button.ClickListener() {
+			private static final long serialVersionUID = -793215433929884575L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				EventBus.getInstance().fireEvent(new ActivityEvent.GotoCalendar(this, null));
+			}
+		});
+		calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		viewSwitcher.addButton(calendarViewBtn);
+
+		Button activityListBtn = new Button("Activitities List");
+		activityListBtn.setStyleName("selected");
+		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		viewSwitcher.addButton(activityListBtn);
+
+		layout.addComponent(viewSwitcher);
+		layout.setComponentAlignment(viewSwitcher, Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}
@@ -167,12 +192,12 @@ public class ActivitySearchPanel extends
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			
+
 			this.myItemCheckbox = new CheckBox("My Items");
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
-			
+
 			final Button searchBtn = new Button("Search");
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
@@ -186,7 +211,7 @@ public class ActivitySearchPanel extends
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
-			
+
 
 			final Button cancelBtn = new Button("Clear");
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
@@ -206,8 +231,8 @@ public class ActivitySearchPanel extends
 		protected SearchCriteria fillupSearchCriteria() {
 			ActivitySearchPanel.this.searchCriteria = new ActivitySearchCriteria();
 			ActivitySearchPanel.this.searchCriteria
-					.setSaccountid(new NumberSearchField(SearchField.AND,
-							AppContext.getAccountId()));
+			.setSaccountid(new NumberSearchField(SearchField.AND,
+					AppContext.getAccountId()));
 			return ActivitySearchPanel.this.searchCriteria;
 		}
 	}

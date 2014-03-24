@@ -24,8 +24,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
-import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
-import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -35,7 +33,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
-import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -58,14 +55,18 @@ import com.esofthead.mycollab.module.crm.events.CrmSettingEvent.GotoNotification
 import com.esofthead.mycollab.module.crm.events.DocumentEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.module.crm.view.account.AccountListPresenter;
 import com.esofthead.mycollab.module.crm.view.account.AccountReadPresenter;
-import com.esofthead.mycollab.module.crm.view.activity.ActivityRootPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.ActivityCalendarPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.ActivityListPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.AssignmentAddPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.AssignmentReadPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.CallAddPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.CallReadPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.MeetingAddPresenter;
+import com.esofthead.mycollab.module.crm.view.activity.MeetingReadPresenter;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignAddPresenter;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignListPresenter;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignReadPresenter;
@@ -226,8 +227,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(GotoCalendar event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						ActivityCalendarPresenter presenter = PresenterResolver
+								.getPresenter(ActivityCalendarPresenter.class);
 						presenter.go(container,
 								new ActivityScreenData.GotoCalendar());
 					}
@@ -244,8 +245,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(GotoTodoList event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						ActivityListPresenter presenter = PresenterResolver
+								.getPresenter(ActivityListPresenter.class);
 						ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
 						searchCriteria.setSaccountid(new NumberSearchField(
 								SearchField.AND, AppContext.getAccountId()));
@@ -266,8 +267,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.TaskAdd event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						AssignmentAddPresenter presenter = PresenterResolver
+								.getPresenter(AssignmentAddPresenter.class);
 						presenter.go(container, new AssignmentScreenData.Add(
 								new SimpleTask()));
 					}
@@ -284,24 +285,10 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.TaskEdit event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
-						Task task = null;
-						if (event.getData() instanceof Integer) {
-							TaskService taskService = ApplicationContextUtil
-									.getSpringBean(TaskService.class);
-							task = taskService.findById(
-									(Integer) event.getData(),
-									AppContext.getAccountId());
-						} else if (event.getData() instanceof Task) {
-							task = (Task) event.getData();
-						} else {
-							throw new MyCollabException(
-									"Do not support event data "
-											+ event.getData());
-						}
-						presenter.go(container, new AssignmentScreenData.Edit(
-								task));
+						AssignmentAddPresenter presenter = PresenterResolver
+								.getPresenter(AssignmentAddPresenter.class);
+						presenter.go(container, new ScreenData.Edit<Object>(
+								event.getData()));
 					}
 				});
 
@@ -316,8 +303,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.TaskRead event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						AssignmentReadPresenter presenter = PresenterResolver
+								.getPresenter(AssignmentReadPresenter.class);
 						presenter.go(container, new AssignmentScreenData.Read(
 								(Integer) event.getData()));
 
@@ -335,8 +322,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.MeetingAdd event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						MeetingAddPresenter presenter = PresenterResolver
+								.getPresenter(MeetingAddPresenter.class);
 						presenter.go(container, new MeetingScreenData.Add(
 								new SimpleMeeting()));
 					}
@@ -353,26 +340,10 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.MeetingEdit event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						MeetingAddPresenter presenter = PresenterResolver
+								.getPresenter(MeetingAddPresenter.class);
 
-						MeetingWithBLOBs meeting = null;
-						if (event.getData() instanceof Integer) {
-							MeetingService meetingService = ApplicationContextUtil
-									.getSpringBean(MeetingService.class);
-							meeting = meetingService.findById(
-									(Integer) event.getData(),
-									AppContext.getAccountId());
-						} else if (event.getData() instanceof MeetingWithBLOBs) {
-							meeting = (MeetingWithBLOBs) event.getData();
-						} else {
-							throw new MyCollabException(
-									"Do not support event param: "
-											+ event.getData());
-						}
-
-						presenter.go(container, new MeetingScreenData.Edit(
-								meeting));
+						presenter.go(container, new ScreenData.Edit<Object>(event.getData()));
 					}
 				});
 
@@ -387,8 +358,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.MeetingRead event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						MeetingReadPresenter presenter = PresenterResolver
+								.getPresenter(MeetingReadPresenter.class);
 						presenter.go(container, new MeetingScreenData.Read(
 								(Integer) event.getData()));
 
@@ -406,8 +377,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.CallAdd event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						CallAddPresenter presenter = PresenterResolver
+								.getPresenter(CallAddPresenter.class);
 						presenter.go(container, new CallScreenData.Add(
 								new SimpleCall()));
 					}
@@ -424,24 +395,10 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.CallEdit event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						CallAddPresenter presenter = PresenterResolver
+								.getPresenter(CallAddPresenter.class);
 
-						CallWithBLOBs call = null;
-						if (event.getData() instanceof Integer) {
-							CallService callService = ApplicationContextUtil
-									.getSpringBean(CallService.class);
-							call = callService.findById(
-									(Integer) event.getData(),
-									AppContext.getAccountId());
-						} else if (event.getData() instanceof CallWithBLOBs) {
-							call = (CallWithBLOBs) event.getData();
-						} else {
-							throw new MyCollabException(
-									"Do not support event param: "
-											+ event.getData());
-						}
-						presenter.go(container, new CallScreenData.Edit(call));
+						presenter.go(container, new ScreenData.Edit<Object>(event.getData()));
 					}
 				});
 
@@ -456,8 +413,8 @@ public class CrmController implements IController {
 
 					@Override
 					public void handle(ActivityEvent.CallRead event) {
-						ActivityRootPresenter presenter = PresenterResolver
-								.getPresenter(ActivityRootPresenter.class);
+						CallReadPresenter presenter = PresenterResolver
+								.getPresenter(CallReadPresenter.class);
 						presenter.go(container, new CallScreenData.Read(
 								(Integer) event.getData()));
 
@@ -654,44 +611,44 @@ public class CrmController implements IController {
 
 	private void bindSettingEvents() {
 		EventBus.getInstance()
-				.addListener(
-						new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
-							private static final long serialVersionUID = 1L;
+		.addListener(
+				new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return CrmSettingEvent.GotoNotificationSetting.class;
-							}
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return CrmSettingEvent.GotoNotificationSetting.class;
+					}
 
-							@Override
-							public void handle(GotoNotificationSetting event) {
-								CrmSettingPresenter presenter = PresenterResolver
-										.getPresenter(CrmSettingPresenter.class);
-								presenter
-										.go(container,
-												new NotificationSettingScreenData.Read());
-							}
-						});
+					@Override
+					public void handle(GotoNotificationSetting event) {
+						CrmSettingPresenter presenter = PresenterResolver
+								.getPresenter(CrmSettingPresenter.class);
+						presenter
+						.go(container,
+								new NotificationSettingScreenData.Read());
+					}
+				});
 
 		EventBus.getInstance()
-				.addListener(
-						new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
-							private static final long serialVersionUID = 1L;
+		.addListener(
+				new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return CrmSettingEvent.GotoCustomViewSetting.class;
-							}
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return CrmSettingEvent.GotoCustomViewSetting.class;
+					}
 
-							@Override
-							public void handle(
-									CrmSettingEvent.GotoCustomViewSetting event) {
-								CrmSettingPresenter presenter = PresenterResolver
-										.getPresenter(CrmSettingPresenter.class);
-								presenter.go(container,
-										new CustomViewScreenData.Read());
-							}
-						});
+					@Override
+					public void handle(
+							CrmSettingEvent.GotoCustomViewSetting event) {
+						CrmSettingPresenter presenter = PresenterResolver
+								.getPresenter(CrmSettingPresenter.class);
+						presenter.go(container,
+								new CustomViewScreenData.Read());
+					}
+				});
 	}
 
 	@SuppressWarnings("serial")
@@ -812,9 +769,9 @@ public class CrmController implements IController {
 						}
 
 						presenter
-								.go(container,
-										new ScreenData.Search<OpportunitySearchCriteria>(
-												searchCriteria));
+						.go(container,
+								new ScreenData.Search<OpportunitySearchCriteria>(
+										searchCriteria));
 					}
 				});
 
@@ -869,23 +826,23 @@ public class CrmController implements IController {
 				});
 
 		EventBus.getInstance()
-				.addListener(
-						new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return OpportunityEvent.GotoContactRoleEdit.class;
-							}
+		.addListener(
+				new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return OpportunityEvent.GotoContactRoleEdit.class;
+					}
 
-							@SuppressWarnings({ "unchecked", "rawtypes" })
-							@Override
-							public void handle(
-									OpportunityEvent.GotoContactRoleEdit event) {
-								ContactRoleEditPresenter presenter = PresenterResolver
-										.getPresenter(ContactRoleEditPresenter.class);
-								presenter.go(container,
-										new ScreenData(event.getData()));
-							}
-						});
+					@SuppressWarnings({ "unchecked", "rawtypes" })
+					@Override
+					public void handle(
+							OpportunityEvent.GotoContactRoleEdit event) {
+						ContactRoleEditPresenter presenter = PresenterResolver
+								.getPresenter(ContactRoleEditPresenter.class);
+						presenter.go(container,
+								new ScreenData(event.getData()));
+					}
+				});
 	}
 
 	@SuppressWarnings("serial")

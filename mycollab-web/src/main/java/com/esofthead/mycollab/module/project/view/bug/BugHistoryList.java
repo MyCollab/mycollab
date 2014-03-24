@@ -32,9 +32,10 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 @SuppressWarnings("serial")
 public class BugHistoryList extends HistoryLogComponent {
 
-	public BugHistoryList(int bugId) {
+	public BugHistoryList() {
 		super(ModuleNameConstants.PRJ, ProjectContants.BUG);
 		this.addStyleName("activity-panel");
+		this.setMargin(true);
 
 		this.generateFieldDisplayHandler("description", "Description");
 		this.generateFieldDisplayHandler("environment", "Environment");

@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.cache.CacheUtils;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -81,6 +84,14 @@ public class ItemTimeLoggingServiceImpl extends
 		Double value = itemTimeLoggingMapperExt
 				.getTotalHoursByCriteria(criteria);
 		return (value != null) ? value : 0;
+	}
+
+	@Override
+	public void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
+			@CacheKey int sAccountId) {
+		for (ItemTimeLogging timeLogging : timeLoggings) {
+			itemTimeLoggingMapper.insert(timeLogging);
+		}
 	}
 
 }

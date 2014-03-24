@@ -33,8 +33,11 @@ public class PeopleInfoComp extends VerticalLayout {
 
 		GridLayout layout = new GridLayout(2, 2);
 		layout.setMargin(new MarginInfo(false, false, false, true));
+		layout.setWidth("100%");
 		try {
-			layout.addComponent(new Label("Created:"), 0, 0);
+			Label createdLbl = new Label("Created:");
+			createdLbl.setSizeUndefined();
+			layout.addComponent(createdLbl, 0, 0);
 
 			String createdUserName = (String) PropertyUtils.getProperty(bean,
 					"createduser");
@@ -47,7 +50,9 @@ public class PeopleInfoComp extends VerticalLayout {
 					createdUserAvatarId, createdUserDisplayName);
 			layout.addComponent(createdUserLink, 1, 0);
 
-			layout.addComponent(new Label("Assignee: "), 0, 1);
+			Label assigneeLbl = new Label("Assignee: ");
+			assigneeLbl.setSizeUndefined();
+			layout.addComponent(assigneeLbl, 0, 1);
 			String assignUserName = (String) PropertyUtils.getProperty(bean,
 					"assignuser");
 			String assignUserAvatarId = (String) PropertyUtils.getProperty(

@@ -57,9 +57,6 @@ public interface BugMapperExt extends ISearchableDAO<BugSearchCriteria> {
 	List<GroupItem> getComponentDefectsSummary(
 			@Param("searchCriteria") BugSearchCriteria criteria);
 
-	List<GroupItem> getBugStatusTrendSummary(
-			@Param("searchCriteria") BugSearchCriteria criteria);
-
 	List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
 			@Param("searchCriteria") BugSearchCriteria criteria);
 

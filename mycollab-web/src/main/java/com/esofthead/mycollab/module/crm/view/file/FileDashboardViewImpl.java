@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.file.view.components.FileDashboardComponent
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.shared.ui.MarginInfo;
 
 @ViewComponent
 public class FileDashboardViewImpl extends AbstractPageView implements
@@ -33,6 +34,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements
 
 	public FileDashboardViewImpl() {
 		this.setWidth("100%");
+		this.setMargin(new MarginInfo(false, true, false, true));
 		dashboardComponent = new FileDashboardComponent() {
 			private static final long serialVersionUID = 1L;
 
@@ -46,6 +48,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements
 		};
 		dashboardComponent.setWidth("100%");
 		this.addComponent(dashboardComponent);
+
 	}
 
 	@Override

@@ -67,7 +67,7 @@ import com.vaadin.ui.Label;
  */
 @ViewComponent
 public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
-implements TaskReadView {
+		implements TaskReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,8 @@ implements TaskReadView {
 	private Button quickActionStatusBtn;
 
 	public TaskReadViewImpl() {
-		super("Task Detail", MyCollabResource.newResource( "icons/24/project/task.png"));
+		super("Task Detail", MyCollabResource
+				.newResource("icons/24/project/task.png"));
 	}
 
 	@Override
@@ -134,9 +135,9 @@ implements TaskReadView {
 					|| (beanItem.getActualenddate() != null && (beanItem
 							.getActualenddate().before(new GregorianCalendar()
 							.getTime())))
-							|| (beanItem.getDeadline() != null && (beanItem
-									.getDeadline().before(new GregorianCalendar()
-									.getTime())))) {
+					|| (beanItem.getDeadline() != null && (beanItem
+							.getDeadline().before(new GregorianCalendar()
+							.getTime())))) {
 				addLayoutStyleName(UIConstants.LINK_OVERDUE);
 			}
 		}
@@ -159,8 +160,7 @@ implements TaskReadView {
 		followerSheet.setBean(beanItem);
 		followerSheet.displayMonitorItems();
 
-		timesheet.setBean(beanItem);
-		timesheet.loadTimeValue();
+		timesheet.loadTimeValue(beanItem);
 	}
 
 	@Override
@@ -199,7 +199,7 @@ implements TaskReadView {
 						&& beanItem.getStatus().equals("Close")) {
 					beanItem.setStatus("Open");
 					TaskReadViewImpl.this
-					.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("Close");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
@@ -207,7 +207,7 @@ implements TaskReadView {
 					beanItem.setStatus("Close");
 
 					TaskReadViewImpl.this
-					.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("ReOpen");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
@@ -252,7 +252,7 @@ implements TaskReadView {
 	}
 
 	private class ReadFormFieldFactory extends
-	AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
+			AbstractBeanFieldGroupViewFieldFactory<SimpleTask> {
 		private static final long serialVersionUID = 1L;
 
 		public ReadFormFieldFactory(GenericBeanForm<SimpleTask> form) {
@@ -298,7 +298,7 @@ implements TaskReadView {
 							}
 						},
 						MyCollabResource
-						.newResource("icons/16/project/task_group.png"));
+								.newResource("icons/16/project/task_group.png"));
 			} else if (propertyId.equals("id")) {
 				return new ProjectFormAttachmentDisplayField(
 						beanItem.getProjectid(),

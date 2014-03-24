@@ -51,7 +51,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
-BugAddView {
+		BugAddView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,7 @@ BugAddView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
+			AbstractBeanFieldGroupEditFieldFactory<SimpleBug> {
 
 		private static final long serialVersionUID = 1L;
 
@@ -139,22 +139,21 @@ BugAddView {
 			} else if (propertyId.equals("milestoneid")) {
 				final MilestoneComboBox milestoneBox = new MilestoneComboBox();
 				milestoneBox
-				.addValueChangeListener(new Property.ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+						.addValueChangeListener(new Property.ValueChangeListener() {
+							private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(
-							Property.ValueChangeEvent event) {
-						String milestoneName = milestoneBox
-								.getItemCaption(milestoneBox.getValue());
-						beanItem.setMilestoneName(milestoneName);
-					}
-				});
+							@Override
+							public void valueChange(
+									Property.ValueChangeEvent event) {
+								String milestoneName = milestoneBox
+										.getItemCaption(milestoneBox.getValue());
+								beanItem.setMilestoneName(milestoneName);
+							}
+						});
 				return milestoneBox;
 			} else if (propertyId.equals("estimatetime")
 					|| (propertyId.equals("estimateremaintime"))) {
-				TextField field = new TextField();
-				NumberField.extend(field);
+				NumberField field = new NumberField();
 				return field;
 			}
 
@@ -174,8 +173,7 @@ BugAddView {
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem
-				.getSummary();
+		return (beanItem.getId() == null) ? null : beanItem.getSummary();
 	}
 
 	@Override

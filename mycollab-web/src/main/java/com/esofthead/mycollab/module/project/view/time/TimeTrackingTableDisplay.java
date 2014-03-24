@@ -179,7 +179,28 @@ public class TimeTrackingTableDisplay
 			}
 		});
 
-		this.addGeneratedColumn("createdtime", new ColumnGenerator() {
+		this.addGeneratedColumn("isbillable", new ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(Table source, Object itemId,
+					Object columnId) {
+				final SimpleItemTimeLogging monitorItem = TimeTrackingTableDisplay.this
+						.getBeanByIndex(itemId);
+				Button icon = new Button();
+				if (monitorItem.getIsbillable().booleanValue()) {
+					icon.setIcon(MyCollabResource
+							.newResource("icons/16/yes.png"));
+				} else {
+					icon.setIcon(MyCollabResource
+							.newResource("icons/16/no.png"));
+				}
+				icon.setStyleName("link");
+				return icon;
+			}
+		});
+
+		this.addGeneratedColumn("logforday", new ColumnGenerator() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -188,8 +209,7 @@ public class TimeTrackingTableDisplay
 				final SimpleItemTimeLogging monitorItem = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 				final Label l = new Label();
-				l.setValue(AppContext.formatDateTime(monitorItem
-						.getCreatedtime()));
+				l.setValue(AppContext.formatDate(monitorItem.getLogforday()));
 				return l;
 			}
 		});

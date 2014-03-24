@@ -24,11 +24,13 @@ import java.util.Locale;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedEditItemField;
@@ -69,12 +71,15 @@ import com.vaadin.addon.calendar.ui.handler.BasicForwardHandler;
 import com.vaadin.addon.calendar.ui.handler.BasicWeekClickHandler;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Notification.Type;
@@ -92,21 +97,42 @@ import com.vaadin.ui.Window;
  */
 @ViewComponent
 public class ActivityCalendarViewImpl extends AbstractPageView implements
-		ActivityCalendarView {
+ActivityCalendarView {
 
 	private static final long serialVersionUID = 1L;
 	private final PopupButton calendarActionBtn;
 	private MonthViewCalendar calendarComponent;
-	private ButtonGroup groupViewBtn;
+	private PopupButton toggleViewBtn;
 	private Button monthViewBtn;
-	private PopupButton dateChooser;
+	private Button weekViewBtn;
+	private Button dailyViewBtn;
+	private Label dateHdr;
 	private final StandupStyleCalendarExp datePicker = new StandupStyleCalendarExp();
 
 	public ActivityCalendarViewImpl() {
 		super();
 
-		this.setStyleName("activityCalendar");
-		this.setMargin(true);
+		this.addStyleName("activityCalendar");
+
+		HorizontalLayout contentWrapper = new HorizontalLayout();
+		contentWrapper.setWidth("100%");
+		this.addComponent(contentWrapper);
+
+		/* Content cheat */
+		VerticalLayout mainContent = new VerticalLayout();
+		mainContent.setStyleName("readview-layout");
+		mainContent.setWidth("100%");
+		mainContent.setMargin(new MarginInfo(false, true, true, true));
+		mainContent.setSpacing(true);
+		contentWrapper.addComponent(mainContent);
+		contentWrapper.setExpandRatio(mainContent, 1.0f);
+
+		VerticalLayout rightColumn = new VerticalLayout();
+		rightColumn.setWidth("250px");
+		rightColumn.setSpacing(true);
+		rightColumn.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		rightColumn.setMargin(new MarginInfo(true, false, true, false));
+		contentWrapper.addComponent(rightColumn);
 
 		MenuActionListener listener = new MenuActionListener();
 
@@ -117,57 +143,79 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		HorizontalLayout actionPanel = new HorizontalLayout();
 		actionPanel.setWidth("100%");
 		actionPanel.setSpacing(true);
-		actionPanel.setMargin(true);
-		this.addComponent(actionPanel);
+		actionPanel.setMargin(new MarginInfo(true, false, true, false));
+		actionPanel.setStyleName(UIConstants.HEADER_VIEW);
+		actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		actionPanel.addComponent(new Image(null, MyCollabResource.newResource("icons/22/crm/event.png")));
 
-		groupViewBtn = new ButtonGroup();
+		Label headerText = new Label("Activity Calendar");
+		headerText.setStyleName(UIConstants.HEADER_TEXT);
+		headerText.setSizeUndefined();
+		actionPanel.addComponent(headerText);
+		actionPanel.setExpandRatio(headerText, 1.0f);
+
+		mainContent.addComponent(actionPanel);
+
+		this.dateHdr = new Label();
+		this.dateHdr.setSizeUndefined();
+		this.dateHdr.setStyleName("h2");
+		mainContent.addComponent(this.dateHdr);
+		mainContent.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
+
+		toggleViewBtn = new PopupButton("Monthly");
+		toggleViewBtn.setWidth("200px");
+		VerticalLayout popupLayout = new VerticalLayout();
+		popupLayout.setSpacing(true);
+		popupLayout.setMargin(new MarginInfo(false, true, false, true));
+		popupLayout.setWidth("190px");
+
 		monthViewBtn = new Button("Monthly", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				toggleViewBtn.setPopupVisible(false);
+				toggleViewBtn.setCaption(monthViewBtn.getCaption());
 				calendarComponent.switchToMonthView(new Date(), true);
 				monthViewBtn.addStyleName("selected-style");
 				initLabelCaption();
 			}
 		});
+		monthViewBtn.setStyleName("link");
+		popupLayout.addComponent(monthViewBtn);
 
-		groupViewBtn.addButton(monthViewBtn);
-		Button weekViewBtn = new Button("Weekly", new Button.ClickListener() {
+		weekViewBtn = new Button("Weekly", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				toggleViewBtn.setPopupVisible(false);
+				toggleViewBtn.setCaption(weekViewBtn.getCaption());
 				calendarComponent.switchToWeekView(new Date());
 			}
 		});
-		groupViewBtn.addButton(weekViewBtn);
-		Button dailyViewBtn = new Button("Daily", new Button.ClickListener() {
+		weekViewBtn.setStyleName("link");
+		popupLayout.addComponent(weekViewBtn);
+
+		dailyViewBtn = new Button("Daily", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				toggleViewBtn.setPopupVisible(false);
+				toggleViewBtn.setCaption(dailyViewBtn.getCaption());
 				calendarComponent.switchToDateView(new Date());
 			}
 		});
-		groupViewBtn.addButton(dailyViewBtn);
+		dailyViewBtn.setStyleName("link");
+		popupLayout.addComponent(dailyViewBtn);
 
-		actionPanel.addComponent(groupViewBtn);
-		actionPanel.setComponentAlignment(groupViewBtn, Alignment.MIDDLE_LEFT);
+		toggleViewBtn.setContent(popupLayout);
 
-		HorizontalLayout horizontalWapper = new HorizontalLayout();
-		horizontalWapper.addStyleName("eventdatepicker");
-		horizontalWapper.setMargin(true);
-		this.dateChooser = new PopupButton("");
-		this.dateChooser.setContent(datePicker);
-		dateChooser.setStyleName(UIConstants.THEME_LINK);
-		dateChooser.addStyleName("buttonlinkcenter");
-		horizontalWapper.addComponent(dateChooser);
-		horizontalWapper.setComponentAlignment(dateChooser,
-				Alignment.MIDDLE_CENTER);
-		actionPanel.addComponent(horizontalWapper);
-		actionPanel.setComponentAlignment(horizontalWapper,
-				Alignment.MIDDLE_CENTER);
+		rightColumn.addComponent(toggleViewBtn);
+		rightColumn.setComponentAlignment(toggleViewBtn, Alignment.MIDDLE_CENTER);
+
+		rightColumn.addComponent(this.datePicker);
 		initLabelCaption();
 		addCalendarEvent();
 
@@ -201,14 +249,38 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 
 		calendarActionBtn.setContent(actionBtnLayout);
 
+		ButtonGroup viewSwitcher = new ButtonGroup();
+
+		Button calendarViewBtn = new Button("Calendar");
+		calendarViewBtn.setStyleName("selected");
+		calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		viewSwitcher.addButton(calendarViewBtn);
+
+		Button activityListBtn = new Button("Activities List", new Button.ClickListener() {
+			private static final long serialVersionUID = 2156576556541398934L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(
+						AppContext.getAccountId()));
+				EventBus.getInstance().fireEvent(new ActivityEvent.GotoTodoList(this, null));
+			}
+		});
+		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		viewSwitcher.addButton(activityListBtn);
+
+		actionPanel.addComponent(viewSwitcher);
+		actionPanel.setComponentAlignment(viewSwitcher, Alignment.MIDDLE_RIGHT);
+
 		calendarComponent = new MonthViewCalendar();
-		this.addComponent(calendarComponent);
-		this.setExpandRatio(calendarComponent, 1);
-		this.setComponentAlignment(calendarComponent, Alignment.MIDDLE_CENTER);
+		mainContent.addComponent(calendarComponent);
+		mainContent.setExpandRatio(calendarComponent, 1);
+		mainContent.setComponentAlignment(calendarComponent, Alignment.MIDDLE_CENTER);
 
 		HorizontalLayout spacing = new HorizontalLayout();
 		spacing.setHeight("30px");
-		this.addComponent(spacing);
+		mainContent.addComponent(spacing);
 
 		HorizontalLayout noteInfoLayout = new HorizontalLayout();
 		noteInfoLayout.setSpacing(true);
@@ -247,11 +319,11 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		Label futureLabel = new Label("Future");
 		futureWapper.addComponent(futureLabel);
 		futureWapper
-				.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
+		.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
 		noteInfoLayout.addComponent(futureWapper);
 
-		this.addComponent(noteInfoLayout);
-		this.setComponentAlignment(noteInfoLayout, Alignment.MIDDLE_CENTER);
+		mainContent.addComponent(noteInfoLayout);
+		mainContent.setComponentAlignment(noteInfoLayout, Alignment.MIDDLE_CENTER);
 	}
 
 	private void updateLabelCaption(Date date) {
@@ -261,9 +333,8 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			calendar.setTime(date);
 			DateFormatSymbols s = new DateFormatSymbols();
 			String month = s.getMonths()[calendar.get(GregorianCalendar.MONTH)];
-			dateChooser.setCaption(month + " "
+			dateHdr.setValue(month + " "
 					+ calendar.get(GregorianCalendar.YEAR));
-			this.dateChooser.setWidth("110px");
 			break;
 		case WEEK:
 			java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -278,12 +349,10 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
 			cal.add(java.util.Calendar.DATE, 6);
 			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
-			dateChooser.setCaption(firstDateOfWeek + " - " + endDateOfWeek);
-			this.dateChooser.setWidth("150px");
+			dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
 			break;
 		case DAY:
-			dateChooser.setCaption(AppContext.formatDate(date));
-			this.dateChooser.setWidth("80px");
+			dateHdr.setValue(AppContext.formatDate(date));
 			break;
 		}
 	}
@@ -298,11 +367,11 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 						final Date selectedDate = (Date) event.getProperty()
 								.getValue();
 						calendarComponent
-								.switchCalendarByDatePicker(selectedDate);
+						.switchCalendarByDatePicker(selectedDate);
 						datePicker.setLabelTime(AppContext
 								.formatDate(selectedDate));
 						updateLabelCaption(selectedDate);
-						dateChooser.setPopupVisible(false);
+						//dateHdr.setPopupVisible(false);
 					}
 				});
 
@@ -365,7 +434,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		calendar.setTime(datenow);
 		DateFormatSymbols s = new DateFormatSymbols();
 		String month = s.getMonths()[calendar.get(GregorianCalendar.MONTH)];
-		dateChooser.setCaption(month + " "
+		dateHdr.setValue(month + " "
 				+ calendar.get(GregorianCalendar.YEAR));
 	}
 
@@ -429,7 +498,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 				private static final long serialVersionUID = 1L;
 
 				public FormLayoutFactory() {
-					super((meeting.getId() == null) ? "Create Event" : meeting
+					super(meeting.getId() == null ? "Create Event" : meeting
 							.getSubject());
 				}
 
@@ -443,23 +512,23 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 					layout.setStyleName("addNewControl");
 					Button saveBtn = new Button("Save",
 							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									if (EditForm.this.validateForm()) {
-										MeetingService meetingService = ApplicationContextUtil
-												.getSpringBean(MeetingService.class);
-										meetingService.saveWithSession(meeting,
-												AppContext.getUsername());
-										QuickCreateEventWindow.this.close();
-										EventBus.getInstance().fireEvent(
-												new ActivityEvent.GotoCalendar(
-														this, null));
-									}
+						@Override
+						public void buttonClick(ClickEvent event) {
+							if (EditForm.this.validateForm()) {
+								MeetingService meetingService = ApplicationContextUtil
+										.getSpringBean(MeetingService.class);
+								meetingService.saveWithSession(meeting,
+										AppContext.getUsername());
+								QuickCreateEventWindow.this.close();
+								EventBus.getInstance().fireEvent(
+										new ActivityEvent.GotoCalendar(
+												this, null));
+							}
 
-								}
-							});
+						}
+					});
 					saveBtn.setIcon(MyCollabResource
 							.newResource("icons/16/save.png"));
 					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -468,13 +537,13 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 							Alignment.MIDDLE_CENTER);
 					Button cancelBtn = new Button("Cancel",
 							new ClickListener() {
-								private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									QuickCreateEventWindow.this.close();
-								}
-							});
+						@Override
+						public void buttonClick(ClickEvent event) {
+							QuickCreateEventWindow.this.close();
+						}
+					});
 					cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 					cancelBtn.setIcon(MyCollabResource
 							.newResource("icons/16/cancel.png"));
@@ -499,7 +568,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			}
 
 			private class EditFormFieldFactory extends
-					AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+			AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
 				private static final long serialVersionUID = 1L;
 
 				public EditFormFieldFactory(
@@ -621,12 +690,12 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 						calendar.add(java.util.Calendar.DATE, 6);
 						String endDateOfWeek = DateTimeUtils
 								.formatDate(calendar.getTime());
-						dateChooser.setCaption(firstDateOfWeek + " - "
+						dateHdr.setValue(firstDateOfWeek + " - "
 								+ endDateOfWeek);
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, 1);
-						dateChooser.setCaption(DateTimeUtils
+						dateHdr.setValue(DateTimeUtils
 								.formatDate(calendar.getTime()));
 						break;
 					case MONTH:
@@ -652,12 +721,12 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 						calendar.add(java.util.Calendar.DATE, 6);
 						String endDateOfWeek = DateTimeUtils
 								.formatDate(calendar.getTime());
-						dateChooser.setCaption(firstDateOfWeek + " - "
+						dateHdr.setValue(firstDateOfWeek + " - "
 								+ endDateOfWeek);
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, -1);
-						dateChooser.setCaption(DateTimeUtils
+						dateHdr.setValue(DateTimeUtils
 								.formatDate(calendar.getTime()));
 						break;
 					case MONTH:
@@ -734,7 +803,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 								AppContext.getUsername());
 						NotificationUtil.showNotification("Success",
 								"Event: \"" + simpleMeeting.getSubject()
-										+ "\" has been updated!",
+								+ "\" has been updated!",
 								Type.HUMANIZED_MESSAGE);
 						EventBus.getInstance().fireEvent(
 								new ActivityEvent.GotoCalendar(this, null));
@@ -786,7 +855,6 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		}
 
 		private void switchToWeekView(Date date) {
-			dateChooser.setWidth("150px");
 			viewMode = Mode.WEEK;
 			calendar.setTime(date);
 			java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -801,21 +869,19 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
 			cal.add(java.util.Calendar.DATE, 6);
 			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
-			dateChooser.setCaption(firstDateOfWeek + " - " + endDateOfWeek);
+			dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
 		}
 
 		private void switchToDateView(Date date) {
-			dateChooser.setWidth("80px");
 			viewMode = Mode.DAY;
 			calendar.setTime(date);
 			DateClickHandler handler = (DateClickHandler) calendarComponent
 					.getHandler(DateClickEvent.EVENT_ID);
 			handler.dateClick(new DateClickEvent(calendarComponent, date));
-			dateChooser.setCaption(AppContext.formatDate(date));
+			dateHdr.setValue(AppContext.formatDate(date));
 		}
 
 		private void switchToMonthView(Date date, boolean isViewCurrentMonth) {
-			dateChooser.setWidth("110px");
 			viewMode = Mode.MONTH;
 			calendar = new GregorianCalendar();
 			calendar.setTime(date);
@@ -854,6 +920,15 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 				calendar.set(GregorianCalendar.SECOND, 0);
 				calendar.set(GregorianCalendar.MILLISECOND, 0);
 			}
+		}
+	}
+
+	@Override
+	public void attach() {
+		super.attach();
+
+		if(this.getParent() instanceof CustomLayout) {
+			this.getParent().addStyleName("preview-comp");
 		}
 	}
 }

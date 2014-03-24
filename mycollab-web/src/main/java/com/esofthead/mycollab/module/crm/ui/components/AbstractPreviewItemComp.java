@@ -26,9 +26,11 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -42,12 +44,12 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 
 	protected B beanItem;
 	protected AddViewLayout2 previewLayout;
+	protected VerticalLayout previewContent;
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected VerticalTabsheet previewItemContainer;
 
 	public AbstractPreviewItemComp(Resource iconResource) {
 		previewItemContainer = new VerticalTabsheet(false);
-		previewItemContainer.addStyleName("preview-comp");
 
 		this.addComponent(previewItemContainer);
 		previewItemContainer.setSizeFull();
@@ -73,9 +75,11 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 
 		previewLayout = new AddViewLayout2("", iconResource);
 
-		initRelatedComponents();
+		previewContent = new VerticalLayout();
+		previewContent.setWidth("100%");
 
 		previewForm = initPreviewForm();
+		previewForm.addStyleName("preview-form");
 		previewLayout.setStyleName("readview-layout");
 		previewLayout.setMargin(new MarginInfo(false, true, false, true));
 
@@ -84,9 +88,27 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 			previewLayout.addHeaderRight(actionControls);
 		}
 
-		previewLayout.addBody(previewForm);
-		previewLayout.addBody(createBottomPanel());
+		previewItemContainer.replaceContainer(previewLayout, previewLayout.getBody());
+
+		initRelatedComponents();
+
+		//previewLayout.addBody(previewItemContainer.getContentWrapper());
+		previewContent.addComponent(previewForm);
+		previewContent.addComponent(createBottomPanel());
 	}
+
+
+
+	@Override
+	public void attach() {
+		super.attach();
+
+		if(this.getParent() instanceof CustomLayout) {
+			this.getParent().addStyleName("preview-comp");
+		}
+	}
+
+
 
 	public void previewItem(final B item) {
 		this.beanItem = item;

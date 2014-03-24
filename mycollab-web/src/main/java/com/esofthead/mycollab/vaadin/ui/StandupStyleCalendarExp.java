@@ -25,6 +25,7 @@ import org.vaadin.risto.stylecalendar.DateOptionsGenerator;
 import org.vaadin.risto.stylecalendar.StyleCalendar;
 
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -50,7 +51,7 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 
 	public StandupStyleCalendarExp() {
 		this.setWidth("230px");
-		this.setHeight("170px");
+		this.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		this.setSpacing(false);
 
 		styleCalendar.setRenderHeader(false);
@@ -121,7 +122,6 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 
 		this.addComponent(styleCalendar);
 		this.setExpandRatio(styleCalendar, 1.0f);
-		this.setComponentAlignment(styleCalendar, Alignment.MIDDLE_CENTER);
 	}
 
 	public void setLabelTime(String date) {
@@ -179,9 +179,9 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 		c1.setTime(date);
 		c2.setTime(styleCalendar.getShowingDate());
 
-		return (c1.get(Calendar.DATE) <= c2
-				.getActualMaximum(Calendar.DAY_OF_MONTH))
-				&& (c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH));
+		return c1.get(Calendar.DATE) <= c2
+				.getActualMaximum(Calendar.DAY_OF_MONTH)
+				&& c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH);
 	}
 
 	private boolean dateEquals(Date first, Date second) {
@@ -191,9 +191,9 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 		c1.setTime(first);
 		c2.setTime(second);
 
-		return ((c1.get(Calendar.DATE) == c2.get(Calendar.DATE))
-				&& (c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)) && (c1
-					.get(Calendar.YEAR) == c2.get(Calendar.YEAR)));
+		return c1.get(Calendar.DATE) == c2.get(Calendar.DATE)
+				&& c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1
+				.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
 	}
 
 	public StyleCalendar getStyleCalendar() {

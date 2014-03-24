@@ -197,7 +197,7 @@ implements AccountReadView {
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewLayout, "About");
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");
 		previewItemContainer.addTab(associateLeadList, "Leads");
 		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
@@ -228,6 +228,8 @@ implements AccountReadView {
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
+
+		previewItemContainer.selectTab("About");
 	}
 
 	@Override

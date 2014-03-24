@@ -183,10 +183,6 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 			});
 			UiUtils.addComponent(basicSearchBody, cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Separator separator2 = new Separator();
-
-			UiUtils.addComponent(basicSearchBody, separator2, Alignment.MIDDLE_LEFT);
-
 			final Button advancedSearchBtn = new Button(
 					LocalizationHelper
 					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),

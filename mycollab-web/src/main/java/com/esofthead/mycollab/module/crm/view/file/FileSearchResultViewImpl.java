@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.file.view.components.FileSearchResultCompon
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.shared.ui.MarginInfo;
 
 @ViewComponent
 public class FileSearchResultViewImpl extends AbstractPageView implements
@@ -43,6 +44,7 @@ public class FileSearchResultViewImpl extends AbstractPageView implements
 			}
 		};
 		this.addComponent(searchResultComp);
+		this.setMargin(true);
 	}
 
 	@Override

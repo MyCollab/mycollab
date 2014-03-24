@@ -29,13 +29,16 @@ import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -72,13 +75,13 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								LocalizationHelper.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
+										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -91,9 +94,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-													.fireEvent(
-															new ActivityEvent.GotoTodoList(
-																	this, null));
+											.fireEvent(
+													new ActivityEvent.GotoTodoList(
+															this, null));
 										}
 									}
 								});
@@ -127,9 +130,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getNextItemKey(criteria);
 						if (nextId != null) {
 							EventBus.getInstance()
-									.fireEvent(
-											new ActivityEvent.MeetingRead(this,
-													nextId));
+							.fireEvent(
+									new ActivityEvent.MeetingRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -149,9 +152,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
 							EventBus.getInstance()
-									.fireEvent(
-											new ActivityEvent.MeetingRead(this,
-													nextId));
+							.fireEvent(
+									new ActivityEvent.MeetingRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}
@@ -162,6 +165,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
+			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
+			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+
 			SimpleMeeting meeting = null;
 			if (data.getParams() instanceof Integer) {
 				MeetingService meetingService = ApplicationContextUtil
@@ -176,8 +182,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 				throw new MyCollabException("Invalid data: " + data);
 			}
 
-			container.removeAllComponents();
-			container.addComponent(view.getWidget());
+			super.onGo(container, data);
 
 			view.previewItem(meeting);
 

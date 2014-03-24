@@ -45,60 +45,31 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 
 	private static final long serialVersionUID = 1L;
 
-	private ComboBox userSelectionBox;
+	private ProjectMemberSelectionBox memberSelectionBox;
 
 	public ProjectMemberSelectionField() {
 		super();
-
-		userSelectionBox = new ComboBox();
-		userSelectionBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		userSelectionBox.setNullSelectionAllowed(false);
-
-		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
-		criteria.setStatus(new StringSearchField(
-				ProjectMemberStatusConstants.ACTIVE));
-
-		ProjectMemberService userService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-		List<SimpleProjectMember> memberList = userService
-				.findPagableListByCriteria(new SearchRequest<ProjectMemberSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
-		loadUserList(memberList);
-	}
-
-	private void loadUserList(List<SimpleProjectMember> memberList) {
-
-		for (SimpleProjectMember member : memberList) {
-			userSelectionBox.addItem(member.getUsername());
-			userSelectionBox.setItemCaption(member.getUsername(),
-					member.getDisplayName());
-			userSelectionBox.setItemIcon(
-					member.getUsername(),
-					UserAvatarControlFactory.createAvatarResource(
-							member.getMemberAvatarId(), 16));
-		}
+		memberSelectionBox = new ProjectMemberSelectionBox();
 	}
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof String) {
-			userSelectionBox.setValue(value);
+			memberSelectionBox.setValue(value);
 		}
 		super.setPropertyDataSource(newDataSource);
 	}
 
 	@Override
 	public void commit() throws SourceException, InvalidValueException {
-		this.setInternalValue((String) userSelectionBox.getValue());
+		this.setInternalValue((String) memberSelectionBox.getValue());
 		super.commit();
 	}
 
 	@Override
 	protected Component initContent() {
-		return userSelectionBox;
+		return memberSelectionBox;
 	}
 
 	@Override

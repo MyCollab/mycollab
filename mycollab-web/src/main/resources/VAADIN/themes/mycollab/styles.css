@@ -420,6 +420,11 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	background-color:#17d61b;
 	color:white;
 	font-weight:normal;
+	border-color: rgb(66, 129, 68);
+}
+
+.v-button.v-button-greenbtn.selected {
+	background-color: rgb(22, 151, 25);
 }
 
 .v-button-greenbtn:hover, .v-button-greenbtn:active{
@@ -566,8 +571,8 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	padding:0;
 }
 .splitbutton .v-popupbutton .v-button-wrap {
-	padding-left:2px;
-	padding-right:6px;
+	padding-left:3px;
+	padding-right:3px;
 }
 
 
@@ -1092,9 +1097,21 @@ input.v-textfield-pagedtable-pagefield {
 /* End Basic Search Template */
 
 /* CRM Service */
-
+.crm-module, .crm-module .crmContainer-wrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-height: 100%;
+}
+.crmContainer {
+	width: 100%:
+}
+.crmContainer-wrap.preview-comp {
+	background: url("icons/crm-module-bg.jpg") repeat-y right top #FFFFFF;
+}
 .crmContainer .main-view {
 	background-color: #FFFFFF;
+	min-height: 100%;
 }
 .crmContainer .crm-toolbar.v-margin-right, .crmContainer .main-view.v-margin-right {
 	padding-right: 30px;
@@ -1119,7 +1136,7 @@ input.v-textfield-pagedtable-pagefield {
 	font-weight: bold;
 }
 
-.crmContainer .main-view .preview-comp {
+.crmContainer.preview-comp {
 	min-height: 100%;
 }
 
@@ -2419,8 +2436,8 @@ input.v-textfield-errorField {
 	line-height: 30px;
 }
 
-.v-calendar-header-week {
-	margin-top: 10px;
+.stylecalendar.v-widget {
+	border-radius: 0px;
 }
 
 .v-calendar-header-week td:nth-of-type(2) .v-calendar-header-day-Hsized
@@ -3979,8 +3996,10 @@ div.v-lazyloadingwrapper-loading {
 /* Toggle Button Group */
 .v-buttongroup.toggle-btn-group .v-button.selected,.v-buttongroup.toggle-btn-group .v-button.selected:active,.v-buttongroup.toggle-btn-group .v-button.selected:focus
 	{
-	background: url("icons/grad-dark-top2.png") no-repeat scroll left bottom
-		rgb(40, 126, 206);
+	background-image: url("icons/grad-dark-top2.png");
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	background-color: rgb(40, 126, 206);
 }
 
 .v-buttongroup.toggle-btn-group .v-button.v-button-left,.v-buttongroup.toggle-btn-group .v-button.v-button-middle,.v-buttongroup.toggle-btn-group .v-button.v-button-right
@@ -4019,13 +4038,17 @@ div.v-lazyloadingwrapper-loading {
 
 .v-buttongroup.toggle-btn-group .v-button.v-button-left:active,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:active,.v-buttongroup.toggle-btn-group .v-button.v-button-right:active,.v-buttongroup.toggle-btn-group .v-button.v-button-left:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-right:focus
 	{
-	background: url("icons/grad-dark-top2.png") no-repeat scroll left bottom
-		rgb(40, 126, 206);
+	background-image: url("icons/grad-dark-top2.png");
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	background-color: rgb(40, 126, 206);
 }
 
 .v-buttongroup.toggle-btn-group .v-button {
-	background: url("icons/grad-dark-bottom2.png") repeat-x scroll left
-		bottom rgb(123, 123, 123);
+	background-image: url("icons/grad-dark-bottom2.png");
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	background-color: rgb(123, 123, 123);
 	color: white;
 }
 /* End Toggle Button Group */
@@ -4634,8 +4657,10 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 	padding-left: 5px;
 }
 
-.addview-layout-body {
-	border: 1px solid #CFCFCF;
+.addview-layout-body .preview-form {
+	border-color: #CFCFCF;
+	border-width: 1px 1px 0px;
+	border-style: solid;
 }
 
 .addview-layout-body .h2 {
@@ -6008,7 +6033,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
     padding: 3px 7px 3px 2px;
 }
 
-.splitbutton .v-popupbutton, .splitbutton .v-popupbutton:active, .splitbutton .v-popupbutton.greenbtn, .splitbutton .v-popupbutton.graybtn
+.splitbutton .v-popupbutton, .splitbutton .v-popupbutton:active, .splitbutton .v-popupbutton.greenbtn, .splitbutton .v-popupbutton.graybtn, .splitbutton .v-popupbutton.bluebtn, .splitbutton .v-popupbutton.brownbtn
 {
 	/* border-width: 1px; */
 	/* border-right: 1px solid #093768; */
@@ -6024,8 +6049,11 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 .v-button-graybtn.v-popupbutton .v-popup-indicator , .splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
 	{
-	background: url("icons/sprites.png") no-repeat scroll -6px -10px transparent;
+	background: url("icons/sprites.png") no-repeat scroll -7px -10px transparent;
 }
+.v-popupbutton .v-popup-indicator {
+	
+} 
 /* End new splitbutton */
 
 /* VerticalTabsheet */
@@ -6048,14 +6076,11 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 .vertical-tabsheet .v-button-tab>.v-button-wrap {
 	background: none no-repeat 0 0 transparent;
+	background-image:none;
 	border-radius: 0px;
 	text-align: left;
 	border: none;
-	padding: 9px 35px;
-	transition:All 0.2s ease;
-	-webkit-transition:All 0.2s ease;
-	-moz-transition:All 0.2s ease;
-	-o-transition:All 0.2s ease;
+	padding: 9px 25px;
 	color: #FFFFFF;
 }
 .vertical-tabsheet .v-button-tab.tab-selected>.v-button-wrap {
@@ -6088,7 +6113,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
 	border-bottom-left-radius: 5px;
-	border: 1px solid #8F8F8F;
+	//*border: 1px solid #8F8F8F;*/
 	overflow: hidden;
 }
 .verticalTabView .sidebar-menu {
@@ -6096,7 +6121,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 .verticalTabView .sidebar-menu {
-	padding: 10px 0px;
+	padding: 0px 0px;
 }
 
 .verticalTabView .sidebar-menu .v-label.sectionHeader {
@@ -6438,6 +6463,9 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	color: #525252;
 	font-weight: bold;
 }
+.hdr-view .hdr-text > img {
+	vertical-align: middle;
+}
 .hdr-view .hdr-text .v-popup-indicator {
 	height:14px;
 }
@@ -6608,3 +6636,26 @@ img.icon-btn {
 	padding: 0px;
 }
 
+/* Bean Block List */
+div.v-csslayout.bean-block {
+	display: inline-block;
+	background-color: #e9f2f7;
+	margin-bottom: 15px;
+	font-size: 12px;
+	vertical-align: top;
+	width: 290px;
+	margin-right: 11px;
+	border-width: 1px;
+	border-radius: 2px;
+	border-style: solid;
+	padding: 5px 5px 10px 15px;
+	border-color: #bebebe;
+}
+.bean-block .icon-wrap {
+	padding: 5px 10px 0px 0px;
+}
+/* End Bean Block List */
+
+.notification-label {
+	background-color:#fff0e3;
+}

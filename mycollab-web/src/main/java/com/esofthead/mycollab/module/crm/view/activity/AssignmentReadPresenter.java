@@ -29,13 +29,16 @@ import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -48,7 +51,7 @@ import com.vaadin.ui.UI;
  * 
  */
 public class AssignmentReadPresenter extends
-		CrmGenericPresenter<AssignmentReadView> {
+CrmGenericPresenter<AssignmentReadView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,13 +76,13 @@ public class AssignmentReadPresenter extends
 								LocalizationHelper.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
+										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -92,9 +95,9 @@ public class AssignmentReadPresenter extends
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-													.fireEvent(
-															new ActivityEvent.GotoTodoList(
-																	this, null));
+											.fireEvent(
+													new ActivityEvent.GotoTodoList(
+															this, null));
 										}
 									}
 								});
@@ -157,6 +160,9 @@ public class AssignmentReadPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
+			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
+			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+
 			SimpleTask task = null;
 			if (data.getParams() instanceof Integer) {
 				TaskService taskService = ApplicationContextUtil
@@ -171,8 +177,7 @@ public class AssignmentReadPresenter extends
 				throw new MyCollabException("Invalid data " + data);
 			}
 
-			container.removeAllComponents();
-			container.addComponent(view.getWidget());
+			super.onGo(container, data);
 			view.previewItem(task);
 			AppContext.addFragment(CrmLinkGenerator
 					.generateTaskPreviewLink(task.getId()), LocalizationHelper

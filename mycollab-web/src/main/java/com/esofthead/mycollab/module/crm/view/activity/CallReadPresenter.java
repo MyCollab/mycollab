@@ -29,13 +29,16 @@ import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -72,13 +75,13 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 								LocalizationHelper.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+										LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
+										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -91,9 +94,9 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-													.fireEvent(
-															new ActivityEvent.GotoTodoList(
-																	this, null));
+											.fireEvent(
+													new ActivityEvent.GotoTodoList(
+															this, null));
 										}
 									}
 								});
@@ -156,6 +159,9 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
+			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
+			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+
 			SimpleCall call = null;
 			if (data.getParams() instanceof Integer) {
 				CallService callService = ApplicationContextUtil
@@ -170,8 +176,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 				throw new MyCollabException("Invalid data: " + data);
 			}
 
-			container.removeAllComponents();
-			container.addComponent(view.getWidget());
+			super.onGo(container, data);
 
 			view.previewItem(call);
 			AppContext.addFragment(CrmLinkGenerator

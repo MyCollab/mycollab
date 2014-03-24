@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bouncycastle.asn1.cmp.OOBCertHash;
+
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
@@ -49,6 +51,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -79,11 +82,16 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 		HorizontalLayout headerBox = new HorizontalLayout();
 		headerBox.setSpacing(true);
-		headerBox.addComponent(new Label("Saved Filter: "));
+		headerBox.setMargin(new MarginInfo(true, false, false, true));
+		headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+		UiUtils.addComponent(headerBox, new Label("&nbsp; Saved Filter: ",
+				ContentMode.HTML), Alignment.MIDDLE_LEFT);
+
 		filterBox = new HorizontalLayout();
 		filterBox.setSpacing(true);
-		headerBox.addComponent(filterBox);
-		this.addComponent(filterBox);
+		UiUtils.addComponent(headerBox, filterBox, Alignment.MIDDLE_LEFT);
+		this.addComponent(headerBox);
 		buildFilterBox(null);
 
 		this.searchContainer = new VerticalLayout();
@@ -93,6 +101,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 		controlsBtn = new HorizontalLayout();
 		controlsBtn.setSpacing(true);
+		controlsBtn.setMargin(true);
 
 		Button addCriteriaBtn = new Button("Add Criteria",
 				new Button.ClickListener() {
@@ -105,6 +114,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						searchContainer.addComponent(newCriteriaBar);
 					}
 				});
+		addCriteriaBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
+		addCriteriaBtn
+				.setIcon(MyCollabResource.newResource("icons/16/add.png"));
+		UiUtils.addComponent(this, addCriteriaBtn, Alignment.MIDDLE_CENTER);
+
 		controlsBtn.addComponent(addCriteriaBtn);
 
 		this.addComponent(searchContainer);
@@ -113,10 +127,6 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 	private void buildFilterBox(String queryname) {
 		filterBox.removeAllComponents();
-		filterBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
-		placeHolder.setWidth("85px");
-		filterBox.addComponent(placeHolder);
 
 		filterComboBox = new SavedSearchResultComboBox();
 		filterComboBox.setWidth("125px");
@@ -131,6 +141,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						buildSaveFilterBox();
 					}
 				});
+		saveSearchBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		saveSearchBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
 		filterBox.addComponent(saveSearchBtn);
 
 		if (queryname != null) {
@@ -140,7 +153,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 	private void buildSaveFilterBox() {
 		filterBox.removeAllComponents();
+
 		final TextField queryTextField = new TextField();
+		queryTextField.setWidth("125px");
 		filterBox.addComponent(queryTextField);
 
 		Button saveBtn = new Button("Save", new Button.ClickListener() {
@@ -523,7 +538,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 		private SearchField buildSearchField() {
 			Param param = (Param) fieldSelectionBox.getValue();
-			String prefixOperation = (String) operatorSelectionBox.getValue();
+			String prefixOperation = (operatorSelectionBox != null) ? (String) operatorSelectionBox
+					.getValue() : "AND";
 			if (param != null) {
 				String compareOper = (String) compareSelectionBox.getValue();
 
@@ -681,6 +697,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 						if (filterBox.getComponentCount() <= 2) {
 							Button updateBtn = new Button("Update");
+							updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 							updateBtn
 									.addClickListener(new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
@@ -706,8 +723,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 										}
 									});
 							SplitButton optionBtn = new SplitButton(updateBtn);
-
+							optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
 							final VerticalLayout optionContent = new VerticalLayout();
+
 							Button deleteBtn = new Button("Delete",
 									new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
@@ -730,6 +748,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 											contructComboBox();
 										}
 									});
+							deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
+							deleteBtn.setIcon(MyCollabResource
+									.newResource("icons/16/delete2.png"));
 							optionContent.addComponent(deleteBtn);
 							optionBtn.setContent(optionContent);
 

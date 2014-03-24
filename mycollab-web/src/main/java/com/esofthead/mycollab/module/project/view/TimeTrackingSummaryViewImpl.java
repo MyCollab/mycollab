@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
 import com.esofthead.mycollab.module.project.view.time.TimeTrackingTableDisplay;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
@@ -190,7 +191,8 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			}
 		});
 		exportButtonControl = new SplitButton(exportBtn);
-		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED,
+				Sizeable.Unit.PIXELS);
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
@@ -220,9 +222,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		contentWrapper.addComponent(controlsPanel);
 
 		this.tableItem = new TimeTrackingTableDisplay(Arrays.asList(
-				TimeTrackingFieldDef.summary, TimeTrackingFieldDef.logUser,
-				TimeTrackingFieldDef.project, TimeTrackingFieldDef.createdTime,
-				TimeTrackingFieldDef.timeLogValue));
+				TimeTableFieldDef.summary, TimeTableFieldDef.logUser,
+				TimeTableFieldDef.project, TimeTableFieldDef.logValue,
+				TimeTableFieldDef.billable, TimeTableFieldDef.logForDate));
 
 		this.tableItem
 				.addTableListener(new ApplicationEventListener<TableClickEvent>() {

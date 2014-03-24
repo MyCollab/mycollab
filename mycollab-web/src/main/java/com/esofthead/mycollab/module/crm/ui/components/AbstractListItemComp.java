@@ -106,6 +106,7 @@ AbstractPageView implements ListView<S, B> {
 		extraControlsLayout = new HorizontalLayout();
 		extraControlsLayout.setSpacing(true);
 		layout.addComponent(extraControlsLayout);
+		extraControlsLayout.addStyleName(UIConstants.THEME_SMALL_PADDING);
 		layout.setComponentAlignment(this.extraControlsLayout,
 				Alignment.MIDDLE_RIGHT);
 
@@ -113,7 +114,7 @@ AbstractPageView implements ListView<S, B> {
 		contentLayout.addComponent(this.tableItem);
 
 		buildExtraControls();
-		searchPanel.addHeaderRight(extraControlsLayout);
+		layout.addComponent(extraControlsLayout);
 	}
 
 	@Override

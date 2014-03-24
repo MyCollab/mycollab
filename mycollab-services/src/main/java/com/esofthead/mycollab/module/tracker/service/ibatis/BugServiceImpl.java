@@ -147,11 +147,6 @@ public class BugServiceImpl extends
 	}
 
 	@Override
-	public List<GroupItem> getBugStatusTrendSummary(BugSearchCriteria criteria) {
-		return bugMapperExt.getBugStatusTrendSummary(criteria);
-	}
-
-	@Override
 	public List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
 			@CacheKey BugSearchCriteria criteria) {
 		return bugMapperExt.getBugStatusGroupItemBaseComponent(criteria);

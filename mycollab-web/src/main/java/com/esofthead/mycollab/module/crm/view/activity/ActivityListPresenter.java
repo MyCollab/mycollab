@@ -21,19 +21,23 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
+import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
+import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MailFormWindow;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -46,9 +50,10 @@ import com.vaadin.ui.UI;
  * 
  */
 public class ActivityListPresenter
-		extends
-		ListSelectionPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
+extends
+CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
 	private static final long serialVersionUID = 1L;
+	private EventService eventService;
 
 	public ActivityListPresenter() {
 		super(ActivityListView.class);
@@ -57,6 +62,7 @@ public class ActivityListPresenter
 	@Override
 	protected void postInitView() {
 		super.postInitView();
+		eventService = ApplicationContextUtil.getSpringBean(EventService.class);
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
@@ -86,10 +92,19 @@ public class ActivityListPresenter
 				|| AppContext.canRead(RolePermissionCollections.CRM_TASK)
 				|| AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 
-			container.removeAllComponents();
-			container.addComponent(view.getWidget());
+			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			crmToolbar.gotoItem(LocalizationHelper
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-			doSearch((ActivitySearchCriteria) data.getParams());
+			searchCriteria = (ActivitySearchCriteria) data.getParams();
+			int totalCount = eventService.getTotalCount(searchCriteria);
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
+
 			AppContext.addFragment("crm/activity/todo", "Activity To Do");
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

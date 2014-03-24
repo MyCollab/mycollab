@@ -68,8 +68,4 @@ public interface BugService extends
 	@Cacheable
 	List<GroupItem> getComponentDefectsSummary(
 			@CacheKey BugSearchCriteria searchCriteria);
-
-	@Cacheable
-	List<GroupItem> getBugStatusTrendSummary(
-			@CacheKey BugSearchCriteria criteria);
 }

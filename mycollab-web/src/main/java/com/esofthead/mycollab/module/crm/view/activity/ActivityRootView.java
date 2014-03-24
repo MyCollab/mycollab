@@ -85,29 +85,29 @@ public class ActivityRootView extends AbstractPageView {
 				MyCollabResource.newResource("icons/22/crm/activitylist.png"));
 
 		activityTabs
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+		.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						String caption = tab.getCaption();
+			@Override
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				Tab tab = ((VerticalTabsheet) event.getSource())
+						.getSelectedTab();
+				String caption = tab.getCaption();
 
-						if ("Calendar".equals(caption)) {
-							calendarPresenter.go(ActivityRootView.this,
-									new ActivityScreenData.GotoCalendar());
-						} else if ("Activities List".equals(caption)) {
-							ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-							criteria.setSaccountid(new NumberSearchField(
-									AppContext.getAccountId()));
-							eventPresenter.go(ActivityRootView.this,
-									new ActivityScreenData.GotoActivityList(
-											criteria));
-						}
+				if ("Calendar".equals(caption)) {
+					calendarPresenter.go(ActivityRootView.this,
+							new ActivityScreenData.GotoCalendar());
+				} else if ("Activities List".equals(caption)) {
+					ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							AppContext.getAccountId()));
+					eventPresenter.go(ActivityRootView.this,
+							new ActivityScreenData.GotoActivityList(
+									criteria));
+				}
 
-					}
-				});
+			}
+		});
 	}
 
 	private ComponentContainer constructCalendarView() {

@@ -40,13 +40,13 @@
         
         #ifnotnull($searchCriteria.rangeDate)
             ${searchCriteria.rangeDate.operation}
-            CAST(m_prj_time_logging.createdTime AS DATE ) BETWEEN @{searchCriteria.rangeDate.from} AND @{searchCriteria.rangeDate.to}
+            CAST(m_prj_time_logging.logForDay AS DATE ) BETWEEN @{searchCriteria.rangeDate.from} AND @{searchCriteria.rangeDate.to}
         #end
         
         #ifnotnull($searchCriteria.logUsers)
             ${searchCriteria.logUsers.operation}
             m_prj_time_logging.loguser IN
-            #repeat(${searchCriteria.assignUsers.logUsers} $logUser "," "(" ")")
+            #repeat(${searchCriteria.logUsers.values} $logUser "," "(" ")")
                 @{logUser}
             #end
         #end
@@ -56,6 +56,7 @@
     <sql id="selectTask">
         <![CDATA[
           	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                 m_prj_time_logging.logForDay, m_prj_time_logging.isBillable,
                  m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
                  s_user.avatarId AS logUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
@@ -72,6 +73,7 @@
     <sql id="selectBug">
         <![CDATA[
         SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                 m_prj_time_logging.logForDay, m_prj_time_logging.isBillable,
                  m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
                  s_user.avatarId AS logUserAvatarId,
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,

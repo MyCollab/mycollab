@@ -46,6 +46,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -55,13 +56,13 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class CampaignReadViewImpl extends
-		AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
+AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	protected CampaignAccountListComp associateAccountList;
-	protected CampaignContactListComp associateContactList;
-	protected CampaignLeadListComp associateLeadList;
+	protected CampaignAccountListComp2 associateAccountList;
+	protected CampaignContactListComp2 associateContactList;
+	protected CampaignLeadListComp2 associateLeadList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -100,25 +101,34 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		associateAccountList = new CampaignAccountListComp();
-		associateContactList = new CampaignContactListComp();
-		associateLeadList = new CampaignLeadListComp();
+		associateAccountList = new CampaignAccountListComp2();
+		associateContactList = new CampaignContactListComp2();
+		associateLeadList = new CampaignLeadListComp2();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems("Notes");
 
-		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		peopleInfoComp = new PeopleInfoComp();
-		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
-		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
 
-		previewItemContainer.addTab(previewLayout, "About");
+		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
+
+		dateInfoComp = new DateInfoComp();
+		basicInfo.addComponent(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		basicInfo.addComponent(peopleInfoComp);
+
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
+
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.addTab(associateAccountList, "Accounts");
 		previewItemContainer.addTab(associateContactList, "Contacts");
 		previewItemContainer.addTab(associateLeadList, "Leads");
 		previewItemContainer.addTab(associateActivityList, "Activities");
-
-		previewItemContainer.selectTab("About");
 	}
 
 	protected void displayNotes() {
@@ -146,6 +156,7 @@ public class CampaignReadViewImpl extends
 		associateLeadList.displayLeads(beanItem);
 	}
 
+	@Override
 	public AdvancedPreviewBeanForm<SimpleCampaign> getPreviewForm() {
 		return previewForm;
 	}
@@ -159,6 +170,8 @@ public class CampaignReadViewImpl extends
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
+
+		previewItemContainer.selectTab("About");
 	}
 
 	@Override

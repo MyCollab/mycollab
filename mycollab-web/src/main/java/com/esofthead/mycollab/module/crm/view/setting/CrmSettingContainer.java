@@ -25,9 +25,11 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -48,16 +50,19 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		contentWrapper.setStyleName("verticalTabView");
 		contentWrapper.setWidth("100%");
 		this.addComponent(contentWrapper);
+		
+		
 
-		settingTab = new VerticalTabsheet();
+		settingTab = new VerticalTabsheet(false);
 		settingTab.setSizeFull();
-		settingTab.setNavigatorWidth("170px");
+		settingTab.setNavigatorWidth("250px");
 		settingTab.setNavigatorStyleName("sidebar-menu");
 		settingTab.setContainerStyleName("tab-content");
 		settingTab.setHeight(null);
 
 		buildComponents();
 		contentWrapper.addComponent(settingTab);
+		
 	}
 
 	private void buildComponents() {

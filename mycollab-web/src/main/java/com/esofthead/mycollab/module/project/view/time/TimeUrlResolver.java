@@ -26,6 +26,12 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TimeTrackingScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class TimeUrlResolver extends ProjectUrlResolver {
 	public TimeUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());

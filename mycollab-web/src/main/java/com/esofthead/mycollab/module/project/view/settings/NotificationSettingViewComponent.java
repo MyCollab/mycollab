@@ -26,16 +26,19 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
@@ -66,30 +69,59 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 
 	private void constructBody() {
 		this.setWidth("100%");
-		this.setHeight("220px");
 		this.setSpacing(true);
+		this.addStyleName("readview-layout");
+		this.setMargin(new MarginInfo( true, true, false, true));
+		
 
-		mainLayout = new CssLayout();
-		mainLayout.addStyleName(UIConstants.BORDER_BOX_2);
-		mainLayout.setSizeFull();
+	
+		HorizontalLayout header = new HorizontalLayout();
+		header.setWidth("100%");
+		header.setSpacing(true);
+		header.setMargin(new MarginInfo(true, false, true, false));
+		header.setStyleName(UIConstants.HEADER_VIEW);
+		
+		
+		final Image titleIcon = new Image(null,
+				MyCollabResource.newResource("icons/22/crm/notification.png"));
+		header.addComponent(titleIcon);
+		header.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
+		
+		final Label searchtitle = new Label("Notification Settings");
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
+		header.addComponent(searchtitle);
+		header.setExpandRatio(searchtitle, 1.0f);
+		header.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
+		
+		this.addComponent(header);
+		
 
-		HorizontalLayout bodyWapper = new HorizontalLayout();
-		bodyWapper.setMargin(true);
-		bodyWapper.setSizeFull();
+		VerticalLayout bodyWrapper = new VerticalLayout();
+		bodyWrapper.setSpacing(true);
+		bodyWrapper.setMargin(new MarginInfo( true, false, false, false));
+		bodyWrapper.setSizeFull();
 
-		VerticalLayout body = new VerticalLayout();
-		body.setSpacing(true);
-		body.setSizeFull();
-
-		bodyWapper.addComponent(body);
-		mainLayout.addComponent(bodyWapper);
+		
+		HorizontalLayout notificationLabelWrapper = new HorizontalLayout();
+		notificationLabelWrapper.setSizeFull();
+		notificationLabelWrapper.setMargin(true);
+		
+		notificationLabelWrapper.setStyleName("notification-label");
 
 		Label notificationLabel = new Label("Notification Levels");
 		notificationLabel.addStyleName("h2");
+		
 		notificationLabel.setHeight(Sizeable.SIZE_UNDEFINED,
 				Sizeable.Unit.PIXELS);
-		body.addComponent(notificationLabel);
+		notificationLabelWrapper.addComponent(notificationLabel);
 
+		
+		bodyWrapper.addComponent(notificationLabelWrapper);
+		
+		VerticalLayout body = new VerticalLayout();
+		body.setSpacing(true);
+		body.setMargin(new MarginInfo( true, false, false, false));
+		
 		List<String> options = Arrays
 				.asList(new String[] {
 						"Default- By default you will receive notifications about items that you are involved in. To be involved with and item you need to have added a comment, been assigned the item, or when the item was created you were specified as a person to notify. Within the email notifications you can unsubscribe from any item.",
@@ -171,11 +203,16 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 						}
 					});
 			upgradeBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+			upgradeBtn.setIcon(MyCollabResource.newResource("icons/16/crm/refresh.png"));
 			body.addComponent(upgradeBtn);
-			body.setComponentAlignment(upgradeBtn, Alignment.MIDDLE_LEFT);
+			body.setComponentAlignment(upgradeBtn, Alignment.BOTTOM_CENTER);
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
-		this.addComponent(mainLayout);
+		
+		bodyWrapper.addComponent(body);
+		this.addComponent(bodyWrapper);
+		
+		
 	}
 }

@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -61,11 +62,11 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
-		implements ContactReadView {
+implements ContactReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ContactOpportunityListComp associateOpportunityList;
+	protected ContactOpportunityListComp2 associateOpportunityList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -102,6 +103,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 				.createButtonControls(RolePermissionCollections.CRM_CONTACT);
 	}
 
+	@Override
 	public AdvancedPreviewBeanForm<SimpleContact> getPreviewForm() {
 		return this.previewForm;
 	}
@@ -137,6 +139,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
+
+		previewItemContainer.selectTab("About");
 	}
 
 	@Override
@@ -147,16 +151,15 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		SimpleLead lead = leadService.findConvertedLeadOfContact(
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
-			return "<h2>"
-					+ beanItem.getContactName()
+			return beanItem.getContactName() + "&nbsp;"
 					+ LocalizationHelper
-							.getMessage(
-									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
-									CrmLinkGenerator.generateCrmItemLink(
-											CrmTypeConstants.LEAD, lead.getId()),
-									lead.getLeadName()) + "</h2>";
+					.getMessage(
+							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+							CrmResources
+							.getResourceLink(CrmTypeConstants.LEAD),
+							CrmLinkGenerator.generateCrmItemLink(
+									CrmTypeConstants.LEAD, lead.getId()),
+									lead.getLeadName());
 		} else {
 			return beanItem.getContactName();
 		}
@@ -164,21 +167,29 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 	@Override
 	protected void initRelatedComponents() {
-		this.associateOpportunityList = new ContactOpportunityListComp();
+		this.associateOpportunityList = new ContactOpportunityListComp2();
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
 		this.noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		peopleInfoComp = new PeopleInfoComp();
-		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
-		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
 
-		previewItemContainer.addTab(previewLayout, "About");
+		dateInfoComp = new DateInfoComp();
+		basicInfo.addComponent(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		basicInfo.addComponent(peopleInfoComp);
+
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
+
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
 		previewItemContainer.addTab(associateActivityList, "Activities");
-
-		previewItemContainer.selectTab("About");
 	}
 
 	@Override

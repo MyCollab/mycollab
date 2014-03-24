@@ -43,12 +43,6 @@ import com.vaadin.ui.VerticalLayout;
  */
 public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 extends VerticalLayout implements HasPagableHandlers {
-
-	public static interface RowDisplayHandler<T> {
-
-		Component generateRow(T obj, int rowIndex);
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	private int defaultNumberSearchItems = 10;
@@ -95,7 +89,7 @@ extends VerticalLayout implements HasPagableHandlers {
 		// defined layout here ---------------------------
 
 		if (this.currentPage > 1) {
-			final Button firstLink = new ButtonLink("1", new ClickListener() {
+			final Button firstLink = new ButtonLink("1", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -288,5 +282,11 @@ extends VerticalLayout implements HasPagableHandlers {
 
 	public RowDisplayHandler<T> getRowDisplayHandler() {
 		return rowDisplayHandler;
+	}
+
+	public static interface RowDisplayHandler<T> {
+
+		Component generateRow(T obj, int rowIndex);
+
 	}
 }

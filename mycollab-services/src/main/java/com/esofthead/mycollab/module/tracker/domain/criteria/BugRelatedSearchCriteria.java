@@ -19,12 +19,13 @@ package com.esofthead.mycollab.module.tracker.domain.criteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 
-public class BugRelatedSearchCriteria  extends SearchCriteria {
-	
+public class BugRelatedSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private NumberSearchField bugId;
-	
+
 	private NumberSearchField relatedId;
-	
+
 	public NumberSearchField getBugId() {
 		return bugId;
 	}

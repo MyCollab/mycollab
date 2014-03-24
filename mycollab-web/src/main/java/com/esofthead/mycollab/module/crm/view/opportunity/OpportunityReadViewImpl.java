@@ -51,6 +51,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -60,13 +61,13 @@ import com.vaadin.ui.UI;
  */
 @ViewComponent
 public class OpportunityReadViewImpl extends
-		AbstractPreviewItemComp<SimpleOpportunity> implements
-		OpportunityReadView {
+AbstractPreviewItemComp<SimpleOpportunity> implements
+OpportunityReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	protected OpportunityContactListComp associateContactList;
-	protected OpportunityLeadListComp associateLeadList;
+	protected OpportunityContactListComp2 associateContactList;
+	protected OpportunityLeadListComp2 associateLeadList;
 	protected NoteListItems noteListItems;
 	protected ActivityRelatedItemListComp associateActivityList;
 
@@ -113,6 +114,8 @@ public class OpportunityReadViewImpl extends
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
+
+		previewItemContainer.selectTab("About");
 	}
 
 	@Override
@@ -126,12 +129,12 @@ public class OpportunityReadViewImpl extends
 			return "<h2>"
 					+ beanItem.getOpportunityname()
 					+ LocalizationHelper
-							.getMessage(
-									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-									CrmResources
-											.getResourceLink(CrmTypeConstants.LEAD),
-									CrmLinkGenerator.generateCrmItemLink(
-											CrmTypeConstants.LEAD, lead.getId()),
+					.getMessage(
+							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+							CrmResources
+							.getResourceLink(CrmTypeConstants.LEAD),
+							CrmLinkGenerator.generateCrmItemLink(
+									CrmTypeConstants.LEAD, lead.getId()),
 									lead.getLeadName()) + "</h2>";
 		} else {
 			return beanItem.getOpportunityname();
@@ -140,23 +143,31 @@ public class OpportunityReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		associateContactList = new OpportunityContactListComp();
-		associateLeadList = new OpportunityLeadListComp();
+		associateContactList = new OpportunityContactListComp2();
+		associateLeadList = new OpportunityLeadListComp2();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems("Notes");
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
-		peopleInfoComp = new PeopleInfoComp();
-		navigatorWrapper.addComponentAsFirst(peopleInfoComp);
-		dateInfoComp = new DateInfoComp();
-		navigatorWrapper.addComponentAsFirst(dateInfoComp);
+		VerticalLayout basicInfo = new VerticalLayout();
+		basicInfo.setWidth("100%");
+		basicInfo.setMargin(true);
+		basicInfo.setSpacing(true);
+		basicInfo.setStyleName("basic-info");
 
-		previewItemContainer.addTab(previewLayout, "About");
+		dateInfoComp = new DateInfoComp();
+		basicInfo.addComponent(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		basicInfo.addComponent(peopleInfoComp);
+
+
+		navigatorWrapper.addComponentAsFirst(basicInfo);
+
+		previewItemContainer.addTab(previewContent, "About");
 		previewItemContainer.addTab(associateContactList, "Contacts");
 		previewItemContainer.addTab(associateLeadList, "Leads");
 		previewItemContainer.addTab(associateActivityList, "Activities");
-
-		previewItemContainer.selectTab("About");
 	}
 
 	@Override
