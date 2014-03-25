@@ -85,7 +85,7 @@
         parameterType="StandupReportSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_standup
          #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
@@ -95,7 +95,7 @@
         parameterType="StandupReportSearchCriteria" lang="velocity">
         <include refid="selectStandupReport" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    
@@ -117,7 +117,7 @@
                     COUNT(*)  AS value, concat(MONTH(m_prj_standup.forDay), "/", DAY(m_prj_standup.forDay), "/", YEAR(m_prj_standup.forDay))
                      as groupname
         FROM m_prj_standup]]>
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
         GROUP BY groupname

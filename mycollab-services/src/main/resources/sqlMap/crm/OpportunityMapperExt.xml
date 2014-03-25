@@ -167,7 +167,7 @@
         parameterType="OpportunitySearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="queryTotalCountSearchCriteria" />
             #end
@@ -177,7 +177,7 @@
     <delete id="removeByCriteria" parameterType="OpportunitySearchCriteria" lang="velocity">
         DELETE FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end    
         #end
@@ -196,7 +196,7 @@
         <include
             refid="selectSimpleOpportunity" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="querySearchCriteria" />
             #end
@@ -224,7 +224,7 @@
     <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_opportunity
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
@@ -233,7 +233,7 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_opportunity
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include
                 refid="queryTotalCountSearchCriteria" />
         #end
@@ -246,7 +246,7 @@
         FROM
         m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="queryTotalCountSearchCriteria" />
             #end
@@ -261,7 +261,7 @@
         value, '' as groupname
         FROM m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
@@ -277,7 +277,7 @@
         FROM
         m_crm_opportunity
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="queryTotalCountSearchCriteria" />
                 <![CDATA[AND m_crm_opportunity.source <> '']]>
@@ -292,7 +292,7 @@
             refid="com.esofthead.mycollab.module.crm.dao.OpportunityMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end

@@ -69,7 +69,7 @@
         parameterType="ComponentSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_component
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -79,7 +79,7 @@
         parameterType="ComponentSearchCriteria" lang="velocity">
         <include refid="selectComponents" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    
@@ -97,7 +97,7 @@
         SELECT MIN(id) FROM m_tracker_component
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -108,7 +108,7 @@
         SELECT MAX(id) FROM m_tracker_component
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    

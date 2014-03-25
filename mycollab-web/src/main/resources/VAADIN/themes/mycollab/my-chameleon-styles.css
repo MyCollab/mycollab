@@ -137,8 +137,8 @@ textarea.v-textarea,
 	}
 
 .v-button,
-.v-disabled.v-button:focus,
-.v-disabled.v-button:active,
+/*.v-disabled.v-button:focus,
+.v-disabled.v-button:active,*/
 .v-datefield-button,
 .v-datefield-calendarpanel-header button,
 td.v-datefield-calendarpanel-month,
@@ -477,8 +477,8 @@ textarea.v-textarea,
 }
 
 .v-button,
-.v-disabled.v-button:focus,
-.v-disabled.v-button:active,
+/*.v-disabled.v-button:focus,
+.v-disabled.v-button:active,*/
 .v-datefield-button,
 .v-datefield-calendarpanel-header button,
 td.v-datefield-calendarpanel-month,

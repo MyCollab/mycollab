@@ -24,6 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
@@ -44,7 +45,9 @@ implements IFormAddView<B> {
 
 	public AbstractEditItemComp() {
 		super();
+		this.setMargin(new MarginInfo(false, true, true, true));
 		this.editForm = new AdvancedEditBeanForm<B>();
+		this.editForm.addStyleName("crm-edit-form");
 		this.addComponent(this.editForm);
 	}
 

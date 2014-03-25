@@ -27,13 +27,13 @@ public class DateInfoComp extends VerticalLayout {
 	public void displayEntryDateTime(ValuedBean bean) {
 		this.removeAllComponents();
 		this.setSpacing(true);
-
+		this.setMargin(new MarginInfo(false, false, false, true));
 		Label dateInfoHeader = new Label("Dates");
 		dateInfoHeader.setStyleName("info-hdr");
 		this.addComponent(dateInfoHeader);
 
 		VerticalLayout layout = new VerticalLayout();
-		layout.setMargin(new MarginInfo(false, false, false, true));
+		layout.setMargin(new MarginInfo(false, false, false, false));
 		try {
 			String createdDate = AppContext.formatDate((Date) PropertyUtils
 					.getProperty(bean, "createdtime"));

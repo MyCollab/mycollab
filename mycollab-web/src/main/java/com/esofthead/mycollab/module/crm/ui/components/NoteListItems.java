@@ -462,6 +462,7 @@ public class NoteListItems extends VerticalLayout {
 				}
 			});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 			controls.addComponent(saveBtn);
 			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);
 

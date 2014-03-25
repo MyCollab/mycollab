@@ -113,32 +113,32 @@ public class LeadConvertInfoWindow extends Window {
 
 		Button convertButton = new Button("Convert",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						LeadService leadService = ApplicationContextUtil
-								.getSpringBean(LeadService.class);
-						lead.setStatus("Converted");
-						leadService.updateWithSession(lead,
-								AppContext.getUsername());
-						Opportunity opportunity = null;
-						if (opportunityForm != null
-								&& opportunityForm.isVisible()) {
-							if (opportunityForm.validateForm()) {
-								opportunity = opportunityForm.getBean();
-							}
-						}
-
-						leadService.convertLead(lead, opportunity,
-								AppContext.getUsername());
-						LeadConvertInfoWindow.this.close();
-						EventBus.getInstance().fireEvent(
-								new LeadEvent.GotoRead(
-										LeadConvertInfoWindow.this, lead
-												.getId()));
+			@Override
+			public void buttonClick(ClickEvent event) {
+				LeadService leadService = ApplicationContextUtil
+						.getSpringBean(LeadService.class);
+				lead.setStatus("Converted");
+				leadService.updateWithSession(lead,
+						AppContext.getUsername());
+				Opportunity opportunity = null;
+				if (opportunityForm != null
+						&& opportunityForm.isVisible()) {
+					if (opportunityForm.validateForm()) {
+						opportunity = opportunityForm.getBean();
 					}
-				});
+				}
+
+				leadService.convertLead(lead, opportunity,
+						AppContext.getUsername());
+				LeadConvertInfoWindow.this.close();
+				EventBus.getInstance().fireEvent(
+						new LeadEvent.GotoRead(
+								LeadConvertInfoWindow.this, lead
+								.getId()));
+			}
+		});
 		convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
 		layout.addComponent(convertButton);
 		layout.setComponentAlignment(convertButton, Alignment.MIDDLE_CENTER);
@@ -179,8 +179,8 @@ public class LeadConvertInfoWindow extends Window {
 		infoLayout.addComponent(createAccountLbl);
 
 		String createContactTxt = "Create Contact: <span class='"
-				+ UIConstants.TEXT_BLUE + "'>" + lead.getLastname() + " "
-				+ lead.getFirstname() + "</span>";
+				+ UIConstants.TEXT_BLUE + "'>" + lead.getLastname() + (lead.getFirstname() != null ? " "
+						+ lead.getFirstname() : "") + "</span>";
 		Label createContactLbl = new Label(createContactTxt, ContentMode.HTML);
 		createContactLbl.addStyleName(UIConstants.LABEL_CHECKED);
 		infoLayout.addComponent(createContactLbl);
@@ -188,26 +188,26 @@ public class LeadConvertInfoWindow extends Window {
 		final CheckBox isCreateOpportunityChk = new CheckBox(
 				"Create an new opportunity for this account");
 		isCreateOpportunityChk
-				.addValueChangeListener(new ValueChangeListener() {
-					private static final long serialVersionUID = 1L;
+		.addValueChangeListener(new ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void valueChange(ValueChangeEvent event) {
-						Boolean isSelected = isCreateOpportunityChk.getValue();
-						if (isSelected) {
-							opportunityForm = new LeadOpportunityForm();
-							Opportunity opportunity = new Opportunity();
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Boolean isSelected = isCreateOpportunityChk.getValue();
+				if (isSelected) {
+					opportunityForm = new LeadOpportunityForm();
+					Opportunity opportunity = new Opportunity();
 
-							// this is a trick to pass validation
-							opportunity.setAccountid(0);
-							opportunityForm.setBean(opportunity);
-							layout.addComponent(opportunityForm);
-						} else {
-							layout.removeComponent(opportunityForm);
-						}
+					// this is a trick to pass validation
+					opportunity.setAccountid(0);
+					opportunityForm.setBean(opportunity);
+					layout.addComponent(opportunityForm);
+				} else {
+					layout.removeComponent(opportunityForm);
+				}
 
-					}
-				});
+			}
+		});
 
 		infoLayout.addComponent(isCreateOpportunityChk);
 

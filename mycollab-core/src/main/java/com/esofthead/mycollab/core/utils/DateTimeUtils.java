@@ -248,4 +248,23 @@ public class DateTimeUtils {
 		return date;
 	}
 
+	/**
+	 * 
+	 * @param date
+	 * @return array of two date elements, first is the first day of week, and
+	 *         the second is the end week date
+	 */
+	public static Date[] getBounceDateofWeek(Date date) {
+		Date begin = null, end = null;
+		Calendar calendar = new GregorianCalendar();
+		calendar.setFirstDayOfWeek(Calendar.MONDAY);
+		calendar.setTime(date);
+		calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		begin = calendar.getTime();
+
+		calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		end = calendar.getTime();
+		return new Date[] { begin, end };
+	}
+
 }

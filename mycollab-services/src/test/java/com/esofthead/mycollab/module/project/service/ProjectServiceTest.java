@@ -27,6 +27,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -37,6 +38,18 @@ public class ProjectServiceTest extends ServiceTest {
 
 	@Autowired
 	protected ProjectService projectService;
+
+	@DataSet
+	@Test
+	public void testSaveProject() {
+		Project project = new Project();
+		project.setSaccountid(1);
+		project.setName("Example");
+		project.setProjectstatus("Open");
+		project.setShortname("abc");
+		int projectId = projectService.saveWithSession(project, "admin");
+		Assert.assertEquals(true, (projectId > 0));
+	}
 
 	@DataSet
 	@Test
@@ -56,7 +69,7 @@ public class ProjectServiceTest extends ServiceTest {
 		List projects = projectService
 				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(1, projects.size());
+		Assert.assertEquals(4, projects.size());
 	}
 
 	@DataSet

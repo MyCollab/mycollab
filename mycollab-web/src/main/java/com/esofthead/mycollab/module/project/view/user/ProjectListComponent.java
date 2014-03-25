@@ -1,5 +1,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
+import java.util.List;
+
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -22,6 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -84,6 +87,7 @@ public class ProjectListComponent extends VerticalLayout {
 	private class ProjectPagedList extends
 	BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
+		protected ProjectSearchCriteria currentCriteria;
 
 		public ProjectPagedList() {
 			super(null, ApplicationContextUtil
@@ -93,8 +97,18 @@ public class ProjectListComponent extends VerticalLayout {
 
 		@Override
 		public int setSearchCriteria(ProjectSearchCriteria searchCriteria) {
+			currentCriteria = searchCriteria;
 			SearchRequest<ProjectSearchCriteria> searchRequest = new SearchRequest<ProjectSearchCriteria>(searchCriteria, 0, 3);
 			return setSearchRequest(searchRequest);
+		}
+
+		@Override
+		public void loadItems(List<SimpleProject> currentListData) {
+			super.loadItems(currentListData);
+
+			if (searchService.getTotalCount(currentCriteria) > 3) {
+				getContentLayout().addComponent(new Button("More..."));
+			}
 		}
 	}	
 

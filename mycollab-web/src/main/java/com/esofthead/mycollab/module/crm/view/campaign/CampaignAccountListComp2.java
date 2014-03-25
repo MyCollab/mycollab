@@ -133,7 +133,7 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image accountAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/contact_icon.png"));
+			Image accountAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/account.png"));
 			iconWrap.addComponent(accountAvatar);
 			blockTop.addComponent(iconWrap);
 

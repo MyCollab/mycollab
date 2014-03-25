@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface ProjectMemberMapperExt extends
 		ISearchableDAO<ProjectMemberSearchCriteria> {

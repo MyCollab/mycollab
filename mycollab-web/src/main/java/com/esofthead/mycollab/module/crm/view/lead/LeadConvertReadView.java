@@ -16,9 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 
 /**
  * 
@@ -26,8 +29,11 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 3.0
  * 
  */
-public interface LeadConvertReadView extends PageView {
+public interface LeadConvertReadView extends IPreviewView<SimpleLead> {
 	HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers();
 
+	IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers();
+
+	IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers();
 	void displayConvertLeadInfo(SimpleLead lead);
 }

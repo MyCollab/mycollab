@@ -164,7 +164,7 @@
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_campaign
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="queryTotalCountSearchCriteria" />
             #end
@@ -174,7 +174,7 @@
     <delete id="removeByCriteria" parameterType="CampaignSearchCriteria" lang="velocity">
         DELETE FROM m_crm_campaign
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
             <include
                 refid="queryTotalCountSearchCriteria" />
             #end    
@@ -186,7 +186,7 @@
         <include
             refid="selectSimpleCampaign" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="querySearchCriteria" />
             #end
@@ -207,7 +207,7 @@
         lang="velocity">
         SELECT MIN(id) FROM m_crm_campaign
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include
                 refid="queryTotalCountSearchCriteria" />
         #end
@@ -217,7 +217,7 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_campaign
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include
                 refid="queryTotalCountSearchCriteria" />
         #end
@@ -229,7 +229,7 @@
             refid="com.esofthead.mycollab.module.crm.dao.CampaignMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="queryTotalCountSearchCriteria" />
             #end

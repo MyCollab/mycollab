@@ -52,7 +52,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 	private VerticalLayout popupButtonsControl;
 
-	private SplitButton editButtons;
+	private Button editButtons;
+	private SplitButton optionBtn;
 	private HorizontalLayout layout;
 
 	public CrmPreviewFormControlsGenerator(
@@ -60,11 +61,23 @@ public class CrmPreviewFormControlsGenerator<T> {
 		this.previewForm = editForm;
 
 		layout = new HorizontalLayout();
+		
+		
+		editButtons = new Button("Option", new Button.ClickListener() {
 
-		editButtons = new SplitButton();
-		editButtons.setCaption("Option");
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+	
+				optionBtn.setPopupVisible(true);
+			}
+		});
+
 		editButtons.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		editButtons.addStyleName(UIConstants.THEME_GRAY_LINK);
+		optionBtn = new SplitButton(editButtons);
+		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 	}
 
 	public void insertToControlBlock(Button button) {
@@ -94,6 +107,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		popupButtonsControl = new VerticalLayout();
+		
 		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
 		popupButtonsControl.setSpacing(true);
 
@@ -148,10 +162,11 @@ public class CrmPreviewFormControlsGenerator<T> {
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}
-
-		editButtons.setContent(popupButtonsControl);
-
-		layout.addComponent(editButtons);
+		optionBtn.setContent(popupButtonsControl);
+		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED | (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+		
+		layout.addComponent(optionBtn);
+		}
 
 		ButtonGroup navigationBtns = new ButtonGroup();
 		navigationBtns.setStyleName("navigation-btns");

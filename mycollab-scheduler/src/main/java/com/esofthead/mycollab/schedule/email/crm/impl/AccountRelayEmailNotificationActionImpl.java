@@ -46,7 +46,7 @@ import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAc
  */
 @Component
 public class AccountRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleAccount> implements
 		AccountRelayEmailNotificationAction {
 
 	@Autowired
@@ -166,7 +166,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class AccountFieldNameMapper {
+	class AccountFieldNameMapper {
 		private final Map<String, String> fieldNameMap;
 
 		AccountFieldNameMapper() {
@@ -176,7 +176,6 @@ public class AccountRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("phoneoffice", "Office Phone");
 			fieldNameMap.put("website", "Website");
 			fieldNameMap.put("fax", "Fax");
-			// fieldNameMap.put("", "Employees");
 			fieldNameMap.put("alternatephone", "Other Phone");
 			fieldNameMap.put("industry", "Industry");
 			fieldNameMap.put("email", "Email");

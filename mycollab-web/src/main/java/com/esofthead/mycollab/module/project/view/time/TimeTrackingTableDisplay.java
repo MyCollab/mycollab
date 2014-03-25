@@ -81,6 +81,9 @@ public class TimeTrackingTableDisplay
 						.getBeanByIndex(itemId);
 
 				ButtonLink timeTrackingLink = null;
+				if (itemLogging.getType() == null) {
+					return new Label(itemLogging.getNote());
+				}
 
 				if (itemLogging.getType().equals(MonitorTypeConstants.PRJ_BUG)) {
 

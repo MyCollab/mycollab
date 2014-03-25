@@ -134,7 +134,7 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image campaignIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/contact_icon.png"));
+			Image campaignIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/campaign.png"));
 			iconWrap.addComponent(campaignIcon);
 			blockTop.addComponent(iconWrap);
 

@@ -107,7 +107,7 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image caseIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/contact_icon.png"));
+			Image caseIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/case.png"));
 			iconWrap.addComponent(caseIcon);
 			blockTop.addComponent(iconWrap);
 

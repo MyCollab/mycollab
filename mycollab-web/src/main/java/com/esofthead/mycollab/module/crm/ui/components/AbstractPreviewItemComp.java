@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
@@ -49,7 +50,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 	protected VerticalTabsheet previewItemContainer;
 
 	public AbstractPreviewItemComp(Resource iconResource) {
-		previewItemContainer = new VerticalTabsheet(false);
+		previewItemContainer = new CrmVerticalTabsheet(false);
 
 		this.addComponent(previewItemContainer);
 		previewItemContainer.setSizeFull();

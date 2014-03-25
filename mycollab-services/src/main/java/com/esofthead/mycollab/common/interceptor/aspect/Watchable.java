@@ -33,5 +33,7 @@ public @interface Watchable {
 	
 	String userFieldName() default "";
 	
+	String extraTypeId() default "";
+	
 	Class emailHandlerBean() default String.class;
 }

@@ -26,6 +26,7 @@ import org.vaadin.risto.stylecalendar.StyleCalendar;
 
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -39,7 +40,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @SuppressWarnings("serial")
-public class StandupStyleCalendarExp extends VerticalLayout {
+public class StyleCalendarExp extends VerticalLayout {
 	private List<Date> selectedDateList = new ArrayList<Date>();
 	private StyleCalendar styleCalendar = new StyleCalendar();
 
@@ -49,10 +50,12 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 	private Button btnShowPreviousYear;
 	private Label lbSelectedDate = new Label();
 
-	public StandupStyleCalendarExp() {
+	public StyleCalendarExp() {
 		this.setWidth("230px");
 		this.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		this.setSpacing(false);
+		this.setStyleName("stylecalendar-ext");
+		this.setMargin(new MarginInfo(true, false, false, false));
 
 		styleCalendar.setRenderHeader(false);
 		styleCalendar.setRenderWeekNumbers(false);
@@ -164,7 +167,7 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 
 					if (dateEquals(date, redDate)
 							&& dateIsTodayOrBefore(redDate)) {
-						return "red";
+						return "selected-ext";
 					}
 				}
 				return null;
@@ -194,6 +197,41 @@ public class StandupStyleCalendarExp extends VerticalLayout {
 		return c1.get(Calendar.DATE) == c2.get(Calendar.DATE)
 				&& c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1
 				.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
+	}
+
+	public void selectWeek(Date randomDay) {
+		ArrayList<Date> daysInWeek = new ArrayList<Date>();
+		daysInWeek.add(randomDay);
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+
+		c1.setTime(randomDay);
+		c2.setTime(randomDay);
+		c2.add(Calendar.DATE, 1);
+
+		while (c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR)) {
+			daysInWeek.add(c2.getTime());
+			c2.add(Calendar.DATE, 1);
+		}
+
+		c2.setTime(randomDay);
+		c2.add(Calendar.DATE, -1);
+
+		while (c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR)) {
+			daysInWeek.add(c2.getTime());
+			c2.add(Calendar.DATE, -1);
+		}
+
+		selectedDateList = daysInWeek;
+		styleCalendar.setValue(randomDay);
+	}
+
+	public void selectDate(Date randomDay) {
+		ArrayList<Date> oneDay = new ArrayList<Date>();
+		oneDay.add(randomDay);
+
+		selectedDateList = oneDay;
+		styleCalendar.setValue(randomDay);
 	}
 
 	public StyleCalendar getStyleCalendar() {

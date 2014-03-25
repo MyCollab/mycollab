@@ -131,7 +131,7 @@
 
     </select>
 
-    <select id="findMemberByUsername" parameterType="java.lang.String"
+    <select id="findMemberByUsername" parameterType="map"
         resultMap="ProjectMemberResult">
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,

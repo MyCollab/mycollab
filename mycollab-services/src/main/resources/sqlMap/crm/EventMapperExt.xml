@@ -186,7 +186,7 @@
 		SELECT count(*) as totalCount FROM
 		m_crm_task
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryTaskSearchCriteria" />
 			#end
 		#end
@@ -197,7 +197,7 @@
 		SELECT count(*) as totalCount FROM
 		m_crm_call
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryCallSearchCriteria" />
 			#end
 		#end
@@ -208,7 +208,7 @@
 		SELECT count(*) as totalCount FROM
 		m_crm_meeting
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryMeetingSearchCriteria" />
 			#end
 		#end
@@ -220,7 +220,7 @@
 		<include
 			refid="selectSimpleEventFromTask" />
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryTaskSearchCriteria" />
 			#end
 		#end
@@ -232,7 +232,7 @@
 		<include
 			refid="selectSimpleEventFromCall" />
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryCallSearchCriteria" />
 			#end
 		#end
@@ -243,7 +243,7 @@
 		(
 		<include refid="selectSimpleEventFromMeeting" />
 		#ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryMeetingSearchCriteria" />
 			#end
 		#end

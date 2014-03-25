@@ -20,16 +20,14 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
+import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -53,7 +51,7 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		
 		
 
-		settingTab = new VerticalTabsheet(false);
+		settingTab = new CrmVerticalTabsheet(false);
 		settingTab.setSizeFull();
 		settingTab.setNavigatorWidth("250px");
 		settingTab.setNavigatorStyleName("sidebar-menu");
@@ -66,11 +64,9 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 	}
 
 	private void buildComponents() {
-		settingTab.addTab(constructNotificationSettingView(), "Notifications",
-				MyCollabResource.newResource("icons/22/crm/notification.png"));
+		settingTab.addTab(constructNotificationSettingView(), "Notifications");
 
-		settingTab.addTab(constructCustomLayoutView(), "Custom Layouts",
-				MyCollabResource.newResource("icons/22/crm/layout.png"));
+		settingTab.addTab(constructCustomLayoutView(), "Custom Layouts");
 
 		settingTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {

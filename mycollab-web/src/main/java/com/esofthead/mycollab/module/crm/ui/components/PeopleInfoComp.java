@@ -26,13 +26,14 @@ public class PeopleInfoComp extends VerticalLayout {
 	public void displayEntryPeople(ValuedBean bean) {
 		this.removeAllComponents();
 		this.setSpacing(true);
-
+		this.setMargin(new MarginInfo(false, false, false, true));
+	
 		Label peopleInfoHeader = new Label("People");
 		peopleInfoHeader.setStyleName("info-hdr");
 		this.addComponent(peopleInfoHeader);
 
 		GridLayout layout = new GridLayout(2, 2);
-		layout.setMargin(new MarginInfo(false, false, false, true));
+		layout.setMargin(new MarginInfo(false, false, false, false));
 		layout.setWidth("100%");
 		try {
 			Label createdLbl = new Label("Created:");

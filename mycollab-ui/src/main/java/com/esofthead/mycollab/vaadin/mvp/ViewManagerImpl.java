@@ -79,6 +79,5 @@ class ViewManagerImpl extends ViewManager {
 	@Override
 	protected void clearViews() {
 		MyCollabSession.removeVariable(VIEW_MANAGER_VAL);
-
 	}
 }

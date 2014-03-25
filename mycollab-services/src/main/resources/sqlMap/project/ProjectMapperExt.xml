@@ -149,7 +149,7 @@
         lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
         #end
@@ -160,7 +160,7 @@
         SELECT m_prj_project.id
         FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="querySearchCriteria" />
         #end
         #end
@@ -171,7 +171,7 @@
         parameterType="ProjectSearchCriteria" lang="velocity">
         <include refid="selectSimpleProject" />
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="querySearchCriteria" />
         #end
         #end
@@ -199,7 +199,7 @@
         <include
             refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.selectSimpleActivityStream" />
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include
             refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
         #end
@@ -212,7 +212,7 @@
         parameterType="ActivityStreamSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include
             refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
         #end

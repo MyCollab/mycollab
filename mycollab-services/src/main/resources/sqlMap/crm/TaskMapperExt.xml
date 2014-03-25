@@ -265,7 +265,7 @@
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
@@ -274,7 +274,7 @@
     <delete id="removeByCriteria" parameterType="TodoSearchCriteria" lang="velocity">
         DELETE FROM m_crm_task
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end    
         #end
@@ -302,7 +302,7 @@
             INNER JOIN m_crm_contact as contact2 ON (m_crm_task.type='Contact' AND m_crm_task.typeid=contact2.id )
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -323,7 +323,7 @@
             INNER JOIN m_crm_account ON (m_crm_task.type='Account' AND m_crm_task.typeid=m_crm_account.id )
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -343,7 +343,7 @@
             INNER JOIN m_crm_campaign ON (m_crm_task.type='Campaign' AND m_crm_task.typeid=m_crm_campaign.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -363,7 +363,7 @@
             INNER JOIN m_crm_target ON (m_crm_task.type='Target' AND m_crm_task.typeid=m_crm_target.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -383,7 +383,7 @@
             INNER JOIN m_crm_lead ON (m_crm_task.type='Lead' AND m_crm_task.typeid=m_crm_lead.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -403,7 +403,7 @@
             INNER JOIN m_crm_opportunity ON (m_crm_task.type = 'Opportunity' AND m_crm_task.typeid=m_crm_opportunity.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -424,7 +424,7 @@
             INNER JOIN m_crm_quote ON (m_crm_task.type = 'Quote' AND m_crm_task.typeid=m_crm_quote.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -445,7 +445,7 @@
             INNER JOIN m_crm_product ON (m_crm_task.type = 'Product' AND m_crm_task.typeid=m_crm_product.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -466,7 +466,7 @@
             INNER JOIN m_crm_case ON (m_crm_task.type = 'Case' AND m_crm_task.typeid=m_crm_case.id)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -487,7 +487,7 @@
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             <![CDATA[AND ((m_crm_task.type IS NULL) OR (m_crm_task.typeid IS NULL))]]>
             #end
@@ -498,7 +498,7 @@
     <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_crm_task
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
@@ -507,7 +507,7 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_task
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>

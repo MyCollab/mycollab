@@ -86,6 +86,10 @@ extends CustomComponent {
 		this.setStyleName("bean-list");
 	}
 
+	public Layout getContentLayout() {
+		return this.contentLayout;
+	}
+
 	public BeanList(SearchService searchService,
 			Class<? extends RowDisplayHandler<T>> rowDisplayHandler) {
 		this(null, searchService, rowDisplayHandler);

@@ -114,7 +114,7 @@
         resultMap="SimpleActivityStreamResult" lang="velocity">
         <include refid="selectSimpleActivityStream" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    
@@ -133,7 +133,7 @@
         resultType="java.lang.Integer"  lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end

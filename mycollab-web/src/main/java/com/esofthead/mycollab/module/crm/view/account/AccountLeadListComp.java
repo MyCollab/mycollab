@@ -131,7 +131,7 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image leadAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/contact_icon.png"));
+			Image leadAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/lead.png"));
 			iconWrap.addComponent(leadAvatar);
 			blockTop.addComponent(iconWrap);
 

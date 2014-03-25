@@ -57,7 +57,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotifi
 @Transactional
 @Traceable(module = ModuleNameConstants.PRJ, type = ProjectContants.TASK, nameField = "taskname", extraFieldName = "projectid")
 @Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.TASK)
-@Watchable(type = MonitorTypeConstants.PRJ_TASK, userFieldName = "assignuser", emailHandlerBean = ProjectTaskRelayEmailNotificationAction.class)
+@Watchable(type = MonitorTypeConstants.PRJ_TASK, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = ProjectTaskRelayEmailNotificationAction.class)
 public class ProjectTaskServiceImpl extends
 		DefaultService<Integer, Task, TaskSearchCriteria> implements
 		ProjectTaskService {

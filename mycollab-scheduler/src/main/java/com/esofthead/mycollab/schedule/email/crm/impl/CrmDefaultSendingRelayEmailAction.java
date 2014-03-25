@@ -19,6 +19,8 @@ package com.esofthead.mycollab.schedule.email.crm.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
@@ -31,6 +33,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
@@ -40,7 +43,6 @@ import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
@@ -54,6 +56,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		implements SendingRelayEmailNotificationAction {
+
+	private static Logger log = LoggerFactory
+			.getLogger(CrmDefaultSendingRelayEmailAction.class);
 
 	@Autowired
 	protected ExtMailService extMailService;
@@ -88,18 +93,11 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				if (templateGenerator != null) {
 					String userName = user.getUsername();
 					if (userName == null || userName.length() == 0) {
-						User currentUser = userService.findUserByUserName(user
-								.getEmail());
-						if (currentUser != null) {
-							userName = ((currentUser.getFirstname() != null) ? currentUser
-									.getFirstname() + " "
-									: "")
-									+ ((currentUser.getMiddlename() != null) ? currentUser
-											.getMiddlename() + " "
-											: "") + currentUser.getLastname();
-							if (userName.trim().length() == 0)
-								userName = currentUser.getUsername();
-						}
+						log.error(
+								"Can not find user {} of notification {}",
+								new String[] { BeanUtility.printBeanObj(user),
+										BeanUtility.printBeanObj(notification) });
+						return;
 					}
 					templateGenerator.putVariable("userName", userName);
 
@@ -130,18 +128,11 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				if (templateGenerator != null) {
 					String userName = user.getUsername();
 					if (userName == null) {
-						User currentUser = userService.findUserByUserName(user
-								.getEmail());
-						if (currentUser != null) {
-							userName = ((currentUser.getFirstname() != null) ? currentUser
-									.getFirstname() + " "
-									: "")
-									+ ((currentUser.getMiddlename() != null) ? currentUser
-											.getMiddlename() + " "
-											: "") + currentUser.getLastname();
-							if (userName.trim().length() == 0)
-								userName = currentUser.getUsername();
-						}
+						log.error(
+								"Can not find user {} of notification {}",
+								new String[] { BeanUtility.printBeanObj(user),
+										BeanUtility.printBeanObj(notification) });
+						return;
 					}
 					templateGenerator.putVariable("userName", userName);
 
@@ -171,18 +162,11 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				if (templateGenerator != null) {
 					String userName = user.getUsername();
 					if (userName == null) {
-						User currentUser = userService.findUserByUserName(user
-								.getEmail());
-						if (currentUser != null) {
-							userName = ((currentUser.getFirstname() != null) ? currentUser
-									.getFirstname() + " "
-									: "")
-									+ ((currentUser.getMiddlename() != null) ? currentUser
-											.getMiddlename() + " "
-											: "") + currentUser.getLastname();
-							if (userName.trim().length() == 0)
-								userName = currentUser.getUsername();
-						}
+						log.error(
+								"Can not find user {} of notification {}",
+								new String[] { BeanUtility.printBeanObj(user),
+										BeanUtility.printBeanObj(notification) });
+						return;
 					}
 					templateGenerator.putVariable("userName", userName);
 
@@ -200,20 +184,12 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		}
 	}
 
-	protected abstract TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
-
-	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
-
-	protected abstract TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
-
 	protected List<SimpleUser> getListNotififyUserWithFilter(
 			SimpleRelayEmailNotification notification, String type) {
 		List<CrmNotificationSetting> notificationSettings = notificationService
 				.findNotifications(notification.getSaccountid());
 		List<SimpleUser> inListUsers = notification.getNotifyUsers();
+
 		// If an user has add notes to Item , So we must include him to list
 		// "need sending notifications"
 		// ---------------------------------------------------------------
@@ -226,6 +202,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		List<SimpleNote> lstNote = noteService
 				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
 						noteSearchCriteria, 0, Integer.MAX_VALUE));
+
 		if (lstNote != null && lstNote.size() > 0) {
 			for (SimpleNote note : lstNote) {
 				if (note.getCreateduser() != null) {
@@ -296,4 +273,13 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		}
 		return "";
 	}
+
+	protected abstract TemplateGenerator templateGeneratorForCreateAction(
+			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+
+	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
+			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+
+	protected abstract TemplateGenerator templateGeneratorForCommentAction(
+			SimpleRelayEmailNotification emailNotification, SimpleUser user);
 }

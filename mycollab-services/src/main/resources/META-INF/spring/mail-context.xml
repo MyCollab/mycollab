@@ -7,6 +7,7 @@
         class="org.springframework.extensions.jcr.jackrabbit.JackrabbitRepositoryFactoryBean"
         p:configuration="classpath:/mail-repo.xml" p:homeDir="file:repo/mail-workspace">
     </bean>
+
     <bean id="jcrMailSessionFactory"
         class="com.esofthead.mycollab.module.mail.MailContentSessionFactory">
         <property name="repository" ref="mailRepository" />
@@ -17,6 +18,12 @@
             </bean>
         </property>
     </bean>
+
+    <bean id="velocityEngine"
+        class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="configLocation" value="classpath:velocity.properties" />
+    </bean>
+
     <bean id="jcrMailTemplate" class="org.springframework.extensions.jcr.JcrTemplate">
         <property name="sessionFactory" ref="jcrMailSessionFactory" />
         <property name="allowCreate" value="true" />

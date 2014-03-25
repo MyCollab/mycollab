@@ -24,6 +24,8 @@ public class MyCollabSession {
 	public static final String CURRENT_MODULE = "currentModule";
 
 	public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";
+	
+	public static final String HISTORY_VAL = "historyVal";
 
 	public static final String PRESENTER_VAL = "presenterMap";
 

@@ -33,7 +33,7 @@ public class TemplateContext {
 		velocityContext.put(key, value);
 	}
 
-	VelocityContext getVelocityContext() {
+	public VelocityContext getVelocityContext() {
 		return velocityContext;
 	}
 }

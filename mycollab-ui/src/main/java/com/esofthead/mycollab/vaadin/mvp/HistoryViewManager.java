@@ -16,24 +16,27 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
+import static com.esofthead.mycollab.vaadin.MyCollabSession.HISTORY_VAL;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.vaadin.MyCollabSession;
+
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class HistoryViewManager {
+public abstract class HistoryViewManager {
 	private static Logger log = LoggerFactory
 			.getLogger(HistoryViewManager.class);
 
-	private static List<ViewState> history = new ArrayList<ViewState>();
-
 	public static void addHistory(ViewState viewState) {
+		List<ViewState> history = getViewState();
 		if (history.size() > 10) {
 			history.remove(0);
 		}
@@ -42,6 +45,7 @@ public class HistoryViewManager {
 	}
 
 	public static ViewState getPreviousViewState() {
+		List<ViewState> history = getViewState();
 		if (history.size() >= 2) {
 			ViewState viewState = history.get(history.size() - 2);
 			return viewState;
@@ -51,6 +55,7 @@ public class HistoryViewManager {
 	}
 
 	public static ViewState back() {
+		List<ViewState> history = getViewState();
 		if (history.size() >= 2) {
 			ViewState viewState = history.get(history.size() - 2);
 			history.remove(history.size() - 1);
@@ -69,5 +74,15 @@ public class HistoryViewManager {
 		} else {
 			return new NullViewState();
 		}
+	}
+
+	private static List<ViewState> getViewState() {
+		List<ViewState> history = (List<ViewState>) MyCollabSession
+				.getVariable(HISTORY_VAL);
+		if (history == null) {
+			history = new ArrayList<ViewState>();
+			MyCollabSession.putVariable(HISTORY_VAL, history);
+		}
+		return history;
 	}
 }

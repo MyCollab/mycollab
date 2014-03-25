@@ -136,7 +136,7 @@
     <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_task
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
@@ -146,7 +146,7 @@
         parameterType="TaskSearchCriteria" lang="velocity">
         <include refid="selectTask" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    
@@ -163,7 +163,7 @@
     <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_prj_task
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="querySearchCriteria" />
         #end
     </select>
@@ -172,7 +172,7 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_task
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
             <include refid="querySearchCriteria" />
         #end
     </select>
@@ -193,7 +193,7 @@
         FROM m_prj_task
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -209,7 +209,7 @@
         FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser = s_user.username)
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end

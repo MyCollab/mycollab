@@ -108,6 +108,7 @@ public class ActivityRelatedItemListComp extends
 			buttonLayout.addComponent(newMeetingBtn);
 
 			this.addComponent(buttonLayout);
+			this.addStyleName("activity-realated-content");
 		}
 
 		tableItem = new ActivityTableDisplay(Arrays.asList(

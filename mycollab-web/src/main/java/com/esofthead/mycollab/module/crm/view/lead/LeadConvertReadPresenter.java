@@ -16,10 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -37,10 +34,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.UI;
 
 /**
  * 
@@ -83,7 +78,6 @@ public class LeadConvertReadPresenter extends
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
-
 					}
 
 					@Override
@@ -113,15 +107,16 @@ public class LeadConvertReadPresenter extends
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
 			crmToolbar.gotoItem(LocalizationHelper
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
-
+			if (data.getParams() instanceof SimpleLead) {
 			SimpleLead lead = (SimpleLead) data.getParams();
 			super.onGo(container, data);
-			view.displayConvertLeadInfo(lead);
+			view.previewItem(lead);
 
 			AppContext.addFragment(CrmLinkGenerator
 					.generateLeadPreviewLink(lead.getId()), LocalizationHelper
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Lead", lead.getLeadName()));
+			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

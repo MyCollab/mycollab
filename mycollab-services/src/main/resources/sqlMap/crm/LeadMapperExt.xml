@@ -170,7 +170,7 @@
         lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
         #end
@@ -180,7 +180,7 @@
         lang="velocity">
         DELETE FROM m_crm_lead
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
         #end
@@ -198,7 +198,7 @@
         parameterType="LeadSearchCriteria" lang="velocity">
         <include refid="selectSimpleLead" />
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="querySearchCriteria" />
         #end
         #end
@@ -246,7 +246,7 @@
         lang="velocity">
         SELECT MIN(id) FROM m_crm_lead
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
@@ -255,7 +255,7 @@
         resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_crm_lead
 
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
     </select>
@@ -266,7 +266,7 @@
             refid="com.esofthead.mycollab.module.crm.dao.LeadMapper.massUpdateWithSessionSql" />
 
         #ifnotnull($_parameter.searchCriteria)
-        #trim("WHERE" "AND|OR")
+        #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />
         #end
         #end

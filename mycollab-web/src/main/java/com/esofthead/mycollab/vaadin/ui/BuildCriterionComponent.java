@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.bouncycastle.asn1.cmp.OOBCertHash;
-
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
@@ -51,7 +49,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -82,7 +79,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 		HorizontalLayout headerBox = new HorizontalLayout();
 		headerBox.setSpacing(true);
-		headerBox.setMargin(new MarginInfo(true, false, false, true));
+		headerBox.setMargin(new MarginInfo(true, false, true, true));
 		headerBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 		UiUtils.addComponent(headerBox, new Label("&nbsp; Saved Filter: ",
@@ -264,10 +261,12 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			this.index = index;
 			this.setSpacing(true);
 			this.setMargin(new MarginInfo(false, true, false, true));
-			this.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+			this.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
 			indexLbl = new Label(index + "");
+			indexLbl.addStyleName("index_lbl");
 			this.addComponent(indexLbl, 0, 0);
+			this.setComponentAlignment(indexLbl, Alignment.TOP_LEFT);
 
 			if (index == 1) {
 				Label placeHolder = new Label("&nbsp;", ContentMode.HTML);
@@ -695,9 +694,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 								.fromJson(queryText);
 						fillSearchFieldInfo(fieldInfos);
 
-						if (filterBox.getComponentCount() <= 2) {
+						if (filterBox.getComponentCount() <= 3) {
 							Button updateBtn = new Button("Update");
 							updateBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+							updateBtn.setIcon(MyCollabResource.newResource("icons/16/crm/refresh.png"));
 							updateBtn
 									.addClickListener(new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
@@ -722,9 +722,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 										}
 									});
-							SplitButton optionBtn = new SplitButton(updateBtn);
-							optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
-							final VerticalLayout optionContent = new VerticalLayout();
+							
+							
 
 							Button deleteBtn = new Button("Delete",
 									new Button.ClickListener() {
@@ -751,15 +750,16 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 							deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 							deleteBtn.setIcon(MyCollabResource
 									.newResource("icons/16/delete2.png"));
-							optionContent.addComponent(deleteBtn);
-							optionBtn.setContent(optionContent);
-
-							filterBox.addComponent(optionBtn, 1);
+							
+						
+							filterBox.addComponent(deleteBtn, 1);
+							filterBox.addComponent(updateBtn, 1);
+							
 						}
 
 					} else {
 						searchContainer.removeAllComponents();
-						if (filterBox.getComponentCount() > 2) {
+						if (filterBox.getComponentCount() > 3) {
 							filterBox.removeComponent(filterBox.getComponent(1));
 						}
 					}

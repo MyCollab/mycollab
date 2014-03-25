@@ -24,8 +24,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.velocity.app.VelocityEngine;
+
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
 
@@ -36,6 +39,7 @@ public class TemplateGenerator {
 	private final String subjectTemplate;
 	private final String contentTemplatePathFile;
 	private final TemplateContext templateContext;
+	private VelocityEngine templateEngine;
 
 	/**
 	 * Initiate Template Generator instance
@@ -47,7 +51,8 @@ public class TemplateGenerator {
 	 */
 	public TemplateGenerator(String subjectTemplate,
 			String contentTemplatePathFile) {
-
+		this.templateEngine = ApplicationContextUtil
+				.getSpringBean(VelocityEngine.class);
 		templateContext = new TemplateContext();
 		this.subjectTemplate = subjectTemplate;
 		this.contentTemplatePathFile = contentTemplatePathFile;
@@ -77,7 +82,8 @@ public class TemplateGenerator {
 	public String generateSubjectContent() {
 		StringWriter writer = new StringWriter();
 		Reader reader = new StringReader(subjectTemplate);
-		TemplateEngine.evaluate(templateContext, writer, "log task", reader);
+		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
+				"log task", reader);
 		return writer.toString();
 	}
 
@@ -99,7 +105,8 @@ public class TemplateGenerator {
 							contentTemplatePathFile));
 		}
 
-		TemplateEngine.evaluate(templateContext, writer, "log task", reader);
+		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
+				"log task", reader);
 		return writer.toString();
 	}
 }

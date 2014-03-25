@@ -65,11 +65,18 @@ public class MonitorItemAspect {
 				int sAccountId = (Integer) PropertyUtils.getProperty(bean,
 						"saccountid");
 
+				Integer extraTypeId = null;
+				if (!"".equals(watchableAnnotation.extraTypeId())) {
+					extraTypeId = (Integer) PropertyUtils.getProperty(bean,
+							watchableAnnotation.extraTypeId());
+				}
+
 				MonitorItem monitorItem = new MonitorItem();
 				monitorItem.setMonitorDate(new GregorianCalendar().getTime());
 				monitorItem.setType(watchableAnnotation.type());
 				monitorItem.setTypeid((Integer) PropertyUtils.getProperty(bean,
 						"id"));
+				monitorItem.setExtratypeid(extraTypeId);
 				monitorItem.setUser(username);
 				monitorItem.setSaccountid(sAccountId);
 

@@ -13,28 +13,29 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.typeId != null">
-            <![CDATA[${searchCriteria.typeId.operation} m_monitor_item.typeid ${searchCriteria.typeId.compareOperator} #{searchCriteria.typeId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.type != null ">
-            <![CDATA[${searchCriteria.type.operation} m_monitor_item.type = #{searchCriteria.type.value} ]]>
-        </if>
-
-        <if test="searchCriteria.user != null ">
-            <![CDATA[${searchCriteria.user.operation} m_monitor_item.user = #{searchCriteria.user.value} ]]>
-        </if>
-
-        <if test="searchCriteria.extraTypeIds != null ">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.typeId)
+            ${searchCriteria.typeId.operation} m_monitor_item.typeid ${searchCriteria.typeId.compareOperator} @{searchCriteria.typeId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_monitor_item.type = @{searchCriteria.type.value}
+        #end
+        
+        #ifnotnull($searchCriteria.user)
+            ${searchCriteria.user.operation} m_monitor_item.user = @{searchCriteria.user.value}
+        #end
+        
+        #ifnotnull($searchCriteria.extraTypeIds)
             ${searchCriteria.extraTypeIds.operation}
             m_monitor_item.extratypeid IN
-            <foreach close=")" collection="searchCriteria.extraTypeIds.values"
-                item="extraTypeId" open="(" separator=",">
-                #{extraTypeId}
-            </foreach>
-
-        </if>
+            #repeat(${searchCriteria.extraTypeIds.values} $extraTypeId "," "(" ")")
+                @{extraTypeId}
+            #end
+        #end
+        ]]>
     </sql>
 
     <sql id="selectItem">
@@ -47,45 +48,36 @@
               LEFT OUTER JOIN s_user AS changeUser ON (m_monitor_item.user=changeUser.username)
         ]]>
     </sql>
-
-    <select id="getTotalCount" parameterType="MonitorSearchCriteria"
-        resultType="int">
-        SELECT count(*) as totalCount FROM m_monitor_item
-
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
-    </select>
-
+    
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_monitor_item.monitor_date DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_monitor_item.monitor_date DESC
     </sql>
 
+    <select id="getTotalCount" parameterType="MonitorSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_monitor_item
+
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+    </select>
+
     <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
-        resultMap="MonitorItemResult">
+        resultMap="MonitorItemResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.selectItem" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        <include refid="selectItem" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
 </mapper>

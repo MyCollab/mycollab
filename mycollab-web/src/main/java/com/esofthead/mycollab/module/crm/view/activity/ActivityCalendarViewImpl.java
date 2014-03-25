@@ -46,7 +46,7 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.mycollab.vaadin.ui.StandupStyleCalendarExp;
+import com.esofthead.mycollab.vaadin.ui.StyleCalendarExp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.addon.calendar.event.CalendarEvent;
@@ -76,6 +76,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
@@ -107,7 +108,7 @@ ActivityCalendarView {
 	private Button weekViewBtn;
 	private Button dailyViewBtn;
 	private Label dateHdr;
-	private final StandupStyleCalendarExp datePicker = new StandupStyleCalendarExp();
+	private final StyleCalendarExp datePicker = new StyleCalendarExp();
 
 	public ActivityCalendarViewImpl() {
 		super();
@@ -164,6 +165,7 @@ ActivityCalendarView {
 
 		toggleViewBtn = new PopupButton("Monthly");
 		toggleViewBtn.setWidth("200px");
+		toggleViewBtn.addStyleName("calendar-view-switcher");
 		VerticalLayout popupLayout = new VerticalLayout();
 		popupLayout.setSpacing(true);
 		popupLayout.setMargin(new MarginInfo(false, true, false, true));
@@ -176,7 +178,8 @@ ActivityCalendarView {
 			public void buttonClick(ClickEvent event) {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(monthViewBtn.getCaption());
-				calendarComponent.switchToMonthView(new Date(), true);
+				calendarComponent.switchToMonthView(new Date(), true);	
+				datePicker.selectDate(new Date());			
 				monthViewBtn.addStyleName("selected-style");
 				initLabelCaption();
 			}
@@ -192,6 +195,7 @@ ActivityCalendarView {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(weekViewBtn.getCaption());
 				calendarComponent.switchToWeekView(new Date());
+				datePicker.selectWeek(new Date());				
 			}
 		});
 		weekViewBtn.setStyleName("link");
@@ -205,15 +209,19 @@ ActivityCalendarView {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(dailyViewBtn.getCaption());
 				calendarComponent.switchToDateView(new Date());
+				datePicker.selectDate(new Date());
 			}
 		});
 		dailyViewBtn.setStyleName("link");
 		popupLayout.addComponent(dailyViewBtn);
 
 		toggleViewBtn.setContent(popupLayout);
+		CssLayout toggleBtnWrap = new CssLayout();
+		toggleBtnWrap.setStyleName("switcher-wrap");
+		toggleBtnWrap.addComponent(toggleViewBtn);
 
-		rightColumn.addComponent(toggleViewBtn);
-		rightColumn.setComponentAlignment(toggleViewBtn, Alignment.MIDDLE_CENTER);
+		rightColumn.addComponent(toggleBtnWrap);
+		rightColumn.setComponentAlignment(toggleBtnWrap, Alignment.MIDDLE_CENTER);
 
 		rightColumn.addComponent(this.datePicker);
 		initLabelCaption();
@@ -366,6 +374,11 @@ ActivityCalendarView {
 					public void valueChange(final ValueChangeEvent event) {
 						final Date selectedDate = (Date) event.getProperty()
 								.getValue();
+						if (calendarComponent.viewMode == ActivityCalendarViewImpl.Mode.WEEK) {
+							datePicker.selectWeek(selectedDate);
+						} else {
+							datePicker.selectDate(selectedDate);
+						}
 						calendarComponent
 						.switchCalendarByDatePicker(selectedDate);
 						datePicker.setLabelTime(AppContext

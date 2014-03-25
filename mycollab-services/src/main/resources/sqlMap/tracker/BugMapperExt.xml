@@ -419,7 +419,7 @@
         resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_bug
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="queryTotalCountSearchCriteria" />
             #end
         #end
@@ -430,7 +430,7 @@
 
         <include refid="selectBug" />
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end    
@@ -452,7 +452,7 @@
         FROM m_tracker_bug
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -468,7 +468,7 @@
         FROM m_tracker_bug
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -485,7 +485,7 @@
             m_tracker_bug
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -504,7 +504,7 @@
             LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser = s_user.username)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -522,7 +522,7 @@
             LEFT OUTER JOIN s_user ON (m_tracker_bug.logby = s_user.username)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -538,12 +538,12 @@
             m_tracker_component.componentname as groupname
         FROM m_tracker_bug
         RIGHT OUTER JOIN m_tracker_bug_related_item ON (m_tracker_bug.id = m_tracker_bug_related_item.bugid) 
-        RIGHT OUTER JOIN m_tracker_component ON ((m_tracker_bug_related_item.type = 'Component')
+        RIGHT OUTER JOIN m_tracker_component ON (m_tracker_bug_related_item.type = 'Component'
                 AND m_tracker_component.id = m_tracker_bug_related_item.typeid)
         ]]>
 
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -558,9 +558,7 @@
                 AND m_tracker_bug.id=m_tracker_bug_related_item.typeid) = 0
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+            <include refid="querySearchCriteria" />
         #end
     </select>
 
@@ -577,7 +575,7 @@
                 AND m_tracker_version.id = m_tracker_related_item.typeid)
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
@@ -591,9 +589,7 @@
             WHERE (SELECT COUNT(*) FROM m_tracker_related_item WHERE (m_tracker_related_item.type=0 OR m_tracker_related_item.type=1) AND CONCAT('bug-', m_tracker_bug.id) = m_tracker_related_item.refkey) = 0
         ]]>
         #ifnotnull($_parameter.searchCriteria)
-            #trim("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+            <include refid="querySearchCriteria" />
         #end
     </select>
 

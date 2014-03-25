@@ -136,7 +136,7 @@ RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunit
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image opportunityIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/contact_icon.png"));
+			Image opportunityIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/opportunity.png"));
 			iconWrap.addComponent(opportunityIcon);
 			blockTop.addComponent(iconWrap);
 

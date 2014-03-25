@@ -51,7 +51,7 @@ import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAc
 @Transactional
 @Traceable(module = ModuleNameConstants.PRJ, nameField = "summary", type = ProjectContants.BUG, extraFieldName = "projectid")
 @Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.BUG)
-@Watchable(type = MonitorTypeConstants.PRJ_BUG, userFieldName = "assignuser", emailHandlerBean = BugRelayEmailNotificationAction.class)
+@Watchable(type = MonitorTypeConstants.PRJ_BUG, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = BugRelayEmailNotificationAction.class)
 public class BugServiceImpl extends
 		DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements
 		BugService {

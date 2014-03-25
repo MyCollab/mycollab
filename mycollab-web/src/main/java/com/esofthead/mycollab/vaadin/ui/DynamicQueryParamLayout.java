@@ -87,10 +87,6 @@ SearchLayout<S> {
 		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
 
-		final Separator separator1 = new Separator();
-		UiUtils.addComponent(buttonControls, separator1,
-				Alignment.MIDDLE_LEFT);
-
 		final Button basicSearchBtn = new Button(
 				LocalizationHelper
 				.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
