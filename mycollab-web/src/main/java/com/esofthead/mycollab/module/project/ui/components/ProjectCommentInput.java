@@ -26,12 +26,14 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -45,7 +47,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectCommentInput extends VerticalLayout {
+public class ProjectCommentInput extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 	private final RichTextArea commentArea;
 
@@ -60,9 +62,37 @@ public class ProjectCommentInput extends VerticalLayout {
 			final boolean cancelButtonEnable,
 			final boolean isSendingEmailRelay,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		this.setWidth("600px");
+		/*this.setWidth("600px");
 		this.setSpacing(true);
-		this.setMargin(true);
+		this.setMargin(true);*/
+
+		/*HorizontalLayout commentWrap = new HorizontalLayout();*/
+		super();
+		this.setSpacing(true);
+		this.setStyleName("message");
+		this.setWidth("100%");
+
+		SimpleUser currentUser = AppContext.getSession();
+		VerticalLayout userBlock = new VerticalLayout();
+		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		userBlock.setWidth("80px");
+		userBlock.setSpacing(true);
+		userBlock.addComponent(UserAvatarControlFactory
+				.createUserAvatarButtonLink(
+						currentUser.getAvatarid(),
+						currentUser.getDisplayName()));
+		Label userName = new Label(currentUser.getDisplayName());
+		userName.setStyleName("user-name");
+		userBlock.addComponent(userName);
+
+		this.addComponent(userBlock);
+		VerticalLayout textAreaWrap = new VerticalLayout();
+		textAreaWrap.setStyleName("message-container");
+		textAreaWrap.setWidth("100%");
+		textAreaWrap.setMargin(true);
+		textAreaWrap.setSpacing(true);
+		this.addComponent(textAreaWrap);
+		this.setExpandRatio(textAreaWrap, 1.0f);
 
 		type = typeVal;
 		extraTypeId = extraTypeIdVal;
@@ -88,13 +118,13 @@ public class ProjectCommentInput extends VerticalLayout {
 		if (cancelButtonEnable) {
 			final Button cancelBtn = new Button("Cancel",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							component.cancel();
-						}
-					});
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					component.cancel();
+				}
+			});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			controlsLayout.addComponent(cancelBtn);
 			controlsLayout.setComponentAlignment(cancelBtn,
@@ -103,50 +133,50 @@ public class ProjectCommentInput extends VerticalLayout {
 
 		final Button newCommentBtn = new Button("Post",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						final Comment comment = new Comment();
-						comment.setComment((String) commentArea.getValue());
-						comment.setCreatedtime(new GregorianCalendar()
-								.getTime());
-						comment.setCreateduser(AppContext.getUsername());
-						comment.setSaccountid(AppContext.getAccountId());
-						comment.setType(type.toString());
-						comment.setTypeid(typeid);
-						comment.setExtratypeid(extraTypeId);
+			@Override
+			public void buttonClick(final Button.ClickEvent event) {
+				final Comment comment = new Comment();
+				comment.setComment(commentArea.getValue());
+				comment.setCreatedtime(new GregorianCalendar()
+				.getTime());
+				comment.setCreateduser(AppContext.getUsername());
+				comment.setSaccountid(AppContext.getAccountId());
+				comment.setType(type.toString());
+				comment.setTypeid(typeid);
+				comment.setExtratypeid(extraTypeId);
 
-						final CommentService commentService = ApplicationContextUtil
-								.getSpringBean(CommentService.class);
-						int commentId = commentService.saveWithSession(comment,
-								AppContext.getUsername(), isSendingEmailRelay,
-								emailHandler);
+				final CommentService commentService = ApplicationContextUtil
+						.getSpringBean(CommentService.class);
+				int commentId = commentService.saveWithSession(comment,
+						AppContext.getUsername(), isSendingEmailRelay,
+						emailHandler);
 
-						String attachmentPath = AttachmentUtils
-								.getProjectEntityCommentAttachmentPath(typeVal,
-										AppContext.getAccountId(),
-										CurrentProjectVariables.getProjectId(),
-										typeid, commentId);
+				String attachmentPath = AttachmentUtils
+						.getProjectEntityCommentAttachmentPath(typeVal,
+								AppContext.getAccountId(),
+								CurrentProjectVariables.getProjectId(),
+								typeid, commentId);
 
-						if (!"".equals(attachmentPath)) {
-							attachments.saveContentsToRepo(attachmentPath);
-						}
+				if (!"".equals(attachmentPath)) {
+					attachments.saveContentsToRepo(attachmentPath);
+				}
 
-						// save success, clear comment area and load list
-						// comments again
-						commentArea.setValue("");
-						attachments.removeAllAttachmentsDisplay();
-						component.reload();
-					}
-				});
+				// save success, clear comment area and load list
+				// comments again
+				commentArea.setValue("");
+				attachments.removeAllAttachmentsDisplay();
+				component.reload();
+			}
+		});
 		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		newCommentBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 		controlsLayout.addComponent(newCommentBtn);
 
-		this.addComponent(commentArea);
-		this.addComponent(attachments);
-		this.addComponent(controlsLayout);
+		textAreaWrap.addComponent(commentArea);
+		textAreaWrap.addComponent(attachments);
+		textAreaWrap.addComponent(controlsLayout);
 	}
 
 	void setTypeAndId(final int typeid) {

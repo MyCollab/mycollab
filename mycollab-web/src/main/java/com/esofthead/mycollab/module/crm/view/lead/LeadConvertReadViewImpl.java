@@ -77,7 +77,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements
-		LeadConvertReadView {
+LeadConvertReadView {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory
@@ -88,23 +88,24 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	private LeadCampaignListComp associateCampaignList;
 	private ActivityRelatedItemListComp associateActivityList;
 	private NoteListItems noteListItems;
-		
+
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
-	
+
 	public LeadConvertReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/lead.png"));
 	}
-	
+
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleLead> initPreviewForm() {
 		return new AdvancedPreviewBeanForm<SimpleLead>() {
 			private static final long serialVersionUID = 1L;
-			
+
+			@Override
 			public SimpleLead getBean() {
 				return lead;
 			}
-			
+
 			@Override
 			public void showHistory() {
 				LeadHistoryLogWindow historyLog = new LeadHistoryLogWindow(
@@ -114,7 +115,7 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 			}
 		};
 	}
-	
+
 	@Override
 	protected ComponentContainer createButtonControls() {
 		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<SimpleLead>(
@@ -124,22 +125,22 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 						| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
 						| HISTORY_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
 	}
-	
+
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		return noteListItems;
 	}
-	
+
 	@Override 
 	public void previewItem(final SimpleLead item) 
 	{
 		this.beanItem = item;
 		previewLayout.setTitle(initFormTitle());
 		displayConvertLeadInfo(item);
-	
+
 		onPreviewItem();
 	}
-	
+
 	@Override
 	protected void onPreviewItem() {
 		displayNotes();
@@ -151,16 +152,15 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		previewItemContainer.selectTab("About");
 	}
-	
+
 	@Override
 	protected String initFormTitle() {
 		return "You can not access the Lead, it is converted already";
 	}
-	
+
 	@Override
 	protected void initRelatedComponents() {
 		associateCampaignList = new LeadCampaignListComp();
-		associateCampaignList.setEnableControlButtons(false);
 
 		noteListItems = new NoteListItems("Notes");
 		noteListItems.setEnableCreateButton(false);
@@ -186,13 +186,13 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		previewItemContainer.addTab(associateCampaignList, "Campaigns");
 		previewItemContainer.addTab(associateActivityList, "Activities");
 	}
-	
+
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(CrmTypeConstants.LEAD,
 				LeadDefaultDynaFormLayoutFactory.getForm());
 	}
-	
+
 	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleLead> initBeanFormFieldFactory() {
 		return new LeadReadFormFieldFactory(previewForm);
@@ -201,11 +201,11 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	protected void displayCampaigns() {
 		associateCampaignList.displayCampaigns(beanItem);
 	}
-	
+
 	protected void displayNotes() {
 		noteListItems.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
 	}
-	
+
 	protected void displayActivities() {
 		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
@@ -214,32 +214,33 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
 		associateActivityList.setSearchCriteria(criteria);
 	}
-	
+
 	@Override
 	public SimpleLead getItem() {
 		return beanItem;
 	}
-	
+
 	@Override
 	public HasPreviewFormHandlers<SimpleLead> getPreviewFormHandlers() {
 		return previewForm;
 	}
-	
+
 	@Override
 	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
 		return associateActivityList;
 	}
-	
+
 	@Override
 	public IRelatedListHandlers<SimpleCampaign> getRelatedCampaignHandlers() {
 		return associateCampaignList;
 	}
 
+	@Override
 	public void displayConvertLeadInfo(final SimpleLead lead) {
 		this.removeAllComponents();
 		previewForm.removeAllComponents();
 		this.lead = lead;
-	
+
 		Label header = new Label("Conversion Details");
 		header.addStyleName("h2");
 		previewForm.addComponent(header);
@@ -258,16 +259,16 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		if (account != null) {
 			Button accountLink = new Button(account.getAccountname(),
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(this, account
-											.getId()));
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new AccountEvent.GotoRead(this, account
+									.getId()));
 
-						}
-					});
+				}
+			});
 			accountLink.setIcon(MyCollabResource
 					.newResource("icons/16/crm/account.png"));
 			accountLink.setStyleName("link");
@@ -285,16 +286,16 @@ public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		if (contact != null) {
 			Button contactLink = new Button(contact.getContactName(),
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(this, contact
-											.getId()));
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new ContactEvent.GotoRead(this, contact
+									.getId()));
 
-						}
-					});
+				}
+			});
 			contactLink.setIcon(MyCollabResource
 					.newResource("icons/16/crm/contact.png"));
 			contactLink.setStyleName("link");

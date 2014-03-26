@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow2;
+import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.contact.ContactSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.contact.ContactTableDisplay;
 import com.esofthead.mycollab.module.crm.view.contact.ContactTableFieldDef;
@@ -20,7 +20,7 @@ import com.vaadin.ui.Button.ClickEvent;
  */
 @SuppressWarnings("serial")
 public class AccountContactSelectionWindow extends
-RelatedItemSelectionWindow2<SimpleContact, ContactSearchCriteria> {
+RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
 	public AccountContactSelectionWindow(
 			final AccountContactListComp associateContactList) {

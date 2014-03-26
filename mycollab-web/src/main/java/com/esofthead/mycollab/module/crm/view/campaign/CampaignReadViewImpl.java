@@ -60,9 +60,9 @@ AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	protected CampaignAccountListComp2 associateAccountList;
-	protected CampaignContactListComp2 associateContactList;
-	protected CampaignLeadListComp2 associateLeadList;
+	protected CampaignAccountListComp associateAccountList;
+	protected CampaignContactListComp associateContactList;
+	protected CampaignLeadListComp associateLeadList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -101,9 +101,9 @@ AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 
 	@Override
 	protected void initRelatedComponents() {
-		associateAccountList = new CampaignAccountListComp2();
-		associateContactList = new CampaignContactListComp2();
-		associateLeadList = new CampaignLeadListComp2();
+		associateAccountList = new CampaignAccountListComp();
+		associateContactList = new CampaignContactListComp();
+		associateLeadList = new CampaignLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems("Notes");
 

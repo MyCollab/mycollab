@@ -26,10 +26,13 @@ import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -64,7 +67,7 @@ public class CommentInput extends VerticalLayout {
 			final boolean isSendingEmailRelay, final Class emailHandler) {
 		this.setWidth("600px");
 		setSpacing(true);
-		this.setMargin(true);
+		
 
 		type = typeVal;
 		typeid = typeidVal;
@@ -104,7 +107,7 @@ public class CommentInput extends VerticalLayout {
 					Alignment.MIDDLE_RIGHT);
 		}
 
-		final Button newCommentBtn = new Button("Post",
+		final Button saveBtn = new Button("Post",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -154,12 +157,50 @@ public class CommentInput extends VerticalLayout {
 						component.reload();
 					}
 				});
-		newCommentBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsLayout.addComponent(newCommentBtn);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
+		controlsLayout.addComponent(saveBtn);
+		
+		VerticalLayout editBox = new VerticalLayout();
+		editBox.setMargin(true);
+		editBox.setSpacing(true);
+	
+		
+		HorizontalLayout commentWrap = new HorizontalLayout();
+		commentWrap.setSpacing(true);
+		commentWrap.addStyleName("message");
+		commentWrap.setWidth("100%");
+		
 
-		this.addComponent(commentArea);
-		this.addComponent(attachments);
-		this.addComponent(controlsLayout);
+		SimpleUser currentUser = AppContext.getSession();
+		VerticalLayout userBlock = new VerticalLayout();
+		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		userBlock.setWidth("80px");
+		userBlock.setSpacing(true);
+		userBlock.addComponent(UserAvatarControlFactory
+				.createUserAvatarButtonLink(
+						currentUser.getAvatarid(),
+						currentUser.getDisplayName()));
+		Label userName = new Label(currentUser.getDisplayName());
+		userName.setStyleName("user-name");
+		userBlock.addComponent(userName);
+
+		commentWrap.addComponent(userBlock);
+		VerticalLayout textAreaWrap = new VerticalLayout();
+		textAreaWrap.setStyleName("message-container");
+		textAreaWrap.setWidth("100%");
+		textAreaWrap.addComponent(editBox);
+		
+		
+		
+		commentWrap.addComponent(textAreaWrap);
+		commentWrap.setExpandRatio(textAreaWrap, 1.0f);
+		
+		
+		editBox.addComponent(commentArea);
+		editBox.addComponent(attachments);
+		editBox.addComponent(controlsLayout);
+		this.addComponent(commentWrap);
 	}
 
 	void setTypeAndId(final CommentType type, final int typeid) {

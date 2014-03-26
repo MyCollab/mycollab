@@ -14,14 +14,17 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.types != null">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.types)
             ${searchCriteria.types.operation}
             s_relay_email_notification.type IN
-            <foreach close=")" collection="searchCriteria.types.values"
-                item="typeitem" open="(" separator=",">
-                #{typeitem}
-            </foreach>
-        </if>
+            #repeat(${searchCriteria.types.values} $type "," "(" ")")
+                @{type}
+            #end
+        #end
+        ]]>
     </sql>
     <sql id="selectSimpleRelayEmailNotification">
         <![CDATA[
@@ -30,7 +33,7 @@
                     s_relay_email_notification.extraTypeId, s_relay_email_notification.emailHandlerBean,
                     s_relay_email_notification.changeBy, s_relay_email_notification.changeComment,
                     concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
-                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
+                    notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
                     notifier.email AS notifiers_email
                 FROM s_relay_email_notification
                     LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeBy)
@@ -40,25 +43,21 @@
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="RelayEmailNotificationSearchCriteria"
-        resultMap="SimpleEmailRelayNotificationResult">
-        <include
-            refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.selectSimpleRelayEmailNotification" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        resultMap="SimpleEmailRelayNotificationResult" lang="velocity">
+        <include refid="selectSimpleRelayEmailNotification" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
-    <delete id="removeByCriteria" parameterType="RelayEmailNotificationSearchCriteria">
+    
+    <delete id="removeByCriteria" parameterType="RelayEmailNotificationSearchCriteria" lang="velocity">
         DELETE FROM s_relay_email_notification
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.common.dao.RelayEmailNotificationMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </delete>
 </mapper>

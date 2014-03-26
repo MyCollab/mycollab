@@ -37,7 +37,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class AccountContactListComp extends
-RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
+		RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 	private static final long serialVersionUID = -6451639268047881135L;
 
 	private Account account;
@@ -60,27 +60,27 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
-		.addClickListener(new SplitButton.SplitButtonClickListener() {
-			@Override
-			public void splitButtonClick(
-					final SplitButton.SplitButtonClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
+				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					@Override
+					public void splitButtonClick(
+							final SplitButton.SplitButtonClickEvent event) {
+						fireNewRelatedItem("");
+					}
+				});
 		final Button selectBtn = new Button("Select from existing contacts",
 				new Button.ClickListener() {
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(
-						AccountContactListComp.this);
-				final ContactSearchCriteria criteria = new ContactSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				UI.getCurrent().addWindow(contactsWindow);
-				contactsWindow.setSearchCriteria(criteria);
-				controlsBtn.setPopupVisible(false);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(
+								AccountContactListComp.this);
+						final ContactSearchCriteria criteria = new ContactSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						UI.getCurrent().addWindow(contactsWindow);
+						contactsWindow.setSearchCriteria(criteria);
+						controlsBtn.setPopupVisible(false);
+					}
+				});
 		selectBtn.setIcon(MyCollabResource.newResource("icons/16/select.png"));
 		selectBtn.setStyleName("link");
 		VerticalLayout buttonControlLayout = new VerticalLayout();
@@ -88,7 +88,8 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 		controlsBtn.setContent(buttonControlLayout);
 
 		controlsBtnWrap.addComponent(controlsBtn);
-		controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+		controlsBtnWrap.setComponentAlignment(controlsBtn,
+				Alignment.MIDDLE_RIGHT);
 		return controlsBtnWrap;
 	}
 
@@ -116,10 +117,12 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 		fireSelectedRelatedItems(selectedItems);
 	}
 
-	public class AccountContactBlockDisplay implements BlockDisplayHandler<SimpleContact> {
+	public class AccountContactBlockDisplay implements
+			BlockDisplayHandler<SimpleContact> {
 
 		@Override
-		public Component generateBlock(final SimpleContact contact, int blockIndex) {
+		public Component generateBlock(final SimpleContact contact,
+				int blockIndex) {
 			CssLayout beanBlock = new CssLayout();
 			beanBlock.addStyleName("bean-block");
 			beanBlock.setWidth("350px");
@@ -129,15 +132,16 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image contactAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/contact.png"));
+			Image contactAvatar = new Image(null,
+					MyCollabResource.newResource("icons/48/crm/contact.png"));
 			iconWrap.addComponent(contactAvatar);
 			blockTop.addComponent(iconWrap);
 
 			VerticalLayout contactInfo = new VerticalLayout();
 			contactInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null, MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+			Image btnDelete = new Image(null,
+					MyCollabResource.newResource("icons/12/project/icon_x.png"));
 			btnDelete.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -148,13 +152,13 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 							LocalizationHelper.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -163,11 +167,9 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 										final ContactService contactService = ApplicationContextUtil
 												.getSpringBean(ContactService.class);
 										contact.setAccountid(null);
-										contactService
-										.updateWithSession(
+										contactService.updateWithSession(
 												contact,
-												AppContext
-												.getUsername());
+												AppContext.getUsername());
 										AccountContactListComp.this.refresh();
 									}
 								}
@@ -179,23 +181,29 @@ RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label contactName = new Label("Name: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()) 
-					+ CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.CONTACT, contact.getId()) 
-					+ "'>" + contact.getContactName() + "</a>", ContentMode.HTML);
+			Label contactName = new Label("Name: <a href='"
+					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
+							.getSubdomain())
+					+ CrmLinkGenerator.generateCrmItemLink(
+							CrmTypeConstants.CONTACT, contact.getId()) + "'>"
+					+ contact.getContactName() + "</a>", ContentMode.HTML);
 
 			contactInfo.addComponent(contactName);
 
-			Label contactTitle = new Label("Title: " + (contact.getTitle() != null ? contact.getTitle() : ""));
+			Label contactTitle = new Label("Title: "
+					+ (contact.getTitle() != null ? contact.getTitle() : ""));
 			contactInfo.addComponent(contactTitle);
 
-			Label contactEmail = new Label("Email: " 
-					+ (contact.getEmail() != null ? 
-							"<a href='mailto:" + contact.getEmail() + "'>" + contact.getEmail() + "</a>" 
-							: "")
-							, ContentMode.HTML);
+			Label contactEmail = new Label("Email: "
+					+ (contact.getEmail() != null ? "<a href='mailto:"
+							+ contact.getEmail() + "'>" + contact.getEmail()
+							+ "</a>" : ""), ContentMode.HTML);
 			contactInfo.addComponent(contactEmail);
 
-			Label contactOfficePhone = new Label("Office Phone: " + (contact.getOfficephone() != null ? contact.getOfficephone() : ""));
+			Label contactOfficePhone = new Label(
+					"Office Phone: "
+							+ (contact.getOfficephone() != null ? contact
+									.getOfficephone() : ""));
 			contactInfo.addComponent(contactOfficePhone);
 
 			blockTop.addComponent(contactInfo);

@@ -37,6 +37,7 @@ import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormEmailLin
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -126,6 +127,7 @@ public class ContactReadFormFieldFactory extends
 
 			vcardDownloadBtn.setIcon(MyCollabResource
 					.newResource("icons/12/vcard.png"));
+			vcardDownloadBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
 			containerField.addComponentField(vcardDownloadBtn);
 			containerField.getLayout().setComponentAlignment(vcardDownloadBtn,
 					Alignment.TOP_RIGHT);

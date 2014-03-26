@@ -11,20 +11,31 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 
-public abstract class RelatedListComp2<SearchService extends ISearchableService<S>, S extends SearchCriteria, T> extends 
-AbstractBeanBlockList<S, T> implements IRelatedListHandlers<T> {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ * @param <SearchService>
+ * @param <S>
+ * @param <T>
+ */
+public abstract class RelatedListComp2<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
+		extends AbstractBeanBlockList<S, T> implements IRelatedListHandlers<T> {
 	private static final long serialVersionUID = -5854451222908978059L;
 	private final SearchService searchService;
 
 	protected Set<RelatedListHandler<T>> handlers;
 
-	public RelatedListComp2(SearchService searchService, int defaultNumberSearchItems) {
+	public RelatedListComp2(SearchService searchService,
+			int defaultNumberSearchItems) {
 		super(defaultNumberSearchItems);
 		this.searchService = searchService;
 	}
 
 	public RelatedListComp2(SearchService searchService,
-			BlockDisplayHandler<T> blockDisplayHandler, int defaultNumberSearchItems) {
+			BlockDisplayHandler<T> blockDisplayHandler,
+			int defaultNumberSearchItems) {
 		super(blockDisplayHandler, defaultNumberSearchItems);
 		this.searchService = searchService;
 	}

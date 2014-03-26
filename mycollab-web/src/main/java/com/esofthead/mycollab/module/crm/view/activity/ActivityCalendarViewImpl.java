@@ -557,7 +557,7 @@ ActivityCalendarView {
 							QuickCreateEventWindow.this.close();
 						}
 					});
-					cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 					cancelBtn.setIcon(MyCollabResource
 							.newResource("icons/16/cancel.png"));
 					layout.addComponent(cancelBtn);

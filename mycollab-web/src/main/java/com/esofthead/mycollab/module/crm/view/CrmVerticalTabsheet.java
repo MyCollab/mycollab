@@ -25,7 +25,7 @@ public class CrmVerticalTabsheet extends VerticalTabsheet{
 		switch (caption){
 		case "About":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/account" + suffix + ".png"));
+					.newResource("icons/22/crm/detail" + suffix + ".png"));
 			break;
 
 		case "Campaigns":
@@ -71,6 +71,10 @@ public class CrmVerticalTabsheet extends VerticalTabsheet{
 		case "Custom Layouts":
 			btn.setIcon(MyCollabResource
 					.newResource("icons/22/crm/layout" + suffix + ".png"));
+			break;
+		case "Accounts":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/crm/account" + suffix + ".png"));
 			break;
 			
 		default:

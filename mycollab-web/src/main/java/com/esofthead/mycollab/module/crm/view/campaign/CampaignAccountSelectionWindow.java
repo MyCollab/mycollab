@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
-import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow2;
+import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.account.AccountSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.esofthead.mycollab.module.crm.view.account.AccountTableFieldDef;
@@ -18,12 +18,12 @@ import com.vaadin.ui.Button;
  * @since 1.0
  */
 public class CampaignAccountSelectionWindow extends
-RelatedItemSelectionWindow2<SimpleAccount, AccountSearchCriteria> {
+RelatedItemSelectionWindow<SimpleAccount, AccountSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 
 	public CampaignAccountSelectionWindow(
-			CampaignAccountListComp2 associateAccountList) {
+			CampaignAccountListComp associateAccountList) {
 		super("Select Accounts", associateAccountList);
 
 		this.setWidth("900px");

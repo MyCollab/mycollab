@@ -66,7 +66,7 @@ implements ContactReadView {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ContactOpportunityListComp2 associateOpportunityList;
+	protected ContactOpportunityListComp associateOpportunityList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -167,7 +167,7 @@ implements ContactReadView {
 
 	@Override
 	protected void initRelatedComponents() {
-		this.associateOpportunityList = new ContactOpportunityListComp2();
+		this.associateOpportunityList = new ContactOpportunityListComp();
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
 		this.noteListItems = new NoteListItems("Notes");
 

@@ -31,8 +31,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
@@ -121,11 +119,7 @@ implements AccountReadView {
 	}
 
 	protected void displayAssociateCaseList() {
-		final CaseSearchCriteria criteria = new CaseSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(beanItem.getId()));
-		associateCaseList.setSearchCriteria(criteria);
+		associateCaseList.displayCases(beanItem);
 	}
 
 	protected void displayAssociateLeadList() {
@@ -133,12 +127,7 @@ implements AccountReadView {
 	}
 
 	protected void displayAssociateOpportunityList() {
-		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		criteria.setAccountId(new NumberSearchField(SearchField.AND, beanItem
-				.getId()));
-		associateOpportunityList.setSearchCriteria(criteria);
+		associateOpportunityList.displayOpportunities(beanItem);
 	}
 
 	protected void displayNotes() {

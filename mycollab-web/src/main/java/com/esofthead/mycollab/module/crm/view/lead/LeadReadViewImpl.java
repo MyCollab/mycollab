@@ -60,7 +60,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 implements LeadReadView {
 	private static final long serialVersionUID = 1L;
 
-	protected LeadCampaignListComp2 associateCampaignList;
+	protected LeadCampaignListComp associateCampaignList;
 	protected ActivityRelatedItemListComp associateActivityList;
 	protected NoteListItems noteListItems;
 
@@ -133,7 +133,7 @@ implements LeadReadView {
 
 	@Override
 	protected void initRelatedComponents() {
-		associateCampaignList = new LeadCampaignListComp2();
+		associateCampaignList = new LeadCampaignListComp();
 		noteListItems = new NoteListItems("Notes");
 		associateActivityList = new ActivityRelatedItemListComp(true);
 

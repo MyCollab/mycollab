@@ -70,12 +70,12 @@ RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunit
 		return controlsBtnWrap;
 	}
 
-	public void displayOpportunitys(final Account account) {
+	public void displayOpportunities(final Account account) {
 		this.account = account;
-		loadOpportunitys();
+		loadOpportunities();
 	}
 
-	private void loadOpportunitys() {
+	private void loadOpportunities() {
 		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
@@ -86,7 +86,7 @@ RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunit
 
 	@Override
 	public void refresh() {
-		loadOpportunitys();
+		loadOpportunities();
 	}
 
 	@Override

@@ -45,6 +45,11 @@ public class CrmNotificationSettingServiceImpl extends
 	private CrmNotificationSettingMapper crmNotificationSettingMapper;
 
 	@Override
+	public ICrudGenericDAO<Integer, CrmNotificationSetting> getCrudMapper() {
+		return crmNotificationSettingMapper;
+	}
+
+	@Override
 	@Cacheable
 	public CrmNotificationSetting findNotification(String username,
 			@CacheKey Integer sAccountId) {
@@ -58,11 +63,6 @@ public class CrmNotificationSettingServiceImpl extends
 		} else {
 			return null;
 		}
-	}
-
-	@Override
-	public ICrudGenericDAO<Integer, CrmNotificationSetting> getCrudMapper() {
-		return crmNotificationSettingMapper;
 	}
 
 	@Override

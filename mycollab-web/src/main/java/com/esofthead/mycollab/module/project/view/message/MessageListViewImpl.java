@@ -373,7 +373,6 @@ MessageListView, HasEditFormHandlers<Message> {
 			basicSearchBody.setStyleName("message-search");
 			basicSearchBody.setSizeUndefined();
 			basicSearchBody.setSpacing(true);
-			basicSearchBody.setMargin(true);
 
 			final TextField nameField = new TextField();
 			nameField.addTextChangeListener(new TextChangeListener() {
@@ -441,31 +440,15 @@ MessageListView, HasEditFormHandlers<Message> {
 
 		public TopMessagePanel() {
 			this.setWidth("100%");
+			this.setMargin(true);
 			this.setStyleName("message-toppanel");
 			this.messageSearchPanel = new MessageSearchPanel();
 			this.messagePanelBody = new HorizontalLayout();
 			this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-			/*final Label headerLbl = new Label("Messages");
-			headerLbl.setStyleName("h2");
-			final Image icon = new Image(null, MyCollabResource
-					.newResource("icons/24/project/message.png"));
-			final HorizontalLayout layoutHeader = new HorizontalLayout();
-			layoutHeader.setStyleName("message-toppanel-header");
-			layoutHeader.setMargin(true);
-			layoutHeader.addComponent(icon);
-			layoutHeader.addComponent(headerLbl);
-			layoutHeader.setExpandRatio(headerLbl, 1.0f);
-			layoutHeader
-					.setComponentAlignment(headerLbl, Alignment.MIDDLE_LEFT);
-			layoutHeader.setSpacing(true);
-			layoutHeader.setWidth("100%");
-			this.addComponent(layoutHeader);*/
-
 			this.messageSearchPanel.setWidth("400px");
 			this.messagePanelBody.setStyleName("message-toppanel-body");
 			this.messagePanelBody.setWidth("100%");
-			this.messagePanelBody.setMargin(true);
 			this.addComponent(this.messagePanelBody);
 
 			this.createBasicLayout();

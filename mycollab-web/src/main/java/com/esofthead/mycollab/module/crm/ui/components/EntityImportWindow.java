@@ -275,8 +275,8 @@ public abstract class EntityImportWindow<E> extends Window {
 			UiUtils.addComponent(controlGroupBtn, nextBtn,
 					Alignment.MIDDLE_CENTER);
 
-			Button cancleBtn = new Button("Cancel");
-			cancleBtn.addClickListener(new ClickListener() {
+			Button cancelBtn = new Button("Cancel");
+			cancelBtn.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -284,8 +284,8 @@ public abstract class EntityImportWindow<E> extends Window {
 					EntityImportWindow.this.close();
 				}
 			});
-			cancleBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-			UiUtils.addComponent(controlGroupBtn, cancleBtn,
+			cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+			UiUtils.addComponent(controlGroupBtn, cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
 			UiUtils.addComponent(layout, controlGroupBtn,
@@ -439,6 +439,7 @@ public abstract class EntityImportWindow<E> extends Window {
 			uploadFieldVerticalLayout.addComponent(new Label("Select File"));
 
 			uploadField = new SingleFileUploadField();
+			uploadField.addStyleName(UIConstants.THEME_BLUE_LINK);
 			uploadField.addListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 

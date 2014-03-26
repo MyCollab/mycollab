@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow2;
+import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableFieldDef;
@@ -19,7 +19,7 @@ import com.vaadin.ui.Button;
  */
 @SuppressWarnings("serial")
 public class AccountLeadSelectionWindow extends
-RelatedItemSelectionWindow2<SimpleLead, LeadSearchCriteria> {
+RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
 	public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
 		super("Select Leads", associateLeadList);
