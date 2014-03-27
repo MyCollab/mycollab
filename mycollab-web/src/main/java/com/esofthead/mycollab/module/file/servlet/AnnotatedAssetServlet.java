@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.HttpRequestHandler;
 
-import com.esofthead.mycollab.module.ecm.MimeTypesUtil;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 
 /**
  * 

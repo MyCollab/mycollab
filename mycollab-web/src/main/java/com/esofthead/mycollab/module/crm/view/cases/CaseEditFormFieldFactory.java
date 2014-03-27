@@ -32,12 +32,16 @@ import com.vaadin.ui.TextField;
  * 
  * @param <B>
  */
-public class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
+class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 		AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
-	public CaseEditFormFieldFactory(GenericBeanForm<B> form) {
+	CaseEditFormFieldFactory(GenericBeanForm<B> form) {
 		super(form);
+	}
+
+	CaseEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+		super(form, isValidateForm);
 	}
 
 	@Override
@@ -66,9 +70,12 @@ public class CaseEditFormFieldFactory<B extends CaseWithBLOBs> extends
 			return accountField;
 		} else if (propertyId.equals("subject")) {
 			TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Subject must not be null");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Subject must not be null");
+			}
+
 			return tf;
 		} else if (propertyId.equals("assignuser")) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();

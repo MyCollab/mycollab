@@ -52,8 +52,8 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Lead> initBeanFormFieldFactory() {
-		return new LeadEditFormFieldFactory<Lead>(updateForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<Lead> buildBeanFormFieldFactory() {
+		return new LeadEditFormFieldFactory<Lead>(updateForm, false);
 	}
 
 	private class MassUpdateLeadFormLayoutFactory implements IFormLayoutFactory {

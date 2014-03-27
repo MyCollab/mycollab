@@ -43,7 +43,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
-VersionAddView {
+		VersionAddView {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -53,8 +53,7 @@ VersionAddView {
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem
-				.getVersionname();
+		return (beanItem.getId() == null) ? null : beanItem.getVersionname();
 	}
 
 	@Override
@@ -90,7 +89,7 @@ VersionAddView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<Version> {
+			AbstractBeanFieldGroupEditFieldFactory<Version> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<Version> form) {
@@ -102,9 +101,11 @@ VersionAddView {
 
 			if (propertyId.equals("versionname")) {
 				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Version Name");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Please enter a Version Name");
+				}
 				return tf;
 			} else if (propertyId.equals("description")) {
 				final TextArea field = new TextArea("", "");

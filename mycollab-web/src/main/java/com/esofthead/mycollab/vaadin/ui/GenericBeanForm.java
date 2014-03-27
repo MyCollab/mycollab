@@ -41,7 +41,7 @@ public class GenericBeanForm<B> extends CssLayout {
 	protected IFormLayoutFactory layoutFactory;
 	protected IBeanFieldGroupFieldFactory<B> fieldFactory;
 
-    private boolean isValid;
+	private boolean isValid;
 
 	private B bean;
 
@@ -79,15 +79,19 @@ public class GenericBeanForm<B> extends CssLayout {
 		fieldFactory.setBean(bean);
 	}
 
+	public void commit() {
+		fieldFactory.commit();
+	}
+
 	protected void attachField(Object propertyId, Field<?> field) {
 		layoutFactory.attachField(propertyId, field);
 	}
 
-    protected void setValid(boolean value) {
-        isValid = value;
-    }
+	protected void setValid(boolean value) {
+		isValid = value;
+	}
 
-    protected boolean isValid() {
-        return this.isValid;
-    }
+	protected boolean isValid() {
+		return this.isValid;
+	}
 }

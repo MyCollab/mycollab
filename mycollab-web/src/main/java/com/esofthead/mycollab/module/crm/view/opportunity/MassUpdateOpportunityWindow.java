@@ -53,8 +53,9 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Opportunity> initBeanFormFieldFactory() {
-		return new OpportunityEditFormFieldFactory<Opportunity>(updateForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<Opportunity> buildBeanFormFieldFactory() {
+		return new OpportunityEditFormFieldFactory<Opportunity>(updateForm,
+				false);
 	}
 
 	private class MassUpdateOpportunityFormLayoutFactory implements

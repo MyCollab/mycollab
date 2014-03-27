@@ -102,7 +102,7 @@ public class NoteListItems extends VerticalLayout {
 	public NoteListItems(final String title, final String type,
 			final Integer typeid) {
 		super();
-		
+
 		Label header = new Label(title);
 		header.addStyleName("h2");
 		this.addComponent(header);
@@ -142,18 +142,18 @@ public class NoteListItems extends VerticalLayout {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(false, false, true, false));
 		this.setStyleName("note-view");
-		
+
 		this.addComponent(noteWrapper);
 		addStyleName("note-list");
-		
+
 		createBtn = new Button("New Note", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-					
+
 				noteWrapper
- 				.replaceComponent(createBtn, new NoteEditor());
+				.replaceComponent(createBtn, new NoteEditor());
 			}
 		});
 
@@ -178,7 +178,7 @@ public class NoteListItems extends VerticalLayout {
 		this.typeid = typeid;
 		displayNotes();
 	}
-	
+
 
 
 	public static class NoteRowDisplayHandler implements
@@ -203,9 +203,9 @@ public class NoteListItems extends VerticalLayout {
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		private Component constructNoteHeader(final SimpleNote note) {
 			final HorizontalLayout layout = new HorizontalLayout();
 			layout.setStyleName("message");
@@ -297,7 +297,7 @@ public class NoteListItems extends VerticalLayout {
 			rowLayout.addComponent(messageFooter);
 
 			layout.addComponent(rowLayout);
-			
+
 			layout.setExpandRatio(rowLayout, 1.0f);
 			return layout;
 		}
@@ -353,20 +353,19 @@ public class NoteListItems extends VerticalLayout {
 		public NoteEditor() {
 			super();
 			setSpacing(true);
-			this.setMargin(true);
 			this.setWidth("600px");
-		
-			
+
+
 			VerticalLayout editBox = new VerticalLayout();
 			editBox.setMargin(true);
 			editBox.setSpacing(true);
-		
-			
+
+
 			HorizontalLayout commentWrap = new HorizontalLayout();
 			commentWrap.setSpacing(true);
 			commentWrap.addStyleName("message");
 			commentWrap.setWidth("100%");
-			
+
 
 			SimpleUser currentUser = AppContext.getSession();
 			VerticalLayout userBlock = new VerticalLayout();
@@ -386,23 +385,23 @@ public class NoteListItems extends VerticalLayout {
 			textAreaWrap.setStyleName("message-container");
 			textAreaWrap.setWidth("100%");
 			textAreaWrap.addComponent(editBox);
-			
-			
-			
+
+
+
 			commentWrap.addComponent(textAreaWrap);
 			commentWrap.setExpandRatio(textAreaWrap, 1.0f);
-			
-			
+
+
 			final AttachmentPanel attachments = new AttachmentPanel();
 
 			noteArea = new RichTextArea();
 			noteArea.setWidth("100%");
 			noteArea.setHeight("200px");
-			
-			
+
+
 			editBox.addComponent(noteArea);
 			editBox.addComponent(attachments);
-			
+
 
 			final HorizontalLayout controls = new HorizontalLayout();
 			controls.setSpacing(true);
@@ -524,7 +523,7 @@ public class NoteListItems extends VerticalLayout {
 			saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 			controls.addComponent(saveBtn);
 			controls.setComponentAlignment(saveBtn, Alignment.MIDDLE_RIGHT);
-			
+
 			editBox.addComponent(controls);
 			this.addComponent(commentWrap);
 		}

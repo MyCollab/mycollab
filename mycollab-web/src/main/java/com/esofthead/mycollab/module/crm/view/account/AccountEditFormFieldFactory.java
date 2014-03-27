@@ -42,6 +42,10 @@ class AccountEditFormFieldFactory<B extends Account> extends
 		super(form);
 	}
 
+	AccountEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+		super(form, isValidateForm);
+	}
+
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
 
@@ -65,9 +69,12 @@ class AccountEditFormFieldFactory<B extends Account> extends
 			return billingCountryComboBox;
 		} else if (propertyId.equals("accountname")) {
 			TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Please enter an Account Name");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Please enter an Account Name");
+			}
+
 			return tf;
 		}
 

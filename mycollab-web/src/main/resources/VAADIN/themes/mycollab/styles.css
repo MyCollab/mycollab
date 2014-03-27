@@ -287,7 +287,7 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	margin: 0px;
 }
 
-.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap, .v-ie8  .v-pressed.v-button .v-button-wrap {
+.v-button-wrap, .v-disabled:active .v-button-wrap, .v-ie8  .v-pressed.v-button .v-button-wrap {
 	border:none;
 	border-top:1px solid transparent;
 	padding: 6px 15px;
@@ -1067,9 +1067,11 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 .v-button.dropbox-icon-button {
-	background: url("icons/input-bg.png") repeat-x left top #fff;
+	background:none;
 	border-radius: 3px 0px 0px 3px;
 	border-right: medium none;
+	border-color: #CFCFCF;
+	padding: 1px 0px 0px;
 }
 
 .v-button.dropbox-icon-button .v-button-wrap,.v-button.dropbox-icon-button:active .v-button-wrap
@@ -1129,10 +1131,6 @@ input.v-textfield-pagedtable-pagefield {
 
 .crmContainer .navigator-wrap .basic-info, .crmContainer .navigator-wrap .basic-info .v-button-link .v-button-caption {
 	color: #FFFFFF;
-}
-
-.crmContainer .navigator-wrap .basic-info .v-button-link .v-button-caption {
-	font-weight: bold;
 }
 
 .crmContainer .navigator-wrap .basic-info:after {
@@ -4053,12 +4051,8 @@ div.v-lazyloadingwrapper-loading {
 /* End Toggle Button Group */
 
 /* Pie Chart Legend Box */
-.depotContent .legendBoxContent .v-button-link {
-	margin-bottom: 3px;
-}
-
 .legendBoxContent .v-button .v-button-caption {
-	line-height: 20px;
+	line-height: 25px;
 }
 
 table.legendBox {

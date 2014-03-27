@@ -98,7 +98,7 @@ import com.vaadin.ui.Window;
  */
 @ViewComponent
 public class ActivityCalendarViewImpl extends AbstractPageView implements
-ActivityCalendarView {
+		ActivityCalendarView {
 
 	private static final long serialVersionUID = 1L;
 	private final PopupButton calendarActionBtn;
@@ -147,7 +147,8 @@ ActivityCalendarView {
 		actionPanel.setMargin(new MarginInfo(true, false, true, false));
 		actionPanel.setStyleName(UIConstants.HEADER_VIEW);
 		actionPanel.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		actionPanel.addComponent(new Image(null, MyCollabResource.newResource("icons/22/crm/event.png")));
+		actionPanel.addComponent(new Image(null, MyCollabResource
+				.newResource("icons/22/crm/event.png")));
 
 		Label headerText = new Label("Activity Calendar");
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
@@ -161,7 +162,8 @@ ActivityCalendarView {
 		this.dateHdr.setSizeUndefined();
 		this.dateHdr.setStyleName("h2");
 		mainContent.addComponent(this.dateHdr);
-		mainContent.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
+		mainContent
+				.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
 
 		toggleViewBtn = new PopupButton("Monthly");
 		toggleViewBtn.setWidth("200px");
@@ -178,8 +180,8 @@ ActivityCalendarView {
 			public void buttonClick(ClickEvent event) {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(monthViewBtn.getCaption());
-				calendarComponent.switchToMonthView(new Date(), true);	
-				datePicker.selectDate(new Date());			
+				calendarComponent.switchToMonthView(new Date(), true);
+				datePicker.selectDate(new Date());
 				monthViewBtn.addStyleName("selected-style");
 				initLabelCaption();
 			}
@@ -195,7 +197,7 @@ ActivityCalendarView {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(weekViewBtn.getCaption());
 				calendarComponent.switchToWeekView(new Date());
-				datePicker.selectWeek(new Date());				
+				datePicker.selectWeek(new Date());
 			}
 		});
 		weekViewBtn.setStyleName("link");
@@ -221,7 +223,8 @@ ActivityCalendarView {
 		toggleBtnWrap.addComponent(toggleViewBtn);
 
 		rightColumn.addComponent(toggleBtnWrap);
-		rightColumn.setComponentAlignment(toggleBtnWrap, Alignment.MIDDLE_CENTER);
+		rightColumn.setComponentAlignment(toggleBtnWrap,
+				Alignment.MIDDLE_CENTER);
 
 		rightColumn.addComponent(this.datePicker);
 		initLabelCaption();
@@ -264,17 +267,19 @@ ActivityCalendarView {
 		calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(calendarViewBtn);
 
-		Button activityListBtn = new Button("Activities List", new Button.ClickListener() {
-			private static final long serialVersionUID = 2156576556541398934L;
+		Button activityListBtn = new Button("Activities List",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 2156576556541398934L;
 
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(
-						AppContext.getAccountId()));
-				EventBus.getInstance().fireEvent(new ActivityEvent.GotoTodoList(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent evt) {
+						ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.GotoTodoList(this, null));
+					}
+				});
 		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(activityListBtn);
 
@@ -284,7 +289,8 @@ ActivityCalendarView {
 		calendarComponent = new MonthViewCalendar();
 		mainContent.addComponent(calendarComponent);
 		mainContent.setExpandRatio(calendarComponent, 1);
-		mainContent.setComponentAlignment(calendarComponent, Alignment.MIDDLE_CENTER);
+		mainContent.setComponentAlignment(calendarComponent,
+				Alignment.MIDDLE_CENTER);
 
 		HorizontalLayout spacing = new HorizontalLayout();
 		spacing.setHeight("30px");
@@ -327,11 +333,12 @@ ActivityCalendarView {
 		Label futureLabel = new Label("Future");
 		futureWapper.addComponent(futureLabel);
 		futureWapper
-		.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
+				.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
 		noteInfoLayout.addComponent(futureWapper);
 
 		mainContent.addComponent(noteInfoLayout);
-		mainContent.setComponentAlignment(noteInfoLayout, Alignment.MIDDLE_CENTER);
+		mainContent.setComponentAlignment(noteInfoLayout,
+				Alignment.MIDDLE_CENTER);
 	}
 
 	private void updateLabelCaption(Date date) {
@@ -341,8 +348,7 @@ ActivityCalendarView {
 			calendar.setTime(date);
 			DateFormatSymbols s = new DateFormatSymbols();
 			String month = s.getMonths()[calendar.get(GregorianCalendar.MONTH)];
-			dateHdr.setValue(month + " "
-					+ calendar.get(GregorianCalendar.YEAR));
+			dateHdr.setValue(month + " " + calendar.get(GregorianCalendar.YEAR));
 			break;
 		case WEEK:
 			java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -380,11 +386,11 @@ ActivityCalendarView {
 							datePicker.selectDate(selectedDate);
 						}
 						calendarComponent
-						.switchCalendarByDatePicker(selectedDate);
+								.switchCalendarByDatePicker(selectedDate);
 						datePicker.setLabelTime(AppContext
 								.formatDate(selectedDate));
 						updateLabelCaption(selectedDate);
-						//dateHdr.setPopupVisible(false);
+						// dateHdr.setPopupVisible(false);
 					}
 				});
 
@@ -447,8 +453,7 @@ ActivityCalendarView {
 		calendar.setTime(datenow);
 		DateFormatSymbols s = new DateFormatSymbols();
 		String month = s.getMonths()[calendar.get(GregorianCalendar.MONTH)];
-		dateHdr.setValue(month + " "
-				+ calendar.get(GregorianCalendar.YEAR));
+		dateHdr.setValue(month + " " + calendar.get(GregorianCalendar.YEAR));
 	}
 
 	private class MenuActionListener implements Button.ClickListener {
@@ -525,23 +530,23 @@ ActivityCalendarView {
 					layout.setStyleName("addNewControl");
 					Button saveBtn = new Button("Save",
 							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+								private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							if (EditForm.this.validateForm()) {
-								MeetingService meetingService = ApplicationContextUtil
-										.getSpringBean(MeetingService.class);
-								meetingService.saveWithSession(meeting,
-										AppContext.getUsername());
-								QuickCreateEventWindow.this.close();
-								EventBus.getInstance().fireEvent(
-										new ActivityEvent.GotoCalendar(
-												this, null));
-							}
+								@Override
+								public void buttonClick(ClickEvent event) {
+									if (EditForm.this.validateForm()) {
+										MeetingService meetingService = ApplicationContextUtil
+												.getSpringBean(MeetingService.class);
+										meetingService.saveWithSession(meeting,
+												AppContext.getUsername());
+										QuickCreateEventWindow.this.close();
+										EventBus.getInstance().fireEvent(
+												new ActivityEvent.GotoCalendar(
+														this, null));
+									}
 
-						}
-					});
+								}
+							});
 					saveBtn.setIcon(MyCollabResource
 							.newResource("icons/16/save.png"));
 					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -550,13 +555,13 @@ ActivityCalendarView {
 							Alignment.MIDDLE_CENTER);
 					Button cancelBtn = new Button("Cancel",
 							new ClickListener() {
-						private static final long serialVersionUID = 1L;
+								private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							QuickCreateEventWindow.this.close();
-						}
-					});
+								@Override
+								public void buttonClick(ClickEvent event) {
+									QuickCreateEventWindow.this.close();
+								}
+							});
 					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 					cancelBtn.setIcon(MyCollabResource
 							.newResource("icons/16/cancel.png"));
@@ -581,7 +586,7 @@ ActivityCalendarView {
 			}
 
 			private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+					AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
 				private static final long serialVersionUID = 1L;
 
 				public EditFormFieldFactory(
@@ -593,9 +598,13 @@ ActivityCalendarView {
 				protected Field<?> onCreateField(Object propertyId) {
 					if (propertyId.equals("subject")) {
 						TextField tf = new TextField();
-						tf.setNullRepresentation("");
-						tf.setRequired(true);
-						tf.setRequiredError("Subject must not be null");
+
+						if (isValidateForm) {
+							tf.setNullRepresentation("");
+							tf.setRequired(true);
+							tf.setRequiredError("Subject must not be null");
+						}
+
 						return tf;
 					} else if (propertyId.equals("status")) {
 						return new MeetingStatusComboBox();
@@ -708,8 +717,8 @@ ActivityCalendarView {
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, 1);
-						dateHdr.setValue(DateTimeUtils
-								.formatDate(calendar.getTime()));
+						dateHdr.setValue(DateTimeUtils.formatDate(calendar
+								.getTime()));
 						break;
 					case MONTH:
 						break;
@@ -739,8 +748,8 @@ ActivityCalendarView {
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, -1);
-						dateHdr.setValue(DateTimeUtils
-								.formatDate(calendar.getTime()));
+						dateHdr.setValue(DateTimeUtils.formatDate(calendar
+								.getTime()));
 						break;
 					case MONTH:
 						break;
@@ -816,7 +825,7 @@ ActivityCalendarView {
 								AppContext.getUsername());
 						NotificationUtil.showNotification("Success",
 								"Event: \"" + simpleMeeting.getSubject()
-								+ "\" has been updated!",
+										+ "\" has been updated!",
 								Type.HUMANIZED_MESSAGE);
 						EventBus.getInstance().fireEvent(
 								new ActivityEvent.GotoCalendar(this, null));
@@ -940,7 +949,7 @@ ActivityCalendarView {
 	public void attach() {
 		super.attach();
 
-		if(this.getParent() instanceof CustomLayout) {
+		if (this.getParent() instanceof CustomLayout) {
 			this.getParent().addStyleName("preview-comp");
 		}
 	}

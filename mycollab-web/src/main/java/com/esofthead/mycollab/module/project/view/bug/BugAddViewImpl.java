@@ -132,9 +132,12 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				return fixedVersionSelect;
 			} else if (propertyId.equals("summary")) {
 				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter summary");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Please enter summary");
+				}
+
 				return tf;
 			} else if (propertyId.equals("milestoneid")) {
 				final MilestoneComboBox milestoneBox = new MilestoneComboBox();

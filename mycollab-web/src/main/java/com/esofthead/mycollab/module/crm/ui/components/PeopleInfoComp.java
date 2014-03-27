@@ -27,14 +27,15 @@ public class PeopleInfoComp extends VerticalLayout {
 		this.removeAllComponents();
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(false, false, false, true));
-	
+
 		Label peopleInfoHeader = new Label("People");
 		peopleInfoHeader.setStyleName("info-hdr");
 		this.addComponent(peopleInfoHeader);
 
 		GridLayout layout = new GridLayout(2, 2);
-		layout.setMargin(new MarginInfo(false, false, false, false));
+		layout.setSpacing(true);
 		layout.setWidth("100%");
+		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
 			Label createdLbl = new Label("Created:");
 			createdLbl.setSizeUndefined();
@@ -50,6 +51,7 @@ public class PeopleInfoComp extends VerticalLayout {
 			UserLink createdUserLink = new UserLink(createdUserName,
 					createdUserAvatarId, createdUserDisplayName);
 			layout.addComponent(createdUserLink, 1, 0);
+			layout.setColumnExpandRatio(1, 1.0f);
 
 			Label assigneeLbl = new Label("Assignee: ");
 			assigneeLbl.setSizeUndefined();

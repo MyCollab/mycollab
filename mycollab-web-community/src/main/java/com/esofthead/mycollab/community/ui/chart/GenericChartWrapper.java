@@ -33,19 +33,19 @@ import com.vaadin.ui.VerticalLayout;
  * @param <S>
  */
 public abstract class GenericChartWrapper<S extends SearchCriteria> extends
-		VerticalLayout {
+VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	public static final String[] CHART_COLOR_STR = { ColorConstants.BLUE,
-			ColorConstants.GREEN, ColorConstants.ORANGE, ColorConstants.BLACK,
-			ColorConstants.DARK_ORANGE, ColorConstants.LIGHT_BLUE,
-			ColorConstants.GRAY, ColorConstants.BRIGHT_TURQUOISE,
-			ColorConstants.LIGHT_GRAY, ColorConstants.CHERRY,
-			ColorConstants.CONGO_PINK, ColorConstants.COFFFE,
-			ColorConstants.COPPER, ColorConstants.RED,
-			ColorConstants.LIGHTER_GREEN, ColorConstants.INDIAN_RED,
-			ColorConstants.LAVENDER, ColorConstants.LEMON,
-			ColorConstants.BROWN, ColorConstants.LIVER, ColorConstants.LION };
+		ColorConstants.GREEN, ColorConstants.ORANGE, ColorConstants.BLACK,
+		ColorConstants.DARK_ORANGE, ColorConstants.LIGHT_BLUE,
+		ColorConstants.GRAY, ColorConstants.BRIGHT_TURQUOISE,
+		ColorConstants.LIGHT_GRAY, ColorConstants.CHERRY,
+		ColorConstants.CONGO_PINK, ColorConstants.COFFFE,
+		ColorConstants.COPPER, ColorConstants.RED,
+		ColorConstants.LIGHTER_GREEN, ColorConstants.INDIAN_RED,
+		ColorConstants.LAVENDER, ColorConstants.LEMON,
+		ColorConstants.BROWN, ColorConstants.LIVER, ColorConstants.LION };
 
 	protected String title;
 	protected int height;
@@ -80,9 +80,8 @@ public abstract class GenericChartWrapper<S extends SearchCriteria> extends
 		chartWrapper.setGraphHeight(height);
 		chartWrapper.setGraphWidth(width);
 		this.addComponent(borderWrap);
-		// this.setComponentAlignment(chartWrapper, Alignment.MIDDLE_CENTER);
+		this.setComponentAlignment(borderWrap, Alignment.MIDDLE_CENTER);
 		final Component legendBox = createLegendBox();
-		legendBox.setWidth(width + "px");
 		this.addComponent(legendBox);
 		this.setComponentAlignment(legendBox, Alignment.MIDDLE_CENTER);
 	}

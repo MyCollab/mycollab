@@ -260,9 +260,11 @@ class TaskAddPopup extends CustomComponent {
 				return new ProjectMemberSelectionField();
 			} else if (propertyId.equals("taskname")) {
 				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Task Name");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Please enter a Task Name");
+				}
 				return tf;
 			} else if (propertyId.equals("percentagecomplete")) {
 				if (task.getPercentagecomplete() == null) {

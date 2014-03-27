@@ -44,8 +44,12 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 
 	private LeadFirstNamePrefixField firstNamePrefixField;
 
-	public LeadEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
+	LeadEditFormFieldFactory(GenericBeanForm<B> form) {
+		this(form, true);
+	}
+
+	LeadEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+		super(form, isValidateForm);
 
 		firstNamePrefixField = new LeadFirstNamePrefixField();
 	}
@@ -72,9 +76,12 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 			return statusComboBox;
 		} else if (propertyId.equals("lastname")) {
 			TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Last name must not be null");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Last name must not be null");
+			}
+
 			return tf;
 		} else if (propertyId.equals("description")) {
 			TextArea descArea = new TextArea();
@@ -82,8 +89,11 @@ class LeadEditFormFieldFactory<B extends Lead> extends
 			return descArea;
 		} else if (propertyId.equals("accountname")) {
 			TextField txtField = new TextField();
-			txtField.setRequired(true);
-			txtField.setRequiredError("Account name must be not null");
+			if (isValidateForm) {
+				txtField.setRequired(true);
+				txtField.setRequiredError("Account name must be not null");
+			}
+
 			return txtField;
 		}
 

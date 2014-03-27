@@ -18,8 +18,16 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbstractBeanBlockList<S extends SearchCriteria, T> extends
-VerticalLayout implements HasPagableHandlers {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ * @param <S>
+ * @param <T>
+ */
+public abstract class AbstractBeanBlockList<S extends SearchCriteria, T>
+		extends VerticalLayout implements HasPagableHandlers {
 
 	private static final long serialVersionUID = -1842929843421392806L;
 
@@ -37,7 +45,8 @@ VerticalLayout implements HasPagableHandlers {
 
 	protected SearchRequest<S> searchRequest;
 
-	public AbstractBeanBlockList(final BlockDisplayHandler<T> blockDisplayHandler,
+	public AbstractBeanBlockList(
+			final BlockDisplayHandler<T> blockDisplayHandler,
 			final int defaultNumberSearchItems) {
 		this(defaultNumberSearchItems);
 		this.setBlockDisplayHandler(blockDisplayHandler);
@@ -76,14 +85,15 @@ VerticalLayout implements HasPagableHandlers {
 		// defined layout here ---------------------------
 
 		if (this.currentPage > 1) {
-			final Button firstLink = new ButtonLink("1", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button firstLink = new ButtonLink("1",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanBlockList.this.pageChange(1);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanBlockList.this.pageChange(1);
+						}
+					}, false);
 			firstLink.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(firstLink);
 		}
@@ -100,7 +110,7 @@ VerticalLayout implements HasPagableHandlers {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractBeanBlockList.this
-							.pageChange(AbstractBeanBlockList.this.currentPage - 2);
+									.pageChange(AbstractBeanBlockList.this.currentPage - 2);
 						}
 					}, false);
 			previous2.addStyleName("buttonPaging");
@@ -114,7 +124,7 @@ VerticalLayout implements HasPagableHandlers {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractBeanBlockList.this
-							.pageChange(AbstractBeanBlockList.this.currentPage - 1);
+									.pageChange(AbstractBeanBlockList.this.currentPage - 1);
 						}
 					}, false);
 			previous1.addStyleName("buttonPaging");
@@ -123,14 +133,14 @@ VerticalLayout implements HasPagableHandlers {
 		// Here add current ButtonLink
 		final Button current = new ButtonLink("" + this.currentPage,
 				new ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				AbstractBeanBlockList.this
-				.pageChange(AbstractBeanBlockList.this.currentPage);
-			}
-		}, false);
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						AbstractBeanBlockList.this
+								.pageChange(AbstractBeanBlockList.this.currentPage);
+					}
+				}, false);
 		current.addStyleName("buttonPaging");
 		current.addStyleName("buttonPagingcurrent");
 
@@ -139,28 +149,28 @@ VerticalLayout implements HasPagableHandlers {
 		if (range >= 1) {
 			final Button next1 = new ButtonLink("" + (this.currentPage + 1),
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanBlockList.this
-					.pageChange(AbstractBeanBlockList.this.currentPage + 1);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanBlockList.this
+									.pageChange(AbstractBeanBlockList.this.currentPage + 1);
+						}
+					}, false);
 			next1.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next1);
 		}
 		if (range >= 2) {
 			final Button next2 = new ButtonLink("" + (this.currentPage + 2),
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanBlockList.this
-					.pageChange(AbstractBeanBlockList.this.currentPage + 2);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanBlockList.this
+									.pageChange(AbstractBeanBlockList.this.currentPage + 2);
+						}
+					}, false);
 			next2.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next2);
 		}
@@ -172,14 +182,14 @@ VerticalLayout implements HasPagableHandlers {
 		if (range >= 3) {
 			final Button last = new ButtonLink("" + this.totalPage,
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanBlockList.this
-					.pageChange(AbstractBeanBlockList.this.totalPage);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanBlockList.this
+									.pageChange(AbstractBeanBlockList.this.totalPage);
+						}
+					}, false);
 			last.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(last);
 		}
@@ -204,7 +214,8 @@ VerticalLayout implements HasPagableHandlers {
 			searchRequest.setCurrentPage(totalPage);
 		}
 
-		if (this.controlBarWrapper != null && this.controlBarWrapper.getParent() == this) {
+		if (this.controlBarWrapper != null
+				&& this.controlBarWrapper.getParent() == this) {
 			this.removeComponent(this.controlBarWrapper);
 		}
 

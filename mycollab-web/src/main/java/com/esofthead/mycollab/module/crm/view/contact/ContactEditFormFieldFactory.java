@@ -47,7 +47,11 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 	private ContactFirstNamePrefixField firstNamePrefixField;
 
 	ContactEditFormFieldFactory(GenericBeanForm<B> form) {
-		super(form);
+		this(form, true);
+	}
+
+	ContactEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+		super(form, isValidateForm);
 
 		firstNamePrefixField = new ContactFirstNamePrefixField();
 	}
@@ -64,9 +68,12 @@ class ContactEditFormFieldFactory<B extends Contact> extends
 			return accountField;
 		} else if (propertyId.equals("lastname")) {
 			TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Last name must not be null");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Last name must not be null");
+			}
+
 			return tf;
 		} else if (propertyId.equals("description")) {
 			TextArea descArea = new TextArea();

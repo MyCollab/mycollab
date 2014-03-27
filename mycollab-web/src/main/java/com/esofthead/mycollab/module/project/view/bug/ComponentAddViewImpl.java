@@ -42,19 +42,19 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
-implements ComponentAddView {
+		implements ComponentAddView {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Component" : "Component Edit";		
+		return (beanItem.getId() == null) ? "Create Component"
+				: "Component Edit";
 	}
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem
-				.getComponentname();
+		return (beanItem.getId() == null) ? null : beanItem.getComponentname();
 	}
 
 	@Override
@@ -90,7 +90,7 @@ implements ComponentAddView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<Component> {
+			AbstractBeanFieldGroupEditFieldFactory<Component> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<Component> form) {
@@ -102,9 +102,11 @@ implements ComponentAddView {
 
 			if (propertyId.equals("componentname")) {
 				final TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Please enter a Component Name");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Please enter a Component Name");
+				}
 				return tf;
 			} else if (propertyId.equals("description")) {
 				final TextArea field = new TextArea("", "");

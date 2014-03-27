@@ -105,9 +105,12 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("subject")) {
 				TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Subject must not be null");
+				}
+
 				return tf;
 			} else if (propertyId.equals("assignuser")) {
 				ActiveUserComboBox userBox = new ActiveUserComboBox();

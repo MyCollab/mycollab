@@ -116,7 +116,7 @@ public class FileDownloadWindow extends Window {
 		UiUtils.addComponent(buttonControls, downloadBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button cancle = new Button("Cancel", new ClickListener() {
+		final Button cancel = new Button("Cancel", new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -124,9 +124,9 @@ public class FileDownloadWindow extends Window {
 				FileDownloadWindow.this.close();
 			}
 		});
-		cancle.addStyleName(UIConstants.THEME_GRAY_LINK);
+		cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
 
-		UiUtils.addComponent(buttonControls, cancle, Alignment.MIDDLE_CENTER);
+		UiUtils.addComponent(buttonControls, cancel, Alignment.MIDDLE_CENTER);
 		UiUtils.addComponent(layout, buttonControls, Alignment.MIDDLE_CENTER);
 		this.setContent(layout);
 	}

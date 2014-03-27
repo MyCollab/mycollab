@@ -123,6 +123,7 @@ public class HistoryLogComponent extends VerticalLayout {
 
 	public class HistoryLogRowDisplay implements
 			BeanList.RowDisplayHandler<SimpleAuditLog> {
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public Component generateRow(SimpleAuditLog log, int rowIndex) {

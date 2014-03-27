@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.esb.BeanProxyBuilder;
-import com.esofthead.mycollab.module.ecm.MimeTypesUtil;
 import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction;

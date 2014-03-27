@@ -110,9 +110,13 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 				return field;
 			} else if (propertyId.equals("subject")) {
 				TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
+
+				if (isValidateForm) {
+					tf.setRequired(true);
+					tf.setRequiredError("Subject must not be null");
+					tf.setNullRepresentation("");
+				}
+
 				return tf;
 			} else if (propertyId.equals("type")) {
 				RelatedEditItemField relatedField = new RelatedEditItemField(

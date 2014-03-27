@@ -775,7 +775,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			}
 
 			final PopupButton resourceSettingPopupBtn = new PopupButton();
-			resourceSettingPopupBtn.setWidth("18px");
+			
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
 
 			final Button renameBtn = new Button("Rename",
@@ -856,7 +856,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			filterBtnLayout.setWidth("100px");
 			resourceSettingPopupBtn.setIcon(MyCollabResource
 					.newResource("icons/16/item_settings.png"));
-			resourceSettingPopupBtn.setStyleName("link");
+			resourceSettingPopupBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			resourceSettingPopupBtn.setContent(filterBtnLayout);
 
 			layout.addComponent(resourceSettingPopupBtn);
@@ -935,7 +935,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			iconWapper.addComponent(toContainFolder);
 			UiUtils.addComponent(layout, iconWapper, Alignment.MIDDLE_CENTER);
 
-			return layout;
+			return new HorizontalLayout();
 		}
 	}
 

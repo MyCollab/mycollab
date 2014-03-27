@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
 		extends AbstractBeanPagedList<S, T> {

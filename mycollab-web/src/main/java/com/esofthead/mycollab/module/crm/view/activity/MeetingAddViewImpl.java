@@ -96,9 +96,12 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 		protected Field<?> onCreateField(Object propertyId) {
 			if (propertyId.equals("subject")) {
 				TextField tf = new TextField();
-				tf.setNullRepresentation("");
-				tf.setRequired(true);
-				tf.setRequiredError("Subject must not be null");
+				if (isValidateForm) {
+					tf.setNullRepresentation("");
+					tf.setRequired(true);
+					tf.setRequiredError("Subject must not be null");
+				}
+
 				return tf;
 			} else if (propertyId.equals("status")) {
 				return new MeetingStatusComboBox();

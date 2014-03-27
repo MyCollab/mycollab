@@ -53,8 +53,9 @@ public class MassUpdateCampaignWindow extends
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> initBeanFormFieldFactory() {
-		return new CampaignEditFormFieldFactory<CampaignWithBLOBs>(updateForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<CampaignWithBLOBs> buildBeanFormFieldFactory() {
+		return new CampaignEditFormFieldFactory<CampaignWithBLOBs>(updateForm,
+				false);
 	}
 
 	private class MassUpdateContactFormLayoutFactory implements

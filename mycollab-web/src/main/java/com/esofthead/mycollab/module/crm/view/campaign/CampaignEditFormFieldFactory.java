@@ -33,12 +33,16 @@ import com.vaadin.ui.TextField;
  * 
  * @param <B>
  */
-public class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
+class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
 		AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
-	public CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
+	CampaignEditFormFieldFactory(GenericBeanForm<B> form) {
 		super(form);
+	}
+
+	CampaignEditFormFieldFactory(GenericBeanForm<B> form, boolean isValidateForm) {
+		super(form, isValidateForm);
 	}
 
 	@Override
@@ -54,9 +58,12 @@ public class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
 			return statusCombo;
 		} else if ("campaignname".equals(propertyId)) {
 			TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Name must not be null");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Name must not be null");
+			}
+
 			return tf;
 		} else if ("description".equals(propertyId)) {
 			TextArea descArea = new TextArea();

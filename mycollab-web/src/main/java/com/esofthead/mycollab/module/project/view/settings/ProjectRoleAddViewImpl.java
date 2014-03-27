@@ -50,7 +50,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
-implements ProjectRoleAddView {
+		implements ProjectRoleAddView {
 
 	private static final long serialVersionUID = 1L;
 	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<String, AccessPermissionComboBox>();
@@ -62,8 +62,7 @@ implements ProjectRoleAddView {
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem
-				.getRolename();
+		return (beanItem.getId() == null) ? null : beanItem.getRolename();
 	}
 
 	@Override
@@ -103,9 +102,11 @@ implements ProjectRoleAddView {
 
 				} else if (propertyId.equals("rolename")) {
 					final TextField tf = new TextField();
-					tf.setNullRepresentation("");
-					tf.setRequired(true);
-					tf.setRequiredError("Please enter a projectRole name");
+					if (isValidateForm) {
+						tf.setNullRepresentation("");
+						tf.setRequired(true);
+						tf.setRequiredError("Please enter a projectRole name");
+					}
 					return tf;
 				}
 				return null;

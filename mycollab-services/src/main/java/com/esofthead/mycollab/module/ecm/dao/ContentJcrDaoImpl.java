@@ -41,8 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.module.ecm.ContentException;
-import com.esofthead.mycollab.module.ecm.MimeTypesUtil;
 import com.esofthead.mycollab.module.ecm.NodesUtil;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Folder;

@@ -26,6 +26,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 /**
  * Amazon S3 Configuration
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
  */
 public class S3StorageConfiguration implements StorageConfiguration {
 
@@ -52,8 +55,7 @@ public class S3StorageConfiguration implements StorageConfiguration {
 	public final AmazonS3 newS3Client() {
 		AWSCredentials myCredentials = new BasicAWSCredentials(awsKey,
 				awsSecretKey);
-		AmazonS3 s3client = new AmazonS3Client(myCredentials);
-		return s3client;
+		return new AmazonS3Client(myCredentials);
 	}
 
 	public static S3StorageConfiguration build(Properties props) {

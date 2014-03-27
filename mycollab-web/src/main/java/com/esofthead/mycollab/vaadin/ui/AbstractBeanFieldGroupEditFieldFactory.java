@@ -57,15 +57,25 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 
 	protected GenericBeanForm<B> attachForm;
 	protected FieldGroup fieldGroup;
-	private final Validator validation;
+	protected boolean isValidateForm;
+	private Validator validation;
 
 	public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form) {
+		this(form, true);
+	}
+
+	public AbstractBeanFieldGroupEditFieldFactory(GenericBeanForm<B> form,
+			boolean isValidateForm) {
 		this.attachForm = form;
 		this.fieldGroup = new FieldGroup();
 		this.fieldGroup.setBuffered(true);
-		this.fieldGroup.addCommitHandler(this);
-		validation = ApplicationContextUtil
-				.getSpringBean(LocalValidatorFactoryBean.class);
+		this.isValidateForm = isValidateForm;
+
+		if (isValidateForm) {
+			this.fieldGroup.addCommitHandler(this);
+			validation = ApplicationContextUtil
+					.getSpringBean(LocalValidatorFactoryBean.class);
+		}
 	}
 
 	@Override

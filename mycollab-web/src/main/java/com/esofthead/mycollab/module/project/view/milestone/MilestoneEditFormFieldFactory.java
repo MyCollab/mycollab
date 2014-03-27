@@ -59,9 +59,11 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			return new ProgressStatusComboBox();
 		} else if (propertyId.equals("name")) {
 			final TextField tf = new TextField();
-			tf.setNullRepresentation("");
-			tf.setRequired(true);
-			tf.setRequiredError("Please enter name");
+			if (isValidateForm) {
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Please enter name");
+			}
 			return tf;
 		} else if (propertyId.equals("description")) {
 			final RichTextArea descArea = new RichTextArea();

@@ -60,19 +60,15 @@ public abstract class MassUpdateWindow<B> extends Window {
 		this.setContent(this.contentLayout);
 
 		updateForm.setFormLayoutFactory(buildFormLayoutFactory());
-		updateForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
+		updateForm.setBeanFormFieldFactory(buildBeanFormFieldFactory());
 		updateForm.setBean(beanItem);
 
 		center();
 	}
 
-	protected B getItem() {
-		return beanItem;
-	}
-
 	abstract protected IFormLayoutFactory buildFormLayoutFactory();
 
-	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> initBeanFormFieldFactory();
+	abstract protected AbstractBeanFieldGroupEditFieldFactory<B> buildBeanFormFieldFactory();
 
 	protected ComponentContainer buildButtonControls() {
 
@@ -86,7 +82,8 @@ public abstract class MassUpdateWindow<B> extends Window {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				massUpdateCommand.massUpdate(getItem());
+				updateForm.commit();
+				massUpdateCommand.massUpdate(beanItem);
 				MassUpdateWindow.this.close();
 			}
 		});

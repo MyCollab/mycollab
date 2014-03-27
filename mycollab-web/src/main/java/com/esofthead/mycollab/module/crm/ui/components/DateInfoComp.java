@@ -33,7 +33,9 @@ public class DateInfoComp extends VerticalLayout {
 		this.addComponent(dateInfoHeader);
 
 		VerticalLayout layout = new VerticalLayout();
-		layout.setMargin(new MarginInfo(false, false, false, false));
+		layout.setWidth("100%");
+		layout.setSpacing(true);
+		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
 			String createdDate = AppContext.formatDate((Date) PropertyUtils
 					.getProperty(bean, "createdtime"));

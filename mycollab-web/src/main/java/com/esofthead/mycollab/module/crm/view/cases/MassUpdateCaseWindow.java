@@ -52,8 +52,8 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<CaseWithBLOBs> initBeanFormFieldFactory() {
-		return new CaseEditFormFieldFactory<CaseWithBLOBs>(updateForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<CaseWithBLOBs> buildBeanFormFieldFactory() {
+		return new CaseEditFormFieldFactory<CaseWithBLOBs>(updateForm, false);
 	}
 
 	private class MassUpdateContactFormLayoutFactory implements

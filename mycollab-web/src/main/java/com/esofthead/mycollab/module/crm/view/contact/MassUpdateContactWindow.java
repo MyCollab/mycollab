@@ -52,8 +52,8 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<Contact> initBeanFormFieldFactory() {
-		return new ContactEditFormFieldFactory<Contact>(updateForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<Contact> buildBeanFormFieldFactory() {
+		return new ContactEditFormFieldFactory<Contact>(updateForm, false);
 	}
 
 	private class MassUpdateContactFormLayoutFactory implements
