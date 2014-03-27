@@ -88,10 +88,10 @@ public class UserSignUpEmailNotificationJob extends QuartzJobBean {
 
 					log.debug("Start generate template");
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com",
-							Arrays.asList(new MailRecipientField(user
-									.getEmail(), user.getDisplayName())), null,
-							null, templateGenerator.generateSubjectContent(),
+							"MyCollab", Arrays.asList(new MailRecipientField(
+									user.getEmail(), user.getDisplayName())),
+							null, null, templateGenerator
+									.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);

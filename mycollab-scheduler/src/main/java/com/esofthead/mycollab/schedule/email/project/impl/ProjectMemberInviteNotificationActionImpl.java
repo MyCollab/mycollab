@@ -72,7 +72,7 @@ public class ProjectMemberInviteNotificationActionImpl implements
 					.getProjectid());
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"$inviteUser has invited you to join the team for project \" $member.projectName\"",
+					"$inviteUser has invited you to join the project \" $member.projectName\"",
 					"templates/email/project/memberInvitation/memberInvitationNotifier.mt");
 			templateGenerator.putVariable("member", member);
 			templateGenerator.putVariable("inviteUser",
@@ -99,10 +99,9 @@ public class ProjectMemberInviteNotificationActionImpl implements
 
 			templateGenerator.putVariable("userName",
 					member.getMemberFullName());
-			extMailService.sendHTMLMail("noreply@mycollab.com",
-					"noreply@mycollab.com", Arrays
-							.asList(new MailRecipientField(member.getEmail(),
-									member.getMemberFullName())), null, null,
+			extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
+					Arrays.asList(new MailRecipientField(member.getEmail(),
+							member.getMemberFullName())), null, null,
 					templateGenerator.generateSubjectContent(),
 					templateGenerator.generateBodyContent(), null);
 

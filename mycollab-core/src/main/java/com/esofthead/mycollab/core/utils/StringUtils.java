@@ -25,8 +25,8 @@ import org.jsoup.Jsoup;
  * @since 1.0
  */
 public class StringUtils {
-	public static String subString(String input, int length) {
-		return trimString(input, length, false);
+	public static String trim(String input, int length) {
+		return trim(input, length, true);
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class StringUtils {
 	 * @param withEllipsis
 	 * @return
 	 */
-	public static String trimString(String input, int length,
+	public static String trim(String input, int length,
 			boolean withEllipsis) {
 		if (input == null) {
 			return "";

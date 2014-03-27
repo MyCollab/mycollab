@@ -162,10 +162,10 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 							user.getUsername());
 					templateGenerator.putVariable("link", link);
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com",
-							Arrays.asList(new MailRecipientField(user
-									.getEmail(), user.getDisplayName())), null,
-							null, templateGenerator.generateSubjectContent(),
+							"MyCollab", Arrays.asList(new MailRecipientField(
+									user.getEmail(), user.getDisplayName())),
+							null, null, templateGenerator
+									.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
 			} else if (afterDay == BillingSendingNotificationJobs.DATE_NOTIFY_EXPIRE) {
@@ -184,10 +184,10 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 					templateGenerator.putVariable("link", link);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com",
-							Arrays.asList(new MailRecipientField(user
-									.getEmail(), user.getDisplayName())), null,
-							null, templateGenerator.generateSubjectContent(),
+							"MyCollab", Arrays.asList(new MailRecipientField(
+									user.getEmail(), user.getDisplayName())),
+							null, null, templateGenerator
+									.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
 			}

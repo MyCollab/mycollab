@@ -67,7 +67,6 @@ public class AppContext implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-
 	static Logger log = LoggerFactory.getLogger(AppContext.class);
 
 	/**
@@ -131,29 +130,25 @@ public class AppContext implements Serializable {
 	/**
 	 * Request on every transaction between client and server finish
 	 */
-	/*public void transactionEnd() {
-		long currentTime = new GregorianCalendar().getTimeInMillis();
-
-			try {
-				if (userPreference != null) {
-					UserPreference pref = userPreference;
-					UserPreferenceService prefService = ApplicationContextUtil
-							.getSpringBean(UserPreferenceService.class);
-					pref.setLastaccessedtime(new GregorianCalendar().getTime());
-					prefService.updateWithSession(pref,
-							AppContext.getUsername());
-
-					lastAccessTime = currentTime;
-					log.debug("Update last access time of user "
-							+ AppContext.getUsername());
-				}
-
-			} catch (Exception e) {
-				log.error("There is error when try to update user preference",
-						e);
-			}
-
-	}*/
+	/*
+	 * public void transactionEnd() { long currentTime = new
+	 * GregorianCalendar().getTimeInMillis();
+	 * 
+	 * try { if (userPreference != null) { UserPreference pref = userPreference;
+	 * UserPreferenceService prefService = ApplicationContextUtil
+	 * .getSpringBean(UserPreferenceService.class); pref.setLastaccessedtime(new
+	 * GregorianCalendar().getTime()); prefService.updateWithSession(pref,
+	 * AppContext.getUsername());
+	 * 
+	 * lastAccessTime = currentTime;
+	 * log.debug("Update last access time of user " + AppContext.getUsername());
+	 * }
+	 * 
+	 * } catch (Exception e) {
+	 * log.error("There is error when try to update user preference", e); }
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Update last module visit then the next sign in, MyCollab will lead user
@@ -530,6 +525,6 @@ public class AppContext implements Serializable {
 	public static void addFragment(String fragement, String windowTitle) {
 		Page.getCurrent().setUriFragment(fragement, false);
 		Page.getCurrent().setTitle(
-				StringUtils.subString(windowTitle, 150) + " [MyCollab]");
+				StringUtils.trim(windowTitle, 150) + " [MyCollab]");
 	}
 }

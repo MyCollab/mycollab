@@ -71,7 +71,7 @@ public class BugRelayEmailNotificationActionImpl extends
 		hyperLinks.put("bugUrl",
 				linkGenerator.generateBugPreviewFullLink(bug.getId()));
 		hyperLinks.put("shortBugUrl",
-				StringUtils.subString(bug.getSummary(), 150));
+				StringUtils.trim(bug.getSummary(), 150));
 		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
 		if (bug.getLogby() != null) {
 			hyperLinks.put("loggedUserUrl",
@@ -127,8 +127,9 @@ public class BugRelayEmailNotificationActionImpl extends
 			String subject = bug.getSummary();
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"[$bug.projectname]: Bug \"" + subject
-							+ "\" has been created",
+					"[$bug.projectname]: "
+							+ emailNotification.getChangeByUserFullName()
+							+ " has created the bug \"" + subject + "\"",
 					"templates/email/project/bugCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils.formatDateTimeZone(bug,
@@ -150,11 +151,12 @@ public class BugRelayEmailNotificationActionImpl extends
 		SimpleBug bug = bugService.findById(emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(bug.getSummary(), 150);
+		String subject = StringUtils.trim(bug.getSummary(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$bug.projectname]: Bug \"" + subject
-						+ "...\" has been updated",
+				"[$bug.projectname]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has updated the bug \"" + subject + "\"",
 				"templates/email/project/bugUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(bug, user.getTimezone(),
 				new String[] { "duedate" });
@@ -193,8 +195,8 @@ public class BugRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$bug.projectname]: "
 						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on "
-						+ StringUtils.subString(bug.getSummary(), 100) + "\"",
+						+ " has commented on the bug \""
+						+ StringUtils.trim(bug.getSummary(), 100) + "\"",
 				"templates/email/project/bugCommentNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 		templateGenerator.putVariable("userComment", linkGenerator

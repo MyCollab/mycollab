@@ -45,8 +45,7 @@ public class ApplicationProperties {
 	public static final String DB_URL = "db.url";
 
 	public static final String CDN_URL = "cdn.url";
-
-	public static final String APP_URL = "app.url";
+	static final String APP_URL = "app.url";
 
 	static final String FACEBOOK_URL = "facebook.url";
 	static final String GOOGLE_URL = "google.url";

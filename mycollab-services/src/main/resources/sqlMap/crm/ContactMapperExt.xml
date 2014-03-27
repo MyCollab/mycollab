@@ -22,7 +22,7 @@
             #set($searchCriteria = $_parameter.searchCriteria)
             
             #ifnotnull($searchCriteria.contactName)
-                ${searchCriteria.contactName.operation} (concat(IFNULL(m_crm_contact.firstname, ''), ' ', m_crm_contact.lastname) like '%${searchCriteria.contactName.value}%')
+                ${searchCriteria.contactName.operation} (LTRIM(concat(IFNULL(m_crm_contact.firstname, ''), ' ', m_crm_contact.lastname)) like '%${searchCriteria.contactName.value}%')
             #end
             
             #ifnotnull($searchCriteria.accountName)
@@ -155,7 +155,7 @@
           
          #ifnotnull($searchCriteria.contactName)
              ${searchCriteria.contactName.operation} 
-             (concat(IFNULL(m_crm_contact.firstname, ''), ' ', m_crm_contact.lastname) like '%${searchCriteria.contactName.value}%')
+             (LTRIM(concat(IFNULL(m_crm_contact.firstname, ''), ' ', m_crm_contact.lastname)) like '%${searchCriteria.contactName.value}%')
          #end
           
          #ifnotnull($searchCriteria.accountId)
@@ -277,12 +277,12 @@
                m_crm_contact.otherAddress, m_crm_contact.otherCity, m_crm_contact.otherState, m_crm_contact.otherPostalCode, m_crm_contact.otherCountry, 
                m_crm_contact.description, m_crm_contact.title, m_crm_contact.assistantPhone, m_crm_contact.email, m_crm_contact.department, 
                m_crm_contact.createdTime, m_crm_contact.createdUser, m_crm_contact.sAccountId, m_crm_contact.assignUser, 
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                s_user.avatarId as assignUserAvatarId,
-               concat (LTRIM(concat(IFNULL(m_crm_contact.firstname, ''), ' ')), ' ', m_crm_contact.lastname) AS contactName,
+               LTRIM(concat (LTRIM(concat(IFNULL(m_crm_contact.firstname, ''), ' ')), ' ', m_crm_contact.lastname)) AS contactName,
                m_crm_contact.lastUpdatedTime, m_crm_account.accountName accountName,
                createdUserTabl.avatarId as createdUserAvatarId,
-               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
 
         FROM m_crm_contact 
                LEFT OUTER JOIN m_crm_account ON (m_crm_contact.accountId = m_crm_account.id) 

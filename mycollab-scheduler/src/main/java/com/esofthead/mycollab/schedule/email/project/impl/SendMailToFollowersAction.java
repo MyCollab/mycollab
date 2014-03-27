@@ -86,7 +86,7 @@ public abstract class SendMailToFollowersAction implements
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
@@ -112,7 +112,7 @@ public abstract class SendMailToFollowersAction implements
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
@@ -138,7 +138,7 @@ public abstract class SendMailToFollowersAction implements
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}

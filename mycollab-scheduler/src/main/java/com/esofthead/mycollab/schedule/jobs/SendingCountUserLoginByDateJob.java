@@ -40,7 +40,6 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
 
-
 /**
  * 
  * @author MyCollab Ltd.
@@ -72,23 +71,21 @@ public class SendingCountUserLoginByDateJob extends QuartzJobBean {
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		if (lstSimpleUsers != null && lstSimpleUsers.size() > 0) {
-				TemplateGenerator templateGenerator = new TemplateGenerator(
-						"Today system-logins count",
-						countUserLoginByDateTemplate);
-				templateGenerator.putVariable("lstUser", lstSimpleUsers);
-				templateGenerator.putVariable("count", lstSimpleUsers.size());
-				
-				
-				try {
-					log.debug("Start generate template");
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com",
-							Arrays.asList(new MailRecipientField("hainguyen@esofthead.com", "Hai Nguyen")), null,
-							null, templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
-				} catch (Exception e) {
-					log.error("Error whle generate template", e);
-				}
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					"Today system-logins count", countUserLoginByDateTemplate);
+			templateGenerator.putVariable("lstUser", lstSimpleUsers);
+			templateGenerator.putVariable("count", lstSimpleUsers.size());
+
+			try {
+				extMailService.sendHTMLMail("noreply@mycollab.com",
+						"noreply@mycollab.com",
+						Arrays.asList(new MailRecipientField(
+								"hainguyen@esofthead.com", "Hai Nguyen")),
+						null, null, templateGenerator.generateSubjectContent(),
+						templateGenerator.generateBodyContent(), null);
+			} catch (Exception e) {
+				log.error("Error whle generate template", e);
+			}
 		}
 	}
 }

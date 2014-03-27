@@ -152,8 +152,7 @@ public class NoteListItems extends VerticalLayout {
 			@Override
 			public void buttonClick(final ClickEvent event) {
 
-				noteWrapper
-				.replaceComponent(createBtn, new NoteEditor());
+				noteWrapper.replaceComponent(createBtn, new NoteEditor());
 			}
 		});
 
@@ -170,7 +169,6 @@ public class NoteListItems extends VerticalLayout {
 
 		noteListContainer = new VerticalLayout();
 		noteWrapper.addComponent(noteListContainer);
-		displayNotes();
 	}
 
 	public void showNotes(final String type, final int typeid) {
@@ -179,10 +177,8 @@ public class NoteListItems extends VerticalLayout {
 		displayNotes();
 	}
 
-
-
 	public static class NoteRowDisplayHandler implements
-	RowDisplayHandler<SimpleNote>, ReloadableComponent {
+			RowDisplayHandler<SimpleNote>, ReloadableComponent {
 		private static final long serialVersionUID = 1L;
 
 		private VerticalLayout noteContentLayout;
@@ -204,8 +200,6 @@ public class NoteListItems extends VerticalLayout {
 			}
 		}
 
-
-
 		private Component constructNoteHeader(final SimpleNote note) {
 			final HorizontalLayout layout = new HorizontalLayout();
 			layout.setStyleName("message");
@@ -221,12 +215,13 @@ public class NoteListItems extends VerticalLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(new ProjectMemberEvent.GotoRead(this, note.getCreateduser()));
+					EventBus.getInstance().fireEvent(
+							new ProjectMemberEvent.GotoRead(this, note
+									.getCreateduser()));
 				}
 			};
 			Button userAvatarBtn = UserAvatarControlFactory
-					.createUserAvatarButtonLink(
-							note.getCreatedUserAvatarId(),
+					.createUserAvatarButtonLink(note.getCreatedUserAvatarId(),
 							note.getCreateUserFullName());
 			userAvatarBtn.addClickListener(gotoUser);
 			userBlock.addComponent(userAvatarBtn);
@@ -245,8 +240,12 @@ public class NoteListItems extends VerticalLayout {
 			HorizontalLayout messageHeader = new HorizontalLayout();
 			messageHeader.setStyleName("message-header");
 
-			Label timePostLbl = new Label("<span class=\"post-owner\"><b>" + note.getCreateUserFullName() + "</b>&nbsp;added a note</span>&nbsp;-&nbsp;" +
-					DateTimeUtils.getStringDateFromNow(note.getCreatedtime()), ContentMode.HTML);
+			Label timePostLbl = new Label(
+					"<span class=\"post-owner\"><b>"
+							+ note.getCreateUserFullName()
+							+ "</b>&nbsp;added a note</span>&nbsp;-&nbsp;"
+							+ DateTimeUtils.getStringDateFromNow(note
+									.getCreatedtime()), ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 			messageHeader.addComponent(timePostLbl);
@@ -290,7 +289,8 @@ public class NoteListItems extends VerticalLayout {
 			});
 
 			replyBtn.setStyleName("link");
-			replyBtn.setIcon(MyCollabResource.newResource("icons/16/crm/reply.png"));
+			replyBtn.setIcon(MyCollabResource
+					.newResource("icons/16/crm/reply.png"));
 			messageHeader.addComponent(replyBtn);
 			messageFooter.setWidth("100%");
 			messageHeader.setComponentAlignment(replyBtn, Alignment.TOP_RIGHT);
@@ -355,17 +355,14 @@ public class NoteListItems extends VerticalLayout {
 			setSpacing(true);
 			this.setWidth("600px");
 
-
 			VerticalLayout editBox = new VerticalLayout();
 			editBox.setMargin(true);
 			editBox.setSpacing(true);
-
 
 			HorizontalLayout commentWrap = new HorizontalLayout();
 			commentWrap.setSpacing(true);
 			commentWrap.addStyleName("message");
 			commentWrap.setWidth("100%");
-
 
 			SimpleUser currentUser = AppContext.getSession();
 			VerticalLayout userBlock = new VerticalLayout();
@@ -373,8 +370,7 @@ public class NoteListItems extends VerticalLayout {
 			userBlock.setWidth("80px");
 			userBlock.setSpacing(true);
 			userBlock.addComponent(UserAvatarControlFactory
-					.createUserAvatarButtonLink(
-							currentUser.getAvatarid(),
+					.createUserAvatarButtonLink(currentUser.getAvatarid(),
 							currentUser.getDisplayName()));
 			Label userName = new Label(currentUser.getDisplayName());
 			userName.setStyleName("user-name");
@@ -386,11 +382,8 @@ public class NoteListItems extends VerticalLayout {
 			textAreaWrap.setWidth("100%");
 			textAreaWrap.addComponent(editBox);
 
-
-
 			commentWrap.addComponent(textAreaWrap);
 			commentWrap.setExpandRatio(textAreaWrap, 1.0f);
-
 
 			final AttachmentPanel attachments = new AttachmentPanel();
 
@@ -398,10 +391,8 @@ public class NoteListItems extends VerticalLayout {
 			noteArea.setWidth("100%");
 			noteArea.setHeight("200px");
 
-
 			editBox.addComponent(noteArea);
 			editBox.addComponent(attachments);
-
 
 			final HorizontalLayout controls = new HorizontalLayout();
 			controls.setSpacing(true);
@@ -418,14 +409,13 @@ public class NoteListItems extends VerticalLayout {
 
 			final Button cancelBtn = new Button("Cancel",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					addCreateBtn();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							addCreateBtn();
+						}
+					});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 
 			controls.addComponent(cancelBtn);
@@ -433,92 +423,91 @@ public class NoteListItems extends VerticalLayout {
 
 			final Button saveBtn = new Button("Post",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final Note note = new Note();
-					note.setCreateduser(AppContext.getUsername());
-					note.setNote(noteArea.getValue());
-					note.setSaccountid(AppContext.getAccountId());
-					note.setSubject("");
-					note.setType(type);
-					note.setTypeid(typeid);
-					note.setCreatedtime(new GregorianCalendar()
-					.getTime());
-					note.setLastupdatedtime(new GregorianCalendar()
-					.getTime());
-					final int noteid = noteService.saveWithSession(
-							note, AppContext.getUsername());
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final Note note = new Note();
+							note.setCreateduser(AppContext.getUsername());
+							note.setNote(noteArea.getValue());
+							note.setSaccountid(AppContext.getAccountId());
+							note.setSubject("");
+							note.setType(type);
+							note.setTypeid(typeid);
+							note.setCreatedtime(new GregorianCalendar()
+									.getTime());
+							note.setLastupdatedtime(new GregorianCalendar()
+									.getTime());
+							final int noteid = noteService.saveWithSession(
+									note, AppContext.getUsername());
 
-					// Save Relay Email -- having time must refact to
-					// Aop
-					// ------------------------------------------------------
-					RelayEmailNotification relayNotification = new RelayEmailNotification();
-					relayNotification.setChangeby(AppContext
-							.getUsername());
-					relayNotification
-					.setChangecomment(noteArea
-							.getValue());
-					relayNotification.setSaccountid(AppContext
-							.getAccountId());
-					relayNotification.setType(type);
-					relayNotification
-					.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
-					relayNotification.setTypeid(typeid);
-					if (type.equals(CrmTypeConstants.ACCOUNT)) {
-						relayNotification
-						.setEmailhandlerbean(AccountRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.CONTACT)) {
-						relayNotification
-						.setEmailhandlerbean(ContactRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
-						relayNotification
-						.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.LEAD)) {
-						relayNotification
-						.setEmailhandlerbean(LeadRelayEmailNotificationAction.class
-								.getName());
-					} else if (type
-							.equals(CrmTypeConstants.OPPORTUNITY)) {
-						relayNotification
-						.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.CASE)) {
-						relayNotification
-						.setEmailhandlerbean(CaseRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.TASK)) {
-						relayNotification
-						.setEmailhandlerbean(TaskRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.MEETING)) {
-						relayNotification
-						.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
-								.getName());
-					} else if (type.equals(CrmTypeConstants.CALL)) {
-						relayNotification
-						.setEmailhandlerbean(CallRelayEmailNotificationAction.class
-								.getName());
-					}
-					RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
-							.getSpringBean(RelayEmailNotificationService.class);
-					relayEmailNotificationService.saveWithSession(
-							relayNotification, AppContext.getUsername());
-					// End save relay Email
-					// --------------------------------------------------
+							// Save Relay Email -- having time must refact to
+							// Aop
+							// ------------------------------------------------------
+							RelayEmailNotification relayNotification = new RelayEmailNotification();
+							relayNotification.setChangeby(AppContext
+									.getUsername());
+							relayNotification.setChangecomment(noteArea
+									.getValue());
+							relayNotification.setSaccountid(AppContext
+									.getAccountId());
+							relayNotification.setType(type);
+							relayNotification
+									.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+							relayNotification.setTypeid(typeid);
+							if (type.equals(CrmTypeConstants.ACCOUNT)) {
+								relayNotification
+										.setEmailhandlerbean(AccountRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.CONTACT)) {
+								relayNotification
+										.setEmailhandlerbean(ContactRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
+								relayNotification
+										.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.LEAD)) {
+								relayNotification
+										.setEmailhandlerbean(LeadRelayEmailNotificationAction.class
+												.getName());
+							} else if (type
+									.equals(CrmTypeConstants.OPPORTUNITY)) {
+								relayNotification
+										.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.CASE)) {
+								relayNotification
+										.setEmailhandlerbean(CaseRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.TASK)) {
+								relayNotification
+										.setEmailhandlerbean(TaskRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.MEETING)) {
+								relayNotification
+										.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
+												.getName());
+							} else if (type.equals(CrmTypeConstants.CALL)) {
+								relayNotification
+										.setEmailhandlerbean(CallRelayEmailNotificationAction.class
+												.getName());
+							}
+							RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
+									.getSpringBean(RelayEmailNotificationService.class);
+							relayEmailNotificationService.saveWithSession(
+									relayNotification, AppContext.getUsername());
+							// End save relay Email
+							// --------------------------------------------------
 
-					String attachmentPath = AttachmentUtils
-							.getCrmNoteAttachmentPath(
-									AppContext.getAccountId(), noteid);
-					attachments.saveContentsToRepo(attachmentPath);
-					displayNotes();
-					addCreateBtn();
-				}
-			});
+							String attachmentPath = AttachmentUtils
+									.getCrmNoteAttachmentPath(
+											AppContext.getAccountId(), noteid);
+							attachments.saveContentsToRepo(attachmentPath);
+							displayNotes();
+							addCreateBtn();
+						}
+					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 			controls.addComponent(saveBtn);

@@ -80,7 +80,7 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 			fileExt = docName.substring(index + 1, docName.length());
 			docName = docName.substring(0, index);
 		}
-		docName = StringUtils.trimString(docName, 60, true);
+		docName = StringUtils.trim(docName, 60, true);
 
 		Label attachmentLink = new Label(docName);
 		attachmentLayout.addComponent(attachmentLink);

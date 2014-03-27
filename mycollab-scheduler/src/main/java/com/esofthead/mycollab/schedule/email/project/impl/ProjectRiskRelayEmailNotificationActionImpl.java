@@ -71,8 +71,11 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 				emailNotification.getSaccountid());
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Risk \"" + risk.getRiskname()
-						+ "\" has been created",
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has created the risk \""
+						+ StringUtils.trim(risk.getRiskname(), 100)
+						+ "\"",
 				"templates/email/project/riskCreatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(risk, user.getTimezone(),
 				new String[] { "dateraised", "datedue" });
@@ -115,10 +118,12 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		String subject = StringUtils.subString(risk.getRiskname(), 150);
+		String subject = StringUtils.trim(risk.getRiskname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Risk \"" + subject + "...\" edited",
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has updated the risk \"" + subject + "\"",
 				"templates/email/project/riskUpdateNotifier.mt");
 
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(risk, user.getTimezone(),
@@ -153,14 +158,12 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		String comment = StringUtils.subString(
-				emailNotification.getChangecomment(), 150);
-
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$hyperLinks.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
-						+ " add new comment \"" + comment + "...\" to risk \""
-						+ StringUtils.subString(risk.getRiskname(), 100) + "\"",
+						+ " has commented the risk \""
+						+ StringUtils.trim(risk.getRiskname(), 100)
+						+ "\"",
 				"templates/email/project/riskCommentNotifier.mt");
 		templateGenerator.putVariable("risk", risk);
 		templateGenerator.putVariable("hyperLinks",

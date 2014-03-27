@@ -70,11 +70,12 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleCampaign != null) {
-			String subject = StringUtils.subString(
-					simpleCampaign.getCampaignname(), 150);
+			String subject = StringUtils.trim(
+					simpleCampaign.getCampaignname(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Campaign: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the campaign \"" + subject + "\"",
 					"templates/email/crm/campaignCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils
@@ -96,11 +97,12 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(
-				simpleCampaign.getCampaignname(), 150);
+		String subject = StringUtils.trim(
+				simpleCampaign.getCampaignname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"Campaign: \"" + subject + "...\" has been updated",
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the campaign \"" + subject + "\"",
 				"templates/email/crm/campaignUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleCampaign,
 				user.getTimezone(), new String[] { "startdate", "enddate" });
@@ -132,10 +134,9 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				accountRecordId, emailNotification.getSaccountid());
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[Campaign]"
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on "
-						+ StringUtils.subString(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the campaign \""
+						+ StringUtils.trim(
 								simpleCampaign.getCampaignname(), 100) + "\"",
 				"templates/email/crm/campaignAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);

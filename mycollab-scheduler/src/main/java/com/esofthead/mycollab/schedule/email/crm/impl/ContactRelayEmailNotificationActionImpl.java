@@ -70,11 +70,12 @@ public class ContactRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleContact != null) {
-			String subject = StringUtils.subString(
-					simpleContact.getContactName(), 150);
+			String subject = StringUtils.trim(
+					simpleContact.getContactName(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Contact: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the contact \"" + subject + "\"",
 					"templates/email/crm/contactCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleContact,
@@ -121,11 +122,12 @@ public class ContactRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(simpleContact.getContactName(),
-				150);
+		String subject = StringUtils.trim(simpleContact.getContactName(),
+				100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"Contact: \"" + subject + "...\" has been updated",
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the contact \"" + subject + "\"",
 				"templates/email/crm/contactUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleContact,
 				user.getTimezone(), new String[] { "birthday" });
@@ -158,11 +160,12 @@ public class ContactRelayEmailNotificationActionImpl extends
 		SimpleContact simpleContact = contactService.findById(accountRecordId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("[Contact]"
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on "
-				+ StringUtils.subString(simpleContact.getContactName(), 100)
-				+ "\"", "templates/email/crm/contactAddNoteNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the contact \""
+						+ StringUtils.trim(
+								simpleContact.getContactName(), 100) + "\"",
+				"templates/email/crm/contactAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 		templateGenerator.putVariable("userComment", UserLinkUtils
 				.generatePreviewFullUserLink(

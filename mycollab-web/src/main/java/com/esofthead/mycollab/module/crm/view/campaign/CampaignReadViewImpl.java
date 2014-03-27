@@ -56,7 +56,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class CampaignReadViewImpl extends
-AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
+		AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -121,7 +121,6 @@ AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "About");
@@ -167,6 +166,7 @@ AbstractPreviewItemComp<SimpleCampaign> implements CampaignReadView {
 		displayAccounts();
 		displayContacts();
 		displayLeads();
+		displayNotes();
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);

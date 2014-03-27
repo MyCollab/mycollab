@@ -77,11 +77,12 @@ public class AccountRelayEmailNotificationActionImpl extends
 		simpleAccount = accountService.findById(recordAccountId,
 				emailNotification.getSaccountid());
 		if (simpleAccount != null) {
-			String subject = StringUtils.subString(
-					simpleAccount.getAccountname(), 150);
+			String subject = StringUtils.trim(
+					simpleAccount.getAccountname(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Account: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the account  \"" + subject + "\"",
 					"templates/email/crm/accountCreatedNotifier.mt");
 			templateGenerator.putVariable("simpleAccount", simpleAccount);
 			templateGenerator.putVariable("hyperLinks",
@@ -92,34 +93,18 @@ public class AccountRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	private Map<String, String> constructHyperLinks(SimpleAccount simpleAccount) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks
-				.put("accountURL",
-						getSiteUrl(simpleAccount.getSaccountid())
-								+ CrmLinkGenerator.generateCrmItemLink(
-										CrmTypeConstants.ACCOUNT,
-										simpleAccount.getId()));
-		if (simpleAccount.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleAccount.getSaccountid()),
-							simpleAccount.getAssignuser()));
-		}
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		simpleAccount = accountService.findById(emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(simpleAccount.getAccountname(),
-				150);
+		String subject = StringUtils.trim(simpleAccount.getAccountname(),
+				100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"Account: \"" + subject + "...\" has been updated",
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the account \"" + subject + "\"",
 				"templates/email/crm/accountUpdatedNotifier.mt");
 		templateGenerator.putVariable("simpleAccount", simpleAccount);
 		templateGenerator.putVariable("hyperLinks",
@@ -148,11 +133,12 @@ public class AccountRelayEmailNotificationActionImpl extends
 		simpleAccount = accountService.findById(accountRecordId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("[Account]"
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on "
-				+ StringUtils.subString(simpleAccount.getAccountname(), 100)
-				+ "\"", "templates/email/crm/accountAddNoteNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the account \""
+						+ StringUtils.trim(
+								simpleAccount.getAccountname(), 100) + "\"",
+				"templates/email/crm/accountAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 
 		templateGenerator.putVariable("userComment", UserLinkUtils
@@ -164,6 +150,23 @@ public class AccountRelayEmailNotificationActionImpl extends
 				constructHyperLinks(simpleAccount));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> constructHyperLinks(SimpleAccount simpleAccount) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		hyperLinks
+				.put("accountURL",
+						getSiteUrl(simpleAccount.getSaccountid())
+								+ CrmLinkGenerator.generateCrmItemLink(
+										CrmTypeConstants.ACCOUNT,
+										simpleAccount.getId()));
+		if (simpleAccount.getAssignuser() != null) {
+			hyperLinks.put("assignUserURL", UserLinkUtils
+					.generatePreviewFullUserLink(
+							getSiteUrl(simpleAccount.getSaccountid()),
+							simpleAccount.getAssignuser()));
+		}
+		return hyperLinks;
 	}
 
 	class AccountFieldNameMapper {

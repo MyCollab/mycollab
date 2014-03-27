@@ -70,13 +70,15 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		SimpleTask task = projectTaskService.findById(taskId,
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(task.getTaskname(), 150);
+		String subject = StringUtils.trim(task.getTaskname(), 100);
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(task, user.getTimezone(),
 				new String[] { "startdate", "enddate", "deadline",
 						"actualstartdate", "actualenddate" });
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$task.projectName]: Task \"" + subject + "...\" created",
+				"[$task.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has created the task \"" + subject + "\"",
 				"templates/email/project/taskCreatedNotifier.mt");
 		templateGenerator.putVariable("task", task);
 		templateGenerator.putVariable("hyperLinks", createHyperLinks(task));
@@ -90,7 +92,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		hyperLinks.put("taskUrl",
 				linkGenerator.generateTaskPreviewFullLink(task.getId()));
 		hyperLinks.put("shortTaskUrl",
-				StringUtils.subString(task.getTaskname(), 150));
+				StringUtils.trim(task.getTaskname(), 100));
 		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
 		hyperLinks
 				.put("assignUserUrl", linkGenerator
@@ -113,10 +115,12 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(task, user.getTimezone(),
 				new String[] { "startdate", "enddate", "deadline",
 						"actualstartdate", "actualenddate" });
-		String subject = StringUtils.subString(task.getTaskname(), 150);
+		String subject = StringUtils.trim(task.getTaskname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$task.projectName]: Task \"" + subject + "...\" edited",
+				"[$task.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has updated the task \"" + subject + "\"",
 				"templates/email/project/taskUpdatedNotifier.mt");
 		templateGenerator.putVariable("task", task);
 		templateGenerator.putVariable("hyperLinks", createHyperLinks(task));
@@ -152,14 +156,13 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		}
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 				task.getProjectid());
-		String comment = StringUtils.subString(
-				emailNotification.getChangecomment(), 150);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$task.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
-						+ " add new comment \"" + comment + "...\" to task \""
-						+ StringUtils.subString(task.getTaskname(), 100) + "\"",
+						+ " has commented on the task \""
+						+ StringUtils.trim(task.getTaskname(), 100)
+						+ "\"",
 				"templates/email/project/taskCommentNotifier.mt");
 		templateGenerator.putVariable("task", task);
 		templateGenerator.putVariable("comment", emailNotification);

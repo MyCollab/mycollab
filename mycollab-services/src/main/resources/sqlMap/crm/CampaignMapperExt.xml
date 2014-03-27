@@ -137,11 +137,11 @@
                m_crm_campaign.createdUser, m_crm_campaign.sAccountId, m_crm_campaign.status, m_crm_campaign.type, m_crm_campaign.assignUser,
                m_crm_campaign.lastUpdatedTime,
                s_user.avatarId AS assignUserAvatarId,
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                s_currency.id, s_currency.shortname AS curr_shortname, s_currency.fullname AS curr_fullname, s_currency.isocode AS curr_isocode, 
                s_currency.symbol AS curr_symbol, s_currency.conversionrate AS curr_conversionrate,
                createdUserTabl.avatarId as createdUserAvatarId,
-               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
         FROM m_crm_campaign       
             LEFT OUTER JOIN s_user ON (m_crm_campaign.assignUser=s_user.username)
             LEFT OUTER JOIN s_currency ON (m_crm_campaign.currencyId=s_currency.id)

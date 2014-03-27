@@ -70,11 +70,13 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleOpportunity != null) {
-			String subject = StringUtils.subString(
-					simpleOpportunity.getOpportunityname(), 150);
+			String subject = StringUtils.trim(
+					simpleOpportunity.getOpportunityname(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Opportunity: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the opportunity \"" + subject
+							+ "\"",
 					"templates/email/crm/opportunityCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleOpportunity,
@@ -114,11 +116,12 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(
-				simpleOpportunity.getOpportunityname(), 150);
+		String subject = StringUtils.trim(
+				simpleOpportunity.getOpportunityname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"Opportunity: \"" + subject + "...\" has been updated",
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the opportunity \"" + subject + "\"",
 				"templates/email/crm/opportunityUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleOpportunity,
 				user.getTimezone(), new String[] { "expectedcloseddate" });
@@ -151,10 +154,9 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 				accountRecordId, emailNotification.getSaccountid());
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[Opportunity]"
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on "
-						+ StringUtils.subString(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the opportunity \""
+						+ StringUtils.trim(
 								simpleOpportunity.getOpportunityname(), 100)
 						+ "\"",
 				"templates/email/crm/opportunityAddNoteNotifier.mt");

@@ -107,10 +107,6 @@ public class BugTableDisplay extends
 							@Override
 							public void contextMenuItemClicked(
 									ContextMenuItemClickEvent event) {
-								// String category =
-								// event.getClickedItem().getCategory();
-								// String value =
-								// event.getClickedItem().getValue();
 								String category = "";
 								String value = "";
 								if ("status".equals(category)) {
@@ -396,28 +392,28 @@ public class BugTableDisplay extends
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
 					Resource iconPriority = MyCollabResource
-							.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_16);
+							.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_12);
 
 					if (BugPriorityStatusConstants.PRIORITY_BLOCKER.equals(bug
 							.getPriority())) {
 						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_BLOCKER_IMG_16);
+								.newResource(BugPriorityStatusConstants.PRIORITY_BLOCKER_IMG_12);
 					} else if (BugPriorityStatusConstants.PRIORITY_CRITICAL
 							.equals(bug.getPriority())) {
 						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_CRITICAL_IMG_16);
+								.newResource(BugPriorityStatusConstants.PRIORITY_CRITICAL_IMG_12);
 					} else if (BugPriorityStatusConstants.PRIORITY_MAJOR
 							.equals(bug.getPriority())) {
 						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_16);
+								.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_12);
 					} else if (BugPriorityStatusConstants.PRIORITY_MINOR
 							.equals(bug.getPriority())) {
 						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_MINOR_IMG_16);
+								.newResource(BugPriorityStatusConstants.PRIORITY_MINOR_IMG_12);
 					} else if (BugPriorityStatusConstants.PRIORITY_TRIVIAL
 							.equals(bug.getPriority())) {
 						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_TRIVIAL_IMG_16);
+								.newResource(BugPriorityStatusConstants.PRIORITY_TRIVIAL_IMG_12);
 					}
 
 					b.setIcon(iconPriority);
@@ -444,24 +440,24 @@ public class BugTableDisplay extends
 						.getBeanByIndex(itemId);
 
 				Resource iconPriority = MyCollabResource
-						.newResource(BugSeverityConstants.MAJOR_IMG_16);
+						.newResource(BugSeverityConstants.MAJOR_IMG_12);
 				if (StringUtils.isNotNullOrEmpty(bug.getSeverity())) {
 
 					if (BugSeverityConstants.CRITICAL.equals(bug.getSeverity())) {
 						iconPriority = MyCollabResource
-								.newResource(BugSeverityConstants.CRITICAL_IMG_16);
+								.newResource(BugSeverityConstants.CRITICAL_IMG_12);
 					} else if (BugSeverityConstants.MAJOR.equals(bug
 							.getSeverity())) {
 						iconPriority = MyCollabResource
-								.newResource(BugSeverityConstants.MAJOR_IMG_16);
+								.newResource(BugSeverityConstants.MAJOR_IMG_12);
 					} else if (BugSeverityConstants.MINOR.equals(bug
 							.getSeverity())) {
 						iconPriority = MyCollabResource
-								.newResource(BugSeverityConstants.MINOR_IMG_16);
+								.newResource(BugSeverityConstants.MINOR_IMG_12);
 					} else if (BugSeverityConstants.TRIVIAL.equals(bug
 							.getSeverity())) {
 						iconPriority = MyCollabResource
-								.newResource(BugSeverityConstants.TRIVIAL_IMG_16);
+								.newResource(BugSeverityConstants.TRIVIAL_IMG_12);
 					}
 
 				}

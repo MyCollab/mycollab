@@ -70,8 +70,11 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		SimpleProblem problem = problemService.findById(problemId, 0);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Problem \""
-						+ problem.getIssuename() + "\" has been created",
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has created the problem \""
+						+ StringUtils.trim(problem.getIssuename(), 100)
+						+ "\"",
 				"templates/email/project/problemCreatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(problem,
 				user.getTimezone(), new String[] { "dateraised", "datedue",
@@ -83,34 +86,6 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	private Map<String, String> createHyperLinks(SimpleProblem problem,
-			SimpleRelayEmailNotification emailNotification) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				problem.getProjectid());
-
-		hyperLinks.put("problemURL",
-				linkGenerator.generateProblemPreviewFullLink(problem.getId()));
-
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks
-				.put("assignUserUrl", linkGenerator
-						.generateUserPreviewFullLink(problem
-								.getAssignedUserFullName()));
-		hyperLinks
-				.put("raiseUserUrl", linkGenerator
-						.generateUserPreviewFullLink(problem
-								.getRaisedByUserFullName()));
-
-		SimpleProject project = projectService.findById(problem.getProjectid(),
-				emailNotification.getSaccountid());
-		if (project != null) {
-			hyperLinks.put("projectName", project.getName());
-		}
-
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -120,10 +95,12 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		String subject = StringUtils.subString(problem.getIssuename(), 150);
+		String subject = StringUtils.trim(problem.getIssuename(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Problem \"" + subject
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has updated the problem \"" + subject
 						+ "...\" edited",
 				"templates/email/project/problemUpdateNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(problem,
@@ -158,14 +135,12 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		if (problem == null) {
 			return null;
 		}
-		String comment = StringUtils.subString(
-				emailNotification.getChangecomment(), 150);
+
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$hyperLinks.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
-						+ " add new comment \"" + comment
-						+ "...\" to problem \""
-						+ StringUtils.subString(problem.getIssuename(), 100)
+						+ " has commented on the problem \""
+						+ StringUtils.trim(problem.getIssuename(), 100)
 						+ "\"",
 				"templates/email/project/problemCommentNotifier.mt");
 
@@ -179,6 +154,34 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 				.generateUserPreviewFullLink(emailNotification.getChangeby()));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> createHyperLinks(SimpleProblem problem,
+			SimpleRelayEmailNotification emailNotification) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				problem.getProjectid());
+
+		hyperLinks.put("problemURL",
+				linkGenerator.generateProblemPreviewFullLink(problem.getId()));
+
+		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
+		hyperLinks
+				.put("assignUserUrl", linkGenerator
+						.generateUserPreviewFullLink(problem
+								.getAssignedUserFullName()));
+		hyperLinks
+				.put("raiseUserUrl", linkGenerator
+						.generateUserPreviewFullLink(problem
+								.getRaisedByUserFullName()));
+
+		SimpleProject project = projectService.findById(problem.getProjectid(),
+				emailNotification.getSaccountid());
+		if (project != null) {
+			hyperLinks.put("projectName", project.getName());
+		}
+
+		return hyperLinks;
 	}
 
 	public class ProjectFieldNameMapper {

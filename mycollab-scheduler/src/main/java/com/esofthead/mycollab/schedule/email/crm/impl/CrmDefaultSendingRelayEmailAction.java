@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
-import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -74,9 +73,6 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 
 	protected String crmType;
 
-	private Integer sAccountId;
-	private String siteUrl;
-
 	public CrmDefaultSendingRelayEmailAction(String crmType) {
 		this.crmType = crmType;
 	}
@@ -91,15 +87,16 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
 						notification, user);
 				if (templateGenerator != null) {
-					String userName = user.getUsername();
-					if (userName == null || userName.length() == 0) {
+					String notifierFullName = user.getDisplayName();
+					if (notifierFullName == null
+							|| notifierFullName.trim().length() == 0) {
 						log.error(
 								"Can not find user {} of notification {}",
 								new String[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
-					templateGenerator.putVariable("userName", userName);
+					templateGenerator.putVariable("userName", notifierFullName);
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -107,7 +104,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
@@ -126,15 +123,15 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
 						notification, user);
 				if (templateGenerator != null) {
-					String userName = user.getUsername();
-					if (userName == null) {
+					String notifierFullName = user.getDisplayName();
+					if (notifierFullName == null) {
 						log.error(
 								"Can not find user {} of notification {}",
 								new String[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
-					templateGenerator.putVariable("userName", userName);
+					templateGenerator.putVariable("userName", notifierFullName);
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -142,7 +139,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
@@ -160,15 +157,15 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(
 						notification, user);
 				if (templateGenerator != null) {
-					String userName = user.getUsername();
-					if (userName == null) {
+					String notifierFullName = user.getDisplayName();
+					if (notifierFullName == null) {
 						log.error(
 								"Can not find user {} of notification {}",
 								new String[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
-					templateGenerator.putVariable("userName", userName);
+					templateGenerator.putVariable("userName", notifierFullName);
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -176,7 +173,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"noreply@mycollab.com", lst, null, null,
+							"MyCollab", lst, null, null,
 							templateGenerator.generateSubjectContent(),
 							templateGenerator.generateBodyContent(), null);
 				}
@@ -250,28 +247,20 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		return false;
 	}
 
-	public String getSiteUrl(Integer sAccountId) {
-		if (CrmDefaultSendingRelayEmailAction.this.sAccountId == null) {
-			CrmDefaultSendingRelayEmailAction.this.sAccountId = sAccountId;
-			if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
-				BillingAccountService billingAccountService = ApplicationContextUtil
-						.getSpringBean(BillingAccountService.class);
-				BillingAccount account = billingAccountService
-						.getAccountById(sAccountId);
-				if (account != null) {
-					siteUrl = String.format(ApplicationProperties
-							.getString(ApplicationProperties.APP_URL), account
-							.getSubdomain());
-				}
-			} else {
-				siteUrl = ApplicationProperties
-						.getString(ApplicationProperties.APP_URL);
+	protected String getSiteUrl(Integer sAccountId) {
+		String siteUrl = "";
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+			BillingAccountService billingAccountService = ApplicationContextUtil
+					.getSpringBean(BillingAccountService.class);
+			BillingAccount account = billingAccountService
+					.getAccountById(sAccountId);
+			if (account != null) {
+				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
 			}
-			return siteUrl;
-		} else if (CrmDefaultSendingRelayEmailAction.this.sAccountId == sAccountId) {
-			return siteUrl;
+		} else {
+			siteUrl = SiteConfiguration.getSiteUrl("");
 		}
-		return "";
+		return siteUrl;
 	}
 
 	protected abstract TemplateGenerator templateGeneratorForCreateAction(

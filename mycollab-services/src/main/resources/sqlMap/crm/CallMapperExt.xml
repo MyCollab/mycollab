@@ -24,7 +24,7 @@
             m_crm_call.description,
             m_crm_call.contactId, m_crm_call.sAccountId, m_crm_call.status, m_crm_call.isClosed,
             m_crm_call.purpose, m_crm_call.result, s_user.avatarId AS assignUserAvatarId,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName 
+            LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName 
         FROM m_crm_call
         LEFT OUTER JOIN s_user ON (m_crm_call.assignUser = s_user.username)
         ]]>

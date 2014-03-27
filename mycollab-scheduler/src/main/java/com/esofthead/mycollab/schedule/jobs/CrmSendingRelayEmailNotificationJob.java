@@ -67,8 +67,6 @@ public class CrmSendingRelayEmailNotificationJob extends QuartzJobBean {
 				.findPagableListByCriteria(new SearchRequest<RelayEmailNotificationSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 
-		log.debug("Get " + relayEmaiNotifications.size()
-				+ " relay email notifications");
 		SendingRelayEmailNotificationAction emailNotificationAction = null;
 
 		for (SimpleRelayEmailNotification notification : relayEmaiNotifications) {

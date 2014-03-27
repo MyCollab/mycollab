@@ -70,11 +70,12 @@ public class CallRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleCall != null) {
-			String subject = StringUtils
-					.subString(simpleCall.getSubject(), 150);
+			String subject = StringUtils.trim(simpleCall.getSubject(),
+					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Call: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ "has created the call \"" + subject + "\"",
 					"templates/email/crm/callCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleCall,
@@ -88,23 +89,6 @@ public class CallRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	private Map<String, String> constructHyperLinks(SimpleCall simpleCall) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"callURL",
-				getSiteUrl(simpleCall.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.CALL, simpleCall.getId()));
-
-		if (simpleCall.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCall.getSaccountid()),
-							simpleCall.getAssignuser()));
-		}
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -112,10 +96,11 @@ public class CallRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(simpleCall.getSubject(), 150);
+		String subject = StringUtils.trim(simpleCall.getSubject(), 150);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("Call: \""
-				+ subject + "...\" has been updated",
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the call \"" + subject + "\"",
 				"templates/email/crm/callUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleCall,
 				user.getTimezone(), new String[] { "startdate" });
@@ -147,11 +132,11 @@ public class CallRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("[Call]"
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on "
-				+ StringUtils.subString(simpleCall.getSubject(), 100) + "\"",
-				"templates/email/crm/callAddNoteNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the call \""
+						+ StringUtils.trim(simpleCall.getSubject(), 100)
+						+ "\"", "templates/email/crm/callAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 
 		templateGenerator.putVariable("userComment", UserLinkUtils
@@ -163,6 +148,23 @@ public class CallRelayEmailNotificationActionImpl extends
 				constructHyperLinks(simpleCall));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> constructHyperLinks(SimpleCall simpleCall) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		hyperLinks.put(
+				"callURL",
+				getSiteUrl(simpleCall.getSaccountid())
+						+ CrmLinkGenerator.generateCrmItemLink(
+								CrmTypeConstants.CALL, simpleCall.getId()));
+
+		if (simpleCall.getAssignuser() != null) {
+			hyperLinks.put("assignUserURL", UserLinkUtils
+					.generatePreviewFullUserLink(
+							getSiteUrl(simpleCall.getSaccountid()),
+							simpleCall.getAssignuser()));
+		}
+		return hyperLinks;
 	}
 
 	public class CallFieldNameMapper {

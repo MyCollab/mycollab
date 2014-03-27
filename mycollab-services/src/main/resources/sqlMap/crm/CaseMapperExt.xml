@@ -145,10 +145,10 @@
         SELECT m_crm_case.id, m_crm_case.priority, m_crm_case.status, m_crm_case.type, m_crm_case.subject, m_crm_case.description, 
                m_crm_case.resolution, m_crm_case.accountId, m_crm_case.createdTime, m_crm_case.createdUser, m_crm_case.sAccountId, 
                s_user.avatarId AS assignUserAvatarId,
-               m_crm_case.assignUser, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               m_crm_case.assignUser, LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                m_crm_account.accountName, m_crm_case.lastUpdatedTime,  m_crm_case.reason,  m_crm_case.origin, m_crm_case.phonenumber, m_crm_case.email,
                createdUserTabl.avatarId AS createdUserAvatarId,
-               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
         FROM m_crm_case
             LEFT OUTER JOIN m_crm_account ON (m_crm_case.accountId = m_crm_account.id)
             LEFT OUTER JOIN s_user ON (m_crm_case.assignUser = s_user.username)

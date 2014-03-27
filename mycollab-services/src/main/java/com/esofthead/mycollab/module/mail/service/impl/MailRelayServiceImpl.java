@@ -38,7 +38,7 @@ public class MailRelayServiceImpl implements MailRelayService {
 			String subject, String bodyContent) {
 		RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
 		relayEmail.setFromemail("noreply@mycollab.com");
-		relayEmail.setFromname("noreply@mycollab.com");
+		relayEmail.setFromname("MyCollab");
 
 		String recipientList = JsonDeSerializer.toJson(new String[][] {
 				toEmails, toNames });

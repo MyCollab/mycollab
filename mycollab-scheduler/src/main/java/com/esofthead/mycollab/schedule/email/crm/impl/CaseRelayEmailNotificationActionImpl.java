@@ -69,11 +69,12 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleCase != null) {
-			String subject = StringUtils
-					.subString(simpleCase.getSubject(), 150);
+			String subject = StringUtils.trim(simpleCase.getSubject(),
+					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Case: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ "has created the case \"" + subject + "\"",
 					"templates/email/crm/caseCreatedNotifier.mt");
 
 			templateGenerator.putVariable("simpleCase", simpleCase);
@@ -85,23 +86,6 @@ public class CaseRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	private Map<String, String> constructHyperLinks(SimpleCase simpleCase) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"caseURL",
-				getSiteUrl(simpleCase.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.CASE, simpleCase.getId()));
-		if (simpleCase.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCase.getSaccountid()),
-							simpleCase.getAssignuser()));
-		}
-
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -109,10 +93,11 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(simpleCase.getSubject(), 150);
+		String subject = StringUtils.trim(simpleCase.getSubject(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("Case: \""
-				+ subject + "...\" has been updated",
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the case \"" + subject + "\"",
 				"templates/email/crm/caseUpdatedNotifier.mt");
 		templateGenerator.putVariable("simpleCase", simpleCase);
 		templateGenerator.putVariable("hyperLinks",
@@ -141,11 +126,11 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("[Case]"
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on "
-				+ StringUtils.subString(simpleCase.getSubject(), 100) + "\"",
-				"templates/email/crm/caseAddNoteNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on case \""
+						+ StringUtils.trim(simpleCase.getSubject(), 100)
+						+ "\"", "templates/email/crm/caseAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 		templateGenerator.putVariable("userComment", UserLinkUtils
 				.generatePreviewFullUserLink(
@@ -156,6 +141,23 @@ public class CaseRelayEmailNotificationActionImpl extends
 				constructHyperLinks(simpleCase));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> constructHyperLinks(SimpleCase simpleCase) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		hyperLinks.put(
+				"caseURL",
+				getSiteUrl(simpleCase.getSaccountid())
+						+ CrmLinkGenerator.generateCrmItemLink(
+								CrmTypeConstants.CASE, simpleCase.getId()));
+		if (simpleCase.getAssignuser() != null) {
+			hyperLinks.put("assignUserURL", UserLinkUtils
+					.generatePreviewFullUserLink(
+							getSiteUrl(simpleCase.getSaccountid()),
+							simpleCase.getAssignuser()));
+		}
+
+		return hyperLinks;
 	}
 
 	public class CaseFieldNameMapper {

@@ -179,9 +179,9 @@
                m_crm_account.lastUpdatedTime,
                m_crm_account.createdUser, m_crm_account.sAccountId, m_crm_account.assignUser, m_crm_account.type, m_crm_account.industry,
                s_user.avatarId AS assignUserAvatarId, 
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                createdUserTabl.avatarId AS createdUserAvatarId,
-               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
         FROM m_crm_account
             LEFT OUTER JOIN s_user ON m_crm_account.assignUser = s_user.username
             LEFT OUTER JOIN s_user AS createdUserTabl ON (m_crm_account.createdUser = createdUserTabl.username)

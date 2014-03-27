@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.common;
 
-import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -26,7 +25,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * 
  */
 public abstract class GenericLinkUtils {
 	public static String URL_PREFIX_PARAM = "#";
@@ -70,13 +69,10 @@ public abstract class GenericLinkUtils {
 			BillingAccount account = billingAccountService
 					.getAccountById(sAccountId);
 			if (account != null) {
-				siteUrl = String.format(ApplicationProperties
-						.getString(ApplicationProperties.APP_URL), account
-						.getSubdomain());
+				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
 			}
 		} else {
-			siteUrl = ApplicationProperties
-					.getString(ApplicationProperties.APP_URL);
+			siteUrl = SiteConfiguration.getSiteUrl("");
 		}
 		return siteUrl;
 	}

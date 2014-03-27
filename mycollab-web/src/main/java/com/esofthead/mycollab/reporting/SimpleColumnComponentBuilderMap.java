@@ -43,7 +43,6 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.expression.DRIExpression;
 
 import com.esofthead.mycollab.common.domain.Currency;
-import com.esofthead.mycollab.configuration.ApplicationProperties;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -200,13 +199,10 @@ public class SimpleColumnComponentBuilderMap {
 			BillingAccount account = billingAccountService
 					.getAccountById(accountId);
 			if (account != null) {
-				siteUrl = String.format(ApplicationProperties
-						.getString(ApplicationProperties.APP_URL), account
-						.getSubdomain());
+				siteUrl = SiteConfiguration.getSiteUrl(account.getSubdomain());
 			}
 		} else {
-			siteUrl = ApplicationProperties
-					.getString(ApplicationProperties.APP_URL);
+			siteUrl = SiteConfiguration.getSiteUrl("");
 		}
 		return siteUrl;
 

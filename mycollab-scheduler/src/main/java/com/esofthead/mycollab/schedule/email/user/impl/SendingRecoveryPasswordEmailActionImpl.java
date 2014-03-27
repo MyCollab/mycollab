@@ -71,8 +71,8 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 					user.getEmail(), user.getUsername());
 			List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 			lst.add(recipient);
-			extMailService.sendHTMLMail("noreply@mycollab.com",
-					"noreply@mycollab.com", lst, null, null,
+			extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
+					lst, null, null,
 					templateGenerator.generateSubjectContent(),
 					templateGenerator.generateBodyContent(), null);
 		}

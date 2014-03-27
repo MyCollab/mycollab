@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
@@ -83,8 +82,6 @@ public class ProjectSendingRelayEmailNotificationJob extends QuartzJobBean {
 										.sendNotificationForCommentAction(notification);
 							}
 
-							log.debug("Finish process notification {}",
-									BeanUtility.printBeanObj(notification));
 							relayNotificationService.removeWithSession(
 									notification.getId(), "",
 									notification.getSaccountid());

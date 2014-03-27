@@ -69,8 +69,11 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 				emailNotification.getSaccountid());
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Phase \"" + milestone.getName()
-						+ "\" has been created",
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has created the phase \""
+						+ StringUtils.trim(milestone.getName(), 100)
+						+ "\"",
 				"templates/email/project/phaseCreatedNotifier.mt");
 
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(milestone,
@@ -112,10 +115,11 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		String subject = StringUtils.subString(milestone.getName(), 150);
+		String subject = StringUtils.trim(milestone.getName(), 100);
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: Phase \"" + subject
-						+ "...\" edited",
+				"[$hyperLinks.projectName]: "
+						+ emailNotification.getChangeByUserFullName()
+						+ " has updated the phase \"" + subject + "\"",
 				"templates/email/project/phaseUpdateNotifier.mt");
 
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(milestone,
@@ -146,13 +150,12 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		if (milestone == null) {
 			return null;
 		}
-		String comment = StringUtils.subString(
-				emailNotification.getChangecomment(), 150);
+
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$hyperLinks.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
-						+ " add new comment \"" + comment + "...\" to phase \""
-						+ StringUtils.subString(milestone.getName(), 100)
+						+ "  has commented on phase \""
+						+ StringUtils.trim(milestone.getName(), 100)
 						+ "\"",
 				"templates/email/project/phaseCommentNotifier.mt");
 

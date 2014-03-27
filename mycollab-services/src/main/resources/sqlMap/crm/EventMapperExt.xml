@@ -137,9 +137,9 @@
         SELECT m_crm_task.id, m_crm_task.subject, 'Task' as eventType, m_crm_task.startdate,
             m_crm_task.duedate as endDate, m_crm_task.typeid, m_crm_task.description, m_crm_task.createdTime, m_crm_task.createdUser, m_crm_task.sAccountId,
             m_crm_task.status, m_crm_task.assignUser, m_crm_task.type, 'Error' as typeName, m_crm_task.lastUpdatedTime,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
             m_crm_task.priority as priority,
-			concat(m_crm_contact.firstname,' ',m_crm_contact.lastname) as contactFullName,
+			LTRIM(concat(m_crm_contact.firstname,' ',m_crm_contact.lastname)) as contactFullName,
 			m_crm_task.contactId as contactId, null as callDuration, null as callPurpose, null as callResult, null as meetingLocation,
 			s_user.avatarId as assignUserAvatarId
         FROM m_crm_task
@@ -152,7 +152,7 @@
         <![CDATA[
         SELECT m_crm_call.id, m_crm_call.subject, 'Call' as eventType, m_crm_call.startdate, m_crm_call.startdate as endDate, m_crm_call.typeid, m_crm_call.description, m_crm_call.createdTime,
             m_crm_call.createdUser, m_crm_call.sAccountId, m_crm_call.status, m_crm_call.assignUser, m_crm_call.type, 'Error' as typeName, m_crm_call.lastUpdatedTime,
-            concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+            LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
             null as priority , null as contactFullName , null as contactId,m_crm_call.durationInSeconds as callDuration, m_crm_call.purpose as callPurpose,
     		m_crm_call.result as callResult,null as meetingLocation,s_user.avatarId as assignUserAvatarId
         FROM m_crm_call
@@ -165,7 +165,7 @@
             SELECT m_crm_meeting.id, m_crm_meeting.subject, 'Event' as eventType, m_crm_meeting.startdate,
                 m_crm_meeting.endDate, m_crm_meeting.typeid, m_crm_meeting.description, m_crm_meeting.createdTime, m_crm_meeting.createdUser,
                 m_crm_meeting.sAccountId, m_crm_meeting.status, m_crm_meeting.createdUser as assignUser, m_crm_meeting.type, 'Error' as  typeName,
-                m_crm_meeting.lastUpdatedTime, concat(s_user.firstname, LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+                m_crm_meeting.lastUpdatedTime, LTRIM(concat(s_user.firstname, LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                 null as priority,null as contactFullName,null as contactId,null as callDuration, null as callPurpose, null as callResult,
 				m_crm_meeting.location as meetingLocation,s_user.avatarId as assignUserAvatarId
             FROM m_crm_meeting

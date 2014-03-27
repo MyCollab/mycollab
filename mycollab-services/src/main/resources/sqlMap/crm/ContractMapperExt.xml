@@ -39,7 +39,7 @@
         <if test="assignUserName != null">
             <![CDATA[
                 ${assignUserName.operation}
-                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) like '%${assignUserName.value}%'
+                LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) like '%${assignUserName.value}%'
             ]]>
         </if>
         <if test="assignUser != null">
@@ -115,7 +115,7 @@
                 ${assignUserName.operation}
                 (SELECT COUNT(*) FROM s_user
                 WHERE m_crm_contract.assignUser = s_user.username  
-                   AND (concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) like '%${assignUserName.value}%') ) > 0
+                   AND (LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) like '%${assignUserName.value}%') ) > 0
             ]]>
         </if>
         <if test="assignUser != null">
@@ -155,7 +155,7 @@
                m_crm_contract.customersigneddate, m_crm_contract.companysigneddate, m_crm_contract.type, m_crm_contract.description,
                m_crm_account.accountName, m_crm_opportunity.opportunityName, 
                m_crm_contract.startdate, m_crm_contract.enddate, m_crm_contract.contractvalue,
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
+               LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,
                m_crm_contract.createdTime, m_crm_contract.createdUser, m_crm_contract.lastUpdatedTime
                
         FROM m_crm_contract

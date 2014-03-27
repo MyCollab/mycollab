@@ -53,7 +53,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 		hyperLinks.put("messageUrl",
 				linkGenerator.generateMessagePreviewFullLink(message.getId()));
 		hyperLinks.put("shortMessageUrl",
-				StringUtils.subString(message.getTitle(), 150));
+				StringUtils.trim(message.getTitle(), 100));
 		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
 		hyperLinks.put("createdUserUrl", linkGenerator
 				.generateUserPreviewFullLink(message.getPosteduser()));
@@ -69,7 +69,8 @@ public class MessageRelayEmailNotificationActionImpl extends
 				emailNotification.getSaccountid());
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$message.projectName]: $message.fullPostedUserName sent a message \""
-						+ message.getTitle() + "\"",
+						+ StringUtils.trim(message.getTitle(), 100)
+						+ "\"",
 				"templates/email/project/messageCreatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(message,
 				user.getTimezone(), new String[] { "posteddate" });
@@ -86,8 +87,9 @@ public class MessageRelayEmailNotificationActionImpl extends
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$message.projectName]: $message.fullPostedUserName posted a new message \""
-						+ message.getTitle() + "\"",
+				"[$message.projectName]: $message.fullPostedUserName updated content of the message \""
+						+ StringUtils.trim(message.getTitle(), 100)
+						+ "\"",
 				"templates/email/project/messageUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(message,
 				user.getTimezone(), new String[] { "posteddate" });
@@ -107,7 +109,8 @@ public class MessageRelayEmailNotificationActionImpl extends
 				message.getProjectid());
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"[$message.projectName]: $!message.fullPostedUserName has commented on \""
-						+ message.getTitle() + "\"",
+						+ StringUtils.trim(message.getTitle(), 100)
+						+ "\"",
 				"templates/email/project/messageCommentNotifier.mt");
 		templateGenerator.putVariable("message", message);
 		templateGenerator.putVariable("comment", emailNotification);

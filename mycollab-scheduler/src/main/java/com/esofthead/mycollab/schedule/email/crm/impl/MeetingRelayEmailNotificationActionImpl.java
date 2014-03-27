@@ -70,11 +70,12 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleMeeting != null) {
-			String subject = StringUtils.subString(simpleMeeting.getSubject(),
+			String subject = StringUtils.trim(simpleMeeting.getSubject(),
 					150);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Meeting: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the meeting \"" + subject + "\"",
 					"templates/email/crm/meetingCreatedNotifier.mt");
 
 			ScheduleUserTimeZoneUtils
@@ -89,17 +90,6 @@ public class MeetingRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	private Map<String, String> constructHyperLinks(SimpleMeeting simpleMeeting) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks
-				.put("meetingURL",
-						getSiteUrl(simpleMeeting.getSaccountid())
-								+ CrmLinkGenerator.generateCrmItemLink(
-										CrmTypeConstants.MEETING,
-										simpleMeeting.getId()));
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -107,10 +97,12 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.subString(simpleMeeting.getSubject(), 150);
+		String subject = StringUtils
+				.trim(simpleMeeting.getSubject(), 150);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"Meeting: \"" + subject + "...\" has been updated",
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the meeting \"" + subject + "\"",
 				"templates/email/crm/meetingUpdatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleMeeting,
 				user.getTimezone(), new String[] { "startdate", "enddate" });
@@ -143,11 +135,11 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				emailNotification.getSaccountid());
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[Meeting]"
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on "
-						+ StringUtils.subString(simpleMeeting.getSubject(), 100)
-						+ "\"", "templates/email/crm/meetingAddNoteNotifier.mt");
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the meeting \""
+						+ StringUtils.trim(simpleMeeting.getSubject(),
+								100) + "\"",
+				"templates/email/crm/meetingAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 		templateGenerator.putVariable("userComment", UserLinkUtils
 				.generatePreviewFullUserLink(
@@ -158,6 +150,17 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				constructHyperLinks(simpleMeeting));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> constructHyperLinks(SimpleMeeting simpleMeeting) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		hyperLinks
+				.put("meetingURL",
+						getSiteUrl(simpleMeeting.getSaccountid())
+								+ CrmLinkGenerator.generateCrmItemLink(
+										CrmTypeConstants.MEETING,
+										simpleMeeting.getId()));
+		return hyperLinks;
 	}
 
 	public class MeetingFieldNameMapper {

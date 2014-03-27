@@ -46,7 +46,7 @@
         
         #ifnotnull($searchCriteria.leadName)
             ${searchCriteria.leadName.operation}
-                    (concat (m_crm_lead.firstname, ' ', m_crm_lead.lastname) like '%${searchCriteria.leadName.value}%')
+                    (LTRIM(concat (m_crm_lead.firstname, ' ', m_crm_lead.lastname)) like '%${searchCriteria.leadName.value}%')
         #end
         
         #ifnotnull($searchCriteria.assignUsers)
@@ -102,7 +102,7 @@
         
         #ifnotnull($searchCriteria.leadName)
             ${searchCriteria.leadName.operation}
-                    (concat (m_crm_lead.firstname, ' ', m_crm_lead.lastname) like '%${searchCriteria.leadName.value}%')
+                    (LTRIM(concat (m_crm_lead.firstname, ' ', m_crm_lead.lastname)) like '%${searchCriteria.leadName.value}%')
         #end
         
         #ifnotnull($searchCriteria.assignUsers)
@@ -153,11 +153,11 @@
                m_crm_lead.email, m_crm_lead.createdTime, m_crm_lead.createdUser, m_crm_lead.sAccountId, m_crm_lead.assignUser, m_crm_lead.status, 
                m_crm_lead.source,
                s_user.avatarId AS assignUserAvatarId, 
-               concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName, 
-               concat (IFNULL(m_crm_lead.firstname,''), ' ', m_crm_lead.lastname) AS leadName,
+               LTRIM(concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) AS assignUserFullName, 
+               LTRIM(concat (IFNULL(m_crm_lead.firstname,''), ' ', m_crm_lead.lastname)) AS leadName,
                m_crm_campaign.campaignName, m_crm_lead.website, m_crm_lead.lastUpdatedTime, m_crm_lead.noemployees,
                createdUserTabl.avatarId AS createdUserAvatarId,
-               concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname) as createdUserFullName
+               LTRIM(concat(createdUserTabl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTabl.middlename, ''), ' ')), createdUserTabl.lastname)) as createdUserFullName
 
         FROM m_crm_lead
                LEFT OUTER JOIN s_user ON (m_crm_lead.assignUser = s_user.username) 

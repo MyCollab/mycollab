@@ -98,11 +98,10 @@ public class SendUserInvitationEmailJob extends QuartzJobBean {
 					.getUsername() : "there";
 			templateGenerator.putVariable("userName", userName);
 			templateGenerator.putVariable("inviterName", inviterName);
-			extMailService.sendHTMLMail("noreply@mycollab.com",
-					"noreply@mycollab.com", Arrays
-							.asList(new MailRecipientField(invitation
-									.getUsername(), invitation.getUsername())),
-					null, null, templateGenerator.generateSubjectContent(),
+			extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
+					Arrays.asList(new MailRecipientField(invitation
+							.getUsername(), invitation.getUsername())), null,
+					null, templateGenerator.generateSubjectContent(),
 					templateGenerator.generateBodyContent(), null);
 
 			// Send email and change register status of user to

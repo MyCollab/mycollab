@@ -69,11 +69,12 @@ public class LeadRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleLead != null) {
-			String subject = StringUtils.subString(simpleLead.getLeadName(),
+			String subject = StringUtils.trim(simpleLead.getLeadName(),
 					150);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"Lead: \"" + subject + "\" has been created",
+					emailNotification.getChangeByUserFullName()
+							+ " has created the lead \"" + subject + "\"",
 					"templates/email/crm/leadCreatedNotifier.mt");
 
 			templateGenerator.putVariable("simpleLead", simpleLead);
@@ -85,24 +86,6 @@ public class LeadRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	private Map<String, String> constructHyperLinks(SimpleLead simpleLead) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"leadURL",
-				getSiteUrl(simpleLead.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.LEAD, simpleLead.getId()));
-
-		if (simpleLead.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleLead.getSaccountid()),
-							simpleLead.getAssignuser()));
-		}
-
-		return hyperLinks;
-	}
-
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -112,10 +95,11 @@ public class LeadRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		String subject = StringUtils.subString(lead.getLeadName(), 150);
+		String subject = StringUtils.trim(lead.getLeadName(), 150);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("Lead: \""
-				+ subject + "...\" has been updated",
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has updated the lead \"" + subject + "\"",
 				"templates/email/crm/leadUpdatedNotifier.mt");
 		templateGenerator.putVariable("simpleLead", lead);
 		templateGenerator.putVariable("hyperLinks", constructHyperLinks(lead));
@@ -143,11 +127,11 @@ public class LeadRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("[Lead]"
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on "
-				+ StringUtils.subString(simpleLead.getLeadName(), 100) + "\"",
-				"templates/email/crm/leadAddNoteNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				emailNotification.getChangeByUserFullName()
+						+ " has commented on the lead \""
+						+ StringUtils.trim(simpleLead.getLeadName(), 100)
+						+ "\"", "templates/email/crm/leadAddNoteNotifier.mt");
 		templateGenerator.putVariable("comment", emailNotification);
 		templateGenerator.putVariable("userComment", UserLinkUtils
 				.generatePreviewFullUserLink(
@@ -158,6 +142,24 @@ public class LeadRelayEmailNotificationActionImpl extends
 				constructHyperLinks(simpleLead));
 
 		return templateGenerator;
+	}
+
+	private Map<String, String> constructHyperLinks(SimpleLead simpleLead) {
+		Map<String, String> hyperLinks = new HashMap<String, String>();
+		hyperLinks.put(
+				"leadURL",
+				getSiteUrl(simpleLead.getSaccountid())
+						+ CrmLinkGenerator.generateCrmItemLink(
+								CrmTypeConstants.LEAD, simpleLead.getId()));
+
+		if (simpleLead.getAssignuser() != null) {
+			hyperLinks.put("assignUserURL", UserLinkUtils
+					.generatePreviewFullUserLink(
+							getSiteUrl(simpleLead.getSaccountid()),
+							simpleLead.getAssignuser()));
+		}
+
+		return hyperLinks;
 	}
 
 	public class LeadFieldNameMapper {
