@@ -64,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  * @param <B>
  */
 public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
-		extends VerticalLayout implements IPagedBeanTable<S, B> {
+extends VerticalLayout implements IPagedBeanTable<S, B> {
 	private static final long serialVersionUID = 1L;
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
@@ -119,7 +119,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 				List<TableViewField> selectedColumns = JsonDeSerializer
 						.fromJson(viewLayoutDef.getViewinfo(),
 								new TypeToken<List<TableViewField>>() {
-								}.getType());
+						}.getType());
 				this.displayColumns = selectedColumns;
 			} else {
 				this.displayColumns = displayColumns;
@@ -139,6 +139,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		this.displayColumns = viewFields;
 		displayTableColumns();
 		this.markAsDirty();
+	}
+
+	public void addTableStyleName(String stylename) {
+		tableItem.addStyleName(stylename);
 	}
 
 	private void displayTableColumns() {
@@ -338,7 +342,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractPagedBeanTable.this
-									.pageChange(AbstractPagedBeanTable.this.currentPage - 2);
+							.pageChange(AbstractPagedBeanTable.this.currentPage - 2);
 						}
 					}, false);
 			previous2.addStyleName("buttonPaging");
@@ -352,7 +356,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractPagedBeanTable.this
-									.pageChange(AbstractPagedBeanTable.this.currentPage - 1);
+							.pageChange(AbstractPagedBeanTable.this.currentPage - 1);
 						}
 					}, false);
 			previous1.addStyleName("buttonPaging");
@@ -361,14 +365,14 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		// Here add current ButtonLink
 		final Button current = new ButtonLink("" + this.currentPage,
 				new ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						AbstractPagedBeanTable.this
-								.pageChange(AbstractPagedBeanTable.this.currentPage);
-					}
-				}, false);
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				AbstractPagedBeanTable.this
+				.pageChange(AbstractPagedBeanTable.this.currentPage);
+			}
+		}, false);
 		current.addStyleName("buttonPaging");
 		current.addStyleName("buttonPagingcurrent");
 
@@ -377,28 +381,28 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		if (range >= 1) {
 			final Button next1 = new ButtonLink("" + (this.currentPage + 1),
 					new ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							AbstractPagedBeanTable.this
-									.pageChange(AbstractPagedBeanTable.this.currentPage + 1);
-						}
-					}, false);
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					AbstractPagedBeanTable.this
+					.pageChange(AbstractPagedBeanTable.this.currentPage + 1);
+				}
+			}, false);
 			next1.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next1);
 		}
 		if (range >= 2) {
 			final Button next2 = new ButtonLink("" + (this.currentPage + 2),
 					new ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							AbstractPagedBeanTable.this
-									.pageChange(AbstractPagedBeanTable.this.currentPage + 2);
-						}
-					}, false);
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					AbstractPagedBeanTable.this
+					.pageChange(AbstractPagedBeanTable.this.currentPage + 2);
+				}
+			}, false);
 			next2.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next2);
 		}
@@ -410,14 +414,14 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		if (range >= 3) {
 			final Button last = new ButtonLink("" + this.totalPage,
 					new ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							AbstractPagedBeanTable.this
-									.pageChange(AbstractPagedBeanTable.this.totalPage);
-						}
-					}, false);
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					AbstractPagedBeanTable.this
+					.pageChange(AbstractPagedBeanTable.this.totalPage);
+				}
+			}, false);
 			last.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(last);
 		}
@@ -475,7 +479,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					this.isAscending ? MyCollabResource
 							.newResource("icons/16/arrow_down.png")
 							: MyCollabResource
-									.newResource("icons/16/arrow_up.png"));
+							.newResource("icons/16/arrow_up.png"));
 		}
 
 		this.tableItem.addHeaderClickListener(new Table.HeaderClickListener() {
@@ -502,10 +506,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 							.getOrderByField())) {
 						AbstractPagedBeanTable.this.isAscending = !AbstractPagedBeanTable.this.isAscending;
 						searchCriteria
-								.setSortDirection(searchCriteria
-										.getSortDirection().equals(
-												SearchCriteria.ASC) ? SearchCriteria.DESC
-										: SearchCriteria.ASC);
+						.setSortDirection(searchCriteria
+								.getSortDirection().equals(
+										SearchCriteria.ASC) ? SearchCriteria.DESC
+												: SearchCriteria.ASC);
 					} else {
 						searchCriteria.setOrderByField(propertyId);
 						searchCriteria.setSortDirection(SearchCriteria.DESC);
@@ -513,7 +517,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					}
 
 					AbstractPagedBeanTable.this
-							.setSearchCriteria(searchCriteria);
+					.setSearchCriteria(searchCriteria);
 				}
 			}
 		});

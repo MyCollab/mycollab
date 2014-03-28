@@ -102,8 +102,9 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 
 	private static final long serialVersionUID = 1L;
 	private final PopupButton calendarActionBtn;
-	private MonthViewCalendar calendarComponent;
+	private CalendarDisplay calendarComponent;
 	private PopupButton toggleViewBtn;
+
 	private Button monthViewBtn;
 	private Button weekViewBtn;
 	private Button dailyViewBtn;
@@ -134,8 +135,6 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		rightColumn.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		rightColumn.setMargin(new MarginInfo(true, false, true, false));
 		contentWrapper.addComponent(rightColumn);
-
-		MenuActionListener listener = new MenuActionListener();
 
 		calendarActionBtn = new PopupButton("Create");
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -210,8 +209,9 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				toggleViewBtn.setPopupVisible(false);
 				toggleViewBtn.setCaption(dailyViewBtn.getCaption());
-				calendarComponent.switchToDateView(new Date());
-				datePicker.selectDate(new Date());
+				Date currentDate = new Date();
+				datePicker.selectDate(currentDate);
+				calendarComponent.switchToDateView(currentDate);
 			}
 		});
 		dailyViewBtn.setStyleName("link");
@@ -238,6 +238,26 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		actionBtnLayout.setMargin(true);
 		actionBtnLayout.setSpacing(true);
 		actionBtnLayout.setWidth("150px");
+
+		Button.ClickListener listener = new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				calendarActionBtn.setPopupVisible(false);
+				String caption = event.getButton().getCaption();
+				if (caption.equals("Create Todo")) {
+					EventBus.getInstance().fireEvent(
+							new ActivityEvent.TaskAdd(this, null));
+				} else if (caption.equals("Create Call")) {
+					EventBus.getInstance().fireEvent(
+							new ActivityEvent.CallAdd(this, null));
+				} else if (caption.equals("Create Event")) {
+					EventBus.getInstance().fireEvent(
+							new ActivityEvent.MeetingAdd(this, null));
+				}
+			}
+		};
 
 		ButtonLink todoBtn = new ButtonLink("Create Todo", listener);
 		actionBtnLayout.addComponent(todoBtn);
@@ -286,7 +306,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		actionPanel.addComponent(viewSwitcher);
 		actionPanel.setComponentAlignment(viewSwitcher, Alignment.MIDDLE_RIGHT);
 
-		calendarComponent = new MonthViewCalendar();
+		calendarComponent = new CalendarDisplay();
 		mainContent.addComponent(calendarComponent);
 		mainContent.setExpandRatio(calendarComponent, 1);
 		mainContent.setComponentAlignment(calendarComponent,
@@ -456,193 +476,12 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		dateHdr.setValue(month + " " + calendar.get(GregorianCalendar.YEAR));
 	}
 
-	private class MenuActionListener implements Button.ClickListener {
+	@Override
+	public void attach() {
+		super.attach();
 
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void buttonClick(ClickEvent event) {
-			calendarActionBtn.setPopupVisible(false);
-			String caption = event.getButton().getCaption();
-			if (caption.equals("Create Todo")) {
-				EventBus.getInstance().fireEvent(
-						new ActivityEvent.TaskAdd(this, null));
-			} else if (caption.equals("Create Call")) {
-				EventBus.getInstance().fireEvent(
-						new ActivityEvent.CallAdd(this, null));
-			} else if (caption.equals("Create Event")) {
-				EventBus.getInstance().fireEvent(
-						new ActivityEvent.MeetingAdd(this, null));
-			}
-		}
-	}
-
-	private class QuickCreateEventWindow extends Window {
-		private static final long serialVersionUID = 1L;
-		private EditForm editForm;
-		private MeetingWithBLOBs meeting;
-
-		public QuickCreateEventWindow(Date startDate, Date endDate) {
-			super("Quick Create Event");
-			this.center();
-			this.setWidth("1220px");
-
-			this.meeting = new MeetingWithBLOBs();
-			this.meeting.setSaccountid(AppContext.getAccountId());
-			this.meeting.setStartdate(startDate);
-			this.meeting.setEnddate(endDate);
-
-			VerticalLayout contentLayout = new VerticalLayout();
-			this.setContent(contentLayout);
-			editForm = new EditForm();
-			editForm.setBean(meeting);
-			contentLayout.addComponent(editForm);
-		}
-
-		private class EditForm extends AdvancedEditBeanForm<MeetingWithBLOBs> {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setBean(MeetingWithBLOBs newDataSource) {
-				this.setFormLayoutFactory(new FormLayoutFactory());
-				this.setBeanFormFieldFactory(new EditFormFieldFactory(
-						EditForm.this));
-				super.setBean(newDataSource);
-			}
-
-			private class FormLayoutFactory extends MeetingFormLayoutFactory {
-
-				private static final long serialVersionUID = 1L;
-
-				public FormLayoutFactory() {
-					super(meeting.getId() == null ? "Create Event" : meeting
-							.getSubject());
-				}
-
-				private Layout createButtonControls() {
-					final HorizontalLayout controlPanel = new HorizontalLayout();
-					controlPanel.setWidth("100%");
-
-					final HorizontalLayout layout = new HorizontalLayout();
-					layout.setMargin(true);
-					layout.setSpacing(true);
-					layout.setStyleName("addNewControl");
-					Button saveBtn = new Button("Save",
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(ClickEvent event) {
-									if (EditForm.this.validateForm()) {
-										MeetingService meetingService = ApplicationContextUtil
-												.getSpringBean(MeetingService.class);
-										meetingService.saveWithSession(meeting,
-												AppContext.getUsername());
-										QuickCreateEventWindow.this.close();
-										EventBus.getInstance().fireEvent(
-												new ActivityEvent.GotoCalendar(
-														this, null));
-									}
-
-								}
-							});
-					saveBtn.setIcon(MyCollabResource
-							.newResource("icons/16/save.png"));
-					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-					layout.addComponent(saveBtn);
-					layout.setComponentAlignment(saveBtn,
-							Alignment.MIDDLE_CENTER);
-					Button cancelBtn = new Button("Cancel",
-							new ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(ClickEvent event) {
-									QuickCreateEventWindow.this.close();
-								}
-							});
-					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
-					cancelBtn.setIcon(MyCollabResource
-							.newResource("icons/16/cancel.png"));
-					layout.addComponent(cancelBtn);
-					layout.setComponentAlignment(cancelBtn,
-							Alignment.MIDDLE_CENTER);
-					controlPanel.addComponent(layout);
-					controlPanel.setComponentAlignment(layout,
-							Alignment.MIDDLE_CENTER);
-					return controlPanel;
-				}
-
-				@Override
-				protected Layout createTopPanel() {
-					return createButtonControls();
-				}
-
-				@Override
-				protected Layout createBottomPanel() {
-					return null;
-				}
-			}
-
-			private class EditFormFieldFactory extends
-					AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
-				private static final long serialVersionUID = 1L;
-
-				public EditFormFieldFactory(
-						GenericBeanForm<MeetingWithBLOBs> form) {
-					super(form);
-				}
-
-				@Override
-				protected Field<?> onCreateField(Object propertyId) {
-					if (propertyId.equals("subject")) {
-						TextField tf = new TextField();
-
-						if (isValidateForm) {
-							tf.setNullRepresentation("");
-							tf.setRequired(true);
-							tf.setRequiredError("Subject must not be null");
-						}
-
-						return tf;
-					} else if (propertyId.equals("status")) {
-						return new MeetingStatusComboBox();
-					} else if (propertyId.equals("startdate")) {
-						return new DateTimePickerField();
-					} else if (propertyId.equals("enddate")) {
-						return new DateTimePickerField();
-					} else if (propertyId.equals("description")) {
-						TextArea descArea = new TextArea();
-						descArea.setNullRepresentation("");
-						return descArea;
-					} else if (propertyId.equals("type")) {
-						RelatedEditItemField field = new RelatedEditItemField(
-								new String[] { CrmTypeConstants.ACCOUNT,
-										CrmTypeConstants.CAMPAIGN,
-										CrmTypeConstants.CONTACT,
-										CrmTypeConstants.LEAD,
-										CrmTypeConstants.OPPORTUNITY,
-										CrmTypeConstants.CASE }, meeting);
-						field.setType(meeting.getType());
-						return field;
-					} else if (propertyId.equals("isrecurrence")) {
-						return null;
-					}
-					return null;
-				}
-			}
-
-			private class MeetingStatusComboBox extends ValueComboBox {
-
-				private static final long serialVersionUID = 1L;
-
-				public MeetingStatusComboBox() {
-					super();
-					setCaption(null);
-					this.loadData(new String[] { "Planned", "Held", "Not Held" });
-				}
-			}
+		if (this.getParent() instanceof CustomLayout) {
+			this.getParent().addStyleName("preview-comp");
 		}
 	}
 
@@ -650,15 +489,15 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		MONTH, WEEK, DAY;
 	}
 
-	public class MonthViewCalendar extends Calendar {
+	class CalendarDisplay extends Calendar {
 		private static final long serialVersionUID = 1L;
 
-		GregorianCalendar calendar = new GregorianCalendar();
+		private GregorianCalendar calendar = new GregorianCalendar();
 
 		private Date currentMonthsFirstDate = null;
 		private Mode viewMode = Mode.MONTH;
 
-		public MonthViewCalendar() {
+		public CalendarDisplay() {
 			super(new ActivityEventProvider());
 			this.setTimeFormat(TimeFormat.Format12H);
 			this.setSizeFull();
@@ -685,6 +524,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 					viewMode = Mode.DAY;
 				}
 			});
+			
 			this.setHandler(new EventClickHandler() {
 				private static final long serialVersionUID = 1L;
 
@@ -692,7 +532,11 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 				public void eventClick(EventClick event) {
 					CrmEvent calendarEvent = (CrmEvent) event
 							.getCalendarEvent();
-					handleClickEvent(calendarEvent);
+					SimpleMeeting source = calendarEvent.getSource();
+					EventBus.getInstance().fireEvent(
+							new ActivityEvent.MeetingRead(
+									ActivityCalendarViewImpl.this, source
+											.getId()));
 				}
 			});
 
@@ -858,16 +702,6 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			}
 		}
 
-		private void handleClickEvent(CalendarEvent event) {
-			if (event == null) {
-				return;
-			}
-			SimpleMeeting source = ((CrmEvent) event).getSource();
-			EventBus.getInstance().fireEvent(
-					new ActivityEvent.MeetingRead(
-							ActivityCalendarViewImpl.this, source.getId()));
-		}
-
 		public Date getCurrentMonthsFirstDate() {
 			return currentMonthsFirstDate;
 		}
@@ -945,12 +779,172 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		}
 	}
 
-	@Override
-	public void attach() {
-		super.attach();
+	private class QuickCreateEventWindow extends Window {
+		private static final long serialVersionUID = 1L;
+		private EditForm editForm;
+		private MeetingWithBLOBs meeting;
 
-		if (this.getParent() instanceof CustomLayout) {
-			this.getParent().addStyleName("preview-comp");
+		public QuickCreateEventWindow(Date startDate, Date endDate) {
+			super("Quick Create Event");
+			this.center();
+			this.setWidth("1220px");
+
+			this.meeting = new MeetingWithBLOBs();
+			this.meeting.setSaccountid(AppContext.getAccountId());
+			this.meeting.setStartdate(startDate);
+			this.meeting.setEnddate(endDate);
+
+			VerticalLayout contentLayout = new VerticalLayout();
+			this.setContent(contentLayout);
+			editForm = new EditForm();
+			editForm.setBean(meeting);
+			contentLayout.addComponent(editForm);
+			contentLayout.setStyleName("readview-layout");
+			contentLayout.setMargin(new MarginInfo(false, true, true, true));
+		}
+
+		private class EditForm extends AdvancedEditBeanForm<MeetingWithBLOBs> {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setBean(MeetingWithBLOBs newDataSource) {
+				this.setFormLayoutFactory(new FormLayoutFactory());
+				this.setBeanFormFieldFactory(new EditFormFieldFactory(
+						EditForm.this));
+				super.setBean(newDataSource);
+			}
+
+			private class FormLayoutFactory extends MeetingFormLayoutFactory {
+
+				private static final long serialVersionUID = 1L;
+
+				public FormLayoutFactory() {
+					super(meeting.getId() == null ? "Create Event" : meeting
+							.getSubject());
+				}
+
+				private Layout createButtonControls() {
+					final HorizontalLayout controlPanel = new HorizontalLayout();
+					controlPanel.setWidth("100%");
+
+					final HorizontalLayout layout = new HorizontalLayout();
+					
+					layout.setSpacing(true);
+					layout.setStyleName("addNewControl");
+					Button saveBtn = new Button("Save",
+							new Button.ClickListener() {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void buttonClick(ClickEvent event) {
+									if (EditForm.this.validateForm()) {
+										MeetingService meetingService = ApplicationContextUtil
+												.getSpringBean(MeetingService.class);
+										meetingService.saveWithSession(meeting,
+												AppContext.getUsername());
+										QuickCreateEventWindow.this.close();
+										EventBus.getInstance().fireEvent(
+												new ActivityEvent.GotoCalendar(
+														this, null));
+									}
+
+								}
+							});
+					saveBtn.setIcon(MyCollabResource
+							.newResource("icons/16/save.png"));
+					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+					layout.addComponent(saveBtn);
+					layout.setComponentAlignment(saveBtn,
+							Alignment.MIDDLE_CENTER);
+					Button cancelBtn = new Button("Cancel",
+							new ClickListener() {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void buttonClick(ClickEvent event) {
+									QuickCreateEventWindow.this.close();
+								}
+							});
+					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+					layout.addComponent(cancelBtn);
+					layout.setComponentAlignment(cancelBtn,
+							Alignment.MIDDLE_CENTER);
+					controlPanel.addComponent(layout);
+					controlPanel.setComponentAlignment(layout,
+							Alignment.MIDDLE_RIGHT);
+					return controlPanel;
+				}
+
+				@Override
+				protected Layout createTopPanel() {
+					return createButtonControls();
+				}
+
+				@Override
+				protected Layout createBottomPanel() {
+					return null;
+				}
+			}
+
+			private class EditFormFieldFactory extends
+					AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+				private static final long serialVersionUID = 1L;
+
+				public EditFormFieldFactory(
+						GenericBeanForm<MeetingWithBLOBs> form) {
+					super(form);
+				}
+
+				@Override
+				protected Field<?> onCreateField(Object propertyId) {
+					if (propertyId.equals("subject")) {
+						TextField tf = new TextField();
+
+						if (isValidateForm) {
+							tf.setNullRepresentation("");
+							tf.setRequired(true);
+							tf.setRequiredError("Subject must not be null");
+						}
+
+						return tf;
+					} else if (propertyId.equals("status")) {
+						return new MeetingStatusComboBox();
+					} else if (propertyId.equals("startdate")) {
+						return new DateTimePickerField();
+					} else if (propertyId.equals("enddate")) {
+						return new DateTimePickerField();
+					} else if (propertyId.equals("description")) {
+						TextArea descArea = new TextArea();
+						descArea.setNullRepresentation("");
+						return descArea;
+					} else if (propertyId.equals("type")) {
+						RelatedEditItemField field = new RelatedEditItemField(
+								new String[] { CrmTypeConstants.ACCOUNT,
+										CrmTypeConstants.CAMPAIGN,
+										CrmTypeConstants.CONTACT,
+										CrmTypeConstants.LEAD,
+										CrmTypeConstants.OPPORTUNITY,
+										CrmTypeConstants.CASE }, meeting);
+						field.setType(meeting.getType());
+						return field;
+					} else if (propertyId.equals("isrecurrence")) {
+						return null;
+					}
+					return null;
+				}
+			}
+
+			private class MeetingStatusComboBox extends ValueComboBox {
+
+				private static final long serialVersionUID = 1L;
+
+				public MeetingStatusComboBox() {
+					super();
+					setCaption(null);
+					this.loadData(new String[] { "Planned", "Held", "Not Held" });
+				}
+			}
 		}
 	}
 }

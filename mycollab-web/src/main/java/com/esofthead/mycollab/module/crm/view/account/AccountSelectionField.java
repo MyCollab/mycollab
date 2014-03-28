@@ -46,13 +46,14 @@ public class AccountSelectionField extends CustomField<Integer> implements
 	private static final long serialVersionUID = 1L;
 
 	private TextField accountName = new TextField();
-	private Account account = new Account();
+	private Account account = null;
 	private Image browseBtn;
 	private Image clearBtn;
 
-	public void clearValue() {
+	private void clearValue() {
 		accountName.setValue("");
-		this.account = new Account();
+		this.account = null;
+		this.setInternalValue(null);
 	}
 
 	@Override

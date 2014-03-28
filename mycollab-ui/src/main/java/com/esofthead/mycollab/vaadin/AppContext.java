@@ -488,7 +488,7 @@ public class AppContext implements Serializable {
 	 * @param dateVal
 	 * @return
 	 */
-	public static Date convertDate(String dateVal) {
+	public static Date parseDate(String dateVal) {
 		try {
 			return simpleDateFormat.parse(dateVal);
 		} catch (ParseException e) {

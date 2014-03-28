@@ -52,7 +52,6 @@ public class DateComboboxSelectionField extends CustomField<Date> {
 		cboMonth.setImmediate(true);
 
 		addMonthItems();
-		cboMonth.select(cboMonth.getItemIds().iterator().next());
 		cboMonth.setWidth("117px");
 
 		cboDate = new ComboBox();
@@ -60,7 +59,6 @@ public class DateComboboxSelectionField extends CustomField<Date> {
 		cboDate.setImmediate(true);
 
 		addDayItems();
-		cboDate.select(cboDate.getItemIds().iterator().next());
 		cboDate.setWidth("50px");
 
 		cboYear = new ComboBox();
@@ -68,7 +66,6 @@ public class DateComboboxSelectionField extends CustomField<Date> {
 		cboYear.setImmediate(true);
 
 		addYearItems();
-		cboYear.select(cboYear.getItemIds().iterator().next());
 		cboYear.setWidth("70px");
 	}
 

@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.esb;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface DeleteProjectMessageCommand {
 	void messageRemoved(String username, int accountId, int projectId, int messageId);
 }

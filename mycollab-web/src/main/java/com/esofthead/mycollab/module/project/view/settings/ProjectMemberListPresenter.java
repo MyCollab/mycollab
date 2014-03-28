@@ -37,7 +37,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 public class ProjectMemberListPresenter extends
-		AbstractPresenter<ProjectMemberListView> {
+AbstractPresenter<ProjectMemberListView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class ProjectMemberListPresenter extends
 			userGroupContainer.removeAllComponents();
 			userGroupContainer.addComponent(view.getWidget());
 			ProjectMemberSearchCriteria criteria = null;
-			if (data == null) {
+			if (data.getParams() == null) {
 				criteria = new ProjectMemberSearchCriteria();
 				criteria.setProjectId(new NumberSearchField(
 						CurrentProjectVariables.getProjectId()));

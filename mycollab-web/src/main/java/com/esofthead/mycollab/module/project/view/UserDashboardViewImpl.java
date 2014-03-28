@@ -60,7 +60,7 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @ViewComponent
 public class UserDashboardViewImpl extends AbstractPageView implements
-		UserDashboardView {
+UserDashboardView {
 	private static final long serialVersionUID = 1L;
 
 	private ButtonLink followingTicketsLink;
@@ -82,11 +82,6 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 		this.setSpacing(true);
 		this.setWidth("100%");
 
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("main-content-wrapper");
-		this.addComponent(contentWrapper);
-
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
 		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
@@ -103,6 +98,8 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 
 		final VerticalLayout headerContent = new VerticalLayout();
 		headerContent.addStyleName("projectfeed-hdr-content");
+		headerContent.setSpacing(true);
+		headerContent.setMargin(new MarginInfo(false, false, false, true));
 
 		final Label headerLabel = new Label(AppContext.getSession()
 				.getDisplayName());
@@ -110,14 +107,15 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 
 		final HorizontalLayout headerContentTop = new HorizontalLayout();
 		headerContentTop.setSpacing(true);
+		headerContentTop.setMargin(new MarginInfo(false, false, true, false));
 		headerContentTop.addComponent(headerLabel);
 		headerContentTop.setComponentAlignment(headerLabel,
-				Alignment.MIDDLE_LEFT);
+				Alignment.TOP_LEFT);
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			final Button createProjectBtn = new Button(
 					LocalizationHelper
-							.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
+					.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -168,7 +166,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 			}
 		});
 		timeTrackingLink.setIcon(MyCollabResource
-				.newResource("icons/16/project/time_tracking.png"));
+				.newResource("icons/16/project/time_white.png"));
 		timeTrackingLink.removeStyleName("wordWrap");
 		headerContentBottom.addComponent(followingTicketsLink);
 		headerContentBottom.addComponent(timeTrackingLink);
@@ -180,7 +178,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 		header.setExpandRatio(headerContent, 1.0f);
 		headerWrapper.addComponent(header);
 
-		contentWrapper.addComponent(headerWrapper);
+		this.addComponent(headerWrapper);
 
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
@@ -204,6 +202,10 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 		layout.addComponent(rightPanel);
 		layout.setExpandRatio(leftPanel, 1.0f);
 
+		final CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setWidth("100%");
+		contentWrapper.addStyleName("content-wrapper");
+		this.addComponent(contentWrapper);
 		contentWrapper.addComponent(layout);
 
 		final ProjectService prjService = ApplicationContextUtil

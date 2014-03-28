@@ -39,7 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 public class StandupUrlResolver extends ProjectUrlResolver {
 	public StandupUrlResolver() {
@@ -51,13 +51,21 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			String[] tokens = decodeUrl.split("/");
+			int projectId = Integer.parseInt(tokens[0]);
 
 			StandupReportSearchCriteria standupSearchCriteria = new StandupReportSearchCriteria();
 			standupSearchCriteria
 					.setProjectId(new NumberSearchField(projectId));
-			standupSearchCriteria.setOnDate(new DateSearchField(
-					SearchField.AND, new GregorianCalendar().getTime()));
+
+			if (tokens.length > 1) {
+				Date date = AppContext.parseDate(tokens[1]);
+				standupSearchCriteria.setOnDate(new DateSearchField(
+						SearchField.AND, date));
+			} else {
+				standupSearchCriteria.setOnDate(new DateSearchField(
+						SearchField.AND, new GregorianCalendar().getTime()));
+			}
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -74,7 +82,7 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 			String[] tokens = decodeUrl.split("/");
 
 			int projectId = Integer.parseInt(tokens[0]);
-			Date onDate = AppContext.convertDate(tokens[2]);
+			Date onDate = AppContext.parseDate(tokens[2]);
 
 			StandupReportService reportService = ApplicationContextUtil
 					.getSpringBean(StandupReportService.class);

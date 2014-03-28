@@ -52,7 +52,7 @@ public interface ProjectMemberService extends
 			@CacheKey Integer sAccountId);
 
 	void inviteProjectMember(String[] email, int projectId, int projectRoleId,
-			String inviteUser, int sAccountId);
+			String inviteUser, String inviteMessage, int sAccountId);
 
 	@CacheEvict
 	void acceptProjectInvitationByNewUser(String email, String password,

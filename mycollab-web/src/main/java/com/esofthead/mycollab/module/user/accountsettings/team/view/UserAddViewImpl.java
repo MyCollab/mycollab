@@ -37,14 +37,15 @@ import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.shared.ui.MarginInfo;
@@ -52,6 +53,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
@@ -75,7 +77,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 	public UserAddViewImpl() {
 		super();
 
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(new MarginInfo(false, true, false, true));
 
 		this.advanceEditForm = new UserAddViewImpl.AdvancedEditUserForm(true);
 		this.addComponent(this.advanceEditForm);
@@ -142,23 +144,48 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 				this.setAvatarLink(user.getAvatarid());
 			}
 
+			@Override
+			public Layout getLayout() {
+				final AddViewLayout formAddLayout = new AddViewLayout(
+						initFormHeader(), MyCollabResource.newResource("icons/24/project/user.png"));
+
+				final ComponentContainer topLayout = createButtonControls();
+				if (topLayout != null) {
+					formAddLayout.addHeaderRight(topLayout);
+				}
+
+				formAddLayout.setTitle(initFormTitle());
+
+				userInformationLayout = new UserInformationLayout();
+
+				formAddLayout.addBody(userInformationLayout.getLayout());
+
+				final ComponentContainer bottomPanel = createBottomPanel();
+				if (bottomPanel != null) {
+					formAddLayout.addBottomControls(bottomPanel);
+				}
+
+				return formAddLayout;
+			}
+
+			protected String initFormHeader() {
+				return (user.getUsername() == null) ? "Create User" : "User Edit";
+			}
+
+			protected String initFormTitle() {
+				return (user.getUsername() == null) ? null : user.getFirstname() + " " + user.getLastname();
+			}
+
 			private Layout createButtonControls() {
 				final HorizontalLayout controlPanel = new HorizontalLayout();
-				controlPanel.setMargin(true);
 				final Layout controlButtons = (new EditFormControlsGenerator<SimpleUser>(
 						UserAddViewImpl.AdvancedEditUserForm.this))
 						.createButtonControls();
 				controlButtons.setSizeUndefined();
 				controlPanel.addComponent(controlButtons);
-				controlPanel.setWidth("100%");
 				controlPanel.setComponentAlignment(controlButtons,
 						Alignment.MIDDLE_CENTER);
 				return controlPanel;
-			}
-
-			@Override
-			protected Layout createTopPanel() {
-				return this.createButtonControls();
 			}
 
 			@Override
@@ -166,66 +193,68 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 				if (isLoadEdit == false) {
 					final HorizontalLayout controlPanel = new HorizontalLayout();
 					controlPanel.setMargin(true);
+					controlPanel.setStyleName("more-info");
 					controlPanel.setHeight("40px");
+					controlPanel.setWidth("100%");
 					moreInfoBtn = new Button("More information...",
 							new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							UserAddViewImpl.this.user = new SimpleUser();
+							UserAddViewImpl.this.advanceEditForm = new UserAddViewImpl.AdvancedEditUserForm(
+									true);
+							advanceEditForm
+							.addFormHandler(new EditFormHandler<SimpleUser>() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
-								public void buttonClick(ClickEvent event) {
-									UserAddViewImpl.this.user = new SimpleUser();
-									UserAddViewImpl.this.advanceEditForm = new UserAddViewImpl.AdvancedEditUserForm(
-											true);
-									advanceEditForm
-											.addFormHandler(new EditFormHandler<SimpleUser>() {
-												private static final long serialVersionUID = 1L;
+								public void onSave(
+										final SimpleUser item) {
+									save(item);
+									ViewState viewState = HistoryViewManager
+											.back();
+									if (viewState instanceof NullViewState) {
+										EventBus.getInstance()
+										.fireEvent(
+												new UserEvent.GotoList(
+														this,
+														null));
+									}
+								}
 
-												@Override
-												public void onSave(
-														final SimpleUser item) {
-													save(item);
-													ViewState viewState = HistoryViewManager
-															.back();
-													if (viewState instanceof NullViewState) {
-														EventBus.getInstance()
-																.fireEvent(
-																		new UserEvent.GotoList(
-																				this,
-																				null));
-													}
-												}
+								@Override
+								public void onCancel() {
+									ViewState viewState = HistoryViewManager
+											.back();
+									if (viewState instanceof NullViewState) {
+										EventBus.getInstance()
+										.fireEvent(
+												new UserEvent.GotoList(
+														this,
+														null));
+									}
+								}
 
-												@Override
-												public void onCancel() {
-													ViewState viewState = HistoryViewManager
-															.back();
-													if (viewState instanceof NullViewState) {
-														EventBus.getInstance()
-																.fireEvent(
-																		new UserEvent.GotoList(
-																				this,
-																				null));
-													}
-												}
-
-												@Override
-												public void onSaveAndNew(
-														final SimpleUser item) {
-													save(item);
-													EventBus.getInstance()
-															.fireEvent(
-																	new UserEvent.GotoAdd(
-																			this,
-																			null));
-												}
-											});
-									UserAddViewImpl.this.advanceEditForm
-											.setBean(UserAddViewImpl.this.user);
-									UserAddViewImpl.this.removeAllComponents();
-									UserAddViewImpl.this
-											.addComponent(advanceEditForm);
+								@Override
+								public void onSaveAndNew(
+										final SimpleUser item) {
+									save(item);
+									EventBus.getInstance()
+									.fireEvent(
+											new UserEvent.GotoAdd(
+													this,
+													null));
 								}
 							});
+							UserAddViewImpl.this.advanceEditForm
+							.setBean(UserAddViewImpl.this.user);
+							UserAddViewImpl.this.removeAllComponents();
+							UserAddViewImpl.this
+							.addComponent(advanceEditForm);
+						}
+					});
 					moreInfoBtn.addStyleName(UIConstants.THEME_LINK);
 					controlPanel.addComponent(moreInfoBtn);
 					controlPanel.setComponentAlignment(moreInfoBtn,
@@ -238,7 +267,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 		}
 
 		private class EditFormFieldFactory extends
-				AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
+		AbstractBeanFieldGroupEditFieldFactory<SimpleUser> {
 			private static final long serialVersionUID = 1L;
 
 			public EditFormFieldFactory(GenericBeanForm<SimpleUser> form) {
@@ -266,32 +295,32 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 					UserAddViewImpl.this.cboTimezone = new TimeZoneSelectionField();
 					if (UserAddViewImpl.this.user.getTimezone() != null) {
 						UserAddViewImpl.this.cboTimezone
-								.setTimeZone(TimezoneMapper
-										.getTimezone(UserAddViewImpl.this.user
-												.getTimezone()));
+						.setTimeZone(TimezoneMapper
+								.getTimezone(UserAddViewImpl.this.user
+										.getTimezone()));
 					} else {
 						if (AppContext.getSession().getTimezone() != null) {
 							UserAddViewImpl.this.cboTimezone
-									.setTimeZone(TimezoneMapper
-											.getTimezone(AppContext
-													.getSession().getTimezone()));
+							.setTimeZone(TimezoneMapper
+									.getTimezone(AppContext
+											.getSession().getTimezone()));
 						}
 					}
 					return UserAddViewImpl.this.cboTimezone;
 				} else if (propertyId.equals("country")) {
 					final CountryComboBox cboCountry = new CountryComboBox();
 					cboCountry
-							.addValueChangeListener(new Property.ValueChangeListener() {
-								private static final long serialVersionUID = 1L;
+					.addValueChangeListener(new Property.ValueChangeListener() {
+						private static final long serialVersionUID = 1L;
 
-								@Override
-								public void valueChange(
-										final Property.ValueChangeEvent event) {
-									UserAddViewImpl.this.user
-											.setCountry((String) cboCountry
-													.getValue());
-								}
-							});
+						@Override
+						public void valueChange(
+								final Property.ValueChangeEvent event) {
+							UserAddViewImpl.this.user
+							.setCountry((String) cboCountry
+									.getValue());
+						}
+					});
 					return cboCountry;
 				}
 				return null;
@@ -306,23 +335,23 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 			public AdminRoleSelectionField() {
 				roleBox = new RoleComboBox();
 				this.roleBox
-						.addValueChangeListener(new Property.ValueChangeListener() {
-							private static final long serialVersionUID = 1L;
+				.addValueChangeListener(new Property.ValueChangeListener() {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void valueChange(
-									final Property.ValueChangeEvent event) {
-								getValue();
+					@Override
+					public void valueChange(
+							final Property.ValueChangeEvent event) {
+						getValue();
 
-							}
-						});
+					}
+				});
 			}
 
 			@Override
 			public void setPropertyDataSource(Property newDataSource) {
 				Object value = newDataSource.getValue();
 				if (value instanceof Integer) {
-					roleBox.setValue((Integer) value);
+					roleBox.setValue(value);
 				}
 				super.setPropertyDataSource(newDataSource);
 			}

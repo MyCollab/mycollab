@@ -51,43 +51,38 @@
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="MonitorSearchCriteria"
-        resultMap="FollowingTicketResult">
+        resultMap="FollowingTicketResult" lang="velocity">
         (
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt.selectFollowingTicketOfTask" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        <include refid="selectFollowingTicketOfTask" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
         )
         UNION
 
         (
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectFollowingTicketMapperExt.selectFollowingTicketOfBug" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        <include refid="selectFollowingTicketOfBug" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
         )
         ORDER BY monitorDate DESC
     </select>
 
     <select id="getTotalCount" resultType="int"
-        parameterType="MonitorSearchCriteria">
+        parameterType="MonitorSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_monitor_item
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include
                     refid="com.esofthead.mycollab.common.dao.MonitorItemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </select>
 </mapper>

@@ -40,7 +40,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final AdvancedPreviewBeanForm<T> previewForm;
-	private Button backBtn;
 	private Button editBtn;
 	private Button deleteBtn;
 	private Button cloneBtn;
@@ -68,20 +67,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
-		layout.setSizeUndefined();
-
-		backBtn = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final T item = previewForm.getBean();
-				previewForm.fireCancelForm(item);
-			}
-		});
-		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
-		backBtn.setDescription("Back to list");
-		backBtn.setStyleName("link");		
+		layout.setSizeUndefined();	
 
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
@@ -231,7 +217,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 				assignBtn.setEnabled(canWrite);
 			}
 
-			backBtn.setEnabled(canRead);
 			editBtn.setEnabled(canWrite);
 			cloneBtn.setEnabled(canWrite);
 			deleteBtn.setEnabled(canAccess);

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 
 /**
@@ -67,19 +68,16 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 
 	@Override
 	public int updateWithSession(T record, String username) {
-		if (username == null) {
-			try {
-				PropertyUtils.setProperty(record, "lastupdatedtime",
-						new GregorianCalendar().getTime());
-			} catch (Exception e) {
-			}
-			return getCrudMapper().updateByPrimaryKeySelective(record);
-		} else {
-			return internalUpdateWithSession(record, username);
+		try {
+			PropertyUtils.setProperty(record, "lastupdatedtime",
+					new GregorianCalendar().getTime());
+		} catch (Exception e) {
 		}
+		return getCrudMapper().updateByPrimaryKey(record);
 	}
 
-	protected int internalUpdateWithSession(T record, String username) {
+	public int updateWithSessionWithSelective(@CacheKey T record,
+			String username) {
 		try {
 			PropertyUtils.setProperty(record, "lastupdatedtime",
 					new GregorianCalendar().getTime());

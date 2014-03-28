@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -95,6 +96,7 @@ BeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
 			}
 			this.taskList = taskListParam;
 			this.addStyleName("task-list");
+			//this.setMargin(new MarginInfo(true, true, false, false));
 			this.initHeader();
 			this.setHeaderColor(true);
 			this.taskDisplayComponent = (TaskDisplayComponent) this.bodyContent;

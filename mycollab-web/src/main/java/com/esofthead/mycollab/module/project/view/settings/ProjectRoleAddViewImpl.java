@@ -50,30 +50,30 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
-		implements ProjectRoleAddView {
+implements ProjectRoleAddView {
 
 	private static final long serialVersionUID = 1L;
 	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<String, AccessPermissionComboBox>();
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Role" : "Role Edit";
+		return beanItem.getId() == null ? "Create Role" : "Role Edit";
 	}
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem.getRolename();
+		return beanItem.getId() == null ? null : beanItem.getRolename();
 	}
 
 	@Override
 	protected Resource initFormIconResource() {
-		return MyCollabResource.newResource("icons/22/user/group.png");
+		return MyCollabResource.newResource("icons/24/project/user.png");
 	}
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		final Layout controlButtons = (new EditFormControlsGenerator<ProjectRole>(
-				editForm)).createButtonControls();
+		final Layout controlButtons = new EditFormControlsGenerator<ProjectRole>(
+				editForm).createButtonControls();
 		return controlButtons;
 	}
 

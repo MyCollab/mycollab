@@ -101,7 +101,8 @@ public class ProjectLinkUtils {
 						.encodeParam(new Object[] { projectId, roleId });
 	}
 
-	public static String generateStandUpPreviewLink() {
-		return "project/standup/list/Mg";
+	public static String generateStandUpPreviewLink(int projectId, int reportId) {
+		return "project/standup/list/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
 	}
 }

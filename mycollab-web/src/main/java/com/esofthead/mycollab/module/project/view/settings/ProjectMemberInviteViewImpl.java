@@ -44,7 +44,6 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -53,6 +52,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.TextArea;
 
 /**
  * 
@@ -61,7 +61,7 @@ import com.vaadin.ui.Layout;
  */
 @ViewComponent
 public class ProjectMemberInviteViewImpl extends AbstractPageView implements
-ProjectMemberInviteView {
+		ProjectMemberInviteView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,6 +72,7 @@ ProjectMemberInviteView {
 
 	private InviteUserTokenField inviteUserTokenField;
 	private ProjectRoleComboBox roleComboBox;
+	private TextArea messageArea;
 
 	public ProjectMemberInviteViewImpl() {
 		super();
@@ -88,46 +89,31 @@ ProjectMemberInviteView {
 	private void initContent() {
 		this.removeAllComponents();
 
-		// init invite token field
-		inviteUserTokenField = new InviteUserTokenField();
-		inviteUserTokenField.setFilteringMode(FilteringMode.CONTAINS);
-
-		final ProjectMemberService prjMemberService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-		final List<SimpleUser> users = prjMemberService.getUsersNotInProject(
-				CurrentProjectVariables.getProjectId(),
-				AppContext.getAccountId());
-
-		BeanItemContainer<SimpleUser> dsContainer = new BeanItemContainer<SimpleUser>(
-				SimpleUser.class, users);
-		inviteUserTokenField.setContainerDataSource(dsContainer);
-
-		inviteUserTokenField.setTokenCaptionMode(ItemCaptionMode.PROPERTY);
-		inviteUserTokenField.setTokenCaptionPropertyId("displayName");
-		for (SimpleUser user : users) {
-			inviteUserTokenField.setTokenIcon(
-					user,
-					UserAvatarControlFactory.createAvatarResource(
-							user.getAvatarid(), 16));
-		}
-		this.addComponent(inviteUserTokenField);
-
 		this.roleComboBox = new ProjectRoleComboBox();
 
-		final AddViewLayout userAddLayout = new AddViewLayout("Invite Members",
+		final AddViewLayout userAddLayout = new AddViewLayout(
+				"Invite Project Members",
 				MyCollabResource.newResource("icons/24/project/user.png"));
 
 		userAddLayout.addHeaderRight(createButtonControls());
 
-		GridFormLayoutHelper informationLayout = new GridFormLayoutHelper(1, 2,
+		GridFormLayoutHelper informationLayout = new GridFormLayoutHelper(1, 3,
 				"100%", "167px", Alignment.MIDDLE_LEFT);
 		informationLayout.getLayout().setWidth("100%");
 		informationLayout.getLayout().setMargin(false);
 		informationLayout.getLayout().addStyleName("colored-gridlayout");
 
+		HorizontalLayout lo = new HorizontalLayout();
+		lo.setSpacing(true);
+		inviteUserTokenField = new InviteUserTokenField(lo);
 		informationLayout.addComponent(inviteUserTokenField,
 				"Invitee's emails", 0, 0);
 		informationLayout.addComponent(roleComboBox, "Role", 0, 1);
+
+		messageArea = new TextArea();
+		messageArea
+				.setValue("Please join me to our new tool. This is a place where everyone can manage our business sales, projects, documents. But it is easy to use too!");
+		informationLayout.addComponent(messageArea, "Message", 0, 2);
 
 		userAddLayout.addBody(informationLayout.getLayout());
 		this.addComponent(userAddLayout);
@@ -137,17 +123,16 @@ ProjectMemberInviteView {
 		final HorizontalLayout controlButtons = new HorizontalLayout();
 		controlButtons.setSpacing(true);
 
-		Button inviteBtn = new Button("Invite Members",
-				new Button.ClickListener() {
+		Button inviteBtn = new Button("Invite", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
 				roleId = (Integer) roleComboBox.getValue();
 				ProjectMemberInviteViewImpl.this
-				.fireEvent(new ProjectMemberEvent.InviteProjectMembers(
-						ProjectMemberInviteViewImpl.this,
-						inviteEmails, roleId));
+						.fireEvent(new ProjectMemberEvent.InviteProjectMembers(
+								ProjectMemberInviteViewImpl.this, inviteEmails,
+								roleId, messageArea.getValue()));
 
 			}
 		});
@@ -177,8 +162,31 @@ ProjectMemberInviteView {
 	private class InviteUserTokenField extends TokenField {
 		private static final long serialVersionUID = 1L;
 
+		public InviteUserTokenField(Layout container) {
+			super(container);
+			this.setInputPrompt("Enter username or email address. Press enter to finish editing");
+			this.setWidth("100%");
+			this.setInputWidth("100%");
+			this.setFilteringMode(FilteringMode.CONTAINS);
+			this.setRememberNewTokens(true);
+
+			final ProjectMemberService prjMemberService = ApplicationContextUtil
+					.getSpringBean(ProjectMemberService.class);
+			final List<SimpleUser> users = prjMemberService
+					.getUsersNotInProject(
+							CurrentProjectVariables.getProjectId(),
+							AppContext.getAccountId());
+
+			BeanItemContainer<SimpleUser> dsContainer = new BeanItemContainer<SimpleUser>(
+					SimpleUser.class, users);
+			this.setContainerDataSource(dsContainer);
+
+			this.setTokenCaptionMode(ItemCaptionMode.PROPERTY);
+			this.setTokenCaptionPropertyId("displayName");
+		}
+
 		@Override
-		public void addToken(Object tokenId) {
+		protected void onTokenInput(Object tokenId) {
 			String invitedEmail;
 
 			if (tokenId instanceof SimpleUser) {
@@ -193,13 +201,17 @@ ProjectMemberInviteView {
 			if (emailValidate.validate(invitedEmail)) {
 				if (!inviteEmails.contains(invitedEmail)) {
 					inviteEmails.add(invitedEmail);
-					super.addToken(tokenId);
+					super.onTokenInput(tokenId);
 				}
 			} else {
 				NotificationUtil.showErrorNotification(LocalizationHelper
 						.getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
 			}
 
+		}
+
+		protected void onTokenClick(final Object tokenId) {
+			onTokenDelete(tokenId);
 		}
 
 		@Override
@@ -216,7 +228,7 @@ ProjectMemberInviteView {
 			}
 
 			inviteEmails.remove(invitedEmail);
-			super.onTokenDelete(tokenId);
+			super.onTokenClick(tokenId);
 		}
 	}
 }

@@ -60,11 +60,11 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ProjectActivityStreamPagedList
-		extends
-		AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+extends
+AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = 1L;
 
-	private final ProjectActivityStreamService projectActivityStreamService;
+	protected final ProjectActivityStreamService projectActivityStreamService;
 
 	public ProjectActivityStreamPagedList() {
 		super(null, 20);
@@ -200,7 +200,6 @@ public class ProjectActivityStreamPagedList
 				streamWrapper.setWidth("100%");
 				streamWrapper.addStyleName("stream-wrapper");
 				streamWrapper.addComponent(actionLbl);
-				/* this.listContainer.addComponent(streamWrapper); */
 				currentFeedBlock.addComponent(streamWrapper);
 			}
 		} catch (final Exception e) {
@@ -255,7 +254,7 @@ public class ProjectActivityStreamPagedList
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-						.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+				.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
 			}
 		});
 		if (currentPage == 1) {
@@ -270,7 +269,7 @@ public class ProjectActivityStreamPagedList
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-						.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+				.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
 			}
 		});
 		if (currentPage == totalPage) {

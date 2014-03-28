@@ -20,6 +20,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -67,6 +68,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private PopupButton exportButtonControl;
 	private VerticalLayout rightColumn;
+	private VerticalLayout leftColumn;
 
 	public TaskGroupDisplayViewImpl() {
 		super();
@@ -238,11 +240,17 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		mainLayout.setSizeFull();
 		mainLayout.setSpacing(true);
 		this.taskLists = new TaskGroupDisplayWidget();
+
+		this.leftColumn = new VerticalLayout();
+		this.leftColumn.addComponent(taskLists);
+		this.leftColumn.setMargin(new MarginInfo(false, true, false, false));
+
 		this.rightColumn = new VerticalLayout();
 		this.rightColumn.setWidth("300px");
-		mainLayout.addComponent(taskLists);
+
+		mainLayout.addComponent(leftColumn);
 		mainLayout.addComponent(rightColumn);
-		mainLayout.setExpandRatio(taskLists, 1.0f);
+		mainLayout.setExpandRatio(leftColumn, 1.0f);
 		this.addComponent(mainLayout);
 
 	}
@@ -303,6 +311,9 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
 		searchCriteria.setProjectid(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
+		searchCriteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { "Open" }));
+
 		unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
 
 		UnresolvedTaskByPriorityWidget unresolvedTaskByPriorityWidget = new UnresolvedTaskByPriorityWidget();

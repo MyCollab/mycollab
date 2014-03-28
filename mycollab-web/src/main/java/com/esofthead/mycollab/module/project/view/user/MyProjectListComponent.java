@@ -29,7 +29,11 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -111,12 +115,11 @@ public class MyProjectListComponent extends Depot {
 			projectLayout.addStyleName("project-status");
 
 			final CssLayout linkWrapper = new CssLayout();
-			linkWrapper.setWidth("145px");
-			linkWrapper.setHeight("100%");
+			linkWrapper.setWidth("165px");
+			//linkWrapper.setHeight("100%");
 			linkWrapper.addStyleName("projectlink-wrapper");
-			final HorizontalLayout linkIconFix = new HorizontalLayout();
+			final VerticalLayout linkIconFix = new VerticalLayout();
 			linkIconFix.setWidth("100%");
-			linkIconFix.setSpacing(true);
 			final ButtonLink projectLink = new ButtonLink(project.getName(),
 					new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
@@ -129,13 +132,26 @@ public class MyProjectListComponent extends Depot {
 											new ProjectScreenData.Goto(
 													project.getId()))));
 				}
-			});
-			final Image projectIcon = new Image(null,
-					MyCollabResource
-					.newResource("icons/16/project/project.png"));
-			linkIconFix.addComponent(projectIcon);
+			}, false);
+			projectLink.addStyleName("project-name");
 			linkIconFix.addComponent(projectLink);
 			linkIconFix.setExpandRatio(projectLink, 1.0f);
+
+			ButtonLink projectMember = new ButtonLink(project.getNumActiveMembers() + " members", new Button.ClickListener() {
+				private static final long serialVersionUID = -7865685578305013464L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new ProjectEvent.GotoMyProject(this, 
+									new PageActionChain(
+											new ProjectScreenData.Goto(
+													project.getId()), new ProjectMemberScreenData.Search(null))));
+				}
+			}, false);
+			linkIconFix.addComponent(projectMember);
+			linkIconFix.addComponent(new Label("Created on: " + AppContext.formatDate(project.getCreatedtime())));
+
 			projectLink.setWidth("100%");
 			linkWrapper.addComponent(linkIconFix);
 			projectLayout.addComponent(linkWrapper);
@@ -147,7 +163,17 @@ public class MyProjectListComponent extends Depot {
 			final HorizontalLayout taskStatus = new HorizontalLayout();
 			taskStatus.setWidth("100%");
 			taskStatus.setSpacing(true);
-			final Label taskLbl = new Label("Tasks :");
+			final ButtonLink taskLbl = new ButtonLink("Tasks :", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(new ProjectEvent.GotoMyProject(this, 
+							new PageActionChain(
+									new ProjectScreenData.Goto(project.getId()),
+									new TaskGroupScreenData.GotoDashboard())));					
+				}
+			}, false);
 			final Image taskIcon = new Image(null,
 					MyCollabResource.newResource("icons/16/project/task.png"));
 			taskStatus.addComponent(taskIcon);
@@ -163,7 +189,18 @@ public class MyProjectListComponent extends Depot {
 			final HorizontalLayout bugStatus = new HorizontalLayout();
 			bugStatus.setWidth("100%");
 			bugStatus.setSpacing(true);
-			final Label bugLbl = new Label("Bugs :");
+			final ButtonLink bugLbl = new ButtonLink("Bugs :", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(new ProjectEvent.GotoMyProject(this, 
+							new PageActionChain(
+									new ProjectScreenData.Goto(project.getId()),
+									new BugScreenData.GotoDashboard())));					
+				}
+			}, false);
+
 			final Image bugIcon = new Image(null,
 					MyCollabResource.newResource("icons/16/project/bug.png"));
 			bugStatus.addComponent(bugIcon);
@@ -175,6 +212,28 @@ public class MyProjectListComponent extends Depot {
 			bugStatus.addComponent(progressBug);
 			bugStatus.setExpandRatio(progressBug, 1.0f);
 			projectStatusLayout.addComponent(bugStatus);
+
+			HorizontalLayout phaseStatus = new HorizontalLayout();
+			phaseStatus.setWidth("100%");
+			phaseStatus.setSpacing(true);
+			Image phaseIcon = new Image(null, MyCollabResource.newResource("icons/16/project/milestone.png"));
+			phaseStatus.addComponent(phaseIcon);
+			ButtonLink phaseLbl = new ButtonLink("Phases: ", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					EventBus.getInstance().fireEvent(new ProjectEvent.GotoMyProject(this, 
+							new PageActionChain(
+									new ProjectScreenData.Goto(project.getId()),
+									new MilestoneScreenData.Search(null))));
+				}
+			}, false);
+			phaseStatus.addComponent(phaseLbl);
+			Label phaseProgress = new Label(project.getNumClosedPhase() + " Closed - " + project.getNumInProgressPhase() + " In Progress - " + project.getNumFuturePhase() + " Future");
+			phaseStatus.addComponent(phaseProgress);
+			phaseStatus.setExpandRatio(phaseProgress, 1.0f);
+			projectStatusLayout.addComponent(phaseStatus);
 
 			projectLayout.addComponent(projectStatusLayout);
 			projectStatusLayout.setWidth("100%");

@@ -16,9 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.service.ibatis;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.cache.CacheUtils;
@@ -32,6 +41,7 @@ import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -87,11 +97,52 @@ public class ItemTimeLoggingServiceImpl extends
 	}
 
 	@Override
-	public void batchSaveTimeLogging(List<ItemTimeLogging> timeLoggings,
+	public void batchSaveTimeLogging(final List<ItemTimeLogging> timeLoggings,
 			@CacheKey int sAccountId) {
-		for (ItemTimeLogging timeLogging : timeLoggings) {
-			itemTimeLoggingMapper.insert(timeLogging);
-		}
+		DataSource dataSource = ApplicationContextUtil
+				.getSpringBean(DataSource.class);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate
+				.batchUpdate(
+						"insert into m_prj_time_logging (projectId, type, typeid, logValue, loguser, createdTime, lastUpdatedTime, sAccountId, logForDay, isBillable, createdUser, "
+								+ "note) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+						new BatchPreparedStatementSetter() {
+
+							@Override
+							public void setValues(PreparedStatement ps, int i)
+									throws SQLException {
+								ItemTimeLogging itemLogging = timeLoggings
+										.get(i);
+								ps.setInt(1, itemLogging.getProjectid());
+								ps.setString(2, itemLogging.getType());
+
+								if (itemLogging.getTypeid() == null) {
+									ps.setNull(3, Types.INTEGER);
+								} else {
+									ps.setInt(3, itemLogging.getTypeid());
+								}
+
+								ps.setDouble(4, itemLogging.getLogvalue());
+								ps.setString(5, itemLogging.getLoguser());
+								ps.setTimestamp(6, new Timestamp(
+										new GregorianCalendar().getTime()
+												.getTime()));
+								ps.setTimestamp(7, new Timestamp(
+										new GregorianCalendar().getTime()
+												.getTime()));
+								ps.setInt(8, itemLogging.getSaccountid());
+								ps.setTimestamp(9, new Timestamp(itemLogging
+										.getLogforday().getTime()));
+								ps.setBoolean(10, itemLogging.getIsbillable());
+								ps.setString(11, itemLogging.getCreateduser());
+								ps.setString(12, itemLogging.getNote());
+							}
+
+							@Override
+							public int getBatchSize() {
+								return timeLoggings.size();
+							}
+						});
 	}
 
 }

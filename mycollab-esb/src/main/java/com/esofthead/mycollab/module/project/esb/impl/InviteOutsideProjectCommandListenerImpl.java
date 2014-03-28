@@ -59,7 +59,7 @@ public class InviteOutsideProjectCommandListenerImpl implements
 
 	@Override
 	public void inviteUsers(String[] emails, int projectId, int projectRoleId,
-			String inviterUserName, int sAccountId) {
+			String inviterUserName, String inviteMessage, int sAccountId) {
 
 		log.debug(
 				"Request sending invitation email to user {} in project id {} with role id {} and account id {} by user {}",
@@ -69,7 +69,6 @@ public class InviteOutsideProjectCommandListenerImpl implements
 
 		SimpleProject project = projectService.findById(projectId, sAccountId);
 
-		String name = "You";
 		SimpleUser user = userService.findUserByUserNameInAccount(
 				inviterUserName, sAccountId);
 		TemplateGenerator templateGenerator = new TemplateGenerator(
@@ -107,9 +106,9 @@ public class InviteOutsideProjectCommandListenerImpl implements
 									+ "/" + user.getEmail() + "/"
 									+ projectRoleId));
 
-			templateGenerator.putVariable("userName", name);
+			templateGenerator.putVariable("userName", "You");
 
-			mailRelayService.saveRelayEmail(new String[] { name },
+			mailRelayService.saveRelayEmail(new String[] { email },
 					new String[] { email },
 					templateGenerator.generateSubjectContent(),
 					templateGenerator.generateBodyContent());

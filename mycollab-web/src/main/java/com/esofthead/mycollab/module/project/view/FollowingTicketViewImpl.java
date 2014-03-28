@@ -56,7 +56,6 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -81,16 +80,21 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 	public FollowingTicketViewImpl() {
 		this.setSpacing(true);
+		this.setMargin(new MarginInfo(false, true, true, true));
 		this.setWidth("100%");
 
-		final CssLayout contentWrapper = new CssLayout();
+		final VerticalLayout contentWrapper = new VerticalLayout();
+		
 		contentWrapper.setWidth("100%");
 		contentWrapper.addStyleName("main-content-wrapper");
-		this.addComponent(contentWrapper);
+		
+		
 
-		final CssLayout headerWrapper = new CssLayout();
+		final VerticalLayout headerWrapper = new VerticalLayout();
 		headerWrapper.setWidth("100%");
 		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
+		
+		HorizontalLayout controlBtns = new HorizontalLayout();
 
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setWidth("100%");
@@ -106,7 +110,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		header.setExpandRatio(layoutHeader, 1.0f);
 
 		headerWrapper.addComponent(header);
-		contentWrapper.addComponent(headerWrapper);
+		this.addComponent(headerWrapper);
+		this.addComponent(controlBtns);
+		this.addComponent(contentWrapper);
 
 		final Button backBtn = new Button("Back to Work Board");
 		backBtn.addClickListener(new Button.ClickListener() {
@@ -122,8 +128,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		});
 
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 
-		HorizontalLayout controlBtns = new HorizontalLayout();
+		
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.setWidth("100%");
 		controlBtns.addComponent(backBtn);
@@ -167,7 +174,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 		controlBtns.addComponent(exportButtonControl);
 
-		contentWrapper.addComponent(controlBtns);
+	
 
 		this.ticketTable = new FollowingTicketTable();
 		contentWrapper.addComponent(this.ticketTable);

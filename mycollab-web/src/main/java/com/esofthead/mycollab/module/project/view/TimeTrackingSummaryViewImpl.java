@@ -92,11 +92,12 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	public TimeTrackingSummaryViewImpl() {
 		this.setSpacing(true);
 		this.setWidth("100%");
+		this.setMargin(new MarginInfo(false, true, true, true));
 
 		final CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setWidth("100%");
 		contentWrapper.addStyleName("main-content-wrapper");
-		this.addComponent(contentWrapper);
+		
 
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
@@ -105,6 +106,10 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setWidth("100%");
 		header.setSpacing(true);
+		
+		HorizontalLayout controlsPanel = new HorizontalLayout();
+		
+		HorizontalLayout controlBtns = new HorizontalLayout();
 
 		final Embedded timeIcon = new Embedded();
 		timeIcon.setSource(MyCollabResource
@@ -118,7 +123,10 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		header.setExpandRatio(layoutHeader, 1.0f);
 
 		headerWrapper.addComponent(header);
-		contentWrapper.addComponent(headerWrapper);
+		this.addComponent(headerWrapper);
+		this.addComponent(controlBtns);
+		this.addComponent(controlsPanel);
+		this.addComponent(contentWrapper);
 
 		final Button backBtn = new Button("Back to Work Board");
 		backBtn.addClickListener(new Button.ClickListener() {
@@ -134,18 +142,19 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		});
 
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 
-		HorizontalLayout controlBtns = new HorizontalLayout();
+		
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);
 
-		contentWrapper.addComponent(controlBtns);
-
+		
 		final HorizontalLayout dateSelectionLayout = new HorizontalLayout();
 		dateSelectionLayout.setSpacing(true);
+		dateSelectionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		dateSelectionLayout
 				.setMargin(new MarginInfo(false, false, true, false));
-		contentWrapper.addComponent(dateSelectionLayout);
+		controlsPanel.addComponent(dateSelectionLayout);
 
 		dateSelectionLayout.addComponent(new Label("From:  "));
 
@@ -173,13 +182,14 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		dateSelectionLayout.addComponent(queryBtn);
 
-		HorizontalLayout controlsPanel = new HorizontalLayout();
+		
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
 		controlsPanel.setSpacing(true);
 		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs");
 		controlsPanel.addComponent(totalHoursLoggingLabel);
 		controlsPanel.setExpandRatio(totalHoursLoggingLabel, 1.0f);
+		controlsPanel.setComponentAlignment(totalHoursLoggingLabel, Alignment.MIDDLE_LEFT);
 
 		Button exportBtn = new Button("Export", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -218,8 +228,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		exportExcelBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportExcelBtn);
 
-		controlsPanel.addComponent(exportButtonControl);
-		contentWrapper.addComponent(controlsPanel);
+		controlBtns.addComponent(exportButtonControl);
+		controlBtns.setComponentAlignment(exportButtonControl, Alignment.TOP_RIGHT);
+		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
+		controlBtns.setSizeFull();
+		
 
 		this.tableItem = new TimeTrackingTableDisplay(Arrays.asList(
 				TimeTableFieldDef.summary, TimeTableFieldDef.logUser,

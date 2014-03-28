@@ -30,6 +30,7 @@ import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.Depot;
@@ -37,9 +38,11 @@ import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -62,8 +65,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
 	public RoleAddViewImpl() {
 		super();
-		
-		this.setMargin(new MarginInfo(true, false, false, false));
+
+		this.setMargin(new MarginInfo(false, true, false, true));
 		this.editForm = new EditForm();
 		this.addComponent(this.editForm);
 		this.addStyleName("accountsettings-role");
@@ -97,26 +100,51 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			private static final long serialVersionUID = 1L;
 
 			public FormLayoutFactory() {
-				super("Create Role");
+				super("");
+			}
+
+			@Override
+			public Layout getLayout() {
+				final AddViewLayout formAddLayout = new AddViewLayout(
+						initFormHeader(), MyCollabResource.newResource("icons/24/project/user.png"));
+
+				final ComponentContainer topLayout = createButtonControls();
+				if (topLayout != null) {
+					formAddLayout.addHeaderRight(topLayout);
+				}
+
+				formAddLayout.setTitle(initFormTitle());
+
+				userInformationLayout = new RoleInformationLayout();
+
+				formAddLayout.addBody(userInformationLayout.getLayout());
+
+				final ComponentContainer bottomPanel = createBottomPanel();
+				if (bottomPanel != null) {
+					formAddLayout.addBottomControls(bottomPanel);
+				}
+
+				return formAddLayout;
+			}
+
+			protected String initFormHeader() {
+				return role.getId() == null ? "Create Role" : "Role Edit";
+			}
+
+			protected String initFormTitle() {
+				return role.getId() == null ? null : role.getRolename();
 			}
 
 			private Layout createButtonControls() {
 				final HorizontalLayout controlPanel = new HorizontalLayout();
-				final Layout controlButtons = (new EditFormControlsGenerator<Role>(
-						RoleAddViewImpl.EditForm.this)).createButtonControls();
+				final Layout controlButtons = new EditFormControlsGenerator<Role>(
+						RoleAddViewImpl.EditForm.this).createButtonControls();
 				controlButtons.setSizeUndefined();
 				controlPanel.addComponent(controlButtons);
-				controlPanel.setWidth("100%");
 				controlPanel.setComponentAlignment(controlButtons,
 						Alignment.MIDDLE_CENTER);
-				controlPanel.setMargin(true);
 				controlPanel.addStyleName("control-buttons");
 				return controlPanel;
-			}
-
-			@Override
-			protected Layout createTopPanel() {
-				return this.createButtonControls();
 			}
 
 			@Override
@@ -217,7 +245,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 		}
 
 		private class ReadFormFieldFactory extends
-				AbstractBeanFieldGroupViewFieldFactory<Role> {
+		AbstractBeanFieldGroupViewFieldFactory<Role> {
 			private static final long serialVersionUID = 1L;
 
 			public ReadFormFieldFactory(GenericBeanForm<Role> form) {

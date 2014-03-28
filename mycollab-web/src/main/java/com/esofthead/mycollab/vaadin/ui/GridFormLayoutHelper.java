@@ -236,7 +236,6 @@ public class GridFormLayoutHelper implements Serializable {
 			final Alignment alignment) {
 		if (caption != null) {
 			final Label l = new Label(caption + ":");
-			// l.setHeight("100%");
 			final HorizontalLayout captionWrapper = new HorizontalLayout();
 			captionWrapper.addComponent(l);
 			captionWrapper.setComponentAlignment(l, alignment);

@@ -63,6 +63,8 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 			TaskGroupDisplayView {
 		private static final long serialVersionUID = 1L;
 		private VerticalLayout mainLayout;
+		Button advanceDisplay;
+		Button simpleDisplay;
 
 		public void contructTaskLayout() {
 			mainLayout = new VerticalLayout();
@@ -108,31 +110,40 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 					Alignment.MIDDLE_LEFT);
 
 			viewGroup = new ToggleButtonGroup();
-
-			Button simpleDisplay = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					displaySimpleView();
-				}
-			});
-			simpleDisplay.setIcon(MyCollabResource
-					.newResource("icons/16/project/list_display.png"));
-
-			viewGroup.addButton(simpleDisplay);
-
-			Button advanceDisplay = new Button(null,
+			
+			advanceDisplay = new Button(null,
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(ClickEvent event) {
+							advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+							simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 							displayAdvancedView();
 						}
 					});
 			advanceDisplay.setIcon(MyCollabResource
 					.newResource("icons/16/project/advanced_display.png"));
+			advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+			
+			simpleDisplay = new Button(null, new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+					simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+					displaySimpleView();
+					
+				}
+			});
+			simpleDisplay.setIcon(MyCollabResource
+					.newResource("icons/16/project/list_display.png"));
+
+		
+
+			
+			viewGroup.addButton(simpleDisplay);
 			viewGroup.addButton(advanceDisplay);
 
 			header.addComponent(viewGroup);
@@ -178,6 +189,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		TaskDisplayWidget taskDisplayWidget = new TaskDisplayWidget();
 		this.addComponent(taskDisplayWidget);
 		taskDisplayWidget.setSearchCriteria(criteria);
+		
 	}
 
 	private void displayAdvancedView() {

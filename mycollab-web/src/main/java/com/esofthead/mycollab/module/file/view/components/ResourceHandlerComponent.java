@@ -855,7 +855,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			filterBtnLayout.setSpacing(true);
 			filterBtnLayout.setWidth("100px");
 			resourceSettingPopupBtn.setIcon(MyCollabResource
-					.newResource("icons/16/item_settings.png"));
+					.newResource("icons/16/item_settings_big.png"));
 			resourceSettingPopupBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			resourceSettingPopupBtn.setContent(filterBtnLayout);
 
@@ -935,7 +935,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			iconWapper.addComponent(toContainFolder);
 			UiUtils.addComponent(layout, iconWapper, Alignment.MIDDLE_CENTER);
 
-			return new HorizontalLayout();
+			return layout;
 		}
 	}
 
@@ -957,18 +957,19 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 		private void constructBody() {
 			final VerticalLayout layout = new VerticalLayout();
+			layout.setMargin(new MarginInfo(false, true, true, true));
 			final HorizontalLayout topRename = new HorizontalLayout();
 			topRename.setSpacing(true);
 			topRename.setMargin(true);
 
 			final Label label = new Label("Enter new name: ");
-			UiUtils.addComponent(topRename, label, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(topRename, label, Alignment.MIDDLE_CENTER);
 
 			final TextField newName = new TextField();
 			newName.setWidth("150px");
-			UiUtils.addComponent(topRename, newName, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(topRename, newName, Alignment.MIDDLE_CENTER);
 
-			UiUtils.addComponent(layout, topRename, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(layout, topRename, Alignment.MIDDLE_CENTER);
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
@@ -1043,7 +1044,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 					RenameResourceWindow.this.close();
 				}
 			});
-			cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
+			cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
 			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);
 

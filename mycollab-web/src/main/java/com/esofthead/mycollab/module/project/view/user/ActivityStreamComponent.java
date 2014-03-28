@@ -37,45 +37,34 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.localization.ProjectLocalizationTypeMap;
-import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLinkBuilder;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
-import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ActivityStreamComponent extends Depot {
+public class ActivityStreamComponent extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ProjectActivityStreamPagedList activityStreamList;
+	private final ProjectActivityStreamPagedList2 activityStreamList;
 
 	public ActivityStreamComponent() {
-		super(LocalizationHelper.getMessage(ProjectCommonI18nEnum.FEEDS_TITLE),
-				new VerticalLayout());
-		this.activityStreamList = new ProjectActivityStreamPagedList();
-
-		this.addStyleName("activity-panel");
-		this.addStyleName("project-activity-panel");
-		((VerticalLayout) this.bodyContent).setMargin(false);
+		this.setStyleName("project-activity-list");
+		this.activityStreamList = new ProjectActivityStreamPagedList2();
 	}
 
 	public void showFeeds(final List<Integer> prjKeys) {
-		this.bodyContent.removeAllComponents();
-		this.bodyContent.addComponent(this.activityStreamList);
+		this.removeAllComponents();
+		this.addComponent(this.activityStreamList);
 
 		final ActivityStreamSearchCriteria searchCriteria = new ActivityStreamSearchCriteria();
 		searchCriteria.setModuleSet(new SetSearchField<String>(SearchField.AND,
@@ -88,21 +77,13 @@ public class ActivityStreamComponent extends Depot {
 
 	}
 
-	static class ProjectActivityStreamPagedList
-			extends
-			AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+	static class ProjectActivityStreamPagedList2
+	extends
+	ProjectActivityStreamPagedList {
 		private static final long serialVersionUID = 1L;
-		private final ProjectActivityStreamService projectActivityStreamService;
-
-		public ProjectActivityStreamPagedList() {
-			super(null, 20);
-
-			this.projectActivityStreamService = ApplicationContextUtil
-					.getSpringBean(ProjectActivityStreamService.class);
-		}
 
 		@Override
-		protected void doSearch() {
+		public void doSearch() {
 			this.totalCount = this.projectActivityStreamService
 					.getTotalActivityStream(this.searchRequest
 							.getSearchCriteria());
@@ -129,17 +110,17 @@ public class ActivityStreamComponent extends Depot {
 
 			Date currentDate = new GregorianCalendar(2100, 1, 1).getTime();
 
+			CssLayout currentFeedBlock = new CssLayout();
+
 			try {
 				for (final ProjectActivityStream activityStream : currentListData) {
 					final Date itemCreatedDate = activityStream
 							.getCreatedtime();
 					if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
-						final CssLayout dateWrapper = new CssLayout();
-						dateWrapper.setWidth("100%");
-						dateWrapper.addStyleName("date-wrapper");
-						dateWrapper.addComponent(new Label(AppContext
-								.formatDate(itemCreatedDate)));
-						this.listContainer.addComponent(dateWrapper);
+						currentFeedBlock = new CssLayout();
+						currentFeedBlock.setStyleName("feed-block");
+						feedBlocksPut(currentDate, itemCreatedDate,
+								currentFeedBlock);
 						currentDate = itemCreatedDate;
 					}
 
@@ -236,13 +217,12 @@ public class ActivityStreamComponent extends Depot {
 						}
 					}
 
-					final Label activityLink = new Label(content,
-							ContentMode.HTML);
+					final Label actionLbl = new Label(content, ContentMode.HTML);
 					final CssLayout streamWrapper = new CssLayout();
 					streamWrapper.setWidth("100%");
 					streamWrapper.addStyleName("stream-wrapper");
-					streamWrapper.addComponent(activityLink);
-					this.listContainer.addComponent(streamWrapper);
+					streamWrapper.addComponent(actionLbl);
+					currentFeedBlock.addComponent(streamWrapper);
 				}
 			} catch (final Exception e) {
 				throw new MyCollabException(e);

@@ -30,13 +30,14 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -55,23 +56,27 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setWidth("100%");
 		layout.setSpacing(true);
-		layout.setMargin(true);
+		layout.setStyleName(UIConstants.HEADER_VIEW);
+		layout.setMargin(new MarginInfo(true, false, true, false));
+		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
+		layout.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
 
 		final Label searchtitle = new Label("Roles");
-		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
-		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
+		layout.setExpandRatio(searchtitle, 1.0f);
 
 		final Button createBtn = new Button("Create",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new RoleEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(final Button.ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new RoleEvent.GotoAdd(this, null));
+			}
+		});
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
@@ -85,7 +90,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 
 	@SuppressWarnings("rawtypes")
 	private class RoleBasicSearchLayout extends
-			GenericSearchPanel.BasicSearchLayout {
+	GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public RoleBasicSearchLayout() {
@@ -107,8 +112,8 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
 
-			
-		
+
+
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			basicSearchBody.addComponent(this.nameField);
@@ -127,17 +132,17 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 				}
 			});
 			basicSearchBody.addComponent(searchBtn);
-			
+
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							RoleBasicSearchLayout.this.nameField.setValue("");
-						}
-					});
+				@Override
+				public void buttonClick(final Button.ClickEvent event) {
+					RoleBasicSearchLayout.this.nameField.setValue("");
+				}
+			});
 			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
@@ -150,10 +155,10 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			RoleSearchPanel.this.searchCriteria = new RoleSearchCriteria();
 			if (StringUtils
-					.isNotNullOrEmpty((String) this.nameField.getValue())) {
+					.isNotNullOrEmpty(this.nameField.getValue())) {
 				RoleSearchPanel.this.searchCriteria
-						.setRoleName(new StringSearchField(SearchField.AND,
-								(String) this.nameField.getValue()));
+				.setRoleName(new StringSearchField(SearchField.AND,
+						this.nameField.getValue()));
 			}
 			return RoleSearchPanel.this.searchCriteria;
 		}

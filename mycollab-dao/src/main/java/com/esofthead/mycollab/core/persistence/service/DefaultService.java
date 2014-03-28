@@ -18,6 +18,7 @@ package com.esofthead.mycollab.core.persistence.service;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
@@ -79,27 +81,27 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 
 	@Override
 	public int updateWithSession(T record, String username) {
-		if (username == null) {
-			return getCrudMapper().updateByPrimaryKeySelective(record);
-		} else {
-			return internalUpdateWithSession(record, username);
+		try {
+			PropertyUtils.setProperty(record, "lastupdatedtime",
+					new GregorianCalendar().getTime());
+		} catch (Exception e) {
 		}
+		return getCrudMapper().updateByPrimaryKey(record);
 	}
 
-	protected int internalUpdateWithSession(T record, String username) {
+	@Override
+	public int updateWithSessionWithSelective(@CacheKey T record,
+			String username) {
+		try {
+			PropertyUtils.setProperty(record, "lastupdatedtime",
+					new GregorianCalendar().getTime());
+		} catch (Exception e) {
+		}
 		return getCrudMapper().updateByPrimaryKeySelective(record);
 	}
 
 	@Override
 	public int removeWithSession(K primaryKey, String username, int accountId) {
-		if (username == null) {
-			return getCrudMapper().deleteByPrimaryKey(primaryKey);
-		} else {
-			return internalRemoveWithSession(primaryKey, username);
-		}
-	}
-
-	protected int internalRemoveWithSession(K primaryKey, String username) {
 		return getCrudMapper().deleteByPrimaryKey(primaryKey);
 	}
 

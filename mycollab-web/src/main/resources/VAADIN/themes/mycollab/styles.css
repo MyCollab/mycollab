@@ -285,16 +285,17 @@ div.v-button-link.v-button-no-margin:focus {
 	margin: 0px;
 }
 
-div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
-	{
-	padding: 0px;
+div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disabled.v-button-link, div.v-disabled.v-button-link:focus, body.v-ie .v-pressed.v-button-link, div.v-button-borderless, div.v-button-borderless:focus, .v-button-borderless:active, div.v-disabled.v-button-borderless, div.v-disabled.v-button-borderless:focus, body.v-ie .v-pressed.v-button-borderless
+{
+	/*padding: 0px;*/
 	margin: 0px;
 }
 
-.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap, .v-ie8  .v-pressed.v-button .v-button-wrap {
+.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap, .v-ie  .v-pressed.v-button .v-button-wrap {
 	border:none;
 	border-top:1px solid transparent;
 	padding: 6px 15px;
+	margin: 0px;
 	/* background-color: #F9F9F9; */
 	/* color: #525252; */
 	background-image:none;
@@ -312,7 +313,7 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 	/* width: 4px; */
 }
 .small-padding .v-icon {
-	margin-right: 2px;
+	margin-right: 3px;
 }
 
 .v-popupbutton .v-button-wrap, .v-popupbutton:active .v-button-wrap {
@@ -585,7 +586,7 @@ div.v-button-link.v-button-no-margin .v-button-wrap,div.v-button-link:focus
 }
 
 .v-upload .v-button {
-	color: white;
+	/*color: white;*/
 }
 
 div.v-button-nonPopupIndicator div.v-popup-indicator {
@@ -1537,6 +1538,9 @@ input.v-textfield-errorField {
 	border-style: solid;
 	border-color: #CFCFCF;
 }
+.addViewLayout .addViewBottomControls .more-info {
+	border-bottom: 1px solid #CFCFCF;
+}
 
 /* .addViewLayout .addViewBottomControls .depotComp {
 	margin: 0px;
@@ -1560,21 +1564,12 @@ input.v-textfield-errorField {
 
 /* Account Settings */
 .accountViewContainer {
-	margin: 20px 0px;
-	background-color: #F5F5F5;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5),
-		to(#DDDDDD));
-	background-image: -webkit-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -ms-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: -o-linear-gradient(top, #F5F5F5, #DDDDDD);
-	background-image: linear-gradient(top, #F5F5F5, #DDDDDD);
-	border-top-left-radius: 5px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 5px;
-	border: 1px solid #8F8F8F;
-	overflow: hidden;
+	min-height: 100%;
+	background: url("icons/project-module-bg.jpg") repeat-y left top #FFFFFF;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
 }
 
 .accountViewContainer .v-label-h1,.accountViewContainer .v-label h1 {
@@ -1601,16 +1596,22 @@ input.v-textfield-errorField {
 	background: none;
 }
 
-.accountViewContainer .userInfoContainer .readViewBody .avatar-pass-wrapper
+.accountViewContainer .userInfoContainer .avatar-pass-wrapper
 {
 	border-bottom: 1px solid #CFCFCF;
+	background-color: #E9F2F7;
 }
 
 .avatar-pass-wrapper .v-upload .v-button {
-	color: white;
+	color: #525252;
+	border-color: #CFCFCF;
 }
 
-.accountViewContainer .userInfoContainer .readViewBody .info-block-header
+.accountViewContainer .addview-layout-body {
+	border: 1px solid #CFCFCF;
+}
+
+.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header
 	{
 	border-color: #CFCFCF;
 	border-width: 0px 0px 1px 0px;
@@ -1618,13 +1619,18 @@ input.v-textfield-errorField {
 	padding: 8px 0px 8px 18px;
 }
 
-.accountViewContainer .userInfoContainer .readViewBody .info-block-header .h2
+.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header .h2
 	{
 	border: none;
 	padding: 0px;
+	background-color: transparent;
+	vertical-align: middle;
+	display: inline-block;
+	*display: inline;
+	margin-right: 3px;
 }
 
-.accountViewContainer .userInfoContainer .readViewBody .info-block-header .v-button {
+.accountViewContainer .userInfoContainer .addview-layout-body .info-block-header .v-button {
 	vertical-align: middle;
 }
 
@@ -1638,12 +1644,12 @@ input.v-textfield-errorField {
 	border-color: #CFCFCF;
 }
 
-.accountViewContainer .userInfoContainer .addViewBody .info-block-header>.v-csslayout-margin>.v-csslayout-container>div
+/* .accountViewContainer .userInfoContainer .addview-layout-body .info-block-header>.v-csslayout-margin>.v-csslayout-container>div
 	{
 	display: inline-block;
 	*display: inline;
 	margin-right: 3px;
-}
+} */
 
 .accountViewContainer .userInfoContainer .editInfoControl {
 	margin-top: 10px;
@@ -1679,15 +1685,7 @@ input.v-textfield-errorField {
 .accountViewContainer .addViewLayout {
 	background: none;
 	box-shadow: none;
-	border: 1px solid #CFCFCF;
-	background: none no-repeat left top rgb(245, 245, 245);
 	box-shadow: none;
-	margin: 0px 0px 10px;
-	border-radius: 3px 3px 0px 0px;
-}
-
-.accountViewContainer .sidebar-menu {
-	padding: 10px 0px;
 }
 
 .v-csslayout-account-dashboard {
@@ -1795,10 +1793,6 @@ input.v-textfield-errorField {
 	padding-bottom: 9px;
 }
 
-.projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-content {
-	/* padding: 0px 13px; */
-}
-
 .projectDashboardView .navigator-wrap .project-list-comp .project-description {
 	color: #FFFFFF;
 	padding: 10px 0px 20px;
@@ -1815,23 +1809,23 @@ input.v-textfield-errorField {
 	padding-left: 20px;
 }
 
-.projectDashboardView .container-wrap.main-content .top-panel {
+.projectDashboardView .container-wrap.main-content .top-panel, .accountViewContainer .container-wrap.main-content .top-panel {
 	background-color: #FFFFFF;
 	border-bottom: 1px solid #CFCFCF;
 }
-.projectDashboardView .container-wrap.main-content .top-panel.v-margin-top {
+.projectDashboardView .container-wrap.main-content .top-panel.v-margin-top, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-top {
 	padding-top: 10px;
 }
 
-.projectDashboardView .container-wrap.main-content .top-panel.v-margin-right {
+.projectDashboardView .container-wrap.main-content .top-panel.v-margin-right, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-right {
 	padding-right: 30px;
 }
 
-.projectDashboardView .container-wrap.main-content .top-panel.v-margin-bottom {
+.projectDashboardView .container-wrap.main-content .top-panel.v-margin-bottom, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-bottom {
 	padding-bottom: 10px;
 }
 
-.projectDashboardView .container-wrap.main-content .top-panel.v-margin-left {
+.projectDashboardView .container-wrap.main-content .top-panel.v-margin-left, .accountViewContainer .container-wrap.main-content .top-panel.v-margin-left {
 	padding-left: 30px;
 }
 
@@ -2055,12 +2049,14 @@ input.v-textfield-errorField {
 }
 
 .projectfeed-hdr-wrapper {
-	background-color: rgb(230, 230, 230);
-	padding: 8px 8px 10px 8px;
-	border-radius: 0px 0px 3px 3px;
-	border-width: 0px 1px 2px 1px;
-	border-style: solid;
-	border-color: #CFCFCF;
+	background-color: rgb(71, 116, 157);
+	padding: 15px 30px;
+}
+.projectfeed-hdr-wrapper .h1 {
+	padding: 0px;
+}
+.projectfeed-hdr-wrapper .h1, .projectfeed-hdr-wrapper .h2, .projectfeed-hdr-wrapper .v-button-link .v-button-caption {
+	color: #FFFFFF;
 }
 
 /* End Project Management */
@@ -2249,6 +2245,11 @@ input.v-textfield-errorField {
 
 .depotComp .depotContent .taskdisplay-component {
 	padding-left: 30px;
+}
+.filter-task-table {
+	border-color: #CFCFCF;
+	border-style: solid;
+	border-width: 1px 0px 0px;
 }
 
 .depotComp .v-customcomponent, .depotComp .v-verticallayout {
@@ -2923,7 +2924,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 	border-width: 0 1px 1px 1px;
 	border-bottom: 1px solid #CFCFCF;
 }
-.readViewBottomControls .v-table-header-wrap {
+.readViewBottomControls .v-table-header-wrap, .v-table.full-border .v-table-header-wrap {
 	border-width: 1px;
 }
 .activity-realated-content .v-table-header-wrap {
@@ -3463,7 +3464,9 @@ div.v-window-header {
 	padding: 3px 0px 0px;
 	text-align: left;
 }
-
+.v-window-header .v-icon {
+	padding-right:3px;
+}
 .v-window .v-table-header-wrap {
 	border-top: 1px solid #CFCFCF;
 }
@@ -3505,7 +3508,7 @@ div.v-window-header {
 /* Form Container View Field */
 .form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus {
 	height: 18px;
-	border-radius: 8px 8px 8px 8px;
+	/*border-radius: 8px 8px 8px 8px;*/
 	background: url("icons/grad-dark-bottom.png") repeat-x scroll left
 		bottom rgb(57, 71, 84);
 	padding: 0px 7px 1px;
@@ -3787,7 +3790,7 @@ div.v-lazyloadingwrapper-loading {
 
 /* Border Box 2 */
 .border-box2 {
-	background-color: rgb(245, 245, 245);
+	/*background-color: rgb(245, 245, 245);*/
 	border: 1px solid #CFCFCF;
 }
 
@@ -4037,7 +4040,7 @@ div.v-lazyloadingwrapper-loading {
 	color: white;
 }
 
-.v-buttongroup.toggle-btn-group .v-button.v-button-left:active,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:active,.v-buttongroup.toggle-btn-group .v-button.v-button-right:active,.v-buttongroup.toggle-btn-group .v-button.v-button-left:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-right:focus
+.v-buttongroup.toggle-btn-group .v-button.v-button-left:active,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:active,.v-buttongroup.toggle-btn-group .v-button.v-button-right:active,.v-buttongroup.toggle-btn-group .v-button.v-button-left:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-middle:focus,.v-buttongroup.toggle-btn-group .v-button.v-button-right:focus, .v-buttongroup.toggle-btn-group .v-button.active
 	{
 	background-image: url("icons/grad-dark-top2.png");
 	background-repeat: no-repeat;
@@ -4097,7 +4100,7 @@ div.v-csslayout.member-block {
 	margin-bottom: 15px;
 	font-size: 12px;
 	vertical-align: top;
-	width: 290px;
+	width: 350px;
 	margin-right: 11px;
 	border-width: 1px 1px 2px;
 	border-radius: 3px;
@@ -4367,7 +4370,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 .readViewLayout .v-label-h2 {
 	text-shadow: #F0F0F0 0 1px 0;
 	padding: 8px 0px 8px 18px;
-	font-size: 14px;
+	font-size: 13px;
 	border-bottom: 1px solid #CFCFCF;
 	color: rgb(69, 69, 69);
 }
@@ -4380,7 +4383,6 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 	text-shadow: #F0F0F0 0 1px 0;
 	padding: 0px 0px 0px 0px;
 	font-size: 13px;
-	border-bottom: 1px solid #CFCFCF;
 	color: rgb(69, 69, 69);
 	font-weight: bold;
 }
@@ -4671,7 +4673,9 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 .addview-layout-body .v-gridlayout {
 	border-bottom: 1px solid #CFCFCF;
 }
-
+.no-border .addview-layout-body .v-gridlayout {
+	border:none;
+}
 .addview-layout-body .v-horizontallayout-gridform-caption.v-margin-top {
 	padding-top: 5px;
 }
@@ -5044,7 +5048,17 @@ div.v-ratingstars-bar {
 .myprojectlist .stream-content .projectlink-wrapper {
 	border-right: 1px solid #CFCFCF;
 	background-color: #F7F7F7;
-	padding: 5px 0px 5px 5px;
+	padding: 10px 15px 15px;
+}
+
+.myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-wrap,
+.myprojectlist .stream-content .projectlink-wrapper .project-name:focus .v-button-wrap,
+.myprojectlist .stream-content .projectlink-wrapper .project-name:active .v-button-wrap {
+	padding: 0px 0px 10px;
+}
+
+.myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-caption {
+	font-size: 14px;
 }
 
 .project-status .v-verticallayout.v-margin-top {
@@ -5115,6 +5129,10 @@ div.v-button-link.buttonPaging .v-button-wrap {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	border: 1px solid #777575;
+}
+div.v-button-link.buttonPaging:active .v-button-wrap, div.v-button-link.buttonPaging:focus .v-button-wrap {
+	padding: 4px 0px 3px;
 	border: 1px solid #777575;
 }
 
@@ -5474,6 +5492,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 /* reponsive wrapper */
 .main-content-wrapper {
 	/* padding: 0px 25px 12px; */
+	border-top: 1px solid #CFCFCF;
 }
 
 .v-label>hr {
@@ -6037,11 +6056,11 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 .v-button-graybtn.v-popupbutton .v-popup-indicator , .splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
-	{
-	background: url("icons/sprites.png") no-repeat scroll -7px -10px transparent;
+{
+	background: url("icons/sprites.png");
 }
 .v-popupbutton .v-popup-indicator {
-	
+	background-position:-7px -10px !important;
 } 
 /* End new splitbutton */
 
@@ -6560,10 +6579,10 @@ img.icon-btn {
 	font-weight: bold;
 }
 /* Project Page View */
-.project-module .page-view.v-margin-left {
+.project-module .page-view.v-margin-left, .accountViewContainer .page-view.v-margin-left {
 	padding-left: 30px;
 }
-.project-module .page-view.v-margin-right {
+.project-module .page-view.v-margin-right, .accountViewContainer .page-view.v-margin-right {
 	padding-right: 30px;
 }
 

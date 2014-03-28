@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import java.util.List;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -40,8 +42,8 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 public class MilestoneListPresenter extends
-		AbstractPresenter<MilestoneListView> implements
-		ListCommand<MilestoneSearchCriteria> {
+AbstractPresenter<MilestoneListView> implements
+ListCommand<MilestoneSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	public MilestoneListPresenter() {
@@ -55,7 +57,19 @@ public class MilestoneListPresenter extends
 			MilestoneContainer milestoneContainer = (MilestoneContainer) container;
 			milestoneContainer.removeAllComponents();
 			milestoneContainer.addComponent(view.getWidget());
-			doSearch((MilestoneSearchCriteria) data.getParams());
+
+			MilestoneSearchCriteria searchCriteria;
+
+			if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
+				searchCriteria = new MilestoneSearchCriteria();
+				searchCriteria.setProjectId(new NumberSearchField(
+						SearchField.AND, CurrentProjectVariables
+						.getProjectId()));
+			} else {
+				searchCriteria = (MilestoneSearchCriteria) data.getParams();
+			}
+
+			doSearch(searchCriteria);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);

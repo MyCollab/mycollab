@@ -33,12 +33,14 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
@@ -55,12 +57,44 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
 	protected AdvancedPreviewBeanForm<Role> previewForm;
 	protected SimpleRole role;
+	private PreviewFormControlsGenerator<Role> buttonControls;
 
 	public RoleReadViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setMargin(new MarginInfo(false, true, false, true));
+
+		HorizontalLayout header = new HorizontalLayout();
+		header.setWidth("100%");
+		header.setStyleName(UIConstants.HEADER_VIEW);
+		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		header.setSpacing(true);
+		header.setMargin(new MarginInfo(true, false, true, false));
+		header.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+
+		Label headerText = new Label("Role Details");
+		headerText.setSizeUndefined();
+		headerText.setStyleName(UIConstants.HEADER_TEXT);
+
+		header.addComponent(headerText);
+		header.setExpandRatio(headerText, 1.0f);
+
+		this.addComponent(header);
+
 		this.previewForm = new AdvancedPreviewBeanForm<Role>();
 		this.addComponent(this.previewForm);
+
+		Layout controlButtons = createTopPanel();
+		if(controlButtons != null) {
+			header.addComponent(controlButtons);
+		}
+	}
+
+	protected Layout createTopPanel() {
+		buttonControls = new PreviewFormControlsGenerator<Role>(
+				previewForm);
+		HorizontalLayout layout = buttonControls
+				.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
+		return layout;
 	}
 
 	@Override
@@ -68,16 +102,22 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		this.role = role;
 		this.previewForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.previewForm
-				.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
-						previewForm) {
-					private static final long serialVersionUID = 1L;
+		.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
+				previewForm) {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					protected Field<?> onCreateField(Object propertyId) {
-						return null;
-					}
-				});
+			@Override
+			protected Field<?> onCreateField(Object propertyId) {
+				return null;
+			}
+		});
 		this.previewForm.setBean(role);
+		if (role.getIssystemrole() != null
+				&& role.getIssystemrole() == Boolean.TRUE) {
+			buttonControls.setDeleteButtonVisible(false);
+		} else {
+			buttonControls.setDeleteButtonVisible(true);
+		}
 	}
 
 	@Override
@@ -133,20 +173,6 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 
 		public FormLayoutFactory() {
 			super(RoleReadViewImpl.this.role.getRolename());
-		}
-
-		@Override
-		protected Layout createTopPanel() {
-			PreviewFormControlsGenerator<Role> buttonControls = new PreviewFormControlsGenerator<Role>(
-					previewForm);
-			HorizontalLayout layout = buttonControls
-					.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
-			layout.setMargin(true);
-			if (role.getIssystemrole() != null
-					&& role.getIssystemrole() == Boolean.TRUE) {
-				buttonControls.setDeleteButtonVisible(false);
-			}
-			return layout;
 		}
 
 		@Override

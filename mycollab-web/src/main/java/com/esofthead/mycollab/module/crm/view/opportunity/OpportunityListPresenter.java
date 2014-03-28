@@ -49,9 +49,9 @@ import com.vaadin.ui.UI;
  * 
  */
 public class OpportunityListPresenter
-		extends
-		CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
-		implements MassUpdateCommand<Opportunity> {
+extends
+CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
+implements MassUpdateCommand<Opportunity> {
 
 	private static final long serialVersionUID = 1L;
 	private OpportunityService opportunityService;
@@ -77,10 +77,10 @@ public class OpportunityListPresenter
 						} else if ("massUpdate".equals(id)) {
 							MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
 									LocalizationHelper
-											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
-													"Opportunity"),
-									OpportunityListPresenter.this);
+									.getMessage(
+											GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+											"Opportunity"),
+											OpportunityListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
 
@@ -116,7 +116,7 @@ public class OpportunityListPresenter
 
 			AppContext.addFragment("crm/opportunity/list", LocalizationHelper
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-							"Opportunity"));
+							"Opportunitie"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

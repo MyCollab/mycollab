@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.esb;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface DeleteProjectRiskCommand {
 	void riskRemoved(String username, int accountId, int projectId, int bugId);
 }

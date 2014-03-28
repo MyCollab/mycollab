@@ -36,6 +36,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class AccountContactListComp extends
 		RelatedListComp2<ContactService, ContactSearchCriteria, SimpleContact> {
 	private static final long serialVersionUID = -6451639268047881135L;
@@ -61,6 +67,8 @@ public class AccountContactListComp extends
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void splitButtonClick(
 							final SplitButton.SplitButtonClickEvent event) {
@@ -69,6 +77,8 @@ public class AccountContactListComp extends
 				});
 		final Button selectBtn = new Button("Select from existing contacts",
 				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						final AccountContactSelectionWindow contactsWindow = new AccountContactSelectionWindow(

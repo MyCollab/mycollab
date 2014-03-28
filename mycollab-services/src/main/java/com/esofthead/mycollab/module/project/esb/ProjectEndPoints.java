@@ -16,7 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.esb;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectEndPoints {
+
 	public static final String PROJECT_REMOVE_ENDPOINT = "direct:projectDelete";
 
 	public static final String PROJECT_MEMBER_DELETE_ENDPOINT = "direct:projectMemberDelete";

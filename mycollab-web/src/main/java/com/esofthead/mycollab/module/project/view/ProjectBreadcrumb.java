@@ -720,13 +720,22 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 						+ UrlEncodeDecoder.encode(project.getId()), "Files");
 	}
 
-	public void gotoStandupList() {
+	public void gotoStandupList(Date onDate) {
 		this.select(0);
 		this.addLink(new Button("Standups"));
-		AppContext.addFragment(
-				"project/standup/list/"
-						+ UrlEncodeDecoder.encode(project.getId()),
-				"Standup List");
+		if (onDate == null) {
+			AppContext.addFragment(
+					"project/standup/list/"
+							+ UrlEncodeDecoder.encode(project.getId()),
+					"Standup List");
+		} else {
+			AppContext.addFragment(
+					"project/standup/list/"
+							+ UrlEncodeDecoder.encode(project.getId() + "/"
+									+ AppContext.formatDate(onDate)),
+					"Standup List");
+		}
+
 	}
 
 	public void gotoStandupAdd(Date date) {

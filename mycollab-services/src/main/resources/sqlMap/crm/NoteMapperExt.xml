@@ -19,15 +19,17 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.type != null">
-            ${searchCriteria.type.operation} m_crm_note.type =
-            #{searchCriteria.type.value}
-        </if>
-        <if test="searchCriteria.typeid != null">
-            ${searchCriteria.type.operation} m_crm_note.typeid =
-            ${searchCriteria.typeid.value}
-        </if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_crm_note.type = @{searchCriteria.type.value}
+        #end
+        
+        #ifnotnull($searchCriteria.typeid)
+            ${searchCriteria.type.operation} m_crm_note.typeid = @{searchCriteria.typeid.value}
+        #end
+        ]]>
     </sql>
 
     <sql id="selectSimpleNote">
@@ -51,37 +53,31 @@
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField} ${sortDirection},
-        </if>
-        <![CDATA[
-            m_crm_note.createdTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_crm_note.createdTime DESC
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="NoteSearchCriteria"
-        resultMap="SimpleNoteResult">
-        <include
-            refid="com.esofthead.mycollab.module.crm.dao.NoteMapperExt.selectSimpleNote" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.NoteMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        resultMap="SimpleNoteResult" lang="velocity">
+        <include refid="selectSimpleNote" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
         <include refid="orderStatement" />
 
     </select>
 
     <select id="getTotalCount" parameterType="NoteSearchCriteria"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM m_crm_note
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.crm.dao.NoteMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 </mapper>

@@ -34,12 +34,14 @@ public class ProjectMemberEvent {
 
 		private List<String> inviteEmails;
 		private Integer roleId;
+		private String inviteMessage;
 
 		public InviteProjectMembers(Object source, List<String> emails,
-				Integer roleId) {
+				Integer roleId, String inviteMessage) {
 			super(source, null);
 			this.inviteEmails = emails;
 			this.roleId = roleId;
+			this.inviteMessage = inviteMessage;
 		}
 
 		public List<String> getInviteEmails() {
@@ -48,6 +50,14 @@ public class ProjectMemberEvent {
 
 		public Integer getRoleId() {
 			return roleId;
+		}
+
+		public String getInviteMessage() {
+			return inviteMessage;
+		}
+
+		public void setInviteMessage(String inviteMessage) {
+			this.inviteMessage = inviteMessage;
 		}
 	}
 

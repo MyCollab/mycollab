@@ -21,8 +21,10 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -51,7 +53,11 @@ public abstract class MeetingFormLayoutFactory implements IFormLayoutFactory {
 		}
 		informationLayout = new DynaFormLayout(CrmTypeConstants.MEETING,
 				MeetingDefaultFormLayoutFactory.getForm());
-		meetingLayout.addBody(informationLayout.getLayout());
+		VerticalLayout body = new VerticalLayout();
+		body.setStyleName(UIConstants.BORDER_BOX_2);
+		body.addComponent(informationLayout.getLayout());
+		meetingLayout.addBody(body);
+		meetingLayout.setStyleName(UIConstants.THEME_NO_BORDER);
 
 		return meetingLayout;
 	}

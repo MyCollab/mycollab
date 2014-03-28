@@ -31,14 +31,20 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.PreviewFormControlsGenerator;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -56,11 +62,42 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 
 	public UserReadViewImpl() {
 		super();
-		
-		this.setMargin(new MarginInfo(true, false, false, false));
-		
+
+		this.setMargin(new MarginInfo(false, true, false, true));
+
+		HorizontalLayout header = new HorizontalLayout();
+		header.setWidth("100%");
+		header.setStyleName(UIConstants.HEADER_VIEW);
+		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		header.setSpacing(true);
+		header.setMargin(new MarginInfo(true, false, true, false));
+		header.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+
+		Label headerText = new Label("User Details");
+		headerText.setSizeUndefined();
+		headerText.setStyleName(UIConstants.HEADER_TEXT);
+
+		header.addComponent(headerText);
+		header.setExpandRatio(headerText, 1.0f);
+
+		this.addComponent(header);
+
 		previewForm = new PreviewForm();
 		this.addComponent(previewForm);
+
+		Layout controlButtons = createTopPanel();
+		if(controlButtons != null) {
+			header.addComponent(controlButtons);
+		}
+	}
+
+	protected Layout createTopPanel() {
+		PreviewFormControlsGenerator<User> previewForm = new PreviewFormControlsGenerator<User>(
+				this.previewForm);
+		previewForm
+		.createButtonControls(RolePermissionCollections.ACCOUNT_USER);
+		previewForm.removeCloneButton();
+		return previewForm.getLayout();
 	}
 
 	@Override
@@ -103,10 +140,10 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 										@Override
 										public void buttonClick(ClickEvent event) {
 											EventBus.getInstance()
-													.fireEvent(
-															new RoleEvent.GotoRead(
-																	UserReadViewImpl.this,
-																	user.getRoleid()));
+											.fireEvent(
+													new RoleEvent.GotoRead(
+															UserReadViewImpl.this,
+															user.getRoleid()));
 										}
 									});
 							return roleLink;
@@ -120,7 +157,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 					} else if (propertyId.equals("timezone")) {
 						return new DefaultFormViewFieldFactory.FormViewField(
 								TimezoneMapper.getTimezone(user.getTimezone())
-										.getDisplayName());
+								.getDisplayName());
 					} else if (propertyId.equals("facebookaccount")) {
 						return new DefaultFormViewFieldFactory.FormUrlSocialNetworkLinkViewField(
 								user.getFacebookaccount(),
@@ -154,16 +191,6 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 			public FormLayoutFactory() {
 				super(user.getDisplayName(), true);
 				this.setAvatarLink(user.getAvatarid());
-			}
-
-			@Override
-			protected Layout createTopPanel() {
-				PreviewFormControlsGenerator<User> previewForm = new PreviewFormControlsGenerator<User>(
-						PreviewForm.this);
-				previewForm
-						.createButtonControls(RolePermissionCollections.ACCOUNT_USER);
-				previewForm.removeCloneButton();
-				return previewForm.getLayout();
 			}
 
 			@Override

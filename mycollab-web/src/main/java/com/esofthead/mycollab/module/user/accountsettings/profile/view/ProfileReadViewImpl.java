@@ -32,13 +32,13 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -70,16 +70,21 @@ ProfileReadView {
 	private final PreviewForm formItem;
 	private final HorizontalLayout viewLayout;
 	private final VerticalLayout userAvatar;
+	private final HorizontalLayout avatarAndPass;
 
 	public ProfileReadViewImpl() {
 		super();
+		this.setMargin(new MarginInfo(false, true, false, true));
 		this.viewLayout = new HorizontalLayout();
 		this.viewLayout.setWidth("100%");
 		this.viewLayout.setSpacing(true);
-		this.setStyleName("userInfoContainer");
+		this.addStyleName("userInfoContainer");
 		this.userAvatar = new VerticalLayout();
-		this.userAvatar.setWidth("100%");
+		this.userAvatar.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		this.userAvatar.setSpacing(true);
+		this.userAvatar.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		this.avatarAndPass = new HorizontalLayout();
+		this.avatarAndPass.addStyleName("avatar-pass-wrapper");
 		this.formItem = new PreviewForm();
 		this.formItem.setWidth("100%");
 		this.viewLayout.addComponent(this.formItem);
@@ -88,16 +93,17 @@ ProfileReadView {
 
 	private void displayUserAvatar() {
 		this.userAvatar.removeAllComponents();
-		this.userAvatar.addStyleName("avatar-pass-wrapper");
 		this.userAvatar.setMargin(true);
 		final Image cropField = UserAvatarControlFactory
 				.createUserAvatarEmbeddedComponent(
 						AppContext.getUserAvatarId(), 100);
+		userAvatar.addComponent(cropField);
 
-		final HorizontalLayout avatarAndPass = new HorizontalLayout();
+		this.avatarAndPass.removeAllComponents();
 		avatarAndPass.setSpacing(true);
+		avatarAndPass.setMargin(true);
 		avatarAndPass.setWidth("100%");
-		avatarAndPass.addComponent(cropField);
+		avatarAndPass.addComponent(userAvatar);
 		final Button btnChangePassword = new Button(
 				LocalizationHelper
 				.getMessage(UserI18nEnum.BUTTON_CHANGE_PASSWORD),
@@ -123,8 +129,6 @@ ProfileReadView {
 		avatarAndPass.addComponent(passLayout);
 		avatarAndPass.setComponentAlignment(passLayout, Alignment.TOP_LEFT);
 		avatarAndPass.setExpandRatio(passLayout, 1.0f);
-
-		this.userAvatar.addComponent(avatarAndPass);
 
 		final UploadField avatarUploadField = new UploadField() {
 			private static final long serialVersionUID = 1L;
@@ -154,6 +158,7 @@ ProfileReadView {
 			}
 		};
 		avatarUploadField.setButtonCaption("Change Avatar");
+		avatarUploadField.setSizeUndefined();
 		avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
 		this.userAvatar.addComponent(avatarUploadField);
 	}
@@ -187,14 +192,15 @@ ProfileReadView {
 
 			@Override
 			public Layout getLayout() {
-				final ReadViewLayout accountAddLayout = new ReadViewLayout(
+				final AddViewLayout2 accountAddLayout = new AddViewLayout2(
 						"User Information",
 						MyCollabResource
-						.newResource("icons/22/user/menu_profile.png"));
+						.newResource("icons/24/project/user.png"));
 				accountAddLayout.setWidth("100%");
+				accountAddLayout.setStyleName("readview-layout");
 				final VerticalLayout layout = new VerticalLayout();
 
-				layout.addComponent(userAvatar);
+				layout.addComponent(avatarAndPass);
 
 				final CssLayout basicInformationHeader = new CssLayout();
 				basicInformationHeader.setWidth("100%");

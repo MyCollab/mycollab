@@ -46,6 +46,7 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -69,6 +70,11 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
 	private static final long serialVersionUID = 1L;
 
+	public UserListViewImpl() {
+		super();
+		this.setMargin(new MarginInfo(false, true, false, true));
+	}
+
 	@Override
 	public void setSearchCriteria(UserSearchCriteria searchCriteria) {
 		UserService userService = ApplicationContextUtil
@@ -79,6 +85,10 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
 		this.removeAllComponents();
 		this.setSpacing(true);
+		HorizontalLayout header = new HorizontalLayout();
+		header.setStyleName(UIConstants.HEADER_VIEW);
+		header.setWidth("100%");
+		header.setMargin(new MarginInfo(true, false, true, false));
 		Button createBtn = new Button("Invite user",
 				new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -95,8 +105,10 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 
-		this.addComponent(createBtn);
-		this.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+		header.addComponent(createBtn);
+		header.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+		this.addComponent(header);
+
 		CssLayout contentLayout = new CssLayout();
 		contentLayout.setWidth("100%");
 		for (SimpleUser userAccount : userAccountList) {

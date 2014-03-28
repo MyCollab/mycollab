@@ -73,7 +73,7 @@ public class ProjectMemberInvitePresenter extends
 							inviteEmails.toArray(new String[0]),
 							CurrentProjectVariables.getProjectId(),
 							event.getRoleId(), AppContext.getUsername(),
-							AppContext.getAccountId());
+							event.getInviteMessage(), AppContext.getAccountId());
 
 					EventBus.getInstance().fireEvent(
 							new ProjectMemberEvent.GotoList(this, null));
@@ -100,33 +100,6 @@ public class ProjectMemberInvitePresenter extends
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
-	}
-
-	public void saveProjectMember(ProjectMember projectMember) {
-		ProjectMemberService projectMemberService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-
-		if (projectMember.getId() == null) {
-			UserService userService = ApplicationContextUtil
-					.getSpringBean(UserService.class);
-			User user = userService.findUserByUserName(projectMember
-					.getUsername());
-			if (user != null) {
-				projectMemberService.inviteProjectMember(
-						new String[] { user.getEmail() },
-						CurrentProjectVariables.getProjectId(),
-						projectMember.getProjectroleid(),
-						AppContext.getUsername(), AppContext.getAccountId());
-			} else {
-				throw new MyCollabException(
-						"User not exist in projectMember table, something goes wrong in DB");
-			}
-
-		} else {
-			projectMemberService.updateWithSession(projectMember,
-					AppContext.getUsername());
-		}
-
 	}
 
 }

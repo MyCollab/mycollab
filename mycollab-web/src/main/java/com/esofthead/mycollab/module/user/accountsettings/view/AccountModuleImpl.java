@@ -30,11 +30,11 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -44,7 +44,7 @@ import com.vaadin.ui.TabSheet.Tab;
  */
 @ViewComponent
 public class AccountModuleImpl extends AbstractPageView implements
-		AccountModule {
+AccountModule {
 	private static final long serialVersionUID = 1L;
 
 	private final VerticalTabsheet accountTab;
@@ -59,32 +59,33 @@ public class AccountModuleImpl extends AbstractPageView implements
 		ControllerRegistry.addController(new UserAccountController(this));
 		this.setWidth("100%");
 		this.setMargin(false);
-
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setWidth("100%");
-		contentWrapper.setStyleName("accountViewContainer");
 		this.addStyleName("main-content-wrapper");
-		this.addComponent(contentWrapper);
+		this.addStyleName("accountViewContainer");
 
-		final HorizontalLayout headerWrapper = new HorizontalLayout();
-		headerWrapper.setWidth("100%");
-		headerWrapper.setMargin(true);
+		final HorizontalLayout topPanel = new HorizontalLayout();
+		topPanel.setWidth("100%");
+		topPanel.setMargin(true);
+		topPanel.setStyleName("top-panel");
 
 		this.breadcrumb = ViewManager.getView(AccountSettingBreadcrumb.class);
 
-		headerWrapper.addComponent(this.breadcrumb);
-		contentWrapper.addComponent(headerWrapper);
+		topPanel.addComponent(this.breadcrumb);
+		//contentWrapper.addComponent(headerWrapper);
 
 		this.accountTab = new VerticalTabsheet();
 		this.accountTab.setWidth("100%");
-		this.accountTab.setNavigatorWidth("200px");
+		this.accountTab.setNavigatorWidth("250px");
 		this.accountTab.setNavigatorStyleName("sidebar-menu");
 		this.accountTab.setContainerStyleName("tab-content");
+		this.accountTab.setHeight(null);
+
+		VerticalLayout contentWrapper = this.accountTab.getContentWrapper();
+		contentWrapper.addStyleName("main-content");
+		contentWrapper.addComponentAsFirst(topPanel);
 
 		this.buildComponents();
 
-		contentWrapper.addComponent(this.accountTab);
-		this.addComponent(contentWrapper);
+		this.addComponent(this.accountTab);
 	}
 
 	private void buildComponents() {
@@ -101,26 +102,26 @@ public class AccountModuleImpl extends AbstractPageView implements
 				MyCollabResource.newResource("icons/22/user/menu_team.png"));
 
 		this.accountTab
-				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-					private static final long serialVersionUID = 1L;
+		.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void selectedTabChange(SelectedTabChangeEvent event) {
-						final Tab tab = ((VerticalTabsheet) event.getSource())
-								.getSelectedTab();
-						final String caption = tab.getCaption();
-						if ("User Information".equals(caption)) {
-							profilePresenter.go(AccountModuleImpl.this, null);
-						} else if ("Billing".equals(caption)) {
-							billingPresenter.go(AccountModuleImpl.this,
-									new BillingScreenData.BillingSummary());
-						} else if ("Users & Permissions".equals(caption)) {
-							userPermissionPresenter.go(AccountModuleImpl.this,
-									null);
-						}
+			@Override
+			public void selectedTabChange(SelectedTabChangeEvent event) {
+				final Tab tab = ((VerticalTabsheet) event.getSource())
+						.getSelectedTab();
+				final String caption = tab.getCaption();
+				if ("User Information".equals(caption)) {
+					profilePresenter.go(AccountModuleImpl.this, null);
+				} else if ("Billing".equals(caption)) {
+					billingPresenter.go(AccountModuleImpl.this,
+							new BillingScreenData.BillingSummary());
+				} else if ("Users & Permissions".equals(caption)) {
+					userPermissionPresenter.go(AccountModuleImpl.this,
+							null);
+				}
 
-					}
-				});
+			}
+		});
 	}
 
 	private ComponentContainer constructAccountSettingsComponent() {

@@ -16,7 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.esb;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface InviteOutsideProjectMemberCommand {
 	void inviteUsers(String[] email, int projectId, int projectRoleId,
-			String inviteUser, int sAccountId);
+			String inviteUser, String inviteMessage, int sAccountId);
 }

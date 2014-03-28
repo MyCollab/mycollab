@@ -54,6 +54,15 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	/**
 	 * 
 	 * @param record
+	 * @param username
+	 * @return
+	 */
+	@CacheEvict
+	int updateWithSessionWithSelective(@CacheKey T record, String username);
+
+	/**
+	 * 
+	 * @param record
 	 * @param primaryKeys
 	 * @param accountId
 	 */

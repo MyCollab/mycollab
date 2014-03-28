@@ -141,12 +141,13 @@ public class ProjectMemberServiceImpl extends
 
 	@Override
 	public void inviteProjectMember(String[] email, int projectId,
-			int projectRoleId, String inviteUser, int sAccountId) {
+			int projectRoleId, String inviteUser, String inviteMessage,
+			int sAccountId) {
 		InviteOutsideProjectMemberCommand listener = new BeanProxyBuilder()
 				.build(ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
 						InviteOutsideProjectMemberCommand.class);
 		listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
-				sAccountId);
+				inviteMessage, sAccountId);
 	}
 
 	@Override
