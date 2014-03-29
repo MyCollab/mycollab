@@ -21,12 +21,15 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 
@@ -107,7 +110,23 @@ public class ProjectListComponent extends VerticalLayout {
 			super.loadItems(currentListData);
 
 			if (searchService.getTotalCount(currentCriteria) > 3) {
-				getContentLayout().addComponent(new Button("More..."));
+				VerticalLayout btnWrap = new VerticalLayout();
+				btnWrap.setWidth("100%");
+				btnWrap.setMargin(true);
+
+				Button showMoreBtn = new Button("More...", new Button.ClickListener() {
+					private static final long serialVersionUID = -2178412846807704534L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						headerLayout.setPopupVisible(false);
+						UI.getCurrent().addWindow(new MyProjectListWindow());
+					}
+				});
+				showMoreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+				showMoreBtn.setWidth("100%");
+				btnWrap.addComponent(showMoreBtn);
+				getContentLayout().addComponent(btnWrap);
 			}
 		}
 	}	

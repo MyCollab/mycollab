@@ -2924,7 +2924,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 	border-width: 0 1px 1px 1px;
 	border-bottom: 1px solid #CFCFCF;
 }
-.readViewBottomControls .v-table-header-wrap, .v-table.full-border .v-table-header-wrap {
+.readViewBottomControls .v-table-header-wrap, .full-border-table .v-table .v-table-header-wrap {
 	border-width: 1px;
 }
 .activity-realated-content .v-table-header-wrap {
@@ -5039,6 +5039,10 @@ div.v-ratingstars-bar {
 /* My Project List */
 .myprojectlist .activity-stream {
 	padding: 0px;
+}
+
+.v-window-contents .myprojectlist .bean-list {
+	border-top: 1px solid #CFCFCF;
 }
 
 .myprojectlist .stream-content {

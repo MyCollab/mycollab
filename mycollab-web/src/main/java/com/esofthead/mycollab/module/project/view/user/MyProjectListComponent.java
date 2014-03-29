@@ -42,6 +42,7 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -84,7 +85,7 @@ public class MyProjectListComponent extends Depot {
 		this.projectList.setSearchCriteria(searchCriteria);
 	}
 
-	static class ProjectPagedList extends
+	public static class ProjectPagedList extends
 	BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
@@ -115,8 +116,7 @@ public class MyProjectListComponent extends Depot {
 			projectLayout.addStyleName("project-status");
 
 			final CssLayout linkWrapper = new CssLayout();
-			linkWrapper.setWidth("165px");
-			//linkWrapper.setHeight("100%");
+			linkWrapper.setWidth("200px");
 			linkWrapper.addStyleName("projectlink-wrapper");
 			final VerticalLayout linkIconFix = new VerticalLayout();
 			linkIconFix.setWidth("100%");
@@ -137,7 +137,7 @@ public class MyProjectListComponent extends Depot {
 			linkIconFix.addComponent(projectLink);
 			linkIconFix.setExpandRatio(projectLink, 1.0f);
 
-			ButtonLink projectMember = new ButtonLink(project.getNumActiveMembers() + " members", new Button.ClickListener() {
+			ButtonLink projectMember = new ButtonLink(project.getNumActiveMembers() + " member" + (project.getNumActiveMembers() > 1 ? "s" : ""), new Button.ClickListener() {
 				private static final long serialVersionUID = -7865685578305013464L;
 
 				@Override
@@ -216,6 +216,7 @@ public class MyProjectListComponent extends Depot {
 			HorizontalLayout phaseStatus = new HorizontalLayout();
 			phaseStatus.setWidth("100%");
 			phaseStatus.setSpacing(true);
+			phaseStatus.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 			Image phaseIcon = new Image(null, MyCollabResource.newResource("icons/16/project/milestone.png"));
 			phaseStatus.addComponent(phaseIcon);
 			ButtonLink phaseLbl = new ButtonLink("Phases: ", new Button.ClickListener() {

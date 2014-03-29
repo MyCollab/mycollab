@@ -71,7 +71,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class FollowingTicketViewImpl extends AbstractPageView implements
-		FollowingTicketView {
+FollowingTicketView {
 	private static final long serialVersionUID = 1L;
 
 	private SplitButton exportButtonControl;
@@ -79,21 +79,12 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	private MonitorSearchCriteria searchCriteria;
 
 	public FollowingTicketViewImpl() {
-		this.setSpacing(true);
-		this.setMargin(new MarginInfo(false, true, true, true));
 		this.setWidth("100%");
-
-		final VerticalLayout contentWrapper = new VerticalLayout();
-		
-		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("main-content-wrapper");
-		
-		
 
 		final VerticalLayout headerWrapper = new VerticalLayout();
 		headerWrapper.setWidth("100%");
 		headerWrapper.setStyleName("projectfeed-hdr-wrapper");
-		
+
 		HorizontalLayout controlBtns = new HorizontalLayout();
 
 		final HorizontalLayout header = new HorizontalLayout();
@@ -109,9 +100,14 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(layoutHeader, 1.0f);
 
+		final VerticalLayout contentWrapper = new VerticalLayout();
+
+		contentWrapper.setWidth("100%");
+		contentWrapper.addStyleName("content-wrapper");
+
 		headerWrapper.addComponent(header);
 		this.addComponent(headerWrapper);
-		this.addComponent(controlBtns);
+		contentWrapper.addComponent(controlBtns);
 		this.addComponent(contentWrapper);
 
 		final Button backBtn = new Button("Back to Work Board");
@@ -130,7 +126,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 
-		
+
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.setWidth("100%");
 		controlBtns.addComponent(backBtn);
@@ -174,9 +170,11 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 		controlBtns.addComponent(exportButtonControl);
 
-	
+
 
 		this.ticketTable = new FollowingTicketTable();
+		this.ticketTable.addStyleName("full-border-table");
+		this.ticketTable.setMargin(new MarginInfo(true, false, false, false));
 		contentWrapper.addComponent(this.ticketTable);
 	}
 
@@ -193,7 +191,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 						new RpParameterBuilder(ticketTable.getDisplayColumns()),
 						exportType,
 						ApplicationContextUtil
-								.getSpringBean(ProjectFollowingTicketService.class),
+						.getSpringBean(ProjectFollowingTicketService.class),
 						searchCriteria, FollowingTicket.class);
 			}
 		};
@@ -216,7 +214,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 	}
 
 	private class FollowingTicketTable extends
-			AbstractPagedBeanTable<MonitorSearchCriteria, FollowingTicket> {
+	AbstractPagedBeanTable<MonitorSearchCriteria, FollowingTicket> {
 
 		private static final long serialVersionUID = 1L;
 		private ProjectFollowingTicketService projectFollowingTicketService;
@@ -250,9 +248,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 								.getStatus())) {
 							ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
 						} else if (ticket.getDueDate() != null
-								&& (ticket.getDueDate()
-										.before(new GregorianCalendar()
-												.getTime()))) {
+								&& ticket.getDueDate()
+								.before(new GregorianCalendar()
+								.getTime())) {
 							ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
 						}
 					} else if ("Task".equals(ticket.getType())) {
@@ -264,13 +262,13 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 						} else {
 							if ("Pending".equals(ticket.getStatus())) {
 								ticketLink
-										.addStyleName(UIConstants.LINK_PENDING);
+								.addStyleName(UIConstants.LINK_PENDING);
 							} else if (ticket.getDueDate() != null
-									&& (ticket.getDueDate()
-											.before(new GregorianCalendar()
-													.getTime()))) {
+									&& ticket.getDueDate()
+									.before(new GregorianCalendar()
+									.getTime())) {
 								ticketLink
-										.addStyleName(UIConstants.LINK_OVERDUE);
+								.addStyleName(UIConstants.LINK_OVERDUE);
 							}
 						}
 					}
@@ -326,9 +324,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 							final PageActionChain chain = new PageActionChain(
 									new ProjectScreenData.Goto(projectId));
 							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this, chain));
+							.fireEvent(
+									new ProjectEvent.GotoMyProject(
+											this, chain));
 						}
 					});
 					projectLink.setIcon(MyCollabResource

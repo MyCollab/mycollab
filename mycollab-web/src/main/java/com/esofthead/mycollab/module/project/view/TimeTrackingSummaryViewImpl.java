@@ -76,7 +76,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
-		TimeTrackingSummaryView {
+TimeTrackingSummaryView {
 	private static final long serialVersionUID = 1L;
 
 	private PopupDateField fromDateField;
@@ -90,14 +90,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	private ItemTimeLoggingSearchCriteria searchCriteria;
 
 	public TimeTrackingSummaryViewImpl() {
-		this.setSpacing(true);
-		this.setWidth("100%");
-		this.setMargin(new MarginInfo(false, true, true, true));
-
-		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("main-content-wrapper");
-		
+		this.setWidth("100%");		
 
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
@@ -106,9 +99,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setWidth("100%");
 		header.setSpacing(true);
-		
+
 		HorizontalLayout controlsPanel = new HorizontalLayout();
-		
+
 		HorizontalLayout controlBtns = new HorizontalLayout();
 
 		final Embedded timeIcon = new Embedded();
@@ -122,10 +115,14 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(layoutHeader, 1.0f);
 
+		final CssLayout contentWrapper = new CssLayout();
+		contentWrapper.setWidth("100%");
+		contentWrapper.addStyleName("content-wrapper");
+
 		headerWrapper.addComponent(header);
 		this.addComponent(headerWrapper);
-		this.addComponent(controlBtns);
-		this.addComponent(controlsPanel);
+		contentWrapper.addComponent(controlBtns);
+		contentWrapper.addComponent(controlsPanel);
 		this.addComponent(contentWrapper);
 
 		final Button backBtn = new Button("Back to Work Board");
@@ -144,16 +141,16 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 
-		
+
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);
 
-		
+
 		final HorizontalLayout dateSelectionLayout = new HorizontalLayout();
 		dateSelectionLayout.setSpacing(true);
 		dateSelectionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		dateSelectionLayout
-				.setMargin(new MarginInfo(false, false, true, false));
+		.setMargin(new MarginInfo(false, false, true, false));
 		controlsPanel.addComponent(dateSelectionLayout);
 
 		dateSelectionLayout.addComponent(new Label("From:  "));
@@ -169,20 +166,20 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		final Button queryBtn = new Button("Submit",
 				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						Date from = (Date) fromDateField.getValue();
-						Date to = (Date) toDateField.getValue();
-						searchTimeReporting(from, to);
-					}
-				});
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				Date from = fromDateField.getValue();
+				Date to = toDateField.getValue();
+				searchTimeReporting(from, to);
+			}
+		});
 		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		dateSelectionLayout.addComponent(queryBtn);
 
-		
+
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
 		controlsPanel.setSpacing(true);
@@ -232,58 +229,60 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(exportButtonControl, Alignment.TOP_RIGHT);
 		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
 		controlBtns.setSizeFull();
-		
+
 
 		this.tableItem = new TimeTrackingTableDisplay(Arrays.asList(
 				TimeTableFieldDef.summary, TimeTableFieldDef.logUser,
 				TimeTableFieldDef.project, TimeTableFieldDef.logValue,
 				TimeTableFieldDef.billable, TimeTableFieldDef.logForDate));
+		this.tableItem.addStyleName("full-border-table");
+		this.tableItem.setMargin(new MarginInfo(true, false, false, false));
 
 		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
+			@Override
+			public Class<? extends ApplicationEvent> getEventType() {
+				return TableClickEvent.class;
+			}
+
+			@Override
+			public void handle(final TableClickEvent event) {
+				final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
+						.getData();
+				if ("summary".equals(event.getFieldName())) {
+					final int typeId = itemLogging.getTypeid();
+					final int projectId = itemLogging.getProjectid();
+
+					if (MonitorTypeConstants.PRJ_BUG.equals(itemLogging
+							.getType())) {
+						final PageActionChain chain = new PageActionChain(
+								new ProjectScreenData.Goto(projectId),
+								new BugScreenData.Read(typeId));
+						EventBus.getInstance().fireEvent(
+								new ProjectEvent.GotoMyProject(this,
+										chain));
+					} else if (MonitorTypeConstants.PRJ_TASK
+							.equals(itemLogging.getType())) {
+						final PageActionChain chain = new PageActionChain(
+								new ProjectScreenData.Goto(projectId),
+								new TaskScreenData.Read(typeId));
+						EventBus.getInstance().fireEvent(
+								new ProjectEvent.GotoMyProject(this,
+										chain));
 					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
-								.getData();
-						if ("summary".equals(event.getFieldName())) {
-							final int typeId = itemLogging.getTypeid();
-							final int projectId = itemLogging.getProjectid();
-
-							if (MonitorTypeConstants.PRJ_BUG.equals(itemLogging
-									.getType())) {
-								final PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(projectId),
-										new BugScreenData.Read(typeId));
-								EventBus.getInstance().fireEvent(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
-							} else if (MonitorTypeConstants.PRJ_TASK
-									.equals(itemLogging.getType())) {
-								final PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(projectId),
-										new TaskScreenData.Read(typeId));
-								EventBus.getInstance().fireEvent(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
-							}
-						} else if ("projectName".equals(event.getFieldName())) {
-							final PageActionChain chain = new PageActionChain(
-									new ProjectScreenData.Goto(itemLogging
-											.getProjectid()));
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this, chain));
-						}
-					}
-				});
+				} else if ("projectName".equals(event.getFieldName())) {
+					final PageActionChain chain = new PageActionChain(
+							new ProjectScreenData.Goto(itemLogging
+									.getProjectid()));
+					EventBus.getInstance()
+					.fireEvent(
+							new ProjectEvent.GotoMyProject(
+									this, chain));
+				}
+			}
+		});
 		contentWrapper.addComponent(this.tableItem);
 	}
 
@@ -297,9 +296,9 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 				return new SimpleGridExportItemsStreamResource.AllItems<ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 						"Time Tracking Report", new RpParameterBuilder(
 								tableItem.getDisplayColumns()), exportType,
-						ApplicationContextUtil
+								ApplicationContextUtil
 								.getSpringBean(ItemTimeLoggingService.class),
-						searchCriteria, SimpleItemTimeLogging.class);
+								searchCriteria, SimpleItemTimeLogging.class);
 			}
 		};
 		StreamResource res = new StreamResource(streamSource,

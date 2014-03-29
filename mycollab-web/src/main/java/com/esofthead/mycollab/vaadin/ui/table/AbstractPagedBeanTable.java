@@ -141,10 +141,6 @@ extends VerticalLayout implements IPagedBeanTable<S, B> {
 		this.markAsDirty();
 	}
 
-	public void addTableStyleName(String stylename) {
-		tableItem.addStyleName(stylename);
-	}
-
 	private void displayTableColumns() {
 		List<String> visibleColumnsCol = new ArrayList<String>();
 		List<String> columnHeadersCol = new ArrayList<String>();
@@ -252,7 +248,7 @@ extends VerticalLayout implements IPagedBeanTable<S, B> {
 	public B getBeanByIndex(final Object itemId) {
 		final Container container = this.tableItem.getContainerDataSource();
 		final BeanItem<B> item = (BeanItem<B>) container.getItem(itemId);
-		return (item == null) ? null : item.getBean();
+		return item == null ? null : item.getBean();
 	}
 
 	@Override
