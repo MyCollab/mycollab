@@ -20,43 +20,64 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_prj_problem.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.problemname)
+             ${searchCriteria.problemname.operation} m_prj_problem.issuename LIKE '%${searchCriteria.problemname.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_problem.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.raisedByUser)
+            ${searchCriteria.raisedByUser.operation} m_prj_problem.raisedbyuser = @{searchCriteria.raisedByUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.assignToUser)
+            ${searchCriteria.assignToUser.operation} m_prj_problem.assigntouser = @{searchCriteria.assignToUser.value}
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
+        ]]>
+    </sql>
 
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_prj_problem.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.problemname != null">
-            ${searchCriteria.problemname.operation}
-            m_prj_problem.issuename LIKE
-            '%${searchCriteria.problemname.value}%'
-
-        </if>
-
-        <if test="searchCriteria.projectId != null">
-            ${searchCriteria.projectId.operation}
-            m_prj_problem.projectid =
-            #{searchCriteria.projectId.value,jdbcType=NUMERIC}
-
-        </if>
-
-        <if test="searchCriteria.raisedByUser != null">
-            ${searchCriteria.raisedByUser.operation}
-            m_prj_problem.raisedbyuser =
-            #{searchCriteria.raisedByUser.value}
-
-        </if>
-
-        <if test="searchCriteria.assignToUser != null">
-            ${searchCriteria.assignToUser.operation}
-            m_prj_problem.assigntouser =
-            #{searchCriteria.assignToUser.value}
-
-        </if>
+    <sql id="queryTotalCountSearchCriteria">
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_prj_problem.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.problemname)
+             ${searchCriteria.problemname.operation} m_prj_problem.issuename LIKE '%${searchCriteria.problemname.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_problem.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.raisedByUser)
+            ${searchCriteria.raisedByUser.operation} m_prj_problem.raisedbyuser = @{searchCriteria.raisedByUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.assignToUser)
+            ${searchCriteria.assignToUser.operation} m_prj_problem.assigntouser = @{searchCriteria.assignToUser.value}
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="selectProblem">
 
-<![CDATA[
+        <![CDATA[
           SELECT m_prj_problem.id, m_prj_problem.issuename, m_prj_problem.description, m_prj_problem.projectid, 
                  m_prj_problem.raisedbyuser, m_prj_problem.assigntouser, m_prj_problem.impact,
                  m_prj_problem.priority, m_prj_problem.status, m_prj_problem.dateraised, m_prj_problem.datedue, 
@@ -75,87 +96,73 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" parameterType="ProblemSearchCriteria"
-        resultType="int">
-        SELECT count(*) as totalCount FROM m_prj_problem
-
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
-    </select>
-
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_prj_problem.lastUpdatedTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+        ${_parameter.searchCriteria.orderByField}
+        ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_prj_problem.lastUpdatedTime DESC
     </sql>
 
+    <select id="getTotalCount" parameterType="ProblemSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_problem
+
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
+        #end
+    </select>
+
     <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
-        resultMap="ProblemResult">
+        resultMap="ProblemResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.selectProblem" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        <include refid="selectProblem" />
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
 
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        <include refid="querySearchCriteria" />
+        #end
+        #end
+        <include refid="orderStatement" />
     </select>
 
     <select id="findProblemById" parameterType="java.lang.Integer"
-        resultMap="ProblemResult">
-
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.selectProblem" />
-        WHERE m_prj_problem.id=#{problemId, jdbcType=NUMERIC}
-
+        resultMap="ProblemResult" lang="velocity">
+        <include refid="selectProblem" />
+        WHERE m_prj_problem.id=@{problemId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
+        lang="velocity">
         SELECT MIN(id) FROM m_prj_problem
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_problem
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <!-- Here for Mass Update -->
-    <update id="updateBySearchCriteria" parameterType="map">
+    <update id="updateBySearchCriteria" parameterType="map" lang="velocity">
         <include
             refid="com.esofthead.mycollab.module.project.dao.ProblemMapper.massUpdateWithSessionSql" />
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProblemMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+        #trimext("WHERE" "AND|OR")
+        <include refid="queryTotalCountSearchCriteria" />
+        #end
+        #end
     </update>
 </mapper>

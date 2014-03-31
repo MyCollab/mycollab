@@ -54,20 +54,20 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class AccountSearchPanel extends
-DefaultGenericSearchPanel<AccountSearchCriteria> {
+		DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-		AccountSearchCriteria.p_accountName,
-		AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
-		AccountSearchCriteria.p_numemployees,
-		AccountSearchCriteria.p_assignee,
-		AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
-		AccountSearchCriteria.p_assignee,
-		AccountSearchCriteria.p_billingCountry,
-		AccountSearchCriteria.p_shippingCountry,
-		AccountSearchCriteria.p_anyCity,
-		AccountSearchCriteria.p_createdtime,
-		AccountSearchCriteria.p_lastupdatedtime };
+			AccountSearchCriteria.p_accountName,
+			AccountSearchCriteria.p_anyPhone, AccountSearchCriteria.p_website,
+			AccountSearchCriteria.p_numemployees,
+			AccountSearchCriteria.p_assignee,
+			AccountSearchCriteria.p_industries, AccountSearchCriteria.p_types,
+			AccountSearchCriteria.p_assignee,
+			AccountSearchCriteria.p_billingCountry,
+			AccountSearchCriteria.p_shippingCountry,
+			AccountSearchCriteria.p_anyCity,
+			AccountSearchCriteria.p_createdtime,
+			AccountSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();
@@ -89,12 +89,12 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 		final Button createAccountBtn = new Button("Create Account",
 				new Button.ClickListener() {
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new AccountEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new AccountEvent.GotoAdd(this, null));
+					}
+				});
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
@@ -117,7 +117,7 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 	}
 
 	private class AccountAdvancedSearchLayout extends
-	DynamicQueryParamLayout<AccountSearchCriteria> {
+			DynamicQueryParamLayout<AccountSearchCriteria> {
 
 		public AccountAdvancedSearchLayout() {
 			super(AccountSearchPanel.this, CrmTypeConstants.ACCOUNT);
@@ -148,7 +148,7 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 	}
 
 	private class AccountBasicSearchLayout extends
-	BasicSearchLayout<AccountSearchCriteria> {
+			BasicSearchLayout<AccountSearchCriteria> {
 
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
@@ -172,7 +172,7 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 			this.myItemCheckbox = new CheckBox(
 					LocalizationHelper
-					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
@@ -206,12 +206,12 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 
 			final Button advancedSearchBtn = new Button(
 					LocalizationHelper
-					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AccountSearchPanel.this
-							.moveToAdvancedSearchLayout();
+									.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
@@ -231,8 +231,7 @@ DefaultGenericSearchPanel<AccountSearchCriteria> {
 			searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 					AppContext.getAccountId()));
 			searchCriteria.setAccountname(new StringSearchField(
-					SearchField.AND, this.nameField.getValue()
-					.trim()));
+					SearchField.AND, this.nameField.getValue().trim()));
 			if (this.myItemCheckbox.getValue()) {
 				searchCriteria.setAssignUser(new StringSearchField(
 						SearchField.AND, AppContext.getUsername()));

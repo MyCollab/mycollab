@@ -10,6 +10,8 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
  * 
  */
 public class TimeTableFieldDef {
+	public static TableViewField id = new TableViewField("", "id", 60);
+
 	public static TableViewField summary = new TableViewField("Summary",
 			"summary", UIConstants.TABLE_X_LABEL_WIDTH);
 

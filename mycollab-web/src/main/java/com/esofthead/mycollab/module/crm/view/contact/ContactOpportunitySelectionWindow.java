@@ -15,11 +15,12 @@ import com.vaadin.ui.Button;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @SuppressWarnings("serial")
 public class ContactOpportunitySelectionWindow
-extends
-RelatedItemSelectionWindow<SimpleOpportunity, OpportunitySearchCriteria> {
+		extends
+		RelatedItemSelectionWindow<SimpleOpportunity, OpportunitySearchCriteria> {
 
 	public ContactOpportunitySelectionWindow(
 			ContactOpportunityListComp associateOpportunityList) {
@@ -47,14 +48,14 @@ RelatedItemSelectionWindow<SimpleOpportunity, OpportunitySearchCriteria> {
 
 		OpportunitySimpleSearchPanel opportunitySimpleSearchPanel = new OpportunitySimpleSearchPanel();
 		opportunitySimpleSearchPanel
-		.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
+				.addSearchHandler(new SearchHandler<OpportunitySearchCriteria>() {
 
-			@Override
-			public void onSearch(OpportunitySearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
+					@Override
+					public void onSearch(OpportunitySearchCriteria criteria) {
+						tableItem.setSearchCriteria(criteria);
+					}
 
-		});
+				});
 
 		this.bodyContent.addComponent(opportunitySimpleSearchPanel);
 		this.bodyContent.addComponent(selectBtn);

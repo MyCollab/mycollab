@@ -21,7 +21,7 @@ import com.vaadin.ui.HorizontalLayout;
  * @param <S>
  */
 public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
-SearchLayout<S> {
+		SearchLayout<S> {
 	private static final long serialVersionUID = 1L;
 
 	protected String type;
@@ -46,11 +46,9 @@ SearchLayout<S> {
 		this.addComponent(footer, "advSearchFooter");
 	}
 
-
-
 	@Override
 	protected void addHeaderRight(Component c) {
-		if(this.header == null)
+		if (this.header == null)
 			return;
 
 		this.header.addComponent(c);
@@ -89,14 +87,14 @@ SearchLayout<S> {
 
 		final Button basicSearchBtn = new Button(
 				LocalizationHelper
-				.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+						.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						((DefaultGenericSearchPanel<S>) DynamicQueryParamLayout.this.searchPanel)
-						.moveToBasicSearchLayout();
+								.moveToBasicSearchLayout();
 					}
 				});
 		basicSearchBtn.setStyleName("link");

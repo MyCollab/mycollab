@@ -17,8 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Window;
 
 /**
  * Button link
@@ -46,22 +44,6 @@ public class ButtonLink extends Button {
 		this.setStyleName("link");
 		if (wordWrap)
 			this.addStyleName("wordWrap");
-
-		this.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = -5378702946766160005L;
-
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				Component parent = evt.getButton().getParent();
-				while (parent != null) {
-					if (parent instanceof Window) {
-						((Window) parent).close();
-						return;
-					}
-					parent = parent.getParent();
-				}
-			}
-		});
 	}
 
 	public ButtonLink(String caption, ClickListener listener) {

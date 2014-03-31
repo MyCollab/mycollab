@@ -18,8 +18,6 @@ package com.esofthead.mycollab.module.project.view;
 
 import java.util.GregorianCalendar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
@@ -101,8 +99,6 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 @ViewComponent
 public class ProjectViewImpl extends AbstractPageView implements ProjectView {
-
-	private static Logger log = LoggerFactory.getLogger(ProjectViewImpl.class);
 
 	private final ProjectVerticalTabsheet myProjectTab;
 	private final HorizontalLayout topPanel;
@@ -271,9 +267,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		timePresenter.go(ProjectViewImpl.this, data);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void gotoBugView(ScreenData data) {
+	public void gotoBugView(ScreenData<?> data) {
 		trackerPresenter.go(ProjectViewImpl.this, data);
 	}
 
@@ -365,10 +360,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				/*
-				 * if (controlsBtn.getPopupVisible())
-				 * controlsBtn.setPopupVisible(false); else
-				 */
 				controlsBtn.setPopupVisible(true);
 			}
 		});
@@ -531,7 +522,6 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 
 	@Override
 	public Component gotoSubView(String name) {
-		log.debug("Project: Go to tab view name " + name);
 		PageView component = (PageView) myProjectTab.selectTab(name);
 		return component;
 	}

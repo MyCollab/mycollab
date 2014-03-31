@@ -16,33 +16,21 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
+import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
-import com.esofthead.mycollab.module.tracker.domain.Component;
-import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
-import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
-import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
+import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
+import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
@@ -63,13 +51,21 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  * 
  */
-public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
+public class BugSearchPanel extends
+		DefaultGenericSearchPanel<BugSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
+
 	private final SimpleProject project;
 	protected BugSearchCriteria searchCriteria;
 	protected Label bugtitle;
 	private ComponentContainer rightComponent;
+
+	private static Param[] paramFields = new Param[] {
+			BugSearchCriteria.p_textDesc, BugSearchCriteria.p_resolveddate,
+			BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
+			BugSearchCriteria.p_lastupdatedtime };
+
 	public BugSearchPanel() {
 		this("Bugs");
 	}
@@ -77,32 +73,68 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 	public BugSearchPanel(final String title) {
 		this.project = CurrentProjectVariables.getProject();
 		this.bugtitle = new Label(title);
-		this.rightComponent = new HorizontalLayout();
 	}
-
-	@Override
-	public void attach() {
-		super.attach();
-		this.createBasicSearchLayout();
-	}
-
-	private void createBasicSearchLayout() {
-
-		this.setCompositionRoot(new BugBasicSearchLayout());
-	}
-
-	private void createAdvancedSearchLayout() {
-		final BugAdvancedSearchLayout layout = new BugAdvancedSearchLayout();
-		this.setCompositionRoot(layout);
-	}
-
 
 	public void setBugTitle(final String title) {
 		this.bugtitle.setValue(title);
 	}
 
-	@SuppressWarnings("rawtypes")
-	private class BugBasicSearchLayout extends BasicSearchLayout {
+	public void addRightComponent(ComponentContainer c) {
+		rightComponent.addComponent(c);
+	}
+
+	private ComponentContainer constructHeader() {
+		Image titleIcon = new Image(null,
+				MyCollabResource.newResource("icons/24/project/bug.png"));
+		Label headerText = new Label("Bug List");
+
+		final Button createBtn = new Button(
+				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new BugEvent.GotoAdd(this, null));
+					}
+				});
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		createBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
+		createBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.BUGS));
+
+		HorizontalLayout header = new HorizontalLayout();
+		headerText.setStyleName(UIConstants.HEADER_TEXT);
+
+		rightComponent = new HorizontalLayout();
+
+		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+		UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
+		UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
+		header.setExpandRatio(headerText, 1.0f);
+
+		header.setStyleName(UIConstants.HEADER_VIEW);
+		header.setWidth("100%");
+		header.setSpacing(true);
+		header.setMargin(new MarginInfo(true, false, true, false));
+		return header;
+	}
+
+	@Override
+	protected SearchLayout<BugSearchCriteria> createBasicSearchLayout() {
+		return new BugBasicSearchLayout();
+	}
+
+	@Override
+	protected SearchLayout<BugSearchCriteria> createAdvancedSearchLayout() {
+		return new BugAdvancedSearchLayout();
+	}
+
+	private class BugBasicSearchLayout extends
+			BasicSearchLayout<BugSearchCriteria> {
 
 		@SuppressWarnings("unchecked")
 		public BugBasicSearchLayout() {
@@ -113,15 +145,14 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
 
-
 		@SuppressWarnings("serial")
 		@Override
 		public ComponentContainer constructBody() {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
-
+			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
@@ -133,7 +164,8 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button("Search");
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
@@ -160,11 +192,11 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					BugSearchPanel.this.createAdvancedSearchLayout();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							BugSearchPanel.this.moveToAdvancedSearchLayout();
+						}
+					});
 			advancedSearchBtn.setStyleName("link");
 			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
@@ -173,412 +205,44 @@ public class BugSearchPanel extends GenericSearchPanel<BugSearchCriteria> {
 		}
 
 		@Override
-		protected SearchCriteria fillupSearchCriteria() {
+		protected BugSearchCriteria fillupSearchCriteria() {
 			BugSearchPanel.this.searchCriteria = new BugSearchCriteria();
 			BugSearchPanel.this.searchCriteria
-			.setProjectId(new NumberSearchField(SearchField.AND,
-					BugSearchPanel.this.project.getId()));
+					.setProjectId(new NumberSearchField(SearchField.AND,
+							BugSearchPanel.this.project.getId()));
 			BugSearchPanel.this.searchCriteria
-			.setSummary(new StringSearchField(this.nameField.getValue()
-					.toString().trim()));
+					.setSummary(new StringSearchField(this.nameField.getValue()
+							.toString().trim()));
 			return BugSearchPanel.this.searchCriteria;
 		}
 
 		@Override
 		public ComponentContainer constructHeader() {
-			Image titleIcon = new Image(null,
-					MyCollabResource.newResource("icons/24/project/bug.png"));
-			Label headerText = new Label("Bug List");
-
-			final Button createBtn = new Button(
-					LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoAdd(this, null));
-						}
-					});
-			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			createBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
-			createBtn.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.BUGS));
-
-			HorizontalLayout header = new HorizontalLayout();
-			headerText.setStyleName(UIConstants.HEADER_TEXT);
-
-			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
-			UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
-			header.setExpandRatio(headerText, 1.0f);
-
-			header.setStyleName(UIConstants.HEADER_VIEW);
-			header.setWidth("100%");
-			header.setSpacing(true);
-			header.setMargin(new MarginInfo(true, false, true, false));
-			return header;
+			return BugSearchPanel.this.constructHeader();
 		}
 	}
 
-	@SuppressWarnings({ "serial", "rawtypes" })
-	private class BugAdvancedSearchLayout extends AdvancedSearchLayout {
+	private class BugAdvancedSearchLayout extends
+			DynamicQueryParamLayout<BugSearchCriteria> {
+		private static final long serialVersionUID = 1L;
 
-		private TextField nameField;
-		private CheckBox summaryField;
-		private CheckBox descriptionField;
-
-		private BugStaticItemMultiSelectField priorityField;
-		private BugStaticItemMultiSelectField statusField;
-		private BugStaticItemMultiSelectField resolutionField;
-		private BugStaticItemMultiSelectField severityField;
-
-		private ComponentMultiSelectField componentField;
-		private VersionMultiSelectField affectedVersionField;
-		private VersionMultiSelectField fixedVersionField;
-
-		private DateSelectionField updateDateField;
-		private DateSelectionField dueDateField;
-		private DateSelectionField resolveDateField;
-
-		@SuppressWarnings("unchecked")
 		public BugAdvancedSearchLayout() {
-			super(BugSearchPanel.this);
+			super(BugSearchPanel.this, ProjectContants.BUG);
 		}
-
-
-		@Override
-		public ComponentContainer constructBody() {
-			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(2, 6,
-					"150px");
-
-			String nameFieldWidth = "400px";
-			String dateFieldWidth = "245px";
-			String componentFieldWidth = "225px";
-
-			gridLayout = new GridFormLayoutHelper(2, 6, "150px");
-
-			gridLayout.getLayout().setWidth("100%");
-			gridLayout.getLayout().setSpacing(true);
-
-			HorizontalLayout layoutCheckbox;
-
-			layoutCheckbox = (HorizontalLayout) gridLayout.addComponent(
-					new HorizontalLayout(), "Name", 0, 0, 2, "100%");
-			layoutCheckbox.setSpacing(false);
-
-			this.nameField = new TextField();
-			this.nameField.setWidth(nameFieldWidth);
-			this.summaryField = new CheckBox("Summary", true);
-			this.descriptionField = new CheckBox("Description", true);
-			layoutCheckbox.addComponent(this.nameField);
-			layoutCheckbox.setExpandRatio(this.nameField, 2.0f);
-			layoutCheckbox.addComponent(this.summaryField);
-			layoutCheckbox.setExpandRatio(this.summaryField, 1.0f);
-			layoutCheckbox.addComponent(this.descriptionField);
-			layoutCheckbox.setExpandRatio(this.descriptionField, 1.0f);
-
-			this.updateDateField = (DateSelectionField) gridLayout
-					.addComponent(new DateSelectionField(dateFieldWidth),
-							"Update Date", 0, 1);
-			this.updateDateField.setDateFormat(AppContext.getDateFormat());
-
-			this.dueDateField = (DateSelectionField) gridLayout.addComponent(
-					new DateSelectionField(dateFieldWidth), "Due Date", 0, 3);
-			this.dueDateField.setDateFormat(AppContext.getDateFormat());
-
-			this.resolveDateField = (DateSelectionField) gridLayout
-					.addComponent(new DateSelectionField(dateFieldWidth),
-							"Resolve Date", 0, 2);
-			this.resolveDateField.setDateFormat(AppContext.getDateFormat());
-
-			this.componentField = (ComponentMultiSelectField) gridLayout
-					.addComponent(new ComponentMultiSelectField(), "Component",
-							1, 2);
-			this.componentField.setWidth(componentFieldWidth);
-
-			this.affectedVersionField = (VersionMultiSelectField) gridLayout
-					.addComponent(new VersionMultiSelectField(),
-							"Affected Version", 1, 1);
-			this.affectedVersionField.setWidth(componentFieldWidth);
-
-			this.fixedVersionField = (VersionMultiSelectField) gridLayout
-					.addComponent(new VersionMultiSelectField(),
-							"Fixed Version", 1, 3);
-			fixedVersionField.setWidth(componentFieldWidth);
-
-			this.priorityField = (BugStaticItemMultiSelectField) gridLayout
-					.addComponent(new BugStaticItemMultiSelectField(
-							ProjectDataTypeFactory.getBugPriorityList()),
-							"Priority", 0, 4);
-
-			this.statusField = (BugStaticItemMultiSelectField) gridLayout
-					.addComponent(new BugStaticItemMultiSelectField(
-							ProjectDataTypeFactory.getBugStatusList()),
-							"Status", 1, 4);
-
-			this.resolutionField = (BugStaticItemMultiSelectField) gridLayout
-					.addComponent(new BugStaticItemMultiSelectField(
-							ProjectDataTypeFactory.getBugResolutionList()),
-							"Resolution", 0, 5);
-			this.severityField = (BugStaticItemMultiSelectField) gridLayout
-					.addComponent(new BugStaticItemMultiSelectField(
-							ProjectDataTypeFactory.getBugSeverityList()),
-							"Severity", 1, 5);
-
-			return gridLayout.getLayout();
-		}
-
-		@Override
-		public ComponentContainer constructFooter() {
-			final HorizontalLayout buttonControls = new HorizontalLayout();
-			buttonControls.setSpacing(true);
-
-			final Button searchBtn = new Button("Search",
-					new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					BugAdvancedSearchLayout.this.callSearchAction();
-				}
-			});
-
-			buttonControls.addComponent(searchBtn);
-			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-
-			final Button clearBtn = new Button("Clear",
-					new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					BugAdvancedSearchLayout.this.nameField.setValue("");
-					BugAdvancedSearchLayout.this.updateDateField
-					.setDefaultSelection();
-					BugAdvancedSearchLayout.this.resolveDateField
-					.setDefaultSelection();
-					BugAdvancedSearchLayout.this.dueDateField
-					.setDefaultSelection();
-					BugAdvancedSearchLayout.this.priorityField
-					.resetComp();
-					BugAdvancedSearchLayout.this.resolutionField
-					.resetComp();
-
-					BugAdvancedSearchLayout.this.affectedVersionField
-					.resetComp();
-					BugAdvancedSearchLayout.this.componentField
-					.resetComp();
-					BugAdvancedSearchLayout.this.fixedVersionField
-					.resetComp();
-					BugAdvancedSearchLayout.this.statusField
-					.resetComp();
-					BugAdvancedSearchLayout.this.severityField
-					.resetComp();
-					BugAdvancedSearchLayout.this.summaryField
-					.setValue(true);
-					BugAdvancedSearchLayout.this.descriptionField
-					.setValue(true);
-				}
-			});
-			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
-			buttonControls.addComponent(clearBtn);
-
-			final Button basicSearchBtn = new Button("Basic Search",
-					new Button.ClickListener() {
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					BugSearchPanel.this.createBasicSearchLayout();
-
-				}
-			});
-			basicSearchBtn.setStyleName("link");
-			UiUtils.addComponent(buttonControls, basicSearchBtn,
-					Alignment.MIDDLE_CENTER);
-			return buttonControls;
-		}
-
-		@Override
-		protected SearchCriteria fillupSearchCriteria() {
-			BugSearchPanel.this.searchCriteria = new BugSearchCriteria();
-			BugSearchPanel.this.searchCriteria
-			.setProjectId(new NumberSearchField(SearchField.AND,
-					BugSearchPanel.this.project.getId()));
-
-			if (StringUtils
-					.isNotNullOrEmpty(this.nameField.getValue())) {
-
-				if (this.summaryField.getValue() == true) {
-					BugSearchPanel.this.searchCriteria
-					.setSummary(new StringSearchField(SearchField.AND,
-							this.nameField.getValue().trim()));
-				}
-
-				if (this.descriptionField.getValue() == true) {
-					if (this.summaryField.getValue() == true) {
-						BugSearchPanel.this.searchCriteria
-						.setDescription(new StringSearchField(
-								SearchField.OR,
-								this.nameField.getValue()
-								.trim()));
-					} else {
-						BugSearchPanel.this.searchCriteria
-						.setDescription(new StringSearchField(
-								SearchField.AND,
-								this.nameField.getValue()
-								.trim()));
-					}
-				}
-			}
-
-			final SearchField updateDate = this.updateDateField.getValue();
-			if (updateDate != null && updateDate instanceof DateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setUpdatedDate((DateSearchField) updateDate);
-			} else if (updateDate != null
-					&& updateDate instanceof RangeDateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setUpdatedDateRange((RangeDateSearchField) updateDate);
-			}
-
-			final SearchField resolvedDate = this.resolveDateField.getValue();
-			if (resolvedDate != null
-					&& resolvedDate instanceof DateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setResolvedDate((DateSearchField) resolvedDate);
-			} else if (resolvedDate != null
-					&& resolvedDate instanceof RangeDateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setResolvedDateRange((RangeDateSearchField) resolvedDate);
-			}
-
-			final SearchField dueDate = this.dueDateField.getValue();
-			if (dueDate != null && dueDate instanceof DateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setDueDate((DateSearchField) dueDate);
-			} else if (dueDate != null
-					&& dueDate instanceof RangeDateSearchField) {
-				BugSearchPanel.this.searchCriteria
-				.setDueDateRange((RangeDateSearchField) dueDate);
-			}
-
-			final Collection<String> priorities = this.priorityField
-					.getSelectedItems();
-			if (priorities != null && priorities.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setPriorities(new SetSearchField<String>(
-						SearchField.AND, priorities));
-			}
-
-			final Collection<String> resolutions = this.resolutionField
-					.getSelectedItems();
-			if (resolutions != null && resolutions.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setResolutions(new SetSearchField<String>(
-						SearchField.AND, resolutions));
-			}
-
-			final Collection<String> statues = this.statusField
-					.getSelectedItems();
-			if (statues != null && statues.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setStatuses(new SetSearchField<String>(
-						SearchField.AND, statues));
-			}
-
-			final Collection<String> severities = this.severityField
-					.getSelectedItems();
-			if (severities != null && severities.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setSeverities(new SetSearchField<String>(
-						SearchField.AND, severities));
-			}
-
-			final Collection<Version> afftectVersions = this.affectedVersionField
-					.getSelectedItems();
-
-			final List<Integer> lstIdAfectedVersion = new ArrayList<Integer>();
-			for (final Version itemVersion : afftectVersions) {
-				lstIdAfectedVersion.add(itemVersion.getId());
-			}
-			if (lstIdAfectedVersion != null && lstIdAfectedVersion.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setVersionids(new SetSearchField<Integer>(
-						SearchField.AND, lstIdAfectedVersion));
-			}
-
-			final Collection<Version> fixedVersions = this.fixedVersionField
-					.getSelectedItems();
-
-			final List<Integer> lstIdFixedVersion = new ArrayList<Integer>();
-			for (final Version itemVersion : fixedVersions) {
-				lstIdFixedVersion.add(itemVersion.getId());
-			}
-			if (lstIdFixedVersion != null && lstIdFixedVersion.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setFixedversionids(new SetSearchField<Integer>(
-						SearchField.AND, lstIdFixedVersion));
-			}
-
-			final Collection<Component> components = this.componentField
-					.getSelectedItems();
-
-			final List<Integer> lstIdComponent = new ArrayList<Integer>();
-			for (final Component itemComp : components) {
-				lstIdFixedVersion.add(itemComp.getId());
-			}
-			if (lstIdComponent != null && lstIdComponent.size() > 0) {
-				BugSearchPanel.this.searchCriteria
-				.setComponentids(new SetSearchField<Integer>(
-						SearchField.AND, lstIdComponent));
-			}
-			return BugSearchPanel.this.searchCriteria;
-		}
-
 
 		@Override
 		public ComponentContainer constructHeader() {
-			Image titleIcon = new Image(null,
-					MyCollabResource.newResource("icons/24/project/bug.png"));
-			Label headerText = new Label("Bug List");
+			return BugSearchPanel.this.constructHeader();
+		}
 
-			final Button createBtn = new Button(
-					LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+		@Override
+		protected Class<BugSearchCriteria> getType() {
+			return BugSearchCriteria.class;
+		}
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoAdd(this, null));
-						}
-					});
-			createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			createBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
-			createBtn.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.BUGS));
-
-			HorizontalLayout header = new HorizontalLayout();
-			headerText.setStyleName("hdr-text");
-
-			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-			UiUtils.addComponent(header, createBtn, Alignment.MIDDLE_RIGHT);
-			UiUtils.addComponent(header, rightComponent, Alignment.MIDDLE_RIGHT);
-			header.setExpandRatio(headerText, 1.0f);
-
-			header.setStyleName("hdr-view");
-			header.setWidth("100%");
-			header.setSpacing(true);
-			header.setMargin(new MarginInfo(true, false, true, false));
-
-			return header;
+		@Override
+		public Param[] getParamFields() {
+			return paramFields;
 		}
 	}
-
-
-	public void addRightComponent(ComponentContainer c) {
-		rightComponent.addComponent(c);
-	}
-
 }

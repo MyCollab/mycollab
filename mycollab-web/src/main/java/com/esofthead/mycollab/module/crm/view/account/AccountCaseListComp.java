@@ -35,7 +35,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
+public class AccountCaseListComp extends
+		RelatedListComp2<CaseService, CaseSearchCriteria, SimpleCase> {
 	private static final long serialVersionUID = -8763667647686473453L;
 	private Account account;
 
@@ -56,17 +63,16 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 		createBtn.setCaption("New Case");
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		createBtn
-		.addClickListener(new Button.ClickListener() {
+		createBtn.addClickListener(new Button.ClickListener() {
 			@Override
-			public void buttonClick(
-					final Button.ClickEvent event) {
+			public void buttonClick(final Button.ClickEvent event) {
 				fireNewRelatedItem("");
 			}
 		});
 
 		controlsBtnWrap.addComponent(createBtn);
-		controlsBtnWrap.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
+		controlsBtnWrap
+				.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);
 		return controlsBtnWrap;
 	}
 
@@ -94,7 +100,8 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 		fireSelectedRelatedItems(selectedItems);
 	}
 
-	public class AccountCaseBlockDisplay implements BlockDisplayHandler<SimpleCase> {
+	public class AccountCaseBlockDisplay implements
+			BlockDisplayHandler<SimpleCase> {
 
 		@Override
 		public Component generateBlock(final SimpleCase oneCase, int blockIndex) {
@@ -107,15 +114,16 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image caseIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/case.png"));
+			Image caseIcon = new Image(null,
+					MyCollabResource.newResource("icons/48/crm/case.png"));
 			iconWrap.addComponent(caseIcon);
 			blockTop.addComponent(iconWrap);
 
 			VerticalLayout caseInfo = new VerticalLayout();
 			caseInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null, MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+			Image btnDelete = new Image(null,
+					MyCollabResource.newResource("icons/12/project/icon_x.png"));
 			btnDelete.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -126,26 +134,24 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 							LocalizationHelper.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
 								public void onClose(ConfirmDialog dialog) {
 									if (dialog.isConfirmed()) {
-										final CaseService contactService = ApplicationContextUtil
+										final CaseService caseService = ApplicationContextUtil
 												.getSpringBean(CaseService.class);
-										oneCase.setAccountid(null);
-										contactService
-										.updateWithSession(
-												oneCase,
-												AppContext
-												.getUsername());
+										caseService.removeWithSession(
+												oneCase.getId(),
+												AppContext.getUsername(),
+												AppContext.getAccountId());
 										AccountCaseListComp.this.refresh();
 									}
 								}
@@ -157,26 +163,36 @@ public class AccountCaseListComp extends RelatedListComp2<CaseService, CaseSearc
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label caseSubject = new Label("Subject: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()) 
-					+ CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.CASE, oneCase.getId()) 
-					+ "'>" + oneCase.getSubject() + "</a>", ContentMode.HTML);
+			Label caseSubject = new Label("Subject: <a href='"
+					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
+							.getSubdomain())
+					+ CrmLinkGenerator.generateCrmItemLink(
+							CrmTypeConstants.CASE, oneCase.getId()) + "'>"
+					+ oneCase.getSubject() + "</a>", ContentMode.HTML);
 
 			caseInfo.addComponent(caseSubject);
 
-			Label casePriority = new Label("Priority: " + (oneCase.getPriority() != null ? oneCase.getPriority() : ""));
+			Label casePriority = new Label("Priority: "
+					+ (oneCase.getPriority() != null ? oneCase.getPriority()
+							: ""));
 			caseInfo.addComponent(casePriority);
 
-			Label caseStatus = new Label("Status: " + (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
+			Label caseStatus = new Label("Status: "
+					+ (oneCase.getStatus() != null ? oneCase.getStatus() : ""));
 			caseInfo.addComponent(caseStatus);
 
-			Label caseAssignUser = new Label("Assigned User: " 
-					+ (oneCase.getAssignuser() != null ? 
-							"<a href='" + UserLinkUtils.generatePreviewFullUserLink(SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()), oneCase.getAssignuser()) 
-							+ "'>" + oneCase.getAssignUserFullName() + "</a>" 
-							: ""), ContentMode.HTML);
+			Label caseAssignUser = new Label("Assigned User: "
+					+ (oneCase.getAssignuser() != null ? "<a href='"
+							+ UserLinkUtils.generatePreviewFullUserLink(
+									SiteConfiguration.getSiteUrl(AppContext
+											.getSession().getSubdomain()),
+									oneCase.getAssignuser()) + "'>"
+							+ oneCase.getAssignUserFullName() + "</a>" : ""),
+					ContentMode.HTML);
 			caseInfo.addComponent(caseAssignUser);
 
-			Label caseCreatedTime = new Label("Created Time: " + AppContext.formatDate(oneCase.getCreatedtime()));
+			Label caseCreatedTime = new Label("Created Time: "
+					+ AppContext.formatDate(oneCase.getCreatedtime()));
 			caseInfo.addComponent(caseCreatedTime);
 
 			blockTop.addComponent(caseInfo);

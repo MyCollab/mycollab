@@ -16,10 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.BooleanSearchField;
+import java.util.Arrays;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
 
 /**
  * 
@@ -30,13 +35,41 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 public class RiskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
+	public static Param p_assignee = new PropertyListParam("risk-assignuser",
+			"Assignee", "m_prj_risk", "assigntouser");
+
+	public static Param p_raisedUser = new PropertyListParam("risk-raiseduser",
+			"Raised By", "m_prj_risk", "raisedbyuser");
+
+	public static Param p_duedate = new DateParam("risk-duedate", "Due Date",
+			"m_prj_risk", "datedue");
+
+	public static Param p_raiseddate = new DateParam("risk-raiseddate",
+			"Raised Date", "m_prj_risk", "dateraised");
+
+	public static Param p_status = new StringListParam("risk-status", "Status",
+			"m_prj_risk", "status", Arrays.asList("Open", "Closed"));
+
+	public static Param p_probalitity = new StringListParam("risk-probalitity",
+			"Probability", "m_prj_risk", "probalitity", Arrays.asList(
+					"Certain", "Likely", "Possible", "Unlikely", "Rare"));
+
+	public static Param p_consequence = new StringListParam("risk-consequence",
+			"Consequence", "m_prj_risk", "consequence", Arrays.asList(
+					"Catastrophic", "Critical", "Marginal", "Negligible"));
+
+	public static Param p_createdtime = new DateParam("risk-createdtime",
+			"Created Time", "m_prj_risk", "createdTime");
+
+	public static Param p_lastupdatedtime = new DateParam(
+			"risk-lastupdatedtime", "Last Updated Time", "m_prj_risk",
+			"lastUpdatedTime");
+
 	private StringSearchField riskname;
 
 	private StringSearchField raisedByUser;
 
 	private StringSearchField assignToUser;
-
-	private BooleanSearchField isCompleted;
 
 	private NumberSearchField projectId;
 
@@ -72,14 +105,6 @@ public class RiskSearchCriteria extends SearchCriteria {
 
 	public void setAssignToUser(StringSearchField assignToUser) {
 		this.assignToUser = assignToUser;
-	}
-
-	public BooleanSearchField getIsCompleted() {
-		return isCompleted;
-	}
-
-	public void setIsCompleted(BooleanSearchField isCompleted) {
-		this.isCompleted = isCompleted;
 	}
 
 	public void setId(NumberSearchField id) {

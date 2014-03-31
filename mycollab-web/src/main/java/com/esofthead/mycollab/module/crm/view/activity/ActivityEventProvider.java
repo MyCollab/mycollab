@@ -32,9 +32,9 @@ import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.addon.calendar.event.BasicEvent;
-import com.vaadin.addon.calendar.event.CalendarEvent;
-import com.vaadin.addon.calendar.event.CalendarEventProvider;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
+import com.vaadin.ui.components.calendar.event.CalendarEvent;
+import com.vaadin.ui.components.calendar.event.CalendarEventProvider;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class ActivityEventProvider implements CalendarEventProvider {
 				DateTimeSearchField.LESSTHANEQUAL, endDate));
 
 		log.debug("Get events from: " + startDate + " to " + endDate);
-		List<SimpleMeeting> crmEvents = (List<SimpleMeeting>) meetingService
+		List<SimpleMeeting> crmEvents = meetingService
 				.findPagableListByCriteria(new SearchRequest<MeetingSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		log.debug("There are " + crmEvents.size() + " events from " + startDate
@@ -117,16 +117,16 @@ public class ActivityEventProvider implements CalendarEventProvider {
 					statusStr.append("</span>");
 					String crmEventDes = (crmEvent.getDescription() != null) ? crmEvent
 							.getDescription() : "";
-					String desTooltip = String
-							.format("<h3>%s</h3><table style=\"padding-left:10px; width:350px; color: #5a5a5a;\"<tr><td style=\"font-weight:bold; width:70px;\">Start Date:</td><td>%s</td></tr><td style=\"font-weight:bold; width:70px;\">End Date: </td><td>%s</td><tr><tr><td style=\"font-weight:bold; width:70px;\">Status:</td><td>%s</td></tr><tr><td style=\"text-align: right; vertical-align: top; font-weight:bold; width:70px;\">Description:</td><td style=\"word-wrap: break-word; white-space: normal; word-break: break-all;\">%s</td></tr></table>",
-									crmEvent.getSubject(), AppContext
+							String desTooltip = String
+									.format("<h3>%s</h3><table style=\"padding-left:10px; width:350px; color: #5a5a5a;\"<tr><td style=\"font-weight:bold; width:70px;\">Start Date:</td><td>%s</td></tr><td style=\"font-weight:bold; width:70px;\">End Date: </td><td>%s</td><tr><tr><td style=\"font-weight:bold; width:70px;\">Status:</td><td>%s</td></tr><tr><td style=\"text-align: right; vertical-align: top; font-weight:bold; width:70px;\">Description:</td><td style=\"word-wrap: break-word; white-space: normal; word-break: break-all;\">%s</td></tr></table>",
+											crmEvent.getSubject(), AppContext
 											.formatDateTime(crmEvent
 													.getStartdate()),
-									AppContext.formatDateTime(crmEvent
-											.getEnddate()), statusStr
-											.toString(), crmEventDes);
-					event.setDescription(desTooltip);
-					events.add(event);
+													AppContext.formatDateTime(crmEvent
+															.getEnddate()), statusStr
+															.toString(), crmEventDes);
+							event.setDescription(desTooltip);
+							events.add(event);
 				}
 			}
 		}
@@ -137,42 +137,44 @@ public class ActivityEventProvider implements CalendarEventProvider {
 	private void filterListEventRecurringActivity(
 			final List<SimpleMeeting> crmEvents, Date eventStartDate,
 			Date eventEndDate) {
-//		for (SimpleMeeting meeting : crmEvents) {
-//			if (meeting.getIsrecurrence()) {
-//				// TODO:Revise this implementation
-//				if (meeting.getRecurrencetype() != null) {
-//					if (meeting.getRecurrencetype().equals("DailyEvent")) {
-//						DailyEvent dailyEvent = JsonDeSerializer.fromJson(
-//								meeting.getRecurrenceinfo(), DailyEvent.class);
-//					} else if (meeting.getRecurrencetype()
-//							.equals("WeeklyEvent")) {
-//						WeeklyEvent weeklyEvent = JsonDeSerializer.fromJson(
-//								meeting.getRecurrenceinfo(), WeeklyEvent.class);
-//					} else if (meeting.getRecurrencetype().equals(
-//							"MonthlyEventFollowDay")) {
-//						MonthlyEventFollowDay monthEventFollowDay = JsonDeSerializer
-//								.fromJson(meeting.getRecurrenceinfo(),
-//										MonthlyEventFollowDay.class);
-//					} else if (meeting.getRecurrencetype().equals(
-//							"MonthlyEventFollowKindDay")) {
-//						MonthlyEventFollowKindDay monthEventFollowKindDay = JsonDeSerializer
-//								.fromJson(meeting.getRecurrenceinfo(),
-//										MonthlyEventFollowKindDay.class);
-//					} else if (meeting.getRecurrencetype().equals(
-//							"YearlyEventFollowEveryMonth")) {
-//						YearlyEventFollowEveryMonth yearlyEventFollowEveryMonth = JsonDeSerializer
-//								.fromJson(meeting.getRecurrenceinfo(),
-//										YearlyEventFollowEveryMonth.class);
-//					} else if (meeting.getRecurrencetype().equals(
-//							"YearlyEventFollowAdvanceSettingMonth")) {
-//						YearlyEventFollowAdvanceSettingMonth yearlyEventFollowAdvanceSettingMonth = JsonDeSerializer
-//								.fromJson(
-//										meeting.getRecurrenceinfo(),
-//										YearlyEventFollowAdvanceSettingMonth.class);
-//					}
-//				}
-//			}
-//		}
+		// for (SimpleMeeting meeting : crmEvents) {
+		// if (meeting.getIsrecurrence()) {
+		// // TODO:Revise this implementation
+		// if (meeting.getRecurrencetype() != null) {
+		// if (meeting.getRecurrencetype().equals("DailyEvent")) {
+		// DailyEvent dailyEvent = JsonDeSerializer.fromJson(
+		// meeting.getRecurrenceinfo(), DailyEvent.class);
+		// } else if (meeting.getRecurrencetype()
+		// .equals("WeeklyEvent")) {
+		// WeeklyEvent weeklyEvent = JsonDeSerializer.fromJson(
+		// meeting.getRecurrenceinfo(), WeeklyEvent.class);
+		// } else if (meeting.getRecurrencetype().equals(
+		// "MonthlyEventFollowDay")) {
+		// MonthlyEventFollowDay monthEventFollowDay = JsonDeSerializer
+		// .fromJson(meeting.getRecurrenceinfo(),
+		// MonthlyEventFollowDay.class);
+		// } else if (meeting.getRecurrencetype().equals(
+		// "MonthlyEventFollowKindDay")) {
+		// MonthlyEventFollowKindDay monthEventFollowKindDay = JsonDeSerializer
+		// .fromJson(meeting.getRecurrenceinfo(),
+		// MonthlyEventFollowKindDay.class);
+		// } else if (meeting.getRecurrencetype().equals(
+		// "YearlyEventFollowEveryMonth")) {
+		// YearlyEventFollowEveryMonth yearlyEventFollowEveryMonth =
+		// JsonDeSerializer
+		// .fromJson(meeting.getRecurrenceinfo(),
+		// YearlyEventFollowEveryMonth.class);
+		// } else if (meeting.getRecurrencetype().equals(
+		// "YearlyEventFollowAdvanceSettingMonth")) {
+		// YearlyEventFollowAdvanceSettingMonth
+		// yearlyEventFollowAdvanceSettingMonth = JsonDeSerializer
+		// .fromJson(
+		// meeting.getRecurrenceinfo(),
+		// YearlyEventFollowAdvanceSettingMonth.class);
+		// }
+		// }
+		// }
+		// }
 	}
 
 	public static class CrmEvent extends BasicEvent {

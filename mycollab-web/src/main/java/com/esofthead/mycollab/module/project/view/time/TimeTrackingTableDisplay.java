@@ -20,6 +20,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.view.account.AccountTableDisplay;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
@@ -33,8 +35,10 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -82,7 +86,7 @@ public class TimeTrackingTableDisplay
 
 				ButtonLink timeTrackingLink = null;
 				if (itemLogging.getType() == null) {
-					return new Label(itemLogging.getNote());
+					return new Label(itemLogging.getNote(), ContentMode.HTML);
 				}
 
 				if (itemLogging.getType().equals(MonitorTypeConstants.PRJ_BUG)) {
@@ -217,7 +221,53 @@ public class TimeTrackingTableDisplay
 			}
 		});
 
+		this.addGeneratedColumn("id", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(Table source, Object itemId,
+					Object columnId) {
+				final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
+						.getBeanByIndex(itemId);
+
+				HorizontalLayout layout = new HorizontalLayout();
+				layout.setSpacing(true);
+				Button editBtn = new Button("", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						fireTableEvent(new TableClickEvent(
+								TimeTrackingTableDisplay.this, itemLogging,
+								"edit"));
+
+					}
+				});
+				editBtn.setStyleName("link");
+				editBtn.setIcon(MyCollabResource
+						.newResource("icons/16/edit.png"));
+				layout.addComponent(editBtn);
+
+				Button deleteBtn = new Button("", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						fireTableEvent(new TableClickEvent(
+								TimeTrackingTableDisplay.this, itemLogging,
+								"delete"));
+
+					}
+				});
+				deleteBtn.setStyleName("link");
+				deleteBtn.setIcon(MyCollabResource
+						.newResource("icons/16/delete.png"));
+				layout.addComponent(deleteBtn);
+				return layout;
+			}
+
+		});
+
 		this.setWidth("100%");
 	}
-
 }

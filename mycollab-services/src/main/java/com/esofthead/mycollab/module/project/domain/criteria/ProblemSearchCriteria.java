@@ -16,9 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
+import java.util.Arrays;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
 
 /**
  * 
@@ -28,6 +34,26 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
  */
 public class ProblemSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
+
+	public static Param p_assignee = new PropertyListParam(
+			"problem-assignuser", "Assignee", "m_prj_problem", "assigntouser");
+
+	public static Param p_raisedUser = new PropertyListParam(
+			"problem-raiseduser", "Raised By", "m_prj_problem", "raisedbyuser");
+
+	public static Param p_status = new StringListParam("problem-status",
+			"Status", "m_prj_problem", "status",
+			Arrays.asList("Open", "Closed"));
+
+	public static Param p_priority = new StringListParam("problem-priority",
+			"Priority", "m_prj_problem", "priority", Arrays.asList("High",
+					"Medium", "Low"));
+
+	public static Param p_duedate = new DateParam("problem-duedate",
+			"Due Date", "m_prj_problem", "datedue");
+
+	public static Param p_raiseddate = new DateParam("problem-raiseddate",
+			"Raised Date", "m_prj_problem", "dateraised");
 
 	private StringSearchField problemname;
 	private NumberSearchField projectId;

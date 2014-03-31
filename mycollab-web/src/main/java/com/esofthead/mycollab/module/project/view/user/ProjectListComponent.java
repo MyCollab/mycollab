@@ -114,13 +114,15 @@ public class ProjectListComponent extends VerticalLayout {
 				btnWrap.setWidth("100%");
 				btnWrap.setMargin(true);
 
+				final MyProjectListWindow projectListWindow = new MyProjectListWindow();
+
 				Button showMoreBtn = new Button("More...", new Button.ClickListener() {
 					private static final long serialVersionUID = -2178412846807704534L;
 
 					@Override
 					public void buttonClick(ClickEvent event) {
 						headerLayout.setPopupVisible(false);
-						UI.getCurrent().addWindow(new MyProjectListWindow());
+						UI.getCurrent().addWindow(projectListWindow);
 					}
 				});
 				showMoreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
