@@ -257,9 +257,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		taskPresenter.go(ProjectViewImpl.this, data);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	public void gotoRiskView(ScreenData data) {
+	public void gotoRiskView(ScreenData<?> data) {
 		riskPresenter.go(ProjectViewImpl.this, data);
 	}
 

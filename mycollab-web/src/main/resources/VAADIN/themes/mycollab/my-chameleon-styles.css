@@ -91,13 +91,13 @@ body.v-ie7 .v-menubar-submenu,
 	}
 
 /* Base background color */
-.v-button:active,
+/*.v-button:active,
 .v-ie .v-button.v-pressed,
 div.v-button-down,
 .v-slider .v-slider-handle-active {
 	background-color: rgb(82,104,75);
 	border-color: rgb(55,66,51);
-	}
+}*/
 
 div.v-button-down:active {
 	background-color: rgb(67,83,62);
@@ -433,13 +433,13 @@ body.v-ie7 .v-menubar-submenu,
 	}
 
 /* Base background color */
-.v-button:active,
+/*.v-button:active,
 .v-ie .v-button.v-pressed,
 div.v-button-down,
 .v-slider .v-slider-handle-active {
 	background-color: rgb(161,161,161);
 	border-color: rgb(103,103,103);
-	}
+	}*/
 
 div.v-button-down:active {
 	background-color: rgb(129,129,129);
@@ -450,8 +450,6 @@ div.v-button-down:active {
 	}
 
 /* Base border color */
-.v-button:active .v-button-wrap,
-.v-ie .v-button.v-pressed .v-button-wrap,
 .v-button-down .v-button-wrap,
 .v-datefield-calendarpanel-header td,
 .v-slider-base,

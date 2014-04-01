@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -32,7 +33,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class ProjectListComponent extends VerticalLayout {
 	private static final long serialVersionUID = 6930971885172125913L;
 
@@ -58,7 +64,8 @@ public class ProjectListComponent extends VerticalLayout {
 		componentHeader = new Label();
 		componentHeader.setStyleName("h2");
 
-		headerLayout.setIcon(MyCollabResource.newResource("icons/project_dropdown.png"));
+		headerLayout.setIcon(MyCollabResource
+				.newResource("icons/project_dropdown.png"));
 		addComponent(headerLayout);
 
 		contentLayout = new VerticalLayout();
@@ -68,7 +75,7 @@ public class ProjectListComponent extends VerticalLayout {
 		projectList = new ProjectPagedList();
 		headerLayout.setContent(projectList);
 
-		projectDesc = new Label();
+		projectDesc = new Label("", ContentMode.HTML);
 		projectDesc.setStyleName("project-description");
 		addComponent(projectDesc);
 	}
@@ -83,12 +90,14 @@ public class ProjectListComponent extends VerticalLayout {
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
 				new String[] { ProjectStatusConstants.OPEN }));
 		this.projectList.setSearchCriteria(searchCriteria);
-		this.headerLayout.setCaption(CurrentProjectVariables.getProject().getName());
-		this.projectDesc.setValue(CurrentProjectVariables.getProject().getDescription());
+		this.headerLayout.setCaption(CurrentProjectVariables.getProject()
+				.getName());
+		this.projectDesc.setValue(CurrentProjectVariables.getProject()
+				.getDescription());
 	}
 
 	private class ProjectPagedList extends
-	BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
+			BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
 		protected ProjectSearchCriteria currentCriteria;
 
@@ -101,7 +110,8 @@ public class ProjectListComponent extends VerticalLayout {
 		@Override
 		public int setSearchCriteria(ProjectSearchCriteria searchCriteria) {
 			currentCriteria = searchCriteria;
-			SearchRequest<ProjectSearchCriteria> searchRequest = new SearchRequest<ProjectSearchCriteria>(searchCriteria, 0, 3);
+			SearchRequest<ProjectSearchCriteria> searchRequest = new SearchRequest<ProjectSearchCriteria>(
+					searchCriteria, 0, 3);
 			return setSearchRequest(searchRequest);
 		}
 
@@ -116,25 +126,26 @@ public class ProjectListComponent extends VerticalLayout {
 
 				final MyProjectListWindow projectListWindow = new MyProjectListWindow();
 
-				Button showMoreBtn = new Button("More...", new Button.ClickListener() {
-					private static final long serialVersionUID = -2178412846807704534L;
+				Button showMoreBtn = new Button("More...",
+						new Button.ClickListener() {
+							private static final long serialVersionUID = -2178412846807704534L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						headerLayout.setPopupVisible(false);
-						UI.getCurrent().addWindow(projectListWindow);
-					}
-				});
+							@Override
+							public void buttonClick(ClickEvent event) {
+								headerLayout.setPopupVisible(false);
+								UI.getCurrent().addWindow(projectListWindow);
+							}
+						});
 				showMoreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				showMoreBtn.setWidth("100%");
 				btnWrap.addComponent(showMoreBtn);
 				getContentLayout().addComponent(btnWrap);
 			}
 		}
-	}	
+	}
 
 	public static class ProjectRowDisplayHandler implements
-	BeanList.RowDisplayHandler<SimpleProject> {
+			BeanList.RowDisplayHandler<SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -151,7 +162,7 @@ public class ProjectListComponent extends VerticalLayout {
 			Label prjName = new Label(obj.getName());
 			layout.addComponent(prjName);
 
-			layout.addLayoutClickListener(new LayoutClickListener() {				
+			layout.addLayoutClickListener(new LayoutClickListener() {
 				private static final long serialVersionUID = -329135249853828402L;
 
 				@Override
@@ -159,8 +170,8 @@ public class ProjectListComponent extends VerticalLayout {
 					EventBus.getInstance().fireEvent(
 							new ProjectEvent.GotoMyProject(this,
 									new PageActionChain(
-											new ProjectScreenData.Goto(
-													obj.getId()))));
+											new ProjectScreenData.Goto(obj
+													.getId()))));
 				}
 			});
 

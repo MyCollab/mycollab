@@ -46,6 +46,9 @@ public class FileStorageConfiguration implements StorageConfiguration {
 
 	@Override
 	public String generateAvatarPath(String userAvatarId, int size) {
+		if (userAvatarId == null || "".equals(userAvatarId)) {
+			return SiteConfiguration.getSiteUrl("app") + "avatar/null/" + size;
+		}
 		return SiteConfiguration.getSiteUrl("app") + "avatar/" + userAvatarId
 				+ "/" + size;
 	}

@@ -54,17 +54,18 @@ ReloadableComponent {
 		setSpacing(true);
 		this.type = type;
 		this.setStyleName("comment-display");
-
+		if (isDisplayCommentInput) {
+			commentBox = new ProjectCommentInput(this, type, extraTypeId, false, isSendingRelayEmail, emailHandler);
+			this.addComponent(commentBox);
+		}
+		
 		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
 		this.addComponent(commentList);
 
-		if (isDisplayCommentInput) {
-			commentBox = new ProjectCommentInput(this, type, extraTypeId, false, isSendingRelayEmail, emailHandler);
-			this.addComponent(commentBox);
-		}
+		
 
 		displayCommentList();
 	}

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.configuration.S3AssetsResource;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -65,7 +66,7 @@ public abstract class MyCollabResource {
 
 		@Override
 		protected String generateResourceLink(String resourceId) {
-			return String.format(S3_ASSETS, resourceId);
+			return S3AssetsResource.generateResourceLink(resourceId);
 		}
 
 	}

@@ -36,8 +36,7 @@ public class StringUtils {
 	 * @param withEllipsis
 	 * @return
 	 */
-	public static String trim(String input, int length,
-			boolean withEllipsis) {
+	public static String trim(String input, int length, boolean withEllipsis) {
 		if (input == null) {
 			return "";
 		}
@@ -118,6 +117,15 @@ public class StringUtils {
 				str = str.substring(0, 200);
 			}
 			return str;
+		}
+	}
+
+	public static String extractNameFromEmail(String value) {
+		int index = (value != null) ? value.indexOf("@") : 0;
+		if (index > 0) {
+			return value.substring(0, index);
+		} else {
+			return value;
 		}
 	}
 }

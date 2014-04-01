@@ -23,7 +23,7 @@ public class SimpleActivityStream extends ActivityStream {
 	private static final long serialVersionUID = 1L;
 
 	private String createdUserAvatarId;
-    private String createdUserFullName;
+	private String createdUserFullName;
 	private List<SimpleComment> comments;
 	private SimpleAuditLog assoAuditLog;
 
@@ -44,6 +44,14 @@ public class SimpleActivityStream extends ActivityStream {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			String displayName = getCreateduser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return createdUserFullName;
 	}
 

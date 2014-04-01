@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
@@ -72,9 +73,14 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				assigneeLayout.setSpacing(true);
 				assigneeLayout.setWidth("100%");
 
-				final String assignUser = item.getGroupid();
-				final String assignUserFullName = (item.getGroupid() == null) ? "Undefined"
+				String assignUser = item.getGroupid();
+				String assignUserFullName = (item.getGroupid() == null) ? "Undefined"
 						: item.getGroupname();
+				if (assignUserFullName == null
+						|| "".equals(assignUserFullName.trim())) {
+					assignUserFullName = StringUtils
+							.extractNameFromEmail(assignUser);
+				}
 				final BugAssigneeLink userLbl = new BugAssigneeLink(assignUser,
 						item.getExtraValue(), assignUserFullName);
 				assigneeLayout.addComponent(userLbl);

@@ -22,6 +22,7 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -68,9 +69,15 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 				assigneeLayout.setSpacing(true);
 				assigneeLayout.setWidth("100%");
 
-				final String assignUser = item.getGroupid();
-				final String assignUserFullName = (item.getGroupid() == null) ? "Undefnined"
+				String assignUser = item.getGroupid();
+				String assignUserFullName = (item.getGroupid() == null) ? "Undefnined"
 						: item.getGroupname();
+				if (assignUserFullName == null
+						|| "".equals(assignUserFullName.trim())) {
+					assignUserFullName = StringUtils
+							.extractNameFromEmail(assignUser);
+				}
+
 				final BugAssigneeButton userLbl = new BugAssigneeButton(
 						assignUser, item.getExtraValue(), assignUserFullName);
 				assigneeLayout.addComponent(userLbl);

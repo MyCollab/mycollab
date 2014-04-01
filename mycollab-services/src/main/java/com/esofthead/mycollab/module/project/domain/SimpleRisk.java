@@ -30,6 +30,14 @@ public class SimpleRisk extends Risk {
 	private String assignedToUserFullName;
 
 	public String getRaisedByUserFullName() {
+		if (raisedByUserFullName == null
+				|| raisedByUserFullName.trim().equals("")) {
+			String displayName = getRaisedbyuser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return raisedByUserFullName;
 	}
 
@@ -38,6 +46,14 @@ public class SimpleRisk extends Risk {
 	}
 
 	public String getAssignedToUserFullName() {
+		if (assignedToUserFullName == null
+				|| assignedToUserFullName.trim().equals("")) {
+			String displayName = getAssigntouser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignedToUserFullName;
 	}
 

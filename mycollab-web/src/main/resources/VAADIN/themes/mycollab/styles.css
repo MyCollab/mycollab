@@ -127,7 +127,7 @@ div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .
 	margin: 0px;
 }
 .v-button.v-button-link:active .v-button-wrap, .v-button.v-button-link:focus .v-button-wrap {
-	padding: 1px;
+	/*padding: 1px;*/
 }
 
 .v-textarea {
@@ -292,9 +292,11 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	margin: 0px;
 }
 
-.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap, .v-ie  .v-pressed.v-button .v-button-wrap {
-	border:none;
-	border-top:1px solid transparent;
+.v-ie .v-button-wrap,.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap,
+.v-ie  .v-pressed.v-button .v-button-wrap {
+	border-left:none;
+	border-right:none;
+	border-bottom:none;
 	padding: 6px 15px;
 	margin: 0px;
 	/* background-color: #F9F9F9; */
@@ -302,22 +304,43 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	background-image:none;
 }
 
-.small-padding .v-button-wrap, .small-padding:active .v-button-wrap,
-.splitbutton .small-padding.v-parent .v-button-wrap
+.v-ie .v-button-wrap,.v-button-wrap, .v-disabled:active .v-button-wrap, .v-button:active .v-button-wrap
+{
+	border-top:1px solid transparent;
+}
 
+.v-button-link .v-button-wrap {
+	border:0;
+}
+
+.small-padding .v-button-wrap, .small-padding:active .v-button-wrap,
+.splitbutton .small-padding.v-parent .v-button-wrap, 
+.v-ie .small-padding .v-button-wrap,.v-ie .small-padding:active .v-button-wrap,
+.v-ie .small-padding .v-button:active .v-button-wrap,
+.v-ie .splitbutton .small-padding.v-parent .v-button-wrap, 
+.v-ie .splitbutton .parent-button.small-padding .v-button-wrap,
+.v-ie .v-pressed.v-button.small-padding .v-button-wrap, 
+.v-ie .small-padding .v-pressed.v-button .v-button-wrap,
+.v-ie .small-padding .v-popupbutton .v-button-wrap
 {
 		padding: 4px 6px;
 }
-.splitbutton .small-padding.v-popupbutton .v-button-wrap, .splitbutton .small-padding.v-popupbutton:active .v-button-wrap {
-	padding: 4px 2px;}
-.small-padding .v-spacing {
-	/* width: 4px; */
-}
-.small-padding .v-icon {
+.splitbutton .small-padding.v-popupbutton .v-button-wrap, .splitbutton .small-padding.v-popupbutton:active .v-button-wrap,
+.v-ie .splitbutton .small-padding.v-popupbutton .v-button-wrap,.v-ie .splitbutton .small-padding.v-popupbutton:active .v-button-wrap,
+.v-ie  .splitbutton .v-pressed.small-padding.v-popupbutton .v-button-wrap  {
+	padding: 4px 2px;
+	}
+
+.small-padding .v-icon, 
+.v-ie .small-padding .v-icon,{
 	margin-right: 3px;
 }
 
-.v-popupbutton .v-button-wrap, .v-popupbutton:active .v-button-wrap {
+.v-ie .v-popupbutton .v-button-wrap, 
+.v-ie .v-popupbutton:active .v-button-wrap, 
+.v-ie .v-popupbutton:focus .v-button-wrap, 
+.v-popupbutton .v-button-wrap, 
+.v-popupbutton:active .v-button-wrap  {
 	padding:6px 8px;
 }
 
@@ -336,7 +359,9 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	background-image:none;
 	padding:0;
 }
-
+.v-ie .v-button, .v-ie .v-button:active, .v-ie .v-button:focus {
+	background-image:none;
+}
 .v-button.v-button-blankbtn, .v-button-blankbtn:focus {
 	background-color: #FAFAFA;
 	font-weight:normal;
@@ -465,6 +490,13 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	border-top-color: #2E5788;
 }
 
+.v-ie .v-button.v-button-transparentbtn .v-button-wrap,
+.v-ie .v-button.v-button-transparentbtn:focus .v-button-wrap,
+.v-ie .v-button.v-button-transparentbtn:active .v-button-wrap
+{
+	padding:0;
+}
+
 .v-button.v-button-transparentbtn, .v-button-transparentbtn:focus  {
 	background-color: transparent;
 	color:white;
@@ -563,7 +595,8 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .splitbutton .parent-button.blankbtn .v-button-wrap {
 	border-right-color: #B3B3B3;
 }
-.splitbutton .parent-button .v-button-wrap {
+.splitbutton .parent-button .v-button-wrap,
+.v-ie .splitbutton .parent-button .v-button-wrap {
 	border-right:1px solid #F9F9F9;
 	padding-right:6px;
 	padding-left: 8px;
@@ -576,7 +609,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .splitbutton .v-popupbutton:active {
 	padding:0;
 }
-.splitbutton .v-popupbutton .v-button-wrap {
+.splitbutton .v-popupbutton .v-button-wrap, .v-ie .splitbutton .v-popupbutton .v-button-wrap {
 	padding-left:3px;
 	padding-right:3px;
 }
@@ -700,7 +733,9 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 	width: 100%;
 	display: table-row;
 }
-
+.message .user-name.v-button-link.v-button-wordWrap .v-button-wrap {
+	display:inline-block;
+}
 .v-button-link.v-button-wordWrap .v-button-caption {
 	display: table-cell;
 	white-space: normal;
@@ -1581,6 +1616,7 @@ input.v-textfield-errorField {
 
 .accountViewContainer .sidebar-menu {
 	background: none;
+	padding-top: 20px;
 }
 
 .accountViewContainer .v-horizontallayout-menuContent>div>div:first-child+div
@@ -3081,6 +3117,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 
 .message .user-name .v-button-caption {
 	text-align: center;
+	display:inline-block;
 }
 
 .comment-list-wrapper.v-margin-left {
@@ -3146,7 +3183,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 }
 
 .message .user-name {
-	text-align: center;
+	text-align: center !important;
 	color: #0061ac;
 }
 
@@ -3174,7 +3211,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 }
 
 .message-header .v-button-link.message-title {
-	margin: 1px 0px;
+	margin: 0;
 }
 
 .message-header .v-button-link.message-title .v-button-caption {
@@ -3890,7 +3927,7 @@ div.v-lazyloadingwrapper-loading {
 /* End Footer */
 
 /* Bold Label & Button */
-.v-label.bold,div.v-button.bold>.v-button-wrap {
+.v-label.bold,div.v-button.bold>.v-button-wrap, div.v-button.bold:active>.v-button-wrap, div.v-button.bold:focus>.v-button-wrap {
 	font-weight: bold;
 }
 
@@ -3918,7 +3955,7 @@ div.v-lazyloadingwrapper-loading {
 }
 .milestone-box .milestone-name, .milestone-box .milestone-name:focus {
 	font-size: 14px;
-	border-bottom: 1px dashed #BEBEBE;
+	border-bottom: 1px dashed #BEBEBE !important;
 	padding-bottom: 8px;
 }
 
@@ -4111,7 +4148,7 @@ div.v-csslayout.member-block {
 
 .member-block .member-name, .member-block .member-name:focus {
 	font-size: 14px;
-	border-bottom: 1px solid #CFCFCF;
+	border-bottom: 1px solid #CFCFCF !important;
 	padding-bottom: 5px;
 }
 
@@ -6034,12 +6071,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }*/
 
 
-.v-ie .splitbutton .greenbtn,.v-ie .splitbutton .graybtn {
-	padding: 3px 6px 3px 8px;
-}
-.v-ie .splitbutton .graybtn.v-popupbutton, .v-ie .splitbutton .greenbtn.v-popupbutton {
-    padding: 3px 7px 3px 2px;
-}
 
 .splitbutton .v-popupbutton, .splitbutton .v-popupbutton:active, .splitbutton .v-popupbutton.greenbtn, .splitbutton .v-popupbutton.graybtn, .splitbutton .v-popupbutton.bluebtn, .splitbutton .v-popupbutton.brownbtn
 {
@@ -6082,7 +6113,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	/* padding: 4px 13px; */
 }
 
-.vertical-tabsheet .v-button-tab>.v-button-wrap {
+.vertical-tabsheet .v-button-tab>.v-button-wrap, .vertical-tabsheet .v-button-tab:active>.v-button-wrap, .vertical-tabsheet .v-button-tab:focus>.v-button-wrap  {
 	background: none no-repeat 0 0 transparent;
 	background-image:none;
 	border-radius: 0px;
@@ -6575,7 +6606,8 @@ img.icon-btn {
 }
 
 /*Navigation Buttons styles */
-.v-buttongroup.navigation-btns .v-button-wrap {
+.v-buttongroup.navigation-btns .v-button-wrap,
+.v-ie .v-buttongroup.navigation-btns .v-button-wrap {
 	padding: 7px 10px 6px;
 }
 .v-buttongroup.navigation-btns .v-button-caption {
@@ -6722,4 +6754,25 @@ div.v-csslayout.bean-block {
 	border-width: 0px 1px 1px 1px;
 	border-color: #CFCFCF;
 	border-style: solid;
+}
+
+/* Profile Intro Text */
+.intro-text-wrap .v-label {
+	color: #FFFFFF;
+	border-bottom: 1px solid #CFCFCF;
+	padding-bottom: 13px;
+}
+.intro-text-wrap.v-margin-top {
+	padding-top: 13px;
+}
+.intro-text-wrap.v-margin-right {
+	padding-right: 10px;
+}
+.intro-text-wrap.v-margin-left {
+	padding-left: 10px;
+}
+
+/* Opportunity Contact Role Edit */
+.oppcontact-role-edit .addview-layout-body {
+	border: 1px solid #CFCFCF;
 }

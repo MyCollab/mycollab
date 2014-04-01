@@ -59,6 +59,13 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public String getLoguserFullName() {
+		if (loguserFullName == null || loguserFullName.trim().equals("")) {
+			String displayName = getLogby();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return loguserFullName;
 	}
 
@@ -67,6 +74,13 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public String getAssignuserFullName() {
+		if (assignuserFullName == null || assignuserFullName.trim().equals("")) {
+			String displayName = getAssignuser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignuserFullName;
 	}
 

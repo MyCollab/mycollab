@@ -44,6 +44,14 @@ public class SimpleProblem extends Problem {
 	}
 
 	public String getRaisedByUserFullName() {
+		if (raisedByUserFullName == null
+				|| raisedByUserFullName.trim().equals("")) {
+			String displayName = getRaisedbyuser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return raisedByUserFullName;
 	}
 
@@ -52,6 +60,14 @@ public class SimpleProblem extends Problem {
 	}
 
 	public String getAssignedUserFullName() {
+		if (assignedUserFullName == null
+				|| assignedUserFullName.trim().equals("")) {
+			String displayName = getAssigntouser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignedUserFullName;
 	}
 

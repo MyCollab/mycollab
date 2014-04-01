@@ -20,14 +20,28 @@ import java.util.List;
 
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class SimpleRelayEmailNotification extends RelayEmailNotification {
 	private static final long serialVersionUID = 1L;
 
 	private String changeByUserFullName;
-	
+
 	private List<SimpleUser> notifyUsers;
 
 	public String getChangeByUserFullName() {
+		if (changeByUserFullName == null
+				|| changeByUserFullName.trim().equals("")) {
+			String displayName = getChangeby();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return changeByUserFullName;
 	}
 

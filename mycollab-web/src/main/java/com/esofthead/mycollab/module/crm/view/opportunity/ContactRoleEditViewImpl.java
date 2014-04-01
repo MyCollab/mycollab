@@ -26,7 +26,6 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -78,6 +77,8 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 	public void display(SimpleOpportunity opportunity) {
 		this.opportunity = opportunity;
 		this.removeAllComponents();
+		this.setMargin(new MarginInfo(false, true, true, true));
+		this.addStyleName("oppcontact-role-edit");
 
 		AddViewLayout2 previewLayout = new AddViewLayout2(
 				"Add or Edit Contact Roles",
@@ -117,7 +118,6 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSpacing(true);
 		layout.setMargin(true);
-		layout.setWidth("100%");
 
 		HorizontalLayout buttonWrapper = new HorizontalLayout();
 		buttonWrapper.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
@@ -149,7 +149,8 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 			}
 		});
-		cancelBtn.setIcon(MyCollabResource.newResource("icons/16/cancel.png"));
+		cancelBtn.setIcon(MyCollabResource
+				.newResource("icons/16/cancel_black.png"));
 		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		buttonWrapper.addComponent(cancelBtn);
 
@@ -282,17 +283,17 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 			contactField = new ContactSelectionField();
 			this.addComponent(contactField);
 			contactField
-					.setPropertyDataSource(new AbstractField<SimpleContact>() {
+					.setPropertyDataSource(new AbstractField<SimpleContactOpportunityRel>() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
-						public SimpleContact getValue() {
+						public SimpleContactOpportunityRel getValue() {
 							return contactOpp;
 						}
 
 						@Override
-						public Class<? extends SimpleContact> getType() {
-							return SimpleContact.class;
+						public Class<? extends SimpleContactOpportunityRel> getType() {
+							return SimpleContactOpportunityRel.class;
 						}
 
 					});

@@ -29,6 +29,11 @@ import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ */
 public class SimpleComment extends Comment {
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +45,13 @@ public class SimpleComment extends Comment {
 	private List<Content> attachments;
 
 	public String getOwnerFullName() {
+		if (ownerFullName == null || ownerFullName.trim().equals("")) {
+			String displayName = getCreateduser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return ownerFullName;
 	}
 

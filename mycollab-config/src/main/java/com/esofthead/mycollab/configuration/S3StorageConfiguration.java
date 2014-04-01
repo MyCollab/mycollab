@@ -72,7 +72,13 @@ public class S3StorageConfiguration implements StorageConfiguration {
 		if ("".equals(s3UrlPath)) {
 			return "";
 		} else {
-			return s3UrlPath + "avatar/" + userAvatarId + "_" + size + ".png";
+			if (userAvatarId == null || "".equals(userAvatarId.trim())) {
+				return S3AssetsResource.generateResourceLink("icons/"
+						+ userAvatarId + "_" + size + ".png");
+			} else {
+				return s3UrlPath + "avatar/" + userAvatarId + "_" + size
+						+ ".png";
+			}
 		}
 	}
 

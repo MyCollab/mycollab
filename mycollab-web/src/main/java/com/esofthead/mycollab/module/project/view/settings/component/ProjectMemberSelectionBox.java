@@ -1,5 +1,6 @@
 package com.esofthead.mycollab.module.project.view.settings.component;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -44,12 +45,28 @@ public class ProjectMemberSelectionBox extends ComboBox {
 	private void loadUserList(List<SimpleProjectMember> memberList) {
 
 		for (SimpleProjectMember member : memberList) {
-			this.addItem(member.getUsername());
-			this.setItemCaption(member.getUsername(), member.getDisplayName());
+			this.addItem(member);
+			this.setItemCaption(member, member.getDisplayName());
 			this.setItemIcon(
-					member.getUsername(),
+					member,
 					UserAvatarControlFactory.createAvatarResource(
 							member.getMemberAvatarId(), 16));
+		}
+	}
+
+	@Override
+	public void setValue(Object value) {
+		if (value instanceof String) {
+			Collection<?> containerPropertyIds = this.getItemIds();
+			for (Object id : containerPropertyIds) {
+				if (id instanceof SimpleProjectMember) {
+					if (value.equals(((SimpleProjectMember) id).getUsername())) {
+						super.setValue(id);
+					}
+				}
+			}
+		} else {
+			super.setValue(value);
 		}
 	}
 }

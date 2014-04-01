@@ -29,8 +29,10 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -44,7 +46,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class AccountModuleImpl extends AbstractPageView implements
-AccountModule {
+		AccountModule {
 	private static final long serialVersionUID = 1L;
 
 	private final VerticalTabsheet accountTab;
@@ -70,7 +72,6 @@ AccountModule {
 		this.breadcrumb = ViewManager.getView(AccountSettingBreadcrumb.class);
 
 		topPanel.addComponent(this.breadcrumb);
-		//contentWrapper.addComponent(headerWrapper);
 
 		this.accountTab = new VerticalTabsheet();
 		this.accountTab.setWidth("100%");
@@ -83,9 +84,24 @@ AccountModule {
 		contentWrapper.addStyleName("main-content");
 		contentWrapper.addComponentAsFirst(topPanel);
 
+		VerticalLayout introTextWrap = new VerticalLayout();
+		introTextWrap.setStyleName("intro-text-wrap");
+		introTextWrap.setMargin(new MarginInfo(true, true, false, true));
+		introTextWrap.setWidth("100%");
+		introTextWrap.addComponent(generateIntroText());
+
+		this.accountTab.getNavigatorWrapper().setWidth("250px");
+		this.accountTab.getNavigatorWrapper()
+				.addComponentAsFirst(introTextWrap);
+
 		this.buildComponents();
 
 		this.addComponent(this.accountTab);
+	}
+
+	private Label generateIntroText() {
+		return new Label(
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam purus turpis, ultrices nec sapien in, dictum vehicula massa. Aliquam sagittis ligula ut elit vehicula mollis.");
 	}
 
 	private void buildComponents() {
@@ -102,26 +118,26 @@ AccountModule {
 				MyCollabResource.newResource("icons/22/user/menu_team.png"));
 
 		this.accountTab
-		.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-			private static final long serialVersionUID = 1L;
+				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void selectedTabChange(SelectedTabChangeEvent event) {
-				final Tab tab = ((VerticalTabsheet) event.getSource())
-						.getSelectedTab();
-				final String caption = tab.getCaption();
-				if ("User Information".equals(caption)) {
-					profilePresenter.go(AccountModuleImpl.this, null);
-				} else if ("Billing".equals(caption)) {
-					billingPresenter.go(AccountModuleImpl.this,
-							new BillingScreenData.BillingSummary());
-				} else if ("Users & Permissions".equals(caption)) {
-					userPermissionPresenter.go(AccountModuleImpl.this,
-							null);
-				}
+					@Override
+					public void selectedTabChange(SelectedTabChangeEvent event) {
+						final Tab tab = ((VerticalTabsheet) event.getSource())
+								.getSelectedTab();
+						final String caption = tab.getCaption();
+						if ("User Information".equals(caption)) {
+							profilePresenter.go(AccountModuleImpl.this, null);
+						} else if ("Billing".equals(caption)) {
+							billingPresenter.go(AccountModuleImpl.this,
+									new BillingScreenData.BillingSummary());
+						} else if ("Users & Permissions".equals(caption)) {
+							userPermissionPresenter.go(AccountModuleImpl.this,
+									null);
+						}
 
-			}
-		});
+					}
+				});
 	}
 
 	private ComponentContainer constructAccountSettingsComponent() {

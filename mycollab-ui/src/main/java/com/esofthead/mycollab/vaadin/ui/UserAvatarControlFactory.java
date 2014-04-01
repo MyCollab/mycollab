@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.io.File;
 
 import com.esofthead.mycollab.configuration.FileStorageConfiguration;
+import com.esofthead.mycollab.configuration.S3StorageConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
@@ -41,14 +42,8 @@ public class UserAvatarControlFactory {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		if (userAvatarId == null) {
-			return "";
-		}
-
-		String link = SiteConfiguration.getStorageConfiguration()
-				.generateAvatarPath(userAvatarId, size);
-
-		return link;
+		return SiteConfiguration.getStorageConfiguration().generateAvatarPath(
+				userAvatarId, size);
 	}
 
 	public static Resource createAvatarResource(String avatarId, int size) {

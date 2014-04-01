@@ -52,7 +52,7 @@ public class SimpleProjectMember extends ProjectMember {
 	private Date lastAccessTime;
 
 	public String getMemberFullName() {
-		return memberFullName;
+		return getDisplayName();
 	}
 
 	public void setMemberFullName(String memberFullName) {

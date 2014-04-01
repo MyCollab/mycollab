@@ -22,11 +22,13 @@ import java.util.GregorianCalendar;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
+import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -55,6 +57,9 @@ import com.vaadin.ui.Window;
  */
 public class TaskGroupAddWindow extends Window {
 	private static final long serialVersionUID = 1L;
+
+	private ProjectMemberSelectionField projectSelectionField;
+
 	private final TaskGroupDisplayView taskView;
 	private SimpleTaskList taskList;
 	private TaskListForm taskListForm;
@@ -90,7 +95,7 @@ public class TaskGroupAddWindow extends Window {
 		@Override
 		public void setBean(final TaskList newDataSource) {
 			this.setFormLayoutFactory(new TaskListFormLayoutFactory());
-			this.setBeanFormFieldFactory(new EditFormFieldFactory(
+			this.setBeanFormFieldFactory(new TaskListEditFormFieldFactory(
 					TaskListForm.this));
 			super.setBean(newDataSource);
 		}
@@ -146,7 +151,8 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+				saveBtn.setIcon(MyCollabResource
+						.newResource("icons/16/save.png"));
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
@@ -167,7 +173,8 @@ public class TaskGroupAddWindow extends Window {
 							}
 						});
 				saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				saveAndNewBtn.setIcon(MyCollabResource.newResource("icons/16/save_new.png"));
+				saveAndNewBtn.setIcon(MyCollabResource
+						.newResource("icons/16/save_new.png"));
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(
@@ -197,12 +204,20 @@ public class TaskGroupAddWindow extends Window {
 				TaskGroupAddWindow.this.taskList.setStatus("Open");
 				TaskGroupAddWindow.this.taskList
 						.setProjectid(CurrentProjectVariables.getProjectId());
-				TaskGroupAddWindow.this.taskList.setOwner(AppContext
-						.getUsername());
-				TaskGroupAddWindow.this.taskList.setOwnerAvatarId(AppContext
-						.getUserAvatarId());
-				TaskGroupAddWindow.this.taskList.setOwnerFullName(AppContext
-						.getSession().getDisplayName());
+
+				ProjectMemberSelectionBox prjMemberSelectionBox = projectSelectionField
+						.getWrappedComponent();
+				Object memberVal = prjMemberSelectionBox.getValue();
+				if (memberVal != null) {
+					SimpleProjectMember member = (SimpleProjectMember) memberVal;
+					TaskGroupAddWindow.this.taskList.setOwner(member
+							.getUsername());
+					TaskGroupAddWindow.this.taskList.setOwnerAvatarId(member
+							.getMemberAvatarId());
+					TaskGroupAddWindow.this.taskList.setOwnerFullName(member
+							.getDisplayName());
+				}
+
 				taskListService.saveWithSession(
 						TaskGroupAddWindow.this.taskList,
 						AppContext.getUsername());
@@ -237,12 +252,12 @@ public class TaskGroupAddWindow extends Window {
 			}
 		}
 
-		private class EditFormFieldFactory extends
+		private class TaskListEditFormFieldFactory extends
 				AbstractBeanFieldGroupEditFieldFactory<TaskList> {
 
 			private static final long serialVersionUID = 1L;
 
-			public EditFormFieldFactory(GenericBeanForm<TaskList> form) {
+			public TaskListEditFormFieldFactory(GenericBeanForm<TaskList> form) {
 				super(form);
 			}
 
@@ -253,7 +268,8 @@ public class TaskGroupAddWindow extends Window {
 					area.setNullRepresentation("");
 					return area;
 				} else if (propertyId.equals("owner")) {
-					return new ProjectMemberSelectionField();
+					projectSelectionField = new ProjectMemberSelectionField();
+					return projectSelectionField;
 				} else if (propertyId.equals("milestoneid")) {
 					return new MilestoneComboBox();
 				}

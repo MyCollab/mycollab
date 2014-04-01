@@ -9,12 +9,14 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.ContactOpportunityService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -59,14 +61,15 @@ public class OpportunityContactListComp
 
 	@Override
 	protected Component generateTopControls() {
-		VerticalLayout controlsBtnWrap = new VerticalLayout();
+		HorizontalLayout controlsBtnWrap = new HorizontalLayout();
 		controlsBtnWrap.setWidth("100%");
+
 		final SplitButton controlsBtn = new SplitButton();
 		controlsBtn.setSizeUndefined();
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption("New Contact");
+		controlsBtn.setCaption("Add/Edit Contacts' Role");
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
@@ -76,7 +79,9 @@ public class OpportunityContactListComp
 					@Override
 					public void splitButtonClick(
 							final SplitButton.SplitButtonClickEvent event) {
-						fireNewRelatedItem("");
+						EventBus.getInstance().fireEvent(
+								new OpportunityEvent.GotoContactRoleEdit(this,
+										opportunity));
 					}
 				});
 		final Button selectBtn = new Button("Select from existing contacts",
@@ -227,6 +232,12 @@ public class OpportunityContactListComp
 							+ (contact.getOfficephone() != null ? contact
 									.getOfficephone() : ""));
 			contactInfo.addComponent(contactOfficePhone);
+
+			Label contactRole = new Label(
+					"Contact Role: "
+							+ (contact.getDecisionRole() != null ? contact
+									.getDecisionRole() : ""));
+			contactInfo.addComponent(contactRole);
 
 			blockTop.addComponent(contactInfo);
 			blockTop.setExpandRatio(contactInfo, 1.0f);
