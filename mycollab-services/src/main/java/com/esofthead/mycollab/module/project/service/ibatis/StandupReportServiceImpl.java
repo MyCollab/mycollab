@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
@@ -41,6 +42,9 @@ import com.esofthead.mycollab.module.project.dao.StandupReportMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
+import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
@@ -54,9 +58,9 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 @Transactional
 @Traceable(module = ModuleNameConstants.PRJ, nameField = "forday", type = ProjectContants.STANDUP, extraFieldName = "projectid")
 public class StandupReportServiceImpl
-extends
-DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
-implements StandupReportService {
+		extends
+		DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>
+		implements StandupReportService {
 	@Autowired
 	private StandupReportMapper standupReportMapper;
 	@Autowired
@@ -93,6 +97,27 @@ implements StandupReportService {
 		}
 
 		return null;
+	}
+
+	@Override
+	public int saveWithSession(StandupReportWithBLOBs record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
+		return super.saveWithSession(record, username);
+	}
+
+	@Override
+	public int updateWithSession(StandupReportWithBLOBs record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectActivityStreamService.class);
+		return super.updateWithSession(record, username);
+	}
+
+	@Override
+	public int removeWithSession(Integer primaryKey, String username,
+			int accountId) {
+		CacheUtils.cleanCaches(accountId, ProjectActivityStreamService.class);
+		return super.removeWithSession(primaryKey, username, accountId);
 	}
 
 	@Override

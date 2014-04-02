@@ -54,13 +54,13 @@
         <dependency>
             <groupId>net.sourceforge.dynamicreports</groupId>
             <artifactId>dynamicreports-adhoc</artifactId>
-            <version>3.1.6</version>
+            <version>3.2.0</version>
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.dynamicreports</groupId>
             <artifactId>dynamicreports-googlecharts</artifactId>
-            <version>3.1.6</version>
+            <version>3.2.0</version>
         </dependency>
 
     </dependencies>
