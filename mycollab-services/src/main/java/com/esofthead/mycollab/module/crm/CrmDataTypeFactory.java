@@ -1,4 +1,20 @@
 /**
+ * This file is part of mycollab-services.
+ *
+ * mycollab-services is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-services is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/**
  * This file is part of mycollab-web.
  *
  * mycollab-web is free software: you can redistribute it and/or modify
@@ -58,6 +74,9 @@ public class CrmDataTypeFactory {
 			"Proposal/Price Quote", "Negotiation/Review", "Closed Won",
 			"Closed Lost" };
 
+	private static String[] OPPORTUNITY_CONTACT_ROLE_LIST = new String[] {
+			"Primary Decision Marker", "Evaluator", "Influencer", "Other" };
+
 	private static String[] OPPORTUNITY_TYPE_LIST = new String[] {
 			"Existing Business", "New Business" };
 
@@ -111,6 +130,10 @@ public class CrmDataTypeFactory {
 		return OPPORTUNITY_SALES_STAGE_LIST;
 	}
 
+	public static String[] getOpportunityContactRoleList() {
+		return OPPORTUNITY_CONTACT_ROLE_LIST;
+	}
+
 	public static String[] getOpportunityTypeList() {
 		return OPPORTUNITY_TYPE_LIST;
 	}
@@ -138,7 +161,7 @@ public class CrmDataTypeFactory {
 	public static String[] getTaskPriorities() {
 		return TASK_PRIORITY_LIST;
 	}
-	
+
 	public static String[] getTaskStatuses() {
 		return TASK_STATUS_LIST;
 	}

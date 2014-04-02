@@ -11,24 +11,25 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.projectId != null">
-            ${searchCriteria.projectId.operation}
-            m_tracker_version.projectid =
-            #{searchCriteria.projectId.value,jdbcType=NUMERIC}
-        </if>
-        <if test="searchCriteria.versionname != null">
-          <![CDATA[
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_tracker_version.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.status)
+            ${searchCriteria.status.operation} m_tracker_version.status = @{searchCriteria.status.value}
+        #end
+        
+        #ifnotnull($searchCriteria.versionname)
             ${searchCriteria.versionname.operation} m_tracker_version.versionname like '%${searchCriteria.versionname.value}%'
-            ]]>
-        </if>
-		<if test="searchCriteria.status != null">
-          <![CDATA[
-            ${searchCriteria.status.operation} m_tracker_version.status = #{searchCriteria.status.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_tracker_version.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_tracker_version.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        ]]>
     </sql>
 
     <sql id="selectVersion">
@@ -50,67 +51,56 @@
         FROM m_tracker_version
     ]]>
     </sql>
-
-    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria">
-        SELECT count(*) as totalCount FROM m_tracker_version
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
-    </select>
-
+    
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection}, </if>
-        <![CDATA[
-            m_tracker_version.lastUpdatedTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_tracker_version.lastUpdatedTime DESC
     </sql>
 
+    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria" lang="velocity">
+        SELECT count(*) as totalCount FROM m_tracker_version
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+    </select>
+
     <select id="findPagableListByCriteria" resultMap="SimpleVersionResult"
-        parameterType="VersionSearchCriteria">
-        <include
-            refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.selectVersion" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        parameterType="VersionSearchCriteria" lang="velocity">
+        <include refid="selectVersion" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
     <select id="findVersionById" parameterType="java.lang.Integer"
-        resultMap="SimpleVersionResult">
-        <include
-            refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.selectVersion" />
+        resultMap="SimpleVersionResult" lang="velocity">
+        <include refid="selectVersion" />
 
-        WHERE m_tracker_version.id=#{versionId, jdbcType=NUMERIC}
+        WHERE m_tracker_version.id=@{versionId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_tracker_version
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.querySearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+            <include refid="querySearchCriteria" />
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_tracker_version
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt.querySearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+            <include refid="querySearchCriteria" />
+        #end
     </select>
 </mapper>

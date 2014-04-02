@@ -46,8 +46,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
 
-	private Button editBtn, deleteBtn, cloneBtn, previousItem,
-	nextItemBtn;
+	private Button editBtn, deleteBtn, cloneBtn, previousItem, nextItemBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout popupButtonsControl;
@@ -61,15 +60,14 @@ public class CrmPreviewFormControlsGenerator<T> {
 		this.previewForm = editForm;
 
 		layout = new HorizontalLayout();
-		
-		
+
 		editButtons = new Button("Option", new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-	
+
 				optionBtn.setPopupVisible(true);
 			}
 		});
@@ -85,9 +83,9 @@ public class CrmPreviewFormControlsGenerator<T> {
 	}
 
 	public HorizontalLayout createButtonControls(final String permissionItem) {
-		return createButtonControls(EDIT_BTN_PRESENTED
-				| DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED
-				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED, permissionItem);
+		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
+				| CLONE_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED
+				| NEXT_BTN_PRESENTED, permissionItem);
 	}
 
 	public HorizontalLayout createButtonControls(int buttonEnableFlags,
@@ -107,39 +105,40 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		popupButtonsControl = new VerticalLayout();
-		
-		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
+
+		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
 		popupButtonsControl.setSpacing(true);
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 			editBtn = new Button(GenericBeanForm.EDIT_ACTION,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireEditForm(item);
-				}
-			});
-			editBtn.setIcon(MyCollabResource
-					.newResource("icons/16/edit.png"));
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireEditForm(item);
+						}
+					});
+			editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
 			editBtn.setStyleName("link");
 			editBtn.setEnabled(canWrite);
 			popupButtonsControl.addComponent(editBtn);
-		}		
+		}
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
 			deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireDeleteForm(item);
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireDeleteForm(item);
+						}
+					});
 			deleteBtn.setIcon(MyCollabResource
 					.newResource("icons/16/delete2.png"));
 			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
@@ -150,22 +149,24 @@ public class CrmPreviewFormControlsGenerator<T> {
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
 			cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireCloneForm(item);
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireCloneForm(item);
+						}
+					});
 			cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}
 		optionBtn.setContent(popupButtonsControl);
-		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED | (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-		
-		layout.addComponent(optionBtn);
+		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED
+				| (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+
+			layout.addComponent(optionBtn);
 		}
 
 		ButtonGroup navigationBtns = new ButtonGroup();

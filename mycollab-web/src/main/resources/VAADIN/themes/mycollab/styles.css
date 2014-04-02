@@ -6776,3 +6776,53 @@ div.v-csslayout.bean-block {
 .oppcontact-role-edit .addview-layout-body {
 	border: 1px solid #CFCFCF;
 }
+
+/* Bean Block Different Styles */
+div.v-csslayout.bean-block.red-block {
+	background-color: #ff9fa0;
+}
+div.v-csslayout.bean-block.cyan-block {
+	background-color: #00FFFF;
+}
+div.v-csslayout.bean-block.blue-block {
+	background-color: #0000FF;
+}
+div.v-csslayout.bean-block.darkblue-block {
+	background-color: #0000A0;
+}
+div.v-csslayout.bean-block.lightblue-block {
+	background-color: #ADD8E6;
+}
+div.v-csslayout.bean-block.purple-block {
+	background-color: #800080;
+}
+div.v-csslayout.bean-block.yellow-block {
+	background-color: #FFFF00;
+}
+div.v-csslayout.bean-block.lime-block {
+	background-color: #00FF00;
+}
+div.v-csslayout.bean-block.magenta-block {
+	background-color: #FF00FF;
+}
+div.v-csslayout.bean-block.silver-block {
+	background-color: #C0C0C0;
+}
+div.v-csslayout.bean-block.gray-block {
+	background-color: #808080;
+}
+div.v-csslayout.bean-block.orange-block {
+	background-color: #FFA500;
+}
+div.v-csslayout.bean-block.brown-block {
+	background-color: #A52A2A;
+}
+div.v-csslayout.bean-block.maroon-block {
+	background-color: #800000;
+}
+div.v-csslayout.bean-block.green-block {
+	background-color: #008000;
+}
+div.v-csslayout.bean-block.olive-block {
+	background-color: #808000;
+}

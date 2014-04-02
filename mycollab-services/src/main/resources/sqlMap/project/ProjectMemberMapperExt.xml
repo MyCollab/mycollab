@@ -24,44 +24,53 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.status != null">
-            <![CDATA[${searchCriteria.status.operation} m_prj_member.status = #{searchCriteria.status.value}]]>
-        </if>
-
-        <if test="searchCriteria.projectId != null">
-            <![CDATA[${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} s_user_account.accountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.status)
+            ${searchCriteria.status.operation} m_prj_member.status = @{searchCriteria.status.value}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #selectExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="queryTotalCountSearchCriteria">
-
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.status != null">
-            <![CDATA[${searchCriteria.status.operation} m_prj_member.status = #{searchCriteria.status.value}]]>
-        </if>
-
-        <if test="searchCriteria.projectId != null">
-            <![CDATA[${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation}
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.id)
+            ${searchCriteria.id.operation} m_prj_member.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.status)
+            ${searchCriteria.status.operation} m_prj_member.status = @{searchCriteria.status.value}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_member.projectId ${searchCriteria.projectId.compareOperator} @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation}
                 (SELECT COUNT(*) FROM m_prj_project
-                WHERE m_prj_project.sAccountId=#{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND m_prj_member.projectId=m_prj_project.id ) > 0
-            ]]>
-        </if>
+                WHERE m_prj_project.sAccountId=@{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND m_prj_member.projectId=m_prj_project.id ) > 0
+        #end
+        
+        #totalCountExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="selectMember">
@@ -81,72 +90,63 @@
               LEFT OUTER JOIN s_user_preference ON (s_user.username = s_user_preference.username AND s_user_preference.sAccountId=m_prj_project.sAccountId)
         ]]>
     </sql>
-
-    <select id="getTotalCount" parameterType="ProjectMemberSearchCriteria"
-        resultType="int">
-        SELECT count(*) as totalCount FROM m_prj_member
-
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.queryTotalCountSearchCriteria" />
-            </trim>
-        </if>
-    </select>
-
+    
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_prj_member.joinDate DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_prj_member.joinDate DESC
     </sql>
 
+    <select id="getTotalCount" parameterType="ProjectMemberSearchCriteria"
+        resultType="int" lang="velocity">
+        SELECT count(*) as totalCount FROM m_prj_member
+
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
+    </select>
+
     <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
-        resultMap="ProjectMemberResult">
+        resultMap="ProjectMemberResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.selectMember" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        <include refid="selectMember" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
     <select id="findMemberById" parameterType="java.lang.Integer"
-        resultMap="ProjectMemberResult">
+        resultMap="ProjectMemberResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.selectMember" />
-        WHERE m_prj_member.id=#{memberId, jdbcType=NUMERIC}
+        <include refid="selectMember" />
+        WHERE m_prj_member.id=@{memberId, jdbcType=NUMERIC}
 
     </select>
 
     <select id="findMemberByUsername" parameterType="map"
-        resultMap="ProjectMemberResult">
+        resultMap="ProjectMemberResult" lang="velocity">
         <![CDATA[
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
             m_prj_member.joinDate, m_prj_member.projectRoleId,
             m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
+            m_prj_role.rolename,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId
-        FROM m_prj_member, s_user
-        WHERE (m_prj_member.username=s_user.username AND
-            s_user.username=#{username} AND
-            m_prj_member.projectId=#{projectId, jdbcType=NUMERIC})
+        FROM m_prj_member
+        LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
+        INNER JOIN s_user ON (m_prj_member.username=s_user.username AND s_user.username=@{username})
+        WHERE m_prj_member.projectId=@{projectId, jdbcType=NUMERIC}
             ]]>
     </select>
 
     <select id="getUsersNotInProject" parameterType="java.lang.Integer"
-        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult">
+        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,  s_user.avatarId
@@ -155,15 +155,15 @@
                         FROM m_prj_member 
                         WHERE m_prj_member.username = s_user.username 
                             AND m_prj_member.status='Active' 
-                            AND m_prj_member.projectId=#{projectId,jdbcType=NUMERIC}
+                            AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
                             AND s_user_account.username=s_user.username 
-                            AND s_user_account.accountId=#{sAccountId,jdbcType=NUMERIC}) = 0)
+                            AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}) = 0)
         ]]>
 
     </select>
 
     <select id="getActiveUsersInProject" parameterType="java.lang.Integer"
-        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult">
+        resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus
@@ -172,31 +172,27 @@
                 FROM m_prj_member 
                 WHERE m_prj_member.username = s_user.username 
                     AND m_prj_member.status='Active' 
-                    AND m_prj_member.projectId=#{projectId,jdbcType=NUMERIC}
+                    AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
                     AND s_user_account.username=s_user.username 
-                    AND s_user_account.accountId=#{sAccountId,jdbcType=NUMERIC}) > 0)
+                    AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}) > 0)
         ]]>
 
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_prj_member
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_member
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.ProjectMemberMapperExt.queryTotalCountSearchCriteria" />
-        </trim>
+        #trimext("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+        #end
     </select>
 </mapper>    

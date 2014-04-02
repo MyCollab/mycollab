@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
@@ -374,8 +375,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		public RoleDecisionComboBox() {
 			super();
 			this.setNullSelectionAllowed(false);
-			this.loadData("Primary Decision Marker", "Evaluator", "Influencer",
-					"Other");
+			this.loadData(CrmDataTypeFactory.getOpportunityContactRoleList());
 		}
 	}
 }

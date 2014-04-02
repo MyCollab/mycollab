@@ -29,6 +29,7 @@ public class ValueComboBox extends ComboBox {
 
 	public ValueComboBox() {
 		super();
+		this.setPageLength(0);
 	}
 
 	/**
@@ -43,10 +44,12 @@ public class ValueComboBox extends ComboBox {
 		this.loadData(values);
 
 		this.select(this.getItemIds().iterator().next());
+		this.setPageLength(0);
 	}
 
 	public ValueComboBox(boolean nullIsAllowable, Number... values) {
 		super();
+		this.setPageLength(0);
 		this.setNullSelectionAllowed(nullIsAllowable);
 		this.setImmediate(true);
 		this.loadData(values);

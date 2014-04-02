@@ -50,7 +50,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
-TaskAddView {
+		TaskAddView {
 
 	private static final long serialVersionUID = 1L;
 	private FormAttachmentUploadField attachmentUploadField;
@@ -72,8 +72,7 @@ TaskAddView {
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? null : beanItem
-				.getTaskname();
+		return (beanItem.getId() == null) ? null : beanItem.getTaskname();
 	}
 
 	@Override
@@ -83,9 +82,9 @@ TaskAddView {
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		
+
 		final Layout controlButtons = (new EditFormControlsGenerator<Task>(
-				editForm)).createButtonControls(true,true,true);
+				editForm)).createButtonControls(true, true, true);
 		controlButtons.setSizeUndefined();
 
 		return controlButtons;
@@ -107,7 +106,7 @@ TaskAddView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<Task> {
+			AbstractBeanFieldGroupEditFieldFactory<Task> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<Task> form) {
@@ -144,7 +143,7 @@ TaskAddView {
 									AttachmentType.PROJECT_TASK_TYPE,
 									beanItem.getId());
 					TaskAddViewImpl.this.attachmentUploadField
-					.getAttachments(attachmentPath);
+							.getAttachments(attachmentPath);
 				}
 				return TaskAddViewImpl.this.attachmentUploadField;
 			}
