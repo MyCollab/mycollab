@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.common;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public enum CommentType {
 	PRJ_TASK_LIST("Project-TaskList"), PRJ_TASK("Project-Task"), PRJ_BUG(
 			"Project-Bug"), PRJ_MESSAGE("Project-Message"), PRJ_MILESTONE(

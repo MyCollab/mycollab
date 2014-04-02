@@ -206,7 +206,7 @@ input.v-widget.v-textfield[type="text"], .v-filterselect  {
 	padding: 0;
 }
 .popupContent .v-window-outerheader .v-window-header {
-	padding: 12px 10px;
+	padding: 12px 30px 12px 10px;
 	font-size: 14px;
 	color: #525252;
 }
@@ -1768,6 +1768,7 @@ input.v-textfield-errorField {
 	background-position: right 10px center;
 	background-repeat: no-repeat;
 	border-radius: 5px;
+	box-shadow: none;
 }
 
 .v-popupbutton-popup.v-popupbutton-popup-project-list-comp-hdr {
@@ -3668,6 +3669,10 @@ div.v-lazyloadingwrapper-loading {
 .projectDashboardView .addViewLayout .depotContent .beanlist-content>.v-csslayout-margin
 	{
 	border-top: 1px solid #CFCFCF;
+}
+
+.standup-calendar .selected-ext {
+	border: 1px solid #EE7C08;
 }
 
 .report-row-header {
@@ -6778,51 +6783,56 @@ div.v-csslayout.bean-block {
 }
 
 /* Bean Block Different Styles */
-div.v-csslayout.bean-block.red-block {
+div.v-csslayout.bean-block.red-block, .list-note-block .note-label.red-block {
 	background-color: #ff9fa0;
 }
-div.v-csslayout.bean-block.cyan-block {
+div.v-csslayout.bean-block.cyan-block, .list-note-block .note-label.cyan-block {
 	background-color: #00FFFF;
 }
-div.v-csslayout.bean-block.blue-block {
-	background-color: #0000FF;
+div.v-csslayout.bean-block.blue-block, .list-note-block .note-label.blue-block {
+	background-color: #d5e0fe;
 }
-div.v-csslayout.bean-block.darkblue-block {
-	background-color: #0000A0;
-}
-div.v-csslayout.bean-block.lightblue-block {
+div.v-csslayout.bean-block.lightblue-block, .list-note-block .note-label.lightblue-block {
 	background-color: #ADD8E6;
 }
-div.v-csslayout.bean-block.purple-block {
-	background-color: #800080;
+div.v-csslayout.bean-block.purple-block, .list-note-block .note-label.purple-block {
+	background-color: #e3c9f6;
 }
-div.v-csslayout.bean-block.yellow-block {
-	background-color: #FFFF00;
+div.v-csslayout.bean-block.yellow-block, .list-note-block .note-label.yellow-block {
+	background-color: #fffdaa;
 }
-div.v-csslayout.bean-block.lime-block {
+div.v-csslayout.bean-block.lime-block, .list-note-block .note-label.lime-block {
 	background-color: #00FF00;
 }
-div.v-csslayout.bean-block.magenta-block {
-	background-color: #FF00FF;
+div.v-csslayout.bean-block.magenta-block, .list-note-block .note-label.magenta-block {
+	background-color: #f3c8d9;
 }
-div.v-csslayout.bean-block.silver-block {
+div.v-csslayout.bean-block.silver-block, .list-note-block .note-label.silver-block {
 	background-color: #C0C0C0;
 }
-div.v-csslayout.bean-block.gray-block {
+div.v-csslayout.bean-block.gray-block, .list-note-block .note-label.gray-block {
 	background-color: #808080;
 }
-div.v-csslayout.bean-block.orange-block {
+div.v-csslayout.bean-block.orange-block, .list-note-block .note-label.orange-block {
 	background-color: #FFA500;
 }
-div.v-csslayout.bean-block.brown-block {
+div.v-csslayout.bean-block.brown-block, .list-note-block .note-label.brown-block {
 	background-color: #A52A2A;
 }
-div.v-csslayout.bean-block.maroon-block {
+div.v-csslayout.bean-block.maroon-block, .list-note-block .note-label.maroon-block {
 	background-color: #800000;
 }
-div.v-csslayout.bean-block.green-block {
+div.v-csslayout.bean-block.green-block, .list-note-block .note-label.green-block {
 	background-color: #008000;
 }
-div.v-csslayout.bean-block.olive-block {
+div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block {
 	background-color: #808000;
+}
+
+.list-note-block .note-label {
+	padding: 3px 8px;
+	margin: 0px 10px 5px 0px;
+}
+.list-note-lbl {
+	padding: 3px 8px 3px 0px;
 }

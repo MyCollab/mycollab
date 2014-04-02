@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -1308,6 +1309,95 @@ public class ProjectTooltipGenerator {
 
 	public static String generateToolTipStandUp(SimpleStandupReport standup,
 			String siteURL, String timeZone) {
-		return null;
+		try {
+			if (standup == null)
+				return null;
+			Div div = new Div()
+					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
+			H3 name = new H3();
+			name.appendText(Jsoup.parse(
+					DateTimeUtils.converToStringWithUserTimeZone(
+							standup.getCreatedtime(), timeZone)).html());
+			div.appendChild(name);
+
+			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+
+			Tr trRow3 = new Tr();
+			trRow3.appendChild(
+					new Td().setStyle(
+							"width: 150px; vertical-align: top; text-align: right;")
+							.appendText("What I did in the last day/week:"))
+					.appendChild(
+							new Td().setStyle(
+									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+									.appendText(standup.getWhatlastday()));
+
+			Tr trRow4 = new Tr();
+			trRow4.appendChild(
+					new Td().setStyle(
+							"width: 150px;vertical-align: top; text-align: right;")
+							.appendText("What I will do today/week:"))
+					.appendChild(
+							new Td().setStyle(
+									"break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+									.appendText(standup.getWhattoday()));
+			Tr trRow5 = new Tr();
+			trRow5.appendChild(
+					new Td().setStyle(
+							"width: 150px;vertical-align: top; text-align: right;")
+							.appendText("Do you have roadblocks? :"))
+					.appendChild(
+							new Td().setStyle(
+									"break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+									.appendText(standup.getWhatproblem()));
+
+			table.appendChild(trRow3);
+			table.appendChild(trRow4);
+			table.appendChild(trRow5);
+			div.appendChild(table);
+
+			return div.write();
+
+		} catch (Exception e) {
+			log.error(
+					"Error while generate tooltip for servlet project tooltip",
+					e);
+			return null;
+		}
+	}
+
+	public static String generateToolTipMessage(SimpleMessage message,
+			String siteURL, String timeZone) {
+		try {
+			if (message == null)
+				return null;
+			Div div = new Div()
+					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
+			H3 name = new H3();
+			name.appendText(Jsoup.parse(message.getTitle()).html());
+			div.appendChild(name);
+
+			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			table.setStyle("padding-left:10px; width :500px;  color: #5a5a5a; font-size:11px;white-space: nowrap;	");
+
+			Tr trRow2 = new Tr();
+			trRow2.appendChild(new Td()
+					.setStyle(
+							"vertical-align: top; text-align: left;word-wrap: break-word; white-space: normal;vertical-align: top;")
+					.appendText(
+							StringUtils.trim(message.getMessage(), 500, true)));
+
+			table.appendChild(trRow2);
+			div.appendChild(table);
+
+			return div.write();
+
+		} catch (Exception e) {
+			log.error(
+					"Error while generate tooltip for servlet project tooltip",
+					e);
+			return null;
+		}
 	}
 }

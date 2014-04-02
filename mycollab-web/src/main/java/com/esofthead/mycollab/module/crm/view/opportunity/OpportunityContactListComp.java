@@ -97,6 +97,32 @@ public class OpportunityContactListComp
 		HorizontalLayout controlsBtnWrap = new HorizontalLayout();
 		controlsBtnWrap.setWidth("100%");
 
+		HorizontalLayout notesWrap = new HorizontalLayout();
+		notesWrap.setWidth("100%");
+		notesWrap.setSpacing(true);
+		Label noteLbl = new Label("Note: ");
+		noteLbl.setSizeUndefined();
+		noteLbl.setStyleName("list-note-lbl");
+		notesWrap.addComponent(noteLbl);
+
+		CssLayout noteBlock = new CssLayout();
+		noteBlock.setWidth("100%");
+		noteBlock.setStyleName("list-note-block");
+		for (int i = 0; i < CrmDataTypeFactory.getOpportunityContactRoleList().length; i++) {
+			Label note = new Label(
+					CrmDataTypeFactory.getOpportunityContactRoleList()[i]);
+			note.setStyleName("note-label");
+			note.addStyleName(colormap.get(CrmDataTypeFactory
+					.getOpportunityContactRoleList()[i]));
+			note.setSizeUndefined();
+
+			noteBlock.addComponent(note);
+		}
+		notesWrap.addComponent(noteBlock);
+		notesWrap.setExpandRatio(noteBlock, 1.0f);
+
+		controlsBtnWrap.addComponent(notesWrap);
+
 		final SplitButton controlsBtn = new SplitButton();
 		controlsBtn.setSizeUndefined();
 		controlsBtn.setEnabled(AppContext

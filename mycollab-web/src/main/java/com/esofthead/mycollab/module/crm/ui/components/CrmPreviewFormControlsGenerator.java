@@ -134,7 +134,6 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							optionBtn.setPopupVisible(false);
 							final T item = previewForm.getBean();
 							previewForm.fireDeleteForm(item);
 						}

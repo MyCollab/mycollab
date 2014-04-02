@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.vaadin.dialogs.ConfirmDialog;
@@ -25,6 +27,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
@@ -35,6 +38,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -57,6 +61,19 @@ public class AccountOpportunityListComp
 
 	private Account account;
 
+	public static Map<String, String> colormap = new HashMap<String, String>();
+
+	static {
+		for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
+			String roleKeyName = CrmDataTypeFactory
+					.getOpportunitySalesStageList()[i];
+			if (!colormap.containsKey(roleKeyName)) {
+				colormap.put(roleKeyName,
+						AbstractBeanBlockList.getColorStyleNameList()[i]);
+			}
+		}
+	}
+
 	public AccountOpportunityListComp() {
 		super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
 				20);
@@ -65,7 +82,35 @@ public class AccountOpportunityListComp
 
 	@Override
 	protected Component generateTopControls() {
-		VerticalLayout controlsBtnWrap = new VerticalLayout();
+		HorizontalLayout controlsBtnWrap = new HorizontalLayout();
+		controlsBtnWrap.setWidth("100%");
+
+		HorizontalLayout notesWrap = new HorizontalLayout();
+		notesWrap.setWidth("100%");
+		notesWrap.setSpacing(true);
+		Label noteLbl = new Label("Note: ");
+		noteLbl.setSizeUndefined();
+		noteLbl.setStyleName("list-note-lbl");
+		notesWrap.addComponent(noteLbl);
+
+		CssLayout noteBlock = new CssLayout();
+		noteBlock.setWidth("100%");
+		noteBlock.setStyleName("list-note-block");
+		for (int i = 0; i < CrmDataTypeFactory.getOpportunitySalesStageList().length; i++) {
+			Label note = new Label(
+					CrmDataTypeFactory.getOpportunitySalesStageList()[i]);
+			note.setStyleName("note-label");
+			note.addStyleName(colormap.get(CrmDataTypeFactory
+					.getOpportunitySalesStageList()[i]));
+			note.setSizeUndefined();
+
+			noteBlock.addComponent(note);
+		}
+		notesWrap.addComponent(noteBlock);
+		notesWrap.setExpandRatio(noteBlock, 1.0f);
+
+		controlsBtnWrap.addComponent(notesWrap);
+
 		controlsBtnWrap.setWidth("100%");
 		final Button createBtn = new Button("New Opportunity",
 				new Button.ClickListener() {
@@ -205,6 +250,11 @@ public class AccountOpportunityListComp
 							+ (opportunity.getSalesstage() != null ? opportunity
 									.getSalesstage() : ""));
 			opportunityInfo.addComponent(opportunitySaleStage);
+
+			if (opportunity.getSalesstage() != null) {
+				beanBlock
+						.addStyleName(colormap.get(opportunity.getSalesstage()));
+			}
 
 			Label opportunityExpectedCloseDate = new Label(
 					"Expected Close Date: "

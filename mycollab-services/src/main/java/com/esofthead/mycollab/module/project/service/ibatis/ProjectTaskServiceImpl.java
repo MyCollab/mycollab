@@ -96,7 +96,7 @@ public class ProjectTaskServiceImpl extends
 		record.setTaskkey((key == null) ? 1 : (key + 1));
 
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectGenericTaskService.class,
+				ProjectGenericTaskService.class, ProjectTaskListService.class,
 				ProjectActivityStreamService.class, ProjectMemberService.class);
 
 		return super.saveWithSession(record, username);
@@ -112,6 +112,7 @@ public class ProjectTaskServiceImpl extends
 		}
 
 		CacheUtils.cleanCaches(record.getSaccountid(),
+				ProjectTaskListService.class,
 				ProjectActivityStreamService.class);
 
 		return super.updateWithSession(record, username);

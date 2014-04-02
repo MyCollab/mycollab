@@ -41,7 +41,7 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_role
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
@@ -50,7 +50,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" resultMap="SimpleRoleResult" parameterType="RoleSearchCriteria">
+    <select id="findPagableListByCriteria" resultMap="SimpleRoleResult" parameterType="RoleSearchCriteria" lang="velocity">
         <include refid="selectSimpleRole" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
