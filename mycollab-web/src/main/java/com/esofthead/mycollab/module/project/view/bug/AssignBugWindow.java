@@ -65,7 +65,7 @@ public class AssignBugWindow extends Window {
 		this.callbackForm = callbackForm;
 
 		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setWidth("750px");
+		this.setWidth("750px");
 		this.editForm = new EditForm();
 		contentLayout.addComponent(this.editForm);
 		this.editForm.setBean(bug);
@@ -141,12 +141,12 @@ public class AssignBugWindow extends Window {
 											AppContext.getUsername());
 
 									// Save comment
-									final String commentValue = (String) EditForm.this.commentArea
+									final String commentValue = EditForm.this.commentArea
 											.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {
 										final Comment comment = new Comment();
-										comment.setComment((String) EditForm.this.commentArea
+										comment.setComment(EditForm.this.commentArea
 												.getValue());
 										comment.setCreatedtime(new GregorianCalendar()
 												.getTime());

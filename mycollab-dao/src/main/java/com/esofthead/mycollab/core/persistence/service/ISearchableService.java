@@ -27,7 +27,8 @@ import com.esofthead.mycollab.core.cache.Cacheable;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  * @param <S>
  */
 public interface ISearchableService<S extends SearchCriteria> extends IService {

@@ -67,7 +67,6 @@ public class CommentInput extends VerticalLayout {
 			final boolean isSendingEmailRelay, final Class emailHandler) {
 		this.setWidth("600px");
 		setSpacing(true);
-		
 
 		type = typeVal;
 		typeid = typeidVal;
@@ -84,6 +83,7 @@ public class CommentInput extends VerticalLayout {
 		controlsLayout.setSpacing(true);
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
+		uploadExt.addComponent(attachments);
 		controlsLayout.addComponent(uploadExt);
 		controlsLayout.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 
@@ -107,70 +107,65 @@ public class CommentInput extends VerticalLayout {
 					Alignment.MIDDLE_RIGHT);
 		}
 
-		final Button saveBtn = new Button("Post",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+		final Button saveBtn = new Button("Post", new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						final Comment comment = new Comment();
-						comment.setComment((String) commentArea.getValue());
-						comment.setCreatedtime(new GregorianCalendar()
-								.getTime());
-						comment.setCreateduser(AppContext.getUsername());
-						comment.setSaccountid(AppContext.getAccountId());
-						comment.setType(type.toString());
-						comment.setTypeid(typeid);
-						comment.setExtratypeid(extraTypeId);
+			@Override
+			public void buttonClick(final Button.ClickEvent event) {
+				final Comment comment = new Comment();
+				comment.setComment(commentArea.getValue());
+				comment.setCreatedtime(new GregorianCalendar().getTime());
+				comment.setCreateduser(AppContext.getUsername());
+				comment.setSaccountid(AppContext.getAccountId());
+				comment.setType(type.toString());
+				comment.setTypeid(typeid);
+				comment.setExtratypeid(extraTypeId);
 
-						final CommentService commentService = ApplicationContextUtil
-								.getSpringBean(CommentService.class);
-						int commentId = 0;
-						if (isSendingEmailRelay) {
-							commentId = commentService.saveWithSession(comment,
-									AppContext.getUsername(),
-									isSendingEmailRelay, emailHandler);
-						} else {
-							commentId = commentService.saveWithSession(comment,
-									AppContext.getUsername(), false,
-									emailHandler);
-						}
+				final CommentService commentService = ApplicationContextUtil
+						.getSpringBean(CommentService.class);
+				int commentId = 0;
+				if (isSendingEmailRelay) {
+					commentId = commentService.saveWithSession(comment,
+							AppContext.getUsername(), isSendingEmailRelay,
+							emailHandler);
+				} else {
+					commentId = commentService.saveWithSession(comment,
+							AppContext.getUsername(), false, emailHandler);
+				}
 
-						String attachmentPath = "";
-						if (CommentType.CRM_NOTE.equals(type)) {
-							attachmentPath = AttachmentUtils
-									.getCrmNoteCommentAttachmentPath(
-											AppContext.getAccountId(), typeid,
-											commentId);
-						} else {
-							// do nothing
-						}
+				String attachmentPath = "";
+				if (CommentType.CRM_NOTE.equals(type)) {
+					attachmentPath = AttachmentUtils
+							.getCrmNoteCommentAttachmentPath(
+									AppContext.getAccountId(), typeid,
+									commentId);
+				} else {
+					// do nothing
+				}
 
-						if (!"".equals(attachmentPath)) {
-							attachments.saveContentsToRepo(attachmentPath);
-						}
+				if (!"".equals(attachmentPath)) {
+					attachments.saveContentsToRepo(attachmentPath);
+				}
 
-						// save success, clear comment area and load list
-						// comments again
-						commentArea.setValue("");
-						attachments.removeAllAttachmentsDisplay();
-						component.reload();
-					}
-				});
+				// save success, clear comment area and load list
+				// comments again
+				commentArea.setValue("");
+				attachments.removeAllAttachmentsDisplay();
+				component.reload();
+			}
+		});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		saveBtn.setIcon(MyCollabResource.newResource("icons/16/post.png"));
 		controlsLayout.addComponent(saveBtn);
-		
+
 		VerticalLayout editBox = new VerticalLayout();
 		editBox.setMargin(true);
 		editBox.setSpacing(true);
-	
-		
+
 		HorizontalLayout commentWrap = new HorizontalLayout();
 		commentWrap.setSpacing(true);
 		commentWrap.addStyleName("message");
 		commentWrap.setWidth("100%");
-		
 
 		SimpleUser currentUser = AppContext.getSession();
 		VerticalLayout userBlock = new VerticalLayout();
@@ -178,8 +173,7 @@ public class CommentInput extends VerticalLayout {
 		userBlock.setWidth("80px");
 		userBlock.setSpacing(true);
 		userBlock.addComponent(UserAvatarControlFactory
-				.createUserAvatarButtonLink(
-						currentUser.getAvatarid(),
+				.createUserAvatarButtonLink(currentUser.getAvatarid(),
 						currentUser.getDisplayName()));
 		Label userName = new Label(currentUser.getDisplayName());
 		userName.setStyleName("user-name");
@@ -190,15 +184,11 @@ public class CommentInput extends VerticalLayout {
 		textAreaWrap.setStyleName("message-container");
 		textAreaWrap.setWidth("100%");
 		textAreaWrap.addComponent(editBox);
-		
-		
-		
+
 		commentWrap.addComponent(textAreaWrap);
 		commentWrap.setExpandRatio(textAreaWrap, 1.0f);
-		
-		
+
 		editBox.addComponent(commentArea);
-		editBox.addComponent(attachments);
 		editBox.addComponent(controlsLayout);
 		this.addComponent(commentWrap);
 	}

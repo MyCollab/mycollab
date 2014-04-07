@@ -102,6 +102,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 		controlsLayout.setSpacing(true);
 
 		final MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
+		uploadExt.addComponent(attachments);
 		controlsLayout.addComponent(uploadExt);
 		controlsLayout.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 
@@ -170,7 +171,6 @@ public class ProjectCommentInput extends HorizontalLayout {
 		controlsLayout.addComponent(newCommentBtn);
 
 		textAreaWrap.addComponent(commentArea);
-		textAreaWrap.addComponent(attachments);
 		textAreaWrap.addComponent(controlsLayout);
 	}
 

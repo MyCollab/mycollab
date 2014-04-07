@@ -144,7 +144,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		controllGroupBtn = new HorizontalLayout();
 		controllGroupBtn.setMargin(new MarginInfo(false, false, false, true));
 		controllGroupBtn.setSpacing(true);
-		controllGroupBtn.addStyleName(UIConstants.THEME_SMALL_PADDING );
+		controllGroupBtn.addStyleName(UIConstants.THEME_SMALL_PADDING);
 
 		selectAllBtn = new Button();
 		selectAllBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
@@ -258,7 +258,8 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		uploadBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/upload.png"));
 		uploadBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
-		uploadBtn.setDescription("Upload");;
+		uploadBtn.setDescription("Upload");
+		;
 		uploadBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		navButton.addButton(uploadBtn);
@@ -318,21 +319,19 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		moveToBtn.setDescription("Move to");
 		navButton.addButton(moveToBtn);
 
-		deleteBtn = new Button("Delete"
-				,
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+		deleteBtn = new Button("Delete", new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						if (selectedResourcesList.size() == 0) {
-							NotificationUtil
-									.showWarningNotification("Please select at least one item to delete");
-						} else {
-							deleteResourceAction();
-						}
-					}
-				});
+			@Override
+			public void buttonClick(ClickEvent event) {
+				if (selectedResourcesList.size() == 0) {
+					NotificationUtil
+							.showWarningNotification("Please select at least one item to delete");
+				} else {
+					deleteResourceAction();
+				}
+			}
+		});
 		deleteBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/delete.png"));
 		deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
@@ -723,6 +722,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			informationLayout.addComponent(resourceLinkBtn);
 
 			HorizontalLayout moreInfoAboutResLayout = new HorizontalLayout();
+			moreInfoAboutResLayout.setSpacing(true);
 
 			// If resource is dropbox resource then we can not define the
 			// created user so we do not need to display, then we assume the
@@ -775,7 +775,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			}
 
 			final PopupButton resourceSettingPopupBtn = new PopupButton();
-			
+
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
 
 			final Button renameBtn = new Button("Rename",

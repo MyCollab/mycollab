@@ -49,7 +49,9 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
+import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
@@ -57,6 +59,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
@@ -119,11 +122,11 @@ public class AnnotatedTooltipGeneratorHandler extends GenericServlet {
 				html = ProjectTooltipGenerator.generateToolTipMessage(message,
 						siteURL, timeZone);
 			} else if ("Milestone".equals(type)) {
-				MessageService service = ApplicationContextUtil
-						.getSpringBean(MessageService.class);
-				SimpleMessage message = service.findMessageById(typeid,
+				MilestoneService service = ApplicationContextUtil
+						.getSpringBean(MilestoneService.class);
+				SimpleMilestone mileStone = service.findById(typeid,
 						sAccountId);
-				html = ProjectTooltipGenerator.generateToolTipMessage(message,
+				html = ProjectTooltipGenerator.generateToolTipMilestone(mileStone,
 						siteURL, timeZone);
 			} else if ("TaskList".equals(type)) {
 				ProjectTaskListService service = ApplicationContextUtil

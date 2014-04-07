@@ -317,7 +317,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 	@Override
 	protected String initFormTitle() {
-		return "[Issue " + this.beanItem.getBugkey() + "#]: "
+		return "[Issue #" + this.beanItem.getBugkey() + "]: "
 				+ this.beanItem.getSummary();
 	}
 

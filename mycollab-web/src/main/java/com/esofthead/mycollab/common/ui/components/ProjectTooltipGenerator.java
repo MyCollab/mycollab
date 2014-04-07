@@ -46,12 +46,29 @@ import com.hp.gagawa.java.elements.Tr;
 public class ProjectTooltipGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectTooltipGenerator.class);
-
+	
+	public static String generateTolltipNull(){
+		Div div = new Div();
+		com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
+		
+		Tr trRow1 = new Tr();
+		trRow1.appendChild(
+				new Td().setStyle(
+						"vertical-align: top; text-align: left;")
+						.appendText("The item is not existed"));
+		
+		table.appendChild(trRow1);
+		div.appendChild(table);
+		
+		return div.write();
+	}
+	
 	public static String generateToolTipTask(SimpleTask task, String siteURL,
 			String timeZone) {
 		try {
 			if (task == null)
-				return null;
+				return generateTolltipNull();
 			String beforeStr = "<html><head><meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"></head><body>";
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
@@ -204,7 +221,7 @@ public class ProjectTooltipGenerator {
 			String timeZone) {
 		try {
 			if (bug == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 bugSummary = new H3();
@@ -403,7 +420,7 @@ public class ProjectTooltipGenerator {
 			String timeZone) {
 		try {
 			if (risk == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 riskName = new H3();
@@ -584,7 +601,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (problem == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 problemName = new H3();
@@ -766,7 +783,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (version == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 versionName = new H3();
@@ -827,7 +844,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (component == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 componentName = new H3();
@@ -907,7 +924,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (taskList == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 bugSummary = new H3();
@@ -1007,7 +1024,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (project == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 taksName = new H3();
@@ -1177,7 +1194,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (milestone == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 milestoneName = new H3();
@@ -1311,7 +1328,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (standup == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 name = new H3();
@@ -1326,7 +1343,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow3 = new Tr();
 			trRow3.appendChild(
 					new Td().setStyle(
-							"width: 150px; vertical-align: top; text-align: right;")
+							"width: 165px; vertical-align: top; text-align: right;")
 							.appendText("What I did in the last day/week:"))
 					.appendChild(
 							new Td().setStyle(
@@ -1336,7 +1353,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow4 = new Tr();
 			trRow4.appendChild(
 					new Td().setStyle(
-							"width: 150px;vertical-align: top; text-align: right;")
+							"width: 165px;vertical-align: top; text-align: right;")
 							.appendText("What I will do today/week:"))
 					.appendChild(
 							new Td().setStyle(
@@ -1345,8 +1362,8 @@ public class ProjectTooltipGenerator {
 			Tr trRow5 = new Tr();
 			trRow5.appendChild(
 					new Td().setStyle(
-							"width: 150px;vertical-align: top; text-align: right;")
-							.appendText("Do you have roadblocks? :"))
+							"width: 165px;vertical-align: top; text-align: right;")
+							.appendText("Do you have roadblocks?:"))
 					.appendChild(
 							new Td().setStyle(
 									"break-word; white-space: normal;vertical-align: top; word-break: break-all;")
@@ -1371,7 +1388,7 @@ public class ProjectTooltipGenerator {
 			String siteURL, String timeZone) {
 		try {
 			if (message == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 name = new H3();
@@ -1400,4 +1417,6 @@ public class ProjectTooltipGenerator {
 			return null;
 		}
 	}
+	
+	
 }

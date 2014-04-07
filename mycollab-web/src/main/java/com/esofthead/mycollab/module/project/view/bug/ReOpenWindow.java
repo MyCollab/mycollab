@@ -70,7 +70,7 @@ public class ReOpenWindow extends Window {
 		this.callbackForm = callbackForm;
 
 		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setWidth("750px");
+		this.setWidth("750px");
 		this.editForm = new EditForm();
 		this.editForm.setBean(bug);
 
@@ -154,7 +154,7 @@ public class ReOpenWindow extends Window {
 											AppContext.getUsername());
 
 									// Save comment
-									final String commentValue = (String) EditForm.this.commentArea
+									final String commentValue = EditForm.this.commentArea
 											.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {

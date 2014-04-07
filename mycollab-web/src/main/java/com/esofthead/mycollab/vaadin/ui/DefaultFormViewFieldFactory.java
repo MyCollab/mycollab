@@ -48,8 +48,8 @@ public class DefaultFormViewFieldFactory {
 		void saveContentsToRepo(String attachmentPath);
 	}
 
-	public static class FormAttachmentUploadField extends CustomField
-			implements AttachmentUploadField {
+	public static class FormAttachmentUploadField extends CustomField implements
+			AttachmentUploadField {
 		private static final long serialVersionUID = 1L;
 		private MultiFileUploadExt uploadExt;
 		private AttachmentPanel attachmentPanel;
@@ -76,7 +76,7 @@ public class DefaultFormViewFieldFactory {
 		protected Component initContent() {
 			final VerticalLayout layout = new VerticalLayout();
 			uploadExt = new MultiFileUploadExt(attachmentPanel);
-			layout.addComponent(attachmentPanel);
+			uploadExt.addComponent(attachmentPanel);
 			layout.addComponent(uploadExt);
 			return layout;
 		}
@@ -133,8 +133,7 @@ public class DefaultFormViewFieldFactory {
 		}
 	}
 
-	public static class DateFieldWithUserTimeZone extends
-			CustomField<String> {
+	public static class DateFieldWithUserTimeZone extends CustomField<String> {
 		private static final long serialVersionUID = 1L;
 
 		private static String DATE_FORMAT = "MM/dd/yyyy";

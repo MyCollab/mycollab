@@ -124,13 +124,13 @@ public class FeedbackWindow extends Window {
 		attachments.setWidth("350px");
 
 		MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
+		uploadExt.addComponent(attachments);
 
 		// Panel attachedFilepanel = new Panel();
 		VerticalLayout contentLayout = new VerticalLayout();
 		contentLayout.setHeight("80px");
 		contentLayout.setStyleName("noneBorder-panel");
 		contentLayout.setSizeUndefined();
-		contentLayout.addComponent(attachments);
 
 		contentLayout.addComponent(uploadExt);
 

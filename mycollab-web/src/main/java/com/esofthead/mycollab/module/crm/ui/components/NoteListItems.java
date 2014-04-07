@@ -392,7 +392,6 @@ public class NoteListItems extends VerticalLayout {
 			noteArea.setHeight("200px");
 
 			editBox.addComponent(noteArea);
-			editBox.addComponent(attachments);
 
 			final HorizontalLayout controls = new HorizontalLayout();
 			controls.setSpacing(true);

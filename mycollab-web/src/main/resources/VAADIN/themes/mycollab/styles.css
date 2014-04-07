@@ -2445,6 +2445,9 @@ input.v-textfield-errorField {
 	height: 30px;
 	vertical-align: middle;
 	line-height: 30px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .v-calendar-header-week .v-calendar-datecell {
@@ -2536,6 +2539,7 @@ input.v-textfield-errorField {
 
 .v-calendar-header-week .v-calendar-back {
 	float: right;
+	/* width: 49px; */
 }
 
 .v-calendar-header-week .v-calendar-next {
@@ -3066,6 +3070,18 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 .usergroup-view .colored-gridlayout .gridform-field .v-csslayout
 	{
 	padding: 3px 2px 2px;
+}
+
+.v-widget.tokenfield div.v-button-link, .v-widget.tokenfield div.v-button-link:focus, .v-widget.tokenfield div.v-button-link:active {
+	padding: 0px;
+	background-image: url('icons/grad-dark-bottom.png');
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	background-color: #394754;
+	height: auto;
+}
+.v-widget.tokenfield .v-button-link .v-button-wrap, .v-widget.tokenfield .v-button-link:focus .v-button-wrap, .v-widget.tokenfield .v-button-link:active .v-button-wrap {
+	padding: 0px 7px 1px;
 }
 
 /* End Token Field */
@@ -3755,6 +3771,10 @@ div.v-lazyloadingwrapper-loading {
 
 .standupreport-list-content {
 	padding-right: 15px;
+}
+
+.standupreport-list-content .standup-block {
+	margin-bottom: 15px
 }
 
 .standupreport-list-content .depotComp {
@@ -5688,6 +5708,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 /* volume usage info */
 .v-horizontallayout.border-box2-no-margin.file-topcontrols {
 	border-radius: 5px 5px 0px 0px;
+	border-width: 1px 1px 0px;
 }
 .file-topcontrols .v-button.v-button-right {
 	border-right: none;
@@ -6001,6 +6022,13 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 	z-index: 3000;
 	font: 11px Arial, Verdana, Helvetica, sans-serif !important;
 	line-height: normal;
+}
+
+.stickytooltip tr, .v-tooltip-text tr{ 
+	line-height:1.5;
+}
+.stickytooltip a, .v-tooltip-text a {
+	vertical-align:top;
 }
 
 .stickytooltip .stickystatus { /*Style for footer bar within tooltip*/

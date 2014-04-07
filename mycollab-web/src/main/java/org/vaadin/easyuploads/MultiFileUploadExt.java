@@ -57,7 +57,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			AttachmentUploadComponent attachmentDisplayComponent) {
 		this.attachmentDisplayComponent = attachmentDisplayComponent;
 		this.attachmentDisplayComponent.registerMultiUpload(this);
-		setWidth("200px");
+		// setWidth("200px");
 		setStyleName("v-multifileupload-ext");
 		addComponent(progressBars);
 		uploads.setStyleName("v-multifileupload-uploads");
@@ -79,10 +79,12 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			private static final long serialVersionUID = 1L;
 			private LinkedList<ProgressIndicator> indicators;
 
+			@Override
 			public void streamingStarted(
 					StreamVariable.StreamingStartEvent event) {
 			}
 
+			@Override
 			public void streamingFinished(StreamVariable.StreamingEndEvent event) {
 				if (!indicators.isEmpty()) {
 					progressBars.removeComponent(indicators.remove(0));
@@ -94,6 +96,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				receiver.setValue(null);
 			}
 
+			@Override
 			public void streamingFailed(StreamVariable.StreamingErrorEvent event) {
 				Logger.getLogger(getClass().getName()).log(Level.FINE,
 						"Streaming failed", event.getException());
@@ -104,6 +107,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
 			}
 
+			@Override
 			public void onProgress(StreamVariable.StreamingProgressEvent event) {
 				long readBytes = event.getBytesReceived();
 				long contentLength = event.getContentLength();
@@ -111,6 +115,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				indicators.get(0).setValue(f);
 			}
 
+			@Override
 			public OutputStream getOutputStream() {
 				MultiUpload.FileDetail next = upload.getPendingFileNames()
 						.iterator().next();
@@ -118,6 +123,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 						next.getMimeType());
 			}
 
+			@Override
 			public void filesQueued(
 					Collection<MultiUpload.FileDetail> pendingFileNames) {
 				if (indicators == null) {
@@ -130,6 +136,12 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 					pi.setVisible(true);
 					indicators.add(pi);
 				}
+			}
+
+			@Override
+			public boolean isInterrupted() {
+				// TODO Auto-generated method stub
+				return false;
 			}
 		};
 		upload.setHandler(handler);
@@ -256,6 +268,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				new File(directoryWhereToUpload)));
 	}
 
+	@Override
 	public AcceptCriterion getAcceptCriterion() {
 		// accept only files
 		// return new And(new TargetDetailIs("verticalLocation","MIDDLE"), new
@@ -263,6 +276,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 		return AcceptAll.get();
 	}
 
+	@Override
 	public void drop(DragAndDropEvent event) {
 		DragAndDropWrapper.WrapperTransferable transferable = (DragAndDropWrapper.WrapperTransferable) event
 				.getTransferable();
@@ -277,14 +291,17 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 				private String name;
 				private String mime;
 
+				@Override
 				public OutputStream getOutputStream() {
 					return receiver.receiveUpload(name, mime);
 				}
 
+				@Override
 				public boolean listenProgress() {
 					return true;
 				}
 
+				@Override
 				public void onProgress(
 						StreamVariable.StreamingProgressEvent event) {
 					float p = (float) event.getBytesReceived()
@@ -292,6 +309,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 					pi.setValue(p);
 				}
 
+				@Override
 				public void streamingStarted(
 						StreamVariable.StreamingStartEvent event) {
 					name = event.getFileName();
@@ -299,6 +317,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 
 				}
 
+				@Override
 				public void streamingFinished(
 						StreamVariable.StreamingEndEvent event) {
 					progressBars.removeComponent(pi);
@@ -307,11 +326,13 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 					receiver.setValue(null);
 				}
 
+				@Override
 				public void streamingFailed(
 						StreamVariable.StreamingErrorEvent event) {
 					progressBars.removeComponent(pi);
 				}
 
+				@Override
 				public boolean isInterrupted() {
 					return false;
 				}

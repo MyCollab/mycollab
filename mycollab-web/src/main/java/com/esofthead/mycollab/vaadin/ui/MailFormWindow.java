@@ -192,6 +192,7 @@ public class MailFormWindow extends Window {
 		attachments.setWidth("500px");
 
 		MultiFileUploadExt uploadExt = new MultiFileUploadExt(attachments);
+		uploadExt.addComponent(attachments);
 
 		controlsLayout.addComponent(uploadExt);
 		controlsLayout.setExpandRatio(uploadExt, 1.0f);

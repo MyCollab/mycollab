@@ -90,11 +90,11 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 @ViewComponent
 public class MessageListViewImpl extends AbstractPageView implements
-MessageListView, HasEditFormHandlers<Message> {
+		MessageListView, HasEditFormHandlers<Message> {
 
 	private static final long serialVersionUID = 8433776359091397422L;
 	private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> tableItem;
@@ -118,7 +118,7 @@ MessageListView, HasEditFormHandlers<Message> {
 					@Override
 					public void onSearch(final MessageSearchCriteria criteria) {
 						MessageListViewImpl.this.tableItem
-						.setSearchCriteria(criteria);
+								.setSearchCriteria(criteria);
 					}
 				});
 		this.addComponent(this.topMessagePanel);
@@ -159,7 +159,7 @@ MessageListView, HasEditFormHandlers<Message> {
 	}
 
 	private class MessageRowDisplayHandler implements
-	RowDisplayHandler<SimpleMessage> {
+			RowDisplayHandler<SimpleMessage> {
 
 		@Override
 		public Component generateRow(final SimpleMessage message,
@@ -180,7 +180,10 @@ MessageListView, HasEditFormHandlers<Message> {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(new ProjectMemberEvent.GotoRead(MessageListViewImpl.this, message.getPosteduser()));
+					EventBus.getInstance().fireEvent(
+							new ProjectMemberEvent.GotoRead(
+									MessageListViewImpl.this, message
+											.getPosteduser()));
 				}
 			};
 			Button userAvatarBtn = UserAvatarControlFactory
@@ -202,16 +205,16 @@ MessageListView, HasEditFormHandlers<Message> {
 			rowLayout.setWidth("100%");
 			final Button title = new Button(message.getTitle(),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					EventBus.getInstance().fireEvent(
-							new MessageEvent.GotoRead(
-									MessageListViewImpl.this, message
-									.getId()));
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new MessageEvent.GotoRead(
+											MessageListViewImpl.this, message
+													.getId()));
+						}
+					});
 
 			title.setWidth("550px");
 			title.setStyleName("link");
@@ -244,8 +247,9 @@ MessageListView, HasEditFormHandlers<Message> {
 				commentCountLbl.setStyleName("comment-count");
 				commentCountLbl.setSizeUndefined();
 				commentNotification.addComponent(commentCountLbl);
-				final Image commentIcon = new Image(null, MyCollabResource
-						.newResource("icons/16/project/message.png"));
+				final Image commentIcon = new Image(null,
+						MyCollabResource
+								.newResource("icons/16/project/message.png"));
 				commentNotification.addComponent(commentIcon);
 
 				notification.addComponent(commentNotification);
@@ -267,8 +271,8 @@ MessageListView, HasEditFormHandlers<Message> {
 				attachmentCountLbl.setStyleName("attachment-count");
 				attachmentCountLbl.setSizeUndefined();
 				attachmentNotification.addComponent(attachmentCountLbl);
-				final Image attachmentIcon = new Image(null, MyCollabResource
-						.newResource("icons/16/attachment.png"));
+				final Image attachmentIcon = new Image(null,
+						MyCollabResource.newResource("icons/16/attachment.png"));
 				attachmentNotification.addComponent(attachmentIcon);
 
 				notification.addComponent(attachmentNotification);
@@ -285,13 +289,13 @@ MessageListView, HasEditFormHandlers<Message> {
 							LocalizationHelper.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -304,7 +308,7 @@ MessageListView, HasEditFormHandlers<Message> {
 												AppContext.getUsername(),
 												AppContext.getAccountId());
 										MessageListViewImpl.this.tableItem
-										.setSearchCriteria(searchCriteria);
+												.setSearchCriteria(searchCriteria);
 									}
 								}
 							});
@@ -339,7 +343,8 @@ MessageListView, HasEditFormHandlers<Message> {
 				messageFooter.setStyleName("message-footer");
 				messageFooter.addComponent(notification);
 				messageFooter.setMargin(true);
-				messageFooter.setComponentAlignment(notification, Alignment.MIDDLE_RIGHT);
+				messageFooter.setComponentAlignment(notification,
+						Alignment.MIDDLE_RIGHT);
 				rowLayout.addComponent(messageFooter);
 			}
 
@@ -352,7 +357,7 @@ MessageListView, HasEditFormHandlers<Message> {
 
 	@SuppressWarnings({ "serial" })
 	private class MessageSearchPanel extends
-	GenericSearchPanel<MessageSearchCriteria> {
+			GenericSearchPanel<MessageSearchCriteria> {
 
 		private final SimpleProject project;
 		private MessageSearchCriteria messageSearchCriteria;
@@ -381,19 +386,19 @@ MessageListView, HasEditFormHandlers<Message> {
 					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
 
 					MessageSearchPanel.this.messageSearchCriteria
-					.setProjectids(new SetSearchField<Integer>(
-							SearchField.AND,
-							MessageSearchPanel.this.project.getId()));
+							.setProjectids(new SetSearchField<Integer>(
+									SearchField.AND,
+									MessageSearchPanel.this.project.getId()));
 
 					MessageSearchPanel.this.textSearch = event.getText()
 							.toString().trim();
 
 					MessageSearchPanel.this.messageSearchCriteria
-					.setMessage(new StringSearchField(
-							MessageSearchPanel.this.textSearch));
+							.setMessage(new StringSearchField(
+									MessageSearchPanel.this.textSearch));
 
 					MessageSearchPanel.this
-					.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
+							.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
 				}
 			});
 
@@ -412,20 +417,21 @@ MessageListView, HasEditFormHandlers<Message> {
 					MessageSearchPanel.this.messageSearchCriteria = new MessageSearchCriteria();
 
 					MessageSearchPanel.this.messageSearchCriteria
-					.setProjectids(new SetSearchField<Integer>(
-							SearchField.AND,
-							MessageSearchPanel.this.project.getId()));
+							.setProjectids(new SetSearchField<Integer>(
+									SearchField.AND,
+									MessageSearchPanel.this.project.getId()));
 
 					MessageSearchPanel.this.messageSearchCriteria
-					.setMessage(new StringSearchField(
-							MessageSearchPanel.this.textSearch));
+							.setMessage(new StringSearchField(
+									MessageSearchPanel.this.textSearch));
 
 					MessageSearchPanel.this
-					.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
+							.notifySearchHandler(MessageSearchPanel.this.messageSearchCriteria);
 				}
 			});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
 			this.setCompositionRoot(basicSearchBody);
@@ -444,7 +450,8 @@ MessageListView, HasEditFormHandlers<Message> {
 			this.setStyleName("message-toppanel");
 			this.messageSearchPanel = new MessageSearchPanel();
 			this.messagePanelBody = new HorizontalLayout();
-			this.messagePanelBody.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+			this.messagePanelBody
+					.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			this.messageSearchPanel.setWidth("400px");
 			this.messagePanelBody.setStyleName("message-toppanel-body");
@@ -488,7 +495,6 @@ MessageListView, HasEditFormHandlers<Message> {
 			ckEditorTextField.setHeight("200px");
 			addMessageWrapper.addComponent(ckEditorTextField);
 			addMessageWrapper.setExpandRatio(ckEditorTextField, 1.0f);
-			addMessageWrapper.addComponent(attachments);
 			addMessageWrapper.setComponentAlignment(ckEditorTextField,
 					Alignment.MIDDLE_CENTER);
 
@@ -498,6 +504,7 @@ MessageListView, HasEditFormHandlers<Message> {
 
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					attachments);
+			uploadExt.addComponent(attachments);
 			controls.addComponent(uploadExt);
 			controls.setExpandRatio(uploadExt, 1.0f);
 			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
@@ -508,7 +515,7 @@ MessageListView, HasEditFormHandlers<Message> {
 
 			final Button cancelBtn = new Button(
 					LocalizationHelper
-					.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -523,40 +530,38 @@ MessageListView, HasEditFormHandlers<Message> {
 
 			final Button saveBtn = new Button("Post",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final Message message = new Message();
-					message.setProjectid(CurrentProjectVariables
-							.getProjectId());
-					message.setPosteddate(new GregorianCalendar()
-					.getTime());
-					if (!titleField.getValue().toString().trim()
-							.equals("")) {
-						message.setTitle(titleField.getValue());
-						message.setMessage(ckEditorTextField
-								.getValue());
-						message.setPosteduser(AppContext.getUsername());
-						message.setSaccountid(AppContext.getAccountId());
-						message.setIsstick(chkIsStick
-								.getValue());
-						MessageListViewImpl.this.fireSaveItem(message);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final Message message = new Message();
+							message.setProjectid(CurrentProjectVariables
+									.getProjectId());
+							message.setPosteddate(new GregorianCalendar()
+									.getTime());
+							if (!titleField.getValue().toString().trim()
+									.equals("")) {
+								message.setTitle(titleField.getValue());
+								message.setMessage(ckEditorTextField.getValue());
+								message.setPosteduser(AppContext.getUsername());
+								message.setSaccountid(AppContext.getAccountId());
+								message.setIsstick(chkIsStick.getValue());
+								MessageListViewImpl.this.fireSaveItem(message);
 
-						String attachmentPath = AttachmentUtils
-								.getProjectEntityAttachmentPath(
-										AppContext.getAccountId(),
-										message.getProjectid(),
-										AttachmentType.PROJECT_MESSAGE,
-										message.getId());
-						attachments.saveContentsToRepo(attachmentPath);
-					} else {
-						titleField.addStyleName("errorField");
-						NotificationUtil
-						.showErrorNotification("Title must be not null!");
-					}
-				}
-			});
+								String attachmentPath = AttachmentUtils
+										.getProjectEntityAttachmentPath(
+												AppContext.getAccountId(),
+												message.getProjectid(),
+												AttachmentType.PROJECT_MESSAGE,
+												message.getId());
+								attachments.saveContentsToRepo(attachmentPath);
+							} else {
+								titleField.addStyleName("errorField");
+								NotificationUtil
+										.showErrorNotification("Title must be not null!");
+							}
+						}
+					});
 			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 			controls.addComponent(saveBtn);
@@ -574,7 +579,7 @@ MessageListView, HasEditFormHandlers<Message> {
 
 			final Button createMessageBtn = new Button(
 					LocalizationHelper
-					.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
+							.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

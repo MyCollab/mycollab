@@ -51,11 +51,28 @@ public class CrmTooltipGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(CrmTooltipGenerator.class);
 
+	public static String generateTolltipNull(){
+		Div div = new Div();
+		com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
+		
+		Tr trRow1 = new Tr();
+		trRow1.appendChild(
+				new Td().setStyle(
+						"vertical-align: top; text-align: left;")
+						.appendText("The item is not existed"));
+		
+		table.appendChild(trRow1);
+		div.appendChild(table);
+		
+		return div.write();
+	}
+	
 	public static String generateToolTipAccount(SimpleAccount account,
 			String siteURL, String timeZone) {
 		try {
 			if (account == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 accountName = new H3();
@@ -188,7 +205,7 @@ public class CrmTooltipGenerator {
 			String siteURL, String userTimeZone) {
 		try {
 			if (contact == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 contactName = new H3();
@@ -372,7 +389,7 @@ public class CrmTooltipGenerator {
 			String siteURl, String userTimeZone) {
 		try {
 			if (campagin == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 campaginName = new H3();
@@ -552,7 +569,7 @@ public class CrmTooltipGenerator {
 			String userTimeZone) {
 		try {
 			if (lead == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 leadName = new H3();
@@ -806,7 +823,7 @@ public class CrmTooltipGenerator {
 			SimpleOpportunity opportunity, String siteURl, String userTimeZone) {
 		try {
 			if (opportunity == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 opportunityName = new H3();
@@ -1007,7 +1024,7 @@ public class CrmTooltipGenerator {
 			String userTimeZone) {
 		try {
 			if (cases == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 caseName = new H3();
@@ -1187,7 +1204,7 @@ public class CrmTooltipGenerator {
 			String siteURl, String userTimeZone) {
 		try {
 			if (meeting == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 eventName = new H3();
@@ -1279,7 +1296,7 @@ public class CrmTooltipGenerator {
 			String userTimeZone) {
 		try {
 			if (call == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 callName = new H3();
@@ -1379,7 +1396,7 @@ public class CrmTooltipGenerator {
 			String siteURL, String userTimeZone) {
 		try {
 			if (task == null)
-				return null;
+				return generateTolltipNull();
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 eventName = new H3();

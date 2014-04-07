@@ -18,7 +18,6 @@ package com.esofthead.mycollab.core.persistence.service;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -29,8 +28,6 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.cache.CacheKey;
-import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.IMassUpdateDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 
@@ -44,66 +41,11 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
  * @param <S>
  */
 public abstract class DefaultService<K extends Serializable, T, S extends SearchCriteria>
-		implements IDefaultService<K, T, S> {
+		extends DefaultCrudService<K, T> implements IDefaultService<K, T, S> {
 
 	private static Logger log = LoggerFactory.getLogger(DefaultService.class);
 
-	public abstract ICrudGenericDAO getCrudMapper();
-
 	public abstract ISearchableDAO<S> getSearchMapper();
-
-	@Override
-	public T findByPrimaryKey(K primaryKey, int accountId) {
-		return (T) getCrudMapper().selectByPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public int saveWithSession(T record, String username) {
-		ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
-		Class<? extends ICrudGenericDAO> crudMapperClass = crudMapper
-				.getClass();
-
-		if (username != null && !username.trim().equals("")) {
-			try {
-				PropertyUtils.setProperty(record, "createduser", username);
-			} catch (Exception e) {
-
-			}
-		}
-
-		getCrudMapper().insertAndReturnKey(record);
-		try {
-			return (Integer) PropertyUtils.getProperty(record, "id");
-		} catch (Exception e) {
-			return 0;
-		}
-	}
-
-	@Override
-	public int updateWithSession(T record, String username) {
-		try {
-			PropertyUtils.setProperty(record, "lastupdatedtime",
-					new GregorianCalendar().getTime());
-		} catch (Exception e) {
-		}
-		return getCrudMapper().updateByPrimaryKey(record);
-	}
-
-	@Override
-	public int updateWithSessionWithSelective(@CacheKey T record,
-			String username) {
-		try {
-			PropertyUtils.setProperty(record, "lastupdatedtime",
-					new GregorianCalendar().getTime());
-		} catch (Exception e) {
-		}
-		return getCrudMapper().updateByPrimaryKeySelective(record);
-	}
-
-	@Override
-	public int removeWithSession(K primaryKey, String username, int accountId) {
-		return getCrudMapper().deleteByPrimaryKey(primaryKey);
-	}
 
 	@Override
 	public int getTotalCount(S criteria) {
@@ -152,18 +94,6 @@ public abstract class DefaultService<K extends Serializable, T, S extends Search
 	@Override
 	public Integer getPreviousItemKey(S criteria) {
 		return getSearchMapper().getPreviousItemKey(criteria);
-	}
-
-	@Override
-	public void massRemoveWithSession(List<K> primaryKeys, String username,
-			int accountId) {
-		getCrudMapper().removeKeysWithSession(primaryKeys);
-	}
-
-	@Override
-	public void massUpdateWithSession(T record, List<K> primaryKeys,
-			int accountId) {
-		getCrudMapper().massUpdateWithSession(record, primaryKeys);
 	}
 
 	@Override

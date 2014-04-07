@@ -198,6 +198,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				if (beanItem.getStatus() != null
 						&& beanItem.getStatus().equals("Close")) {
 					beanItem.setStatus("Open");
+					beanItem.setPercentagecomplete(0d);
 					TaskReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("Close");
@@ -205,7 +206,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 							.newResource("icons/16/project/closeTask.png"));
 				} else {
 					beanItem.setStatus("Close");
-
+					beanItem.setPercentagecomplete(100d);
 					TaskReadViewImpl.this
 							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("ReOpen");

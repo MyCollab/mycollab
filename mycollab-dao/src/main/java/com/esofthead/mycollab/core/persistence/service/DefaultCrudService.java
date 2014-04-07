@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.core.persistence.service;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -41,6 +43,8 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 
 	public abstract ICrudGenericDAO<K, T> getCrudMapper();
 
+	private Method cacheUpdateMethod;
+
 	@Override
 	public T findByPrimaryKey(K primaryKey, int accountId) {
 		return (T) getCrudMapper().selectByPrimaryKey(primaryKey);
@@ -48,6 +52,14 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 
 	@Override
 	public int saveWithSession(T record, String username) {
+		if (username != null && !username.trim().equals("")) {
+			try {
+				PropertyUtils.setProperty(record, "createduser", username);
+			} catch (Exception e) {
+
+			}
+		}
+
 		try {
 			PropertyUtils.setProperty(record, "createdtime",
 					new GregorianCalendar().getTime());
@@ -56,14 +68,12 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 		} catch (Exception e) {
 		}
 
-		int result = getCrudMapper().insertAndReturnKey(record);
+		getCrudMapper().insertAndReturnKey(record);
 		try {
-			result = (Integer) PropertyUtils.getProperty(record, "id");
+			return (Integer) PropertyUtils.getProperty(record, "id");
 		} catch (Exception e) {
-			result = 1;
+			return 0;
 		}
-
-		return result;
 	}
 
 	@Override
@@ -73,7 +83,30 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 					new GregorianCalendar().getTime());
 		} catch (Exception e) {
 		}
-		return getCrudMapper().updateByPrimaryKey(record);
+
+		if (cacheUpdateMethod == null) {
+			findCacheUpdateMethod();
+		}
+		try {
+			cacheUpdateMethod.invoke(getCrudMapper(), record);
+			return 1;
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			throw new MyCollabException(e);
+		}
+	}
+
+	private void findCacheUpdateMethod() {
+		ICrudGenericDAO<K, T> crudMapper = getCrudMapper();
+		Class<? extends ICrudGenericDAO> crudMapperCls = crudMapper.getClass();
+		for (Method method : crudMapperCls.getMethods()) {
+			if ("updateByPrimaryKeyWithBLOBs".equals(method.getName())) {
+				cacheUpdateMethod = method;
+				return;
+			} else if ("updateByPrimaryKey".equals(method.getName())) {
+				cacheUpdateMethod = method;
+			}
+		}
 	}
 
 	public int updateWithSessionWithSelective(@CacheKey T record,
@@ -102,7 +135,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 	@Override
 	public void massRemoveWithSession(List<K> primaryKeys, String username,
 			int accountId) {
-		throw new MyCollabException("Sub classes must override before call");
+		getCrudMapper().removeKeysWithSession(primaryKeys);
 	}
 
 	@Override

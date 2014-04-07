@@ -88,7 +88,7 @@
 			<div id="contentFooter" style="padding-top:10px;">
 				Best regards, <br>
 				<span style="font-weight: bold;">MyCollab's Customer Support Team </span><br>
-				1-111-111-1111 <br>
+				(+84) 862-924-513 <br>
 				<a href="mailto:support@mycollab.com" style="text-decoration : none;"><span style="font-weight: bold; color:#709AC5">support@mycollab.com </span></a>
 			</div>
 		</div>

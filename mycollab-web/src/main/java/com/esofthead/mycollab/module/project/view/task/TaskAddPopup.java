@@ -229,12 +229,13 @@ class TaskAddPopup extends CustomComponent {
 			this.addComponent(this.attachmentPanel);
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					this.attachmentPanel);
+			uploadExt.addComponent(this.attachmentPanel);
 			this.addComponent(uploadExt);
 			this.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 		}
 
 		public String getNote() {
-			return (String) this.noteArea.getValue();
+			return this.noteArea.getValue();
 		}
 
 		void saveContentsToRepo(final Integer typeid) {

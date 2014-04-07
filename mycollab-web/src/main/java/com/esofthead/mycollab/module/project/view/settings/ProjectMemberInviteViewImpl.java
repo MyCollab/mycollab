@@ -202,6 +202,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 				if (!inviteEmails.contains(invitedEmail)) {
 					inviteEmails.add(invitedEmail);
 					super.onTokenInput(tokenId);
+					this.setInputPrompt(null);
 				}
 			} else {
 				NotificationUtil.showErrorNotification(LocalizationHelper
@@ -210,6 +211,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		}
 
+		@Override
 		protected void onTokenClick(final Object tokenId) {
 			onTokenDelete(tokenId);
 		}
@@ -228,6 +230,9 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 			}
 
 			inviteEmails.remove(invitedEmail);
+			if (inviteEmails.size() == 0) {
+				this.setInputPrompt("Enter username or email address. Press enter to finish editing");
+			}
 			super.onTokenClick(tokenId);
 		}
 	}
