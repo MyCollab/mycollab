@@ -6,29 +6,29 @@ MyCollab is an online system comprising project management, CRM and document man
 <table>
   <tr>
     <td align="center">
-      <a href="http://farm6.staticflickr.com/5441/9407986524_f665fca815_o.png" target="_blank" title=“Project Dashboard”>
-        <img src="http://farm6.staticflickr.com/5441/9407986524_ac64a1ba46_t.jpg" alt=“Project Dashboard”>
+      <a href="https://farm6.staticflickr.com/5441/9407986524_9866299746_o.png" target="_blank" title=“Project Dashboard”>
+        <img src="https://farm6.staticflickr.com/5441/9407986524_a594109ce4_t.jpg" alt=“Project Dashboard”>
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="http://farm4.staticflickr.com/3723/10020843993_a8c7a00f06_o.png" target="_blank" title=“Bug Dashboard”>
-        <img src="http://farm4.staticflickr.com/3723/10020843993_b19b7e2be9_t.jpg" alt=“Bug Dashboard>
+      <a href="https://farm4.staticflickr.com/3723/10020843993_16d1bca76e_o.png" target="_blank" title=“Bug Dashboard”>
+        <img src="https://farm4.staticflickr.com/3723/10020843993_c653a0067b_t.jpg" alt=“Bug Dashboard>
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-      <a href="http://farm8.staticflickr.com/7396/10020730193_3784b74850_o.png" target="_blank" title=“Crm Dashboard”>
-        <img src="http://farm8.staticflickr.com/7396/10020730193_c184e9f9bc_t.jpg" alt=“Crm Dashboard“>
+      <a href="https://farm8.staticflickr.com/7396/10020730193_785b530483_o.png" target="_blank" title=“Crm Dashboard”>
+        <img src="https://farm8.staticflickr.com/7396/10020730193_37a2e2fa7d_t.jpg" alt=“Crm Dashboard“>
       </a>
       <br />
       <em>Crm Dashboard</em>
     </td>
     <td align="center">
-      <a href="http://farm4.staticflickr.com/3828/9407988736_693119b2f5_o.png" target="_blank" title=“View Account”>
-        <img src="http://farm4.staticflickr.com/3828/9407988736_0da49397fd_t.jpg" alt=“View Account“>
+      <a href="https://farm4.staticflickr.com/3828/9407988736_c9b5758838_o.png" target="_blank" title=“View Account”>
+        <img src="https://farm4.staticflickr.com/3828/9407988736_49cbba6dcf_t.jpg" alt=“View Account“>
       </a>
       <br />
       <em>View Account</em>
