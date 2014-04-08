@@ -101,7 +101,7 @@ public class AccountModuleImpl extends AbstractPageView implements
 
 	private Label generateIntroText() {
 		return new Label(
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam purus turpis, ultrices nec sapien in, dictum vehicula massa. Aliquam sagittis ligula ut elit vehicula mollis.");
+				"Update your personal and account settings. Please note that all actions can not be undone");
 	}
 
 	private void buildComponents() {

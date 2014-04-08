@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.mobile.ui.AdvancedEditBeanForm;
-import com.esofthead.mycollab.mobile.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
@@ -37,8 +37,8 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @param <B>
  */
-public abstract class AbstractEditItemComp<B> extends AbstractPageView
-implements IFormAddView<B> {
+public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
+		implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -47,7 +47,7 @@ implements IFormAddView<B> {
 	public AbstractEditItemComp() {
 		super();
 		this.editForm = new AdvancedEditBeanForm<B>();
-		this.addComponent(this.editForm);
+		this.setContent(this.editForm);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ implements IFormAddView<B> {
 				controlPanel.setMargin(true);
 				controlPanel.setComponentAlignment(buttonControls,
 						Alignment.MIDDLE_CENTER);
-				//formAddLayout.addControlButtons(controlPanel);
+				// formAddLayout.addControlButtons(controlPanel);
 			}
 
 			informationLayout = initFormLayoutFactory();

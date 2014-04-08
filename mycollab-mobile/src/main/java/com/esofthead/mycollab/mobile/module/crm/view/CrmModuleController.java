@@ -27,8 +27,10 @@ import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent.GotoRead;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AccountRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmNavigationMenu;
+import com.esofthead.mycollab.mobile.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountReadPresenter;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
@@ -64,11 +66,12 @@ public class CrmModuleController implements IController {
 					@Override
 					public void handle(CrmEvent.GotoHome event) {
 						/*
-						 * TODO: put setNavigationMenu here seems not right with current structure,
-						 * need to move it to somewhere else
-						 */                    	
-						if(crmViewNavigation.getNavigationMenu() == null)
-							crmViewNavigation.setNavigationMenu(new CrmNavigationMenu());
+						 * TODO: put setNavigationMenu here seems not right with
+						 * current structure, need to move it to somewhere else
+						 */
+						if (crmViewNavigation.getNavigationMenu() == null)
+							crmViewNavigation
+									.setNavigationMenu(new CrmNavigationMenu());
 
 						ActivityStreamPresenter presenter = PresenterResolver
 								.getPresenter(ActivityStreamPresenter.class);
@@ -90,7 +93,8 @@ public class CrmModuleController implements IController {
 
 					@Override
 					public void handle(AccountEvent.GotoList event) {
-						AccountListPresenter presenter = PresenterResolver.getPresenter(AccountListPresenter.class);
+						AccountListPresenter presenter = PresenterResolver
+								.getPresenter(AccountListPresenter.class);
 						AccountSearchCriteria criteria = new AccountSearchCriteria();
 						criteria.setSaccountid(new NumberSearchField(
 								SearchField.AND, AppContext.getAccountId()));
@@ -99,8 +103,40 @@ public class CrmModuleController implements IController {
 										criteria));
 					}
 
-				}
-				);
+				});
+
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<AccountEvent.GotoAdd>() {
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return AccountEvent.GotoAdd.class;
+					}
+
+					@Override
+					public void handle(AccountEvent.GotoAdd event) {
+						AccountAddPresenter presenter = PresenterResolver
+								.getPresenter(AccountAddPresenter.class);
+						presenter.go(crmViewNavigation,
+								new ScreenData.Add<SimpleAccount>(
+										new SimpleAccount()));
+					}
+				});
+
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<AccountEvent.GotoEdit>() {
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return AccountEvent.GotoEdit.class;
+					}
+
+					@Override
+					public void handle(AccountEvent.GotoEdit event) {
+						AccountAddPresenter presenter = PresenterResolver
+								.getPresenter(AccountAddPresenter.class);
+						presenter.go(crmViewNavigation,
+								new ScreenData.Edit<Object>(event.getData()));
+					}
+				});
 
 		EventBus.getInstance().addListener(
 				new ApplicationEventListener<AccountEvent.GotoRead>() {
@@ -116,24 +152,27 @@ public class CrmModuleController implements IController {
 					public void handle(GotoRead event) {
 						AccountReadPresenter presenter = PresenterResolver
 								.getPresenter(AccountReadPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Preview(event.getData()));
+						presenter.go(crmViewNavigation, new ScreenData.Preview(
+								event.getData()));
 					}
 				});
 
-		EventBus.getInstance().addListener(new ApplicationEventListener<AccountEvent.GoToRelatedItems>() {
-			private static final long serialVersionUID = 259904372741221966L;
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<AccountEvent.GoToRelatedItems>() {
+					private static final long serialVersionUID = 259904372741221966L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return AccountEvent.GoToRelatedItems.class;
-			}
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return AccountEvent.GoToRelatedItems.class;
+					}
 
-			@Override
-			public void handle(GoToRelatedItems event) {
-				if (event.getData() instanceof AccountRelatedItemsScreenData)
-					crmViewNavigation.navigateTo(((AccountRelatedItemsScreenData) event.getData()).getParams());
-			}
-		});
+					@Override
+					public void handle(GoToRelatedItems event) {
+						if (event.getData() instanceof AccountRelatedItemsScreenData)
+							crmViewNavigation
+									.navigateTo(((AccountRelatedItemsScreenData) event
+											.getData()).getParams());
+					}
+				});
 	}
 }

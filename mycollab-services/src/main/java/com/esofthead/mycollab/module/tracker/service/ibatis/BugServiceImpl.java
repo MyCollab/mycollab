@@ -34,6 +34,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -91,7 +92,8 @@ public class BugServiceImpl extends
 	@Override
 	public int updateWithSession(BugWithBLOBs record, String username) {
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
-				ProjectActivityStreamService.class);
+				ProjectActivityStreamService.class,
+				ItemTimeLoggingService.class);
 		return super.updateWithSession(record, username);
 	}
 
@@ -100,7 +102,8 @@ public class BugServiceImpl extends
 			int accountId) {
 		CacheUtils.cleanCaches(accountId, ProjectService.class,
 				ProjectGenericTaskService.class, ProjectMemberService.class,
-				ProjectActivityStreamService.class);
+				ProjectActivityStreamService.class,
+				ItemTimeLoggingService.class);
 		return super.removeWithSession(primaryKey, username, accountId);
 	}
 

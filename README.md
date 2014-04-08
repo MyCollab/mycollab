@@ -7,28 +7,44 @@ MyCollab is an online system comprising project management, CRM and document man
   <tr>
     <td align="center">
       <a href="https://farm6.staticflickr.com/5441/9407986524_9866299746_o.png" target="_blank" title=“Project Dashboard”>
-        <img src="https://farm6.staticflickr.com/5441/9407986524_a594109ce4_t.jpg" alt=“Project Dashboard”>
+        <img src="https://farm6.staticflickr.com/5441/9407986524_a594109ce4_m.jpg" alt=“Project Dashboard”>
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
       <a href="https://farm4.staticflickr.com/3723/10020843993_16d1bca76e_o.png" target="_blank" title=“Bug Dashboard”>
-        <img src="https://farm4.staticflickr.com/3723/10020843993_c653a0067b_t.jpg" alt=“Bug Dashboard>
+        <img src="https://farm4.staticflickr.com/3723/10020843993_c653a0067b_m.jpg" alt=“Bug Dashboard>
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
+      <a href="https://farm8.staticflickr.com/7305/9405229619_777660137e_o.png" target="_blank" title=“Task Dashboard”>
+        <img src="https://farm8.staticflickr.com/7305/9405229619_09be974761_m.jpg" alt=“Task Dashboard>
+      </a>
+      <br />
+      <em>Task Dashboard</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://farm6.staticflickr.com/5491/10020715166_cff0668e13_o.png" target="_blank" title=“Document Management”>
+        <img src="https://farm6.staticflickr.com/5491/10020715166_a018202e3f_m.jpg" alt=“Document Management“>
+      </a>
+      <br />
+      <em>Document View</em>
+    </td>
+    <td align="center">
       <a href="https://farm8.staticflickr.com/7396/10020730193_785b530483_o.png" target="_blank" title=“Crm Dashboard”>
-        <img src="https://farm8.staticflickr.com/7396/10020730193_37a2e2fa7d_t.jpg" alt=“Crm Dashboard“>
+        <img src="https://farm8.staticflickr.com/7396/10020730193_37a2e2fa7d_m.jpg" alt=“Crm Dashboard“>
       </a>
       <br />
       <em>Crm Dashboard</em>
     </td>
     <td align="center">
       <a href="https://farm4.staticflickr.com/3828/9407988736_c9b5758838_o.png" target="_blank" title=“View Account”>
-        <img src="https://farm4.staticflickr.com/3828/9407988736_49cbba6dcf_t.jpg" alt=“View Account“>
+        <img src="https://farm4.staticflickr.com/3828/9407988736_49cbba6dcf_m.jpg" alt=“View Account“>
       </a>
       <br />
       <em>View Account</em>
