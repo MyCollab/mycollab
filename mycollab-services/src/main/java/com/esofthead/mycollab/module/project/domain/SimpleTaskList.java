@@ -30,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.NotBindable;
  */
 public class SimpleTaskList extends TaskList {
 	private static final long serialVersionUID = 1L;
+	private String projectName;
 	private String milestoneName;
 	private String ownerAvatarId;
 	private String ownerFullName;
@@ -169,5 +170,13 @@ public class SimpleTaskList extends TaskList {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }

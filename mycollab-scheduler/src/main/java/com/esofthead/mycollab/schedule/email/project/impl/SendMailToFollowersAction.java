@@ -36,6 +36,7 @@ import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -67,6 +68,9 @@ public abstract class SendMailToFollowersAction implements
 
 	@Autowired
 	protected ProjectTaskService projectTaskService;
+	
+	@Autowired
+	protected ProjectTaskListService projectTaskListService;
 
 	@Override
 	public void sendNotificationForCreateAction(

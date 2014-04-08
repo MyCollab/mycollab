@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.UIClassSelectionEvent;
 import com.vaadin.server.UIProvider;
@@ -43,10 +45,14 @@ public class MyCollabUIProvider extends UIProvider {
 
 		String uiClass = "";
 
-		if (userAgent.contains("mobile")) {
-			uiClass = "com.esofthead.mycollab.mobile.MobileApplication";
-		} else {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
 			uiClass = "com.esofthead.mycollab.web.DesktopApplication";
+		} else {
+			if (userAgent.contains("mobile")) {
+				uiClass = "com.esofthead.mycollab.mobile.MobileApplication";
+			} else {
+				uiClass = "com.esofthead.mycollab.web.DesktopApplication";
+			}
 		}
 
 		try {

@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
+import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -84,8 +85,9 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 	@Override
 	protected void initRelatedComponents() {
 		commentList = new CommentDisplay(CommentType.PRJ_TASK_LIST,
-				CurrentProjectVariables.getProjectId(), true, true, null);
+				CurrentProjectVariables.getProjectId(), true, true, ProjectTaskGroupRelayEmailNotificationAction.class);
 		commentList.setWidth("100%");
+		commentList.setMargin(true);
 
 		taskDisplayComp = new SubTasksDisplayComp();
 

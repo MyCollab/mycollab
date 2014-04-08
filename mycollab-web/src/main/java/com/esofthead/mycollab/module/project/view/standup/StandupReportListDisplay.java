@@ -28,7 +28,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -70,8 +70,9 @@ public class StandupReportListDisplay
 
 			layout.addComponent(reportHeader);
 
-			final HorizontalLayout reportContent = new HorizontalLayout();
+			final GridLayout reportContent = new GridLayout(3, 1);
 			reportContent.setStyleName("report-row-content");
+			reportContent.setRowExpandRatio(0, 1.0f);
 
 			final CssLayout report1 = new CssLayout();
 			final String prevText = "<b>What I did in the last day/week</b><p>"
@@ -82,7 +83,7 @@ public class StandupReportListDisplay
 			report1.setSizeFull();
 			report1.setStyleName(UIConstants.REPORT_ROW_BLOCK);
 			reportContent.addComponent(report1);
-			reportContent.setExpandRatio(report1, 1.0f);
+			reportContent.setColumnExpandRatio(0, 1.0f);
 
 			final CssLayout report2 = new CssLayout();
 			final String todayText = "<b>What I will do today/week</b><p>"
@@ -94,7 +95,7 @@ public class StandupReportListDisplay
 			report2.setStyleName(UIConstants.REPORT_ROW_BLOCK);
 			report2.addStyleName("special-col");
 			reportContent.addComponent(report2);
-			reportContent.setExpandRatio(report2, 1.0f);
+			reportContent.setColumnExpandRatio(1, 1.0f);
 
 			final CssLayout report3 = new CssLayout();
 			final String issueText = "<b>Do you have roadblocks?</b><p>"
@@ -106,7 +107,7 @@ public class StandupReportListDisplay
 			report3.setHeight("100%");
 			report3.setStyleName(UIConstants.REPORT_ROW_BLOCK);
 			reportContent.addComponent(report3);
-			reportContent.setExpandRatio(report3, 1.0f);
+			reportContent.setColumnExpandRatio(2, 1.0f);
 
 			reportContent.setWidth("100%");
 

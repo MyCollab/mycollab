@@ -47,6 +47,34 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 public class ProjectTaskStatusComponent extends Depot {
+	private static final long serialVersionUID = 1L;
+
+	private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
+
+	public ProjectTaskStatusComponent() {
+		super(LocalizationHelper.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
+				new VerticalLayout());
+
+		taskList = new DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask>(
+				ApplicationContextUtil
+						.getSpringBean(ProjectGenericTaskService.class),
+				new TaskRowDisplayHandler(), 10);
+		addStyleName("activity-panel");
+		((VerticalLayout) bodyContent).setMargin(false);
+	}
+
+	public void showProjectTasksByStatus() {
+		bodyContent.removeAllComponents();
+		bodyContent.addComponent(taskList);
+		final ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
+		searchCriteria.setIsOpenned(new SearchField());
+		searchCriteria.setAssignUser(new StringSearchField(SearchField.AND,
+				AppContext.getUsername()));
+		searchCriteria.setProjectId(new NumberSearchField(
+				CurrentProjectVariables.getProjectId()));
+		taskList.setSearchCriteria(searchCriteria);
+	}
+
 	public static class TaskRowDisplayHandler implements
 			DefaultBeanPagedList.RowDisplayHandler<ProjectGenericTask> {
 
@@ -98,33 +126,4 @@ public class ProjectTaskStatusComponent extends Depot {
 			return layout;
 		}
 	}
-
-	private static final long serialVersionUID = 1L;
-
-	private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
-
-	public ProjectTaskStatusComponent() {
-		super(LocalizationHelper.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
-				new VerticalLayout());
-
-		taskList = new DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask>(
-				ApplicationContextUtil
-						.getSpringBean(ProjectGenericTaskService.class),
-				new TaskRowDisplayHandler(), 10);
-		addStyleName("activity-panel");
-		((VerticalLayout) bodyContent).setMargin(false);
-	}
-
-	public void showProjectTasksByStatus() {
-		bodyContent.removeAllComponents();
-		bodyContent.addComponent(taskList);
-		final ProjectGenericTaskSearchCriteria searchCriteria = new ProjectGenericTaskSearchCriteria();
-		searchCriteria.setIsOpenned(new SearchField());
-		searchCriteria.setAssignUser(new StringSearchField(SearchField.AND,
-				AppContext.getUsername()));
-		searchCriteria.setProjectId(new NumberSearchField(
-				CurrentProjectVariables.getProjectId()));
-		taskList.setSearchCriteria(searchCriteria);
-	}
-
 }

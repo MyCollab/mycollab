@@ -15,11 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
-            <artifactId>mycollab-vaadin-ext</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
             <version>3.0.0</version>
         </dependency>

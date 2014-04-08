@@ -57,7 +57,7 @@ public interface OpportunityTableFieldDef {
 
 	public static TableViewField expectedCloseDate = new TableViewField(
 			LocalizationHelper.getMessage(OpportunityI18nEnum.FORM_CLOSE_DATE),
-			"expectedcloseddate", UIConstants.TABLE_DATE_TIME_WIDTH);
+			"expectedcloseddate", UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField type = new TableViewField(
 			LocalizationHelper.getMessage(OpportunityI18nEnum.FORM_TYPE),

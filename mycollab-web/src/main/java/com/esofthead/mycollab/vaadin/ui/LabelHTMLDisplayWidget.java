@@ -30,8 +30,7 @@ import com.vaadin.ui.Label;
  * 
  */
 @SuppressWarnings("serial")
-public class LabelHTMLDisplayWidget extends HorizontalLayout implements
-		LayoutClickListener {
+public class LabelHTMLDisplayWidget extends HorizontalLayout {
 	private final LabelStringGenerator menuLinkGenerator = new BugDescriptionLinkLabelStringGenerator();
 	private final Label lbDes;
 	private boolean hasShowLess;
@@ -54,8 +53,27 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout implements
 			lbDes.setValue(contentLabel);
 			lbDes.addStyleName(UIConstants.LABEL_CLICKABLE);
 		}
+	
 		lbDes.setDescription(description);
 		this.addComponent(lbDes);
+		this.addLayoutClickListener(new LayoutClickListener() {
+			
+			@Override
+			public void layoutClick(LayoutClickEvent event) {
+				if (event.getClickedComponent() instanceof Label) {
+					if (description != null && description.length() > NUM_CUT) {
+						if (hasShowLess) {
+							lbDes.setValue(description + " " + pathIconMinus);
+						} else {
+							lbDes.setValue(menuLinkGenerator.handleText(description)
+									+ " " + pathIconPlus);
+						}
+						lbDes.setContentMode(ContentMode.HTML);
+						hasShowLess = !hasShowLess;
+					}
+				}
+			}
+		});
 	}
 
 	private static class BugDescriptionLinkLabelStringGenerator implements
@@ -70,20 +88,6 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout implements
 		}
 
 	}
-
-	@Override
-	public void layoutClick(LayoutClickEvent event) {
-		if (event.getClickedComponent() instanceof Label) {
-			if (description != null && description.length() > NUM_CUT) {
-				if (hasShowLess) {
-					lbDes.setValue(description + " " + pathIconMinus);
-				} else {
-					lbDes.setValue(menuLinkGenerator.handleText(description)
-							+ " " + pathIconPlus);
-				}
-				lbDes.setContentMode(ContentMode.HTML);
-				hasShowLess = !hasShowLess;
-			}
-		}
-	}
+	
+	
 }

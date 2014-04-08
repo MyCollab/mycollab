@@ -28,13 +28,14 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskS
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public interface ProjectGenericTaskService extends
 		ISearchableService<ProjectGenericTaskSearchCriteria> {
-	
+
 	List<ProjectGenericTaskCount> findPagableTaskCountListByCriteria(
 			SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest);
-	
+
 	List<ProjectGenericTask> findPagableBugAndTaskByCriteria(
 			SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest);
 }

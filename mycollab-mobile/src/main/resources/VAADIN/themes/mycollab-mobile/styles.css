@@ -1,0 +1,401 @@
+/* This contains all of your theme.*/
+/* If somebody wants to extend the theme she will include this mixin. */
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in vaadinexampleproject.scss */
+@font-face {
+  font-family: 'icomoon';
+  src: url("fonts/icomoon.eot");
+  src: url("fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("fonts/icomoon.woff") format("woff"), url("fonts/icomoon.ttf") format("truetype"), url("fonts/icomoon.svg#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  content: attr(data-icon);
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  height: 100%;
+  font-size: 10px;
+}
+
+.v-app {
+  font: 1.3rem Arial,Verdana,Helvetica,sans-serif;
+}
+
+.v-app,
+.v-window,
+.v-popupview-popup,
+.v-app input,
+.v-app button,
+.v-app textarea,
+.v-window input,
+.v-window button,
+.v-window textarea,
+.v-popupview-popup input,
+.v-popupview-popup button,
+.v-popupview-popup textarea,
+.v-filterselect-suggestpopup,
+.v-datefield-popup,
+.v-datefield-calendarpanel-header button,
+.v-contextmenu,
+.v-Notification,
+.v-menubar-submenu,
+.v-table-header-drag,
+.v-filterselect-select-button .v-filterselect-input,
+.v-drag-element,
+.v-label,
+div.v-widget {
+  font-size: 1.3rem;
+}
+
+:focus {
+  outline: none;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+input {
+  box-shadow: none;
+}
+
+body.v-generated-body {
+  background: none repeat scroll 0% 0% whitesmoke;
+  position: fixed;
+}
+
+div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
+  display: inline-block;
+}
+
+.mycollab-mobile {
+  /* Include all the styles from the reindeer theme */
+  /* Navigation styles */
+  /* Main Panel Styles */
+  /* Controls Popover */
+  /* Data List View */
+  /* Read View Layout */
+  /* Message Row */
+}
+.mycollab-mobile .content-wrapper {
+  margin: 0 auto;
+  display: block;
+}
+.mycollab-mobile .content-wrapper .intro-text {
+  text-align: center;
+}
+.mycollab-mobile .content-wrapper .welcometext-wrapper {
+  background: url("icons/welcometext_bg.png") repeat-x left bottom whitesmoke;
+}
+.mycollab-mobile .content-wrapper .welcometext-wrapper .v-label {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  background-color: whitesmoke;
+  font-size: 1.6rem;
+  color: #2692db;
+  border: none;
+}
+.mycollab-mobile .login-view {
+  overflow: auto;
+}
+.mycollab-mobile .login-view .v-textfield {
+  padding: 10px 5px 10px 55px;
+  font-size: 1.5rem;
+  color: #222222;
+}
+.mycollab-mobile .login-view .v-textfield.v-textfield-prompt {
+  color: #c7c7c7;
+}
+.mycollab-mobile .login-view .v-textfield.email-input {
+  background: url("icons/email_input_bg.png") no-repeat left center white;
+}
+.mycollab-mobile .login-view .v-textfield.password-input {
+  background: url("icons/password_input_bg.png") no-repeat left center white;
+}
+.mycollab-mobile .main-view {
+  overflow: auto;
+}
+.mycollab-mobile .main-view .module-button {
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 25px 5px 25px 90px;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-position: left center;
+  color: #727272;
+  font-size: 16px;
+  font-weight: bold;
+}
+.mycollab-mobile .main-view .module-button:focus, .mycollab-mobile .main-view .module-button:active {
+  border-width: 2px;
+  border-color: #49a3e1;
+}
+.mycollab-mobile .main-view .module-button.crm {
+  background-image: url("icons/crm_icon.png");
+}
+.mycollab-mobile .main-view .module-button.project {
+  background-image: url("icons/pm_icon.png");
+}
+.mycollab-mobile .main-view .module-button.document {
+  background-image: url("icons/document_icon.png");
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation {
+  width: 100%;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu {
+  overflow-y: auto;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button {
+  margin: 0px;
+  text-align: left;
+  background: none no-repeat 0 0 transparent;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .user-info-panel {
+  background: none no-repeat 0 0 #efefef;
+  border-bottom: 1px solid #e2e2e2;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .user-info-panel .v-button-wrap {
+  padding: 0px 6px;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .user-info-panel.v-margin-top {
+  padding-top: 6px;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .user-info-panel.v-margin-bottom {
+  padding-bottom: 6px;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn {
+  background: none no-repeat 0 0 white;
+  border-bottom: 1px solid #e2e2e2;
+  border-radius: 0px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn .v-button-wrap {
+  padding: 6px 12px;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn .v-button-wrap .v-button-caption {
+  vertical-align: middle;
+  color: #525252;
+  display: inline-block;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn .nav-btn-icon {
+  font-size: 20px;
+  vertical-align: middle;
+  color: #00a3e8;
+  padding-right: 10px;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected .v-button-caption {
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected .v-button-caption .nav-btn-icon {
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper {
+  -webkit-tap-highlight-color: transparent;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview {
+  background-color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back {
+  position: relative;
+  background: #49a3e1;
+  border: 1px solid #2482c2;
+  color: white;
+  overflow: visible;
+  height: 2.8rem;
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.8rem 0rem 0.5rem;
+  font-size: 1.3rem;
+  margin-left: 2rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after {
+  border-color: rgba(73, 163, 225, 0);
+  border-right-color: #49a3e1;
+  border-width: 13px;
+  margin-top: -13px;
+  left: auto;
+  margin-right: 0px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:before {
+  border-color: rgba(36, 130, 194, 0);
+  border-right-color: #2482c2;
+  border-width: 14px;
+  margin-top: -14px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-caption {
+  left: 7.5rem;
+  line-height: 4rem;
+  height: 4rem;
+  position: absolute;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn {
+  border: 1px solid #2482c2;
+  color: white;
+  padding-top: 0.5rem;
+  font-size: 1.3rem;
+  height: 2.8rem;
+  line-height: normal;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn .v-button-wrap {
+  padding: 0 12px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper {
+  -webkit-tap-highlight-color: transparent;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
+  overflow-x: hidden;
+  box-shadow: none;
+  border-top: 1px solid #bbbbbb;
+  background-color: #dedede;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .related-items .v-button {
+  color: #6a6a6a;
+  background-color: #dedede;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .related-items .v-button span[data-icon]:before {
+  font-size: 2.1rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
+  color: #5e5055;
+  background-color: rgba(187, 187, 187, 0.6);
+}
+.mycollab-mobile .controls-popover {
+  top: 4rem !important;
+}
+.mycollab-mobile .controls-popover .v-window-contents {
+  background-color: #252c34;
+}
+.mycollab-mobile .controls-popover .v-window-contents .v-button {
+  background-color: #515a62;
+  color: #FFFFFF;
+}
+.mycollab-mobile .controls-popover .v-window-contents .v-button .v-button-wrap {
+  padding: 5px 0px;
+}
+.mycollab-mobile .data-list-view .v-table-row, .mycollab-mobile .data-list-view .v-table-row-odd {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ececec;
+  display: inline-block;
+}
+.mycollab-mobile .data-list-view .v-table-row .v-table-cell-content, .mycollab-mobile .data-list-view .v-table-row-odd .v-table-cell-content {
+  padding-left: 10px;
+}
+.mycollab-mobile .data-list-view .v-table-row-odd {
+  background-color: white;
+}
+.mycollab-mobile .data-list-view .v-button {
+  text-align: left;
+}
+.mycollab-mobile .data-list-view .v-button .v-button-wrap {
+  padding: 0px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
+  color: #8e8e8e;
+  font-size: 1.3rem;
+}
+.mycollab-mobile .readview-layout .h2 {
+  font-size: 1.5rem;
+  color: #444444;
+  padding: 0.9rem 0rem 0.9rem 1rem;
+  border-bottom: 0.2rem solid #f5932e;
+}
+.mycollab-mobile .readview-layout .v-gridlayout {
+  color: #919191;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .even-row {
+  background-color: #f6f6f6;
+}
+.mycollab-mobile .message {
+  border-bottom: 1px solid #cbcbcb;
+}
+.mycollab-mobile .message .message-header .user-name {
+  color: #e39241;
+}
+.mycollab-mobile .message .message-header .time-post {
+  color: #bfbfbf;
+}
+.mycollab-mobile .message .message-body {
+  color: #959595;
+}
+.mycollab-mobile .v-button {
+  line-height: normal;
+  box-shadow: none;
+  padding: 0px;
+  cursor: pointer;
+}
+.mycollab-mobile .v-button.big-btn {
+  font-size: 15px;
+}
+.mycollab-mobile .v-button.big-btn .v-button-wrap {
+  padding: 10px 0px;
+}
+.mycollab-mobile .v-button.big-btn .v-button-wrap .v-button-caption {
+  font-size: 15px;
+}
+.mycollab-mobile .v-button.blue {
+  background-color: #49a3e1;
+  border: 1px solid #226899;
+}
+.mycollab-mobile .v-button.blue .v-button-caption {
+  color: white;
+}
+.mycollab-mobile .v-button.gray {
+  background-color: #9b9b9b;
+  border: 1px solid #616161;
+}
+.mycollab-mobile .v-button.gray .v-button-caption {
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navbutton {
+  line-height: normal;
+}
+.mycollab-mobile .v-touchkit-navbutton:after {
+  content: "";
+}
+.mycollab-mobile .v-textfield {
+  border-radius: 4px;
+  border: 1px solid #c7c7c7;
+  outline: none;
+}
+.mycollab-mobile .v-textfield.v-textfield-focus {
+  box-shadow: 0px 0px 3px 1px #49a3e1;
+}
+.mycollab-mobile .v-button:active .v-button-wrap:after {
+  background-color: transparent;
+}

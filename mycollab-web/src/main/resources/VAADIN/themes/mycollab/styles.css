@@ -243,7 +243,9 @@ body div>input.v-filterselect-input[type="text"] {
 	background-position: left top;
 	background-repeat: repeat-x;
 }
-
+.v-button {
+	box-shadow:none;
+}
 .v-button-wrap {
 	text-overflow: clip;
 	height: auto;
@@ -2475,12 +2477,13 @@ input.v-textfield-errorField {
 
 .v-calendar-header-week td:nth-of-type(2) .v-calendar-header-day {
 	background: none no-repeat left top #C9E4F3;
-	border-left: 1px solid #A1A1A1;
-	border-bottom: 1px solid #A1A1A1;
-	border-top: 1px solid #A1A1A1;
+	border: 1px solid #A1A1A1;
 	height: 30px;
 	vertical-align: middle;
 	line-height: 30px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .v-calendar-header-day .v-calendar-header-day-today .v-calendar-header-day-Vsized
@@ -3719,7 +3722,7 @@ div.v-lazyloadingwrapper-loading {
 	background-color: rgb(229, 239, 240);
 }
 
-.report-row-content>div>div:first-child+div {
+.report-row-content>div:first-child+div+div {
 	border-width: 0px 1px 0px 1px;
 	border-style: solid;
 	border-color: rgb(204, 204, 204);
@@ -3727,6 +3730,7 @@ div.v-lazyloadingwrapper-loading {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+	height: 100%;
 }
 
 .report-row-block {
@@ -4051,6 +4055,8 @@ div.v-lazyloadingwrapper-loading {
 .v-label.standup-row-content {
 	padding: 10px 0px 10px 0px;
 	font-size: 13px;
+	width: 100%;
+	white-space: normal;
 }
 
 .v-label.standup-row-content ul {
@@ -5707,8 +5713,8 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 
 /* volume usage info */
 .v-horizontallayout.border-box2-no-margin.file-topcontrols {
-	border-radius: 5px 5px 0px 0px;
-	border-width: 1px 1px 0px;
+	border-radius: 2px 3px 0px 0px;
+	border-width: 1px 1px 0px 1px;
 }
 .file-topcontrols .v-button.v-button-right {
 	border-right: none;

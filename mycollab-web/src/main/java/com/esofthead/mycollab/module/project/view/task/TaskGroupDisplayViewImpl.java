@@ -72,7 +72,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	public TaskGroupDisplayViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(false, true, false, true));
+		this.setMargin(new MarginInfo(false, true, true, true));
 		this.setSpacing(true);
 
 		this.constructUI();

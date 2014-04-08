@@ -14,7 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.billing;
+package com.esofthead.mycollab.schedule.email.project;
+
+import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
 /**
  * 
@@ -22,10 +24,7 @@ package com.esofthead.mycollab.module.billing;
  * @since 1.0
  * 
  */
-public class UserStatusConstants {
-	public static final String EMAIL_NOT_VERIFIED = "EmailNotVerified";
+public interface ProjectTaskGroupRelayEmailNotificationAction extends
+		SendingRelayEmailNotificationAction {
 
-	public static final String EMAIL_VERIFIED = "EmailVerified";
-
-	public static final String EMAIL_VERIFIED_REQUEST = "EmailVerifiedRequest";
 }
