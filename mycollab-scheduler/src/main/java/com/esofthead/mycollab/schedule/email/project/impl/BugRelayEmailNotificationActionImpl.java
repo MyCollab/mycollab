@@ -24,12 +24,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
@@ -70,8 +70,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		hyperLinks.put("bugUrl",
 				linkGenerator.generateBugPreviewFullLink(bug.getId()));
-		hyperLinks.put("shortBugUrl",
-				StringUtils.trim(bug.getSummary(), 150));
+		hyperLinks.put("shortBugUrl", StringUtils.trim(bug.getSummary(), 150));
 		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
 		if (bug.getLogby() != null) {
 			hyperLinks.put("loggedUserUrl",
@@ -177,8 +176,8 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		templateGenerator.putVariable(
 				"lstComment",
-				getListComment(bug.getSaccountid(),
-						MonitorTypeConstants.PRJ_BUG, bug.getId()));
+				getListComment(bug.getSaccountid(), ProjectTypeConstants.BUG,
+						bug.getId()));
 
 		return templateGenerator;
 	}

@@ -23,8 +23,8 @@ import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
@@ -227,7 +227,7 @@ public class BugSearchPanel extends
 		private static final long serialVersionUID = 1L;
 
 		public BugAdvancedSearchLayout() {
-			super(BugSearchPanel.this, ProjectContants.BUG);
+			super(BugSearchPanel.this, ProjectTypeConstants.BUG);
 		}
 
 		@Override

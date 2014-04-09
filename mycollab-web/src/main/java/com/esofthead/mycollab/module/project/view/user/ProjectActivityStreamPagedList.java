@@ -31,8 +31,8 @@ import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
@@ -60,8 +60,8 @@ import com.vaadin.ui.Label;
  * 
  */
 public class ProjectActivityStreamPagedList
-extends
-AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
+		extends
+		AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 	private static final long serialVersionUID = 1L;
 
 	protected final ProjectActivityStreamService projectActivityStreamService;
@@ -146,9 +146,9 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 				String arg11 = idUserToopTipDiv;
 				String arg12 = idDivUserSeverData;
 				String arg13 = activityStream.getType().toLowerCase();
-				if (arg13.equalsIgnoreCase(ProjectContants.TASK_LIST)) {
+				if (arg13.equalsIgnoreCase(ProjectTypeConstants.TASK_LIST)) {
 					arg13 = "task group";
-				} else if (arg13.equalsIgnoreCase(ProjectContants.STANDUP)) {
+				} else if (arg13.equalsIgnoreCase(ProjectTypeConstants.STANDUP)) {
 					arg13 = "standup report";
 				}
 				String arg14 = ProjectResources.getResourceLink(activityStream
@@ -254,7 +254,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-				.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+						.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
 			}
 		});
 		if (currentPage == 1) {
@@ -269,7 +269,7 @@ AbstractBeanPagedList<ActivityStreamSearchCriteria, ProjectActivityStream> {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				ProjectActivityStreamPagedList.this
-				.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+						.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
 			}
 		});
 		if (currentPage == totalPage) {

@@ -49,7 +49,7 @@ import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
-import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
@@ -108,70 +108,70 @@ public class AnnotatedTooltipGeneratorHandler extends GenericServlet {
 			String username = request.getParameter("username");
 
 			String html = "";
-			if ("Project".equals(type)) {
+			if (ProjectTypeConstants.PROJECT.equals(type)) {
 				ProjectService service = ApplicationContextUtil
 						.getSpringBean(ProjectService.class);
 				SimpleProject project = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipProject(project,
 						siteURL, timeZone);
-			} else if ("Message".equals(type)) {
+			} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
 				MessageService service = ApplicationContextUtil
 						.getSpringBean(MessageService.class);
 				SimpleMessage message = service.findMessageById(typeid,
 						sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipMessage(message,
 						siteURL, timeZone);
-			} else if ("Milestone".equals(type)) {
+			} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
 				MilestoneService service = ApplicationContextUtil
 						.getSpringBean(MilestoneService.class);
-				SimpleMilestone mileStone = service.findById(typeid,
-						sAccountId);
-				html = ProjectTooltipGenerator.generateToolTipMilestone(mileStone,
-						siteURL, timeZone);
-			} else if ("TaskList".equals(type)) {
+				SimpleMilestone mileStone = service
+						.findById(typeid, sAccountId);
+				html = ProjectTooltipGenerator.generateToolTipMilestone(
+						mileStone, siteURL, timeZone);
+			} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
 				ProjectTaskListService service = ApplicationContextUtil
 						.getSpringBean(ProjectTaskListService.class);
 				SimpleTaskList taskList = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipTaskList(
 						taskList, siteURL, timeZone);
-			} else if ("Bug".equals(type)) {
+			} else if (ProjectTypeConstants.BUG.equals(type)) {
 				BugService service = ApplicationContextUtil
 						.getSpringBean(BugService.class);
 				SimpleBug bug = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipBug(bug, siteURL,
 						timeZone);
-			} else if ("Task".equals(type)) {
+			} else if (ProjectTypeConstants.TASK.equals(type)) {
 				ProjectTaskService service = ApplicationContextUtil
 						.getSpringBean(ProjectTaskService.class);
 				SimpleTask task = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipTask(task,
 						siteURL, timeZone);
-			} else if ("Risk".equals(type)) {
+			} else if (ProjectTypeConstants.RISK.equals(type)) {
 				RiskService service = ApplicationContextUtil
 						.getSpringBean(RiskService.class);
 				SimpleRisk risk = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipRisk(risk,
 						siteURL, timeZone);
-			} else if ("Problem".equals(type)) {
+			} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
 				ProblemService service = ApplicationContextUtil
 						.getSpringBean(ProblemService.class);
 				SimpleProblem problem = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipProblem(problem,
 						siteURL, timeZone);
-			} else if ("Version".equals(type)) {
+			} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
 				VersionService service = ApplicationContextUtil
 						.getSpringBean(VersionService.class);
 				SimpleVersion version = service.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipVersion(version,
 						siteURL, timeZone);
-			} else if ("Component".equals(type)) {
+			} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
 				ComponentService service = ApplicationContextUtil
 						.getSpringBean(ComponentService.class);
 				SimpleComponent component = service
 						.findById(typeid, sAccountId);
 				html = ProjectTooltipGenerator.generateToolTipComponent(
 						component, siteURL, timeZone);
-			} else if ("StandUp".equals(type)) {
+			} else if (ProjectTypeConstants.STANDUP.equals(type)) {
 				StandupReportService service = ApplicationContextUtil
 						.getSpringBean(StandupReportService.class);
 				SimpleStandupReport standup = service.findStandupReportById(
@@ -240,6 +240,8 @@ public class AnnotatedTooltipGeneratorHandler extends GenericServlet {
 				SimpleUser user = service.findUserByUserNameInAccount(username,
 						sAccountId);
 				html = generateTooltipUser(user, siteURL, timeZone);
+			} else {
+				log.error("Can not generate tooltip for item has type " + type);
 			}
 
 			response.setCharacterEncoding("UTF-8");

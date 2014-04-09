@@ -1481,6 +1481,9 @@ input.v-textfield-errorField {
 	border-style: solid;
 	border-width: 1px 1px 0px;
 }
+.addViewLayout .report-addview-layout {
+	border-bottom:1px solid #cfcfcf;
+}
 
 .addViewLayout .addViewTopControls {
 	-moz-box-sizing: border-box;

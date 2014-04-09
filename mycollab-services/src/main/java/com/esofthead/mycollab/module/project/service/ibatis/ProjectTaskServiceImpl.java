@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
@@ -32,7 +31,7 @@ import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.TaskMapper;
 import com.esofthead.mycollab.module.project.dao.TaskMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -55,9 +54,9 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotifi
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, type = ProjectContants.TASK, nameField = "taskname", extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.TASK)
-@Watchable(type = MonitorTypeConstants.PRJ_TASK, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = ProjectTaskRelayEmailNotificationAction.class)
+@Traceable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.TASK, nameField = "taskname", extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.TASK)
+@Watchable(type = ProjectTypeConstants.TASK, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = ProjectTaskRelayEmailNotificationAction.class)
 public class ProjectTaskServiceImpl extends
 		DefaultService<Integer, Task, TaskSearchCriteria> implements
 		ProjectTaskService {

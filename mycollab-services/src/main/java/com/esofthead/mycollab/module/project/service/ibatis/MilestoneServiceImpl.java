@@ -30,7 +30,7 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapper;
 import com.esofthead.mycollab.module.project.dao.MilestoneMapperExt;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -46,8 +46,8 @@ import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailN
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, type = ProjectContants.MILESTONE, nameField = "name", extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.MILESTONE)
+@Traceable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.MILESTONE, nameField = "name", extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.MILESTONE)
 public class MilestoneServiceImpl extends
 		DefaultService<Integer, Milestone, MilestoneSearchCriteria> implements
 		MilestoneService {
@@ -100,7 +100,7 @@ public class MilestoneServiceImpl extends
 		relayNotification.setChangecomment("");
 		relayNotification.setAction(action);
 		relayNotification.setSaccountid(record.getSaccountid());
-		relayNotification.setType(MonitorTypeConstants.PRJ_MILESTONE);
+		relayNotification.setType(ProjectTypeConstants.MILESTONE);
 		relayNotification
 				.setEmailhandlerbean(ProjectMilestoneRelayEmailNotificationAction.class
 						.getName());

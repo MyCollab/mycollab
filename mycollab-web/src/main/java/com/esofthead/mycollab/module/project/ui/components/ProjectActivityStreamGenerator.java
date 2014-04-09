@@ -19,10 +19,16 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectActivityStreamGenerator {
 	private static AuditLogShowHandler bugHandler = new BugAuditLogShowHandler();
 	private static AuditLogShowHandler taskHandler = new TaskAuditLogShowHandler();
@@ -36,21 +42,21 @@ public class ProjectActivityStreamGenerator {
 	private static AuditLogShowHandler defaultHandler = new AuditLogShowHandler();
 
 	private static AuditLogShowHandler getShowHandler(String type) {
-		if (ProjectContants.BUG.equals(type)) {
+		if (ProjectTypeConstants.BUG.equals(type)) {
 			return bugHandler;
-		} else if (ProjectContants.TASK.equals(type)) {
+		} else if (ProjectTypeConstants.TASK.equals(type)) {
 			return taskHandler;
-		} else if (ProjectContants.TASK_LIST.equals(type)) {
+		} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
 			return taskListHandler;
-		} else if (ProjectContants.MILESTONE.equals(type)) {
+		} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
 			return milestoneHandler;
-		} else if (ProjectContants.RISK.equals(type)) {
+		} else if (ProjectTypeConstants.RISK.equals(type)) {
 			return riskHandler;
-		} else if (ProjectContants.PROBLEM.equals(type)) {
+		} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
 			return problemHandler;
-		} else if (ProjectContants.BUG_COMPONENT.equals(type)) {
+		} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
 			return componentHandler;
-		} else if (ProjectContants.BUG_VERSION.equals(type)) {
+		} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
 			return versionHandler;
 		} else {
 			return defaultHandler;

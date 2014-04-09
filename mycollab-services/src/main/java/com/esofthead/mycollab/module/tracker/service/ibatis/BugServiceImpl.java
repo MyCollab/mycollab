@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
@@ -33,7 +32,7 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
@@ -50,9 +49,9 @@ import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAc
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "summary", type = ProjectContants.BUG, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.BUG)
-@Watchable(type = MonitorTypeConstants.PRJ_BUG, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = BugRelayEmailNotificationAction.class)
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "summary", type = ProjectTypeConstants.BUG, extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG)
+@Watchable(type = ProjectTypeConstants.BUG, userFieldName = "assignuser", extraTypeId = "projectid", emailHandlerBean = BugRelayEmailNotificationAction.class)
 public class BugServiceImpl extends
 		DefaultService<Integer, BugWithBLOBs, BugSearchCriteria> implements
 		BugService {

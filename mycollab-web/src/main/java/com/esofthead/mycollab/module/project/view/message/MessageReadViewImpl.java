@@ -76,7 +76,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class MessageReadViewImpl extends AbstractPageView implements
-MessageReadView {
+		MessageReadView {
 	private static final long serialVersionUID = 1L;
 
 	private final AdvancedPreviewBeanForm<SimpleMessage> previewForm;
@@ -110,16 +110,16 @@ MessageReadView {
 		this.message = item;
 		previewForm.setFormLayoutFactory(new FormLayoutFactory());
 		previewForm
-		.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
-				previewForm) {
-			private static final long serialVersionUID = 1L;
+				.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<SimpleMessage>(
+						previewForm) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Field<?> onCreateField(Object propertyId) {
-				return null;
-			}
+					@Override
+					protected Field<?> onCreateField(Object propertyId) {
+						return null;
+					}
 
-		});
+				});
 		previewForm.setBean(item);
 	}
 
@@ -151,13 +151,13 @@ MessageReadView {
 							LocalizationHelper.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									LocalizationHelper
+							LocalizationHelper
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -181,8 +181,11 @@ MessageReadView {
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
-			UiUtils.addComponent(header, new Image(null,
-					MyCollabResource.newResource("icons/24/project/message.png")), Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(
+					header,
+					new Image(null, MyCollabResource
+							.newResource("icons/24/project/message.png")),
+					Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, deleteBtn, Alignment.MIDDLE_RIGHT);
 			header.setExpandRatio(headerText, 1.0f);
@@ -208,7 +211,10 @@ MessageReadView {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(new ProjectMemberEvent.GotoRead(MessageReadViewImpl.this, message.getPosteduser()));
+					EventBus.getInstance().fireEvent(
+							new ProjectMemberEvent.GotoRead(
+									MessageReadViewImpl.this, message
+											.getPosteduser()));
 				}
 			};
 			Button userAvatarBtn = UserAvatarControlFactory
@@ -237,8 +243,12 @@ MessageReadView {
 			messageHeader.setSpacing(true);
 			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-			final Label timePostLbl = new Label("<span class=\"post-owner\"><b>" + message.getFullPostedUserName() + "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;" +
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate()), ContentMode.HTML);
+			final Label timePostLbl = new Label(
+					"<span class=\"post-owner\"><b>"
+							+ message.getFullPostedUserName()
+							+ "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;"
+							+ DateTimeUtils.getStringDateFromNow(message
+									.getPosteddate()), ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 
@@ -265,8 +275,8 @@ MessageReadView {
 									message.getId()));
 			if (attachments != null && !attachments.isEmpty()) {
 				HorizontalLayout attachmentField = new HorizontalLayout();
-				Image attachmentIcon = new Image(null, MyCollabResource
-						.newResource("icons/16/attachment.png"));
+				Image attachmentIcon = new Image(null,
+						MyCollabResource.newResource("icons/16/attachment.png"));
 				attachmentField.addComponent(attachmentIcon);
 
 				Label lbAttachment = new Label("Attachment: ");
@@ -274,7 +284,7 @@ MessageReadView {
 
 				Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory
 						.getAttachmentDisplayComponent(message.getProjectid(),
-								AttachmentType.PROJECT_MESSAGE, message.getId());				
+								AttachmentType.PROJECT_MESSAGE, message.getId());
 
 				VerticalLayout messageFooter = new VerticalLayout();
 				messageFooter.setWidth("100%");
@@ -284,7 +294,7 @@ MessageReadView {
 				messageFooter.addComponent(attachmentField);
 				messageFooter.addComponent(attachmentDisplayComp);
 				rowLayout.addComponent(messageFooter);
-			}			
+			}
 
 			messageLayout.addComponent(rowLayout);
 			messageLayout.setExpandRatio(rowLayout, 1.0f);
@@ -292,7 +302,8 @@ MessageReadView {
 			messageAddLayout.addComponent(messageLayout);
 			messageAddLayout.setWidth("100%");
 
-			if (commentDisplay != null && commentDisplay.getParent() == contentWrapper) {
+			if (commentDisplay != null
+					&& commentDisplay.getParent() == contentWrapper) {
 				contentWrapper.removeComponent(commentDisplay);
 			}
 			commentDisplay = createCommentPanel();

@@ -23,12 +23,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
@@ -139,8 +139,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		}
 		templateGenerator.putVariable(
 				"lstComment",
-				getListComment(task.getSaccountid(),
-						MonitorTypeConstants.PRJ_TASK, task.getId()));
+				getListComment(task.getSaccountid(), ProjectTypeConstants.TASK,
+						task.getId()));
 
 		return templateGenerator;
 	}
@@ -161,8 +161,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				"[$task.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
 						+ " has commented on the task \""
-						+ StringUtils.trim(task.getTaskname(), 100)
-						+ "\"",
+						+ StringUtils.trim(task.getTaskname(), 100) + "\"",
 				"templates/email/project/taskCommentNotifier.mt");
 		templateGenerator.putVariable("task", task);
 		templateGenerator.putVariable("comment", emailNotification);

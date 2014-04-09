@@ -18,11 +18,11 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import java.util.GregorianCalendar;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.ui.components.CompTimeLogSheet;
@@ -50,7 +50,7 @@ public class BugTimeLogSheet extends CompTimeLogSheet<SimpleBug> {
 		item.setLoguser(AppContext.getUsername());
 		item.setLogvalue(getInvestValue());
 		item.setTypeid(bean.getId());
-		item.setType(MonitorTypeConstants.PRJ_BUG);
+		item.setType(ProjectTypeConstants.BUG);
 		item.setSaccountid(AppContext.getAccountId());
 		item.setProjectid(CurrentProjectVariables.getProjectId());
 		item.setLogforday(new GregorianCalendar().getTime());
@@ -73,8 +73,7 @@ public class BugTimeLogSheet extends CompTimeLogSheet<SimpleBug> {
 		ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
 		searchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
-		searchCriteria.setType(new StringSearchField(
-				MonitorTypeConstants.PRJ_BUG));
+		searchCriteria.setType(new StringSearchField(ProjectTypeConstants.BUG));
 		searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
 		return searchCriteria;
 	}

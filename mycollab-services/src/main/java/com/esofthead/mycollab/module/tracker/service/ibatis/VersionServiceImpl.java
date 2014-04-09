@@ -26,7 +26,7 @@ import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.tracker.dao.VersionMapper;
 import com.esofthead.mycollab.module.tracker.dao.VersionMapperExt;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
@@ -36,8 +36,8 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "versionname", type = ProjectContants.BUG_VERSION, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.BUG_VERSION)
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "versionname", type = ProjectTypeConstants.BUG_VERSION, extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG_VERSION)
 public class VersionServiceImpl extends
 		DefaultService<Integer, Version, VersionSearchCriteria> implements
 		VersionService {

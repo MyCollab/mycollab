@@ -18,11 +18,11 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.GregorianCalendar;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
@@ -50,7 +50,7 @@ public class TaskTimeLogSheet extends CompTimeLogSheet<SimpleTask> {
 		item.setLoguser(AppContext.getUsername());
 		item.setLogvalue(getInvestValue());
 		item.setTypeid(bean.getId());
-		item.setType(MonitorTypeConstants.PRJ_TASK);
+		item.setType(ProjectTypeConstants.TASK);
 		item.setSaccountid(AppContext.getAccountId());
 		item.setProjectid(CurrentProjectVariables.getProjectId());
 		item.setLogforday(new GregorianCalendar().getTime());
@@ -72,8 +72,8 @@ public class TaskTimeLogSheet extends CompTimeLogSheet<SimpleTask> {
 		ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
 		searchCriteria.setProjectId(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
-		searchCriteria.setType(new StringSearchField(
-				MonitorTypeConstants.PRJ_TASK));
+		searchCriteria
+				.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
 		return searchCriteria;
 	}

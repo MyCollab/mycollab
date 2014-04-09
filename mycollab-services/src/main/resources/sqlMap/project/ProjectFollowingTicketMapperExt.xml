@@ -22,7 +22,7 @@
 
     <sql id="selectFollowingTicketOfTask">
         <![CDATA[
-        SELECT 'Task' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        SELECT 'Project-Task' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_prj_task.taskname AS summary, m_prj_task.assignUser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
             s_user.avatarId AS assignUserAvatarId, m_monitor_item.monitor_date AS monitorDate,
@@ -37,7 +37,7 @@
 
     <sql id="selectFollowingTicketOfBug">
         <![CDATA[
-        SELECT 'Bug' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
+        SELECT 'Project-Bug' as type, m_prj_project.id AS projectId, m_prj_project.name AS projectName,
             m_tracker_bug.summary AS summary, s_user.username AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
             s_user.avatarId AS assignUserAvatarId, m_monitor_item.monitor_date AS monitorDate,

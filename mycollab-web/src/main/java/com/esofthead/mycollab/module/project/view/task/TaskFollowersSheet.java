@@ -27,6 +27,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.ui.components.CompFollowersSheet;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
@@ -50,19 +51,19 @@ public class TaskFollowersSheet extends CompFollowersSheet<SimpleTask> {
 	protected void loadMonitorItems() {
 		MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
 		searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
-		searchCriteria.setType(new StringSearchField(
-				MonitorTypeConstants.PRJ_TASK));
+		searchCriteria
+				.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		tableItem.setSearchCriteria(searchCriteria);
 	}
 
 	@Override
 	protected boolean saveMonitorItem(String username) {
 		if (!monitorItemService.isUserWatchingItem(username,
-				MonitorTypeConstants.PRJ_TASK, bean.getId())) {
+				ProjectTypeConstants.TASK, bean.getId())) {
 
 			MonitorItem monitorItem = new MonitorItem();
 			monitorItem.setMonitorDate(new GregorianCalendar().getTime());
-			monitorItem.setType(MonitorTypeConstants.PRJ_TASK);
+			monitorItem.setType(ProjectTypeConstants.TASK);
 			monitorItem.setTypeid(bean.getId());
 			monitorItem.setUser(username);
 			monitorItem.setSaccountid(AppContext.getAccountId());
@@ -80,7 +81,7 @@ public class TaskFollowersSheet extends CompFollowersSheet<SimpleTask> {
 		relayNotification.setChangeby(AppContext.getUsername());
 		relayNotification.setChangecomment("");
 		relayNotification.setSaccountid(AppContext.getAccountId());
-		relayNotification.setType(MonitorTypeConstants.PRJ_TASK);
+		relayNotification.setType(ProjectTypeConstants.TASK);
 		relayNotification.setTypeid(bean.getId());
 		relayNotification
 				.setEmailhandlerbean(ProjectTaskRelayEmailNotificationAction.class

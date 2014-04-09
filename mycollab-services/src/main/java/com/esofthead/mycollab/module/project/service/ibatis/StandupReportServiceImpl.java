@@ -36,15 +36,13 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.StandupReportMapper;
 import com.esofthead.mycollab.module.project.dao.StandupReportMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.StandupReportWithBLOBs;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
-import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
@@ -56,7 +54,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "forday", type = ProjectContants.STANDUP, extraFieldName = "projectid")
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "forday", type = ProjectTypeConstants.STANDUP, extraFieldName = "projectid")
 public class StandupReportServiceImpl
 		extends
 		DefaultService<Integer, StandupReportWithBLOBs, StandupReportSearchCriteria>

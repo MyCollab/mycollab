@@ -19,6 +19,7 @@ package com.esofthead.mycollab.common.service.ibatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.dao.CommentMapperExt;
@@ -30,6 +31,8 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
 /**
@@ -104,6 +107,10 @@ public class CommentServiceImpl extends
 			boolean isSendingEmail,
 			Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		int saveId = super.saveWithSession(record, username);
+		if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
+			CacheUtils
+					.cleanCaches(record.getSaccountid(), MessageService.class);
+		}
 		if (!isSendingEmail) {
 			return saveId;
 		} else {

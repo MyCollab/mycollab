@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
@@ -60,7 +60,8 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 			@Override
 			public void showHistory() {
 				final ProjectRoleHistoryLogWindow historyLog = new ProjectRoleHistoryLogWindow(
-						ModuleNameConstants.PRJ, ProjectContants.PROJECT_ROLE);
+						ModuleNameConstants.PRJ,
+						ProjectTypeConstants.PROJECT_ROLE);
 				historyLog.loadHistory(previewForm.getBean().getId());
 				UI.getCurrent().addWindow(historyLog);
 			}

@@ -27,7 +27,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.tracker.dao.ComponentMapper;
 import com.esofthead.mycollab.module.tracker.dao.ComponentMapperExt;
 import com.esofthead.mycollab.module.tracker.domain.Component;
@@ -38,8 +38,8 @@ import com.esofthead.mycollab.module.tracker.service.ComponentService;
 
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "componentname", type = ProjectContants.BUG_COMPONENT, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.BUG_COMPONENT)
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "componentname", type = ProjectTypeConstants.BUG_COMPONENT, extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG_COMPONENT)
 public class ComponentServiceImpl extends
 		DefaultService<Integer, Component, ComponentSearchCriteria> implements
 		ComponentService {

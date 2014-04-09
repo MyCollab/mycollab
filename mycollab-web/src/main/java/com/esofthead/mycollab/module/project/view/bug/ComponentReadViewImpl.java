@@ -24,8 +24,8 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -101,7 +101,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 		relatedBugComp = new RelatedBugComp();
 
 		historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ,
-				ProjectContants.BUG_COMPONENT);
+				ProjectTypeConstants.BUG_COMPONENT);
 	}
 
 	@Override

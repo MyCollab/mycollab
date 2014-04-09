@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -32,7 +32,7 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
 	public TaskGroupHistoryLogList() {
-		super(ModuleNameConstants.PRJ, ProjectContants.TASK_LIST);
+		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK_LIST);
 		this.addStyleName("activity-panel");
 
 		this.generateFieldDisplayHandler("name", "Name");

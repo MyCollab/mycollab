@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
@@ -33,7 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class BugHistoryList extends HistoryLogComponent {
 
 	public BugHistoryList() {
-		super(ModuleNameConstants.PRJ, ProjectContants.BUG);
+		super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
 		this.addStyleName("activity-panel");
 		this.setMargin(true);
 

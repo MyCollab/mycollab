@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.cache.CacheUtils;
-import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;

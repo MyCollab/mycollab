@@ -22,9 +22,9 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -109,7 +109,7 @@ public class MilestoneReadViewImpl extends
 	@Override
 	protected void initRelatedComponents() {
 		this.historyList = new MilestoneHistoryLogList(ModuleNameConstants.PRJ,
-				ProjectContants.MILESTONE);
+				ProjectTypeConstants.MILESTONE);
 		this.associateBugListComp = new MilestoneBugListComp();
 		this.associateTaskGroupListComp = new MilestoneTaskGroupListComp();
 		this.associateCommentListComp = new CommentDisplay(

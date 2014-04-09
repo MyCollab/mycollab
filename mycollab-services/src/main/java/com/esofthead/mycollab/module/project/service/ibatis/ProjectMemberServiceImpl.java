@@ -126,7 +126,7 @@ public class ProjectMemberServiceImpl extends
 			}
 
 			projectMember.setStatus(RegisterStatusConstants.DELETE);
-			projectMapper.updateByPrimaryKeySelective(projectMember);
+			projectMemberMapper.updateByPrimaryKeySelective(projectMember);
 		}
 
 		return 1;

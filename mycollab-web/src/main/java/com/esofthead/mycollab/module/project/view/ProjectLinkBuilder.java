@@ -18,8 +18,8 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -111,34 +111,35 @@ public class ProjectLinkBuilder {
 			int typeid) {
 		String result = "";
 
-		if (ProjectContants.PROJECT.equals(type)) {
-		} else if (ProjectContants.MESSAGE.equals(type)) {
+		if (ProjectTypeConstants.PROJECT.equals(type)) {
+		} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
 			result = ProjectLinkUtils.generateMessagePreviewLink(projectId,
 					typeid);
-		} else if (ProjectContants.MILESTONE.equals(type)) {
+		} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
 			result = ProjectLinkUtils.generateMilestonePreviewLink(projectId,
 					typeid);
-		} else if (ProjectContants.PROBLEM.equals(type)) {
+		} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
 			result = ProjectLinkUtils.generateProblemPreviewLink(projectId,
 					typeid);
-		} else if (ProjectContants.RISK.equals(type)) {
+		} else if (ProjectTypeConstants.RISK.equals(type)) {
 			result = ProjectLinkUtils.generateRiskPreview(projectId, typeid);
-		} else if (ProjectContants.TASK.equals(type)) {
+		} else if (ProjectTypeConstants.TASK.equals(type)) {
 			result = ProjectLinkUtils
 					.generateTaskPreviewLink(projectId, typeid);
-		} else if (ProjectContants.TASK_LIST.equals(type)) {
+		} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
 			result = ProjectLinkUtils.generateTaskGroupPreviewLink(projectId,
 					typeid);
-		} else if (ProjectContants.BUG.equals(type)) {
+		} else if (ProjectTypeConstants.BUG.equals(type)) {
 			result = ProjectLinkUtils.generateBugPreviewLink(projectId, typeid);
-		} else if (ProjectContants.BUG_COMPONENT.equals(type)) {
+		} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
 			result = ProjectLinkUtils.generateBugComponentPreviewLink(
 					projectId, typeid);
-		} else if (ProjectContants.BUG_VERSION.equals(type)) {
+		} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
 			result = ProjectLinkUtils.generateBugVersionPreviewLink(projectId,
 					typeid);
-		} else if (ProjectContants.STANDUP.equals(type)) {
-			result = ProjectLinkUtils.generateStandUpPreviewLink(projectId, typeid);
+		} else if (ProjectTypeConstants.STANDUP.equals(type)) {
+			result = ProjectLinkUtils.generateStandUpPreviewLink(projectId,
+					typeid);
 		}
 
 		return "#" + result;

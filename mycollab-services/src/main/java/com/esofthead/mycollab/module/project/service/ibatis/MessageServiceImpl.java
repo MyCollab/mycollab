@@ -29,7 +29,7 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.MessageMapper;
 import com.esofthead.mycollab.module.project.dao.MessageMapperExt;
 import com.esofthead.mycollab.module.project.domain.Message;
@@ -47,7 +47,7 @@ import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificati
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "title", type = ProjectContants.MESSAGE, extraFieldName = "projectid")
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "title", type = ProjectTypeConstants.MESSAGE, extraFieldName = "projectid")
 public class MessageServiceImpl extends
 		DefaultService<Integer, Message, MessageSearchCriteria> implements
 		MessageService {
@@ -99,7 +99,7 @@ public class MessageServiceImpl extends
 		relayNotification.setChangecomment("");
 		int sAccountId = record.getSaccountid();
 		relayNotification.setSaccountid(sAccountId);
-		relayNotification.setType(MonitorTypeConstants.PRJ_MESSAGE);
+		relayNotification.setType(ProjectTypeConstants.MESSAGE);
 		relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
 		relayNotification
 				.setEmailhandlerbean(MessageRelayEmailNotificationAction.class

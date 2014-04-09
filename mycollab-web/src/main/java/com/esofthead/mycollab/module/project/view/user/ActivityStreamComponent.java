@@ -77,9 +77,8 @@ public class ActivityStreamComponent extends CssLayout {
 
 	}
 
-	static class ProjectActivityStreamPagedList2
-	extends
-	ProjectActivityStreamPagedList {
+	static class ProjectActivityStreamPagedList2 extends
+			ProjectActivityStreamPagedList {
 		private static final long serialVersionUID = 1L;
 
 		@Override

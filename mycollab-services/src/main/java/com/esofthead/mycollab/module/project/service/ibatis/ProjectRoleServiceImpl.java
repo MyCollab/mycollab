@@ -25,7 +25,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectRoleMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectRoleMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
@@ -44,7 +44,7 @@ import com.esofthead.mycollab.security.PermissionMap;
  * 
  */
 @Service
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.PROJECT_ROLE)
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.PROJECT_ROLE)
 public class ProjectRoleServiceImpl extends
 		DefaultService<Integer, ProjectRole, ProjectRoleSearchCriteria>
 		implements ProjectRoleService {

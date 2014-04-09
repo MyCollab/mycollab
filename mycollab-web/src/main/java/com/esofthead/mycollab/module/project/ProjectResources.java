@@ -40,52 +40,52 @@ public class ProjectResources {
 
 	static {
 		resourceLinks = new HashMap<String, String>();
-		resourceLinks.put(ProjectContants.PROJECT, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.PROJECT, MyCollabResource
 				.newResourceLink("icons/16/project/project.png"));
-		resourceLinks.put(ProjectContants.MESSAGE, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.MESSAGE, MyCollabResource
 				.newResourceLink("icons/16/project/message.png"));
-		resourceLinks.put(ProjectContants.MILESTONE, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.MILESTONE, MyCollabResource
 				.newResourceLink("icons/16/project/milestone.png"));
-		resourceLinks.put(ProjectContants.PROBLEM, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.PROBLEM, MyCollabResource
 				.newResourceLink("icons/16/project/problem.png"));
-		resourceLinks.put(ProjectContants.RISK,
+		resourceLinks.put(ProjectTypeConstants.RISK,
 				MyCollabResource.newResourceLink("icons/16/project/risk.png"));
-		resourceLinks.put(ProjectContants.TASK,
+		resourceLinks.put(ProjectTypeConstants.TASK,
 				MyCollabResource.newResourceLink("icons/16/project/task.png"));
-		resourceLinks.put(ProjectContants.TASK_LIST, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.TASK_LIST, MyCollabResource
 				.newResourceLink("icons/16/project/task_group.png"));
-		resourceLinks.put(ProjectContants.BUG,
+		resourceLinks.put(ProjectTypeConstants.BUG,
 				MyCollabResource.newResourceLink("icons/16/project/bug.png"));
-		resourceLinks.put(ProjectContants.BUG_COMPONENT, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.BUG_COMPONENT, MyCollabResource
 				.newResourceLink("icons/16/project/component.png"));
-		resourceLinks.put(ProjectContants.BUG_VERSION, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.BUG_VERSION, MyCollabResource
 				.newResourceLink("icons/16/project/version.png"));
-		resourceLinks.put(ProjectContants.STANDUP, MyCollabResource
+		resourceLinks.put(ProjectTypeConstants.STANDUP, MyCollabResource
 				.newResourceLink("icons/16/project/standup.png"));
 
 		resources = new HashMap<String, Resource>();
-		resources.put(ProjectContants.PROJECT,
+		resources.put(ProjectTypeConstants.PROJECT,
 				MyCollabResource.newResource("icons/16/project/project.png"));
-		resources.put(ProjectContants.MESSAGE,
+		resources.put(ProjectTypeConstants.MESSAGE,
 				MyCollabResource.newResource("icons/16/project/message.png"));
-		resources.put(ProjectContants.MILESTONE,
+		resources.put(ProjectTypeConstants.MILESTONE,
 				MyCollabResource.newResource("icons/16/project/milestone.png"));
-		resources.put(ProjectContants.PROBLEM,
+		resources.put(ProjectTypeConstants.PROBLEM,
 				MyCollabResource.newResource("icons/16/project/problem.png"));
-		resources.put(ProjectContants.RISK,
+		resources.put(ProjectTypeConstants.RISK,
 				MyCollabResource.newResource("icons/16/project/risk.png"));
-		resources.put(ProjectContants.TASK,
+		resources.put(ProjectTypeConstants.TASK,
 				MyCollabResource.newResource("icons/16/project/task.png"));
 		resources
-				.put(ProjectContants.TASK_LIST, MyCollabResource
+				.put(ProjectTypeConstants.TASK_LIST, MyCollabResource
 						.newResource("icons/16/project/task_group.png"));
-		resources.put(ProjectContants.BUG,
+		resources.put(ProjectTypeConstants.BUG,
 				MyCollabResource.newResource("icons/16/project/bug.png"));
-		resources.put(ProjectContants.BUG_COMPONENT,
+		resources.put(ProjectTypeConstants.BUG_COMPONENT,
 				MyCollabResource.newResource("icons/16/project/component.png"));
-		resources.put(ProjectContants.BUG_VERSION,
+		resources.put(ProjectTypeConstants.BUG_VERSION,
 				MyCollabResource.newResource("icons/16/project/version.png"));
-		resources.put(ProjectContants.STANDUP,
+		resources.put(ProjectTypeConstants.STANDUP,
 				MyCollabResource.newResource("icons/16/project/standup.png"));
 	}
 

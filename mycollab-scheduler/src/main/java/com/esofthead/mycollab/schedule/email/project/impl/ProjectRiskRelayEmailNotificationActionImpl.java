@@ -22,12 +22,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -74,8 +74,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 				"[$hyperLinks.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
 						+ " has created the risk \""
-						+ StringUtils.trim(risk.getRiskname(), 100)
-						+ "\"",
+						+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
 				"templates/email/project/riskCreatedNotifier.mt");
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(risk, user.getTimezone(),
 				new String[] { "dateraised", "datedue" });
@@ -142,8 +141,8 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		}
 		templateGenerator.putVariable(
 				"lstComment",
-				getListComment(risk.getSaccountid(),
-						MonitorTypeConstants.PRJ_RISK, risk.getId()));
+				getListComment(risk.getSaccountid(), ProjectTypeConstants.RISK,
+						risk.getId()));
 
 		return templateGenerator;
 	}
@@ -162,8 +161,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 				"[$hyperLinks.projectName]: "
 						+ emailNotification.getChangeByUserFullName()
 						+ " has commented the risk \""
-						+ StringUtils.trim(risk.getRiskname(), 100)
-						+ "\"",
+						+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
 				"templates/email/project/riskCommentNotifier.mt");
 		templateGenerator.putVariable("risk", risk);
 		templateGenerator.putVariable("hyperLinks",

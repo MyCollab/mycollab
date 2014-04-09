@@ -32,7 +32,7 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.RiskMapper;
 import com.esofthead.mycollab.module.project.dao.RiskMapperExt;
 import com.esofthead.mycollab.module.project.domain.Risk;
@@ -52,8 +52,8 @@ import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotifi
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "riskname", type = ProjectContants.RISK, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.RISK)
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "riskname", type = ProjectTypeConstants.RISK, extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.RISK)
 public class RiskServiceImpl extends
 		DefaultService<Integer, Risk, RiskSearchCriteria> implements
 		RiskService {
@@ -137,7 +137,7 @@ public class RiskServiceImpl extends
 		relayNotification.setChangecomment("");
 		int sAccountId = record.getSaccountid();
 		relayNotification.setSaccountid(sAccountId);
-		relayNotification.setType(MonitorTypeConstants.PRJ_RISK);
+		relayNotification.setType(ProjectTypeConstants.RISK);
 		relayNotification.setAction(action);
 		relayNotification
 				.setEmailhandlerbean(ProjectRiskRelayEmailNotificationAction.class

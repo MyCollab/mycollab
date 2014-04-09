@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.project.view.time;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.view.account.AccountTableDisplay;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
@@ -89,7 +87,7 @@ public class TimeTrackingTableDisplay
 					return new Label(itemLogging.getNote(), ContentMode.HTML);
 				}
 
-				if (itemLogging.getType().equals(MonitorTypeConstants.PRJ_BUG)) {
+				if (itemLogging.getType().equals(ProjectTypeConstants.BUG)) {
 
 					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
 							new Button.ClickListener() {
@@ -116,7 +114,7 @@ public class TimeTrackingTableDisplay
 						timeTrackingLink.addStyleName(UIConstants.LINK_OVERDUE);
 					}
 				} else if (itemLogging.getType().equals(
-						MonitorTypeConstants.PRJ_TASK)) {
+						ProjectTypeConstants.TASK)) {
 
 					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
 							new Button.ClickListener() {

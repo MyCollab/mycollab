@@ -24,8 +24,8 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
@@ -82,7 +82,7 @@ implements VersionReadView {
 	@Override
 	protected void initRelatedComponents() {
 		historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ,
-				ProjectContants.BUG_VERSION);
+				ProjectTypeConstants.BUG_VERSION);
 		relatedBugComp = new RelatedBugComp();
 	}
 

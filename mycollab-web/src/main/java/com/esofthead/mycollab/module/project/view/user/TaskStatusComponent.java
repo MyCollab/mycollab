@@ -25,8 +25,8 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
@@ -181,7 +181,7 @@ public class TaskStatusComponent extends Depot {
 
 								@Override
 								public void buttonClick(ClickEvent event) {
-									if (ProjectContants.BUG.equals(task
+									if (ProjectTypeConstants.BUG.equals(task
 											.getType())) {
 										int projectId = task.getProjectId();
 										int bugId = task.getTypeId();
@@ -192,8 +192,8 @@ public class TaskStatusComponent extends Depot {
 										EventBus.getInstance().fireEvent(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
-									} else if (ProjectContants.TASK.equals(task
-											.getType())) {
+									} else if (ProjectTypeConstants.TASK
+											.equals(task.getType())) {
 										int projectId = task.getProjectId();
 										int taskId = task.getTypeId();
 										PageActionChain chain = new PageActionChain(
@@ -203,7 +203,7 @@ public class TaskStatusComponent extends Depot {
 										EventBus.getInstance().fireEvent(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
-									} else if (ProjectContants.PROBLEM
+									} else if (ProjectTypeConstants.PROBLEM
 											.equals(task.getType())) {
 										int projectId = task.getProjectId();
 										int problemId = task.getTypeId();
@@ -215,8 +215,8 @@ public class TaskStatusComponent extends Depot {
 										EventBus.getInstance().fireEvent(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
-									} else if (ProjectContants.RISK.equals(task
-											.getType())) {
+									} else if (ProjectTypeConstants.RISK
+											.equals(task.getType())) {
 										int projectId = task.getProjectId();
 										int riskId = task.getTypeId();
 										PageActionChain chain = new PageActionChain(

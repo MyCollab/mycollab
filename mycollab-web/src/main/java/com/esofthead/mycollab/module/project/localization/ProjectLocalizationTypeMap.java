@@ -20,23 +20,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 
 public class ProjectLocalizationTypeMap {
 	private static Map<String, ProjectTypeI18nEnum> typeMap;
 
 	static {
 		typeMap = new HashMap<String, ProjectTypeI18nEnum>();
-		typeMap.put("Project", ProjectTypeI18nEnum.PROJECT_ITEM);
-		typeMap.put("Message", ProjectTypeI18nEnum.MESSAGE_ITEM);
-		typeMap.put("Milestone", ProjectTypeI18nEnum.PHASE_ITEM);
-		typeMap.put("Task", ProjectTypeI18nEnum.TASK_ITEM);
-		typeMap.put("TaskList", ProjectTypeI18nEnum.TASKGROUP_ITEM);
-		typeMap.put("Bug", ProjectTypeI18nEnum.BUG_ITEM);
-		typeMap.put("Component", ProjectTypeI18nEnum.COMPONENT_ITEM);
-		typeMap.put("Version", ProjectTypeI18nEnum.VERSION_ITEM);
-		typeMap.put("StandUp", ProjectTypeI18nEnum.STANDUP_ITEM);
-		typeMap.put("Problem", ProjectTypeI18nEnum.PROBLEM_ITEM);
-		typeMap.put("Risk", ProjectTypeI18nEnum.RISK_ITEM);
+		typeMap.put(ProjectTypeConstants.PROJECT,
+				ProjectTypeI18nEnum.PROJECT_ITEM);
+		typeMap.put(ProjectTypeConstants.MESSAGE,
+				ProjectTypeI18nEnum.MESSAGE_ITEM);
+		typeMap.put(ProjectTypeConstants.MILESTONE,
+				ProjectTypeI18nEnum.PHASE_ITEM);
+		typeMap.put(ProjectTypeConstants.TASK, ProjectTypeI18nEnum.TASK_ITEM);
+		typeMap.put(ProjectTypeConstants.TASK_LIST,
+				ProjectTypeI18nEnum.TASKGROUP_ITEM);
+		typeMap.put(ProjectTypeConstants.BUG, ProjectTypeI18nEnum.BUG_ITEM);
+		typeMap.put(ProjectTypeConstants.BUG_COMPONENT,
+				ProjectTypeI18nEnum.COMPONENT_ITEM);
+		typeMap.put(ProjectTypeConstants.BUG_VERSION,
+				ProjectTypeI18nEnum.VERSION_ITEM);
+		typeMap.put(ProjectTypeConstants.STANDUP,
+				ProjectTypeI18nEnum.STANDUP_ITEM);
+		typeMap.put(ProjectTypeConstants.PROBLEM,
+				ProjectTypeI18nEnum.PROBLEM_ITEM);
+		typeMap.put(ProjectTypeConstants.RISK, ProjectTypeI18nEnum.RISK_ITEM);
 	}
 
 	public static ProjectTypeI18nEnum getType(String key) {

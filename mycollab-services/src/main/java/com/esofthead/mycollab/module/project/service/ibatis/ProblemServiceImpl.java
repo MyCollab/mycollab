@@ -32,7 +32,7 @@ import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.module.project.ProjectContants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProblemMapper;
 import com.esofthead.mycollab.module.project.dao.ProblemMapperExt;
 import com.esofthead.mycollab.module.project.domain.Problem;
@@ -52,8 +52,8 @@ import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNot
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "issuename", type = ProjectContants.PROBLEM, extraFieldName = "projectid")
-@Auditable(module = ModuleNameConstants.PRJ, type = ProjectContants.PROBLEM)
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "issuename", type = ProjectTypeConstants.PROBLEM, extraFieldName = "projectid")
+@Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.PROBLEM)
 public class ProblemServiceImpl extends
 		DefaultService<Integer, Problem, ProblemSearchCriteria> implements
 		ProblemService {
@@ -144,7 +144,7 @@ public class ProblemServiceImpl extends
 		relayNotification.setChangecomment("");
 		int sAccountId = record.getSaccountid();
 		relayNotification.setSaccountid(sAccountId);
-		relayNotification.setType(MonitorTypeConstants.PRJ_PROBLEM);
+		relayNotification.setType(ProjectTypeConstants.PROBLEM);
 		relayNotification.setAction(action);
 		relayNotification
 				.setEmailhandlerbean(ProjectProblemRelayEmailNotificationAction.class

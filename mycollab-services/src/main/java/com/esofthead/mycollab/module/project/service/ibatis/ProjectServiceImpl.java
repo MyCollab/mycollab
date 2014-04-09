@@ -38,10 +38,10 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.esb.BeanProxyBuilder;
-import com.esofthead.mycollab.module.project.ProjectContants;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -66,7 +66,7 @@ import com.esofthead.mycollab.security.PermissionMap;
  */
 @Service
 @Transactional
-@Traceable(module = ModuleNameConstants.PRJ, nameField = "name", type = ProjectContants.PROJECT, extraFieldName = "id")
+@Traceable(module = ModuleNameConstants.PRJ, nameField = "name", type = ProjectTypeConstants.PROJECT, extraFieldName = "id")
 public class ProjectServiceImpl extends
 		DefaultService<Integer, Project, ProjectSearchCriteria> implements
 		ProjectService {

@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -30,6 +29,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -76,7 +76,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
-TimeTrackingSummaryView {
+		TimeTrackingSummaryView {
 	private static final long serialVersionUID = 1L;
 
 	private PopupDateField fromDateField;
@@ -90,7 +90,7 @@ TimeTrackingSummaryView {
 	private ItemTimeLoggingSearchCriteria searchCriteria;
 
 	public TimeTrackingSummaryViewImpl() {
-		this.setWidth("100%");		
+		this.setWidth("100%");
 
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
@@ -141,16 +141,14 @@ TimeTrackingSummaryView {
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
 
-
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);
-
 
 		final HorizontalLayout dateSelectionLayout = new HorizontalLayout();
 		dateSelectionLayout.setSpacing(true);
 		dateSelectionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		dateSelectionLayout
-		.setMargin(new MarginInfo(false, false, true, false));
+				.setMargin(new MarginInfo(false, false, true, false));
 		controlsPanel.addComponent(dateSelectionLayout);
 
 		dateSelectionLayout.addComponent(new Label("From:  "));
@@ -166,19 +164,18 @@ TimeTrackingSummaryView {
 
 		final Button queryBtn = new Button("Submit",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				Date from = fromDateField.getValue();
-				Date to = toDateField.getValue();
-				searchTimeReporting(from, to);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						Date from = fromDateField.getValue();
+						Date to = toDateField.getValue();
+						searchTimeReporting(from, to);
+					}
+				});
 		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		dateSelectionLayout.addComponent(queryBtn);
-
 
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
@@ -186,7 +183,8 @@ TimeTrackingSummaryView {
 		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs");
 		controlsPanel.addComponent(totalHoursLoggingLabel);
 		controlsPanel.setExpandRatio(totalHoursLoggingLabel, 1.0f);
-		controlsPanel.setComponentAlignment(totalHoursLoggingLabel, Alignment.MIDDLE_LEFT);
+		controlsPanel.setComponentAlignment(totalHoursLoggingLabel,
+				Alignment.MIDDLE_LEFT);
 
 		Button exportBtn = new Button("Export", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -226,10 +224,10 @@ TimeTrackingSummaryView {
 		popupButtonsControl.addComponent(exportExcelBtn);
 
 		controlBtns.addComponent(exportButtonControl);
-		controlBtns.setComponentAlignment(exportButtonControl, Alignment.TOP_RIGHT);
+		controlBtns.setComponentAlignment(exportButtonControl,
+				Alignment.TOP_RIGHT);
 		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
 		controlBtns.setSizeFull();
-
 
 		this.tableItem = new TimeTrackingTableDisplay(Arrays.asList(
 				TimeTableFieldDef.summary, TimeTableFieldDef.logUser,
@@ -239,50 +237,50 @@ TimeTrackingSummaryView {
 		this.tableItem.setMargin(new MarginInfo(true, false, false, false));
 
 		this.tableItem
-		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			private static final long serialVersionUID = 1L;
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
-
-			@Override
-			public void handle(final TableClickEvent event) {
-				final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
-						.getData();
-				if ("summary".equals(event.getFieldName())) {
-					final int typeId = itemLogging.getTypeid();
-					final int projectId = itemLogging.getProjectid();
-
-					if (MonitorTypeConstants.PRJ_BUG.equals(itemLogging
-							.getType())) {
-						final PageActionChain chain = new PageActionChain(
-								new ProjectScreenData.Goto(projectId),
-								new BugScreenData.Read(typeId));
-						EventBus.getInstance().fireEvent(
-								new ProjectEvent.GotoMyProject(this,
-										chain));
-					} else if (MonitorTypeConstants.PRJ_TASK
-							.equals(itemLogging.getType())) {
-						final PageActionChain chain = new PageActionChain(
-								new ProjectScreenData.Goto(projectId),
-								new TaskScreenData.Read(typeId));
-						EventBus.getInstance().fireEvent(
-								new ProjectEvent.GotoMyProject(this,
-										chain));
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
 					}
-				} else if ("projectName".equals(event.getFieldName())) {
-					final PageActionChain chain = new PageActionChain(
-							new ProjectScreenData.Goto(itemLogging
-									.getProjectid()));
-					EventBus.getInstance()
-					.fireEvent(
-							new ProjectEvent.GotoMyProject(
-									this, chain));
-				}
-			}
-		});
+
+					@Override
+					public void handle(final TableClickEvent event) {
+						final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
+								.getData();
+						if ("summary".equals(event.getFieldName())) {
+							final int typeId = itemLogging.getTypeid();
+							final int projectId = itemLogging.getProjectid();
+
+							if (ProjectTypeConstants.BUG.equals(itemLogging
+									.getType())) {
+								final PageActionChain chain = new PageActionChain(
+										new ProjectScreenData.Goto(projectId),
+										new BugScreenData.Read(typeId));
+								EventBus.getInstance().fireEvent(
+										new ProjectEvent.GotoMyProject(this,
+												chain));
+							} else if (ProjectTypeConstants.TASK
+									.equals(itemLogging.getType())) {
+								final PageActionChain chain = new PageActionChain(
+										new ProjectScreenData.Goto(projectId),
+										new TaskScreenData.Read(typeId));
+								EventBus.getInstance().fireEvent(
+										new ProjectEvent.GotoMyProject(this,
+												chain));
+							}
+						} else if ("projectName".equals(event.getFieldName())) {
+							final PageActionChain chain = new PageActionChain(
+									new ProjectScreenData.Goto(itemLogging
+											.getProjectid()));
+							EventBus.getInstance()
+									.fireEvent(
+											new ProjectEvent.GotoMyProject(
+													this, chain));
+						}
+					}
+				});
 		contentWrapper.addComponent(this.tableItem);
 	}
 
@@ -296,9 +294,9 @@ TimeTrackingSummaryView {
 				return new SimpleGridExportItemsStreamResource.AllItems<ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 						"Time Tracking Report", new RpParameterBuilder(
 								tableItem.getDisplayColumns()), exportType,
-								ApplicationContextUtil
+						ApplicationContextUtil
 								.getSpringBean(ItemTimeLoggingService.class),
-								searchCriteria, SimpleItemTimeLogging.class);
+						searchCriteria, SimpleItemTimeLogging.class);
 			}
 		};
 		StreamResource res = new StreamResource(streamSource,
