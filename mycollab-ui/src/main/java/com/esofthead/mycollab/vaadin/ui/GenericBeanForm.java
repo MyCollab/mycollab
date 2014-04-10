@@ -83,11 +83,11 @@ public class GenericBeanForm<B> extends CssLayout {
 		fieldFactory.commit();
 	}
 
-	protected void attachField(Object propertyId, Field<?> field) {
+	public void attachField(Object propertyId, Field<?> field) {
 		layoutFactory.attachField(propertyId, field);
 	}
 
-	protected void setValid(boolean value) {
+	public void setValid(boolean value) {
 		isValid = value;
 	}
 

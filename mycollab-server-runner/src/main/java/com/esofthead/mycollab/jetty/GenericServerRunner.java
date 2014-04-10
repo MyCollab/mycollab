@@ -26,14 +26,10 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
-import org.eclipse.jetty.deploy.DeploymentManager;
-import org.eclipse.jetty.deploy.providers.WebAppProvider;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Handler;
@@ -441,24 +437,9 @@ public abstract class GenericServerRunner {
 
 		server.setStopAtShutdown(true);
 
-		// set up hotdeploy manager
-		DeploymentManager deployManager = new DeploymentManager();
-		deployManager.setContextAttribute(
-				"org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
-				".*/servlet-api-[^/]*\\.jar$");
-
 		ContextHandlerCollection contextCollection = new ContextHandlerCollection();
 		contextCollection.setServer(server);
 		contextCollection.setHandlers(new Handler[] { appContext });
-		deployManager.setContexts(contextCollection);
-
-		WebAppProvider appProvider = new WebAppProvider();
-		List<String> scanFolders = Arrays
-				.asList(webappDirLocation + "/classes");
-		appProvider.setMonitoredDirectories(scanFolders);
-		deployManager.addAppProvider(appProvider);
-
-		server.addBean(deployManager);
 
 		server.start();
 

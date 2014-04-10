@@ -116,17 +116,6 @@
     </servlet-mapping>
 
     <servlet>
-        <display-name>GoogleDriveCallbackServlet</display-name>
-        <servlet-name>ggDriveAuthServlet</servlet-name>
-        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ggDriveAuthServlet</servlet-name>
-        <url-pattern>/drive/ggDriveAuth</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <display-name>DenyUserInviteServlet</display-name>
         <servlet-name>denyUserInviteServlet</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>

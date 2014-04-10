@@ -29,10 +29,9 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
-import com.esofthead.mycollab.module.billing.servlet.AnnotatedDenyUserServletRequestHandler.PageUserNotExistGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServlet;
+import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
 /**
  * 
@@ -41,8 +40,8 @@ import com.esofthead.mycollab.servlet.GenericServlet;
  * 
  */
 @Component("userconfirmsignupServlet")
-public class AnnotatedUserSignUpConfirmEmailActionHandler extends
-		GenericServlet {
+public class UserSignUpConfirmEmailActionHandler extends
+		GenericServletRequestHandler {
 
 	@Autowired
 	private UserService userServices;
@@ -72,7 +71,7 @@ public class AnnotatedUserSignUpConfirmEmailActionHandler extends
 						response.sendRedirect(request.getContextPath() + "/");
 						return;
 					} else {
-						PageUserNotExistGenerator.responeUserNotExistPage(
+						PageGeneratorUtil.responeUserNotExistPage(
 								response, request.getContextPath() + "/");
 						return;
 					}

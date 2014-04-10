@@ -33,6 +33,8 @@ public class ProjectGenericTask implements Serializable {
 	private String assignUser;
 
 	private String assignUserFullName;
+	
+	private String assignUserAvatarId;
 
 	private Date dueDate;
 
@@ -116,5 +118,13 @@ public class ProjectGenericTask implements Serializable {
 
 	public void setLastUpdatedTime(Date lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
+	}
+
+	public String getAssignUserAvatarId() {
+		return assignUserAvatarId;
+	}
+
+	public void setAssignUserAvatarId(String assignUserAvatarId) {
+		this.assignUserAvatarId = assignUserAvatarId;
 	}
 }

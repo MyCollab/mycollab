@@ -22,6 +22,7 @@ import java.util.Set;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 
 /**
  * 

@@ -12,4 +12,7 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 public class GenericTaskTableFieldDef {
 	public static TableViewField name = new TableViewField("", "name",
 			UIConstants.TABLE_EX_LABEL_WIDTH);
+
+	public static TableViewField assignUser = new TableViewField("",
+			"assignUser", UIConstants.TABLE_EX_LABEL_WIDTH);
 }

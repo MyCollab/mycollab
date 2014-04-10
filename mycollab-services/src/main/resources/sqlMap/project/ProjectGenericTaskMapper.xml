@@ -8,6 +8,8 @@
 		<result column="assignUser" jdbcType="VARCHAR" property="assignUser" />
 		<result column="assignUserFullName" jdbcType="VARCHAR"
 			property="assignUserFullName" />
+        <result column="assignUserAvatarId" jdbcType="VARCHAR"
+            property="assignUserAvatarId" />
 		<result column="dueDate" jdbcType="TIMESTAMP" property="dueDate" />
 		<result column="projectId" jdbcType="INTEGER" property="projectId" />
 		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
@@ -27,97 +29,107 @@
 	</resultMap>
 
 	<sql id="queryProblemSearchCriteria">
-
-		<if test='searchCriteria.saccountid != null'>
-			${searchCriteria.saccountid.operation}
-			m_prj_problem.sAccountId =
-			#{searchCriteria.saccountid.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.projectId != null'>
-			${searchCriteria.projectId.operation}
-			m_prj_problem.projectid =
-			#{searchCriteria.projectId.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.assignUser != null'>
-			${searchCriteria.assignUser.operation}
-			m_prj_problem.assigntouser =
-			#{searchCriteria.assignUser.value}
-		</if>
-		<if test='searchCriteria.isOpenned != null'>
-			${searchCriteria.isOpenned.operation}
-			m_prj_problem.status='Open'
-		</if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_problem.issuename LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_problem.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_problem.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_prj_problem.assigntouser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.isOpenned)
+            ${searchCriteria.isOpenned.operation} m_prj_problem.status='Open'
+        #end
+        ]]>
 	</sql>
 
 	<sql id="queryRiskSearchCriteria">
-
-		<if test='searchCriteria.saccountid != null'>
-			${searchCriteria.saccountid.operation}
-			m_prj_risk.sAccountId =
-			#{searchCriteria.saccountid.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.projectId != null'>
-			${searchCriteria.projectId.operation}
-			m_prj_risk.projectid =
-			#{searchCriteria.projectId.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.assignUser != null'>
-			${searchCriteria.assignUser.operation}
-			m_prj_risk.assigntouser =
-			#{searchCriteria.assignUser.value}
-		</if>
-		<if test='searchCriteria.isOpenned != null'>
-			${searchCriteria.isOpenned.operation}
-			m_prj_risk.status='Open'
-		</if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_risk.riskname LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_risk.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_risk.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_prj_risk.assigntouser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.isOpenned)
+            ${searchCriteria.isOpenned.operation} m_prj_risk.status='Open'
+        #end
+        ]]>
 	</sql>
 
 	<sql id="queryBugSearchCriteria">
-		<if test='searchCriteria.saccountid != null'>
-			${searchCriteria.saccountid.operation}
-			m_tracker_bug.sAccountId =
-			#{searchCriteria.saccountid.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.projectId != null'>
-			${searchCriteria.projectId.operation}
-			m_tracker_bug.projectid =
-			#{searchCriteria.projectId.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.assignUser != null'>
-			${searchCriteria.assignUser.operation}
-			m_tracker_bug.assignuser =
-			#{searchCriteria.assignUser.value}
-		</if>
-		<if test='searchCriteria.isOpenned != null'>
-			${searchCriteria.isOpenned.operation}
-			(m_tracker_bug.status='Open'
-			OR m_tracker_bug.status='In
-			Progress' OR
-			m_tracker_bug.status='Reopenned' OR
-			m_tracker_bug.status='Test Pending')
-		</if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_tracker_bug.summary LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_tracker_bug.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_tracker_bug.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_tracker_bug.assignuser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.isOpenned)
+            ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','In Progress', 'Reopenned', 'Test Pending')
+        #end
+        ]]>
 	</sql>
 
 	<sql id="queryTaskSearchCriteria">
-		<if test='searchCriteria.saccountid != null'>
-			${searchCriteria.saccountid.operation}
-			m_prj_task.sAccountId =
-			#{searchCriteria.saccountid.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.projectId != null'>
-			${searchCriteria.projectId.operation}
-			m_prj_task.projectid =
-			#{searchCriteria.projectId.value,jdbcType=NUMERIC}
-		</if>
-		<if test='searchCriteria.assignUser != null'>
-			${searchCriteria.assignUser.operation}
-			m_prj_task.assignUser =
-			#{searchCriteria.assignUser.value}
-		</if>
-		<if test='searchCriteria.isOpenned != null'>
-			${searchCriteria.isOpenned.operation}
-			m_prj_task.status='Open'
-		</if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.name)
+            ${searchCriteria.name.operation} m_prj_task.taskname LIKE '%${searchCriteria.name.value}%'
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_task.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.projectId)
+            ${searchCriteria.projectId.operation} m_prj_task.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.assignUser)
+            ${searchCriteria.assignUser.operation} m_prj_task.assignUser = @{searchCriteria.assignUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.isOpenned)
+            ${searchCriteria.isOpenned.operation} m_prj_task.status='Open'
+        #end
+        ]]>
 	</sql>
 
 	<sql id="selectGenericTaskFromRisk">
@@ -125,6 +137,7 @@
     <![CDATA[
           SELECT m_prj_risk.riskname AS name, m_prj_risk.assigntouser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+            s_user.avatarId as assignUserAvatarId,
             m_prj_risk.datedue AS dueDate, m_prj_risk.projectid AS projectId, m_prj_project.name AS projectName, 
             'Project-Risk' AS type, m_prj_risk.id AS typeid, m_prj_risk.lastUpdatedTime AS lastUpdatedTime
                  
@@ -139,6 +152,7 @@
     <![CDATA[
           SELECT m_prj_problem.issuename as name, m_prj_problem.assigntouser as assignUser, 
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+            s_user.avatarId as assignUserAvatarId,
             m_prj_problem.datedue as dueDate, m_prj_problem.projectid as projectId, m_prj_project.name AS projectName,
             'Project-Problem' AS type, m_prj_problem.id AS typeId, m_prj_problem.lastUpdatedTime AS lastUpdatedTime
                  
@@ -153,6 +167,7 @@
     <![CDATA[
           SELECT m_tracker_bug.summary AS name, m_tracker_bug.assignuser AS assignUser,
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+                s_user.avatarId as assignUserAvatarId,
                 m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
                 'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
                  
@@ -167,6 +182,7 @@
         <![CDATA[
           SELECT m_prj_task.taskname AS name, m_prj_task.assignUser AS assignUser,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
+            s_user.avatarId as assignUserAvatarId,
             m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,
             'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
           
@@ -177,118 +193,105 @@
 	</sql>
 
 	<select id="getTotalCountFromProblem" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int">
+		resultType="int" lang="velocity">
 		SELECT count(*) as totalCount FROM m_prj_problem
 
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
-
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryProblemSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 	</select>
 
 	<select id="getTotalCountFromRisk" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int">
+		resultType="int" lang="velocity">
 		SELECT count(*) as totalCount FROM m_prj_risk
 
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
-
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryRiskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 	</select>
 
 	<select id="getTotalCountFromBug" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int">
+		resultType="int" lang="velocity">
 		SELECT count(*) as totalCount FROM m_tracker_bug
 
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
-
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryBugSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 	</select>
 
 	<select id="getTotalCountFromTask" parameterType="ProjectGenericTaskSearchCriteria"
-		resultType="int">
+		resultType="int" lang="velocity">
 		SELECT count(*) as totalCount FROM m_prj_task
 
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 
 				<include refid="queryTaskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 	</select>
 
 	<sql id="orderStatement">
 		ORDER BY
-		<if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-			${searchCriteria.sortDirection},
-		</if>
-        <![CDATA[
-            projectName ASC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+		    ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        projectName ASC
 	</sql>
 
 	<select id="findPagableListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
-		resultMap="BaseResultMap">
+		resultMap="BaseResultMap" lang="velocity">
 
 		(
 		<include refid="selectGenericTaskFromProblem" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryProblemSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION
 
 		(
 		<include refid="selectGenericTaskFromRisk" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryRiskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION
 
 		(
 		<include refid="selectGenericTaskFromBug" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryBugSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION
 
 		(
 		<include refid="selectGenericTaskFromTask" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryTaskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
-		<if test="searchCriteria != null">
+		#ifnotnull($_parameter.searchCriteria)
 			<include refid="orderStatement" />
-		</if>
+		#end
 	</select>
 
 	<sql id="selectGenericTaskCountFromTask">
@@ -344,7 +347,7 @@
 	</sql>
 
 	<select id="findPagableTaskCountListByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
-		resultMap="BaseResultTaskCountMap">
+		resultMap="BaseResultTaskCountMap" lang="velocity">
 
 		SELECT COUNT(*) AS taskCount, agreeT.projectId,
 		agreeT.projectName, agreeT.assignUser, agreeT.assignUserFullName
@@ -352,89 +355,47 @@
 		(
 		(
 		<include refid="selectGenericTaskCountFromProblem" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryProblemSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION ALL
 
 		(
 		<include refid="selectGenericTaskCountFromRisk" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryRiskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION ALL
 
 		(
 		<include refid="selectGenericTaskCountFromBug" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryBugSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 
 		UNION ALL
 
 		(
 		<include refid="selectGenericTaskCountFromTask" />
-		<if test="searchCriteria != null">
-			<trim prefix="WHERE" prefixOverrides="AND | OR ">
-				1=1
+		#ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
 				<include refid="queryTaskSearchCriteria" />
-			</trim>
-		</if>
+			#end
+		#end
 		)
 		) AS agreeT
 
 		GROUP BY agreeT.projectId
-	</select>
-
-	<sql id="queryTaskSearchLikeCriteria">
-		<include refid="queryTaskSearchCriteria" />
-		<if test='searchCriteria.name != null'>
-			${searchCriteria.saccountid.operation}
-			m_prj_task.taskname LIKE '%${searchCriteria.name.value}%'
-		</if>
-	</sql>
-	
-	<sql id="queryBugSearchLikeCriteria">
-		<include refid="queryBugSearchCriteria" />
-		<if test='searchCriteria.name != null'>
-			${searchCriteria.saccountid.operation}
-			m_tracker_bug.summary LIKE '%${searchCriteria.name.value}%'
-		</if>
-	</sql>
-	<select id="findPagableBugAndTaskByCriteria" parameterType="ProjectGenericTaskSearchCriteria"
-		resultMap="BaseResultMap">
-		(
-			<include refid="selectGenericTaskFromTask" />
-			<if test="searchCriteria != null">
-				<trim prefix="WHERE" prefixOverrides="AND | OR ">
-					1=1
-					<include refid="queryTaskSearchLikeCriteria" />
-				</trim>
-			</if>
-		)
-		UNION ALL
-		(
-			<include refid="selectGenericTaskFromBug" />
-			<if test="searchCriteria != null">
-				<trim prefix="WHERE" prefixOverrides="AND | OR ">
-					1=1
-					<include refid="queryBugSearchLikeCriteria" />
-				</trim>
-			</if>
-		)
 	</select>
 </mapper>

@@ -29,11 +29,13 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -56,6 +58,8 @@ public class BugRelayEmailNotificationActionImpl extends
 	private BugService bugService;
 	@Autowired
 	private AuditLogService auditLogService;
+	@Autowired
+	private ProjectService projectService;
 
 	private final BugFieldNameMapper mapper;
 
@@ -152,32 +156,68 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		String subject = StringUtils.trim(bug.getSummary(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$bug.projectname]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the bug \"" + subject + "\"",
-				"templates/email/project/bugUpdatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(bug, user.getTimezone(),
-				new String[] { "duedate" });
-		templateGenerator.putVariable("bug", bug);
-		templateGenerator.putVariable("hyperLinks", constructHyperLinks(bug));
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		constructBugComponentVersionLink(bug, templateGenerator);
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				bug.getProjectid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", bug.getProjectname());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		HashMap<String, String> bugCode = new HashMap<String, String>();
+		SimpleProject relatedProject = projectService.findById(
+				bug.getProjectid(), emailNotification.getSaccountid());
+		bugCode.put("displayName", "[" + relatedProject.getShortname() + "-"
+				+ bug.getBugkey() + "]");
+		bugCode.put("webLink",
+				linkGenerator.generateBugPreviewFullLink(bug.getId()));
+
+		listOfTitles.add(bugCode);
+
+		String summary = bug.getSummary();
+		String summaryLink = ProjectLinkUtils.generateBugPreviewLink(
+				bug.getProjectid(), bug.getId());
+
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ bug.getProjectname() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the bug \"" + subject + "\"",
+				"templates/email/project/bugUpdatedNotifier.mt");
+		/*
+		 * ScheduleUserTimeZoneUtils.formatDateTimeZone(bug, user.getTimezone(),
+		 * new String[] { "duedate" }); templateGenerator.putVariable("bug",
+		 * bug); templateGenerator.putVariable("hyperLinks",
+		 * constructHyperLinks(bug));
+		 */
+
+		/* constructBugComponentVersionLink(bug, templateGenerator); */
+
+		templateGenerator.putVariable("itemType", "bug");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "duedate" });
+			/*
+			 * ScheduleUserTimeZoneUtils.formatDate(auditLog,
+			 * user.getTimezone(), new String[] { "duedate" });
+			 */
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
-		templateGenerator.putVariable(
-				"lstComment",
-				getListComment(bug.getSaccountid(), ProjectTypeConstants.BUG,
-						bug.getId()));
+		/*
+		 * templateGenerator.putVariable( "lstComment",
+		 * getListComment(bug.getSaccountid(), ProjectTypeConstants.PRJ_BUG,
+		 * bug.getId()));
+		 */
 
 		return templateGenerator;
 	}
@@ -262,9 +302,8 @@ public class BugRelayEmailNotificationActionImpl extends
 	protected List<SimpleUser> getListNotififyUserWithFilter(
 			ProjectRelayEmailNotification notification) {
 		List<ProjectNotificationSetting> notificationSettings = projectNotificationService
-				.findNotifications(
-						((ProjectRelayEmailNotification) notification)
-								.getProjectId(), notification.getSaccountid());
+				.findNotifications(notification.getProjectId(),
+						notification.getSaccountid());
 
 		ProjectMemberService projectService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);

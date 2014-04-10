@@ -27,9 +27,9 @@ import com.esofthead.mycollab.form.view.builder.type.AbstractDynaField;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
-import com.esofthead.mycollab.mobile.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -114,18 +114,16 @@ public class DynaFormLayout implements IFormLayoutFactory {
 				continue;
 			}
 
-			//if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2,
-						section.getFieldCount(), "100%", "167px",
-						Alignment.TOP_LEFT);
-			/*} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout = new GridFormLayoutHelper(2,
-						(section.getFieldCount() + 3) / 2, "100%", "167px",
-						Alignment.MIDDLE_LEFT);
-			} else {
-				throw new MyCollabException(
-						"Does not support attachForm layout except 1 or 2 columns");
-			}*/
+			// if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+			gridLayout = new GridFormLayoutHelper(2, section.getFieldCount(),
+					"100%", "167px", Alignment.TOP_LEFT);
+			/*
+			 * } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+			 * gridLayout = new GridFormLayoutHelper(2, (section.getFieldCount()
+			 * + 3) / 2, "100%", "167px", Alignment.MIDDLE_LEFT); } else { throw
+			 * new MyCollabException(
+			 * "Does not support attachForm layout except 1 or 2 columns"); }
+			 */
 
 			gridLayout.getLayout().setWidth("100%");
 			gridLayout.getLayout().setMargin(false);
@@ -145,16 +143,14 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			DynaSection section = dynaField.getOwnSection();
 			GridFormLayoutHelper gridLayout = sectionMappings.get(section);
 
-			//if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
-				gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
-						dynaField.getFieldIndex(), 2, "100%",
-						Alignment.TOP_LEFT);
-			/*} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
-				gridLayout.addComponent(field, dynaField.getDisplayName(),
-						dynaField.getFieldIndex() % 2,
-						dynaField.getFieldIndex() / 2);
-			}
-*/
+			// if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
+			gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
+					dynaField.getFieldIndex(), 2, "100%", Alignment.TOP_LEFT);
+			/*
+			 * } else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
+			 * gridLayout.addComponent(field, dynaField.getDisplayName(),
+			 * dynaField.getFieldIndex() % 2, dynaField.getFieldIndex() / 2); }
+			 */
 			return true;
 
 		}

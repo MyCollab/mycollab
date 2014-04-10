@@ -43,7 +43,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.file.CloudDriveInfo;
 import com.esofthead.mycollab.module.file.events.CloudDriveOAuthCallbackEvent;
-import com.esofthead.mycollab.servlet.GenericServlet;
+import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 
 /**
@@ -53,9 +53,9 @@ import com.esofthead.mycollab.vaadin.MyCollabSession;
  * 
  */
 @Component("dropboxAuthServlet")
-public class AnnotatedDropboxAuthServlet extends GenericServlet {
+public class DropboxAuthServletRequestHandler extends GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedDropboxAuthServlet.class);
+			.getLogger(DropboxAuthServletRequestHandler.class);
 
 	private DbxWebAuth getWebAuth(final HttpServletRequest request) {
 		java.util.Locale locale = new Locale(Locale.US.getLanguage(),
@@ -134,7 +134,7 @@ public class AnnotatedDropboxAuthServlet extends GenericServlet {
 		EventBus eventBus = (EventBus) cache.get(MyCollabSession.EVENT_BUS_VAL);
 		if (eventBus != null) {
 			eventBus.fireEvent(new CloudDriveOAuthCallbackEvent.ReceiveCloudDriveInfo(
-					AnnotatedDropboxAuthServlet.this, cloudDriveInfo));
+					DropboxAuthServletRequestHandler.this, cloudDriveInfo));
 		} else {
 			log.error(
 					"Can not find eventbus for session id {}, this session is not initialized by user yet",

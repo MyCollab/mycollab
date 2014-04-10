@@ -32,6 +32,7 @@ import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
 import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.validator.constraints.DateComparision;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -51,7 +52,7 @@ import com.vaadin.ui.RichTextArea;
  * @param <B>
  */
 public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
-IBeanFieldGroupFieldFactory<B>, CommitHandler {
+		IBeanFieldGroupFieldFactory<B>, CommitHandler {
 
 	private static final long serialVersionUID = 1L;
 
@@ -158,7 +159,7 @@ IBeanFieldGroupFieldFactory<B>, CommitHandler {
 				if (violation.getPropertyPath() != null
 						&& !violation.getPropertyPath().toString().equals("")) {
 					fieldGroup.getField(violation.getPropertyPath().toString())
-					.addStyleName("errorField");
+							.addStyleName("errorField");
 				} else {
 					Annotation validateAnno = violation
 							.getConstraintDescriptor().getAnnotation();

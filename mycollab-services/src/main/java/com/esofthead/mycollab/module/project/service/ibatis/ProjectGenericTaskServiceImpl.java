@@ -27,7 +27,6 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultSearchService;
 import com.esofthead.mycollab.module.project.dao.ProjectGenericTaskMapper;
-import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
@@ -62,16 +61,6 @@ public class ProjectGenericTaskServiceImpl extends
 	public List<ProjectGenericTaskCount> findPagableTaskCountListByCriteria(
 			SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest) {
 		return projectGenericTaskMapper.findPagableTaskCountListByCriteria(
-				searchRequest.getSearchCriteria(),
-				new RowBounds((searchRequest.getCurrentPage() - 1)
-						* searchRequest.getNumberOfItems(), searchRequest
-						.getNumberOfItems()));
-	}
-
-	@Override
-	public List<ProjectGenericTask> findPagableBugAndTaskByCriteria(
-			SearchRequest<ProjectGenericTaskSearchCriteria> searchRequest) {
-		return projectGenericTaskMapper.findPagableBugAndTaskByCriteria(
 				searchRequest.getSearchCriteria(),
 				new RowBounds((searchRequest.getCurrentPage() - 1)
 						* searchRequest.getNumberOfItems(), searchRequest

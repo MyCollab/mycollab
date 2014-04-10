@@ -45,7 +45,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
-import com.esofthead.mycollab.servlet.GenericServlet;
+import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
 
@@ -56,11 +56,11 @@ import com.esofthead.template.velocity.TemplateEngine;
  *
  */
 @Component("denyMemberInvitationServlet")
-public class AnnotatedDenyProjectMemberInvitationServletHandler extends
-		GenericServlet {
+public class DenyProjectMemberInvitationServletRequestHandler extends
+		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedDenyProjectMemberInvitationServletHandler.class);
+			.getLogger(DenyProjectMemberInvitationServletRequestHandler.class);
 
 	private static String DENY_FEEDBACK_TEMPLATE = "templates/page/project/MemberDenyInvitationPage.mt";
 	private static String REFUSE_MEMBER_DENY_TEMPLATE = "templates/page/project/RefuseMemberDenyActionPage.mt";
@@ -80,12 +80,12 @@ public class AnnotatedDenyProjectMemberInvitationServletHandler extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					AnnotatedDenyProjectMemberInvitationServletHandler.class
+					DenyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(
 									REFUSE_MEMBER_DENY_TEMPLATE), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					AnnotatedDenyProjectMemberInvitationServletHandler.class
+					DenyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(
 									REFUSE_MEMBER_DENY_TEMPLATE));
 		}
@@ -117,12 +117,12 @@ public class AnnotatedDenyProjectMemberInvitationServletHandler extends
 			Reader reader;
 			try {
 				reader = new InputStreamReader(
-						AnnotatedDenyProjectMemberInvitationServletHandler.class
+						DenyProjectMemberInvitationServletRequestHandler.class
 								.getClassLoader().getResourceAsStream(
 										templateURL), "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				reader = new InputStreamReader(
-						AnnotatedDenyProjectMemberInvitationServletHandler.class
+						DenyProjectMemberInvitationServletRequestHandler.class
 								.getClassLoader().getResourceAsStream(
 										templateURL));
 			}

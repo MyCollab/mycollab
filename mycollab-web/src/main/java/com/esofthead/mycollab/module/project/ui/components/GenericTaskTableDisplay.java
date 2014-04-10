@@ -25,6 +25,7 @@ import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
@@ -89,6 +90,21 @@ public class GenericTaskTableDisplay
 				layout.setWidth("100%");
 				return layout;
 			}
+		});
+
+		addGeneratedColumn("assignUser", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(Table source, Object itemId,
+					Object columnId) {
+				final ProjectGenericTask task = GenericTaskTableDisplay.this
+						.getBeanByIndex(itemId);
+				final UserLink b = new UserLink(task.getAssignUser(), task
+						.getAssignUserAvatarId(), task.getAssignUserFullName());
+				return b;
+			}
+
 		});
 
 		addGeneratedColumn("dueDate", new Table.ColumnGenerator() {

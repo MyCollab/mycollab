@@ -40,30 +40,36 @@ import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Table;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectTooltipGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectTooltipGenerator.class);
-	
-	public static String generateTolltipNull(){
+
+	public static String generateTolltipNull() {
 		Div div = new Div();
-		com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+		Table table = new Table();
 		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
-		
+
 		Tr trRow1 = new Tr();
-		trRow1.appendChild(
-				new Td().setStyle(
-						"vertical-align: top; text-align: left;")
-						.appendText("The item is not existed"));
-		
+		trRow1.appendChild(new Td().setStyle(
+				"vertical-align: top; text-align: left;").appendText(
+				"The item is not existed"));
+
 		table.appendChild(trRow1);
 		div.appendChild(table);
-		
+
 		return div.write();
 	}
-	
+
 	public static String generateToolTipTask(SimpleTask task, String siteURL,
 			String timeZone) {
 		try {
@@ -76,7 +82,7 @@ public class ProjectTooltipGenerator {
 			taksName.appendText(Jsoup.parse(task.getTaskname()).html());
 			div.appendChild(taksName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			trRow1.appendChild(
@@ -1417,6 +1423,5 @@ public class ProjectTooltipGenerator {
 			return null;
 		}
 	}
-	
-	
+
 }

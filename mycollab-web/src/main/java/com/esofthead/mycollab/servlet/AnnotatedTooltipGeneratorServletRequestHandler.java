@@ -90,9 +90,9 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 @Component("tooltipGeneratorServlet")
-public class AnnotatedTooltipGeneratorHandler extends GenericServlet {
+public class AnnotatedTooltipGeneratorServletRequestHandler extends GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedTooltipGeneratorHandler.class);
+			.getLogger(AnnotatedTooltipGeneratorServletRequestHandler.class);
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
@@ -251,7 +251,7 @@ public class AnnotatedTooltipGeneratorHandler extends GenericServlet {
 			return;
 		} catch (Exception e) {
 			log.error(
-					"Error while get html tooltip attachForm AnnotatedTooltipGeneratorHandler",
+					"Error while get html tooltip attachForm AnnotatedTooltipGeneratorServletRequestHandler",
 					e);
 			String html = null;
 			PrintWriter out = response.getWriter();

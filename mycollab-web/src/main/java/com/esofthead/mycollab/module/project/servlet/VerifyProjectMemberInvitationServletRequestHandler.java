@@ -54,7 +54,7 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
-import com.esofthead.mycollab.servlet.GenericServlet;
+import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
@@ -66,11 +66,11 @@ import com.esofthead.template.velocity.TemplateEngine;
  *
  */
 @Component("acceptMemberInvitationServlet")
-public class AnnotatedVerifyProjectMemberInvitationHandlerServlet extends
-		GenericServlet {
+public class VerifyProjectMemberInvitationServletRequestHandler extends
+		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedVerifyProjectMemberInvitationHandlerServlet.class);
+			.getLogger(VerifyProjectMemberInvitationServletRequestHandler.class);
 
 	private static String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
 	private static String EXPIER_PAGE = "templates/page/ExpirePage.mt";
@@ -92,12 +92,12 @@ public class AnnotatedVerifyProjectMemberInvitationHandlerServlet extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					AnnotatedVerifyProjectMemberInvitationHandlerServlet.class
+					VerifyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(EXPIER_PAGE),
 					"UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					AnnotatedVerifyProjectMemberInvitationHandlerServlet.class
+					VerifyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(EXPIER_PAGE));
 		}
 		context.put("inviterEmail", inviterEmail);
@@ -197,12 +197,12 @@ public class AnnotatedVerifyProjectMemberInvitationHandlerServlet extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					AnnotatedVerifyProjectMemberInvitationHandlerServlet.class
+					VerifyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(
 									OUTSIDE_MEMBER_WELCOME_PAGE), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					AnnotatedVerifyProjectMemberInvitationHandlerServlet.class
+					VerifyProjectMemberInvitationServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(
 									OUTSIDE_MEMBER_WELCOME_PAGE));
 		}

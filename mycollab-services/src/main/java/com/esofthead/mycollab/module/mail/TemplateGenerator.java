@@ -30,10 +30,12 @@ import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.template.velocity.TemplateContext;
-import com.esofthead.template.velocity.TemplateEngine;
 
 /**
  * Generate subject and body content of email base on velocity template engine.
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class TemplateGenerator {
 	private final String subjectTemplate;

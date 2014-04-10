@@ -18,8 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
+import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
 import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.server.Sizeable;

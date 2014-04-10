@@ -1,6 +1,8 @@
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
+import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -34,14 +36,13 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm() {
-		// TODO Auto-generated method stub
-		return null;
+		return new AdvancedEditBeanForm<SimpleAccount>();
 	}
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
+				AccountDefaultDynaFormLayoutFactory.getForm());
 	}
 
 	@Override

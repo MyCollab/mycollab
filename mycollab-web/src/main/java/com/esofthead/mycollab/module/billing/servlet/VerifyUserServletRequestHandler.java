@@ -40,14 +40,13 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.billing.servlet.AnnotatedDenyUserServletRequestHandler.PageUserNotExistGenerator;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccountInvitationExample;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServlet;
+import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
 
@@ -58,10 +57,11 @@ import com.esofthead.template.velocity.TemplateEngine;
  * 
  */
 @Component("acceptUserInvitationServlet")
-public class AnnotatedVerifyUserServletRequestHandler extends GenericServlet {
+public class VerifyUserServletRequestHandler extends
+		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedVerifyUserServletRequestHandler.class);
+			.getLogger(VerifyUserServletRequestHandler.class);
 
 	@Autowired
 	private UserService userService;
@@ -80,12 +80,12 @@ public class AnnotatedVerifyUserServletRequestHandler extends GenericServlet {
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					AnnotatedVerifyUserServletRequestHandler.class
+					VerifyUserServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(template),
 					"UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					AnnotatedVerifyUserServletRequestHandler.class
+					VerifyUserServletRequestHandler.class
 							.getClassLoader().getResourceAsStream(template));
 		}
 
@@ -132,8 +132,8 @@ public class AnnotatedVerifyUserServletRequestHandler extends GenericServlet {
 							.findUserByUserNameInAccount(username, accountId);
 
 					if (user == null || userInAccount == null) {
-						PageUserNotExistGenerator.responeUserNotExistPage(
-								response, request.getContextPath() + "/");
+						PageGeneratorUtil.responeUserNotExistPage(response,
+								request.getContextPath() + "/");
 						return;
 					} else {
 						if (userInAccount.getRegisterstatus().equals(

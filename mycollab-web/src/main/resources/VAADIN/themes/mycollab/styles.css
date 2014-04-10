@@ -3566,13 +3566,27 @@ div.v-window-header {
 /* End no border Panel */
 
 /* Form Container View Field */
-.form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus {
+.form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus,
+ {
 	height: 18px;
 	/*border-radius: 8px 8px 8px 8px;*/
 	background: url("icons/grad-dark-bottom.png") repeat-x scroll left
 		bottom rgb(57, 71, 84);
 	padding: 0px 7px 1px;
 	margin-right: 2px;
+}
+
+.task-attached {
+	
+	/*border-radius: 8px 8px 8px 8px;*/
+	background: url("icons/grad-dark-bottom.png") repeat-x scroll left
+		bottom rgb(57, 71, 84) !important;
+	padding: 0px 7px 1px;
+	margin-right: 2px;
+	color:white;
+	pointer:none;
+	overflow:hidden;
+
 }
 
 .form-container .v-button-link .v-button-caption {

@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.mobile.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -61,8 +61,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 	}
 
 	public VerticalLayout createButtonControls(final String permissionItem) {
-		return createButtonControls(EDIT_BTN_PRESENTED
-				| DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED, permissionItem);
+		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
+				| CLONE_BTN_PRESENTED, permissionItem);
 	}
 
 	public VerticalLayout createButtonControls(int buttonEnableFlags,
@@ -161,7 +161,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 			previousItem.setStyleName("link");
 			previousItem.setDescription("Read previous item");
 			editButtons.addComponent(previousItem);
-			editButtons.setComponentAlignment(previousItem, Alignment.MIDDLE_RIGHT);
+			editButtons.setComponentAlignment(previousItem,
+					Alignment.MIDDLE_RIGHT);
 			previousItem.setEnabled(canRead);
 		}
 
@@ -179,7 +180,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 			nextItemBtn.setStyleName("link");
 			nextItemBtn.setDescription("Read next item");
 			editButtons.addComponent(nextItemBtn);
-			editButtons.setComponentAlignment(nextItemBtn, Alignment.MIDDLE_RIGHT);
+			editButtons.setComponentAlignment(nextItemBtn,
+					Alignment.MIDDLE_RIGHT);
 			nextItemBtn.setEnabled(canRead);
 		}
 
@@ -192,11 +194,12 @@ public class CrmPreviewFormControlsGenerator<T> {
 					previewForm.showHistory();
 				}
 			});
-			
+
 			historyBtn.setStyleName("link");
 			historyBtn.setDescription("Show history log");
 			editButtons.addComponent(historyBtn);
-			editButtons.setComponentAlignment(historyBtn, Alignment.MIDDLE_RIGHT);
+			editButtons.setComponentAlignment(historyBtn,
+					Alignment.MIDDLE_RIGHT);
 			historyBtn.setEnabled(canRead);
 		}
 

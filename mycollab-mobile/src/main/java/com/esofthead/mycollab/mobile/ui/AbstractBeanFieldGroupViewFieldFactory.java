@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IBeanFieldGroupFieldFactory;
 import com.vaadin.ui.Field;
 
 /**
