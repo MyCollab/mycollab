@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -56,8 +56,7 @@ import com.esofthead.template.velocity.TemplateContext;
  * 
  */
 @Component("denyUserInviteServlet")
-public class DenyUserServletRequestHandler extends
-		GenericServletRequestHandler {
+public class DenyUserServletRequestHandler extends GenericServletRequestHandler {
 
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
 	private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
@@ -71,84 +70,64 @@ public class DenyUserServletRequestHandler extends
 		String pathInfo = request.getPathInfo();
 		try {
 			if (pathInfo != null) {
-				if (pathInfo.startsWith("/")) {
-					pathInfo = pathInfo.substring(1);
+				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+				int accountId = urlTokenizer.getInt();
+				String username = urlTokenizer.getString();
+				String inviterName = urlTokenizer.getString();
+				String inviterEmail = urlTokenizer.getString();
+				String subdomain = urlTokenizer.getString();
 
-					pathInfo = UrlEncodeDecoder.decode(pathInfo);
-					int accountId = Integer.parseInt(pathInfo.substring(0,
-							pathInfo.indexOf("/")));
-					pathInfo = pathInfo
-							.substring((accountId + "").length() + 1);
+				UserService userService = ApplicationContextUtil
+						.getSpringBean(UserService.class);
+				SimpleUser checkUser = userService.findUserByUserNameInAccount(
+						username, accountId);
 
-					String username = pathInfo.substring(0,
-							pathInfo.indexOf("/"));
-					pathInfo = pathInfo.substring(username.length() + 1);
-
-					String inviterName = pathInfo.substring(0,
-							pathInfo.indexOf("/"));
-					pathInfo = pathInfo.substring(inviterName.length() + 1);
-
-					String inviterEmail = pathInfo.substring(0,
-							pathInfo.indexOf("/"));
-					pathInfo = pathInfo.substring(inviterEmail.length() + 1);
-
-					String subdomain = pathInfo;
-
-					UserService userService = ApplicationContextUtil
-							.getSpringBean(UserService.class);
-					SimpleUser checkUser = userService
-							.findUserByUserNameInAccount(username, accountId);
-
-					if (checkUser == null) {
-						// this user no long exist on System page
-						PageGeneratorUtil.responeUserNotExistPage(response,
-								request.getContextPath() + "/");
+				if (checkUser == null) {
+					// this user no long exist on System page
+					PageGeneratorUtil.responeUserNotExistPage(response,
+							request.getContextPath() + "/");
+					return;
+				} else {
+					if (checkUser.getRegisterstatus().equals(
+							RegisterStatusConstants.ACTIVE)) {
+						// You cant deny , Userhas active , go to login Page
+						String html = generateRefuseUserDenyActionPage(
+								request.getContextPath() + "/",
+								"templates/page/project/RefuseUserDenyActionPage.mt");
+						PrintWriter out = response.getWriter();
+						out.println(html);
 						return;
-					} else {
-						if (checkUser.getRegisterstatus().equals(
-								RegisterStatusConstants.ACTIVE)) {
-							// You cant deny , Userhas active , go to login Page
-							String html = generateRefuseUserDenyActionPage(
-									request.getContextPath() + "/",
-									"templates/page/project/RefuseUserDenyActionPage.mt");
-							PrintWriter out = response.getWriter();
-							out.println(html);
-							return;
-						} else if (checkUser.getRegisterstatus().equals(
-								RegisterStatusConstants.VERIFICATING)) {
-							UserSearchCriteria criteria = new UserSearchCriteria();
-							criteria.setUsername(new StringSearchField(username));
-							criteria.setSaccountid(new NumberSearchField(
-									accountId));
-							userService.pendingUserAccount(username, accountId);
+					} else if (checkUser.getRegisterstatus().equals(
+							RegisterStatusConstants.VERIFICATING)) {
+						UserSearchCriteria criteria = new UserSearchCriteria();
+						criteria.setUsername(new StringSearchField(username));
+						criteria.setSaccountid(new NumberSearchField(accountId));
+						userService.pendingUserAccount(username, accountId);
 
-							String redirectURL = SiteConfiguration
-									.getSiteUrl(subdomain)
-									+ "project/member/feedback/";
-							String html = FeedBackPageGenerator
-									.generateDenyFeedbacktoInviter(0, 0,
-											inviterEmail, inviterName,
-											redirectURL, checkUser.getEmail(),
-											checkUser.getUsername(), "",
-											USER_DENY_FEEDBACK_TEMPLATE, 0);
-							PrintWriter out = response.getWriter();
-							out.println(html);
-							return;
-						} else if (checkUser.getRegisterstatus().equals(
-								RegisterStatusConstants.DELETE)) {
-							String html = generateRefuseUserDenyActionPage(
-									request.getContextPath() + "/",
-									USER_HAS_DENIED_PAGE);
-							PrintWriter out = response.getWriter();
-							out.println(html);
-							return;
-						}
+						String redirectURL = SiteConfiguration
+								.getSiteUrl(subdomain)
+								+ "project/member/feedback/";
+						String html = FeedBackPageGenerator
+								.generateDenyFeedbacktoInviter(0, 0,
+										inviterEmail, inviterName, redirectURL,
+										checkUser.getEmail(),
+										checkUser.getUsername(), "",
+										USER_DENY_FEEDBACK_TEMPLATE, 0);
+						PrintWriter out = response.getWriter();
+						out.println(html);
+						return;
+					} else if (checkUser.getRegisterstatus().equals(
+							RegisterStatusConstants.DELETE)) {
+						String html = generateRefuseUserDenyActionPage(
+								request.getContextPath() + "/",
+								USER_HAS_DENIED_PAGE);
+						PrintWriter out = response.getWriter();
+						out.println(html);
+						return;
 					}
 				}
 			}
 			throw new ResourceNotFoundException();
-		} catch (NumberFormatException e) {
-			throw new ResourceNotFoundException(e);
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		} catch (Exception e) {
@@ -164,14 +143,11 @@ public class DenyUserServletRequestHandler extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					DenyUserServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									pageNotFoundTemplate), "UTF-8");
+					DenyUserServletRequestHandler.class.getClassLoader()
+							.getResourceAsStream(pageNotFoundTemplate), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					DenyUserServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									pageNotFoundTemplate));
+			reader = new InputStreamReader(DenyUserServletRequestHandler.class
+					.getClassLoader().getResourceAsStream(pageNotFoundTemplate));
 		}
 		context.put("loginURL", loginURL);
 		Map<String, String> defaultUrls = new HashMap<String, String>();

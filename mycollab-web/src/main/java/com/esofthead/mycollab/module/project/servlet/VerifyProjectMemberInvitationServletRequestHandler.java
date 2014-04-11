@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -63,7 +63,7 @@ import com.esofthead.template.velocity.TemplateEngine;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 @Component("acceptMemberInvitationServlet")
 public class VerifyProjectMemberInvitationServletRequestHandler extends
@@ -86,6 +86,63 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 
 	@Autowired
 	private ProjectService projectService;
+
+	@Override
+	protected void onHandleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String pathInfo = request.getPathInfo();
+		if (pathInfo != null) {
+			try {
+				if (pathInfo.startsWith("/")) {
+					UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+					String email = urlTokenizer.getString();
+					int projectId = urlTokenizer.getInt();
+					int sAccountId = urlTokenizer.getInt();
+
+					int projectRoleId = urlTokenizer.getInt();
+
+					String inviterName = urlTokenizer.getString();
+
+					String inviterEmail = urlTokenizer.getString();
+
+					String timeStr = urlTokenizer.getString();
+					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					Date invitedDate = df.parse(timeStr);
+					Calendar cal = Calendar.getInstance();
+					cal.add(Calendar.DATE, -7);
+					Date dateBefore7Days = cal.getTime();
+
+					if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
+						// print out page expire
+						String html = generateExpirePage(inviterName,
+								inviterEmail);
+						PrintWriter out = response.getWriter();
+						out.println(html);
+						return;
+					}
+					log.debug("Checking Member status --------");
+					User user = userService.findUserByUserName(email);
+					if (user != null) { // user exit
+						log.debug("User exist on System -------------");
+						handleMemberInviteWithExistAccount(email, projectId,
+								sAccountId, projectRoleId, response);
+					} else {
+						log.debug("User not exist on System --------- to enter password'Page");
+						handleOutSideMemberInvite(email, projectId, sAccountId,
+								projectRoleId, inviterName, response, request);
+					}
+					return;
+				} else {
+					throw new ResourceNotFoundException();
+				}
+			} catch (ResourceNotFoundException e) {
+				throw new ResourceNotFoundException();
+			} catch (Exception e) {
+				throw new MyCollabException(e);
+			}
+		}
+		throw new ResourceNotFoundException();
+	}
 
 	private String generateExpirePage(String inviterEmail, String inviterName) {
 		TemplateContext context = new TemplateContext();
@@ -223,83 +280,5 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 		StringWriter writer = new StringWriter();
 		TemplateEngine.evaluate(context, writer, "log task", reader);
 		return writer.toString();
-	}
-
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String pathInfo = request.getPathInfo();
-		if (pathInfo != null) {
-			try {
-				if (pathInfo.startsWith("/")) {
-					pathInfo = pathInfo.substring(1);
-
-					String pathVariables = UrlEncodeDecoder.decode(pathInfo);
-					String email = pathVariables.substring(0,
-							pathVariables.indexOf("/"));
-					pathVariables = pathVariables.substring(email.length() + 1);
-
-					int projectId = Integer.parseInt(pathVariables.substring(0,
-							pathVariables.indexOf("/")));
-					pathVariables = pathVariables.substring((projectId + "")
-							.length() + 1);
-
-					int sAccountId = Integer.parseInt(pathVariables.substring(
-							0, pathVariables.indexOf("/")));
-					pathVariables = pathVariables.substring((sAccountId + "")
-							.length() + 1);
-
-					int projectRoleId = Integer.parseInt(pathVariables
-							.substring(0, pathVariables.indexOf("/")));
-					pathVariables = pathVariables
-							.substring((projectRoleId + "").length() + 1);
-
-					String inviterName = pathVariables.substring(0,
-							pathVariables.indexOf("/"));
-					pathVariables = pathVariables.substring(inviterName
-							.length() + 1);
-
-					String inviterEmail = pathVariables.substring(0,
-							pathVariables.indexOf("/"));
-					pathVariables = pathVariables.substring(inviterEmail
-							.length() + 1);
-
-					String timeStr = pathVariables;
-					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-					Date invitedDate = df.parse(timeStr);
-					Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.DATE, -7);
-					Date dateBefore7Days = cal.getTime();
-
-					if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
-						// print out page expire
-						String html = generateExpirePage(inviterName,
-								inviterEmail);
-						PrintWriter out = response.getWriter();
-						out.println(html);
-						return;
-					}
-					log.debug("Checking Member status --------");
-					User user = userService.findUserByUserName(email);
-					if (user != null) { // user exit
-						log.debug("User exist on System -------------");
-						handleMemberInviteWithExistAccount(email, projectId,
-								sAccountId, projectRoleId, response);
-					} else {
-						log.debug("User not exist on System --------- to enter password'Page");
-						handleOutSideMemberInvite(email, projectId, sAccountId,
-								projectRoleId, inviterName, response, request);
-					}
-					return;
-				} else {
-					throw new ResourceNotFoundException();
-				}
-			} catch (ResourceNotFoundException e) {
-				throw new ResourceNotFoundException();
-			} catch (Exception e) {
-				throw new MyCollabException(e);
-			}
-		}
-		throw new ResourceNotFoundException();
 	}
 }

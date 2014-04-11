@@ -40,6 +40,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -82,12 +83,15 @@ public class TimeTrackingTableDisplay
 				final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 
+				VerticalLayout summaryWrapper = new VerticalLayout();
 				ButtonLink timeTrackingLink = null;
-				if (itemLogging.getType() == null) {
+				String type = itemLogging.getType();
+
+				if (type == null) {
 					return new Label(itemLogging.getNote(), ContentMode.HTML);
 				}
 
-				if (itemLogging.getType().equals(ProjectTypeConstants.BUG)) {
+				if (type.equals(ProjectTypeConstants.BUG)) {
 
 					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
 							new Button.ClickListener() {
@@ -113,8 +117,7 @@ public class TimeTrackingTableDisplay
 									.before(new GregorianCalendar().getTime()))) {
 						timeTrackingLink.addStyleName(UIConstants.LINK_OVERDUE);
 					}
-				} else if (itemLogging.getType().equals(
-						ProjectTypeConstants.TASK)) {
+				} else if (type.equals(ProjectTypeConstants.TASK)) {
 
 					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
 							new Button.ClickListener() {
@@ -149,11 +152,48 @@ public class TimeTrackingTableDisplay
 					}
 				}
 
+				else {
+
+					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
+							new Button.ClickListener() {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void buttonClick(
+										final Button.ClickEvent event) {
+									fireTableEvent(new TableClickEvent(
+											TimeTrackingTableDisplay.this,
+											itemLogging, "summary"));
+								}
+							});
+
+					if (type.equals(ProjectTypeConstants.PROBLEM)) {
+						timeTrackingLink.setIcon(MyCollabResource
+								.newResource("icons/16/project/problem.png"));
+					} else if (type.equals(ProjectTypeConstants.RISK)) {
+						timeTrackingLink.setIcon(MyCollabResource
+								.newResource("icons/16/project/risk.png"));
+					}
+
+					if ("Closed".equals(itemLogging.getStatus())) {
+						timeTrackingLink
+								.addStyleName(UIConstants.LINK_COMPLETED);
+					} else if (itemLogging.getDueDate() != null
+							&& (itemLogging.getDueDate()
+									.before(new GregorianCalendar().getTime()))) {
+						timeTrackingLink.addStyleName(UIConstants.LINK_OVERDUE);
+					}
+				}
+
 				timeTrackingLink.addStyleName("link");
 				timeTrackingLink.addStyleName(UIConstants.WORD_WRAP);
 				timeTrackingLink.setWidth("100%");
+				summaryWrapper.addComponent(timeTrackingLink);
 
-				return timeTrackingLink;
+				Label note = new Label(itemLogging.getNote(), ContentMode.HTML);
+				if (note != null)
+					summaryWrapper.addComponent(note);
+				return summaryWrapper;
 
 			}
 		});

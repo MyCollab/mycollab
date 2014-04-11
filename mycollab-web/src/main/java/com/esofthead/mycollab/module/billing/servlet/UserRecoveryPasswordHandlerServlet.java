@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -66,30 +66,25 @@ public class UserRecoveryPasswordHandlerServlet extends
 		String pathInfo = request.getPathInfo();
 		try {
 			if (pathInfo != null) {
-				if (pathInfo.startsWith("/")) {
-					pathInfo = pathInfo.substring(1);
-					pathInfo = UrlEncodeDecoder.decode(pathInfo);
+				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+				String username = urlTokenizer.getString();
+				User user = userService.findUserByUserName(username);
+				if (user == null) {
+					PageGeneratorUtil.responeUserNotExistPage(response,
+							request.getContextPath() + "/");
+					return;
+				} else {
+					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/signin?email=" + username)
+							: (request.getContextPath() + "/");
 
-					String username = pathInfo;
-					User user = userService.findUserByUserName(username);
-					if (user == null) {
-						PageGeneratorUtil.responeUserNotExistPage(response,
-								request.getContextPath() + "/");
-						return;
-					} else {
-						String loginURL = (SiteConfiguration
-								.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/signin?email=" + username)
-								: (request.getContextPath() + "/");
+					String redirectURL = request.getContextPath() + "/"
+							+ "user/recoverypassword/action";
 
-						String redirectURL = request.getContextPath() + "/"
-								+ "user/recoverypassword/action";
-
-						String html = generateUserRecoveryPasswordPage(
-								username, loginURL, redirectURL);
-						PrintWriter out = response.getWriter();
-						out.print(html);
-						return;
-					}
+					String html = generateUserRecoveryPasswordPage(username,
+							loginURL, redirectURL);
+					PrintWriter out = response.getWriter();
+					out.print(html);
+					return;
 				}
 			} else {
 				throw new ResourceNotFoundException(
@@ -113,13 +108,12 @@ public class UserRecoveryPasswordHandlerServlet extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					UserRecoveryPasswordHandlerServlet.class
-							.getClassLoader().getResourceAsStream(template),
-					"UTF-8");
+					UserRecoveryPasswordHandlerServlet.class.getClassLoader()
+							.getResourceAsStream(template), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					UserRecoveryPasswordHandlerServlet.class
-							.getClassLoader().getResourceAsStream(template));
+					UserRecoveryPasswordHandlerServlet.class.getClassLoader()
+							.getResourceAsStream(template));
 		}
 
 		context.put("username", username);

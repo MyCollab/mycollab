@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -72,6 +72,87 @@ public class VerifyUserServletRequestHandler extends
 	@Autowired
 	private UserAccountInvitationMapper userAccountInvitationMapper;
 
+	@Override
+	protected void onHandleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String pathInfo = request.getPathInfo();
+		String subdomain = "";
+		String loginURL = request.getContextPath() + "/";
+
+		try {
+			if (pathInfo != null) {
+				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+
+				int accountId = urlTokenizer.getInt();
+				String username = urlTokenizer.getString();
+				subdomain = urlTokenizer.getString();
+
+				User user = userService.findUserByUserName(username);
+				SimpleUser userInAccount = userService
+						.findUserByUserNameInAccount(username, accountId);
+
+				if (user == null || userInAccount == null) {
+					PageGeneratorUtil.responeUserNotExistPage(response,
+							request.getContextPath() + "/");
+					return;
+				} else {
+					if (userInAccount.getRegisterstatus().equals(
+							RegisterStatusConstants.ACTIVE)) {
+						log.debug("Forward user {} to page {}",
+								user.getUsername(), request.getContextPath());
+						response.sendRedirect(request.getContextPath() + "/");
+						return;
+					} else {
+						// remove account invitation
+						UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
+						userAccountInvitationExample.createCriteria()
+								.andUsernameEqualTo(username)
+								.andAccountidEqualTo(accountId);
+						userAccountInvitationMapper
+								.deleteByExample(userAccountInvitationExample);
+
+						if (user.getPassword() == null
+								|| user.getPassword().trim().equals("")) {
+							log.debug(
+									"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
+									user.getUsername(),
+									BeanUtility.printBeanObj(user));
+							// forward to page create password for new user
+							String redirectURL = SiteConfiguration
+									.getSiteUrl(subdomain)
+									+ "user/confirm_invite/update_info/";
+							String html = generateUserFillInformationPage(
+									request, accountId, username,
+									user.getEmail(), redirectURL, loginURL);
+							PrintWriter out = response.getWriter();
+							out.print(html);
+							return;
+						} else {
+							log.debug("Forward user {} to page {}",
+									user.getUsername(),
+									request.getContextPath());
+							// redirect to account site
+							userService.updateUserAccountStatus(username,
+									accountId, RegisterStatusConstants.ACTIVE);
+							response.sendRedirect(request.getContextPath()
+									+ "/");
+							return;
+						}
+					}
+				}
+			}
+			throw new ResourceNotFoundException();
+		} catch (NumberFormatException e) {
+			throw new ResourceNotFoundException();
+		} catch (ResourceNotFoundException e) {
+			throw new ResourceNotFoundException();
+		} catch (Exception e) {
+			log.error("Error when delete UserAccountInvitation", e);
+			throw new MyCollabException(e);
+		}
+
+	}
+
 	private String generateUserFillInformationPage(HttpServletRequest request,
 			int accountId, String username, String email, String redirectURL,
 			String loginURL) {
@@ -80,13 +161,12 @@ public class VerifyUserServletRequestHandler extends
 		Reader reader;
 		try {
 			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(template),
-					"UTF-8");
+					VerifyUserServletRequestHandler.class.getClassLoader()
+							.getResourceAsStream(template), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(template));
+					VerifyUserServletRequestHandler.class.getClassLoader()
+							.getResourceAsStream(template));
 		}
 
 		context.put("username", username);
@@ -103,97 +183,5 @@ public class VerifyUserServletRequestHandler extends
 		StringWriter writer = new StringWriter();
 		TemplateEngine.evaluate(context, writer, "log task", reader);
 		return writer.toString();
-	}
-
-	@Override
-	protected void onHandleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String pathInfo = request.getPathInfo();
-		String subdomain = "", loginURL = request.getContextPath() + "/";
-		try {
-			if (pathInfo != null) {
-				if (pathInfo.startsWith("/")) {
-					pathInfo = pathInfo.substring(1);
-
-					pathInfo = UrlEncodeDecoder.decode(pathInfo);
-
-					int accountId = Integer.parseInt(pathInfo.substring(0,
-							pathInfo.indexOf("/")));
-					pathInfo = pathInfo
-							.substring((accountId + "").length() + 1);
-
-					String username = pathInfo.substring(0,
-							pathInfo.indexOf("/"));
-					pathInfo = pathInfo.substring(username.length() + 1);
-
-					subdomain = pathInfo;
-					User user = userService.findUserByUserName(username);
-					SimpleUser userInAccount = userService
-							.findUserByUserNameInAccount(username, accountId);
-
-					if (user == null || userInAccount == null) {
-						PageGeneratorUtil.responeUserNotExistPage(response,
-								request.getContextPath() + "/");
-						return;
-					} else {
-						if (userInAccount.getRegisterstatus().equals(
-								RegisterStatusConstants.ACTIVE)) {
-							log.debug("Forward user {} to page {}",
-									user.getUsername(),
-									request.getContextPath());
-							response.sendRedirect(request.getContextPath()
-									+ "/");
-							return;
-						} else {
-							// remove account invitation
-							UserAccountInvitationExample userAccountInvitationExample = new UserAccountInvitationExample();
-							userAccountInvitationExample.createCriteria()
-									.andUsernameEqualTo(username)
-									.andAccountidEqualTo(accountId);
-							userAccountInvitationMapper
-									.deleteByExample(userAccountInvitationExample);
-
-							if (user.getPassword() == null
-									|| user.getPassword().trim().equals("")) {
-								log.debug(
-										"User {} has null password. It seems he is the new user join to mycollab. Redirect him to page let him update his password {}",
-										user.getUsername(),
-										BeanUtility.printBeanObj(user));
-								// forward to page create password for new user
-								String redirectURL = SiteConfiguration
-										.getSiteUrl(subdomain)
-										+ "user/confirm_invite/update_info/";
-								String html = generateUserFillInformationPage(
-										request, accountId, username,
-										user.getEmail(), redirectURL, loginURL);
-								PrintWriter out = response.getWriter();
-								out.print(html);
-								return;
-							} else {
-								log.debug("Forward user {} to page {}",
-										user.getUsername(),
-										request.getContextPath());
-								// redirect to account site
-								userService.updateUserAccountStatus(username,
-										accountId,
-										RegisterStatusConstants.ACTIVE);
-								response.sendRedirect(request.getContextPath()
-										+ "/");
-								return;
-							}
-						}
-					}
-				}
-			}
-			throw new ResourceNotFoundException();
-		} catch (NumberFormatException e) {
-			throw new ResourceNotFoundException();
-		} catch (ResourceNotFoundException e) {
-			throw new ResourceNotFoundException();
-		} catch (Exception e) {
-			log.error("Error when delete UserAccountInvitation", e);
-			throw new MyCollabException(e);
-		}
-
 	}
 }

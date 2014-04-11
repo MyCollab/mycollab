@@ -9,7 +9,7 @@
 		<a href="$webLink" style="color: rgb(36, 127, 211); font-size: 12px; text-decoration: none;">$displayName</a>
 	#end
 	
-    <table width="700" cellpadding="0" cellspacing="0" border="0" style="margin: 0px auto; background-color: rgb(255, 255, 255);">
+    <table width="700" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
        		<td>
        			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
@@ -19,7 +19,7 @@
 		</tr>
         <tr>
             <td style="color: #4e4e4e; font: 12px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 10px 50px 0px;">
-				<p>$historyLog.postedUserFullName <b>updated</b> $itemType on:</p>
+				<p>$makeChangeUser <b>updated</b> $itemType on:</p>
 				<p>
 				#foreach( $title in $titles )
 					#hyperLink( $title.displayName $title.webLink )

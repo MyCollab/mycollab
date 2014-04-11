@@ -3579,13 +3579,12 @@ div.v-window-header {
 .task-attached {
 	
 	/*border-radius: 8px 8px 8px 8px;*/
-	background: url("icons/grad-dark-bottom.png") repeat-x scroll left
-		bottom rgb(57, 71, 84) !important;
+	background: none;
 	padding: 0px 7px 1px;
 	margin-right: 2px;
-	color:white;
+	color:rgb(51, 51, 236);
 	pointer:none;
-	overflow:hidden;
+	
 
 }
 
