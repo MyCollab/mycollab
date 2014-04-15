@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -34,7 +35,8 @@ class MilestoneHistoryLogList extends HistoryLogComponent {
 
 		this.generateFieldDisplayHandler("name", "Name");
 		this.generateFieldDisplayHandler("owner", LocalizationHelper
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("flag", "Flag");
 		this.generateFieldDisplayHandler("startdate", "Start Date",
 				HistoryLogComponent.DATE_FIELD);

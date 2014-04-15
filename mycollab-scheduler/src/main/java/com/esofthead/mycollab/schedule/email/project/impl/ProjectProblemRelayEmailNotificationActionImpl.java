@@ -16,7 +16,12 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +30,15 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 
@@ -63,24 +68,112 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		mapper = new ProjectFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleProblem problem,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				problem.getProjectid());
+
+		SimpleProject relatedProject = projectService.findById(
+				problem.getProjectid(), emailNotification.getSaccountid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", relatedProject.getName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		String summary = problem.getIssuename();
+		String summaryLink = ProjectLinkUtils.generateProblemPreviewLink(
+				problem.getProjectid(), problem.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "problem");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<ProblemLinkMapper>> getListOfProperties(
+			SimpleProblem problem, SimpleUser user) {
+		Map<String, List<ProblemLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<ProblemLinkMapper>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				problem.getProjectid());
+
+		listOfDisplayProperties.put(mapper
+				.getFieldLabel("raisedByUserFullName"), Arrays
+				.asList(new ProblemLinkMapper(
+						linkGenerator.generateUserPreviewFullLink(problem
+								.getRaisedbyuser()), problem
+								.getRaisedByUserFullName())));
+
+		if (problem.getAssigntouser() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
+					Arrays.asList(new ProblemLinkMapper(linkGenerator
+							.generateUserPreviewFullLink(problem
+									.getAssigntouser()), problem
+							.getAssignedUserFullName())));
+		}
+
+		if (problem.getDatedue() != null)
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("datedue"), Arrays
+							.asList(new ProblemLinkMapper(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											problem.getDatedue(),
+											user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), null);
+		}
+
+		listOfDisplayProperties
+				.put(mapper.getFieldLabel("status"),
+						Arrays.asList(new ProblemLinkMapper(null, problem
+								.getStatus())));
+
+		if (problem.getImpact() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("impact"), Arrays
+					.asList(new ProblemLinkMapper(null, problem.getImpact())));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("impact"), null);
+		}
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("priority"), Arrays
+				.asList(new ProblemLinkMapper(null, problem.getPriority())));
+
+		if (problem.getDescription() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					Arrays.asList(new ProblemLinkMapper(null, problem
+							.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		return listOfDisplayProperties;
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		int problemId = emailNotification.getTypeid();
 		SimpleProblem problem = problemService.findById(problemId, 0);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has created the problem \""
-						+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
-				"templates/email/project/problemCreatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(problem,
-				user.getTimezone(), new String[] { "dateraised", "datedue",
-						"actualstartdate", "actualenddate" });
-		templateGenerator.putVariable("problem", problem);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(problem, emailNotification));
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ problem.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has created the problem \""
+				+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
+
+		setupMailHeaders(problem, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("properties",
+				getListOfProperties(problem, user));
 
 		return templateGenerator;
 	}
@@ -96,33 +189,23 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 		String subject = StringUtils.trim(problem.getIssuename(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the problem \"" + subject
-						+ "...\" edited",
-				"templates/email/project/problemUpdateNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(problem,
-				user.getTimezone(), new String[] { "dateraised", "datedue",
-						"actualstartdate", "actualenddate" });
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ problem.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the problem \"" + subject + "...\" edited",
+				"templates/email/project/itemUpdateNotifier.mt");
 
-		templateGenerator.putVariable("problem", problem);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(problem, emailNotification));
+		setupMailHeaders(problem, emailNotification, templateGenerator);
+
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "dateraised", "datedue", "actualstartdate",
-							"actualenddate" });
+
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
-		templateGenerator.putVariable(
-				"lstComment",
-				getListComment(problem.getSaccountid(),
-						ProjectTypeConstants.PROBLEM, problem.getId()));
+
 		return templateGenerator;
 	}
 
@@ -135,51 +218,17 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on the problem \""
-						+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
-				"templates/email/project/problemCommentNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ problem.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has commented on the problem \""
+				+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
+				"templates/email/project/itemCommentNotifier.mt");
+		setupMailHeaders(problem, emailNotification, templateGenerator);
 
-		templateGenerator.putVariable("problem", problem);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(problem, emailNotification));
 		templateGenerator.putVariable("comment", emailNotification);
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				problem.getProjectid());
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
 
 		return templateGenerator;
-	}
-
-	private Map<String, String> createHyperLinks(SimpleProblem problem,
-			SimpleRelayEmailNotification emailNotification) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				problem.getProjectid());
-
-		hyperLinks.put("problemURL",
-				linkGenerator.generateProblemPreviewFullLink(problem.getId()));
-
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks
-				.put("assignUserUrl", linkGenerator
-						.generateUserPreviewFullLink(problem
-								.getAssignedUserFullName()));
-		hyperLinks
-				.put("raiseUserUrl", linkGenerator
-						.generateUserPreviewFullLink(problem
-								.getRaisedByUserFullName()));
-
-		SimpleProject project = projectService.findById(problem.getProjectid(),
-				emailNotification.getSaccountid());
-		if (project != null) {
-			hyperLinks.put("projectName", project.getName());
-		}
-
-		return hyperLinks;
 	}
 
 	public class ProjectFieldNameMapper {
@@ -194,6 +243,9 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("status", "Status");
 			fieldNameMap.put("impact", "Impact");
 			fieldNameMap.put("priority", "Priority");
+			fieldNameMap.put("raisedByUserFullName", "Raised By");
+			fieldNameMap.put("description", "Description");
+			fieldNameMap.put("resolution", "Resolution");
 		}
 
 		public boolean hasField(String fieldName) {
@@ -202,6 +254,34 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 		public String getFieldLabel(String fieldName) {
 			return fieldNameMap.get(fieldName);
+		}
+	}
+
+	public class ProblemLinkMapper implements Serializable {
+		private static final long serialVersionUID = 2212688618608788187L;
+
+		private String link;
+		private String displayname;
+
+		public ProblemLinkMapper(String link, String displayname) {
+			this.link = link;
+			this.displayname = displayname;
+		}
+
+		public String getWebLink() {
+			return link;
+		}
+
+		public void setWebLink(String link) {
+			this.link = link;
+		}
+
+		public String getDisplayName() {
+			return displayname;
+		}
+
+		public void setDisplayName(String displayname) {
+			this.displayname = displayname;
 		}
 	}
 

@@ -14,6 +14,7 @@
         <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+        <result column="projectName" property="projectName" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -48,10 +49,11 @@
                    (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numTasks,
                    (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task.status='Open' AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numOpenTasks,
                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id) AS numBugs,
-                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')) AS numOpenBugs
-                   
+                    (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')) AS numOpenBugs,
+                   m_prj_project.name as projectName
                 FROM m_prj_milestone
                     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
+                    LEFT OUTER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
         ]]>
     </sql>
 

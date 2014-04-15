@@ -73,8 +73,9 @@ public class ProjectTooltipGenerator {
 	public static String generateToolTipTask(SimpleTask task, String siteURL,
 			String timeZone) {
 		try {
-			if (task == null)
+			if (task == null) {
 				return generateTolltipNull();
+			}
 			String beforeStr = "<html><head><meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"></head><body>";
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
@@ -226,15 +227,16 @@ public class ProjectTooltipGenerator {
 	public static String generateToolTipBug(SimpleBug bug, String siteURL,
 			String timeZone) {
 		try {
-			if (bug == null)
+			if (bug == null) {
 				return generateTolltipNull();
+			}
 			Div div = new Div()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
 			H3 bugSummary = new H3();
 			bugSummary.appendText(Jsoup.parse(bug.getSummary()).html());
 			div.appendChild(bugSummary);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			Td trRow1_value = new Td()
@@ -433,7 +435,7 @@ public class ProjectTooltipGenerator {
 			riskName.appendText(risk.getRiskname());
 			div.appendChild(riskName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 
 			Tr trRow5 = new Tr();
@@ -614,7 +616,7 @@ public class ProjectTooltipGenerator {
 			problemName.appendText(problem.getIssuename());
 			div.appendChild(problemName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 
 			Tr trRow5 = new Tr();
@@ -797,7 +799,7 @@ public class ProjectTooltipGenerator {
 					.appendText(Jsoup.parse(version.getVersionname()).text());
 			div.appendChild(versionName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :300px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			trRow1.appendChild(
@@ -858,7 +860,7 @@ public class ProjectTooltipGenerator {
 					.text());
 			div.appendChild(componentName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :300px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			trRow1.appendChild(
@@ -937,7 +939,7 @@ public class ProjectTooltipGenerator {
 			bugSummary.appendText(Jsoup.parse(taskList.getName()).text());
 			div.appendChild(bugSummary);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			Td trRow1_value = new Td()
@@ -1037,7 +1039,7 @@ public class ProjectTooltipGenerator {
 			taksName.appendText(Jsoup.parse(project.getName()).html());
 			div.appendChild(taksName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
 			trRow1.appendChild(
@@ -1207,7 +1209,7 @@ public class ProjectTooltipGenerator {
 			milestoneName.appendText(Jsoup.parse(milestone.getName()).html());
 			div.appendChild(milestoneName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 
 			Tr trRow2 = new Tr();
@@ -1343,7 +1345,7 @@ public class ProjectTooltipGenerator {
 							standup.getCreatedtime(), timeZone)).html());
 			div.appendChild(name);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 
 			Tr trRow3 = new Tr();
@@ -1401,7 +1403,7 @@ public class ProjectTooltipGenerator {
 			name.appendText(Jsoup.parse(message.getTitle()).html());
 			div.appendChild(name);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+			Table table = new Table();
 			table.setStyle("padding-left:10px; width :500px;  color: #5a5a5a; font-size:11px;white-space: nowrap;	");
 
 			Tr trRow2 = new Tr();

@@ -27,6 +27,16 @@ public class SimpleProblem extends Problem {
 
 	private String assignedUserFullName;
 
+	private String projectName;
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	public String getRaisedByUserAvatarId() {
 		return raisedByUserAvatarId;
 	}

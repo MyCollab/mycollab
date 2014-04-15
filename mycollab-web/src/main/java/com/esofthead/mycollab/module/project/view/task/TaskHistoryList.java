@@ -21,6 +21,8 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.ui.components.TaskGroupHistoryFieldFormat;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -49,9 +51,11 @@ public class TaskHistoryList extends HistoryLogComponent {
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("isestimated", "Is Estimated");
 		this.generateFieldDisplayHandler("assignuser", LocalizationHelper
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("tasklistid", LocalizationHelper
-				.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD));
+				.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
+				new TaskGroupHistoryFieldFormat());
 		this.generateFieldDisplayHandler("percentagecomplete", "Complete(%)");
 		this.generateFieldDisplayHandler("notes", "Notes");
 	}

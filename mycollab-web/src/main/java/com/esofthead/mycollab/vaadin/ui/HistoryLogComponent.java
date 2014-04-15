@@ -239,11 +239,6 @@ public class HistoryLogComponent extends VerticalLayout {
 		}
 	}
 
-	public static interface HistoryFieldFormat {
-
-		Component formatField(String value);
-	}
-
 	public static class DefaultHistoryFieldFormat implements HistoryFieldFormat {
 
 		@Override

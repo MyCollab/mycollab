@@ -37,6 +37,16 @@ public class SimpleMilestone extends Milestone {
 	private int numOpenBugs;
 	private int numBugs;
 
+	private String projectName;
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	public String getOwnerFullName() {
 		return ownerFullName;
 	}

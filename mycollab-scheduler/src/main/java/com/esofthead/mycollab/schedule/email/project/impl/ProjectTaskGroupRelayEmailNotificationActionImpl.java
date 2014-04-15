@@ -16,7 +16,11 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +31,13 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 
@@ -49,11 +56,82 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 	private ProjectTaskListService projectTaskListService;
 	@Autowired
 	private AuditLogService auditLogService;
+	@Autowired
+	private ProjectService projectService;
 
 	private final ProjectFieldNameMapper mapper;
 
 	public ProjectTaskGroupRelayEmailNotificationActionImpl() {
 		mapper = new ProjectFieldNameMapper();
+	}
+
+	protected void setupMailHeaders(SimpleTaskList tasklist,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				tasklist.getProjectid());
+
+		SimpleProject relatedProject = projectService.findById(
+				tasklist.getProjectid(), emailNotification.getSaccountid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", relatedProject.getName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		String summary = tasklist.getName();
+		String summaryLink = ProjectLinkUtils.generateTaskGroupPreviewLink(
+				tasklist.getProjectid(), tasklist.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "task group");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<MailItemLink>> getListOfProperties(
+			SimpleTaskList tasklist) {
+		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				tasklist.getProjectid());
+
+		if (tasklist.getMilestoneName() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("milestonename"),
+					Arrays.asList(new MailItemLink(linkGenerator
+							.generateMilestonePreviewFullLink(tasklist
+									.getMilestoneid()), tasklist
+							.getMilestoneName())));
+		else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("milestone"), null);
+		}
+
+		if (tasklist.getOwner() != null) {
+
+			listOfDisplayProperties.put(mapper.getFieldLabel("owner"), Arrays
+					.asList(new MailItemLink(linkGenerator
+							.generateUserPreviewFullLink(tasklist.getOwner()),
+							tasklist.getOwnerFullName())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("owner"), null);
+		}
+
+		if (tasklist.getDescription() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					Arrays.asList(new MailItemLink(null, tasklist
+							.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -65,30 +143,17 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		String subject = StringUtils.trim(taskList.getName(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$taskList.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has created the task group \"" + subject + "\"",
-				"templates/email/project/taskGroupCreatedNotifier.mt");
-		templateGenerator.putVariable("taskList", taskList);
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(taskList));
-		return templateGenerator;
-	}
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ taskList.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has created the task group \"" + subject + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
+		setupMailHeaders(taskList, emailNotification, templateGenerator);
 
-	private Map<String, String> createHyperLinks(SimpleTaskList taskList) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				taskList.getProjectid());
-		hyperLinks.put("taskListUrl", linkGenerator
-				.generateTaskGroupPreviewFullLink(taskList.getId()));
-		hyperLinks.put("taskListName",
-				StringUtils.trim(taskList.getName(), 100));
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks.put("ownerUrl",
-				linkGenerator.generateUserPreviewFullLink(taskList.getOwner()));
-		hyperLinks.put("milestoneUrl", linkGenerator
-				.generateMilestonePreviewFullLink(taskList.getMilestoneid()));
-		return hyperLinks;
+		templateGenerator.putVariable("properties",
+				getListOfProperties(taskList));
+
+		return templateGenerator;
 	}
 
 	@Override
@@ -103,13 +168,13 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		String subject = StringUtils.trim(taskList.getName(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$taskList.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the task \"" + subject + "\"",
-				"templates/email/project/taskGroupUpdatedNotifier.mt");
-		templateGenerator.putVariable("taskList", taskList);
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(taskList));
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ taskList.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the task \"" + subject + "\"",
+				"templates/email/project/itemUpdatedNotifier.mt");
+
+		setupMailHeaders(taskList, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
@@ -119,10 +184,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
-		templateGenerator.putVariable(
-				"lstComment",
-				getListComment(taskList.getSaccountid(),
-						ProjectTypeConstants.TASK_LIST, taskList.getId()));
+
 		return templateGenerator;
 	}
 
@@ -135,20 +197,16 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		if (taskList == null) {
 			return null;
 		}
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				taskList.getProjectid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$taskList.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on the task group \""
-						+ StringUtils.trim(taskList.getName(), 100) + "\"",
-				"templates/email/project/taskGroupCommentNotifier.mt");
-		templateGenerator.putVariable("taskList", taskList);
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ taskList.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has commented on the task group \""
+				+ StringUtils.trim(taskList.getName(), 100) + "\"",
+				"templates/email/project/itemCommentNotifier.mt");
+		setupMailHeaders(taskList, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(taskList));
 
 		return templateGenerator;
 	}

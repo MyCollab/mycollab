@@ -4,107 +4,54 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<style media="screen" type="text/css">
-@import "https://fonts.googleapis.com/css?family=Monda:400,700";
-@font-face {
-    font-family: "verdana";
-    font-style: normal;
-    font-weight: bold;
-    src: local("?"), url("https://s3.amazonaws.com/mycollab_assets/fonts/verdana.eot?#iefix") format("embedded-opentype"), url("https://s3.amazonaws.com/mycollab_assets/fonts/verdana.svg#verdana") format("svg"), url("https://s3.amazonaws.com/mycollab_assets/fonts/verdana.woff") format("woff"), url("https://s3.amazonaws.com/mycollab_assets/fonts/verdana.ttf") format("truetype");
-}
-
-#header {
-    background-color: #646464;
-    height: 70px;
-}
-.header-mid {
-    display: block;
-    padding-left: 50px;
-    padding-top: 10px;
-}
-.header-mid .a {
-    color: #FFFFFF;
-    text-decoration: none;
-}
-
-.body-style {
-    background-color: #F9F9F9;
-    float: right;
-    margin-bottom: 20px;
-    padding-left: 30px;
-    width: 840px;
-}
-#mainBody{
-    font-size: 14px;
-    text-align: left;
-    border: 1px solid rgb(169, 169, 169);
-    border-radius : 3px;
-    width: 680px;
-	height: 530px;
-    margin: 0px auto;
-}
-
-#mainContent{
-    display: block; 
-    padding: 10px 30px 8px 30px;
-}
-.v-button-bluebtn{
-	background: url('${defaultUrls.cdn_url}grad-dark-bottom2.png') repeat-x left bottom
-		#2599c8;
-	border: 1px solid #093768;
-	color: #FFFFFF;
-	text-shadow: 1px 1px 0px #1570cd;
-	border-radius: 3px;
-	padding: 6px 8px 6px 8px;
-	width: 82px;
-}
-.v-button-bluebtn:hover {
-	background: url('${defaultUrls.cdn_url}grad-dark-bottom2.png') repeat-x left bottom
-		#1377b3;
-	border: 1px solid #093768;
-	cursor: pointer;
-}
-</style>
-<title>Your trial is about to end</title>
 </head>
-<body>
-	<table width="650" cellpadding="0" cellspacing="0" border="0" style="margin: 0px auto;">
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_black_top.png') no-repeat 0 0/ 650px transparent; font-size: 11px; line-height: 11px;" height="6"></td>
+<body style="background-color: rgb(218, 223, 225); color: #4e4e4e; font: 16px Georgia, serif; padding: 20px 0px;">
+	#macro( confirmLink $webLink $displayText )
+		<a href="$webLink" style="color: rgb(90, 151, 226); font-size: 12px; text-decoration: none;">$displayText</a>
+	#end
+	
+	#macro( linkBlock $webLink )
+		<div style="width: 100%; padding: 20px 15px; background-color: rgb(237, 248, 255);">
+			<a href="$webLink" style="color: rgb(76, 131, 182); font-size: 12px; text-decoration: underline; width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
+		</div>
+	#end
+	
+	<table width="760" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto; background-color: rgb(255, 255, 255);">
+       <tr>
+       		<td style="text-align: center;">
+       			<img src="${defaultUrls.cdn_url}logo-email-big.png" alt="esofthead-logo" width="218" height="50" style="margin: 0px; padding: 0px;">
+       		</td>			
 		</tr>
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_black_center.png') repeat-y 0 0/ 650px transparent; text-align: left; padding-bottom: 10px;">
-				<div style="width: 150px; display: inline-block; padding-left: 20px;">
-					<img src="${defaultUrls.cdn_url}logo_mycollab_2.png" alt="MyCollab-logo" width="250" height="50" style="margin: 0px; padding: 0px;">
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_large_center_white.png') repeat-y 0 0 transparent; color: #4e4e4e; font: 13px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 10px 30px 0px;">
-				<div id="mainContent">
-					<div id="contentTitle">
-						<span>Thank you for choosing MyCollab!<span> <br>
-						<span>You are just one click away from completing your account registration: <span> <br><br>
-						<div style="text-align: center;">
-							<a style="text-decoration:none;" href="$!linkConfirm" class="v-button-bluebtn"/><span style="font-family: 'verdana';font-size: 17px; ">Confirm your e-mail</span></a>
+        <tr>
+            <td style="padding: 10px 50px; text-align: center;">
+						<p style="font-size: 22px;"><b><i>Thank you for choosing MyCollab!</i></b><p>
+						<p>You are just one click away from completing your account registration: <p>
+						<div style="background-color: rgb(32, 36, 35); tex-align: center; padding: 3px 0px; width: 330px; margin: 0px auto;">
+							<a style="text-decoration:none;" href="$!linkConfirm"/><span style="font-size: 22px; text-transform: uppercase;">Confirm your e-mail</span></a>
 						</div> 
 						<br>
+						#set ($loginUrl = "https://" + $user.Subdomain + ".esofthead.com/")
+						<p>Access your account anytime from 
+						#confirmLink ($loginUrl $loginUrl)
+						 (maybe bookmark this page for future reference).<br>
+						Login with your email address 
+						#set ($mailToUrl = "mailto:" + $user.Email)
+						#confirmLink ($mailToUrl $user.Email)
+						 and the password you created.</p>
 						<span>By clicking this link, you agree to the 
-						<a style="text-decoration : none;" href="https://www.mycollab.com/terms"><span style="font-size:14px; color: #4B80C6; text-decoration: none;">Terms of Service</span></a> and the 
-						<a style="text-decoration : none;" href="https://www.mycollab.com/privacy"><span style="font-size:14px; color: #4B80C6;">Privacy Policy</span></a> <span> <br>
-					</div>
-					<div id="contentBody" style="padding-top: 15px;">
-						<span style="font: 14px">
+						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service"
+						 and the 
+						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy"
+						</p>
+						<p>
 						If clicking on the link does not work, just copy and paste the following address into your browser:
-						</span> &nbsp
-						<a style="text-decoration : none;" href="https://www.mycollab.com"/> https://www.mycollab.com</a> <br> <br>
-						If you are still having problems, simply forward this e-mail <a href="mailto:support@mycollab.com" style="text-decoration : none;"><span style="color:#5587BA">support@mycollab.com</span></a>, and we will be happy to help you. <br><br>
+						#webLink ($!linkConfirm)
+						If you are still having problems, simply forward this e-mail 
+						#confirmLink ("mailto:support@mycollab.com" "support@mycollab.com"
+						, and we will be happy to help you. <br><br>
 						
 						<span style="font-weight: bold;">Have a productive day!</span>
-						</span>
-						<div style="padding-top:20px;">
-							<hr size="1">
-						</div>
+						<p>P/S: Hope you enjoy using Mycollab to grow the sales in your business, and remember you can switch between plans during the trial!</p>
 					</div>
 					<div id="contentFooter" style="padding-top:10px;">
 						Best regards, <br>
@@ -115,10 +62,7 @@
 				</div>
 			</td>
 		</tr>
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_large_bottom_new.png') no-repeat 0 0 transparent; line-height: 7px; font-size: 7px;" height="7">&nbsp;</td>
-		</tr>
+		#parse("templates/email/footer.mt")
 	</table>
-	<input type="hidden" id="linkConfirm" value="$!linkConfirm"/>
 </body> 
 </html>	

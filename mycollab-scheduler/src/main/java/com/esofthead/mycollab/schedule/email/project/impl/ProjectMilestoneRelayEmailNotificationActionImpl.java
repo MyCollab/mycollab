@@ -16,7 +16,12 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +30,10 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
@@ -61,6 +68,35 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		mapper = new ProjectFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleMilestone milestone,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				milestone.getProjectid());
+
+		SimpleProject relatedProject = projectService.findById(
+				milestone.getProjectid(), emailNotification.getSaccountid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", relatedProject.getName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		String summary = milestone.getName();
+		String summaryLink = ProjectLinkUtils.generateMilestonePreviewLink(
+				milestone.getProjectid(), milestone.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "phase");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -68,41 +104,68 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		SimpleMilestone milestone = milestoneService.findById(milestoneId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has created the phase \""
-						+ StringUtils.trim(milestone.getName(), 100)
-						+ "\"",
-				"templates/email/project/phaseCreatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ milestone.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has created the phase \""
+				+ StringUtils.trim(milestone.getName(), 100) + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
 
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(milestone,
-				user.getTimezone(), new String[] { "startdate", "enddate" });
-		templateGenerator.putVariable("milestone", milestone);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(milestone, emailNotification));
+		setupMailHeaders(milestone, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("properties",
+				getListOfProperties(milestone, user));
 
 		return templateGenerator;
 	}
 
-	private Map<String, String> createHyperLinks(SimpleMilestone milestone,
-			SimpleRelayEmailNotification emailNotification) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
+	protected Map<String, List<MilestoneLinkMapper>> getListOfProperties(
+			SimpleMilestone milestone, SimpleUser user) {
+		Map<String, List<MilestoneLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<MilestoneLinkMapper>>();
+
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 				milestone.getProjectid());
-		hyperLinks.put("milestoneURL", linkGenerator
-				.generateMilestonePreviewFullLink(milestone.getId()));
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks.put("ownerUserUrl", linkGenerator
-				.generateUserPreviewFullLink(milestone.getOwnerFullName()));
 
-		SimpleProject project = projectService.findById(
-				milestone.getProjectid(), emailNotification.getSaccountid());
-		if (project != null) {
-			hyperLinks.put("projectName", project.getName());
+		if (milestone.getStartdate() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("startdate"),
+					Arrays.asList(new MilestoneLinkMapper(null, DateTimeUtils
+							.converToStringWithUserTimeZone(
+									milestone.getStartdate(),
+									user.getTimezone()))));
+		else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("startdate"), null);
 		}
 
-		return hyperLinks;
+		listOfDisplayProperties.put(mapper.getFieldLabel("status"), Arrays
+				.asList(new MilestoneLinkMapper(null, milestone.getStatus())));
+
+		if (milestone.getEnddate() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("enddate"), Arrays
+							.asList(new MilestoneLinkMapper(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											milestone.getEnddate(),
+											user.getTimezone()))));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), null);
+		}
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("ownerFullName"),
+				Arrays.asList(new MilestoneLinkMapper(linkGenerator
+						.generateUserPreviewFullLink(milestone.getOwner()),
+						milestone.getOwnerFullName())));
+
+		if (milestone.getDescription() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					Arrays.asList(new MilestoneLinkMapper(null, milestone
+							.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -116,17 +179,13 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		}
 
 		String subject = StringUtils.trim(milestone.getName(), 100);
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the phase \"" + subject + "\"",
-				"templates/email/project/phaseUpdateNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ milestone.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the phase \"" + subject + "\"",
+				"templates/email/project/itemUpdateNotifier.mt");
 
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(milestone,
-				user.getTimezone(), new String[] { "startdate", "enddate" });
-		templateGenerator.putVariable("milestone", milestone);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(milestone, emailNotification));
+		setupMailHeaders(milestone, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
@@ -151,22 +210,16 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ "  has commented on phase \""
-						+ StringUtils.trim(milestone.getName(), 100)
-						+ "\"",
-				"templates/email/project/phaseCommentNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ milestone.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ "  has commented on phase \""
+				+ StringUtils.trim(milestone.getName(), 100) + "\"",
+				"templates/email/project/itemCommentNotifier.mt");
 
-		templateGenerator.putVariable("milestone", milestone);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(milestone, emailNotification));
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				milestone.getProjectid());
+		setupMailHeaders(milestone, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
 		return templateGenerator;
 	}
 
@@ -181,6 +234,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("enddate", "End Date");
 			fieldNameMap.put("status", "Status");
 			fieldNameMap.put("ownerFullName", "Responsible User");
+			fieldNameMap.put("description", "Description");
 		}
 
 		public boolean hasField(String fieldName) {
@@ -189,6 +243,34 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 
 		public String getFieldLabel(String fieldName) {
 			return fieldNameMap.get(fieldName);
+		}
+	}
+
+	public class MilestoneLinkMapper implements Serializable {
+		private static final long serialVersionUID = 2212688618608788187L;
+
+		private String link;
+		private String displayname;
+
+		public MilestoneLinkMapper(String link, String displayname) {
+			this.link = link;
+			this.displayname = displayname;
+		}
+
+		public String getWebLink() {
+			return link;
+		}
+
+		public void setWebLink(String link) {
+			this.link = link;
+		}
+
+		public String getDisplayName() {
+			return displayname;
+		}
+
+		public void setDisplayName(String displayname) {
+			this.displayname = displayname;
 		}
 	}
 

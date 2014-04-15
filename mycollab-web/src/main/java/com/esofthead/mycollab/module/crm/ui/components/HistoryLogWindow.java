@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 import com.vaadin.ui.Window;
 
@@ -51,8 +52,7 @@ public class HistoryLogWindow extends Window {
 	}
 
 	public void generateFieldDisplayHandler(final String fieldname,
-			final String displayName,
-			final HistoryLogComponent.HistoryFieldFormat format) {
+			final String displayName, final HistoryFieldFormat format) {
 		this.historyLogComponent.generateFieldDisplayHandler(fieldname,
 				displayName, format);
 	}

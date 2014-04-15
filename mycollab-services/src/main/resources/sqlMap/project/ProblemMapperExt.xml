@@ -17,6 +17,9 @@
 
         <result column="assignedUserFullName" jdbcType="VARCHAR"
             property="assignedUserFullName" />
+            
+        <result column="projectName" property="projectName"
+        	jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -88,11 +91,12 @@
                  raisedUser.avatarId AS raisedByUserAvatarId,
                  concat(raisedUser.firstname, ' ', LTRIM(concat(IFNULL(raisedUser.middlename, ''), ' ')), raisedUser.lastname) AS raisedByUserFullName,
                  assignedUser.avatarId AS assignUserAvatarId,
-                 concat(assignedUser.firstname, ' ', LTRIM(concat(IFNULL(assignedUser.middlename, ''), ' ')), assignedUser.lastname) AS assignedUserFullName 
-                 
+                 concat(assignedUser.firstname, ' ', LTRIM(concat(IFNULL(assignedUser.middlename, ''), ' ')), assignedUser.lastname) AS assignedUserFullName,
+                 m_prj_project.name as projectName
           FROM m_prj_problem
               LEFT OUTER JOIN s_user as raisedUser ON (m_prj_problem.raisedbyuser=raisedUser.username)
               LEFT OUTER JOIN s_user as assignedUser ON (m_prj_problem.assigntouser=assignedUser.username)
+              LEFT OUTER JOIN m_prj_project ON (m_prj_problem.projectid = m_prj_project.id)
         ]]>
     </sql>
 

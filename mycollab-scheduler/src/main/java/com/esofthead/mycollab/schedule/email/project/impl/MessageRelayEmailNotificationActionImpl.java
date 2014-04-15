@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,11 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 
@@ -45,38 +48,53 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	private ProjectService projectService;
 
-	private Map<String, String> constructHyperLinks(SimpleMessage message) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
+	protected void setupMailHeaders(SimpleMessage message,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 				message.getProjectid());
-		hyperLinks.put("messageUrl",
-				linkGenerator.generateMessagePreviewFullLink(message.getId()));
-		hyperLinks.put("shortMessageUrl",
-				StringUtils.trim(message.getTitle(), 100));
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks.put("createdUserUrl", linkGenerator
-				.generateUserPreviewFullLink(message.getPosteduser()));
 
-		return hyperLinks;
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", message.getProjectName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		String summary = message.getTitle();
+		String summaryLink = ProjectLinkUtils.generateMessagePreviewLink(
+				message.getProjectid(), message.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "message");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+
 		int messageId = emailNotification.getTypeid();
+
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$message.projectName]: $message.fullPostedUserName sent a message \""
-						+ StringUtils.trim(message.getTitle(), 100)
-						+ "\"",
-				"templates/email/project/messageCreatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(message,
-				user.getTimezone(), new String[] { "posteddate" });
-		templateGenerator.putVariable("message", message);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(message));
+
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ message.getProjectName() + "]: "
+				+ message.getFullPostedUserName() + " sent a message \""
+				+ StringUtils.trim(message.getTitle(), 100) + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
+
+		setupMailHeaders(message, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("message", message.getMessage());
 		return templateGenerator;
 	}
 
@@ -86,16 +104,15 @@ public class MessageRelayEmailNotificationActionImpl extends
 		int messageId = emailNotification.getTypeid();
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$message.projectName]: $message.fullPostedUserName updated content of the message \""
-						+ StringUtils.trim(message.getTitle(), 100)
-						+ "\"",
-				"templates/email/project/messageUpdatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(message,
-				user.getTimezone(), new String[] { "posteddate" });
-		templateGenerator.putVariable("message", message);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(message));
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ message.getProjectName() + "]: "
+				+ message.getFullPostedUserName()
+				+ " updated content of the message \""
+				+ StringUtils.trim(message.getTitle(), 100) + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
+		setupMailHeaders(message, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("message", message.getMessage());
 		return templateGenerator;
 	}
 
@@ -105,19 +122,16 @@ public class MessageRelayEmailNotificationActionImpl extends
 		int messageId = emailNotification.getTypeid();
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				message.getProjectid());
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$message.projectName]: $!message.fullPostedUserName has commented on \""
-						+ StringUtils.trim(message.getTitle(), 100)
-						+ "\"",
-				"templates/email/project/messageCommentNotifier.mt");
-		templateGenerator.putVariable("message", message);
+
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ message.getProjectName() + "]: "
+				+ message.getFullPostedUserName() + " has commented on \""
+				+ StringUtils.trim(message.getTitle(), 100) + "\"",
+				"templates/email/project/itemCommentNotifier.mt");
+		setupMailHeaders(message, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(message));
+
 		return templateGenerator;
 	}
 

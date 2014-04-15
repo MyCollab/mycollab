@@ -16,7 +16,12 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +30,15 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
 
@@ -63,6 +68,95 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		mapper = new ProjectFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleRisk risk,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				risk.getProjectid());
+
+		SimpleProject relatedProject = projectService.findById(
+				risk.getProjectid(), emailNotification.getSaccountid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", relatedProject.getName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		String summary = risk.getRiskname();
+		String summaryLink = ProjectLinkUtils.generateRiskPreview(
+				risk.getProjectid(), risk.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "risk");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<RiskLinkMapper>> getListOfProperties(
+			SimpleRisk risk, SimpleUser user) {
+		Map<String, List<RiskLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<RiskLinkMapper>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				risk.getProjectid());
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("raisedbyuser"),
+				Arrays.asList(new RiskLinkMapper(linkGenerator
+						.generateUserPreviewFullLink(risk.getRaisedbyuser()),
+						risk.getRaisedByUserFullName())));
+
+		if (risk.getAssigntouser() != null) {
+			listOfDisplayProperties.put(mapper
+					.getFieldLabel("assignedToUserFullName"), Arrays
+					.asList(new RiskLinkMapper(
+							linkGenerator.generateUserPreviewFullLink(risk
+									.getAssigntouser()), risk
+									.getAssignedToUserFullName())));
+		} else {
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("assignedToUserFullName"), null);
+		}
+
+		if (risk.getConsequence() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("consequence"),
+					Arrays.asList(new RiskLinkMapper(null, risk
+							.getConsequence())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("consequence"),
+					null);
+		}
+
+		if (risk.getProbalitity() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("probability"),
+					Arrays.asList(new RiskLinkMapper(null, risk
+							.getProbalitity())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("probability"),
+					null);
+		}
+
+		if (risk.getDatedue() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), Arrays
+					.asList(new RiskLinkMapper(null, DateTimeUtils
+							.converToStringWithUserTimeZone(risk.getDatedue(),
+									user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), null);
+		}
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("status"),
+				Arrays.asList(new RiskLinkMapper(null, risk.getStatus())));
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+				Arrays.asList(new RiskLinkMapper(null, risk.getDescription())));
+
+		return listOfDisplayProperties;
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -70,41 +164,18 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		SimpleRisk risk = riskService.findById(riskId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has created the risk \""
-						+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
-				"templates/email/project/riskCreatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(risk, user.getTimezone(),
-				new String[] { "dateraised", "datedue" });
-		templateGenerator.putVariable("risk", risk);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(risk, emailNotification));
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ risk.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has created the risk \""
+				+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
+		setupMailHeaders(risk, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("properties",
+				getListOfProperties(risk, user));
 
 		return templateGenerator;
-	}
-
-	private Map<String, String> createHyperLinks(SimpleRisk risk,
-			SimpleRelayEmailNotification emailNotification) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				risk.getProjectid());
-		hyperLinks.put("riskURL",
-				linkGenerator.generateRiskPreviewFullLink(risk.getId()));
-
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks.put("raiseUserUrl", linkGenerator
-				.generateUserPreviewFullLink(risk.getRaisedByUserFullName()));
-		hyperLinks.put("assignUserURL", linkGenerator
-				.generateUserPreviewFullLink(risk.getAssignedToUserFullName()));
-
-		SimpleProject project = projectService.findById(risk.getProjectid(),
-				emailNotification.getSaccountid());
-		if (project != null) {
-			hyperLinks.put("projectName", project.getName());
-		}
-		return hyperLinks;
 	}
 
 	@Override
@@ -119,30 +190,22 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 		String subject = StringUtils.trim(risk.getRiskname(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the risk \"" + subject + "\"",
-				"templates/email/project/riskUpdateNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ risk.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the risk \"" + subject + "\"",
+				"templates/email/project/itemUpdateNotifier.mt");
 
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(risk, user.getTimezone(),
-				new String[] { "dateraised", "datedue" });
-		templateGenerator.putVariable("risk", risk);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(risk, emailNotification));
+		setupMailHeaders(risk, emailNotification, templateGenerator);
+
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "dateraised", "datedue" });
+
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
-		templateGenerator.putVariable(
-				"lstComment",
-				getListComment(risk.getSaccountid(), ProjectTypeConstants.RISK,
-						risk.getId()));
 
 		return templateGenerator;
 	}
@@ -157,21 +220,16 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$hyperLinks.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented the risk \""
-						+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
-				"templates/email/project/riskCommentNotifier.mt");
-		templateGenerator.putVariable("risk", risk);
-		templateGenerator.putVariable("hyperLinks",
-				createHyperLinks(risk, emailNotification));
-		templateGenerator.putVariable("comment", emailNotification);
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ risk.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has commented the risk \""
+				+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
+				"templates/email/project/itemCommentNotifier.mt");
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				risk.getProjectid());
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
+		setupMailHeaders(risk, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("comment", emailNotification);
 
 		return templateGenerator;
 	}
@@ -185,8 +243,9 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("riskname", "Risk Name");
 			fieldNameMap.put("assignedToUserFullName", "Assigned to");
 			fieldNameMap.put("consequence", "Consequence");
-			fieldNameMap.put("probalitity", "Probability");
-
+			fieldNameMap.put("probability", "Probability");
+			fieldNameMap.put("raisedbyuser", "Raised By");
+			fieldNameMap.put("description", "Description");
 			fieldNameMap.put("datedue", "Due date");
 			fieldNameMap.put("status", "Status");
 			fieldNameMap.put("response", "Response");
@@ -198,6 +257,34 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 		public String getFieldLabel(String fieldName) {
 			return fieldNameMap.get(fieldName);
+		}
+	}
+
+	public class RiskLinkMapper implements Serializable {
+		private static final long serialVersionUID = 2212688618608788187L;
+
+		private String link;
+		private String displayname;
+
+		public RiskLinkMapper(String link, String displayname) {
+			this.link = link;
+			this.displayname = displayname;
+		}
+
+		public String getWebLink() {
+			return link;
+		}
+
+		public void setWebLink(String link) {
+			this.link = link;
+		}
+
+		public String getDisplayName() {
+			return displayname;
+		}
+
+		public void setDisplayName(String displayname) {
+			this.displayname = displayname;
 		}
 	}
 

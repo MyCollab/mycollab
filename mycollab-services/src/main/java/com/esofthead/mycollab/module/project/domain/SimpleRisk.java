@@ -29,6 +29,16 @@ public class SimpleRisk extends Risk {
 
 	private String assignedToUserFullName;
 
+	private String projectName;
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	public String getRaisedByUserFullName() {
 		if (raisedByUserFullName == null
 				|| raisedByUserFullName.trim().equals("")) {

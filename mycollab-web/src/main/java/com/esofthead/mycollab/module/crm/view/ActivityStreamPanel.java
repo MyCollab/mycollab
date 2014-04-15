@@ -32,7 +32,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -87,8 +86,8 @@ public class ActivityStreamPanel extends CssLayout {
 	}
 
 	static class CrmActivityStreamPagedList
-	extends
-	AbstractBeanPagedList<ActivityStreamSearchCriteria, SimpleActivityStream> {
+			extends
+			AbstractBeanPagedList<ActivityStreamSearchCriteria, SimpleActivityStream> {
 		private static final long serialVersionUID = 1L;
 
 		private final ActivityStreamService activityStreamService;
@@ -138,47 +137,47 @@ public class ActivityStreamPanel extends CssLayout {
 					if (CrmTypeConstants.ACCOUNT.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
+									.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
 						continue;
 					} else if (CrmTypeConstants.CONTACT.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_CONTACT)) {
+									.canRead(RolePermissionCollections.CRM_CONTACT)) {
 						continue;
 					} else if (CrmTypeConstants.CAMPAIGN.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
+									.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
 						continue;
 					} else if (CrmTypeConstants.LEAD.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_LEAD)) {
+									.canRead(RolePermissionCollections.CRM_LEAD)) {
 						continue;
 					} else if (CrmTypeConstants.OPPORTUNITY
 							.equals(activityStream.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
+									.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
 						continue;
 					} else if (CrmTypeConstants.CASE.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_CASE)) {
+									.canRead(RolePermissionCollections.CRM_CASE)) {
 						continue;
 					} else if (CrmTypeConstants.TASK.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_TASK)) {
+									.canRead(RolePermissionCollections.CRM_TASK)) {
 						continue;
 					} else if (CrmTypeConstants.MEETING.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_MEETING)) {
+									.canRead(RolePermissionCollections.CRM_MEETING)) {
 						continue;
 					} else if (CrmTypeConstants.CALL.equals(activityStream
 							.getType())
 							&& !AppContext
-							.canRead(RolePermissionCollections.CRM_CALL)) {
+									.canRead(RolePermissionCollections.CRM_CALL)) {
 						continue;
 					}
 
@@ -188,7 +187,8 @@ public class ActivityStreamPanel extends CssLayout {
 					if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
 						currentFeedBlock = new CssLayout();
 						currentFeedBlock.setStyleName("feed-block");
-						feedBlocksPut(currentDate, itemCreatedDate, currentFeedBlock);
+						feedBlocksPut(currentDate, itemCreatedDate,
+								currentFeedBlock);
 						currentDate = itemCreatedDate;
 					}
 
@@ -223,9 +223,8 @@ public class ActivityStreamPanel extends CssLayout {
 							activityStream.getCreatedUserAvatarId(), 16);
 					String arg1 = idUsertagA;
 					String arg2 = UserLinkUtils.generatePreviewFullUserLink(
-							SiteConfiguration.getSiteUrl(AppContext
-									.getSession().getSubdomain()),
-									activityStream.getCreateduser());
+							AppContext.getSiteUrl(),
+							activityStream.getCreateduser());
 					String arg3 = "'" + randomStrId + "'";
 					String arg4 = "'" + activityStream.getCreateduser() + "'";
 					String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
@@ -274,7 +273,6 @@ public class ActivityStreamPanel extends CssLayout {
 					streamWrapper.setWidth("100%");
 					streamWrapper.addStyleName("stream-wrapper");
 					streamWrapper.addComponent(activityLink);
-					/*this.listContainer.addComponent(streamWrapper);*/
 					currentFeedBlock.addComponent(streamWrapper);
 				}
 			} catch (final Exception e) {
@@ -282,7 +280,8 @@ public class ActivityStreamPanel extends CssLayout {
 			}
 		}
 
-		protected void feedBlocksPut(Date currentDate, Date nextDate, CssLayout currentBlock) {
+		protected void feedBlocksPut(Date currentDate, Date nextDate,
+				CssLayout currentBlock) {
 			HorizontalLayout blockWrapper = new HorizontalLayout();
 			blockWrapper.setStyleName("feed-block-wrap");
 			blockWrapper.setWidth("100%");
@@ -303,7 +302,8 @@ public class ActivityStreamPanel extends CssLayout {
 				yearLbl.setHeight("49px");
 				this.listContainer.addComponent(yearLbl);
 			} else {
-				blockWrapper.setMargin(new MarginInfo(true, false, false, false));
+				blockWrapper
+						.setMargin(new MarginInfo(true, false, false, false));
 			}
 			Label dateLbl = new Label(DateFormatUtils.format(nextDate, "dd/MM"));
 			dateLbl.setSizeUndefined();
@@ -328,7 +328,7 @@ public class ActivityStreamPanel extends CssLayout {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					CrmActivityStreamPagedList.this
-					.pageChange(CrmActivityStreamPagedList.this.currentPage - 1);
+							.pageChange(CrmActivityStreamPagedList.this.currentPage - 1);
 				}
 			});
 			if (currentPage == 1) {
@@ -343,7 +343,7 @@ public class ActivityStreamPanel extends CssLayout {
 				@Override
 				public void buttonClick(ClickEvent event) {
 					CrmActivityStreamPagedList.this
-					.pageChange(CrmActivityStreamPagedList.this.currentPage + 1);
+							.pageChange(CrmActivityStreamPagedList.this.currentPage + 1);
 				}
 			});
 			if (currentPage == totalPage) {

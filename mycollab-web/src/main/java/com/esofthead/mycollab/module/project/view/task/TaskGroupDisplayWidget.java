@@ -95,7 +95,6 @@ public class TaskGroupDisplayWidget
 			}
 			this.taskList = taskListParam;
 			this.addStyleName("task-list");
-			// this.setMargin(new MarginInfo(true, true, false, false));
 			this.initHeader();
 			this.setHeaderColor(true);
 			this.taskDisplayComponent = (TaskDisplayComponent) this.bodyContent;

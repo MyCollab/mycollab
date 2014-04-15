@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectLinkUtils {
 
 	public static String generateTaskGroupPreviewLink(Integer projectId,

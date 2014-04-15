@@ -3021,7 +3021,7 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 
 /* Token Field */
 .tokenfield {
-	border: 1px solid rgb(143, 143, 143);
+	border: 1px solid #CFCFCF;
 	background: url("icons/input-bg.png") repeat-x scroll 0% 0%
 		rgb(255, 255, 255);
 	padding: 3px 2px 2px;

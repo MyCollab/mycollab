@@ -69,23 +69,58 @@
               INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_task.projectid)
         ]]>
     </sql>
-
-    <sql id="selectBug">
-        <![CDATA[
-        SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
-                 m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
-                 m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
-                 s_user.avatarId AS logUserAvatarId,
-                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
-                 m_tracker_bug.summary,  m_tracker_bug.status, m_tracker_bug.duedate AS dueDate, NULL as percentageComplete,
-                 m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
-            FROM m_prj_time_logging
-              LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
-              INNER JOIN m_tracker_bug ON ( m_prj_time_logging.typeid = m_tracker_bug.id and m_prj_time_logging.type = "Project-Bug" )
-              INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectid)
-        ]]>
+	
+  	<sql id="selectBug">
+       <![CDATA[
+       	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
+                m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
+                s_user.avatarId AS logUserAvatarId,
+                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
+                m_tracker_bug.summary,  m_tracker_bug.status, m_tracker_bug.duedate AS dueDate, NULL as percentageComplete,
+                m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+          
+           FROM m_prj_time_logging
+             LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
+             INNER JOIN m_tracker_bug ON ( m_prj_time_logging.typeid = m_tracker_bug.id and m_prj_time_logging.type = "Project-Bug" )
+             INNER JOIN m_prj_project ON (m_prj_project.id=m_tracker_bug.projectid)
+       ]]>
+    </sql>
+	
+	<sql id="selectRisk">
+       <![CDATA[
+         	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
+                m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
+                s_user.avatarId AS logUserAvatarId,
+                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
+                m_prj_risk.riskname as summary,  m_prj_risk.status, m_prj_risk.datedue AS dueDate, NULL AS percentageComplete,
+                m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+               
+           FROM m_prj_time_logging
+             LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
+             INNER JOIN m_prj_risk ON ( m_prj_time_logging.typeid = m_prj_risk.id and m_prj_time_logging.type = "Project-Risk" )
+             INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_risk.projectid)
+       ]]>
     </sql>
     
+    <sql id="selectProblem">
+       <![CDATA[
+         	SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
+                m_prj_time_logging.logForDay, m_prj_time_logging.isBillable, m_prj_time_logging.createdUser,
+                m_prj_time_logging.logValue, m_prj_time_logging.note, m_prj_time_logging.typeid, m_prj_time_logging.type,
+                s_user.avatarId AS logUserAvatarId,
+                concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
+                m_prj_problem.issuename as summary,  m_prj_problem.status, m_prj_problem.datedue AS dueDate, NULL AS percentageComplete,
+                m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+               
+           FROM m_prj_time_logging
+             LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
+             INNER JOIN m_prj_problem ON ( m_prj_time_logging.typeid = m_prj_problem.id and m_prj_time_logging.type = "Project-Problem" )
+             INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_problem.projectid)
+       ]]>
+    </sql>
+	
     <sql id="selectTimeLogginWithoutType">
         <![CDATA[
         SELECT m_prj_time_logging.id, m_prj_time_logging.loguser, m_prj_time_logging.projectId, m_prj_time_logging.createdTime, m_prj_time_logging.lastUpdatedTime, 
@@ -95,6 +130,7 @@
                  concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS logUserFullName,
                  '' AS summary,  '' AS status, NULL AS dueDate, NULL as percentageComplete,
                  m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName
+          
             FROM m_prj_time_logging
               LEFT OUTER JOIN s_user ON (m_prj_time_logging.loguser=s_user.username)
               INNER JOIN m_prj_project ON (m_prj_project.id=m_prj_time_logging.projectId)
@@ -133,8 +169,17 @@
 
     <select id="findPagableListByCriteria" parameterType="ItemTimeLoggingSearchCriteria"
         resultMap="TimeLoggingResult" lang="velocity">
-        (
-        <include refid="selectTask" />
+		(
+		<include refid="selectTask" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+     
+        ) UNION (
+       
+         <include refid="selectBug" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
@@ -142,13 +187,23 @@
         #end
         ) UNION (
 
-        <include refid="selectBug" />
+        <include refid="selectRisk" />
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
             #end
         #end
         ) UNION (
+
+        <include refid="selectProblem" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+        
+       ) UNION (
+
         <include refid="selectTimeLogginWithoutType"/>
         #ifnotnull($_parameter.searchCriteria)
             #trimext("WHERE" "AND|OR")

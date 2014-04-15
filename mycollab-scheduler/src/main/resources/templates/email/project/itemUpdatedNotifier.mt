@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>New bug created</title>
+</head>
+<body style="background-color: rgb(235, 236, 237); font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
+	#macro( hyperLink $displayName $webLink )
+		<a href="$webLink" style="color: rgb(36, 127, 211); font-size: 12px; text-decoration: none; white-space: normal;">$displayName</a>
+	#end
+	
+    <table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
+       <tr>
+       		<td>
+       			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
+       				<img src="${defaultUrls.cdn_url}logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;">
+       			</div>
+       		</td>			
+		</tr>
+        <tr>
+            <td style="padding: 10px 50px 0px;">
+				<p><img src="${defaultUrls.cdn_url}default_user_avatar_16.png" width="16" height="16" style="display: inline-block; vertical-align: top;"/>$makeChangeUser <b>updated</b> $itemType on:</p>
+				<p>
+				#foreach( $title in $titles )
+					#if( $foreach.count > 1 )
+						<span style="color: rgb(36, 127, 211);">&#9474;</span>
+					#end
+					#hyperLink( $title.displayName $title.webLink )
+				#end
+				</p>
+				<p><b>
+				#hyperLink( $summary $summaryLink )
+				</b></p>
+                <table width="588" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 0px 0px 25px;">
+                	<tr>
+                        <td style="padding: 3px 0px;">
+                    		<p><u><i>Changes:</i></u></p>
+                    		<table border="0" cellspacing="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; width:100%;">
+                    			<tr>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:220px; padding: 5px 5px 5px 0px;">Fields</td>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:240px; padding: 5px 5px 5px 0px;">Old Value</td>
+                    				<td style="font-weight: bold; border-bottom: 1px solid rgb(169, 169, 169); width:240px; padding: 5px 5px 5px 0px;">New Value</td>
+                    			</tr>
+                    			#foreach ($item in $historyLog.changeItems)
+                    				#if ($mapper.hasField($item.field))
+                    				<tr>
+                    					<td valign="top" style="width:220px; padding: 5px 5px 5px 0px;">
+                    						$mapper.getFieldLabel($item.field)
+                    					</td>
+                    					<td valign="top" style="width: 240px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 5px 5px 5px 0px;">
+                    						$item.oldvalue
+                    					</td>
+                    					<td valign="top" style="width: 240px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 5px 5px 5px 0px;">
+                    						$item.newvalue
+                    					</td>
+                    				</tr>
+                    				#end
+                    			#end
+                    		</table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        #parse("templates/email/footer.mt")
+    </table>
+</body>
+</html>

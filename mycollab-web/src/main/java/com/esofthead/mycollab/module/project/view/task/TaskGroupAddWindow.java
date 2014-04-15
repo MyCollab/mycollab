@@ -77,7 +77,7 @@ public class TaskGroupAddWindow extends Window {
 	}
 
 	private void initUI() {
-		this.setWidth("800px");
+		this.setWidth("950px");
 		this.taskListForm = new TaskListForm();
 		this.taskListForm.setBean(this.taskList);
 		this.setContent(this.taskListForm);

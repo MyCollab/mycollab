@@ -4,40 +4,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>New bug created</title>
 </head>
-<body>
-	<table width="650" cellpadding="0" cellspacing="0" border="0" style="margin: 0px auto;">
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_large_top_new.png') no-repeat 0 0 transparent; font-size: 11px; line-height: 11px;" height="11">&nbsp;</td>
+<body style="background-color: rgb(235, 236, 237); color: #4e4e4e; padding: 20px 0px;">
+	#macro( linkBlock $webLink )
+		<div style="width: 100%; padding: 20px 15px; background-color: rgb(237, 248, 255);">
+			<a href="$webLink" style="color: rgb(76, 131, 182); font-size: 12px; text-decoration: underline; width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
+		</div>
+	#end
+	
+	<table width="700" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto; background-color: rgb(255, 255, 255);">
+       <tr>
+       		<td>
+       			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
+       				<img src="${defaultUrls.cdn_url}logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;">
+       			</div>
+       		</td>			
 		</tr>
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_large_center_orange.png') repeat-y 0 0 transparent; text-align: center; padding-bottom: 10px;"><div style="width: 440px; display: inline-block; vertical-align: middle; text-align: left;"><span style="font: bold 18px Tahoma, Geneva, sans-serif; color: white;">Project Member Invitation</span></div><div style="width: 150px; display: inline-block; vertical-align: middle;"><img src="${defaultUrls.cdn_url}logo_new.png" alt="esofthead-logo" width="150" height="45" style="margin: 0px; padding: 0px;"></div>
-			</td>
-		</tr>
-		<tr>
-			<td style="background: url('${defaultUrls.cdn_url}border_large_center_new.png') repeat-y 0 0 transparent; color: #4e4e4e; font: 13px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 10px 30px 0px;">
-				<div style="font-weight: bold; display: block; border-bottom: 1px solid rgb(212, 212, 212); padding-bottom: 5px; margin-bottom: 10px;">Hello $!userName,</div>
-				<div style="display: block; padding: 8px; background-color: rgb(247, 228, 221);">$inviteUser has invited you to join the team for project "$!member.projectName" at our online collaboration tool.</div>
-				<table width="588" cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 25px;">
-					<tr>
-						<td style="color: #5a5a5a; font: 10px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 3px 10px;">
-							<table cellpadding="0" cellspacing="5" border="0" style="font-size: 10px; width: 100%;">
-								<tr>
-									<td style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">Please, accept the invitation at:</td>
-								</tr>
-								<tr>
-									<td style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;"><a href="$!urlAccept" style="color: rgb(216, 121, 55); text-decoration: underline;">$!urlAccept</a></td>
-								</tr>
-								<tr></tr>
-								<tr>
-									<td style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">or decline it and cancel further reminders at:</td>
-								</tr>
-								<tr>
-									<td style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;"><a href="$!urlDeny" style="color: rgb(216, 121, 55); text-decoration: underline;">$!urlDeny</a></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
+        <tr>
+            <td style="font: 12px 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; padding: 10px 50px;">
+            	<div><img src="${defaultUrls.cdn_url}default_user_avatar_16.png" width="16" height="16" style="display: inline-block; vertical-align: top;"/>$inviteUser has <b>invited</b> you to join the team for project "$!member.projectName" at our online collaboration tool.</div>
+				<p>Please, accept the invitation at:</p>
+				#linkBlock( $!urlAccept )
+				<p>or decline it and cancel further reminders at:</p>
+				#linkBlock( $!urlDeny )
 			</td>
 		</tr>
 		#parse("templates/email/footer.mt")

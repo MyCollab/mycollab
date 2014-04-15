@@ -16,7 +16,11 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +30,17 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
@@ -56,11 +63,136 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 	private ProjectTaskService projectTaskService;
 	@Autowired
 	private AuditLogService auditLogService;
+	@Autowired
+	private ProjectService projectService;
 
 	private final ProjectFieldNameMapper mapper;
 
 	public ProjectTaskRelayEmailNotificationActionImpl() {
 		mapper = new ProjectFieldNameMapper();
+	}
+
+	protected void setupMailHeaders(SimpleTask task,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				task.getProjectid());
+
+		HashMap<String, String> currentProject = new HashMap<String, String>();
+		currentProject.put("displayName", task.getProjectName());
+		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+
+		listOfTitles.add(currentProject);
+
+		HashMap<String, String> taskCode = new HashMap<String, String>();
+		SimpleProject relatedProject = projectService.findById(
+				task.getProjectid(), emailNotification.getSaccountid());
+		taskCode.put("displayName", "[" + relatedProject.getShortname() + "-"
+				+ task.getTaskkey() + "]");
+		taskCode.put("webLink",
+				linkGenerator.generateBugPreviewFullLink(task.getId()));
+
+		listOfTitles.add(taskCode);
+
+		String summary = task.getTaskname();
+		String summaryLink = ProjectLinkUtils.generateTaskPreviewLink(
+				task.getProjectid(), task.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "task");
+		templateGenerator.putVariable("titles", listOfTitles);
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<TaskLinkMapper>> getListOfProperties(
+			SimpleTask task, SimpleUser user) {
+		Map<String, List<TaskLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<TaskLinkMapper>>();
+
+		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
+				task.getProjectid());
+
+		if (task.getStartdate() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("startdate"),
+					Arrays.asList(new TaskLinkMapper(null, DateTimeUtils
+							.converToStringWithUserTimeZone(
+									task.getStartdate(), user.getTimezone()))));
+		else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("startdate"), null);
+		}
+
+		if (task.getActualstartdate() != null)
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("actualstartdate"), Arrays
+							.asList(new TaskLinkMapper(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											task.getActualstartdate(),
+											user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("actualstartdate"), null);
+		}
+
+		if (task.getEnddate() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), Arrays
+					.asList(new TaskLinkMapper(null, DateTimeUtils
+							.converToStringWithUserTimeZone(task.getEnddate(),
+									user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), null);
+		}
+
+		if (task.getActualenddate() != null)
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("actualenddate"), Arrays
+							.asList(new TaskLinkMapper(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											task.getActualenddate(),
+											user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("actualenddate"),
+					null);
+		}
+
+		if (task.getDeadline() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("deadline"),
+					Arrays.asList(new TaskLinkMapper(null, DateTimeUtils
+							.converToStringWithUserTimeZone(task.getDeadline(),
+									user.getTimezone()))));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("deadline"), null);
+		}
+
+		if (task.getPriority() != null)
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("priority"),
+							Arrays.asList(new TaskLinkMapper(null, task
+									.getPriority())));
+		else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("priority"), null);
+		}
+
+		if (task.getAssignuser() != null) {
+			listOfDisplayProperties.put(mapper
+					.getFieldLabel("assignUserFullName"), Arrays
+					.asList(new TaskLinkMapper(linkGenerator
+							.generateUserPreviewFullLink(task.getAssignuser()),
+							task.getAssignUserFullName())));
+		} else {
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("assignUserFullName"), null);
+		}
+
+		listOfDisplayProperties.put(mapper.getFieldLabel("taskListName"),
+				Arrays.asList(new TaskLinkMapper(
+						linkGenerator.generateTaskGroupPreviewFullLink(task
+								.getTasklistid()), task.getTaskListName())));
+
+		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -75,31 +207,17 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				new String[] { "startdate", "enddate", "deadline",
 						"actualstartdate", "actualenddate" });
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$task.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has created the task \"" + subject + "\"",
-				"templates/email/project/taskCreatedNotifier.mt");
-		templateGenerator.putVariable("task", task);
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(task));
-		return templateGenerator;
-	}
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ task.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has created the task \"" + subject + "\"",
+				"templates/email/project/itemCreatedNotifier.mt");
 
-	private Map<String, String> createHyperLinks(SimpleTask task) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				task.getProjectid());
-		hyperLinks.put("taskUrl",
-				linkGenerator.generateTaskPreviewFullLink(task.getId()));
-		hyperLinks.put("shortTaskUrl",
-				StringUtils.trim(task.getTaskname(), 100));
-		hyperLinks.put("projectUrl", linkGenerator.generateProjectFullLink());
-		hyperLinks
-				.put("assignUserUrl", linkGenerator
-						.generateUserPreviewFullLink(task.getAssignuser()));
-		hyperLinks.put("taskListUrl", linkGenerator
-				.generateTaskGroupPreviewFullLink(task.getTasklistid()));
-		return hyperLinks;
+		setupMailHeaders(task, emailNotification, templateGenerator);
+
+		templateGenerator.putVariable("properties",
+				getListOfProperties(task, user));
+		return templateGenerator;
 	}
 
 	@Override
@@ -117,30 +235,22 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						"actualstartdate", "actualenddate" });
 		String subject = StringUtils.trim(task.getTaskname(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$task.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has updated the task \"" + subject + "\"",
-				"templates/email/project/taskUpdatedNotifier.mt");
-		templateGenerator.putVariable("task", task);
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(task));
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ task.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has updated the task \"" + subject + "\"",
+				"templates/email/project/itemUpdatedNotifier.mt");
+
+		setupMailHeaders(task, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "startdate", "enddate", "deadline",
-							"actualstartdate", "actualenddate" });
-
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
-		templateGenerator.putVariable(
-				"lstComment",
-				getListComment(task.getSaccountid(), ProjectTypeConstants.TASK,
-						task.getId()));
 
 		return templateGenerator;
 	}
@@ -154,20 +264,16 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		if (task == null) {
 			return null;
 		}
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				task.getProjectid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[$task.projectName]: "
-						+ emailNotification.getChangeByUserFullName()
-						+ " has commented on the task \""
-						+ StringUtils.trim(task.getTaskname(), 100) + "\"",
+		TemplateGenerator templateGenerator = new TemplateGenerator("["
+				+ task.getProjectName() + "]: "
+				+ emailNotification.getChangeByUserFullName()
+				+ " has commented on the task \""
+				+ StringUtils.trim(task.getTaskname(), 100) + "\"",
 				"templates/email/project/taskCommentNotifier.mt");
-		templateGenerator.putVariable("task", task);
+		setupMailHeaders(task, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", linkGenerator
-				.generateUserPreviewFullLink(emailNotification.getChangeby()));
-		templateGenerator.putVariable("hyperLinks", createHyperLinks(task));
 
 		return templateGenerator;
 	}
@@ -204,9 +310,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 	protected List<SimpleUser> getListNotififyUserWithFilter(
 			ProjectRelayEmailNotification notification) {
 		List<ProjectNotificationSetting> notificationSettings = projectNotificationService
-				.findNotifications(
-						((ProjectRelayEmailNotification) notification)
-								.getProjectId(), notification.getSaccountid());
+				.findNotifications(notification.getProjectId(),
+						notification.getSaccountid());
 
 		ProjectMemberService projectService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);
@@ -295,6 +400,34 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		}
 
 		return inListUsers;
+	}
+	
+	public class TaskLinkMapper implements Serializable {
+		private static final long serialVersionUID = 2212688618608788187L;
+
+		private String link;
+		private String displayname;
+
+		public TaskLinkMapper(String link, String displayname) {
+			this.link = link;
+			this.displayname = displayname;
+		}
+
+		public String getWebLink() {
+			return link;
+		}
+
+		public void setWebLink(String link) {
+			this.link = link;
+		}
+
+		public String getDisplayName() {
+			return displayname;
+		}
+
+		public void setDisplayName(String displayname) {
+			this.displayname = displayname;
+		}
 	}
 
 }
