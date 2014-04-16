@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.billing;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class BillingTypeConstants {
 	public static final String MICRO = "Micro";
 	public static final String COMPACT = "Compact";

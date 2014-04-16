@@ -25,10 +25,14 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
+        #ifnotnull($searchCriteria.taskName)
+            ${searchCriteria.taskName.operation} m_prj_task.taskname LIKE '%${searchCriteria.taskName.value}%'
+        #end
+        
         #ifnotnull($searchCriteria.id)
             ${searchCriteria.id.operation} m_prj_task.id = @{searchCriteria.id.value,jdbcType=NUMERIC}
         #end
-        
+       
         #ifnotnull($searchCriteria.projectid)
             ${searchCriteria.projectid.operation} m_prj_task.projectid=@{searchCriteria.projectid.value,jdbcType=NUMERIC}
         #end
@@ -67,6 +71,10 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
+        #ifnotnull($searchCriteria.taskName)
+            ${searchCriteria.taskName.operation} m_prj_task.taskname LIKE '%${searchCriteria.taskName.value}%'
+        #end
+       
         #ifnotnull($searchCriteria.id)
             ${searchCriteria.id.operation} m_prj_task.id = @{searchCriteria.id.value,jdbcType=NUMERIC}
         #end
@@ -215,4 +223,5 @@
         #end
         GROUP BY m_prj_task.assignUser
     </select>
+    
 </mapper>

@@ -277,7 +277,7 @@ public class ProjectController implements IController {
 						projectView.gotoTaskList(data);
 					}
 				});
-
+		
 		EventBus.getInstance()
 				.addListener(
 						new ApplicationEventListener<TaskListEvent.GotoTaskListScreen>() {
@@ -413,6 +413,27 @@ public class ProjectController implements IController {
 						projectView.gotoTaskList(data);
 					}
 				});
+		
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<TaskEvent.Search>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TaskEvent.Search.class;
+					}
+
+					@Override
+					public void handle(TaskEvent.Search event) {
+						ProjectView projectView = ViewManager
+								.getView(ProjectView.class);
+						TaskScreenData.Search data = new TaskScreenData.Search(
+								(TaskFilterParameter) event.getData());
+						projectView.gotoTaskList(data);
+					}
+				});
+		
+		
 	}
 
 	@SuppressWarnings("serial")

@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +28,17 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
+import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
 
 /**
  * 
@@ -45,7 +48,7 @@ import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationA
  */
 @Component
 public class CampaignRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleCampaign> implements
 		CampaignRelayEmailNotificationAction {
 
 	@Autowired
@@ -63,6 +66,138 @@ public class CampaignRelayEmailNotificationActionImpl extends
 		mapper = new CampaignFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleCampaign campaign,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(campaign.getSaccountid()));
+
+		String summary = campaign.getCampaignname();
+		String summaryLink = crmLinkGenerator
+				.generateCasePreviewFullLink(campaign.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "campaign");
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<MailItemLink>> getListOfProperties(
+			SimpleCampaign campaign, SimpleUser user) {
+		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(campaign.getSaccountid()));
+
+		if (campaign.getStatus() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("status"),
+							Arrays.asList(new MailItemLink(null, campaign
+									.getStatus())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("status"), null);
+		}
+
+		if (campaign.getType() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("type"),
+					Arrays.asList(new MailItemLink(null, campaign.getType())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("type"), null);
+		}
+
+		if (campaign.getStartdate() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("startdate"), Arrays
+							.asList(new MailItemLink(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											campaign.getStartdate(),
+											user.getTimezone()))));
+		} else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("startdate"), null);
+		}
+
+		if (campaign.getEnddate() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("enddate"), Arrays
+							.asList(new MailItemLink(null, DateTimeUtils
+									.converToStringWithUserTimeZone(
+											campaign.getEnddate(),
+											user.getTimezone()))));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), null);
+		}
+
+		if (campaign.getAssignuser() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					Arrays.asList(new MailItemLink(crmLinkGenerator
+							.generateUserPreviewFullLink(campaign
+									.getAssignuser()), campaign
+							.getAssignUserFullName())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					null);
+		}
+
+		if (campaign.getCurrencyid() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("currency"),
+					Arrays.asList(new MailItemLink(null, campaign.getCurrency()
+							.getIsocode())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("currency"), null);
+		}
+
+		if (campaign.getBudget() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("budget"), Arrays
+					.asList(new MailItemLink(null, campaign.getBudget()
+							.toString())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("budget"), null);
+		}
+
+		if (campaign.getExpectedcost() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("expectedcost"),
+					Arrays.asList(new MailItemLink(null, campaign
+							.getExpectedcost().toString())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("expectedcost"),
+					null);
+		}
+
+		if (campaign.getExpectedrevenue() != null) {
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("expectedrevenue"), Arrays
+							.asList(new MailItemLink(null, campaign
+									.getExpectedrevenue().toString())));
+		} else {
+			listOfDisplayProperties.put(
+					mapper.getFieldLabel("expectedrevenue"), null);
+		}
+
+		if (campaign.getActualcost() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("actualcost"),
+					Arrays.asList(new MailItemLink(null, campaign
+							.getActualcost().toString())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("actualcost"),
+					null);
+		}
+
+		if (campaign.getDescription() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					Arrays.asList(new MailItemLink(null, campaign
+							.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		return listOfDisplayProperties;
+
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -70,20 +205,20 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleCampaign != null) {
-			String subject = StringUtils.trim(
-					simpleCampaign.getCampaignname(), 100);
+			String subject = StringUtils.trim(simpleCampaign.getCampaignname(),
+					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
 					emailNotification.getChangeByUserFullName()
 							+ " has created the campaign \"" + subject + "\"",
-					"templates/email/crm/campaignCreatedNotifier.mt");
+					"templates/email/crm/itemCreatedNotifier.mt");
 
-			ScheduleUserTimeZoneUtils
-					.formatDateTimeZone(simpleCampaign, user.getTimezone(),
-							new String[] { "startdate", "enddate" });
-			templateGenerator.putVariable("simpleCampaign", simpleCampaign);
-			templateGenerator.putVariable("hyperLinks",
-					constructHyperLinks(simpleCampaign));
+			setupMailHeaders(simpleCampaign, emailNotification,
+					templateGenerator);
+
+			templateGenerator.putVariable("properties",
+					getListOfProperties(simpleCampaign, user));
+
 			return templateGenerator;
 		} else {
 			return null;
@@ -97,29 +232,20 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.trim(
-				simpleCampaign.getCampaignname(), 100);
+		String subject = StringUtils
+				.trim(simpleCampaign.getCampaignname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has updated the campaign \"" + subject + "\"",
-				"templates/email/crm/campaignUpdatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleCampaign,
-				user.getTimezone(), new String[] { "startdate", "enddate" });
-		templateGenerator.putVariable("simpleCampaign", simpleCampaign);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleCampaign));
+				"templates/email/crm/itemUpdatedNotifier.mt");
+
+		setupMailHeaders(simpleCampaign, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
-			templateGenerator.putVariable("postedUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCampaign.getSaccountid()),
-							auditLog.getPosteduser()));
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "startdate", "enddate" });
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("mapper", mapper);
 		}
@@ -136,37 +262,14 @@ public class CampaignRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on the campaign \""
-						+ StringUtils.trim(
-								simpleCampaign.getCampaignname(), 100) + "\"",
-				"templates/email/crm/campaignAddNoteNotifier.mt");
+						+ StringUtils.trim(simpleCampaign.getCampaignname(),
+								100) + "\"",
+				"templates/email/crm/itemAddNoteNotifier.mt");
+		setupMailHeaders(simpleCampaign, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", UserLinkUtils
-				.generatePreviewFullUserLink(
-						getSiteUrl(simpleCampaign.getSaccountid()),
-						emailNotification.getChangeby()));
-		templateGenerator.putVariable("simpleCampaign", simpleCampaign);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleCampaign));
 
 		return templateGenerator;
-	}
-
-	private Map<String, String> constructHyperLinks(
-			SimpleCampaign simpleCampaign) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"campaignURL",
-				getSiteUrl(simpleCampaign.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.CAMPAIGN,
-								simpleCampaign.getId()));
-		if (simpleCampaign.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCampaign.getSaccountid()),
-							simpleCampaign.getAssignuser()));
-		}
-		return hyperLinks;
 	}
 
 	public class CampaignFieldNameMapper {
@@ -181,14 +284,11 @@ public class CampaignRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("type", "Type");
 			fieldNameMap.put("enddate", "EndDate");
 			fieldNameMap.put("assignuser", "Assignee");
-			// fieldNameMap.put("currency.symbol", "Currency");
+			fieldNameMap.put("currency", "Currency");
 			fieldNameMap.put("budget", "Budget");
 			fieldNameMap.put("expectedcost", "Expected Cost");
-			fieldNameMap.put("budget", "Budget");
-			fieldNameMap.put("actualcost", "Actual Cost");
-			fieldNameMap.put("expectedcost", "Expected Revenue");
-			fieldNameMap.put("actualcost", "Actual Cost");
 			fieldNameMap.put("expectedrevenue", "Expected Revenue");
+			fieldNameMap.put("actualcost", "Actual Cost");
 			fieldNameMap.put("description", "Description");
 		}
 

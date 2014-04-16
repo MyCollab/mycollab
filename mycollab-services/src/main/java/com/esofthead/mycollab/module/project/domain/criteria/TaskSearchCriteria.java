@@ -16,10 +16,16 @@
  */
 package com.esofthead.mycollab.module.project.domain.criteria;
 
+import java.util.Arrays;
+
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.Param;
+import com.esofthead.mycollab.core.db.query.PropertyListParam;
+import com.esofthead.mycollab.core.db.query.StringListParam;
 
 /**
  * 
@@ -30,13 +36,37 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 public class TaskSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
+	public static Param p_assignee = new PropertyListParam("task-assignuser",
+			"Assignee", "m_prj_task", "assignUser");
+	public static Param p_tasklist= new PropertyListParam("task-list",
+			"Task List", "m_prj_task", "tasklistid");
+	public static Param p_duedate = new DateParam("task-duedate", "Due Date",
+			"m_prj_task", "deadline");
+	public static Param p_lastupdatedtime = new DateParam(
+			"task-lastupdatedtime", "Last Updated Time", "m_prj_task",
+			"lastUpdatedTime");
+	public static Param p_createtime = new DateParam("task-createtime",
+			"Create Time", "m_prj_task", "createTime");
+
+	public static Param p_status = new StringListParam("task-status", "Status",
+			"m_prj_task", "status", Arrays.asList("Open", "Closed"));
+
 	private NumberSearchField projectid;
 	private NumberSearchField taskListId;
+	private StringSearchField taskName;
 	private NumberSearchField milestoneId;
 	private NumberSearchField id;
 	private StringSearchField assignUser;
 	private SetSearchField<String> statuses;
 	private SetSearchField<String> priorities;
+
+	public StringSearchField getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(StringSearchField taskName) {
+		this.taskName = taskName;
+	}
 
 	public SetSearchField<String> getStatuses() {
 		return statuses;

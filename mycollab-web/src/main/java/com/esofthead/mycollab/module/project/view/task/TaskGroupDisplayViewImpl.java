@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -30,15 +31,18 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
+import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
@@ -48,6 +52,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -63,12 +68,15 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private PopupButton taskGroupSelection;
 	private TaskGroupDisplayWidget taskLists;
+
 	private Button reOrderBtn;
 	private Button viewGanttChartBtn;
 
 	private PopupButton exportButtonControl;
 	private VerticalLayout rightColumn;
 	private VerticalLayout leftColumn;
+	private TaskSearchViewImpl taskListView;
+	private TextField nameField;
 
 	public TaskGroupDisplayViewImpl() {
 		super();
@@ -85,6 +93,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.setSpacing(true);
 		header.setWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+
 		this.taskGroupSelection = new PopupButton("Active Tasks");
 		this.taskGroupSelection.setEnabled(CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS));
@@ -196,7 +205,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		this.reOrderBtn.setIcon(MyCollabResource
 				.newResource("icons/16/project/reorder.png"));
-		this.reOrderBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
+		this.reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		this.reOrderBtn.setDescription(LocalizationHelper
 				.getMessage(TaskI18nEnum.REODER_TASKGROUP_ACTION));
 		header.addComponent(this.reOrderBtn);
@@ -205,7 +214,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.addComponent(header);
 
 		exportButtonControl = new PopupButton();
-		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
+		exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
 		exportButtonControl.setDescription("Export to file");
@@ -247,10 +256,12 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		this.rightColumn = new VerticalLayout();
 		this.rightColumn.setWidth("300px");
+		this.rightColumn.setMargin(new MarginInfo(true, false, false, false));
 
 		mainLayout.addComponent(leftColumn);
 		mainLayout.addComponent(rightColumn);
 		mainLayout.setExpandRatio(leftColumn, 1.0f);
+
 		this.addComponent(mainLayout);
 
 	}
@@ -302,9 +313,80 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		displayTaskStatistic();
 	}
 
+	private VerticalLayout createSearchPanel() {
+
+		VerticalLayout basicSearchBody = new VerticalLayout();
+		basicSearchBody.setSpacing(true);
+		basicSearchBody.setMargin(new MarginInfo(true, false, true, false));
+		basicSearchBody.addStyleName(UIConstants.BORDER_BOX_2);
+
+		nameField = new TextField();
+
+		nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+		UiUtils.addComponent(basicSearchBody, nameField,
+				Alignment.MIDDLE_CENTER);
+
+		HorizontalLayout control = new HorizontalLayout();
+		control.setSpacing(true);
+		control.setMargin(new MarginInfo(true, false, true, false));
+
+		final Button searchBtn = new Button("Search");
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		searchBtn.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(final ClickEvent event) {
+
+				TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+				searchCriteria.setProjectid(new NumberSearchField(
+						CurrentProjectVariables.getProjectId()));
+				searchCriteria.setTaskName(new StringSearchField(nameField
+						.getValue().toString().trim()));
+				TaskFilterParameter taskFilter = new TaskFilterParameter(
+						searchCriteria, "Task Search");
+				moveToTaskSearch(taskFilter);
+			}
+		});
+		UiUtils.addComponent(control, searchBtn, Alignment.MIDDLE_CENTER);
+
+		final Button advancedSearchBtn = new Button(
+				LocalizationHelper
+						.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						TaskSearchCriteria searchCriteria = new TaskSearchCriteria();
+						searchCriteria.setProjectid(new NumberSearchField(
+								CurrentProjectVariables.getProjectId()));
+						searchCriteria.setTaskName(new StringSearchField(
+								nameField.getValue().toString().trim()));
+						TaskFilterParameter taskFilter = new TaskFilterParameter(
+								searchCriteria, "Task Search");
+						taskFilter.setAdvanceSearch(true);
+						moveToTaskSearch(taskFilter);
+					}
+				});
+		advancedSearchBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		UiUtils.addComponent(control, advancedSearchBtn,
+				Alignment.MIDDLE_CENTER);
+		UiUtils.addComponent(basicSearchBody, control, Alignment.MIDDLE_CENTER);
+
+		return basicSearchBody;
+	}
+
+	void moveToTaskSearch(TaskFilterParameter taskFilter) {
+		EventBus.getInstance()
+				.fireEvent(new TaskEvent.Search(this, taskFilter));
+	};
+
 	private void displayTaskStatistic() {
 		rightColumn.removeAllComponents();
 
+		rightColumn.addComponent(createSearchPanel());
 		UnresolvedTaskByAssigneeWidget unresolvedTaskByAssigneeWidget = new UnresolvedTaskByAssigneeWidget();
 		rightColumn.addComponent(unresolvedTaskByAssigneeWidget);
 

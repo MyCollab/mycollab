@@ -19,8 +19,10 @@ package com.esofthead.mycollab.module.project;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,6 +51,24 @@ public class ProjectLinkBuilder {
 		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
 				+ "project/user/preview/"
 				+ UrlEncodeDecoder.encode(projectId + "/" + memberName);
+	}
+
+	public static String generateProjectMemberHtmlLink(String username,
+			int projectId) {
+		ProjectMemberService projectMemberService = ApplicationContextUtil
+				.getSpringBean(ProjectMemberService.class);
+		SimpleProjectMember member = projectMemberService.findMemberByUsername(
+				username, projectId, AppContext.getAccountId());
+		if (member != null) {
+			A link = new A();
+			link.setHref(generateProjectMemberFullLink(projectId,
+					member.getUsername()));
+			Text text = new Text(member.getDisplayName());
+			link.appendChild(text);
+			return link.write();
+		} else {
+			return null;
+		}
 	}
 
 	public static String generateBugPreviewFullLink(Integer projectId,
@@ -100,6 +120,23 @@ public class ProjectLinkBuilder {
 				+ ProjectLinkUtils.generateTaskGroupPreviewLink(projectId,
 						taskgroupId);
 	}
+	
+	public static String generateTaskGroupHtmlLink(int taskgroupId) {
+		ProjectTaskListService taskListService = ApplicationContextUtil
+				.getSpringBean(ProjectTaskListService.class);
+		SimpleTaskList taskList = taskListService.findById(taskgroupId,
+				AppContext.getAccountId());
+		if (taskList != null) {
+			A link = new A();
+			link.setHref(generateTaskGroupPreviewFullLink(
+					taskList.getProjectid(), taskList.getId()));
+			Text text = new Text(taskList.getName());
+			link.appendChild(text);
+			return link.write();
+		} else {
+			return null;
+		}
+	}
 
 	public static String generateMilestonePreviewFullLink(Integer projectId,
 			Integer milestoneId) {
@@ -110,6 +147,23 @@ public class ProjectLinkBuilder {
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ ProjectLinkUtils.generateMilestonePreviewLink(projectId,
 						milestoneId);
+	}
+	
+	public static String generateMilestoneHtmlLink(int milestoneId) {
+		MilestoneService milestoneService = ApplicationContextUtil
+				.getSpringBean(MilestoneService.class);
+		SimpleMilestone milestone = milestoneService.findById(milestoneId,
+				AppContext.getAccountId());
+		if (milestone != null) {
+			A link = new A();
+			link.setHref(generateMilestonePreviewFullLink(
+					milestone.getProjectid(), milestone.getId()));
+			Text text = new Text(milestone.getName());
+			link.appendChild(text);
+			return link.write();
+		} else {
+			return null;
+		}
 	}
 
 	public static String generateProjectItemLink(int projectId, String type,
@@ -148,39 +202,5 @@ public class ProjectLinkBuilder {
 		}
 
 		return "#" + result;
-	}
-
-	public static String generateTaskGroupHtmlLink(int taskgroupId) {
-		ProjectTaskListService taskListService = ApplicationContextUtil
-				.getSpringBean(ProjectTaskListService.class);
-		SimpleTaskList taskList = taskListService.findById(taskgroupId,
-				AppContext.getAccountId());
-		if (taskList != null) {
-			A link = new A();
-			link.setHref(generateTaskGroupPreviewFullLink(
-					taskList.getProjectid(), taskList.getId()));
-			Text text = new Text(taskList.getName());
-			link.appendChild(text);
-			return link.write();
-		} else {
-			return null;
-		}
-	}
-
-	public static String generateMilestoneHtmlLink(int milestoneId) {
-		MilestoneService milestoneService = ApplicationContextUtil
-				.getSpringBean(MilestoneService.class);
-		SimpleMilestone milestone = milestoneService.findById(milestoneId,
-				AppContext.getAccountId());
-		if (milestone != null) {
-			A link = new A();
-			link.setHref(generateMilestonePreviewFullLink(
-					milestone.getProjectid(), milestone.getId()));
-			Text text = new Text(milestone.getName());
-			link.appendChild(text);
-			return link.write();
-		} else {
-			return null;
-		}
 	}
 }

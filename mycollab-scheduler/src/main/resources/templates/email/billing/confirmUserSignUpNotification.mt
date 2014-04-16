@@ -7,18 +7,18 @@
 </head>
 <body style="background-color: rgb(218, 223, 225); color: #4e4e4e; font: 16px Georgia, serif; padding: 20px 0px;">
 	#macro( confirmLink $webLink $displayText )
-		<a href="$webLink" style="color: rgb(90, 151, 226); font-size: 12px; text-decoration: none;">$displayText</a>
+		<a href="$webLink" style="color: rgb(90, 151, 226); font-size: 16px; text-decoration: none;">$displayText</a>
 	#end
 	
 	#macro( linkBlock $webLink )
-		<div style="width: 100%; padding: 20px 15px; background-color: rgb(237, 248, 255);">
-			<a href="$webLink" style="color: rgb(76, 131, 182); font-size: 12px; text-decoration: underline; width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
+		<div style="padding: 20px 15px; background-color: rgb(237, 248, 255);">
+			<a href="$webLink" style="color: rgb(76, 131, 182); font-size: 16px; text-decoration: underline; width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
 		</div>
 	#end
 	
 	<table width="760" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
-       		<td style="text-align: center;">
+       		<td style="text-align: center; padding: 50px 0px 0px;">
        			<img src="${defaultUrls.cdn_url}logo-email-big.png" alt="esofthead-logo" width="218" height="50" style="margin: 0px; padding: 0px;">
        		</td>			
 		</tr>
@@ -27,33 +27,37 @@
 						<p style="font-size: 22px;"><b><i>Thank you for choosing MyCollab!</i></b><p>
 						<p>You are just one click away from completing your account registration: <p>
 						<div style="background-color: rgb(32, 36, 35); tex-align: center; padding: 3px 0px; width: 330px; margin: 0px auto;">
-							<a style="text-decoration:none;" href="$!linkConfirm"/><span style="font-size: 22px; text-transform: uppercase;">Confirm your e-mail</span></a>
+							<div style="width: 100%; padding: 10px 0px; border-color: rgb(99, 102, 101); border-width: 1px 0px; border-style: solid;">
+								<a style="text-decoration:none;" href="$!linkConfirm"/><span style="font-size: 22px; text-transform: uppercase; color: rgb(255, 255, 255);">Confirm your e-mail</span></a>
+							</div>
 						</div> 
 						<br>
-						#set ($loginUrl = "https://" + $user.Subdomain + ".esofthead.com/")
-						<p>Access your account anytime from 
-						#confirmLink ($loginUrl $loginUrl)
+						<p style="text-align: left;">Access your account anytime from 
+						#confirmLink ($siteUrl $siteUrl)
 						 (maybe bookmark this page for future reference).<br>
 						Login with your email address 
 						#set ($mailToUrl = "mailto:" + $user.Email)
 						#confirmLink ($mailToUrl $user.Email)
 						 and the password you created.</p>
-						<span>By clicking this link, you agree to the 
-						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service"
+						<p style="text-align: left;">By clicking this link, you agree to the 
+						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service")
 						 and the 
-						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy"
+						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy")
 						</p>
-						<p>
+						<p style="text-align: left;">
 						If clicking on the link does not work, just copy and paste the following address into your browser:
-						#webLink ($!linkConfirm)
+						</p>
+						#linkBlock ($!linkConfirm)
+						<p style="text-align: left;">
 						If you are still having problems, simply forward this e-mail 
-						#confirmLink ("mailto:support@mycollab.com" "support@mycollab.com"
+						#confirmLink ("mailto:support@mycollab.com" "support@mycollab.com")
 						, and we will be happy to help you. <br><br>
 						
 						<span style="font-weight: bold;">Have a productive day!</span>
-						<p>P/S: Hope you enjoy using Mycollab to grow the sales in your business, and remember you can switch between plans during the trial!</p>
+						</p>
+						<p style="text-align: left;">P/S: Hope you enjoy using Mycollab to grow the sales in your business, and remember you can switch between plans during the trial!</p>
 					</div>
-					<div id="contentFooter" style="padding-top:10px;">
+					<div id="contentFooter" style="padding:10px 0px 50px; text-align: left;">
 						Best regards, <br>
 						<span style="font-weight: bold;">MyCollab's Customer Support Team </span><br>
 						(+84) 862-924-513 <br>

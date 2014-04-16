@@ -105,7 +105,7 @@ public class FilterTaskViewImpl extends AbstractPageView implements
 		this.addComponent(contentLayout);
 
 		this.taskTableDisplay = new TaskTableDisplay(
-				TaskTableFieldDef.taskname, Arrays.asList(
+				Arrays.asList(TaskTableFieldDef.taskname,
 						TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
 						TaskTableFieldDef.percentagecomplete));
 		this.taskTableDisplay

@@ -21,21 +21,11 @@ import java.util.List;
 public class SimpleMeeting extends MeetingWithBLOBs {
 	private static final long serialVersionUID = 1L;
 
-	private String relatedTo;
-
 	private String contactTypeName;
 
 	private String createdUserFullName;
 
 	private List<MeetingInvitee> meetingInvitees;
-
-	public String getRelatedTo() {
-		return relatedTo;
-	}
-
-	public void setRelatedTo(String relatedTo) {
-		this.relatedTo = relatedTo;
-	}
 
 	public String getContactTypeName() {
 		return contactTypeName;

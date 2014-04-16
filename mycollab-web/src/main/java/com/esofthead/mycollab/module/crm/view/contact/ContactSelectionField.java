@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
@@ -120,8 +119,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 				}
 			});
 		} else {
-			throw new MyCollabException(
-					"Do not support property source different than int or SimpleContact");
+			super.setPropertyDataSource(newDataSource);
 		}
 	}
 

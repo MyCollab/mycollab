@@ -22,6 +22,11 @@
             ${searchCriteria.projectid.operation} m_tracker_component.projectid = @{searchCriteria.projectid.value,jdbcType=NUMERIC}
         #end
         
+        #ifnotnull($searchCriteria.userlead)
+            ${searchCriteria.userlead.operation} m_tracker_component.userlead = @{searchCriteria.userlead.value,jdbcType=VARCHAR}
+        #end
+        
+        
         #ifnotnull($searchCriteria.componentName)
             ${searchCriteria.componentName.operation} m_tracker_component.componentname like '%${searchCriteria.componentName.value}%'
         #end

@@ -92,7 +92,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		taskCode.put("displayName", "[" + relatedProject.getShortname() + "-"
 				+ task.getTaskkey() + "]");
 		taskCode.put("webLink",
-				linkGenerator.generateBugPreviewFullLink(task.getId()));
+				linkGenerator.generateTaskPreviewFullLink(task.getId()));
 
 		listOfTitles.add(taskCode);
 
@@ -401,7 +401,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 		return inListUsers;
 	}
-	
+
 	public class TaskLinkMapper implements Serializable {
 		private static final long serialVersionUID = 2212688618608788187L;
 

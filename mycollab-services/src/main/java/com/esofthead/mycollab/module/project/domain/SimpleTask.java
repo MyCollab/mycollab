@@ -63,6 +63,13 @@ public class SimpleTask extends Task {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			String displayName = getAssignuser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignUserFullName;
 	}
 
@@ -71,6 +78,13 @@ public class SimpleTask extends Task {
 	}
 
 	public String getLogByFullName() {
+		if (logByFullName == null || logByFullName.trim().equals("")) {
+			String displayName = getLogby();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return logByFullName;
 	}
 

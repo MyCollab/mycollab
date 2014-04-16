@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,6 @@ import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.service.CaseService;
@@ -34,7 +36,9 @@ import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
 
 /**
  * 
@@ -62,6 +66,125 @@ public class CaseRelayEmailNotificationActionImpl extends
 		mapper = new CaseFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleCase simpleCase,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(simpleCase.getSaccountid()));
+
+		String summary = simpleCase.getSubject();
+		String summaryLink = crmLinkGenerator
+				.generateCasePreviewFullLink(simpleCase.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "case");
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<MailItemLink>> getListOfProperties(
+			SimpleCase simpleCase) {
+		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(simpleCase.getSaccountid()));
+
+		if (simpleCase.getPriority() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("priority"),
+					Arrays.asList(new MailItemLink(null, simpleCase
+							.getPriority())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("priority"), null);
+		}
+
+		if (simpleCase.getType() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("type"),
+							Arrays.asList(new MailItemLink(null, simpleCase
+									.getType())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("type"), null);
+		}
+
+		if (simpleCase.getStatus() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("status"), Arrays
+					.asList(new MailItemLink(null, simpleCase.getStatus())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("status"), null);
+		}
+
+		if (simpleCase.getReason() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("reason"), Arrays
+					.asList(new MailItemLink(null, simpleCase.getReason())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("reason"), null);
+		}
+
+		listOfDisplayProperties
+				.put(mapper.getFieldLabel("accountName"), Arrays
+						.asList(new MailItemLink(crmLinkGenerator
+								.generateAccountPreviewFullLink(simpleCase
+										.getAccountid()), simpleCase
+								.getAccountName())));
+
+		if (simpleCase.getAssignuser() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					Arrays.asList(new MailItemLink(UserLinkUtils
+							.generatePreviewFullUserLink(
+									getSiteUrl(simpleCase.getAccountid()),
+									simpleCase.getAssignuser()), simpleCase
+							.getAssignUserFullName())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					null);
+		}
+
+		if (simpleCase.getPhonenumber() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("phonenumber"),
+					Arrays.asList(new MailItemLink(null, simpleCase
+							.getPhonenumber())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("phonenumber"),
+					null);
+		}
+
+		if (simpleCase.getEmail() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("email"), Arrays
+					.asList(new MailItemLink(null, simpleCase.getEmail())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("email"), null);
+		}
+
+		if (simpleCase.getOrigin() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("origin"), Arrays
+					.asList(new MailItemLink(null, simpleCase.getOrigin())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("origin"), null);
+		}
+
+		if (simpleCase.getDescription() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					Arrays.asList(new MailItemLink(null, simpleCase
+							.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		if (simpleCase.getResolution() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("resolution"),
+					Arrays.asList(new MailItemLink(null, simpleCase
+							.getResolution())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("resolution"),
+					null);
+		}
+
+		return listOfDisplayProperties;
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -69,17 +192,17 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleCase != null) {
-			String subject = StringUtils.trim(simpleCase.getSubject(),
-					100);
+			String subject = StringUtils.trim(simpleCase.getSubject(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
 					emailNotification.getChangeByUserFullName()
 							+ "has created the case \"" + subject + "\"",
-					"templates/email/crm/caseCreatedNotifier.mt");
+					"templates/email/crm/itemCreatedNotifier.mt");
+			setupMailHeaders(simpleCase, emailNotification, templateGenerator);
 
-			templateGenerator.putVariable("simpleCase", simpleCase);
-			templateGenerator.putVariable("hyperLinks",
-					constructHyperLinks(simpleCase));
+			templateGenerator.putVariable("properties",
+					getListOfProperties(simpleCase));
+
 			return templateGenerator;
 		} else {
 			return null;
@@ -98,20 +221,15 @@ public class CaseRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has updated the case \"" + subject + "\"",
-				"templates/email/crm/caseUpdatedNotifier.mt");
-		templateGenerator.putVariable("simpleCase", simpleCase);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleCase));
+				"templates/email/crm/itemUpdatedNotifier.mt");
+
+		setupMailHeaders(simpleCase, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 
-			templateGenerator.putVariable("postedUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCase.getAccountid()),
-							auditLog.getPosteduser()));
 			templateGenerator.putVariable("historyLog", auditLog);
 
 			templateGenerator.putVariable("mapper", mapper);
@@ -129,35 +247,14 @@ public class CaseRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on case \""
-						+ StringUtils.trim(simpleCase.getSubject(), 100)
-						+ "\"", "templates/email/crm/caseAddNoteNotifier.mt");
+						+ StringUtils.trim(simpleCase.getSubject(), 100) + "\"",
+				"templates/email/crm/itemAddNoteNotifier.mt");
+
+		setupMailHeaders(simpleCase, emailNotification, templateGenerator);
+
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", UserLinkUtils
-				.generatePreviewFullUserLink(
-						getSiteUrl(simpleCase.getSaccountid()),
-						emailNotification.getChangeby()));
-		templateGenerator.putVariable("simpleCase", simpleCase);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleCase));
 
 		return templateGenerator;
-	}
-
-	private Map<String, String> constructHyperLinks(SimpleCase simpleCase) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"caseURL",
-				getSiteUrl(simpleCase.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.CASE, simpleCase.getId()));
-		if (simpleCase.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleCase.getSaccountid()),
-							simpleCase.getAssignuser()));
-		}
-
-		return hyperLinks;
 	}
 
 	public class CaseFieldNameMapper {

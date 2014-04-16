@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DynamicQueryParamLayout;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -136,7 +137,7 @@ public class BugSearchPanel extends
 	private class BugBasicSearchLayout extends
 			BasicSearchLayout<BugSearchCriteria> {
 
-		@SuppressWarnings("unchecked")
+		
 		public BugBasicSearchLayout() {
 			super(BugSearchPanel.this);
 		}
@@ -213,6 +214,13 @@ public class BugSearchPanel extends
 			BugSearchPanel.this.searchCriteria
 					.setSummary(new StringSearchField(this.nameField.getValue()
 							.toString().trim()));
+			if (this.myItemCheckbox.getValue()) {
+				BugSearchPanel.this.searchCriteria
+						.setAssignuser(new StringSearchField(SearchField.AND,
+								AppContext.getUsername()));
+			} else {
+				BugSearchPanel.this.searchCriteria.setAssignuser(null);
+			}
 			return BugSearchPanel.this.searchCriteria;
 		}
 

@@ -6,8 +6,6 @@
 		extends="com.esofthead.mycollab.module.crm.dao.MeetingMapper.ResultMapWithBLOBs"
 		type="com.esofthead.mycollab.module.crm.domain.SimpleMeeting">
 
-		<result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
-
 		<result column="createdUserFullName" jdbcType="VARCHAR"
 			property="createdUserFullName" />
 

@@ -29,8 +29,18 @@ public class ComponentSearchCriteria extends SearchCriteria {
     private NumberSearchField id;
     
     private StringSearchField status;
+    
+    private StringSearchField userlead;
 
-    public NumberSearchField getProjectid() {
+    public StringSearchField getUserlead() {
+		return userlead;
+	}
+
+	public void setUserlead(StringSearchField userlead) {
+		this.userlead = userlead;
+	}
+
+	public NumberSearchField getProjectid() {
         return projectid;
     }
 

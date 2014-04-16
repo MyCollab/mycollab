@@ -78,8 +78,12 @@ public class UserSignUpEmailNotificationJob extends QuartzJobBean {
 						userSignUpEmailNotificationTemplate);
 				templateGenerator.putVariable("user", user);
 
-				String linkComfirm = GenericLinkUtils
-						.generateSiteUrlByAccountId(user.getAccountId())
+				String siteUrl = GenericLinkUtils
+						.generateSiteUrlByAccountId(user.getAccountId());
+
+				templateGenerator.putVariable("siteUrl", siteUrl);
+
+				String linkComfirm = siteUrl
 						+ "user/confirm_signup/"
 						+ UrlEncodeDecoder.encode(user.getUsername() + "/"
 								+ user.getAccountId());

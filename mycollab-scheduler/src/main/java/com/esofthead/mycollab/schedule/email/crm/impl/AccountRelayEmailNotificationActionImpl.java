@@ -29,7 +29,6 @@ import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
@@ -41,6 +40,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
 
 /**
  * 
@@ -78,9 +78,12 @@ public class AccountRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(account.getSaccountid()));
+
 		String summary = account.getAccountname();
-		String summaryLink = CrmLinkGenerator
-				.generateAccountPreviewLink(account.getId());
+		String summaryLink = crmLinkGenerator
+				.generateAccountPreviewFullLink(account.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());

@@ -28,7 +28,6 @@ public class SimpleTask extends Task {
 	private String createdUserAvatarId;
 	private String createdUserFullName;
 	private String contactName;
-	private String relatedTo;
 	private String assignUserFullName;
 	private String assignUserAvatarId;
 
@@ -54,14 +53,6 @@ public class SimpleTask extends Task {
 
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
-	}
-
-	public String getRelatedTo() {
-		return relatedTo;
-	}
-
-	public void setRelatedTo(String relatedTo) {
-		this.relatedTo = relatedTo;
 	}
 
 	public String getAssignUserFullName() {

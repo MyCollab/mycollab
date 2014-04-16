@@ -39,7 +39,7 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class GenericSearchPanel<S extends SearchCriteria> extends
-CustomComponent implements HasSearchHandlers<S> {
+		CustomComponent implements HasSearchHandlers<S> {
 
 	private List<SearchHandler<S>> handers;
 
@@ -74,13 +74,13 @@ CustomComponent implements HasSearchHandlers<S> {
 			return;
 
 		Component root = getCompositionRoot();
-		if (root != null ) {
+		if (root != null) {
 			((SearchLayout<?>) root).addHeaderRight(this.headerRight);
 		}
 	}
 
 	abstract public static class SearchLayout<S extends SearchCriteria> extends
-	CustomLayoutExt {
+			CustomLayoutExt {
 		protected GenericSearchPanel<S> searchPanel;
 
 		public SearchLayout(final GenericSearchPanel<S> parent,
@@ -129,12 +129,13 @@ CustomComponent implements HasSearchHandlers<S> {
 		}
 
 		abstract protected S fillupSearchCriteria();
+
 		abstract protected void addHeaderRight(Component c);
 
 	}
 
 	abstract public static class BasicSearchLayout<S extends SearchCriteria>
-	extends SearchLayout<S> {
+			extends SearchLayout<S> {
 		private static final long serialVersionUID = 1L;
 		protected ComponentContainer header;
 		protected ComponentContainer body;
@@ -154,18 +155,19 @@ CustomComponent implements HasSearchHandlers<S> {
 
 		@Override
 		protected void addHeaderRight(Component c) {
-			if(this.header == null)
+			if (this.header == null)
 				return;
 
 			this.header.addComponent(c);
 		}
 
 		abstract public ComponentContainer constructHeader();
+
 		abstract public ComponentContainer constructBody();
 	}
 
 	abstract public static class AdvancedSearchLayout<S extends SearchCriteria>
-	extends SearchLayout<S> {
+			extends SearchLayout<S> {
 
 		protected ComponentContainer header;
 		protected ComponentContainer body;
@@ -188,14 +190,13 @@ CustomComponent implements HasSearchHandlers<S> {
 
 		@Override
 		protected void addHeaderRight(Component c) {
-			if(this.header == null)
+			if (this.header == null)
 				return;
 
 			this.header.addComponent(c);
 		}
 
 		public abstract ComponentContainer constructHeader();
-
 
 		public abstract ComponentContainer constructBody();
 

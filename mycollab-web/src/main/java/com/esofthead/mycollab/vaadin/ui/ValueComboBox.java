@@ -29,7 +29,7 @@ public class ValueComboBox extends ComboBox {
 
 	public ValueComboBox() {
 		super();
-		this.setPageLength(0);
+		this.setPageLength(20);
 	}
 
 	/**

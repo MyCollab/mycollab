@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -188,6 +189,15 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			ComponentSearchPanel.this.searchCriteria
 			.setComponentName(new StringSearchField(this.nameField
 					.getValue().toString().trim()));
+			
+			if (this.myItemCheckbox.getValue()) {
+				ComponentSearchPanel.this.searchCriteria
+						.setUserlead(new StringSearchField(SearchField.AND,
+								AppContext.getUsername()));
+			} else {
+				ComponentSearchPanel.this.searchCriteria.setUserlead(null);
+			}
+			
 			return ComponentSearchPanel.this.searchCriteria;
 		}
 	}

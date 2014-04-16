@@ -30,9 +30,20 @@ public class TaskFilterParameter {
 	
 	private String screenTitle;
 	
+	private boolean advanceSearch;
+	
+	public boolean getAdvanceSearch() {
+		return advanceSearch;
+	}
+
+	public void setAdvanceSearch(boolean advanceSearch) {
+		this.advanceSearch = advanceSearch;
+	}
+
 	public TaskFilterParameter(TaskSearchCriteria searchCriteria, String screenTitle) {
 		this.searchCriteria = searchCriteria;
 		this.screenTitle = screenTitle;
+		this.advanceSearch = false;
 	}
 
 	public TaskSearchCriteria getSearchCriteria() {
@@ -50,4 +61,5 @@ public class TaskFilterParameter {
 	public void setScreenTitle(String screenTitle) {
 		this.screenTitle = screenTitle;
 	}
+
 }

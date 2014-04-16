@@ -18,6 +18,8 @@ package com.esofthead.mycollab.schedule.email.project.impl;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,9 @@ import com.esofthead.mycollab.schedule.email.project.ProjectMemberInviteNotifica
 @Service
 public class ProjectMemberInviteNotificationActionImpl implements
 		ProjectMemberInviteNotificationAction {
+
+	private static Logger log = LoggerFactory
+			.getLogger(ProjectMemberInviteNotificationActionImpl.class);
 
 	@Autowired
 	private ProjectMemberService projectMemberService;
@@ -110,6 +115,8 @@ public class ProjectMemberInviteNotificationActionImpl implements
 			member.setStatus(RegisterStatusConstants.SENT_VERIFICATION_EMAIL);
 			projectMemberService.updateWithSession(member,
 					notification.getChangeByUserFullName());
+		} else {
+			log.error("Can not find member id {}", memberId);
 		}
 	}
 

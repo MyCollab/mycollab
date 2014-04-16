@@ -10,7 +10,6 @@
         <result column="createdUserFullName" jdbcType="VARCHAR"
             property="createdUserFullName" />
         <result column="contactName" jdbcType="VARCHAR" property="contactName" />
-        <result column="relatedTo" jdbcType="VARCHAR" property="relatedTo" />
         <result column="assignUserFullName" jdbcType="VARCHAR"
             property="assignUserFullName" />
         <result column="assignUserAvatarId" jdbcType="VARCHAR"
@@ -245,8 +244,7 @@
             m_crm_task.priority, m_crm_task.isClosed,
             m_crm_task.type, s_user.avatarId AS assignUserAvatarId, 
             m_crm_task.lastUpdatedTime, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as assignUserFullName,
-            LTRIM(concat(IFNULL(m_crm_contact.prefix, ' '), m_crm_contact.firstname, ' ', m_crm_contact.lastname)) as contactName,
-            concat(m_crm_contact.prefix, ', ', m_crm_contact.firstname, ' ', m_crm_contact.lastname) as contactName, "" AS relatedTo
+            LTRIM(concat(IFNULL(m_crm_contact.prefix, ' '), m_crm_contact.firstname, ' ', m_crm_contact.lastname)) as contactName
         FROM m_crm_task
             LEFT OUTER JOIN s_user ON (m_crm_task.assignUser = s_user.username)
             LEFT OUTER JOIN m_crm_contact ON (m_crm_contact.id = m_crm_task.contactId)

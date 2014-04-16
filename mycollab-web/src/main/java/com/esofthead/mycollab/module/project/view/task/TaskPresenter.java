@@ -52,7 +52,7 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 		view.removeAllComponents();
 
 		AbstractPresenter<?> presenter = null;
-
+		
 		if (data instanceof TaskScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
 		} else if (data instanceof TaskGroupScreenData.Read) {
@@ -79,6 +79,9 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 		} else if (data instanceof TaskScreenData.Filter) {
 			presenter = PresenterResolver
 					.getPresenter(FilterTaskPresenter.class);
+		} else if (data instanceof TaskScreenData.Search) {
+			presenter = PresenterResolver
+					.getPresenter(TaskSearchPresenter.class);
 		}
 
 		presenter.go(view, data);
