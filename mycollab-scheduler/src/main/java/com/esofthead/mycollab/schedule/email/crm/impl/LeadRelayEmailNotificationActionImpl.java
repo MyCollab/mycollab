@@ -73,8 +73,8 @@ public class LeadRelayEmailNotificationActionImpl extends
 				getSiteUrl(lead.getSaccountid()));
 
 		String summary = lead.getLeadName();
-		String summaryLink = crmLinkGenerator
-				.generateContactPreviewFullLink(lead.getId());
+		String summaryLink = crmLinkGenerator.generateLeadPreviewFullLink(lead
+				.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());

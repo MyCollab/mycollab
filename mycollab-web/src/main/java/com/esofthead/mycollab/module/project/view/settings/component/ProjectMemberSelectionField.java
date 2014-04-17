@@ -37,7 +37,7 @@ public class ProjectMemberSelectionField extends CustomField<String> {
 	public ProjectMemberSelectionField() {
 		super();
 		memberSelectionBox = new ProjectMemberSelectionBox();
-		memberSelectionBox.setWidth("250px");
+		memberSelectionBox.setWidth("100%");
 	}
 
 	@Override

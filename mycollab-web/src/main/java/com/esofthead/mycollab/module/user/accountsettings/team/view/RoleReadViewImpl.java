@@ -69,7 +69,8 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		header.setSpacing(true);
 		header.setMargin(new MarginInfo(true, false, true, false));
-		header.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+		header.addComponent(new Image(null, MyCollabResource
+				.newResource("icons/24/project/user.png")));
 
 		Label headerText = new Label("Role Details");
 		headerText.setSizeUndefined();
@@ -84,14 +85,13 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		this.addComponent(this.previewForm);
 
 		Layout controlButtons = createTopPanel();
-		if(controlButtons != null) {
+		if (controlButtons != null) {
 			header.addComponent(controlButtons);
 		}
 	}
 
 	protected Layout createTopPanel() {
-		buttonControls = new PreviewFormControlsGenerator<Role>(
-				previewForm);
+		buttonControls = new PreviewFormControlsGenerator<Role>(previewForm);
 		HorizontalLayout layout = buttonControls
 				.createButtonControls(RolePermissionCollections.ACCOUNT_ROLE);
 		return layout;
@@ -102,15 +102,15 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		this.role = role;
 		this.previewForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.previewForm
-		.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
-				previewForm) {
-			private static final long serialVersionUID = 1L;
+				.setBeanFormFieldFactory(new AbstractBeanFieldGroupViewFieldFactory<Role>(
+						previewForm) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Field<?> onCreateField(Object propertyId) {
-				return null;
-			}
-		});
+					@Override
+					protected Field<?> onCreateField(Object propertyId) {
+						return null;
+					}
+				});
 		this.previewForm.setBean(role);
 		if (role.getIssystemrole() != null
 				&& role.getIssystemrole() == Boolean.TRUE) {

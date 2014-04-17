@@ -267,34 +267,6 @@ public class BugRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class BugFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
-
-		BugFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("summary", "Bug Summary");
-			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("assignuser", "Assigned to");
-			fieldNameMap.put("resolution", "Resolution");
-			fieldNameMap.put("severity", "Serverity");
-			fieldNameMap.put("environment", "Environment");
-			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("duedate", "Due Date");
-			fieldNameMap.put("logby", "Logged By");
-			fieldNameMap.put("milestone", "Milestone");
-		}
-
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
-		}
-
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
-		}
-	}
-
 	@Override
 	protected List<SimpleUser> getListNotififyUserWithFilter(
 			ProjectRelayEmailNotification notification) {
@@ -389,5 +361,33 @@ public class BugRelayEmailNotificationActionImpl extends
 		}
 
 		return inListUsers;
+	}
+
+	public class BugFieldNameMapper {
+		private final Map<String, String> fieldNameMap;
+
+		BugFieldNameMapper() {
+			fieldNameMap = new HashMap<String, String>();
+
+			fieldNameMap.put("summary", "Bug Summary");
+			fieldNameMap.put("description", "Description");
+			fieldNameMap.put("status", "Status");
+			fieldNameMap.put("assignuser", "Assigned to");
+			fieldNameMap.put("resolution", "Resolution");
+			fieldNameMap.put("severity", "Serverity");
+			fieldNameMap.put("environment", "Environment");
+			fieldNameMap.put("priority", "Priority");
+			fieldNameMap.put("duedate", "Due Date");
+			fieldNameMap.put("logby", "Logged By");
+			fieldNameMap.put("milestone", "Milestone");
+		}
+
+		public boolean hasField(String fieldName) {
+			return fieldNameMap.containsKey(fieldName);
+		}
+
+		public String getFieldLabel(String fieldName) {
+			return fieldNameMap.get(fieldName);
+		}
 	}
 }

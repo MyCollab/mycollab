@@ -83,7 +83,7 @@ public class InviteOutsideProjectCommandListenerImpl implements
 
 		String subdomain = projectService.getSubdomainOfProject(projectId);
 
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 		Date date = new Date();
 
 		for (String email : emails) {

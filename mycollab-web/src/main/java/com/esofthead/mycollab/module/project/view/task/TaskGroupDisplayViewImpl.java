@@ -75,7 +75,6 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	private PopupButton exportButtonControl;
 	private VerticalLayout rightColumn;
 	private VerticalLayout leftColumn;
-	private TaskSearchViewImpl taskListView;
 	private TextField nameField;
 
 	public TaskGroupDisplayViewImpl() {

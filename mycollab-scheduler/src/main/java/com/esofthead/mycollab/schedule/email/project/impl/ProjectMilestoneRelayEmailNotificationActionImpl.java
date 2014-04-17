@@ -183,7 +183,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 				+ milestone.getProjectName() + "]: "
 				+ emailNotification.getChangeByUserFullName()
 				+ " has updated the phase \"" + subject + "\"",
-				"templates/email/project/itemUpdateNotifier.mt");
+				"templates/email/project/itemUpdatedNotifier.mt");
 
 		setupMailHeaders(milestone, emailNotification, templateGenerator);
 

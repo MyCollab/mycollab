@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @ViewComponent
 public class UserContainer extends AbstractPageView {

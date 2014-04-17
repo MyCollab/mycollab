@@ -22,6 +22,12 @@ import java.util.List;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class SimpleAuditLog extends AuditLog {
 	private static final long serialVersionUID = 1L;
 
@@ -45,6 +51,13 @@ public class SimpleAuditLog extends AuditLog {
 	}
 
 	public String getPostedUserFullName() {
+		if (postedUserFullName == null || postedUserFullName.trim().equals("")) {
+			String displayName = getPosteduser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return postedUserFullName;
 	}
 

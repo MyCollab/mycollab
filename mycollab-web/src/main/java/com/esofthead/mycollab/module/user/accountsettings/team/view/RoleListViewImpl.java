@@ -85,32 +85,32 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 	private void generateDisplayTable() {
 		this.tableItem = new RoleTableDisplay(new TableViewField("",
 				"selected", UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-						new TableViewField("Name", "rolename",
-								UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-										"Description", "description",
-										UIConstants.TABLE_EX_LABEL_WIDTH)));
+				new TableViewField("Name", "rolename",
+						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+						"Description", "description",
+						UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem
-		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			private static final long serialVersionUID = 1L;
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
 
-			@Override
-			public void handle(final TableClickEvent event) {
-				final Role role = (Role) event.getData();
-				if ("rolename".equals(event.getFieldName())) {
-					EventBus.getInstance()
-					.fireEvent(
-							new RoleEvent.GotoRead(
-									RoleListViewImpl.this, role
-									.getId()));
-				}
-			}
-		});
+					@Override
+					public void handle(final TableClickEvent event) {
+						final Role role = (Role) event.getData();
+						if ("rolename".equals(event.getFieldName())) {
+							EventBus.getInstance()
+									.fireEvent(
+											new RoleEvent.GotoRead(
+													RoleListViewImpl.this, role
+															.getId()));
+						}
+					}
+				});
 
 		this.listLayout.addComponent(this.constructTableActionControls());
 		this.listLayout.addComponent(this.tableItem);

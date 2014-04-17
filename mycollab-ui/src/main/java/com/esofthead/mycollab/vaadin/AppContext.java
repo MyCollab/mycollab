@@ -85,11 +85,6 @@ public class AppContext implements Serializable {
 	private SimpleBillingAccount billingAccount;
 
 	/**
-	 * Last time current user access MyCollab
-	 */
-	private long lastAccessTime = 0;
-
-	/**
 	 * Subdomain associates with account of current user. This value is valid
 	 * only for on-demand edition
 	 */
@@ -126,29 +121,6 @@ public class AppContext implements Serializable {
 			return null;
 		}
 	}
-
-	/**
-	 * Request on every transaction between client and server finish
-	 */
-	/*
-	 * public void transactionEnd() { long currentTime = new
-	 * GregorianCalendar().getTimeInMillis();
-	 * 
-	 * try { if (userPreference != null) { UserPreference pref = userPreference;
-	 * UserPreferenceService prefService = ApplicationContextUtil
-	 * .getSpringBean(UserPreferenceService.class); pref.setLastaccessedtime(new
-	 * GregorianCalendar().getTime()); prefService.updateWithSession(pref,
-	 * AppContext.getUsername());
-	 * 
-	 * lastAccessTime = currentTime;
-	 * log.debug("Update last access time of user " + AppContext.getUsername());
-	 * }
-	 * 
-	 * } catch (Exception e) {
-	 * log.error("There is error when try to update user preference", e); }
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Update last module visit then the next sign in, MyCollab will lead user

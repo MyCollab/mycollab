@@ -77,7 +77,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 		String summary = simpleOpportunity.getOpportunityname();
 		String summaryLink = crmLinkGenerator
-				.generateContactPreviewFullLink(simpleOpportunity.getId());
+				.generateOpportunityPreviewFullLink(simpleOpportunity.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());

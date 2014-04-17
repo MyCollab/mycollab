@@ -18,8 +18,6 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
@@ -103,8 +101,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.ROLES)) {
+		if (AppContext.canWrite(RolePermissionCollections.ACCOUNT_ROLE)) {
 			RoleContainer roleContainer = (RoleContainer) container;
 			roleContainer.removeAllComponents();
 			roleContainer.addComponent(view.getWidget());

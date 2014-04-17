@@ -46,7 +46,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
 
-	private Button editBtn, deleteBtn, cloneBtn, previousItem, nextItemBtn;
+	private Button editBtn, deleteBtn, cloneBtn, historyBtn, previousItem, nextItemBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout popupButtonsControl;
@@ -84,7 +84,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 	public HorizontalLayout createButtonControls(final String permissionItem) {
 		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
-				| CLONE_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED
+				| CLONE_BTN_PRESENTED | HISTORY_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED
 				| NEXT_BTN_PRESENTED, permissionItem);
 	}
 
@@ -161,13 +161,33 @@ public class CrmPreviewFormControlsGenerator<T> {
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}
+		
+
+		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
+			historyBtn = new Button("History",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							previewForm.showHistory();
+						}
+					});
+			historyBtn.setIcon(MyCollabResource.newResource("icons/16/history.png"));
+			historyBtn.setStyleName("link");
+			popupButtonsControl.addComponent(historyBtn);
+		}
+		
+		
 		optionBtn.setContent(popupButtonsControl);
+		
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED
 				| (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 
 			layout.addComponent(optionBtn);
 		}
-
+		
 		ButtonGroup navigationBtns = new ButtonGroup();
 		navigationBtns.setStyleName("navigation-btns");
 

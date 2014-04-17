@@ -29,14 +29,13 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -91,16 +90,16 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		header.setMargin(new MarginInfo(true, false, true, false));
 		Button createBtn = new Button("Invite user",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new UserEvent.GotoAdd(this, null));
-			}
-		});
-		createBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.USERS));
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new UserEvent.GotoAdd(this, null));
+					}
+				});
+		createBtn.setEnabled(AppContext
+				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
@@ -131,8 +130,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		VerticalLayout memberInfo = new VerticalLayout();
 
 		HorizontalLayout layoutButtonDelete = new HorizontalLayout();
-		layoutButtonDelete.setVisible(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.USERS));
+		layoutButtonDelete.setVisible(AppContext
+				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 		layoutButtonDelete.setWidth("100%");
 
 		Label emptylb = new Label("");
@@ -150,13 +149,13 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 						LocalizationHelper.getMessage(
 								GenericI18Enum.DELETE_DIALOG_TITLE,
 								SiteConfiguration.getSiteName()),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
+						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -167,12 +166,12 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 									userService.pendingUserAccounts(Arrays
 											.asList(new String[] { member
 													.getUsername() }),
-													AppContext.getAccountId());
+											AppContext.getAccountId());
 									EventBus.getInstance()
-									.fireEvent(
-											new UserEvent.GotoList(
-													UserListViewImpl.this,
-													null));
+											.fireEvent(
+													new UserEvent.GotoList(
+															UserListViewImpl.this,
+															null));
 								}
 							}
 						});
@@ -266,8 +265,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);
 			if (member.getRoleName().equals(SimpleRole.ADMIN)
-					|| member.getIsAccountOwner() != null && member
-					.getIsAccountOwner()) {
+					|| member.getIsAccountOwner() != null
+					&& member.getIsAccountOwner()) {
 				memberRole.setValue(memberRoleLinkPrefix
 						+ "style=\"color: #B00000;\">" + "Administrator"
 						+ "</a>");

@@ -20,15 +20,12 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.view.ForgotPasswordPresenter;
-import com.esofthead.mycollab.module.user.view.LoginPresenter;
-import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent.GotoMainPage;
 import com.esofthead.mycollab.shell.events.ShellEvent.LogOut;
 import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.shell.view.MainViewPresenter;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
@@ -84,28 +81,7 @@ public class ShellController implements IController {
 
 					@Override
 					public void handle(LogOut event) {
-						AppContext.addFragment("", "Login Page");
-						LoginPresenter presenter = PresenterResolver
-								.getPresenter(LoginPresenter.class);
-						LoginView loginView = presenter.initView();
-
-						container.setStyleName("loginView");
-
-						if (loginView.getParent() == null
-								|| loginView.getParent() == container) {
-							((MainWindowContainer) container)
-									.setAutoLogin(false);
-							((MainWindowContainer) container)
-									.setContent(loginView);
-						} else {
-							presenter.go(container, null);
-						}
-
-						// clear cookie remember username/password if any
-						DesktopApplication.getInstance()
-								.unsetRememberPassword();
-
-						DesktopApplication.getInstance().clearSession();
+						DesktopApplication.getInstance().redirectToLoginView();
 					}
 				});
 

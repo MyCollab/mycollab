@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>New comment created</title>
 </head>
-<body style="background-color: rgb(235, 236, 237); font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
+<body style="background-color: rgb(235, 236, 237); font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
 	#macro( hyperLink $displayName $webLink )
-		<a href="$webLink" style="color: rgb(36, 127, 211); font-size: 12px; text-decoration: none; white-space: normal;">$displayName</a>
+		<a href="$webLink" style="color: rgb(36, 127, 211); text-decoration: none; white-space: normal;">$displayName</a>
 	#end
 	
 	#macro( messageBlock $messageContent )
@@ -17,7 +17,7 @@
 		</div>
 	#end
 	
-    <table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
+    <table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
        		<td>
        			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">

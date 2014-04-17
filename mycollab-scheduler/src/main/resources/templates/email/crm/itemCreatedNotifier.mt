@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>New bug created</title>
 </head>
-<body style="background-color: rgb(235, 236, 237); font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
+<body style="background-color: rgb(235, 236, 237); font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; padding: 20px 0px;">
 	#macro( hyperLink $displayName $webLink )
-		<a href="$webLink" style="color: rgb(36, 127, 211); font-size: 12px; text-decoration: none; white-space: normal;">$displayName</a>
+		<a href="$webLink" style="color: rgb(36, 127, 211); text-decoration: none; white-space: normal;">$displayName</a>
 	#end
 	
 	#macro( messageBlock $messageContent )
@@ -17,7 +17,7 @@
 		</div>
 	#end
 	
-	<table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
+	<table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
        		<td>
        			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
@@ -32,16 +32,16 @@
 				#hyperLink( $summary $summaryLink )
 				</b></p>
 				#if( $properties )
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 10px 0px 15px; border-top: 1px solid #CFCFCF; padding-top: 5px;">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 10px 0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
                 	#foreach( $key in $properties.keySet() )
                 		#if( $foreach.count % 2 != 0 )
                 			<tr>
                 		#end
-                		<td style="width: 125px; padding: 5px 5px 5px 0px;">$key</td>
+                		<td style="width: 125px; padding: 10px 20px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">$key</td>
                 		#if( !$foreach.hasNext && $foreach.count % 2 != 0 )
-                		<td style="width: 125px; padding: 5px 5px 5px 0px;" colspan="3">
+                		<td style="width: 125px; padding: 10px 20px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">
                 		#else
-                		<td style="width: 125px; padding: 5px 5px 5px 0px;">
+                		<td style="width: 125px; padding: 10px 20px; border-bottom: 1px solid rgb(211, 239, 253);">
                 		#end
                 		#if( $properties.get($key) )
 	                		#foreach( $item in $properties.get($key) )

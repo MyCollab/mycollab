@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +28,16 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
+import com.esofthead.mycollab.schedule.email.MailItemLink;
+import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 
 /**
@@ -63,6 +66,108 @@ public class TaskRelayEmailNotificationActionImpl extends
 		mapper = new TaskFieldNameMapper();
 	}
 
+	protected void setupMailHeaders(SimpleTask task,
+			SimpleRelayEmailNotification emailNotification,
+			TemplateGenerator templateGenerator) {
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(task.getSaccountid()));
+
+		String summary = task.getSubject();
+		String summaryLink = crmLinkGenerator.generateTaskPreviewFullLink(task
+				.getId());
+
+		templateGenerator.putVariable("makeChangeUser",
+				emailNotification.getChangeByUserFullName());
+		templateGenerator.putVariable("itemType", "task");
+		templateGenerator.putVariable("summary", summary);
+		templateGenerator.putVariable("summaryLink", summaryLink);
+	}
+
+	protected Map<String, List<MailItemLink>> getListOfProperties(
+			SimpleTask task, SimpleUser user) {
+		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
+
+		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
+				getSiteUrl(task.getSaccountid()));
+
+		if (task.getStatus() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("status"),
+					Arrays.asList(new MailItemLink(null, task.getStatus())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("status"), null);
+		}
+
+		if (task.getStartdate() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("startdate"),
+					Arrays.asList(new MailItemLink(null, DateTimeUtils
+							.converToStringWithUserTimeZone(
+									task.getStartdate(), user.getTimezone()))));
+		} else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("startdate"), null);
+		}
+
+		if (task.getTypeid() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("typeid"), Arrays
+					.asList(generateRelatedItem(task.getType(),
+							task.getTypeid(), task.getSaccountid(),
+							crmLinkGenerator)));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("typeid"), null);
+		}
+
+		if (task.getDuedate() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), Arrays
+					.asList(new MailItemLink(null, DateTimeUtils
+							.converToStringWithUserTimeZone(task.getDuedate(),
+									user.getTimezone()))));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), null);
+		}
+
+		if (task.getContactid() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("contactid"),
+					Arrays.asList(new MailItemLink(
+							crmLinkGenerator
+									.generateContactPreviewFullLink(task
+											.getContactid()), task
+									.getContactName())));
+		} else {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("contactid"), null);
+		}
+
+		if (task.getPriority() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("priority"),
+					Arrays.asList(new MailItemLink(null, task.getPriority())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("priority"), null);
+		}
+
+		if (task.getAssignuser() != null) {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					Arrays.asList(new MailItemLink(crmLinkGenerator
+							.generateUserPreviewFullLink(task.getAssignuser()),
+							task.getAssignUserFullName())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					null);
+		}
+
+		if (task.getDescription() != null) {
+			listOfDisplayProperties
+					.put(mapper.getFieldLabel("description"), Arrays
+							.asList(new MailItemLink(null, task
+									.getDescription())));
+		} else {
+			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
+					null);
+		}
+
+		return listOfDisplayProperties;
+	}
+
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
@@ -70,20 +175,16 @@ public class TaskRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 		if (simpleTask != null) {
-			String subject = StringUtils.trim(simpleTask.getSubject(),
-					100);
+			String subject = StringUtils.trim(simpleTask.getSubject(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
 					emailNotification.getChangeByUserFullName()
 							+ " has created the task \"" + subject + "\"",
-					"templates/email/crm/crmTaskCreatedNotifier.mt");
+					"templates/email/crm/itemCreatedNotifier.mt");
+			setupMailHeaders(simpleTask, emailNotification, templateGenerator);
 
-			ScheduleUserTimeZoneUtils
-					.formatDateTimeZone(simpleTask, user.getTimezone(),
-							new String[] { "startdate", "duedate" });
-			templateGenerator.putVariable("simpleTask", simpleTask);
-			templateGenerator.putVariable("hyperLinks",
-					constructHyperLinks(simpleTask));
+			templateGenerator.putVariable("properties",
+					getListOfProperties(simpleTask, user));
 			return templateGenerator;
 		} else {
 			return null;
@@ -102,23 +203,13 @@ public class TaskRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has updated the task \"" + subject + "\"",
-				"templates/email/crm/crmTaskUpdatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleTask,
-				user.getTimezone(), new String[] { "startdate", "duedate" });
-		templateGenerator.putVariable("simpleTask", simpleTask);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleTask));
+				"templates/email/crm/itemUpdatedNotifier.mt");
+		setupMailHeaders(simpleTask, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
-			templateGenerator.putVariable("postedUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleTask.getSaccountid()),
-							auditLog.getPosteduser()));
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "startdate", "duedate" });
 			templateGenerator.putVariable("historyLog", auditLog);
 
 			templateGenerator.putVariable("mapper", mapper);
@@ -136,36 +227,12 @@ public class TaskRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on the task \""
-						+ StringUtils.trim(simpleTask.getSubject(), 100)
-						+ "\"", "templates/email/crm/crmTaskAddNoteNotifier.mt");
+						+ StringUtils.trim(simpleTask.getSubject(), 100) + "\"",
+				"templates/email/crm/itemAddNoteNotifier.mt");
+		setupMailHeaders(simpleTask, emailNotification, templateGenerator);
 		templateGenerator.putVariable("comment", emailNotification);
-		templateGenerator.putVariable("userComment", UserLinkUtils
-				.generatePreviewFullUserLink(
-						getSiteUrl(simpleTask.getSaccountid()),
-						emailNotification.getChangeby()));
-
-		templateGenerator.putVariable("simpleTask", simpleTask);
-		templateGenerator.putVariable("hyperLinks",
-				constructHyperLinks(simpleTask));
 
 		return templateGenerator;
-	}
-
-	private Map<String, String> constructHyperLinks(SimpleTask simpleTask) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"taskURL",
-				getSiteUrl(simpleTask.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.TASK, simpleTask.getId()));
-		if (simpleTask.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleTask.getSaccountid()),
-							simpleTask.getAssignuser()));
-		}
-
-		return hyperLinks;
 	}
 
 	public class TaskFieldNameMapper {
@@ -177,9 +244,9 @@ public class TaskRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("subject", "Subject");
 			fieldNameMap.put("status", "Status");
 			fieldNameMap.put("startdate", "Start Date");
-			fieldNameMap.put("relatedTo", "Related To");
+			fieldNameMap.put("typeid", "Related To");
 			fieldNameMap.put("duedate", "Due Date");
-			fieldNameMap.put("contactName", "Contact");
+			fieldNameMap.put("contactid", "Contact");
 			fieldNameMap.put("priority", "Priority");
 			fieldNameMap.put("assignuser", "Assignee");
 			fieldNameMap.put("description", "Description");

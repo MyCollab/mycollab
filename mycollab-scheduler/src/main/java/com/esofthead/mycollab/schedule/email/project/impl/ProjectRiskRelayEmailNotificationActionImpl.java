@@ -194,7 +194,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 				+ risk.getProjectName() + "]: "
 				+ emailNotification.getChangeByUserFullName()
 				+ " has updated the risk \"" + subject + "\"",
-				"templates/email/project/itemUpdateNotifier.mt");
+				"templates/email/project/itemUpdatedNotifier.mt");
 
 		setupMailHeaders(risk, emailNotification, templateGenerator);
 

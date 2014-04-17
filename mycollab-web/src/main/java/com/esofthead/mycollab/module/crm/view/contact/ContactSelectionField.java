@@ -26,7 +26,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Property;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
@@ -102,25 +101,23 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		if (value instanceof Integer) {
 			setContactByVal((Integer) value);
 			super.setPropertyDataSource(newDataSource);
-
-		} else if (value instanceof SimpleContact) {
-			setInternalContact((SimpleContact) value);
-			super.setPropertyDataSource(new AbstractField<Integer>() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public Integer getValue() {
-					return ((SimpleContact) value).getId();
-				}
-
-				@Override
-				public Class<? extends Integer> getType() {
-					return Integer.class;
-				}
-			});
 		} else {
 			super.setPropertyDataSource(newDataSource);
 		}
+		/*
+		 * else if (value instanceof SimpleContact) {
+		 * setInternalContact((SimpleContact) value);
+		 * super.setPropertyDataSource(new AbstractField<Integer>() { private
+		 * static final long serialVersionUID = 1L;
+		 * 
+		 * @Override public Integer getValue() { return ((SimpleContact)
+		 * value).getId(); }
+		 * 
+		 * @Override public Class<? extends Integer> getType() { return
+		 * Integer.class; } }); } else { throw new MyCollabException(
+		 * "Do not support property source different than int or SimpleContact"
+		 * ); }
+		 */
 	}
 
 	@Override

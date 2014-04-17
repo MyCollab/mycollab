@@ -193,7 +193,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 				+ problem.getProjectName() + "]: "
 				+ emailNotification.getChangeByUserFullName()
 				+ " has updated the problem \"" + subject + "...\" edited",
-				"templates/email/project/itemUpdateNotifier.mt");
+				"templates/email/project/itemUpdatedNotifier.mt");
 
 		setupMailHeaders(problem, emailNotification, templateGenerator);
 

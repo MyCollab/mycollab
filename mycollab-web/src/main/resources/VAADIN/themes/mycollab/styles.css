@@ -1841,7 +1841,7 @@ input.v-textfield-errorField {
 	border-bottom: 1px solid #CFCFCF;
 }
 
-.projectDashboardView .container-wrap.main-content .tab-content, .crmContainer .container-wrap .tab-content {
+.projectDashboardView .container-wrap.main-content .tab-content, .crmContainer .container-wrap .tab-content, .accountViewContainer .container-wrap .tab-content {
 	min-height: 599px;
 	border-width: 1px 0px 0px 1px;
 	padding: 0px;

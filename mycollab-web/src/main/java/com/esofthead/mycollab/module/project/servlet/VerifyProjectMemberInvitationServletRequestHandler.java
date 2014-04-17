@@ -106,7 +106,7 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 					String inviterEmail = urlTokenizer.getString();
 
 					String timeStr = urlTokenizer.getString();
-					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 					Date invitedDate = df.parse(timeStr);
 					Calendar cal = Calendar.getInstance();
 					cal.add(Calendar.DATE, -7);

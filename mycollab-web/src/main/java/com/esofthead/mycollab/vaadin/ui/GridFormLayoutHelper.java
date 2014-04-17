@@ -142,7 +142,7 @@ public class GridFormLayoutHelper implements Serializable {
 			field.setCaption(null);
 
 		if (field instanceof MultiSelectComp) {
-			field.setWidth("250px");
+			field.setWidth("200px");
 		} else {
 			field.setWidth("100%");
 		}
@@ -187,7 +187,7 @@ public class GridFormLayoutHelper implements Serializable {
 			field.setCaption(null);
 
 		if (field instanceof MultiSelectComp) {
-			field.setWidth("250px");
+			field.setWidth("200px");
 		} else {
 			field.setWidth(width);
 		}
@@ -217,7 +217,7 @@ public class GridFormLayoutHelper implements Serializable {
 			field.setCaption(null);
 
 		if (field instanceof MultiSelectComp) {
-			field.setWidth("250px");
+			field.setWidth("200px");
 		} else {
 			field.setWidth(width);
 		}
@@ -258,7 +258,7 @@ public class GridFormLayoutHelper implements Serializable {
 		fieldWrapper.addComponent(field);
 
 		if (field instanceof MultiSelectComp) {
-			field.setWidth("250px");
+			field.setWidth("200px");
 		} else {
 			field.setWidth(width);
 		}
@@ -285,7 +285,7 @@ public class GridFormLayoutHelper implements Serializable {
 			field.setCaption(null);
 
 		if (field instanceof MultiSelectComp) {
-			field.setWidth("250px");
+			field.setWidth("200px");
 		} else {
 			field.setWidth(fieldControlWidth);
 		}
@@ -327,7 +327,7 @@ public class GridFormLayoutHelper implements Serializable {
 		fieldWrapper.addComponent(fieldValue);
 
 		if (fieldValue instanceof MultiSelectComp) {
-			fieldValue.setWidth("250px");
+			fieldValue.setWidth("200px");
 		} else {
 			fieldValue.setWidth(fieldValueWidth);
 		}

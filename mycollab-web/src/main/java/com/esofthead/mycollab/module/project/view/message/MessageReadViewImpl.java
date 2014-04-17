@@ -53,12 +53,15 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
@@ -84,6 +87,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 	private CssLayout contentWrapper;
 	private HorizontalLayout header;
 	private CommentDisplay commentDisplay;
+	private CheckBox stickyCheck;
 
 	public MessageReadViewImpl() {
 		super();
@@ -181,13 +185,37 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
 
+			HorizontalLayout isSticky = new HorizontalLayout();
+			isSticky.setSpacing(true);
+			Label isStickyText = new Label("Is sticky:");
+			isSticky.setStyleName("hdr-text");
+			stickyCheck = new CheckBox("", message.getIsstick());
+			stickyCheck.addValueChangeListener(new ValueChangeListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void valueChange(ValueChangeEvent event) {
+					message.setIsstick(stickyCheck.getValue());
+					message.setSaccountid(AppContext.getAccountId());
+					final MessageService messageService = ApplicationContextUtil
+							.getSpringBean(MessageService.class);
+					messageService.updateWithSession(message,
+							AppContext.getUsername());
+				}
+			});
+
+			isSticky.addComponent(isStickyText);
+			isSticky.addComponent(stickyCheck);
+
 			UiUtils.addComponent(
 					header,
 					new Image(null, MyCollabResource
 							.newResource("icons/24/project/message.png")),
 					Alignment.MIDDLE_LEFT);
 			UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(header, isSticky, Alignment.MIDDLE_RIGHT);
 			UiUtils.addComponent(header, deleteBtn, Alignment.MIDDLE_RIGHT);
+
 			header.setExpandRatio(headerText, 1.0f);
 
 			header.setStyleName("hdr-view");

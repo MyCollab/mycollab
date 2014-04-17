@@ -97,8 +97,11 @@ public class MessageServiceImpl extends
 		RelayEmailNotification relayNotification = new RelayEmailNotification();
 		relayNotification.setChangeby(username);
 		relayNotification.setChangecomment("");
-		int sAccountId = record.getSaccountid();
-		relayNotification.setSaccountid(sAccountId);
+		if (record.getSaccountid() != null)
+		{
+			int sAccountId = record.getSaccountid();
+			relayNotification.setSaccountid(sAccountId);
+		}
 		relayNotification.setType(ProjectTypeConstants.MESSAGE);
 		relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
 		relayNotification
