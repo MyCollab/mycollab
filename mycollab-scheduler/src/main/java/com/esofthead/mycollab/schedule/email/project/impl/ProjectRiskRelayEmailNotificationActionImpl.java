@@ -110,15 +110,14 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 						risk.getRaisedByUserFullName())));
 
 		if (risk.getAssigntouser() != null) {
-			listOfDisplayProperties.put(mapper
-					.getFieldLabel("assignedToUserFullName"), Arrays
-					.asList(new RiskLinkMapper(
+			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
+					Arrays.asList(new RiskLinkMapper(
 							linkGenerator.generateUserPreviewFullLink(risk
 									.getAssigntouser()), risk
 									.getAssignedToUserFullName())));
 		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("assignedToUserFullName"), null);
+			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
+					null);
 		}
 
 		if (risk.getConsequence() != null) {
@@ -241,7 +240,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			fieldNameMap = new HashMap<String, String>();
 
 			fieldNameMap.put("riskname", "Risk Name");
-			fieldNameMap.put("assignedToUserFullName", "Assigned to");
+			fieldNameMap.put("assigntouser", "Assigned to");
 			fieldNameMap.put("consequence", "Consequence");
 			fieldNameMap.put("probability", "Probability");
 			fieldNameMap.put("raisedbyuser", "Raised By");

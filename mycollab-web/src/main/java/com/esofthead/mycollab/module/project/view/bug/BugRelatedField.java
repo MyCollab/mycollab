@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -328,30 +329,8 @@ public class BugRelatedField extends CustomComponent {
 						});
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
-					Resource iconPriority = MyCollabResource
-							.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_16);
-
-					if (BugPriorityStatusConstants.PRIORITY_BLOCKER.equals(bug
-							.getPriority())) {
-						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_BLOCKER_IMG_16);
-					} else if (BugPriorityStatusConstants.PRIORITY_CRITICAL
-							.equals(bug.getPriority())) {
-						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_CRITICAL_IMG_16);
-					} else if (BugPriorityStatusConstants.PRIORITY_MAJOR
-							.equals(bug.getPriority())) {
-						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_MAJOR_IMG_16);
-					} else if (BugPriorityStatusConstants.PRIORITY_MINOR
-							.equals(bug.getPriority())) {
-						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_MINOR_IMG_16);
-					} else if (BugPriorityStatusConstants.PRIORITY_TRIVIAL
-							.equals(bug.getPriority())) {
-						iconPriority = MyCollabResource
-								.newResource(BugPriorityStatusConstants.PRIORITY_TRIVIAL_IMG_16);
-					}
+					Resource iconPriority = ProjectResources
+							.getIconResource12ByBugPriority(bug.getPriority());
 
 					b.setIcon(iconPriority);
 				}

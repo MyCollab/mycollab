@@ -49,7 +49,7 @@ public class PasswordCheckerUtil {
 			strengthPercentage += 25;
 		}
 
-		if (strengthPercentage < 75)
+		if (strengthPercentage < 50)
 			throw new InvalidPasswordException(
 					"Password must contain at least one digit letter, one character and one symbol");
 	}

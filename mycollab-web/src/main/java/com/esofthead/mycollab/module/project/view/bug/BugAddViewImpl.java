@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.List;
 
 import com.esofthead.mycollab.module.file.AttachmentType;
+import com.esofthead.mycollab.module.project.BugPriorityStatusConstants;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -107,7 +108,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				return field;
 			} else if (propertyId.equals("priority")) {
 				if (beanItem.getPriority() == null) {
-					beanItem.setPriority(BugPriorityStatusConstants.PRIORITY_MAJOR);
+					beanItem.setPriority(BugPriorityStatusConstants.MAJOR);
 				}
 				return new BugPriorityComboBox();
 			} else if (propertyId.equals("assignuser")) {

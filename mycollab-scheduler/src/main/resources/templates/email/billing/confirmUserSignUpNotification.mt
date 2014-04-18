@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="http://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.mycollab.com/favicon.ico" type="image/x-icon">
 </head>
 <body style="background-color: rgb(218, 223, 225); color: #4e4e4e; font: 16px Georgia, serif; padding: 20px 0px;">
 	#macro( confirmLink $webLink $displayText )
@@ -40,9 +40,9 @@
 						#confirmLink ($mailToUrl $user.Email)
 						 and the password you created.</p>
 						<p style="text-align: left;">By clicking this link, you agree to the 
-						#confirmLink ("https://www.mycollab.com/terms" "Terms of Service")
+						#confirmLink ("http://www.mycollab.com/terms" "Terms of Service")
 						 and the 
-						#confirmLink ("https://www.mycollab.com/privacy" "Privacy Policy")
+						#confirmLink ("http://www.mycollab.com/privacy" "Privacy Policy")
 						</p>
 						<p style="text-align: left;">
 						If clicking on the link does not work, just copy and paste the following address into your browser:

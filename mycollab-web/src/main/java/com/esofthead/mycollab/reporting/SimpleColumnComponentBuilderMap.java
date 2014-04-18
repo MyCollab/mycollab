@@ -53,11 +53,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.project.BugPriorityStatusConstants;
+import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.view.bug.BugPriorityStatusConstants;
-import com.esofthead.mycollab.module.project.view.task.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -583,25 +583,25 @@ public class SimpleColumnComponentBuilderMap {
 			public InputStream evaluate(ReportParameters reportParameters) {
 				String priority = reportParameters.getFieldValue("priority");
 
-				if (priority.equals(BugPriorityStatusConstants.PRIORITY_MAJOR)
+				if (priority.equals(BugPriorityStatusConstants.MAJOR)
 						|| priority
 								.equals(TaskPriorityStatusContants.PRIORITY_MEDIUM)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_medium.png");
 				} else if (priority
-						.equals(BugPriorityStatusConstants.PRIORITY_MINOR)
+						.equals(BugPriorityStatusConstants.MINOR)
 						|| priority
 								.equals(TaskPriorityStatusContants.PRIORITY_LOW)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_low.png");
 				} else if (priority
-						.equals(BugPriorityStatusConstants.PRIORITY_CRITICAL)
+						.equals(BugPriorityStatusConstants.CRITICAL)
 						|| priority
 								.equals(TaskPriorityStatusContants.PRIORITY_HIGHT)) {
 					return Templates.class.getClassLoader()
 							.getResourceAsStream("images/priority_high.png");
 				} else if (priority
-						.equals(BugPriorityStatusConstants.PRIORITY_BLOCKER)
+						.equals(BugPriorityStatusConstants.BLOCKER)
 						|| priority
 								.equals(TaskPriorityStatusContants.PRIORITY_URGENT)) {
 					return Templates.class.getClassLoader()

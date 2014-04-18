@@ -45,6 +45,7 @@ public class SiteConfiguration {
 	private String endecryptPassword;
 	private String dropboxCallbackUrl;
 	private String ggDriveCallbackUrl;
+	private String appUrl;
 
 	static {
 		instance = new SiteConfiguration();
@@ -72,6 +73,9 @@ public class SiteConfiguration {
 
 		instance.cdnUrl = String.format(
 				ApplicationProperties.getString(ApplicationProperties.CDN_URL),
+				instance.serverAddress, instance.serverPort);
+		instance.appUrl = String.format(
+				ApplicationProperties.getString(ApplicationProperties.APP_URL),
 				instance.serverAddress, instance.serverPort);
 
 		// load sharing options
@@ -165,6 +169,10 @@ public class SiteConfiguration {
 
 	public static String getCdnUrl() {
 		return instance.cdnUrl;
+	}
+
+	public static String getAppUrl() {
+		return instance.appUrl;
 	}
 
 	public static DatabaseConfiguration getDatabaseConfiguration() {

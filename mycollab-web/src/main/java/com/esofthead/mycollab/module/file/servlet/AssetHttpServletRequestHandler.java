@@ -61,7 +61,7 @@ public class AssetHttpServletRequestHandler extends GenericServletRequestHandler
 
 		if (inputStream != null) {
 			response.setHeader("Content-Type",
-					MimeTypesUtil.detectMimeType(inputStream));
+					MimeTypesUtil.detectMimeType(path));
 			response.setHeader("Content-Length",
 					String.valueOf(inputStream.available()));
 			// response.setHeader("Content-Disposition", "inline; filename=\""

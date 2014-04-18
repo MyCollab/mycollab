@@ -70,8 +70,9 @@ public class UserSignUpConfirmEmailActionHandler extends
 							request.getContextPath() + "/");
 					return;
 				}
+			} else {
+				throw new ResourceNotFoundException();
 			}
-			throw new ResourceNotFoundException();
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}

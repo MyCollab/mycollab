@@ -26,6 +26,12 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class TaskSearchPanel extends
 		DefaultGenericSearchPanel<TaskSearchCriteria> {
 
@@ -52,11 +58,11 @@ public class TaskSearchPanel extends
 			((TaskBasicSearchLayout) getCompositionRoot()).setNameField(name);
 		}
 	}
-	
+
 	public void getAdvanceSearch() {
 		moveToAdvancedSearchLayout();
 	}
-	
+
 	public void getBasicSearch() {
 		moveToBasicSearchLayout();
 	}
@@ -196,7 +202,7 @@ public class TaskSearchPanel extends
 		@Override
 		protected Component buildSelectionComp(String fieldId) {
 			if ("task-assignuser".equals(fieldId)) {
-				return new ProjectMemberListSelect();
+				return new ProjectMemberListSelect(false);
 			}
 			return null;
 		}

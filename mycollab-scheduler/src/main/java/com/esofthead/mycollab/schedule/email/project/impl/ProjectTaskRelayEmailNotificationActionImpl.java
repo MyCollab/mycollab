@@ -177,14 +177,13 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		}
 
 		if (task.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper
-					.getFieldLabel("assignUserFullName"), Arrays
-					.asList(new TaskLinkMapper(linkGenerator
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					Arrays.asList(new TaskLinkMapper(linkGenerator
 							.generateUserPreviewFullLink(task.getAssignuser()),
 							task.getAssignUserFullName())));
 		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("assignUserFullName"), null);
+			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
+					null);
 		}
 
 		listOfDisplayProperties.put(mapper.getFieldLabel("taskListName"),
@@ -289,7 +288,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("enddate", "End Date");
 			fieldNameMap.put("actualstartdate", "Actual Start Date");
 			fieldNameMap.put("actualenddate", "Actual End Date");
-			fieldNameMap.put("assignUserFullName", "Assignee");
+			fieldNameMap.put("assignuser", "Assignee");
 			fieldNameMap.put("percentagecomplete", "Complete (%)");
 			fieldNameMap.put("notes", "Notes");
 			fieldNameMap.put("priority", "Priority");

@@ -17,11 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +25,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -41,13 +36,11 @@ import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.project.servlet.DenyProjectMemberInvitationServletRequestHandler.FeedBackPageGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.template.velocity.TemplateContext;
 
 /**
  * 
@@ -56,7 +49,8 @@ import com.esofthead.template.velocity.TemplateContext;
  * 
  */
 @Component("denyUserInviteServlet")
-public class DenyUserServletRequestHandler extends GenericServletRequestHandler {
+public class DenyUserServletRequestHandler extends
+		VelocityWebServletRequestHandler {
 
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
 	private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
@@ -88,12 +82,15 @@ public class DenyUserServletRequestHandler extends GenericServletRequestHandler 
 							request.getContextPath() + "/");
 					return;
 				} else {
+
 					if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
 						// You cant deny , Userhas active , go to login Page
-						String html = generateRefuseUserDenyActionPage(
-								request.getContextPath() + "/",
-								"templates/page/project/RefuseUserDenyActionPage.mt");
+						Map<String, Object> context = new HashMap<String, Object>();
+						context.put("loginURL", request.getContextPath() + "/");
+						String html = generatePageByTemplate(
+								"templates/page/project/RefuseUserDenyActionPage.mt",
+								context);
 						PrintWriter out = response.getWriter();
 						out.println(html);
 						return;
@@ -107,20 +104,32 @@ public class DenyUserServletRequestHandler extends GenericServletRequestHandler 
 						String redirectURL = SiteConfiguration
 								.getSiteUrl(subdomain)
 								+ "project/member/feedback/";
-						String html = FeedBackPageGenerator
-								.generateDenyFeedbacktoInviter(0, 0,
-										inviterEmail, inviterName, redirectURL,
-										checkUser.getEmail(),
-										checkUser.getUsername(), "",
-										USER_DENY_FEEDBACK_TEMPLATE, 0);
+
+						Map<String, Object> context = new HashMap<String, Object>();
+						context.put("inviterEmail", inviterEmail);
+						context.put("redirectURL", redirectURL);
+						context.put("toEmail", checkUser.getEmail());
+						context.put("toName", checkUser.getUsername());
+						context.put("inviterName", inviterName);
+						context.put("projectName", "");
+						context.put("sAccountId", 0);
+						context.put("projectId", 0);
+						context.put("projectRoleId", 0);
+						String html = generatePageByTemplate(
+								USER_DENY_FEEDBACK_TEMPLATE, context);
+
 						PrintWriter out = response.getWriter();
 						out.println(html);
 						return;
 					} else if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.DELETE)) {
-						String html = generateRefuseUserDenyActionPage(
-								request.getContextPath() + "/",
-								USER_HAS_DENIED_PAGE);
+
+						Map<String, Object> context = new HashMap<String, Object>();
+						context.put("loginURL", request.getContextPath() + "/");
+
+						String html = generatePageByTemplate(
+								USER_HAS_DENIED_PAGE, context);
+
 						PrintWriter out = response.getWriter();
 						out.println(html);
 						return;
@@ -136,32 +145,4 @@ public class DenyUserServletRequestHandler extends GenericServletRequestHandler 
 		}
 	}
 
-	private String generateRefuseUserDenyActionPage(String loginURL,
-			String pageNotFoundTemplate) {
-		TemplateContext context = new TemplateContext();
-
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					DenyUserServletRequestHandler.class.getClassLoader()
-							.getResourceAsStream(pageNotFoundTemplate), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(DenyUserServletRequestHandler.class
-					.getClassLoader().getResourceAsStream(pageNotFoundTemplate));
-		}
-		context.put("loginURL", loginURL);
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-
-		VelocityEngine templateEngine = ApplicationContextUtil
-				.getSpringBean(VelocityEngine.class);
-		templateEngine.evaluate(context.getVelocityContext(), writer,
-				"log task", reader);
-
-		return writer.toString();
-	}
 }

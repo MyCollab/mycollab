@@ -26,6 +26,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
@@ -306,8 +307,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
-					final Resource iconPriority = TaskPriorityComboBox
-							.getIconResourceByPriority(beanItem.getPriority());
+					final Resource iconPriority = ProjectResources
+							.getIconResource12ByTaskPriority(beanItem
+									.getPriority());
 					final Embedded iconEmbedded = new Embedded(null,
 							iconPriority);
 					final Label lbPriority = new Label(beanItem.getPriority());

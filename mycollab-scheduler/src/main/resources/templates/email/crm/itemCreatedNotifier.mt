@@ -17,31 +17,31 @@
 		</div>
 	#end
 	
-	<table width="700" cellpadding="0" cellspacing="0" border="0" style="font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
+	<table width="800" cellpadding="0" cellspacing="0" border="0" style="font: 13px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
        		<td>
-       			<div style="padding: 10px 50px; background-color: rgb(106, 201, 228);">
+       			<div style="padding: 10px 30px; background-color: rgb(106, 201, 228);">
        				<img src="${defaultUrls.cdn_url}logo-email.png" alt="esofthead-logo" width="130" height="30" style="margin: 0px; padding: 0px;">
        			</div>
        		</td>			
 		</tr>
         <tr>
-            <td style="padding: 10px 50px">
+            <td style="padding: 10px 30px">
 				<p><img src="${defaultUrls.cdn_url}default_user_avatar_16.png" width="16" height="16" style="display: inline-block; vertical-align: top;"/>$makeChangeUser <b>created</b> a new ${itemType}:</p>
 				<p><b>
 				#hyperLink( $summary $summaryLink )
 				</b></p>
 				#if( $properties )
-                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 12px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 10px 0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 11px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 10px 0px 15px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
                 	#foreach( $key in $properties.keySet() )
                 		#if( $foreach.count % 2 != 0 )
                 			<tr>
                 		#end
-                		<td style="width: 125px; padding: 10px 20px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">$key</td>
+                		<td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">$key</td>
                 		#if( !$foreach.hasNext && $foreach.count % 2 != 0 )
-                		<td style="width: 125px; padding: 10px 20px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">
+                		<td style="width: 615px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">
                 		#else
-                		<td style="width: 125px; padding: 10px 20px; border-bottom: 1px solid rgb(211, 239, 253);">
+                		<td style="width: 245px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);">
                 		#end
                 		#if( $properties.get($key) )
 	                		#foreach( $item in $properties.get($key) )

@@ -16,18 +16,13 @@
  */
 package com.esofthead.mycollab.module.billing.servlet;
 
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +35,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.template.velocity.TemplateContext;
+import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 
 /**
  * 
@@ -52,7 +45,7 @@ import com.esofthead.template.velocity.TemplateContext;
  */
 @Component("recoverUserPasswordServlet")
 public class UserRecoveryPasswordHandlerServlet extends
-		GenericServletRequestHandler {
+		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(UserRecoveryPasswordHandlerServlet.class);
@@ -74,14 +67,20 @@ public class UserRecoveryPasswordHandlerServlet extends
 							request.getContextPath() + "/");
 					return;
 				} else {
-					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/signin?email=" + username)
+					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/sign-in?email=" + username)
 							: (request.getContextPath() + "/");
 
 					String redirectURL = request.getContextPath() + "/"
 							+ "user/recoverypassword/action";
 
-					String html = generateUserRecoveryPasswordPage(username,
-							loginURL, redirectURL);
+					Map<String, Object> context = new HashMap<String, Object>();
+					context.put("username", username);
+					context.put("loginURL", loginURL);
+					context.put("redirectURL", redirectURL);
+
+					String html = generatePageByTemplate(
+							"templates/page/user/UserRecoveryPasswordPage.mt",
+							context);
 					PrintWriter out = response.getWriter();
 					out.print(html);
 					return;
@@ -101,35 +100,4 @@ public class UserRecoveryPasswordHandlerServlet extends
 		}
 	}
 
-	private String generateUserRecoveryPasswordPage(String username,
-			String loginURL, String redirectURL) {
-		String template = "templates/page/user/UserRecoveryPasswordPage.mt";
-		TemplateContext context = new TemplateContext();
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					UserRecoveryPasswordHandlerServlet.class.getClassLoader()
-							.getResourceAsStream(template), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					UserRecoveryPasswordHandlerServlet.class.getClassLoader()
-							.getResourceAsStream(template));
-		}
-
-		context.put("username", username);
-		context.put("loginURL", loginURL);
-		context.put("redirectURL", redirectURL);
-
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		VelocityEngine templateEngine = ApplicationContextUtil
-				.getSpringBean(VelocityEngine.class);
-		templateEngine.evaluate(context.getVelocityContext(), writer,
-				"log task", reader);
-		return writer.toString();
-	}
 }

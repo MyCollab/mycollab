@@ -473,6 +473,21 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	border-top-color: #348536;
 }
 
+.v-button.v-button-orangebtn, .v-button-orangebtn:focus  {
+	background-color:rgb(251, 87, 24);
+	color:white;
+	font-weight:normal;
+	border-color: rgb(251, 87, 24);
+}
+
+.v-button.v-button-orangebtn.selected, .v-button-orangebtn:hover, .v-button-orangebtn:active {
+	background-color: rgb(232, 82, 23);
+}
+
+.v-button.v-button-orangebtn:active .v-button-wrap{
+	border-top-color: rgb(251, 87, 24);
+}
+
 .v-button.v-button-bluebtn, .v-button-bluebtn:focus  {
 	background-color: #1C7DCE;
 	color:white;
@@ -1207,7 +1222,7 @@ input.v-textfield-errorField {
 
 /* Login Form */
 .loginView {
-	background-color: #e5e5e5;
+	background-color: rgb(234, 239, 243);
 }
 
 .loginView>.v-csslayout {
@@ -1222,43 +1237,71 @@ input.v-textfield-errorField {
 }
 
 #login-header {
-	margin: 0px auto;
+	margin: 0px auto 50px;
 	width: 100%;
 	text-align: center;
 	font-size: 27px;
-	height: 90px;
-	background: url('icons/1.png') repeat-x 0 0 transparent;
+	height: 60px;
+	background-color: rgb(66, 175, 231);
 }
 
 #login-header #logo-here {
 	background: url('icons/login-logo.png') no-repeat 0 0 transparent;
-	margin: 4px 0px 8px 50px;
-	height: 39px;
-	width: 171px;
+	margin: 5px 0px 5px 100px;
+	height: 50px;
+	width: 218px;
 	float: left;
+}
+
+#login-header #social-links {
+	float: right;
+	margin-right: 150px;
+	height: 100%;
+}
+
+#login-header #social-links a {
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+	margin-right: 3px;
+}
+
+#login-header #social-links a img {
+	vertical-align: bottom;
 }
 
 #loginFormContainer {
 	width: 676px;
-	margin: 0px auto 20px;
+	margin: 0px auto;
 	background-color: white;
 	box-shadow: 0px 4px 4px #c8c8c8;
 	border: 1px solid #c8c8c8;
-	padding: 0px 30px 30px 20px;
+	padding: 0px 0px 30px;
+}
+.forgotPwdForm #loginFormContainer {
+	padding: 30px 40px;
 }
 
 #loginFormContainer #form-header {
-	font-size: 23px;
+	font-size: 38px;
 	line-height: 23px;
-	color: rgb(135, 164, 204);
-	padding: 30px 0px 20px;
-	margin-bottom: 15px;
-	border-bottom: 1px solid #c9c9c9;
+	color: rgb(34, 85, 128);
+	padding: 40px 0px 20px;
 	text-transform: uppercase;
+	text-align: center;
+	font-family: Georgia, "Times New Roman", sans-serif;
 }
 
-#loginFormContainer #form-intro-text {
-	width: 356px;
+.forgotPwdForm #loginFormContainer #form-header {
+	font-size: 34px;
+	line-height: normal;
+	color: rgb(80, 127, 140);
+	padding: 0px 0px 5px;
+	border-bottom: 1px solid #CFCFCF;
+	text-align: left;
+}
+
+.forgotPwdForm #loginFormContainer #form-intro-text {
 	float: left;
 }
 
@@ -1271,6 +1314,8 @@ input.v-textfield-errorField {
 
 .forgotPwdForm #loginFormContainer #form-intro-text #intro-text {
 	text-align: left;
+	color: rgb(109, 118, 122);
+	font-size: 14px;
 }
 
 #loginFormContainer #form-intro-text #intro-image {
@@ -1280,9 +1325,9 @@ input.v-textfield-errorField {
 	background: url('icons/image.png') no-repeat 0 0 transparent;
 }
 
-.forgotPwdForm #loginFormContainer #form-intro-text #intro-image {
-	width: 356px;
-	height: 96px;
+.forgotPwdForm #loginFormContainer #intro-image {
+	width: 150px;
+	height: 200px;
 	float: left;
 	background: url('icons/ico_lock.png') no-repeat center center
 		transparent;
@@ -1301,16 +1346,15 @@ input.v-textfield-errorField {
 }
 
 #loginForm {
-	width: 280px;
-	background: #F5F5F5;
-	float: right;
-	height: 355px;
-	margin-top: 15px;
+	width: 100%;
+	float: left;
 	color: #4a4a4a;
 }
 
 .forgotPwdForm #loginForm {
 	height: 200px;
+	width: 422px;
+	float: left;
 }
 
 .customSignUpForm #loginForm .v-captionwrapper {
@@ -1320,7 +1364,7 @@ input.v-textfield-errorField {
 #loginForm .v-captionwrapper {
 	margin: 20px auto;
 	display: block;
-	width: 243px;
+	width: 410px;
 }
 
 #loginForm .passwordField .v-captionwrapper {
@@ -1333,7 +1377,7 @@ input.v-textfield-errorField {
 }
 
 #loginForm .v-captionwrapper .v-caption .v-captiontext {
-	font-size: 13px;
+	font-size: 16px;
 	color: #777;
 }
 
@@ -1349,10 +1393,10 @@ input.v-textfield-errorField {
 }
 
 #loginForm input.v-textfield {
-	width: 235px;
+	width: 410px;
 	background: #FFFFFF;
 	border-color: #BBB;
-	border-radius: 3px;
+	border-radius: 0px;
 	padding: 0em 0.2em;
 	line-height: 35px !important;
 	color: #4a4a4a;
@@ -1363,32 +1407,39 @@ input.v-textfield-errorField {
 	border-color: #7ba0cc;
 }
 
+#loginForm .formFooter {
+	width: 410px;
+	margin: 0px auto;
+}
+
 #loginForm #submitLogin {
 	width: 100%;
 	float: left;
-	margin-top: 10px;
+	margin-top: 20px;
+	text-align: center;
 }
 
 .forgotPwdForm #loginForm #submitLogin {
 	margin-top: 0px;
+	text-align: left;
 }
 
 .customSignUpForm #loginForm #submitLogin {
 	margin-top: 10px;
 }
 
-#loginForm #submitLogin .v-button {
-	margin-left: 23px;
-}
-
-.forgotPwdForm #loginForm #submitLogin .v-button {
-	margin-left: 20px;
-}
-
 #loginForm .rememberMe .v-checkbox {
-	width: 243px;
+	width: 410px;
 	margin: 0 auto;
 	color: rgb(119, 119, 119);
+}
+
+#loginForm .rememberMe .v-checkbox label {
+	font-size: 14px;
+}
+
+#loginForm .rememberMe .v-checkbox input {
+	margin-left: 0px;
 }
 
 #loginForm #submitLogin .v-button-wrap {
@@ -1401,20 +1452,40 @@ input.v-textfield-errorField {
 	margin: 0 15px;
 }
 
-#loginForm #forgotLink {
+#loginForm .formFooterLinks {
 	float: left;
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 25px;
+}
+
+#loginForm .formFooterLinks #createAccountLink {
+	float: left;
+	width: 50%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border-right: 1px solid #006DAC;
+	padding-right: 9px;
+	text-align: right;
+	line-height: 18px;
+}
+
+#loginForm .formFooterLinks #forgotLink {
+	float: left;
+	width: 50%;
+}
+
+.forgotPwdForm #loginForm #forgotLink {
+	margin-top: 20px;
+	display: inline-block;
+}
+
+.forgotPwdForm #loginForm #forgotLink {
+	margin-left: 0px;
 }
 
 #loginForm #forgotLink .v-button {
-	margin-left: 23px;
-}
-
-.forgotPwdForm #loginForm #forgotLink .v-button {
-	float: right;
-	margin-right: 23px;
-	font-size: 11px;
+	margin-left: 8px;
 }
 
 .customSignUpForm #loginFormContainer #newToUs {
@@ -1425,8 +1496,9 @@ input.v-textfield-errorField {
 	float: left;
 	display: block;
 	width: 100%;
-	padding: 20px 0px 10px;
-	text-align: right;
+	padding: 0px 0px 10px;
+	text-align: center;
+	color: rgb(84, 112, 124);
 }
 
 #loginFormContainer #newToUs #signupLink .v-button {
@@ -1470,6 +1542,27 @@ input.v-textfield-errorField {
 	color: red;
 	font-size: 12px;
 	padding-left: 20px;
+}
+
+#login-footer #support-links {
+	text-align: center;
+	margin: 50px 0px 30px;
+}
+
+#login-footer #support-links .external-link {
+	display: inline-block;
+	color: rgb(97, 99, 101);
+	font-size: 14px;
+}
+#login-footer #support-links .external-link a {
+	padding: 0px 20px;
+	color: rgb(97, 99, 101);
+}
+#login-footer #support-links .external-link:before {
+	content: "-";
+}
+#login-footer #support-links .external-link:first-child:before {
+	content: "";
 }
 
 /* End Login Form */
@@ -6656,8 +6749,10 @@ img.icon-btn {
 
 
 /*Project Members Widget */
-.project-member-widget .username .v-button-wrap {
-	padding: 0px;
+.project-member-widget .username .v-button-wrap,
+.project-member-widget .username:active .v-button-wrap,
+.project-member-widget .username:focus .v-button-wrap {
+    padding: 0px;
 }
 
 /*Navigation Buttons styles */

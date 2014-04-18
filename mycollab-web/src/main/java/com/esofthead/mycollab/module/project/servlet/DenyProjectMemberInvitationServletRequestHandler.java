@@ -17,11 +17,7 @@
 package com.esofthead.mycollab.module.project.servlet;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +32,6 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -45,9 +40,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
-import com.esofthead.template.velocity.TemplateContext;
-import com.esofthead.template.velocity.TemplateEngine;
+import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 
 /**
  * 
@@ -57,7 +50,7 @@ import com.esofthead.template.velocity.TemplateEngine;
  */
 @Component("denyMemberInvitationServlet")
 public class DenyProjectMemberInvitationServletRequestHandler extends
-		GenericServletRequestHandler {
+		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(DenyProjectMemberInvitationServletRequestHandler.class);
@@ -94,8 +87,14 @@ public class DenyProjectMemberInvitationServletRequestHandler extends
 				SimpleProject project = projectService.findById(projectId,
 						sAccountId);
 				if (project == null) {
-					ProjectRemovedGenerator.responePageProjectHasRemoved(
-							request, response);
+					Map<String, Object> context = new HashMap<String, Object>();
+					context.put("loginURL", request.getContextPath() + "/");
+
+					String html = generatePageByTemplate(
+							"templates/page/project/ProjectNotAvaiablePage.mt",
+							context);
+					PrintWriter out = response.getWriter();
+					out.println(html);
 					return;
 				}
 
@@ -104,21 +103,32 @@ public class DenyProjectMemberInvitationServletRequestHandler extends
 				if (projectMember != null) {
 					ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 							projectId);
-					String html = generateRefuseMemberDenyActionPage(linkGenerator
-							.generateProjectFullLink());
+					Map<String, Object> context = new HashMap<String, Object>();
+					context.put("projectLinkURL",
+							linkGenerator.generateProjectFullLink());
+
+					String html = generatePageByTemplate(
+							REFUSE_MEMBER_DENY_TEMPLATE, context);
 					PrintWriter out = response.getWriter();
 					out.println(html);
 					return;
 				} else {
 					String redirectURL = SiteConfiguration
 							.getSiteUrl(subdomain) + "project/member/feedback/";
+					Map<String, Object> context = new HashMap<String, Object>();
+					context.put("inviterEmail", inviterEmail);
+					context.put("redirectURL", redirectURL);
+					context.put("toEmail", email);
+					context.put("toName", "You");
+					context.put("inviterName", inviterName);
+					context.put("projectName", project.getName());
+					context.put("sAccountId", sAccountId);
+					context.put("projectId", projectId);
+					context.put("projectRoleId", projectRoleId);
 
-					String html = FeedBackPageGenerator
-							.generateDenyFeedbacktoInviter(sAccountId,
-									projectId, inviterEmail, inviterName,
-									redirectURL, email, "You",
-									project.getName(), DENY_FEEDBACK_TEMPLATE,
-									projectRoleId);
+					String html = generatePageByTemplate(
+							DENY_FEEDBACK_TEMPLATE, context);
+
 					PrintWriter out = response.getWriter();
 					out.println(html);
 					return;
@@ -138,117 +148,4 @@ public class DenyProjectMemberInvitationServletRequestHandler extends
 		}
 	}
 
-	private String generateRefuseMemberDenyActionPage(String projectLinkURL) {
-		TemplateContext context = new TemplateContext();
-
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					DenyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									REFUSE_MEMBER_DENY_TEMPLATE), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					DenyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									REFUSE_MEMBER_DENY_TEMPLATE));
-		}
-		context.put("projectLinkURL", projectLinkURL);
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		SharingOptions sharingOptions = SiteConfiguration.getSharingOptions();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
-		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
-		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
-		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
-
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		TemplateEngine.evaluate(context, writer, "log task", reader);
-		return writer.toString();
-	}
-
-	public static class FeedBackPageGenerator {
-		public static String generateDenyFeedbacktoInviter(Integer sAccountId,
-				Integer projectId, String inviterEmail, String inviterName,
-				String redirectURL, String memberEmail, String memberName,
-				String projectName, String templateURL, Integer projectRoleId) {
-			TemplateContext context = new TemplateContext();
-
-			Reader reader;
-			try {
-				reader = new InputStreamReader(
-						DenyProjectMemberInvitationServletRequestHandler.class
-								.getClassLoader().getResourceAsStream(
-										templateURL), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				reader = new InputStreamReader(
-						DenyProjectMemberInvitationServletRequestHandler.class
-								.getClassLoader().getResourceAsStream(
-										templateURL));
-			}
-			context.put("inviterEmail", inviterEmail);
-			context.put("redirectURL", redirectURL);
-			context.put("toEmail", memberEmail);
-			context.put("toName", memberName);
-			context.put("inviterName", inviterName);
-			context.put("projectName", projectName);
-			context.put("sAccountId", sAccountId);
-			context.put("projectId", projectId);
-			context.put("projectRoleId", projectRoleId);
-
-			Map<String, String> defaultUrls = new HashMap<String, String>();
-
-			SharingOptions sharingOptions = SiteConfiguration
-					.getSharingOptions();
-
-			defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-			defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
-			defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
-			defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
-			defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
-
-			context.put("defaultUrls", defaultUrls);
-
-			StringWriter writer = new StringWriter();
-			TemplateEngine.evaluate(context, writer, "log task", reader);
-			return writer.toString();
-		}
-	}
-
-	public static class ProjectRemovedGenerator {
-		public static void responePageProjectHasRemoved(
-				HttpServletRequest request, HttpServletResponse response)
-				throws IOException {
-			String pageNotFoundTemplate = "templates/page/project/ProjectNotAvaiablePage.mt";
-			TemplateContext context = new TemplateContext();
-
-			Reader reader;
-			try {
-				reader = new InputStreamReader(ProjectRemovedGenerator.class
-						.getClassLoader().getResourceAsStream(
-								pageNotFoundTemplate), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				reader = new InputStreamReader(ProjectRemovedGenerator.class
-						.getClassLoader().getResourceAsStream(
-								pageNotFoundTemplate));
-			}
-			context.put("loginURL", request.getContextPath() + "/");
-
-			Map<String, String> defaultUrls = new HashMap<String, String>();
-
-			defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-			context.put("defaultUrls", defaultUrls);
-
-			StringWriter writer = new StringWriter();
-			TemplateEngine.evaluate(context, writer, "log task", reader);
-
-			String html = writer.toString();
-			PrintWriter out = response.getWriter();
-			out.println(html);
-		}
-	}
 }

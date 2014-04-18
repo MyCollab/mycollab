@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
@@ -40,6 +41,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -63,7 +65,9 @@ public class BugSearchPanel extends
 	private ComponentContainer rightComponent;
 
 	private static Param[] paramFields = new Param[] {
-			BugSearchCriteria.p_textDesc, BugSearchCriteria.p_resolveddate,
+			BugSearchCriteria.p_textDesc, BugSearchCriteria.p_priority,
+			BugSearchCriteria.p_severity, BugSearchCriteria.p_status,
+			BugSearchCriteria.p_assignee, BugSearchCriteria.p_resolveddate,
 			BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
 			BugSearchCriteria.p_lastupdatedtime };
 
@@ -137,7 +141,6 @@ public class BugSearchPanel extends
 	private class BugBasicSearchLayout extends
 			BasicSearchLayout<BugSearchCriteria> {
 
-		
 		public BugBasicSearchLayout() {
 			super(BugSearchPanel.this);
 		}
@@ -251,6 +254,14 @@ public class BugSearchPanel extends
 		@Override
 		public Param[] getParamFields() {
 			return paramFields;
+		}
+
+		@Override
+		protected Component buildSelectionComp(String fieldId) {
+			if ("bug-assignuser".equals(fieldId)) {
+				return new ProjectMemberListSelect(false);
+			}
+			return null;
 		}
 	}
 }

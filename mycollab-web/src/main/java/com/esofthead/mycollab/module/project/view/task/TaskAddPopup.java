@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.TaskList;

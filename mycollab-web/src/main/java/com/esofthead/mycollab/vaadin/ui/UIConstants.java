@@ -24,7 +24,7 @@ package com.esofthead.mycollab.vaadin.ui;
  */
 public class UIConstants {
 
-	public static final String CRM_MAINVIEW =  "main-view";
+	public static final String CRM_MAINVIEW = "main-view";
 	public static final String BORDER_BOX_2 = "border-box2";
 	public static final String DEFAULT_CAPTION_FORM_WIDTH = "120px";
 	public static final String DEFAULT_CONTROL_WIDTH = "250px";
@@ -55,6 +55,7 @@ public class UIConstants {
 	public static final String THEME_BLANK_LINK = "blankbtn";
 	public static final String THEME_RED_LINK = "redbtn";
 	public static final String THEME_BLUE_LINK = "bluebtn";
+	public static final String THEME_ORANGE_LINK = "orangebtn";
 	public static final String THEME_TRANSPARENT_LINK = "transparentbtn";
 	public static final String THEME_SMALL_PADDING = "small-padding";
 	public static final String THEME_BROWN_LINK = "brownbtn";

@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -190,17 +191,28 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			Label isStickyText = new Label("Is sticky:");
 			isSticky.setStyleName("hdr-text");
 			stickyCheck = new CheckBox("", message.getIsstick());
+			
+			
 			stickyCheck.addValueChangeListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void valueChange(ValueChangeEvent event) {
+					if (CurrentProjectVariables
+							.canWrite(ProjectRolePermissionCollections.MESSAGES))
+					{
 					message.setIsstick(stickyCheck.getValue());
 					message.setSaccountid(AppContext.getAccountId());
 					final MessageService messageService = ApplicationContextUtil
 							.getSpringBean(MessageService.class);
 					messageService.updateWithSession(message,
 							AppContext.getUsername());
+					}
+					else
+					{
+						NotificationUtil.showMessagePermissionAlert();
+					}
+					
 				}
 			});
 

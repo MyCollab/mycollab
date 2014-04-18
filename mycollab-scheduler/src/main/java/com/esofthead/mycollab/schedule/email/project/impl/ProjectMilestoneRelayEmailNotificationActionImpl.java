@@ -151,8 +151,8 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), null);
 		}
 
-		listOfDisplayProperties.put(mapper.getFieldLabel("ownerFullName"),
-				Arrays.asList(new MilestoneLinkMapper(linkGenerator
+		listOfDisplayProperties.put(mapper.getFieldLabel("owner"), Arrays
+				.asList(new MilestoneLinkMapper(linkGenerator
 						.generateUserPreviewFullLink(milestone.getOwner()),
 						milestone.getOwnerFullName())));
 
@@ -233,7 +233,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("startdate", "Start Date");
 			fieldNameMap.put("enddate", "End Date");
 			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("ownerFullName", "Responsible User");
+			fieldNameMap.put("owner", "Responsible User");
 			fieldNameMap.put("description", "Description");
 		}
 

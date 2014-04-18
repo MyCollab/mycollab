@@ -64,7 +64,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 			customLayout.addComponent(nameOrEmailField, "nameoremail");
 
 			Button sendEmail = new Button("Send verification email");
-			sendEmail.setStyleName(UIConstants.THEME_GREEN_LINK);
+			sendEmail.setStyleName(UIConstants.THEME_ORANGE_LINK);
 			sendEmail.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 

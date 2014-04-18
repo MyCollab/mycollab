@@ -101,15 +101,15 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 				tasklist.getProjectid());
 
-		if (tasklist.getMilestoneName() != null)
-			listOfDisplayProperties.put(mapper.getFieldLabel("milestonename"),
+		if (tasklist.getMilestoneid() != null)
+			listOfDisplayProperties.put(mapper.getFieldLabel("milestoneid"),
 					Arrays.asList(new MailItemLink(linkGenerator
 							.generateMilestonePreviewFullLink(tasklist
 									.getMilestoneid()), tasklist
 							.getMilestoneName())));
 		else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("milestone"), null);
+			listOfDisplayProperties.put(mapper.getFieldLabel("milestoneid"),
+					null);
 		}
 
 		if (tasklist.getOwner() != null) {
@@ -223,7 +223,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("priority", "Priority");
 			fieldNameMap.put("taskListname", "Task Group");
 			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("milestonename", "Milestone Name");
+			fieldNameMap.put("milestoneid", "Milestone Name");
 			fieldNameMap.put("projectname", "Project Name");
 
 		}

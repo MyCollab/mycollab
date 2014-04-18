@@ -40,6 +40,10 @@ public class ProjectMemberListSelect extends ListSelect {
 	private static final long serialVersionUID = 1L;
 
 	public ProjectMemberListSelect() {
+		this(true);
+	}
+
+	public ProjectMemberListSelect(boolean listActiveMembersOnly) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		this.setNullSelectionAllowed(false);
 		this.setMultiSelect(true);
@@ -47,8 +51,11 @@ public class ProjectMemberListSelect extends ListSelect {
 		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
 				.getProjectId()));
-		criteria.setStatus(new StringSearchField(
-				ProjectMemberStatusConstants.ACTIVE));
+
+		if (listActiveMembersOnly) {
+			criteria.setStatus(new StringSearchField(
+					ProjectMemberStatusConstants.ACTIVE));
+		}
 
 		ProjectMemberService userService = ApplicationContextUtil
 				.getSpringBean(ProjectMemberService.class);

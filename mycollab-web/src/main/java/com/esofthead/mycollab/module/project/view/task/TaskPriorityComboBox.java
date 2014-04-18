@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.server.Resource;
 import com.vaadin.ui.ComboBox;
 
 /**
@@ -42,50 +43,23 @@ public class TaskPriorityComboBox extends ComboBox {
 
 		this.setContainerDataSource(ic);
 
-		this.setItemIcon(
-				TaskPriorityStatusContants.PRIORITY_HIGHT,
+		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_HIGHT,
 				MyCollabResource
-						.newResource(TaskPriorityStatusContants.PRIORITY_HIGHT_IMG));
-		this.setItemIcon(
-				TaskPriorityStatusContants.PRIORITY_LOW,
+						.newResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
+		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_LOW,
 				MyCollabResource
-						.newResource(TaskPriorityStatusContants.PRIORITY_LOW_IMG));
-		this.setItemIcon(
-				TaskPriorityStatusContants.PRIORITY_MEDIUM,
+						.newResource(ProjectResources.T_PRIORITY_LOW_IMG));
+		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_MEDIUM,
 				MyCollabResource
-						.newResource(TaskPriorityStatusContants.PRIORITY_MEDIUM_IMG));
-		this.setItemIcon(
-				TaskPriorityStatusContants.PRIORITY_NONE,
+						.newResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
+		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_NONE,
 				MyCollabResource
-						.newResource(TaskPriorityStatusContants.PRIORITY_NONE_IMG));
-		this.setItemIcon(
-				TaskPriorityStatusContants.PRIORITY_URGENT,
+						.newResource(ProjectResources.T_PRIORITY_NONE_IMG));
+		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_URGENT,
 				MyCollabResource
-						.newResource(TaskPriorityStatusContants.PRIORITY_URGENT_IMG));
+						.newResource(ProjectResources.T_PRIORITY_URGENT_IMG));
 
 		this.setNullSelectionAllowed(false);
 		this.setValue(this.getItemIds().iterator().next());
-	}
-
-	public static Resource getIconResourceByPriority(String priority) {
-		Resource iconPriority = MyCollabResource
-				.newResource(TaskPriorityStatusContants.PRIORITY_MEDIUM_IMG);
-		if (TaskPriorityStatusContants.PRIORITY_HIGHT.equals(priority)) {
-			iconPriority = MyCollabResource
-					.newResource(TaskPriorityStatusContants.PRIORITY_HIGHT_IMG);
-		} else if (TaskPriorityStatusContants.PRIORITY_LOW.equals(priority)) {
-			iconPriority = MyCollabResource
-					.newResource(TaskPriorityStatusContants.PRIORITY_LOW_IMG);
-		} else if (TaskPriorityStatusContants.PRIORITY_MEDIUM.equals(priority)) {
-			iconPriority = MyCollabResource
-					.newResource(TaskPriorityStatusContants.PRIORITY_MEDIUM_IMG);
-		} else if (TaskPriorityStatusContants.PRIORITY_NONE.equals(priority)) {
-			iconPriority = MyCollabResource
-					.newResource(TaskPriorityStatusContants.PRIORITY_NONE_IMG);
-		} else if (TaskPriorityStatusContants.PRIORITY_URGENT.equals(priority)) {
-			iconPriority = MyCollabResource
-					.newResource(TaskPriorityStatusContants.PRIORITY_URGENT_IMG);
-		}
-		return iconPriority;
 	}
 }

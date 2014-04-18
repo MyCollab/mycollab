@@ -55,6 +55,7 @@ import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
@@ -67,7 +68,7 @@ import com.esofthead.template.velocity.TemplateEngine;
  */
 @Component("acceptMemberInvitationServlet")
 public class VerifyProjectMemberInvitationServletRequestHandler extends
-		GenericServletRequestHandler {
+		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(VerifyProjectMemberInvitationServletRequestHandler.class);
@@ -114,8 +115,14 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 
 					if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
 						// print out page expire
-						String html = generateExpirePage(inviterName,
-								inviterEmail);
+						Map<String, Object> context = new HashMap<String, Object>();
+						context.put("inviterEmail", inviterEmail);
+						context.put("inviterName", inviterName);
+						
+						String html = generatePageByTemplate(
+								EXPIER_PAGE,
+								context);
+
 						PrintWriter out = response.getWriter();
 						out.println(html);
 						return;
@@ -142,33 +149,6 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 			}
 		}
 		throw new ResourceNotFoundException();
-	}
-
-	private String generateExpirePage(String inviterEmail, String inviterName) {
-		TemplateContext context = new TemplateContext();
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					VerifyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(EXPIER_PAGE),
-					"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					VerifyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(EXPIER_PAGE));
-		}
-		context.put("inviterEmail", inviterEmail);
-		context.put("inviterName", inviterName);
-
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		TemplateEngine.evaluate(context, writer, "log task", reader);
-		return writer.toString();
 	}
 
 	private void handleMemberInviteWithExistAccount(String username,
@@ -233,10 +213,19 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 
 		String handelCreateAccountURL = request.getContextPath() + "/"
 				+ "project/outside/createAccount/";
+		Map<String, Object> context = new HashMap<String, Object>();
+		context.put("projectLinkURL", projectLinkURL);
+		context.put("email", email);
+		context.put("handelCreateAccountURL", handelCreateAccountURL);
+		context.put("sAccountId", sAccountId);
+		context.put("projectId", projectId);
+		context.put("roleId", projectRoleId);
+		context.put("inviterName", inviterName);
+		
+		String html = generatePageByTemplate(
+				OUTSIDE_MEMBER_WELCOME_PAGE,
+				context);
 
-		String html = generateOutsideMemberAcceptPage(sAccountId, email,
-				projectId, projectRoleId, projectLinkURL,
-				handelCreateAccountURL, inviterName);
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();
@@ -246,39 +235,4 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 		out.println(html);
 	}
 
-	private String generateOutsideMemberAcceptPage(int sAccountId,
-			String email, int projectId, int roleId, String projectLinkURL,
-			String handelCreateAccountURL, String inviterName) {
-		TemplateContext context = new TemplateContext();
-
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					VerifyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									OUTSIDE_MEMBER_WELCOME_PAGE), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					VerifyProjectMemberInvitationServletRequestHandler.class
-							.getClassLoader().getResourceAsStream(
-									OUTSIDE_MEMBER_WELCOME_PAGE));
-		}
-		context.put("projectLinkURL", projectLinkURL);
-		context.put("email", email);
-		context.put("handelCreateAccountURL", handelCreateAccountURL);
-		context.put("sAccountId", sAccountId);
-		context.put("projectId", projectId);
-		context.put("roleId", roleId);
-		context.put("inviterName", inviterName);
-
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		TemplateEngine.evaluate(context, writer, "log task", reader);
-		return writer.toString();
-	}
 }

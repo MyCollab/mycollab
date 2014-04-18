@@ -33,6 +33,7 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -114,8 +115,8 @@ public class TaskTableDisplay extends
 				b.setDescription(generateToolTip(task));
 
 				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
-					Resource iconPriority = TaskPriorityComboBox
-							.getIconResourceByPriority(task.getPriority());
+					Resource iconPriority = ProjectResources
+							.getIconResource12ByTaskPriority(task.getPriority());
 					b.setIcon(iconPriority);
 
 				}

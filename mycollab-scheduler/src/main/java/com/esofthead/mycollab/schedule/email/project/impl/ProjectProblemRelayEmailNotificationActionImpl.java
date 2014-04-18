@@ -104,9 +104,8 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
 				problem.getProjectid());
 
-		listOfDisplayProperties.put(mapper
-				.getFieldLabel("raisedByUserFullName"), Arrays
-				.asList(new ProblemLinkMapper(
+		listOfDisplayProperties.put(mapper.getFieldLabel("raisedbyuser"),
+				Arrays.asList(new ProblemLinkMapper(
 						linkGenerator.generateUserPreviewFullLink(problem
 								.getRaisedbyuser()), problem
 								.getRaisedByUserFullName())));
@@ -238,12 +237,12 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			fieldNameMap = new HashMap<String, String>();
 
 			fieldNameMap.put("issuename", "Issue name");
-			fieldNameMap.put("assignedUserFullName", "Assigned to");
+			fieldNameMap.put("assigntouser", "Assigned to");
 			fieldNameMap.put("datedue", "Due date");
 			fieldNameMap.put("status", "Status");
 			fieldNameMap.put("impact", "Impact");
 			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("raisedByUserFullName", "Raised By");
+			fieldNameMap.put("raisedbyuser", "Raised By");
 			fieldNameMap.put("description", "Description");
 			fieldNameMap.put("resolution", "Resolution");
 		}

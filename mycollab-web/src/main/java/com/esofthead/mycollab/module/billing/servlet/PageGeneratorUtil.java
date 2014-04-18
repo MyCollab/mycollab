@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.app.VelocityEngine;
 
+import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.template.velocity.TemplateContext;
@@ -43,9 +44,16 @@ public class PageGeneratorUtil {
 		}
 		context.put("loginURL", loginURL);
 		Map<String, String> defaultUrls = new HashMap<String, String>();
-
+		SharingOptions sharingOptions = SiteConfiguration
+				.getSharingOptions();
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
+		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
+		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
+		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
+		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
+		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
 		context.put("defaultUrls", defaultUrls);
+		
 
 		StringWriter writer = new StringWriter();
 		VelocityEngine templateEngine = ApplicationContextUtil

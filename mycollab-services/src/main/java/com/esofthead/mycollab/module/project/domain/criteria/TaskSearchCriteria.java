@@ -38,7 +38,7 @@ public class TaskSearchCriteria extends SearchCriteria {
 
 	public static Param p_assignee = new PropertyListParam("task-assignuser",
 			"Assignee", "m_prj_task", "assignUser");
-	public static Param p_tasklist= new PropertyListParam("task-list",
+	public static Param p_tasklist = new PropertyListParam("task-list",
 			"Task List", "m_prj_task", "tasklistid");
 	public static Param p_duedate = new DateParam("task-duedate", "Due Date",
 			"m_prj_task", "deadline");
@@ -49,7 +49,7 @@ public class TaskSearchCriteria extends SearchCriteria {
 			"Create Time", "m_prj_task", "createTime");
 
 	public static Param p_status = new StringListParam("task-status", "Status",
-			"m_prj_task", "status", Arrays.asList("Open", "Closed"));
+			"m_prj_task", "status", Arrays.asList("Open", "Pending", "Closed"));
 
 	private NumberSearchField projectid;
 	private NumberSearchField taskListId;

@@ -17,11 +17,7 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,9 +42,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccountInvitationExample;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
-import com.esofthead.template.velocity.TemplateContext;
-import com.esofthead.template.velocity.TemplateEngine;
+import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 
 /**
  * 
@@ -58,7 +52,7 @@ import com.esofthead.template.velocity.TemplateEngine;
  */
 @Component("acceptUserInvitationServlet")
 public class VerifyUserServletRequestHandler extends
-		GenericServletRequestHandler {
+		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(VerifyUserServletRequestHandler.class);
@@ -121,9 +115,16 @@ public class VerifyUserServletRequestHandler extends
 							String redirectURL = SiteConfiguration
 									.getSiteUrl(subdomain)
 									+ "user/confirm_invite/update_info/";
-							String html = generateUserFillInformationPage(
-									request, accountId, username,
-									user.getEmail(), redirectURL, loginURL);
+							
+							Map<String, Object> context = new HashMap<String, Object>();
+							context.put("username", username);
+							context.put("accountId", accountId);
+							context.put("email", user.getEmail());
+							context.put("redirectURL", redirectURL);
+							context.put("loginURL", loginURL);
+							String html = generatePageByTemplate(
+									"templates/page/user/FillUserInformation.mt",
+									context);
 							PrintWriter out = response.getWriter();
 							out.print(html);
 							return;
@@ -151,37 +152,5 @@ public class VerifyUserServletRequestHandler extends
 			throw new MyCollabException(e);
 		}
 
-	}
-
-	private String generateUserFillInformationPage(HttpServletRequest request,
-			int accountId, String username, String email, String redirectURL,
-			String loginURL) {
-		String template = "templates/page/user/FillUserInformation.mt";
-		TemplateContext context = new TemplateContext();
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class.getClassLoader()
-							.getResourceAsStream(template), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class.getClassLoader()
-							.getResourceAsStream(template));
-		}
-
-		context.put("username", username);
-		context.put("accountId", accountId);
-		context.put("email", email);
-		context.put("redirectURL", redirectURL);
-		context.put("loginURL", loginURL);
-
-		Map<String, String> defaultUrls = new HashMap<String, String>();
-
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		context.put("defaultUrls", defaultUrls);
-
-		StringWriter writer = new StringWriter();
-		TemplateEngine.evaluate(context, writer, "log task", reader);
-		return writer.toString();
 	}
 }

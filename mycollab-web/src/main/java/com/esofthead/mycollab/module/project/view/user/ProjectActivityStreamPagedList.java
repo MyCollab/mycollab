@@ -33,9 +33,9 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -145,12 +145,9 @@ public class ProjectActivityStreamPagedList
 				String arg10 = idUserStickyToolTipDiv;
 				String arg11 = idUserToopTipDiv;
 				String arg12 = idDivUserSeverData;
-				String arg13 = activityStream.getType().toLowerCase();
-				if (arg13.equalsIgnoreCase(ProjectTypeConstants.TASK_LIST)) {
-					arg13 = "task group";
-				} else if (arg13.equalsIgnoreCase(ProjectTypeConstants.STANDUP)) {
-					arg13 = "standup report";
-				}
+				String arg13 = LocalizationHelper
+						.getMessage(ProjectLocalizationTypeMap
+								.getType(activityStream.getType()));
 				String arg14 = ProjectResources.getResourceLink(activityStream
 						.getType());
 				String arg15 = idtagA;
@@ -180,8 +177,6 @@ public class ProjectActivityStreamPagedList
 									arg25, arg26, arg27);
 				} else if (ActivityStreamConstants.ACTION_UPDATE
 						.equals(activityStream.getAction())) {
-					// tooltip id is = tooltip + dateTime + typeId
-					// serverData id is = serverdata + dateTime + typeId
 					content = LocalizationHelper
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,

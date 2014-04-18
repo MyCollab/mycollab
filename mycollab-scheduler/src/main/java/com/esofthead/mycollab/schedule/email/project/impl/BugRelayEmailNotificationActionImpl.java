@@ -379,7 +379,7 @@ public class BugRelayEmailNotificationActionImpl extends
 			fieldNameMap.put("priority", "Priority");
 			fieldNameMap.put("duedate", "Due Date");
 			fieldNameMap.put("logby", "Logged By");
-			fieldNameMap.put("milestone", "Milestone");
+			fieldNameMap.put("milestoneid", "Milestone");
 		}
 
 		public boolean hasField(String fieldName) {
