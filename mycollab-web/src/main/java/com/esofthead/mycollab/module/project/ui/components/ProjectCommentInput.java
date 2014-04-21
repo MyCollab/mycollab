@@ -24,8 +24,10 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -37,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
@@ -67,16 +70,33 @@ public class ProjectCommentInput extends HorizontalLayout {
 		this.setStyleName("message");
 		this.setWidth("100%");
 
-		SimpleUser currentUser = AppContext.getSession();
+		final SimpleUser currentUser = AppContext.getSession();
 		VerticalLayout userBlock = new VerticalLayout();
 		userBlock.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		userBlock.setWidth("80px");
 		userBlock.setSpacing(true);
-		userBlock.addComponent(UserAvatarControlFactory
+
+		ClickListener gotoUser = new ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				EventBus.getInstance().fireEvent(
+						new ProjectMemberEvent.GotoRead(this, currentUser
+								.getUsername()));
+			}
+		};
+
+		Button userAvatarBtn = UserAvatarControlFactory
 				.createUserAvatarButtonLink(currentUser.getAvatarid(),
-						currentUser.getDisplayName()));
-		Label userName = new Label(currentUser.getDisplayName());
+						currentUser.getDisplayName());
+		userAvatarBtn.addClickListener(gotoUser);
+		userBlock.addComponent(userAvatarBtn);
+		Button userName = new Button(currentUser.getDisplayName());
 		userName.setStyleName("user-name");
+		userName.addStyleName("link");
+		userName.addStyleName(UIConstants.WORD_WRAP);
+		userName.addClickListener(gotoUser);
 		userBlock.addComponent(userName);
 
 		this.addComponent(userBlock);

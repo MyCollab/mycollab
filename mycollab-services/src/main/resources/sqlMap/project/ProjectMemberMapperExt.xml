@@ -151,13 +151,12 @@
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,  s_user.avatarId
             FROM s_user, s_user_account
-            WHERE s_user.username=s_user_account.username AND ((SELECT COUNT(*) 
+            WHERE s_user.username=s_user_account.username AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}
+                  AND ((SELECT COUNT(*) 
                         FROM m_prj_member 
                         WHERE m_prj_member.username = s_user.username 
                             AND m_prj_member.status='Active' 
-                            AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}
-                            AND s_user_account.username=s_user.username 
-                            AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}) = 0)
+                            AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}) = 0)
         ]]>
 
     </select>

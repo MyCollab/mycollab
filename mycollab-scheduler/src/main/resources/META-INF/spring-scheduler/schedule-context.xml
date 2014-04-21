@@ -104,7 +104,7 @@
     <bean id="sendAccountBillingEmailTrigger"
         class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
         <property name="jobDetail" ref="sendAccountBillingEmailJob" />
-        <property name="cronExpression" value="0 0 0 * * ?" />
+        <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="sendingCountUserLoginByDateTrigger"

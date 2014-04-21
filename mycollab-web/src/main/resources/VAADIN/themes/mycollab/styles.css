@@ -1910,6 +1910,11 @@ input.v-textfield-errorField {
 	background-color: #F7F7F7;
 	cursor: pointer;
 }
+
+.project-list-comp-content .project-name .v-label{
+	cursor:pointer;
+}
+
 .project-list-comp-content .project-name.current-project {
 	font-weight: bold;
 }
@@ -6235,9 +6240,13 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 .v-button-graybtn.v-popupbutton .v-popup-indicator , .splitbutton .v-popupbutton.greenbtn .v-popup-indicator,.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator
+.v-button-graybtn.v-popupbutton .v-popup-indicator , .splitbutton .v-popupbutton.greenbtn .v-popup-indicator,
+.splitbutton .v-popupbutton.graybtn .v-popup-indicator, .splitbutton .v-popupbutton.bluebtn .v-popup-indicator,
+ .v-popupbutton.bluebtn .v-popup-indicator
 {
-	background: url("icons/sprites.png");
+    background: url("icons/sprites.png");
 }
+
 .v-popupbutton .v-popup-indicator {
 	background-position:-7px -10px !important;
 } 

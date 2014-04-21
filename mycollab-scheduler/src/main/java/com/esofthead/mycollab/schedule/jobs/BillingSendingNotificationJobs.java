@@ -34,6 +34,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.module.billing.service.BillingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
@@ -149,8 +150,11 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 							remindAccountIsAboutEndTemplate);
 					templateGenerator.putVariable("account", account);
 
-					String link = "https://" + account.getSubdomain()
-							+ ".mycollab.com";
+					String link = GenericLinkUtils
+							.generateSiteUrlByAccountId(account.getId())
+							+ GenericLinkUtils.URL_PREFIX_PARAM
+							+ "account/billing";
+
 					Calendar cal = Calendar.getInstance(TimeZone
 							.getTimeZone("UTC"));
 					cal.setTime(account.getCreatedtime());
@@ -179,8 +183,10 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 					templateGenerator.putVariable("account", account);
 					templateGenerator.putVariable("userName",
 							user.getUsername());
-					String link = "https://" + account.getSubdomain()
-							+ ".mycollab.com";
+					String link = GenericLinkUtils
+							.generateSiteUrlByAccountId(account.getId())
+							+ GenericLinkUtils.URL_PREFIX_PARAM
+							+ "account/billing";
 					templateGenerator.putVariable("link", link);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
