@@ -24,8 +24,6 @@ import org.vaadin.peter.contextmenu.ContextMenu;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItem;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuOpenedListener.ComponentListener;
-import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuOpenedOnComponentEvent;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -33,7 +31,9 @@ import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -44,12 +44,10 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
@@ -100,7 +98,6 @@ public class BugTableDisplay extends
 
 				final ContextMenu contextMenu = new ContextMenu();
 				contextMenu.setAsContextMenuOf(bugSettingBtn);
-				contextMenu.setOpenAutomatically(false);
 
 				contextMenu
 						.addItemClickListener(new ContextMenuItemClickListener() {
@@ -108,8 +105,15 @@ public class BugTableDisplay extends
 							@Override
 							public void contextMenuItemClicked(
 									ContextMenuItemClickEvent event) {
-								String category = "";
-								String value = "";
+								if (((ContextMenuItem) event.getSource())
+										.getData() == null) {
+									return;
+								}
+
+								String category = ((MenuItemData) ((ContextMenuItem) event
+										.getSource()).getData()).getAction();
+								String value = ((MenuItemData) ((ContextMenuItem) event
+										.getSource()).getData()).getKey();
 								if ("status".equals(category)) {
 									if (BugStatusConstants.VERIFIED
 											.equals(value)) {
@@ -202,133 +206,13 @@ public class BugTableDisplay extends
 				bugSettingBtn.setEnabled(CurrentProjectVariables
 						.canWrite(ProjectRolePermissionCollections.BUGS));
 
-				contextMenu
-						.addContextMenuComponentListener(new ComponentListener() {
-
-							public void onContextMenuOpenFromComponent(
-									ContextMenuOpenedOnComponentEvent event) {
-								contextMenu.open(event.getX() - 25,
-										event.getY());
-								contextMenu.removeAllItems();
-
-								contextMenu.addItem("Edit").setData(
-										new MenuItemData("action", "edit"));
-
-								ContextMenuItem statusMenuItem = contextMenu
-										.addItem("Status");
-								if (BugStatusConstants.OPEN.equals(bug
-										.getStatus())
-										|| BugStatusConstants.REOPENNED
-												.equals(bug.getStatus())) {
-									statusMenuItem
-											.addItem("Start Progress")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.INPROGRESS));
-									statusMenuItem
-											.addItem("Resolved")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.RESOLVED));
-									statusMenuItem
-											.addItem("Won't Fix")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.RESOLVED));
-								} else if (BugStatusConstants.INPROGRESS
-										.equals(bug.getStatus())) {
-									statusMenuItem
-											.addItem("Stop Progress")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.OPEN));
-									statusMenuItem
-											.addItem("Resolved")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.RESOLVED));
-								} else if (BugStatusConstants.VERIFIED
-										.equals(bug.getStatus())) {
-									statusMenuItem
-											.addItem("ReOpen")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.REOPENNED));
-								} else if (BugStatusConstants.RESOLVED
-										.equals(bug.getStatus())) {
-									statusMenuItem
-											.addItem("ReOpen")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.REOPENNED));
-									statusMenuItem
-											.addItem("Approve & Close")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.VERIFIED));
-								} else if (BugStatusConstants.RESOLVED
-										.equals(bug.getStatus())) {
-									statusMenuItem
-											.addItem("ReOpen")
-											.setData(
-													new MenuItemData(
-															"status",
-															BugStatusConstants.REOPENNED));
-								}
-
-								// Show bug priority
-								ContextMenuItem priorityMenuItem = contextMenu
-										.addItem("Priority");
-								for (String bugPriority : ProjectDataTypeFactory
-										.getBugPriorityList()) {
-									ContextMenuItem prioritySubMenuItem = priorityMenuItem
-											.addItem(bugPriority);
-									prioritySubMenuItem
-											.setData(new MenuItemData(
-													"priority", bugPriority));
-									if (bugPriority.equals(bug.getPriority())) {
-										prioritySubMenuItem.setEnabled(false);
-									}
-								}
-
-								// Show bug severity
-								ContextMenuItem severityMenuItem = contextMenu
-										.addItem("Severity");
-								for (String bugSeverity : ProjectDataTypeFactory
-										.getBugSeverityList()) {
-									ContextMenuItem severitySubMenuItem = severityMenuItem
-											.addItem(bugSeverity);
-									severityMenuItem.setData(new MenuItemData(
-											"severity", bugSeverity));
-									if (bugSeverity.equals(bug.getSeverity())) {
-										severitySubMenuItem.setEnabled(false);
-									}
-								}
-
-								// Add delete button
-								ContextMenuItem deleteMenuItem = contextMenu
-										.addItem("Delete");
-								deleteMenuItem.setData(new MenuItemData(
-										"action", "delete"));
-								deleteMenuItem.setEnabled(CurrentProjectVariables
-										.canAccess(ProjectRolePermissionCollections.BUGS));
-							}
-						});
-
 				bugSettingBtn.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-
+						displayContextMenuItem(contextMenu, bug,
+								event.getClientX(), event.getClientY());
 					}
 				});
 				return bugSettingBtn;
@@ -375,27 +259,20 @@ public class BugTableDisplay extends
 						.getBeanByIndex(itemId);
 
 				String bugname = "[%s-%s] %s";
-				bugname = String.format(bugname, CurrentProjectVariables
-						.getProject().getShortname(), bug.getBugkey(), bug
-						.getSummary());
-
-				ButtonLink b = new ButtonLink(bugname,
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										BugTableDisplay.this, bug, "summary"));
-							}
-						});
-				b.setDescription(BugToolTipGenerator.generateToolTip(bug));
+				bugname = ProjectLinkBuilder.generateBugPreviewFullLink(
+						bug.getProjectid(), bug.getId());
+				LabelLink b = new LabelLink(bug.getSummary(), bugname);
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
 					Resource iconPriority = ProjectResources
 							.getIconResource12ByBugSeverity(bug.getPriority());
+
 					b.setIcon(iconPriority);
+				
+					
 				}
+
+				b.setDescription(BugToolTipGenerator.generateToolTip(bug));
 
 				if (bug.isCompleted()) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -480,6 +357,70 @@ public class BugTableDisplay extends
 		});
 
 		this.setWidth("100%");
+	}
+
+	private void displayContextMenuItem(ContextMenu contextMenu, SimpleBug bug,
+			int locx, int locy) {
+		contextMenu.open(locx - 25, locx);
+		contextMenu.removeAllItems();
+
+		contextMenu.addItem("Edit").setData(new MenuItemData("action", "edit"));
+
+		ContextMenuItem statusMenuItem = contextMenu.addItem("Status");
+		if (BugStatusConstants.OPEN.equals(bug.getStatus())
+				|| BugStatusConstants.REOPENNED.equals(bug.getStatus())) {
+			statusMenuItem.addItem("Start Progress").setData(
+					new MenuItemData("status", BugStatusConstants.INPROGRESS));
+			statusMenuItem.addItem("Resolved").setData(
+					new MenuItemData("status", BugStatusConstants.RESOLVED));
+			statusMenuItem.addItem("Won't Fix").setData(
+					new MenuItemData("status", BugStatusConstants.RESOLVED));
+		} else if (BugStatusConstants.INPROGRESS.equals(bug.getStatus())) {
+			statusMenuItem.addItem("Stop Progress").setData(
+					new MenuItemData("status", BugStatusConstants.OPEN));
+			statusMenuItem.addItem("Resolved").setData(
+					new MenuItemData("status", BugStatusConstants.RESOLVED));
+		} else if (BugStatusConstants.VERIFIED.equals(bug.getStatus())) {
+			statusMenuItem.addItem("ReOpen").setData(
+					new MenuItemData("status", BugStatusConstants.REOPENNED));
+		} else if (BugStatusConstants.RESOLVED.equals(bug.getStatus())) {
+			statusMenuItem.addItem("ReOpen").setData(
+					new MenuItemData("status", BugStatusConstants.REOPENNED));
+			statusMenuItem.addItem("Approve & Close").setData(
+					new MenuItemData("status", BugStatusConstants.VERIFIED));
+		} else if (BugStatusConstants.RESOLVED.equals(bug.getStatus())) {
+			statusMenuItem.addItem("ReOpen").setData(
+					new MenuItemData("status", BugStatusConstants.REOPENNED));
+		}
+
+		// Show bug priority
+		ContextMenuItem priorityMenuItem = contextMenu.addItem("Priority");
+		for (String bugPriority : ProjectDataTypeFactory.getBugPriorityList()) {
+			ContextMenuItem prioritySubMenuItem = priorityMenuItem
+					.addItem(bugPriority);
+			prioritySubMenuItem.setData(new MenuItemData("priority",
+					bugPriority));
+			if (bugPriority.equals(bug.getPriority())) {
+				prioritySubMenuItem.setEnabled(false);
+			}
+		}
+
+		// Show bug severity
+		ContextMenuItem severityMenuItem = contextMenu.addItem("Severity");
+		for (String bugSeverity : ProjectDataTypeFactory.getBugSeverityList()) {
+			ContextMenuItem severitySubMenuItem = severityMenuItem
+					.addItem(bugSeverity);
+			severityMenuItem.setData(new MenuItemData("severity", bugSeverity));
+			if (bugSeverity.equals(bug.getSeverity())) {
+				severitySubMenuItem.setEnabled(false);
+			}
+		}
+
+		// Add delete button
+		ContextMenuItem deleteMenuItem = contextMenu.addItem("Delete");
+		deleteMenuItem.setData(new MenuItemData("action", "delete"));
+		deleteMenuItem.setEnabled(CurrentProjectVariables
+				.canAccess(ProjectRolePermissionCollections.BUGS));
 	}
 
 	private static class MenuItemData {

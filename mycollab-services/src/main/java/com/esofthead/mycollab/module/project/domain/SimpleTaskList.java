@@ -52,6 +52,13 @@ public class SimpleTaskList extends TaskList {
 	}
 
 	public String getOwnerFullName() {
+		if (ownerFullName == null || ownerFullName.trim().equals("")) {
+			String displayName = getOwner();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return ownerFullName;
 	}
 
@@ -171,7 +178,7 @@ public class SimpleTaskList extends TaskList {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	public String getProjectName() {
 		return projectName;
 	}

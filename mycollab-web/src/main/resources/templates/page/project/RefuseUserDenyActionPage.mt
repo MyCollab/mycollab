@@ -13,8 +13,8 @@
 </style>
 <title>Refuse deny action page</title>
 </head>
-<body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
+<body>
+	<div id="container">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
 			<div id="spacing" "></div>
@@ -28,10 +28,11 @@
 						Sorry! Your account has already activated. Please contact your project admin if you have any question.
 					</h3>
 				</div>
-				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+				<div class="right">
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
 				</div>
-			#parse("templates/page/pageFooter.mt")
+				#parse("templates/page/pageFooter.mt")
+			</div>
 		</div>
 	</div>
 </body>

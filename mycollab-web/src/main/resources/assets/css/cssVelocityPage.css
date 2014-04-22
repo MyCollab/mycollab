@@ -3,7 +3,12 @@
 	position: relative;
 	background-color: #59adfb;
 }
-
+body {
+	height: 100%; 
+	margin: 0; 
+	padding: 0; 
+	width: 100%;
+}
 #body {
 	padding-bottom: 0;
 }
@@ -43,6 +48,11 @@ h3 {
 	font: 16px 'Georgia', sans-serif;
 	color: #eaebec;
 	margin: 10px 0;
+}
+
+span {
+	font: 16px 'Georgia', sans-serif;
+	color:#FFFFFF;
 }
 
 #spacing {
@@ -168,4 +178,8 @@ h3 {
 }
 #error_excuse {
     padding-left: 30px;
+}
+
+.right {
+	text-align: right;
 }

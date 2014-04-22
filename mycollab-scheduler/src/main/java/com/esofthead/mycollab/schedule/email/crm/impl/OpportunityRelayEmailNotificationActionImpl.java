@@ -30,13 +30,11 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
@@ -50,7 +48,7 @@ import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificati
  */
 @Component
 public class OpportunityRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleOpportunity> implements
 		OpportunityRelayEmailNotificationAction {
 
 	@Autowired
@@ -231,24 +229,6 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		} else {
 			return null;
 		}
-	}
-
-	private Map<String, String> constructHyperLinks(
-			SimpleOpportunity simpleOpportunity) {
-		Map<String, String> hyperLinks = new HashMap<String, String>();
-		hyperLinks.put(
-				"opportunityURL",
-				getSiteUrl(simpleOpportunity.getSaccountid())
-						+ CrmLinkGenerator.generateCrmItemLink(
-								CrmTypeConstants.OPPORTUNITY,
-								simpleOpportunity.getId()));
-		if (simpleOpportunity.getAssignuser() != null) {
-			hyperLinks.put("assignUserURL", UserLinkUtils
-					.generatePreviewFullUserLink(
-							getSiteUrl(simpleOpportunity.getSaccountid()),
-							simpleOpportunity.getAssignuser()));
-		}
-		return hyperLinks;
 	}
 
 	@Override

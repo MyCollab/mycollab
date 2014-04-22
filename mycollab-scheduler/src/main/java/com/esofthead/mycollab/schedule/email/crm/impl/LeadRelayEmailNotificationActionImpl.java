@@ -47,7 +47,7 @@ import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationActio
  */
 @Component
 public class LeadRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleLead> implements
 		LeadRelayEmailNotificationAction {
 
 	@Autowired

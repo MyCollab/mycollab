@@ -22,8 +22,8 @@
 				<div id="title">
 					<h1>Please Feedback To Inviter</h1>
 				</div>
-				<hr size="1" style="margin: 1px 0 1px 0; ">
-				<hr size="1" style="margin: 1px 0 1px 0; ">
+				<hr size="1" >
+				<hr size="1" >
 
 				<div>
 					<p><h3>Oops! We are sorry because you do not want to join MyCollab. Could you please drop some lines to tell reason to the inviter?
@@ -32,9 +32,9 @@
                     <textarea id="message" style="width:767px; height:130px" >
                     </textarea>
                 	</div>
-                    <div style="display: block; text-align: right;padding: 20px 0px;">
-                        <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();"><span style="font-family: 'Georgia';font-size: 15px; ">Send</span></button>&nbsp;&nbsp;
-                        <button class="v-button v-button-graybtn" type="button" onclick="return skip();"><span style="font-family: 'Georgia';font-size: 14px; ">Skip</span></button>
+                    <div class="right">
+                        <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();"><span>Send</span></button>&nbsp;&nbsp;
+                        <button class="v-button v-button-graybtn" type="button" onclick="return skip();"><span>Skip</span></button>
                     </div>
                     <div id="requireMsg" style="display: none; padding: 12px 8px 8px 20px;">
                         <p><span style="color:red; font-style:italic">

@@ -26,13 +26,18 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 @ViewComponent
 public class TaskSearchViewImpl extends AbstractPageView implements
 		TaskSearchView {
 
 	private static final long serialVersionUID = 1L;
 	private TaskSearchPanel taskSearchPanel;
-	private TaskSearchCriteria searchCriteria;
 	private TaskSearchTableDisplay tableItem;
 	private final VerticalLayout taskListLayout;
 	private Label headerText;
@@ -137,15 +142,16 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 		headerText.setValue(title);
 
 	}
-	
+
 	@Override
 	public void moveToAdvanceSearch() {
 		taskSearchPanel.getAdvanceSearch();
 	}
-	
+
 	@Override
 	public void moveToBasicSearch() {
-		taskSearchPanel.getBasicSearch();;
+		taskSearchPanel.getBasicSearch();
+		;
 	}
 
 }

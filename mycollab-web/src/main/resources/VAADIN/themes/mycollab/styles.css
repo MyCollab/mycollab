@@ -134,7 +134,7 @@ div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .
 	overflow: auto;
 }
 
-.v-label.overdue {
+.v-label.overdue,.v-label.overdue a  {
 	color: red;
 }
 
@@ -160,6 +160,11 @@ div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .
 	font-size: 15px;
 	padding-top: 10px;
 	text-align: center;
+}
+
+.v-label.link img {
+	vertical-align: top;
+	margin-right:3px;
 }
 
 input.v-textfield,textarea.v-textarea,.v-filterselect {
@@ -4328,7 +4333,7 @@ div.v-csslayout.member-block {
 /* End Project Member Block */
 
 /* Label complete */
-.v-label.completed {
+.v-label.completed,  .v-label.completed a{
 	color: black;
 	text-decoration: line-through;
 }
@@ -6989,4 +6994,85 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .list-note-lbl {
 	padding: 3px 8px 3px 0px;
+}
+
+/* Context Menu */
+.v-context-menu {
+	float: left;
+	
+	font-family: Arial;
+	font-size: 12px;
+	
+	background-color: #f0f0f0;
+}
+
+.v-context-menu .v-context-menu-item-basic,
+.v-context-menu .v-context-menu-item-basic-submenu {
+	float: left;
+	clear: left;
+	
+	height: 26px;
+	
+	color: #222;
+	
+	cursor: pointer;
+	
+	background-color: #f0f0f0;
+}
+
+.v-context-menu .v-context-menu-item-basic.v-context-menu-item-separator,
+.v-context-menu .v-context-menu-item-basic-submenu.v-context-menu-item-separator {
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.v-context-menu .v-context-menu-item-basic-submenu {
+	background: transparent url("icons/arrow.png") no-repeat center right;
+}
+
+.v-context-menu .v-context-menu-item-basic:focus,
+.v-context-menu .v-context-menu-item-basic-submenu:focus,
+.v-context-menu .v-context-menu-item-basic-open {
+	background-color: #e0e0e0;
+	outline: none;
+}
+
+.v-context-menu .v-context-menu-item-basic.v-context-menu-item-disabled {
+	opacity: 0.3;
+	filter: alpha(opacity = 30);
+	zoom: 1;
+}
+
+.v-context-menu .v-context-menu-item-basic.v-context-menu-item-disabled:hover,
+.v-context-menu .v-context-menu-item-basic-submenu.v-context-menu-item-disabled:hover {
+	background-color: #f0f0f0;
+}
+
+.v-context-menu .v-context-menu-item-basic-icon-container {
+	float: left;
+	
+	width: 26px;
+	height: 26px;
+	
+	margin-right: 5px;
+		
+	border-right: 1px solid #d0d0d0;
+	
+	text-align: center;
+}
+
+.v-context-menu .v-context-menu-item-basic-icon-container .v-icon {
+	float: left;
+	
+	width: 16px;
+	height: 16px;
+	
+	padding: 5px;
+}
+
+.v-context-menu .v-context-menu-item-basic-text {
+	float: left;
+        
+	height: 26px;
+	line-height: 26px;
+	padding: 0 20px 0 10px;
 }

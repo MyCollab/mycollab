@@ -46,6 +46,13 @@ public class ProjectGenericTaskCount implements Serializable {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			String displayName = getAssignUser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignUserFullName;
 	}
 

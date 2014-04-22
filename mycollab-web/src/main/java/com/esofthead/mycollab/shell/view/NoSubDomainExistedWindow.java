@@ -59,7 +59,7 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							getUI().getPage().setLocation(
-									"https://www.mycollab.com");
+									"http://www.mycollab.com");
 						}
 					});
 			backToHome.addStyleName(UIConstants.THEME_GREEN_LINK);

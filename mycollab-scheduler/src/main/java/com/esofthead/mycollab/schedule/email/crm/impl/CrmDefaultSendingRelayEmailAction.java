@@ -17,15 +17,20 @@
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -33,6 +38,8 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -56,10 +63,12 @@ import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.schedule.email.FieldFormat;
 import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -67,6 +76,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 1.0
  * 
  */
+@SuppressWarnings("rawtypes")
 public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		implements SendingRelayEmailNotificationAction {
 
@@ -87,8 +97,43 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 
 	protected String crmType;
 
+	public static final String DEFAULT_FIELD = "default";
+	public static final String DATE_FIELD = "date";
+	public static final String DATETIME_FIELD = "datetime";
+	public static final String CURRENCY_FIELD = "currency";
+
+	protected String currentUserTimezone;
+
+	protected Map<String, FieldDisplayHandler> fieldsFormat = new HashMap<String, FieldDisplayHandler>();
+
+	private static Map<String, FieldFormat> defaultFieldHandlers;
+
+	static {
+		defaultFieldHandlers = new HashMap<String, FieldFormat>();
+		defaultFieldHandlers.put(DEFAULT_FIELD, new DefaultFieldFormat());
+		defaultFieldHandlers.put(DATE_FIELD, new DateFieldFormat());
+		defaultFieldHandlers.put(DATETIME_FIELD, new DateTimeFieldFormat());
+		defaultFieldHandlers.put(CURRENCY_FIELD, new CurrencyFieldFormat());
+	}
+
 	public CrmDefaultSendingRelayEmailAction(String crmType) {
 		this.crmType = crmType;
+	}
+
+	public void generateFieldDisplayHandler(String fieldname, String displayName) {
+		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName));
+	}
+
+	public void generateFieldDisplayHandler(String fieldname,
+			String displayName, FieldFormat format) {
+		fieldsFormat.put(fieldname,
+				new FieldDisplayHandler(displayName, format));
+	}
+
+	public void generateFieldDisplayHandler(String fieldname,
+			String displayName, String formatName) {
+		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName,
+				defaultFieldHandlers.get(formatName)));
 	}
 
 	@Override
@@ -98,6 +143,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				notification, MonitorTypeConstants.CREATE_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			for (SimpleUser user : notifiers) {
+				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
 						notification, user);
 				if (templateGenerator != null) {
@@ -134,6 +180,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				notification, MonitorTypeConstants.UPDATE_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			for (SimpleUser user : notifiers) {
+				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
 						notification, user);
 				if (templateGenerator != null) {
@@ -168,6 +215,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 				notification, MonitorTypeConstants.ADD_COMMENT_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			for (SimpleUser user : notifiers) {
+				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(
 						notification, user);
 				if (templateGenerator != null) {
@@ -353,4 +401,83 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 
 	protected abstract TemplateGenerator templateGeneratorForCommentAction(
 			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+
+	protected static class FieldDisplayHandler {
+		private String displayName;
+
+		private FieldFormat format;
+
+		public FieldDisplayHandler(String displayName) {
+			this(displayName, new DefaultFieldFormat());
+		}
+
+		public FieldDisplayHandler(String displayName, FieldFormat format) {
+			this.displayName = displayName;
+			this.format = format;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public FieldFormat getFormat() {
+			return format;
+		}
+	}
+
+	public static class DefaultFieldFormat implements FieldFormat<String> {
+
+		@Override
+		public String formatField(String value, String timeZone) {
+			if (value == null)
+				return new Span().write();
+
+			return new Span().appendText(value).write();
+		}
+	}
+
+	public static class DateFieldFormat implements FieldFormat<Date> {
+
+		@Override
+		public String formatField(Date value, String timeZone) {
+			if (value == null)
+				return new Span().write();
+
+			return new Span().appendText(
+					DateTimeUtils.converToStringWithUserTimeZone(value,
+							timeZone)).write();
+		}
+	}
+
+	public static class DateTimeFieldFormat implements FieldFormat<Date> {
+
+		@Override
+		public String formatField(Date value, String timeZone) {
+			if (value == null)
+				return new Span().write();
+
+			return new Span().appendText(
+					DateTimeUtils.formatDateTime(value, TimezoneMapper
+							.getTimezone(timeZone).getTimezone())).write();
+		}
+	}
+
+	public static class CurrencyFieldFormat implements FieldFormat<Integer> {
+
+		@Override
+		public String formatField(Integer value, String timeZone) {
+			if (value == null)
+				return new Span().write();
+
+			try {
+				CurrencyService currencyService = ApplicationContextUtil
+						.getSpringBean(CurrencyService.class);
+				Currency currency = currencyService.getCurrency(value);
+				return new Span().appendText(currency.getSymbol()).write();
+			} catch (Exception e) {
+				log.error("Error while get currency id" + value, e);
+				return new Span().write();
+			}
+		}
+	}
 }

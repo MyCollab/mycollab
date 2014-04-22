@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="http://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.mycollab.com/favicon.ico" type="image/x-icon">
 </head>
 <body style="background-color: rgb(218, 223, 225); color: #4e4e4e; font: 16px Georgia, serif; padding: 20px 0px;">
 	#macro( confirmLink $webLink $displayText )

@@ -48,7 +48,7 @@ import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationActio
  */
 @Component
 public class TaskRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleTask> implements
 		TaskRelayEmailNotificationAction {
 
 	@Autowired

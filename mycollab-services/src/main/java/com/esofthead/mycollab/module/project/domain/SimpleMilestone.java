@@ -48,6 +48,13 @@ public class SimpleMilestone extends Milestone {
 	}
 
 	public String getOwnerFullName() {
+		if (ownerFullName == null || ownerFullName.trim().equals("")) {
+			String displayName = getOwner();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return ownerFullName;
 	}
 

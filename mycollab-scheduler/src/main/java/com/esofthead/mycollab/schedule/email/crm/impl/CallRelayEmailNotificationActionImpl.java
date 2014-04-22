@@ -48,7 +48,7 @@ import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
  */
 @Component
 public class CallRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleCall> implements
 		CallRelayEmailNotificationAction {
 
 	@Autowired

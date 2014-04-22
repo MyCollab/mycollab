@@ -49,7 +49,7 @@ import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAc
  */
 @Component
 public class MeetingRelayEmailNotificationActionImpl extends
-		CrmDefaultSendingRelayEmailAction implements
+		CrmDefaultSendingRelayEmailAction<SimpleMeeting> implements
 		MeetingRelayEmailNotificationAction {
 
 	@Autowired

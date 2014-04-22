@@ -33,7 +33,7 @@ public class ProjectGenericTask implements Serializable {
 	private String assignUser;
 
 	private String assignUserFullName;
-	
+
 	private String assignUserAvatarId;
 
 	private Date dueDate;
@@ -65,6 +65,13 @@ public class ProjectGenericTask implements Serializable {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			String displayName = getAssignUser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return assignUserFullName;
 	}
 
