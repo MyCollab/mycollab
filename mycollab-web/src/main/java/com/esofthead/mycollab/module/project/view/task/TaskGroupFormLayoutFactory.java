@@ -39,7 +39,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public Layout getLayout() {
 		this.informationLayout = new GridFormLayoutHelper(2, 4, "100%",
-				"180px", Alignment.MIDDLE_LEFT);
+				"180px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);
 		this.informationLayout.getLayout().setWidth("100%");

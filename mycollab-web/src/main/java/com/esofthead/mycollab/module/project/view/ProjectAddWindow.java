@@ -129,7 +129,7 @@ public class ProjectAddWindow extends Window {
 			final VerticalLayout projectAddLayout = new VerticalLayout();
 
 			this.informationLayout = new GridFormLayoutHelper(2, 4, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().setMargin(false);
 			this.informationLayout.getLayout().setSpacing(false);

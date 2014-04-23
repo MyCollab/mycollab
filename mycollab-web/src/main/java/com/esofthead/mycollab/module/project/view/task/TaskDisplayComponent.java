@@ -101,7 +101,7 @@ class TaskDisplayComponent extends CssLayout {
 				@Override
 				public Layout getLayout() {
 					this.layoutHelper = new GridFormLayoutHelper(2, 3, "100%",
-							"180px", Alignment.MIDDLE_LEFT);
+							"180px", Alignment.TOP_LEFT);
 					this.layoutHelper.getLayout().setWidth("100%");
 					this.layoutHelper.getLayout().addStyleName(
 							"colored-gridlayout");

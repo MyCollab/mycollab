@@ -65,7 +65,6 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title,
 				userAvatarIcon);
 
-
 		this.userInformationLayout = new UserInformationLayout();
 		this.userInformationLayout.getLayout().setWidth("100%");
 		userAddLayout.addBody(this.userInformationLayout.getLayout());
@@ -105,7 +104,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(organizationHeader);
 
 				this.basicInformationLayout = new GridFormLayoutHelper(2, 7,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.basicInformationLayout.getLayout().setWidth("100%");
 				this.basicInformationLayout.getLayout().setMargin(false);
 				this.basicInformationLayout.getLayout().addStyleName(
@@ -119,7 +118,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(contactHeader);
 
 				this.contactInformationLayout = new GridFormLayoutHelper(2, 3,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.contactInformationLayout.getLayout().setWidth("100%");
 				this.contactInformationLayout.getLayout().setMargin(false);
 				this.contactInformationLayout.getLayout().addStyleName(
@@ -133,7 +132,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(advancedHeader);
 
 				this.advancedInformationLayout = new GridFormLayoutHelper(2, 2,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.advancedInformationLayout.getLayout().setWidth("100%");
 				this.advancedInformationLayout.getLayout().setMargin(false);
 				this.advancedInformationLayout.getLayout().addStyleName(
@@ -149,10 +148,10 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 			if (!ProfileFormLayoutFactory.isLoadEdit) {
 				if (propertyId.equals("email")) {
 					userInformationLayout.getBasicInformationLayout()
-					.addComponent(field, "Email", 0, 0, "167px");
+							.addComponent(field, "Email", 0, 0, "167px");
 				} else if (propertyId.equals("roleid")) {
 					userInformationLayout.getBasicInformationLayout()
-					.addComponent(field, "Role", 1, 0);
+							.addComponent(field, "Role", 1, 0);
 				} else {
 					return false;
 				}
@@ -225,7 +224,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(organizationHeader);
 
 				this.basicInformationLayout = new GridFormLayoutHelper(2, 7,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.basicInformationLayout.getLayout().setWidth("100%");
 				this.basicInformationLayout.getLayout().setMargin(false);
 				this.basicInformationLayout.getLayout().addStyleName(

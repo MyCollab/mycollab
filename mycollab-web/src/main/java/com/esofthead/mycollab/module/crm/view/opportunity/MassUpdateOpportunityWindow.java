@@ -74,7 +74,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 			formLayout.addComponent(organizationHeader);
 
 			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().setMargin(false);

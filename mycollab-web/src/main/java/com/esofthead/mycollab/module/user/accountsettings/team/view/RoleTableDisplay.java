@@ -19,19 +19,19 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import java.util.List;
 
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 
 /**
@@ -81,16 +81,7 @@ public class RoleTableDisplay extends
 					final Object itemId, Object columnId) {
 				final SimpleRole role = RoleTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(role.getRolename(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										RoleTableDisplay.this, role, "rolename"));
-							}
-						});
+				LabelLink b = new LabelLink(role.getRolename(),ProjectLinkBuilder.generateRolePreviewFullLink(CurrentProjectVariables.getProjectId(), role.getId()));
 				return b;
 
 			}

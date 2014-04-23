@@ -49,7 +49,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
-AbstractPageView implements ListView<S, B> {
+		AbstractPageView implements ListView<S, B> {
 	private static final long serialVersionUID = 1L;
 
 	protected VerticalLayout contentLayout;
@@ -64,7 +64,7 @@ AbstractPageView implements ListView<S, B> {
 
 	public AbstractListItemComp() {
 		super();
-		this.setMargin(new MarginInfo(false, true, false, true));
+		this.setMargin(new MarginInfo(false, true, true, true));
 
 		this.searchPanel = createSearchPanel();
 		this.addComponent(this.searchPanel);

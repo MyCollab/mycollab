@@ -111,7 +111,7 @@ public class TaskGroupAddWindow extends Window {
 				taskListAddLayout.setWidth("100%");
 
 				this.informationLayout = new GridFormLayoutHelper(2, 3, "100%",
-						"167px", Alignment.MIDDLE_LEFT);
+						"167px", Alignment.TOP_LEFT);
 
 				final VerticalLayout bodyLayout = new VerticalLayout();
 				this.informationLayout.getLayout().setMargin(false);

@@ -146,7 +146,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 	protected Depot constructPermissionSectionView(String depotTitle,
 			PermissionMap permissionMap, PermissionDefItem[] defItems) {
 		final GridFormLayoutHelper formHelper = new GridFormLayoutHelper(2,
-				defItems.length, "100%", "167px", Alignment.MIDDLE_LEFT);
+				defItems.length, "100%", "167px", Alignment.TOP_LEFT);
 		formHelper.getLayout().setMargin(true);
 		formHelper.getLayout().setWidth("100%");
 		formHelper.getLayout().addStyleName(UIConstants.COLORED_GRIDLAYOUT);

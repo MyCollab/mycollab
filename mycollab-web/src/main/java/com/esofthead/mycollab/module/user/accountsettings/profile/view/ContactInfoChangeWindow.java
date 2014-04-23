@@ -82,7 +82,7 @@ public class ContactInfoChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
-				"100%", "150px", Alignment.MIDDLE_LEFT);
+				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtWorkPhone = (TextField) passInfo.addComponent(new TextField(),
 				"Work phone", 0, 0);
@@ -198,11 +198,11 @@ public class ContactInfoChangeWindow extends Window {
 		this.txtWorkPhone.removeStyleName("errorField");
 		this.txtHomePhone.removeStyleName("errorField");
 
-		this.user.setWorkphone((String) this.txtWorkPhone.getValue());
-		this.user.setHomephone((String) this.txtHomePhone.getValue());
-		this.user.setFacebookaccount((String) this.txtFaceBook.getValue());
-		this.user.setTwitteraccount((String) this.txtTwitter.getValue());
-		this.user.setSkypecontact((String) this.txtSkype.getValue());
+		this.user.setWorkphone(this.txtWorkPhone.getValue());
+		this.user.setHomephone(this.txtHomePhone.getValue());
+		this.user.setFacebookaccount(this.txtFaceBook.getValue());
+		this.user.setTwitteraccount(this.txtTwitter.getValue());
+		this.user.setSkypecontact(this.txtSkype.getValue());
 
 		if (this.validateForm(this.user)) {
 			final UserService userService = ApplicationContextUtil

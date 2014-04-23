@@ -106,7 +106,9 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			@Override
 			public Layout getLayout() {
 				final AddViewLayout formAddLayout = new AddViewLayout(
-						initFormHeader(), MyCollabResource.newResource("icons/24/project/user.png"));
+						initFormHeader(),
+						MyCollabResource
+								.newResource("icons/24/project/user.png"));
 
 				final ComponentContainer topLayout = createButtonControls();
 				if (topLayout != null) {
@@ -165,7 +167,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 				final GridFormLayoutHelper crmFormHelper = new GridFormLayoutHelper(
 						2,
 						RolePermissionCollections.CRM_PERMISSIONS_ARR.length,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				crmFormHelper.getLayout().setMargin(false);
 				crmFormHelper.getLayout().setWidth("100%");
 				crmFormHelper.getLayout().addStyleName(
@@ -206,7 +208,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 		private Depot constructGridLayout(String depotTitle,
 				PermissionMap perMap, PermissionDefItem[] defItems) {
 			final GridFormLayoutHelper formHelper = new GridFormLayoutHelper(2,
-					defItems.length, "100%", "167px", Alignment.MIDDLE_LEFT);
+					defItems.length, "100%", "167px", Alignment.TOP_LEFT);
 			formHelper.getLayout().setMargin(false);
 			formHelper.getLayout().setWidth("100%");
 			formHelper.getLayout().addStyleName(UIConstants.COLORED_GRIDLAYOUT);
@@ -245,7 +247,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 		}
 
 		private class ReadFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<Role> {
+				AbstractBeanFieldGroupViewFieldFactory<Role> {
 			private static final long serialVersionUID = 1L;
 
 			public ReadFormFieldFactory(GenericBeanForm<Role> form) {

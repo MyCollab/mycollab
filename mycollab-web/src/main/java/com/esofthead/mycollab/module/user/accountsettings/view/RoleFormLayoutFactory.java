@@ -85,7 +85,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 			layout.addComponent(organizationHeader);
 
 			this.informationLayout = new GridFormLayoutHelper(6, 2, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().addStyleName(
 					UIConstants.COLORED_GRIDLAYOUT);

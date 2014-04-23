@@ -50,7 +50,7 @@ public class GridFormLayoutHelper implements Serializable {
 	public GridFormLayoutHelper(final int columns, final int rows,
 			final String defaultCaptionWidth) {
 		this(columns, rows, UIConstants.DEFAULT_CONTROL_WIDTH,
-				defaultCaptionWidth, Alignment.TOP_RIGHT);
+				defaultCaptionWidth, Alignment.TOP_LEFT);
 	}
 
 	public GridFormLayoutHelper(final int columns, final int rows,

@@ -43,23 +43,7 @@ public class LabelLink extends Label {
 		div.appendChild(link);
 	}
 
-	@Override
-	public void setIcon(Resource source) {
-		String resourceLink = new String();
-		if (source instanceof FileResource) {
-			
-			resourceLink = ((FileResource)source).getSourceFile().getAbsolutePath();
-		}
-		else
-		resourceLink = MyCollabResource.newResourceLink(source
-				.toString());
-		Img img = new Img("", resourceLink);
-		div.appendChild(0, img);
-		this.setValue(div.write());
-	}
-	
-	
-	public void setIcon(String source) {
+	public void setIconLink(String source) {
 		
 		Img img = new Img("", source);
 		div.appendChild(0, img);

@@ -74,7 +74,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 			formLayout.addComponent(informationHeader);
 
 			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().setMargin(false);
@@ -84,7 +84,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 			formLayout.addComponent(this.informationLayout.getLayout());
 
 			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			final Label addressHeader = new Label("Address Information");
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);

@@ -38,7 +38,7 @@ public class ComponentFormLayoutFactory implements IFormLayoutFactory {
 		final VerticalLayout layout = new VerticalLayout();
 
 		this.gridFormLayout = new GridFormLayoutHelper(2, 3, "100%", "167px",
-				Alignment.MIDDLE_LEFT);
+				Alignment.TOP_LEFT);
 		this.gridFormLayout.getLayout().setWidth("100%");
 		this.gridFormLayout.getLayout().setMargin(false);
 		this.gridFormLayout.getLayout().addStyleName("colored-gridlayout");

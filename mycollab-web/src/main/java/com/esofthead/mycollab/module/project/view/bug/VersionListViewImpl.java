@@ -29,6 +29,8 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
@@ -44,7 +46,6 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -151,18 +152,8 @@ VersionListView {
 					final Object itemId, final Object columnId) {
 				final Version bugVersion = VersionListViewImpl.this.tableItem
 						.getBeanByIndex(itemId);
-				final ButtonLink b = new ButtonLink(bugVersion
-						.getVersionname(), new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(
-							final Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new BugVersionEvent.GotoRead(this,
-										bugVersion.getId()));
-					}
-				});
+				final LabelLink b = new LabelLink(bugVersion
+						.getVersionname(), ProjectLinkBuilder.generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
 				if (bugVersion.getStatus() != null
 						&& bugVersion.getStatus().equals("Close")) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

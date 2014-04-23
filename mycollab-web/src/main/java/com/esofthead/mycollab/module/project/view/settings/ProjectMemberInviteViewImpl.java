@@ -98,7 +98,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		userAddLayout.addHeaderRight(createButtonControls());
 
 		GridFormLayoutHelper informationLayout = new GridFormLayoutHelper(1, 3,
-				"100%", "167px", Alignment.MIDDLE_LEFT);
+				"100%", "167px", Alignment.TOP_LEFT);
 		informationLayout.getLayout().setWidth("100%");
 		informationLayout.getLayout().setMargin(false);
 		informationLayout.getLayout().addStyleName("colored-gridlayout");

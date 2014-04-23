@@ -103,7 +103,7 @@ public class WontFixExplainWindow extends Window {
 			public Layout getLayout() {
 				final VerticalLayout layout = new VerticalLayout();
 				this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-						"167px", Alignment.MIDDLE_LEFT);
+						"167px", Alignment.TOP_LEFT);
 				this.informationLayout.getLayout().setWidth("100%");
 				this.informationLayout.getLayout().setMargin(false);
 				this.informationLayout.getLayout().addStyleName(
@@ -139,7 +139,7 @@ public class WontFixExplainWindow extends Window {
 									WontFixExplainWindow.this.bug
 											.setStatus(BugStatusConstants.RESOLVED);
 
-									final String commentValue = (String) EditForm.this.commentArea
+									final String commentValue = EditForm.this.commentArea
 											.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {

@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
 
 /**
  * 
@@ -75,7 +74,7 @@ public abstract class MyCollabResource {
 
 		@Override
 		protected Resource generateResource(String resourceId) {
-			return new ThemeResource(resourceId);
+			return new ExternalResource(generateResourceLink(resourceId));
 		}
 
 		@Override

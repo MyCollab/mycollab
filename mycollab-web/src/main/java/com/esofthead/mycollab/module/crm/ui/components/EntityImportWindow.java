@@ -222,17 +222,17 @@ public abstract class EntityImportWindow<E> extends Window {
 							File uploadFile = uploadField.getContentAsFile();
 							if (uploadFile != null) {
 								mappingCrmFieldLayout = new MappingCrmConfigurationLayout(
-										(Boolean) hasHeaderCheckBox.getValue(),
+										hasHeaderCheckBox.getValue(),
 										uploadFile);
-//								EntityImportWindow.this
-//										.removeComponent(fileConfigurationLayout);
-//
-//								EntityImportWindow.this.setWidth("800px");
-//
-//								EntityImportWindow.this.center();
-//
-//								EntityImportWindow.this
-//										.addComponent(mappingCrmFieldLayout);
+								// EntityImportWindow.this
+								// .removeComponent(fileConfigurationLayout);
+								//
+								// EntityImportWindow.this.setWidth("800px");
+								//
+								// EntityImportWindow.this.center();
+								//
+								// EntityImportWindow.this
+								// .addComponent(mappingCrmFieldLayout);
 							}
 
 						} else {
@@ -336,7 +336,7 @@ public abstract class EntityImportWindow<E> extends Window {
 			final HorizontalLayout bodyLayout = new HorizontalLayout();
 			bodyLayout.setSpacing(true);
 			bodyLayout.setMargin(true);
-			
+
 			Label title = new Label("Step 2:");
 			title.addStyleName("h3");
 			UiUtils.addComponent(bodyLayout, title, Alignment.TOP_LEFT);
@@ -346,7 +346,7 @@ public abstract class EntityImportWindow<E> extends Window {
 			informationLayout.setWidth("100%");
 
 			GridFormLayoutHelper gridLayout = new GridFormLayoutHelper(1, 4,
-					"100%", "200px", Alignment.MIDDLE_LEFT);
+					"100%", "200px", Alignment.TOP_LEFT);
 
 			gridLayout.getLayout().setSpacing(true);
 			gridLayout.getLayout().setMargin(false);
@@ -406,7 +406,7 @@ public abstract class EntityImportWindow<E> extends Window {
 			gridLayout.addComponent(checkboxHorizontalLayout, "Has header", 0,
 					3);
 			informationLayout.addComponent(gridLayout.getLayout());
-			
+
 			bodyLayout.addComponent(informationLayout);
 			bodyLayout.setExpandRatio(informationLayout, 1.0f);
 
@@ -424,12 +424,11 @@ public abstract class EntityImportWindow<E> extends Window {
 			bodyLayout.setSpacing(true);
 			bodyLayout.setMargin(true);
 			bodyLayout.setHeight("100%");
-			
+
 			Label title = new Label("Step 1:");
 			title.addStyleName("h3");
 
-			UiUtils.addComponent(bodyLayout, title,
-					Alignment.TOP_LEFT);
+			UiUtils.addComponent(bodyLayout, title, Alignment.TOP_LEFT);
 
 			uploadFieldVerticalLayout = new VerticalLayout();
 			uploadFieldVerticalLayout.setSpacing(true);
@@ -466,7 +465,7 @@ public abstract class EntityImportWindow<E> extends Window {
 
 			bodyLayout.addComponent(uploadFieldVerticalLayout);
 			bodyLayout.setExpandRatio(uploadFieldVerticalLayout, 1.0f);
-			
+
 			bodyLayoutWapper.addComponent(bodyLayout);
 
 			return bodyLayoutWapper;
@@ -628,10 +627,10 @@ public abstract class EntityImportWindow<E> extends Window {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-//					EntityImportWindow.this.removeAllComponents();
-//					EntityImportWindow.this.setWidth("950px");
-//					EntityImportWindow.this
-//							.addComponent(fileConfigurationLayout);
+					// EntityImportWindow.this.removeAllComponents();
+					// EntityImportWindow.this.setWidth("950px");
+					// EntityImportWindow.this
+					// .addComponent(fileConfigurationLayout);
 					EntityImportWindow.this.center();
 				}
 			});

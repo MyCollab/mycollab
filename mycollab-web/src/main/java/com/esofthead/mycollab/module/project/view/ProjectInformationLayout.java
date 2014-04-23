@@ -84,7 +84,7 @@ class ProjectInformationLayout implements IFormLayoutFactory {
 	@Override
 	public Layout getLayout() {
 		this.moreInfoLayout = new GridFormLayoutHelper(2, 7, "100%", "167px",
-				Alignment.MIDDLE_LEFT);
+				Alignment.TOP_LEFT);
 		this.moreInfoLayout.getLayout().setWidth("100%");
 		this.moreInfoLayout.getLayout().setMargin(false);
 		this.moreInfoLayout.getLayout().addStyleName("colored-gridlayout");

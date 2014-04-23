@@ -62,7 +62,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProfileReadViewImpl extends AbstractPageView implements
-ProfileReadView {
+		ProfileReadView {
 	private static final long serialVersionUID = 1L;
 
 	public static final int MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
@@ -106,7 +106,7 @@ ProfileReadView {
 		avatarAndPass.addComponent(userAvatar);
 		final Button btnChangePassword = new Button(
 				LocalizationHelper
-				.getMessage(UserI18nEnum.BUTTON_CHANGE_PASSWORD),
+						.getMessage(UserI18nEnum.BUTTON_CHANGE_PASSWORD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -195,7 +195,7 @@ ProfileReadView {
 				final AddViewLayout2 accountAddLayout = new AddViewLayout2(
 						"User Information",
 						MyCollabResource
-						.newResource("icons/24/project/user.png"));
+								.newResource("icons/24/project/user.png"));
 				accountAddLayout.setWidth("100%");
 				accountAddLayout.setStyleName("readview-layout");
 				final VerticalLayout layout = new VerticalLayout();
@@ -221,7 +221,7 @@ ProfileReadView {
 				contactInformationHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
 						Sizeable.Unit.PIXELS);
 				contactInformationHeader
-				.addComponent(contactInformationHeaderLbl);
+						.addComponent(contactInformationHeaderLbl);
 
 				final CssLayout advanceInfoHeader = new CssLayout();
 				advanceInfoHeader.setWidth("100%");
@@ -234,21 +234,21 @@ ProfileReadView {
 				advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
 
 				this.basicInformation = new GridFormLayoutHelper(1, 6, "100%",
-						"167px", Alignment.MIDDLE_LEFT);
+						"167px", Alignment.TOP_LEFT);
 				this.basicInformation.getLayout().setMargin(false);
 				this.basicInformation.getLayout().setWidth("100%");
 				this.basicInformation.getLayout().addStyleName(
 						"colored-gridlayout");
 
 				this.contactInformation = new GridFormLayoutHelper(1, 5,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.contactInformation.getLayout().setMargin(false);
 				this.contactInformation.getLayout().setWidth("100%");
 				this.contactInformation.getLayout().addStyleName(
 						"colored-gridlayout");
 
 				this.advanceInformation = new GridFormLayoutHelper(1, 3,
-						"100%", "167px", Alignment.MIDDLE_LEFT);
+						"100%", "167px", Alignment.TOP_LEFT);
 				this.advanceInformation.getLayout().setMargin(false);
 				this.advanceInformation.getLayout().setWidth("100%");
 				this.advanceInformation.getLayout().addStyleName(
@@ -258,7 +258,7 @@ ProfileReadView {
 				layout.addComponent(this.basicInformation.getLayout());
 				final Button btnChangeBasicInfo = new Button(
 						LocalizationHelper
-						.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -276,7 +276,7 @@ ProfileReadView {
 				layout.addComponent(this.contactInformation.getLayout());
 				final Button btnChangeContactInfo = new Button(
 						LocalizationHelper
-						.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -294,7 +294,7 @@ ProfileReadView {
 				layout.addComponent(this.advanceInformation.getLayout());
 				final Button btnChangeAdvanceInfo = new Button(
 						LocalizationHelper
-						.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -320,7 +320,7 @@ ProfileReadView {
 							0);
 				} else if (propertyId.equals("lastname")) {
 					this.basicInformation
-					.addComponent(field, "Last Name", 0, 1);
+							.addComponent(field, "Last Name", 0, 1);
 				} else if (propertyId.equals("email")) {
 					this.basicInformation.addComponent(field, "Email", 0, 2);
 				} else if (propertyId.equals("dateofbirth")) {
@@ -329,13 +329,13 @@ ProfileReadView {
 					this.basicInformation.addComponent(field, "Timezone", 0, 4);
 				} else if (propertyId.equals("website")) {
 					this.advanceInformation
-					.addComponent(field, "Website", 0, 0);
+							.addComponent(field, "Website", 0, 0);
 				} else if (propertyId.equals("company")) {
 					this.advanceInformation
-					.addComponent(field, "Company", 0, 1);
+							.addComponent(field, "Company", 0, 1);
 				} else if (propertyId.equals("country")) {
 					this.advanceInformation
-					.addComponent(field, "Country", 0, 2);
+							.addComponent(field, "Country", 0, 2);
 				} else if (propertyId.equals("workphone")) {
 					this.contactInformation.addComponent(field, "Work phone",
 							0, 0);
@@ -347,7 +347,7 @@ ProfileReadView {
 							2);
 				} else if (propertyId.equals("twitteraccount")) {
 					this.contactInformation
-					.addComponent(field, "Twitter", 0, 3);
+							.addComponent(field, "Twitter", 0, 3);
 				} else if (propertyId.equals("skypecontact")) {
 					this.contactInformation.addComponent(field, "Skype", 0, 4);
 				} else {
@@ -359,7 +359,7 @@ ProfileReadView {
 		}
 
 		private class PreviewFormFieldFactory extends
-		AbstractBeanFieldGroupViewFieldFactory<User> {
+				AbstractBeanFieldGroupViewFieldFactory<User> {
 			private static final long serialVersionUID = 1L;
 
 			public PreviewFormFieldFactory(GenericBeanForm<User> form) {
@@ -391,7 +391,7 @@ ProfileReadView {
 							PreviewForm.this.user.getFacebookaccount(),
 							"https://www.facebook.com/"
 									+ PreviewForm.this.user
-									.getFacebookaccount());
+											.getFacebookaccount());
 				} else if (propertyId.equals("twitteraccount")) {
 					return new DefaultFormViewFieldFactory.FormUrlSocialNetworkLinkViewField(
 							PreviewForm.this.user.getTwitteraccount(),

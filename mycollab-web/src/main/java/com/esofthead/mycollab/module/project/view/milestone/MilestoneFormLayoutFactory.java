@@ -68,7 +68,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 		final VerticalLayout layout = new VerticalLayout();
 
 		this.informationLayout = new GridFormLayoutHelper(2, 5, "100%",
-				"145px", Alignment.MIDDLE_LEFT);
+				"145px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().setWidth("100%");
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");
 		this.informationLayout.getLayout().setMargin(false);

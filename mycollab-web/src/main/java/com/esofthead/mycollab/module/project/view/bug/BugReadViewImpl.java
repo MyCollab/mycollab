@@ -454,7 +454,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		@Override
 		public Layout getLayout() {
 			this.informationLayout = new GridFormLayoutHelper(2, 12, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().addStyleName(
 					"colored-gridlayout");
 			this.informationLayout.getLayout().setMargin(false);

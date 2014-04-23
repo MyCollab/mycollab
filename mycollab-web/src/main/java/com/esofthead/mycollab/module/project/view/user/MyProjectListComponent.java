@@ -23,6 +23,8 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -120,19 +122,7 @@ public class MyProjectListComponent extends Depot {
 			linkWrapper.addStyleName("projectlink-wrapper");
 			final VerticalLayout linkIconFix = new VerticalLayout();
 			linkIconFix.setWidth("100%");
-			final ButtonLink projectLink = new ButtonLink(project.getName(),
-					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					EventBus.getInstance().fireEvent(
-							new ProjectEvent.GotoMyProject(this,
-									new PageActionChain(
-											new ProjectScreenData.Goto(
-													project.getId()))));
-				}
-			}, false);
+			final LabelLink projectLink = new LabelLink(project.getName(),ProjectLinkBuilder.generateProjectFullLink(project.getId(), "#"));
 			projectLink.addStyleName("project-name");
 			linkIconFix.addComponent(projectLink);
 			linkIconFix.setExpandRatio(projectLink, 1.0f);

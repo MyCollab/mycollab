@@ -50,139 +50,139 @@ import com.vaadin.ui.Window;
 @SuppressWarnings("serial")
 public class BasicInfoChangeWindow extends Window {
 
-    private TextField txtFirstName;
-    private TextField txtLastName;
-    private TextField txtEmail;
-    private DateComboboxSelectionField birthdayField;
-    private TimeZoneSelectionField timeZoneField;
+	private TextField txtFirstName;
+	private TextField txtLastName;
+	private TextField txtEmail;
+	private DateComboboxSelectionField birthdayField;
+	private TimeZoneSelectionField timeZoneField;
 
-    private final User user;
+	private final User user;
 
-    public BasicInfoChangeWindow(final User user) {
-        this.user = user;
-        this.setWidth("450px");
-        this.initUI();
-        this.center();
-        this.setCaption("Change your basic information");
-    }
+	public BasicInfoChangeWindow(final User user) {
+		this.user = user;
+		this.setWidth("450px");
+		this.initUI();
+		this.center();
+		this.setCaption("Change your basic information");
+	}
 
-    private void initUI() {
-        final VerticalLayout mainLayout = new VerticalLayout();
-        mainLayout.setMargin(new MarginInfo(false, false, true, false));
-        mainLayout.setWidth("100%");
-        mainLayout.setSpacing(true);
+	private void initUI() {
+		final VerticalLayout mainLayout = new VerticalLayout();
+		mainLayout.setMargin(new MarginInfo(false, false, true, false));
+		mainLayout.setWidth("100%");
+		mainLayout.setSpacing(true);
 
-        final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 5,
-                "100%", "150px", Alignment.MIDDLE_LEFT);
+		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 5,
+				"100%", "150px", Alignment.TOP_LEFT);
 
-        this.txtFirstName = (TextField) passInfo.addComponent(new TextField(),
-                "First Name", 0, 0);
-        this.txtLastName = (TextField) passInfo.addComponent(new TextField(),
-                "Last Name", 0, 1);
-        this.txtLastName.setRequired(true);
-        this.txtEmail = (TextField) passInfo.addComponent(new TextField(),
-                "Email", 0, 2);
-        this.txtEmail.setRequired(true);
-        this.birthdayField = (DateComboboxSelectionField) passInfo
-                .addComponent(new DateComboboxSelectionField(), "Birthday", 0,
-                        3);
-        this.birthdayField.setDate(this.user.getDateofbirth());
+		this.txtFirstName = (TextField) passInfo.addComponent(new TextField(),
+				"First Name", 0, 0);
+		this.txtLastName = (TextField) passInfo.addComponent(new TextField(),
+				"Last Name", 0, 1);
+		this.txtLastName.setRequired(true);
+		this.txtEmail = (TextField) passInfo.addComponent(new TextField(),
+				"Email", 0, 2);
+		this.txtEmail.setRequired(true);
+		this.birthdayField = (DateComboboxSelectionField) passInfo
+				.addComponent(new DateComboboxSelectionField(), "Birthday", 0,
+						3);
+		this.birthdayField.setDate(this.user.getDateofbirth());
 
-        this.timeZoneField = (TimeZoneSelectionField) passInfo.addComponent(
-                new TimeZoneSelectionField(), "TimeZone", 0, 4);
-        this.timeZoneField.setTimeZone(TimezoneMapper.getTimezone(this.user
-                .getTimezone()));
+		this.timeZoneField = (TimeZoneSelectionField) passInfo.addComponent(
+				new TimeZoneSelectionField(), "TimeZone", 0, 4);
+		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezone(this.user
+				.getTimezone()));
 
-        this.txtFirstName.setValue(this.user.getFirstname() == null ? ""
-                : this.user.getFirstname());
-        this.txtLastName.setValue(this.user.getLastname() == null ? ""
-                : this.user.getLastname());
-        this.txtEmail.setValue(this.user.getEmail() == null ? "" : this.user
-                .getEmail());
-        this.birthdayField.setValue(this.user.getDateofbirth());
+		this.txtFirstName.setValue(this.user.getFirstname() == null ? ""
+				: this.user.getFirstname());
+		this.txtLastName.setValue(this.user.getLastname() == null ? ""
+				: this.user.getLastname());
+		this.txtEmail.setValue(this.user.getEmail() == null ? "" : this.user
+				.getEmail());
+		this.birthdayField.setValue(this.user.getDateofbirth());
 
-        passInfo.getLayout().setMargin(false);
-        passInfo.getLayout().setWidth("100%");
-        passInfo.getLayout().addStyleName("colored-gridlayout");
-        mainLayout.addComponent(passInfo.getLayout());
-        mainLayout.setComponentAlignment(passInfo.getLayout(),
-                Alignment.TOP_LEFT);
+		passInfo.getLayout().setMargin(false);
+		passInfo.getLayout().setWidth("100%");
+		passInfo.getLayout().addStyleName("colored-gridlayout");
+		mainLayout.addComponent(passInfo.getLayout());
+		mainLayout.setComponentAlignment(passInfo.getLayout(),
+				Alignment.TOP_LEFT);
 
-        final HorizontalLayout hlayoutControls = new HorizontalLayout();
-        hlayoutControls.setSpacing(true);
-        hlayoutControls.setMargin(new MarginInfo(false, true, false, true));
-        final Button cancelBtn = new Button("Cancel",
-                new Button.ClickListener() {
-                    private static final long serialVersionUID = 1L;
+		final HorizontalLayout hlayoutControls = new HorizontalLayout();
+		hlayoutControls.setSpacing(true);
+		hlayoutControls.setMargin(new MarginInfo(false, true, false, true));
+		final Button cancelBtn = new Button("Cancel",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-                    @Override
-                    public void buttonClick(final ClickEvent event) {
-                        BasicInfoChangeWindow.this.close();
-                    }
-                });
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						BasicInfoChangeWindow.this.close();
+					}
+				});
 
-        cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
-        hlayoutControls.addComponent(cancelBtn);
-        hlayoutControls.setComponentAlignment(cancelBtn,
-                Alignment.MIDDLE_CENTER);
+		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		hlayoutControls.addComponent(cancelBtn);
+		hlayoutControls.setComponentAlignment(cancelBtn,
+				Alignment.MIDDLE_CENTER);
 
-        final Button saveBtn = new Button("Save", new Button.ClickListener() {
-            private static final long serialVersionUID = 1L;
+		final Button saveBtn = new Button("Save", new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-            @Override
-            public void buttonClick(final ClickEvent event) {
-                BasicInfoChangeWindow.this.changeUserInfo();
-            }
-        });
-        saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-        saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
-        hlayoutControls.addComponent(saveBtn);
-        hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				BasicInfoChangeWindow.this.changeUserInfo();
+			}
+		});
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+		hlayoutControls.addComponent(saveBtn);
+		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 
-        mainLayout.addComponent(hlayoutControls);
-        mainLayout.setComponentAlignment(hlayoutControls,
-                Alignment.MIDDLE_RIGHT);
+		mainLayout.addComponent(hlayoutControls);
+		mainLayout.setComponentAlignment(hlayoutControls,
+				Alignment.MIDDLE_RIGHT);
 
-        this.setModal(true);
-        this.setContent(mainLayout);
-    }
+		this.setModal(true);
+		this.setContent(mainLayout);
+	}
 
-    private void changeUserInfo() {
+	private void changeUserInfo() {
 
-        this.txtLastName.removeStyleName("errorField");
-        this.txtEmail.removeStyleName("errorField");
+		this.txtLastName.removeStyleName("errorField");
+		this.txtEmail.removeStyleName("errorField");
 
-        if (this.txtLastName.getValue().equals("")) {
-            NotificationUtil
-                    .showErrorNotification("The last name must be not null!");
-            this.txtLastName.addStyleName("errorField");
-            return;
-        }
+		if (this.txtLastName.getValue().equals("")) {
+			NotificationUtil
+					.showErrorNotification("The last name must be not null!");
+			this.txtLastName.addStyleName("errorField");
+			return;
+		}
 
-        if (this.txtEmail.getValue().equals("")) {
-            NotificationUtil
-                    .showErrorNotification("The email must be not null!");
-            this.txtLastName.addStyleName("errorField");
-            return;
-        }
+		if (this.txtEmail.getValue().equals("")) {
+			NotificationUtil
+					.showErrorNotification("The email must be not null!");
+			this.txtLastName.addStyleName("errorField");
+			return;
+		}
 
-        this.user.setFirstname(this.txtFirstName.getValue());
-        this.user.setLastname(this.txtLastName.getValue());
-        this.user.setEmail(this.txtEmail.getValue());
-        this.user.setDateofbirth(this.birthdayField.getDate());
-        this.user.setTimezone(this.timeZoneField.getTimeZone().getId());
+		this.user.setFirstname(this.txtFirstName.getValue());
+		this.user.setLastname(this.txtLastName.getValue());
+		this.user.setEmail(this.txtEmail.getValue());
+		this.user.setDateofbirth(this.birthdayField.getDate());
+		this.user.setTimezone(this.timeZoneField.getTimeZone().getId());
 
-        MyCollabSession.removeVariable(USER_TIMEZONE);
-        MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField
-                .getTimeZone().getTimezone());
+		MyCollabSession.removeVariable(USER_TIMEZONE);
+		MyCollabSession.putVariable(USER_TIMEZONE, this.timeZoneField
+				.getTimeZone().getTimezone());
 
-        final UserService userService = ApplicationContextUtil
-                .getSpringBean(UserService.class);
-        userService.updateWithSession(this.user, AppContext.getUsername());
+		final UserService userService = ApplicationContextUtil
+				.getSpringBean(UserService.class);
+		userService.updateWithSession(this.user, AppContext.getUsername());
 
-        EventBus.getInstance().fireEvent(
-                new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this,
-                        null));
-        BasicInfoChangeWindow.this.close();
-    }
+		EventBus.getInstance().fireEvent(
+				new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this,
+						null));
+		BasicInfoChangeWindow.this.close();
+	}
 }

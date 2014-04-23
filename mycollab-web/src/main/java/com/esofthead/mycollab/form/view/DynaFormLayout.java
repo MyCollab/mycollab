@@ -119,11 +119,11 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
 				gridLayout = new GridFormLayoutHelper(2,
 						section.getFieldCount(), "100%", "167px",
-						Alignment.MIDDLE_LEFT);
+						Alignment.TOP_LEFT);
 			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
 				gridLayout = new GridFormLayoutHelper(2,
 						(section.getFieldCount() + 3) / 2, "100%", "167px",
-						Alignment.MIDDLE_LEFT);
+						Alignment.TOP_LEFT);
 			} else {
 				throw new MyCollabException(
 						"Does not support attachForm layout except 1 or 2 columns");
@@ -150,7 +150,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			if (section.getLayoutType() == LayoutType.ONE_COLUMN) {
 				gridLayout.addComponent(field, dynaField.getDisplayName(), 0,
 						dynaField.getFieldIndex(), 2, "100%",
-						Alignment.MIDDLE_LEFT);
+						Alignment.TOP_LEFT);
 			} else if (section.getLayoutType() == LayoutType.TWO_COLUMN) {
 				gridLayout.addComponent(field, dynaField.getDisplayName(),
 						dynaField.getFieldIndex() % 2,

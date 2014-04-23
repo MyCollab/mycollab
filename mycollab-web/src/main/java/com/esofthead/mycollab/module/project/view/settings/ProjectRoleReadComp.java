@@ -49,7 +49,8 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadComp() {
-		super("Role Detail",MyCollabResource.newResource("icons/22/user/group.png"));
+		super("Role Detail", MyCollabResource
+				.newResource("icons/22/user/group.png"));
 	}
 
 	@Override
@@ -84,7 +85,7 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 
 		projectFormHelper = new GridFormLayoutHelper(2,
 				ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-				"100%", "167px", Alignment.MIDDLE_LEFT);
+				"100%", "167px", Alignment.TOP_LEFT);
 		projectFormHelper.getLayout().setWidth("100%");
 		projectFormHelper.getLayout().setMargin(false);
 		projectFormHelper.getLayout().addStyleName("colored-gridlayout");

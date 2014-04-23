@@ -231,7 +231,7 @@ public class LeadConvertInfoWindow extends Window {
 				@Override
 				public Layout getLayout() {
 					this.informationLayout = new GridFormLayoutHelper(2, 3,
-							"100%", "167px", Alignment.MIDDLE_LEFT);
+							"100%", "167px", Alignment.TOP_LEFT);
 					this.informationLayout.getLayout().setWidth("100%");
 					this.informationLayout.getLayout().setMargin(false);
 					this.informationLayout.getLayout().addStyleName(

@@ -65,7 +65,7 @@ public class AdvancedInfoChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 4,
-				"100%", "150px", Alignment.MIDDLE_LEFT);
+				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtWebsite = (TextField) passInfo.addComponent(new TextField(),
 				"Website", 0, 0);
@@ -131,8 +131,8 @@ public class AdvancedInfoChangeWindow extends Window {
 	}
 
 	private void changePassword() {
-		this.user.setWebsite((String) this.txtWebsite.getValue());
-		this.user.setCompany((String) this.txtCompany.getValue());
+		this.user.setWebsite(this.txtWebsite.getValue());
+		this.user.setCompany(this.txtCompany.getValue());
 		this.user.setCountry((String) this.cboCountry.getValue());
 
 		final UserService userService = ApplicationContextUtil

@@ -111,4 +111,9 @@ public class ProjectLinkUtils {
 		return "project/standup/list/"
 				+ GenericLinkUtils.encodeParam(new Object[] { projectId });
 	}
+	
+	public static String generateTimeTrackingPreviewLink(int projectId, int timeId) {
+		return "project/time/list/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId, timeId  });
+	}
 }

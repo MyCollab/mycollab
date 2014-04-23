@@ -50,7 +50,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
-implements ProjectRoleAddView {
+		implements ProjectRoleAddView {
 
 	private static final long serialVersionUID = 1L;
 	private final Map<String, AccessPermissionComboBox> permissionControlsMap = new HashMap<String, AccessPermissionComboBox>();
@@ -130,7 +130,7 @@ implements ProjectRoleAddView {
 
 		final GridFormLayoutHelper permissionFormHelper = new GridFormLayoutHelper(
 				2, ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
-				"100%", "167px", Alignment.MIDDLE_LEFT);
+				"100%", "167px", Alignment.TOP_LEFT);
 
 		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
 			final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];

@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.time;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
@@ -84,29 +86,23 @@ public class TimeTrackingTableDisplay
 						.getBeanByIndex(itemId);
 
 				VerticalLayout summaryWrapper = new VerticalLayout();
-				ButtonLink timeTrackingLink = null;
+				LabelLink timeTrackingLink = null;
 				String type = itemLogging.getType();
-
+				
+				
 				if (type == null) {
 					return new Label(itemLogging.getNote(), ContentMode.HTML);
 				}
 
 				if (type.equals(ProjectTypeConstants.BUG)) {
-
-					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(
-										final Button.ClickEvent event) {
-									fireTableEvent(new TableClickEvent(
-											TimeTrackingTableDisplay.this,
-											itemLogging, "summary"));
-								}
-							});
-					timeTrackingLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/bug.png"));
+					
+					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
+							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectid(),
+									itemLogging.getType(),
+									itemLogging.getTypeid()));
+					timeTrackingLink.setIconLink(MyCollabResource
+							.newResourceLink("icons/16/project/bug.png"));
 
 					if (BugStatusConstants.VERIFIED.equals(itemLogging
 							.getStatus())) {
@@ -119,20 +115,14 @@ public class TimeTrackingTableDisplay
 					}
 				} else if (type.equals(ProjectTypeConstants.TASK)) {
 
-					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(
-										final Button.ClickEvent event) {
-									fireTableEvent(new TableClickEvent(
-											TimeTrackingTableDisplay.this,
-											itemLogging, "summary"));
-								}
-							});
-					timeTrackingLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/task.png"));
+					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
+							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectid(),
+									itemLogging.getType(),
+									itemLogging.getTypeid()));
+					
+					timeTrackingLink.setIconLink(MyCollabResource
+							.newResourceLink("icons/16/project/task.png"));
 
 					if (itemLogging.getPercentageComplete() != null
 							&& 100d == itemLogging.getPercentageComplete()) {
@@ -154,25 +144,18 @@ public class TimeTrackingTableDisplay
 
 				else {
 
-					timeTrackingLink = new ButtonLink(itemLogging.getSummary(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(
-										final Button.ClickEvent event) {
-									fireTableEvent(new TableClickEvent(
-											TimeTrackingTableDisplay.this,
-											itemLogging, "summary"));
-								}
-							});
+					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
+							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectid(),
+									itemLogging.getType(),
+									itemLogging.getTypeid()));
 
 					if (type.equals(ProjectTypeConstants.PROBLEM)) {
-						timeTrackingLink.setIcon(MyCollabResource
-								.newResource("icons/16/project/problem.png"));
+						timeTrackingLink.setIconLink(MyCollabResource
+								.newResourceLink("icons/16/project/problem.png"));
 					} else if (type.equals(ProjectTypeConstants.RISK)) {
-						timeTrackingLink.setIcon(MyCollabResource
-								.newResource("icons/16/project/risk.png"));
+						timeTrackingLink.setIconLink(MyCollabResource
+								.newResourceLink("icons/16/project/risk.png"));
 					}
 
 					if ("Closed".equals(itemLogging.getStatus())) {

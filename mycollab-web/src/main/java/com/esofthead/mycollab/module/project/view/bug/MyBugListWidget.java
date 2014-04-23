@@ -17,21 +17,19 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.LabelHTMLDisplayWidget;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -68,18 +66,9 @@ public class MyBugListWidget extends BugDisplayWidget {
 
 			VerticalLayout rowContent = new VerticalLayout();
 
-			ButtonLink defectLink = new ButtonLink("["
+			LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
-					+ bug.getBugkey() + "]: " + bug.getSummary(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(Button.ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoRead(this, bug.getId()));
-						}
-					});
+					+ bug.getBugkey() + "]: " + bug.getSummary(),ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(BugToolTipGenerator.generateToolTip(bug));
 

@@ -53,7 +53,7 @@ public class ProjectUserLink extends LabelLink {
 			String link = UserAvatarControlFactory.getAvatarLink(
 					userAvatarId, 16);
 			
-			this.setIcon(link);
+			this.setIconLink(link);
 		}
 
 		this.setStyleName("link");

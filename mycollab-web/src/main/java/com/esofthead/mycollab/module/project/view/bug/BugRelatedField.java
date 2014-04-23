@@ -25,6 +25,8 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -315,18 +317,7 @@ public class BugRelatedField extends CustomComponent {
 				final SimpleBug bug = bugService.findById(
 						relatedItem.getRelatedid(), AppContext.getAccountId());
 
-				ButtonLink b = new ButtonLink(bugname,
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								EventBus.getInstance()
-										.fireEvent(
-												new BugEvent.GotoRead(this, bug
-														.getId()));
-							}
-						});
+				LabelLink b = new LabelLink(bugname,ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(),bug.getId()));
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
 					Resource iconPriority = ProjectResources

@@ -69,18 +69,17 @@ public class FileDownloadWindow extends Window {
 		UiUtils.addComponent(layout, iconEmbed, Alignment.MIDDLE_CENTER);
 
 		final GridFormLayoutHelper info = new GridFormLayoutHelper(1, 4,
-				"100%", "80px", Alignment.MIDDLE_LEFT);
+				"100%", "80px", Alignment.TOP_LEFT);
 		info.getLayout().setWidth("100%");
 		info.getLayout().setMargin(new MarginInfo(false, true, false, true));
 		info.getLayout().setSpacing(false);
 
 		if (this.content.getDescription() != null) {
-			
+
 			final Label desvalue = new Label();
-			if(!this.content.getDescription().equals("")) {
+			if (!this.content.getDescription().equals("")) {
 				desvalue.setData(this.content.getDescription());
-			}
-			else {
+			} else {
 				desvalue.setValue("&nbsp;");
 				desvalue.setContentMode(ContentMode.HTML);
 			}

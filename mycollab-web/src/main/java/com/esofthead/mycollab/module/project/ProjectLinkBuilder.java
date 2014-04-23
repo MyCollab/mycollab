@@ -45,6 +45,41 @@ public class ProjectLinkBuilder {
 		return AppContext.getSiteUrl() + prefixParam + "project/dashboard/"
 				+ UrlEncodeDecoder.encode(projectId);
 	}
+	
+	public static String generateComponentPreviewFullLink(Integer projectId,
+			Integer componentId) {
+		if (projectId == null || componentId == null) {
+			return "";
+		}
+		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+				+ ProjectLinkUtils.generateBugComponentPreviewLink(projectId, componentId);
+	}
+	public static String generateBugVersionPreviewFullLink(Integer projectId,
+			Integer versionId) {
+		if (projectId == null || versionId == null) {
+			return "";
+		}
+		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+				+ ProjectLinkUtils.generateBugVersionPreviewLink(projectId, versionId);
+	}
+	
+	public static String generateRolePreviewFullLink(Integer projectId,
+			Integer roleId) {
+		if (projectId == null || roleId == null) {
+			return "";
+		}
+		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+				+ ProjectLinkUtils.generateRolePreviewLink(projectId, roleId);
+	}
+	
+	public static String generateProblemPreviewFullLink(Integer projectId,
+			Integer problemId) {
+		if (projectId == null || problemId == null) {
+			return "";
+		}
+		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
+				+ ProjectLinkUtils.generateProblemPreviewLink(projectId, problemId);
+	}
 
 	public static String generateProjectMemberFullLink(int projectId,
 			String memberName) {

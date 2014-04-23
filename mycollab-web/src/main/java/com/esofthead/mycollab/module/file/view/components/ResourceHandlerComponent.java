@@ -1196,7 +1196,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			final AttachmentPanel attachments = new AttachmentPanel();
 
 			this.layoutHelper = new GridFormLayoutHelper(1, 2, "100%", "167px",
-					Alignment.MIDDLE_LEFT);
+					Alignment.TOP_LEFT);
 
 			multiFileUploadExt = new MultiFileUploadExt(attachments);
 			multiFileUploadExt.addComponent(attachments);

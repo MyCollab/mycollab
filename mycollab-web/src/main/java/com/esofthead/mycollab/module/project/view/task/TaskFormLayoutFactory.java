@@ -42,7 +42,7 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public Layout getLayout() {
 		this.informationLayout = new GridFormLayoutHelper(2, 8, "100%",
-				"180px", Alignment.MIDDLE_LEFT);
+				"180px", Alignment.TOP_LEFT);
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
 		this.informationLayout.getLayout().setMargin(false);

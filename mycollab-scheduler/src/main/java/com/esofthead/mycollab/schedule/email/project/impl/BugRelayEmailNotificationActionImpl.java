@@ -160,14 +160,14 @@ public class BugRelayEmailNotificationActionImpl extends
 		}
 		if (bug.getMilestoneid() != null) {
 			listOfDisplayProperties
-					.put(mapper.getFieldLabel("milestone"), Arrays
+					.put(mapper.getFieldLabel("milestoneid"), Arrays
 							.asList(new MailItemLink(linkGenerator
 									.generateMilestonePreviewFullLink(bug
 											.getMilestoneid()), bug
 									.getMilestoneName())));
 		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("milestone"), null);
+			listOfDisplayProperties.put(mapper.getFieldLabel("milestoneid"),
+					null);
 		}
 
 		if (bug.getLogby() != null) {

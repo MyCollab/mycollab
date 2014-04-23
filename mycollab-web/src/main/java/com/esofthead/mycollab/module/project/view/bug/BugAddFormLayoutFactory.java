@@ -42,7 +42,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 		final VerticalLayout layout = new VerticalLayout();
 
 		this.informationLayout = new GridFormLayoutHelper(2, 9, "100%",
-				"167px", Alignment.MIDDLE_LEFT);
+				"167px", Alignment.TOP_LEFT);
 		this.informationLayout.getLayout().setWidth("100%");
 		this.informationLayout.getLayout().setMargin(false);
 		this.informationLayout.getLayout().addStyleName("colored-gridlayout");

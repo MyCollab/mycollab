@@ -28,6 +28,8 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -44,7 +46,6 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -155,20 +156,8 @@ ComponentListView {
 					final Object columnId) {
 				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
 						.getBeanByIndex(itemId);
-				final ButtonLink b = new ButtonLink(bugComponent
-						.getComponentname(),
-						new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(
-							final Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new BugComponentEvent.GotoRead(
-										this, bugComponent
-										.getId()));
-					}
-				});
+				final LabelLink b = new LabelLink(bugComponent
+						.getComponentname(), ProjectLinkBuilder.generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
 				if (bugComponent.getStatus() != null
 						&& bugComponent.getStatus().equals("Close")) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

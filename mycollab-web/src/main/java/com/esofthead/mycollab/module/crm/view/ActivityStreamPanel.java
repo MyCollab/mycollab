@@ -322,7 +322,7 @@ public class ActivityStreamPanel extends CssLayout {
 			this.controlBarWrapper.setStyleName("page-controls");
 			ButtonGroup controlBtns = new ButtonGroup();
 			controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
-			Button prevBtn = new Button("Previous", new Button.ClickListener() {
+			Button prevBtn = new Button("Newer", new Button.ClickListener() {
 				private static final long serialVersionUID = -94021599166105307L;
 
 				@Override
@@ -337,7 +337,7 @@ public class ActivityStreamPanel extends CssLayout {
 			prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			prevBtn.setWidth("64px");
 
-			Button nextBtn = new Button("Next", new Button.ClickListener() {
+			Button nextBtn = new Button("Older", new Button.ClickListener() {
 				private static final long serialVersionUID = 3095522916508256018L;
 
 				@Override

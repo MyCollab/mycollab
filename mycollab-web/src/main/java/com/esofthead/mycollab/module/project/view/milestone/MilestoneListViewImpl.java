@@ -23,6 +23,8 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
@@ -54,7 +56,7 @@ import com.vaadin.ui.Label;
  */
 @ViewComponent
 public class MilestoneListViewImpl extends AbstractProjectPageView implements
-MilestoneListView {
+		MilestoneListView {
 	private static final long serialVersionUID = 1L;
 
 	private CssLayout inProgressContainer;
@@ -66,19 +68,18 @@ MilestoneListView {
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		super("Phases list", "phase.png" );
+		super("Phases list", "phase.png");
 		createBtn = new Button();
 
 		this.addHeaderRightContent(createHeaderRight());
 
-		this.bodyContent = CustomLayoutLoader
-				.createLayout("milestoneView");
+		this.bodyContent = CustomLayoutLoader.createLayout("milestoneView");
 
 		constructBody();
 		this.addComponent(bodyContent);
 	}
 
-	private void constructBody () {
+	private void constructBody() {
 
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
@@ -87,7 +88,7 @@ MilestoneListView {
 		closedHeaderLayout.setSpacing(true);
 		final Image embeddClosed = new Image(null,
 				MyCollabResource
-				.newResource("icons/16/project/phase_closed.png"));
+						.newResource("icons/16/project/phase_closed.png"));
 		closedHeaderLayout.addComponent(embeddClosed);
 		closedHeaderLayout.setComponentAlignment(embeddClosed,
 				Alignment.MIDDLE_CENTER);
@@ -107,7 +108,7 @@ MilestoneListView {
 		inProgressHeaderLayout.setSpacing(true);
 		final Image embeddInProgress = new Image(null,
 				MyCollabResource
-				.newResource("icons/16/project/phase_progress.png"));
+						.newResource("icons/16/project/phase_progress.png"));
 		inProgressHeaderLayout.addComponent(embeddInProgress);
 		inProgressHeaderLayout.setComponentAlignment(embeddInProgress,
 				Alignment.MIDDLE_CENTER);
@@ -128,7 +129,7 @@ MilestoneListView {
 		futureHeaderLayout.setSpacing(true);
 		final Image embeddFuture = new Image(null,
 				MyCollabResource
-				.newResource("icons/16/project/phase_future.png"));
+						.newResource("icons/16/project/phase_future.png"));
 		futureHeaderLayout.addComponent(embeddFuture);
 		futureHeaderLayout.setComponentAlignment(embeddFuture,
 				Alignment.MIDDLE_CENTER);
@@ -147,17 +148,18 @@ MilestoneListView {
 	}
 
 	private HorizontalLayout createHeaderRight() {
-		final HorizontalLayout layout= new HorizontalLayout();
+		final HorizontalLayout layout = new HorizontalLayout();
 
-		this.createBtn.setCaption(LocalizationHelper.getMessage(TaskI18nEnum.NEW_PHASE_ACTION));
+		this.createBtn.setCaption(LocalizationHelper
+				.getMessage(TaskI18nEnum.NEW_PHASE_ACTION));
 		this.createBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
 				EventBus.getInstance().fireEvent(
-						new MilestoneEvent.GotoAdd(
-								MilestoneListViewImpl.this, null));
+						new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this,
+								null));
 			}
 		});
 
@@ -167,11 +169,8 @@ MilestoneListView {
 		layout.addComponent(this.createBtn);
 		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
 
-
-
 		return layout;
 	}
-
 
 	private ComponentContainer constructMilestoneBox(
 			final SimpleMilestone milestone) {
@@ -179,18 +178,9 @@ MilestoneListView {
 		layout.addStyleName(UIConstants.MILESTONE_BOX);
 		layout.setWidth("100%");
 
-		final Button milestoneLink = new Button(milestone.getName(),
-				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new MilestoneEvent.GotoRead(
-								MilestoneListViewImpl.this, milestone
-								.getId()));
-			}
-		});
+		final LabelLink milestoneLink = new LabelLink(milestone.getName(),
+				ProjectLinkBuilder.generateMilestonePreviewFullLink(
+						milestone.getProjectid(), milestone.getId()));
 		milestoneLink.setStyleName("link");
 		milestoneLink.addStyleName("bold");
 		milestoneLink.addStyleName(UIConstants.WORD_WRAP);
@@ -210,11 +200,11 @@ MilestoneListView {
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getStartdate(),
 						"<<Not Set>>")), "Start Date", 0, 0,
-						Alignment.MIDDLE_LEFT);
+				Alignment.MIDDLE_LEFT);
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getEnddate(),
 						"<<Not Set>>")), "End Date", 0, 1,
-						Alignment.MIDDLE_LEFT);
+				Alignment.MIDDLE_LEFT);
 
 		CssLayout linkWrapper = new CssLayout();
 		linkWrapper.setWidth("100%");

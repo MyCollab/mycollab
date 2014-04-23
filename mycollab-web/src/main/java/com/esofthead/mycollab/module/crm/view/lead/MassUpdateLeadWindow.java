@@ -72,7 +72,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 			formLayout.addComponent(organizationHeader);
 
 			this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().setMargin(false);
@@ -82,7 +82,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 			formLayout.addComponent(this.informationLayout.getLayout());
 
 			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			final Label leadMoreInfo = new Label("More Information");
 			leadMoreInfo.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(leadMoreInfo);

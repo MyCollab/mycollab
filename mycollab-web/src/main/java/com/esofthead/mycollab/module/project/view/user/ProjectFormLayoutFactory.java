@@ -90,7 +90,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			layout.addComponent(organizationHeader);
 
 			this.informationLayout = new GridFormLayoutHelper(2, 2, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().setWidth("100%");
 			this.informationLayout.getLayout().setMargin(false);
 			this.informationLayout.getLayout().addStyleName(
@@ -105,7 +105,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			layout.addComponent(financialHeader);
 
 			this.financialLayout = new GridFormLayoutHelper(2, 4, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.financialLayout.getLayout().setWidth("100%");
 			this.financialLayout.getLayout().setMargin(false);
 			this.financialLayout.getLayout().addStyleName("colored-gridlayout");
@@ -118,7 +118,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			layout.addComponent(descHeader);
 
 			this.descriptionLayout = new GridFormLayoutHelper(2, 1, "100%",
-					"167px", Alignment.MIDDLE_LEFT);
+					"167px", Alignment.TOP_LEFT);
 			this.descriptionLayout.getLayout().setWidth("100%");
 			this.descriptionLayout.getLayout().setMargin(false);
 			this.descriptionLayout.getLayout().addStyleName(
@@ -133,7 +133,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
 				this.informationLayout
-				.addComponent(field, "Project Name", 0, 0);
+						.addComponent(field, "Project Name", 0, 0);
 			} else if (propertyId.equals("homepage")) {
 				this.informationLayout.addComponent(field, "Home Page", 1, 0);
 			} else if (propertyId.equals("shortname")) {

@@ -95,7 +95,7 @@ public class AssignTaskGroupWindow extends Window {
 			public Layout getLayout() {
 				VerticalLayout layout = new VerticalLayout();
 				this.informationLayout = new GridFormLayoutHelper(2, 2, "100%",
-						"167px", Alignment.MIDDLE_LEFT);
+						"167px", Alignment.TOP_LEFT);
 				this.informationLayout.getLayout().setWidth("100%");
 				this.informationLayout.getLayout().setMargin(false);
 				this.informationLayout.getLayout().addStyleName(
@@ -136,12 +136,12 @@ public class AssignTaskGroupWindow extends Window {
 											AppContext.getUsername());
 
 									// Save comment
-									String commentValue = (String) commentArea
+									String commentValue = commentArea
 											.getValue();
 									if (commentValue != null
 											&& !commentValue.trim().equals("")) {
 										Comment comment = new Comment();
-										comment.setComment((String) commentArea
+										comment.setComment(commentArea
 												.getValue());
 										comment.setCreatedtime(new GregorianCalendar()
 												.getTime());

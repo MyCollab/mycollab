@@ -57,6 +57,11 @@ a {
 	text-decoration: none;
 }
 
+/* IE img border fix */
+.v-ie img {
+	border: none;
+}
+
 .mycollab .v-richtextarea {
 	border: 1px solid #CFCFCF;
 }
@@ -167,13 +172,14 @@ div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .
 	margin-right:3px;
 }
 
-input.v-textfield,textarea.v-textarea,.v-filterselect {
+input.v-textfield,textarea.v-textarea,.v-filterselect, .v-ie input.v-textfield, .v-ie textarea.v-textarea, .v-ie .v-filterselect {
 	background: none no-repeat left top #FFFFFF;
+	border-color: #CFCFCF;
 }
 
 input.v-widget.v-textfield[type="text"], .v-filterselect  {
 	height: 25px;
-	border-color: #CFCFCF;
+	
 }
 
 .v-app {
@@ -348,21 +354,14 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-ie .v-popupbutton:focus .v-button-wrap, 
 .v-popupbutton .v-button-wrap, 
 .v-popupbutton:active .v-button-wrap  {
-	padding:6px 8px;
+	padding:6px;
 }
 
 .v-button
 	{
-	/*background-image: url("icons/grad-dark-bottom2.png");*/
-	/*background-image:none;*/
-	/*background-repeat: repeat-x;*/
-	/*background-position: left bottom;*/
 	background-color: #F9F9F9;
 	border: 1px solid #6a6a6a;
-	/* color: #FFFFFF; */
-	/* text-shadow: 1px 1px 0px #1570cd; */
 	border-radius: 2px;
-	/* padding: 3px 13px; */
 	background-image:none;
 	padding:0;
 }
@@ -486,7 +485,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 }
 
 .v-button.v-button-orangebtn.selected, .v-button-orangebtn:hover, .v-button-orangebtn:active {
-	background-color: rgb(232, 82, 23);
+	background: none no-repeat left top rgb(232, 82, 23);
 }
 
 .v-button.v-button-orangebtn:active .v-button-wrap{
@@ -681,11 +680,6 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 	border: 1px solid #093768;
 }
 
-/*.v-button-graybtn:hover {
-	background: url("icons/grad-dark-bottom.png") repeat-x left bottom
-		#b2b2b2;
-	border: 1px solid rgb(56, 56, 56);
-}*/
 
 .v-button-link.medium-text .v-button-caption {
 	font-size: 14px;
@@ -1242,7 +1236,7 @@ input.v-textfield-errorField {
 }
 
 #login-header {
-	margin: 0px auto 50px;
+	margin: 0px auto 30px;
 	width: 100%;
 	text-align: center;
 	font-size: 27px;
@@ -1551,7 +1545,7 @@ input.v-textfield-errorField {
 
 #login-footer #support-links {
 	text-align: center;
-	margin: 50px 0px 30px;
+	margin: 30px 0px 20px;
 }
 
 #login-footer #support-links .external-link {
@@ -5239,7 +5233,7 @@ div.v-ratingstars-bar {
 .myprojectlist .stream-content .projectlink-wrapper {
 	border-right: 1px solid #CFCFCF;
 	background-color: #F7F7F7;
-	padding: 10px 15px 15px;
+	padding: 10px 15px 25px;
 }
 
 .myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-wrap,
@@ -6568,12 +6562,14 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .message-list > .v-slot > .v-verticallayout {
 	display: block;
 }
-
+.v-vertical.case-noitem {
+	border-radius: 0 0px 4px 4px;
+	box-sizing: content-box;
+}
 /* case list no item */
-.case-noitem {
-	background-color:#FFFBF8;
-	box-shadow: 0 0 8px 0px rgb(114, 94, 94);
-	border-radius: 2px;
+.v-vertical.v-margin-top.case-noitem {
+	padding-top:50px;
+
 }
 
 /* change style for all button */

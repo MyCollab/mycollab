@@ -32,6 +32,8 @@ import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -43,7 +45,6 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
@@ -58,7 +59,6 @@ import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
-import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -102,22 +102,16 @@ public class TaskTableDisplay extends
 				taskname = String.format(taskname, CurrentProjectVariables
 						.getProject().getShortname(), task.getTaskkey(), task
 						.getTaskname());
-				ButtonLink b = new ButtonLink(taskname,
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
 
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										TaskTableDisplay.this, task, "taskname"));
-							}
-						});
+				LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
+						.generateTaskPreviewFullLink(task.getProjectid(),
+								task.getId()));
 				b.setDescription(generateToolTip(task));
 
 				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
-					Resource iconPriority = ProjectResources
-							.getIconResource12ByTaskPriority(task.getPriority());
-					b.setIcon(iconPriority);
+					b.setIconLink(ProjectResources
+							.getIconResourceLink12ByTaskPriority(task
+									.getPriority()));
 
 				}
 
