@@ -27,12 +27,12 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
-import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -574,21 +574,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 			} else if (propertyId.equals("milestoneName")) {
 				if (beanItem.getMilestoneid() != null) {
-					final FormLinkViewField phaseLink = new FormLinkViewField(
-							beanItem.getMilestoneName(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(final ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new MilestoneEvent.GotoRead(
-													BugReadViewImpl.this,
-													beanItem.getMilestoneid()));
-								}
-							},
+					final FormLinkViewField phaseLink = 
+					new FormLinkViewField(beanItem.getMilestoneName(),
+							ProjectLinkBuilder.generateMilestonePreviewFullLink(beanItem.getProjectid()
+									, beanItem.getMilestoneid()),
 							MyCollabResource
-									.newResource("icons/16/project/milestone.png"));
+									.newResourceLink("icons/16/project/milestone.png"));
 					return phaseLink;
 				} else {
 					return new FormViewField("");

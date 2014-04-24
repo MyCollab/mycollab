@@ -23,6 +23,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -278,20 +279,11 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("milestoneid")) {
-					return new FormLinkViewField(
-							beanItem.getMilestoneName(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(final ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new MilestoneEvent.GotoRead(this,
-													beanItem.getMilestoneid()));
-								}
-							},
+					new FormLinkViewField(beanItem.getMilestoneName(),
+							ProjectLinkBuilder.generateMilestonePreviewFullLink(beanItem.getProjectid()
+									, beanItem.getMilestoneid()),
 							MyCollabResource
-							.newResource("icons/16/project/milestone.png"));
+									.newResourceLink("icons/16/crm/milestone.png"));
 				} else if (propertyId.equals("owner")) {
 					return new ProjectUserFormLinkField(beanItem.getOwner(),
 							beanItem.getOwnerAvatarId(),

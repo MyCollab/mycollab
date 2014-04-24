@@ -28,11 +28,11 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
@@ -138,25 +138,12 @@ class TaskDisplayComponent extends CssLayout {
 										.getOwnerAvatarId(), taskList
 										.getOwnerFullName());
 							} else if ("milestoneid".equals(propertyId)) {
-								return new DefaultFormViewFieldFactory.FormLinkViewField(
-										taskList.getMilestoneName(),
-										new Button.ClickListener() {
-
-											private static final long serialVersionUID = 1L;
-
-											@Override
-											public void buttonClick(
-													final Button.ClickEvent event) {
-												EventBus.getInstance()
-														.fireEvent(
-																new MilestoneEvent.GotoRead(
-																		this,
-																		TaskDisplayComponent.this.taskList
-																				.getMilestoneid()));
-											}
-										},
+								
+								return new DefaultFormViewFieldFactory.FormLinkViewField(taskList.getMilestoneName(),
+										ProjectLinkBuilder.generateMilestonePreviewFullLink(taskList.getProjectid(), 
+												taskList.getMilestoneid()),
 										MyCollabResource
-												.newResource("icons/16/project/milestone.png"));
+												.newResourceLink("icons/16/project/milestone.png"));
 							}
 
 							return null;

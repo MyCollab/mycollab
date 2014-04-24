@@ -19,13 +19,11 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 
 /**
@@ -63,13 +61,7 @@ class LeadReadFormFieldFactory extends
 			return new FormEmailLinkViewField(lead.getEmail());
 		} else if (propertyId.equals("accountid")) {
 			FormLinkViewField field = new FormLinkViewField(
-					lead.getAccountname(), new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-						}
-					});
+					lead.getAccountname(), null, null);
 
 			return field;
 		} else if (propertyId.equals("assignuser")) {

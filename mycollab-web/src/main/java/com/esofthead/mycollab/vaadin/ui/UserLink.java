@@ -24,6 +24,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -116,22 +117,8 @@ public class UserLink extends Button {
 			String userFullLinkStr = UserLinkUtils.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), user.getUsername());
 			userFullLinkStr = userFullLinkStr.substring(0, 50);
-			ButtonLink userFullLinkBtn = new ButtonLink(userFullLinkStr);
-			userFullLinkBtn.addClickListener(new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(ClickEvent event) {
-					UserQuickPreviewWindow.this.close();
-					EventBus.getInstance().fireEvent(
-							new ShellEvent.GotoUserAccountModule(this,
-									new String[] {
-											"user",
-											"preview",
-											UrlEncodeDecoder.encode(user
-													.getUsername()) }));
-				}
-			});
+			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr, userFullLinkStr);
+			
 			userFullLinkBtn.setWidth("100%");
 			topLayout.addComponent(userFullLinkBtn);
 			topLayout.setExpandRatio(userFullLinkBtn, 1.0f);

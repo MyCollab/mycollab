@@ -19,12 +19,8 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractListItemComp;
@@ -37,7 +33,6 @@ import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
 /**
@@ -88,35 +83,7 @@ public class ActivityListViewImpl extends
 										.getMessage(TaskI18nEnum.TABLE_END_DATE_HEADER),
 								"endDate", UIConstants.TABLE_DATE_TIME_WIDTH)));
 
-		table.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
-
-			@Override
-			public void handle(final TableClickEvent event) {
-				final SimpleActivity simpleEvent = (SimpleActivity) event
-						.getData();
-				if ("Task".equals(simpleEvent.getEventType())) {
-					EventBus.getInstance().fireEvent(
-							new ActivityEvent.TaskRead(this, simpleEvent
-									.getId()));
-				} else if ("Event".equals(simpleEvent.getEventType())) {
-					EventBus.getInstance().fireEvent(
-							new ActivityEvent.MeetingRead(this, simpleEvent
-									.getId()));
-				} else if ("Call".equals(simpleEvent.getEventType())) {
-					EventBus.getInstance().fireEvent(
-							new ActivityEvent.CallRead(this, simpleEvent
-									.getId()));
-				}
-			}
-		});
-
-		return table;
+			return table;
 	}
 
 	@Override

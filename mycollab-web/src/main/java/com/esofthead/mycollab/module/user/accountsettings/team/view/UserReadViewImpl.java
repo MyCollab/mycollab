@@ -18,11 +18,11 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfileFormLayoutFactory;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
-import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -39,8 +39,6 @@ import com.esofthead.mycollab.vaadin.ui.PreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -132,20 +130,10 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 								&& user.getIsAccountOwner() == Boolean.TRUE) {
 							return new FormViewField("Account Owner");
 						} else {
-							FormLinkViewField roleLink = new FormLinkViewField(
-									user.getRoleName(),
-									new Button.ClickListener() {
-										private static final long serialVersionUID = 1L;
-
-										@Override
-										public void buttonClick(ClickEvent event) {
-											EventBus.getInstance()
-											.fireEvent(
-													new RoleEvent.GotoRead(
-															UserReadViewImpl.this,
-															user.getRoleid()));
-										}
-									});
+							FormLinkViewField roleLink = 
+							new FormLinkViewField(user.getRoleName(),
+									ProjectLinkBuilder.generateRolePreviewFullLink(CurrentProjectVariables.getProjectId()
+											, user.getRoleid()),null);
 							return roleLink;
 						}
 					} else if (propertyId.equals("website")) {

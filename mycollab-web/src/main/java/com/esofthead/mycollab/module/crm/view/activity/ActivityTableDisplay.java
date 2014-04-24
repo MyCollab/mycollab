@@ -26,18 +26,18 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -47,7 +47,6 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
@@ -137,17 +136,9 @@ public class ActivityTableDisplay
 					final Object itemId, Object columnId) {
 				final SimpleActivity simpleEvent = ActivityTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(simpleEvent.getSubject(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										ActivityTableDisplay.this, simpleEvent,
-										"subject"));
-							}
-						});
+				
+				final LabelLink b = new LabelLink(simpleEvent.getSubject(),
+						CrmLinkBuilder.generateActivityPreviewLinkFull(simpleEvent.getEventType(),simpleEvent.getId()));
 
 				if ("Held".equals(simpleEvent.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

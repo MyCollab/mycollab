@@ -19,9 +19,8 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import java.util.List;
 
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
@@ -81,7 +80,10 @@ public class RoleTableDisplay extends
 					final Object itemId, Object columnId) {
 				final SimpleRole role = RoleTableDisplay.this
 						.getBeanByIndex(itemId);
-				LabelLink b = new LabelLink(role.getRolename(),ProjectLinkBuilder.generateRolePreviewFullLink(CurrentProjectVariables.getProjectId(), role.getId()));
+                
+                LabelLink b = new LabelLink(role.getRolename(),
+						UserLinkUtils.generateUserRoleLink(role
+								.getId()));	
 				return b;
 
 			}

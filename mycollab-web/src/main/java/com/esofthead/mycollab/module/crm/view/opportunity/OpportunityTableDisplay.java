@@ -25,17 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -51,7 +49,6 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
@@ -118,18 +115,10 @@ public class OpportunityTableDisplay
 					Object columnId) {
 				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(opportunity.getOpportunityname(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										OpportunityTableDisplay.this,
-										opportunity, "opportunityname"));
-							}
-						});
-
+				
+				LabelLink b = new LabelLink(opportunity.getOpportunityname(),
+						CrmLinkBuilder.generateOpportunityPreviewLinkFull(opportunity
+								.getId()));	
 				if ("Closed Won".equals(opportunity.getSalesstage())
 						|| "Closed Lost".equals(opportunity.getSalesstage())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -189,17 +178,10 @@ public class OpportunityTableDisplay
 					Object columnId) {
 				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(opportunity.getAccountName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								EventBus.getInstance().fireEvent(
-										new AccountEvent.GotoRead(this,
-												opportunity.getAccountid()));
-							}
-						});
+				
+				LabelLink b = new LabelLink(opportunity.getAccountName(),
+						CrmLinkBuilder.generateAccountPreviewLinkFull(opportunity
+								.getAccountid()));	
 				return b;
 			}
 		});
@@ -210,17 +192,10 @@ public class OpportunityTableDisplay
 					Object columnId) {
 				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(opportunity.getCampaignName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								EventBus.getInstance().fireEvent(
-										new CampaignEvent.GotoRead(this,
-												opportunity.getCampaignid()));
-							}
-						});
+				
+				LabelLink b = new LabelLink(opportunity.getCampaignName(),
+						CrmLinkBuilder.generateCampaignPreviewLinkFull(opportunity
+								.getCampaignid()));	
 				return b;
 			}
 		});

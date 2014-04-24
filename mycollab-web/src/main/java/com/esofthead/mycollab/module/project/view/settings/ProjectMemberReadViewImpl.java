@@ -34,6 +34,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -42,7 +43,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.bug.BugTableDisplay;
@@ -361,22 +361,12 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			if (propertyId.equals("projectroleid")) {
 				if (attachForm.getBean().getIsadmin() != null
 						&& attachForm.getBean().getIsadmin() == Boolean.FALSE) {
-					FormLinkViewField roleLink = new FormLinkViewField(
-							attachForm.getBean().getRoleName(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
-
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance()
-											.fireEvent(
-													new ProjectRoleEvent.GotoRead(
-															ProjectMemberFormFieldFactory.this,
-															attachForm
-																	.getBean()
-																	.getProjectroleid()));
-								}
-							});
+					FormLinkViewField roleLink = 
+					new FormLinkViewField(attachForm.getBean().getRoleName(),
+							ProjectLinkBuilder.generateRolePreviewFullLink(attachForm.getBean().getProjectid()
+									, attachForm
+									.getBean()
+									.getProjectroleid()),null);
 					return roleLink;
 				} else {
 					return new DefaultFormViewFieldFactory.FormViewField(

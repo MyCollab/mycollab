@@ -23,14 +23,12 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.bug.components.BugRelationComboBox;
 import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
@@ -42,13 +40,11 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.RelatedBugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -320,10 +316,10 @@ public class BugRelatedField extends CustomComponent {
 				LabelLink b = new LabelLink(bugname,ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(),bug.getId()));
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
-					Resource iconPriority = ProjectResources
-							.getIconResource12ByBugPriority(bug.getPriority());
+					String iconPriority = ProjectResources
+							.getIconResourceLink12ByBugPriority(bug.getPriority());
 
-					b.setIcon(iconPriority);
+					b.setIconLink(iconPriority);
 				}
 
 				if (BugStatusConstants.VERIFIED.equals(bug.getStatus())) {

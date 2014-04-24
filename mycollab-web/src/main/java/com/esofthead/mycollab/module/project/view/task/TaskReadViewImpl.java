@@ -23,13 +23,12 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -287,20 +286,12 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				return new DefaultFormViewFieldFactory.FormViewField(
 						AppContext.formatDate(beanItem.getDeadline()));
 			} else if (propertyId.equals("tasklistid")) {
-				return new DefaultFormViewFieldFactory.FormLinkViewField(
-						beanItem.getTaskListName(), new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								EventBus.getInstance().fireEvent(
-										new TaskListEvent.GotoRead(this,
-												beanItem.getTasklistid()));
-							}
-						},
+				return 
+				new DefaultFormViewFieldFactory.FormLinkViewField(beanItem.getTaskListName(),
+						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(beanItem.getProjectid()
+								, beanItem.getTasklistid()),
 						MyCollabResource
-								.newResource("icons/16/project/task_group.png"));
+								.newResourceLink("icons/16/crm/task_group.png"));
 			} else if (propertyId.equals("id")) {
 				return new ProjectFormAttachmentDisplayField(
 						beanItem.getProjectid(),

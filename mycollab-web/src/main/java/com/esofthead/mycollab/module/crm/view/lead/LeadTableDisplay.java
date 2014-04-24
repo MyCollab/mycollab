@@ -24,13 +24,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlLink;
@@ -48,7 +49,6 @@ import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
@@ -112,17 +112,10 @@ public class LeadTableDisplay extends
 					Object columnId) {
 				final SimpleLead lead = LeadTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(lead.getLeadName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										LeadTableDisplay.this, lead, "leadName"));
-							}
-						});
-
+				
+				LabelLink b = new LabelLink(lead.getLeadName(),
+						CrmLinkBuilder.generateLeadPreviewLinkFull(lead
+								.getId()));	
 				if ("Dead".equals(lead.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}

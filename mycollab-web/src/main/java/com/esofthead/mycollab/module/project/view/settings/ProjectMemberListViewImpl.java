@@ -30,6 +30,8 @@ import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -54,7 +56,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -70,7 +71,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ProjectMemberListViewImpl extends AbstractPageView implements
-ProjectMemberListView {
+		ProjectMemberListView {
 	private static final long serialVersionUID = 1L;
 	private CssLayout contentLayout;
 
@@ -84,7 +85,8 @@ ProjectMemberListView {
 		viewHeader.setWidth("100%");
 		viewHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		viewHeader.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+		viewHeader.addComponent(new Image(null, MyCollabResource
+				.newResource("icons/24/project/user.png")));
 
 		Label headerText = new Label("Project Members");
 		headerText.setStyleName("hdr-text");
@@ -149,8 +151,8 @@ ProjectMemberListView {
 
 		VerticalLayout memberInfo = new VerticalLayout();
 
-		Image btnDelete = new Image(null, MyCollabResource
-				.newResource("icons/12/project/icon_x.png"));
+		Image btnDelete = new Image(null,
+				MyCollabResource.newResource("icons/12/project/icon_x.png"));
 		btnDelete.addClickListener(new MouseEvents.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -161,13 +163,13 @@ ProjectMemberListView {
 						LocalizationHelper.getMessage(
 								GenericI18Enum.DELETE_DIALOG_TITLE,
 								SiteConfiguration.getSiteName()),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+						LocalizationHelper
 								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
+						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
@@ -180,10 +182,10 @@ ProjectMemberListView {
 											AppContext.getUsername());
 
 									EventBus.getInstance()
-									.fireEvent(
-											new ProjectMemberEvent.GotoList(
-													ProjectMemberListViewImpl.this,
-													null));
+											.fireEvent(
+													new ProjectMemberEvent.GotoList(
+															ProjectMemberListViewImpl.this,
+															null));
 								}
 							}
 						});
@@ -196,20 +198,10 @@ ProjectMemberListView {
 				.canWrite(ProjectRolePermissionCollections.USERS));
 		blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-		ButtonLink memberLink = new ButtonLink(member.getMemberFullName());
-		memberLink.addClickListener(new ClickListener() {
+		LabelLink memberLink = new LabelLink(member.getMemberFullName(),
+				ProjectLinkBuilder.generateProjectMemberFullLink(
+						member.getProjectid(), member.getUsername()));
 
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance()
-				.fireEvent(
-						new ProjectMemberEvent.GotoRead(
-								ProjectMemberListViewImpl.this, member
-								.getId()));
-			}
-		});
 		memberLink.setWidth("100%");
 		memberLink.addStyleName("member-name");
 
@@ -220,7 +212,7 @@ ProjectMemberListView {
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ ProjectLinkUtils.generateRolePreviewLink(
 						member.getProjectid(), member.getProjectRoleId())
-						+ "\"";
+				+ "\"";
 		Label memberRole = new Label();
 		memberRole.setContentMode(ContentMode.HTML);
 		memberRole.setStyleName("member-role");
@@ -260,7 +252,7 @@ ProjectMemberListView {
 									.getSpringBean(ProjectMemberMapper.class);
 							member.setStatus(RegisterStatusConstants.VERIFICATING);
 							projectMemberMapper
-							.updateByPrimaryKeySelective(member);
+									.updateByPrimaryKeySelective(member);
 							waitingNotLayout.removeAllComponents();
 							Label statusEmail = new Label(
 									"Sending invitation email");

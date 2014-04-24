@@ -46,4 +46,6 @@ public class CrmTypeConstants {
 	public static final String MEETING = "Meeting";
 
 	public static final String CALL = "Call";
+	
+	public static final String EVENT = "Event";
 }

@@ -204,7 +204,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 					.put(mapper.getFieldLabel("assistant"), null);
 		}
 
-		if (contact.getIscallable()) {
+		if (contact.getIscallable() != null && contact.getIscallable().booleanValue()) {
 			listOfDisplayProperties.put(mapper.getFieldLabel("iscallable"),
 					Arrays.asList(new MailItemLink(null, "yes")));
 		} else {

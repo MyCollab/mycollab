@@ -18,31 +18,23 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
@@ -71,13 +63,17 @@ public class RelatedReadItemField extends CustomField {
 				return new Label("");
 			}
 
+			final String subject = (String) PropertyUtils.getProperty(
+					RelatedReadItemField.this.bean, "subject");
+
 			final String type = (String) PropertyUtils
 					.getProperty(bean, "type");
 			if (type == null || type.equals("")) {
 				return new Label("");
 			}
 
-			ButtonLink relatedLink = null;
+			String relatedLink = null;
+			String relateItemName = null;
 
 			if ("Account".equals(type)) {
 				AccountService accountService = ApplicationContextUtil
@@ -85,19 +81,9 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleAccount account = accountService.findById(typeid,
 						AppContext.getAccountId());
 				if (account != null) {
-					relatedLink = new ButtonLink(account.getAccountname(),
-							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(this,
-											account.getId()));
-						}
-					});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/account.png"));
+					relateItemName = account.getAccountname();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/account.png");
 				}
 			} else if ("Campaign".equals(type)) {
 				CampaignService campaignService = ApplicationContextUtil
@@ -105,20 +91,10 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleCampaign campaign = campaignService.findById(
 						typeid, AppContext.getAccountId());
 				if (campaign != null) {
-					relatedLink = new ButtonLink(campaign.getCampaignname(),
-							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+					relateItemName = campaign.getCampaignname();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/campaign.png");
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new CampaignEvent.GotoRead(this,
-											campaign.getId()));
-
-						}
-					});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/campaign.png"));
 				}
 			} else if ("Contact".equals(type)) {
 				ContactService contactService = ApplicationContextUtil
@@ -126,19 +102,10 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleContact contact = contactService.findById(typeid,
 						AppContext.getAccountId());
 				if (contact != null) {
-					relatedLink = new ButtonLink(contact.getContactName(),
-							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+					relateItemName = contact.getContactName();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/contact.png");
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(this,
-											contact.getId()));
-						}
-					});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/contact.png"));
 				}
 			} else if ("Lead".equals(type)) {
 				LeadService leadService = ApplicationContextUtil
@@ -146,19 +113,10 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleLead lead = leadService.findById(typeid,
 						AppContext.getAccountId());
 				if (lead != null) {
-					relatedLink = new ButtonLink(lead.getLeadName(),
-							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+					relateItemName = lead.getLeadName();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/lead.png");
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new LeadEvent.GotoRead(this, lead
-											.getId()));
-						}
-					});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/lead.png"));
 				}
 			} else if ("Opportunity".equals(type)) {
 				OpportunityService opportunityService = ApplicationContextUtil
@@ -166,20 +124,10 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleOpportunity opportunity = opportunityService
 						.findById(typeid, AppContext.getAccountId());
 				if (opportunity != null) {
-					relatedLink = new ButtonLink(
-							opportunity.getOpportunityname(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+					relateItemName = opportunity.getOpportunityname();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/opportunity.png");
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									EventBus.getInstance().fireEvent(
-											new OpportunityEvent.GotoRead(this,
-													opportunity.getId()));
-								}
-							});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/opportunity.png"));
 				}
 			} else if ("Case".equals(type)) {
 				CaseService caseService = ApplicationContextUtil
@@ -187,25 +135,21 @@ public class RelatedReadItemField extends CustomField {
 				final SimpleCase cases = caseService.findById(typeid,
 						AppContext.getAccountId());
 				if (cases != null) {
-					relatedLink = new ButtonLink(cases.getSubject(),
-							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+					relateItemName = cases.getSubject();
+					relatedLink = MyCollabResource
+							.newResourceLink("icons/16/crm/case.png");
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new CaseEvent.GotoRead(this, cases
-											.getId()));
-
-						}
-					});
-					relatedLink.setIcon(MyCollabResource
-							.newResource("icons/16/crm/case.png"));
 				}
 			}
 
+			LabelLink related = new LabelLink(relateItemName,
+					CrmLinkBuilder
+							.generateActivityPreviewLinkFull(type, typeid));
+			if (relatedLink != null)
+				related.setIconLink(relatedLink);
+
 			if (relatedLink != null) {
-				return relatedLink;
+				return related;
 			} else {
 				return new Label("");
 			}

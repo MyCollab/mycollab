@@ -20,14 +20,14 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -87,24 +87,26 @@ public class OpportunitySelectionWindow extends Window {
 				OpportunityTableFieldDef.assignUser));
 
 		tableItem.setWidth("100%");
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		
+		tableItem.addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+			@Override
+			public com.vaadin.ui.Component generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
 
+				ButtonLink b = new ButtonLink(opportunity.getOpportunityname(),new Button.ClickListener() {
+					
 					@Override
-					public void handle(TableClickEvent event) {
-						SimpleOpportunity opportunity = (SimpleOpportunity) event
-								.getData();
-						if ("opportunityname".equals(event.getFieldName())) {
-							fieldSelection.fireValueChange(opportunity);
-							OpportunitySelectionWindow.this.close();
-						}
+					public void buttonClick(final Button.ClickEvent event) {
+						// TODO Auto-generated method stub
+						fieldSelection.fireValueChange(opportunity);
+						OpportunitySelectionWindow.this.close();
 					}
 				});
+				return b;
+			}
+		});
 	}
 }

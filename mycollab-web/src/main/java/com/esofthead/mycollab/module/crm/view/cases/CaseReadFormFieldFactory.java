@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -48,17 +49,9 @@ class CaseReadFormFieldFactory extends
 		final SimpleCase cases = attachForm.getBean();
 		if (propertyId.equals("accountid")) {
 			return new FormLinkViewField(cases.getAccountName(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(this, cases
-											.getAccountid()));
-
-						}
-					}, MyCollabResource.newResource("icons/16/crm/account.png"));
+					CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()),
+					MyCollabResource
+							.newResourceLink("icons/16/crm/account.png"));
 		} else if (propertyId.equals("email")) {
 			return new FormEmailLinkViewField(cases.getEmail());
 		} else if (propertyId.equals("assignuser")) {

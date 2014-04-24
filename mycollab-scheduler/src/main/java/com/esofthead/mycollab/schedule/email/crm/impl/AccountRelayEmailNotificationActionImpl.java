@@ -16,12 +16,6 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,9 +32,15 @@ import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -65,13 +65,12 @@ public class AccountRelayEmailNotificationActionImpl extends
 	@Autowired
 	private CrmNotificationSettingService notificationService;
 
-	private final AccountFieldNameMapper mapper;
+	private static AccountFieldNameMapper mapper = new AccountFieldNameMapper();
 
 	private SimpleAccount simpleAccount;
 
 	public AccountRelayEmailNotificationActionImpl() {
 		super(CrmTypeConstants.ACCOUNT);
-		mapper = new AccountFieldNameMapper();
 	}
 
 	protected void setupMailHeaders(SimpleAccount account,
@@ -79,7 +78,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 			TemplateGenerator templateGenerator) {
 
 		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(account.getSaccountid()));
+				LinkUtils.getSiteUrl(account.getSaccountid()));
 
 		String summary = account.getAccountname();
 		String summaryLink = crmLinkGenerator
@@ -90,201 +89,6 @@ public class AccountRelayEmailNotificationActionImpl extends
 		templateGenerator.putVariable("itemType", "account");
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<MailItemLink>> getListOfProperties(
-			SimpleAccount account, SimpleUser user) {
-		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
-
-		if (account.getWebsite() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("website"),
-							Arrays.asList(new MailItemLink(null, account
-									.getWebsite())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("website"), null);
-		}
-
-		if (account.getFax() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("fax"),
-					Arrays.asList(new MailItemLink(null, account.getFax())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("fax"), null);
-		}
-
-		if (account.getNumemployees() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("numemployees"),
-					Arrays.asList(new MailItemLink(null, account
-							.getNumemployees().toString())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("numemployees"),
-					null);
-		}
-
-		if (account.getAlternatephone() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("alternatephone"),
-					Arrays.asList(new MailItemLink(null, account
-							.getAlternatephone())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("alternatephone"),
-					null);
-		}
-
-		if (account.getIndustry() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("industry"), Arrays
-							.asList(new MailItemLink(null, account
-									.getIndustry())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("industry"), null);
-		}
-
-		if (account.getEmail() != null) {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("email"),
-					Arrays.asList(new MailItemLink("mailto:"
-							+ account.getEmail(), account.getEmail())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("email"), null);
-		}
-
-		if (account.getType() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("type"),
-					Arrays.asList(new MailItemLink(null, account.getType())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("type"), null);
-		}
-
-		if (account.getOwnership() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("ownership"), Arrays
-							.asList(new MailItemLink(null, account
-									.getOwnership())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("ownership"), null);
-		}
-
-		if (account.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					Arrays.asList(new MailItemLink(UserLinkUtils
-							.generatePreviewFullUserLink(
-									getSiteUrl(account.getSaccountid()),
-									account.getAssignuser()), account
-							.getAssignUserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					null);
-		}
-
-		if (account.getAnnualrevenue() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("annualrevenue"),
-					Arrays.asList(new MailItemLink(null, account
-							.getAnnualrevenue())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("annualrevenue"),
-					null);
-		}
-
-		if (account.getBillingaddress() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("billingaddress"),
-					Arrays.asList(new MailItemLink(null, account
-							.getBillingaddress())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("billingaddress"),
-					null);
-		}
-
-		if (account.getShippingaddress() != null) {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("shippingaddress"), Arrays
-							.asList(new MailItemLink(null, account
-									.getShippingaddress())));
-		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("shippingaddress"), null);
-		}
-
-		if (account.getCity() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("city"),
-					Arrays.asList(new MailItemLink(null, account.getCity())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("city"), null);
-		}
-
-		if (account.getShippingcity() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("shippingcity"),
-					Arrays.asList(new MailItemLink(null, account
-							.getShippingcity())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("shippingcity"),
-					null);
-		}
-
-		if (account.getState() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("state"),
-					Arrays.asList(new MailItemLink(null, account.getState())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("state"), null);
-		}
-
-		if (account.getShippingstate() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("shippingstate"),
-					Arrays.asList(new MailItemLink(null, account
-							.getShippingstate())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("shippingstate"),
-					null);
-		}
-
-		if (account.getPostalcode() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("postalcode"),
-					Arrays.asList(new MailItemLink(null, account
-							.getPostalcode())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("postalcode"),
-					null);
-		}
-
-		if (account.getShippingpostalcode() != null) {
-			listOfDisplayProperties.put(mapper
-					.getFieldLabel("shippingpostalcode"), Arrays
-					.asList(new MailItemLink(null, account
-							.getShippingpostalcode())));
-		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("shippingpostalcode"), null);
-		}
-
-		if (account.getBillingcountry() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("billingcountry"),
-					Arrays.asList(new MailItemLink(null, account
-							.getBillingcountry())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("billingcountry"),
-					null);
-		}
-
-		if (account.getShippingcountry() != null) {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("shippingcountry"), Arrays
-							.asList(new MailItemLink(null, account
-									.getShippingcountry())));
-		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("shippingcountry"), null);
-		}
-
-		if (account.getDescription() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					Arrays.asList(new MailItemLink(null, account
-							.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -305,8 +109,9 @@ public class AccountRelayEmailNotificationActionImpl extends
 			setupMailHeaders(simpleAccount, emailNotification,
 					templateGenerator);
 
-			templateGenerator.putVariable("properties",
-					getListOfProperties(simpleAccount, user));
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleAccount>(simpleAccount, user));
+			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
 		} else {
@@ -361,44 +166,60 @@ public class AccountRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class AccountFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class AccountAssigneeFieldFormat extends FieldFormat {
 
-		public AccountFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("accountname", "Account Name");
-			fieldNameMap.put("phoneoffice", "Office Phone");
-			fieldNameMap.put("website", "Website");
-			fieldNameMap.put("numemployees", "Employees");
-			fieldNameMap.put("fax", "Fax");
-			fieldNameMap.put("alternatephone", "Other Phone");
-			fieldNameMap.put("industry", "Industry");
-			fieldNameMap.put("email", "Email");
-			fieldNameMap.put("type", "Type");
-			fieldNameMap.put("ownership", "Ownership");
-			fieldNameMap.put("assignuser", "Assignee");
-			fieldNameMap.put("annualrevenue", "Annual Revenue");
-			fieldNameMap.put("billingaddress", "Billing Address");
-			fieldNameMap.put("shippingaddress", "Shipping Address");
-			fieldNameMap.put("city", "Billing City");
-			fieldNameMap.put("shippingcity", "Shipping City");
-			fieldNameMap.put("state", "Billing State");
-			fieldNameMap.put("shippingstate", "Shipping State");
-			fieldNameMap.put("postalcode", "Billing Postal Code");
-			fieldNameMap.put("shippingpostalcode", "Shipping Postal Code");
-			fieldNameMap.put("billingcountry", "Billing Country");
-			fieldNameMap.put("shippingcountry", "Shipping Country");
-			fieldNameMap.put("description", "Description");
+		public AccountAssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
+		public String formatField(MailContext<?> context) {
+			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(account.getSaccountid()),
+					account.getAssignuser());
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					account.getAssignUserAvatarId(), 16);
+
+			Span span = new Span();
+			Img img = new Img("avatar", userAvatarLink);
+			span.appendChild(img);
+
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(account.getAssignUserFullName());
+			span.appendChild(link);
+			return span.write();
 		}
 
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
-		}
 	}
 
+	public static class AccountFieldNameMapper extends ItemFieldMapper {
+
+		public AccountFieldNameMapper() {
+			put("accountname", "Account Name");
+			put("phoneoffice", "Office Phone");
+			put("website", "Website");
+			put("numemployees", "Employees");
+			put("fax", "Fax");
+			put("alternatephone", "Other Phone");
+			put("industry", "Industry");
+			put("email", "Email");
+			put("type", "Type");
+			put("ownership", "Ownership");
+			put("assignuser", new AccountAssigneeFieldFormat("assignuser",
+					"Assign User"));
+			put("annualrevenue", "Annual Revenue");
+			put("billingaddress", "Billing Address");
+			put("shippingaddress", "Shipping Address");
+			put("city", "Billing City");
+			put("shippingcity", "Shipping City");
+			put("state", "Billing State");
+			put("shippingstate", "Shipping State");
+			put("postalcode", "Billing Postal Code");
+			put("shippingpostalcode", "Shipping Postal Code");
+			put("billingcountry", "Billing Country");
+			put("shippingcountry", "Shipping Country");
+			put("description", "Description");
+		}
+	}
 }

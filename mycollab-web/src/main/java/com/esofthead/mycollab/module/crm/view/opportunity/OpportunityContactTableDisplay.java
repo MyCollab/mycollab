@@ -23,18 +23,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactOpportunityService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.EmailLink;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -42,8 +42,6 @@ import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -75,17 +73,10 @@ public class OpportunityContactTableDisplay
 					final Object columnId) {
 				final SimpleContact contact = OpportunityContactTableDisplay.this
 						.getBeanByIndex(itemId);
-				final ButtonLink b = new ButtonLink(contact.getContactName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
 
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										OpportunityContactTableDisplay.this,
-										contact, "contactName"));
-							}
-						});
+				LabelLink b = new LabelLink(contact.getContactName(),
+						CrmLinkBuilder.generateContactPreviewLinkFull(contact
+								.getId()));
 				b.setDescription(contactToolTip(contact));
 				return b;
 			}
@@ -112,19 +103,12 @@ public class OpportunityContactTableDisplay
 				final SimpleContact contact = OpportunityContactTableDisplay.this
 						.getBeanByIndex(itemId);
 				if (contact.getAccountName() != null) {
-					ButtonLink accountLink = new ButtonLink(contact
-							.getAccountName(), new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							fireTableEvent(new TableClickEvent(
-									OpportunityContactTableDisplay.this,
-									contact, "accountName"));
-
-						}
-					});
-					return accountLink;
+					LabelLink b = new LabelLink(contact.getAccountName(),
+							CrmLinkBuilder
+									.generateAccountPreviewLinkFull(contact
+											.getAccountid()));
+					return b;
 				} else {
 					return new Label();
 				}

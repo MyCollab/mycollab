@@ -20,16 +20,14 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -88,26 +86,25 @@ public class CaseSelectionWindow extends Window {
 				CaseTableFieldDef.priority, CaseTableFieldDef.status,
 				CaseTableFieldDef.assignUser));
 
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+		tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public com.vaadin.ui.Component generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final SimpleCase cases = tableItem.getBeanByIndex(itemId);
+
+				ButtonLink b = new ButtonLink(cases.getSubject(),new Button.ClickListener() {
+					
 					@Override
-					public void handle(TableClickEvent event) {
-						SimpleCase cases = (SimpleCase) event.getData();
-						if ("subject".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new CaseEvent.GotoRead(this, cases
-													.getId()));
-						} else if ("accountName".equals(event.getFieldName())) {
-							fieldSelection.fireValueChange(cases);
-							CaseSelectionWindow.this.close();
-						}
+					public void buttonClick(final Button.ClickEvent event) {
+						// TODO Auto-generated method stub
+						fieldSelection.fireValueChange(cases);
+						CaseSelectionWindow.this.close();
 					}
 				});
+				return b;
+			}
+		});
 	}
 }

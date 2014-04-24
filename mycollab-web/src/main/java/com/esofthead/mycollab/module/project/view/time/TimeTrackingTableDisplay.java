@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectUser
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -189,21 +188,13 @@ public class TimeTrackingTableDisplay
 					Object columnId) {
 				final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink projectLink = new ButtonLink(itemLogging
-						.getProjectName(), new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								TimeTrackingTableDisplay.this, itemLogging,
-								"projectName"));
-
-					}
-				});
-				projectLink.setIcon(MyCollabResource
-						.newResource("icons/16/project/project.png"));
-				return projectLink;
+				
+				LabelLink b = new LabelLink(itemLogging
+						.getProjectName(),
+						ProjectLinkBuilder.generateProjectFullLink(itemLogging.getProjectid(), "#"));	
+				b.setIconLink(MyCollabResource
+						.newResourceLink("icons/16/project/project.png"));
+				return b;
 			}
 		});
 

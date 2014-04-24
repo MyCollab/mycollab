@@ -1,10 +1,8 @@
 package com.esofthead.mycollab.module.project;
 
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
-import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -49,7 +47,13 @@ public class LabelLink extends Label {
 		div.appendChild(0, img);
 		this.setValue(div.write());
 	}
-
+	
+	@Deprecated
+	@Override
+	public void setIcon(Resource source) {
+		
+		
+	}
 	public void setLink(String href) {
 		div.getChild(1).setAttribute("href", href);
 		this.setValue(div.write());

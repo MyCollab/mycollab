@@ -8,9 +8,10 @@ import java.io.Serializable;
  * @since 4.0
  * 
  */
+@Deprecated
 public class MailItemLink implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String link;
 	private String displayname;
 

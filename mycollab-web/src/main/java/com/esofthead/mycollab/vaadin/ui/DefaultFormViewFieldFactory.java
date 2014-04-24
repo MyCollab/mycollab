@@ -23,10 +23,9 @@ import java.util.Date;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -262,18 +261,18 @@ public class DefaultFormViewFieldFactory {
 		private static final long serialVersionUID = 1L;
 
 		private String value;
-		private Resource iconResource;
-		private Button.ClickListener listener;
+		private String iconResourceLink;
+		private String href;
 
-		public FormLinkViewField(String value, Button.ClickListener listener) {
-			this(value, listener, null);
+		public FormLinkViewField(String value, String href) {
+			this(value, href, null);
 		}
 
-		public FormLinkViewField(String value, Button.ClickListener listener,
-				Resource iconResource) {
+		public FormLinkViewField(String value, String href,
+				String iconResourceLink) {
 			this.value = value;
-			this.listener = listener;
-			this.iconResource = iconResource;
+			this.href = href;
+			this.iconResourceLink = iconResourceLink;
 		}
 
 		@Override
@@ -284,9 +283,9 @@ public class DefaultFormViewFieldFactory {
 		@Override
 		protected Component initContent() {
 			if (value != null && (!value.equals(""))) {
-				final ButtonLink l = new ButtonLink(value, listener);
-				if (iconResource != null) {
-					l.setIcon(iconResource);
+				final LabelLink l = new LabelLink(value, href);
+				if (iconResourceLink != null) {
+					l.setIconLink(iconResourceLink);
 				}
 				l.setWidth("100%");
 				return l;

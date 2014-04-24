@@ -20,15 +20,15 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -82,21 +82,26 @@ public class LeadSelectionWindow extends Window {
 				LeadTableFieldDef.accountName));
 
 		tableItem.setWidth("100%");
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+	
+		tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public com.vaadin.ui.Component generateCell(final Table source,
+					final Object itemId, final Object columnId) {
+				final SimpleLead lead = tableItem.getBeanByIndex(itemId);
+
+				ButtonLink b = new ButtonLink(lead.getLeadName(),new Button.ClickListener() {
+					
 					@Override
-					public void handle(TableClickEvent event) {
-						SimpleLead lead = (SimpleLead) event.getData();
-						if ("leadName".equals(event.getFieldName())) {
-							fieldSelection.fireValueChange(lead);
-							LeadSelectionWindow.this.close();
-						}
+					public void buttonClick(final Button.ClickEvent event) {
+						// TODO Auto-generated method stub
+						fieldSelection.fireValueChange(lead);
+						LeadSelectionWindow.this.close();
 					}
 				});
+				return b;
+			}
+		});
 	}
 }

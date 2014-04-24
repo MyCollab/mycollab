@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
@@ -62,16 +63,10 @@ class AssignmentReadFormFieldFactory extends
 					.getDuedate(), "DATETIME_FIELD");
 		} else if (propertyId.equals("contactid")) {
 			return new FormLinkViewField(attachForm.getBean().getContactName(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(this, attachForm
-											.getBean().getContactid()));
-						}
-					}, MyCollabResource.newResource("icons/16/crm/contact.png"));
+					CrmLinkBuilder.generateContactPreviewLinkFull(attachForm
+							.getBean().getContactid()),
+					MyCollabResource
+							.newResourceLink("icons/16/crm/contact.png"));
 		} else if (propertyId.equals("type")) {
 			return new RelatedReadItemField(attachForm.getBean());
 

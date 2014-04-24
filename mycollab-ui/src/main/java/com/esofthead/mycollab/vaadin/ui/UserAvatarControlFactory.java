@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.io.File;
 
 import com.esofthead.mycollab.configuration.FileStorageConfiguration;
-import com.esofthead.mycollab.configuration.S3StorageConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;

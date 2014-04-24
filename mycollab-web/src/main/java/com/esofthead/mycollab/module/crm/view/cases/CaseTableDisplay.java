@@ -24,19 +24,19 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -46,8 +46,6 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -111,16 +109,10 @@ public class CaseTableDisplay extends
 					Object columnId) {
 				final SimpleCase cases = CaseTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(cases.getSubject(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										CaseTableDisplay.this, cases, "subject"));
-							}
-						});
+				
+				LabelLink b = new LabelLink(cases.getSubject(),
+						CrmLinkBuilder.generateCasePreviewLinkFull(cases
+								.getId()));									
 
 				if ("Closed".equals(cases.getStatus())
 						|| "Rejected".equals(cases.getStatus())) {
@@ -139,17 +131,10 @@ public class CaseTableDisplay extends
 					Object columnId) {
 				final SimpleCase cases = CaseTableDisplay.this
 						.getBeanByIndex(itemId);
-				ButtonLink b = new ButtonLink(cases.getAccountName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										CaseTableDisplay.this, cases,
-										"accountName"));
-							}
-						});
+				
+				LabelLink b = new LabelLink(cases.getAccountName(),
+						CrmLinkBuilder.generateAccountPreviewLinkFull(cases
+								.getAccountid()));									
 				return b;
 			}
 		});

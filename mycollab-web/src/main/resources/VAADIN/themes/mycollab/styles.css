@@ -4300,6 +4300,10 @@ div.v-csslayout.member-block {
 	font-weight: bold;
 }
 
+.member-block div a  {
+	font-weight: bold;
+}
+
 .member-block .member-role {
 	padding-top: 3px;
 }
@@ -6817,7 +6821,7 @@ img.icon-btn {
 	color: #313131;
 }
 .standup-missing-comp .comp-body-wrap .v-label {
-	text-align: center;	
+	text-align: left;	
 }
 /* Popup select field */
 .v-popupbutton-popup.v-popupbutton-popup-select-bg {

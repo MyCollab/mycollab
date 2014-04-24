@@ -23,13 +23,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.EmailLink;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -45,8 +46,6 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
@@ -116,17 +115,10 @@ public class ContactTableDisplay
 					final Object columnId) {
 				final SimpleContact contact = ContactTableDisplay.this
 						.getBeanByIndex(itemId);
-				final ButtonLink b = new ButtonLink(contact.getContactName(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
 
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										ContactTableDisplay.this, contact,
-										"contactName"));
-							}
-						});
+				LabelLink b = new LabelLink(contact.getContactName(),
+						CrmLinkBuilder.generateContactPreviewLinkFull(contact
+								.getId()));									
 				b.setDescription(contactToolTip(contact));
 				return b;
 			}
@@ -167,19 +159,11 @@ public class ContactTableDisplay
 				final SimpleContact contact = ContactTableDisplay.this
 						.getBeanByIndex(itemId);
 				if (contact.getAccountName() != null) {
-					ButtonLink accountLink = new ButtonLink(contact
-							.getAccountName(), new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							fireTableEvent(new TableClickEvent(
-									ContactTableDisplay.this, contact,
-									"accountName"));
-
-						}
-					});
-					return accountLink;
+					
+					LabelLink b = new LabelLink(contact.getAccountName(),
+							CrmLinkBuilder.generateAccountPreviewLinkFull(contact
+									.getAccountid()));
+					return b;
 				} else {
 					return new Label();
 				}

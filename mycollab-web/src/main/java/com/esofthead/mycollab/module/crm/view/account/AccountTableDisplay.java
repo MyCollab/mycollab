@@ -24,13 +24,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
+import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.EmailLink;
 import com.esofthead.mycollab.vaadin.ui.UrlLink;
@@ -47,7 +48,6 @@ import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 
@@ -128,18 +128,9 @@ public class AccountTableDisplay
 				final SimpleAccount account = AccountTableDisplay.this
 						.getBeanByIndex(itemId);
 
-				final ButtonLink b = new ButtonLink(account.getAccountname(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										AccountTableDisplay.this, account,
-										"accountname"));
-							}
-						});
+				LabelLink b = new LabelLink(account.getAccountname(),
+						CrmLinkBuilder.generateAccountPreviewLinkFull(account
+								.getId()));
 				b.setDescription(generateAccountToolTip(account));
 				return b;
 			}

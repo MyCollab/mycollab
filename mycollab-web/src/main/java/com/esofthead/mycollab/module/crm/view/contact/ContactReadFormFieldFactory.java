@@ -23,25 +23,23 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.resource.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.resource.OnDemandFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 
@@ -79,16 +77,10 @@ public class ContactReadFormFieldFactory extends
 	protected Field<?> onCreateField(Object propertyId) {
 		if (propertyId.equals("accountid")) {
 			return new FormLinkViewField(attachForm.getBean().getAccountName(),
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(this, attachForm
-											.getBean().getAccountid()));
-						}
-					}, MyCollabResource.newResource("icons/16/crm/account.png"));
+					CrmLinkBuilder.generateAccountPreviewLinkFull(attachForm
+							.getBean().getAccountid()),
+					MyCollabResource
+							.newResourceLink("icons/16/crm/account.png"));
 		} else if (propertyId.equals("email")) {
 			return new FormEmailLinkViewField(attachForm.getBean().getEmail());
 		} else if (propertyId.equals("assignuser")) {
