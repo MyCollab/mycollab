@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
@@ -42,6 +44,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
  * 
  */
 @Service
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class MessageRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction implements
 		MessageRelayEmailNotificationAction {
@@ -56,17 +59,17 @@ public class MessageRelayEmailNotificationActionImpl extends
 			TemplateGenerator templateGenerator) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				message.getProjectid());
-
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", message.getProjectName());
-		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+		currentProject.put(
+				"webLink",
+				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+						message.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = message.getTitle();
-		String summaryLink = ProjectLinkUtils.generateMessagePreviewLink(
+		String summaryLink = ProjectLinkUtils.generateMessagePreviewFullLink(siteUrl,
 				message.getProjectid(), message.getId());
 
 		templateGenerator.putVariable("makeChangeUser",

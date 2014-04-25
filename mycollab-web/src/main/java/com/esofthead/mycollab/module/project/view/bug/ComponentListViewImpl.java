@@ -25,13 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -65,7 +63,6 @@ import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -157,7 +154,10 @@ ComponentListView {
 				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
 						.getBeanByIndex(itemId);
 				final LabelLink b = new LabelLink(bugComponent
-						.getComponentname(), ProjectLinkBuilder.generateComponentPreviewFullLink(bugComponent.getProjectid(), bugComponent.getId()));
+								.getComponentname(), ProjectLinkBuilder
+								.generateComponentPreviewFullLink(
+										bugComponent.getProjectid(),
+										bugComponent.getId()));
 				if (bugComponent.getStatus() != null
 						&& bugComponent.getStatus().equals("Close")) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

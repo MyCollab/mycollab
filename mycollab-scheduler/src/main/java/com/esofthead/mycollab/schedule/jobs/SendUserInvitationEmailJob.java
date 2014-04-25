@@ -46,7 +46,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUserAccountInvitation;
  * 
  */
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SendUserInvitationEmailJob extends QuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(SendUserInvitationEmailJob.class);

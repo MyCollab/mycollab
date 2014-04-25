@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
@@ -260,8 +261,8 @@ public class MilestoneReadViewImpl extends
 			} else if (propertyId.equals("status")) {
 				final FormContainerHorizontalViewField statusField = new FormContainerHorizontalViewField();
 				Image icon = new Image();
-				icon.setSource(ProjectResources
-						.getIconResource12ByPhase(beanItem.getStatus()));
+				icon.setSource(new ExternalResource(ProjectResources
+						.getIconResourceLink12ByPhase(beanItem.getStatus())));
 				statusField.addComponentField(icon);
 				Label statusLbl = new Label(beanItem.getStatus());
 				statusField.addComponentField(statusLbl);

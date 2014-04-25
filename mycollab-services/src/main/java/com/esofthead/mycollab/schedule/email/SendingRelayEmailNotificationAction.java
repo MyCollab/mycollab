@@ -21,7 +21,8 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  */
 public interface SendingRelayEmailNotificationAction {
 	/**

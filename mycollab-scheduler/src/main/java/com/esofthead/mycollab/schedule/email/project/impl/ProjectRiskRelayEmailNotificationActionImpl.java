@@ -16,21 +16,19 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
@@ -38,9 +36,16 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
+import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -49,6 +54,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotifi
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectRiskRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction implements
 		ProjectRiskRelayEmailNotificationAction {
@@ -62,32 +68,28 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 	@Autowired
 	private AuditLogService auditLogService;
 
-	private final ProjectFieldNameMapper mapper;
-
-	public ProjectRiskRelayEmailNotificationActionImpl() {
-		mapper = new ProjectFieldNameMapper();
-	}
+	private static final ProjectFieldNameMapper mapper = new ProjectFieldNameMapper();
 
 	protected void setupMailHeaders(SimpleRisk risk,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				risk.getProjectid());
-
 		SimpleProject relatedProject = projectService.findById(
 				risk.getProjectid(), emailNotification.getSaccountid());
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", relatedProject.getName());
-		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+		currentProject.put(
+				"webLink",
+				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+						risk.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = risk.getRiskname();
-		String summaryLink = ProjectLinkUtils.generateRiskPreview(
-				risk.getProjectid(), risk.getId());
+		String summaryLink = ProjectLinkUtils.generateRiskPreviewFullLink(
+				siteUrl, risk.getProjectid(), risk.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -95,65 +97,6 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		templateGenerator.putVariable("titles", listOfTitles);
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<RiskLinkMapper>> getListOfProperties(
-			SimpleRisk risk, SimpleUser user) {
-		Map<String, List<RiskLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<RiskLinkMapper>>();
-
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				risk.getProjectid());
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("raisedbyuser"),
-				Arrays.asList(new RiskLinkMapper(linkGenerator
-						.generateUserPreviewFullLink(risk.getRaisedbyuser()),
-						risk.getRaisedByUserFullName())));
-
-		if (risk.getAssigntouser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
-					Arrays.asList(new RiskLinkMapper(
-							linkGenerator.generateUserPreviewFullLink(risk
-									.getAssigntouser()), risk
-									.getAssignedToUserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
-					null);
-		}
-
-		if (risk.getConsequence() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("consequence"),
-					Arrays.asList(new RiskLinkMapper(null, risk
-							.getConsequence())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("consequence"),
-					null);
-		}
-
-		if (risk.getProbalitity() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("probability"),
-					Arrays.asList(new RiskLinkMapper(null, risk
-							.getProbalitity())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("probability"),
-					null);
-		}
-
-		if (risk.getDatedue() != null)
-			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), Arrays
-					.asList(new RiskLinkMapper(null, DateTimeUtils
-							.converToStringWithUserTimeZone(risk.getDatedue(),
-									user.getTimezone()))));
-		else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), null);
-		}
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("status"),
-				Arrays.asList(new RiskLinkMapper(null, risk.getStatus())));
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-				Arrays.asList(new RiskLinkMapper(null, risk.getDescription())));
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -171,8 +114,9 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 				"templates/email/project/itemCreatedNotifier.mt");
 		setupMailHeaders(risk, emailNotification, templateGenerator);
 
-		templateGenerator.putVariable("properties",
-				getListOfProperties(risk, user));
+		templateGenerator.putVariable("context", new MailContext<SimpleRisk>(
+				risk, user, siteUrl));
+		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
 	}
@@ -233,58 +177,79 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class ProjectFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 
-		ProjectFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("riskname", "Risk Name");
-			fieldNameMap.put("assigntouser", "Assigned to");
-			fieldNameMap.put("consequence", "Consequence");
-			fieldNameMap.put("probability", "Probability");
-			fieldNameMap.put("raisedbyuser", "Raised By");
-			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("datedue", "Due date");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("response", "Response");
-		}
-
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
-		}
-
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+		public ProjectFieldNameMapper() {
+			put("riskname", "Risk Name");
+			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+					"Assignee"));
+			put("consequence", "Consequence");
+			put("probability", "Probability");
+			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
+					"Raised By"));
+			put("description", "Description");
+			put("datedue", new DateFieldFormat("datedue", "Due Date"));
+			put("status", "Status");
+			put("response", "Response");
 		}
 	}
 
-	public class RiskLinkMapper implements Serializable {
-		private static final long serialVersionUID = 2212688618608788187L;
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
 
-		private String link;
-		private String displayname;
-
-		public RiskLinkMapper(String link, String displayname) {
-			this.link = link;
-			this.displayname = displayname;
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public String getWebLink() {
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					risk.getAssignToUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(risk.getSaccountid()),
+					risk.getAssigntouser());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(risk.getAssignedToUserFullName());
 			return link;
 		}
 
-		public void setWebLink(String link) {
-			this.link = link;
+	}
+
+	public static class RaisedByFieldFormat extends LinkFieldFormat {
+
+		public RaisedByFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public String getDisplayName() {
-			return displayname;
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					risk.getRaisedByUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
 		}
 
-		public void setDisplayName(String displayname) {
-			this.displayname = displayname;
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(risk.getSaccountid()),
+					risk.getRaisedbyuser());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(risk.getRaisedByUserFullName());
+			return link;
 		}
+
 	}
 
 }

@@ -17,9 +17,7 @@
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,44 +26,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
-import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
-import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
-import com.esofthead.mycollab.schedule.email.format.DefaultFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.FieldFormat;
-import com.esofthead.mycollab.schedule.email.format.FieldFormat.Type;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -93,32 +69,12 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 
 	protected String crmType;
 
-	public static final String DEFAULT_FIELD = "default";
-	public static final String DATE_FIELD = "date";
-	public static final String DATETIME_FIELD = "datetime";
-	public static final String CURRENCY_FIELD = "currency";
-
 	protected String currentUserTimezone;
 
-	protected Map<String, FieldFormat> fieldsFormat = new HashMap<String, FieldFormat>();
+	protected String siteUrl;
 
 	public CrmDefaultSendingRelayEmailAction(String crmType) {
 		this.crmType = crmType;
-	}
-
-	public void generateFieldDisplayHandler(String fieldName, String displayName) {
-		fieldsFormat.put(fieldName, new DefaultFieldFormat(fieldName,
-				displayName));
-	}
-
-	public void generateFieldDisplayHandler(String fieldname, FieldFormat format) {
-		fieldsFormat.put(fieldname, format);
-	}
-
-	public void generateFieldDisplayHandler(String fieldName,
-			String displayName, Type formatType) {
-		fieldsFormat.put(fieldName, FieldFormat.createFieldFormat(formatType,
-				fieldName, displayName));
 	}
 
 	@Override
@@ -127,6 +83,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter(
 				notification, MonitorTypeConstants.CREATE_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
@@ -164,6 +121,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter(
 				notification, MonitorTypeConstants.UPDATE_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
@@ -199,6 +157,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter(
 				notification, MonitorTypeConstants.ADD_COMMENT_ACTION);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
 				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(
@@ -282,6 +241,10 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		return inListUsers;
 
 	}
+	
+	private void onInitAction(SimpleRelayEmailNotification notification) {
+		siteUrl = LinkUtils.getSiteUrl(notification.getSaccountid());
+	}
 
 	private boolean checkExistInList(List<SimpleUser> lst, SimpleUser user) {
 		for (SimpleUser simpleUser : lst) {
@@ -292,79 +255,6 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			}
 		}
 		return false;
-	}
-
-	@Deprecated
-	protected String getSiteUrl(Integer sAccountId) {
-		return LinkUtils.getSiteUrl(sAccountId);
-	}
-
-	protected MailItemLink generateRelatedItem(String type, Integer typeId,
-			int sAccountId, CrmMailLinkGenerator crmLinkGenerator) {
-		MailItemLink relatedItem = new MailItemLink(null, "");
-
-		if ("Account".equals(type)) {
-			AccountService accountService = ApplicationContextUtil
-					.getSpringBean(AccountService.class);
-			final SimpleAccount account = accountService.findById(typeId,
-					sAccountId);
-			if (account != null) {
-				relatedItem.setDisplayName(account.getAccountname());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateAccountPreviewFullLink(typeId));
-			}
-		} else if ("Contact".equals(type)) {
-			ContactService contactService = ApplicationContextUtil
-					.getSpringBean(ContactService.class);
-			final SimpleContact contact = contactService.findById(typeId,
-					sAccountId);
-			if (contact != null) {
-				relatedItem.setDisplayName(contact.getContactName());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateContactPreviewFullLink(typeId));
-			}
-		} else if ("Case".equals(type)) {
-			CaseService caseService = ApplicationContextUtil
-					.getSpringBean(CaseService.class);
-			final SimpleCase simpleCase = caseService.findById(typeId,
-					sAccountId);
-			if (simpleCase != null) {
-				relatedItem.setDisplayName(simpleCase.getSubject());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateCasePreviewFullLink(typeId));
-			}
-		} else if ("Campaign".equals(type)) {
-			CampaignService campaignService = ApplicationContextUtil
-					.getSpringBean(CampaignService.class);
-			final SimpleCampaign campaign = campaignService.findById(typeId,
-					sAccountId);
-			if (campaign != null) {
-				relatedItem.setDisplayName(campaign.getCampaignname());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateCampainPreviewFullLilnk(typeId));
-			}
-		} else if ("Lead".equals(type)) {
-			LeadService leadService = ApplicationContextUtil
-					.getSpringBean(LeadService.class);
-			final SimpleLead lead = leadService.findById(typeId, sAccountId);
-			if (lead != null) {
-				relatedItem.setDisplayName(lead.getLeadName());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateLeadPreviewFullLink(typeId));
-			}
-		} else if ("Opportunity".equals(type)) {
-			OpportunityService opportunityService = ApplicationContextUtil
-					.getSpringBean(OpportunityService.class);
-			final SimpleOpportunity opportunity = opportunityService.findById(
-					typeId, sAccountId);
-			if (opportunity != null) {
-				relatedItem.setDisplayName(opportunity.getOpportunityname());
-				relatedItem.setWebLink(crmLinkGenerator
-						.generateOpportunityPreviewFullLink(typeId));
-			}
-		}
-
-		return relatedItem;
 	}
 
 	protected abstract TemplateGenerator templateGeneratorForCreateAction(

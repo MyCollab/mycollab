@@ -48,7 +48,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
  * 
  */
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class UserSignUpEmailNotificationJob extends QuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(UserSignUpEmailNotificationJob.class);

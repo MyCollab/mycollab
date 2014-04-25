@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -79,8 +80,9 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
 						final Button userLbl = new Button(priority, listener);
-						final Resource iconPriority = ProjectResources
-								.getIconResource12ByTaskPriority(priority);
+						final Resource iconPriority = new ExternalResource(
+								ProjectResources
+										.getIconResourceLink12ByTaskPriority(priority));
 						userLbl.setIcon(iconPriority);
 						userLbl.setWidth("110px");
 						userLbl.setStyleName("link");
@@ -102,8 +104,9 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
 					final Button userLbl = new Button(priority, listener);
-					final Resource iconPriority = ProjectResources
-							.getIconResource12ByTaskPriority(priority);
+					final Resource iconPriority = new ExternalResource(
+							ProjectResources
+									.getIconResourceLink12ByTaskPriority(priority));
 					userLbl.setIcon(iconPriority);
 					userLbl.setWidth("110px");
 					userLbl.setStyleName("link");

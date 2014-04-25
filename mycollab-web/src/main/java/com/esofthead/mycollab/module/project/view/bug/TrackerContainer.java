@@ -66,8 +66,8 @@ public class TrackerContainer extends AbstractPageView {
 		dashboardPresenter = PresenterResolver
 				.getPresenter(BugDashboardPresenter.class);
 
-		this.myProjectTab
-				.addTab(this.dashboardPresenter.initView(), "Dashboard");
+		this.myProjectTab.addTab(this.dashboardPresenter.initView(),
+				"Dashboard");
 
 		bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
 		this.myProjectTab.addTab(bugPresenter.initView(), "Bugs");
@@ -94,7 +94,8 @@ public class TrackerContainer extends AbstractPageView {
 
 						if ("Dashboard".equals(caption)) {
 							dashboardPresenter.go(TrackerContainer.this, null);
-						} else if ("Bugs".equals(caption)) {
+						} else if ("Bugs".equals(caption)
+								&& !(tab.getComponent() instanceof BugContainer)) {
 							final BugSearchCriteria criteria = new BugSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
@@ -102,9 +103,11 @@ public class TrackerContainer extends AbstractPageView {
 									new BugScreenData.Search(
 											new BugFilterParameter("All Bugs",
 													criteria)));
-						} else if ("Components".equals(caption)) {
+						} else if ("Components".equals(caption)
+								&& !(tab.getComponent() instanceof ComponentContainer)) {
 							componentPresenter.go(TrackerContainer.this, null);
-						} else if ("Versions".equals(caption)) {
+						} else if ("Versions".equals(caption)
+								&& !(tab.getComponent() instanceof VersionContainer)) {
 							versionPresenter.go(TrackerContainer.this, null);
 						}
 					}

@@ -94,7 +94,7 @@ import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
  */
 @ViewComponent
 public class ActivityCalendarViewImpl extends AbstractPageView implements
-ActivityCalendarView {
+		ActivityCalendarView {
 
 	private static final long serialVersionUID = 1L;
 	private final PopupButton calendarActionBtn;
@@ -111,6 +111,15 @@ ActivityCalendarView {
 		super();
 
 		this.addStyleName("activityCalendar");
+
+		calendarActionBtn = new PopupButton("Create");
+		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		calendarActionBtn.addStyleName("esofthead");
+
+		initContent();
+	}
+
+	private void initContent() {
 
 		HorizontalLayout contentWrapper = new HorizontalLayout();
 		contentWrapper.setWidth("100%");
@@ -131,10 +140,6 @@ ActivityCalendarView {
 		rightColumn.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		rightColumn.setMargin(new MarginInfo(true, false, true, false));
 		contentWrapper.addComponent(rightColumn);
-
-		calendarActionBtn = new PopupButton("Create");
-		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		calendarActionBtn.addStyleName("esofthead");
 
 		HorizontalLayout actionPanel = new HorizontalLayout();
 		actionPanel.setWidth("100%");
@@ -158,7 +163,7 @@ ActivityCalendarView {
 		this.dateHdr.setStyleName("h2");
 		mainContent.addComponent(this.dateHdr);
 		mainContent
-		.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
+				.setComponentAlignment(this.dateHdr, Alignment.MIDDLE_CENTER);
 
 		toggleViewBtn = new PopupButton("Monthly");
 		toggleViewBtn.setWidth("200px");
@@ -285,17 +290,17 @@ ActivityCalendarView {
 
 		Button activityListBtn = new Button("Activities List",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 2156576556541398934L;
+					private static final long serialVersionUID = 2156576556541398934L;
 
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				EventBus.getInstance().fireEvent(
-						new ActivityEvent.GotoTodoList(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent evt) {
+						ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.GotoTodoList(this, null));
+					}
+				});
 		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(activityListBtn);
 
@@ -349,7 +354,7 @@ ActivityCalendarView {
 		Label futureLabel = new Label("Future");
 		futureWapper.addComponent(futureLabel);
 		futureWapper
-		.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
+				.setComponentAlignment(futureLabel, Alignment.MIDDLE_CENTER);
 		noteInfoLayout.addComponent(futureWapper);
 
 		mainContent.addComponent(noteInfoLayout);
@@ -402,7 +407,7 @@ ActivityCalendarView {
 							datePicker.selectDate(selectedDate);
 						}
 						calendarComponent
-						.switchCalendarByDatePicker(selectedDate);
+								.switchCalendarByDatePicker(selectedDate);
 						datePicker.setLabelTime(AppContext
 								.formatDate(selectedDate));
 						updateLabelCaption(selectedDate);
@@ -532,7 +537,7 @@ ActivityCalendarView {
 					EventBus.getInstance().fireEvent(
 							new ActivityEvent.MeetingRead(
 									ActivityCalendarViewImpl.this, source
-									.getId()));
+											.getId()));
 				}
 			});
 
@@ -665,7 +670,7 @@ ActivityCalendarView {
 								AppContext.getUsername());
 						NotificationUtil.showNotification("Success",
 								"Event: \"" + simpleMeeting.getSubject()
-								+ "\" has been updated!",
+										+ "\" has been updated!",
 								Type.HUMANIZED_MESSAGE);
 						EventBus.getInstance().fireEvent(
 								new ActivityEvent.GotoCalendar(this, null));
@@ -829,23 +834,23 @@ ActivityCalendarView {
 					layout.setStyleName("addNewControl");
 					Button saveBtn = new Button("Save",
 							new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+								private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							if (EditForm.this.validateForm()) {
-								MeetingService meetingService = ApplicationContextUtil
-										.getSpringBean(MeetingService.class);
-								meetingService.saveWithSession(meeting,
-										AppContext.getUsername());
-								QuickCreateEventWindow.this.close();
-								EventBus.getInstance().fireEvent(
-										new ActivityEvent.GotoCalendar(
-												this, null));
-							}
+								@Override
+								public void buttonClick(ClickEvent event) {
+									if (EditForm.this.validateForm()) {
+										MeetingService meetingService = ApplicationContextUtil
+												.getSpringBean(MeetingService.class);
+										meetingService.saveWithSession(meeting,
+												AppContext.getUsername());
+										QuickCreateEventWindow.this.close();
+										EventBus.getInstance().fireEvent(
+												new ActivityEvent.GotoCalendar(
+														this, null));
+									}
 
-						}
-					});
+								}
+							});
 					saveBtn.setIcon(MyCollabResource
 							.newResource("icons/16/save.png"));
 					saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -854,13 +859,13 @@ ActivityCalendarView {
 							Alignment.MIDDLE_CENTER);
 					Button cancelBtn = new Button("Cancel",
 							new ClickListener() {
-						private static final long serialVersionUID = 1L;
+								private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							QuickCreateEventWindow.this.close();
-						}
-					});
+								@Override
+								public void buttonClick(ClickEvent event) {
+									QuickCreateEventWindow.this.close();
+								}
+							});
 					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 					layout.addComponent(cancelBtn);
 					layout.setComponentAlignment(cancelBtn,
@@ -883,7 +888,7 @@ ActivityCalendarView {
 			}
 
 			private class EditFormFieldFactory extends
-			AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
+					AbstractBeanFieldGroupEditFieldFactory<MeetingWithBLOBs> {
 				private static final long serialVersionUID = 1L;
 
 				public EditFormFieldFactory(

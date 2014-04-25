@@ -151,7 +151,6 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 	@Override
 	public void moveToBasicSearch() {
 		taskSearchPanel.getBasicSearch();
-		;
 	}
 
 }

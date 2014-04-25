@@ -34,6 +34,9 @@ public class CurrencyFieldFormat extends FieldFormat {
 			value = PropertyUtils.getProperty(wrappedBean, fieldName);
 			if (value == null) {
 				return new Span().write();
+			} else if (value instanceof Currency) {
+				return new Span().appendText(((Currency) value).getSymbol())
+						.write();
 			} else {
 				CurrencyService currencyService = ApplicationContextUtil
 						.getSpringBean(CurrencyService.class);

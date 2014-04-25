@@ -16,20 +16,17 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
@@ -37,9 +34,14 @@ import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.format.EmailLinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -48,6 +50,7 @@ import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ContactRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleContact> implements
 		ContactRelayEmailNotificationAction {
@@ -60,291 +63,25 @@ public class ContactRelayEmailNotificationActionImpl extends
 	@Autowired
 	private CrmNotificationSettingService notificationService;
 
-	private final ContactFieldNameMapper mapper;
+	private static final ContactFieldNameMapper mapper = new ContactFieldNameMapper();
 
 	public ContactRelayEmailNotificationActionImpl() {
 		super(CrmTypeConstants.CONTACT);
-		mapper = new ContactFieldNameMapper();
 	}
 
 	protected void setupMailHeaders(SimpleContact contact,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(contact.getSaccountid()));
-
 		String summary = contact.getContactName();
-		String summaryLink = crmLinkGenerator
-				.generateContactPreviewFullLink(contact.getId());
+		String summaryLink = CrmLinkGenerator.generateContactPreviewFullLink(
+				siteUrl, contact.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
 		templateGenerator.putVariable("itemType", "contact");
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<MailItemLink>> getListOfProperties(
-			SimpleContact contact, SimpleUser user) {
-		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
-
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(contact.getSaccountid()));
-
-		if (contact.getFirstname() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("firstname"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getFirstname())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("firstname"), null);
-		}
-
-		if (contact.getOfficephone() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("officephone"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getOfficephone())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("officephone"),
-					null);
-		}
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("lastname"),
-				Arrays.asList(new MailItemLink(null, contact.getLastname())));
-
-		if (contact.getMobile() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("mobile"),
-					Arrays.asList(new MailItemLink(null, contact.getMobile())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("mobile"), null);
-		}
-
-		if (contact.getAccountid() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("accountName"), Arrays
-							.asList(new MailItemLink(crmLinkGenerator
-									.generateAccountPreviewFullLink(contact
-											.getAccountid()), contact
-									.getAccountName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("account"), null);
-		}
-
-		if (contact.getHomephone() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("homephone"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getHomephone())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("homephone"), null);
-		}
-
-		if (contact.getTitle() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("title"),
-					Arrays.asList(new MailItemLink(null, contact.getTitle())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("title"), null);
-		}
-
-		if (contact.getOtherphone() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otherphone"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getOtherphone())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otherphone"),
-					null);
-		}
-
-		if (contact.getDepartment() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("department"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getDepartment())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("department"),
-					null);
-		}
-
-		if (contact.getFax() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("fax"),
-					Arrays.asList(new MailItemLink(null, contact.getFax())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("fax"), null);
-		}
-
-		if (contact.getEmail() != null) {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("email"),
-					Arrays.asList(new MailItemLink("mailto:"
-							+ contact.getEmail(), contact.getEmail())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("email"), null);
-		}
-
-		if (contact.getBirthday() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("birthday"), Arrays
-							.asList(new MailItemLink(null, DateTimeUtils
-									.converToStringWithUserTimeZone(
-											contact.getBirthday(),
-											user.getTimezone()))));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("birthday"), null);
-		}
-
-		if (contact.getAssistant() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("assistant"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getAssistant())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("assistant"), null);
-		}
-
-		if (contact.getIscallable() != null && contact.getIscallable().booleanValue()) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("iscallable"),
-					Arrays.asList(new MailItemLink(null, "yes")));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("iscallable"),
-					Arrays.asList(new MailItemLink(null, "no")));
-		}
-
-		if (contact.getAssistantphone() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assistantphone"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getAssistantphone())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assistantphone"),
-					null);
-		}
-
-		if (contact.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					Arrays.asList(new MailItemLink(UserLinkUtils
-							.generatePreviewFullUserLink(
-									getSiteUrl(contact.getSaccountid()),
-									contact.getAssignuser()), contact
-							.getAssignUserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					null);
-		}
-
-		if (contact.getPrimaddress() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primaddress"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getPrimaddress())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primaddress"),
-					null);
-		}
-
-		if (contact.getOtheraddress() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otheraddress"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getOtheraddress())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otheraddress"),
-					null);
-		}
-
-		if (contact.getPrimcity() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("primcity"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getPrimcity())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primcity"), null);
-		}
-
-		if (contact.getOthercity() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("othercity"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getOthercity())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("othercity"), null);
-		}
-
-		if (contact.getPrimstate() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("primstate"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getPrimstate())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("primstate"), null);
-		}
-
-		if (contact.getOtherstate() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otherstate"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getOtherstate())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("otherstate"),
-					null);
-		}
-
-		if (contact.getPrimpostalcode() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primpostalcode"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getPrimpostalcode())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primpostalcode"),
-					null);
-		}
-
-		if (contact.getOtherpostalcode() != null) {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("otherpostalcode"), Arrays
-							.asList(new MailItemLink(null, contact
-									.getOtherpostalcode())));
-		} else {
-			listOfDisplayProperties.put(
-					mapper.getFieldLabel("otherpostalcode"), null);
-		}
-
-		if (contact.getPrimcountry() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primcountry"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getPrimcountry())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("primcountry"),
-					null);
-		}
-
-		if (contact.getOthercountry() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("othercountry"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getOthercountry())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("othercountry"),
-					null);
-		}
-
-		if (contact.getLeadsource() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("leadsource"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getLeadsource())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("leadsource"),
-					null);
-		}
-
-		if (contact.getDescription() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					Arrays.asList(new MailItemLink(null, contact
-							.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -365,8 +102,10 @@ public class ContactRelayEmailNotificationActionImpl extends
 			setupMailHeaders(simpleContact, emailNotification,
 					templateGenerator);
 
-			templateGenerator.putVariable("properties",
-					getListOfProperties(simpleContact, user));
+			templateGenerator
+					.putVariable("context", new MailContext<SimpleContact>(
+							simpleContact, user, siteUrl));
+			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
 		} else {
@@ -422,49 +161,99 @@ public class ContactRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class ContactFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class ContactFieldNameMapper extends ItemFieldMapper {
 
 		ContactFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("firstname", "First Name");
-			fieldNameMap.put("officephone", "Office Phone");
-			fieldNameMap.put("lastname", "Last Name");
-			fieldNameMap.put("mobile", "Mobile");
-			fieldNameMap.put("accountName", "Account");
-			fieldNameMap.put("homephone", "Home Phone");
-			fieldNameMap.put("title", "Title");
-			fieldNameMap.put("otherphone", "Other Phone");
-			fieldNameMap.put("department", "Department");
-			fieldNameMap.put("fax", "Fax");
-			fieldNameMap.put("email", "Email");
-			fieldNameMap.put("birthday", "Birthday");
-			fieldNameMap.put("assistant", "Assistant");
-			fieldNameMap.put("iscallable", "Callable");
-			fieldNameMap.put("assistantphone", "Assistant Phone");
-			fieldNameMap.put("assignuser", "Assignee");
-			fieldNameMap.put("leadsource", "Lead Source");
-			fieldNameMap.put("primaddress", "Address");
-			fieldNameMap.put("primcity", "City");
-			fieldNameMap.put("state", "State");
-			fieldNameMap.put("otheraddress", "Other Address");
-			fieldNameMap.put("othercity", "Other City");
-			fieldNameMap.put("otherstate", "Other State");
-			fieldNameMap.put("primpostalcode", "Postal Code");
-			fieldNameMap.put("otherpostalcode", "Other Postal Code");
-			fieldNameMap.put("primcountry", "Country");
-			fieldNameMap.put("othercountry", "Other Country");
-			fieldNameMap.put("description", "Description");
+			put("firstname", "First Name");
+			put("officephone", "Office Phone");
+			put("lastname", "Last Name");
+			put("mobile", "Mobile");
+			put("accountid", new AccountFieldFormat("accountid", "Account"));
+			put("homephone", "Home Phone");
+			put("title", "Title");
+			put("otherphone", "Other Phone");
+			put("department", "Department");
+			put("fax", "Fax");
+			put("email", new EmailLinkFieldFormat("email", "Email"));
+			put("birthday", "Birthday");
+			put("assistant", "Assistant");
+			put("iscallable", "Callable");
+			put("assistantphone", "Assistant Phone");
+			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("leadsource", "Lead Source");
+			put("primaddress", "Address");
+			put("primcity", "City");
+			put("primstate", "State");
+			put("otheraddress", "Other Address");
+			put("othercity", "Other City");
+			put("otherstate", "Other State");
+			put("primpostalcode", "Postal Code");
+			put("otherpostalcode", "Other Postal Code");
+			put("primcountry", "Country");
+			put("othercountry", "Other Country");
+			put("description", "Description");
 
 		}
+	}
 
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
+
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleContact contact = (SimpleContact) context.getWrappedBean();
+
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					contact.getAssignUserAvatarId(), 16);
+
+			Img img = new Img("avatar", userAvatarLink);
+
+			return img;
 		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleContact contact = (SimpleContact) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(contact.getSaccountid()),
+					contact.getAssignuser());
+
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(contact.getAssignUserFullName());
+
+			return link;
+		}
+	}
+
+	public static class AccountFieldFormat extends LinkFieldFormat {
+
+		public AccountFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			String accountIconLink = CrmResources
+					.getResourceLink(CrmTypeConstants.ACCOUNT);
+			Img img = new Img("avatar", accountIconLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleContact contact = (SimpleContact) context.getWrappedBean();
+			A link = new A();
+			String accountLink = CrmLinkGenerator
+					.generateAccountPreviewFullLink(context.getSiteUrl(),
+							contact.getAccountid());
+			link.setHref(accountLink);
+			link.appendText(contact.getAccountName());
+			return link;
+		}
+
 	}
 }

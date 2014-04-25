@@ -87,14 +87,13 @@ public class TimeTrackingTableDisplay
 				VerticalLayout summaryWrapper = new VerticalLayout();
 				LabelLink timeTrackingLink = null;
 				String type = itemLogging.getType();
-				
-				
+
 				if (type == null) {
 					return new Label(itemLogging.getNote(), ContentMode.HTML);
 				}
 
 				if (type.equals(ProjectTypeConstants.BUG)) {
-					
+
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
 									itemLogging.getProjectid(),
@@ -119,7 +118,7 @@ public class TimeTrackingTableDisplay
 									itemLogging.getProjectid(),
 									itemLogging.getType(),
 									itemLogging.getTypeid()));
-					
+
 					timeTrackingLink.setIconLink(MyCollabResource
 							.newResourceLink("icons/16/project/task.png"));
 
@@ -188,10 +187,10 @@ public class TimeTrackingTableDisplay
 					Object columnId) {
 				final SimpleItemTimeLogging itemLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
-				
-				LabelLink b = new LabelLink(itemLogging
-						.getProjectName(),
-						ProjectLinkBuilder.generateProjectFullLink(itemLogging.getProjectid(), "#"));	
+
+				LabelLink b = new LabelLink(itemLogging.getProjectName(),
+						ProjectLinkBuilder.generateProjectFullLink(itemLogging
+								.getProjectid()));
 				b.setIconLink(MyCollabResource
 						.newResourceLink("icons/16/project/project.png"));
 				return b;

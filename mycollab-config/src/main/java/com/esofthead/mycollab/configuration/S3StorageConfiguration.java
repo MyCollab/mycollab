@@ -73,9 +73,9 @@ public class S3StorageConfiguration implements StorageConfiguration {
 			return "";
 		} else {
 			if (userAvatarId == null || "".equals(userAvatarId.trim())) {
-				return S3AssetsResource
-						.generateResourceLink("icons/default_user_avatar_"
-								+ size + ".png");
+				return MyCollabAssets
+						.newResourceLink("icons/default_user_avatar_" + size
+								+ ".png");
 			} else {
 				return s3UrlPath + "avatar/" + userAvatarId + "_" + size
 						+ ".png";

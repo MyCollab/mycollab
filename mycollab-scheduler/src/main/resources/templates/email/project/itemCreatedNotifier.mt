@@ -39,30 +39,20 @@
 				<p><b>
 				#hyperLink( $summary $summaryLink )
 				</b></p>
-				#if( $properties )
+				#if( $mapper )
                 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font: 11px Arial, 'Times New Roman', sans-serif; color: #4e4e4e; margin: 20px 0px; border-width: 1px 1px 0px 0px; border-style: solid; border-color: rgb(211, 239, 253);">
-                	#foreach( $key in $properties.keySet() )
+                	#foreach( $key in $mapper.keySet() )
+                	    #set($fieldFormat=$mapper.getFieldLabel($key))
                 		#if( $foreach.count % 2 != 0 )
                 			<tr>
                 		#end
-                		<td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">$key</td>
+                		<td style="width: 125px; padding: 10px; background-color: rgb(232, 246, 255); border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">$fieldFormat.DisplayName</td>
                 		#if( !$foreach.hasNext && $foreach.count % 2 != 0 )
                 		<td style="width: 615px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);" colspan="3">
                 		#else
                 		<td style="width: 245px; padding: 10px; border-bottom: 1px solid rgb(211, 239, 253);">
                 		#end
-                		#if( $properties.get($key) )
-	                		#foreach( $item in $properties.get($key) )
-	                			#if( $foreach.count > 1 )
-	                			<br>
-	                			#end
-	                			#if( $item.WebLink )
-	                				#hyperLink( $item.DisplayName $item.WebLink )
-	                			#else
-	                				$item.DisplayName
-	                			#end                			
-	                		#end
-                		#end
+                		$fieldFormat.formatField($context)
                 		</td>
                 		#if( $foreach.count % 2 == 0 )
                 			</tr>

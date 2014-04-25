@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -286,10 +287,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				return new DefaultFormViewFieldFactory.FormViewField(
 						AppContext.formatDate(beanItem.getDeadline()));
 			} else if (propertyId.equals("tasklistid")) {
-				return 
-				new DefaultFormViewFieldFactory.FormLinkViewField(beanItem.getTaskListName(),
-						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(beanItem.getProjectid()
-								, beanItem.getTasklistid()),
+				return new DefaultFormViewFieldFactory.FormLinkViewField(
+						beanItem.getTaskListName(),
+						ProjectLinkBuilder.generateTaskGroupPreviewFullLink(
+								beanItem.getProjectid(),
+								beanItem.getTasklistid()),
 						MyCollabResource
 								.newResourceLink("icons/16/crm/task_group.png"));
 			} else if (propertyId.equals("id")) {
@@ -298,9 +300,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
-					final Resource iconPriority = ProjectResources
-							.getIconResource12ByTaskPriority(beanItem
-									.getPriority());
+					final Resource iconPriority = new ExternalResource(
+							ProjectResources
+									.getIconResourceLink12ByTaskPriority(beanItem
+											.getPriority()));
 					final Embedded iconEmbedded = new Embedded(null,
 							iconPriority);
 					final Label lbPriority = new Label(beanItem.getPriority());

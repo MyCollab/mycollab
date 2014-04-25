@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
@@ -73,7 +72,7 @@ class ProjectInformationLayout implements IFormLayoutFactory {
 					Alignment.TOP_LEFT);
 		} else if (propertyId.equals("description")) {
 			this.moreInfoLayout.addComponent(field, "Description", 0, 6, 2,
-					UIConstants.DEFAULT_2XCONTROL_WIDTH, Alignment.TOP_LEFT);
+					"100%", Alignment.TOP_LEFT);
 		} else {
 			return false;
 		}

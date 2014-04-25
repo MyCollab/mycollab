@@ -526,6 +526,15 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	padding:0;
 }
 
+.v-button.v-button-transparentbtn.v-disabled.v-button:focus, .v-button.v-button-transparentbtn.v-disabled.v-button:active {
+    background:none;
+    border:0;
+    background-color: transparent;
+    -webkit-box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+}
+
+
 .v-button-transparentbtn:hover, .v-button-transparentbtn:active{
 	background-color: transparent;
 	padding:0;
@@ -1900,10 +1909,13 @@ input.v-textfield-errorField {
 }
 
 .projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr .v-popup-indicator {
-	position: absolute;
-	right: 19px;
-	top: 23px;
+    position: relative;
+    float: right;
+    position: absolute;
+    right: 34px;
+    top: 10px;
 }
+
 
 .project-list-comp-content .project-name {
 	background-color: #F7F7F7;

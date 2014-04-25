@@ -49,16 +49,6 @@ public abstract class GenericLinkUtils {
 
 	/**
 	 * 
-	 * @param username
-	 * @return
-	 */
-	public String generateUserPreviewFullLink(String username) {
-		return getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ "account/user/preview/" + UrlEncodeDecoder.encode(username);
-	}
-
-	/**
-	 * 
 	 * @param sAccountId
 	 * @return
 	 */
@@ -77,6 +67,4 @@ public abstract class GenericLinkUtils {
 		}
 		return siteUrl;
 	}
-
-	abstract public String getSiteUrl();
 }

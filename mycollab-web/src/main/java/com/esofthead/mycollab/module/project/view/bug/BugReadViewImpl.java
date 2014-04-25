@@ -62,6 +62,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -574,10 +575,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 			} else if (propertyId.equals("milestoneName")) {
 				if (beanItem.getMilestoneid() != null) {
-					final FormLinkViewField phaseLink = 
-					new FormLinkViewField(beanItem.getMilestoneName(),
-							ProjectLinkBuilder.generateMilestonePreviewFullLink(beanItem.getProjectid()
-									, beanItem.getMilestoneid()),
+					final FormLinkViewField phaseLink = new FormLinkViewField(
+							beanItem.getMilestoneName(),
+							ProjectLinkBuilder
+									.generateMilestonePreviewFullLink(
+											beanItem.getProjectid(),
+											beanItem.getMilestoneid()),
 							MyCollabResource
 									.newResourceLink("icons/16/project/milestone.png"));
 					return phaseLink;
@@ -593,9 +596,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 						beanItem.getDescription());
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
-					final Resource iconPriority = ProjectResources
-							.getIconResource12ByBugPriority(beanItem
-									.getPriority());
+					final Resource iconPriority = new ExternalResource(
+							ProjectResources
+									.getIconResourceLink12ByBugPriority(beanItem
+											.getPriority()));
 					final Image iconEmbedded = new Image(null, iconPriority);
 					final Label lbPriority = new Label(beanItem.getPriority());
 
@@ -607,9 +611,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				}
 			} else if (propertyId.equals("severity")) {
 				if (StringUtils.isNotNullOrEmpty(beanItem.getSeverity())) {
-					final Resource iconPriority = ProjectResources
-							.getIconResource12ByBugSeverity(beanItem
-									.getSeverity());
+					final Resource iconPriority = new ExternalResource(
+							ProjectResources
+									.getIconResourceLink12ByBugSeverity(beanItem
+											.getSeverity()));
 					final Image iconEmbedded = new Image();
 					iconEmbedded.setSource(iconPriority);
 					final Label lbPriority = new Label(beanItem.getSeverity());

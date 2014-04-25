@@ -16,19 +16,17 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.service.CaseService;
@@ -36,9 +34,13 @@ import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -47,6 +49,7 @@ import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class CaseRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleCase> implements
 		CaseRelayEmailNotificationAction {
@@ -59,130 +62,25 @@ public class CaseRelayEmailNotificationActionImpl extends
 	@Autowired
 	private CrmNotificationSettingService notificationService;
 
-	private final CaseFieldNameMapper mapper;
+	private static final CaseFieldNameMapper mapper = new CaseFieldNameMapper();
 
 	public CaseRelayEmailNotificationActionImpl() {
 		super(CrmTypeConstants.CASE);
-		mapper = new CaseFieldNameMapper();
 	}
 
 	protected void setupMailHeaders(SimpleCase simpleCase,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(simpleCase.getSaccountid()));
-
 		String summary = simpleCase.getSubject();
-		String summaryLink = crmLinkGenerator
-				.generateCasePreviewFullLink(simpleCase.getId());
+		String summaryLink = CrmLinkGenerator.generateCasePreviewFullLink(
+				siteUrl, simpleCase.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
 		templateGenerator.putVariable("itemType", "case");
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<MailItemLink>> getListOfProperties(
-			SimpleCase simpleCase) {
-		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
-
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(simpleCase.getSaccountid()));
-
-		if (simpleCase.getPriority() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("priority"),
-					Arrays.asList(new MailItemLink(null, simpleCase
-							.getPriority())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("priority"), null);
-		}
-
-		if (simpleCase.getType() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("type"),
-							Arrays.asList(new MailItemLink(null, simpleCase
-									.getType())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("type"), null);
-		}
-
-		if (simpleCase.getStatus() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("status"), Arrays
-					.asList(new MailItemLink(null, simpleCase.getStatus())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("status"), null);
-		}
-
-		if (simpleCase.getReason() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("reason"), Arrays
-					.asList(new MailItemLink(null, simpleCase.getReason())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("reason"), null);
-		}
-
-		listOfDisplayProperties
-				.put(mapper.getFieldLabel("accountName"), Arrays
-						.asList(new MailItemLink(crmLinkGenerator
-								.generateAccountPreviewFullLink(simpleCase
-										.getAccountid()), simpleCase
-								.getAccountName())));
-
-		if (simpleCase.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					Arrays.asList(new MailItemLink(UserLinkUtils
-							.generatePreviewFullUserLink(
-									getSiteUrl(simpleCase.getAccountid()),
-									simpleCase.getAssignuser()), simpleCase
-							.getAssignUserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					null);
-		}
-
-		if (simpleCase.getPhonenumber() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("phonenumber"),
-					Arrays.asList(new MailItemLink(null, simpleCase
-							.getPhonenumber())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("phonenumber"),
-					null);
-		}
-
-		if (simpleCase.getEmail() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("email"), Arrays
-					.asList(new MailItemLink(null, simpleCase.getEmail())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("email"), null);
-		}
-
-		if (simpleCase.getOrigin() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("origin"), Arrays
-					.asList(new MailItemLink(null, simpleCase.getOrigin())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("origin"), null);
-		}
-
-		if (simpleCase.getDescription() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					Arrays.asList(new MailItemLink(null, simpleCase
-							.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		if (simpleCase.getResolution() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("resolution"),
-					Arrays.asList(new MailItemLink(null, simpleCase
-							.getResolution())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("resolution"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -200,8 +98,9 @@ public class CaseRelayEmailNotificationActionImpl extends
 					"templates/email/crm/itemCreatedNotifier.mt");
 			setupMailHeaders(simpleCase, emailNotification, templateGenerator);
 
-			templateGenerator.putVariable("properties",
-					getListOfProperties(simpleCase));
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleCase>(simpleCase, user, siteUrl));
+			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
 		} else {
@@ -257,33 +156,82 @@ public class CaseRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class CaseFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class CaseFieldNameMapper extends ItemFieldMapper {
 
-		CaseFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("type", "Type");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("reason", "Reason");
-			fieldNameMap.put("accountName", "Account Name");
-			fieldNameMap.put("subject", "Subject");
-			fieldNameMap.put("phonenumber", "Phone Number");
-			fieldNameMap.put("email", "Email");
-			fieldNameMap.put("origin", "Origin");
-			fieldNameMap.put("assignuser", "Assignee");
-			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("resolution", "Resolution");
-		}
-
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
-		}
-
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+		public CaseFieldNameMapper() {
+			put("priority", "Priority");
+			put("type", "Type");
+			put("status", "Status");
+			put("reason", "Reason");
+			put("accountid", new AccountFieldFormat("accountid", "Account"));
+			put("subject", "Subject");
+			put("phonenumber", "Phone");
+			put("email", "Email");
+			put("origin", "Origin");
+			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("description", "Description");
+			put("resolution", "Resolution");
 		}
 	}
 
+	public static class AccountFieldFormat extends LinkFieldFormat {
+
+		public AccountFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			String accountIconLink = CrmResources
+					.getResourceLink(CrmTypeConstants.ACCOUNT);
+			Img img = new Img("avatar", accountIconLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleCase simpleCase = (SimpleCase) context.getWrappedBean();
+			A link = new A();
+			String accountLink = CrmLinkGenerator
+					.generateAccountPreviewFullLink(context.getSiteUrl(),
+							simpleCase.getAccountid());
+			link.setHref(accountLink);
+			link.appendText(simpleCase.getAccountName());
+			return link;
+		}
+
+	}
+
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
+
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleCase simpleCase = (SimpleCase) context.getWrappedBean();
+
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					simpleCase.getAssignUserAvatarId(), 16);
+
+			Img img = new Img("avatar", userAvatarLink);
+
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleCase simpleCase = (SimpleCase) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(simpleCase.getSaccountid()),
+					simpleCase.getAssignuser());
+
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(simpleCase.getAssignUserFullName());
+
+			return link;
+		}
+	}
 }

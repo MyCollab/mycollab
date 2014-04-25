@@ -38,9 +38,11 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.server.FileDownloader;
@@ -67,15 +69,25 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	private static final long serialVersionUID = 1L;
 
 	private PopupButton taskGroupSelection;
+	private PopupButton taskSelection;
 	private TaskGroupDisplayWidget taskLists;
 
 	private Button reOrderBtn;
 	private Button viewGanttChartBtn;
 
 	private PopupButton exportButtonControl;
+
 	private VerticalLayout rightColumn;
 	private VerticalLayout leftColumn;
 	private TextField nameField;
+
+	private TaskSearchViewImpl basicSearchView;
+
+	private HorizontalLayout header;
+	private HorizontalLayout mainLayout;
+	private Button advanceDisplay;
+	private Button simpleDisplay;
+	private ToggleButtonGroup viewButtons;
 
 	public TaskGroupDisplayViewImpl() {
 		super();
@@ -83,10 +95,88 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.setSpacing(true);
 
 		this.constructUI();
+		displayAdvancedView();
+	}
+
+	private void implementTaskFilterButton() {
+
+		this.taskSelection = new PopupButton("Active Tasks");
+
+		this.taskSelection.setEnabled(CurrentProjectVariables
+				.canRead(ProjectRolePermissionCollections.TASKS));
+		this.taskSelection.addStyleName("link");
+		this.taskSelection.addStyleName("hdr-text");
+
+		final VerticalLayout filterBtnLayout = new VerticalLayout();
+		filterBtnLayout.setMargin(true);
+		filterBtnLayout.setSpacing(true);
+		filterBtnLayout.setWidth("200px");
+
+		final Button allTasksFilterBtn = new Button("All Tasks",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						taskSelection.setPopupVisible(false);
+						taskSelection
+								.setCaption(event.getButton().getCaption());
+						displayAllTasks();
+					}
+				});
+		allTasksFilterBtn.setStyleName("link");
+		filterBtnLayout.addComponent(allTasksFilterBtn);
+
+		final Button activeTasksFilterBtn = new Button("Active Tasks Only",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						taskSelection.setPopupVisible(false);
+						taskSelection
+								.setCaption(event.getButton().getCaption());
+						displayActiveTasksOnly();
+					}
+				});
+		activeTasksFilterBtn.setStyleName("link");
+		filterBtnLayout.addComponent(activeTasksFilterBtn);
+
+		final Button pendingTasksFilterBtn = new Button("Pending Tasks Only",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						taskSelection.setPopupVisible(false);
+						taskSelection
+								.setCaption(event.getButton().getCaption());
+						displayPendingTasksOnly();
+					}
+				});
+		pendingTasksFilterBtn.setStyleName("link");
+		filterBtnLayout.addComponent(pendingTasksFilterBtn);
+
+		final Button archievedTasksFilterBtn = new Button(
+				"Archieved Tasks Only", new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						taskSelection.setPopupVisible(false);
+						taskSelection
+								.setCaption(event.getButton().getCaption());
+						displayInActiveTasks();
+					}
+				});
+		archievedTasksFilterBtn.setStyleName("link");
+		filterBtnLayout.addComponent(archievedTasksFilterBtn);
+		taskSelection.setContent(filterBtnLayout);
+
 	}
 
 	private void constructUI() {
-		final HorizontalLayout header = new HorizontalLayout();
+		header = new HorizontalLayout();
 		header.setMargin(new MarginInfo(true, false, true, false));
 		header.setStyleName("hdr-view");
 		header.setSpacing(true);
@@ -210,8 +300,6 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
 
-		this.addComponent(header);
-
 		exportButtonControl = new PopupButton();
 		exportButtonControl.addStyleName(UIConstants.THEME_BLUE_LINK);
 		exportButtonControl.setIcon(MyCollabResource
@@ -244,7 +332,39 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(exportButtonControl,
 				Alignment.MIDDLE_RIGHT);
 
-		HorizontalLayout mainLayout = new HorizontalLayout();
+		advanceDisplay = new Button(null, new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				displayAdvancedView();
+			}
+		});
+		advanceDisplay.setIcon(MyCollabResource
+				.newResource("icons/16/project/advanced_display.png"));
+		advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+
+		simpleDisplay = new Button(null, new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+				displaySimpleView();
+
+			}
+		});
+		simpleDisplay.setIcon(MyCollabResource
+				.newResource("icons/16/project/list_display.png"));
+
+		viewButtons = new ToggleButtonGroup();
+		viewButtons.addButton(simpleDisplay);
+		viewButtons.addButton(advanceDisplay);
+
+		mainLayout = new HorizontalLayout();
 		mainLayout.setSizeFull();
 		mainLayout.setSpacing(true);
 		this.taskLists = new TaskGroupDisplayWidget();
@@ -261,8 +381,22 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		mainLayout.addComponent(rightColumn);
 		mainLayout.setExpandRatio(leftColumn, 1.0f);
 
-		this.addComponent(mainLayout);
+		implementTaskFilterButton();
+		basicSearchView = new TaskSearchViewImpl();
+		basicSearchView.getSearchHandlers().addSearchHandler(
+				new SearchHandler<TaskSearchCriteria>() {
+					@Override
+					public void onSearch(TaskSearchCriteria criteria) {
+						doSearch(criteria);
+					}
+				});
+		basicSearchView.removeComponent(basicSearchView.getComponent(0));
+	}
 
+	
+
+	public void doSearch(TaskSearchCriteria searchCriteria) {
+		basicSearchView.getPagedBeanTable().setSearchCriteria(searchCriteria);
 	}
 
 	private StreamResource constructStreamResource(ReportExportType exportType) {
@@ -402,6 +536,41 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		unresolvedTaskByPriorityWidget.setSearchCriteria(searchCriteria);
 	}
 
+	private void displaySimpleView() {
+		this.removeAllComponents();
+
+		HorizontalLayout header = new HorizontalLayout();
+		header.setMargin(new MarginInfo(true, false, true, false));
+		header.setStyleName("hdr-view");
+		header.setSpacing(true);
+		header.setWidth("100%");
+		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		final Image icon = new Image(null,
+				MyCollabResource.newResource("icons/24/project/task.png"));
+		header.addComponent(icon);
+
+		UiUtils.addComponent(header, taskSelection, Alignment.MIDDLE_LEFT);
+		header.setExpandRatio(taskSelection, 1.0f);
+		UiUtils.addComponent(header, viewButtons, Alignment.MIDDLE_RIGHT);
+
+		this.addComponent(header);
+		basicSearchView.setMargin(new MarginInfo(false, false, true, false));
+		
+
+		displayActiveTasksOnly();
+		this.addComponent(basicSearchView.getWidget());
+
+	}
+
+	private void displayAdvancedView() {
+		this.removeAllComponents();
+		this.addComponent(header);
+		this.addComponent(mainLayout);
+		UiUtils.addComponent(this, header, Alignment.TOP_RIGHT);
+		UiUtils.addComponent(header, viewButtons, Alignment.MIDDLE_RIGHT);
+		this.addComponent(mainLayout);
+	}
+	
 	private void displayActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
 		criteria.setStatus(new StringSearchField("Open"));
@@ -422,5 +591,38 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	@Override
 	public void insertTaskList(final SimpleTaskList taskList) {
 		this.taskLists.insetItemOnBottom(taskList);
+	}
+
+	private TaskSearchCriteria createTaskBaseSearchCriteria() {
+		final TaskSearchCriteria criteria = new TaskSearchCriteria();
+		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
+				.getProjectId()));
+		return criteria;
+	}
+
+	private void displayActiveTasksOnly() {
+		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { "Open" }));
+		this.doSearch(criteria);
+	}
+
+	private void displayPendingTasksOnly() {
+		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { "Pending" }));
+		this.doSearch(criteria);
+	}
+
+	private void displayAllTasks() {
+		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+		this.doSearch(criteria);
+	}
+
+	private void displayInActiveTasks() {
+		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
+		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[] { "Closed" }));
+		this.doSearch(criteria);
 	}
 }

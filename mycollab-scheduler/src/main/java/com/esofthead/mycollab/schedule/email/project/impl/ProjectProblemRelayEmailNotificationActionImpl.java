@@ -16,21 +16,19 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
@@ -38,9 +36,16 @@ import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
+import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -49,6 +54,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNot
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectProblemRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction implements
 		ProjectProblemRelayEmailNotificationAction {
@@ -62,32 +68,28 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 	@Autowired
 	private AuditLogService auditLogService;
 
-	private final ProjectFieldNameMapper mapper;
-
-	public ProjectProblemRelayEmailNotificationActionImpl() {
-		mapper = new ProjectFieldNameMapper();
-	}
+	private static final ProjectFieldNameMapper mapper = new ProjectFieldNameMapper();
 
 	protected void setupMailHeaders(SimpleProblem problem,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				problem.getProjectid());
-
 		SimpleProject relatedProject = projectService.findById(
 				problem.getProjectid(), emailNotification.getSaccountid());
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", relatedProject.getName());
-		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+		currentProject.put(
+				"webLink",
+				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+						problem.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = problem.getIssuename();
-		String summaryLink = ProjectLinkUtils.generateProblemPreviewLink(
-				problem.getProjectid(), problem.getId());
+		String summaryLink = ProjectLinkUtils.generateProblemPreviewFullLink(
+				siteUrl, problem.getProjectid(), problem.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -95,65 +97,6 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		templateGenerator.putVariable("titles", listOfTitles);
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<ProblemLinkMapper>> getListOfProperties(
-			SimpleProblem problem, SimpleUser user) {
-		Map<String, List<ProblemLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<ProblemLinkMapper>>();
-
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				problem.getProjectid());
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("raisedbyuser"),
-				Arrays.asList(new ProblemLinkMapper(
-						linkGenerator.generateUserPreviewFullLink(problem
-								.getRaisedbyuser()), problem
-								.getRaisedByUserFullName())));
-
-		if (problem.getAssigntouser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assigntouser"),
-					Arrays.asList(new ProblemLinkMapper(linkGenerator
-							.generateUserPreviewFullLink(problem
-									.getAssigntouser()), problem
-							.getAssignedUserFullName())));
-		}
-
-		if (problem.getDatedue() != null)
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("datedue"), Arrays
-							.asList(new ProblemLinkMapper(null, DateTimeUtils
-									.converToStringWithUserTimeZone(
-											problem.getDatedue(),
-											user.getTimezone()))));
-		else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("datedue"), null);
-		}
-
-		listOfDisplayProperties
-				.put(mapper.getFieldLabel("status"),
-						Arrays.asList(new ProblemLinkMapper(null, problem
-								.getStatus())));
-
-		if (problem.getImpact() != null)
-			listOfDisplayProperties.put(mapper.getFieldLabel("impact"), Arrays
-					.asList(new ProblemLinkMapper(null, problem.getImpact())));
-		else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("impact"), null);
-		}
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("priority"), Arrays
-				.asList(new ProblemLinkMapper(null, problem.getPriority())));
-
-		if (problem.getDescription() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					Arrays.asList(new ProblemLinkMapper(null, problem
-							.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -171,8 +114,9 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 		setupMailHeaders(problem, emailNotification, templateGenerator);
 
-		templateGenerator.putVariable("properties",
-				getListOfProperties(problem, user));
+		templateGenerator.putVariable("context",
+				new MailContext<SimpleProblem>(problem, user, siteUrl));
+		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
 	}
@@ -230,58 +174,77 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class ProjectFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
-
-		ProjectFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("issuename", "Issue name");
-			fieldNameMap.put("assigntouser", "Assigned to");
-			fieldNameMap.put("datedue", "Due date");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("impact", "Impact");
-			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("raisedbyuser", "Raised By");
-			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("resolution", "Resolution");
-		}
-
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
-		}
-
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+	public static class ProjectFieldNameMapper extends ItemFieldMapper {
+		public ProjectFieldNameMapper() {
+			put("issuename", "Issue name");
+			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+					"Assignee"));
+			put("datedue", new DateFieldFormat("datedue", "Due Date"));
+			put("status", "Status");
+			put("impact", "Impact");
+			put("priority", "Priority");
+			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
+					"Raised By"));
+			put("description", "Description");
+			put("resolution", "Resolution");
 		}
 	}
 
-	public class ProblemLinkMapper implements Serializable {
-		private static final long serialVersionUID = 2212688618608788187L;
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
 
-		private String link;
-		private String displayname;
-
-		public ProblemLinkMapper(String link, String displayname) {
-			this.link = link;
-			this.displayname = displayname;
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public String getWebLink() {
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					problem.getAssignUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(problem.getSaccountid()),
+					problem.getAssigntouser());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(problem.getAssignedUserFullName());
 			return link;
 		}
 
-		public void setWebLink(String link) {
-			this.link = link;
-		}
-
-		public String getDisplayName() {
-			return displayname;
-		}
-
-		public void setDisplayName(String displayname) {
-			this.displayname = displayname;
-		}
 	}
 
+	public static class RaisedByFieldFormat extends LinkFieldFormat {
+
+		public RaisedByFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					problem.getRaisedByUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(problem.getSaccountid()),
+					problem.getRaisedbyuser());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(problem.getRaisedByUserFullName());
+			return link;
+		}
+
+	}
 }

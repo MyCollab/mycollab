@@ -11,10 +11,12 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 public class MailContext<B> {
 	private SimpleUser user;
 	private B wrappedBean;
+	private String siteUrl;
 
-	public MailContext(B wrappedBean, SimpleUser user) {
+	public MailContext(B wrappedBean, SimpleUser user, String siteUrl) {
 		this.wrappedBean = wrappedBean;
 		this.user = user;
+		this.siteUrl = siteUrl;
 	}
 
 	public SimpleUser getUser() {
@@ -31,5 +33,13 @@ public class MailContext<B> {
 
 	public void setWrappedBean(B wrappedBean) {
 		this.wrappedBean = wrappedBean;
+	}
+
+	public String getSiteUrl() {
+		return siteUrl;
+	}
+
+	public void setSiteUrl(String siteUrl) {
+		this.siteUrl = siteUrl;
 	}
 }

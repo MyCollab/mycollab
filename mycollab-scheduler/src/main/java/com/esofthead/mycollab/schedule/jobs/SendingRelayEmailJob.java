@@ -45,7 +45,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SendingRelayEmailJob extends QuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(SendingRelayEmailJob.class);

@@ -13,6 +13,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 public class LinkUtils {
+
 	public static String getSiteUrl(Integer sAccountId) {
 		String siteUrl = "";
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
@@ -28,7 +29,7 @@ public class LinkUtils {
 		}
 		return siteUrl;
 	}
-	
+
 	public static String getAvatarLink(String userAvatarId, int size) {
 		return SiteConfiguration.getStorageConfiguration().generateAvatarPath(
 				userAvatarId, size);

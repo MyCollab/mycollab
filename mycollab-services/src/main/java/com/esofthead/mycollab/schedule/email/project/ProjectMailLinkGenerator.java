@@ -31,7 +31,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ProjectMailLinkGenerator extends GenericLinkUtils {
+@Deprecated
+public class ProjectMailLinkGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectMailLinkGenerator.class);
 
@@ -93,7 +94,7 @@ public class ProjectMailLinkGenerator extends GenericLinkUtils {
 
 	public String generateRiskPreviewFullLink(Integer riskId) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateRiskPreview(projectId, riskId);
+				+ ProjectLinkUtils.generateRiskPreviewLink(projectId, riskId);
 	}
 
 	public String generateProblemPreviewFullLink(Integer problemId) {
@@ -115,10 +116,5 @@ public class ProjectMailLinkGenerator extends GenericLinkUtils {
 				+ GenericLinkUtils.URL_PREFIX_PARAM
 				+ ProjectLinkUtils.generateBugVersionPreviewLink(projectId,
 						bugVersionId);
-	}
-
-	@Override
-	public String getSiteUrl() {
-		return siteUrl;
 	}
 }

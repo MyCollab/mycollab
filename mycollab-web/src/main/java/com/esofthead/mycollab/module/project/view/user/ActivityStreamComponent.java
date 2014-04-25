@@ -180,9 +180,9 @@ public class ActivityStreamComponent extends CssLayout {
 					String arg24 = activityStream.getNamefield();
 					String arg25 = MyCollabResource
 							.newResourceLink("icons/16/project/project.png");
-					String arg26 = ProjectLinkBuilder.generateProjectFullLink(
-							activityStream.getProjectId(),
-							GenericLinkUtils.URL_PREFIX_PARAM);
+					String arg26 = ProjectLinkBuilder
+							.generateProjectFullLink(activityStream
+									.getProjectId());
 					String arg27 = activityStream.getProjectName();
 					String arg28 = idStickyToolTipDiv;
 					String arg29 = idToopTipDiv;

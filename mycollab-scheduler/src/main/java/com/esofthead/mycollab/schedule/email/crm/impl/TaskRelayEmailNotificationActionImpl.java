@@ -16,29 +16,32 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
-import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -47,6 +50,7 @@ import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationActio
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class TaskRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleTask> implements
 		TaskRelayEmailNotificationAction {
@@ -59,113 +63,25 @@ public class TaskRelayEmailNotificationActionImpl extends
 	@Autowired
 	private CrmNotificationSettingService notificationService;
 
-	private final TaskFieldNameMapper mapper;
+	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
 
 	public TaskRelayEmailNotificationActionImpl() {
 		super(CrmTypeConstants.TASK);
-		mapper = new TaskFieldNameMapper();
 	}
 
 	protected void setupMailHeaders(SimpleTask task,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(task.getSaccountid()));
-
 		String summary = task.getSubject();
-		String summaryLink = crmLinkGenerator.generateTaskPreviewFullLink(task
-				.getId());
+		String summaryLink = CrmLinkGenerator.generateTaskPreviewFullLink(
+				siteUrl, task.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
 		templateGenerator.putVariable("itemType", "task");
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<MailItemLink>> getListOfProperties(
-			SimpleTask task, SimpleUser user) {
-		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
-
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				getSiteUrl(task.getSaccountid()));
-
-		if (task.getStatus() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("status"),
-					Arrays.asList(new MailItemLink(null, task.getStatus())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("status"), null);
-		}
-
-		if (task.getStartdate() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("startdate"),
-					Arrays.asList(new MailItemLink(null, DateTimeUtils
-							.converToStringWithUserTimeZone(
-									task.getStartdate(), user.getTimezone()))));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("startdate"), null);
-		}
-
-		if (task.getTypeid() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("typeid"), Arrays
-					.asList(generateRelatedItem(task.getType(),
-							task.getTypeid(), task.getSaccountid(),
-							crmLinkGenerator)));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("typeid"), null);
-		}
-
-		if (task.getDuedate() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), Arrays
-					.asList(new MailItemLink(null, DateTimeUtils
-							.converToStringWithUserTimeZone(task.getDuedate(),
-									user.getTimezone()))));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), null);
-		}
-
-		if (task.getContactid() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("contactid"),
-					Arrays.asList(new MailItemLink(
-							crmLinkGenerator
-									.generateContactPreviewFullLink(task
-											.getContactid()), task
-									.getContactName())));
-		} else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("contactid"), null);
-		}
-
-		if (task.getPriority() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("priority"),
-					Arrays.asList(new MailItemLink(null, task.getPriority())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("priority"), null);
-		}
-
-		if (task.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					Arrays.asList(new MailItemLink(crmLinkGenerator
-							.generateUserPreviewFullLink(task.getAssignuser()),
-							task.getAssignUserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					null);
-		}
-
-		if (task.getDescription() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("description"), Arrays
-							.asList(new MailItemLink(null, task
-									.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -183,8 +99,9 @@ public class TaskRelayEmailNotificationActionImpl extends
 					"templates/email/crm/itemCreatedNotifier.mt");
 			setupMailHeaders(simpleTask, emailNotification, templateGenerator);
 
-			templateGenerator.putVariable("properties",
-					getListOfProperties(simpleTask, user));
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleTask>(simpleTask, user, siteUrl));
+			templateGenerator.putVariable("mapper", mapper);
 			return templateGenerator;
 		} else {
 			return null;
@@ -235,29 +152,79 @@ public class TaskRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class TaskFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class TaskFieldNameMapper extends ItemFieldMapper {
 
-		TaskFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
+		public TaskFieldNameMapper() {
+			put("subject", "Subject");
+			put("status", "Status");
+			put("startdate", new DateFieldFormat("startdate", "Start Date"));
+			put("typeid", "Related To");
+			put("duedate", new DateFieldFormat("duedate", "Due Date"));
+			put("contactid", new ContactFieldFormat("contactid", "Contact"));
+			put("priority", "Priority");
+			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("description", "Description");
+		}
+	}
 
-			fieldNameMap.put("subject", "Subject");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("startdate", "Start Date");
-			fieldNameMap.put("typeid", "Related To");
-			fieldNameMap.put("duedate", "Due Date");
-			fieldNameMap.put("contactid", "Contact");
-			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("assignuser", "Assignee");
-			fieldNameMap.put("description", "Description");
+	public static class ContactFieldFormat extends LinkFieldFormat {
+
+		public ContactFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			String contactIconLink = CrmResources
+					.getResourceLink(CrmTypeConstants.CONTACT);
+			Img img = new Img("avatar", contactIconLink);
+			return img;
 		}
 
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleTask task = (SimpleTask) context.getWrappedBean();
+			A link = new A();
+			String contactLink = CrmLinkGenerator
+					.generateContactPreviewFullLink(context.getSiteUrl(),
+							task.getContactid());
+			link.setHref(contactLink);
+			link.appendText(task.getContactName());
+			return link;
+		}
+
+	}
+
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
+
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleTask task = (SimpleTask) context.getWrappedBean();
+
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					task.getAssignUserAvatarId(), 16);
+
+			Img img = new Img("avatar", userAvatarLink);
+
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleTask task = (SimpleTask) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(task.getSaccountid()),
+					task.getAssignuser());
+
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(task.getAssignUserFullName());
+
+			return link;
 		}
 	}
 

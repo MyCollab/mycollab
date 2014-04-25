@@ -22,15 +22,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
-import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
-import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
-import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.service.MonitorItemService;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
@@ -40,8 +33,8 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -68,15 +61,18 @@ public abstract class SendMailToFollowersAction implements
 
 	@Autowired
 	protected ProjectTaskService projectTaskService;
-	
+
 	@Autowired
 	protected ProjectTaskListService projectTaskListService;
+
+	protected String siteUrl;
 
 	@Override
 	public void sendNotificationForCreateAction(
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
 						notification, user);
@@ -103,6 +99,7 @@ public abstract class SendMailToFollowersAction implements
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
 						notification, user);
@@ -130,6 +127,7 @@ public abstract class SendMailToFollowersAction implements
 			SimpleRelayEmailNotification notification) {
 		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
+			onInitAction(notification);
 			TemplateGenerator templateGenerator = templateGeneratorForCommentAction(notification);
 			if (templateGenerator != null) {
 				for (SimpleUser user : notifiers) {
@@ -150,21 +148,8 @@ public abstract class SendMailToFollowersAction implements
 		}
 	}
 
-	public List<SimpleComment> getListComment(Integer sAccountId, String type,
-			Integer typeId) {
-		CommentService commentService = ApplicationContextUtil
-				.getSpringBean(CommentService.class);
-		CommentSearchCriteria criteria = new CommentSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(sAccountId));
-		criteria.setType(new StringSearchField(type));
-		criteria.setTypeid(new NumberSearchField(typeId));
-		criteria.setOrderByField("createdtime");
-		criteria.setSortDirection(SearchCriteria.DESC);
-
-		List<SimpleComment> lstComment = commentService
-				.findPagableListByCriteria(new SearchRequest<CommentSearchCriteria>(
-						criteria, 0, 5));
-		return lstComment;
+	private void onInitAction(SimpleRelayEmailNotification notification) {
+		siteUrl = LinkUtils.getSiteUrl(notification.getSaccountid());
 	}
 
 	protected abstract TemplateGenerator templateGeneratorForCreateAction(

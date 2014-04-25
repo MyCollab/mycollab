@@ -198,7 +198,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(risk.getRiskname()));
 		AppContext.addFragment(
-				ProjectLinkUtils.generateRiskPreview(project.getId(),
+				ProjectLinkUtils.generateRiskPreviewLink(project.getId(),
 						risk.getId()), "Preview Risk: " + risk.getRiskname());
 	}
 

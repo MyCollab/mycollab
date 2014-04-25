@@ -17,12 +17,15 @@
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
@@ -36,11 +39,9 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.crm.CrmMailLinkGenerator;
-import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -49,6 +50,7 @@ import com.hp.gagawa.java.elements.Span;
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class AccountRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleAccount> implements
 		AccountRelayEmailNotificationAction {
@@ -77,12 +79,9 @@ public class AccountRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 
-		CrmMailLinkGenerator crmLinkGenerator = new CrmMailLinkGenerator(
-				LinkUtils.getSiteUrl(account.getSaccountid()));
-
 		String summary = account.getAccountname();
-		String summaryLink = crmLinkGenerator
-				.generateAccountPreviewFullLink(account.getId());
+		String summaryLink = CrmLinkGenerator.generateAccountPreviewFullLink(
+				siteUrl, account.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -109,8 +108,9 @@ public class AccountRelayEmailNotificationActionImpl extends
 			setupMailHeaders(simpleAccount, emailNotification,
 					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleAccount>(simpleAccount, user));
+			templateGenerator
+					.putVariable("context", new MailContext<SimpleAccount>(
+							simpleAccount, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -166,29 +166,31 @@ public class AccountRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public static class AccountAssigneeFieldFormat extends FieldFormat {
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
 
-		public AccountAssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
-		public String formatField(MailContext<?> context) {
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					account.getAssignUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
 			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(account.getSaccountid()),
 					account.getAssignuser());
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					account.getAssignUserAvatarId(), 16);
-
-			Span span = new Span();
-			Img img = new Img("avatar", userAvatarLink);
-			span.appendChild(img);
-
 			A link = new A();
 			link.setHref(userLink);
 			link.appendText(account.getAssignUserFullName());
-			span.appendChild(link);
-			return span.write();
+			return link;
 		}
 
 	}
@@ -206,7 +208,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 			put("email", "Email");
 			put("type", "Type");
 			put("ownership", "Ownership");
-			put("assignuser", new AccountAssigneeFieldFormat("assignuser",
+			put("assignuser", new AssigneeFieldFormat("assignuser",
 					"Assign User"));
 			put("annualrevenue", "Annual Revenue");
 			put("billingaddress", "Billing Address");

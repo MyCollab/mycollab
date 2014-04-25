@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.module.project.view.bug.BugSeverityConstants;
+import com.esofthead.mycollab.module.project.BugSeverityConstants;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.ComboBox;

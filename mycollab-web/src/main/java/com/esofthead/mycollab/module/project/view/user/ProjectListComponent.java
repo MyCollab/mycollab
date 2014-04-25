@@ -31,20 +31,25 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.view.ProjectAddWindow;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
+import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -58,7 +63,8 @@ import com.vaadin.ui.VerticalLayout;
 public class ProjectListComponent extends VerticalLayout {
 	private static final long serialVersionUID = 6930971885172125913L;
 
-	final private PopupButton headerLayout;
+	final private PopupButton headerPopupButton;
+	
 	private Label componentHeader;
 
 	private VerticalLayout contentLayout;
@@ -72,33 +78,67 @@ public class ProjectListComponent extends VerticalLayout {
 		setWidth("100%");
 		setSpacing(true);
 		setStyleName("project-list-comp");
-
-		headerLayout = new PopupButton();
-		headerLayout.setStyleName("project-list-comp-hdr");
-		headerLayout.setWidth("100%");
+		
+		HorizontalLayout headerBar = new HorizontalLayout();
+		
+		
+		headerPopupButton = new PopupButton();
+		headerPopupButton.setStyleName("project-list-comp-hdr");
+		headerPopupButton.setWidth("100%");
+		
 
 		componentHeader = new Label();
 		componentHeader.setStyleName("h2");
 
-		headerLayout.setIcon(MyCollabResource
+		headerPopupButton.setIcon(MyCollabResource
 				.newResource("icons/project_dropdown.png"));
-		addComponent(headerLayout);
-
+		headerBar.addComponent(headerPopupButton);
+		
+		Button createProject = createProjectButton();
+		UiUtils.addComponent(headerBar, createProject, Alignment.MIDDLE_RIGHT);
+		if (!AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
+			createProject.setEnabled(false);
+		}
+		
+		headerBar.setWidth("100%");
+		headerBar.setSpacing(true);
+		headerBar.setExpandRatio(headerPopupButton, 1.0f);
+		this.addComponent(headerBar);
 		contentLayout = new VerticalLayout();
 		contentLayout.setStyleName("project-list-comp-content");
-		contentLayout.setWidth("234px");
+		contentLayout.setWidth("205px");
 
 		projectList = new ProjectPagedList();
-		headerLayout.setContent(projectList);
+		headerPopupButton.setContent(projectList);
 
 		projectDesc = new Label("", ContentMode.HTML);
 		projectDesc.setStyleName("project-description");
 		addComponent(projectDesc);
 	}
+	
+	public Button createProjectButton() {
+		final Button  createProjectBtn = new Button(""
+					,
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
+							UI.getCurrent().addWindow(projectNewWindow);
+						}
+					});
+			createProjectBtn.setIcon(MyCollabResource
+					.newResource("/icons/18/create.png"));
+			createProjectBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+			createProjectBtn.setDescription("Create new Projet");
+			
+			return createProjectBtn;
+	
+	}
 	public void showProjects() {
-		if (headerLayout.isPopupVisible()) {
-			headerLayout.setPopupVisible(false);
+		if (headerPopupButton.isPopupVisible()) {
+			headerPopupButton.setPopupVisible(false);
 		}
 		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
@@ -106,7 +146,7 @@ public class ProjectListComponent extends VerticalLayout {
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
 				new String[] { ProjectStatusConstants.OPEN }));
 		this.projectList.setSearchCriteria(searchCriteria);
-		this.headerLayout.setCaption(CurrentProjectVariables.getProject()
+		this.headerPopupButton.setCaption(CurrentProjectVariables.getProject()
 				.getName());
 		this.projectDesc.setValue(CurrentProjectVariables.getProject()
 				.getDescription());
@@ -148,7 +188,7 @@ public class ProjectListComponent extends VerticalLayout {
 
 							@Override
 							public void buttonClick(ClickEvent event) {
-								headerLayout.setPopupVisible(false);
+								headerPopupButton.setPopupVisible(false);
 								UI.getCurrent().addWindow(projectListWindow);
 							}
 						});

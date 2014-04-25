@@ -16,21 +16,19 @@
  */
 package com.esofthead.mycollab.schedule.email.project.impl;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
@@ -38,10 +36,17 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
+import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -50,6 +55,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailN
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction implements
 		ProjectMilestoneRelayEmailNotificationAction {
@@ -62,32 +68,28 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 	@Autowired
 	private ProjectService projectService;
 
-	private final ProjectFieldNameMapper mapper;
-
-	public ProjectMilestoneRelayEmailNotificationActionImpl() {
-		mapper = new ProjectFieldNameMapper();
-	}
+	private static final MilestoneFieldNameMapper mapper = new MilestoneFieldNameMapper();
 
 	protected void setupMailHeaders(SimpleMilestone milestone,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				milestone.getProjectid());
-
 		SimpleProject relatedProject = projectService.findById(
 				milestone.getProjectid(), emailNotification.getSaccountid());
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", relatedProject.getName());
-		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+		currentProject.put(
+				"webLink",
+				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+						milestone.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = milestone.getName();
-		String summaryLink = ProjectLinkUtils.generateMilestonePreviewLink(
-				milestone.getProjectid(), milestone.getId());
+		String summaryLink = ProjectLinkUtils.generateMilestonePreviewFullLink(
+				siteUrl, milestone.getProjectid(), milestone.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -113,59 +115,11 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 
 		setupMailHeaders(milestone, emailNotification, templateGenerator);
 
-		templateGenerator.putVariable("properties",
-				getListOfProperties(milestone, user));
+		templateGenerator.putVariable("context",
+				new MailContext<SimpleMilestone>(milestone, user, siteUrl));
+		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
-	}
-
-	protected Map<String, List<MilestoneLinkMapper>> getListOfProperties(
-			SimpleMilestone milestone, SimpleUser user) {
-		Map<String, List<MilestoneLinkMapper>> listOfDisplayProperties = new LinkedHashMap<String, List<MilestoneLinkMapper>>();
-
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				milestone.getProjectid());
-
-		if (milestone.getStartdate() != null)
-			listOfDisplayProperties.put(mapper.getFieldLabel("startdate"),
-					Arrays.asList(new MilestoneLinkMapper(null, DateTimeUtils
-							.converToStringWithUserTimeZone(
-									milestone.getStartdate(),
-									user.getTimezone()))));
-		else {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("startdate"), null);
-		}
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("status"), Arrays
-				.asList(new MilestoneLinkMapper(null, milestone.getStatus())));
-
-		if (milestone.getEnddate() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("enddate"), Arrays
-							.asList(new MilestoneLinkMapper(null, DateTimeUtils
-									.converToStringWithUserTimeZone(
-											milestone.getEnddate(),
-											user.getTimezone()))));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("enddate"), null);
-		}
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("owner"), Arrays
-				.asList(new MilestoneLinkMapper(linkGenerator
-						.generateUserPreviewFullLink(milestone.getOwner()),
-						milestone.getOwnerFullName())));
-
-		if (milestone.getDescription() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					Arrays.asList(new MilestoneLinkMapper(null, milestone
-							.getDescription())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("description"),
-					null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -223,55 +177,45 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public class ProjectFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
-
-		ProjectFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
-
-			fieldNameMap.put("name", "Phase Name");
-			fieldNameMap.put("startdate", "Start Date");
-			fieldNameMap.put("enddate", "End Date");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("owner", "Responsible User");
-			fieldNameMap.put("description", "Description");
-		}
-
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
-		}
-
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+	public static class MilestoneFieldNameMapper extends ItemFieldMapper {
+		public MilestoneFieldNameMapper() {
+			put("name", "Phase Name");
+			put("startdate", new DateFieldFormat("startdate", "Start Date"));
+			put("enddate", new DateFieldFormat("enddate", "End Date"));
+			put("status", "Status");
+			put("owner", new AssigneeFieldFormat("owner", "Owner"));
+			put("description", "Description");
 		}
 	}
 
-	public class MilestoneLinkMapper implements Serializable {
-		private static final long serialVersionUID = 2212688618608788187L;
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
 
-		private String link;
-		private String displayname;
-
-		public MilestoneLinkMapper(String link, String displayname) {
-			this.link = link;
-			this.displayname = displayname;
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public String getWebLink() {
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleMilestone milestone = (SimpleMilestone) context
+					.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					milestone.getOwnerAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleMilestone milestone = (SimpleMilestone) context
+					.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(milestone.getSaccountid()),
+					milestone.getOwner());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(milestone.getOwnerFullName());
 			return link;
 		}
 
-		public void setWebLink(String link) {
-			this.link = link;
-		}
-
-		public String getDisplayName() {
-			return displayname;
-		}
-
-		public void setDisplayName(String displayname) {
-			this.displayname = displayname;
-		}
 	}
-
 }

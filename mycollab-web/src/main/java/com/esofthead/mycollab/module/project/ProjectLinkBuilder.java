@@ -37,55 +37,54 @@ import com.hp.gagawa.java.elements.Text;
  */
 public class ProjectLinkBuilder {
 
-	public static String generateProjectFullLink(Integer projectId,
-			String prefixParam) {
+	public static String generateProjectFullLink(Integer projectId) {
 		if (projectId == null) {
 			return "";
 		}
-		return AppContext.getSiteUrl() + prefixParam + "project/dashboard/"
-				+ UrlEncodeDecoder.encode(projectId);
+		return ProjectLinkUtils.generateProjectFullLink(
+				AppContext.getSiteUrl(), projectId);
 	}
-	
+
 	public static String generateComponentPreviewFullLink(Integer projectId,
 			Integer componentId) {
 		if (projectId == null || componentId == null) {
 			return "";
 		}
-		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateBugComponentPreviewLink(projectId, componentId);
+		return ProjectLinkUtils.generateBugComponentPreviewFullLink(
+				AppContext.getSiteUrl(), projectId, componentId);
 	}
+
 	public static String generateBugVersionPreviewFullLink(Integer projectId,
 			Integer versionId) {
 		if (projectId == null || versionId == null) {
 			return "";
 		}
-		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateBugVersionPreviewLink(projectId, versionId);
+		return ProjectLinkUtils.generateBugVersionPreviewFullLink(
+				AppContext.getSiteUrl(), projectId, versionId);
 	}
-	
+
 	public static String generateRolePreviewFullLink(Integer projectId,
 			Integer roleId) {
 		if (projectId == null || roleId == null) {
 			return "";
 		}
-		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateRolePreviewLink(projectId, roleId);
+		return ProjectLinkUtils.generateRolePreviewFullLink(
+				AppContext.getSiteUrl(), projectId, roleId);
 	}
-	
+
 	public static String generateProblemPreviewFullLink(Integer projectId,
 			Integer problemId) {
 		if (projectId == null || problemId == null) {
 			return "";
 		}
-		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateProblemPreviewLink(projectId, problemId);
+		return ProjectLinkUtils.generateProblemPreviewFullLink(
+				AppContext.getSiteUrl(), projectId, problemId);
 	}
 
 	public static String generateProjectMemberFullLink(int projectId,
 			String memberName) {
-		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ "project/user/preview/"
-				+ UrlEncodeDecoder.encode(projectId + "/" + memberName);
+		return ProjectLinkUtils.generateProjectMemberFullLink(
+				AppContext.getSiteUrl(), projectId, memberName);
 	}
 
 	public static String generateProjectMemberHtmlLink(String username,
@@ -155,7 +154,7 @@ public class ProjectLinkBuilder {
 				+ ProjectLinkUtils.generateTaskGroupPreviewLink(projectId,
 						taskgroupId);
 	}
-	
+
 	public static String generateTaskGroupHtmlLink(int taskgroupId) {
 		ProjectTaskListService taskListService = ApplicationContextUtil
 				.getSpringBean(ProjectTaskListService.class);
@@ -183,7 +182,7 @@ public class ProjectLinkBuilder {
 				+ ProjectLinkUtils.generateMilestonePreviewLink(projectId,
 						milestoneId);
 	}
-	
+
 	public static String generateMilestoneHtmlLink(int milestoneId) {
 		MilestoneService milestoneService = ApplicationContextUtil
 				.getSpringBean(MilestoneService.class);
@@ -216,7 +215,7 @@ public class ProjectLinkBuilder {
 			result = ProjectLinkUtils.generateProblemPreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.RISK.equals(type)) {
-			result = ProjectLinkUtils.generateRiskPreview(projectId, typeid);
+			result = ProjectLinkUtils.generateRiskPreviewLink(projectId, typeid);
 		} else if (ProjectTypeConstants.TASK.equals(type)) {
 			result = ProjectLinkUtils
 					.generateTaskPreviewLink(projectId, typeid);

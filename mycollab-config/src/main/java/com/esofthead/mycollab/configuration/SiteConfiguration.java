@@ -240,6 +240,10 @@ public class SiteConfiguration {
 		return instance.endecryptPassword;
 	}
 
+	public static String getServerAddress() {
+		return instance.serverAddress;
+	}
+
 	public static int getServerPort() {
 		return instance.serverPort;
 	}

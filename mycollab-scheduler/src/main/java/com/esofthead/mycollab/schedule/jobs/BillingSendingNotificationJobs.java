@@ -53,7 +53,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BillingSendingNotificationJobs extends QuartzJobBean {
 
 	private static final Integer DATE_REMIND_FOR_FREEPLAN_1ST = 25;

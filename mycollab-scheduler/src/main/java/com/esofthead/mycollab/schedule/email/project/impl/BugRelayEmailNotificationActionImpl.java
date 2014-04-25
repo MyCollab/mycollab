@@ -17,22 +17,23 @@
 package com.esofthead.mycollab.schedule.email.project.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.service.AuditLogService;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
@@ -40,13 +41,18 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
-import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.MailItemLink;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
+import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
+import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -55,6 +61,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BugRelayEmailNotificationActionImpl extends
 		SendMailToFollowersAction implements BugRelayEmailNotificationAction {
 	@Autowired
@@ -64,11 +71,7 @@ public class BugRelayEmailNotificationActionImpl extends
 	@Autowired
 	private ProjectService projectService;
 
-	private final BugFieldNameMapper mapper;
-
-	public BugRelayEmailNotificationActionImpl() {
-		mapper = new BugFieldNameMapper();
-	}
+	private static final BugFieldNameMapper mapper = new BugFieldNameMapper();
 
 	@Override
 	public TemplateGenerator templateGeneratorForCreateAction(
@@ -87,8 +90,9 @@ public class BugRelayEmailNotificationActionImpl extends
 
 			setupMailHeaders(bug, emailNotification, templateGenerator);
 
-			templateGenerator.putVariable("properties",
-					getListOfProperties(bug, user));
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleBug>(bug, user, siteUrl));
+			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
 		} else {
@@ -102,12 +106,12 @@ public class BugRelayEmailNotificationActionImpl extends
 			TemplateGenerator templateGenerator) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				bug.getProjectid());
-
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", bug.getProjectname());
-		currentProject.put("webLink", linkGenerator.generateProjectFullLink());
+		currentProject.put(
+				"webLink",
+				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+						bug.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
@@ -116,14 +120,16 @@ public class BugRelayEmailNotificationActionImpl extends
 				bug.getProjectid(), emailNotification.getSaccountid());
 		bugCode.put("displayName", "[" + relatedProject.getShortname() + "-"
 				+ bug.getBugkey() + "]");
-		bugCode.put("webLink",
-				linkGenerator.generateBugPreviewFullLink(bug.getId()));
+		bugCode.put(
+				"webLink",
+				ProjectLinkUtils.generateBugPreviewFullLink(siteUrl,
+						bug.getProjectid(), bug.getId()));
 
 		listOfTitles.add(bugCode);
 
 		String summary = bug.getSummary();
-		String summaryLink = ProjectLinkUtils.generateBugPreviewLink(
-				bug.getProjectid(), bug.getId());
+		String summaryLink = ProjectLinkUtils.generateBugPreviewFullLink(
+				siteUrl, bug.getProjectid(), bug.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -131,92 +137,6 @@ public class BugRelayEmailNotificationActionImpl extends
 		templateGenerator.putVariable("titles", listOfTitles);
 		templateGenerator.putVariable("summary", summary);
 		templateGenerator.putVariable("summaryLink", summaryLink);
-	}
-
-	protected Map<String, List<MailItemLink>> getListOfProperties(
-			SimpleBug bug, SimpleUser user) {
-		Map<String, List<MailItemLink>> listOfDisplayProperties = new LinkedHashMap<String, List<MailItemLink>>();
-
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				bug.getProjectid());
-
-		listOfDisplayProperties.put(mapper.getFieldLabel("status"),
-				Arrays.asList(new MailItemLink(null, bug.getStatus())));
-		listOfDisplayProperties.put(mapper.getFieldLabel("priority"),
-				Arrays.asList(new MailItemLink(null, bug.getPriority())));
-		listOfDisplayProperties.put(mapper.getFieldLabel("severity"),
-				Arrays.asList(new MailItemLink(null, bug.getSeverity())));
-		listOfDisplayProperties.put(mapper.getFieldLabel("resolution"),
-				Arrays.asList(new MailItemLink(null, bug.getResolution())));
-		listOfDisplayProperties.put(mapper.getFieldLabel("status"),
-				Arrays.asList(new MailItemLink(null, bug.getStatus())));
-		if (bug.getDuedate() != null)
-			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), Arrays
-					.asList(new MailItemLink(null, DateTimeUtils
-							.converToStringWithUserTimeZone(bug.getDuedate(),
-									user.getTimezone()))));
-		else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("duedate"), null);
-		}
-		if (bug.getMilestoneid() != null) {
-			listOfDisplayProperties
-					.put(mapper.getFieldLabel("milestoneid"), Arrays
-							.asList(new MailItemLink(linkGenerator
-									.generateMilestonePreviewFullLink(bug
-											.getMilestoneid()), bug
-									.getMilestoneName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("milestoneid"),
-					null);
-		}
-
-		if (bug.getLogby() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("logby"), Arrays
-					.asList(new MailItemLink(linkGenerator
-							.generateUserPreviewFullLink(bug.getLogby()), bug
-							.getLoguserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("logby"), null);
-		}
-
-		if (bug.getAssignuser() != null) {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					Arrays.asList(new MailItemLink(linkGenerator
-							.generateUserPreviewFullLink(bug.getAssignuser()),
-							bug.getAssignuserFullName())));
-		} else {
-			listOfDisplayProperties.put(mapper.getFieldLabel("assignuser"),
-					null);
-		}
-
-		if (bug.getComponents() != null) {
-			List<MailItemLink> lstBugComponent = new ArrayList<MailItemLink>();
-			for (int i = 0; i < bug.getComponents().size(); i++) {
-				com.esofthead.mycollab.module.tracker.domain.Component bugComponent = bug
-						.getComponents().get(i);
-				lstBugComponent.add(new MailItemLink(linkGenerator
-						.generateBugComponentPreviewFullLink(bugComponent
-								.getId()), bugComponent.getComponentname()));
-			}
-			listOfDisplayProperties.put("Components", lstBugComponent);
-		} else {
-			listOfDisplayProperties.put("Components", null);
-		}
-
-		if (bug.getComponents() != null) {
-			List<MailItemLink> lstBugVersion = new ArrayList<MailItemLink>();
-			for (int i = 0; i < bug.getAffectedVersions().size(); i++) {
-				Version bugVersion = bug.getAffectedVersions().get(i);
-				lstBugVersion.add(new MailItemLink(linkGenerator
-						.generateBugVersionPreviewFullLink(bugVersion.getId()),
-						bugVersion.getVersionname()));
-			}
-			listOfDisplayProperties.put("Versions", lstBugVersion);
-		} else {
-			listOfDisplayProperties.put("Versions", null);
-		}
-
-		return listOfDisplayProperties;
 	}
 
 	@Override
@@ -363,31 +283,104 @@ public class BugRelayEmailNotificationActionImpl extends
 		return inListUsers;
 	}
 
-	public class BugFieldNameMapper {
-		private final Map<String, String> fieldNameMap;
+	public static class BugFieldNameMapper extends ItemFieldMapper {
 
-		BugFieldNameMapper() {
-			fieldNameMap = new HashMap<String, String>();
+		public BugFieldNameMapper() {
+			put("summary", "Bug Summary");
+			put("description", "Description");
+			put("status", "Status");
+			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("resolution", "Resolution");
+			put("severity", "Serverity");
+			put("environment", "Environment");
+			put("priority", "Priority");
+			put("duedate", new DateFieldFormat("duedate", "Due Date"));
+			put("logby", new LogUserFieldFormat("logby", "Logged By"));
+			put("milestoneid", new MilestoneFieldFormat("milestoneid",
+					"Milestone"));
+		}
+	}
 
-			fieldNameMap.put("summary", "Bug Summary");
-			fieldNameMap.put("description", "Description");
-			fieldNameMap.put("status", "Status");
-			fieldNameMap.put("assignuser", "Assigned to");
-			fieldNameMap.put("resolution", "Resolution");
-			fieldNameMap.put("severity", "Serverity");
-			fieldNameMap.put("environment", "Environment");
-			fieldNameMap.put("priority", "Priority");
-			fieldNameMap.put("duedate", "Due Date");
-			fieldNameMap.put("logby", "Logged By");
-			fieldNameMap.put("milestoneid", "Milestone");
+	public static class MilestoneFieldFormat extends LinkFieldFormat {
+
+		public MilestoneFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
 		}
 
-		public boolean hasField(String fieldName) {
-			return fieldNameMap.containsKey(fieldName);
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			String milestoneIconLink = ProjectResources
+					.getResourceLink(ProjectTypeConstants.MILESTONE);
+			return new Img("icon", milestoneIconLink);
 		}
 
-		public String getFieldLabel(String fieldName) {
-			return fieldNameMap.get(fieldName);
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+			A link = new A();
+			String milestoneLink = ProjectLinkUtils
+					.generateMilestonePreviewFullLink(context.getSiteUrl(),
+							bug.getProjectid(), bug.getMilestoneid());
+			link.setHref(milestoneLink);
+			link.appendText(bug.getMilestoneName());
+			return link;
 		}
+	}
+
+	public static class AssigneeFieldFormat extends LinkFieldFormat {
+
+		public AssigneeFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					bug.getAssignUserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(bug.getSaccountid()),
+					bug.getAssignuser());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(bug.getAssignuserFullName());
+			return link;
+		}
+
+	}
+
+	public static class LogUserFieldFormat extends LinkFieldFormat {
+
+		public LogUserFieldFormat(String fieldName, String displayName) {
+			super(fieldName, displayName);
+		}
+
+		@Override
+		protected Img buildImage(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+			String userAvatarLink = LinkUtils.getAvatarLink(
+					bug.getLoguserAvatarId(), 16);
+			Img img = new Img("avatar", userAvatarLink);
+			return img;
+		}
+
+		@Override
+		protected A buildLink(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(bug.getSaccountid()), bug.getLogby());
+			A link = new A();
+			link.setHref(userLink);
+			link.appendText(bug.getLoguserFullName());
+			return link;
+		}
+
 	}
 }

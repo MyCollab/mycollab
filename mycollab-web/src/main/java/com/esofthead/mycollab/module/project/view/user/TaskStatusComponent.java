@@ -47,6 +47,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Container.Hierarchical;
 import com.vaadin.data.util.HierarchicalContainer;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
@@ -229,8 +230,8 @@ public class TaskStatusComponent extends Depot {
 									}
 								}
 							});
-					taskLink.setIcon(ProjectResources.getResource(task
-							.getType()));
+					taskLink.setIcon(new ExternalResource(ProjectResources
+							.getResourceLink(task.getType())));
 					if (task.getDueDate() != null
 							&& task.getDueDate().before(
 									new GregorianCalendar().getTime())) {

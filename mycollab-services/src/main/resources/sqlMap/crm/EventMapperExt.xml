@@ -47,11 +47,11 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_task.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_task.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -59,11 +59,11 @@
         #end
         
         #ifnotnull($searchCriteria.type)
-            ${searchCriteria.type.operation} type = @{searchCriteria.type.value}
+            ${searchCriteria.type.operation} m_crm_task.type = @{searchCriteria.type.value}
         #end
         
         #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} typeid = @{searchCriteria.typeid.value}
+            ${searchCriteria.typeid.operation} m_crm_task.typeid = @{searchCriteria.typeid.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
@@ -77,23 +77,23 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_call.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_call.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
-            ${searchCriteria.saccountid.operation} sAccountId = @{searchCriteria.saccountid.value}
+            ${searchCriteria.saccountid.operation} m_crm_call.sAccountId = @{searchCriteria.saccountid.value}
         #end
         
         #ifnotnull($searchCriteria.type)
-            ${searchCriteria.type.operation} type = @{searchCriteria.type.value}
+            ${searchCriteria.type.operation} m_crm_call.type = @{searchCriteria.type.value}
         #end
         
         #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} typeid = @{searchCriteria.typeid.value}
+            ${searchCriteria.typeid.operation} m_crm_call.typeid = @{searchCriteria.typeid.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
@@ -107,23 +107,23 @@
         #set($searchCriteria = $_parameter.searchCriteria)
         
         #ifnotnull($searchCriteria.startDate)
-            ${searchCriteria.startDate.operation} startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
+            ${searchCriteria.startDate.operation} m_crm_meeting.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_meeting.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
          
         #ifnotnull($searchCriteria.saccountid)
-            ${searchCriteria.saccountid.operation} sAccountId = @{searchCriteria.saccountid.value}
+            ${searchCriteria.saccountid.operation} m_crm_meeting.sAccountId = @{searchCriteria.saccountid.value}
         #end 
         
         #ifnotnull($searchCriteria.type)
-            ${searchCriteria.type.operation} type = @{searchCriteria.type.value}
+            ${searchCriteria.type.operation} m_crm_meeting.type = @{searchCriteria.type.value}
         #end
         
         #ifnotnull($searchCriteria.typeid)
-            ${searchCriteria.typeid.operation} typeid = @{searchCriteria.typeid.value}
+            ${searchCriteria.typeid.operation} m_crm_meeting.typeid = @{searchCriteria.typeid.value}
         #end
         
         #ifnotnull($searchCriteria.isClosed)
