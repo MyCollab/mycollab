@@ -82,4 +82,19 @@ public class SimpleContact extends Contact {
 	public void setCreatedUserFullName(String createdUserFullName) {
 		this.createdUserFullName = createdUserFullName;
 	}
+
+	public String getDisplayName() {
+		StringBuffer result = new StringBuffer();
+		String prefix = getPrefix();
+		if (prefix != null) {
+			result.append(prefix).append(" ");
+		}
+
+		String first = getFirstname();
+		if (first != null) {
+			result.append(first).append(" ");
+		}
+		result.append(getLastname());
+		return result.toString().trim();
+	}
 }

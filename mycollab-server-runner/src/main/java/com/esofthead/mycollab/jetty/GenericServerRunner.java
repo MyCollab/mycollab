@@ -38,6 +38,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.FragmentConfiguration;
 import org.eclipse.jetty.webapp.MetaInfConfiguration;
@@ -51,6 +52,7 @@ import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.jetty.console.TextDevice;
+import com.esofthead.mycollab.servlet.SetupServlet;
 import com.jolbox.bonecp.BoneCPDataSource;
 
 /**
@@ -413,6 +415,7 @@ public abstract class GenericServerRunner {
 		String webappDirLocation = detectWebApp();
 
 		WebAppContext appContext = buildContext(webappDirLocation);
+		appContext.addServlet(new ServletHolder(new SetupServlet()), "/setup");
 		appContext.setServer(server);
 		appContext.setConfigurations(new Configuration[] {
 				new AnnotationConfiguration(), new WebXmlConfiguration(),

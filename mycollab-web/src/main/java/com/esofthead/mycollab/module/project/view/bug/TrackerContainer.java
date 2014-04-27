@@ -53,6 +53,8 @@ public class TrackerContainer extends AbstractPageView {
 
 	private final TabsheetDecor myProjectTab;
 
+	private String selectedTabId = "";
+
 	public TrackerContainer() {
 
 		this.myProjectTab = new TabsheetDecor();
@@ -92,10 +94,11 @@ public class TrackerContainer extends AbstractPageView {
 						final SimpleProject project = CurrentProjectVariables
 								.getProject();
 
-						if ("Dashboard".equals(caption)) {
+						if ("Dashboard".equals(caption)
+								&& !"Dashboard".equals(selectedTabId)) {
 							dashboardPresenter.go(TrackerContainer.this, null);
 						} else if ("Bugs".equals(caption)
-								&& !(tab.getComponent() instanceof BugContainer)) {
+								&& !"Bugs".equals(selectedTabId)) {
 							final BugSearchCriteria criteria = new BugSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
@@ -104,17 +107,19 @@ public class TrackerContainer extends AbstractPageView {
 											new BugFilterParameter("All Bugs",
 													criteria)));
 						} else if ("Components".equals(caption)
-								&& !(tab.getComponent() instanceof ComponentContainer)) {
+								&& !"Components".equals(selectedTabId)) {
 							componentPresenter.go(TrackerContainer.this, null);
 						} else if ("Versions".equals(caption)
-								&& !(tab.getComponent() instanceof VersionContainer)) {
+								&& !"Versions".equals(selectedTabId)) {
 							versionPresenter.go(TrackerContainer.this, null);
 						}
+						selectedTabId = "";
 					}
 				});
 	}
 
 	public Component gotoSubView(final String name) {
+		selectedTabId = name;
 		final PageView component = (PageView) this.myProjectTab.selectTab(name)
 				.getComponent();
 		return component;

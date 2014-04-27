@@ -7,14 +7,14 @@
 
     MyCollab is licensed under the Affero GPL 3 license.
     
-    You can checkout our latest development source codes at https://github.com/haiphucnguyen/mycollab/commits/master
+    You can checkout our latest development source codes at https://github.com/esofthead/mycollab
     
     For further information, please visit:
       * http://www.mycollab.com/
       * http://wiki.mycollab.com/
     
     Contact the MyCollab team at:
-      * You contact us via email support@mycollab.com or our web form http://www.mycollab.com/contact-us
+      * You contact us via email support@mycollab.com or our web form https://www.mycollab.com/support/
     
     
     System requirements
@@ -31,7 +31,7 @@
     Installation
     ============
     
-    1. Download MyCollab - http://www.mycollab.com/pricing?tab=download
+    1. Download MyCollab - http://www.mycollab.com/pricing/download/
     2. Follow installation guideline at here http://wiki.mycollab.com/Installation_Guideline
 
     If you need more MyCollab advanced configuration, please visit link http://wiki.mycollab.com/Configuration
@@ -86,4 +86,4 @@
     
     Well known issues
     =================
-    None
+    Calendar view display badly on IE9 at the first time

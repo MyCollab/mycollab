@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.schedule.email.crm.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -28,12 +30,15 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -41,6 +46,7 @@ import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAc
 import com.esofthead.mycollab.schedule.email.format.EmailLinkFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -55,6 +61,9 @@ import com.hp.gagawa.java.elements.Img;
 public class ContactRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleContact> implements
 		ContactRelayEmailNotificationAction {
+
+	private static Logger log = LoggerFactory
+			.getLogger(ContactRelayEmailNotificationActionImpl.class);
 
 	@Autowired
 	private AuditLogService auditLogService;
@@ -223,6 +232,24 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}
@@ -249,8 +276,29 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
-			return value;
-		}
+			if (value == null || "".equals(value)) {
+				return "";
+			}
 
+			try {
+				int accountId = Integer.parseInt(value);
+				AccountService accountService = ApplicationContextUtil
+						.getSpringBean(AccountService.class);
+				SimpleAccount account = accountService.findById(accountId,
+						context.getUser().getAccountId());
+
+				String accountIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.ACCOUNT);
+				Img img = TagBuilder.newImg("icon", accountIconLink);
+				String accountLink = CrmLinkGenerator
+						.generateAccountPreviewFullLink(context.getSiteUrl(),
+								account.getId());
+				A link = TagBuilder.newA(accountLink, account.getAccountname());
+				return TagBuilder.newLink(img, link).write();
+			} catch (Exception e) {
+				log.error("Error", e);
+				return value;
+			}
+		}
 	}
 }
