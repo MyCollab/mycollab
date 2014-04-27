@@ -40,7 +40,8 @@ import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.CurrencyFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -137,7 +138,9 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleOpportunity>(simpleOpportunity, user,
+							siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -183,97 +186,88 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AccountFieldFormat extends LinkFieldFormat {
+	public static class AccountFieldFormat extends FieldFormat {
 
 		public AccountFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
-			String accountIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.ACCOUNT);
-			Img img = new Img("avatar", accountIconLink);
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleOpportunity opportunity = (SimpleOpportunity) context
 					.getWrappedBean();
-			A link = new A();
+			String accountIconLink = CrmResources
+					.getResourceLink(CrmTypeConstants.ACCOUNT);
+			Img img = TagBuilder.newImg("icon", accountIconLink);
+
 			String accountLink = CrmLinkGenerator
 					.generateAccountPreviewFullLink(context.getSiteUrl(),
 							opportunity.getAccountid());
-			link.setHref(accountLink);
-			link.appendText(opportunity.getAccountName());
-			return link;
+			A link = TagBuilder.newA(accountLink, opportunity.getAccountName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 
-	public static class CampaignFieldFormat extends LinkFieldFormat {
+	public static class CampaignFieldFormat extends FieldFormat {
 
 		public CampaignFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
-
-			String campaignIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.CAMPAIGN);
-			Img img = new Img("avatar", campaignIconLink);
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleOpportunity opportunity = (SimpleOpportunity) context
 					.getWrappedBean();
-			A link = new A();
+			String campaignIconLink = CrmResources
+					.getResourceLink(CrmTypeConstants.CAMPAIGN);
+			Img img = TagBuilder.newImg("icon", campaignIconLink);
+
 			String campaignLink = CrmLinkGenerator
 					.generateCampaignPreviewFullLink(context.getSiteUrl(),
 							opportunity.getCampaignid());
-			link.setHref(campaignLink);
-			link.appendText(opportunity.getCampaignName());
-			return link;
+			A link = TagBuilder.newA(campaignLink,
+					opportunity.getCampaignName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleOpportunity opportunity = (SimpleOpportunity) context
 					.getWrappedBean();
 
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					opportunity.getAssignUserAvatarId(), 16);
 
-			Img img = new Img("avatar", userAvatarLink);
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleOpportunity opportunity = (SimpleOpportunity) context
-					.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(opportunity.getSaccountid()),
 					opportunity.getAssignuser());
+			A link = TagBuilder.newA(userLink,
+					opportunity.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
 
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(opportunity.getAssignUserFullName());
-
-			return link;
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 

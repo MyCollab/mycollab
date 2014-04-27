@@ -39,7 +39,9 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -141,6 +143,9 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 			templateGenerator.putVariable("historyLog", auditLog);
 
+			templateGenerator
+					.putVariable("context", new MailContext<SimpleAccount>(
+							simpleAccount, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -166,33 +171,50 @@ public class AccountRelayEmailNotificationActionImpl extends
 		return templateGenerator;
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					account.getAssignUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(account.getSaccountid()),
 					account.getAssignuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(account.getAssignUserFullName());
-			return link;
+
+			A link = TagBuilder.newA(userLink, account.getAssignUserFullName());
+
+			return TagBuilder.newLink(img, link).write();
+
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
+			return value;
+		}
 	}
 
 	public static class AccountFieldNameMapper extends ItemFieldMapper {

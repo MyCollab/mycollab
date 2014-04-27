@@ -7088,3 +7088,12 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	line-height: 26px;
 	padding: 0 20px 0 10px;
 }
+
+/* Ellipsis Button Link */
+.v-button-link.text-ellipsis .v-button-wrap {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

@@ -39,7 +39,8 @@ import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -128,7 +129,8 @@ public class TaskRelayEmailNotificationActionImpl extends
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleTask>(simpleTask, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -167,64 +169,58 @@ public class TaskRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class ContactFieldFormat extends LinkFieldFormat {
+	public static class ContactFieldFormat extends FieldFormat {
 
 		public ContactFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
+			SimpleTask task = (SimpleTask) context.getWrappedBean();
 			String contactIconLink = CrmResources
 					.getResourceLink(CrmTypeConstants.CONTACT);
-			Img img = new Img("avatar", contactIconLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("icon", contactIconLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTask task = (SimpleTask) context.getWrappedBean();
-			A link = new A();
 			String contactLink = CrmLinkGenerator
 					.generateContactPreviewFullLink(context.getSiteUrl(),
 							task.getContactid());
-			link.setHref(contactLink);
-			link.appendText(task.getContactName());
-			return link;
+			A link = TagBuilder.newA(contactLink, task.getContactName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
 
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					task.getAssignUserAvatarId(), 16);
 
-			Img img = new Img("avatar", userAvatarLink);
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTask task = (SimpleTask) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(task.getSaccountid()),
 					task.getAssignuser());
+			A link = TagBuilder.newA(userLink, task.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
 
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(task.getAssignUserFullName());
-
-			return link;
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 

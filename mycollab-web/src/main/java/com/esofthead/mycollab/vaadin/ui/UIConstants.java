@@ -91,6 +91,7 @@ public class UIConstants {
 	public static final String PROJECT_NAME = "project-name";
 	public static final String PROJECT_SHORT_NAME = "project-shortname";
 	public static final String WORD_WRAP = "wordWrap";
+	public static final String TEXT_ELLIPSIS = "text-ellipsis";
 	public static final String WHITE_TABSHEET = "white-tabsheet";
 	public static final String TEXT_BLUE = "bluetxt";
 	public static final String LABEL_CHECKED = "has-checkmark";

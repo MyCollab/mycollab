@@ -43,7 +43,8 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -147,6 +148,8 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleTaskList>(taskList, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -189,56 +192,57 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					tasklist.getOwnerAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(tasklist.getSaccountid()),
 					tasklist.getOwner());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(tasklist.getOwnerFullName());
-			return link;
+			A link = TagBuilder.newA(userLink, tasklist.getOwnerFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 
-	public static class MilestoneFieldFormat extends LinkFieldFormat {
+	public static class MilestoneFieldFormat extends FieldFormat {
 
 		public MilestoneFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
+			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
+
 			String milestoneIconLink = ProjectResources
 					.getResourceLink(ProjectTypeConstants.MILESTONE);
-			return new Img("icon", milestoneIconLink);
+			Img img = TagBuilder.newImg("icon", milestoneIconLink);
+
+			String milestoneLink = ProjectLinkUtils
+					.generateMilestonePreviewFullLink(context.getSiteUrl(),
+							tasklist.getProjectid(), tasklist.getMilestoneid());
+			A link = TagBuilder
+					.newA(milestoneLink, tasklist.getMilestoneName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
-			A link = new A();
-			link.setHref(ProjectLinkUtils.generateMilestonePreviewFullLink(
-					context.getSiteUrl(), tasklist.getProjectid(),
-					tasklist.getMilestoneid()));
-			link.appendText(tasklist.getMilestoneName());
-			return link;
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}

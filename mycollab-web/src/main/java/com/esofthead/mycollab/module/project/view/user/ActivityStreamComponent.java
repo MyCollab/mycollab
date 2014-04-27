@@ -25,7 +25,6 @@ import java.util.UUID;
 import org.apache.commons.lang3.time.DateUtils;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
-import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.MyCollabException;

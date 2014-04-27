@@ -49,7 +49,8 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
@@ -169,6 +170,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleTask>(task, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -190,7 +193,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				+ emailNotification.getChangeByUserFullName()
 				+ " has commented on the task \""
 				+ StringUtils.trim(task.getTaskname(), 100) + "\"",
-				"templates/email/project/taskCommentNotifier.mt");
+				"templates/email/project/itemCommentNotifier.mt");
 		setupMailHeaders(task, emailNotification, templateGenerator);
 
 		templateGenerator.putVariable("comment", emailNotification);
@@ -315,56 +318,56 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					task.getAssignUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTask task = (SimpleTask) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(task.getSaccountid()),
 					task.getAssignuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(task.getAssignUserFullName());
-			return link;
+			A link = TagBuilder.newA(userLink, task.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 
-	public static class TaskGroupFieldFormat extends LinkFieldFormat {
+	public static class TaskGroupFieldFormat extends FieldFormat {
 
 		public TaskGroupFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
+			SimpleTask task = (SimpleTask) context.getWrappedBean();
+
 			String taskgroupIconLink = ProjectResources
 					.getResourceLink(ProjectTypeConstants.TASK_LIST);
-			return new Img("icon", taskgroupIconLink);
+			Img img = TagBuilder.newImg("icon", taskgroupIconLink);
+
+			String tasklistlink = ProjectLinkUtils.generateTaskPreviewFullLink(
+					context.getSiteUrl(), task.getProjectid(),
+					task.getTasklistid());
+			A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleTask task = (SimpleTask) context.getWrappedBean();
-			A link = new A();
-			link.setHref(ProjectLinkUtils.generateTaskPreviewFullLink(
-					context.getSiteUrl(), task.getProjectid(),
-					task.getTasklistid()));
-			link.appendText(task.getTaskListName());
-			return link;
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}

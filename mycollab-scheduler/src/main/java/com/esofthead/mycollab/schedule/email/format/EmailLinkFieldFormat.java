@@ -8,6 +8,12 @@ import com.esofthead.mycollab.schedule.email.MailContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class EmailLinkFieldFormat extends FieldFormat {
 
 	public EmailLinkFieldFormat(String fieldName, String displayName) {
@@ -33,6 +39,12 @@ public class EmailLinkFieldFormat extends FieldFormat {
 				| NoSuchMethodException e) {
 			return new Span().write();
 		}
+	}
+
+	@Override
+	public String formatField(MailContext<?> context, String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

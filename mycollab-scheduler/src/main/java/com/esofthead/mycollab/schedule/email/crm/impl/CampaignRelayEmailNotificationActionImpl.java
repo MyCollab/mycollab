@@ -39,7 +39,8 @@ import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.CurrencyFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -135,6 +136,9 @@ public class CampaignRelayEmailNotificationActionImpl extends
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleCampaign>(simpleCampaign, user,
+							siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -178,31 +182,30 @@ public class CampaignRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleCampaign campaign = (SimpleCampaign) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					campaign.getAssignUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleCampaign campaign = (SimpleCampaign) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(campaign.getSaccountid()),
 					campaign.getAssignuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(campaign.getAssignUserFullName());
-			return link;
+			A link = TagBuilder
+					.newA(userLink, campaign.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 

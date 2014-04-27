@@ -38,7 +38,8 @@ import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.EmailLinkFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -131,7 +132,8 @@ public class LeadRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleLead>(lead, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -192,36 +194,30 @@ public class LeadRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class LeadAssigneeFieldFormat extends LinkFieldFormat {
+	public static class LeadAssigneeFieldFormat extends FieldFormat {
 
 		public LeadAssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleLead lead = (SimpleLead) context.getWrappedBean();
-
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					lead.getAssignUserAvatarId(), 16);
 
-			Img img = new Img("avatar", userAvatarLink);
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleLead lead = (SimpleLead) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(lead.getSaccountid()),
 					lead.getAssignuser());
+			A link = TagBuilder.newA(userLink, lead.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
 
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(lead.getAssignUserFullName());
-
-			return link;
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 

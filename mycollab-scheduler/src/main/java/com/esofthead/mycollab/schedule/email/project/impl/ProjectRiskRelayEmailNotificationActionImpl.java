@@ -42,7 +42,8 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -147,6 +148,8 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleRisk>(risk, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -194,60 +197,56 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					risk.getAssignToUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(risk.getSaccountid()),
 					risk.getAssigntouser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(risk.getAssignedToUserFullName());
-			return link;
+			A link = TagBuilder
+					.newA(userLink, risk.getAssignedToUserFullName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 
-	public static class RaisedByFieldFormat extends LinkFieldFormat {
+	public static class RaisedByFieldFormat extends FieldFormat {
 
 		public RaisedByFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					risk.getRaisedByUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(risk.getSaccountid()),
 					risk.getRaisedbyuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(risk.getRaisedByUserFullName());
-			return link;
+			A link = TagBuilder.newA(userLink, risk.getRaisedByUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}

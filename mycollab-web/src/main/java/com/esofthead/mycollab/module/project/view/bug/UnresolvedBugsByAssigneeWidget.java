@@ -70,7 +70,7 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 				assigneeLayout.setWidth("100%");
 
 				String assignUser = item.getGroupid();
-				String assignUserFullName = (item.getGroupid() == null) ? "Undefnined"
+				String assignUserFullName = item.getGroupid() == null ? "Undefnined"
 						: item.getGroupname();
 				if (assignUserFullName == null
 						|| "".equals(assignUserFullName.trim())) {
@@ -104,18 +104,18 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria
-							.setAssignuser(new StringSearchField(
-									SearchField.AND, assignee));
+					.setAssignuser(new StringSearchField(
+							SearchField.AND, assignee));
 					UnresolvedBugsByAssigneeWidget.this.componentLayout
-							.displayBugListWidget(
-									assigneeFullName + " Bugs List",
-									UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria);
+					.displayBugListWidget(
+							assigneeFullName + " Bugs List",
+							UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria);
 				}
 			});
 
 			this.setStyleName("link");
 			this.setWidth("110px");
-			this.addStyleName(UIConstants.WORD_WRAP);
+			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
 		}

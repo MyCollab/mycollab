@@ -73,16 +73,16 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 				assigneeLayout.setWidth("100%");
 
 				final String assignUser = item.getGroupid();
-				String assignUserFullName = (item.getGroupid() == null) ? "Undefined"
+				String assignUserFullName = item.getGroupid() == null ? "Undefined"
 						: item.getGroupname();
 
 				if (assignUserFullName == null || assignUserFullName.equals("")) {
 					String displayName = item.getGroupid();
-					int index = (displayName != null) ? displayName
+					int index = displayName != null ? displayName
 							.indexOf("@") : 0;
-					if (index > 0) {
-						assignUserFullName = displayName.substring(0, index);
-					}
+							if (index > 0) {
+								assignUserFullName = displayName.substring(0, index);
+							}
 				}
 
 				final TaskAssigneeLink userLbl = new TaskAssigneeLink(
@@ -122,7 +122,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
 			this.setStyleName("link");
 			this.setWidth("110px");
-			this.addStyleName(UIConstants.WORD_WRAP);
+			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
 		}

@@ -42,7 +42,8 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
@@ -146,6 +147,8 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleProblem>(problem, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -190,61 +193,57 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					problem.getAssignUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(problem.getSaccountid()),
 					problem.getAssigntouser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(problem.getAssignedUserFullName());
-			return link;
+			A link = TagBuilder.newA(userLink,
+					problem.getAssignedUserFullName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 
-	public static class RaisedByFieldFormat extends LinkFieldFormat {
+	public static class RaisedByFieldFormat extends FieldFormat {
 
 		public RaisedByFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					problem.getRaisedByUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(problem.getSaccountid()),
 					problem.getRaisedbyuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(problem.getRaisedByUserFullName());
-			return link;
+			A link = TagBuilder.newA(userLink,
+					problem.getRaisedByUserFullName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 }

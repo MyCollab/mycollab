@@ -41,6 +41,8 @@ public abstract class FieldFormat {
 	}
 
 	abstract public String formatField(MailContext<?> context);
+	
+	abstract public String formatField(MailContext<?> context, String value);
 
 	public static FieldFormat createFieldFormat(Type fieldType,
 			String fieldName, String displayName) {

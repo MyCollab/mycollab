@@ -41,4 +41,9 @@ public class DefaultFieldFormat extends FieldFormat {
 		}
 
 	}
+
+	@Override
+	public String formatField(MailContext<?> context, String value) {
+		return value;
+	}
 }

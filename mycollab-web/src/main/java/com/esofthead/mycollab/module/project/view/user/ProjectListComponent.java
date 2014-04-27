@@ -64,7 +64,7 @@ public class ProjectListComponent extends VerticalLayout {
 	private static final long serialVersionUID = 6930971885172125913L;
 
 	final private PopupButton headerPopupButton;
-	
+
 	private Label componentHeader;
 
 	private VerticalLayout contentLayout;
@@ -78,14 +78,12 @@ public class ProjectListComponent extends VerticalLayout {
 		setWidth("100%");
 		setSpacing(true);
 		setStyleName("project-list-comp");
-		
+
 		HorizontalLayout headerBar = new HorizontalLayout();
-		
-		
+
 		headerPopupButton = new PopupButton();
 		headerPopupButton.setStyleName("project-list-comp-hdr");
 		headerPopupButton.setWidth("100%");
-		
 
 		componentHeader = new Label();
 		componentHeader.setStyleName("h2");
@@ -93,13 +91,13 @@ public class ProjectListComponent extends VerticalLayout {
 		headerPopupButton.setIcon(MyCollabResource
 				.newResource("icons/project_dropdown.png"));
 		headerBar.addComponent(headerPopupButton);
-		
+
 		Button createProject = createProjectButton();
 		UiUtils.addComponent(headerBar, createProject, Alignment.MIDDLE_RIGHT);
 		if (!AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			createProject.setEnabled(false);
 		}
-		
+
 		headerBar.setWidth("100%");
 		headerBar.setSpacing(true);
 		headerBar.setExpandRatio(headerPopupButton, 1.0f);
@@ -115,27 +113,27 @@ public class ProjectListComponent extends VerticalLayout {
 		projectDesc.setStyleName("project-description");
 		addComponent(projectDesc);
 	}
-	
-	public Button createProjectButton() {
-		final Button  createProjectBtn = new Button(""
-					,
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
-							UI.getCurrent().addWindow(projectNewWindow);
-						}
-					});
-			createProjectBtn.setIcon(MyCollabResource
-					.newResource("/icons/18/create.png"));
-			createProjectBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
-			createProjectBtn.setDescription("Create new Projet");
-			
-			return createProjectBtn;
-	
+	public Button createProjectButton() {
+		final Button createProjectBtn = new Button("",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final Button.ClickEvent event) {
+						final ProjectAddWindow projectNewWindow = new ProjectAddWindow();
+						UI.getCurrent().addWindow(projectNewWindow);
+					}
+				});
+		createProjectBtn.setIcon(MyCollabResource
+				.newResource("icons/18/create.png"));
+		createProjectBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+		createProjectBtn.setDescription("Create new Projet");
+
+		return createProjectBtn;
+
 	}
+
 	public void showProjects() {
 		if (headerPopupButton.isPopupVisible()) {
 			headerPopupButton.setPopupVisible(false);

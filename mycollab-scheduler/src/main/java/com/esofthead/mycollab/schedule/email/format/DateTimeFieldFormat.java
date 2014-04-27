@@ -48,4 +48,10 @@ public class DateTimeFieldFormat extends FieldFormat {
 			return new Span().write();
 		}
 	}
+
+	@Override
+	public String formatField(MailContext<?> context, String value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

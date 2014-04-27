@@ -126,7 +126,9 @@ public class MeetingRelayEmailNotificationActionImpl extends
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-
+			templateGenerator
+					.putVariable("context", new MailContext<SimpleMeeting>(
+							simpleMeeting, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;

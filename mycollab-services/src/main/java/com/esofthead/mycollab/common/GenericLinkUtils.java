@@ -39,6 +39,9 @@ public abstract class GenericLinkUtils {
 	public static String encodeParam(Object... params) {
 		StringBuffer paramStr = new StringBuffer("");
 		for (int i = 0; i < params.length; i++) {
+			if (params[i] == null) {
+				return "";
+			}
 			paramStr.append(params[i].toString());
 			if (i != params.length - 1) {
 				paramStr.append("/");

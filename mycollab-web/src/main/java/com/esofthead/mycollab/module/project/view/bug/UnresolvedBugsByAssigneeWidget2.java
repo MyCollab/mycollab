@@ -26,8 +26,8 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -74,7 +74,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				assigneeLayout.setWidth("100%");
 
 				String assignUser = item.getGroupid();
-				String assignUserFullName = (item.getGroupid() == null) ? "Undefined"
+				String assignUserFullName = item.getGroupid() == null ? "Undefined"
 						: item.getGroupname();
 				if (assignUserFullName == null
 						|| "".equals(assignUserFullName.trim())) {
@@ -106,8 +106,8 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
-							.setAssignuser(new StringSearchField(
-									SearchField.AND, assignee));
+					.setAssignuser(new StringSearchField(
+							SearchField.AND, assignee));
 					final BugFilterParameter param = new BugFilterParameter(
 							"Unresolved Bug List of " + assigneeFullName,
 							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
@@ -119,7 +119,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
 			this.setStyleName("link");
 			this.setWidth("110px");
-			this.addStyleName(UIConstants.WORD_WRAP);
+			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
 		}

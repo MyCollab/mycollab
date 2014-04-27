@@ -39,7 +39,8 @@ import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.EmailLinkFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -135,7 +136,9 @@ public class ContactRelayEmailNotificationActionImpl extends
 					emailNotification.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-
+			templateGenerator
+					.putVariable("context", new MailContext<SimpleContact>(
+							simpleContact, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -196,63 +199,57 @@ public class ContactRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleContact contact = (SimpleContact) context.getWrappedBean();
 
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					contact.getAssignUserAvatarId(), 16);
 
-			Img img = new Img("avatar", userAvatarLink);
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			return img;
-		}
-
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleContact contact = (SimpleContact) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(contact.getSaccountid()),
 					contact.getAssignuser());
+			A link = TagBuilder.newA(userLink, contact.getAssignUserFullName());
+			return TagBuilder.newLink(img, link).write();
+		}
 
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(contact.getAssignUserFullName());
-
-			return link;
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 
-	public static class AccountFieldFormat extends LinkFieldFormat {
+	public static class AccountFieldFormat extends FieldFormat {
 
 		public AccountFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
+			SimpleContact contact = (SimpleContact) context.getWrappedBean();
 			String accountIconLink = CrmResources
 					.getResourceLink(CrmTypeConstants.ACCOUNT);
-			Img img = new Img("avatar", accountIconLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("icon", accountIconLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleContact contact = (SimpleContact) context.getWrappedBean();
-			A link = new A();
 			String accountLink = CrmLinkGenerator
 					.generateAccountPreviewFullLink(context.getSiteUrl(),
 							contact.getAccountid());
-			link.setHref(accountLink);
-			link.appendText(contact.getAccountName());
-			return link;
+			A link = TagBuilder.newA(accountLink, contact.getAccountName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}

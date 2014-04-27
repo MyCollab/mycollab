@@ -48,7 +48,8 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
-import com.esofthead.mycollab.schedule.email.format.LinkFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
@@ -160,6 +161,8 @@ public class BugRelayEmailNotificationActionImpl extends
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
+			templateGenerator.putVariable("context",
+					new MailContext<SimpleBug>(bug, user, siteUrl));
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -301,85 +304,81 @@ public class BugRelayEmailNotificationActionImpl extends
 		}
 	}
 
-	public static class MilestoneFieldFormat extends LinkFieldFormat {
+	public static class MilestoneFieldFormat extends FieldFormat {
 
 		public MilestoneFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
+			SimpleBug bug = (SimpleBug) context.getWrappedBean();
+
 			String milestoneIconLink = ProjectResources
 					.getResourceLink(ProjectTypeConstants.MILESTONE);
-			return new Img("icon", milestoneIconLink);
-		}
+			Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleBug bug = (SimpleBug) context.getWrappedBean();
-			A link = new A();
 			String milestoneLink = ProjectLinkUtils
 					.generateMilestonePreviewFullLink(context.getSiteUrl(),
 							bug.getProjectid(), bug.getMilestoneid());
-			link.setHref(milestoneLink);
-			link.appendText(bug.getMilestoneName());
-			return link;
+			A link = TagBuilder.newA(milestoneLink, bug.getMilestoneName());
+			return TagBuilder.newLink(img, link).write();
+		}
+
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 	}
 
-	public static class AssigneeFieldFormat extends LinkFieldFormat {
+	public static class AssigneeFieldFormat extends FieldFormat {
 
 		public AssigneeFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					bug.getAssignUserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
-		}
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 			String userLink = UserLinkUtils.generatePreviewFullUserLink(
 					LinkUtils.getSiteUrl(bug.getSaccountid()),
 					bug.getAssignuser());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(bug.getAssignuserFullName());
-			return link;
+			A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
+		@Override
+		public String formatField(MailContext<?> context, String value) {
+			return value;
+		}
 	}
 
-	public static class LogUserFieldFormat extends LinkFieldFormat {
+	public static class LogUserFieldFormat extends FieldFormat {
 
 		public LogUserFieldFormat(String fieldName, String displayName) {
 			super(fieldName, displayName);
 		}
 
 		@Override
-		protected Img buildImage(MailContext<?> context) {
+		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 			String userAvatarLink = LinkUtils.getAvatarLink(
 					bug.getLoguserAvatarId(), 16);
-			Img img = new Img("avatar", userAvatarLink);
-			return img;
+			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+
+			String userLink = UserLinkUtils.generatePreviewFullUserLink(
+					LinkUtils.getSiteUrl(bug.getSaccountid()), bug.getLogby());
+			A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
+			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override
-		protected A buildLink(MailContext<?> context) {
-			SimpleBug bug = (SimpleBug) context.getWrappedBean();
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(bug.getSaccountid()), bug.getLogby());
-			A link = new A();
-			link.setHref(userLink);
-			link.appendText(bug.getLoguserFullName());
-			return link;
+		public String formatField(MailContext<?> context, String value) {
+			return value;
 		}
 
 	}
