@@ -31,6 +31,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 /**
  * Wrap velocity engine
  * 
+ * @author MyCollab Ltd.
+ * @since 4.0.0
+ * 
  */
 public class TemplateEngine {
 
@@ -45,10 +48,9 @@ public class TemplateEngine {
 		toolManager = new ToolManager();
 		toolManager.configure(config);
 
-		voEngine = ApplicationContextUtil
-				.getSpringBean(VelocityEngine.class);
+		voEngine = ApplicationContextUtil.getSpringBean(VelocityEngine.class);
 		voEngine.init();
-		
+
 	}
 
 	public static ToolContext createContext() {
@@ -57,7 +59,7 @@ public class TemplateEngine {
 
 	public static void evaluate(TemplateContext context, Writer writer,
 			String message, Reader reader) {
-		
+
 		voEngine.evaluate(context.getVelocityContext(), writer, "log", reader);
 	}
 }

@@ -21,6 +21,9 @@ import org.apache.velocity.VelocityContext;
 /**
  * Template wrapper of velocity context
  * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
  */
 public class TemplateContext {
 	private final VelocityContext velocityContext;

@@ -29,6 +29,8 @@ import java.sql.DriverManager;
 
 import javax.sql.DataSource;
 
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
@@ -49,8 +51,6 @@ import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.jetty.console.TextDevice;
-import com.esofthead.template.velocity.TemplateContext;
-import com.esofthead.template.velocity.TemplateEngine;
 import com.jolbox.bonecp.BoneCPDataSource;
 
 /**
@@ -197,7 +197,7 @@ public abstract class GenericServerRunner {
 		if (file == null) {
 			log.debug("Can not detect mycollab.properties file. It seems mycollab is in first use.");
 			isFirstTimeRunner = true;
-			TemplateContext templateContext = new TemplateContext();
+			VelocityContext templateContext = new VelocityContext();
 
 			System.out
 					.println("=====================================================");
@@ -385,8 +385,9 @@ public abstract class GenericServerRunner {
 
 					StringWriter writer = new StringWriter();
 
-					TemplateEngine.evaluate(templateContext, writer,
-							"log task", templateReader);
+					VelocityEngine engine = new VelocityEngine();
+					engine.evaluate(templateContext, writer, "log task",
+							templateReader);
 
 					FileOutputStream outStream = new FileOutputStream(new File(
 							confFolder, "mycollab.properties"));
