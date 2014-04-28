@@ -73,53 +73,54 @@ public class BillingSendingNotificationJobs extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
+		
 
-		List<BillingAccountWithOwners> trialAccountsWithOwners = billingService
-				.getTrialAccountsWithOwners();
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.add(Calendar.DATE, (-1) * DATE_REMIND_FOR_FREEPLAN_1ST);
-		Date dateRemind1st = cal.getTime();
-
-		cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.add(Calendar.DATE, (-1) * DATE_REMIND_FOR_FREEPLAN_2ND);
-		Date dateRemind2nd = cal.getTime();
-
-		cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-		cal.add(Calendar.DATE, (-1) * DATE_NOTIFY_EXPIRE);
-		Date dateExpire = cal.getTime();
-
-		if (trialAccountsWithOwners != null
-				&& trialAccountsWithOwners.size() > 0) {
-			for (BillingAccountWithOwners account : trialAccountsWithOwners) {
-				log.debug("Check whether account exceed 25 days to remind user upgrade account");
-				if (df.format(account.getCreatedtime()).equals(
-						df.format(dateRemind1st))) {
-					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
-							account, DATE_REMIND_FOR_FREEPLAN_1ST);
-					notificationFactory.sendingEmail();
-				} else if (df.format(account.getCreatedtime()).equals(
-						df.format(dateRemind2nd))) {
-					log.debug("Check whether account exceed 30 days to inform him it is the end of day to upgrade account");
-					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
-							account, DATE_REMIND_FOR_FREEPLAN_2ND);
-					notificationFactory.sendingEmail();
-				} else if (df.format(account.getCreatedtime()).equals(
-						df.format(dateExpire))) {
-					log.debug("Check whether account exceed 32 days to convert to basic plan");
-					BillingAccount billingAccount = billingAccountService
-							.findByPrimaryKey(account.getId(), account.getId());
-					BillingPlan freeBillingPlan = billingService
-							.getFreeBillingPlan();
-					billingAccount.setBillingplanid(freeBillingPlan.getId());
-					billingAccountService.updateWithSession(billingAccount, "");
-					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
-							account, DATE_NOTIFY_EXPIRE);
-					notificationFactory.sendingEmail();
-				}
-			}
-		}
+//		List<BillingAccountWithOwners> trialAccountsWithOwners = billingService
+//				.getTrialAccountsWithOwners();
+//		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+//
+//		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+//		cal.add(Calendar.DATE, (-1) * DATE_REMIND_FOR_FREEPLAN_1ST);
+//		Date dateRemind1st = cal.getTime();
+//
+//		cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+//		cal.add(Calendar.DATE, (-1) * DATE_REMIND_FOR_FREEPLAN_2ND);
+//		Date dateRemind2nd = cal.getTime();
+//
+//		cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+//		cal.add(Calendar.DATE, (-1) * DATE_NOTIFY_EXPIRE);
+//		Date dateExpire = cal.getTime();
+//
+//		if (trialAccountsWithOwners != null
+//				&& trialAccountsWithOwners.size() > 0) {
+//			for (BillingAccountWithOwners account : trialAccountsWithOwners) {
+//				log.debug("Check whether account exceed 25 days to remind user upgrade account");
+//				if (df.format(account.getCreatedtime()).equals(
+//						df.format(dateRemind1st))) {
+//					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
+//							account, DATE_REMIND_FOR_FREEPLAN_1ST);
+//					notificationFactory.sendingEmail();
+//				} else if (df.format(account.getCreatedtime()).equals(
+//						df.format(dateRemind2nd))) {
+//					log.debug("Check whether account exceed 30 days to inform him it is the end of day to upgrade account");
+//					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
+//							account, DATE_REMIND_FOR_FREEPLAN_2ND);
+//					notificationFactory.sendingEmail();
+//				} else if (df.format(account.getCreatedtime()).equals(
+//						df.format(dateExpire))) {
+//					log.debug("Check whether account exceed 32 days to convert to basic plan");
+//					BillingAccount billingAccount = billingAccountService
+//							.findByPrimaryKey(account.getId(), account.getId());
+//					BillingPlan freeBillingPlan = billingService
+//							.getFreeBillingPlan();
+//					billingAccount.setBillingplanid(freeBillingPlan.getId());
+//					billingAccountService.updateWithSession(billingAccount, "");
+//					AccountBillingSendEmail notificationFactory = new AccountBillingSendEmail(
+//							account, DATE_NOTIFY_EXPIRE);
+//					notificationFactory.sendingEmail();
+//				}
+//			}
+//		}
 	}
 
 	private static class AccountBillingSendEmail {

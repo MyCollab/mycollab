@@ -1,3 +1,19 @@
+/**
+ * This file is part of mycollab-scheduler.
+ *
+ * mycollab-scheduler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-scheduler is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.schedule.email.format;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +69,23 @@ public class CurrencyFieldFormat extends FieldFormat {
 
 	@Override
 	public String formatField(MailContext<?> context, String value) {
-		// TODO Auto-generated method stub
-		return null;
+		if (value == null || "".equals(value)) {
+			return "";
+		}
+
+		try {
+			CurrencyService currencyService = ApplicationContextUtil
+					.getSpringBean(CurrencyService.class);
+			int currencyId = Integer.parseInt(value);
+			Currency currency = currencyService.findByPrimaryKey(currencyId,
+					context.getUser().getAccountId());
+			if (currency != null) {
+				return currency.getFullname();
+			}
+		} catch (Exception e) {
+			log.error("Error", e);
+		}
+
+		return value;
 	}
 }

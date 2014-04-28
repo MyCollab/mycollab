@@ -38,6 +38,7 @@ import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
@@ -46,6 +47,7 @@ import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -182,12 +184,15 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 
 	public static class MilestoneFieldNameMapper extends ItemFieldMapper {
 		public MilestoneFieldNameMapper() {
-			put("name", "Phase Name");
-			put("startdate", new DateFieldFormat("startdate", "Start Date"));
-			put("enddate", new DateFieldFormat("enddate", "End Date"));
+			put("name", "Name", true);
+
 			put("status", "Status");
 			put("owner", new AssigneeFieldFormat("owner", "Owner"));
-			put("description", "Description");
+
+			put("startdate", new DateFieldFormat("startdate", "Start Date"));
+			put("enddate", new DateFieldFormat("enddate", "End Date"));
+
+			put("description", "Description", true);
 		}
 	}
 
@@ -214,6 +219,24 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}

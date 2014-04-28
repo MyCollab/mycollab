@@ -121,10 +121,10 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireEditForm(item);
 						}
 					});
-			editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
-			editBtn.setStyleName("link");
+			editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
+			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editBtn.setEnabled(canWrite);
-			popupButtonsControl.addComponent(editBtn);
+			layout.addComponent(editBtn);
 		}
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {

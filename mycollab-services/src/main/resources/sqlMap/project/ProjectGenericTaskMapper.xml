@@ -51,6 +51,13 @@
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_problem.status='Open'
         #end
+        
+         #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation}
+            CAST(m_prj_problem.datedue AS DATE )
+            ${searchCriteria.dueDate.comparision}
+            @{searchCriteria.dueDate.value}
+        #end
         ]]>
 	</sql>
 
@@ -76,6 +83,13 @@
         
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_risk.status='Open'
+        #end
+        
+        #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation}
+            CAST(m_prj_risk.datedue AS DATE )
+            ${searchCriteria.dueDate.comparision}
+            @{searchCriteria.dueDate.value}
         #end
         ]]>
 	</sql>
@@ -103,6 +117,13 @@
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','In Progress', 'Reopenned', 'Test Pending')
         #end
+        
+         #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation}
+            CAST(m_tracker_bug.duedate AS DATE )
+            ${searchCriteria.dueDate.comparision}
+            @{searchCriteria.dueDate.value}
+        #end
         ]]>
 	</sql>
 
@@ -128,6 +149,13 @@
         
         #ifnotnull($searchCriteria.isOpenned)
             ${searchCriteria.isOpenned.operation} m_prj_task.status='Open'
+        #end
+        
+        #ifnotnull($searchCriteria.dueDate)
+            ${searchCriteria.dueDate.operation}
+            CAST(m_prj_task.deadline AS DATE )
+            ${searchCriteria.dueDate.comparision}
+            @{searchCriteria.dueDate.value}
         #end
         ]]>
 	</sql>

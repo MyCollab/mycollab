@@ -73,39 +73,8 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		editButtons.setSpacing(true);
 		editButtons.addStyleName("edit-btn");
 
-		if (haveAssignButton) {
-			assignBtn = new Button(GenericBeanForm.ASSIGN_ACTION,
-					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireAssignForm(item);
-				}
-			});
-			assignBtn.setIcon(MyCollabResource
-					.newResource("icons/16/assign.png"));
-			assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			editButtons.addComponent(assignBtn);
-			editButtons.setComponentAlignment(assignBtn,
-					Alignment.MIDDLE_CENTER);
-		}
-		deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
-				new Button.ClickListener() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final T item = previewForm.getBean();
-				previewForm.fireDeleteForm(item);
-			}
-		});
-		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
-		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
-		editButtons.addComponent(deleteBtn);
-		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
+		
+		
 
 		optionParentBtn = new Button("Option",
 				new Button.ClickListener() {
@@ -141,12 +110,46 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 				previewForm.fireEditForm(item);
 			}
 		});
-		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
-		editBtn.setStyleName("link");
-		popupButtonsControl.addComponent(editBtn);
+		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
+		editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		editButtons.addComponent(editBtn);
+		editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
 
+		deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
+				new Button.ClickListener() {
 
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				final T item = previewForm.getBean();
+				previewForm.fireDeleteForm(item);
+			}
+		});
+		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
+		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
+		editButtons.addComponent(deleteBtn);
+		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
+		
+		
+		if (haveAssignButton) {
+			assignBtn = new Button(GenericBeanForm.ASSIGN_ACTION,
+					new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					final T item = previewForm.getBean();
+					previewForm.fireAssignForm(item);
+				}
+			});
+			assignBtn.setIcon(MyCollabResource
+					.newResource("icons/16/assign.png"));
+			assignBtn.setStyleName(UIConstants.THEME_LINK);
+			popupButtonsControl.addComponent(assignBtn);
+			
+		}
+		
 		cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
 				new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;

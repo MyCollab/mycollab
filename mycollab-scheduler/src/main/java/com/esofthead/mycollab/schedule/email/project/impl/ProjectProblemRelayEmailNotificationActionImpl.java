@@ -38,6 +38,7 @@ import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -45,6 +46,7 @@ import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -179,17 +181,22 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 		public ProjectFieldNameMapper() {
-			put("issuename", "Issue name");
-			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					"Assignee"));
+			put("issuename", "Issue name", true);
+
+			put("description", "Description", true);
+
 			put("datedue", new DateFieldFormat("datedue", "Due Date"));
 			put("status", "Status");
+
 			put("impact", "Impact");
 			put("priority", "Priority");
+
+			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+					"Assignee"));
 			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
 					"Raised By"));
-			put("description", "Description");
-			put("resolution", "Resolution");
+
+			put("resolution", "Resolution", true);
 		}
 	}
 
@@ -216,6 +223,24 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}
@@ -243,6 +268,24 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}

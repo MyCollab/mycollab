@@ -83,11 +83,14 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private TaskSearchViewImpl basicSearchView;
 
+
 	private HorizontalLayout header;
 	private HorizontalLayout mainLayout;
 	private Button advanceDisplay;
 	private Button simpleDisplay;
 	private ToggleButtonGroup viewButtons;
+	
+	private boolean isSimpleDisplay;
 
 	public TaskGroupDisplayViewImpl() {
 		super();
@@ -95,7 +98,10 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.setSpacing(true);
 
 		this.constructUI();
+	
 		displayAdvancedView();
+		isSimpleDisplay = false;
+
 	}
 
 	private void implementTaskFilterButton() {
@@ -339,12 +345,17 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				if (isSimpleDisplay)
+				{
 				displayAdvancedView();
+				isSimpleDisplay = false;
+				}
 			}
 		});
 		advanceDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/advanced_display.png"));
 		advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+		advanceDisplay.setDescription("Advance View");
 
 		simpleDisplay = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -353,12 +364,16 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+				if (!isSimpleDisplay)
+				{
 				displaySimpleView();
-
+				isSimpleDisplay = true;
+				}
 			}
 		});
 		simpleDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/list_display.png"));
+		simpleDisplay.setDescription("Simple View");
 
 		viewButtons = new ToggleButtonGroup();
 		viewButtons.addButton(simpleDisplay);

@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.domain.criteria;
 
+import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -41,6 +42,16 @@ public class ProjectGenericTaskSearchCriteria extends SearchCriteria {
 	private SearchField isOpenned;
 
 	private StringSearchField name;
+	
+	private DateSearchField dueDate;
+
+	public DateSearchField getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(DateSearchField dueDate) {
+		this.dueDate = dueDate;
+	}
 
 	public NumberSearchField getProjectId() {
 		return projectId;

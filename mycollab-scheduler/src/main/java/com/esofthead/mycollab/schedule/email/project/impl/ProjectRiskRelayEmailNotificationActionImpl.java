@@ -38,6 +38,7 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -45,6 +46,7 @@ import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectRiskRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -183,17 +185,22 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 
 		public ProjectFieldNameMapper() {
-			put("riskname", "Risk Name");
-			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					"Assignee"));
-			put("consequence", "Consequence");
+			put("riskname", "Risk Name", true);
+			put("description", "Description", true);
+
 			put("probability", "Probability");
-			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
-					"Raised By"));
-			put("description", "Description");
+			put("consequence", "Consequence");
+
 			put("datedue", new DateFieldFormat("datedue", "Due Date"));
 			put("status", "Status");
-			put("response", "Response");
+
+			put("assigntouser", new AssigneeFieldFormat("assigntouser",
+					"Assignee"));
+			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
+					"Raised By"));
+
+			put("response", "Response", true);
+
 		}
 	}
 
@@ -220,6 +227,24 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}
@@ -246,6 +271,24 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 

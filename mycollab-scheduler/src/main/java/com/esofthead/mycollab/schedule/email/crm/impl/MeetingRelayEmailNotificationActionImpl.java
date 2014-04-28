@@ -156,15 +156,18 @@ public class MeetingRelayEmailNotificationActionImpl extends
 
 		public MeetingFieldNameMapper() {
 
-			put("subject", "Subject");
+			put("subject", "Subject", true);
+
 			put("status", "Status");
 			put("startdate", new DateTimeFieldFormat("startdate",
 					"Start Date & Time"));
-			put("typeid", "Related to");
+
+			put("location", "Location");
 			put("enddate",
 					new DateTimeFieldFormat("enddate", "End Date & Time"));
-			put("location", "Location");
-			put("description", "Description");
+
+			put("typeid", "Related to", true);
+			put("description", "Description", true);
 		}
 	}
 

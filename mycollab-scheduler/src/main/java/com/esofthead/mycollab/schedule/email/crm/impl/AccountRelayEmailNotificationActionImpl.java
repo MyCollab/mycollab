@@ -222,28 +222,39 @@ public class AccountRelayEmailNotificationActionImpl extends
 		public AccountFieldNameMapper() {
 			put("accountname", "Account Name");
 			put("phoneoffice", "Office Phone");
+
 			put("website", "Website");
 			put("numemployees", "Employees");
+
 			put("fax", "Fax");
 			put("alternatephone", "Other Phone");
+
 			put("industry", "Industry");
 			put("email", "Email");
+
 			put("type", "Type");
 			put("ownership", "Ownership");
+
 			put("assignuser", new AssigneeFieldFormat("assignuser",
 					"Assign User"));
 			put("annualrevenue", "Annual Revenue");
+
 			put("billingaddress", "Billing Address");
 			put("shippingaddress", "Shipping Address");
+
 			put("city", "Billing City");
 			put("shippingcity", "Shipping City");
+
 			put("state", "Billing State");
 			put("shippingstate", "Shipping State");
+
 			put("postalcode", "Billing Postal Code");
 			put("shippingpostalcode", "Shipping Postal Code");
+
 			put("billingcountry", "Billing Country");
 			put("shippingcountry", "Shipping Country");
-			put("description", "Description");
+
+			put("description", "Description", true);
 		}
 	}
 }

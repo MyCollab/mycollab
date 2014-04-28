@@ -166,32 +166,45 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 			put("firstname", "First Name");
 			put("email", new EmailLinkFieldFormat("email", "Email"));
+
 			put("lastname", "Last Name");
 			put("officephone", "Office Phone");
+
 			put("title", "Title");
 			put("mobile", "Mobile");
+
 			put("department", "Department");
 			put("otherphone", "Other Phone");
+
 			put("accountname", "Account Name");
 			put("fax", "Fax");
+
 			put("leadsourcedesc", "Lead Source");
 			put("website", "Web Site");
+
 			put("industry", "Industry");
 			put("status", "Status");
+
 			put("noemployees", "No of Employees");
 			put("assignuser", new LeadAssigneeFieldFormat("assignuser",
 					"Assignee"));
+
 			put("primaddress", "Address");
 			put("otheraddress", "Other Address");
+
 			put("primcity", "City");
 			put("othercity", "Other City");
+
 			put("primstate", "State");
 			put("otherstate", "Other State");
+
 			put("primpostalcode", "Postal Code");
 			put("otherpostalcode", "Other Postal Code");
+
 			put("primcountry", "Country");
 			put("othercountry", "Other Country");
-			put("description", "Description");
+
+			put("description", "Description", true);
 
 		}
 	}

@@ -162,16 +162,21 @@ public class CallRelayEmailNotificationActionImpl extends
 	public static class CallFieldNameMapper extends ItemFieldMapper {
 
 		public CallFieldNameMapper() {
-			put("subject", "Subject");
+			put("subject", "Subject", true);
+
 			put("status", "Status");
 			put("startdate", new DateTimeFieldFormat("startdate",
 					"Start Date & Time"));
+
 			put("typeid", "Related to");
 			put("durationinseconds", "Duration");
+
 			put("purpose", "Purpose");
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
-			put("description", "Description");
-			put("result", "Result");
+
+			put("description", "Description", true);
+
+			put("result", "Result", true);
 		}
 	}
 

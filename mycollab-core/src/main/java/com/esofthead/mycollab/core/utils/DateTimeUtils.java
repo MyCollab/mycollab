@@ -66,9 +66,20 @@ public class DateTimeUtils {
 	}
 
 	public static Date convertDateByString(String strDate, String format) {
-		if (strDate != null && !strDate.equals("") && format != null
-				&& !format.equals("")) {
-			SimpleDateFormat formatter = new SimpleDateFormat(format);
+		if (strDate != null && !strDate.equals("")) {
+			try {
+				SimpleDateFormat formatter = new SimpleDateFormat(format);
+				return formatter.parse(strDate);
+			} catch (ParseException e) {
+				log.error("Error while parse date", e);
+			}
+		}
+		return new Date();
+	}
+
+	public static Date convertDateByString(String strDate,
+			SimpleDateFormat formatter) {
+		if (strDate != null && !strDate.equals("")) {
 			try {
 				return formatter.parse(strDate);
 			} catch (ParseException e) {
@@ -76,6 +87,12 @@ public class DateTimeUtils {
 			}
 		}
 		return new Date();
+	}
+
+	public static String converToStringWithUserTimeZone(String dateVal,
+			String userTimeZone) {
+		Date date = convertDateByFormatW3C(dateVal);
+		return converToStringWithUserTimeZone(date, userTimeZone);
 	}
 
 	/**

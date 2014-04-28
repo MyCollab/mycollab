@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -37,13 +39,16 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -65,6 +70,9 @@ import com.hp.gagawa.java.elements.Img;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BugRelayEmailNotificationActionImpl extends
 		SendMailToFollowersAction implements BugRelayEmailNotificationAction {
+	private static Logger log = LoggerFactory
+			.getLogger(BugRelayEmailNotificationActionImpl.class);
+
 	@Autowired
 	private BugService bugService;
 	@Autowired
@@ -289,18 +297,23 @@ public class BugRelayEmailNotificationActionImpl extends
 	public static class BugFieldNameMapper extends ItemFieldMapper {
 
 		public BugFieldNameMapper() {
-			put("summary", "Bug Summary");
-			put("description", "Description");
-			put("status", "Status");
+			put("summary", "Bug Summary", true);
+			
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
-			put("resolution", "Resolution");
-			put("severity", "Serverity");
-			put("environment", "Environment");
-			put("priority", "Priority");
-			put("duedate", new DateFieldFormat("duedate", "Due Date"));
-			put("logby", new LogUserFieldFormat("logby", "Logged By"));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					"Milestone"));
+			
+			put("environment", "Environment", true);
+			put("description", "Description", true);
+			
+			put("status", "Status");
+			put("resolution", "Resolution");
+			
+			put("severity", "Serverity");
+			put("priority", "Priority");
+			
+			put("duedate", new DateFieldFormat("duedate", "Due Date"));
+			put("logby", new LogUserFieldFormat("logby", "Logged By"));
 		}
 	}
 
@@ -314,6 +327,9 @@ public class BugRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 
+			if (bug.getMilestoneid() == null || bug.getMilestoneName() == null) {
+				return "";
+			}
 			String milestoneIconLink = ProjectResources
 					.getResourceLink(ProjectTypeConstants.MILESTONE);
 			Img img = TagBuilder.newImg("icon", milestoneIconLink);
@@ -327,6 +343,34 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			try {
+				int milestoneId = Integer.parseInt(value);
+				MilestoneService milestoneService = ApplicationContextUtil
+						.getSpringBean(MilestoneService.class);
+				SimpleMilestone milestone = milestoneService.findById(
+						milestoneId, context.getUser().getAccountId());
+
+				if (milestone != null) {
+					String milestoneIconLink = ProjectResources
+							.getResourceLink(ProjectTypeConstants.MILESTONE);
+					Img img = TagBuilder.newImg("icon", milestoneIconLink);
+
+					String milestoneLink = ProjectLinkUtils
+							.generateMilestonePreviewFullLink(
+									context.getSiteUrl(),
+									milestone.getProjectid(), milestone.getId());
+					A link = TagBuilder
+							.newA(milestoneLink, milestone.getName());
+					return TagBuilder.newLink(img, link).write();
+				}
+			} catch (Exception e) {
+				log.error("Error", e);
+			}
+
 			return value;
 		}
 	}
@@ -353,6 +397,24 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}
@@ -378,6 +440,24 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 

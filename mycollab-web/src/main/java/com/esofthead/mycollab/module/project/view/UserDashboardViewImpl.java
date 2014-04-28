@@ -60,7 +60,7 @@ import com.vaadin.ui.themes.Reindeer;
  */
 @ViewComponent
 public class UserDashboardViewImpl extends AbstractPageView implements
-UserDashboardView {
+		UserDashboardView {
 	private static final long serialVersionUID = 1L;
 
 	private ButtonLink followingTicketsLink;
@@ -109,13 +109,12 @@ UserDashboardView {
 		headerContentTop.setSpacing(true);
 		headerContentTop.setMargin(new MarginInfo(false, false, true, false));
 		headerContentTop.addComponent(headerLabel);
-		headerContentTop.setComponentAlignment(headerLabel,
-				Alignment.TOP_LEFT);
+		headerContentTop.setComponentAlignment(headerLabel, Alignment.TOP_LEFT);
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			final Button createProjectBtn = new Button(
 					LocalizationHelper
-					.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
+							.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

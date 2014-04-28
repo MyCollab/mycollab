@@ -166,15 +166,19 @@ public class TaskRelayEmailNotificationActionImpl extends
 	public static class TaskFieldNameMapper extends ItemFieldMapper {
 
 		public TaskFieldNameMapper() {
-			put("subject", "Subject");
+			put("subject", "Subject", true);
+
 			put("status", "Status");
 			put("startdate", new DateFieldFormat("startdate", "Start Date"));
-			put("typeid", "Related To");
+
+			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
 			put("duedate", new DateFieldFormat("duedate", "Due Date"));
+
 			put("contactid", new ContactFieldFormat("contactid", "Contact"));
 			put("priority", "Priority");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
-			put("description", "Description");
+
+			put("typeid", "Related To", true);
+			put("description", "Description", true);
 		}
 	}
 
@@ -211,18 +215,22 @@ public class TaskRelayEmailNotificationActionImpl extends
 				SimpleContact contact = contactService.findById(contactId,
 						context.getUser().getAccountId());
 
-				String contactIconLink = CrmResources
-						.getResourceLink(CrmTypeConstants.CONTACT);
-				Img img = TagBuilder.newImg("icon", contactIconLink);
-				String contactLink = CrmLinkGenerator
-						.generateContactPreviewFullLink(context.getSiteUrl(),
-								contact.getId());
-				A link = TagBuilder.newA(contactLink, contact.getDisplayName());
-				return TagBuilder.newLink(img, link).write();
+				if (contact != null) {
+					String contactIconLink = CrmResources
+							.getResourceLink(CrmTypeConstants.CONTACT);
+					Img img = TagBuilder.newImg("icon", contactIconLink);
+					String contactLink = CrmLinkGenerator
+							.generateContactPreviewFullLink(
+									context.getSiteUrl(), contact.getId());
+					A link = TagBuilder.newA(contactLink,
+							contact.getDisplayName());
+					return TagBuilder.newLink(img, link).write();
+				}
 			} catch (Exception e) {
 				log.error("Error", e);
-				return value;
 			}
+
+			return value;
 		}
 
 	}

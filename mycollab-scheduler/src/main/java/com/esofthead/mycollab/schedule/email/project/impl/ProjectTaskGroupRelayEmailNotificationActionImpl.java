@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -34,18 +36,22 @@ import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 
@@ -60,6 +66,9 @@ import com.hp.gagawa.java.elements.Img;
 public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction implements
 		ProjectTaskGroupRelayEmailNotificationAction {
+
+	private static Logger log = LoggerFactory
+			.getLogger(ProjectTaskGroupRelayEmailNotificationActionImpl.class);
 
 	@Autowired
 	private ProjectTaskListService projectTaskListService;
@@ -183,11 +192,13 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		public ProjectFieldNameMapper() {
 
-			put("name", "Task Group Name");
+			put("name", "Task Group Name", true);
+
 			put("owner", new AssigneeFieldFormat("owner", "Owner"));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					"Milestone"));
-			put("description", "Description");
+
+			put("description", "Description", true);
 
 		}
 	}
@@ -214,6 +225,24 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			SimpleUser user = userService.findUserByUserNameInAccount(value,
+					context.getUser().getAccountId());
+			if (user != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(user.getAccountId()),
+						user.getUsername());
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				A link = TagBuilder.newA(userLink, user.getDisplayName());
+				return TagBuilder.newLink(img, link).write();
+			}
 			return value;
 		}
 	}
@@ -242,6 +271,34 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return "";
+			}
+
+			try {
+				int milestoneId = Integer.parseInt(value);
+				MilestoneService milestoneService = ApplicationContextUtil
+						.getSpringBean(MilestoneService.class);
+				SimpleMilestone milestone = milestoneService.findById(
+						milestoneId, context.getUser().getAccountId());
+
+				if (milestone != null) {
+					String milestoneIconLink = ProjectResources
+							.getResourceLink(ProjectTypeConstants.MILESTONE);
+					Img img = TagBuilder.newImg("icon", milestoneIconLink);
+
+					String milestoneLink = ProjectLinkUtils
+							.generateMilestonePreviewFullLink(
+									context.getSiteUrl(),
+									milestone.getProjectid(), milestone.getId());
+					A link = TagBuilder
+							.newA(milestoneLink, milestone.getName());
+					return TagBuilder.newLink(img, link).write();
+				}
+			} catch (Exception e) {
+				log.error("Error", e);
+			}
+
 			return value;
 		}
 

@@ -17,12 +17,12 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.module.crm.domain.Lead;
-import com.esofthead.mycollab.module.crm.ui.components.IndustryComboBox;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.IndustryComboBox;
 import com.esofthead.mycollab.vaadin.ui.PrefixNameComboBox;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;

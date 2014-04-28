@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.jetty;
 
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import com.esofthead.mycollab.servlet.SetupServlet;
 
 /**
  * 
@@ -33,6 +36,7 @@ public class CommunityServerRunner extends GenericServerRunner {
 		webAppContext.setClassLoader(Thread.currentThread()
 				.getContextClassLoader());
 		webAppContext.setResourceBase(baseDir);
+		webAppContext.addServlet(new ServletHolder(new SetupServlet()), "/setup");
 		return webAppContext;
 	}
 

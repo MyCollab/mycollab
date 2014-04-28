@@ -180,18 +180,24 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		public OpportunityFieldNameMapper() {
 			put("opportunityname", "Opportunity Name");
 			put("accountid", new AccountFieldFormat("accountid", "Account"));
+
 			put("currencyid", new CurrencyFieldFormat("currency", "Currency"));
 			put("expectedcloseddate", new DateFieldFormat("expectedcloseddate",
 					"Expected Close Date"));
+
 			put("amount", "Amount");
 			put("opportunitytype", "Type");
+
 			put("salesstage", "Sales Stage");
 			put("source", "Lead Source");
+
 			put("probability", "Probability (%)");
 			put("campaignid", new CampaignFieldFormat("campaignid", "Campaign"));
+
 			put("nextstep", "Next Step");
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
-			put("description", "Description");
+
+			put("description", "Description", true);
 		}
 	}
 
@@ -257,21 +263,22 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 				SimpleCampaign campaign = campaignService.findById(campaignId,
 						context.getUser().getAccountId());
 
-				String campaignIconLink = CrmResources
-						.getResourceLink(CrmTypeConstants.CAMPAIGN);
-				Img img = TagBuilder.newImg("icon", campaignIconLink);
+				if (campaign != null) {
+					String campaignIconLink = CrmResources
+							.getResourceLink(CrmTypeConstants.CAMPAIGN);
+					Img img = TagBuilder.newImg("icon", campaignIconLink);
 
-				String campaignLink = CrmLinkGenerator
-						.generateCampaignPreviewFullLink(context.getSiteUrl(),
-								campaign.getId());
-				A link = TagBuilder.newA(campaignLink,
-						campaign.getCampaignname());
-				return TagBuilder.newLink(img, link).write();
-
+					String campaignLink = CrmLinkGenerator
+							.generateCampaignPreviewFullLink(
+									context.getSiteUrl(), campaign.getId());
+					A link = TagBuilder.newA(campaignLink,
+							campaign.getCampaignname());
+					return TagBuilder.newLink(img, link).write();
+				}
 			} catch (Exception e) {
 				log.error("Error", e);
-				return value;
 			}
+			return value;
 		}
 	}
 

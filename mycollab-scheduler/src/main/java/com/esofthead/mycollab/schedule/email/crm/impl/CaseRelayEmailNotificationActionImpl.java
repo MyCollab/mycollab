@@ -170,18 +170,24 @@ public class CaseRelayEmailNotificationActionImpl extends
 	public static class CaseFieldNameMapper extends ItemFieldMapper {
 
 		public CaseFieldNameMapper() {
+			put("subject", "Subject", true);
+
+			put("description", "Description");
+			put("accountid", new AccountFieldFormat("accountid", "Account"));
+
 			put("priority", "Priority");
 			put("type", "Type");
+
 			put("status", "Status");
 			put("reason", "Reason");
-			put("accountid", new AccountFieldFormat("accountid", "Account"));
-			put("subject", "Subject");
+
 			put("phonenumber", "Phone");
 			put("email", "Email");
+
 			put("origin", "Origin");
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
-			put("description", "Description");
-			put("resolution", "Resolution");
+
+			put("resolution", "Resolution", true);
 		}
 	}
 
@@ -218,19 +224,22 @@ public class CaseRelayEmailNotificationActionImpl extends
 				SimpleAccount account = accountService.findById(accountId,
 						context.getUser().getAccountId());
 
-				String accountIconLink = CrmResources
-						.getResourceLink(CrmTypeConstants.ACCOUNT);
-				Img img = TagBuilder.newImg("avatar", accountIconLink);
+				if (account != null) {
+					String accountIconLink = CrmResources
+							.getResourceLink(CrmTypeConstants.ACCOUNT);
+					Img img = TagBuilder.newImg("avatar", accountIconLink);
 
-				String accountLink = CrmLinkGenerator
-						.generateAccountPreviewFullLink(context.getSiteUrl(),
-								account.getId());
-				A link = TagBuilder.newA(accountLink, account.getAccountname());
-				return TagBuilder.newLink(img, link).write();
+					String accountLink = CrmLinkGenerator
+							.generateAccountPreviewFullLink(
+									context.getSiteUrl(), account.getId());
+					A link = TagBuilder.newA(accountLink,
+							account.getAccountname());
+					return TagBuilder.newLink(img, link).write();
+				}
 			} catch (Exception e) {
 				log.error("Error", e);
-				return value;
 			}
+			return value;
 		}
 	}
 

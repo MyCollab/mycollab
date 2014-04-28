@@ -35,7 +35,6 @@ import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 
 /**
  * 
