@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-scheduler.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.schedule.jobs;
+package com.esofthead.mycollab.schedule.email.user.impl;
 
 import java.util.Arrays;
 import java.util.List;

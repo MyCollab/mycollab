@@ -18,7 +18,7 @@
     <bean id="sendInviteUserEmailJob"
         class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass"
-            value="com.esofthead.mycollab.schedule.jobs.SendUserInvitationEmailJob" />
+            value="com.esofthead.mycollab.schedule.email.user.impl.SendUserInvitationEmailJob" />
         <property name="durability" value="true" />
     </bean>
 
@@ -39,7 +39,7 @@
     <bean id="userSignUpNotificationEmailJob"
         class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass"
-            value="com.esofthead.mycollab.schedule.jobs.UserSignUpEmailNotificationJob"></property>
+            value="com.esofthead.mycollab.schedule.email.user.impl.UserSignUpEmailNotificationJob"></property>
         <property name="durability" value="true" />
     </bean>
 
@@ -47,20 +47,6 @@
         class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass"
             value="com.esofthead.mycollab.schedule.jobs.SendingErrorReportEmailJob" />
-        <property name="durability" value="true" />
-    </bean>
-
-    <bean id="sendAccountBillingEmailJob"
-        class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass"
-            value="com.esofthead.mycollab.schedule.jobs.BillingSendingNotificationJobs" />
-        <property name="durability" value="true" />
-    </bean>
-
-    <bean id="sendCountUserLoginByDateJob"
-        class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass"
-            value="com.esofthead.mycollab.schedule.jobs.SendingCountUserLoginByDateJob" />
         <property name="durability" value="true" />
     </bean>
 
@@ -101,18 +87,6 @@
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
-    <bean id="sendAccountBillingEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
-        <property name="jobDetail" ref="sendAccountBillingEmailJob" />
-        <property name="cronExpression" value="0 * * * * ?" />
-    </bean>
-
-    <bean id="sendingCountUserLoginByDateTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
-        <property name="jobDetail" ref="sendCountUserLoginByDateJob" />
-        <property name="cronExpression" value="0 0 0 * * ?" />
-    </bean>
-
     <bean id="quartzScheduler"
         class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
         depends-on="dbMigration">
@@ -146,9 +120,7 @@
                 <ref bean="crmSendRelayNotificationEmailJob" />
                 <ref bean="sendErrorReportEmailJob" />
                 <ref bean="sendInviteUserEmailJob" />
-                <ref bean="sendAccountBillingEmailJob" />
                 <ref bean="userSignUpNotificationEmailJob" />
-                <ref bean="sendCountUserLoginByDateJob" />
             </list>
         </property>
         <property name="triggers">
@@ -158,9 +130,7 @@
                 <ref bean="crmSendRelayNotificationEmailTrigger" />
                 <ref bean="sendErrorReportEmailTrigger" />
                 <ref bean="sendInviteUserEmailTrigger" />
-                <ref bean="sendAccountBillingEmailTrigger" />
                 <ref bean="userSignUpNotificationEmailTrigger" />
-                <ref bean="sendingCountUserLoginByDateTrigger" />
             </list>
         </property>
     </bean>

@@ -34,8 +34,8 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected String initFormTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return (beanItem.getAccountname() != null ? beanItem.getAccountname()
+				: "New Account");
 	}
 
 	@Override
@@ -63,8 +63,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new AccountEditFormFieldFactory<SimpleAccount>(editForm);
 	}
 
 }

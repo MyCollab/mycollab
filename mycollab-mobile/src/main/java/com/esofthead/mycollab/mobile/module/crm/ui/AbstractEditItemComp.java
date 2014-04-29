@@ -47,6 +47,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 	public AbstractEditItemComp() {
 		super();
 		this.editForm = new AdvancedEditBeanForm<B>();
+		this.editForm.setStyleName("editview-layout");
 		this.setContent(this.editForm);
 	}
 
@@ -56,6 +57,8 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.editForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
 		this.editForm.setBean(item);
+
+		this.setCaption(initFormTitle());
 	}
 
 	@Override

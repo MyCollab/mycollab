@@ -308,7 +308,7 @@
 	}
 	
 	/* Read View Layout */
-	.readview-layout {
+	.readview-layout, .editview-layout {
 		.h2 {
 			font-size: 1.5rem;
 			color: rgb(68, 68, 68);
@@ -322,6 +322,44 @@
 				background-color: rgb(246, 246, 246);
 			}
 		}
+	}
+	
+	/* Edit View Layout */
+	
+	.editview-layout {
+		input.v-textfield, .v-filterselect, .v-textarea {
+				border: 1px solid rgb(186, 186, 186);
+				border-radius: 0px;
+			}
+			
+			.v-filterselect-button {
+				font-family: 'icomoon';
+				speak: none;
+				font-style: normal;
+				font-weight: normal;
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+			}
+			
+			.v-filterselect-button:before {
+				font-family: 'icomoon';
+				content: "\e60c";
+				color: rgb(133, 133, 133);
+				padding-right: 5px;
+			}
+			
+			input {
+				border: none;
+			}
+	}
+	
+	/* Filterselect popup */
+	.v-filterselect-suggestpopup {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		border: 1px solid #CFCFCF
 	}
 	
 	/* Message Row */
