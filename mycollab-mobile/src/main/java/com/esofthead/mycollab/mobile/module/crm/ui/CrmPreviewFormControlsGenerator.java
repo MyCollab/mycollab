@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -31,6 +32,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class CrmPreviewFormControlsGenerator<T> {
+
 	public static int BACK_BTN_PRESENTED = 2;
 	public static int EDIT_BTN_PRESENTED = 4;
 	public static int DELETE_BTN_PRESENTED = 8;
@@ -83,6 +85,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
+
 					final T item = previewForm.getBean();
 					previewForm.fireCancelForm(item);
 				}
@@ -101,6 +104,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
+							closeParentPopover();
 							final T item = previewForm.getBean();
 							previewForm.fireEditForm(item);
 						}
@@ -118,6 +122,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
+							closeParentPopover();
 							final T item = previewForm.getBean();
 							previewForm.fireDeleteForm(item);
 						}
@@ -136,6 +141,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
+							closeParentPopover();
 							final T item = previewForm.getBean();
 							previewForm.fireCloneForm(item);
 						}
@@ -191,6 +197,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
+					closeParentPopover();
 					previewForm.showHistory();
 				}
 			});
@@ -204,5 +211,12 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		return editButtons;
+	}
+
+	private void closeParentPopover() {
+		if ((editButtons.getParent() != null)
+				&& (editButtons.getParent() instanceof Popover)) {
+			((Popover) editButtons.getParent()).close();
+		}
 	}
 }

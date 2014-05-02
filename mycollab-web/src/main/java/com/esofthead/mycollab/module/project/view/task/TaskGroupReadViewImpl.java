@@ -21,13 +21,11 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
-import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -62,7 +60,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TaskGroupReadViewImpl extends
-AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
+		AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,10 +70,10 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 
 	private TaskGroupHistoryLogList historyList;
 	private SplitButton taskListFilterControl;
-	
 
 	public TaskGroupReadViewImpl() {
-		super("Task Group",MyCollabResource.newResource("icons/22/project/task_group.png"));
+		super("Task Group", MyCollabResource
+				.newResource("icons/22/project/task_group.png"));
 	}
 
 	@Override
@@ -86,7 +84,8 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 	@Override
 	protected void initRelatedComponents() {
 		commentList = new CommentDisplay(CommentType.PRJ_TASK_LIST,
-				CurrentProjectVariables.getProjectId(), true, true, ProjectTaskGroupRelayEmailNotificationAction.class);
+				CurrentProjectVariables.getProjectId(), true, true,
+				ProjectTaskGroupRelayEmailNotificationAction.class);
 		commentList.setWidth("100%");
 		commentList.setMargin(true);
 
@@ -124,7 +123,7 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 	protected ComponentContainer createButtonControls() {
 		return (new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
 				previewForm)).createButtonControls(
-						ProjectRolePermissionCollections.TASKS, true);
+				ProjectRolePermissionCollections.TASKS, true);
 	}
 
 	@Override
@@ -166,62 +165,58 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 			final CssLayout componentHeader = new CssLayout();
 			componentHeader.setStyleName("comp-header");
 
+			final Button parentTaskListFilterButton = new Button(
+					"Active Tasks only", new Button.ClickListener() {
 
-			
-			
-						
-			final Button parentTaskListFilterButton = new Button("Active Tasks only", new Button.ClickListener() {
-				
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					taskListFilterControl.setPopupVisible(false);
-					SubTasksDisplayComp.this.displayActiveTasksOnly();
-				}
-				
-			}); 
-			
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							taskListFilterControl.setPopupVisible(false);
+							SubTasksDisplayComp.this.displayActiveTasksOnly();
+						}
+
+					});
+
 			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
 			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
-			taskListFilterControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
-		
+			taskListFilterControl.setWidth(Sizeable.SIZE_UNDEFINED,
+					Sizeable.Unit.PIXELS);
+
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
-			
+
 			filterBtnLayout.setWidth("120px");
-			
+
 			filterBtnLayout.setMargin(true);
 			filterBtnLayout.setSpacing(true);
 
 			final Button allTasksFilterBtn = new Button("All Tasks",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					taskListFilterControl.setPopupVisible(false);
-					taskListFilterControl.setCaption("All Tasks");
-					SubTasksDisplayComp.this.displayAllTasks();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							taskListFilterControl.setPopupVisible(false);
+							taskListFilterControl.setCaption("All Tasks");
+							SubTasksDisplayComp.this.displayAllTasks();
+						}
+					});
 			allTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(allTasksFilterBtn);
 
-
 			final Button activeTasksFilterBtn = new Button("Active Tasks Only",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					taskListFilterControl.setPopupVisible(false);
-					taskListFilterControl.setCaption("Active Tasks");
-					SubTasksDisplayComp.this.displayActiveTasksOnly();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							taskListFilterControl.setPopupVisible(false);
+							taskListFilterControl.setCaption("Active Tasks");
+							SubTasksDisplayComp.this.displayActiveTasksOnly();
+						}
+					});
 			activeTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(activeTasksFilterBtn);
-
 
 			final Button archievedTasksFilterBtn = new Button(
 					"Archieved Tasks Only", new Button.ClickListener() {
@@ -279,11 +274,14 @@ AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("milestoneid")) {
-					new FormLinkViewField(beanItem.getMilestoneName(),
-							ProjectLinkBuilder.generateMilestonePreviewFullLink(beanItem.getProjectid()
-									, beanItem.getMilestoneid()),
+					return new FormLinkViewField(
+							beanItem.getMilestoneName(),
+							ProjectLinkBuilder
+									.generateMilestonePreviewFullLink(
+											beanItem.getProjectid(),
+											beanItem.getMilestoneid()),
 							MyCollabResource
-									.newResourceLink("icons/16/crm/milestone.png"));
+									.newResourceLink("icons/16/project/milestone.png"));
 				} else if (propertyId.equals("owner")) {
 					return new ProjectUserFormLinkField(beanItem.getOwner(),
 							beanItem.getOwnerAvatarId(),

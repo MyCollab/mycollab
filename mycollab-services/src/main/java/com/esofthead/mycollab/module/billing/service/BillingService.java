@@ -25,6 +25,12 @@ import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.user.domain.BillingAccountWithOwners;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public interface BillingService extends IService {
 
 	void registerAccount(String subdomain, int billingPlanId, String username,

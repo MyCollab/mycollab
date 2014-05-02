@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -71,13 +70,13 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 								LocalizationHelper.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										LocalizationHelper
+								LocalizationHelper
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										LocalizationHelper
+								LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+								LocalizationHelper
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-										new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -86,11 +85,13 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 										if (dialog.isConfirmed()) {
 											final BugService bugService = ApplicationContextUtil
 													.getSpringBean(BugService.class);
-											bugService.removeWithSession(data.getId(),
+											bugService.removeWithSession(
+													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance().fireEvent(
-													new BugEvent.GotoList(this, null));
+													new BugEvent.GotoList(this,
+															null));
 										}
 									}
 								});
@@ -98,12 +99,10 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 
 					@Override
 					public void onClone(SimpleBug data) {
-						Component cloneData = (Component) data.copy();
+						SimpleBug cloneData = (SimpleBug) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance()
-						.fireEvent(
-								new BugEvent.GotoEdit(this,
-										cloneData));
+						EventBus.getInstance().fireEvent(
+								new BugEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override

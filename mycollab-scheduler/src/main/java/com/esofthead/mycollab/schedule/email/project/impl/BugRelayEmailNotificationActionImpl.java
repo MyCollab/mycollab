@@ -299,12 +299,13 @@ public class BugRelayEmailNotificationActionImpl extends
 		public BugFieldNameMapper() {
 			put("summary", "Bug Summary", true);
 			
+			put("environment", "Environment", true);
+			
+			put("description", "Description", true);
+			
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					"Milestone"));
-			
-			put("environment", "Environment", true);
-			put("description", "Description", true);
 			
 			put("status", "Status");
 			put("resolution", "Resolution");

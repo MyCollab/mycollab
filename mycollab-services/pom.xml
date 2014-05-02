@@ -106,16 +106,16 @@
                     <dependency>
                         <groupId>com.esofthead.mycollab</groupId>
                         <artifactId>mycollab-tool</artifactId>
-                        <version>3.0.0</version>
+                        <version>4.0.0</version>
                     </dependency>
                 </dependencies>
                 <executions>
                     <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
                         <overwrite>true</overwrite> </configuration> </execution> -->
-                    <!-- <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 
+                    <!--   <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution> -->
+                        <overwrite>true</overwrite> </configuration> </execution>--> 
                     <!-- <execution> <id>Common Artifacts Generator</id> 
                         <phase>validate</phase> <goals> <goal>generate</goal> </goals> <configuration> 
                         <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile> 

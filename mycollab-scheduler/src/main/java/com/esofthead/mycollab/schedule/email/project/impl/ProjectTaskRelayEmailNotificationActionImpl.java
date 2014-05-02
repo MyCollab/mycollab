@@ -112,8 +112,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		listOfTitles.add(taskCode);
 
 		String summary = task.getTaskname();
-		String summaryLink = ProjectLinkUtils.generateTaskPreviewLink(
-				task.getProjectid(), task.getId());
+		String summaryLink = ProjectLinkUtils.generateTaskPreviewFullLink(
+				siteUrl, task.getProjectid(), task.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());

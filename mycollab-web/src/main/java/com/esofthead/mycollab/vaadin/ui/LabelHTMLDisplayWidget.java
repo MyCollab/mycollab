@@ -35,8 +35,13 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 	private final Label lbDes;
 	private boolean hasShowLess;
 	private final String description;
-	private String pathIconPlus;
-	private String pathIconMinus;
+
+	private static String pathIconPlus = String.format(
+			"<img class='plus-btn' src=\"%s\">",
+			MyCollabResource.newResourceLink("icons/16/plus.png"));
+	private String pathIconMinus = String.format(
+			"<img class='plus-btn' src=\"%s\">",
+			MyCollabResource.newResourceLink("icons/16/minus.png"));
 	private static int NUM_CUT = 100;
 
 	public LabelHTMLDisplayWidget(String content) {
@@ -46,18 +51,16 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 		lbDes = new Label(description, ContentMode.HTML);
 		if (contentLabel != null && contentLabel.length() > NUM_CUT) {
 			hasShowLess = true;
-			pathIconPlus = " <img class='plus-btn' src=\"VAADIN/themes/mycollab/icons/16/plus.png\" />";
-			pathIconMinus = " <img class='plus-btn' src=\"VAADIN/themes/mycollab/icons/16/minus.png\" />";
 
 			contentLabel += " " + pathIconPlus;
 			lbDes.setValue(contentLabel);
 			lbDes.addStyleName(UIConstants.LABEL_CLICKABLE);
 		}
-	
+
 		lbDes.setDescription(description);
 		this.addComponent(lbDes);
 		this.addLayoutClickListener(new LayoutClickListener() {
-			
+
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
 				if (event.getClickedComponent() instanceof Label) {
@@ -65,8 +68,10 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 						if (hasShowLess) {
 							lbDes.setValue(description + " " + pathIconMinus);
 						} else {
-							lbDes.setValue(menuLinkGenerator.handleText(description)
-									+ " " + pathIconPlus);
+							lbDes.setValue(menuLinkGenerator
+									.handleText(description)
+									+ " "
+									+ pathIconPlus);
 						}
 						lbDes.setContentMode(ContentMode.HTML);
 						hasShowLess = !hasShowLess;
@@ -88,6 +93,5 @@ public class LabelHTMLDisplayWidget extends HorizontalLayout {
 		}
 
 	}
-	
-	
+
 }

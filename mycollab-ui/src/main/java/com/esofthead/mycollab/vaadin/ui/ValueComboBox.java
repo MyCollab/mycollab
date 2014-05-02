@@ -44,12 +44,12 @@ public class ValueComboBox extends ComboBox {
 		this.loadData(values);
 
 		this.select(this.getItemIds().iterator().next());
-		this.setPageLength(0);
+		this.setPageLength(20);
 	}
 
 	public ValueComboBox(boolean nullIsAllowable, Number... values) {
 		super();
-		this.setPageLength(0);
+		this.setPageLength(20);
 		this.setNullSelectionAllowed(nullIsAllowable);
 		this.setImmediate(true);
 		this.loadData(values);

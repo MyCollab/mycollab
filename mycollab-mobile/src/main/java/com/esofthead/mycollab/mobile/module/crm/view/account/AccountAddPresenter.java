@@ -16,16 +16,29 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.module.crm.domain.Account;
+import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.AccountService;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.EditFormHandler;
+import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
+import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 
@@ -34,6 +47,42 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 
 	public AccountAddPresenter() {
 		super(AccountAddView.class);
+	}
+
+	@Override
+	protected void postInitView() {
+		view.getEditFormHandlers().addFormHandler(
+				new EditFormHandler<SimpleAccount>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void onSave(final SimpleAccount account) {
+						saveAccount(account);
+
+						ViewState viewState = HistoryViewManager.back();
+						if (viewState instanceof NullViewState) {
+
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoList(this, null));
+						}
+					}
+
+					@Override
+					public void onCancel() {
+						ViewState viewState = HistoryViewManager.back();
+						if (viewState instanceof NullViewState) {
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoList(this, null));
+						}
+					}
+
+					@Override
+					public void onSaveAndNew(final SimpleAccount account) {
+						saveAccount(account);
+						EventBus.getInstance().fireEvent(
+								new AccountEvent.GotoAdd(this, null));
+					}
+				});
 	}
 
 	@Override
@@ -72,6 +121,33 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
+	}
+
+	public void saveAccount(Account account) {
+		AccountService accountService = ApplicationContextUtil
+				.getSpringBean(AccountService.class);
+
+		account.setSaccountid(AppContext.getAccountId());
+		if (account.getId() == null) {
+			accountService.saveWithSession(account, AppContext.getUsername());
+
+			if (account.getExtraData() != null
+					&& account.getExtraData() instanceof SimpleCampaign) {
+				CampaignAccount assoAccount = new CampaignAccount();
+				assoAccount.setAccountid(account.getId());
+				assoAccount.setCampaignid(((SimpleCampaign) account
+						.getExtraData()).getId());
+				assoAccount.setCreatedtime(new GregorianCalendar().getTime());
+
+				CampaignService campaignService = ApplicationContextUtil
+						.getSpringBean(CampaignService.class);
+				campaignService.saveCampaignAccountRelationship(
+						Arrays.asList(assoAccount), AppContext.getAccountId());
+			}
+		} else {
+			accountService.updateWithSession(account, AppContext.getUsername());
+		}
+
 	}
 
 }

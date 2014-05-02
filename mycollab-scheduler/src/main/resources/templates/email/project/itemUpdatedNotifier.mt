@@ -49,10 +49,10 @@
                     						$fieldFormat.DisplayName
                     					</td>
                     					<td valign="top" style="width: 250px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    						$item.oldvalue
+                    						$fieldFormat.formatField($context, $item.oldvalue)
                     					</td>
                     					<td valign="top" style="width: 250px ;word-wrap: break-word; white-space: normal; word-break: break-all; padding: 10px; border-width: 0px 0px 1px 1px; border-style: solid; border-color: rgb(211, 239, 253);">
-                    						$item.newvalue
+                    						$fieldFormat.formatField($context, $item.newvalue)
                     					</td>
                     				</tr>
                     				#end

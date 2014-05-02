@@ -88,16 +88,9 @@
     </bean>
 
     <bean id="quartzScheduler"
-        class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
-        depends-on="dbMigration">
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 
         <property name="configLocation" value="classpath:quartz.properties" />
-        <property name="dataSource" ref="dataSource" />
-        <property name="transactionManager" ref="txManager" />
-
-        <!-- This name is persisted as SCHED_NAME in db. for local testing 
-            could change to unique name to avoid collision with dev server -->
-        <property name="schedulerName" value="quartzScheduler" />
 
         <!-- Will update database cron triggers to what is in this jobs file 
             on each deploy. Replaces all previous trigger and job data that was in the 

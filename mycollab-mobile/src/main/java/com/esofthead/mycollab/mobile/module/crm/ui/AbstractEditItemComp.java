@@ -24,6 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
@@ -44,11 +45,27 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 	protected B beanItem;
 	protected AdvancedEditBeanForm<B> editForm;
 
+	private Button saveBtn;
+
 	public AbstractEditItemComp() {
 		super();
 		this.editForm = new AdvancedEditBeanForm<B>();
 		this.editForm.setStyleName("editview-layout");
 		this.setContent(this.editForm);
+
+		this.saveBtn = new Button("Done");
+		this.saveBtn.addStyleName("save-btn");
+		this.saveBtn.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = -5504095132334808021L;
+
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				if (editForm.validateForm())
+					editForm.fireSaveForm();
+			}
+		});
+
+		this.setRightComponent(this.saveBtn);
 	}
 
 	@Override
@@ -105,8 +122,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 	abstract protected Resource initFormIconResource();
 
 	abstract protected ComponentContainer createButtonControls();
-
-	abstract protected AdvancedEditBeanForm<B> initPreviewForm();
 
 	abstract protected IFormLayoutFactory initFormLayoutFactory();
 

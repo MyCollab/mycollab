@@ -195,8 +195,10 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 			put("name", "Task Group Name", true);
 
 			put("owner", new AssigneeFieldFormat("owner", "Owner"));
+			put("status", "Status");
+
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
-					"Milestone"));
+					"Milestone", true));
 
 			put("description", "Description", true);
 
@@ -249,8 +251,9 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 	public static class MilestoneFieldFormat extends FieldFormat {
 
-		public MilestoneFieldFormat(String fieldName, String displayName) {
-			super(fieldName, displayName);
+		public MilestoneFieldFormat(String fieldName, String displayName,
+				boolean isColSpan) {
+			super(fieldName, displayName, isColSpan);
 		}
 
 		@Override

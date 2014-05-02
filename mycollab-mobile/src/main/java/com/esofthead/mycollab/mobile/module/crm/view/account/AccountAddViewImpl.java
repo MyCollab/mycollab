@@ -22,7 +22,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
@@ -50,10 +49,10 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 		return null;
 	}
 
-	@Override
-	protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm() {
-		return new AdvancedEditBeanForm<SimpleAccount>();
-	}
+	/*
+	 * @Override protected AdvancedEditBeanForm<SimpleAccount> initPreviewForm()
+	 * { return new AdvancedEditBeanForm<SimpleAccount>(); }
+	 */
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
