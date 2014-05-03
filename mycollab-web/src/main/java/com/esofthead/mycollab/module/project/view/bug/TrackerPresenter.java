@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ComponentScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.VersionScreenData;
-import com.esofthead.mycollab.shell.BillingPlanCheckerContext;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
+import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -56,7 +56,7 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 
 		IPresenter<?> presenter = null;
 
-		if (BillingPlanCheckerContext.isBugComponentEnable()) {
+		if (AppContext.isBugComponentEnable()) {
 			if (ClassUtils.instanceOf(data, BugScreenData.Search.class,
 					BugScreenData.Add.class, BugScreenData.Edit.class,
 					BugScreenData.Read.class)) {
@@ -82,9 +82,6 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 				throw new MyCollabException("Do not support screen data "
 						+ data);
 			}
-		} else {
-			presenter = PresenterResolver
-					.getPresenter(BugAdvertisementPresenter.class);
 		}
 
 		presenter.go(view, data);

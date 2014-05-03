@@ -42,6 +42,7 @@ import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.esb.BeanProxyBuilder;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.dao.RolePermissionMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
@@ -94,6 +95,9 @@ public class UserServiceDBImpl extends
 	@Autowired
 	private UserAccountInvitationMapper userAccountInvitationMapper;
 
+	@Autowired
+	private BillingPlanCheckerService billingPlanCheckerService;
+
 	@Override
 	public ICrudGenericDAO getCrudMapper() {
 		return userMapper;
@@ -107,6 +111,8 @@ public class UserServiceDBImpl extends
 	@Override
 	public void saveUserAccount(SimpleUser record, Integer sAccountId,
 			String inviteUser) {
+		billingPlanCheckerService.validateAccountCanCreateNewUser(sAccountId);
+
 		// check if user email has already in this account yet
 		UserAccountExample userAccountEx = new UserAccountExample();
 

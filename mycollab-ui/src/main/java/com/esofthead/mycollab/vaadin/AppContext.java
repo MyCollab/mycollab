@@ -42,6 +42,8 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
+import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
+import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -287,6 +289,18 @@ public class AppContext implements Serializable {
 	 */
 	public static SimpleBillingAccount getBillingAccount() {
 		return getInstance().billingAccount;
+	}
+
+	public static boolean isBugComponentEnable() {
+		SimpleBillingAccount billingAccount = getBillingAccount();
+		return (billingAccount == null) ? false : billingAccount
+				.getBillingPlan().getHasbugenable();
+	}
+
+	public static boolean isStandupComponentEnable() {
+		SimpleBillingAccount billingAccount = getBillingAccount();
+		return (billingAccount == null) ? false : billingAccount
+				.getBillingPlan().getHasstandupmeetingenable();
 	}
 
 	/**

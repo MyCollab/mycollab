@@ -38,6 +38,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.esb.BeanProxyBuilder;
+import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
@@ -86,6 +87,9 @@ public class ProjectServiceImpl extends
 	@Autowired
 	private ProjectRoleService projectRoleService;
 
+	@Autowired
+	private BillingPlanCheckerService billingPlanCheckerService;
+
 	@Override
 	public ICrudGenericDAO<Integer, Project> getCrudMapper() {
 		return projectMapper;
@@ -98,6 +102,9 @@ public class ProjectServiceImpl extends
 
 	@Override
 	public int saveWithSession(Project record, String username) {
+		billingPlanCheckerService.validateAccountCanCreateMoreProject(record
+				.getSaccountid());
+
 		int projectid = super.saveWithSession(record, username);
 
 		// Add the first user to project

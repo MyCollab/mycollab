@@ -16,11 +16,14 @@
  */
 package com.esofthead.mycollab.module.ecm.service.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.esb.BeanProxyBuilder;
+import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction;
@@ -44,6 +48,8 @@ import com.esofthead.mycollab.module.file.service.RawContentService;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
+	private static Logger log = LoggerFactory
+			.getLogger(ResourceServiceImpl.class);
 
 	@Autowired
 	private ContentJcrDao contentJcrDao;
@@ -53,6 +59,9 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Autowired
 	private ContentActivityLogService contentActivityLogService;
+
+	@Autowired
+	private BillingPlanCheckerService billingPlanCheckerService;
 
 	@Override
 	public List<Resource> getResources(String path) {
@@ -97,6 +106,14 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	public void saveContent(Content content, String createdUser,
 			InputStream refStream, Integer sAccountId) {
+		try {
+			int available = refStream.available();
+			billingPlanCheckerService.validateAccountCanUploadMoreFiles(
+					sAccountId, available);
+		} catch (IOException e) {
+			log.error("Can not get available bytes", e);
+		}
+
 		// detect mimeType and set to content
 		String mimeType = MimeTypesUtil.detectMimeType(content.getPath());
 		content.setMimeType(mimeType);
