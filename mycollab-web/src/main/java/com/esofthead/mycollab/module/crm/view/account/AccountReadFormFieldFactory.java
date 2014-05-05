@@ -19,8 +19,8 @@ package com.esofthead.mycollab.module.crm.view.account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 
 /**

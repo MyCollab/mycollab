@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVBooleanFormatter;
@@ -30,6 +29,7 @@ import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class LeadImportWindow extends EntityImportWindow<SimpleLead> {
 				new FieldMapperDef("mobile", "Mobile"),
 				new FieldMapperDef("fax", "Fax"),
 				new FieldMapperDef("assignuser",
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
 				new FieldMapperDef("status", "Status"),
 				new FieldMapperDef("source", "Source"),

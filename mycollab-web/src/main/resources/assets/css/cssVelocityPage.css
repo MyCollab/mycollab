@@ -10,7 +10,7 @@ body {
 	width: 100%;
 }
 #body {
-	padding-bottom: 0;
+	padding-bottom: 40px;
 }
 
 #header {
@@ -50,11 +50,18 @@ h3 {
 	margin: 10px 0;
 }
 
+h4 {
+	font-size: 12px;
+	margin: 0;
+	font-weight: normal;
+}
 span {
 	font: 16px 'Georgia', sans-serif;
 	color:#FFFFFF;
 }
-
+a {
+	color: #05ecfa;
+}
 #spacing {
 	height: 60px;
 }
@@ -86,7 +93,6 @@ span {
 }
 
 #mainBody input[type="text"], #mainBody input[type="password"] {
-	width: 410px;
 	background: #FFFFFF;
 	border: 1px solid #BBB;
 	border-radius: 0px;
@@ -95,6 +101,11 @@ span {
 	color: #4a4a4a;
 	height: 35px;
 	font-size: 17px;
+}
+
+#mainBody input[type="checkbox"] {
+	width:20px;
+	height:20px;
 }
 
 #mainContent {
@@ -125,13 +136,16 @@ span {
 	color: #FFFFFF;
 	border-radius: 1px;
 	padding: 10px 8px 10px 8px;
-	width: 130px;
 	opacity: 0.9;
 	cursor: pointer;
 }
 
 .v-button-orangebtn {
 	background-color: #EB7F0C;
+}
+
+.v-button-greenbtn {
+	background-color: #7EDA62;
 }
 
 .v-button-graybtn {

@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project;
 
+import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.vaadin.MyCollabSession.PROJECT_MEMBER;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,8 +36,6 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_PROJECT;
-import static com.esofthead.mycollab.vaadin.MyCollabSession.PROJECT_MEMBER;
 
 ;
 

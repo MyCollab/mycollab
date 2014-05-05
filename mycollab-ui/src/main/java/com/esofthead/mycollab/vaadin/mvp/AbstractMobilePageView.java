@@ -16,20 +16,22 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
-import com.vaadin.ui.ComponentContainer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
+import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Ltd.
@@ -40,10 +42,11 @@ public abstract class AbstractMobilePageView extends MobileNavigationView implem
 	private static final long serialVersionUID = 1L;
 	
 	private static Logger log = LoggerFactory.getLogger(AbstractPageView.class);
-    public static String SAVE_ACTION = "Save";
+    public static String SAVE_ACTION = AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
     public static String SAVE_AND_NEW_ACTION = "Save & New";
     public static String EDIT_ACTION = "Edit";
-    public static String CANCEL_ACTION = "Cancel";
+	public static String CANCEL_ACTION = AppContext
+			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
     public static String DELETE_ACTION = "Delete";
     public static String CLONE_ACTION = "Clone";
     private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> map;

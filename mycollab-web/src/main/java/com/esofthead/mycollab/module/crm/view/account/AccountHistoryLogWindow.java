@@ -17,9 +17,9 @@
 
 package com.esofthead.mycollab.module.crm.view.account;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -33,7 +33,7 @@ class AccountHistoryLogWindow extends HistoryLogWindow {
 		super(module, type);
 
 		this.generateFieldDisplayHandler("accountname", "Account Name");
-		this.generateFieldDisplayHandler("phoneoffice", LocalizationHelper
+		this.generateFieldDisplayHandler("phoneoffice", AppContext
 				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
 		this.generateFieldDisplayHandler("website", "Website");
 		this.generateFieldDisplayHandler("fax", "Fax");

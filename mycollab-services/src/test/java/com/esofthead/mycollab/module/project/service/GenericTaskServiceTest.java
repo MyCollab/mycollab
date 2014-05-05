@@ -53,57 +53,40 @@ public class GenericTaskServiceTest extends ServiceTest {
 
 	@DataSet
 	@Test
-	public void testCountTaskOverDue() {
-		Date d = null;
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		try {
-			d = df.parse("2014-01-23 10:49:49");
-
-		} catch (ParseException e) {
-			System.out.println("Unable to parse ");
-		}
-
-		ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
-		criteria.setProjectId(new NumberSearchField(1));
-		criteria.setSaccountid(new NumberSearchField(1));
-		Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
+	public void testCountTaskOverDue() throws ParseException {
+		
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date d = df.parse("2014-01-23 10:49:49");
+			ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
+			criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+			criteria.setProjectId(new NumberSearchField(1));
+			criteria.setSaccountid(new NumberSearchField(1));
+			Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
 	}
 
 	@DataSet
 	@Test
-	public void testListTaskOverDue() {
+	public void testListTaskOverDue() throws ParseException {
 
-		Date d = null;
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		try {
-			d = df.parse("2014-01-23 10:49:49");
 
-		} catch (ParseException e) {
-			System.out.println("Unable to parse ");
-		}
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date d = df.parse("2014-01-23 10:49:49");
+			
+			ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
+			criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+			criteria.setProjectId(new NumberSearchField(1));
+			criteria.setSaccountid(new NumberSearchField(1));
+			List<ProjectGenericTask> taskList = genericTaskService
+					.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+							criteria, 0, Integer.MAX_VALUE));
 
-		ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
-		criteria.setProjectId(new NumberSearchField(1));
-		criteria.setSaccountid(new NumberSearchField(1));
-		List<ProjectGenericTask> taskList = genericTaskService
-				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
+			ProjectGenericTask task = taskList.get(0);
+			Assert.assertEquals(2, taskList.size());
+			
+			
+			Date d2 = df.parse("2013-01-23 10:49:49");
+			Assert.assertEquals(d2, task.getDueDate());
 
-		ProjectGenericTask task = taskList.get(0);
-		Assert.assertEquals(2, taskList.size());
-		Assert.assertEquals("problem a", task.getName());
-
-		Date d2 = null;
-
-		try {
-			d2 = df.parse("2013-01-23 10:49:49");
-
-		} catch (ParseException e) {
-			System.out.println("Unable to parse ");
-		}
-
-		Assert.assertEquals(d2, task.getDueDate());
+		
 	}
 }

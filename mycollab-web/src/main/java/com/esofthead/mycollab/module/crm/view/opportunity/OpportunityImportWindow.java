@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVDateFormatter;
@@ -30,6 +29,7 @@ import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 public class OpportunityImportWindow extends
 		EntityImportWindow<SimpleOpportunity> {
@@ -53,7 +53,7 @@ public class OpportunityImportWindow extends
 				new FieldMapperDef("nextstep", "Next Step"),
 				new FieldMapperDef("probability", "Probability"),
 				new FieldMapperDef("assignuser",
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
 				new FieldMapperDef("opportunitytype", "Opportunity Type"),
 				new FieldMapperDef("salesstage", "Sales Stage"),

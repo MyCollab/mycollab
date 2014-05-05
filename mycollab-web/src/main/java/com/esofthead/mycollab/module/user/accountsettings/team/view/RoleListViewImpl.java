@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -133,7 +132,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 		layout.addComponent(this.selectOptionButton);
 
 		final Button deleteBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_DELETE));
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
 		deleteBtn.setEnabled(AppContext
 				.canAccess(RolePermissionCollections.ACCOUNT_ROLE));
 

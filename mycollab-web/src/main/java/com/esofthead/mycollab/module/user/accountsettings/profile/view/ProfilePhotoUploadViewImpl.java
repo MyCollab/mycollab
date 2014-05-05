@@ -30,7 +30,6 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
@@ -108,7 +107,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setSizeUndefined();
 
 		Button cancelBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 
@@ -124,7 +123,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
 		Button acceptBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_ACCEPT_LABEL),
 				new Button.ClickListener() {
 

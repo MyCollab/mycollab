@@ -23,7 +23,6 @@ import java.util.List;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -85,7 +84,7 @@ public class ContactListPresenter
 						if ("mail".equals(id)) {
 							if (isSelectAll) {
 								NotificationUtil
-										.showWarningNotification(LocalizationHelper
+										.showWarningNotification(AppContext
 												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 
 							} else {
@@ -105,7 +104,7 @@ public class ContactListPresenter
 
 						} else if ("massUpdate".equals(id)) {
 							MassUpdateContactWindow massUpdateWindow = new MassUpdateContactWindow(
-									LocalizationHelper
+									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 													"Contact"),
@@ -121,7 +120,7 @@ public class ContactListPresenter
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 
 			searchCriteria = (ContactSearchCriteria) data.getParams();
@@ -133,7 +132,7 @@ public class ContactListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/contact/list", LocalizationHelper
+			AppContext.addFragment("crm/contact/list", AppContext
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Contact"));
 		} else {

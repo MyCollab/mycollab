@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -104,7 +104,7 @@ public class MassUpdateCampaignWindow extends
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 
 			if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, LocalizationHelper
+				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 0);
 			}
 			if (propertyId.equals("status")) {

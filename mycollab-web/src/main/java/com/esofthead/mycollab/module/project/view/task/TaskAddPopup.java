@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.task;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -85,7 +84,7 @@ class TaskAddPopup extends CustomComponent {
 		this.taskContainer = new TabSheet();
 		final TaskInputForm taskInputForm = new TaskInputForm();
 		taskInputForm.setWidth("100%");
-		this.taskContainer.addTab(taskInputForm, LocalizationHelper
+		this.taskContainer.addTab(taskInputForm, AppContext
 				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
@@ -97,7 +96,7 @@ class TaskAddPopup extends CustomComponent {
 		controlsLayout.setSpacing(true);
 
 		final Button cancelBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -114,7 +113,7 @@ class TaskAddPopup extends CustomComponent {
 				.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
 		final Button saveBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -201,7 +200,7 @@ class TaskAddPopup extends CustomComponent {
 			} else if (propertyId.equals("priority")) {
 				this.informationLayout.addComponent(field, "Priority", 1, 3);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, LocalizationHelper
+				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
 			} else if (propertyId.equals("percentagecomplete")) {
 				this.informationLayout.addComponent(field, "Complete(%)", 1, 4);

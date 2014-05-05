@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVBooleanFormatter;
@@ -33,6 +32,7 @@ import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -62,7 +62,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 				new FieldMapperDef("leadsource", "Leader Source"),
 				new FieldMapperDef(
 						"officephone",
-						LocalizationHelper
+						AppContext
 								.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD)),
 				new FieldMapperDef("mobile", "Mobile"),
 				new FieldMapperDef("homephone", "Home Phone"),
@@ -73,7 +73,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 				new FieldMapperDef("iscallable", "Callable",
 						new CSVBooleanFormatter()),
 				new FieldMapperDef("assignuser",
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
 				new FieldMapperDef("primaddress", "Address"),
 				new FieldMapperDef("primcity", "City"),

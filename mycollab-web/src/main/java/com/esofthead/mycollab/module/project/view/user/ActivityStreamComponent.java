@@ -31,7 +31,6 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
@@ -159,7 +158,7 @@ public class ActivityStreamComponent extends CssLayout {
 					String arg10 = idUserStickyToolTipDiv;
 					String arg11 = idUserToopTipDiv;
 					String arg12 = idDivUserSeverData;
-					String arg13 = LocalizationHelper
+					String arg13 = AppContext
 							.getMessage(ProjectLocalizationTypeMap
 									.getType(activityStream.getType()));
 					String arg14 = ProjectResources
@@ -189,7 +188,7 @@ public class ActivityStreamComponent extends CssLayout {
 
 					if (ActivityStreamConstants.ACTION_CREATE
 							.equals(activityStream.getAction())) {
-						content = LocalizationHelper
+						content = AppContext
 								.getMessage(
 										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
 										arg0, arg1, arg2, arg3, arg4, arg5,
@@ -200,7 +199,7 @@ public class ActivityStreamComponent extends CssLayout {
 										arg27, arg28, arg29, arg30);
 					} else if (ActivityStreamConstants.ACTION_UPDATE
 							.equals(activityStream.getAction())) {
-						content = LocalizationHelper
+						content = AppContext
 								.getMessage(
 										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
 										arg0, arg1, arg2, arg3, arg4, arg5,

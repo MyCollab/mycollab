@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -103,7 +103,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 			} else if (propertyId.equals("reason")) {
 				this.informationLayout.addComponent(field, "Reason", 1, 2);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, LocalizationHelper
+				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 3,
 						2, "297px", Alignment.TOP_LEFT);
 			} else {

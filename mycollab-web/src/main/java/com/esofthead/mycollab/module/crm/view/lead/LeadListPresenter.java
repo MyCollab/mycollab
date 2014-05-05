@@ -23,7 +23,6 @@ import java.util.List;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -74,7 +73,7 @@ public class LeadListPresenter extends
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
 								NotificationUtil
-										.showWarningNotification(LocalizationHelper
+										.showWarningNotification(AppContext
 												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
@@ -96,7 +95,7 @@ public class LeadListPresenter extends
 						} else if (MassItemActionHandler.MASS_UPDATE_ACTION
 								.equals(id)) {
 							MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(
-									LocalizationHelper
+									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 													"Lead"),
@@ -122,7 +121,7 @@ public class LeadListPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 
 			searchCriteria = (LeadSearchCriteria) data.getParams();
@@ -135,7 +134,7 @@ public class LeadListPresenter extends
 			}
 
 			AppContext.addFragment("crm/lead/list",
-					LocalizationHelper.getMessage(
+					AppContext.getMessage(
 							GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Lead"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

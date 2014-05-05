@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
@@ -73,14 +72,14 @@ CrmGenericPresenter<AssignmentReadView> {
 					public void onDelete(final SimpleTask data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
-								LocalizationHelper.getMessage(
+								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
@@ -161,7 +160,7 @@ CrmGenericPresenter<AssignmentReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleTask task = null;
 			if (data.getParams() instanceof Integer) {
@@ -180,7 +179,7 @@ CrmGenericPresenter<AssignmentReadView> {
 			super.onGo(container, data);
 			view.previewItem(task);
 			AppContext.addFragment(CrmLinkGenerator
-					.generateTaskPreviewLink(task.getId()), LocalizationHelper
+					.generateTaskPreviewLink(task.getId()), AppContext
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Task", task.getSubject()));
 

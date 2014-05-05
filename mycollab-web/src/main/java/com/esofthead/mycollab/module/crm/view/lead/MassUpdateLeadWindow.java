@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.Lead;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -115,7 +115,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 			} else if (propertyId.equals("status")) {
 				this.informationLayout.addComponent(field, "Status", 0, 2);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, LocalizationHelper
+				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 2);
 			} else if (propertyId.equals("primcity")) {
 				this.addressLayout.addComponent(field, "City", 0, 0);

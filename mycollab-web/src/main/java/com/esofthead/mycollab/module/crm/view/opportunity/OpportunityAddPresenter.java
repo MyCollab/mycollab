@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
@@ -98,7 +97,7 @@ public class OpportunityAddPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER));
 
 			SimpleOpportunity opportunity = null;
@@ -119,7 +118,7 @@ public class OpportunityAddPresenter extends
 
 			if (opportunity.getId() == null) {
 				AppContext.addFragment("crm/opportunity/add",
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Opportunity"));
 			} else {
@@ -128,7 +127,7 @@ public class OpportunityAddPresenter extends
 								"crm/opportunity/edit/"
 										+ UrlEncodeDecoder.encode(opportunity
 												.getId()),
-								LocalizationHelper.getMessage(
+								AppContext.getMessage(
 										GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 										"Opportunity",
 										opportunity.getOpportunityname()));

@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
@@ -96,7 +95,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER));
 
 			SimpleCampaign campaign = null;
@@ -117,14 +116,14 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 			view.editItem(campaign);
 
 			if (campaign.getId() == null) {
-				AppContext.addFragment("crm/campaign/add", LocalizationHelper
+				AppContext.addFragment("crm/campaign/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Campaign"));
 			} else {
 				AppContext.addFragment(
 						"crm/campaign/edit/"
 								+ UrlEncodeDecoder.encode(campaign.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Campaign", campaign.getCampaignname()));
 			}

@@ -36,7 +36,6 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -236,7 +235,7 @@ public class ActivityStreamPanel extends CssLayout {
 					String arg10 = idUserStickyToolTipDiv;
 					String arg11 = idUserToopTipDiv;
 					String arg12 = idDivUserSeverData;
-					String arg13 = LocalizationHelper
+					String arg13 = AppContext
 							.getMessage(CrmLocalizationTypeMap
 									.getType(activityStream.getType()));
 					String arg14 = CrmResources.getResourceLink(activityStream
@@ -257,7 +256,7 @@ public class ActivityStreamPanel extends CssLayout {
 					String arg26 = idToopTipDiv;
 					String arg27 = idDivSeverData;
 					StringBuffer content = new StringBuffer(
-							LocalizationHelper.getMessage(action, arg0, arg1,
+							AppContext.getMessage(action, arg0, arg1,
 									arg2, arg3, arg4, arg5, arg6, arg7, arg8,
 									arg9, arg10, arg11, arg12, arg13, arg14,
 									arg15, arg16, arg17, arg18, arg19, arg20,

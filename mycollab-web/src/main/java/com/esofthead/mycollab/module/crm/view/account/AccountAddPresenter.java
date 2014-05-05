@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
@@ -97,7 +96,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_ACCOUNT)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
 
 			SimpleAccount account = null;
@@ -117,7 +116,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 			super.onGo(container, data);
 			view.editItem(account);
 			if (account.getId() == null) {
-				AppContext.addFragment("crm/account/add", LocalizationHelper
+				AppContext.addFragment("crm/account/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Account"));
 
@@ -125,7 +124,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 				AppContext.addFragment(
 						"crm/account/edit/"
 								+ UrlEncodeDecoder.encode(account.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Account", account.getAccountname()));
 			}

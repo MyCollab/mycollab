@@ -21,7 +21,6 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -29,6 +28,7 @@ import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -49,7 +49,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 	private TaskSearchCriteria searchCriteria;
 
 	public UnresolvedTaskByAssigneeWidget() {
-		super(LocalizationHelper
+		super(AppContext
 				.getMessage(BugI18nEnum.UNRESOLVED_BY_ASSIGNEE_WIDGET_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);

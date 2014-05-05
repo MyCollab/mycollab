@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
@@ -70,7 +69,7 @@ public class OpportunitySimpleSearchPanel extends
 						"Name",
 						"Account Name",
 						"Sales Stage",
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
 		group.select("Name");
 		group.setImmediate(true);
@@ -86,7 +85,7 @@ public class OpportunitySimpleSearchPanel extends
 					addTextFieldSearch();
 				} else if (searchType.equals("Sales Stage")) {
 					addTextFieldSearch();
-				} else if (searchType.equals(LocalizationHelper
+				} else if (searchType.equals(AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))) {
 					addUserListSelectField();
 				}

@@ -18,10 +18,10 @@ package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -83,7 +83,7 @@ public class CrmActivityStreamGenerator {
 	private static class AccountAuditLogShowHandler extends AuditLogShowHandler {
 		public AccountAuditLogShowHandler() {
 			this.generateFieldDisplayHandler("accountname", "Account Name");
-			this.generateFieldDisplayHandler("phoneoffice", LocalizationHelper
+			this.generateFieldDisplayHandler("phoneoffice", AppContext
 					.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
 			this.generateFieldDisplayHandler("website", "Website");
 			this.generateFieldDisplayHandler("fax", "Fax");
@@ -121,7 +121,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("assistantphone",
 					"Assistant Phone");
 			this.generateFieldDisplayHandler("leadsource", "Leade Source");
-			this.generateFieldDisplayHandler("officephone", LocalizationHelper
+			this.generateFieldDisplayHandler("officephone", AppContext
 					.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
 			this.generateFieldDisplayHandler("mobile", "Mobile");
 			this.generateFieldDisplayHandler("homephone", "Home Phone");
@@ -129,7 +129,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("birthday", "Birthday",
 					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("iscallable", "Callable");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("primaddress", "Address");
 			this.generateFieldDisplayHandler("primcity", "City");
@@ -163,7 +163,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("actualcost", "Actual Cost");
 			this.generateFieldDisplayHandler("expectedrevenue",
 					"Expected Revenue");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("description", "Description");
 		}
@@ -187,7 +187,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("fax", "Fax");
 			this.generateFieldDisplayHandler("website", "Web Site");
 			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("primaddress", "Address");
 			this.generateFieldDisplayHandler("primcity", "City");
@@ -221,7 +221,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("opportunitytype", "Type");
 			this.generateFieldDisplayHandler("source", "Lead Source");
 			this.generateFieldDisplayHandler("campaignid", "Campaign");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("description", "Description");
 		}
@@ -238,7 +238,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("reason", "Reason");
 			this.generateFieldDisplayHandler("subject", "Subject");
 			this.generateFieldDisplayHandler("email", "Email");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("description", "Description");
 			this.generateFieldDisplayHandler("resolution", "Resolution");
@@ -266,7 +266,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("duedate", "Due Date",
 					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("priority", "Priority");
 			this.generateFieldDisplayHandler("description", "Description");
@@ -278,7 +278,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("subject", "Subject");
 			this.generateFieldDisplayHandler("startdate", "Start Date",
 					AuditLogShowHandler.DATETIME_FIELD);
-			this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+			this.generateFieldDisplayHandler("assignuser", AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			this.generateFieldDisplayHandler("status", "Status");
 			this.generateFieldDisplayHandler("purpose", "Purpose");

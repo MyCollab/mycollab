@@ -28,6 +28,8 @@ import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.cal10n.IMessageConveyor;
+
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
@@ -42,8 +44,6 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
-import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
-import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -98,6 +98,8 @@ public class AppContext implements Serializable {
 	 * you have two different account ids in system may cause abnormal issues
 	 */
 	private Integer accountId = null;
+
+	private IMessageConveyor messageHelper;
 
 	public AppContext() {
 		MyCollabSession.putVariable("context", this);
@@ -160,8 +162,28 @@ public class AppContext implements Serializable {
 		userPreference = userPref;
 		billingAccount = billingAc;
 
+		setLanguage();
+
 		TimeZone timezone = getTimezoneInContext();
 		MyCollabSession.putVariable(USER_TIMEZONE, timezone);
+	}
+
+	private void setLanguage() {
+		String language = session.getLanguage();
+		messageHelper = LocalizationHelper.getMessageConveyor(language);
+	}
+
+	public static String getMessage(Enum key) {
+		try {
+			return getInstance().messageHelper.getMessage(key);
+		} catch (Exception e) {
+			log.error("Can not find resource key {}", key);
+			return "Undefined";
+		}
+	}
+
+	public static String getMessage(Enum key, Object... objects) {
+		return getInstance().messageHelper.getMessage(key, objects);
 	}
 
 	/**
@@ -186,7 +208,7 @@ public class AppContext implements Serializable {
 		BillingAccount account = billingService.getAccountByDomain(domain);
 
 		if (account == null) {
-			throw new SubDomainNotExistException(LocalizationHelper.getMessage(
+			throw new SubDomainNotExistException(AppContext.getMessage(
 					WebExceptionI18nEnum.SUB_DOMAIN_IS_NOT_EXISTED, domain));
 		} else {
 			log.debug("Get billing account {} of subdomain {}",

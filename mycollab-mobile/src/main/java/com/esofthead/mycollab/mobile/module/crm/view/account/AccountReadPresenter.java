@@ -34,7 +34,6 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
@@ -79,14 +78,14 @@ public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
 					public void onDelete(final SimpleAccount data) {
 						/*
 						 * ConfirmDialogExt.show( UI.getCurrent(),
-						 * LocalizationHelper.getMessage(
+						 * AppContext.getMessage(
 						 * GenericI18Enum.DELETE_DIALOG_TITLE,
-						 * SiteConfiguration.getSiteName()), LocalizationHelper
+						 * SiteConfiguration.getSiteName()), AppContext
 						 * .getMessage(GenericI18Enum.
 						 * CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						 * LocalizationHelper
+						 * AppContext
 						 * .getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						 * LocalizationHelper
+						 * AppContext
 						 * .getMessage(GenericI18Enum.BUTTON_NO_LABEL), new
 						 * ConfirmDialog.Listener() { private static final long
 						 * serialVersionUID = 1L;
@@ -174,7 +173,7 @@ public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
 					view.previewItem(account);
 					AppContext.addFragment(CrmLinkGenerator
 							.generateAccountPreviewLink(account.getId()),
-							LocalizationHelper.getMessage(
+							AppContext.getMessage(
 									GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 									"Account", account.getAccountname()));
 				} else {

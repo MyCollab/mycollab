@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
@@ -72,14 +71,14 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 					public void onDelete(final SimpleCall data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
-								LocalizationHelper.getMessage(
+								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
@@ -160,7 +159,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleCall call = null;
 			if (data.getParams() instanceof Integer) {
@@ -180,7 +179,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 
 			view.previewItem(call);
 			AppContext.addFragment(CrmLinkGenerator
-					.generateCallPreviewLink(call.getId()), LocalizationHelper
+					.generateCallPreviewLink(call.getId()), AppContext
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Call", call.getSubject()));
 		} else {

@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.TaskList;
@@ -108,7 +107,7 @@ public class AssignTaskGroupWindow extends Window {
 				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
-				Button cancelBtn = new Button("Cancel",
+				Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -183,7 +182,7 @@ public class AssignTaskGroupWindow extends Window {
 			@Override
 			public boolean attachField(Object propertyId, Field<?> field) {
 				if (propertyId.equals("owner")) {
-					informationLayout.addComponent(field, LocalizationHelper
+					informationLayout.addComponent(field, AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
 							0);
 				} else if (propertyId.equals("comment")) {

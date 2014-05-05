@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -58,7 +58,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field, "Description", 0, 1, 2,
 					"100%");
 		} else if (propertyId.equals("owner")) {
-			this.informationLayout.addComponent(field, LocalizationHelper
+			this.informationLayout.addComponent(field, AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 2);
 		} else if (propertyId.equals("milestoneid")) {
 			this.informationLayout.addComponent(field, "Related Milestone", 1,

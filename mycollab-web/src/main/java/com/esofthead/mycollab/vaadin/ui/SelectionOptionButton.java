@@ -19,7 +19,6 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.SelectionOptionHandler;

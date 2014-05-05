@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
@@ -110,7 +109,7 @@ public class ApproveInputWindow extends Window {
 				layout.addComponent(controlsBtn);
 
 				final Button cancelBtn = new Button(
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -195,7 +194,7 @@ public class ApproveInputWindow extends Window {
 					this.informationLayout
 							.addComponent(
 									field,
-									LocalizationHelper
+									AppContext
 											.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 									0, 0);
 				} else if (propertyId.equals("comment")) {

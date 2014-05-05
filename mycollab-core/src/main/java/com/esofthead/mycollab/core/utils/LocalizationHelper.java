@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.core.utils;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +36,42 @@ import ch.qos.cal10n.MessageConveyor;
 public class LocalizationHelper {
 	private static Logger log = LoggerFactory
 			.getLogger(LocalizationHelper.class);
+
+	public static final String ENGLISH = "English";
+	public static final String JAPANESE = "Japanese";
+	public static final String SPANISH = "Spanish";
+
+	public static final String[] SUPPORTED_LANGUAGE = { ENGLISH, JAPANESE,
+			SPANISH };
+
+	private static final Map<String, IMessageConveyor> languageMap;
+
+	static {
+		languageMap = new HashMap<String, IMessageConveyor>();
+		languageMap.put(ENGLISH, new MessageConveyor(Locale.US));
+		languageMap.put(JAPANESE, new MessageConveyor(Locale.JAPAN));
+		languageMap.put(SPANISH, new MessageConveyor(new Locale("es", "ES")));
+	}
+
+	public static IMessageConveyor getMessageConveyor(String language) {
+		if (language == null) {
+			return languageMap.get(ENGLISH);
+		} else {
+			IMessageConveyor messageConveyor = languageMap.get(language);
+			if (messageConveyor == null) {
+				return languageMap.get(ENGLISH);
+			}
+
+			return messageConveyor;
+		}
+	}
+
 	// LOCALIZATION
-	private static IMessageConveyor mc = new MessageConveyor(Locale.US);
+	private static IMessageConveyor english = new MessageConveyor(Locale.US);
 
 	public static String getMessage(Enum key) {
 		try {
-			return mc.getMessage(key);
+			return english.getMessage(key);
 		} catch (Exception e) {
 			log.error("Can not find resource key {}", key);
 			return "Undefined";
@@ -47,6 +79,6 @@ public class LocalizationHelper {
 	}
 
 	public static String getMessage(Enum key, Object... objects) {
-		return mc.getMessage(key, objects);
+		return english.getMessage(key, objects);
 	}
 }

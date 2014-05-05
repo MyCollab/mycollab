@@ -24,7 +24,6 @@ import javax.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
@@ -70,7 +69,7 @@ public class ContactInfoChangeWindow extends Window {
 				.getSpringBean(LocalValidatorFactoryBean.class);
 		this.initUI();
 		this.center();
-		this.setCaption(LocalizationHelper
+		this.setCaption(AppContext
 				.getMessage(UserI18nEnum.CHANGE_CONTACT_INFO_WINDOW_TITLE));
 	}
 
@@ -121,7 +120,7 @@ public class ContactInfoChangeWindow extends Window {
 		hlayoutControls.setSpacing(true);
 		hlayoutControls.setMargin(true);
 		final Button cancelBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -138,7 +137,7 @@ public class ContactInfoChangeWindow extends Window {
 				Alignment.MIDDLE_CENTER);
 
 		final Button sendBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

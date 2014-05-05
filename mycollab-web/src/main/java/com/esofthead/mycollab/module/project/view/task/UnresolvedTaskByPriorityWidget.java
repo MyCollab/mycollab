@@ -20,7 +20,6 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -30,6 +29,7 @@ import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.vaadin.server.ExternalResource;
@@ -51,7 +51,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 	private TaskSearchCriteria searchCriteria;
 
 	public UnresolvedTaskByPriorityWidget() {
-		super(LocalizationHelper
+		super(AppContext
 				.getMessage(BugI18nEnum.UNRESOLVED_BY_PRIORITY_WIDGET_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);

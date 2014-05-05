@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -150,7 +149,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	private HorizontalLayout createHeaderRight() {
 		final HorizontalLayout layout = new HorizontalLayout();
 
-		this.createBtn.setCaption(LocalizationHelper
+		this.createBtn.setCaption(AppContext
 				.getMessage(TaskI18nEnum.NEW_PHASE_ACTION));
 		this.createBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -211,7 +210,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(),
 				milestone.getOwnerAvatarId(), milestone.getOwnerFullName(),
 				false, true));
-		layoutHelper.addComponent(linkWrapper, LocalizationHelper
+		layoutHelper.addComponent(linkWrapper, AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 2,
 				Alignment.MIDDLE_LEFT);
 

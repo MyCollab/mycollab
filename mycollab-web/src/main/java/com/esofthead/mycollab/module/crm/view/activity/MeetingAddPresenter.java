@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
@@ -90,7 +89,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			MeetingWithBLOBs meeting = null;
 			if (data.getParams() instanceof MeetingWithBLOBs) {
@@ -112,13 +111,13 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 
 			if (meeting.getId() == null) {
 				AppContext.addFragment("crm/activity/meeting/add/",
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Meeting"));
 			} else {
 				AppContext.addFragment("crm/activity/meeting/edit/"
 						+ UrlEncodeDecoder.encode(meeting.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Meeting", meeting.getSubject()));
 			}

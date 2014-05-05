@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -90,7 +89,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 		layout.setComponentAlignment(componenttitle, Alignment.MIDDLE_LEFT);
 
 		final Button createBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
+				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

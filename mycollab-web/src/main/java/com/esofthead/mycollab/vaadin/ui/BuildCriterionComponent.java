@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -171,7 +172,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		queryTextField.setWidth("125px");
 		filterBox.addComponent(queryTextField);
 
-		Button saveBtn = new Button("Save", new Button.ClickListener() {
+		Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -184,7 +185,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 		filterBox.addComponent(saveBtn);
 
-		Button cancelBtn = new Button("Cancel", new Button.ClickListener() {
+		Button cancelBtn = new Button(
+				AppContext
+						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

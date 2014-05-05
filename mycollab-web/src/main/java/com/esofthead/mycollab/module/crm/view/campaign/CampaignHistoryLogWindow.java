@@ -18,8 +18,8 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -46,7 +46,7 @@ class CampaignHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("expectedcost", "Expected Cost");
 		this.generateFieldDisplayHandler("actualcost", "Actual Cost");
 		this.generateFieldDisplayHandler("expectedrevenue", "Expected Revenue");
-		this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+		this.generateFieldDisplayHandler("assignuser", AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		this.generateFieldDisplayHandler("description", "Description");
 	}

@@ -18,8 +18,8 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -73,10 +73,10 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("priority")) {
 			this.informationLayout.addComponent(field, "Priority", 1, 3);
 		} else if (propertyId.equals("assignuser")) {
-			this.informationLayout.addComponent(field, LocalizationHelper
+			this.informationLayout.addComponent(field, AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
 		} else if (propertyId.equals("tasklistid")) {
-			this.informationLayout.addComponent(field, LocalizationHelper
+			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD), 1, 4);
 		} else if (propertyId.equals("percentagecomplete")) {
 			this.informationLayout.addComponent(field, "Complete(%)", 0, 5, 2,

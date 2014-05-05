@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -35,7 +35,7 @@ public class FollowingTicketFieldDef {
 			"projectName", UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField assignee = new TableViewField(
-			LocalizationHelper.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+			AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 			"assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField createdDate = new TableViewField(

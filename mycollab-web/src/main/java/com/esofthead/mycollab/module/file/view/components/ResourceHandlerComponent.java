@@ -34,7 +34,6 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -382,12 +381,12 @@ public class ResourceHandlerComponent extends VerticalLayout {
 	}
 
 	protected void deleteResourceAction() {
-		ConfirmDialogExt.show(UI.getCurrent(), LocalizationHelper.getMessage(
+		ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
 				GenericI18Enum.DELETE_DIALOG_TITLE,
-				SiteConfiguration.getSiteName()), LocalizationHelper
+				SiteConfiguration.getSiteName()), AppContext
 				.getMessage(GenericI18Enum.DELETE_SINGLE_ITEM_DIALOG_MESSAGE),
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 				new ConfirmDialog.Listener() {
 					private static final long serialVersionUID = 1L;
 
@@ -973,7 +972,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
-			final Button save = new Button("Save", new ClickListener() {
+			final Button save = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1036,7 +1035,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
 
-			final Button cancel = new Button("Cancel", new ClickListener() {
+			final Button cancel = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1088,7 +1087,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.setMargin(new MarginInfo(true, false, false, false));
 
 			final Button saveBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -1158,7 +1157,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -1276,7 +1275,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.addComponent(uploadBtn);
 
 			final Button cancelBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

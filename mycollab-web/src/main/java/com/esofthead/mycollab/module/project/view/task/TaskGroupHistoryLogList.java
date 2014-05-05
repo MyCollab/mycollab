@@ -19,10 +19,10 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.ui.components.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -39,7 +39,7 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 
 		this.generateFieldDisplayHandler("name", "Name");
 		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("owner", LocalizationHelper
+		this.generateFieldDisplayHandler("owner", AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid", "Related Milestone",

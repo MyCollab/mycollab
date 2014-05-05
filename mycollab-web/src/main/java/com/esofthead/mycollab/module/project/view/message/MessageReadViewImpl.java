@@ -25,7 +25,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -153,14 +152,14 @@ public class MessageReadViewImpl extends AbstractPageView implements
 				public void buttonClick(ClickEvent event) {
 					ConfirmDialogExt.show(
 							UI.getCurrent(),
-							LocalizationHelper.getMessage(
+							AppContext.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;

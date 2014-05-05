@@ -32,7 +32,6 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.SecurityException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -109,7 +108,7 @@ public class DesktopApplication extends UI {
 				UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
 						e, UserInvalidInputException.class);
 				if (invalidException != null) {
-					NotificationUtil.showWarningNotification(LocalizationHelper
+					NotificationUtil.showWarningNotification(AppContext
 							.getMessage(
 									GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
 									invalidException.getMessage()));
@@ -125,16 +124,16 @@ public class DesktopApplication extends UI {
 							if (AppContext.isAdmin()) {
 								ConfirmDialogExt.show(
 										UI.getCurrent(),
-										LocalizationHelper
+										AppContext
 												.getMessage(
 														GenericI18Enum.ATTENTION_WINDOW_TITLE,
 														SiteConfiguration
 																.getSiteName()),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 										new ConfirmDialog.Listener() {
 											private static final long serialVersionUID = 1L;
@@ -160,12 +159,12 @@ public class DesktopApplication extends UI {
 
 							} else {
 								NotificationUtil
-										.showErrorNotification(LocalizationHelper
+										.showErrorNotification(AppContext
 												.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
 							}
 						} else {
 							log.error("Error", e);
-							NotificationUtil.showErrorNotification(LocalizationHelper
+							NotificationUtil.showErrorNotification(AppContext
 									.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
 						}
 

@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
@@ -93,7 +92,7 @@ CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity
 				|| AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			searchCriteria = (ActivitySearchCriteria) data.getParams();

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -90,7 +89,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 		layout.addComponent(this.selectOptionButton);
 
 		final Button deleteBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_DELETE));
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
 		deleteBtn.setEnabled(AppContext
 				.canAccess(RolePermissionCollections.CRM_ACCOUNT));
 
@@ -127,7 +126,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 	@Override
 	public void enableActionControls(final int numOfSelectedItems) {
 		this.tableActionControls.setVisible(true);
-		this.selectedItemsNumberLabel.setValue(LocalizationHelper
+		this.selectedItemsNumberLabel.setValue(AppContext
 				.getMessage(CrmCommonI18nEnum.TABLE_SELECTED_ITEM_TITLE,
 						numOfSelectedItems));
 	}

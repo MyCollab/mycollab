@@ -49,6 +49,7 @@ public class TemplateEngine {
 		toolManager.configure(config);
 
 		voEngine = ApplicationContextUtil.getSpringBean(VelocityEngine.class);
+		
 		voEngine.init();
 
 	}

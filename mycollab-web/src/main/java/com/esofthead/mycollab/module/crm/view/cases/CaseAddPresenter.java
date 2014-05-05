@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
@@ -91,7 +90,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
 
 			SimpleCase cases = null;
@@ -111,14 +110,14 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 			view.editItem(cases);
 
 			if (cases.getId() == null) {
-				AppContext.addFragment("crm/cases/add", LocalizationHelper
+				AppContext.addFragment("crm/cases/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Case"));
 			} else {
 				AppContext.addFragment(
 						"crm/cases/edit/"
 								+ UrlEncodeDecoder.encode(cases.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Case",
 								cases.getSubject()));
 			}

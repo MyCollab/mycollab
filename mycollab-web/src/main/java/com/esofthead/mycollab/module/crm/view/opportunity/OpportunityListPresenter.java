@@ -22,7 +22,6 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -76,7 +75,7 @@ implements MassUpdateCommand<Opportunity> {
 							UI.getCurrent().addWindow(new MailFormWindow());
 						} else if ("massUpdate".equals(id)) {
 							MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
-									LocalizationHelper
+									AppContext
 									.getMessage(
 											GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 											"Opportunity"),
@@ -102,7 +101,7 @@ implements MassUpdateCommand<Opportunity> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER));
 
 			searchCriteria = (OpportunitySearchCriteria) data.getParams();
@@ -114,7 +113,7 @@ implements MassUpdateCommand<Opportunity> {
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/opportunity/list", LocalizationHelper
+			AppContext.addFragment("crm/opportunity/list", AppContext
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Opportunitie"));
 		} else {

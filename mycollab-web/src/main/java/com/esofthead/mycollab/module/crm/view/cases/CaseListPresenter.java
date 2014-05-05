@@ -23,7 +23,6 @@ import java.util.List;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -75,7 +74,7 @@ public class CaseListPresenter extends
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
 								NotificationUtil
-										.showWarningNotification(LocalizationHelper
+										.showWarningNotification(AppContext
 												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
@@ -94,7 +93,7 @@ public class CaseListPresenter extends
 						} else if (MassItemActionHandler.MASS_UPDATE_ACTION
 								.equals(id)) {
 							MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
-									LocalizationHelper
+									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 													"Case"),
@@ -120,7 +119,7 @@ public class CaseListPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
 
 			searchCriteria = (CaseSearchCriteria) data.getParams();
@@ -133,7 +132,7 @@ public class CaseListPresenter extends
 			}
 
 			AppContext.addFragment("crm/cases/list",
-					LocalizationHelper.getMessage(
+					AppContext.getMessage(
 							GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Case"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

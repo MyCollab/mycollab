@@ -26,6 +26,7 @@ import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
@@ -406,7 +407,9 @@ public class NoteListItems extends VerticalLayout {
 			controls.addComponent(emptySpace);
 			controls.setExpandRatio(emptySpace, 1.0f);
 
-			final Button cancelBtn = new Button("Cancel",
+			final Button cancelBtn = new Button(
+					AppContext
+							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

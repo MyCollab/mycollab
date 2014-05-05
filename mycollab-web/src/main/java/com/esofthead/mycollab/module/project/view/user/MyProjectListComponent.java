@@ -21,7 +21,6 @@ import java.util.List;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -66,7 +65,7 @@ public class MyProjectListComponent extends Depot {
 	private ProjectPagedList projectList;
 
 	public MyProjectListComponent() {
-		super(LocalizationHelper
+		super(AppContext
 				.getMessage(ProjectCommonI18nEnum.MY_PROJECTS_TITLE),
 				new VerticalLayout());
 

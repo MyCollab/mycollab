@@ -23,7 +23,6 @@ import java.util.List;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -87,7 +86,7 @@ public class AccountListPresenter
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
 								NotificationUtil
-										.showWarningNotification(LocalizationHelper
+										.showWarningNotification(AppContext
 												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
@@ -106,7 +105,7 @@ public class AccountListPresenter
 						} else if (MassItemActionHandler.MASS_UPDATE_ACTION
 								.equals(id)) {
 							MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
-									LocalizationHelper
+									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 													"Account"),
@@ -148,7 +147,7 @@ public class AccountListPresenter
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
 			
 			searchCriteria = (AccountSearchCriteria) data.getParams();
@@ -161,7 +160,7 @@ public class AccountListPresenter
 			}
 
 
-			AppContext.addFragment("crm/account/list", LocalizationHelper
+			AppContext.addFragment("crm/account/list", AppContext
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Account"));
 		} else {

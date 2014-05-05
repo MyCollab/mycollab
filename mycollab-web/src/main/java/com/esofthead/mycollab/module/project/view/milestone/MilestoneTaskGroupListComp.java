@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -32,6 +31,7 @@ import com.esofthead.mycollab.module.project.view.task.TaskDisplayWidget;
 import com.esofthead.mycollab.module.project.view.task.TaskGroupAddWindow;
 import com.esofthead.mycollab.module.project.view.task.TaskGroupDisplayView;
 import com.esofthead.mycollab.module.project.view.task.TaskGroupDisplayWidget;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
@@ -71,7 +71,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 			mainLayout.setWidth("100%");
 
 			Button newTaskListBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -90,7 +90,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 					.canWrite(ProjectRolePermissionCollections.TASKS));
 			newTaskListBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/new_task_list.png"));
-			newTaskListBtn.setDescription(LocalizationHelper
+			newTaskListBtn.setDescription(AppContext
 					.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
 			newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			mainLayout.addComponent(newTaskListBtn);

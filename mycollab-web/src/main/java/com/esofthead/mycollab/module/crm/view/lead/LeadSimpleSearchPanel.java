@@ -21,7 +21,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
@@ -70,7 +69,7 @@ public class LeadSimpleSearchPanel extends
 						"Name",
 						"Email",
 						"Phone",
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
 		group.select("Name");
 		group.setImmediate(true);
@@ -87,7 +86,7 @@ public class LeadSimpleSearchPanel extends
 					addTextFieldSearch();
 				} else if (searchType.equals("Phone")) {
 					addTextFieldSearch();
-				} else if (searchType.equals(LocalizationHelper
+				} else if (searchType.equals(AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))) {
 					addUserListSelectField();
 				}

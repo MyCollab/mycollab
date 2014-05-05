@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel.SearchLayout;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -75,7 +75,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 		buttonControls.setSpacing(true);
 		buttonControls.setMargin(true);
 		final Button searchBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_SEARCH),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -89,7 +89,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 
 		final Button clearBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -102,7 +102,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
 
 		final Button basicSearchBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;

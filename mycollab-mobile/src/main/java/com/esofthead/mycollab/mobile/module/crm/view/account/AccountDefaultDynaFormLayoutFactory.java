@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.EmailDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.IntDynaFieldBuilder;
@@ -29,6 +28,7 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.mobile.module.crm.localization.AccountI18nEnum;
 import com.esofthead.mycollab.mobile.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 		accountSection.addField(new TextDynaFieldBuilder()
 				.fieldName("accountname")
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME))
 				.customField(false).fieldIndex(0).mandatory(true)
 				.required(true).build());
@@ -57,7 +57,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.addField(new TextDynaFieldBuilder()
 						.fieldName("phoneoffice")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD))
 						.customField(false).fieldIndex(1).build());
 
@@ -65,7 +65,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("website")
 				.fieldIndex(2)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_WEBSITE))
 				.customField(false).build());
 
@@ -74,7 +74,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldName("fax")
 						.fieldIndex(3)
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_FAX))
 						.customField(false).build());
 
@@ -82,7 +82,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("numemployees")
 				.fieldIndex(4)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_EMPLOYEES))
 				.customField(false).build());
 
@@ -90,7 +90,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("alternatephone")
 				.fieldIndex(5)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_OTHER_PHONE))
 				.customField(false).build());
 
@@ -98,7 +98,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("industry")
 				.fieldIndex(6)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_INDUSTRY))
 				.customField(false).build());
 
@@ -106,15 +106,15 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("email")
 				.fieldIndex(7)
 				.displayName(
-						LocalizationHelper
-								.getMessage(AccountI18nEnum.FORM_EMAIL))
+						AppContext
+.getMessage(AccountI18nEnum.FORM_EMAIL))
 				.customField(false).build());
 
 		accountSection.addField(new PickListDynaFieldBuilder<String>()
 				.fieldName("type")
 				.fieldIndex(8)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_TYPE))
 				.customField(false).build());
 
@@ -122,7 +122,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("ownership")
 				.fieldIndex(9)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
 				.customField(false).build());
 
@@ -131,7 +131,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldName("assignuser")
 						.fieldIndex(10)
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
 						.customField(false).build());
 
@@ -140,7 +140,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldName("annualrevenue")
 						.fieldIndex(11)
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE))
 						.customField(false).build());
 
@@ -155,7 +155,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(0)
 						.fieldName("billingaddress")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS))
 						.customField(false).build());
 		addressSection
@@ -163,14 +163,14 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(1)
 						.fieldName("shippingaddress")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS))
 						.customField(false).build());
 		addressSection.addField(new TextDynaFieldBuilder()
 				.fieldIndex(2)
 				.fieldName("city")
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(AccountI18nEnum.FORM_BILLING_CITY))
 				.customField(false).build());
 
@@ -179,7 +179,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(3)
 						.fieldName("shippingcity")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY))
 						.customField(false).build());
 
@@ -188,7 +188,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(4)
 						.fieldName("state")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_STATE))
 						.customField(false).build());
 
@@ -197,7 +197,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(5)
 						.fieldName("shippingstate")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE))
 						.customField(false).build());
 
@@ -206,7 +206,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(6)
 						.fieldName("postalcode")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE))
 						.customField(false).build());
 
@@ -215,7 +215,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(7)
 						.fieldName("shippingpostalcode")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE))
 						.customField(false).build());
 
@@ -224,7 +224,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(8)
 						.fieldName("billingcountry")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_BILLING_COUNTRY))
 						.customField(false).build());
 
@@ -233,7 +233,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(9)
 						.fieldName("shippingcountry")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(AccountI18nEnum.FORM_SHIPPING_COUNTRY))
 						.customField(false).build());
 
@@ -249,7 +249,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("description")
 				.customField(false)
 				.displayName(
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.FORM_DESCRIPTION))
 				.build());
 		defaultForm.addSection(descSection);

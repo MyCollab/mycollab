@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -70,7 +69,7 @@ public class TaskGroupAddWindow extends Window {
 
 	public TaskGroupAddWindow(final TaskGroupDisplayView taskView,
 			final SimpleTaskList taskList) {
-		super(LocalizationHelper.getMessage(TaskI18nEnum.NEW_TASKGROUP_TITLE));
+		super(AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_TITLE));
 		this.taskView = taskView;
 		this.taskList = taskList;
 		this.initUI();
@@ -134,7 +133,7 @@ public class TaskGroupAddWindow extends Window {
 				layout.setMargin(true);
 				layout.setStyleName("control-buttons");
 				final Button saveBtn = new Button(
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -156,7 +155,7 @@ public class TaskGroupAddWindow extends Window {
 				layout.addComponent(saveBtn);
 
 				final Button saveAndNewBtn = new Button(
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_SAVE_NEW_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -178,7 +177,7 @@ public class TaskGroupAddWindow extends Window {
 				layout.addComponent(saveAndNewBtn);
 
 				final Button cancelBtn = new Button(
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
@@ -238,7 +237,7 @@ public class TaskGroupAddWindow extends Window {
 					this.informationLayout
 							.addComponent(
 									field,
-									LocalizationHelper
+									AppContext
 											.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 									0, 2);
 				} else if (propertyId.equals("milestoneid")) {

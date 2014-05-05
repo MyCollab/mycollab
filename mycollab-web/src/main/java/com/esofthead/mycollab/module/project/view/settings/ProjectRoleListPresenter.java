@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
@@ -97,7 +96,7 @@ public class ProjectRoleListPresenter
 								.getIssystemrole() == Boolean.FALSE)) {
 					keyList.add(item.getId());
 				} else {
-					NotificationUtil.showErrorNotification(LocalizationHelper
+					NotificationUtil.showErrorNotification(AppContext
 							.getMessage(
 									PeopleI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
 									item.getRolename()));

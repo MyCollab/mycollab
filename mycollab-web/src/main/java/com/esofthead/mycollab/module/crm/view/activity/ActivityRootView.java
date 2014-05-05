@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
@@ -126,7 +125,7 @@ public class ActivityRootView extends AbstractPageView {
 
 	public void gotoCalendar() {
 		com.vaadin.ui.Component calendarComp = activityTabs
-				.selectTab(LocalizationHelper
+				.selectTab(AppContext
 						.getMessage(ActivityI18nEnum.CALENDAR_TAB_TITLE));
 
 		if (calendarComp != null) {
@@ -139,7 +138,7 @@ public class ActivityRootView extends AbstractPageView {
 	}
 
 	public void gotoActivityList() {
-		Component activityList = activityTabs.selectTab(LocalizationHelper
+		Component activityList = activityTabs.selectTab(AppContext
 				.getMessage(ActivityI18nEnum.ACTIVITY_LIST_TAB_TITLE));
 
 		if (activityList != null) {

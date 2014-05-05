@@ -24,7 +24,6 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Resource;
@@ -202,16 +201,16 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 											.setPopupVisible(false);
 									ConfirmDialogExt.show(
 											UI.getCurrent(),
-											LocalizationHelper
+											AppContext
 													.getMessage(
 															GenericI18Enum.DELETE_DIALOG_TITLE,
 															SiteConfiguration
 																	.getSiteName()),
-											LocalizationHelper
+											AppContext
 													.getMessage(GenericI18Enum.DELETE_SINGLE_ITEM_DIALOG_MESSAGE),
-											LocalizationHelper
+											AppContext
 													.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-											LocalizationHelper
+											AppContext
 													.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 											new ConfirmDialog.Listener() {
 												private static final long serialVersionUID = 1L;
@@ -409,7 +408,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
-			final Button save = new Button("Save", new ClickListener() {
+			final Button save = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -438,7 +437,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 
 			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
 
-			final Button cancel = new Button("Cancel", new ClickListener() {
+			final Button cancel = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override

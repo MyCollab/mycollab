@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
@@ -44,7 +43,7 @@ CrmGenericPresenter<ActivityCalendarView> {
 		super.onGo(container, data);
 
 		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-		crmToolbar.gotoItem(LocalizationHelper
+		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 		AppContext.addFragment("crm/activity/calendar", "Activity Calendar");

@@ -26,7 +26,7 @@ import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -51,14 +51,14 @@ public class BugResolutionSummaryChartWidget extends
 
 	public BugResolutionSummaryChartWidget(int width, int height) {
 		super(
-				LocalizationHelper
+				AppContext
 						.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), width,
 				height);
 	}
 
 	public BugResolutionSummaryChartWidget() {
 		super(
-				LocalizationHelper
+				AppContext
 						.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), 400,
 				280);
 

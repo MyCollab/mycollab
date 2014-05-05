@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
@@ -91,7 +90,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CALL)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			CallWithBLOBs call = null;
 
@@ -116,12 +115,12 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 
 			if (call.getId() == null) {
 				AppContext.addFragment("crm/activity/call/add/",
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Call"));
 			} else {
 				AppContext.addFragment("crm/activity/call/edit/"
 						+ UrlEncodeDecoder.encode(call.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Call",
 								call.getSubject()));
 			}

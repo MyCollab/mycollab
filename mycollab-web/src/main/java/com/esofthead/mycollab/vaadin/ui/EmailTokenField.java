@@ -24,9 +24,9 @@ import org.vaadin.tokenfield.TokenField;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.EmailValidator;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.utils.ParsingUtils;
 import com.esofthead.mycollab.utils.ParsingUtils.InvalidEmailException;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -95,7 +95,7 @@ public class EmailTokenField extends TokenField {
 					super.onTokenInput(token);
 				} else {
 					NotificationUtil
-							.showWarningNotification(LocalizationHelper
+							.showWarningNotification(AppContext
 									.getMessage(GenericI18Enum.WARNING_NOT_VALID_EMAIL));
 				}
 			}

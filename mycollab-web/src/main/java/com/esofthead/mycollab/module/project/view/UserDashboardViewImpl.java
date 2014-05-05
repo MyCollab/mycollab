@@ -23,7 +23,6 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
 import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
@@ -113,7 +112,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			final Button createProjectBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

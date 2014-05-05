@@ -26,15 +26,14 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.ContactCase;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -86,14 +85,14 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					public void onDelete(final SimpleCase data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
-								LocalizationHelper.getMessage(
+								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-								LocalizationHelper
+								AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-								LocalizationHelper
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								LocalizationHelper
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
@@ -237,7 +236,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
 
 			if (data.getParams() instanceof Integer) {
@@ -251,7 +250,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
 					AppContext.addFragment(CrmLinkGenerator
 							.generateCasePreviewLink(cases.getId()),
-							LocalizationHelper.getMessage(
+							AppContext.getMessage(
 									GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 									"Case", cases.getSubject()));
 				} else {

@@ -26,7 +26,6 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -440,7 +439,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		popupButtonsControl.addComponent(createProblemBtn);
 
 		Button editProjectBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(ProjectCommonI18nEnum.EDIT_PROJECT_ACTION),
 				new Button.ClickListener() {
 					@Override
@@ -460,7 +459,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.PROJECT)) {
 			Button deleteProjectBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(ProjectCommonI18nEnum.DELETE_PROJECT_ACTION),
 					new Button.ClickListener() {
 						@Override
@@ -468,14 +467,14 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 							controlsBtn.setPopupVisible(false);
 							ConfirmDialogExt.show(
 									UI.getCurrent(),
-									LocalizationHelper.getMessage(
+									AppContext.getMessage(
 											GenericI18Enum.DELETE_DIALOG_TITLE,
 											SiteConfiguration.getSiteName()),
-									LocalizationHelper
+									AppContext
 											.getMessage(ProjectCommonI18nEnum.CONFIRM_PROJECT_DELETE_MESSAGE),
-									LocalizationHelper
+									AppContext
 											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									LocalizationHelper
+									AppContext
 											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;

@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.setting;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.CrmNotificationSetting;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
@@ -42,7 +41,7 @@ public class CrmNotifcationSettingPresenter extends
 		settingContainer.gotoSubView("Notifications");
 
 		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-		crmToolbar.gotoItem(LocalizationHelper
+		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER));
 
 		CrmNotificationSettingService service = ApplicationContextUtil

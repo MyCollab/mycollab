@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 
@@ -30,11 +32,13 @@ import com.vaadin.ui.Field;
 public class GenericBeanForm<B> extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
-	public static String SAVE_ACTION = "Save";
+	public static String SAVE_ACTION = AppContext
+			.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
 	public static String SAVE_AND_NEW_ACTION = "Save & New";
 	public static String ASSIGN_ACTION = "Assign";
 	public static String EDIT_ACTION = "Edit";
-	public static String CANCEL_ACTION = "Cancel";
+	public static String CANCEL_ACTION = SAVE_ACTION = AppContext
+			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
 	public static String DELETE_ACTION = "Delete";
 	public static String CLONE_ACTION = "Clone";
 

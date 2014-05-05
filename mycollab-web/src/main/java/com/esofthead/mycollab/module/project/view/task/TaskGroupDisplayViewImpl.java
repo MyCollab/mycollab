@@ -23,7 +23,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.resource.ExportTaskListStreamResource;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -38,6 +37,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -208,7 +208,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		filterBtnLayout.setWidth("200px");
 
 		final Button allTasksFilterBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -217,7 +217,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 					public void buttonClick(final ClickEvent event) {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
-						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
+						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
 								.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.displayAllTaskGroups();
 					}
@@ -226,7 +226,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		filterBtnLayout.addComponent(allTasksFilterBtn);
 
 		final Button activeTasksFilterBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -235,7 +235,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 					public void buttonClick(final ClickEvent event) {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
-						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
+						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
 								.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.displayActiveTaskGroups();
 					}
@@ -244,14 +244,14 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		filterBtnLayout.addComponent(activeTasksFilterBtn);
 
 		final Button archievedTasksFilterBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(LocalizationHelper
+						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
 								.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
@@ -265,7 +265,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.taskGroupSelection.setContent(filterBtnLayout);
 
 		final Button newTaskListBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -281,7 +281,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		newTaskListBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		newTaskListBtn.setDescription(LocalizationHelper
+		newTaskListBtn.setDescription(AppContext
 				.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
 		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(newTaskListBtn);
@@ -301,7 +301,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.reOrderBtn.setIcon(MyCollabResource
 				.newResource("icons/16/project/reorder.png"));
 		this.reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
-		this.reOrderBtn.setDescription(LocalizationHelper
+		this.reOrderBtn.setDescription(AppContext
 				.getMessage(TaskI18nEnum.REODER_TASKGROUP_ACTION));
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
@@ -500,7 +500,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		UiUtils.addComponent(control, searchBtn, Alignment.MIDDLE_CENTER);
 
 		final Button advancedSearchBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;

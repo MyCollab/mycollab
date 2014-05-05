@@ -21,7 +21,6 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.criteria.MeetingSearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.TaskI18nEnum;
@@ -47,13 +46,13 @@ public class MeetingListDashlet extends Depot {
 		super("My Meetings", new VerticalLayout());
 
 		tableItem = new MeetingTableDisplay(Arrays.asList(
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
 						"subject", UIConstants.TABLE_X_LABEL_WIDTH),
-						new TableViewField(LocalizationHelper
+						new TableViewField(AppContext
 								.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
 								"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
-								new TableViewField(LocalizationHelper
+								new TableViewField(AppContext
 										.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
 										"status", UIConstants.TABLE_S_LABEL_WIDTH)));
 

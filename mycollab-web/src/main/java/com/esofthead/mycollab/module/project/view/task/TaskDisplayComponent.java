@@ -23,7 +23,6 @@ import java.util.Iterator;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -197,7 +196,7 @@ class TaskDisplayComponent extends CssLayout {
 				});
 
 		this.createTaskBtn = new Button(
-				LocalizationHelper.getMessage(TaskI18nEnum.NEW_TASK_ACTION),
+				AppContext.getMessage(TaskI18nEnum.NEW_TASK_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

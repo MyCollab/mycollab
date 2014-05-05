@@ -23,7 +23,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -71,7 +70,7 @@ public class TaskStatusComponent extends Depot {
 	private HierarchicalContainer dataContainer;
 
 	public TaskStatusComponent() {
-		super(LocalizationHelper.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
+		super(AppContext.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
 				new VerticalLayout());
 
 		this.addStyleName("activity-panel");

@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.localization.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.parameters.ActivityScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.AssignmentScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.CallScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.MeetingScreenData;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -49,7 +49,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ActivityRootView activityContainer = (ActivityRootView) container;
 		ActivityContainer eventContainer = (ActivityContainer) activityContainer
-				.gotoView(LocalizationHelper
+				.gotoView(AppContext
 						.getMessage(ActivityI18nEnum.ACTIVITY_LIST_TAB_TITLE));
 
 		AbstractPresenter presenter = null;

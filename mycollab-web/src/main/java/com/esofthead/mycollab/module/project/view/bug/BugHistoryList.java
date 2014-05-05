@@ -19,11 +19,11 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -55,11 +55,11 @@ public class BugHistoryList extends HistoryLogComponent {
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("loguserFullName", "Logged by",
 				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+		this.generateFieldDisplayHandler("assignuser", AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid",
-				LocalizationHelper.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),
+				AppContext.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),
 				new MilestoneHistoryFieldFormat());
 	}
 }

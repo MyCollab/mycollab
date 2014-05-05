@@ -27,7 +27,6 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -58,7 +57,6 @@ import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.Img;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
-import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -322,16 +320,16 @@ public class TaskSearchTableDisplay
 							public void buttonClick(ClickEvent event) {
 								ConfirmDialogExt.show(
 										UI.getCurrent(),
-										LocalizationHelper
+										AppContext
 												.getMessage(
 														GenericI18Enum.DELETE_DIALOG_TITLE,
 														SiteConfiguration
 																.getSiteName()),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.DELETE_SINGLE_ITEM_DIALOG_MESSAGE),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+										AppContext
 												.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 										new ConfirmDialog.Listener() {
 											private static final long serialVersionUID = 1L;

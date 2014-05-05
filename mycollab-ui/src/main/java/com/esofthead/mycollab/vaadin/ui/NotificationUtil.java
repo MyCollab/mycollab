@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_APP;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
@@ -40,14 +40,14 @@ public class NotificationUtil {
 
 	public static void showWarningNotification(String description) {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.WARNING_WINDOW_TITLE),
 				description, Type.WARNING_MESSAGE);
 	}
 
 	public static void showErrorNotification(String description) {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.ERROR_WINDOW_TITLE),
 				description, Type.ERROR_MESSAGE);
 	}
@@ -68,34 +68,34 @@ public class NotificationUtil {
 
 	public static void showGotoLastRecordNotification() {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_GOTO_LAST_RECORD),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showGotoFirstRecordNotification() {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_GOTO_FIRST_RECORD),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showRecordNotExistNotification() {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.INFORMATION_RECORD_IS_NOT_EXISTED_MESSAGE),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showMessagePermissionAlert() {
 		showNotification(
-				LocalizationHelper
+				AppContext
 				.getMessage(GenericI18Enum.WARNING_WINDOW_TITLE),
 				"Sorry! You do not have permission to do this task.",
 				Type.WARNING_MESSAGE);

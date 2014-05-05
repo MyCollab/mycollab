@@ -24,7 +24,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -103,7 +102,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		header.removeAllComponents();
 
 		final Label title = new Label(
-				LocalizationHelper.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
+				AppContext.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
 		title.setStyleName("hdr-text");
 		title.setSizeUndefined();
 		final Image icon = new Image(null,
@@ -114,7 +113,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 
 		final Button createBugBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {
@@ -132,7 +131,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
 		final Button createComponentBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
+				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {
@@ -147,7 +146,7 @@ public class BugDashboardViewImpl extends AbstractPageView implements
 		btnControlsLayout.addComponent(createComponentBtn);
 
 		final Button createVersionBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_VERSION_ACTION),
+				AppContext.getMessage(BugI18nEnum.NEW_VERSION_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {

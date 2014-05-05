@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.settings;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -33,6 +32,7 @@ import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
@@ -168,7 +168,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 		layout.addComponent(this.selectOptionButton);
 
 		final Button deleteBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_DELETE));
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
 		deleteBtn.setEnabled(CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.ROLES));
 
@@ -239,7 +239,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 		final HorizontalLayout layout = new HorizontalLayout();
 
 		final Button createBtn = new Button(
-				LocalizationHelper.getMessage(PeopleI18nEnum.NEW_ROLE_ACTION),
+				AppContext.getMessage(PeopleI18nEnum.NEW_ROLE_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

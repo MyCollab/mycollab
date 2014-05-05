@@ -22,7 +22,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -150,7 +149,7 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 					Alignment.MIDDLE_CENTER);
 
 			this.myItemCheckbox = new CheckBox(
-					LocalizationHelper
+					AppContext
 					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
@@ -171,7 +170,7 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 			UiUtils.addComponent(basicSearchBody, searchBtn, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
-					LocalizationHelper.getMessage(GenericI18Enum.BUTTON_CLEAR));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {

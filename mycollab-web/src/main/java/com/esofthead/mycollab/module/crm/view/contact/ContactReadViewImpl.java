@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
@@ -152,7 +151,7 @@ implements ContactReadView {
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
 			return beanItem.getContactName() + "&nbsp;"
-					+ LocalizationHelper
+					+ AppContext
 					.getMessage(
 							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
 							CrmResources

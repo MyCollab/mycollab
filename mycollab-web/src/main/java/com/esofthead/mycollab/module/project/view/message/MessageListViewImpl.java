@@ -30,7 +30,6 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -286,14 +285,14 @@ public class MessageListViewImpl extends AbstractPageView implements
 				public void buttonClick(ClickEvent event) {
 					ConfirmDialogExt.show(
 							UI.getCurrent(),
-							LocalizationHelper.getMessage(
+							AppContext.getMessage(
 									GenericI18Enum.DELETE_DIALOG_TITLE,
 									SiteConfiguration.getSiteName()),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-							LocalizationHelper
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
@@ -514,7 +513,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.setComponentAlignment(chkIsStick, Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -578,7 +577,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			this.messagePanelBody.addComponent(this.messageSearchPanel);
 
 			final Button createMessageBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -106,7 +106,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 			super.onGo(container, data);
 			view.editItem(account);
 			if (account.getId() == null) {
-				AppContext.addFragment("crm/account/add", LocalizationHelper
+				AppContext.addFragment("crm/account/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Account"));
 
@@ -114,7 +114,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 				AppContext.addFragment(
 						"crm/account/edit/"
 								+ UrlEncodeDecoder.encode(account.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Account", account.getAccountname()));
 			}

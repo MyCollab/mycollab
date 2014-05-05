@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
@@ -144,7 +143,7 @@ public class ProjectAddWindow extends Window {
 			buttonControls.setStyleName("addNewControl");
 
 			final Button saveBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -179,7 +178,7 @@ public class ProjectAddWindow extends Window {
 					Alignment.MIDDLE_CENTER);
 
 			final Button closeBtn = new Button(
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

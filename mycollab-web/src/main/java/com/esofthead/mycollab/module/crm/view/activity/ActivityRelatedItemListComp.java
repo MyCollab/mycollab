@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import java.util.Arrays;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -112,19 +111,19 @@ public class ActivityRelatedItemListComp extends
 		}
 
 		tableItem = new ActivityTableDisplay(Arrays.asList(
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
 						"subject", UIConstants.TABLE_EX_LABEL_WIDTH),
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
 						"status", UIConstants.TABLE_S_LABEL_WIDTH),
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(TaskI18nEnum.TABLE_TYPE_HEADER),
 						"eventType", UIConstants.TABLE_S_LABEL_WIDTH),
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
 						"startDate", UIConstants.TABLE_DATE_WIDTH),
-				new TableViewField(LocalizationHelper
+				new TableViewField(AppContext
 						.getMessage(TaskI18nEnum.TABLE_END_DATE_HEADER),
 						"endDate", UIConstants.TABLE_DATE_WIDTH)));
 

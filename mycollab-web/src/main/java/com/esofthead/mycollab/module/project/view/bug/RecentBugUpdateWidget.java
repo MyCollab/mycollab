@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -46,7 +45,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
 	public RecentBugUpdateWidget() {
-		super(LocalizationHelper
+		super(AppContext
 				.getMessage(BugI18nEnum.UPDATED_RECENTLY_WIDGET_TITLE),
 				RecentBugRowDisplayHandler.class);
 	}

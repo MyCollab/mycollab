@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
@@ -59,7 +58,7 @@ public class PasswordChangeWindow extends Window {
 		this.initUI();
 		this.center();
 		this.user = user;
-		this.setCaption(LocalizationHelper
+		this.setCaption(AppContext
 				.getMessage(UserI18nEnum.CHANGE_PASSWORD_WINDOW_TITLE));
 	}
 
@@ -71,13 +70,13 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final Label lbInstruct1 = new Label(
-				LocalizationHelper
+				AppContext
 						.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_1));
 		mainLayout.addComponent(lbInstruct1);
 		mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
 		final Label lbInstruct2 = new Label(
-				LocalizationHelper
+				AppContext
 						.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_2));
 		mainLayout.addComponent(lbInstruct2);
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
@@ -102,7 +101,7 @@ public class PasswordChangeWindow extends Window {
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 
 		final Button cancelBtn = new Button(
-				LocalizationHelper
+				AppContext
 						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -121,7 +120,7 @@ public class PasswordChangeWindow extends Window {
 				Alignment.MIDDLE_CENTER);
 
 		final Button sendBtn = new Button(
-				LocalizationHelper.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -149,7 +148,7 @@ public class PasswordChangeWindow extends Window {
 
 		if (!this.txtNewPassword.getValue().equals(
 				this.txtConfirmPassword.getValue())) {
-			NotificationUtil.showErrorNotification(LocalizationHelper
+			NotificationUtil.showErrorNotification(AppContext
 					.getMessage(UserI18nEnum.PASSWORDS_ARE_NOT_MATCH));
 			this.txtNewPassword.addStyleName("errorField");
 			this.txtConfirmPassword.addStyleName("errorField");

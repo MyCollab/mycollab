@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -43,7 +43,7 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("assistant", "Assistant");
 		this.generateFieldDisplayHandler("assistantphone", "Assistant Phone");
 		this.generateFieldDisplayHandler("leadsource", "Leade Source");
-		this.generateFieldDisplayHandler("officephone", LocalizationHelper
+		this.generateFieldDisplayHandler("officephone", AppContext
 				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
 		this.generateFieldDisplayHandler("mobile", "Mobile");
 		this.generateFieldDisplayHandler("homephone", "Home Phone");
@@ -51,7 +51,7 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("birthday", "Birthday",
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("iscallable", "Callable");
-		this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+		this.generateFieldDisplayHandler("assignuser", AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		this.generateFieldDisplayHandler("primaddress", "Address");
 		this.generateFieldDisplayHandler("primcity", "City");

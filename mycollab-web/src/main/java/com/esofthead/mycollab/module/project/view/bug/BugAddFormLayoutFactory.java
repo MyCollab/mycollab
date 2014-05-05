@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -65,7 +65,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("duedate")) {
 			this.informationLayout.addComponent(field, "Due Date", 0, 3);
 		} else if (propertyId.equals("assignuser")) {
-			this.informationLayout.addComponent(field, LocalizationHelper
+			this.informationLayout.addComponent(field, AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
 		} else if (propertyId.equals("components")) {
 			this.informationLayout.addComponent(field, "Components", 1, 1);
@@ -89,7 +89,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field, "Attachment", 0, 8, 2,
 					"100%");
 		} else if (propertyId.equals("milestoneid")) {
-			this.informationLayout.addComponent(field, LocalizationHelper
+			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskI18nEnum.FORM_PHASE_FIELD), 1, 4);
 		} else {
 			return false;

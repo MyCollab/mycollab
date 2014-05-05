@@ -18,9 +18,9 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -109,7 +109,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("actualenddate",
 					"Actual End Date", AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("assignUserFullName",
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		}
 	}
@@ -122,7 +122,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("description", "Description");
 			this.generateFieldDisplayHandler("milestoneName", "Milestone");
 			this.generateFieldDisplayHandler("ownerFullName",
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		}
 	}
@@ -138,7 +138,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("status", "Status");
 			this.generateFieldDisplayHandler("description", "Description");
 			this.generateFieldDisplayHandler("ownerFullName",
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		}
 	}
@@ -160,7 +160,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("raisedByUserFullName",
 					"Raised By");
 			this.generateFieldDisplayHandler("assignedToUserFullName",
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		}
 	}
@@ -186,7 +186,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("raisedByUserFullName",
 					"Raised By");
 			this.generateFieldDisplayHandler("assignedUserFullName",
-					LocalizationHelper
+					AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		}
 	}

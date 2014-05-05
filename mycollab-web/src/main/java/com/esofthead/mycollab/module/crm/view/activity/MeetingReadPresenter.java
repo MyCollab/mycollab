@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
@@ -72,14 +71,14 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 					public void onDelete(final SimpleMeeting data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
-								LocalizationHelper.getMessage(
+								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										LocalizationHelper
+										AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 										new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
@@ -166,7 +165,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(LocalizationHelper.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleMeeting meeting = null;
 			if (data.getParams() instanceof Integer) {
@@ -188,7 +187,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 
 			AppContext.addFragment(CrmLinkGenerator
 					.generateMeetingPreviewLink(meeting.getId()),
-					LocalizationHelper.getMessage(
+					AppContext.getMessage(
 							GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Meeting", meeting.getSubject()));
 		} else {

@@ -26,7 +26,6 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -95,7 +94,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		viewHeader.setExpandRatio(headerText, 1.0f);
 
 		Button createBtn = new Button(
-				LocalizationHelper.getMessage(PeopleI18nEnum.NEW_USER_ACTION),
+				AppContext.getMessage(PeopleI18nEnum.NEW_USER_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -160,14 +159,14 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 			public void click(MouseEvents.ClickEvent event) {
 				ConfirmDialogExt.show(
 						UI.getCurrent(),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.DELETE_DIALOG_TITLE,
 								SiteConfiguration.getSiteName()),
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						LocalizationHelper
+						AppContext
 								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;

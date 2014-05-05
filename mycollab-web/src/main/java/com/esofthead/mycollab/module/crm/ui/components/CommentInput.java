@@ -23,6 +23,7 @@ import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -92,7 +93,7 @@ public class CommentInput extends VerticalLayout {
 		controlsLayout.setExpandRatio(emptySpace, 1.0f);
 
 		if (cancelButtonEnable) {
-			final Button cancelBtn = new Button("Cancel",
+			final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

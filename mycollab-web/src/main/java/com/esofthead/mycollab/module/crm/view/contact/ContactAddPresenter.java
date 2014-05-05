@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CampaignContact;
 import com.esofthead.mycollab.module.crm.domain.Contact;
@@ -103,7 +102,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 
 			SimpleContact contact = null;
@@ -123,14 +122,14 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 			view.editItem(contact);
 
 			if (contact.getId() == null) {
-				AppContext.addFragment("crm/contact/add", LocalizationHelper
+				AppContext.addFragment("crm/contact/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Contact"));
 			} else {
 				AppContext.addFragment(
 						"crm/contact/edit/"
 								+ UrlEncodeDecoder.encode(contact.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Contact", contact.getLastname()));
 			}

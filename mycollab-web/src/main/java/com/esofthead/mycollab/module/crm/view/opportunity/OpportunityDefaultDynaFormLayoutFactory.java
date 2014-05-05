@@ -17,17 +17,17 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.form.view.builder.CurrencyDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DateDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.NumberDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.PercentageDynaFieldBuilder;
-import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.TextAreaDynaFieldBuilder;
+import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 public class OpportunityDefaultDynaFormLayoutFactory {
 	public static final DynaForm defaultForm;
@@ -84,7 +84,7 @@ public class OpportunityDefaultDynaFormLayoutFactory {
 				.addField(new TextDynaFieldBuilder()
 						.fieldName("assignuser")
 						.displayName(
-								LocalizationHelper
+								AppContext
 										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
 						.fieldIndex(11).build());
 

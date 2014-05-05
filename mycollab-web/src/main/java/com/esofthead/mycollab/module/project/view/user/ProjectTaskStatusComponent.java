@@ -23,7 +23,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -52,7 +51,7 @@ public class ProjectTaskStatusComponent extends Depot {
 	private final DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask> taskList;
 
 	public ProjectTaskStatusComponent() {
-		super(LocalizationHelper.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
+		super(AppContext.getMessage(ProjectCommonI18nEnum.TASKS_TITLE),
 				new VerticalLayout());
 
 		taskList = new DefaultBeanPagedList<ProjectGenericTaskService, ProjectGenericTaskSearchCriteria, ProjectGenericTask>(
@@ -100,7 +99,7 @@ public class ProjectTaskStatusComponent extends Depot {
 				taskType = "overdue";
 			}
 
-			final String content = LocalizationHelper.getMessage(
+			final String content = AppContext.getMessage(
 					ProjectCommonI18nEnum.PROJECT_TASK_TITLE, ProjectResources
 							.getResourceLink(genericTask.getType()),
 					ProjectLinkBuilder.generateProjectItemLink(

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
@@ -105,7 +104,7 @@ public class LeadConvertReadPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 			if (data.getParams() instanceof SimpleLead) {
 			SimpleLead lead = (SimpleLead) data.getParams();
@@ -113,7 +112,7 @@ public class LeadConvertReadPresenter extends
 			view.previewItem(lead);
 
 			AppContext.addFragment(CrmLinkGenerator
-					.generateLeadPreviewLink(lead.getId()), LocalizationHelper
+					.generateLeadPreviewLink(lead.getId()), AppContext
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Lead", lead.getLeadName()));
 			}

@@ -22,7 +22,6 @@ import org.vaadin.easyuploads.UploadField.FieldType;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
@@ -105,8 +104,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 		avatarAndPass.setWidth("100%");
 		avatarAndPass.addComponent(userAvatar);
 		final Button btnChangePassword = new Button(
-				LocalizationHelper
-						.getMessage(UserI18nEnum.BUTTON_CHANGE_PASSWORD),
+				AppContext.getMessage(UserI18nEnum.BUTTON_CHANGE_PASSWORD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -233,7 +231,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 						Sizeable.Unit.PIXELS);
 				advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
 
-				this.basicInformation = new GridFormLayoutHelper(1, 6, "100%",
+				this.basicInformation = new GridFormLayoutHelper(1, 7, "100%",
 						"167px", Alignment.TOP_LEFT);
 				this.basicInformation.getLayout().setMargin(false);
 				this.basicInformation.getLayout().setWidth("100%");
@@ -257,8 +255,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(basicInformationHeader);
 				layout.addComponent(this.basicInformation.getLayout());
 				final Button btnChangeBasicInfo = new Button(
-						LocalizationHelper
-								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -275,8 +272,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(contactInformationHeader);
 				layout.addComponent(this.contactInformation.getLayout());
 				final Button btnChangeContactInfo = new Button(
-						LocalizationHelper
-								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -293,8 +289,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(advanceInfoHeader);
 				layout.addComponent(this.advanceInformation.getLayout());
 				final Button btnChangeAdvanceInfo = new Button(
-						LocalizationHelper
-								.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -327,6 +322,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 					this.basicInformation.addComponent(field, "Birthday", 0, 3);
 				} else if (propertyId.equals("timezone")) {
 					this.basicInformation.addComponent(field, "Timezone", 0, 4);
+				} else if (propertyId.equals("language")) {
+					this.basicInformation.addComponent(field, "Language", 0, 5);
 				} else if (propertyId.equals("website")) {
 					this.advanceInformation
 							.addComponent(field, "Website", 0, 0);

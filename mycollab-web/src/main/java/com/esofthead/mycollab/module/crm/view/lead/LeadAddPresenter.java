@@ -21,7 +21,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.Lead;
@@ -99,7 +98,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 
 			SimpleLead lead = null;
@@ -121,14 +120,14 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 			view.editItem(lead);
 
 			if (lead.getId() == null) {
-				AppContext.addFragment("crm/lead/add", LocalizationHelper
+				AppContext.addFragment("crm/lead/add", AppContext
 						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Lead"));
 			} else {
 				AppContext.addFragment(
 						"crm/lead/edit/"
 								+ UrlEncodeDecoder.encode(lead.getId()),
-						LocalizationHelper.getMessage(
+						AppContext.getMessage(
 								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Lead",
 								lead.getLastname()));
 			}

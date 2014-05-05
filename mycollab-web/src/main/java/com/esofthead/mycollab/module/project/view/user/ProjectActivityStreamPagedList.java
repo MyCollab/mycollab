@@ -30,7 +30,6 @@ import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
@@ -145,7 +144,7 @@ public class ProjectActivityStreamPagedList
 				String arg10 = idUserStickyToolTipDiv;
 				String arg11 = idUserToopTipDiv;
 				String arg12 = idDivUserSeverData;
-				String arg13 = LocalizationHelper
+				String arg13 = AppContext
 						.getMessage(ProjectLocalizationTypeMap
 								.getType(activityStream.getType()));
 				String arg14 = ProjectResources.getResourceLink(activityStream
@@ -167,7 +166,7 @@ public class ProjectActivityStreamPagedList
 				String arg27 = idDivSeverData;
 				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
 						.getAction())) {
-					content = LocalizationHelper
+					content = AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
 									arg0, arg1, arg2, arg3, arg4, arg5, arg6,
@@ -177,7 +176,7 @@ public class ProjectActivityStreamPagedList
 									arg25, arg26, arg27);
 				} else if (ActivityStreamConstants.ACTION_UPDATE
 						.equals(activityStream.getAction())) {
-					content = LocalizationHelper
+					content = AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
 									arg0, arg1, arg2, arg3, arg4, arg5, arg6,

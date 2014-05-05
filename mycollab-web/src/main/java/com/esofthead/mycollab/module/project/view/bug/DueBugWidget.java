@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -46,7 +45,7 @@ public class DueBugWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
 	public DueBugWidget() {
-		super(LocalizationHelper.getMessage(BugI18nEnum.DUE_BUGS_WIDGET_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.DUE_BUGS_WIDGET_TITLE),
 				DueBugRowDisplayHandler.class);
 	}
 

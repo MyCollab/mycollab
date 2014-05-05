@@ -3246,7 +3246,9 @@ div.v-splitbutton,div.v-splitbutton .v-button {
 .message {
 	margin: 8px 0px;
 }
-
+.standup-block .user-name.v-button-link.v-button-wordWrap .v-button-wrap {
+	display: inline-block;
+}
 .message .user-name .v-button-caption, .standup-block .user-name .v-button-caption{
 	text-align: center;
 	display:inline-block;
@@ -3718,6 +3720,9 @@ div.v-lazyloadingwrapper-loading {
 /* End Mail Panel */
 
 /* Progress Indicator */
+.v-progressbar {
+	width: 100%;
+}
 .v-progressbar-wrapper {
 	height: 18px;
 	background: none no-repeat 0 0 rgb(245, 245, 245);

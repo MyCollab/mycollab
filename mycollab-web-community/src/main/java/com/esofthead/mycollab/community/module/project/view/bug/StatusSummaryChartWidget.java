@@ -26,7 +26,7 @@ import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -49,12 +49,12 @@ public class StatusSummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public StatusSummaryChartWidget(int width, int height) {
-		super(LocalizationHelper.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
 				width, height);
 	}
 
 	public StatusSummaryChartWidget() {
-		super(LocalizationHelper.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
 				400, 280);
 	}
 

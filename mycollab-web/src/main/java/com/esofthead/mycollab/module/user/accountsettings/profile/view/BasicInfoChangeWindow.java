@@ -18,11 +18,13 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import static com.esofthead.mycollab.vaadin.MyCollabSession.USER_TIMEZONE;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
@@ -55,6 +57,7 @@ public class BasicInfoChangeWindow extends Window {
 	private TextField txtEmail;
 	private DateComboboxSelectionField birthdayField;
 	private TimeZoneSelectionField timeZoneField;
+	private LanguageComboBox languageBox;
 
 	private final User user;
 
@@ -72,7 +75,7 @@ public class BasicInfoChangeWindow extends Window {
 		mainLayout.setWidth("100%");
 		mainLayout.setSpacing(true);
 
-		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 5,
+		final GridFormLayoutHelper passInfo = new GridFormLayoutHelper(1, 6,
 				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtFirstName = (TextField) passInfo.addComponent(new TextField(),
@@ -93,6 +96,10 @@ public class BasicInfoChangeWindow extends Window {
 		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezone(this.user
 				.getTimezone()));
 
+		this.languageBox = (LanguageComboBox) passInfo.addComponent(
+				new LanguageComboBox(), "Language", 0, 5);
+		this.languageBox.setValue(this.user.getLanguage());
+
 		this.txtFirstName.setValue(this.user.getFirstname() == null ? ""
 				: this.user.getFirstname());
 		this.txtLastName.setValue(this.user.getLastname() == null ? ""
@@ -111,7 +118,8 @@ public class BasicInfoChangeWindow extends Window {
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 		hlayoutControls.setSpacing(true);
 		hlayoutControls.setMargin(new MarginInfo(false, true, false, true));
-		final Button cancelBtn = new Button("Cancel",
+		final Button cancelBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -126,14 +134,16 @@ public class BasicInfoChangeWindow extends Window {
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button saveBtn = new Button("Save", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		final Button saveBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				BasicInfoChangeWindow.this.changeUserInfo();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						BasicInfoChangeWindow.this.changeUserInfo();
+					}
+				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 		hlayoutControls.addComponent(saveBtn);
@@ -170,6 +180,7 @@ public class BasicInfoChangeWindow extends Window {
 		this.user.setLastname(this.txtLastName.getValue());
 		this.user.setEmail(this.txtEmail.getValue());
 		this.user.setDateofbirth(this.birthdayField.getDate());
+		this.user.setLanguage((String) this.languageBox.getValue());
 		this.user.setTimezone(this.timeZoneField.getTimeZone().getId());
 
 		MyCollabSession.removeVariable(USER_TIMEZONE);

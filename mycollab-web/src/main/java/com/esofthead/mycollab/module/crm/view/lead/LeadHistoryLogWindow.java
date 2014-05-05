@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -48,7 +48,7 @@ class LeadHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("fax", "Fax");
 		this.generateFieldDisplayHandler("website", "Web Site");
 		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("assignuser", LocalizationHelper
+		this.generateFieldDisplayHandler("assignuser", AppContext
 				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 		this.generateFieldDisplayHandler("primaddress", "Address");
 		this.generateFieldDisplayHandler("primcity", "City");

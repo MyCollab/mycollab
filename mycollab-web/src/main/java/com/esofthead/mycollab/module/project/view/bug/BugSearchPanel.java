@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.Param;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -94,7 +93,7 @@ public class BugSearchPanel extends
 		Label headerText = new Label("Bug List");
 
 		final Button createBtn = new Button(
-				LocalizationHelper.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

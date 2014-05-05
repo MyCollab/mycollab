@@ -22,7 +22,6 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
-import com.esofthead.mycollab.core.utils.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -75,7 +74,7 @@ public class CampaignListPresenter
 							UI.getCurrent().addWindow(new MailFormWindow());
 						} else if ("massUpdate".equals(id)) {
 							MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
-									LocalizationHelper
+									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
 													"Campaign"),
@@ -101,7 +100,7 @@ public class CampaignListPresenter
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
-			crmToolbar.gotoItem(LocalizationHelper
+			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER));
 
 			searchCriteria = (CampaignSearchCriteria) data.getParams();
@@ -113,7 +112,7 @@ public class CampaignListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/campaign/list", LocalizationHelper
+			AppContext.addFragment("crm/campaign/list", AppContext
 					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
 							"Campaign"));
 		} else {

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.jetty.GenericServerRunner;
@@ -28,7 +26,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -36,7 +33,6 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 

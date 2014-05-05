@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -136,7 +137,9 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		buttonWrapper.addComponent(updateBtn);
 
-		Button cancelBtn = new Button("Cancel", new Button.ClickListener() {
+		Button cancelBtn = new Button(
+				AppContext
+						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

@@ -24,8 +24,6 @@ import net.sf.dynamicreports.report.base.datatype.AbstractDataType;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 
-import org.apache.commons.lang3.Validate;
-
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.reporting.NotInReport;
 
