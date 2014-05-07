@@ -1,0 +1,13 @@
+diff a/mycollab-test/src/main/resources/mycollab.properties b/mycollab-test/src/main/resources/mycollab.properties	(rejected hunks)
+@@ -2,9 +2,9 @@
+ running.mode=development
+ 
+ db.driverClassName=com.mysql.jdbc.Driver
+-db.url=jdbc:mysql://localhost/mycollab_test?useUnicode=true
++db.url=jdbc:mysql://localhost:3307/mycollab_test?useUnicode=true
+ db.username=root
+-db.password=esofthead321
++db.password=1234
+ 
+ mail.smtphost=smtp.gmail.com
+ mail.port=587

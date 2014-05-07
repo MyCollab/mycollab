@@ -131,27 +131,34 @@ public class ContactRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.trim(simpleContact.getContactName(), 100);
+		if (simpleContact != null) {
+			String subject = StringUtils.trim(simpleContact.getContactName(),
+					100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the contact \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has updated the contact \"" + subject + "\"",
+					"templates/email/crm/itemUpdatedNotifier.mt");
 
-		setupMailHeaders(simpleContact, emailNotification, templateGenerator);
+			setupMailHeaders(simpleContact, emailNotification,
+					templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+			if (emailNotification.getTypeid() != null) {
+				SimpleAuditLog auditLog = auditLogService.findLatestLog(
+						emailNotification.getTypeid(),
+						emailNotification.getSaccountid());
 
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator
-					.putVariable("context", new MailContext<SimpleContact>(
-							simpleContact, user, siteUrl));
-			templateGenerator.putVariable("mapper", mapper);
+				templateGenerator.putVariable("historyLog", auditLog);
+				templateGenerator.putVariable("context",
+						new MailContext<SimpleContact>(simpleContact, user,
+								siteUrl));
+				templateGenerator.putVariable("mapper", mapper);
+			}
+			return templateGenerator;
+		} else {
+			return null;
 		}
-		return templateGenerator;
+
 	}
 
 	@Override
@@ -161,17 +168,24 @@ public class ContactRelayEmailNotificationActionImpl extends
 		SimpleContact simpleContact = contactService.findById(accountRecordId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on the contact \""
-						+ StringUtils.trim(simpleContact.getContactName(), 100)
-						+ "\"", "templates/email/crm/itemAddNoteNotifier.mt");
+		if (simpleContact != null) {
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has commented on the contact \""
+							+ StringUtils.trim(simpleContact.getContactName(),
+									100) + "\"",
+					"templates/email/crm/itemAddNoteNotifier.mt");
 
-		setupMailHeaders(simpleContact, emailNotification, templateGenerator);
+			setupMailHeaders(simpleContact, emailNotification,
+					templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment", emailNotification);
 
-		return templateGenerator;
+			return templateGenerator;
+		} else {
+			return null;
+		}
+
 	}
 
 	public static class ContactFieldNameMapper extends ItemFieldMapper {

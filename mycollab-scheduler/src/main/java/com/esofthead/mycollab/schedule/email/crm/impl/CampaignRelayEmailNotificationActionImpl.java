@@ -123,27 +123,33 @@ public class CampaignRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils
-				.trim(simpleCampaign.getCampaignname(), 100);
+		if (simpleCampaign != null) {
+			String subject = StringUtils.trim(simpleCampaign.getCampaignname(),
+					100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the campaign \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has updated the campaign \"" + subject + "\"",
+					"templates/email/crm/itemUpdatedNotifier.mt");
 
-		setupMailHeaders(simpleCampaign, emailNotification, templateGenerator);
+			setupMailHeaders(simpleCampaign, emailNotification,
+					templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleCampaign>(simpleCampaign, user,
-							siteUrl));
-			templateGenerator.putVariable("mapper", mapper);
+			if (emailNotification.getTypeid() != null) {
+				SimpleAuditLog auditLog = auditLogService.findLatestLog(
+						emailNotification.getTypeid(),
+						emailNotification.getSaccountid());
+				templateGenerator.putVariable("historyLog", auditLog);
+				templateGenerator.putVariable("context",
+						new MailContext<SimpleCampaign>(simpleCampaign, user,
+								siteUrl));
+				templateGenerator.putVariable("mapper", mapper);
+			}
+			return templateGenerator;
+		} else {
+			return null;
 		}
-		return templateGenerator;
+
 	}
 
 	@Override

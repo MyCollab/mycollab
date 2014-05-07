@@ -17,11 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.mail.*;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.jetty.GenericServerRunner;
 
 /**
  * 
@@ -31,14 +29,24 @@ import com.esofthead.mycollab.jetty.GenericServerRunner;
  */
 public class InstallationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
-			.getLogger(GenericServerRunner.class);
+	private boolean waitFlag = true;
 
+	public void setWaitFlag(boolean flag) {
+		this.waitFlag = flag;
+	}
 
-	
+	public void threadWait() {
+		while (waitFlag == true) {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				throw new MyCollabException(e);
+			}
+		}
+	}
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
 		String sitename = request.getParameter("sitename");
 		String serverAddress = request.getParameter("serverAddress");
 		String databaseName = request.getParameter("databaseName");
@@ -83,6 +91,8 @@ public class InstallationServlet extends HttpServlet {
 			out.write("Cannot establish connection to database. Make sure your inputs are correct.");
 			return;
 		}
+		
+		
 
 		File confFolder = new File(System.getProperty("user.dir"), "conf");
 
@@ -110,6 +120,30 @@ public class InstallationServlet extends HttpServlet {
 				outStream.write(writer.toString().getBytes());
 				outStream.flush();
 				outStream.close();
+				
+				try { 
+					Email email = new SimpleEmail();
+					email.setHostName(stmpHost);
+					email.setSmtpPort(mailServerPort);
+					email.setAuthenticator(new DefaultAuthenticator(smtpUserName,smtpPassword));
+					if (tls.equals("true"))
+					{
+						email.setSSLOnConnect(true);
+					}
+					else {
+						email.setSSLOnConnect(false);
+					}
+					email.setFrom("user@gmail.com");
+					email.setSubject("TestMail");
+					email.setMsg("This is a test mail ... :-)");
+					email.addTo("foo@bar.com");
+					email.send();
+				} catch (EmailException e){
+					PrintWriter out = response.getWriter();
+					out.write("Something wrong with Stmp. You can change your config later in the file src/main/conf/mycollab.properties.");
+				}
+				threadWait();
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				PrintWriter out = response.getWriter();

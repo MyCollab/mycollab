@@ -109,14 +109,16 @@ public final class MainView extends AbstractPageView {
 	private CustomLayout createFooter() {
 		final CustomLayout footer = CustomLayoutLoader.createLayout("footer");
 
-		Link companyLink = new Link("eSoftHead", new ExternalResource("http://www.esofthead.com"));
+		Link companyLink = new Link("eSoftHead", new ExternalResource(
+				"http://www.esofthead.com"));
 		companyLink.setTargetName("_blank");
 
 		footer.addComponent(companyLink, "company-url");
 
 		Calendar currentCal = Calendar.getInstance();
 
-		Label currentYear = new Label(String.valueOf(currentCal.get(Calendar.YEAR)));
+		Label currentYear = new Label(String.valueOf(currentCal
+				.get(Calendar.YEAR)));
 		currentYear.setSizeUndefined();
 		footer.addComponent(currentYear, "current-year");
 
@@ -133,13 +135,16 @@ public final class MainView extends AbstractPageView {
 				UI.getCurrent().addWindow(new FeedbackWindow());
 			}
 		});
-		Link blogLink = new Link("Blog", new ExternalResource("http://blog.mycollab.com"));
+		Link blogLink = new Link("Blog", new ExternalResource(
+				"http://blog.mycollab.com"));
 		blogLink.setTargetName("_blank");
 
-		Link forumLink = new Link("Forum", new ExternalResource("http://forum.mycollab.com"));
+		Link forumLink = new Link("Forum", new ExternalResource(
+				"http://forum.mycollab.com"));
 		forumLink.setTargetName("_blank");
 
-		Link wikiLink = new Link("Knowledge Base", new ExternalResource("http://wiki.mycollab.com"));
+		Link wikiLink = new Link("Knowledge Base", new ExternalResource(
+				"http://wiki.mycollab.com"));
 		wikiLink.setTargetName("_blank");
 
 		footerRight.addComponent(blogLink);
@@ -163,38 +168,38 @@ public final class MainView extends AbstractPageView {
 		serviceMenu.addService("CRM",
 				MyCollabResource.newResource("icons/16/customer.png"),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoCrmModule(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoCrmModule(this, null));
+					}
+				});
 
 		serviceMenu.addService("Projects",
 				MyCollabResource.newResource("icons/16/project.png"),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoProjectModule(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoProjectModule(this, null));
+					}
+				});
 
 		serviceMenu.addService("Documents",
 				MyCollabResource.newResource("icons/16/document.png"),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoFileModule(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoFileModule(this, null));
+					}
+				});
 
 		layout.addComponent(serviceMenu, "serviceMenu");
 
@@ -212,16 +217,16 @@ public final class MainView extends AbstractPageView {
 			informBox.addComponent(informLbl);
 			informBox.setMargin(new MarginInfo(false, true, false, false));
 			informBox
-			.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
-				private static final long serialVersionUID = 1L;
+					.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void layoutClick(LayoutClickEvent event) {
-					EventBus.getInstance().fireEvent(
-							new ShellEvent.GotoUserAccountModule(this,
-									new String[] { "billing" }));
-				}
-			});
+						@Override
+						public void layoutClick(LayoutClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new ShellEvent.GotoUserAccountModule(this,
+											new String[] { "billing" }));
+						}
+					});
 			accountLayout.addComponent(informBox);
 			accountLayout.setSpacing(true);
 			accountLayout.setComponentAlignment(informBox,
@@ -240,19 +245,19 @@ public final class MainView extends AbstractPageView {
 				billingAccount.setBillingPlan(freeBillingPlan);
 
 				informLbl
-				.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-						+ " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+						.setValue("<div class='informBlock'>TRIAL ENDING<br>"
+								+ " 0 DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
 			} else {
 				if (AppContext.isAdmin()) {
 					informLbl
-					.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-							+ (30 - daysLeft)
-							+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+							.setValue("<div class='informBlock'>TRIAL ENDING<br>"
+									+ (30 - daysLeft)
+									+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
 				} else {
 					informLbl
-					.setValue("<div class='informBlock'>TRIAL ENDING<br>"
-							+ (30 - daysLeft)
-							+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
+							.setValue("<div class='informBlock'>TRIAL ENDING<br>"
+									+ (30 - daysLeft)
+									+ " DAYS LEFT</div><div class='informBlock'>&gt;&gt;</div>");
 				}
 			}
 		}
@@ -267,60 +272,60 @@ public final class MainView extends AbstractPageView {
 
 		final Button myProfileBtn = new Button("Profile",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				accountMenu.setPopupVisible(false);
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoUserAccountModule(this,
-								new String[] { "preview" }));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						accountMenu.setPopupVisible(false);
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoUserAccountModule(this,
+										new String[] { "preview" }));
+					}
+				});
 		myProfileBtn.setStyleName("link");
 		accLayout.addComponent(myProfileBtn);
 
 		final Button myAccountBtn = new Button("Account",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				accountMenu.setPopupVisible(false);
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoUserAccountModule(this,
-								new String[] { "billing" }));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						accountMenu.setPopupVisible(false);
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoUserAccountModule(this,
+										new String[] { "billing" }));
+					}
+				});
 		myAccountBtn.setStyleName("link");
 		accLayout.addComponent(myAccountBtn);
 
 		final Button userMgtBtn = new Button("User Management",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				accountMenu.setPopupVisible(false);
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.GotoUserAccountModule(this,
-								new String[] { "user", "list" }));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						accountMenu.setPopupVisible(false);
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoUserAccountModule(this,
+										new String[] { "user", "list" }));
+					}
+				});
 		userMgtBtn.setStyleName("link");
 		accLayout.addComponent(userMgtBtn);
 
 		final Button signoutBtn = new Button("Sign out",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				AppContext.getInstance().setSession(null, null, null);
-				EventBus.getInstance().fireEvent(
-						new ShellEvent.LogOut(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						AppContext.getInstance().clearSession();
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.LogOut(this, null));
+					}
+				});
 		signoutBtn.setStyleName("link");
 		accLayout.addComponent(signoutBtn);
 
@@ -343,25 +348,25 @@ public final class MainView extends AbstractPageView {
 			// add listener to listen the change avatar or user information to
 			// update top menu
 			EventBus.getInstance()
-			.addListener(
-					new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-						private static final long serialVersionUID = 1L;
+					.addListener(
+							new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+								private static final long serialVersionUID = 1L;
 
-						@Override
-						public Class<? extends ApplicationEvent> getEventType() {
-							return SessionEvent.UserProfileChangeEvent.class;
-						}
+								@Override
+								public Class<? extends ApplicationEvent> getEventType() {
+									return SessionEvent.UserProfileChangeEvent.class;
+								}
 
-						@Override
-						public void handle(UserProfileChangeEvent event) {
-							if ("avatarid".equals(event
-									.getFieldChange())) {
-								UserAvatarComp.this
-								.removeAllComponents();
-								addUserAvatar();
-							}
-						}
-					});
+								@Override
+								public void handle(UserProfileChangeEvent event) {
+									if ("avatarid".equals(event
+											.getFieldChange())) {
+										UserAvatarComp.this
+												.removeAllComponents();
+										addUserAvatar();
+									}
+								}
+							});
 
 		}
 

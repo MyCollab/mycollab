@@ -125,26 +125,30 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		String subject = StringUtils.trim(simpleCase.getSubject(), 100);
+		if (simpleCase != null) {
+			String subject = StringUtils.trim(simpleCase.getSubject(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the case \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has updated the case \"" + subject + "\"",
+					"templates/email/crm/itemUpdatedNotifier.mt");
 
-		setupMailHeaders(simpleCase, emailNotification, templateGenerator);
+			setupMailHeaders(simpleCase, emailNotification, templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+			if (emailNotification.getTypeid() != null) {
+				SimpleAuditLog auditLog = auditLogService.findLatestLog(
+						emailNotification.getTypeid(),
+						emailNotification.getSaccountid());
 
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleCase>(simpleCase, user, siteUrl));
-			templateGenerator.putVariable("mapper", mapper);
+				templateGenerator.putVariable("historyLog", auditLog);
+				templateGenerator.putVariable("context",
+						new MailContext<SimpleCase>(simpleCase, user, siteUrl));
+				templateGenerator.putVariable("mapper", mapper);
+			}
+			return templateGenerator;
+		} else {
+			return null;
 		}
-		return templateGenerator;
 	}
 
 	@Override
@@ -154,17 +158,22 @@ public class CaseRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on case \""
-						+ StringUtils.trim(simpleCase.getSubject(), 100) + "\"",
-				"templates/email/crm/itemAddNoteNotifier.mt");
+		if (simpleCase != null) {
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has commented on case \""
+							+ StringUtils.trim(simpleCase.getSubject(), 100)
+							+ "\"",
+					"templates/email/crm/itemAddNoteNotifier.mt");
 
-		setupMailHeaders(simpleCase, emailNotification, templateGenerator);
+			setupMailHeaders(simpleCase, emailNotification, templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment", emailNotification);
 
-		return templateGenerator;
+			return templateGenerator;
+		} else {
+			return null;
+		}
 	}
 
 	public static class CaseFieldNameMapper extends ItemFieldMapper {

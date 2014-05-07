@@ -87,6 +87,10 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
+		
+		if (message == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ message.getProjectName() + "]: "
@@ -106,6 +110,11 @@ public class MessageRelayEmailNotificationActionImpl extends
 		int messageId = emailNotification.getTypeid();
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
+		
+		if (message == null) {
+			return null;
+		}
+		
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ message.getProjectName() + "]: "
 				+ message.getFullPostedUserName()
@@ -124,6 +133,10 @@ public class MessageRelayEmailNotificationActionImpl extends
 		int messageId = emailNotification.getTypeid();
 		SimpleMessage message = messageService.findMessageById(messageId,
 				emailNotification.getSaccountid());
+		
+		if (message == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ message.getProjectName() + "]: "

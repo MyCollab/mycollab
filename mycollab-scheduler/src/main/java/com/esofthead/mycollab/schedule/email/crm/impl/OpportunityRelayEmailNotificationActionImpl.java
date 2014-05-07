@@ -132,6 +132,9 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
+		if (simpleOpportunity == null) {
+			return null;
+		}
 		String subject = StringUtils.trim(
 				simpleOpportunity.getOpportunityname(), 100);
 
@@ -162,6 +165,9 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		SimpleOpportunity simpleOpportunity = opportunityService.findById(
 				accountRecordId, emailNotification.getSaccountid());
 
+		if (simpleOpportunity == null) {
+			return null;
+		}
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on the opportunity \""

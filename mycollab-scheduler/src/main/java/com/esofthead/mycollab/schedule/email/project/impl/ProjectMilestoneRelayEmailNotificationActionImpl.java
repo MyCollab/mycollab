@@ -108,6 +108,10 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		int milestoneId = emailNotification.getTypeid();
 		SimpleMilestone milestone = milestoneService.findById(milestoneId,
 				emailNotification.getSaccountid());
+		
+		if (milestone == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ milestone.getProjectName() + "]: "

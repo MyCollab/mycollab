@@ -110,9 +110,9 @@ public class ProjectTaskServiceImpl extends
 			record.setStatus("Open");
 		}
 
-		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectTaskListService.class,
-				ProjectActivityStreamService.class);
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+				ProjectGenericTaskService.class, ProjectTaskListService.class,
+				ProjectActivityStreamService.class, ProjectMemberService.class);
 
 		return super.updateWithSession(record, username);
 	}

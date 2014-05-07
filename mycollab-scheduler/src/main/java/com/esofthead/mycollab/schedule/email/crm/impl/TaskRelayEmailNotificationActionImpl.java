@@ -125,6 +125,9 @@ public class TaskRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
+		if (simpleTask == null) {
+			return null;
+		}
 		String subject = StringUtils.trim(simpleTask.getSubject(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
@@ -152,6 +155,9 @@ public class TaskRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
+		if (simpleTask == null) {
+			return null;
+		}
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on the task \""

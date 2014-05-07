@@ -32,17 +32,6 @@
             <artifactId>dbunit</artifactId>
             <version>2.4.9</version>
         </dependency>
-        <!-- Bonecp -->
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>0.8.0.RELEASE</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp-spring</artifactId>
-            <version>0.8.0.RELEASE</version>
-        </dependency>
     </dependencies>
 </project>

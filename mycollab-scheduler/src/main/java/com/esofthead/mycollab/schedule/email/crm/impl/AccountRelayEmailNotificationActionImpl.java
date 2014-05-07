@@ -126,29 +126,35 @@ public class AccountRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		simpleAccount = accountService.findById(emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
+		if (simpleAccount != null) {
+			String subject = StringUtils.trim(simpleAccount.getAccountname(),
+					100);
 
-		String subject = StringUtils.trim(simpleAccount.getAccountname(), 100);
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has updated the account \"" + subject + "\"",
+					"templates/email/crm/itemUpdatedNotifier.mt");
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the account \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
+			setupMailHeaders(simpleAccount, emailNotification,
+					templateGenerator);
 
-		setupMailHeaders(simpleAccount, emailNotification, templateGenerator);
+			if (emailNotification.getTypeid() != null) {
+				SimpleAuditLog auditLog = auditLogService.findLatestLog(
+						emailNotification.getTypeid(),
+						emailNotification.getSaccountid());
 
-		if (emailNotification.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+				templateGenerator.putVariable("historyLog", auditLog);
 
-			templateGenerator.putVariable("historyLog", auditLog);
-
-			templateGenerator
-					.putVariable("context", new MailContext<SimpleAccount>(
-							simpleAccount, user, siteUrl));
-			templateGenerator.putVariable("mapper", mapper);
+				templateGenerator.putVariable("context",
+						new MailContext<SimpleAccount>(simpleAccount, user,
+								siteUrl));
+				templateGenerator.putVariable("mapper", mapper);
+			}
+			return templateGenerator;
+		} else {
+			return null;
 		}
-		return templateGenerator;
+
 	}
 
 	@Override
@@ -158,17 +164,24 @@ public class AccountRelayEmailNotificationActionImpl extends
 		simpleAccount = accountService.findById(accountRecordId,
 				emailNotification.getSaccountid());
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on the account \""
-						+ StringUtils.trim(simpleAccount.getAccountname(), 100)
-						+ "\"", "templates/email/crm/itemAddNoteNotifier.mt");
+		if (simpleAccount != null) {
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					emailNotification.getChangeByUserFullName()
+							+ " has commented on the account \""
+							+ StringUtils.trim(simpleAccount.getAccountname(),
+									100) + "\"",
+					"templates/email/crm/itemAddNoteNotifier.mt");
 
-		setupMailHeaders(simpleAccount, emailNotification, templateGenerator);
+			setupMailHeaders(simpleAccount, emailNotification,
+					templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment", emailNotification);
 
-		return templateGenerator;
+			return templateGenerator;
+		} else {
+			return null;
+		}
+
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {

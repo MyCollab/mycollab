@@ -148,6 +148,10 @@ public class LeadRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
+		if (simpleLead == null) {
+			return null;
+		}
+
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()
 						+ " has commented on the lead \""

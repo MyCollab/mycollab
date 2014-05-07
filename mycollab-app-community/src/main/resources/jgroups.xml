@@ -15,7 +15,6 @@
     or see the FSF site: http://www.fsf.org. -->
 <config>
     <TCP bind_port="7800" />
-    <com.esofthead.mycollab.jgroups.protocols.JDBC_PING_EXT />
     <MERGE2 max_interval="30000" min_interval="10000" />
     <FD_SOCK />
     <FD timeout="10000" max_tries="5" />
@@ -34,6 +33,5 @@
     <FC max_credits="20000000" min_threshold="0.10" />
     <FRAG2 frag_size="60000" />
     <pbcast.STATE_TRANSFER />
-    <CENTRAL_LOCK />
     <pbcast.FLUSH timeout="0" />
 </config>

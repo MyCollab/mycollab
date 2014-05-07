@@ -108,6 +108,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		int riskId = emailNotification.getTypeid();
 		SimpleRisk risk = riskService.findById(riskId,
 				emailNotification.getSaccountid());
+		
+		if (risk == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ risk.getProjectName() + "]: "

@@ -42,26 +42,24 @@ import com.esofthead.template.velocity.TemplateContext;
  */
 public class PageGeneratorUtil {
 
-	public static void responeUserNotExistPage(
-			HttpServletResponse response, String loginURL)
-			throws IOException {
+	public static void responeUserNotExistPage(HttpServletResponse response,
+			String loginURL) throws IOException {
 		String pageNotFoundTemplate = "templates/page/UserNotExistPage.mt";
 		TemplateContext context = new TemplateContext();
 
 		Reader reader;
 		try {
-			reader = new InputStreamReader(PageGeneratorUtil.class
-					.getClassLoader().getResourceAsStream(
-							pageNotFoundTemplate), "UTF-8");
+			reader = new InputStreamReader(
+					PageGeneratorUtil.class.getClassLoader()
+							.getResourceAsStream(pageNotFoundTemplate), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(PageGeneratorUtil.class
-					.getClassLoader().getResourceAsStream(
-							pageNotFoundTemplate));
+					.getClassLoader().getResourceAsStream(pageNotFoundTemplate));
 		}
 		context.put("loginURL", loginURL);
 		Map<String, String> defaultUrls = new HashMap<String, String>();
-		SharingOptions sharingOptions = SiteConfiguration
-				.getSharingOptions();
+		SharingOptions sharingOptions = SharingOptions
+				.getDefaultSharingOptions();
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
@@ -69,7 +67,6 @@ public class PageGeneratorUtil {
 		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
 		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
 		context.put("defaultUrls", defaultUrls);
-		
 
 		StringWriter writer = new StringWriter();
 		VelocityEngine templateEngine = ApplicationContextUtil

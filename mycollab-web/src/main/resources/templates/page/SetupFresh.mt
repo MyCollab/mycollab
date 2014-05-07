@@ -305,7 +305,7 @@ h3 {
 			alert("Please enter database server adress");
 			return;
 		}
-		$('#post').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;">');
+		$('#post').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;"><span>&nbsp;&nbsp;Setting up...</span>');
 
 		var urlPost = "/install";
 		var tls = "";
@@ -340,7 +340,7 @@ h3 {
 		      	 		alert(data);
 		      	 		$('#post').html('<span>Update & Go</span>');
 		      	 	}else{
-		      	 		alert("Your account has been updated.");
+		      	 		alert("Setting up finished. Redirect to app.");
 		      	 		$('#post').html('<span>Update & Go</span>');
 		      	 		window.location.assign("/");
 		      	 	}

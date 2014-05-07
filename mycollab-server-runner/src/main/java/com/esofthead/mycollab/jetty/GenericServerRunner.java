@@ -17,27 +17,22 @@
 package com.esofthead.mycollab.jetty;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.plus.webapp.EnvConfiguration;
 import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.FragmentConfiguration;
 import org.eclipse.jetty.webapp.MetaInfConfiguration;
@@ -50,7 +45,10 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.configuration.DatabaseConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.jetty.console.TextDevice;
+import com.esofthead.mycollab.servlet.AssetHttpServletRequestHandler;
+import com.esofthead.mycollab.servlet.DatabaseValidate;
+import com.esofthead.mycollab.servlet.InstallationServlet;
+import com.esofthead.mycollab.servlet.SetupServlet;
 import com.jolbox.bonecp.BoneCPDataSource;
 
 /**
@@ -66,6 +64,11 @@ public abstract class GenericServerRunner {
 	private Server server;
 	private int port = 0;
 	public static boolean isFirstTimeRunner = false;
+
+	private InstallationServlet install;
+
+	private ServletContextHandler installationContextHandler;
+	private ContextHandlerCollection contexts;
 
 	public abstract WebAppContext buildContext(String baseDir);
 
@@ -167,286 +170,39 @@ public abstract class GenericServerRunner {
 
 	}
 
-	/**
-	 * Detect localtion of config file
-	 * 
-	 * @param filename
-	 * @return
-	 */
-	private File detectConfigFile(String filename) {
-		File confFile = new File(System.getProperty("user.dir"), "conf/"
-				+ filename);
-
-		if (!confFile.exists()) {
-			confFile = new File(System.getProperty("user.dir"),
-					"src/main/conf/" + filename);
-		}
-
-		if (!confFile.exists()) {
-			return null;
-		} else {
-			return confFile;
-		}
-	}
-
-	/**
-	 * Pre-Start server process
-	 */
-	protected void preStartServer() {
-		File file = detectConfigFile("mycollab.properties");
-		if (file == null) {
-			log.debug("Can not detect mycollab.properties file. It seems mycollab is in first use.");
-			isFirstTimeRunner = true;
-			VelocityContext templateContext = new VelocityContext();
-
-			System.out
-					.println("=====================================================");
-			System.out
-					.println("                    MYCOLLAB SETUP                   ");
-			System.out
-					.println("=====================================================");
-
-			TextDevice device = TextDevice.defaultTextDevice();
-			System.out.println("Enter site name:");
-			String sitename = device.readLine();
-			templateContext.put("sitename", sitename);
-
-			System.out.println("Enter server address:");
-			String serverAddress = device.readLine();
-			templateContext.put("serveraddress", serverAddress);
-
-			System.out
-					.println("Enter server port (then you can access server with address)");
-
-			int serverPort = 0;
-
-			int numTries = 0;
-			while (numTries < 3) {
-				String serverPortVal = device.readLine();
-
-				try {
-					serverPort = Integer.parseInt(serverPortVal);
-					break;
-				} catch (Exception e) {
-					System.out.println("Port must be the number from 1-65000");
-					numTries++;
-					if (numTries == 3) {
-						System.exit(-1);
-					}
-				}
-			}
-
-			templateContext.put("serverport", serverPort + "");
-
-			System.out
-					.println("=====================================================");
-			System.out
-					.println("                  DATABASE SETUP                     ");
-			System.out
-					.println("=====================================================");
-
-			numTries = 0;
-			while (numTries < 3) {
-				templateContext.put("db.driverClassName",
-						"com.mysql.jdbc.Driver");
-
-				System.out.println("Enter database server address:");
-				String dbServerAddress = device.readLine();
-
-				System.out
-						.println("Enter database name (Database must be created before):");
-				String dbName = device.readLine();
-
-				String dbUrl = String.format(
-						"jdbc:mysql://%s/%s?useUnicode=true", dbServerAddress,
-						dbName);
-				templateContext.put("dbUrl", dbUrl);
-
-				System.out.println("Enter database user name:");
-				String dbUserName = device.readLine();
-				templateContext.put("dbUser", dbUserName);
-
-				System.out.println("Enter database user password:");
-				String dbPassword = new String(device.readPassword());
-				templateContext.put("dbPassword", dbPassword);
-
-				log.debug("Checking database connection ...");
-				try {
-					Class.forName("com.mysql.jdbc.Driver");
-					Connection connection = DriverManager.getConnection(dbUrl,
-							dbUserName, dbPassword);
-					DatabaseMetaData metaData = connection.getMetaData();
-					break;
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.err.println("Can not set up database.");
-					numTries++;
-					if (numTries == 3) {
-						System.exit(-1);
-					}
-				}
-			}
-
-			System.out
-					.println("=====================================================");
-			System.out
-					.println("                 EMAIL SETUP  (Optional)             ");
-			System.out
-					.println("=====================================================");
-
-			System.out
-					.println("We need your smtp email configuration to send system notifications such as bug assignment, new account created to your team. If you do not have any smtp account, you can ignore this setting section. Do you want continue to set up stmp settings (y/n):");
-
-			numTries = 0;
-			while (numTries < 3) {
-				String acceptContinue = device.readLine();
-				if ("y".equals(acceptContinue)) {
-					System.out.println("Outgoing server address:");
-					String stmpHost = device.readLine();
-					templateContext.put("smtpAddress", stmpHost);
-
-					System.out.println("Mail server port:");
-					int mailServerPort = 0;
-
-					while (true) {
-						String serverPortVal = device.readLine();
-
-						try {
-							mailServerPort = Integer.parseInt(serverPortVal);
-							break;
-						} catch (Exception e) {
-							System.out
-									.println("Port must be the number from 1-65000.");
-						}
-					}
-					templateContext.put("smtpPort", mailServerPort + "");
-
-					System.out.println("Mail user name:");
-					String mailUser = device.readLine();
-					templateContext.put("smtpUserName", mailUser);
-
-					System.out.println("Mail password:");
-					String mailPassword = device.readLine();
-					templateContext.put("smtpPassword", mailPassword);
-
-					System.out.println("Enable TLS (y/n):");
-					String tlsEnable = device.readLine();
-					if (tlsEnable.equals("y")) {
-						templateContext.put("smtpTLSEnable", "true");
-					} else {
-						templateContext.put("smtpTLSEnable", "false");
-					}
-					break;
-				} else if ("n".equals(acceptContinue)) {
-					System.out
-							.println("You can set up stmp account later in file %MYCOLLAB_HOME%/conf/mycollab.properties");
-					templateContext.put("smtpAddress", "");
-					templateContext.put("smtpPort", "1");
-					templateContext.put("smtpUserName", "");
-					templateContext.put("smtpPassword", "");
-					templateContext.put("smtpTLSEnable", "false");
-					break;
-				} else {
-					System.out.println("You must select y (yes) or n (no)");
-					numTries++;
-
-					if (numTries == 3) {
-						System.out
-								.println("You can set up stmp account later in file %MYCOLLAB_HOME%/conf/mycollab.properties");
-						templateContext.put("smtpAddress", "");
-						templateContext.put("smtpPort", "1");
-						templateContext.put("smtpUserName", "");
-						templateContext.put("smtpPassword", "");
-						templateContext.put("smtpTLSEnable", "false");
-					}
-				}
-			}
-
-			templateContext.put("error.sendTo", "hainguyen@esofthead.com");
-			templateContext.put("cdn.url", "http://%s:%d/assets/images/email/");
-			templateContext.put("app.url", "http://%s:%d/");
-
-			log.debug("Write to properties file");
-
-			File confFolder = new File(System.getProperty("user.dir"), "conf");
-
-			if (!confFolder.exists()) {
-				confFolder = new File(System.getProperty("user.dir"),
-						"src/main/conf");
-			}
-
-			if (!confFolder.exists()) {
-				throw new MyCollabException("Can not detect webapp base folder");
-			} else {
-				try {
-					File templateFile = new File(confFolder,
-							"mycollab.properties.template");
-					FileReader templateReader = new FileReader(templateFile);
-
-					StringWriter writer = new StringWriter();
-
-					VelocityEngine engine = new VelocityEngine();
-					engine.evaluate(templateContext, writer, "log task",
-							templateReader);
-
-					FileOutputStream outStream = new FileOutputStream(new File(
-							confFolder, "mycollab.properties"));
-					outStream.write(writer.toString().getBytes());
-					outStream.flush();
-					outStream.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.err
-							.println("Can not write setting to config file. You should call mycollab support support@mycollab.com to solve this issue.");
-					System.exit(1);
-				}
-			}
-
-		}
-	}
-
 	public void execute() throws Exception {
-		preStartServer();
-		server = new Server((port > 0) ? port
-				: SiteConfiguration.getServerPort());
-		log.debug("Detect root folder webapp");
-		String webappDirLocation = detectWebApp();
+		server = new Server((port > 0) ? port : 8080);
 
-		WebAppContext appContext = buildContext(webappDirLocation);
-		appContext.setServer(server);
-		appContext.setConfigurations(new Configuration[] {
-				new AnnotationConfiguration(), new WebXmlConfiguration(),
-				new WebInfConfiguration(), new PlusConfiguration(),
-				new MetaInfConfiguration(), new FragmentConfiguration(),
-				new EnvConfiguration() });
+		installationContextHandler = new ServletContextHandler(
+				ServletContextHandler.SESSIONS);
+		installationContextHandler.setContextPath("/");
 
-		// Register a mock DataSource scoped to the webapp
-		// This must be linked to the webapp via an entry in web.xml:
-		// <resource-ref>
-		// <res-ref-name>jdbc/mydatasource</res-ref-name>
-		// <res-type>javax.sql.DataSource</res-type>
-		// <res-auth>Container</res-auth>
-		// </resource-ref>
-		// At runtime the webapp accesses this as
-		// java:comp/env/jdbc/mydatasource
-		org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
-				appContext, "jdbc/mycollabdatasource", buildDataSource());
+		install = new InstallationServlet();
+		installationContextHandler.addServlet(new ServletHolder(
+				new SetupServlet()), "/setup");
+		installationContextHandler.addServlet(new ServletHolder(install),
+				"/install");
+		installationContextHandler.addServlet(new ServletHolder(
+				new DatabaseValidate()), "/validate");
 
-		HandlerList handlers = new HandlerList();
-		handlers.setHandlers(new Handler[] { appContext });
-		server.setHandler(handlers);
+		installationContextHandler.addServlet(new ServletHolder(
+				new AssetHttpServletRequestHandler()), "/assets/*");
+		installationContextHandler
+				.addLifeCycleListener(new ServerLifeCycleListener(server));
 
 		server.setStopAtShutdown(true);
 
-		ContextHandlerCollection contextCollection = new ContextHandlerCollection();
-		contextCollection.setServer(server);
-		contextCollection.setHandlers(new Handler[] { appContext });
+		contexts = new ContextHandlerCollection();
+		contexts.setHandlers(new Handler[] { installationContextHandler });
+
+		server.setHandler(contexts);
 
 		server.start();
 
 		ShutdownMonitor.getInstance().start();
 
 		server.join();
+
 	}
 
 	public void usage(String error) {
@@ -465,6 +221,7 @@ public abstract class GenericServerRunner {
 	}
 
 	private DataSource buildDataSource() {
+		SiteConfiguration.loadInstance();
 		DatabaseConfiguration dbConf = SiteConfiguration
 				.getDatabaseConfiguration();
 		BoneCPDataSource dataSource = new BoneCPDataSource();
@@ -481,5 +238,106 @@ public abstract class GenericServerRunner {
 		dataSource.setAcquireIncrement(3);
 		dataSource.setConnectionTestStatement("SELECT 1");
 		return dataSource;
+	}
+
+	private class ServerLifeCycleListener implements LifeCycle.Listener {
+
+		private Server server;
+
+		public ServerLifeCycleListener(Server server) {
+			this.server = server;
+		}
+
+		@Override
+		public void lifeCycleStarting(LifeCycle event) {
+
+		}
+
+		@Override
+		public void lifeCycleStarted(LifeCycle event) {
+			System.out.println("Started");
+
+			Runnable thread = new Runnable() {
+
+				@Override
+				public void run() {
+					log.debug("Detect root folder webapp");
+					File confFolder = new File(System.getProperty("user.dir"),
+							"conf");
+
+					if (!confFolder.exists()) {
+						confFolder = new File(System.getProperty("user.dir"),
+								"src/main/conf");
+					}
+
+					if (!confFolder.exists()) {
+						throw new MyCollabException(
+								"Can not detect webapp base folder");
+					} else {
+						File confFile = new File(confFolder,
+								"mycollab.properties");
+						while (!confFile.exists()) {
+							try {
+								Thread.sleep(5000);
+							} catch (InterruptedException e) {
+								throw new MyCollabException(e);
+							}
+						}
+
+						String webappDirLocation = detectWebApp();
+						WebAppContext appContext = buildContext(webappDirLocation);
+						appContext.setServer(server);
+						appContext.setConfigurations(new Configuration[] {
+								new AnnotationConfiguration(),
+								new WebXmlConfiguration(),
+								new WebInfConfiguration(),
+								new PlusConfiguration(),
+								new MetaInfConfiguration(),
+								new FragmentConfiguration(),
+								new EnvConfiguration() });
+
+						// Register a mock DataSource scoped to the webapp
+						// This must be linked to the webapp via an entry in
+						// web.xml:
+						// <resource-ref>
+						// <res-ref-name>jdbc/mydatasource</res-ref-name>
+						// <res-type>javax.sql.DataSource</res-type>
+						// <res-auth>Container</res-auth>
+						// </resource-ref>
+						// At runtime the webapp accesses this as
+						// java:comp/env/jdbc/mydatasource
+						try {
+							org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
+									appContext, "jdbc/mycollabdatasource",
+									buildDataSource());
+							contexts.removeHandler(installationContextHandler);
+							contexts.addHandler(appContext);
+							install.setWaitFlag(false);
+
+						} catch (NamingException e) {
+							throw new MyCollabException(e);
+						}
+					}
+				}
+			};
+
+			new Thread(thread).start();
+		}
+
+		@Override
+		public void lifeCycleFailure(LifeCycle event, Throwable cause) {
+
+		}
+
+		@Override
+		public void lifeCycleStopping(LifeCycle event) {
+
+		}
+
+		@Override
+		public void lifeCycleStopped(LifeCycle event) {
+
+		}
+
 	}
 }

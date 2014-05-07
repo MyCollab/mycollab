@@ -63,15 +63,15 @@ public abstract class VelocityWebServletRequestHandler extends
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
-		
-		SharingOptions sharingOptions = SiteConfiguration
-				.getSharingOptions();
-		
+
+		SharingOptions sharingOptions = SharingOptions
+				.getDefaultSharingOptions();
+
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
 		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
 		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
-		
+
 		pageContext.put("defaultUrls", defaultUrls);
 
 		StringWriter writer = new StringWriter();

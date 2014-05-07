@@ -168,6 +168,12 @@ public class AppContext implements Serializable {
 		MyCollabSession.putVariable(USER_TIMEZONE, timezone);
 	}
 
+	public void clearSession() {
+		session = null;
+		userPreference = null;
+		billingAccount = null;
+	}
+
 	private void setLanguage() {
 		String language = session.getLanguage();
 		messageHelper = LocalizationHelper.getMessageConveyor(language);

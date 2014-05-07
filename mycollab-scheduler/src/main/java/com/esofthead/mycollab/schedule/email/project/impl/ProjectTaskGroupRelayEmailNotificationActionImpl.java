@@ -114,6 +114,10 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		int taskId = emailNotification.getTypeid();
 		SimpleTaskList taskList = projectTaskListService.findById(taskId,
 				emailNotification.getSaccountid());
+		
+		if (taskList == null) {
+			return null;
+		}
 
 		String subject = StringUtils.trim(taskList.getName(), 100);
 

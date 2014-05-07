@@ -41,6 +41,12 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.1
+ * 
+ */
 public class ProjectTaskOverdueComponent extends Depot {
 
 	private static final long serialVersionUID = 1L;

@@ -37,7 +37,7 @@ public class GenericBeanForm<B> extends CssLayout {
 	public static String SAVE_AND_NEW_ACTION = "Save & New";
 	public static String ASSIGN_ACTION = "Assign";
 	public static String EDIT_ACTION = "Edit";
-	public static String CANCEL_ACTION = SAVE_ACTION = AppContext
+	public static String CANCEL_ACTION = AppContext
 			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
 	public static String DELETE_ACTION = "Delete";
 	public static String CLONE_ACTION = "Clone";

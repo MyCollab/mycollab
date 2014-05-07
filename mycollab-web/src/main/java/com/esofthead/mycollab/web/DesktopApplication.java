@@ -158,9 +158,8 @@ public class DesktopApplication extends UI {
 										});
 
 							} else {
-								NotificationUtil
-										.showErrorNotification(AppContext
-												.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
+								NotificationUtil.showErrorNotification(AppContext
+										.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
 							}
 						} else {
 							log.error("Error", e);
@@ -231,7 +230,7 @@ public class DesktopApplication extends UI {
 
 	public void clearSession() {
 		if (AppContext.getInstance() != null) {
-			AppContext.getInstance().setSession(null, null, null);
+			AppContext.getInstance().clearSession();
 			initialUrl = "";
 			ViewManager.clearViewCaches();
 			PresenterResolver.clearCaches();

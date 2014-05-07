@@ -107,6 +107,10 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		int problemId = emailNotification.getTypeid();
 		SimpleProblem problem = problemService.findById(problemId, 0);
+		
+		if (problem == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ problem.getProjectName() + "]: "

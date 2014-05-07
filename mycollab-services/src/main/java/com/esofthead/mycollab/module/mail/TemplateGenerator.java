@@ -61,7 +61,8 @@ public class TemplateGenerator {
 
 		Map<String, String> defaultUrls = new HashMap<String, String>();
 
-		SharingOptions sharingOptions = SiteConfiguration.getSharingOptions();
+		SharingOptions sharingOptions = SharingOptions
+				.getDefaultSharingOptions();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());

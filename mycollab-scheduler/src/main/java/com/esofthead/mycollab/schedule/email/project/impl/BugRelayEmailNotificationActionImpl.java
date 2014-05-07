@@ -153,6 +153,9 @@ public class BugRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		SimpleBug bug = bugService.findById(emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
+		if (bug == null) {
+			return null;
+		}
 
 		String subject = StringUtils.trim(bug.getSummary(), 100);
 
@@ -183,6 +186,9 @@ public class BugRelayEmailNotificationActionImpl extends
 		int bugId = emailNotification.getTypeid();
 		SimpleBug bug = bugService.findById(bugId,
 				emailNotification.getSaccountid());
+		if (bug == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ bug.getProjectname() + "]: "
@@ -298,21 +304,21 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		public BugFieldNameMapper() {
 			put("summary", "Bug Summary", true);
-			
+
 			put("environment", "Environment", true);
-			
+
 			put("description", "Description", true);
-			
+
 			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					"Milestone"));
-			
+
 			put("status", "Status");
 			put("resolution", "Resolution");
-			
+
 			put("severity", "Serverity");
 			put("priority", "Priority");
-			
+
 			put("duedate", new DateFieldFormat("duedate", "Due Date"));
 			put("logby", new LogUserFieldFormat("logby", "Logged By"));
 		}

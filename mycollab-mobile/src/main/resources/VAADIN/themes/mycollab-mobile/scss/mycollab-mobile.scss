@@ -354,7 +354,39 @@
 			}
 	}
 	
-	/* Filterselect popup */
+	/* Filterselect */
+	.v-filterselect {
+		overflow: hidden;
+		padding-right: 16px;
+		
+		.v-icon {
+			height: 16px;
+			position: relative;
+			vertical-align: middle;
+		}
+		
+		.v-filterselect-input {
+			height: 16px;
+			vertical-align: middle;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			position: relative;
+		}
+		.v-icon + .v-filterselect-input {
+			padding-left: 18px;
+			margin-left: -16px;
+		}
+		.v-filterselect-button {
+			height: 16px;
+			width: 16px;
+			margin-right: -16px;
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		
+	}
 	.v-filterselect-suggestpopup {
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;

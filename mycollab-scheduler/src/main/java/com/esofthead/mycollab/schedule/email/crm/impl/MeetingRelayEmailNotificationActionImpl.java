@@ -111,6 +111,10 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
 
+		if (simpleMeeting == null) {
+			return null;
+		}
+
 		String subject = StringUtils.trim(simpleMeeting.getSubject(), 150);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
@@ -140,6 +144,10 @@ public class MeetingRelayEmailNotificationActionImpl extends
 		SimpleMeeting simpleMeeting = meetingService.findById(
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
+		
+		if (simpleMeeting == null) {
+			return null;
+		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				emailNotification.getChangeByUserFullName()

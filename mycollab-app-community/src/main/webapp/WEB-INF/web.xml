@@ -274,7 +274,7 @@
         <exception-type>javax.servlet.ServletException</exception-type>
         <location>/error</location>
     </error-page>
-
+ 
     <resource-ref>
         <description>DB Connection Pooling</description>
         <res-ref-name>jdbc/mycollabdatasource</res-ref-name>
@@ -282,4 +282,5 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+  
 </web-app>

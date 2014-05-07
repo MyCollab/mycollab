@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -45,49 +44,40 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
  */
 public class SetupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	
-	
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setStatus(HttpServletResponse.SC_OK);
-		
-		
+
 		VelocityContext context = new VelocityContext();
 		Reader reader = null;
 
 		try {
-			reader = new InputStreamReader(
-					SetupServlet.class
-							.getClassLoader()
-							.getResourceAsStream(
-									"templates/page/SetupFresh.mt"),
+			reader = new InputStreamReader(SetupServlet.class.getClassLoader()
+					.getResourceAsStream("templates/page/SetupFresh.mt"),
 					"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(
-					SetupServlet.class
-							.getClassLoader()
-							.getResourceAsStream(
-									"templates/page/SetupFresh.mt"));
+			reader = new InputStreamReader(SetupServlet.class.getClassLoader()
+					.getResourceAsStream("templates/page/SetupFresh.mt"));
 		}
-		
+
 		String postUrl = "/install";
 		context.put("redirectURL", postUrl);
-		
+
 		Map<String, String> defaultUrls = new HashMap<String, String>();
-		
-		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
-		defaultUrls.put("app_url", SiteConfiguration.getAppUrl());
-		
-		SharingOptions sharingOptions = SiteConfiguration
-				.getSharingOptions();
-		
+
+		defaultUrls.put("cdn_url", "/assets/images/email/");
+		defaultUrls.put("app_url", "/");
+
+		SharingOptions sharingOptions = SharingOptions
+				.getDefaultSharingOptions();
+
 		defaultUrls.put("facebook_url", sharingOptions.getFacebookUrl());
 		defaultUrls.put("google_url", sharingOptions.getGoogleplusUrl());
 		defaultUrls.put("linkedin_url", sharingOptions.getLinkedinUrl());
 		defaultUrls.put("twitter_url", sharingOptions.getTwitterUrl());
-		
+
 		context.put("defaultUrls", defaultUrls);
 
 		StringWriter writer = new StringWriter();

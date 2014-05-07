@@ -130,6 +130,10 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		SimpleTask task = projectTaskService.findById(taskId,
 				emailNotification.getSaccountid());
 
+		if (task == null) {
+			return null;
+		}
+		
 		String subject = StringUtils.trim(task.getTaskname(), 100);
 		ScheduleUserTimeZoneUtils.formatDateTimeZone(task, user.getTimezone(),
 				new String[] { "startdate", "enddate", "deadline",
