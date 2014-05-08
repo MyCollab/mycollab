@@ -48,6 +48,14 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
 		return this.itemList;
 	}
 
+	@Override
+	protected void onBecomingVisible() {
+		super.onBecomingVisible();
+
+		if (getPagedBeanTable().getSearchRequest() != null)
+			getPagedBeanTable().refresh();
+	}
+
 	abstract protected AbstractPagedBeanList<S, B> createBeanTable();
 
 }

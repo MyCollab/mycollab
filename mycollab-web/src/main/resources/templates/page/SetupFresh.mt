@@ -28,6 +28,10 @@ h3 {
 	padding-right:20px;
 }
 
+#body {
+	letter-spacing: 0.5px;
+}
+
 
 
 </style>
@@ -192,12 +196,15 @@ h3 {
 											<tr>
 												<td style="width:30px;"><label for="tls" >Enable TLS/SSL:</label><input id="tls" type="checkbox"/></td>
 											</tr>
-											<tr><td><h4>Some email services like Gmail require TLS/SSL enables.<h4></td></tr>
+											<tr><td><h4>Some email services like Gmail require TLS/SSL enables.<h4>
+												</td>
+											</tr>
 											
 										</tbody>
 									</table>
 								</form>	
 								<div class="right" style="margin-top: 10px;">
+									<button id="emailValidate" class="v-button v-button-greenbtn" type="button" onclick="return emailValidate();" style="width:140px"><span style="font-family: 'Georgia';font-size: 15px;">Check Smtp</span></button>
 									<button id="post" class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();" style="width:140px"><span style="font-family: 'Georgia';font-size: 15px;">Update & Go</span></button>
 								</div>
 							</td>
@@ -267,6 +274,63 @@ h3 {
 		      	 	}else{
 		      	 		alert("Your database connection is OK");
 		      	 		$('#validate').html('<span>Check Connection</span>');
+		      	 	}
+		      	 }
+		      }
+		});
+	}
+	
+	function emailValidate(){
+		if ($('#smtpUserName').val() == ""){
+			alert("Please enter email adress");
+			return;
+		}
+		
+		if ($('#smtpPassword').val() == ""){
+			alert("Please enter email password");
+			return;
+		}
+		
+		if ($('#stmpHost').val() == ""){
+			alert("Please enter stmp server address");
+			return;
+		}
+		
+		if ($('#smtpPort').val() == ""){
+			alert("Please enter stmp server port");
+			return;
+		}
+		
+		var tls = "";
+		if ($('#tls').is(":checked"))
+		{
+			tlsStatus = "true";
+		}
+		else 
+		{
+			tlsStatus = "false";
+		}
+		
+		var urlValidate = "/emailValidate";
+		$('#emailValidate').html('<img src="${defaultUrls.app_url}assets/images/ajax-loader.gif" alt="Pulpit rock" style="height:18px;" >');
+		$.ajax({
+		      type: 'GET',
+		      url: urlValidate,
+		      data : {
+		      			smtpUserName : $('#smtpUserName').val().trim(), 
+		      			smtpPassword : $('#smtpPassword').val().trim(), 
+		      			stmpHost : $('#stmpHost').val().trim(), 
+		      			smtpPort : $('#smtpPort').val().trim(),
+		      			tls : tlsStatus
+		      		},
+		      success: function(data){
+		      	 if(data!=null){
+		      	 	if(data.length > 0){
+		      	 		alert(data);
+		      	 		$('#emailValidate').html('<span>Check Smtp</span>');
+		      	 	}else{
+		      	 		alert("Your SMTP connection is OK");
+		      	 		$('#emailValidate').html('<span>Check Smtp</span>');
 		      	 	}
 		      	 }
 		      }

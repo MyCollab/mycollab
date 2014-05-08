@@ -47,6 +47,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.servlet.AssetHttpServletRequestHandler;
 import com.esofthead.mycollab.servlet.DatabaseValidate;
+import com.esofthead.mycollab.servlet.EmailValidationServlet;
 import com.esofthead.mycollab.servlet.InstallationServlet;
 import com.esofthead.mycollab.servlet.SetupServlet;
 import com.jolbox.bonecp.BoneCPDataSource;
@@ -184,6 +185,8 @@ public abstract class GenericServerRunner {
 				"/install");
 		installationContextHandler.addServlet(new ServletHolder(
 				new DatabaseValidate()), "/validate");
+		installationContextHandler.addServlet(new ServletHolder(
+				new EmailValidationServlet()), "/emailValidate");
 
 		installationContextHandler.addServlet(new ServletHolder(
 				new AssetHttpServletRequestHandler()), "/assets/*");

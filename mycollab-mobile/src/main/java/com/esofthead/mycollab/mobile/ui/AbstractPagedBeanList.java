@@ -44,7 +44,7 @@ import com.vaadin.ui.Table.ColumnHeaderMode;
  * @since 3.0
  */
 public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
-extends CssLayout implements IPagedBeanList<S, B> {
+		extends CssLayout implements IPagedBeanList<S, B> {
 	private static final long serialVersionUID = 1504984093640864283L;
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
@@ -72,13 +72,13 @@ extends CssLayout implements IPagedBeanList<S, B> {
 		setSizeFull();
 		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
 		scrollLayout
-		.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
+				.addScrollListener(new InfiniteScrollLayout.ScrollReachBottomListener() {
 
-			@Override
-			public void onReachBottom() {
-				loadMore();
-			}
-		});
+					@Override
+					public void onReachBottom() {
+						loadMore();
+					}
+				});
 
 		this.type = type;
 		this.displayColumnId = displayColumnId;
@@ -146,6 +146,10 @@ extends CssLayout implements IPagedBeanList<S, B> {
 		this.searchRequest = new SearchRequest<S>(searchCriteria,
 				this.currentPage, this.displayNumItems);
 		this.doSearch();
+	}
+
+	public SearchRequest<S> getSearchRequest() {
+		return this.searchRequest;
 	}
 
 	@Override

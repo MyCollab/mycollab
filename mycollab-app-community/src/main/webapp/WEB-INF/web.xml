@@ -41,7 +41,17 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:/META-INF/spring/*-context.xml
+            classpath:/META-INF/spring/core-context.xml
+            classpath:/META-INF/spring/common-context.xml
+            classpath:/META-INF/spring/camel-context.xml
+            classpath:/META-INF/spring/datasource-context.xml
+            classpath:/META-INF/spring/mail-context.xml
+            classpath:/META-INF/spring/crm-context.xml
+            classpath:/META-INF/spring/ecm-context.xml
+            classpath:/META-INF/spring/form-context.xml
+            classpath:/META-INF/spring/project-context.xml
+            classpath:/META-INF/spring/tracker-context.xml
+            classpath:/META-INF/spring/user-context.xml
             classpath:/META-INF/spring-scheduler-standalone/*-context.xml
             classpath:/META-INF/spring-web/initialize-context.xml
         </param-value>

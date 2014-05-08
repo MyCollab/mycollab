@@ -80,6 +80,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections-spring</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.dropbox.core</groupId>
             <artifactId>dropbox-core-sdk</artifactId>
             <version>[1.7,1.8)</version>
@@ -113,9 +125,9 @@
                     <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
                         <overwrite>true</overwrite> </configuration> </execution> -->
-                    <!--   <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 
+                    <!-- <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/UserGeneratorConfig.xml</configurationFile> 
-                        <overwrite>true</overwrite> </configuration> </execution>--> 
+                        <overwrite>true</overwrite> </configuration> </execution> -->
                     <!-- <execution> <id>Common Artifacts Generator</id> 
                         <phase>validate</phase> <goals> <goal>generate</goal> </goals> <configuration> 
                         <configurationFile>${basedir}/src/main/resources/CommonGeneratorConfig.xml</configurationFile> 

@@ -39,19 +39,12 @@ public class TemplateEngine {
 
 	private static ToolManager toolManager;
 
-	private static VelocityEngine voEngine;
-
 	static {
 		EasyFactoryConfiguration config = new EasyFactoryConfiguration();
 		config.toolbox(Scope.APPLICATION).tool(DateTool.class);
 
 		toolManager = new ToolManager();
 		toolManager.configure(config);
-
-		voEngine = ApplicationContextUtil.getSpringBean(VelocityEngine.class);
-		
-		voEngine.init();
-
 	}
 
 	public static ToolContext createContext() {
@@ -60,7 +53,10 @@ public class TemplateEngine {
 
 	public static void evaluate(TemplateContext context, Writer writer,
 			String message, Reader reader) {
+		VelocityEngine voEngine = ApplicationContextUtil
+				.getSpringBean(VelocityEngine.class);
 
+		voEngine.init();
 		voEngine.evaluate(context.getVelocityContext(), writer, "log", reader);
 	}
 }

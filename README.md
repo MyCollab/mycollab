@@ -20,8 +20,8 @@ MyCollab is an online system comprising project management, CRM and document man
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm8.staticflickr.com/7305/9405229619_777660137e_o.png" target="_blank" title=“Task Dashboard”>
-        <img src="https://farm8.staticflickr.com/7305/9405229619_09be974761_m.jpg" alt=“Task Dashboard>
+      <a href="https://farm8.staticflickr.com/7305/9405229619_b4986ea702_o.png" target="_blank" title=“Task Dashboard”>
+        <img src="https://farm8.staticflickr.com/7305/9405229619_38a94156f1_m.jpg" alt=“Task Dashboard>
       </a>
       <br />
       <em>Task Dashboard</em>
