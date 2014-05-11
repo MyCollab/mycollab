@@ -79,6 +79,11 @@ public class LocalizationHelper {
 	}
 
 	public static String getMessage(Enum key, Object... objects) {
-		return english.getMessage(key, objects);
+		try {
+			return english.getMessage(key, objects);
+		} catch (Exception e) {
+			log.error("Can not find resource key {}", key);
+			return "Undefined";
+		}
 	}
 }

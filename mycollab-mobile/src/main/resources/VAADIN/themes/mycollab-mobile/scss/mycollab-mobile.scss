@@ -222,6 +222,25 @@
 		   					padding: 0 12px;
 		   				}
 	    			}
+	    			.add-btn {
+	    				.v-button-caption {
+	    					font-family: 'icomoon';
+							speak: none;
+							font-style: normal;
+							font-weight: normal;
+							font-variant: normal;
+							text-transform: none;
+						
+							/* Better Font Rendering =========== */
+							-webkit-font-smoothing: antialiased;
+							-moz-osx-font-smoothing: grayscale;
+							color: rgb(255, 255, 255);
+	    				}
+	    				.v-button-caption:before {
+							content: "\e60e";
+							font-size: 2rem;
+	    				}
+	    			}
 	    		}
 	    	}
 	    	

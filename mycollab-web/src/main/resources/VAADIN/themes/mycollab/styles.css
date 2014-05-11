@@ -1,5 +1,6 @@
 @import "my-chameleon-styles.css";
 @import "calendar.css";
+@import "ganttstyle.css";
 
 @media only screen and (max-width : 1024px) , only screen and
 	(max-device-width : 1024px) {
@@ -2827,6 +2828,7 @@ td.v-tabsheet-spacertd div {
 .v-panel-content-activity-panel {
 	border: none;
 	padding-top: 10px;
+	border-color:#CFCFCF;
 }
 
 .v-panel-deco-activity-panel {
@@ -3655,6 +3657,7 @@ div.v-window-header {
 /* End Rating Stars */
 
 /* No border Panel */
+
 .v-label-h2.no-border {
 	border: none;
 }
@@ -4137,49 +4140,6 @@ div.v-lazyloadingwrapper-loading {
 }
 /* End Milestone Box */
 
-/* Gantt Chart */
-.v-table-focus .v-table-cell-content {
-	border: none;
-}
-
-.v-table-row.v-selected .v-button-link .v-button-caption,.v-table-row-odd.v-selected .v-button-link .v-button-caption
-	{
-	color: #FFF;
-}
-
-.gantt-chart {
-	border-width: 0px;
-}
-
-.gantt-chart .v-table-body {
-	border: none;
-}
-
-.gantt-chart .v-table-header-wrap {
-	background: url("icons/grad-light-top.png") repeat-x scroll 0% 0%
-		rgb(201, 201, 201);
-	border-radius: 0px;
-}
-
-.gantt-chart .v-table-header-wrap .v-table-caption-container {
-	color: rgb(34, 34, 34);
-}
-
-.gantt-chart input.v-textfield[type="text"] {
-	padding: 0px;
-	border-radius: 0px;
-	height: 17px !important;
-}
-
-.gantt-chart div[id^='ganttFilterApplyButton'],.gantt-chart div[id^='ganttFilterResetButton']
-	{
-	border-top: 1px solid rgb(129, 129, 129);
-}
-
-.gantt-chart div[id^='canvas'] {
-	overflow: hidden !important;
-}
-/* End Gantt Chart */
 
 /* Stand Up List View */
 .v-label.standup-row-content {

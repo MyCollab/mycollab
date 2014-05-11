@@ -55,6 +55,12 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @ViewComponent
 public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		ProfilePhotoUploadView {
@@ -107,8 +113,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setSizeUndefined();
 
 		Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 
 					@Override
@@ -123,8 +128,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
 		Button acceptBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_ACCEPT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT_LABEL),
 				new Button.ClickListener() {
 
 					@Override
@@ -177,34 +181,34 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		cropField.setSelectionAspectRatio(1.0f);
 		cropField.addValueChangeListener(new Property.ValueChangeListener() {
 
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                VCropSelection newSelection = (VCropSelection) event
-                        .getProperty().getValue();
-                int x1 = newSelection.getXTopLeft();
-                int y1 = newSelection.getYTopLeft();
-                int x2 = newSelection.getXBottomRight();
-                int y2 = newSelection.getYBottomRight();
-                if (x2 > x1 && y2 > y1) {
-                    BufferedImage subImage = originalImage.getSubimage(x1, y1,
-                            (x2 - x1), (y2 - y1));
-                    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                    try {
-                        ImageIO.write(subImage, "png", outStream);
-                        scaleImageData = outStream.toByteArray();
-                        displayPreviewImage();
-                    } catch (IOException e) {
-                        log.error("Error while scale image: ", e);
-                    }
-                }
+			@Override
+			public void valueChange(Property.ValueChangeEvent event) {
+				VCropSelection newSelection = (VCropSelection) event
+						.getProperty().getValue();
+				int x1 = newSelection.getXTopLeft();
+				int y1 = newSelection.getYTopLeft();
+				int x2 = newSelection.getXBottomRight();
+				int y2 = newSelection.getYBottomRight();
+				if (x2 > x1 && y2 > y1) {
+					BufferedImage subImage = originalImage.getSubimage(x1, y1,
+							(x2 - x1), (y2 - y1));
+					ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+					try {
+						ImageIO.write(subImage, "png", outStream);
+						scaleImageData = outStream.toByteArray();
+						displayPreviewImage();
+					} catch (IOException e) {
+						log.error("Error while scale image: ", e);
+					}
+				}
 
-            }
+			}
 
-        });
+		});
 		currentPhotoBox.setWidth("650px");
 		currentPhotoBox.setHeight("650px");
 
-        currentPhotoBox.addComponent(cropField);
+		currentPhotoBox.addComponent(cropField);
 
 		cropBox.addComponent(currentPhotoBox);
 

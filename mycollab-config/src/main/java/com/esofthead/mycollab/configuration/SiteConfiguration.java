@@ -47,6 +47,7 @@ public class SiteConfiguration {
 	private String appUrl;
 
 	public static void loadInstance() {
+		ApplicationProperties.loadProps();
 		instance = new SiteConfiguration();
 
 		instance.sentErrorEmail = ApplicationProperties.getString(

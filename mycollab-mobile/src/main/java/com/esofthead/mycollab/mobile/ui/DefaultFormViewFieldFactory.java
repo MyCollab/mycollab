@@ -22,6 +22,7 @@ import java.util.Date;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -29,6 +30,7 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 
 /**
  * 
@@ -92,8 +94,7 @@ public class DefaultFormViewFieldFactory {
 		}
 	}
 
-	public static class DateFieldWithUserTimeZone extends
-			CustomField<String> {
+	public static class DateFieldWithUserTimeZone extends CustomField<String> {
 		private static final long serialVersionUID = 1L;
 
 		private static String DATE_FORMAT = "MM/dd/yyyy";
@@ -166,6 +167,30 @@ public class DefaultFormViewFieldFactory {
 				l.setValue(AppContext.formatDate(date));
 			}
 			return l;
+		}
+	}
+
+	public static class FormEmailLinkViewField extends CustomField<String> {
+
+		private static final long serialVersionUID = 1L;
+
+		private String email;
+
+		public FormEmailLinkViewField(final String email) {
+			this.email = email;
+		}
+
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
+
+		@Override
+		protected Component initContent() {
+			final Link emailLink = new Link(email, new ExternalResource(
+					"mailto:" + email));
+			// emailLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
+			return emailLink;
 		}
 	}
 

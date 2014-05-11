@@ -26,6 +26,9 @@ import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -35,7 +38,9 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  */
 
 @ViewComponent
-public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements AccountListView {
+public class AccountListViewImpl extends
+		AbstractListViewComp<AccountSearchCriteria, SimpleAccount> implements
+		AccountListView {
 
 	private static final long serialVersionUID = -500810154594390148L;
 
@@ -51,27 +56,43 @@ public class AccountListViewImpl extends AbstractListViewComp<AccountSearchCrite
 		AccountListDisplay accountListDisplay = new AccountListDisplay(
 				"accountname");
 
-		accountListDisplay.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+		accountListDisplay
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
+
+					@Override
+					public void handle(final TableClickEvent event) {
+						final SimpleAccount account = (SimpleAccount) event
+								.getData();
+						if ("accountname".equals(event.getFieldName())) {
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoRead(
+											AccountListViewImpl.this, account
+													.getId()));
+						}
+					}
+				});
+		return accountListDisplay;
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		Button addAccount = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
-
-			@Override
-			public void handle(final TableClickEvent event) {
-				final SimpleAccount account = (SimpleAccount) event
-						.getData();
-				if ("accountname".equals(event.getFieldName())) {
-					EventBus.getInstance().fireEvent(
-							new AccountEvent.GotoRead(
-									AccountListViewImpl.this, account
-									.getId()));
-				}
+			public void buttonClick(ClickEvent arg0) {
+				EventBus.getInstance().fireEvent(
+						new AccountEvent.GotoAdd(this, null));
 			}
 		});
-		return accountListDisplay;
+		addAccount.setStyleName("add-btn");
+		return addAccount;
 	}
 
 }

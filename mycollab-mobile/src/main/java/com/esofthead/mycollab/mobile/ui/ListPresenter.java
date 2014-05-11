@@ -19,6 +19,8 @@ package com.esofthead.mycollab.mobile.ui;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 
 /**
  * 
@@ -42,6 +44,13 @@ public abstract class ListPresenter<V extends ListView<S, B>, S extends SearchCr
 	public void doSearch(S searchCriteria) {
 		this.searchCriteria = searchCriteria;
 		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void onGo(MobileNavigationManager container, ScreenData<?> data) {
+		container.navigateTo(view.getWidget());
+		doSearch((S) data.getParams());
 	}
 
 }

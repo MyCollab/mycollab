@@ -33,6 +33,7 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @SuppressWarnings("serial")
 public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {

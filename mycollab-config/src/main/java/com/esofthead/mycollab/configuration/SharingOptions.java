@@ -66,24 +66,15 @@ public class SharingOptions {
 	public void setTwitterUrl(String twitterUrl) {
 		this.twitterUrl = twitterUrl;
 	}
-	
+
 	static {
 		instance = new SharingOptions();
-		instance.setFacebookUrl(ApplicationProperties.getString(
-				ApplicationProperties.FACEBOOK_URL,
-				"https://www.facebook.com/mycollab2"));
-		instance.setTwitterUrl(ApplicationProperties.getString(
-				ApplicationProperties.TWITTER_URL,
-				"https://twitter.com/mycollabdotcom"));
-		instance.setLinkedinUrl(ApplicationProperties.getString(
-				ApplicationProperties.LINKEDIN_URL,
-				"http://www.linkedin.com/company/mycollab"));
-		instance
-				.setGoogleplusUrl(ApplicationProperties
-						.getString(ApplicationProperties.GOOGLE_URL,
-								"https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub"));
+		instance.setFacebookUrl("https://www.facebook.com/mycollab2");
+		instance.setTwitterUrl("https://twitter.com/mycollabdotcom");
+		instance.setLinkedinUrl("http://www.linkedin.com/company/mycollab");
+		instance.setGoogleplusUrl("https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
 	}
-	
+
 	public static SharingOptions getDefaultSharingOptions() {
 		return instance;
 	}

@@ -66,13 +66,15 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		editBtn.setStyleName("edit-btn");
 		this.setRightComponent(editBtn);
 		ComponentContainer toolbarContent = createBottomPanel();
-		toolbarContent.setStyleName("related-items");
-		toolbarContent.setHeight("100%");
-		toolbarContent.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
+		if (toolbarContent != null) {
+			toolbarContent.setStyleName("related-items");
+			toolbarContent.setHeight("100%");
+			toolbarContent.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
 
-		MobileViewToolbar toolbar = new MobileViewToolbar();
-		toolbar.setComponent(toolbarContent);
-		this.setToolbar(toolbar);
+			MobileViewToolbar toolbar = new MobileViewToolbar();
+			toolbar.setComponent(toolbarContent);
+			this.setToolbar(toolbar);
+		}
 	}
 
 	public void previewItem(final B item) {

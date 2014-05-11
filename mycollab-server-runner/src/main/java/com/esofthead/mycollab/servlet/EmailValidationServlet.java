@@ -13,14 +13,19 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
-
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.1
+ * 
+ */
 public class EmailValidationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String smtpUserName = request.getParameter("smtpUserName");
 		String smtpPassword = request.getParameter("smtpPassword");
-		String stmpHost = request.getParameter("stmpHost");
+		String smtpHost = request.getParameter("smtpHost");
 		String smtpPort = request.getParameter("smtpPort");
 		String tls = request.getParameter("tls");
 		
@@ -32,7 +37,7 @@ public class EmailValidationServlet extends HttpServlet {
 		}
 		try { 
 			Email email = new SimpleEmail();
-			email.setHostName(stmpHost);
+			email.setHostName(smtpHost);
 			email.setSmtpPort(mailServerPort);
 			email.setAuthenticator(new DefaultAuthenticator(smtpUserName,smtpPassword));
 			if (tls.equals("true"))

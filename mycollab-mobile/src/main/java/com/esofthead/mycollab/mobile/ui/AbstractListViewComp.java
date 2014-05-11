@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
 /**
@@ -41,6 +42,11 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
 		this.contentLayout.addComponent(itemList);
 
 		setContent(contentLayout);
+
+		Component rightComponent = createRightComponent();
+		if (rightComponent != null) {
+			setRightComponent(rightComponent);
+		}
 	}
 
 	@Override
@@ -58,4 +64,5 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
 
 	abstract protected AbstractPagedBeanList<S, B> createBeanTable();
 
+	abstract protected Component createRightComponent();
 }

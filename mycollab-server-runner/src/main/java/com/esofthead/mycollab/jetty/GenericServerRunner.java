@@ -174,32 +174,36 @@ public abstract class GenericServerRunner {
 	public void execute() throws Exception {
 		server = new Server((port > 0) ? port : 8080);
 
-		installationContextHandler = new ServletContextHandler(
-				ServletContextHandler.SESSIONS);
-		installationContextHandler.setContextPath("/");
-
-		install = new InstallationServlet();
-		installationContextHandler.addServlet(new ServletHolder(
-				new SetupServlet()), "/setup");
-		installationContextHandler.addServlet(new ServletHolder(install),
-				"/install");
-		installationContextHandler.addServlet(new ServletHolder(
-				new DatabaseValidate()), "/validate");
-		installationContextHandler.addServlet(new ServletHolder(
-				new EmailValidationServlet()), "/emailValidate");
-
-		installationContextHandler.addServlet(new ServletHolder(
-				new AssetHttpServletRequestHandler()), "/assets/*");
-		installationContextHandler
-				.addLifeCycleListener(new ServerLifeCycleListener(server));
-
-		server.setStopAtShutdown(true);
-
 		contexts = new ContextHandlerCollection();
-		contexts.setHandlers(new Handler[] { installationContextHandler });
+
+		if (!checkConfigFileExist()) {
+			installationContextHandler = new ServletContextHandler(
+					ServletContextHandler.SESSIONS);
+			installationContextHandler.setContextPath("/");
+
+			install = new InstallationServlet();
+			installationContextHandler.addServlet(new ServletHolder(install),
+					"/install");
+			installationContextHandler.addServlet(new ServletHolder(
+					new DatabaseValidate()), "/validate");
+			installationContextHandler.addServlet(new ServletHolder(
+					new EmailValidationServlet()), "/emailValidate");
+
+			installationContextHandler.addServlet(new ServletHolder(
+					new AssetHttpServletRequestHandler()), "/assets/*");
+			installationContextHandler.addServlet(new ServletHolder(
+					new SetupServlet()), "/*");
+			installationContextHandler
+					.addLifeCycleListener(new ServerLifeCycleListener(server));
+
+			server.setStopAtShutdown(true);
+			contexts.setHandlers(new Handler[] { installationContextHandler });
+		} else {
+			WebAppContext appContext = initWebAppContext();
+			contexts.addHandler(appContext);
+		}
 
 		server.setHandler(contexts);
-
 		server.start();
 
 		ShutdownMonitor.getInstance().start();
@@ -241,6 +245,52 @@ public abstract class GenericServerRunner {
 		dataSource.setAcquireIncrement(3);
 		dataSource.setConnectionTestStatement("SELECT 1");
 		return dataSource;
+	}
+
+	private boolean checkConfigFileExist() {
+		File confFolder = new File(System.getProperty("user.dir"), "conf");
+
+		if (!confFolder.exists()) {
+			confFolder = new File(System.getProperty("user.dir"),
+					"src/main/conf");
+		}
+
+		if (!confFolder.exists()) {
+			throw new MyCollabException("Can not detect webapp base folder");
+		} else {
+			File confFile = new File(confFolder, "mycollab.properties");
+			return confFile.exists();
+		}
+	}
+
+	private WebAppContext initWebAppContext() {
+		String webappDirLocation = detectWebApp();
+		WebAppContext appContext = buildContext(webappDirLocation);
+		appContext.setServer(server);
+		appContext.setConfigurations(new Configuration[] {
+				new AnnotationConfiguration(), new WebXmlConfiguration(),
+				new WebInfConfiguration(), new PlusConfiguration(),
+				new MetaInfConfiguration(), new FragmentConfiguration(),
+				new EnvConfiguration() });
+
+		// Register a mock DataSource scoped to the webapp
+		// This must be linked to the webapp via an entry in
+		// web.xml:
+		// <resource-ref>
+		// <res-ref-name>jdbc/mydatasource</res-ref-name>
+		// <res-type>javax.sql.DataSource</res-type>
+		// <res-auth>Container</res-auth>
+		// </resource-ref>
+		// At runtime the webapp accesses this as
+		// java:comp/env/jdbc/mydatasource
+		try {
+			org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
+					appContext, "jdbc/mycollabdatasource", buildDataSource());
+		} catch (NamingException e) {
+			throw new MyCollabException(e);
+		}
+
+		return appContext;
 	}
 
 	private class ServerLifeCycleListener implements LifeCycle.Listener {
@@ -287,39 +337,10 @@ public abstract class GenericServerRunner {
 							}
 						}
 
-						String webappDirLocation = detectWebApp();
-						WebAppContext appContext = buildContext(webappDirLocation);
-						appContext.setServer(server);
-						appContext.setConfigurations(new Configuration[] {
-								new AnnotationConfiguration(),
-								new WebXmlConfiguration(),
-								new WebInfConfiguration(),
-								new PlusConfiguration(),
-								new MetaInfConfiguration(),
-								new FragmentConfiguration(),
-								new EnvConfiguration() });
-
-						// Register a mock DataSource scoped to the webapp
-						// This must be linked to the webapp via an entry in
-						// web.xml:
-						// <resource-ref>
-						// <res-ref-name>jdbc/mydatasource</res-ref-name>
-						// <res-type>javax.sql.DataSource</res-type>
-						// <res-auth>Container</res-auth>
-						// </resource-ref>
-						// At runtime the webapp accesses this as
-						// java:comp/env/jdbc/mydatasource
-						try {
-							org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
-									appContext, "jdbc/mycollabdatasource",
-									buildDataSource());
-							contexts.removeHandler(installationContextHandler);
-							contexts.addHandler(appContext);
-							install.setWaitFlag(false);
-
-						} catch (NamingException e) {
-							throw new MyCollabException(e);
-						}
+						WebAppContext appContext = initWebAppContext();
+						contexts.removeHandler(installationContextHandler);
+						contexts.addHandler(appContext);
+						install.setWaitFlag(false);
 					}
 				}
 			};

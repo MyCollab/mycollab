@@ -34,7 +34,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import com.esofthead.mycollab.configuration.SharingOptions;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
 
 /**
  * 

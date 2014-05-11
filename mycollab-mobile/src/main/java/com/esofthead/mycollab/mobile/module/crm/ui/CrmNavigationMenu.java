@@ -22,6 +22,7 @@ import java.util.Map;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.user.ui.UserPanel;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.vaadin.ui.Button;
@@ -100,17 +101,31 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 				if ("Accounts".equals(caption)) {
 					EventBus.getInstance().fireEvent(
 							new AccountEvent.GotoList(this, null));
+				} else if ("Contacts".equals(caption)) {
+					EventBus.getInstance().fireEvent(
+							new ContactEvent.GotoList(this, null));
 				}
 
-				for (final Iterator<MenuButton> it = CrmNavigationMenu.this
-						.buttonIterator(); it.hasNext();) {
-					final MenuButton btn = it.next();
-					btn.removeStyleName("isSelected");
-				}
-
-				event.getButton().addStyleName("isSelected");
+				/*
+				 * for (final Iterator<MenuButton> it = CrmNavigationMenu.this
+				 * .buttonIterator(); it.hasNext();) { final MenuButton btn =
+				 * it.next(); btn.removeStyleName("isSelected"); }
+				 * 
+				 * event.getButton().addStyleName("isSelected");
+				 */
 			}
 		};
+	}
+
+	public void selectButton(String caption) {
+		for (final Iterator<MenuButton> it = CrmNavigationMenu.this
+				.buttonIterator(); it.hasNext();) {
+			final MenuButton btn = it.next();
+			btn.removeStyleName("isSelected");
+			if (btn.getCaption().equals(caption)) {
+				btn.addStyleName("isSelected");
+			}
+		}
 	}
 
 	public Iterator<MenuButton> buttonIterator() {

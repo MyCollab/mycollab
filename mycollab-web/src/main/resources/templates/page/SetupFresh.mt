@@ -178,10 +178,10 @@ h3 {
 											<tr><td><h4>Password of your email account<h4></td></tr>
 										
 											<tr>
-												<td><label for="stmpHost">Outgoing server address:</label></td>
+												<td><label for="smtpHost">Outgoing server address:</label></td>
 											</tr>
 											<tr>
-												<td><input id="stmpHost"/></td>
+												<td><input id="smtpHost"/></td>
 											</tr>
 											<tr><td><h4>Your email service Smtp server address. If you use Gmail input address smtp.gmail.com<h4></td></tr>
 											
@@ -291,13 +291,13 @@ h3 {
 			return;
 		}
 		
-		if ($('#stmpHost').val() == ""){
-			alert("Please enter stmp server address");
+		if ($('#smtpHost').val() == ""){
+			alert("Please enter smtp server address");
 			return;
 		}
 		
 		if ($('#smtpPort').val() == ""){
-			alert("Please enter stmp server port");
+			alert("Please enter smtp server port");
 			return;
 		}
 		
@@ -319,7 +319,7 @@ h3 {
 		      data : {
 		      			smtpUserName : $('#smtpUserName').val().trim(), 
 		      			smtpPassword : $('#smtpPassword').val().trim(), 
-		      			stmpHost : $('#stmpHost').val().trim(), 
+		      			smtpHost : $('#smtpHost').val().trim(), 
 		      			smtpPort : $('#smtpPort').val().trim(),
 		      			tls : tlsStatus
 		      		},
@@ -394,15 +394,24 @@ h3 {
 		      			databaseServer : $('#databaseServer').val().trim(),
 		      			smtpUserName : $('#smtpUserName').val().trim(),
 		      			smtpPassword : $('#smtpPassword').val().trim(), 
-		      			stmpHost : $('#stmpHost').val().trim(), 
+		      			smtpHost : $('#smtpHost').val().trim(), 
 		      			smtpPort : $('#smtpPort').val().trim(), 
 		      			tls : tlsStatus
 		      		},
 		      success: function(data){
 		      	 if(data!=null){
 		      	 	if(data.length > 0){
-		      	 		alert(data);
+		      	 		if (data == "smtpError")
+		      	 		{
+		      	 			alert("Something was WRONG with SMTP. You can change your config later in mycollab.properties.");
+		      	 			$('#post').html('<span>Update & Go</span>');
+		      	 			window.location.assign("/");
+		      	 		}
+		      	 		else {
 		      	 		$('#post').html('<span>Update & Go</span>');
+		      	 			alert(data);
+		      	 		}
+		      	 		
 		      	 	}else{
 		      	 		alert("Setting up finished. Redirect to app.");
 		      	 		$('#post').html('<span>Update & Go</span>');

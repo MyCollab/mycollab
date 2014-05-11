@@ -4,8 +4,8 @@
 /* The actual styles should be defined in vaadinexampleproject.scss */
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot");
-  src: url("fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("fonts/icomoon.woff") format("woff"), url("fonts/icomoon.ttf") format("truetype"), url("fonts/icomoon.svg#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?-4bdust");
+  src: url("fonts/icomoon.eot?#iefix-4bdust") format("embedded-opentype"), url("fonts/icomoon.woff?-4bdust") format("woff"), url("fonts/icomoon.ttf?-4bdust") format("truetype"), url("fonts/icomoon.svg?-4bdust#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -87,6 +87,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Controls Popover */
   /* Data List View */
   /* Read View Layout */
+  /* Edit View Layout */
+  /* Filterselect */
   /* Message Row */
 }
 .mycollab-mobile .content-wrapper {
@@ -260,7 +262,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 2rem;
   color: white;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn {
   border: 1px solid #2482c2;
   color: white;
   padding-top: 0.5rem;
@@ -268,8 +270,24 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   height: 2.8rem;
   line-height: normal;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn .v-button-wrap {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn .v-button-wrap, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn .v-button-wrap {
   padding: 0 12px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn .v-button-caption {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn .v-button-caption:before {
+  content: "\e60e";
+  font-size: 2rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper {
   -webkit-tap-highlight-color: transparent;
@@ -329,17 +347,74 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #8e8e8e;
   font-size: 1.3rem;
 }
-.mycollab-mobile .readview-layout .h2 {
+.mycollab-mobile .readview-layout .h2, .mycollab-mobile .editview-layout .h2 {
   font-size: 1.5rem;
   color: #444444;
   padding: 0.9rem 0rem 0.9rem 1rem;
   border-bottom: 0.2rem solid #f5932e;
 }
-.mycollab-mobile .readview-layout .v-gridlayout {
+.mycollab-mobile .readview-layout .v-gridlayout, .mycollab-mobile .editview-layout .v-gridlayout {
   color: #919191;
 }
-.mycollab-mobile .readview-layout .v-gridlayout .even-row {
+.mycollab-mobile .readview-layout .v-gridlayout .even-row, .mycollab-mobile .editview-layout .v-gridlayout .even-row {
   background-color: #f6f6f6;
+}
+.mycollab-mobile .editview-layout input.v-textfield, .mycollab-mobile .editview-layout .v-filterselect, .mycollab-mobile .editview-layout .v-textarea {
+  border: 1px solid #bababa;
+  border-radius: 0px;
+}
+.mycollab-mobile .editview-layout .v-filterselect-button {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+.mycollab-mobile .editview-layout .v-filterselect-button:before {
+  font-family: 'icomoon';
+  content: "\e60c";
+  color: #858585;
+  padding-right: 5px;
+}
+.mycollab-mobile .editview-layout input {
+  border: none;
+}
+.mycollab-mobile .v-filterselect {
+  overflow: hidden;
+  padding-right: 16px;
+}
+.mycollab-mobile .v-filterselect .v-icon {
+  height: 16px;
+  position: relative;
+  vertical-align: middle;
+}
+.mycollab-mobile .v-filterselect .v-filterselect-input {
+  height: 16px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: relative;
+}
+.mycollab-mobile .v-filterselect .v-icon + .v-filterselect-input {
+  padding-left: 18px;
+  margin-left: -16px;
+}
+.mycollab-mobile .v-filterselect .v-filterselect-button {
+  height: 16px;
+  width: 16px;
+  margin-right: -16px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.mycollab-mobile .v-filterselect-suggestpopup {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #cfcfcf;
 }
 .mycollab-mobile .message {
   border-bottom: 1px solid #cbcbcb;

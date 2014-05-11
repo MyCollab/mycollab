@@ -73,7 +73,9 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	private TaskGroupDisplayWidget taskLists;
 
 	private Button reOrderBtn;
+
 	private Button viewGanttChartBtn;
+	TaskGanttChart ganttChart;
 
 	private PopupButton exportButtonControl;
 
@@ -83,13 +85,12 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private TaskSearchViewImpl basicSearchView;
 
-
 	private HorizontalLayout header;
 	private HorizontalLayout mainLayout;
 	private Button advanceDisplay;
 	private Button simpleDisplay;
 	private ToggleButtonGroup viewButtons;
-	
+
 	private boolean isSimpleDisplay;
 
 	public TaskGroupDisplayViewImpl() {
@@ -98,7 +99,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.setSpacing(true);
 
 		this.constructUI();
-	
+
 		displayAdvancedView();
 		isSimpleDisplay = false;
 
@@ -265,8 +266,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.taskGroupSelection.setContent(filterBtnLayout);
 
 		final Button newTaskListBtn = new Button(
-				AppContext
-						.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
+				AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -286,6 +286,22 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(newTaskListBtn);
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
+
+		// Add gantt chart button
+		viewGanttChartBtn = new Button("Gantt chart",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent arg0) {
+						displayGanttChartView();
+
+					}
+				});
+		
+		viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		viewGanttChartBtn.setDescription("Toggle Gantt chart view");
+		UiUtils.addComponent(header, viewGanttChartBtn, Alignment.MIDDLE_RIGHT);
 
 		this.reOrderBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -345,17 +361,16 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				if (isSimpleDisplay)
-				{
-				displayAdvancedView();
-				isSimpleDisplay = false;
+				if (isSimpleDisplay) {
+					displayAdvancedView();
+					isSimpleDisplay = false;
 				}
 			}
 		});
 		advanceDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/advanced_display.png"));
 		advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-		advanceDisplay.setDescription("Advance View");
+		advanceDisplay.setDescription("Advanced View");
 
 		simpleDisplay = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -364,16 +379,15 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-				if (!isSimpleDisplay)
-				{
-				displaySimpleView();
-				isSimpleDisplay = true;
+				if (!isSimpleDisplay) {
+					displaySimpleView();
+					isSimpleDisplay = true;
 				}
 			}
 		});
 		simpleDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/list_display.png"));
-		simpleDisplay.setDescription("Simple View");
+		simpleDisplay.setDescription("List View");
 
 		viewButtons = new ToggleButtonGroup();
 		viewButtons.addButton(simpleDisplay);
@@ -408,9 +422,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		basicSearchView.removeComponent(basicSearchView.getComponent(0));
 	}
 
-	
-
-	public void doSearch(TaskSearchCriteria searchCriteria) {
+	private void doSearch(TaskSearchCriteria searchCriteria) {
 		basicSearchView.getPagedBeanTable().setSearchCriteria(searchCriteria);
 	}
 
@@ -500,8 +512,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		UiUtils.addComponent(control, searchBtn, Alignment.MIDDLE_CENTER);
 
 		final Button advancedSearchBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -570,7 +581,6 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		this.addComponent(header);
 		basicSearchView.setMargin(new MarginInfo(false, false, true, false));
-		
 
 		displayActiveTasksOnly();
 		this.addComponent(basicSearchView.getWidget());
@@ -585,7 +595,23 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		UiUtils.addComponent(header, viewButtons, Alignment.MIDDLE_RIGHT);
 		this.addComponent(mainLayout);
 	}
-	
+
+	private void displayGanttChartView() {
+
+		if (this.getComponentIndex(ganttChart) < 0) {
+			viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+			
+			
+			ganttChart = new TaskGanttChart();
+			ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
+
+			this.addComponent(ganttChart, 1);
+		} else {
+			this.removeComponent(ganttChart);
+			viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		}
+	}
+
 	private void displayActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
 		criteria.setStatus(new StringSearchField("Open"));

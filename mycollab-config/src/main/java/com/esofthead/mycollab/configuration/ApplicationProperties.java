@@ -33,7 +33,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  * 
  */
-public class ApplicationProperties {
+class ApplicationProperties {
 	private static final String RESOURCE_PROPERTIES = "mycollab.properties";
 	private static final String DECRYPT_PASS = "esofthead321";
 
@@ -77,7 +77,7 @@ public class ApplicationProperties {
 
 	public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
 
-	static {
+	public static void loadProps() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword(DECRYPT_PASS);
 

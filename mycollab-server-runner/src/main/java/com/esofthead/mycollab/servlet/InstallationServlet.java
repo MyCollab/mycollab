@@ -55,7 +55,7 @@ public class InstallationServlet extends HttpServlet {
 		String databaseServer = request.getParameter("databaseServer");
 		String smtpUserName = request.getParameter("smtpUserName");
 		String smtpPassword = request.getParameter("smtpPassword");
-		String stmpHost = request.getParameter("stmpHost");
+		String smtpHost = request.getParameter("smtpHost");
 		String smtpPort = request.getParameter("smtpPort");
 		String tls = request.getParameter("tls");
 
@@ -69,7 +69,7 @@ public class InstallationServlet extends HttpServlet {
 		templateContext.put("dbUrl", dbUrl);
 		templateContext.put("dbUser", dbUserName);
 		templateContext.put("dbPassword", dbPassword);
-		templateContext.put("smtpAddress", stmpHost);
+		templateContext.put("smtpAddress", smtpHost);
 		int mailServerPort = 1;
 		try {
 			mailServerPort = Integer.parseInt(smtpPort);
@@ -123,7 +123,7 @@ public class InstallationServlet extends HttpServlet {
 				
 				try { 
 					Email email = new SimpleEmail();
-					email.setHostName(stmpHost);
+					email.setHostName(smtpHost);
 					email.setSmtpPort(mailServerPort);
 					email.setAuthenticator(new DefaultAuthenticator(smtpUserName,smtpPassword));
 					if (tls.equals("true"))
@@ -140,7 +140,7 @@ public class InstallationServlet extends HttpServlet {
 					email.send();
 				} catch (EmailException e){
 					PrintWriter out = response.getWriter();
-					out.write("Something wrong with Stmp. You can change your config later in the file src/main/conf/mycollab.properties.");
+					out.write("smtpError");
 				}
 				threadWait();
 
