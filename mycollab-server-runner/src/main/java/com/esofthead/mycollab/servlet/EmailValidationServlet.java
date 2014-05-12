@@ -48,7 +48,7 @@ public class EmailValidationServlet extends HttpServlet {
 				email.setSSLOnConnect(false);
 			}
 			email.setFrom(smtpUserName);
-			email.setSubject("TestMail");
+			email.setSubject("MyCollab Test Email");
 			email.setMsg("This is a test mail ... :-)");
 			email.addTo(smtpUserName);
 			email.send();

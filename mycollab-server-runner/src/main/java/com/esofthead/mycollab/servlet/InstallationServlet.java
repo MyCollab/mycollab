@@ -75,29 +75,28 @@ public class InstallationServlet extends HttpServlet {
 		templateContext.put("dbUser", dbUserName);
 		templateContext.put("dbPassword", dbPassword);
 		templateContext.put("smtpAddress", smtpHost);
-		int mailServerPort = 1;
-		try {
-			mailServerPort = Integer.parseInt(smtpPort);
-		} catch (Exception e) {
-			PrintWriter out = response.getWriter();
-			out.write("Mail port must be the integer number");
-			return;
-		}
-		templateContext.put("smtpPort", mailServerPort + "");
-		templateContext.put("smtpUserName", smtpUserName);
-		templateContext.put("smtpPassword", smtpPassword);
-		templateContext.put("smtpTLSEnable", tls);
-
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection connection = DriverManager.getConnection(dbUrl,
 					dbUserName, dbPassword);
-			DatabaseMetaData metaData = connection.getMetaData();
+			connection.getMetaData();
 		} catch (Exception e) {
 			PrintWriter out = response.getWriter();
 			out.write("Cannot establish connection to database. Make sure your inputs are correct.");
 			return;
 		}
+
+		int mailServerPort = 1;
+		try {
+			mailServerPort = Integer.parseInt(smtpPort);
+		} catch (Exception e) {
+
+		}
+
+		templateContext.put("smtpPort", mailServerPort + "");
+		templateContext.put("smtpUserName", smtpUserName);
+		templateContext.put("smtpPassword", smtpPassword);
+		templateContext.put("smtpTLSEnable", tls);
 
 		File confFolder = new File(System.getProperty("user.dir"), "conf");
 
@@ -125,7 +124,7 @@ public class InstallationServlet extends HttpServlet {
 				outStream.write(writer.toString().getBytes());
 				outStream.flush();
 				outStream.close();
-				
+
 				threadWait();
 
 			} catch (Exception e) {
