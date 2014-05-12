@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.commons.mail.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.MyCollabException;
 
@@ -29,6 +30,10 @@ import com.esofthead.mycollab.core.MyCollabException;
  */
 public class InstallationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory
+			.getLogger(InstallationServlet.class);
+
 	private boolean waitFlag = true;
 
 	public void setWaitFlag(boolean flag) {
@@ -74,7 +79,9 @@ public class InstallationServlet extends HttpServlet {
 		try {
 			mailServerPort = Integer.parseInt(smtpPort);
 		} catch (Exception e) {
-
+			PrintWriter out = response.getWriter();
+			out.write("Mail port must be the integer number");
+			return;
 		}
 		templateContext.put("smtpPort", mailServerPort + "");
 		templateContext.put("smtpUserName", smtpUserName);
@@ -91,8 +98,6 @@ public class InstallationServlet extends HttpServlet {
 			out.write("Cannot establish connection to database. Make sure your inputs are correct.");
 			return;
 		}
-		
-		
 
 		File confFolder = new File(System.getProperty("user.dir"), "conf");
 
@@ -121,31 +126,10 @@ public class InstallationServlet extends HttpServlet {
 				outStream.flush();
 				outStream.close();
 				
-				try { 
-					Email email = new SimpleEmail();
-					email.setHostName(smtpHost);
-					email.setSmtpPort(mailServerPort);
-					email.setAuthenticator(new DefaultAuthenticator(smtpUserName,smtpPassword));
-					if (tls.equals("true"))
-					{
-						email.setSSLOnConnect(true);
-					}
-					else {
-						email.setSSLOnConnect(false);
-					}
-					email.setFrom("user@gmail.com");
-					email.setSubject("TestMail");
-					email.setMsg("This is a test mail ... :-)");
-					email.addTo("foo@bar.com");
-					email.send();
-				} catch (EmailException e){
-					PrintWriter out = response.getWriter();
-					out.write("smtpError");
-				}
 				threadWait();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error("Error while set up MyCollab", e);
 				PrintWriter out = response.getWriter();
 				out.write("Can not write setting to config file. You should contact mycollab support support@mycollab.com to solve this issue.");
 				return;

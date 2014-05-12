@@ -7,7 +7,7 @@
 #    SITE CONFIGURATION
 #=====================================================
 site.name=${sitename}
-running.mode=development
+running.mode=standalone
 server.address=${serveraddress}
 server.port=${serverport}
 

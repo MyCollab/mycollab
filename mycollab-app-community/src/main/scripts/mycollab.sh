@@ -9,6 +9,7 @@
 #   MYCOLLAB_OUT    (Optional) Full path to a file where stdout and stderr
 #                   will be redirected.
 #                   Default is $CATALINA_BASE/logs/catalina.out
+#   MYCOLLAB_PORT   Port of server to allow user access to server
 #   MYCOLLAB_OPTS   (Optional) Java runtime options used when the "start",
 #                   "stop" command is executed.
 #                   Include here and not in JAVA_OPTS all options, that should
@@ -25,6 +26,8 @@
 # -----------------------------------------------------------------------------
 
 export MYCOLLAB_OPTS="-Xms1536m -Xmx1536m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
+export MYCOLLAB_PORT = 8080
+
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
 darwin=false
@@ -156,7 +159,7 @@ if [ "$1" = "start" ] ; then
   shift
   touch "$MYCOLLAB_OUT"
   eval \"$_RUNJAVA\" $MYCOLLAB_OPTS \
-      -jar runner.jar --stop-port 8079 --stop-key esoftheadsecretkey  
+      -jar runner.jar --port $MYCOLLAB_PORT --stop-port 8079 --stop-key esoftheadsecretkey  
  ####>> "$MYCOLLAB_OUT" 2>&1 "&"
 
   if [ ! -z "$MYCOLLAB_PID" ]; then

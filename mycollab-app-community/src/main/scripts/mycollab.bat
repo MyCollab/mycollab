@@ -8,8 +8,9 @@ rem Environment Variable Prerequisites
 rem
 rem   MYCOLLAB_HOME   May point at your MyCollab "build" directory.
 rem   MYCOLLAB_OUT    (Optional) Full path to a file where stdout and stderr
-rem                 will be redirected.
+rem                   will be redirected.
 rem                   Default is $CATALINA_BASE/logs/catalina.out
+rem   MYCOLLAB_PORT   Port of server to allow user access to server
 rem   MYCOLLAB_OPTS   (Optional) Java runtime options used when the "start",
 rem                    "stop" command is executed.
 rem                   Include here and not in JAVA_OPTS all options, that should
@@ -22,6 +23,7 @@ rem                   Required to run the with the "debug" argument.
 rem ---------------------------------------------------------------------------
 
 set MYCOLLAB_OPTS=-Xms1024m -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC
+set MYCOLLAB_PORT = 8080
 set _RUNJAVA=java
 
 rem Suppress Terminate batch job on CTRL+C
@@ -75,7 +77,7 @@ goto end
 shift
 set ACTION=--stop-port 8079 --stop-key esoftheadsecretkey
 if not "%OS%" == "Windows_NT" goto noTitle
-if "%TITLE%" == "" set TITLE=Tomcat
+if "%TITLE%" == "" set TITLE=MyCollab
 set _EXECJAVA=start "%TITLE%" %_RUNJAVA%
 goto gotTitle
 :noTitle
@@ -86,7 +88,7 @@ goto execCmd
 
 :doStop
 shift
-set ACTION=--stop-port 8079 --stop-key esoftheadsecretkey --stop
+set ACTION=--port $MYCOLLAB_PORT --stop-port 8079 --stop-key esoftheadsecretkey --stop
 goto execCmd
 
 

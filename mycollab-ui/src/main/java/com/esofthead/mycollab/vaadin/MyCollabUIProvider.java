@@ -45,10 +45,11 @@ public class MyCollabUIProvider extends UIProvider {
 
 		String uiClass = "";
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE
+				|| SiteConfiguration.getDeploymentMode() == DeploymentMode.STANDALONE) {
 			uiClass = "com.esofthead.mycollab.web.DesktopApplication";
 		} else {
-			if (userAgent.contains("mobile")) {
+			if (userAgent.contains("mobile") || userAgent.contains("firefox")) {
 				uiClass = "com.esofthead.mycollab.mobile.MobileApplication";
 			} else {
 				uiClass = "com.esofthead.mycollab.web.DesktopApplication";

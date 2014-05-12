@@ -49,7 +49,6 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -133,11 +132,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		if (task == null) {
 			return null;
 		}
-		
+
 		String subject = StringUtils.trim(task.getTaskname(), 100);
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(task, user.getTimezone(),
-				new String[] { "startdate", "enddate", "deadline",
-						"actualstartdate", "actualenddate" });
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["
 				+ task.getProjectName() + "]: "
@@ -163,9 +159,6 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			return null;
 		}
 
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(task, user.getTimezone(),
-				new String[] { "startdate", "enddate", "deadline",
-						"actualstartdate", "actualenddate" });
 		String subject = StringUtils.trim(task.getTaskname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator("["

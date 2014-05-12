@@ -32,7 +32,6 @@ import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
@@ -121,8 +120,6 @@ public class MeetingRelayEmailNotificationActionImpl extends
 				emailNotification.getChangeByUserFullName()
 						+ " has updated the meeting \"" + subject + "\"",
 				"templates/email/crm/itemUpdatedNotifier.mt");
-		ScheduleUserTimeZoneUtils.formatDateTimeZone(simpleMeeting,
-				user.getTimezone(), new String[] { "startdate", "enddate" });
 		setupMailHeaders(simpleMeeting, emailNotification, templateGenerator);
 
 		if (emailNotification.getTypeid() != null) {
@@ -144,7 +141,7 @@ public class MeetingRelayEmailNotificationActionImpl extends
 		SimpleMeeting simpleMeeting = meetingService.findById(
 				emailNotification.getTypeid(),
 				emailNotification.getSaccountid());
-		
+
 		if (simpleMeeting == null) {
 			return null;
 		}

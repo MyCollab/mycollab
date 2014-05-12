@@ -35,7 +35,7 @@ h3 {
 
 
 </style>
-<title>Setup Mycollab</title>
+<title>MyCollab Setup Page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container">
@@ -69,7 +69,7 @@ h3 {
 				</div>
 				<hr size="1" style="margin: 1px 0 20px 0; ">
 				<div id="title">
-					<h3>Wellcome to MyCollab setup wizard. This is the first time you run your software. Just fill in the information below to complete the installation process.<span style="font-style:italic; font-size:20px;"></span><h3>
+					<h3>Welcome to MyCollab setup wizard. This is the first time you run your software. Just fill in the information below to complete the installation process.<span style="font-style:italic; font-size:20px;"></span><h3>
 				</div>
 				<hr size="1" style="margin: 20px 0 1px 0; ">
 				<div id="mainContent">
@@ -95,7 +95,7 @@ h3 {
 											<tr>
 												<td><input id="serverAddress"/></td>
 											</tr>
-											<tr><td><h4>You can get this info from your web host. If database is on local, usually the address will be <i>localhost</i>.</h4></td></tr>
+											<tr><td><h4>You can get this info from your web host. If database is installed on your local, the address will be <i>localhost</i>.</h4></td></tr>
 											
 										</tbody>
 									</table>
@@ -118,7 +118,7 @@ h3 {
 											<tr>
 												<td><input id="databaseName" /></td>
 											</tr>
-											<tr><td><h4>Name of database to store data. Database must be created before.</h4></td></tr>
+											<tr><td><h4>Name of MyCollab database. Database must be created before.</h4></td></tr>
 											
 											<tr>
 												<td><label for="dbUserName">User name:</label></td>
@@ -155,7 +155,7 @@ h3 {
 					<table style="width:100%;margin-top: 20px;">
 						<tr>
 							<td style="vertical-align: top; width: 400px;"><div style="margin-top:10px;">EMAIL SETUP (Optional)<div>
-								<h3 >Configure your outgoing Smtp email address to use with the software. You can configure your Smtp account later in file <a href="${defaultUrls.app_url}conf/mycollab.properties">mycollab.properties</a></h3>
+								<h3 >Configure your outgoing SMTP email address to use with the software. You can configure your SMTP account later in MyCollab configuration file ${MYCOLLAB_HOME}/conf/mycollab.properties</h3>
 							</td>
 							<td style="display: inline-block; vertical-align: top; width:100%">
 								<form>
@@ -167,7 +167,7 @@ h3 {
 											<tr>
 												<td><input id="smtpUserName"/></td>
 											</tr>
-											<tr><td><h4>Username or account of your email service. If you use Gmail, username will look like username@gmail.com.<h4></td></tr>
+											<tr><td><h4>Username or account of your email service. If you use Gmail, username looks like username@gmail.com.<h4></td></tr>
 											
 											<tr>
 												<td ><label for="smtpPassword">Mail password:</label></td>
@@ -183,7 +183,7 @@ h3 {
 											<tr>
 												<td><input id="smtpHost"/></td>
 											</tr>
-											<tr><td><h4>Your email service Smtp server address. If you use Gmail input address smtp.gmail.com<h4></td></tr>
+											<tr><td><h4>Your email service SMTP server address. If you use Gmail input address smtp.gmail.com<h4></td></tr>
 											
 											<tr>
 												<td><label for="smtpPort">Mail server port:</label></td>

@@ -39,7 +39,6 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.ScheduleUserTimeZoneUtils;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -108,7 +107,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		int milestoneId = emailNotification.getTypeid();
 		SimpleMilestone milestone = milestoneService.findById(milestoneId,
 				emailNotification.getSaccountid());
-		
+
 		if (milestone == null) {
 			return null;
 		}
@@ -152,8 +151,6 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
 					emailNotification.getTypeid(),
 					emailNotification.getSaccountid());
-			ScheduleUserTimeZoneUtils.formatDate(auditLog, user.getTimezone(),
-					new String[] { "startdate", "enddate" });
 			templateGenerator.putVariable("historyLog", auditLog);
 			templateGenerator.putVariable("context",
 					new MailContext<SimpleMilestone>(milestone, user, siteUrl));

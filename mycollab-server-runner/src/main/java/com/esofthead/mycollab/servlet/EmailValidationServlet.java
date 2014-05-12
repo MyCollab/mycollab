@@ -21,6 +21,7 @@ import org.apache.commons.mail.SimpleEmail;
  */
 public class EmailValidationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String smtpUserName = request.getParameter("smtpUserName");
@@ -28,36 +29,34 @@ public class EmailValidationServlet extends HttpServlet {
 		String smtpHost = request.getParameter("smtpHost");
 		String smtpPort = request.getParameter("smtpPort");
 		String tls = request.getParameter("tls");
-		
+
 		int mailServerPort = 1;
 		try {
 			mailServerPort = Integer.parseInt(smtpPort);
 		} catch (Exception e) {
 
 		}
-		try { 
+		try {
 			Email email = new SimpleEmail();
 			email.setHostName(smtpHost);
 			email.setSmtpPort(mailServerPort);
-			email.setAuthenticator(new DefaultAuthenticator(smtpUserName,smtpPassword));
-			if (tls.equals("true"))
-			{
+			email.setAuthenticator(new DefaultAuthenticator(smtpUserName,
+					smtpPassword));
+			if (tls.equals("true")) {
 				email.setSSLOnConnect(true);
-			}
-			else {
+			} else {
 				email.setSSLOnConnect(false);
 			}
-			email.setFrom("user@gmail.com");
+			email.setFrom(smtpUserName);
 			email.setSubject("TestMail");
 			email.setMsg("This is a test mail ... :-)");
-			email.addTo("foo@bar.com");
+			email.addTo(smtpUserName);
 			email.send();
-		} catch (EmailException e){
+		} catch (EmailException e) {
 			PrintWriter out = response.getWriter();
 			out.write("Cannot establish SMTP connection. Please recheck your config.");
 			return;
 		}
 	}
-	
-	
+
 }
