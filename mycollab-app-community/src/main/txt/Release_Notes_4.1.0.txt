@@ -52,6 +52,7 @@
     Bug Fixes
         - Application can not allow users upload big file size
         - Fix NPE of email sending when user create then delete item before the email is sent out
+        - Fix date issue in email update of project milestone, and crm meeting
         - Cut username display name if it is long too in bug dashboard
         - Align user name center in standup report display
         - Display empty string if user does not enter their last name

@@ -76,12 +76,15 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 				String assignUserFullName = item.getGroupid() == null ? ""
 						: item.getGroupname();
 
-				if (assignUserFullName == null || assignUserFullName.equals("")) {
+				if (assignUserFullName == null
+						|| assignUserFullName.trim().equals("")) {
 					String displayName = item.getGroupid();
 					int index = displayName != null ? displayName.indexOf("@")
 							: 0;
 					if (index > 0) {
 						assignUserFullName = displayName.substring(0, index);
+					} else {
+						assignUserFullName = "Undefined";
 					}
 				}
 

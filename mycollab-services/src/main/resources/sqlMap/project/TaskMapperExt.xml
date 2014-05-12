@@ -56,7 +56,13 @@
         #end
         
         #ifnotnull($searchCriteria.assignUser)
-            ${searchCriteria.assignUser.operation} m_prj_task.assignUser = @{searchCriteria.assignUser.value}
+            #ifnotnull($searchCriteria.assignUser.value)
+                ${searchCriteria.assignUser.operation} m_prj_task.assignUser = @{searchCriteria.assignUser.value}
+            #end
+            
+            #ifnull($searchCriteria.assignUser.value)
+                ${searchCriteria.assignUser.operation} m_prj_task.assignUser IS NULL
+            #end    
         #end
         
         #ifnotnull($searchCriteria.milestoneId)

@@ -25,8 +25,8 @@
 #                   used
 # -----------------------------------------------------------------------------
 
-export MYCOLLAB_OPTS="-Xms1536m -Xmx1536m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC"
-export MYCOLLAB_PORT = 8080
+export MYCOLLAB_OPTS="-Xms1536m -Xmx1536m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:+DisableExplicitGC"
+export MYCOLLAB_PORT=8080
 
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false
