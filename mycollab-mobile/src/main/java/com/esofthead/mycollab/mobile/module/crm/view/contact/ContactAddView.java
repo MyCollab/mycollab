@@ -14,29 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.events;
+package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
+import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
+ * 
  * @author MyCollab Ltd.
- * @since 3.0
+ * @since 4.0
+ * 
  */
-public class CrmEvent {
+public interface ContactAddView extends IFormAddView<SimpleContact> {
 
-	public static class GotoHome extends ApplicationEvent {
-		private static final long serialVersionUID = -6550809291368983694L;
-
-		public GotoHome(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class PushView extends ApplicationEvent {
-		private static final long serialVersionUID = -7423399367234620364L;
-
-		public PushView(Object source, Object data) {
-			super(source, data);
-		}
-	}
+	@Override
+	HasEditFormHandlers<SimpleContact> getEditFormHandlers();
 }

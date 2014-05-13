@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmNavigationMenu;
+import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -59,30 +61,36 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 								new ContactEvent.GotoEdit(this, data));
 					}
 
-					/*
-					 * @Override public void onDelete(final SimpleContact data)
-					 * {
-					 * 
-					 * ConfirmDialogExt.show( UI.getCurrent(),
-					 * AppContext.getMessage(
-					 * GenericI18Enum.DELETE_DIALOG_TITLE,
-					 * SiteConfiguration.getSiteName()), AppContext
-					 * .getMessage(GenericI18Enum
-					 * .CONFIRM_DELETE_RECORD_DIALOG_MESSAGE), AppContext
-					 * .getMessage(GenericI18Enum.BUTTON_YES_LABEL), AppContext
-					 * .getMessage(GenericI18Enum.BUTTON_NO_LABEL), new
-					 * ConfirmDialog.Listener() { private static final long
-					 * serialVersionUID = 1L;
-					 * 
-					 * @Override public void onClose(ConfirmDialog dialog) { if
-					 * (dialog.isConfirmed()) { ContactService ContactService =
-					 * ApplicationContextUtil
-					 * .getSpringBean(ContactService.class);
-					 * ContactService.removeWithSession( data.getId(),
-					 * AppContext.getUsername(), AppContext.getAccountId());
-					 * EventBus.getInstance().fireEvent( new
-					 * ContactEvent.GotoList( this, null)); } } }); }
-					 */
+					@Override
+					public void onDelete(final SimpleContact data) {
+
+						ConfirmDialog.show(
+								UI.getCurrent(),
+								AppContext
+										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.CloseListener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											ContactService ContactService = ApplicationContextUtil
+													.getSpringBean(ContactService.class);
+											ContactService.removeWithSession(
+													data.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											EventBus.getInstance().fireEvent(
+													new ContactEvent.GotoList(
+															this, null));
+										}
+									}
+								});
+					}
 
 					@Override
 					public void onClone(SimpleContact data) {

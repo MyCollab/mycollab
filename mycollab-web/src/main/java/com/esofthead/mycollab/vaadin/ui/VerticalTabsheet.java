@@ -31,7 +31,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -65,10 +65,9 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public VerticalTabsheet(boolean isLeft) {
-		GridLayout contentLayout = new GridLayout(2, 1);
+		HorizontalLayout contentLayout = new HorizontalLayout();
 		navigatorWrapper = new CssLayout();
 		navigatorWrapper.setStyleName("navigator-wrap");
-		navigatorWrapper.setHeight("100%");
 		tabNavigator = new VerticalLayout();
 		navigatorWrapper.addComponent(tabNavigator);
 
@@ -81,14 +80,14 @@ public class VerticalTabsheet extends CustomComponent {
 		contentWrapper.addComponent(tabContainer);
 
 		if (isLeft) {
-			contentLayout.addComponent(navigatorWrapper, 0, 0);
-			contentLayout.addComponent(contentWrapper, 1, 0);
-			contentLayout.setColumnExpandRatio(1, 1.0f);
+			contentLayout.addComponent(navigatorWrapper);
+			contentLayout.addComponent(contentWrapper);
+
 		} else {
-			contentLayout.addComponent(contentWrapper, 0, 0);
-			contentLayout.addComponent(navigatorWrapper, 1, 0);
-			contentLayout.setColumnExpandRatio(0, 1.0f);
+			contentLayout.addComponent(contentWrapper);
+			contentLayout.addComponent(navigatorWrapper);
 		}
+		contentLayout.setExpandRatio(contentWrapper, 1.0f);
 
 		this.setCompositionRoot(contentLayout);
 		this.setStyleName(TABSHEET_STYLENAME);
@@ -249,8 +248,10 @@ public class VerticalTabsheet extends CustomComponent {
 		replaceContainer(newContainer, null);
 	}
 
-	public void replaceContainer(ComponentContainer newContainer, ComponentContainer newPosition) {
-		ComponentContainer containerParent = (ComponentContainer) tabContainer.getParent();
+	public void replaceContainer(ComponentContainer newContainer,
+			ComponentContainer newPosition) {
+		ComponentContainer containerParent = (ComponentContainer) tabContainer
+				.getParent();
 		if (containerParent != null) {
 			containerParent.removeComponent(tabContainer);
 		}

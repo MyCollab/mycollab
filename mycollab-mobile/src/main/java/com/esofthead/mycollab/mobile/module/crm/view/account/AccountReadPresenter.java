@@ -37,6 +37,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -49,6 +50,7 @@ import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -76,29 +78,33 @@ public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
 
 					@Override
 					public void onDelete(final SimpleAccount data) {
-						/*
-						 * ConfirmDialogExt.show( UI.getCurrent(),
-						 * AppContext.getMessage(
-						 * GenericI18Enum.DELETE_DIALOG_TITLE,
-						 * SiteConfiguration.getSiteName()), AppContext
-						 * .getMessage(GenericI18Enum.
-						 * CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						 * AppContext
-						 * .getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						 * AppContext
-						 * .getMessage(GenericI18Enum.BUTTON_NO_LABEL), new
-						 * ConfirmDialog.Listener() { private static final long
-						 * serialVersionUID = 1L;
-						 * 
-						 * @Override public void onClose(ConfirmDialog dialog) {
-						 * if (dialog.isConfirmed()) { AccountService
-						 * accountService = ApplicationContextUtil
-						 * .getSpringBean(AccountService.class);
-						 * accountService.removeWithSession( data.getId(),
-						 * AppContext.getUsername(), AppContext.getAccountId());
-						 * EventBus.getInstance().fireEvent( new
-						 * AccountEvent.GotoList( this, null)); } } });
-						 */
+
+						ConfirmDialog.show(
+								UI.getCurrent(),
+								AppContext
+										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.CloseListener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											AccountService accountService = ApplicationContextUtil
+													.getSpringBean(AccountService.class);
+											accountService.removeWithSession(
+													data.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											EventBus.getInstance().fireEvent(
+													new AccountEvent.GotoList(
+															this, null));
+										}
+									}
+								});
 
 					}
 

@@ -14,29 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.events;
+package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 
 /**
+ * 
  * @author MyCollab Ltd.
- * @since 3.0
+ * @since 4.0
+ * 
  */
-public class CrmEvent {
+public class LeadSourceComboBox extends ValueComboBox {
+	private static final long serialVersionUID = 1L;
 
-	public static class GotoHome extends ApplicationEvent {
-		private static final long serialVersionUID = -6550809291368983694L;
-
-		public GotoHome(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class PushView extends ApplicationEvent {
-		private static final long serialVersionUID = -7423399367234620364L;
-
-		public PushView(Object source, Object data) {
-			super(source, data);
-		}
+	public LeadSourceComboBox() {
+		this.loadData(CrmDataTypeFactory.getLeadSourceList());
 	}
 }

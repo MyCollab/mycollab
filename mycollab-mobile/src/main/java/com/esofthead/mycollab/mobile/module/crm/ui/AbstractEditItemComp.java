@@ -22,12 +22,8 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -91,19 +87,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		@Override
 		public Layout getLayout() {
 			VerticalLayout formAddLayout = new VerticalLayout();
-
-			ComponentContainer buttonControls = createButtonControls();
-			if (buttonControls != null) {
-				final HorizontalLayout controlPanel = new HorizontalLayout();
-				buttonControls.setSizeUndefined();
-				controlPanel.addComponent(buttonControls);
-				controlPanel.setWidth("100%");
-				controlPanel.setMargin(true);
-				controlPanel.setComponentAlignment(buttonControls,
-						Alignment.MIDDLE_CENTER);
-				// formAddLayout.addControlButtons(controlPanel);
-			}
-
 			informationLayout = initFormLayoutFactory();
 
 			formAddLayout.addComponent(informationLayout.getLayout());
@@ -118,10 +101,6 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 	}
 
 	abstract protected String initFormTitle();
-
-	abstract protected Resource initFormIconResource();
-
-	abstract protected ComponentContainer createButtonControls();
 
 	abstract protected IFormLayoutFactory initFormLayoutFactory();
 

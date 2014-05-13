@@ -26,6 +26,8 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -71,6 +73,34 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 					"Password length must be greater than 6", 6,
 					Integer.MAX_VALUE, false);
 			passwordField.addValidator(passwordValidator);
+			passwordField.addShortcutListener(new ShortcutListener("Signin",
+					ShortcutAction.KeyCode.ENTER, null) {
+				private static final long serialVersionUID = 5094514575531426118L;
+
+				@Override
+				public void handleAction(Object sender, Object target) {
+					if (target == passwordField) {
+						try {
+
+							custom.removeComponent("customErrorMsg");
+
+							LoginViewImpl.this
+									.fireEvent(new UserEvent.PlainLogin(
+											LoginViewImpl.this, new String[] {
+													usernameField.getValue(),
+													passwordField.getValue(),
+													String.valueOf(rememberMe
+															.getValue()) }));
+						} catch (MyCollabException e) {
+							custom.addComponent(new Label(e.getMessage()),
+									"customErrorMsg");
+
+						} catch (Exception e) {
+							throw new MyCollabException(e);
+						}
+					}
+				}
+			});
 
 			custom.addComponent(passwordField, "passwordField");
 

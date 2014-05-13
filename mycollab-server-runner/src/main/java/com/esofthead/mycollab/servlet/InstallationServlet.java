@@ -69,7 +69,7 @@ public class InstallationServlet extends HttpServlet {
 		templateContext.put("serveraddress", serverAddress);
 		templateContext.put("serverport", "8080");
 
-		String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true",
+		String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
 				databaseServer, databaseName);
 		templateContext.put("dbUrl", dbUrl);
 		templateContext.put("dbUser", dbUserName);

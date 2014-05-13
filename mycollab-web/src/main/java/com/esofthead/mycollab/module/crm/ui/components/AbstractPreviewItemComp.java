@@ -63,16 +63,16 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 		navigatorWrapper.setWidth("250px");
 
 		previewItemContainer
-		.addSelectedTabChangeListener(new SelectedTabChangeListener() {
-			private static final long serialVersionUID = 1L;
+				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void selectedTabChange(SelectedTabChangeEvent event) {
-				Tab tab = ((VerticalTabsheet) event.getSource())
-						.getSelectedTab();
-				previewItemContainer.selectTab(tab.getCaption());
-			}
-		});
+					@Override
+					public void selectedTabChange(SelectedTabChangeEvent event) {
+						Tab tab = ((VerticalTabsheet) event.getSource())
+								.getSelectedTab();
+						previewItemContainer.selectTab(tab.getCaption());
+					}
+				});
 
 		previewLayout = new AddViewLayout2("", iconResource);
 
@@ -82,34 +82,31 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 		previewForm = initPreviewForm();
 		previewForm.addStyleName("preview-form");
 		previewLayout.setStyleName("readview-layout");
-		previewLayout.setMargin(new MarginInfo(false, true, false, true));
+		previewLayout.setMargin(new MarginInfo(false, true, true, true));
 
 		ComponentContainer actionControls = createButtonControls();
 		if (actionControls != null) {
 			previewLayout.addHeaderRight(actionControls);
 		}
 
-		previewItemContainer.replaceContainer(previewLayout, previewLayout.getBody());
+		previewItemContainer.replaceContainer(previewLayout,
+				previewLayout.getBody());
 
 		initRelatedComponents();
 
-		//previewLayout.addBody(previewItemContainer.getContentWrapper());
+		// previewLayout.addBody(previewItemContainer.getContentWrapper());
 		previewContent.addComponent(previewForm);
 		previewContent.addComponent(createBottomPanel());
 	}
-
-
 
 	@Override
 	public void attach() {
 		super.attach();
 
-		if(this.getParent() instanceof CustomLayout) {
+		if (this.getParent() instanceof CustomLayout) {
 			this.getParent().addStyleName("preview-comp");
 		}
 	}
-
-
 
 	public void previewItem(final B item) {
 		this.beanItem = item;

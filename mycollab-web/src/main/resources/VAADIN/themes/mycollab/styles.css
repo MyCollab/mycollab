@@ -1952,7 +1952,6 @@ input.v-textfield-errorField {
 }
 
 .projectDashboardView .container-wrap.main-content .tab-content, .crmContainer .container-wrap .tab-content, .accountViewContainer .container-wrap .tab-content {
-	min-height: 599px;
 	border-width: 1px 0px 0px 1px;
 	padding: 0px;
 }
@@ -1992,9 +1991,6 @@ input.v-textfield-errorField {
 	padding: 0px;
 	font-weight: normal;
 	font-size: 20px;
-}
-.projectDashboardView .vertical-tabsheet .tab-content {
-	min-height: 372px;
 }
 
 .projectDashboardView .sidebar-menu {

@@ -16,17 +16,27 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
+import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
+import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -34,7 +44,11 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.HorizontalLayout;
 
 /**
  * 
@@ -48,17 +62,73 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * protected ContactOpportunityListComp associateOpportunityList; protected
-	 * ActivityRelatedItemListComp associateActivityList; protected
-	 * NoteListItems noteListItems;
-	 * 
-	 * private DateInfoComp dateInfoComp; private PeopleInfoComp peopleInfoComp;
-	 */
+	protected ContactRelatedOpportunityView associateOpportunityList;
+	protected ContactRelatedActivityView associateActivityList;
+	protected NotesList noteListItems;
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return null;
+		HorizontalLayout toolbarLayout = new HorizontalLayout();
+		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		toolbarLayout.setSpacing(true);
+
+		Button relatedNotes = new Button();
+		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.CRM_DOCUMENT
+				+ "\"></span><div class=\"screen-reader-text\">Notes</div>");
+		relatedNotes.setHtmlContentAllowed(true);
+		relatedNotes.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 7589415773039335559L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				EventBus.getInstance().fireEvent(
+						new ContactEvent.GoToRelatedItems(this,
+								new CrmRelatedItemsScreenData(
+										getAssociateNotes())));
+			}
+		});
+		toolbarLayout.addComponent(relatedNotes);
+
+		Button relatedActivities = new Button();
+		relatedActivities
+				.setCaption("<span aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_ACTIVITY
+						+ "\"></span><div class=\"screen-reader-text\">Activities</div>");
+		relatedActivities.setHtmlContentAllowed(true);
+		relatedActivities.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 7589415773039335559L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				EventBus.getInstance().fireEvent(
+						new ContactEvent.GoToRelatedItems(this,
+								new CrmRelatedItemsScreenData(
+										getAssociateActivities())));
+			}
+		});
+		toolbarLayout.addComponent(relatedActivities);
+
+		Button relatedOpportunities = new Button();
+		relatedOpportunities
+				.setCaption("<span aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_OPPORTUNITY
+						+ "\"></span><div class=\"screen-reader-text\">Opportunities</div>");
+		relatedOpportunities.setHtmlContentAllowed(true);
+		relatedOpportunities.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 7589415773039335559L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBus.getInstance().fireEvent(
+						new ContactEvent.GoToRelatedItems(this,
+								new CrmRelatedItemsScreenData(
+										getAssociateOpportunities())));
+			}
+		});
+		toolbarLayout.addComponent(relatedOpportunities);
+
+		return toolbarLayout;
 	}
 
 	@Override
@@ -84,25 +154,37 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		return this.previewForm;
 	}
 
-	/*
-	 * protected void displayNotes() {
-	 * this.noteListItems.showNotes(CrmTypeConstants.CONTACT,
-	 * this.beanItem.getId()); }
-	 * 
-	 * protected void displayActivities() { final ActivitySearchCriteria
-	 * criteria = new ActivitySearchCriteria(); criteria.setSaccountid(new
-	 * NumberSearchField(AppContext.getAccountId())); criteria.setType(new
-	 * StringSearchField(SearchField.AND, CrmTypeConstants.CONTACT));
-	 * criteria.setTypeid(new NumberSearchField(this.beanItem.getId()));
-	 * this.associateActivityList.setSearchCriteria(criteria); }
-	 * 
-	 * protected void displayAssociateOpportunityList() { final
-	 * OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-	 * criteria.setSaccountid(new NumberSearchField(SearchField.AND,
-	 * AppContext.getAccountId())); criteria.setContactId(new
-	 * NumberSearchField(SearchField.AND, this.beanItem.getId()));
-	 * this.associateOpportunityList.displayOpportunities(this.beanItem); }
-	 */
+	public NotesList getAssociateNotes() {
+		if (noteListItems == null)
+			noteListItems = new NotesList("Related Notes");
+		noteListItems.showNotes(CrmTypeConstants.CONTACT, beanItem.getId());
+		return noteListItems;
+	}
+
+	public ContactRelatedActivityView getAssociateActivities() {
+		if (associateActivityList == null)
+			associateActivityList = new ContactRelatedActivityView();
+		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.CONTACT));
+		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+		associateActivityList.setSearchCriteria(criteria);
+		return associateActivityList;
+	}
+
+	public ContactRelatedOpportunityView getAssociateOpportunities() {
+		if (associateOpportunityList == null) {
+			associateOpportunityList = new ContactRelatedOpportunityView();
+		}
+		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setContactId(new NumberSearchField(SearchField.AND, beanItem
+				.getId()));
+		associateOpportunityList.setSearchCriteria(criteria);
+
+		return associateOpportunityList;
+	}
 
 	@Override
 	protected void onPreviewItem() {

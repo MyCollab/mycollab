@@ -14,36 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.view.account;
+package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 @ViewComponent
-public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
-		implements AccountAddView {
-	private static final long serialVersionUID = -6760402062110610122L;
+public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
+		implements ContactAddView {
+	private static final long serialVersionUID = 1560876283170769148L;
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getAccountname() != null ? beanItem.getAccountname()
-				: "New Account");
+		return (beanItem.getContactName() != null ? beanItem.getContactName()
+				: "New Contact");
 	}
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new DynaFormLayout(CrmTypeConstants.ACCOUNT,
-				AccountDefaultDynaFormLayoutFactory.getForm());
+		return new DynaFormLayout(CrmTypeConstants.CONTACT,
+				ContactDefaultDynaFormLayoutFactory.getForm());
 	}
 
 	@Override
-	protected AbstractBeanFieldGroupEditFieldFactory<SimpleAccount> initBeanFormFieldFactory() {
-		return new AccountEditFormFieldFactory<SimpleAccount>(editForm);
+	protected AbstractBeanFieldGroupEditFieldFactory<SimpleContact> initBeanFormFieldFactory() {
+		return new ContactEditFormFieldFactory<SimpleContact>(this.editForm);
 	}
 
 }

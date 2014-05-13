@@ -19,9 +19,15 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.Component;
 
-public class AccountRelatedItemsScreenData extends ScreenData<Component> {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
+public class CrmRelatedItemsScreenData extends ScreenData<Component> {
 
-	public AccountRelatedItemsScreenData(Component params) {
+	public CrmRelatedItemsScreenData(Component params) {
 		super(params);
 	}
 

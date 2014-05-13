@@ -90,6 +90,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Edit View Layout */
   /* Filterselect */
   /* Message Row */
+  /* Confirm Dialog */
 }
 .mycollab-mobile .content-wrapper {
   margin: 0 auto;
@@ -259,7 +260,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   height: 4rem;
   position: absolute;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: white;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn {
@@ -473,4 +474,27 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-button:active .v-button-wrap:after {
   background-color: transparent;
+}
+.mycollab-mobile .confirm-dialog .v-window-outerheader {
+  display: none;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-top {
+  padding-top: 20px;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-bottom {
+  padding-bottom: 20px;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper .v-label {
+  text-align: center;
+}
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
 }
