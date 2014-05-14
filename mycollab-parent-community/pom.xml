@@ -257,6 +257,12 @@
             </plugin>
         </plugins>
     </build>
-    
+    <repositories>
+        <repository>
+            <id>Default Repo</id>
+            <name>Maven Default Repository</name>
+            <url> http://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 
 </project>
