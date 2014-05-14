@@ -86,9 +86,6 @@ public class MyCollabSession {
 	}
 
 	public static String getSessionId() {
-		// return UI.getCurrent().toString();
-		System.out.println("Session: "
-				+ VaadinSession.getCurrent().getSession().getId());
 		return VaadinSession.getCurrent().getSession().getId();
 	}
 
