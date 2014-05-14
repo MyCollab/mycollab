@@ -32,6 +32,8 @@
  */
 package com.esofthead.mycollab.mobile.module.user.ui;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,13 +116,16 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 				+ pref + " to session");
 
 		AppContext.getInstance().setSession(user, pref, billingAccount);
-        EventBus.getInstance().fireEvent(
-                new ShellEvent.GotoMainPage(this, null));
+		pref.setLastaccessedtime(new Date());
+		preferenceService.updateWithSession(pref, AppContext.getUsername());
+		EventBus.getInstance().fireEvent(
+				new ShellEvent.GotoMainPage(this, null));
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager navigationManager, ScreenData<?> data) {
-        navigationManager.navigateTo(view.getWidget());
+	protected void onGo(MobileNavigationManager navigationManager,
+			ScreenData<?> data) {
+		navigationManager.navigateTo(view.getWidget());
 
 		AppContext.addFragment("user/login", "Login Page");
 	}

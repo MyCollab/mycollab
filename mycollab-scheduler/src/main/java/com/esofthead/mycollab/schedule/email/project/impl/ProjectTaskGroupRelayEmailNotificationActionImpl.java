@@ -114,7 +114,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		int taskId = emailNotification.getTypeid();
 		SimpleTaskList taskList = projectTaskListService.findById(taskId,
 				emailNotification.getSaccountid());
-		
+
 		if (taskList == null) {
 			return null;
 		}
@@ -218,15 +218,20 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					tasklist.getOwnerAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (tasklist.getOwner() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						tasklist.getOwnerAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(tasklist.getSaccountid()),
-					tasklist.getOwner());
-			A link = TagBuilder.newA(userLink, tasklist.getOwnerFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(tasklist.getSaccountid()),
+						tasklist.getOwner());
+				A link = TagBuilder.newA(userLink, tasklist.getOwnerFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
+
 		}
 
 		@Override
@@ -263,17 +268,22 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTaskList tasklist = (SimpleTaskList) context.getWrappedBean();
+			if (tasklist.getMilestoneid() != null) {
+				String milestoneIconLink = ProjectResources
+						.getResourceLink(ProjectTypeConstants.MILESTONE);
+				Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-			String milestoneIconLink = ProjectResources
-					.getResourceLink(ProjectTypeConstants.MILESTONE);
-			Img img = TagBuilder.newImg("icon", milestoneIconLink);
+				String milestoneLink = ProjectLinkUtils
+						.generateMilestonePreviewFullLink(context.getSiteUrl(),
+								tasklist.getProjectid(),
+								tasklist.getMilestoneid());
+				A link = TagBuilder.newA(milestoneLink,
+						tasklist.getMilestoneName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 
-			String milestoneLink = ProjectLinkUtils
-					.generateMilestonePreviewFullLink(context.getSiteUrl(),
-							tasklist.getProjectid(), tasklist.getMilestoneid());
-			A link = TagBuilder
-					.newA(milestoneLink, tasklist.getMilestoneName());
-			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override

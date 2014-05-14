@@ -197,15 +197,19 @@ public class TaskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
-			String contactIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.CONTACT);
-			Img img = TagBuilder.newImg("icon", contactIconLink);
+			if (task.getContactid() != null) {
+				String contactIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.CONTACT);
+				Img img = TagBuilder.newImg("icon", contactIconLink);
 
-			String contactLink = CrmLinkGenerator
-					.generateContactPreviewFullLink(context.getSiteUrl(),
-							task.getContactid());
-			A link = TagBuilder.newA(contactLink, task.getContactName());
-			return TagBuilder.newLink(img, link).write();
+				String contactLink = CrmLinkGenerator
+						.generateContactPreviewFullLink(context.getSiteUrl(),
+								task.getContactid());
+				A link = TagBuilder.newA(contactLink, task.getContactName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -250,17 +254,22 @@ public class TaskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
+			if (task.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						task.getAssignUserAvatarId(), 16);
 
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					task.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(task.getSaccountid()),
+						task.getAssignuser());
+				A link = TagBuilder
+						.newA(userLink, task.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(task.getSaccountid()),
-					task.getAssignuser());
-			A link = TagBuilder.newA(userLink, task.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override

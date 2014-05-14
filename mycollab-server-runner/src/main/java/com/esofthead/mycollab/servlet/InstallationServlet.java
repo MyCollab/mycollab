@@ -67,10 +67,10 @@ public class InstallationServlet extends HttpServlet {
 		VelocityContext templateContext = new VelocityContext();
 		templateContext.put("sitename", sitename);
 		templateContext.put("serveraddress", serverAddress);
-		templateContext.put("serverport", "8080");
 
-		String dbUrl = String.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
-				databaseServer, databaseName);
+		String dbUrl = String
+				.format("jdbc:mysql://%s/%s?useUnicode=true&characterEncoding=utf-8&autoReconnect=true",
+						databaseServer, databaseName);
 		templateContext.put("dbUrl", dbUrl);
 		templateContext.put("dbUser", dbUserName);
 		templateContext.put("dbPassword", dbPassword);

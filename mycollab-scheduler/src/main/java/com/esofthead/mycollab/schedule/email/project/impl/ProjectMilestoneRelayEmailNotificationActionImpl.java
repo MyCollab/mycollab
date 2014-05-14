@@ -207,15 +207,19 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleMilestone milestone = (SimpleMilestone) context
 					.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					milestone.getOwnerAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (milestone.getOwner() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						milestone.getOwnerAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(milestone.getSaccountid()),
-					milestone.getOwner());
-			A link = TagBuilder.newA(userLink, milestone.getOwnerFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(milestone.getSaccountid()),
+						milestone.getOwner());
+				A link = TagBuilder.newA(userLink, milestone.getOwnerFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -232,7 +236,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = UserLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+		LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

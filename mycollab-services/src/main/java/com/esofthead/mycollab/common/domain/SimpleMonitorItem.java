@@ -16,11 +16,17 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-@SuppressWarnings("serial")
-public class SimpleMonitorItem extends MonitorItem{
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class SimpleMonitorItem extends MonitorItem {
+	private static final long serialVersionUID = 1L;
 
 	private String userAvatarId;
-	
+
 	private String userFullname;
 
 	public void setUserFullname(String userFullname) {
@@ -28,6 +34,13 @@ public class SimpleMonitorItem extends MonitorItem{
 	}
 
 	public String getUserFullname() {
+		if (userFullname == null || userFullname.trim().equals("")) {
+			String displayName = getUser();
+			int index = (displayName != null) ? displayName.indexOf("@") : 0;
+			if (index > 0) {
+				return displayName.substring(0, index);
+			}
+		}
 		return userFullname;
 	}
 

@@ -108,7 +108,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		int riskId = emailNotification.getTypeid();
 		SimpleRisk risk = riskService.findById(riskId,
 				emailNotification.getSaccountid());
-		
+
 		if (risk == null) {
 			return null;
 		}
@@ -217,16 +217,20 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					risk.getAssignToUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (risk.getAssigntouser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						risk.getAssignToUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(risk.getSaccountid()),
-					risk.getAssigntouser());
-			A link = TagBuilder
-					.newA(userLink, risk.getAssignedToUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(risk.getSaccountid()),
+						risk.getAssigntouser());
+				A link = TagBuilder.newA(userLink,
+						risk.getAssignedToUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -262,15 +266,20 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					risk.getRaisedByUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (risk.getRaisedbyuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						risk.getRaisedByUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(risk.getSaccountid()),
-					risk.getRaisedbyuser());
-			A link = TagBuilder.newA(userLink, risk.getRaisedByUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(risk.getSaccountid()),
+						risk.getRaisedbyuser());
+				A link = TagBuilder.newA(userLink,
+						risk.getRaisedByUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

@@ -107,7 +107,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
 		int problemId = emailNotification.getTypeid();
 		SimpleProblem problem = problemService.findById(problemId, 0);
-		
+
 		if (problem == null) {
 			return null;
 		}
@@ -213,16 +213,20 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					problem.getAssignUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (problem.getAssigntouser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						problem.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(problem.getSaccountid()),
-					problem.getAssigntouser());
-			A link = TagBuilder.newA(userLink,
-					problem.getAssignedUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(problem.getSaccountid()),
+						problem.getAssigntouser());
+				A link = TagBuilder.newA(userLink,
+						problem.getAssignedUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -258,16 +262,20 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					problem.getRaisedByUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (problem.getRaisedbyuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						problem.getRaisedByUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(problem.getSaccountid()),
-					problem.getRaisedbyuser());
-			A link = TagBuilder.newA(userLink,
-					problem.getRaisedByUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(problem.getSaccountid()),
+						problem.getRaisedbyuser());
+				A link = TagBuilder.newA(userLink,
+						problem.getRaisedByUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

@@ -199,17 +199,22 @@ public class CallRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleCall call = (SimpleCall) context.getWrappedBean();
+			if (call.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						call.getAssignUserAvatarId(), 16);
 
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					call.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(call.getSaccountid()),
+						call.getAssignuser());
+				A link = TagBuilder
+						.newA(userLink, call.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(call.getSaccountid()),
-					call.getAssignuser());
-			A link = TagBuilder.newA(userLink, call.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override

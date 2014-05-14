@@ -209,15 +209,20 @@ public class CaseRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleCase simpleCase = (SimpleCase) context.getWrappedBean();
-			String accountIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.ACCOUNT);
-			Img img = TagBuilder.newImg("avatar", accountIconLink);
+			if (simpleCase.getAccountid() != null) {
+				String accountIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.ACCOUNT);
+				Img img = TagBuilder.newImg("avatar", accountIconLink);
 
-			String accountLink = CrmLinkGenerator
-					.generateAccountPreviewFullLink(context.getSiteUrl(),
-							simpleCase.getAccountid());
-			A link = TagBuilder.newA(accountLink, simpleCase.getAccountName());
-			return TagBuilder.newLink(img, link).write();
+				String accountLink = CrmLinkGenerator
+						.generateAccountPreviewFullLink(context.getSiteUrl(),
+								simpleCase.getAccountid());
+				A link = TagBuilder.newA(accountLink,
+						simpleCase.getAccountName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -261,18 +266,22 @@ public class CaseRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleCase simpleCase = (SimpleCase) context.getWrappedBean();
+			if (simpleCase.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						simpleCase.getAssignUserAvatarId(), 16);
 
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					simpleCase.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(simpleCase.getSaccountid()),
+						simpleCase.getAssignuser());
+				A link = TagBuilder.newA(userLink,
+						simpleCase.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(simpleCase.getSaccountid()),
-					simpleCase.getAssignuser());
-			A link = TagBuilder.newA(userLink,
-					simpleCase.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
 		}
 
 		@Override

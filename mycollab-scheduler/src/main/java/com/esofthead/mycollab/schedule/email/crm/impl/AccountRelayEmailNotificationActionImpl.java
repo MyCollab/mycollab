@@ -193,17 +193,21 @@ public class AccountRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					account.getAssignUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(account.getSaccountid()),
-					account.getAssignuser());
+			if (account.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						account.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(account.getSaccountid()),
+						account.getAssignuser());
 
-			A link = TagBuilder.newA(userLink, account.getAssignUserFullName());
+				A link = TagBuilder.newA(userLink,
+						account.getAssignUserFullName());
 
-			return TagBuilder.newLink(img, link).write();
-
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return null;
+			}
 		}
 
 		@Override

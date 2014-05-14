@@ -246,17 +246,21 @@ public class ContactRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleContact contact = (SimpleContact) context.getWrappedBean();
+			if (contact.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						contact.getAssignUserAvatarId(), 16);
 
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					contact.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
-
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(contact.getSaccountid()),
-					contact.getAssignuser());
-			A link = TagBuilder.newA(userLink, contact.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(contact.getSaccountid()),
+						contact.getAssignuser());
+				A link = TagBuilder.newA(userLink,
+						contact.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -292,15 +296,19 @@ public class ContactRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleContact contact = (SimpleContact) context.getWrappedBean();
-			String accountIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.ACCOUNT);
-			Img img = TagBuilder.newImg("icon", accountIconLink);
+			if (contact.getAccountid() != null) {
+				String accountIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.ACCOUNT);
+				Img img = TagBuilder.newImg("icon", accountIconLink);
 
-			String accountLink = CrmLinkGenerator
-					.generateAccountPreviewFullLink(context.getSiteUrl(),
-							contact.getAccountid());
-			A link = TagBuilder.newA(accountLink, contact.getAccountName());
-			return TagBuilder.newLink(img, link).write();
+				String accountLink = CrmLinkGenerator
+						.generateAccountPreviewFullLink(context.getSiteUrl(),
+								contact.getAccountid());
+				A link = TagBuilder.newA(accountLink, contact.getAccountName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

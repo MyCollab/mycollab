@@ -22,6 +22,8 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent.PushView;
@@ -30,12 +32,16 @@ import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountReadPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactReadPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
@@ -58,6 +64,8 @@ public class CrmModuleController implements IController {
 		bindCrmEvents();
 		bindAccountEvents();
 		bindContactEvents();
+		bindCampaignEvents();
+		bindCaseEvents();
 	}
 
 	private void bindCrmEvents() {
@@ -305,5 +313,154 @@ public class CrmModuleController implements IController {
 
 				});
 
+	}
+
+	private void bindCampaignEvents() {
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<CampaignEvent.GotoList>() {
+					private static final long serialVersionUID = 1553727404269228168L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return CampaignEvent.GotoList.class;
+					}
+
+					@Override
+					public void handle(CampaignEvent.GotoList event) {
+						CampaignListPresenter presenter = PresenterResolver
+								.getPresenter(CampaignListPresenter.class);
+						CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
+						searchCriteria.setSaccountid(new NumberSearchField(
+								SearchField.AND, AppContext.getAccountId()));
+
+						presenter.go(crmViewNavigation,
+								new ScreenData.Search<CampaignSearchCriteria>(
+										searchCriteria));
+					}
+				});
+
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CampaignEvent.GotoAdd>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CampaignEvent.GotoAdd.class;
+		// }
+		//
+		// @Override
+		// public void handle(CampaignEvent.GotoAdd event) {
+		// CampaignAddPresenter presenter = PresenterResolver
+		// .getPresenter(CampaignAddPresenter.class);
+		// presenter.go(container,
+		// new ScreenData.Add<SimpleCampaign>(
+		// new SimpleCampaign()));
+		// }
+		// });
+		//
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CampaignEvent.GotoEdit>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CampaignEvent.GotoEdit.class;
+		// }
+		//
+		// @Override
+		// public void handle(CampaignEvent.GotoEdit event) {
+		// CampaignAddPresenter presenter = PresenterResolver
+		// .getPresenter(CampaignAddPresenter.class);
+		// presenter.go(container, new ScreenData.Edit<Object>(
+		// event.getData()));
+		// }
+		// });
+		//
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CampaignEvent.GotoRead>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CampaignEvent.GotoRead.class;
+		// }
+		//
+		// @SuppressWarnings({ "unchecked", "rawtypes" })
+		// @Override
+		// public void handle(CampaignEvent.GotoRead event) {
+		// CampaignReadPresenter presenter = PresenterResolver
+		// .getPresenter(CampaignReadPresenter.class);
+		// presenter.go(container,
+		// new ScreenData.Preview(event.getData()));
+		// }
+		// });
+	}
+
+	private void bindCaseEvents() {
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<CaseEvent.GotoList>() {
+					private static final long serialVersionUID = -3618797051826954301L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return CaseEvent.GotoList.class;
+					}
+
+					@Override
+					public void handle(CaseEvent.GotoList event) {
+						CaseListPresenter presenter = PresenterResolver
+								.getPresenter(CaseListPresenter.class);
+
+						CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
+						searchCriteria.setSaccountid(new NumberSearchField(
+								SearchField.AND, AppContext.getAccountId()));
+						presenter.go(crmViewNavigation,
+								new ScreenData.Search<CaseSearchCriteria>(
+										searchCriteria));
+					}
+				});
+
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CaseEvent.GotoAdd>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CaseEvent.GotoAdd.class;
+		// }
+		//
+		// @Override
+		// public void handle(CaseEvent.GotoAdd event) {
+		// CaseAddPresenter presenter = PresenterResolver
+		// .getPresenter(CaseAddPresenter.class);
+		// presenter.go(container, new ScreenData.Add<SimpleCase>(
+		// new SimpleCase()));
+		// }
+		// });
+		//
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CaseEvent.GotoEdit>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CaseEvent.GotoEdit.class;
+		// }
+		//
+		// @Override
+		// public void handle(CaseEvent.GotoEdit event) {
+		// CaseAddPresenter presenter = PresenterResolver
+		// .getPresenter(CaseAddPresenter.class);
+		// presenter.go(container, new ScreenData.Edit<Object>(
+		// event.getData()));
+		// }
+		// });
+		//
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CaseEvent.GotoRead>() {
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CaseEvent.GotoRead.class;
+		// }
+		//
+		// @SuppressWarnings({ "unchecked", "rawtypes" })
+		// @Override
+		// public void handle(CaseEvent.GotoRead event) {
+		// CaseReadPresenter presenter = PresenterResolver
+		// .getPresenter(CaseReadPresenter.class);
+		// presenter.go(container,
+		// new ScreenData.Preview(event.getData()));
+		// }
+		// });
 	}
 }

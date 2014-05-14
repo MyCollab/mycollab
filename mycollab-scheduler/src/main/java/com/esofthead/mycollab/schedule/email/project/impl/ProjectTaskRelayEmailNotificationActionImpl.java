@@ -337,15 +337,20 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					task.getAssignUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (task.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						task.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(task.getSaccountid()),
-					task.getAssignuser());
-			A link = TagBuilder.newA(userLink, task.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(task.getSaccountid()),
+						task.getAssignuser());
+				A link = TagBuilder
+						.newA(userLink, task.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -381,16 +386,19 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
+			if (task.getTasklistid() != null) {
+				String taskgroupIconLink = ProjectResources
+						.getResourceLink(ProjectTypeConstants.TASK_LIST);
+				Img img = TagBuilder.newImg("icon", taskgroupIconLink);
 
-			String taskgroupIconLink = ProjectResources
-					.getResourceLink(ProjectTypeConstants.TASK_LIST);
-			Img img = TagBuilder.newImg("icon", taskgroupIconLink);
-
-			String tasklistlink = ProjectLinkUtils.generateTaskPreviewFullLink(
-					context.getSiteUrl(), task.getProjectid(),
-					task.getTasklistid());
-			A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
-			return TagBuilder.newLink(img, link).write();
+				String tasklistlink = ProjectLinkUtils
+						.generateTaskPreviewFullLink(context.getSiteUrl(),
+								task.getProjectid(), task.getTasklistid());
+				A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

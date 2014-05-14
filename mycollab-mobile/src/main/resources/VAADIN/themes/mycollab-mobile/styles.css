@@ -382,6 +382,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout input {
   border: none;
 }
+.mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
+  font-size: 1.3rem;
+  line-height: 22px;
+}
 .mycollab-mobile .v-filterselect {
   overflow: hidden;
   padding-right: 16px;

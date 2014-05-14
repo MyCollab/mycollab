@@ -222,16 +222,21 @@ public class LeadRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleLead lead = (SimpleLead) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					lead.getAssignUserAvatarId(), 16);
+			if (lead.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						lead.getAssignUserAvatarId(), 16);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(lead.getSaccountid()),
-					lead.getAssignuser());
-			A link = TagBuilder.newA(userLink, lead.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(lead.getSaccountid()),
+						lead.getAssignuser());
+				A link = TagBuilder
+						.newA(userLink, lead.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

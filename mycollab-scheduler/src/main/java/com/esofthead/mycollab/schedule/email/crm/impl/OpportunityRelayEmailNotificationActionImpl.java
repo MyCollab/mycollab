@@ -244,16 +244,21 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleOpportunity opportunity = (SimpleOpportunity) context
 					.getWrappedBean();
-			String campaignIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.CAMPAIGN);
-			Img img = TagBuilder.newImg("icon", campaignIconLink);
+			if (opportunity.getCampaignid() != null) {
+				String campaignIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.CAMPAIGN);
+				Img img = TagBuilder.newImg("icon", campaignIconLink);
 
-			String campaignLink = CrmLinkGenerator
-					.generateCampaignPreviewFullLink(context.getSiteUrl(),
-							opportunity.getCampaignid());
-			A link = TagBuilder.newA(campaignLink,
-					opportunity.getCampaignName());
-			return TagBuilder.newLink(img, link).write();
+				String campaignLink = CrmLinkGenerator
+						.generateCampaignPreviewFullLink(context.getSiteUrl(),
+								opportunity.getCampaignid());
+				A link = TagBuilder.newA(campaignLink,
+						opportunity.getCampaignName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
+
 		}
 
 		@Override
@@ -299,17 +304,21 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 			SimpleOpportunity opportunity = (SimpleOpportunity) context
 					.getWrappedBean();
 
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					opportunity.getAssignUserAvatarId(), 16);
+			if (opportunity.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						opportunity.getAssignUserAvatarId(), 16);
 
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(opportunity.getSaccountid()),
-					opportunity.getAssignuser());
-			A link = TagBuilder.newA(userLink,
-					opportunity.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(opportunity.getSaccountid()),
+						opportunity.getAssignuser());
+				A link = TagBuilder.newA(userLink,
+						opportunity.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

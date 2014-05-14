@@ -205,16 +205,20 @@ public class CampaignRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleCampaign campaign = (SimpleCampaign) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					campaign.getAssignUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (campaign.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						campaign.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(campaign.getSaccountid()),
-					campaign.getAssignuser());
-			A link = TagBuilder
-					.newA(userLink, campaign.getAssignUserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(campaign.getSaccountid()),
+						campaign.getAssignuser());
+				A link = TagBuilder.newA(userLink,
+						campaign.getAssignUserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override

@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -53,6 +54,7 @@ import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinSession;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -161,6 +163,8 @@ public class AppContext implements Serializable {
 		session = userSession;
 		userPreference = userPref;
 		billingAccount = billingAc;
+
+		VaadinSession.getCurrent().setLocale(Locale.ENGLISH);
 
 		setLanguage();
 

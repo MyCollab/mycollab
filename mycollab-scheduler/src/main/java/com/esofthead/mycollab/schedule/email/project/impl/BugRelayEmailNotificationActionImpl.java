@@ -391,15 +391,19 @@ public class BugRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					bug.getAssignUserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (bug.getAssignuser() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						bug.getAssignUserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(bug.getSaccountid()),
-					bug.getAssignuser());
-			A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(bug.getSaccountid()),
+						bug.getAssignuser());
+				A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
@@ -435,14 +439,19 @@ public class BugRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
-			String userAvatarLink = LinkUtils.getAvatarLink(
-					bug.getLoguserAvatarId(), 16);
-			Img img = TagBuilder.newImg("avatar", userAvatarLink);
+			if (bug.getLogby() != null) {
+				String userAvatarLink = LinkUtils.getAvatarLink(
+						bug.getLoguserAvatarId(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-			String userLink = UserLinkUtils.generatePreviewFullUserLink(
-					LinkUtils.getSiteUrl(bug.getSaccountid()), bug.getLogby());
-			A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
-			return TagBuilder.newLink(img, link).write();
+				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+						LinkUtils.getSiteUrl(bug.getSaccountid()),
+						bug.getLogby());
+				A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return "";
+			}
 		}
 
 		@Override
