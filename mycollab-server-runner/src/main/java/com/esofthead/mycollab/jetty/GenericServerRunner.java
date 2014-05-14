@@ -63,7 +63,7 @@ public abstract class GenericServerRunner {
 			.getLogger(GenericServerRunner.class);
 
 	private Server server;
-	private int port = 0;
+	private int port = 8080;
 	public static boolean isFirstTimeRunner = false;
 
 	private InstallationServlet install;
