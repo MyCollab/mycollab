@@ -62,7 +62,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
-implements AccountReadView {
+		implements AccountReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -148,12 +148,12 @@ implements AccountReadView {
 		if (lead != null) {
 			return beanItem.getAccountname()
 					+ AppContext
-					.getMessage(
-							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-							CrmResources
-							.getResourceLink(CrmTypeConstants.LEAD),
-							CrmLinkGenerator.generateCrmItemLink(
-									CrmTypeConstants.LEAD, lead.getId()),
+							.getMessage(
+									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+									CrmResources
+											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmLinkGenerator.generateCrmItemLink(
+											CrmTypeConstants.LEAD, lead.getId()),
 									lead.getLeadName());
 		} else {
 			return beanItem.getAccountname();
@@ -182,7 +182,6 @@ implements AccountReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "About");
@@ -190,6 +189,7 @@ implements AccountReadView {
 		previewItemContainer.addTab(associateLeadList, "Leads");
 		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
 		previewItemContainer.addTab(associateCaseList, "Cases");
+		previewItemContainer.addTab(associateActivityList, "Activities");
 
 		previewItemContainer.selectTab("About");
 	}

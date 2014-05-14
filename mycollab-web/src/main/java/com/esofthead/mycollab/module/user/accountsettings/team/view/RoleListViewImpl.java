@@ -132,7 +132,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 		layout.addComponent(this.selectOptionButton);
 
 		final Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE));
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
 		deleteBtn.setEnabled(AppContext
 				.canAccess(RolePermissionCollections.ACCOUNT_ROLE));
 

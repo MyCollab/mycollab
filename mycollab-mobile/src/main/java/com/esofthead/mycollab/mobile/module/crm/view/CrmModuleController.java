@@ -22,27 +22,35 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent.PushView;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmNavigationMenu;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountReadPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactReadPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -63,9 +71,12 @@ public class CrmModuleController implements IController {
 
 		bindCrmEvents();
 		bindAccountEvents();
+		bindActivityEvents();
 		bindContactEvents();
 		bindCampaignEvents();
 		bindCaseEvents();
+		bindLeadEvents();
+		bindOpportunityEvents();
 	}
 
 	private void bindCrmEvents() {
@@ -104,7 +115,7 @@ public class CrmModuleController implements IController {
 					}
 
 					@Override
-					public void handle(PushView event) {
+					public void handle(CrmEvent.PushView event) {
 						if (event.getData() instanceof MobileNavigationView) {
 							crmViewNavigation
 									.navigateTo((MobileNavigationView) event
@@ -210,6 +221,30 @@ public class CrmModuleController implements IController {
 							crmViewNavigation
 									.navigateTo(((CrmRelatedItemsScreenData) event
 											.getData()).getParams());
+					}
+				});
+	}
+
+	private void bindActivityEvents() {
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<ActivityEvent.GotoList>() {
+					private static final long serialVersionUID = 6101515891859134103L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return ActivityEvent.GotoList.class;
+					}
+
+					@Override
+					public void handle(ActivityEvent.GotoList event) {
+						ActivityListPresenter presenter = PresenterResolver
+								.getPresenter(ActivityListPresenter.class);
+						ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(
+								SearchField.AND, AppContext.getAccountId()));
+						presenter.go(crmViewNavigation,
+								new ScreenData.Search<ActivitySearchCriteria>(
+										criteria));
 					}
 				});
 	}
@@ -462,5 +497,55 @@ public class CrmModuleController implements IController {
 		// new ScreenData.Preview(event.getData()));
 		// }
 		// });
+	}
+
+	private void bindLeadEvents() {
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<LeadEvent.GotoList>() {
+					private static final long serialVersionUID = 9037270302083265873L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return LeadEvent.GotoList.class;
+					}
+
+					@Override
+					public void handle(LeadEvent.GotoList event) {
+						LeadListPresenter presenter = PresenterResolver
+								.getPresenter(LeadListPresenter.class);
+						LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+						searchCriteria.setAccountId(new NumberSearchField(
+								SearchField.AND, AppContext.getAccountId()));
+						presenter.go(crmViewNavigation,
+								new ScreenData.Search<LeadSearchCriteria>(
+										searchCriteria));
+					}
+				});
+	}
+
+	private void bindOpportunityEvents() {
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<OpportunityEvent.GotoList>() {
+					private static final long serialVersionUID = -2575430958965270606L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return OpportunityEvent.GotoList.class;
+					}
+
+					@Override
+					public void handle(OpportunityEvent.GotoList event) {
+						OpportunityListPresenter presenter = PresenterResolver
+								.getPresenter(OpportunityListPresenter.class);
+						OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+						searchCriteria.setAccountId(new NumberSearchField(
+								SearchField.AND, AppContext.getAccountId()));
+						presenter
+								.go(crmViewNavigation,
+										new ScreenData.Search<OpportunitySearchCriteria>(
+												searchCriteria));
+
+					}
+				});
 	}
 }

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin;
 import org.infinispan.commons.api.BasicCache;
 
 import com.esofthead.mycollab.cache.LocalCacheManager;
-import com.vaadin.ui.UI;
+import com.vaadin.server.VaadinSession;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class MyCollabSession {
 	public static final String CURRENT_MODULE = "currentModule";
 
 	public static final String CONTROLLER_REGISTRY = "CONTROLLER_REGISTRY";
-	
+
 	public static final String HISTORY_VAL = "historyVal";
 
 	public static final String PRESENTER_VAL = "presenterMap";
@@ -55,8 +55,8 @@ public class MyCollabSession {
 	 * @param value
 	 */
 	public static void putVariable(String key, Object value) {
-		BasicCache<String, Object> cache = LocalCacheManager.getCache(UI
-				.getCurrent().toString());
+		BasicCache<String, Object> cache = LocalCacheManager
+				.getCache(getSessionId());
 		cache.put(key, value);
 	}
 
@@ -66,8 +66,8 @@ public class MyCollabSession {
 	 */
 	public static void removeVariable(String key) {
 		try {
-			BasicCache<String, Object> cache = LocalCacheManager.getCache(UI
-					.getCurrent().toString());
+			BasicCache<String, Object> cache = LocalCacheManager
+					.getCache(getSessionId());
 			cache.remove(key);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,9 +80,16 @@ public class MyCollabSession {
 	 * @return
 	 */
 	public static Object getVariable(String key) {
-		BasicCache<String, Object> cache = LocalCacheManager.getCache(UI
-				.getCurrent().toString());
+		BasicCache<String, Object> cache = LocalCacheManager
+				.getCache(getSessionId());
 		return cache.get(key);
+	}
+
+	public static String getSessionId() {
+		// return UI.getCurrent().toString();
+		System.out.println("Session: "
+				+ VaadinSession.getCurrent().getSession().getId());
+		return VaadinSession.getCurrent().getSession().getId();
 	}
 
 }

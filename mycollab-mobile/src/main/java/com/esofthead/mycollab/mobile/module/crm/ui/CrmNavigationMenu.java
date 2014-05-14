@@ -22,9 +22,12 @@ import java.util.Map;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.user.ui.UserPanel;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.vaadin.ui.Button;
@@ -103,6 +106,9 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 				if ("Accounts".equals(caption)) {
 					EventBus.getInstance().fireEvent(
 							new AccountEvent.GotoList(this, null));
+				} else if ("Activities".equals(caption)) {
+					EventBus.getInstance().fireEvent(
+							new ActivityEvent.GotoList(this, null));
 				} else if ("Contacts".equals(caption)) {
 					EventBus.getInstance().fireEvent(
 							new ContactEvent.GotoList(this, null));
@@ -112,6 +118,12 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 				} else if ("Cases".equals(caption)) {
 					EventBus.getInstance().fireEvent(
 							new CaseEvent.GotoList(this, null));
+				} else if ("Leads".equals(caption)) {
+					EventBus.getInstance().fireEvent(
+							new LeadEvent.GotoList(this, null));
+				} else if ("Opportunities".equals(caption)) {
+					EventBus.getInstance().fireEvent(
+							new OpportunityEvent.GotoList(this, null));
 				}
 
 				/*
