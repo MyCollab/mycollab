@@ -281,7 +281,8 @@ public class TaskGroupDisplayWidget
 			closeBtn.setStyleName("link");
 			actionBtnLayout.addComponent(closeBtn);
 
-			final Button deleteBtn = new Button("Delete",
+			final Button deleteBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

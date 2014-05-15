@@ -18,6 +18,8 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.io.Serializable;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -52,28 +54,8 @@ public class EditFormControlsGenerator<T> implements Serializable {
 		layout.setStyleName("addNewControl");
 
 		if (isSaveBtnVisible) {
-			final Button saveBtn = new Button(GenericBeanForm.SAVE_ACTION,
-					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					if (EditFormControlsGenerator.this.editForm
-							.validateForm()) {
-						EditFormControlsGenerator.this.editForm
-						.fireSaveForm();
-					}
-				}
-			});
-			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
-			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			layout.addComponent(saveBtn);
-			layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
-		}
-
-		if (isSaveAndNewBtnVisible) {
-			final Button saveAndNewBtn = new Button(
-					GenericBeanForm.SAVE_AND_NEW_ACTION,
+			final Button saveBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -82,27 +64,50 @@ public class EditFormControlsGenerator<T> implements Serializable {
 							if (EditFormControlsGenerator.this.editForm
 									.validateForm()) {
 								EditFormControlsGenerator.this.editForm
-								.fireSaveAndNewForm();
+										.fireSaveForm();
 							}
 						}
 					});
-			saveAndNewBtn.setIcon(MyCollabResource.newResource("icons/16/save_new.png"));
+			saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
+			saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			layout.addComponent(saveBtn);
+			layout.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
+		}
+
+		if (isSaveAndNewBtnVisible) {
+			final Button saveAndNewBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							if (EditFormControlsGenerator.this.editForm
+									.validateForm()) {
+								EditFormControlsGenerator.this.editForm
+										.fireSaveAndNewForm();
+							}
+						}
+					});
+			saveAndNewBtn.setIcon(MyCollabResource
+					.newResource("icons/16/save_new.png"));
 			saveAndNewBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			layout.addComponent(saveAndNewBtn);
 			layout.setComponentAlignment(saveAndNewBtn, Alignment.MIDDLE_CENTER);
 		}
 
 		if (isCancelBtnVisible) {
-			final Button cancelBtn = new Button(GenericBeanForm.CANCEL_ACTION,
+			final Button cancelBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					EditFormControlsGenerator.this.editForm
-					.fireCancelForm();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EditFormControlsGenerator.this.editForm
+									.fireCancelForm();
+						}
+					});
 			cancelBtn.setIcon(MyCollabResource
 					.newResource("icons/16/cancel.png"));
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);

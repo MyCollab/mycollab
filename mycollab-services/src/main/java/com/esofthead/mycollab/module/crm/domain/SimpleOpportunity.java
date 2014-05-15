@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.domain;
 
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
  * 
@@ -52,6 +53,10 @@ public class SimpleOpportunity extends Opportunity {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getCreateduser());
+		}
 		return createdUserFullName;
 	}
 
@@ -76,6 +81,9 @@ public class SimpleOpportunity extends Opportunity {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getAssignuser());
+		}
 		return assignUserFullName;
 	}
 

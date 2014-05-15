@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.mobile.ui.ListView;
+import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 
@@ -29,6 +29,6 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
  */
 
 public interface CampaignListView extends
-		ListView<CampaignSearchCriteria, SimpleCampaign> {
+		IListView<CampaignSearchCriteria, SimpleCampaign> {
 
 }

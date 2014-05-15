@@ -19,7 +19,7 @@ package com.esofthead.mycollab.vaadin;
 import org.infinispan.commons.api.BasicCache;
 
 import com.esofthead.mycollab.cache.LocalCacheManager;
-import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -86,7 +86,8 @@ public class MyCollabSession {
 	}
 
 	public static String getSessionId() {
-		return VaadinSession.getCurrent().getSession().getId();
+		// return VaadinSession.getCurrent().getSession().getId();
+		return UI.getCurrent().toString();
 	}
 
 }

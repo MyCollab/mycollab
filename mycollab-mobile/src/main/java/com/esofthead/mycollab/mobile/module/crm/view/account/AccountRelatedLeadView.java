@@ -18,14 +18,20 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
+import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 
-public class AccountRelatedLeadView extends AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
+public class AccountRelatedLeadView extends
+		AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
 	private static final long serialVersionUID = -6563776375301107391L;
 	private Account account;
 
@@ -36,6 +42,26 @@ public class AccountRelatedLeadView extends AbstractRelatedListView<SimpleLead, 
 	private void initUI() {
 		this.setCaption("Related Leads");
 		this.tableItem = new LeadListDisplay("leadName");
+		this.tableItem
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 5178220991734486482L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
+
+					@Override
+					public void handle(TableClickEvent event) {
+						final SimpleLead lead = (SimpleLead) event.getData();
+						if ("leadName".equals(event.getFieldName())) {
+							EventBus.getInstance().fireEvent(
+									new LeadEvent.GotoRead(
+											AccountRelatedLeadView.this, lead
+													.getId()));
+						}
+					}
+				});
 		this.setContent(tableItem);
 	}
 

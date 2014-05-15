@@ -18,6 +18,14 @@ package com.esofthead.mycollab.module.crm.domain;
 
 import java.util.List;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class SimpleMeeting extends MeetingWithBLOBs {
 	private static final long serialVersionUID = 1L;
 
@@ -36,6 +44,10 @@ public class SimpleMeeting extends MeetingWithBLOBs {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getCreateduser());
+		}
 		return createdUserFullName;
 	}
 

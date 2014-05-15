@@ -21,8 +21,8 @@ import java.util.Set;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.ui.IPagedBeanList;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 
@@ -31,12 +31,13 @@ import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
  * @author MyCollab Ltd.
  * @since 4.0
  */
-public abstract class AbstractRelatedListView<T, S extends SearchCriteria> extends AbstractMobilePageView implements IRelatedListHandlers<T> {
+public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
+		extends AbstractMobilePageView implements IRelatedListHandlers<T> {
 
 	private static final long serialVersionUID = 1L;
 
 	protected Set<RelatedListHandler<T>> handlers;
-	protected IPagedBeanList<S, T> tableItem;
+	protected AbstractPagedBeanList<S, T> tableItem;
 
 	public AbstractRelatedListView() {
 		this.setWidth("100%");

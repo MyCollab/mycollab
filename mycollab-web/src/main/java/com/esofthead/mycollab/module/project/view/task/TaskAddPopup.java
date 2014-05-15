@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.localization.WindowI18nEnum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -84,8 +85,8 @@ class TaskAddPopup extends CustomComponent {
 		this.taskContainer = new TabSheet();
 		final TaskInputForm taskInputForm = new TaskInputForm();
 		taskInputForm.setWidth("100%");
-		this.taskContainer.addTab(taskInputForm, AppContext
-				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE));
+		this.taskContainer.addTab(taskInputForm,
+				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
 		this.taskContainer.addTab(this.taskNoteComponent, "Note & Attachments");
@@ -96,8 +97,7 @@ class TaskAddPopup extends CustomComponent {
 		controlsLayout.setSpacing(true);
 
 		final Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

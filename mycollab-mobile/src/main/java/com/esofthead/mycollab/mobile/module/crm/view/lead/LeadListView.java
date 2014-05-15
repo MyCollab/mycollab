@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
-import com.esofthead.mycollab.mobile.ui.ListView;
+import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 
@@ -26,6 +26,6 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
  * @since 4.1
  * 
  */
-public interface LeadListView extends ListView<LeadSearchCriteria, SimpleLead> {
+public interface LeadListView extends IListView<LeadSearchCriteria, SimpleLead> {
 
 }

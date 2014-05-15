@@ -83,9 +83,8 @@ public class ContactListPresenter
 					protected void onSelectExtra(String id) {
 						if ("mail".equals(id)) {
 							if (isSelectAll) {
-								NotificationUtil
-										.showWarningNotification(AppContext
-												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+								NotificationUtil.showWarningNotification(AppContext
+										.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 
 							} else {
 								List<String> lstMail = new ArrayList<String>();
@@ -107,7 +106,8 @@ public class ContactListPresenter
 									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
-													"Contact"),
+													AppContext
+															.getMessage(CrmCommonI18nEnum.CONTACT)),
 									ContactListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
@@ -132,9 +132,9 @@ public class ContactListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/contact/list", AppContext
-					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-							"Contact"));
+			AppContext.addFragment("crm/contact/list", AppContext.getMessage(
+					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
+					AppContext.getMessage(CrmCommonI18nEnum.CONTACT)));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

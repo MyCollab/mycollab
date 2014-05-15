@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -44,6 +46,9 @@ public class SimpleContact extends Contact {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getAssignuser());
+		}
 		return assignUserFullName;
 	}
 
@@ -76,6 +81,10 @@ public class SimpleContact extends Contact {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getCreateduser());
+		}
 		return createdUserFullName;
 	}
 

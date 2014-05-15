@@ -16,17 +16,19 @@
  */
 package com.esofthead.mycollab.module.crm.domain;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 public class SimpleAccount extends Account {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String createdUserAvatarId;
-	
+
 	private String createdUserFullName;
 
 	private String assignUserAvatarId;
@@ -42,6 +44,11 @@ public class SimpleAccount extends Account {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getCreateduser());
+		}
+
 		return createdUserFullName;
 	}
 
@@ -58,6 +65,10 @@ public class SimpleAccount extends Account {
 	}
 
 	public String getAssignUserFullName() {
+		if (assignUserFullName == null || assignUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getAssignuser());
+		}
+
 		return assignUserFullName;
 	}
 

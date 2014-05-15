@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_APP;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.localization.WindowI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.vaadin.server.Page;
@@ -41,14 +42,13 @@ public class NotificationUtil {
 	public static void showWarningNotification(String description) {
 		showNotification(
 				AppContext
-				.getMessage(GenericI18Enum.WARNING_WINDOW_TITLE),
+						.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
 				description, Type.WARNING_MESSAGE);
 	}
 
 	public static void showErrorNotification(String description) {
 		showNotification(
-				AppContext
-				.getMessage(GenericI18Enum.ERROR_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.ERROR_WINDOW_TITLE),
 				description, Type.ERROR_MESSAGE);
 	}
 
@@ -61,7 +61,8 @@ public class NotificationUtil {
 		if (Page.getCurrent() != null) {
 			warnNotif.show(Page.getCurrent());
 		} else {
-			warnNotif.show(((UI) MyCollabSession.getVariable(CURRENT_APP)).getPage());
+			warnNotif.show(((UI) MyCollabSession.getVariable(CURRENT_APP))
+					.getPage());
 		}
 
 	}
@@ -69,35 +70,36 @@ public class NotificationUtil {
 	public static void showGotoLastRecordNotification() {
 		showNotification(
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
+						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_GOTO_LAST_RECORD),
+						.getMessage(GenericI18Enum.INFORMATION_GOTO_LAST_RECORD),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showGotoFirstRecordNotification() {
 		showNotification(
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
+						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_GOTO_FIRST_RECORD),
+						.getMessage(GenericI18Enum.INFORMATION_GOTO_FIRST_RECORD),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showRecordNotExistNotification() {
 		showNotification(
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_WINDOW_TITLE),
+						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
-				.getMessage(GenericI18Enum.INFORMATION_RECORD_IS_NOT_EXISTED_MESSAGE),
+						.getMessage(GenericI18Enum.INFORMATION_RECORD_IS_NOT_EXISTED_MESSAGE),
 				Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showMessagePermissionAlert() {
 		showNotification(
 				AppContext
-				.getMessage(GenericI18Enum.WARNING_WINDOW_TITLE),
-				"Sorry! You do not have permission to do this task.",
+						.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
+				AppContext
+						.getMessage(WindowI18nEnum.NO_PERMISSION_DO_TASK),
 				Type.WARNING_MESSAGE);
 	}
 }

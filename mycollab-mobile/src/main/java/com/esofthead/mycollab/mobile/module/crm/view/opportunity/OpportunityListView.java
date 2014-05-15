@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.mobile.ui.ListView;
+import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 
@@ -27,6 +27,6 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
  * 
  */
 public interface OpportunityListView extends
-		ListView<OpportunitySearchCriteria, SimpleOpportunity> {
+		IListView<OpportunitySearchCriteria, SimpleOpportunity> {
 
 }

@@ -26,7 +26,7 @@ import com.vaadin.ui.CssLayout;
  * @since 3.0
  */
 public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
-		AbstractMobilePageView implements ListView<S, B> {
+		AbstractMobilePageView implements IListView<S, B> {
 	private static final long serialVersionUID = 3603608419228750094L;
 
 	protected CssLayout contentLayout;

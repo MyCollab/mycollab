@@ -118,7 +118,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 		this.bodyLayout = new VerticalLayout();
 		this.bodyLayout.addComponent(this.resourceTable);
 		this.addComponent(this.bodyLayout);
-	
+
 	}
 
 	abstract protected void backView();
@@ -192,7 +192,8 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 					downloadBtn.setStyleName("link");
 					filterBtnLayout.addComponent(downloadBtn);
 
-					final Button deleteBtn = new Button("Delete",
+					final Button deleteBtn = new Button(AppContext
+							.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 							new Button.ClickListener() {
 
 								@Override
@@ -408,43 +409,50 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
-			final Button save = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button save = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final String oldPath = RenameResourceWindow.this.resource
-							.getPath();
-					final String parentPath = oldPath.substring(0,
-							oldPath.lastIndexOf("/") + 1);
-					final String newNameValue = (String) newName.getValue();
-					final String newPath = parentPath + newNameValue;
-					try {
-						RenameResourceWindow.this.service.rename(oldPath,
-								newPath, AppContext.getUsername());
-						// reset layout
-						FileSearchResultComponent.this.displaySearchResult(
-								FileSearchResultComponent.this.rootFolder,
-								FileSearchResultComponent.this.basePath,
-								FileSearchResultComponent.this.searchString);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final String oldPath = RenameResourceWindow.this.resource
+									.getPath();
+							final String parentPath = oldPath.substring(0,
+									oldPath.lastIndexOf("/") + 1);
+							final String newNameValue = (String) newName
+									.getValue();
+							final String newPath = parentPath + newNameValue;
+							try {
+								RenameResourceWindow.this.service.rename(
+										oldPath, newPath,
+										AppContext.getUsername());
+								// reset layout
+								FileSearchResultComponent.this
+										.displaySearchResult(
+												FileSearchResultComponent.this.rootFolder,
+												FileSearchResultComponent.this.basePath,
+												FileSearchResultComponent.this.searchString);
 
-					} finally {
-						RenameResourceWindow.this.close();
-					}
-				}
-			});
+							} finally {
+								RenameResourceWindow.this.close();
+							}
+						}
+					});
 			save.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
 
-			final Button cancel = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button cancel = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					RenameResourceWindow.this.close();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							RenameResourceWindow.this.close();
+						}
+					});
 			cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
 			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);

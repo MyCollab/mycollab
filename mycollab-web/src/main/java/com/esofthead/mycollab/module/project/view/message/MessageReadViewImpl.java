@@ -145,40 +145,46 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			Label headerText = new Label(message.getTitle());
 			headerText.setStyleName("hdr-text");
 
-			Button deleteBtn = new Button("Delete", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			Button deleteBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					ConfirmDialogExt.show(
-							UI.getCurrent(),
-							AppContext.getMessage(
-									GenericI18Enum.DELETE_DIALOG_TITLE,
-									SiteConfiguration.getSiteName()),
-							AppContext
-									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-							new ConfirmDialog.Listener() {
-								private static final long serialVersionUID = 1L;
+						@Override
+						public void buttonClick(ClickEvent event) {
+							ConfirmDialogExt.show(
+									UI.getCurrent(),
+									AppContext.getMessage(
+											GenericI18Enum.DELETE_DIALOG_TITLE,
+											SiteConfiguration.getSiteName()),
+									AppContext
+											.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									new ConfirmDialog.Listener() {
+										private static final long serialVersionUID = 1L;
 
-								@Override
-								public void onClose(final ConfirmDialog dialog) {
-									if (dialog.isConfirmed()) {
-										final MessageService messageService = ApplicationContextUtil
-												.getSpringBean(MessageService.class);
-										messageService.removeWithSession(
-												message.getId(),
-												AppContext.getUsername(),
-												AppContext.getAccountId());
-										previewForm.fireCancelForm(message);
-									}
-								}
-							});
-				}
-			});
+										@Override
+										public void onClose(
+												final ConfirmDialog dialog) {
+											if (dialog.isConfirmed()) {
+												final MessageService messageService = ApplicationContextUtil
+														.getSpringBean(MessageService.class);
+												messageService.removeWithSession(
+														message.getId(),
+														AppContext
+																.getUsername(),
+														AppContext
+																.getAccountId());
+												previewForm
+														.fireCancelForm(message);
+											}
+										}
+									});
+						}
+					});
 			deleteBtn.setIcon(MyCollabResource
 					.newResource("icons/16/delete2.png"));
 			deleteBtn.addStyleName(UIConstants.THEME_RED_LINK);
@@ -190,28 +196,24 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			Label isStickyText = new Label("Is sticky:");
 			isSticky.setStyleName("hdr-text");
 			stickyCheck = new CheckBox("", message.getIsstick());
-			
-			
+
 			stickyCheck.addValueChangeListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void valueChange(ValueChangeEvent event) {
 					if (CurrentProjectVariables
-							.canWrite(ProjectRolePermissionCollections.MESSAGES))
-					{
-					message.setIsstick(stickyCheck.getValue());
-					message.setSaccountid(AppContext.getAccountId());
-					final MessageService messageService = ApplicationContextUtil
-							.getSpringBean(MessageService.class);
-					messageService.updateWithSession(message,
-							AppContext.getUsername());
-					}
-					else
-					{
+							.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
+						message.setIsstick(stickyCheck.getValue());
+						message.setSaccountid(AppContext.getAccountId());
+						final MessageService messageService = ApplicationContextUtil
+								.getSpringBean(MessageService.class);
+						messageService.updateWithSession(message,
+								AppContext.getUsername());
+					} else {
 						NotificationUtil.showMessagePermissionAlert();
 					}
-					
+
 				}
 			});
 

@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.view.account;
+package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
-import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityListDisplay;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 
-public class AccountRelatedActivityView extends AbstractRelatedListView<SimpleActivity, ActivitySearchCriteria> {
+public class ActivityRelatedItemView extends
+		AbstractRelatedListView<SimpleActivity, ActivitySearchCriteria> {
 	private static final long serialVersionUID = 955474758141391716L;
 
-	public AccountRelatedActivityView() {
+	public ActivityRelatedItemView() {
 		initUI();
 	}
 

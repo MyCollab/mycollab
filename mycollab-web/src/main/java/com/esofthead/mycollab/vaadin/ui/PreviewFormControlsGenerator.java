@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -35,7 +36,7 @@ import com.vaadin.ui.VerticalLayout;
 public class PreviewFormControlsGenerator<B> {
 
 	private AdvancedPreviewBeanForm<B> previewForm;
-	//private Button backBtn;
+	// private Button backBtn;
 	private Button editBtn;
 	private Button deleteBtn;
 	private Button cloneBtn;
@@ -55,12 +56,11 @@ public class PreviewFormControlsGenerator<B> {
 		layout.setSpacing(true);
 		layout.setSizeUndefined();
 
-		optionParentBtn = new Button("Option",
-				new Button.ClickListener() {
+		optionParentBtn = new Button("Option", new Button.ClickListener() {
 			private static final long serialVersionUID = 695008443208333680L;
 
 			@Override
-			public void buttonClick(ClickEvent event) {		
+			public void buttonClick(ClickEvent event) {
 				optionBtn.setPopupVisible(true);
 			}
 		});
@@ -69,56 +69,58 @@ public class PreviewFormControlsGenerator<B> {
 		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-
 		popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setWidth("100px");
-		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
+		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
 		popupButtonsControl.setSpacing(true);
 
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
 
-		editBtn = new Button(GenericBeanForm.EDIT_ACTION,
+		editBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				optionBtn.setPopupVisible(false);
-				B item = previewForm.getBean();
-				previewForm.fireEditForm(item);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						optionBtn.setPopupVisible(false);
+						B item = previewForm.getBean();
+						previewForm.fireEditForm(item);
+					}
+				});
 		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
 		editBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editBtn);
 
-		deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
+		deleteBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				B item = previewForm.getBean();
-				previewForm.fireDeleteForm(item);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						B item = previewForm.getBean();
+						previewForm.fireDeleteForm(item);
+					}
+				});
 		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
 		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
 
-		cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
+		cloneBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				optionBtn.setPopupVisible(false);
-				B item = previewForm.getBean();
-				previewForm.fireCloneForm(item);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						optionBtn.setPopupVisible(false);
+						B item = previewForm.getBean();
+						previewForm.fireCloneForm(item);
+					}
+				});
 		cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
 		cloneBtn.setStyleName("link");
 		popupButtonsControl.addComponent(cloneBtn);

@@ -27,6 +27,7 @@ import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.ui.NotesList;
+import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityRelatedItemView;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -36,7 +37,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -63,7 +63,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	private static final long serialVersionUID = 1L;
 
 	protected ContactRelatedOpportunityView associateOpportunityList;
-	protected ContactRelatedActivityView associateActivityList;
+	protected ActivityRelatedItemView associateActivityList;
 	protected NotesList noteListItems;
 
 	@Override
@@ -71,6 +71,26 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		HorizontalLayout toolbarLayout = new HorizontalLayout();
 		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		toolbarLayout.setSpacing(true);
+
+		Button relatedOpportunities = new Button();
+		relatedOpportunities
+				.setCaption("<span aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_OPPORTUNITY
+						+ "\"></span><div class=\"screen-reader-text\">Opportunities</div>");
+		relatedOpportunities.setHtmlContentAllowed(true);
+		relatedOpportunities.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 7589415773039335559L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBus.getInstance().fireEvent(
+						new ContactEvent.GoToRelatedItems(this,
+								new CrmRelatedItemsScreenData(
+										getAssociateOpportunities())));
+			}
+		});
+
+		toolbarLayout.addComponent(relatedOpportunities);
 
 		Button relatedNotes = new Button();
 		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
@@ -109,38 +129,12 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		});
 		toolbarLayout.addComponent(relatedActivities);
 
-		Button relatedOpportunities = new Button();
-		relatedOpportunities
-				.setCaption("<span aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_OPPORTUNITY
-						+ "\"></span><div class=\"screen-reader-text\">Opportunities</div>");
-		relatedOpportunities.setHtmlContentAllowed(true);
-		relatedOpportunities.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 7589415773039335559L;
-
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
-						new ContactEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateOpportunities())));
-			}
-		});
-		toolbarLayout.addComponent(relatedOpportunities);
-
 		return toolbarLayout;
 	}
 
 	@Override
 	protected AdvancedPreviewBeanForm<SimpleContact> initPreviewForm() {
-		return new AdvancedPreviewBeanForm<SimpleContact>() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void showHistory() {
-				// TODO add historyWindow
-			}
-		};
+		return new AdvancedPreviewBeanForm<SimpleContact>();
 	}
 
 	@Override
@@ -161,9 +155,9 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		return noteListItems;
 	}
 
-	public ContactRelatedActivityView getAssociateActivities() {
+	public ActivityRelatedItemView getAssociateActivities() {
 		if (associateActivityList == null)
-			associateActivityList = new ContactRelatedActivityView();
+			associateActivityList = new ActivityRelatedItemView();
 		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 		criteria.setType(new StringSearchField(SearchField.AND,
@@ -177,29 +171,13 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		if (associateOpportunityList == null) {
 			associateOpportunityList = new ContactRelatedOpportunityView();
 		}
-		final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setContactId(new NumberSearchField(SearchField.AND, beanItem
-				.getId()));
-		associateOpportunityList.setSearchCriteria(criteria);
+		associateOpportunityList.displayOpportunities(beanItem);
 
 		return associateOpportunityList;
 	}
 
 	@Override
 	protected void onPreviewItem() {
-	}
-
-	@Override
-	public void previewItem(SimpleContact item) {
-		this.beanItem = item;
-		this.setCaption(initFormTitle());
-
-		previewForm.setFormLayoutFactory(initFormLayoutFactory());
-		previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
-		previewForm.setBean(item);
-
-		onPreviewItem();
 	}
 
 	@Override
@@ -225,33 +203,6 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		}
 	}
 
-	protected void initRelatedComponents() {
-		/*
-		 * this.associateOpportunityList = new ContactOpportunityListComp();
-		 * this.associateActivityList = new ActivityRelatedItemListComp(true);
-		 * this.noteListItems = new NoteListItems("Notes");
-		 * 
-		 * CssLayout navigatorWrapper =
-		 * previewItemContainer.getNavigatorWrapper(); VerticalLayout basicInfo
-		 * = new VerticalLayout(); basicInfo.setWidth("100%");
-		 * basicInfo.setMargin(true); basicInfo.setSpacing(true);
-		 * basicInfo.setStyleName("basic-info");
-		 * 
-		 * dateInfoComp = new DateInfoComp();
-		 * basicInfo.addComponent(dateInfoComp);
-		 * 
-		 * peopleInfoComp = new PeopleInfoComp();
-		 * basicInfo.addComponent(peopleInfoComp);
-		 * 
-		 * navigatorWrapper.addComponentAsFirst(basicInfo);
-		 * 
-		 * previewItemContainer.addTab(previewContent, "About");
-		 * previewItemContainer.addTab(associateOpportunityList,
-		 * "Opportunities"); previewItemContainer.addTab(associateActivityList,
-		 * "Activities");
-		 */
-	}
-
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(CrmTypeConstants.CONTACT,
@@ -264,20 +215,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	}
 
 	@Override
-	public SimpleContact getItem() {
-		return beanItem;
-	}
-
-	@Override
 	public HasPreviewFormHandlers<SimpleContact> getPreviewFormHandlers() {
 		return previewForm;
 	}
-
-	/*
-	 * @Override public IRelatedListHandlers<SimpleActivity>
-	 * getRelatedActivityHandlers() { return associateActivityList; }
-	 * 
-	 * @Override public IRelatedListHandlers<SimpleOpportunity>
-	 * getRelatedOpportunityHandlers() { return associateOpportunityList; }
-	 */
 }

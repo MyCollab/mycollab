@@ -309,11 +309,17 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 				if (account != null) {
 					super.onGo(container, data);
 					view.previewItem((SimpleAccount) account);
-					AppContext.addFragment(CrmLinkGenerator
-							.generateAccountPreviewLink(account.getId()),
-							AppContext.getMessage(
-									GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-									"Account", account.getAccountname()));
+					AppContext
+							.addFragment(
+									CrmLinkGenerator
+											.generateAccountPreviewLink(account
+													.getId()),
+									AppContext
+											.getMessage(
+													GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+													AppContext
+															.getMessage(CrmCommonI18nEnum.ACCOUNT),
+													account.getAccountname()));
 				} else {
 					NotificationUtil.showRecordNotExistNotification();
 					return;

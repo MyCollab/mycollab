@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.mobile.ui.ListView;
+import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 
@@ -27,6 +27,6 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
  * 
  */
 public interface ActivityListView extends
-		ListView<ActivitySearchCriteria, SimpleActivity> {
+		IListView<ActivitySearchCriteria, SimpleActivity> {
 
 }

@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,7 +52,28 @@ public class CaseListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<CaseSearchCriteria, SimpleCase> createBeanTable() {
-		return new CaseListDisplay("subject");
+		CaseListDisplay caseListDisplay = new CaseListDisplay("subject");
+		caseListDisplay
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = -8696917338193717521L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
+
+					@Override
+					public void handle(TableClickEvent event) {
+						final SimpleCase myCase = (SimpleCase) event.getData();
+						if ("subject".equals(event.getFieldName())) {
+							EventBus.getInstance().fireEvent(
+									new CaseEvent.GotoRead(
+											CaseListViewImpl.this, myCase
+													.getId()));
+						}
+					}
+				});
+		return caseListDisplay;
 	}
 
 	@Override

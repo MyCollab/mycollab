@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -98,7 +99,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new Button(GenericBeanForm.EDIT_ACTION,
+			editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -116,7 +118,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-			deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
+			deleteBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -135,7 +138,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-			cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
+			cloneBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

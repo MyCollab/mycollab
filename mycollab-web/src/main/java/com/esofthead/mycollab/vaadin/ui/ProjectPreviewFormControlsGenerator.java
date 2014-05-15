@@ -20,7 +20,9 @@ import java.io.Serializable;
 
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -67,23 +69,20 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
-		layout.setSizeUndefined();	
+		layout.setSizeUndefined();
 
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
 		editButtons.addStyleName("edit-btn");
 
-		
-		
-
-		optionParentBtn = new Button("Option",
-				new Button.ClickListener() {
+		optionParentBtn = new Button("Option", new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				/*	if (optionBtn.getPopupVisible())
-				optionBtn.setPopupVisible(false);
-				else*/				
+				/*
+				 * if (optionBtn.getPopupVisible())
+				 * optionBtn.setPopupVisible(false); else
+				 */
 				optionBtn.setPopupVisible(true);
 			}
 		});
@@ -92,75 +91,77 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-
 		popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setWidth("100px");
-		popupButtonsControl.setMargin(new MarginInfo( false,true, false, true));
+		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
 		popupButtonsControl.setSpacing(true);
 
-		editBtn = new Button(GenericBeanForm.EDIT_ACTION,
+		editBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 				new Button.ClickListener() {
 
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				optionBtn.setPopupVisible(false);
-				final T item = previewForm.getBean();
-				previewForm.fireEditForm(item);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						optionBtn.setPopupVisible(false);
+						final T item = previewForm.getBean();
+						previewForm.fireEditForm(item);
+					}
+				});
 		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
 		editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		editButtons.addComponent(editBtn);
 		editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
 
-		deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
+		deleteBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 				new Button.ClickListener() {
 
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final T item = previewForm.getBean();
-				previewForm.fireDeleteForm(item);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						final T item = previewForm.getBean();
+						previewForm.fireDeleteForm(item);
+					}
+				});
 		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
 		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
 		editButtons.addComponent(deleteBtn);
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
-		
-		
-		if (haveAssignButton) {
-			assignBtn = new Button(GenericBeanForm.ASSIGN_ACTION,
-					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireAssignForm(item);
-				}
-			});
+		if (haveAssignButton) {
+			assignBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final T item = previewForm.getBean();
+							previewForm.fireAssignForm(item);
+						}
+					});
 			assignBtn.setIcon(MyCollabResource
 					.newResource("icons/16/assign.png"));
 			assignBtn.setStyleName(UIConstants.THEME_LINK);
 			popupButtonsControl.addComponent(assignBtn);
-			
-		}
-		
-		cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
-				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				optionBtn.setPopupVisible(false);
-				final T item = previewForm.getBean();
-				previewForm.fireCloneForm(item);
-			}
-		});
+		}
+
+		cloneBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						optionBtn.setPopupVisible(false);
+						final T item = previewForm.getBean();
+						previewForm.fireCloneForm(item);
+					}
+				});
 		cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
 		cloneBtn.setStyleName("link");
 		popupButtonsControl.addComponent(cloneBtn);

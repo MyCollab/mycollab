@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.domain;
 import java.util.Date;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.security.PermissionMap;
 
 /**
@@ -133,11 +134,7 @@ public class SimpleProjectMember extends ProjectMember {
 
 	public String getDisplayName() {
 		if (memberFullName == null || memberFullName.trim().equals("")) {
-			String displayName = getUsername();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return StringUtils.extractNameFromEmail(getUsername());
 		}
 		return memberFullName;
 	}

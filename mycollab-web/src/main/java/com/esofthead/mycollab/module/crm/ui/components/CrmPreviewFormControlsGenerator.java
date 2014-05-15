@@ -18,9 +18,9 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -46,7 +46,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
 
-	private Button editBtn, deleteBtn, cloneBtn, historyBtn, previousItem, nextItemBtn;
+	private Button editBtn, deleteBtn, cloneBtn, historyBtn, previousItem,
+			nextItemBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout popupButtonsControl;
@@ -84,8 +85,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 	public HorizontalLayout createButtonControls(final String permissionItem) {
 		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
-				| CLONE_BTN_PRESENTED | HISTORY_BTN_PRESENTED | PREVIOUS_BTN_PRESENTED
-				| NEXT_BTN_PRESENTED, permissionItem);
+				| CLONE_BTN_PRESENTED | HISTORY_BTN_PRESENTED
+				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED, permissionItem);
 	}
 
 	public HorizontalLayout createButtonControls(int buttonEnableFlags,
@@ -110,7 +111,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 		popupButtonsControl.setSpacing(true);
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new Button(GenericBeanForm.EDIT_ACTION,
+			editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -121,14 +123,16 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireEditForm(item);
 						}
 					});
-			editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
+			editBtn.setIcon(MyCollabResource
+					.newResource("icons/16/edit_white.png"));
 			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editBtn.setEnabled(canWrite);
 			layout.addComponent(editBtn);
 		}
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
-			deleteBtn = new Button(GenericBeanForm.DELETE_ACTION,
+			deleteBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -146,7 +150,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-			cloneBtn = new Button(GenericBeanForm.CLONE_ACTION,
+			cloneBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -161,33 +166,31 @@ public class CrmPreviewFormControlsGenerator<T> {
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}
-		
 
 		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
-			historyBtn = new Button("History",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+			historyBtn = new Button("History", new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							optionBtn.setPopupVisible(false);
-							previewForm.showHistory();
-						}
-					});
-			historyBtn.setIcon(MyCollabResource.newResource("icons/16/history.png"));
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					optionBtn.setPopupVisible(false);
+					previewForm.showHistory();
+				}
+			});
+			historyBtn.setIcon(MyCollabResource
+					.newResource("icons/16/history.png"));
 			historyBtn.setStyleName("link");
 			popupButtonsControl.addComponent(historyBtn);
 		}
-		
-		
+
 		optionBtn.setContent(popupButtonsControl);
-		
+
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED
 				| (buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 
 			layout.addComponent(optionBtn);
 		}
-		
+
 		ButtonGroup navigationBtns = new ButtonGroup();
 		navigationBtns.setStyleName("navigation-btns");
 

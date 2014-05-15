@@ -6,7 +6,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * mycollab-mobile is distributed in the hope that it will be useful,
+ * mycollab-web is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -14,20 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.ui;
+package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 4.0
+ * @since 4.1
  * 
- * @param <S>
- * @param <B>
  */
-public interface ListView<S extends SearchCriteria, B> extends PageView {
-
-	AbstractPagedBeanList<S, B> getPagedBeanTable();
+@SuppressWarnings("serial")
+public class CampaignTypeComboBox extends ValueComboBox {
+	public CampaignTypeComboBox() {
+		this.loadData(CrmDataTypeFactory.getCampaignTypeList());
+	}
 }

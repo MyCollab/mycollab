@@ -31,7 +31,7 @@ import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
  * @param <S>
  * @param <B>
  */
-public abstract class ListPresenter<V extends ListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
+public abstract class ListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
 		extends AbstractPresenter<V> {
 	private static final long serialVersionUID = -8152581262119621387L;
 

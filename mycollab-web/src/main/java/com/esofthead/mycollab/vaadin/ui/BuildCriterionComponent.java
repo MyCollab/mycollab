@@ -172,29 +172,31 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		queryTextField.setWidth("125px");
 		filterBox.addComponent(queryTextField);
 
-		Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		Button saveBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				String queryText = queryTextField.getValue();
-				saveSearchCriteria(queryText);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						String queryText = queryTextField.getValue();
+						saveSearchCriteria(queryText);
+					}
+				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		saveBtn.setIcon(MyCollabResource.newResource("icons/16/save.png"));
 		filterBox.addComponent(saveBtn);
 
 		Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				buildFilterBox(null);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						buildFilterBox(null);
+					}
+				});
 		cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 		filterBox.addComponent(cancelBtn);
 	}
@@ -743,7 +745,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 										}
 									});
 
-							Button deleteBtn = new Button("Delete",
+							Button deleteBtn = new Button(
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
 									new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
 

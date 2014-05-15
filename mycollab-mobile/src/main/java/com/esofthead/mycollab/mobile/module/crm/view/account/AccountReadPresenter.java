@@ -36,7 +36,7 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.Account;
@@ -58,7 +58,7 @@ import com.vaadin.ui.UI;
  * @since 1.0
  * 
  */
-public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
+public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -175,7 +175,7 @@ public class AccountReadPresenter extends AbstractPresenter<AccountReadView> {
 				SimpleAccount account = accountService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (account != null) {
-					container.navigateTo(view.getWidget());
+					super.onGo(container, data);
 					view.previewItem(account);
 					AppContext.addFragment(CrmLinkGenerator
 							.generateAccountPreviewLink(account.getId()),

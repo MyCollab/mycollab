@@ -85,9 +85,8 @@ public class AccountListPresenter
 					protected void onSelectExtra(String id) {
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
-								NotificationUtil
-										.showWarningNotification(AppContext
-												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+								NotificationUtil.showWarningNotification(AppContext
+										.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
 								List<SimpleAccount> tableData = view
@@ -108,7 +107,8 @@ public class AccountListPresenter
 									AppContext
 											.getMessage(
 													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
-													"Account"),
+													AppContext
+															.getMessage(CrmCommonI18nEnum.ACCOUNT)),
 									AccountListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
@@ -149,7 +149,7 @@ public class AccountListPresenter
 			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
-			
+
 			searchCriteria = (AccountSearchCriteria) data.getParams();
 			int totalCount = accountService.getTotalCount(searchCriteria);
 			if (totalCount > 0) {
@@ -159,10 +159,9 @@ public class AccountListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-
-			AppContext.addFragment("crm/account/list", AppContext
-					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-							"Account"));
+			AppContext.addFragment("crm/account/list", AppContext.getMessage(
+					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
+					AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

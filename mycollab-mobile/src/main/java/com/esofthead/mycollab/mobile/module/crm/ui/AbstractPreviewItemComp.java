@@ -79,6 +79,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 	public void previewItem(final B item) {
 		this.beanItem = item;
+		this.setCaption(initFormTitle());
 
 		previewForm.setFormLayoutFactory(initFormLayoutFactory());
 		previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
@@ -87,7 +88,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		onPreviewItem();
 	}
 
-	public B getBeanItem() {
+	public B getItem() {
 		return beanItem;
 	}
 
