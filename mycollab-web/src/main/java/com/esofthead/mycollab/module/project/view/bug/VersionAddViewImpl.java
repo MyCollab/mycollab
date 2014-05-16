@@ -58,7 +58,7 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Version" : "Version Edit";
+		return (beanItem.getId() == null) ? "Create Version" : "Edit Version";
 	}
 
 	@Override

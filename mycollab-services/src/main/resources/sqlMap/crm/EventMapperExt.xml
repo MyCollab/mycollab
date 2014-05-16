@@ -162,7 +162,7 @@
 
 	<sql id="selectSimpleEventFromMeeting">
         <![CDATA[
-            SELECT m_crm_meeting.id, m_crm_meeting.subject, 'Event' as eventType, m_crm_meeting.startdate,
+            SELECT m_crm_meeting.id, m_crm_meeting.subject, 'Meeting' as eventType, m_crm_meeting.startdate,
                 m_crm_meeting.endDate, m_crm_meeting.typeid, m_crm_meeting.description, m_crm_meeting.createdTime, m_crm_meeting.createdUser,
                 m_crm_meeting.sAccountId, m_crm_meeting.status, m_crm_meeting.createdUser as assignUser, m_crm_meeting.type, 'Error' as  typeName,
                 m_crm_meeting.lastUpdatedTime, LTRIM(concat(s_user.firstname, LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname)) as assignUserFullName,

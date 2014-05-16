@@ -82,13 +82,14 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 		addComponent(activityBtn);
 		buttonMap.put("Activities", activityBtn);
 
-		final MenuButton documentBtn = new MenuButton("Documents", "&#xE607;");
-		addComponent(documentBtn);
-		buttonMap.put("Documents", documentBtn);
-
-		final MenuButton settingBtn = new MenuButton("Settings", "&#xE608;");
-		addComponent(settingBtn);
-		buttonMap.put("Settings", settingBtn);
+		// final MenuButton documentBtn = new MenuButton("Documents",
+		// "&#xE607;");
+		// addComponent(documentBtn);
+		// buttonMap.put("Documents", documentBtn);
+		//
+		// final MenuButton settingBtn = new MenuButton("Settings", "&#xE608;");
+		// addComponent(settingBtn);
+		// buttonMap.put("Settings", settingBtn);
 	}
 
 	@Override

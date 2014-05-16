@@ -65,6 +65,12 @@ public class TaskGroupReadPresenter extends
 					}
 
 					@Override
+					public void onAdd(SimpleTaskList data) {
+						EventBus.getInstance().fireEvent(
+								new TaskListEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onEdit(SimpleTaskList data) {
 						EventBus.getInstance().fireEvent(
 								new TaskListEvent.GotoEdit(this, data));

@@ -132,7 +132,7 @@ public class CrmLinkGenerator {
 			result = generateOpportunityPreviewLink(typeid);
 		} else if (CrmTypeConstants.TASK.equals(type)) {
 			result = generateTaskPreviewLink(typeid);
-		} else if (CrmTypeConstants.EVENT.equals(type)) {
+		} else if (CrmTypeConstants.MEETING.equals(type)) {
 			result = generateMeetingPreviewLink(typeid);
 		} else if (CrmTypeConstants.CALL.equals(type)) {
 			result = generateCallPreviewLink(typeid);

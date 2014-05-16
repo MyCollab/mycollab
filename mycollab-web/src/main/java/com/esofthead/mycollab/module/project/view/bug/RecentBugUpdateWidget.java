@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.localization.DayI18nEnum;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -45,8 +47,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
 	public RecentBugUpdateWidget() {
-		super(AppContext
-				.getMessage(BugI18nEnum.UPDATED_RECENTLY_WIDGET_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.UPDATED_RECENTLY_WIDGET_TITLE),
 				RecentBugRowDisplayHandler.class);
 	}
 
@@ -56,7 +57,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 	}
 
 	public static class RecentBugRowDisplayHandler implements
-	BeanList.RowDisplayHandler<SimpleBug> {
+			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -65,14 +66,15 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 			layout.setWidth("100%");
 			layout.setSpacing(true);
 			layout.setMargin(true);
-			layout.addComponent(
-					new Image(null, MyCollabResource
-							.newResource("icons/16/project/bug.png")));
+			layout.addComponent(new Image(null, MyCollabResource
+					.newResource("icons/16/project/bug.png")));
 
 			VerticalLayout rowContent = new VerticalLayout();
 			final LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
-					+ bug.getBugkey() + "]: " + bug.getSummary(),ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(), bug.getId()));
+					+ bug.getBugkey() + "]: " + bug.getSummary(),
+					ProjectLinkBuilder.generateBugPreviewFullLink(
+							bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(BugToolTipGenerator.generateToolTip(bug));
 
@@ -88,14 +90,17 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 			descInfo.setWidth("100%");
 			rowContent.addComponent(descInfo);
 
-			final Label dateInfo = new Label("Last updated on "
-					+ AppContext.formatDateTime(bug.getLastupdatedtime()));
+			final Label dateInfo = new Label(AppContext.getMessage(
+					DayI18nEnum.LAST_UPDATED_ON,
+					AppContext.formatDateTime(bug.getLastupdatedtime())));
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			rowContent.addComponent(dateInfo);
 
 			final HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
 			hLayoutAssigneeInfo.setSpacing(true);
-			final Label assignee = new Label("Assignee: ");
+			final Label assignee = new Label(
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)
+							+ ": ");
 			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			hLayoutAssigneeInfo.addComponent(assignee);
 			hLayoutAssigneeInfo.setComponentAlignment(assignee,

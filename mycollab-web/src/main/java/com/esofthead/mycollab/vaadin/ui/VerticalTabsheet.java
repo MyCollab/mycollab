@@ -93,12 +93,13 @@ public class VerticalTabsheet extends CustomComponent {
 		this.setStyleName(TABSHEET_STYLENAME);
 	}
 
-	public void addTab(Component component, String caption) {
-		addTab(component, caption, null);
+	public void addTab(Component component, String id, String caption) {
+		addTab(component, id, caption, null);
 	}
 
-	public void addTab(Component component, String caption, Resource resource) {
-		final Button button = new Button(caption);
+	public void addTab(Component component, String id, String caption,
+			Resource resource) {
+		final ButtonTabImpl button = new ButtonTabImpl(id, caption);
 		button.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -114,10 +115,12 @@ public class VerticalTabsheet extends CustomComponent {
 						VerticalTabsheet.this));
 			}
 		});
-		if (resource == null)
+
+		if (resource == null) {
 			setDefaulButtonIcon(button, false);
-		else
+		} else {
 			button.setIcon(resource);
+		}
 		button.setStyleName(TAB_STYLENAME);
 		button.setWidth("100%");
 
@@ -126,7 +129,7 @@ public class VerticalTabsheet extends CustomComponent {
 		tabContainer.removeAllComponents();
 		tabContainer.addComponent(component);
 
-		TabImpl tabImpl = new TabImpl(caption, component);
+		TabImpl tabImpl = new TabImpl(id, caption, component);
 		compMap.put(button, tabImpl);
 	}
 
@@ -154,11 +157,11 @@ public class VerticalTabsheet extends CustomComponent {
 				SELECTED_TAB_CHANGE_METHOD);
 	}
 
-	public Component selectTab(String viewName) {
+	public Component selectTab(String viewId) {
 		Collection<Button> tabs = compMap.keySet();
 		for (Button btn : tabs) {
-			Tab tab = compMap.get(btn);
-			if (tab.getCaption().equals(viewName)) {
+			TabImpl tab = (TabImpl) compMap.get(btn);
+			if (tab.getTabId().equals(viewId)) {
 				selectedButton = btn;
 				clearTabSelection(true);
 				selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
@@ -261,13 +264,33 @@ public class VerticalTabsheet extends CustomComponent {
 		contentWrapper.addComponent(newContainer);
 	}
 
+	public static class ButtonTabImpl extends Button {
+		private static final long serialVersionUID = 1L;
+		private String tabId;
+
+		public ButtonTabImpl(String id, String caption) {
+			super(caption);
+			this.tabId = id;
+		}
+
+		public String getTabId() {
+			return tabId;
+		}
+
+		public void setTabId(String tabId) {
+			this.tabId = tabId;
+		}
+	}
+
 	public static class TabImpl implements Tab {
 		private static final long serialVersionUID = 1L;
 
+		private String tabId;
 		private String caption;
 		private Component component;
 
-		public TabImpl(String caption, Component component) {
+		public TabImpl(String id, String caption, Component component) {
+			this.tabId = id;
 			this.caption = caption;
 			this.component = component;
 		}
@@ -311,6 +334,10 @@ public class VerticalTabsheet extends CustomComponent {
 		@Override
 		public String getCaption() {
 			return caption;
+		}
+
+		public String getTabId() {
+			return tabId;
 		}
 
 		@Override

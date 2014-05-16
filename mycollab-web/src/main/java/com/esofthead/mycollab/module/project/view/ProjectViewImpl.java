@@ -76,6 +76,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
+import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -151,27 +152,38 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 	}
 
 	private void buildComponents() {
-		myProjectTab.addTab(constructProjectDashboardComponent(), "Dashboard");
+		myProjectTab.addTab(constructProjectDashboardComponent(), "dashboard",
+				AppContext.getMessage(ProjectCommonI18nEnum.DASHBOARD_VIEW));
 
-		myProjectTab.addTab(constructProjectMessageComponent(), "Messages");
+		myProjectTab.addTab(constructProjectMessageComponent(), "message",
+				AppContext.getMessage(ProjectCommonI18nEnum.MESSAGE_VIEW));
 
-		myProjectTab.addTab(constructProjectMilestoneComponent(), "Phases");
+		myProjectTab.addTab(constructProjectMilestoneComponent(), "milestone",
+				AppContext.getMessage(ProjectCommonI18nEnum.MILESTONE_VIEW));
 
-		myProjectTab.addTab(constructTaskDashboardComponent(), "Tasks");
+		myProjectTab.addTab(constructTaskDashboardComponent(), "task",
+				AppContext.getMessage(ProjectCommonI18nEnum.TASK_VIEW));
 
-		myProjectTab.addTab(constructProjectBugComponent(), "Bugs");
+		myProjectTab.addTab(constructProjectBugComponent(), "bug",
+				AppContext.getMessage(ProjectCommonI18nEnum.BUG_VIEW));
 
-		myProjectTab.addTab(constructProjectFileComponent(), "Files");
+		myProjectTab.addTab(constructProjectFileComponent(), "file",
+				AppContext.getMessage(ProjectCommonI18nEnum.FILE_VIEW));
 
-		myProjectTab.addTab(constructProjectRiskComponent(), "Risks");
+		myProjectTab.addTab(constructProjectRiskComponent(), "risk",
+				AppContext.getMessage(ProjectCommonI18nEnum.RISK_VIEW));
 
-		myProjectTab.addTab(constructProjectProblemComponent(), "Problems");
+		myProjectTab.addTab(constructProjectProblemComponent(), "problem",
+				AppContext.getMessage(ProjectCommonI18nEnum.PROBLEM_VIEW));
 
-		myProjectTab.addTab(constructTimeTrackingComponent(), "Time");
+		myProjectTab.addTab(constructTimeTrackingComponent(), "time",
+				AppContext.getMessage(ProjectCommonI18nEnum.TIME_VIEW));
 
-		myProjectTab.addTab(constructProjectStandupMeeting(), "StandUp");
+		myProjectTab.addTab(constructProjectStandupMeeting(), "standup",
+				AppContext.getMessage(ProjectCommonI18nEnum.STANDAUP_VIEW));
 
-		myProjectTab.addTab(constructProjectUsers(), "Users & Settings");
+		myProjectTab.addTab(constructProjectUsers(), "member",
+				AppContext.getMessage(ProjectCommonI18nEnum.MEMBER_VIEW));
 
 		myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -180,31 +192,31 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 					public void selectedTabChange(SelectedTabChangeEvent event) {
 						Tab tab = ((ProjectVerticalTabsheet) event.getSource())
 								.getSelectedTab();
-						String caption = tab.getCaption();
-						if ("Messages".equals(caption)) {
+						String caption = ((TabImpl) tab).getTabId();
+						if ("message".equals(caption)) {
 							messagePresenter.go(ProjectViewImpl.this, null);
-						} else if ("Phases".equals(caption)) {
+						} else if ("milestone".equals(caption)) {
 							MilestoneSearchCriteria searchCriteria = new MilestoneSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
 									SearchField.AND, CurrentProjectVariables
 											.getProjectId()));
 							gotoMilestoneView(new MilestoneScreenData.Search(
 									searchCriteria));
-						} else if ("Tasks".equals(caption)) {
+						} else if ("task".equals(caption)) {
 							taskPresenter.go(ProjectViewImpl.this, null);
-						} else if ("Bugs".equals(caption)) {
+						} else if ("bug".equals(caption)) {
 							gotoBugView(null);
-						} else if ("Risks".equals(caption)) {
+						} else if ("risk".equals(caption)) {
 							RiskSearchCriteria searchCriteria = new RiskSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
 									SearchField.AND, CurrentProjectVariables
 											.getProjectId()));
 							gotoRiskView(new RiskScreenData.Search(
 									searchCriteria));
-						} else if ("Files".equals(caption)) {
+						} else if ("file".equals(caption)) {
 							filePresenter.go(ProjectViewImpl.this,
 									new FileScreenData.GotoDashboard());
-						} else if ("Problems".equals(caption)) {
+						} else if ("problem".equals(caption)) {
 							ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
 									SearchField.AND, CurrentProjectVariables
@@ -213,9 +225,9 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 									.go(ProjectViewImpl.this,
 											new ProblemScreenData.Search(
 													searchCriteria));
-						} else if ("Dashboard".equals(caption)) {
+						} else if ("dashboard".equals(caption)) {
 							dashboardPresenter.go(ProjectViewImpl.this, null);
-						} else if ("Users & Settings".equals(caption)) {
+						} else if ("member".equals(caption)) {
 							ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(
 									CurrentProjectVariables.getProjectId()));
@@ -223,7 +235,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 									ProjectMemberStatusConstants.ACTIVE));
 							gotoUsersAndGroup(new ProjectMemberScreenData.Search(
 									criteria));
-						} else if ("Time".equals(caption)) {
+						} else if ("time".equals(caption)) {
 							ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(
 									CurrentProjectVariables.getProjectId()));
@@ -231,7 +243,7 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 									.getCurrentRangeDateOfWeekSearchField());
 							gotoTimeTrackingView(new TimeTrackingScreenData.Search(
 									searchCriteria));
-						} else if ("StandUp".equals(caption)) {
+						} else if ("standup".equals(caption)) {
 							StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(
 									CurrentProjectVariables.getProjectId()));
@@ -519,8 +531,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 	}
 
 	@Override
-	public Component gotoSubView(String name) {
-		PageView component = (PageView) myProjectTab.selectTab(name);
+	public Component gotoSubView(String viewId) {
+		PageView component = (PageView) myProjectTab.selectTab(viewId);
 		return component;
 	}
 

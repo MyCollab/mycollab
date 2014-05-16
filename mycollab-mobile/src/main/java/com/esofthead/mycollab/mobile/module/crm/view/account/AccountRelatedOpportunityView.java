@@ -30,6 +30,12 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class AccountRelatedOpportunityView extends
 		AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> {
 	private static final long serialVersionUID = -5900127054425653263L;

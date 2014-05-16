@@ -63,6 +63,12 @@ public class ComponentReadPresenter extends
 					}
 
 					@Override
+					public void onAdd(SimpleComponent data) {
+						EventBus.getInstance().fireEvent(
+								new BugComponentEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(SimpleComponent data) {
 						ComponentService riskService = ApplicationContextUtil
 								.getSpringBean(ComponentService.class);

@@ -18,6 +18,8 @@ package com.esofthead.mycollab.vaadin.ui.table;
 
 import java.io.Serializable;
 
+import com.esofthead.mycollab.vaadin.AppContext;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -26,6 +28,8 @@ import java.io.Serializable;
  */
 public class TableViewField implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private Enum descKey;
 
 	private String desc;
 
@@ -37,22 +41,46 @@ public class TableViewField implements Serializable {
 		this("", "");
 	}
 
+	public TableViewField(Enum desc, String field) {
+		this(desc, field, -1);
+	}
+
+	@Deprecated
 	public TableViewField(String desc, String field) {
 		this(desc, field, -1);
 	}
 
+	@Deprecated
 	public TableViewField(String desc, String field, int defaultWidth) {
 		this.desc = desc;
 		this.field = field;
 		this.defaultWidth = defaultWidth;
 	}
 
-	public String getDesc() {
-		return desc;
+	public TableViewField(Enum descKey, String field, int defaultWidth) {
+		this.descKey = descKey;
+		this.field = field;
+		this.defaultWidth = defaultWidth;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public Enum getDescKey() {
+		return descKey;
+	}
+
+	public void setDescKey(Enum descKey) {
+		this.descKey = descKey;
+	}
+
+	public String getDesc() {
+		if (desc != null) {
+			return desc;
+		} else {
+			return AppContext.getMessage(descKey);
+		}
+	}
+
+	public void setDesc(String key) {
+		this.desc = key;
 	}
 
 	public String getField() {

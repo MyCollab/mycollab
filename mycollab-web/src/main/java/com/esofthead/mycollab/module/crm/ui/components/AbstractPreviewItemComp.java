@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
@@ -70,7 +71,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 					public void selectedTabChange(SelectedTabChangeEvent event) {
 						Tab tab = ((VerticalTabsheet) event.getSource())
 								.getSelectedTab();
-						previewItemContainer.selectTab(tab.getCaption());
+						previewItemContainer.selectTab(((TabImpl) tab)
+								.getTabId());
 					}
 				});
 

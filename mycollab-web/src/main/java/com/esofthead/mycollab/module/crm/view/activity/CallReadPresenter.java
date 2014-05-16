@@ -68,19 +68,25 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleCall data) {
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.CallAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleCall data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
 								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-										new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -93,9 +99,9 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-											.fireEvent(
-													new ActivityEvent.GotoTodoList(
-															this, null));
+													.fireEvent(
+															new ActivityEvent.GotoTodoList(
+																	this, null));
 										}
 									}
 								});
@@ -159,7 +165,8 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleCall call = null;
 			if (data.getParams() instanceof Integer) {

@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
@@ -123,11 +124,16 @@ public class CampaignReadViewImpl extends
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateAccountList, "Accounts");
-		previewItemContainer.addTab(associateContactList, "Contacts");
-		previewItemContainer.addTab(associateLeadList, "Leads");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateAccountList, "account",
+				AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT_SUB_VIEW));
+		previewItemContainer.addTab(associateContactList, "contact",
+				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+		previewItemContainer.addTab(associateLeadList, "lead",
+				AppContext.getMessage(CrmCommonI18nEnum.LEAD_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 	}
 
 	protected void displayNotes() {
@@ -171,7 +177,7 @@ public class CampaignReadViewImpl extends
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override

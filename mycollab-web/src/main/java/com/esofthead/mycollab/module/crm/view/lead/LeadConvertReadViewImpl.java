@@ -76,8 +76,8 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class LeadConvertReadViewImpl extends AbstractPreviewItemComp<SimpleLead> implements
-LeadConvertReadView {
+public class LeadConvertReadViewImpl extends
+		AbstractPreviewItemComp<SimpleLead> implements LeadConvertReadView {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory
@@ -120,10 +120,9 @@ LeadConvertReadView {
 	protected ComponentContainer createButtonControls() {
 		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<SimpleLead>(
 				previewForm);
-		return controlsButton
-				.createButtonControls(BACK_BTN_PRESENTED
-						| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
-						| HISTORY_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
+		return controlsButton.createButtonControls(BACK_BTN_PRESENTED
+				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
+				| HISTORY_BTN_PRESENTED, RolePermissionCollections.CRM_LEAD);
 	}
 
 	@Override
@@ -131,9 +130,8 @@ LeadConvertReadView {
 		return noteListItems;
 	}
 
-	@Override 
-	public void previewItem(final SimpleLead item) 
-	{
+	@Override
+	public void previewItem(final SimpleLead item) {
 		this.beanItem = item;
 		previewLayout.setTitle(initFormTitle());
 		displayConvertLeadInfo(item);
@@ -150,7 +148,7 @@ LeadConvertReadView {
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -182,9 +180,11 @@ LeadConvertReadView {
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateCampaignList, "Campaigns");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about", "About");
+		previewItemContainer.addTab(associateCampaignList, "campaign",
+				"Campaigns");
+		previewItemContainer.addTab(associateActivityList, "activity",
+				"Activities");
 	}
 
 	@Override
@@ -259,16 +259,16 @@ LeadConvertReadView {
 		if (account != null) {
 			Button accountLink = new Button(account.getAccountname(),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
-							new AccountEvent.GotoRead(this, account
-									.getId()));
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoRead(this, account
+											.getId()));
 
-				}
-			});
+						}
+					});
 			accountLink.setIcon(MyCollabResource
 					.newResource("icons/16/crm/account.png"));
 			accountLink.setStyleName("link");
@@ -286,16 +286,16 @@ LeadConvertReadView {
 		if (contact != null) {
 			Button contactLink = new Button(contact.getContactName(),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
-							new ContactEvent.GotoRead(this, contact
-									.getId()));
+						@Override
+						public void buttonClick(ClickEvent event) {
+							EventBus.getInstance().fireEvent(
+									new ContactEvent.GotoRead(this, contact
+											.getId()));
 
-				}
-			});
+						}
+					});
 			contactLink.setIcon(MyCollabResource
 					.newResource("icons/16/crm/contact.png"));
 			contactLink.setStyleName("link");

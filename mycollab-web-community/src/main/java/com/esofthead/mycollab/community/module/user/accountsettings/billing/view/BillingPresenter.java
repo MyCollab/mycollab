@@ -41,7 +41,7 @@ public class BillingPresenter extends AbstractPresenter<IBillingContainer>
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView("Billing");
+		accountContainer.gotoSubView("billing");
 	}
 
 }

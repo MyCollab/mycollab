@@ -29,6 +29,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 3.0
+ * 
+ */
 public class UserPanel extends HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 
@@ -59,24 +65,27 @@ public class UserPanel extends HorizontalLayout {
 
 		// add listener to listen the change avatar or user information to
 		// update panel display info
-		EventBus.getInstance().addListener(new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
-			private static final long serialVersionUID = 1L;
+		EventBus.getInstance()
+				.addListener(
+						new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
+							private static final long serialVersionUID = 1L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return SessionEvent.UserProfileChangeEvent.class;
-			}
+							@Override
+							public Class<? extends ApplicationEvent> getEventType() {
+								return SessionEvent.UserProfileChangeEvent.class;
+							}
 
-			@Override
-			public void handle(UserProfileChangeEvent event) {
-				setUserInfo();
-			}
-		});
+							@Override
+							public void handle(UserProfileChangeEvent event) {
+								setUserInfo();
+							}
+						});
 
 	}
 
 	private void setUserInfo() {
-		userAvatar.setSource(UserAvatarControlFactory.createAvatarResource(AppContext.getUserAvatarId(), 24));
+		userAvatar.setSource(UserAvatarControlFactory.createAvatarResource(
+				AppContext.getUserAvatarId(), 24));
 		userName.setCaption(AppContext.getSession().getDisplayName());
 	}
 

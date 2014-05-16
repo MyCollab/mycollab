@@ -31,59 +31,60 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 
 	@Override
 	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
-		String caption = btn.getCaption();
+		ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
+		String tabId = btnTabImpl.getTabId();
 		String suffix;
 		if (selected == true)
 			suffix = "_selected";
 		else
 			suffix = "";
 
-		switch (caption) {
-		case "Dashboard":
+		switch (tabId) {
+		case "dashboard":
 			btn.setIcon(MyCollabResource
 					.newResource("icons/22/project/dashboard" + suffix + ".png"));
 			break;
 
-		case "Messages":
+		case "message":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/message"
 					+ suffix + ".png"));
 			break;
-		case "Phases":
+		case "milestone":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/phase"
 					+ suffix + ".png"));
 			break;
 
-		case "Tasks":
+		case "task":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/task"
 					+ suffix + ".png"));
 			break;
 
-		case "Bugs":
+		case "bug":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/bug"
 					+ suffix + ".png"));
 			break;
 
-		case "Files":
+		case "file":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/file"
 					+ suffix + ".png"));
 			break;
-		case "Risks":
+		case "risk":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/risk"
 					+ suffix + ".png"));
 			break;
-		case "Problems":
+		case "problem":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/problem"
 					+ suffix + ".png"));
 			break;
-		case "Time":
+		case "time":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/time"
 					+ suffix + ".png"));
 			break;
-		case "StandUp":
+		case "standup":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/standup"
 					+ suffix + ".png"));
 			break;
-		case "Users & Settings":
+		case "member":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/user"
 					+ suffix + ".png"));
 			break;

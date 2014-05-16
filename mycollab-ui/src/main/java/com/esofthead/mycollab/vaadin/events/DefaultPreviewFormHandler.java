@@ -52,6 +52,11 @@ public class DefaultPreviewFormHandler<T> implements PreviewFormHandler<T> {
 	@Override
 	public void onAssign(T data) {
 	}
+	
+	@Override
+	public void onAdd(T data) {
+		
+	}
 
 	@Override
 	public void onExtraAction(String action, T data) {

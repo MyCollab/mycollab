@@ -50,7 +50,7 @@ public class ProjectDashboardPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Dashboard");
+		projectViewContainer.gotoSubView("dashboard");
 
 		view.removeAllComponents();
 

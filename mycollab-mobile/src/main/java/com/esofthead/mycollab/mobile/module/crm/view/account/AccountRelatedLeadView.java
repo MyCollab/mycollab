@@ -30,6 +30,12 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
 public class AccountRelatedLeadView extends
 		AbstractRelatedListView<SimpleLead, LeadSearchCriteria> {
 	private static final long serialVersionUID = -6563776375301107391L;

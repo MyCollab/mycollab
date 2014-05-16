@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
@@ -57,7 +58,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
-implements LeadReadView {
+		implements LeadReadView {
 	private static final long serialVersionUID = 1L;
 
 	protected LeadCampaignListComp associateCampaignList;
@@ -93,13 +94,13 @@ implements LeadReadView {
 
 		Button convertButton = new Button("Convert",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				previewForm.fireExtraAction("convert", beanItem);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						previewForm.fireExtraAction("convert", beanItem);
+					}
+				});
 		convertButton.setStyleName(UIConstants.THEME_GREEN_LINK);
 		convertButton.setIcon(MyCollabResource
 				.newResource("icons/16/convert.png"));
@@ -123,7 +124,7 @@ implements LeadReadView {
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -150,12 +151,14 @@ implements LeadReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateCampaignList, "Campaigns");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateCampaignList, "campaign",
+				AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 	}
 
 	@Override

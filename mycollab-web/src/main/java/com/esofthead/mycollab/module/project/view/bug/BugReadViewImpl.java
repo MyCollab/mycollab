@@ -344,7 +344,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				.createButtonControls(ProjectRolePermissionCollections.BUGS,
 						false, false);
 
-		final Button assignBtn = new Button("Assign",
+		final Button assignBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -429,9 +430,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 6);
 			} else if (propertyId.equals("milestoneName")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(TaskI18nEnum.FORM_PHASE_FIELD), 0, 7, 2,
-						"100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),
+						0, 7, 2, "100%");
 			} else if (propertyId.equals("components")) {
 				this.informationLayout.addComponent(field, "Components", 0, 8,
 						2, "100%");

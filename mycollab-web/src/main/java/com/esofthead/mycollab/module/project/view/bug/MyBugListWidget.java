@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.localization.DayI18nEnum;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -45,12 +47,12 @@ public class MyBugListWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
 	public MyBugListWidget() {
-		super(AppContext.getMessage(BugI18nEnum.MY_BUGS_WIDGET_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.MY_OPEN_BUGS_WIDGET_TITLE),
 				MyBugRowDisplayHandler.class);
 	}
 
 	public static class MyBugRowDisplayHandler implements
-	BeanList.RowDisplayHandler<SimpleBug> {
+			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -59,15 +61,16 @@ public class MyBugListWidget extends BugDisplayWidget {
 			layout.setWidth("100%");
 			layout.setSpacing(true);
 			layout.setMargin(true);
-			layout.addComponent(
-					new Image(null, MyCollabResource
-							.newResource("icons/16/project/bug.png")));
+			layout.addComponent(new Image(null, MyCollabResource
+					.newResource("icons/16/project/bug.png")));
 
 			VerticalLayout rowContent = new VerticalLayout();
 
 			LabelLink defectLink = new LabelLink("["
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
-					+ bug.getBugkey() + "]: " + bug.getSummary(),ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(), bug.getId()));
+					+ bug.getBugkey() + "]: " + bug.getSummary(),
+					ProjectLinkBuilder.generateBugPreviewFullLink(
+							bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(BugToolTipGenerator.generateToolTip(bug));
 
@@ -81,14 +84,17 @@ public class MyBugListWidget extends BugDisplayWidget {
 			descInfo.setWidth("100%");
 			rowContent.addComponent(descInfo);
 
-			Label dateInfo = new Label("Last updated on "
-					+ AppContext.formatDateTime(bug.getLastupdatedtime()));
+			Label dateInfo = new Label(AppContext.getMessage(
+					DayI18nEnum.LAST_UPDATED_ON,
+					AppContext.formatDateTime(bug.getLastupdatedtime())));
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			rowContent.addComponent(dateInfo);
 
 			HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
 			hLayoutAssigneeInfo.setSpacing(true);
-			Label assignee = new Label("Assignee: ");
+			Label assignee = new Label(
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)
+							+ ": ");
 			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			hLayoutAssigneeInfo.addComponent(assignee);
 			hLayoutAssigneeInfo.setComponentAlignment(assignee,
@@ -115,6 +121,8 @@ public class MyBugListWidget extends BugDisplayWidget {
 
 	@Override
 	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter("My Bugs", searchCriteria);
+		return new BugFilterParameter(
+				AppContext.getMessage(BugI18nEnum.MY_BUGS_WIDGET_TITLE),
+				searchCriteria);
 	}
 }

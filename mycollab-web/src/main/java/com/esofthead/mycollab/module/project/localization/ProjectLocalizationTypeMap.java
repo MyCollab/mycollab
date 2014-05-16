@@ -22,6 +22,12 @@ import java.util.Map;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectLocalizationTypeMap {
 	private static Map<String, ProjectTypeI18nEnum> typeMap;
 

@@ -123,6 +123,12 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleAccount data) {
+						EventBus.getInstance().fireEvent(
+								new AccountEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onClone(SimpleAccount data) {
 						Account cloneData = (Account) data.copy();
 						cloneData.setId(null);

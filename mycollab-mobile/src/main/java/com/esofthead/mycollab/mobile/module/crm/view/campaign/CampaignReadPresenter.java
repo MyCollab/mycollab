@@ -60,6 +60,12 @@ public class CampaignReadPresenter extends
 					}
 
 					@Override
+					public void onAdd(SimpleCampaign data) {
+						EventBus.getInstance().fireEvent(
+								new CampaignEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleCampaign data) {
 						ConfirmDialog.show(
 								UI.getCurrent(),

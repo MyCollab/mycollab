@@ -25,18 +25,74 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  * 
  */
 public class ActivityEvent {
-	public static class Save extends ApplicationEvent {
-		private static final long serialVersionUID = -8233913139722949767L;
+	public static class TaskAdd extends ApplicationEvent {
+		private static final long serialVersionUID = -297079855849498749L;
 
-		public Save(Object source, Object data) {
+		public TaskAdd(Object source, Object data) {
 			super(source, data);
 		}
 	}
 
-	public static class Search extends ApplicationEvent {
-		private static final long serialVersionUID = 1753078348208999466L;
+	public static class TaskEdit extends ApplicationEvent {
+		private static final long serialVersionUID = -3058925851053273466L;
 
-		public Search(Object source, Object data) {
+		public TaskEdit(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class TaskRead extends ApplicationEvent {
+		private static final long serialVersionUID = 3729273634721320786L;
+
+		public TaskRead(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class MeetingAdd extends ApplicationEvent {
+		private static final long serialVersionUID = -6087559081474362239L;
+
+		public MeetingAdd(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class MeetingEdit extends ApplicationEvent {
+		private static final long serialVersionUID = -5484004166527538238L;
+
+		public MeetingEdit(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class MeetingRead extends ApplicationEvent {
+		private static final long serialVersionUID = 4660645508301244730L;
+
+		public MeetingRead(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class CallAdd extends ApplicationEvent {
+		private static final long serialVersionUID = -4152647044241550707L;
+
+		public CallAdd(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class CallEdit extends ApplicationEvent {
+		private static final long serialVersionUID = 240833870944170101L;
+
+		public CallEdit(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class CallRead extends ApplicationEvent {
+		private static final long serialVersionUID = 4670213836749669945L;
+
+		public CallRead(Object source, Object data) {
 			super(source, data);
 		}
 	}
@@ -49,32 +105,8 @@ public class ActivityEvent {
 		}
 	}
 
-	public static class GotoAdd extends ApplicationEvent {
-		private static final long serialVersionUID = 5537133797081861218L;
-
-		public GotoAdd(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class GotoRead extends ApplicationEvent {
-		private static final long serialVersionUID = 2024499664273723194L;
-
-		public GotoRead(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class GotoEdit extends ApplicationEvent {
-		private static final long serialVersionUID = 28575528879169859L;
-
-		public GotoEdit(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
 	public static class GoToRelatedItems extends ApplicationEvent {
-		private static final long serialVersionUID = 5283096123753126321L;
+		private static final long serialVersionUID = 6886861280155117098L;
 
 		public GoToRelatedItems(Object source, Object data) {
 			super(source, data);

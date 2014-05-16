@@ -68,19 +68,25 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleMeeting data) {
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.MeetingAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleMeeting data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
 								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-										new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -93,9 +99,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-											.fireEvent(
-													new ActivityEvent.GotoTodoList(
-															this, null));
+													.fireEvent(
+															new ActivityEvent.GotoTodoList(
+																	this, null));
 										}
 									}
 								});
@@ -129,9 +135,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getNextItemKey(criteria);
 						if (nextId != null) {
 							EventBus.getInstance()
-							.fireEvent(
-									new ActivityEvent.MeetingRead(this,
-											nextId));
+									.fireEvent(
+											new ActivityEvent.MeetingRead(this,
+													nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -151,9 +157,9 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
 							EventBus.getInstance()
-							.fireEvent(
-									new ActivityEvent.MeetingRead(this,
-											nextId));
+									.fireEvent(
+											new ActivityEvent.MeetingRead(this,
+													nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}
@@ -165,7 +171,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleMeeting meeting = null;
 			if (data.getParams() instanceof Integer) {
@@ -186,9 +193,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 			view.previewItem(meeting);
 
 			AppContext.addFragment(CrmLinkGenerator
-					.generateMeetingPreviewLink(meeting.getId()),
-					AppContext.getMessage(
-							GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+					.generateMeetingPreviewLink(meeting.getId()), AppContext
+					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 							"Meeting", meeting.getSubject()));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

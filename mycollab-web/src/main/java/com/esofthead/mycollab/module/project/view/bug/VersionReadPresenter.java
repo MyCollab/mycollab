@@ -61,6 +61,12 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 					}
 
 					@Override
+					public void onAdd(Version data) {
+						EventBus.getInstance().fireEvent(
+								new BugVersionEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(Version data) {
 						VersionService versionService = ApplicationContextUtil
 								.getSpringBean(VersionService.class);

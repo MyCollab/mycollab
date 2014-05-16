@@ -40,7 +40,7 @@ public class FilePresenter extends AbstractPresenter<IFileContainer> implements
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Files");
+		projectViewContainer.gotoSubView("file");
 	}
 
 }

@@ -87,6 +87,12 @@ public class OpportunityReadPresenter extends
 					}
 
 					@Override
+					public void onAdd(SimpleOpportunity data) {
+						EventBus.getInstance().fireEvent(
+								new OpportunityEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleOpportunity data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
@@ -228,7 +234,8 @@ public class OpportunityReadPresenter extends
 					}
 
 					@Override
-					public void selectAssociateItems(Set<SimpleContactOpportunityRel> items) {
+					public void selectAssociateItems(
+							Set<SimpleContactOpportunityRel> items) {
 						List<ContactOpportunity> associateContacts = new ArrayList<ContactOpportunity>();
 						SimpleOpportunity opportunity = view.getItem();
 						for (SimpleContact contact : items) {
@@ -303,8 +310,7 @@ public class OpportunityReadPresenter extends
 					AppContext.addFragment(
 							CrmLinkGenerator
 									.generateOpportunityPreviewLink(opportunity
-											.getId()),
-							AppContext.getMessage(
+											.getId()), AppContext.getMessage(
 									GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 									"Opportunity",
 									opportunity.getOpportunityname()));

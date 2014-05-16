@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
@@ -54,7 +55,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
-implements CaseReadView {
+		implements CaseReadView {
 
 	private static final long serialVersionUID = 1L;
 	protected CaseContactListComp associateContactList;
@@ -103,7 +104,7 @@ implements CaseReadView {
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -130,12 +131,14 @@ implements CaseReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateContactList, "Contacts");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateContactList, "contact",
+				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 	}
 
 	@Override

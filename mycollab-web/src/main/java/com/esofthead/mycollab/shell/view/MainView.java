@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -165,7 +166,8 @@ public final class MainView extends AbstractPageView {
 		serviceMenu = new ServiceMenu();
 		serviceMenu.addStyleName("topNavPopup");
 
-		serviceMenu.addService("CRM",
+		serviceMenu.addService(
+				AppContext.getMessage(GenericI18Enum.CRM_MODULE),
 				MyCollabResource.newResource("icons/16/customer.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -177,7 +179,8 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 
-		serviceMenu.addService("Projects",
+		serviceMenu.addService(
+				AppContext.getMessage(GenericI18Enum.PROJECT_MODULE),
 				MyCollabResource.newResource("icons/16/project.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -189,7 +192,8 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 
-		serviceMenu.addService("Documents",
+		serviceMenu.addService(
+				AppContext.getMessage(GenericI18Enum.DOCUMENT_MODULE),
 				MyCollabResource.newResource("icons/16/document.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;

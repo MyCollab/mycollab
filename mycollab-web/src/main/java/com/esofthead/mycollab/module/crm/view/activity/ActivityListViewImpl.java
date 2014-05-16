@@ -62,27 +62,19 @@ public class ActivityListViewImpl extends
 		ActivityTableDisplay table = new ActivityTableDisplay(
 				new TableViewField("", "selected",
 						UIConstants.TABLE_CONTROL_WIDTH),
-				Arrays.asList(
-						new TableViewField(AppContext
-								.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
-								"subject", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(
-								AppContext
-										.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
-								"status", UIConstants.TABLE_S_LABEL_WIDTH),
-						new TableViewField(AppContext
-								.getMessage(TaskI18nEnum.TABLE_TYPE_HEADER),
-								"eventType", UIConstants.TABLE_S_LABEL_WIDTH),
-						new TableViewField(
-								AppContext
-										.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-								"startDate", UIConstants.TABLE_DATE_TIME_WIDTH),
-						new TableViewField(
-								AppContext
-										.getMessage(TaskI18nEnum.TABLE_END_DATE_HEADER),
-								"endDate", UIConstants.TABLE_DATE_TIME_WIDTH)));
+				Arrays.asList(new TableViewField(
+						TaskI18nEnum.TABLE_SUBJECT_HEADER, "subject",
+						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+						CrmCommonI18nEnum.TABLE_STATUS_HEADER, "status",
+						UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
+						TaskI18nEnum.TABLE_TYPE_HEADER, "eventType",
+						UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
+						TaskI18nEnum.TABLE_START_DATE_HEADER, "startDate",
+						UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
+						TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
+						UIConstants.TABLE_DATE_TIME_WIDTH)));
 
-			return table;
+		return table;
 	}
 
 	@Override

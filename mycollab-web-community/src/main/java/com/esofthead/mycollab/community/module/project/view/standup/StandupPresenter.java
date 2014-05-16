@@ -39,7 +39,7 @@ public class StandupPresenter extends AbstractPresenter<IStandupContainer>
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("StandUp");
+		projectViewContainer.gotoSubView("standup");
 
 	}
 }

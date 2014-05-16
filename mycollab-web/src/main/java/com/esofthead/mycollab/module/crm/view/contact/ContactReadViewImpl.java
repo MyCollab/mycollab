@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
@@ -61,7 +62,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
-implements ContactReadView {
+		implements ContactReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -139,7 +140,7 @@ implements ContactReadView {
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -150,14 +151,15 @@ implements ContactReadView {
 		SimpleLead lead = leadService.findConvertedLeadOfContact(
 				beanItem.getId(), AppContext.getAccountId());
 		if (lead != null) {
-			return beanItem.getContactName() + "&nbsp;"
+			return beanItem.getContactName()
+					+ "&nbsp;"
 					+ AppContext
-					.getMessage(
-							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-							CrmResources
-							.getResourceLink(CrmTypeConstants.LEAD),
-							CrmLinkGenerator.generateCrmItemLink(
-									CrmTypeConstants.LEAD, lead.getId()),
+							.getMessage(
+									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+									CrmResources
+											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmLinkGenerator.generateCrmItemLink(
+											CrmTypeConstants.LEAD, lead.getId()),
 									lead.getLeadName());
 		} else {
 			return beanItem.getContactName();
@@ -183,12 +185,14 @@ implements ContactReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateOpportunityList, "opportunity",
+				AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 	}
 
 	@Override

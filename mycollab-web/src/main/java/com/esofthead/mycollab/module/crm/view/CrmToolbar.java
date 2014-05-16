@@ -66,14 +66,16 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		this.setWidth("100%");
 		this.setMargin(new MarginInfo(false, true, false, true));
 		final NavigatorItemListener listener = new NavigatorItemListener();
-		final Button homeBtn = new Button(AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER), listener);
+		final Button homeBtn = new Button(
+				AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER),
+				listener);
 		homeBtn.setStyleName("link");
 		addComponent(homeBtn);
 
 		final Button accountList = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER),
 				listener);
 		accountList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_ACCOUNT));
@@ -82,7 +84,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button contactList = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER),
 				listener);
 		contactList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CONTACT));
@@ -91,7 +93,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button campaignList = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER),
 				listener);
 		campaignList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CAMPAIGN));
@@ -99,8 +101,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addComponent(campaignList);
 
 		final Button leadList = new Button(
-				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER),
+				AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER),
 				listener);
 		leadList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_LEAD));
@@ -109,7 +110,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button opportunityList = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER),
 				listener);
 		opportunityList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_OPPORTUNITY));
@@ -117,8 +118,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addComponent(opportunityList);
 
 		final Button caseList = new Button(
-				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER),
+				AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER),
 				listener);
 		caseList.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_CASE));
@@ -127,7 +127,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button activitiesList = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER),
 				listener);
 		final boolean isActivityEnable = AppContext
 				.canRead(RolePermissionCollections.CRM_MEETING)
@@ -141,7 +141,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button fileBtn = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER),
 				listener);
 		fileBtn.setEnabled(AppContext
 				.canRead(RolePermissionCollections.CRM_DOCUMENT));
@@ -150,12 +150,13 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final Button notificationBtn = new Button(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER),
 				listener);
 		notificationBtn.setStyleName("link");
 		addComponent(notificationBtn);
 
-		addBtn = new PopupButton("Create");
+		addBtn = new PopupButton(
+				AppContext.getMessage(CrmCommonI18nEnum.CREATE_ACTION));
 		addBtn.setIcon(MyCollabResource.newResource("icons/18/create.png"));
 		final GridLayout addBtnLayout = new GridLayout(3, 2);
 		addBtnLayout.setMargin(true);
@@ -164,7 +165,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newAccountBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
 				listener, false);
 		newAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
@@ -174,7 +175,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newContactBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
 				listener, false);
 		newContactBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
@@ -184,7 +185,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newCampaignBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
 				listener, false);
 		newCampaignBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
@@ -194,7 +195,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newOpportunityBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
 				listener, false);
 		newOpportunityBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
@@ -204,7 +205,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newLeadBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
 				listener, false);
 		newLeadBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
@@ -214,7 +215,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newCaseBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
 				listener, false);
 		newCaseBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
@@ -224,7 +225,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newTaskBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION),
 				listener, false);
 		newTaskBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
@@ -234,7 +235,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newCallBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION),
 				listener, false);
 		newCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
@@ -244,7 +245,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newMeetingBtn = new ButtonLink(
 				AppContext
-				.getMessage(CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION),
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION),
 				listener, false);
 		newMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
@@ -274,7 +275,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new CrmEvent.GotoHome(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new AccountEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -283,7 +284,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new AccountEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new CampaignEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -304,7 +305,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new ContactEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new ContactEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -317,12 +318,12 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new LeadEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new OpportunityEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new OpportunityEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
@@ -340,7 +341,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new ActivityEvent.CallAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.MeetingAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -349,11 +350,11 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 						new DocumentEvent.GotoDashboard(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER).equals(
-							caption)) {
+					caption)) {
 				EventBus.getInstance()
-				.fireEvent(
-						new CrmSettingEvent.GotoNotificationSetting(
-								this, null));
+						.fireEvent(
+								new CrmSettingEvent.GotoNotificationSetting(
+										this, null));
 			}
 
 			addBtn.setPopupVisible(false);

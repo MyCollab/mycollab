@@ -47,12 +47,12 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Tasks");
+		projectViewContainer.gotoSubView("task");
 
 		view.removeAllComponents();
 
 		AbstractPresenter<?> presenter = null;
-		
+
 		if (data instanceof TaskScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
 		} else if (data instanceof TaskGroupScreenData.Read) {

@@ -52,7 +52,7 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Phases");
+		projectViewContainer.gotoSubView("milestone");
 
 		AbstractPresenter presenter = null;
 		if (data instanceof MilestoneScreenData.Search) {

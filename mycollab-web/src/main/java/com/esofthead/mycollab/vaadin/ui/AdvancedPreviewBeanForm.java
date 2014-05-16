@@ -64,6 +64,14 @@ public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
 		}
 	}
 
+	public void fireAddForm(B bean) {
+		if (handlers != null) {
+			for (PreviewFormHandler<B> handler : handlers) {
+				handler.onAdd(bean);
+			}
+		}
+	}
+
 	public void showHistory() {
 		throw new MyCollabException(
 				"This method must be override by sub classes");

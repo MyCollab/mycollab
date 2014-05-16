@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -32,6 +33,12 @@ import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 2.0
+ * 
+ */
 @ViewComponent
 public class CrmSettingContainer extends CssLayout implements PageView {
 	private static final long serialVersionUID = 1L;
@@ -48,8 +55,6 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		contentWrapper.setStyleName("verticalTabView");
 		contentWrapper.setWidth("100%");
 		this.addComponent(contentWrapper);
-		
-		
 
 		settingTab = new CrmVerticalTabsheet(false);
 		settingTab.setSizeFull();
@@ -60,13 +65,15 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 
 		buildComponents();
 		contentWrapper.addComponent(settingTab);
-		
+
 	}
 
 	private void buildComponents() {
-		settingTab.addTab(constructNotificationSettingView(), "Notifications");
+		settingTab.addTab(constructNotificationSettingView(), "notification",
+				"Notifications");
 
-		settingTab.addTab(constructCustomLayoutView(), "Custom Layouts");
+		settingTab.addTab(constructCustomLayoutView(), "customlayout",
+				"Custom Layouts");
 
 		settingTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -76,12 +83,12 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 					public void selectedTabChange(SelectedTabChangeEvent event) {
 						Tab tab = ((VerticalTabsheet) event.getSource())
 								.getSelectedTab();
-						String caption = tab.getCaption();
+						String tabId = ((TabImpl) tab).getTabId();
 
-						if ("Notifications".equals(caption)) {
+						if ("notification".equals(tabId)) {
 							notificationPresenter.go(CrmSettingContainer.this,
 									new NotificationSettingScreenData.Read());
-						} else if ("Custom Layouts".equals(caption)) {
+						} else if ("customlayout".equals(tabId)) {
 							customViewPresenter.go(CrmSettingContainer.this,
 									new CustomViewScreenData.Read());
 						}
@@ -113,8 +120,8 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 
 	}
 
-	public Component gotoSubView(String name) {
-		PageView component = (PageView) settingTab.selectTab(name);
+	public Component gotoSubView(String viewId) {
+		PageView component = (PageView) settingTab.selectTab(viewId);
 		return component;
 	}
 

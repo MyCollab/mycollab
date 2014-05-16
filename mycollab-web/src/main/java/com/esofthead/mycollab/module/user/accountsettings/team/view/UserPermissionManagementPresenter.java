@@ -49,7 +49,7 @@ public class UserPermissionManagementPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContaier = (AccountModule) container;
-		accountContaier.gotoSubView("Users & Permissions");
+		accountContaier.gotoSubView("users");
 
 		AbstractPresenter<?> presenter = null;
 		if ((data == null) || (data instanceof UserScreenData.Read)

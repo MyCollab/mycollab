@@ -62,6 +62,12 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleContact data) {
+						EventBus.getInstance().fireEvent(
+								new ContactEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleContact data) {
 
 						ConfirmDialog.show(

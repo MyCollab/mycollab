@@ -40,7 +40,7 @@ public class ProfilePresenter extends AbstractPresenter<ProfileContainer> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		AccountModule accountContainer = (AccountModule) container;
 
-		accountContainer.gotoSubView("User Information");
+		accountContainer.gotoSubView("profile");
 
 		AbstractPresenter<?> presenter = null;
 		if (data == null) {

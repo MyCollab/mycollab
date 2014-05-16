@@ -25,6 +25,8 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -67,6 +69,12 @@ public class MilestoneReadPresenter extends
 					public void onEdit(SimpleMilestone data) {
 						EventBus.getInstance().fireEvent(
 								new MilestoneEvent.GotoEdit(this, data));
+					}
+
+					@Override
+					public void onAdd(SimpleMilestone data) {
+						EventBus.getInstance().fireEvent(
+								new MilestoneEvent.GotoAdd(this, null));
 					}
 
 					@Override

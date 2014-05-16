@@ -48,6 +48,12 @@ public interface PreviewFormHandler<T> {
 	 * @param data
 	 */
 	void onEdit(T data);
+	
+	/**
+	 * 
+	 * @param data
+	 */
+	void onAdd(T data);
 
 	/**
 	 * 

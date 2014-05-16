@@ -31,6 +31,7 @@ import org.vaadin.easyuploads.SingleFileUploadField;
 
 import au.com.bytecode.opencsv.CSVReader;
 
+import com.esofthead.mycollab.common.localization.FileI18nEnum;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -153,7 +154,7 @@ public abstract class EntityImportWindow<E> extends Window {
 						contentStream = uploadField.getContentAsStream();
 					} catch (Exception e) {
 						NotificationUtil.showWarningNotification(AppContext
-								.getMessage(GenericI18Enum.NOT_ATTACH_FILE_WARNING));
+								.getMessage(FileI18nEnum.NOT_ATTACH_FILE_WARNING));
 					}
 					if (contentStream != null) {
 						String filename = uploadField.getFileName();
@@ -164,7 +165,9 @@ public abstract class EntityImportWindow<E> extends Window {
 									UI.getCurrent(),
 									"Message information",
 									"You choose a vcf file. This step will import to database. Do you want to do it?",
-									"Import", AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+									"Import",
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;
 
@@ -274,7 +277,8 @@ public abstract class EntityImportWindow<E> extends Window {
 			UiUtils.addComponent(controlGroupBtn, nextBtn,
 					Alignment.MIDDLE_CENTER);
 
-			Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL));
+			Button cancelBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL));
 			cancelBtn.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -540,83 +544,95 @@ public abstract class EntityImportWindow<E> extends Window {
 			UiUtils.addComponent(columnMappingCrmLayout, controlGroupBtn,
 					Alignment.MIDDLE_CENTER);
 
-			Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new ClickListener() {
-				private static final long serialVersionUID = 1L;
+			Button saveBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					try {
-						if (messageImportVerticalLayout != null) {
-							columnMappingCrmLayout
-									.removeComponent(messageImportVerticalLayout);
-						}
-						List<ImportFieldDef> listImportFieldDef = new ArrayList<ImportFieldDef>();
-						for (int i = 0; i < gridCrmMapping.getLayout()
-								.getRows(); i++) {
-							Component componentOnGrid = gridCrmMapping
-									.getComponent(1, i + 1);
-							if (componentOnGrid instanceof HorizontalLayout) {
-								Iterator<Component> lstComponentOnGrid = ((HorizontalLayout) componentOnGrid)
-										.iterator();
-								Component compent = lstComponentOnGrid.next();
-								if (compent instanceof CSVBeanFieldComboBox) {
-									ImportFieldDef importFieldDef = new ImportFieldDef(
-											i,
-											(FieldMapperDef) ((CSVBeanFieldComboBox) compent)
-													.getValue());
-									listImportFieldDef.add(importFieldDef);
+						@Override
+						public void buttonClick(ClickEvent event) {
+							try {
+								if (messageImportVerticalLayout != null) {
+									columnMappingCrmLayout
+											.removeComponent(messageImportVerticalLayout);
 								}
-							}
-						}
+								List<ImportFieldDef> listImportFieldDef = new ArrayList<ImportFieldDef>();
+								for (int i = 0; i < gridCrmMapping.getLayout()
+										.getRows(); i++) {
+									Component componentOnGrid = gridCrmMapping
+											.getComponent(1, i + 1);
+									if (componentOnGrid instanceof HorizontalLayout) {
+										Iterator<Component> lstComponentOnGrid = ((HorizontalLayout) componentOnGrid)
+												.iterator();
+										Component compent = lstComponentOnGrid
+												.next();
+										if (compent instanceof CSVBeanFieldComboBox) {
+											ImportFieldDef importFieldDef = new ImportFieldDef(
+													i,
+													(FieldMapperDef) ((CSVBeanFieldComboBox) compent)
+															.getValue());
+											listImportFieldDef
+													.add(importFieldDef);
+										}
+									}
+								}
 
-						CSVImportEntityProcess importProcess = new CSVImportEntityProcess();
-						try {
-							importProcess.doImport(uploadFile, checkboxChecked,
-									services, cls, listImportFieldDef);
-						} catch (IllegalArgumentException e) {
-							StringBuffer msg = new StringBuffer(e.getMessage());
-							if (msg.indexOf("numRowSuccess") > 0) {
-								int numRowSuccess = Integer.parseInt(msg
-										.substring(
+								CSVImportEntityProcess importProcess = new CSVImportEntityProcess();
+								try {
+									importProcess.doImport(uploadFile,
+											checkboxChecked, services, cls,
+											listImportFieldDef);
+								} catch (IllegalArgumentException e) {
+									StringBuffer msg = new StringBuffer(e
+											.getMessage());
+									if (msg.indexOf("numRowSuccess") > 0) {
+										int numRowSuccess = Integer.parseInt(msg.substring(
 												msg.indexOf("numRowSuccess:")
 														+ "numRowSuccess:"
 																.length(),
 												msg.indexOf("numRowError:")));
-								int numRowError = Integer.parseInt(msg
-										.substring(msg.indexOf("numRowError:")
-												+ "numRowError:".length(),
+										int numRowError = Integer.parseInt(msg.substring(
+												msg.indexOf("numRowError:")
+														+ "numRowError:"
+																.length(),
 												msg.indexOf("Detail:")));
-								messageImportVerticalLayout = new VerticalLayout();
-								messageImportVerticalLayout.setSpacing(true);
+										messageImportVerticalLayout = new VerticalLayout();
+										messageImportVerticalLayout
+												.setSpacing(true);
 
-								Label msgLabel = new Label(
-										"Import successfull " + numRowSuccess
-												+ " rows, " + "fail "
-												+ numRowError + " rows.");
-								messageImportVerticalLayout
-										.addComponent(msgLabel);
+										Label msgLabel = new Label(
+												"Import successfull "
+														+ numRowSuccess
+														+ " rows, " + "fail "
+														+ numRowError
+														+ " rows.");
+										messageImportVerticalLayout
+												.addComponent(msgLabel);
 
-								final String[] errorDetail = msg.substring(
-										msg.indexOf("Detail:")
-												+ "Detail:".length()).split(
-										"//");
-								int numErrMsgShowLimit = 3;
-								for (String errMsg : errorDetail) {
-									messageImportVerticalLayout
-											.addComponent(new Label(errMsg));
-									if (numErrMsgShowLimit == 0)
-										break;
-									numErrMsgShowLimit--;
+										final String[] errorDetail = msg
+												.substring(
+														msg.indexOf("Detail:")
+																+ "Detail:"
+																		.length())
+												.split("//");
+										int numErrMsgShowLimit = 3;
+										for (String errMsg : errorDetail) {
+											messageImportVerticalLayout
+													.addComponent(new Label(
+															errMsg));
+											if (numErrMsgShowLimit == 0)
+												break;
+											numErrMsgShowLimit--;
+										}
+										columnMappingCrmLayout
+												.addComponent(messageImportVerticalLayout);
+									}
 								}
-								columnMappingCrmLayout
-										.addComponent(messageImportVerticalLayout);
+							} catch (Exception e) {
+								throw new MyCollabException(e);
 							}
 						}
-					} catch (Exception e) {
-						throw new MyCollabException(e);
-					}
-				}
-			});
+					});
 
 			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			controlGroupBtn.addComponent(saveBtn);

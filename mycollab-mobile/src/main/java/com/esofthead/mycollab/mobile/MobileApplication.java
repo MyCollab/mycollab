@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmModuleController;
-import com.esofthead.mycollab.mobile.module.user.ui.LoginPresenter;
+import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.mobile.module.user.view.LoginView;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.vaadin.AppContext;

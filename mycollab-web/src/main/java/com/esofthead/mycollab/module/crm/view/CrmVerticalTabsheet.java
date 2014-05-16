@@ -16,86 +16,90 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.vaadin.ui.Button;
-public class CrmVerticalTabsheet extends VerticalTabsheet{
-	/**
-	 * 
-	 */
-	public CrmVerticalTabsheet(boolean isLeft) {
-	super(isLeft);
-	}
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0
+ * 
+ */
+public class CrmVerticalTabsheet extends VerticalTabsheet {
 	private static final long serialVersionUID = 1L;
 
-	@Override 
+	public CrmVerticalTabsheet(boolean isLeft) {
+		super(isLeft);
+	}
+
+	@Override
 	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
-		String caption = btn.getCaption();
+		String tabId = ((ButtonTabImpl) btn).getTabId();
 		String suffix;
 		if (selected != true)
 			suffix = "_white";
 		else
 			suffix = "";
 
-		switch (caption){
-		case "About":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/detail" + suffix + ".png"));
+		switch (tabId) {
+		case "about":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/detail"
+					+ suffix + ".png"));
 			break;
 
-		case "Campaigns":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/campaign" + suffix + ".png"));
+		case "campaign":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/campaign"
+					+ suffix + ".png"));
 			break;
-		case "Contacts":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/contact" + suffix + ".png"));
-			break;
-
-		case "Leads":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/lead" + suffix + ".png"));
+		case "contact":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/contact"
+					+ suffix + ".png"));
 			break;
 
-		case "Opportunities":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/opportunity" + suffix + ".png"));
+		case "lead":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/lead"
+					+ suffix + ".png"));
 			break;
 
-		case "Cases":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/case" + suffix + ".png"));
+		case "opportunity":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/opportunity"
+					+ suffix + ".png"));
 			break;
-		case "Activities":
+
+		case "case":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/case"
+					+ suffix + ".png"));
+			break;
+		case "activity":
 			btn.setIcon(MyCollabResource
 					.newResource("icons/22/crm/activitylist" + suffix + ".png"));
 			break;
-			
-		case "Events":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/event" + suffix + ".png"));
+
+		case "event":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/event"
+					+ suffix + ".png"));
 			break;
-		case "Mettings":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/meeting" + suffix + ".png"));
+		case "meeting":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/meeting"
+					+ suffix + ".png"));
 			break;
-		case "Notifications":
+		case "notification":
 			btn.setIcon(MyCollabResource
 					.newResource("icons/22/crm/notification" + suffix + ".png"));
 			break;
-		case "Custom Layouts":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/layout" + suffix + ".png"));
+		case "customlayout":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/layout"
+					+ suffix + ".png"));
 			break;
-		case "Accounts":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/crm/account" + suffix + ".png"));
+		case "account":
+			btn.setIcon(MyCollabResource.newResource("icons/22/crm/account"
+					+ suffix + ".png"));
 			break;
-			
+
 		default:
 			break;
-			
+
 		}
 
 	}

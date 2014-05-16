@@ -16,10 +16,14 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.TableClickEvent;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,7 +53,45 @@ public class ActivityListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
-		return new ActivityListDisplay("subject");
+		ActivityListDisplay activityListDisplay = new ActivityListDisplay(
+				"subject");
+		activityListDisplay
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 8965270809651619473L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
+
+					@Override
+					public void handle(TableClickEvent event) {
+						final SimpleActivity activity = (SimpleActivity) event
+								.getData();
+						if ("subject".equals(event.getFieldName())) {
+							if (activity.getEventType().equals(
+									CrmTypeConstants.TASK)) {
+								EventBus.getInstance().fireEvent(
+										new ActivityEvent.TaskRead(
+												ActivityListViewImpl.this,
+												activity.getId()));
+							} else if (activity.getEventType().equals(
+									CrmTypeConstants.CALL)) {
+								EventBus.getInstance().fireEvent(
+										new ActivityEvent.CallRead(
+												ActivityListViewImpl.this,
+												activity.getId()));
+							} else if (activity.getEventType().equals(
+									CrmTypeConstants.MEETING)) {
+								EventBus.getInstance().fireEvent(
+										new ActivityEvent.MeetingRead(
+												ActivityListViewImpl.this,
+												activity.getId()));
+							}
+						}
+					}
+				});
+		return activityListDisplay;
 	}
 
 	@Override
@@ -59,8 +101,8 @@ public class ActivityListViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new ActivityEvent.GotoAdd(this, null));
+				// EventBus.getInstance().fireEvent(
+				// new ActivityEvent.GotoAdd(this, null));
 			}
 		});
 		addActivity.setStyleName("add-btn");

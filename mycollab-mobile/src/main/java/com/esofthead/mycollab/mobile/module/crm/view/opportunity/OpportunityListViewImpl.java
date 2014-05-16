@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -49,7 +52,30 @@ public class OpportunityListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<OpportunitySearchCriteria, SimpleOpportunity> createBeanTable() {
-		return new OpportunityListDisplay("opportunityname");
+		OpportunityListDisplay opportunityListDisplay = new OpportunityListDisplay(
+				"opportunityname");
+		opportunityListDisplay
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 4375991598340568318L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
+
+					@Override
+					public void handle(TableClickEvent event) {
+						final SimpleOpportunity opportunity = (SimpleOpportunity) event
+								.getData();
+						if ("opportunityname".equals(event.getFieldName())) {
+							EventBus.getInstance().fireEvent(
+									new OpportunityEvent.GotoRead(
+											OpportunityListViewImpl.this,
+											opportunity.getId()));
+						}
+					}
+				});
+		return opportunityListDisplay;
 	}
 
 	@Override

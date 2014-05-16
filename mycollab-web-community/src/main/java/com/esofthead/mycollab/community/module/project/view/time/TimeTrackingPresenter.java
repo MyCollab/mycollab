@@ -40,6 +40,6 @@ public class TimeTrackingPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Time");
+		projectViewContainer.gotoSubView("time");
 	}
 }

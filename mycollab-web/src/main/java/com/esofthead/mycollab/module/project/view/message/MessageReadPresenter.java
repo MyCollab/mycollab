@@ -86,6 +86,10 @@ public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
 					public void onExtraAction(String action, SimpleMessage data) {
 
 					}
+
+					@Override
+					public void onAdd(SimpleMessage data) {
+					}
 				});
 	}
 

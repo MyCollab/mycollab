@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.localization.FileI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -151,12 +153,14 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
-		exportButtonControl.setDescription("Exports");
+		exportButtonControl.setDescription(AppContext
+				.getMessage(FileI18nEnum.EXPORT_FILE));
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);
 
-		Button exportPdfBtn = new Button("Pdf");
+		Button exportPdfBtn = new Button(
+				AppContext.getMessage(FileI18nEnum.PDF));
 
 		StreamWrapperFileDownloader fileDownloader = new StreamWrapperFileDownloader(
 				new StreamResourceFactory() {
@@ -192,7 +196,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		exportPdfBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportPdfBtn);
 
-		Button exportExcelBtn = new Button("Excel");
+		Button exportExcelBtn = new Button(
+				AppContext.getMessage(FileI18nEnum.EXCEL));
 		StreamWrapperFileDownloader excelDownloader = new StreamWrapperFileDownloader(
 				new StreamResourceFactory() {
 
@@ -226,7 +231,8 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		exportExcelBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportExcelBtn);
 
-		Button exportCsvBtn = new Button("CSV");
+		Button exportCsvBtn = new Button(
+				AppContext.getMessage(FileI18nEnum.CSV));
 
 		StreamWrapperFileDownloader csvFileDownloader = new StreamWrapperFileDownloader(
 				new StreamResourceFactory() {

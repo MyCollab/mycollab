@@ -21,7 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/accountsettings/user")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum UserI18nEnum {
 	CAN_NOT_DELETE_ROLE_MESSAGE,
 	PASSWORDS_ARE_NOT_MATCH,
@@ -33,5 +33,9 @@ public enum UserI18nEnum {
 	CANCEL_ACCOUNT_FIRST_LINE,
 	CANCEL_ACCOUNT_MESSAGE,
 	CANCEL_ACCOUNT_NOTE,
-	CANCEL_ACCOUNT_CONFIRM_NOTE
+	CANCEL_ACCOUNT_CONFIRM_NOTE,
+
+	PROFILE_VIEW,
+	BILLING_VIEW,
+	USERS_VIEW
 }

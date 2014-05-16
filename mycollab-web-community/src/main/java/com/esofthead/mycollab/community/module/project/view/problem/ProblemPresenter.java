@@ -46,6 +46,6 @@ public class ProblemPresenter extends AbstractPresenter<IProblemContainer>
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Problems");
+		projectViewContainer.gotoSubView("problem");
 	}
 }

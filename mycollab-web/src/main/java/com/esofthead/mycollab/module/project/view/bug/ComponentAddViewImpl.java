@@ -49,7 +49,7 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 	@Override
 	protected String initFormHeader() {
 		return (beanItem.getId() == null) ? "Create Component"
-				: "Component Edit";
+				: "Edit Component";
 	}
 
 	@Override

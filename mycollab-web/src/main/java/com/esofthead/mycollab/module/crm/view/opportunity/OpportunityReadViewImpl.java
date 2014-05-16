@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContactOpportunityRel;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
@@ -60,8 +61,8 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class OpportunityReadViewImpl extends
-AbstractPreviewItemComp<SimpleOpportunity> implements
-OpportunityReadView {
+		AbstractPreviewItemComp<SimpleOpportunity> implements
+		OpportunityReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -114,7 +115,7 @@ OpportunityReadView {
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -128,12 +129,12 @@ OpportunityReadView {
 			return "<h2>"
 					+ beanItem.getOpportunityname()
 					+ AppContext
-					.getMessage(
-							LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
-							CrmResources
-							.getResourceLink(CrmTypeConstants.LEAD),
-							CrmLinkGenerator.generateCrmItemLink(
-									CrmTypeConstants.LEAD, lead.getId()),
+							.getMessage(
+									LeadI18nEnum.CONVERT_FROM_LEAD_TITLE,
+									CrmResources
+											.getResourceLink(CrmTypeConstants.LEAD),
+									CrmLinkGenerator.generateCrmItemLink(
+											CrmTypeConstants.LEAD, lead.getId()),
 									lead.getLeadName()) + "</h2>";
 		} else {
 			return beanItem.getOpportunityname();
@@ -160,13 +161,16 @@ OpportunityReadView {
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
 
-
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateContactList, "Contacts");
-		previewItemContainer.addTab(associateLeadList, "Leads");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateContactList, "contact",
+				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+		previewItemContainer.addTab(associateLeadList, "lead",
+				AppContext.getMessage(CrmCommonI18nEnum.LEAD_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 	}
 
 	@Override

@@ -45,14 +45,13 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int PREVIOUS_BTN_PRESENTED = 32;
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
+	public static int ADD_BTN_PRESENTED = 256;
 
-	private Button editBtn, deleteBtn, cloneBtn, historyBtn, previousItem,
-			nextItemBtn;
+	private Button addBtn, editBtn, deleteBtn, cloneBtn, historyBtn,
+			previousItem, nextItemBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout popupButtonsControl;
-
-	private Button editButtons;
 	private SplitButton optionBtn;
 	private HorizontalLayout layout;
 
@@ -62,16 +61,18 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		layout = new HorizontalLayout();
 
-		editButtons = new Button("Option", new Button.ClickListener() {
+		Button editButtons = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION_LABEL),
+				new Button.ClickListener() {
 
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
+					@Override
+					public void buttonClick(ClickEvent event) {
 
-				optionBtn.setPopupVisible(true);
-			}
-		});
+						optionBtn.setPopupVisible(true);
+					}
+				});
 
 		editButtons.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		editButtons.addStyleName(UIConstants.THEME_GRAY_LINK);
@@ -86,7 +87,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public HorizontalLayout createButtonControls(final String permissionItem) {
 		return createButtonControls(EDIT_BTN_PRESENTED | DELETE_BTN_PRESENTED
 				| CLONE_BTN_PRESENTED | HISTORY_BTN_PRESENTED
-				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED, permissionItem);
+				| PREVIOUS_BTN_PRESENTED | NEXT_BTN_PRESENTED
+				| ADD_BTN_PRESENTED, permissionItem);
 	}
 
 	public HorizontalLayout createButtonControls(int buttonEnableFlags,
@@ -109,6 +111,26 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
 		popupButtonsControl.setSpacing(true);
+
+		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
+			addBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireAddForm(item);
+						}
+					});
+			addBtn.setIcon(MyCollabResource
+					.newResource("icons/16/addRecord.png"));
+			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			addBtn.setEnabled(canWrite);
+			layout.addComponent(addBtn);
+		}
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 			editBtn = new Button(
@@ -168,15 +190,17 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
-			historyBtn = new Button("History", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			historyBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_HISTORY_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					optionBtn.setPopupVisible(false);
-					previewForm.showHistory();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							previewForm.showHistory();
+						}
+					});
 			historyBtn.setIcon(MyCollabResource
 					.newResource("icons/16/history.png"));
 			historyBtn.setStyleName("link");
@@ -205,7 +229,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 				}
 			});
 			previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
-			previousItem.setDescription("Read previous item");
+			previousItem.setDescription(AppContext
+					.getMessage(GenericI18Enum.SHOW_PREVIOUS_ITEM_TOOLTIP));
 			navigationBtns.addButton(previousItem);
 			previousItem.setEnabled(canRead);
 		}
@@ -221,7 +246,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 				}
 			});
 			nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			nextItemBtn.setDescription("Read next item");
+			nextItemBtn.setDescription(AppContext
+					.getMessage(GenericI18Enum.SHOW_NEXT_ITEM_TOOLTIP));
 			navigationBtns.addButton(nextItemBtn);
 			nextItemBtn.setEnabled(canRead);
 		}

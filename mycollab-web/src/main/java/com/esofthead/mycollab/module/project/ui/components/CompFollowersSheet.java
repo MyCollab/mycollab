@@ -85,7 +85,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 
 	private void initUI() {
 		Label lbInstruct = new Label(
-				"Add people from your team or external to follow bug activity");
+				"Add people from your team or external team to follow bug activity");
 		this.addComponent(lbInstruct);
 
 		HorizontalLayout layoutAdd = new HorizontalLayout();
@@ -245,7 +245,11 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 								UI.getCurrent(),
 								"Please Confirm:",
 								"Are you sure to remove this user from the notification of item activity?",
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL), AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL), new ConfirmDialog.Listener() {
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override

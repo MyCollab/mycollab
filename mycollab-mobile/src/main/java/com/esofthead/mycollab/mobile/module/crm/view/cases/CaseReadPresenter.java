@@ -19,10 +19,12 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
@@ -56,6 +58,12 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					public void onEdit(SimpleCase data) {
 						EventBus.getInstance().fireEvent(
 								new CaseEvent.GotoEdit(this, data));
+					}
+
+					@Override
+					public void onAdd(SimpleCase data) {
+						EventBus.getInstance().fireEvent(
+								new CaseEvent.GotoAdd(this, null));
 					}
 
 					@Override

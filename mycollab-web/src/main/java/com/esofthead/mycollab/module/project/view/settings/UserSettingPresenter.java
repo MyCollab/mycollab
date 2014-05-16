@@ -48,7 +48,7 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Users & Settings");
+		projectViewContainer.gotoSubView("member");
 
 		AbstractPresenter<?> presenter;
 		if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class,

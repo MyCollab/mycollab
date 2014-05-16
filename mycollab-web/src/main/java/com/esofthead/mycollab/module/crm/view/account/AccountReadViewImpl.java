@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
@@ -184,14 +185,20 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
-		previewItemContainer.addTab(previewContent, "About");
-		previewItemContainer.addTab(associateContactList, "Contacts");
-		previewItemContainer.addTab(associateLeadList, "Leads");
-		previewItemContainer.addTab(associateOpportunityList, "Opportunities");
-		previewItemContainer.addTab(associateCaseList, "Cases");
-		previewItemContainer.addTab(associateActivityList, "Activities");
+		previewItemContainer.addTab(previewContent, "about",
+				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+		previewItemContainer.addTab(associateContactList, "contact",
+				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+		previewItemContainer.addTab(associateLeadList, "lead",
+				AppContext.getMessage(CrmCommonI18nEnum.LEAD_SUB_VIEW));
+		previewItemContainer.addTab(associateOpportunityList, "opportunity",
+				AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY_SUB_VIEW));
+		previewItemContainer.addTab(associateCaseList, "case",
+				AppContext.getMessage(CrmCommonI18nEnum.CASE_SUB_VIEW));
+		previewItemContainer.addTab(associateActivityList, "activity",
+				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override
@@ -217,7 +224,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
 
-		previewItemContainer.selectTab("About");
+		previewItemContainer.selectTab("about");
 	}
 
 	@Override

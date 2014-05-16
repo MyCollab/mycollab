@@ -52,7 +52,7 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectView projectViewContainer = (ProjectView) container;
-		projectViewContainer.gotoSubView("Bugs");
+		projectViewContainer.gotoSubView("bug");
 
 		IPresenter<?> presenter = null;
 

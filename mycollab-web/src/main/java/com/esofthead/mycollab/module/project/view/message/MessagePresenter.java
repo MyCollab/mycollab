@@ -47,7 +47,7 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
 			ProjectView projectViewContainer = (ProjectView) container;
-			projectViewContainer.gotoSubView("Messages");
+			projectViewContainer.gotoSubView("message");
 
 			view.removeAllComponents();
 

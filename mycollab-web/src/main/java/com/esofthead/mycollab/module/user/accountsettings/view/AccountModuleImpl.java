@@ -18,10 +18,12 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -29,6 +31,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
+import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
@@ -106,15 +109,15 @@ public class AccountModuleImpl extends AbstractPageView implements
 
 	private void buildComponents() {
 		this.accountTab.addTab(this.constructUserInformationComponent(),
-				"User Information",
+				"profile", AppContext.getMessage(UserI18nEnum.PROFILE_VIEW),
 				MyCollabResource.newResource("icons/22/user/menu_profile.png"));
 
 		this.accountTab.addTab(this.constructAccountSettingsComponent(),
-				"Billing",
+				"billing", AppContext.getMessage(UserI18nEnum.BILLING_VIEW),
 				MyCollabResource.newResource("icons/22/user/menu_account.png"));
 
-		this.accountTab.addTab(this.constructUserRoleComponent(),
-				"Users & Permissions",
+		this.accountTab.addTab(this.constructUserRoleComponent(), "users",
+				AppContext.getMessage(UserI18nEnum.USERS_VIEW),
 				MyCollabResource.newResource("icons/22/user/menu_team.png"));
 
 		this.accountTab
@@ -125,13 +128,13 @@ public class AccountModuleImpl extends AbstractPageView implements
 					public void selectedTabChange(SelectedTabChangeEvent event) {
 						final Tab tab = ((VerticalTabsheet) event.getSource())
 								.getSelectedTab();
-						final String caption = tab.getCaption();
-						if ("User Information".equals(caption)) {
+						final String tabId = ((TabImpl) tab).getTabId();
+						if ("profile".equals(tabId)) {
 							profilePresenter.go(AccountModuleImpl.this, null);
-						} else if ("Billing".equals(caption)) {
+						} else if ("billing".equals(tabId)) {
 							billingPresenter.go(AccountModuleImpl.this,
 									new BillingScreenData.BillingSummary());
-						} else if ("Users & Permissions".equals(caption)) {
+						} else if ("users".equals(tabId)) {
 							userPermissionPresenter.go(AccountModuleImpl.this,
 									null);
 						}
@@ -159,8 +162,8 @@ public class AccountModuleImpl extends AbstractPageView implements
 	}
 
 	@Override
-	public void gotoSubView(final String viewName) {
-		this.accountTab.selectTab(viewName);
+	public void gotoSubView(final String viewId) {
+		this.accountTab.selectTab(viewId);
 	}
 
 	@Override

@@ -50,7 +50,7 @@ import com.vaadin.ui.UI;
  * 
  */
 public class AssignmentReadPresenter extends
-CrmGenericPresenter<AssignmentReadView> {
+		CrmGenericPresenter<AssignmentReadView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -69,19 +69,25 @@ CrmGenericPresenter<AssignmentReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleTask data) {
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.TaskAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleTask data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
 								AppContext.getMessage(
 										GenericI18Enum.DELETE_DIALOG_TITLE,
 										SiteConfiguration.getSiteName()),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										AppContext
+								AppContext
 										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-										new ConfirmDialog.Listener() {
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override
@@ -94,9 +100,9 @@ CrmGenericPresenter<AssignmentReadView> {
 													AppContext.getUsername(),
 													AppContext.getAccountId());
 											EventBus.getInstance()
-											.fireEvent(
-													new ActivityEvent.GotoTodoList(
-															this, null));
+													.fireEvent(
+															new ActivityEvent.GotoTodoList(
+																	this, null));
 										}
 									}
 								});
@@ -160,7 +166,8 @@ CrmGenericPresenter<AssignmentReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_TASK)) {
 			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			SimpleTask task = null;
 			if (data.getParams() instanceof Integer) {

@@ -82,6 +82,12 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					}
 
 					@Override
+					public void onAdd(SimpleCase data) {
+						EventBus.getInstance().fireEvent(
+								new CaseEvent.GotoAdd(this, null));
+					}
+
+					@Override
 					public void onDelete(final SimpleCase data) {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
@@ -249,8 +255,8 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					view.previewItem(cases);
 
 					AppContext.addFragment(CrmLinkGenerator
-							.generateCasePreviewLink(cases.getId()),
-							AppContext.getMessage(
+							.generateCasePreviewLink(cases.getId()), AppContext
+							.getMessage(
 									GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
 									"Case", cases.getSubject()));
 				} else {
