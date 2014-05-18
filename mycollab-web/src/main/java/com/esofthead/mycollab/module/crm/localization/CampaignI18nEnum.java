@@ -21,8 +21,10 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm/campaign")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum CampaignI18nEnum {
+	FORM_NEW_TITLE,
+	
 	FORM_CAMPAIGN_NAME,
 	FORM_STATUS,
 	FORM_START_DATE,
@@ -31,5 +33,8 @@ public enum CampaignI18nEnum {
 	FORM_EXPECTED_REVENUE,
 	FORM_EXPECTED_COST,
 	FORM_BUDGET,
-	FORM_ACTUAL_COST
+	FORM_ACTUAL_COST,
+	FORM_GOAL,
+	FORM_CURRENCY,
+	FORM_DESCRIPTION
 }

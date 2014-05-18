@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.localization.FileI18nEnum;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
@@ -107,7 +109,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private void implementTaskFilterButton() {
 
-		this.taskSelection = new PopupButton("Active Tasks");
+		this.taskSelection = new PopupButton(
+				AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS));
 
 		this.taskSelection.setEnabled(CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS));
@@ -119,7 +122,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		filterBtnLayout.setSpacing(true);
 		filterBtnLayout.setWidth("200px");
 
-		final Button allTasksFilterBtn = new Button("All Tasks",
+		final Button allTasksFilterBtn = new Button(
+				AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -134,7 +138,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		allTasksFilterBtn.setStyleName("link");
 		filterBtnLayout.addComponent(allTasksFilterBtn);
 
-		final Button activeTasksFilterBtn = new Button("Active Tasks Only",
+		final Button activeTasksFilterBtn = new Button(
+				AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -149,7 +154,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		activeTasksFilterBtn.setStyleName("link");
 		filterBtnLayout.addComponent(activeTasksFilterBtn);
 
-		final Button pendingTasksFilterBtn = new Button("Pending Tasks Only",
+		final Button pendingTasksFilterBtn = new Button(
+				AppContext.getMessage(TaskGroupI18nEnum.FILTER_PENDING_TASKS),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -165,7 +171,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		filterBtnLayout.addComponent(pendingTasksFilterBtn);
 
 		final Button archievedTasksFilterBtn = new Button(
-				"Archieved Tasks Only", new Button.ClickListener() {
+				AppContext.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
+				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -190,7 +197,9 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.setWidth("100%");
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		this.taskGroupSelection = new PopupButton("Active Tasks");
+		this.taskGroupSelection = new PopupButton(
+				AppContext
+						.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
 		this.taskGroupSelection.setEnabled(CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS));
 		this.taskGroupSelection.addStyleName("link");
@@ -210,7 +219,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		final Button allTasksFilterBtn = new Button(
 				AppContext
-						.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
+						.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -219,7 +228,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-								.getMessage(TaskI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
+								.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.displayAllTaskGroups();
 					}
 				});
@@ -228,7 +237,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		final Button activeTasksFilterBtn = new Button(
 				AppContext
-						.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
+						.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -237,7 +246,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-								.getMessage(TaskI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
+								.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.displayActiveTaskGroups();
 					}
 				});
@@ -246,14 +255,14 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		final Button archievedTasksFilterBtn = new Button(
 				AppContext
-						.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
+						.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						TaskGroupDisplayViewImpl.this.taskGroupSelection.setCaption(AppContext
-								.getMessage(TaskI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
+								.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASK_GROUPS_TITLE));
 						TaskGroupDisplayViewImpl.this.taskGroupSelection
 								.setPopupVisible(false);
 						TaskGroupDisplayViewImpl.this
@@ -298,7 +307,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 					}
 				});
-		
+
 		viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		viewGanttChartBtn.setDescription("Toggle Gantt chart view");
 		UiUtils.addComponent(header, viewGanttChartBtn, Alignment.MIDDLE_RIGHT);
@@ -332,7 +341,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		exportButtonControl.setContent(popupButtonsControl);
 		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
 
-		Button exportPdfBtn = new Button("Pdf");
+		Button exportPdfBtn = new Button(
+				AppContext.getMessage(FileI18nEnum.PDF));
 		FileDownloader pdfDownloader = new FileDownloader(
 				constructStreamResource(ReportExportType.PDF));
 		pdfDownloader.extend(exportPdfBtn);
@@ -341,7 +351,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		exportPdfBtn.setStyleName("link");
 		popupButtonsControl.addComponent(exportPdfBtn);
 
-		Button exportExcelBtn = new Button("Excel");
+		Button exportExcelBtn = new Button(
+				AppContext.getMessage(FileI18nEnum.EXCEL));
 		FileDownloader excelDownloader = new FileDownloader(
 				constructStreamResource(ReportExportType.EXCEL));
 		excelDownloader.extend(exportExcelBtn);
@@ -490,7 +501,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		control.setSpacing(true);
 		control.setMargin(new MarginInfo(true, false, true, false));
 
-		final Button searchBtn = new Button("Search");
+		final Button searchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {
@@ -600,8 +612,7 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 		if (this.getComponentIndex(ganttChart) < 0) {
 			viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
-			
-			
+
 			ganttChart = new TaskGanttChart();
 			ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
 

@@ -21,12 +21,15 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/risk")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum RiskI18nEnum {
 	NEW_RISK_ACTION,
+	
+	FORM_READ_TITLE,
 	FORM_NAME,
 	FORM_DESCRIPTION,
 	FORM_RAISED_BY,
+	FORM_RELATED,
 	FORM_DATE_DUE,
 	FORM_STATUS,
 	FORM_RESPONSE,

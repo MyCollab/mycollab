@@ -48,6 +48,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -55,6 +56,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.reporting.BeanDataSource;
 import com.esofthead.mycollab.reporting.ColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.ReportExportType;
@@ -97,24 +99,28 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 	}
 
 	public interface TaskTableFieldDef {
-		public static TableViewField selected = new TableViewField("",
+		public static TableViewField selected = new TableViewField(null,
 				"selected", UIConstants.TABLE_CONTROL_WIDTH);
 
-		public static TableViewField taskname = new TableViewField("Task Name",
-				"taskname", UIConstants.TABLE_X_LABEL_WIDTH);
+		public static TableViewField taskname = new TableViewField(
+				TaskI18nEnum.FORM_TASK_NAME, "taskname",
+				UIConstants.TABLE_X_LABEL_WIDTH);
 
 		public static TableViewField startdate = new TableViewField(
-				"Start Date", "startdate", UIConstants.TABLE_DATE_WIDTH);
+				TaskI18nEnum.FORM_START_DATE, "startdate",
+				UIConstants.TABLE_DATE_WIDTH);
 
-		public static TableViewField dueDate = new TableViewField("Due Date",
-				"deadline", UIConstants.TABLE_DATE_WIDTH);
+		public static TableViewField dueDate = new TableViewField(
+				TaskI18nEnum.FORM_DEADLINE, "deadline",
+				UIConstants.TABLE_DATE_WIDTH);
 
 		public static TableViewField complete = new TableViewField(
-				"% Complete", "percentagecomplete",
+				TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete",
 				UIConstants.TABLE_S_LABEL_WIDTH);
 
 		public static TableViewField assignUser = new TableViewField(
-				"Assignee", "assignuser", UIConstants.TABLE_X_LABEL_WIDTH);
+				GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignuser",
+				UIConstants.TABLE_X_LABEL_WIDTH);
 	}
 
 	@Override

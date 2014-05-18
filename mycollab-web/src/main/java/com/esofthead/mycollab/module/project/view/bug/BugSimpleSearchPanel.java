@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -23,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -64,7 +66,8 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 		layoutSearchPane.setComponentAlignment(chkIsOpenBug,
 				Alignment.MIDDLE_CENTER);
 
-		Button searchBtn = new Button("Search");
+		Button searchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {

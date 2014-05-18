@@ -108,7 +108,9 @@ public class AssignBugWindow extends Window {
 				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
-				final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				final Button cancelBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -123,7 +125,9 @@ public class AssignBugWindow extends Window {
 				controlsBtn.setComponentAlignment(cancelBtn,
 						Alignment.MIDDLE_LEFT);
 
-				final Button approveBtn = new Button("Assign",
+				final Button approveBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -187,12 +191,9 @@ public class AssignBugWindow extends Window {
 			public boolean attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("assignuser")) {
-					this.informationLayout
-							.addComponent(
-									field,
-									AppContext
-											.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
-									0, 0);
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							0);
 				} else if (propertyId.equals("comment")) {
 					this.informationLayout.addComponent(field, "Comments", 0,
 							1, 2, "100%", Alignment.MIDDLE_LEFT);

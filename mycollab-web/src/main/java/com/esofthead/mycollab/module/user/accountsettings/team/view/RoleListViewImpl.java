@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
@@ -82,11 +83,11 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 	}
 
 	private void generateDisplayTable() {
-		this.tableItem = new RoleTableDisplay(new TableViewField("",
+		this.tableItem = new RoleTableDisplay(new TableViewField(null,
 				"selected", UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-				new TableViewField("Name", "rolename",
+				new TableViewField(RoleI18nEnum.FORM_NAME_FIELD, "rolename",
 						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-						"Description", "description",
+						RoleI18nEnum.FORM_DESCRIPTION_FIELD, "description",
 						UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem
@@ -141,20 +142,26 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 			tableActionControls.addActionItem(
 					MassItemActionHandler.DELETE_ACTION,
 					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete");
+					"delete",
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
 		}
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
 				MyCollabResource.newResource("icons/16/action/pdf.png"),
-				"export", "export.pdf");
+				"export", "export.pdf",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
 				MyCollabResource.newResource("icons/16/action/excel.png"),
-				"export", "export.xlsx");
+				"export", "export.xlsx",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
 				MyCollabResource.newResource("icons/16/action/csv.png"),
-				"export", "export.csv");
+				"export", "export.csv",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
 		layout.addComponent(this.tableActionControls);
 		layout.addComponent(this.selectedItemsNumberLabel);

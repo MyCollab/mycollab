@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -25,7 +26,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
-import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -50,7 +51,7 @@ import com.vaadin.ui.TextField;
  * 
  */
 public class ProjectRoleSearchPanel extends
-GenericSearchPanel<ProjectRoleSearchCriteria> {
+		GenericSearchPanel<ProjectRoleSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 	private final SimpleProject project;
 	protected ProjectRoleSearchCriteria searchCriteria;
@@ -70,8 +71,6 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 		this.setCompositionRoot(new ProjectRoleBasicSearchLayout());
 	}
 
-
-
 	@SuppressWarnings("rawtypes")
 	private class ProjectRoleBasicSearchLayout extends BasicSearchLayout {
 
@@ -84,7 +83,6 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
 
-
 		@Override
 		public ComponentContainer constructBody() {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
@@ -96,33 +94,37 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			basicSearchBody.addComponent(this.nameField);
-			this.myItemCheckbox = new CheckBox("My Items");
+			this.myItemCheckbox = new CheckBox(
+					AppContext
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			basicSearchBody.addComponent(this.myItemCheckbox);
 
-			final Button searchBtn = new Button("Search",
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					ProjectRoleBasicSearchLayout.this
-					.callSearchAction();
-				}
-			});
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							ProjectRoleBasicSearchLayout.this
+									.callSearchAction();
+						}
+					});
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					ProjectRoleBasicSearchLayout.this.nameField
-					.setValue("");
-				}
-			});
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							ProjectRoleBasicSearchLayout.this.nameField
+									.setValue("");
+						}
+					});
 			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;
@@ -132,8 +134,8 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			ProjectRoleSearchPanel.this.searchCriteria = new ProjectRoleSearchCriteria();
 			ProjectRoleSearchPanel.this.searchCriteria
-			.setProjectId(new NumberSearchField(SearchField.AND,
-					ProjectRoleSearchPanel.this.project.getId()));
+					.setProjectId(new NumberSearchField(SearchField.AND,
+							ProjectRoleSearchPanel.this.project.getId()));
 			return ProjectRoleSearchPanel.this.searchCriteria;
 		}
 
@@ -144,7 +146,7 @@ GenericSearchPanel<ProjectRoleSearchCriteria> {
 			Label headerText = new Label("Role List");
 
 			final Button createBtn = new Button(
-					AppContext.getMessage(PeopleI18nEnum.NEW_ROLE_ACTION),
+					AppContext.getMessage(ProjectMemberI18nEnum.NEW_ROLE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

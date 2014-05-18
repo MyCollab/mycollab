@@ -27,9 +27,11 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.addon.touchkit.ui.Popover;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -43,6 +45,7 @@ public class ActivityListViewImpl extends
 		AbstractListViewComp<ActivitySearchCriteria, SimpleActivity> implements
 		ActivityListView {
 	private static final long serialVersionUID = -7632616933330982900L;
+	private VerticalLayout addButtons;
 
 	public ActivityListViewImpl() {
 		super();
@@ -96,17 +99,68 @@ public class ActivityListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addActivity = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = -5246005226179299205L;
+		final Popover controlBtns = new Popover();
+		controlBtns.setClosable(true);
+		controlBtns.setStyleName("controls-popover");
+
+		addButtons = new VerticalLayout();
+		addButtons.setSpacing(true);
+		addButtons.setWidth("100%");
+		addButtons.setMargin(true);
+		addButtons.addStyleName("edit-btn-layout");
+
+		Button addTask = new Button("Add Task", new Button.ClickListener() {
+			private static final long serialVersionUID = 1920289198458066344L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// EventBus.getInstance().fireEvent(
-				// new ActivityEvent.GotoAdd(this, null));
+				controlBtns.close();
+				EventBus.getInstance().fireEvent(
+						new ActivityEvent.TaskAdd(this, null));
+			}
+		});
+		addButtons.addComponent(addTask);
+
+		Button addCall = new Button("Add Call", new Button.ClickListener() {
+			private static final long serialVersionUID = -279151189261011902L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				controlBtns.close();
+				EventBus.getInstance().fireEvent(
+						new ActivityEvent.CallAdd(this, null));
+			}
+		});
+		addButtons.addComponent(addCall);
+
+		Button addMeeting = new Button("Add Meeting",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 4770664404728700960L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						controlBtns.close();
+						EventBus.getInstance().fireEvent(
+								new ActivityEvent.MeetingAdd(this, null));
+					}
+				});
+		addButtons.addComponent(addMeeting);
+
+		controlBtns.setContent(addButtons);
+
+		final Button addActivity = new Button();
+		addActivity.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1920289198458066344L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				if (!controlBtns.isAttached())
+					controlBtns.showRelativeTo(addActivity);
+				else
+					controlBtns.close();
 			}
 		});
 		addActivity.setStyleName("add-btn");
 		return addActivity;
 	}
-
 }

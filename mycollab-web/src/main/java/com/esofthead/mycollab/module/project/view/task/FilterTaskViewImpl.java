@@ -29,7 +29,9 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -77,7 +79,8 @@ public class FilterTaskViewImpl extends AbstractPageView implements
 		headerText.setSizeUndefined();
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
-		Button backtoTaskListBtn = new Button("Back to task dashboard",
+		Button backtoTaskListBtn = new Button(
+				AppContext.getMessage(TaskI18nEnum.BACK_TO_DASHBOARD_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugChartComponent;
 import com.esofthead.mycollab.module.project.view.bug.BugListWidget;
 import com.esofthead.mycollab.module.project.view.bug.BugSimpleDisplayWidget;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.module.project.view.bug.UnresolvedBugsByAssigneeWi
 import com.esofthead.mycollab.module.project.view.bug.UnresolvedBugsByPriorityWidget;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -62,7 +64,8 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		final HorizontalLayout header = new HorizontalLayout();
 		header.setSpacing(true);
 		header.setWidth("100%");
-		final Label taskGroupSelection = new Label("Related Bugs");
+		final Label taskGroupSelection = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.RELATED_BUGS_TAB));
 		taskGroupSelection.addStyleName("h2");
 		taskGroupSelection.addStyleName(UIConstants.THEME_NO_BORDER);
 		header.addComponent(taskGroupSelection);
@@ -183,7 +186,6 @@ public class MilestoneBugListComp extends VerticalLayout implements
 
 	@Override
 	public void displayBugReports() {
-		// TODO: check default tab index
 		this.displayAdvancedView();
 	}
 

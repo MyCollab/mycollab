@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -39,7 +41,8 @@ public class BugDashboardPresenter extends AbstractPresenter<BugDashboardView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		TrackerContainer trackerContainer = (TrackerContainer) container;
-		trackerContainer.gotoSubView("Dashboard");
+		trackerContainer.gotoSubView(AppContext
+				.getMessage(BugI18nEnum.DASHBOARD_TAB));
 
 		view.displayDashboard();
 

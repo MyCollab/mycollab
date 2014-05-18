@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -76,7 +77,8 @@ class TaskAddPopup extends CustomComponent {
 		popupHeader.setMargin(true);
 		popupHeader.addStyleName("popup-header");
 
-		final Label titleLbl = new Label("Add New Task");
+		final Label titleLbl = new Label(
+				AppContext.getMessage(TaskI18nEnum.NEW_TASK_TITLE));
 		titleLbl.addStyleName("bold");
 		popupHeader.addComponent(titleLbl);
 		taskLayout.addComponent(popupHeader);
@@ -89,7 +91,9 @@ class TaskAddPopup extends CustomComponent {
 				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
-		this.taskContainer.addTab(this.taskNoteComponent, "Note & Attachments");
+		this.taskContainer
+				.addTab(this.taskNoteComponent, AppContext
+						.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT_FIELD));
 
 		taskLayout.addComponent(this.taskContainer);
 
@@ -183,27 +187,38 @@ class TaskAddPopup extends CustomComponent {
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("taskname")) {
-				this.informationLayout.addComponent(field, "Task Name", 0, 0,
-						2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0,
+						0, 2, "100%");
 			} else if (propertyId.equals("startdate")) {
-				this.informationLayout.addComponent(field, "Start Date", 0, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(TaskI18nEnum.FORM_START_DATE), 0,
+						1);
 			} else if (propertyId.equals("enddate")) {
-				this.informationLayout.addComponent(field, "End Date", 0, 2);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(TaskI18nEnum.FORM_END_DATE), 0, 2);
 			} else if (propertyId.equals("actualstartdate")) {
-				this.informationLayout.addComponent(field, "Actual Start Date",
-						1, 1);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE), 1, 1);
 			} else if (propertyId.equals("actualenddate")) {
-				this.informationLayout.addComponent(field, "Actual End Date",
-						1, 2);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE), 1, 2);
 			} else if (propertyId.equals("deadline")) {
-				this.informationLayout.addComponent(field, "Deadline", 0, 3);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 3);
 			} else if (propertyId.equals("priority")) {
-				this.informationLayout.addComponent(field, "Priority", 1, 3);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
 			} else if (propertyId.equals("percentagecomplete")) {
-				this.informationLayout.addComponent(field, "Complete(%)", 1, 4);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 1,
+						4);
 			} else {
 				return false;
 			}

@@ -19,9 +19,11 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMilestoneComboBox;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -47,7 +49,7 @@ import com.vaadin.ui.TextField;
  */
 @ViewComponent
 public class TaskGroupAddViewImpl extends AbstractEditItemComp<TaskList>
-implements TaskGroupAddView {
+		implements TaskGroupAddView {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -57,14 +59,15 @@ implements TaskGroupAddView {
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() != null) ? "Task Group Edit"
-				: "Create Task Group";
+		return (beanItem.getId() != null) ? AppContext
+				.getMessage(TaskGroupI18nEnum.FORM_EDIT_TASKGROUP_TITLE)
+				: AppContext
+						.getMessage(TaskGroupI18nEnum.FORM_NEW_TASKGROUP_TITLE);
 	}
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() != null) ? beanItem.getName()
-				: null;
+		return (beanItem.getId() != null) ? beanItem.getName() : null;
 	}
 
 	@Override
@@ -95,7 +98,7 @@ implements TaskGroupAddView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<TaskList> {
+			AbstractBeanFieldGroupEditFieldFactory<TaskList> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<TaskList> form) {
@@ -121,21 +124,21 @@ implements TaskGroupAddView {
 			} else if (propertyId.equals("percentageComplete")) {
 				final double percentage = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getPercentageComplete() : 0;
-						final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
-						final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
-								percentage);
-						fieldContainer.addComponentField(progressField);
-						return fieldContainer;
+				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+				final ProgressPercentageIndicator progressField = new ProgressPercentageIndicator(
+						percentage);
+				fieldContainer.addComponentField(progressField);
+				return fieldContainer;
 			} else if (propertyId.equals("numOpenTasks")) {
 				final int openTask = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
 						.getNumOpenTasks() : 0;
-						final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
-								.getNumAllTasks() : 0;
-								final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
-								final Label numTaskLbl = new Label("(" + openTask + "/"
-										+ allTasks + ")");
-								fieldContainer.addComponentField(numTaskLbl);
-								return fieldContainer;
+				final int allTasks = (beanItem instanceof SimpleTaskList) ? ((SimpleTaskList) beanItem)
+						.getNumAllTasks() : 0;
+				final FormContainerHorizontalViewField fieldContainer = new FormContainerHorizontalViewField();
+				final Label numTaskLbl = new Label("(" + openTask + "/"
+						+ allTasks + ")");
+				fieldContainer.addComponentField(numTaskLbl);
+				return fieldContainer;
 			}
 
 			return null;

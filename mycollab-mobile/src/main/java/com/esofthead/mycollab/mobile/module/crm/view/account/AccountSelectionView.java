@@ -48,7 +48,7 @@ public class AccountSelectionView extends MobileNavigationView {
 		this.fieldSelection = fieldSelection;
 	}
 
-	public void createUI() {
+	private void createUI() {
 		searchCriteria = new AccountSearchCriteria();
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));

@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.bug.components.BugRelationComboBox;
 import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
@@ -286,15 +287,14 @@ public class BugRelatedField extends CustomComponent {
 
 		tableItem = new DefaultPagedBeanTable<RelatedBugService, BugRelatedSearchCriteria, SimpleRelatedBug>(
 				ApplicationContextUtil.getSpringBean(RelatedBugService.class),
-				SimpleRelatedBug.class, Arrays.asList(
-						new TableViewField("Bug Name", "bugName",
-								UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField("Related Type", "relatetype",
-								UIConstants.TABLE_S_LABEL_WIDTH),
-						new TableViewField("Comment", "comment",
-								UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField("", "id",
-								UIConstants.TABLE_CONTROL_WIDTH)));
+				SimpleRelatedBug.class, Arrays.asList(new TableViewField(
+						BugI18nEnum.RELATED_BUG_NAME, "bugName",
+						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+						BugI18nEnum.RELATED_BUG_TYPE, "relatetype",
+						UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
+						BugI18nEnum.RELATED_BUG_COMMENT, "comment",
+						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+						null, "id", UIConstants.TABLE_CONTROL_WIDTH)));
 
 		tableItem.addGeneratedColumn("bugName", new Table.ColumnGenerator() {
 			private static final long serialVersionUID = 1L;
@@ -314,11 +314,14 @@ public class BugRelatedField extends CustomComponent {
 				final SimpleBug bug = bugService.findById(
 						relatedItem.getRelatedid(), AppContext.getAccountId());
 
-				LabelLink b = new LabelLink(bugname,ProjectLinkBuilder.generateBugPreviewFullLink(bug.getProjectid(),bug.getId()));
+				LabelLink b = new LabelLink(bugname, ProjectLinkBuilder
+						.generateBugPreviewFullLink(bug.getProjectid(),
+								bug.getId()));
 
 				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
 					String iconPriority = ProjectResources
-							.getIconResourceLink12ByBugPriority(bug.getPriority());
+							.getIconResourceLink12ByBugPriority(bug
+									.getPriority());
 
 					b.setIconLink(iconPriority);
 				}
@@ -351,10 +354,15 @@ public class BugRelatedField extends CustomComponent {
 					@Override
 					public void buttonClick(
 							com.vaadin.ui.Button.ClickEvent event) {
-						ConfirmDialogExt.show(UI.getCurrent(),
+						ConfirmDialogExt.show(
+								UI.getCurrent(),
 								"Please Confirm:",
 								"Are you sure to remove this relationship?",
-								AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL), AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL), new ConfirmDialog.Listener() {
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
 									@Override

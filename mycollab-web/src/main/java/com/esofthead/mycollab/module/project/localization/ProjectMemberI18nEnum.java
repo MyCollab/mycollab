@@ -22,6 +22,6 @@ import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/people")
 @LocaleData({ @Locale("en_US") })
-public enum PeopleI18nEnum {
+public enum ProjectMemberI18nEnum {
 	NEW_USER_ACTION, NEW_ROLE_ACTION, CAN_NOT_DELETE_ROLE_MESSAGE
 }

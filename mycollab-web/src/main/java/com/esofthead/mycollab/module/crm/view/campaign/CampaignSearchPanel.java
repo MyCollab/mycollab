@@ -155,7 +155,7 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));

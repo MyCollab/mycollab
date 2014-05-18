@@ -57,37 +57,50 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public boolean attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("taskname")) {
-			this.informationLayout.addComponent(field, "Task Name", 0, 0, 2,
-					"100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 0, 0,
+					2, "100%");
 		} else if (propertyId.equals("startdate")) {
-			this.informationLayout.addComponent(field, "Start Date", 0, 1);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_START_DATE), 0, 1);
 		} else if (propertyId.equals("enddate")) {
-			this.informationLayout.addComponent(field, "End Date", 0, 2);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_END_DATE), 0, 2);
 		} else if (propertyId.equals("actualstartdate")) {
-			this.informationLayout.addComponent(field, "Actual Start Date", 1,
-					1);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE),
+					1, 1);
 		} else if (propertyId.equals("actualenddate")) {
-			this.informationLayout.addComponent(field, "Actual End Date", 1, 2);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE),
+					1, 2);
 		} else if (propertyId.equals("deadline")) {
-			this.informationLayout.addComponent(field, "Deadline", 0, 3);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE), 0, 3);
 		} else if (propertyId.equals("priority")) {
-			this.informationLayout.addComponent(field, "Priority", 1, 3);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
 		} else if (propertyId.equals("assignuser")) {
-			this.informationLayout.addComponent(field, AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					0, 4);
 		} else if (propertyId.equals("tasklistid")) {
-			this.informationLayout.addComponent(field, AppContext
-					.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD), 1, 4);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
+					1, 4);
 		} else if (propertyId.equals("percentagecomplete")) {
-			this.informationLayout.addComponent(field, "Complete(%)", 0, 5, 2,
-					"100%", Alignment.MIDDLE_LEFT);
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 0, 5,
+					2, "100%", Alignment.MIDDLE_LEFT);
 		} else if (propertyId.equals("notes")) {
 			field.setSizeUndefined();
-			this.informationLayout
-					.addComponent(field, "Notes", 0, 6, 2, "100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_NOTES_FIELD), 0, 6,
+					2, "100%");
 		} else if (propertyId.equals("id")) {
-			this.informationLayout.addComponent(field, "Attachments", 0, 7, 2,
-					"100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT_FIELD),
+					0, 7, 2, "100%");
 		} else {
 			return false;
 		}

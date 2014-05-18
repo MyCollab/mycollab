@@ -19,8 +19,10 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ComponentScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -51,7 +53,8 @@ public class ComponentPresenter
 	protected void onGo(com.vaadin.ui.ComponentContainer container,
 			ScreenData<?> data) {
 		TrackerContainer trackerContainer = (TrackerContainer) container;
-		trackerContainer.gotoSubView("Components");
+		trackerContainer.gotoSubView(AppContext
+				.getMessage(BugI18nEnum.COMPONENT_TAB));
 
 		view.removeAllComponents();
 

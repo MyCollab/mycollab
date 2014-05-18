@@ -48,11 +48,6 @@ public class TableViewFieldDecorator extends TableViewField {
 	}
 
 	@Override
-	public void setDesc(String desc) {
-		tableField.setDesc(desc);
-	}
-
-	@Override
 	public String getField() {
 		return tableField.getField();
 	}

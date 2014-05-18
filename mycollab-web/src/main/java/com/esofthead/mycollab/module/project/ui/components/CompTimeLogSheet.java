@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.localization.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -163,7 +164,8 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			addLayout.setComponentAlignment(this.isBillableField,
 					Alignment.MIDDLE_LEFT);
 
-			CompTimeLogSheet.this.btnAdd = new Button("Add",
+			CompTimeLogSheet.this.btnAdd = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -206,14 +208,18 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			CompTimeLogSheet.this.tableItem = new DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 					ApplicationContextUtil
 							.getSpringBean(ItemTimeLoggingService.class),
-					SimpleItemTimeLogging.class, Arrays.asList(
-							new TableViewField("User", "logUserFullName",
+					SimpleItemTimeLogging.class,
+					Arrays.asList(
+							new TableViewField(TimeTrackingI18nEnum.LOG_USER,
+									"logUserFullName",
 									UIConstants.TABLE_X_LABEL_WIDTH),
-							new TableViewField("Created Time", "createdtime",
+							new TableViewField(
+									TimeTrackingI18nEnum.LOG_CREATED_TIME,
+									"createdtime",
 									UIConstants.TABLE_DATE_TIME_WIDTH),
-							new TableViewField("Value", "logvalue",
-									UIConstants.TABLE_S_LABEL_WIDTH),
-							new TableViewField("", "id",
+							new TableViewField(TimeTrackingI18nEnum.LOG_VALUE,
+									"logvalue", UIConstants.TABLE_S_LABEL_WIDTH),
+							new TableViewField(null, "id",
 									UIConstants.TABLE_CONTROL_WIDTH)));
 
 			CompTimeLogSheet.this.tableItem.addGeneratedColumn(
@@ -289,8 +295,10 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 													UI.getCurrent(),
 													"Please Confirm:",
 													"Are you sure to delete this entry?",
-													AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-													AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+													AppContext
+															.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+													AppContext
+															.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 													new ConfirmDialog.Listener() {
 														private static final long serialVersionUID = 1L;
 

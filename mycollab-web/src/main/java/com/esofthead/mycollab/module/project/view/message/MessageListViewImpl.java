@@ -407,7 +407,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 			UiUtils.addComponent(basicSearchBody, nameField,
 					Alignment.MIDDLE_LEFT);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -473,13 +474,15 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 			final HorizontalLayout titleLayout = new HorizontalLayout();
 			titleLayout.setSpacing(true);
-			final Label titleLbl = new Label("Title: ");
+			final Label titleLbl = new Label(
+					AppContext.getMessage(MessageI18nEnum.FORM_TITLE_FIELD));
 			titleLbl.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 			titleField.setWidth("100%");
 			titleField.setNullRepresentation("");
 			titleField.setRequired(true);
-			titleField.setRequiredError("Please enter a Title");
+			titleField.setRequiredError(AppContext
+					.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
 
 			titleLayout.addComponent(titleLbl);
 			titleLayout.addComponent(titleField);
@@ -508,13 +511,13 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.setExpandRatio(uploadExt, 1.0f);
 			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 
-			final CheckBox chkIsStick = new CheckBox("Is Stick");
+			final CheckBox chkIsStick = new CheckBox(
+					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK_FIELD));
 			controls.addComponent(chkIsStick);
 			controls.setComponentAlignment(chkIsStick, Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -527,7 +530,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.addComponent(cancelBtn);
 			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
-			final Button saveBtn = new Button("Post",
+			final Button saveBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -556,8 +560,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 								attachments.saveContentsToRepo(attachmentPath);
 							} else {
 								titleField.addStyleName("errorField");
-								NotificationUtil
-										.showErrorNotification("Title must be not null!");
+								NotificationUtil.showErrorNotification(AppContext
+										.getMessage(MessageI18nEnum.FORM_TITLE_REQUIRED_ERROR));
 							}
 						}
 					});
@@ -577,8 +581,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			this.messagePanelBody.addComponent(this.messageSearchPanel);
 
 			final Button createMessageBtn = new Button(
-					AppContext
-							.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
+					AppContext.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

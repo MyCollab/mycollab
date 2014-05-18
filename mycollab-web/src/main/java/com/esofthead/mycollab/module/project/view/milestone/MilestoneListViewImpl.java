@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -67,7 +68,8 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		super("Phases list", "phase.png");
+		super(AppContext.getMessage(MilestoneI18nEnum.PHASE_LIST_TITLE),
+				"phase.png");
 		createBtn = new Button();
 
 		this.addHeaderRightContent(createHeaderRight());
@@ -91,7 +93,9 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		closedHeaderLayout.addComponent(embeddClosed);
 		closedHeaderLayout.setComponentAlignment(embeddClosed,
 				Alignment.MIDDLE_CENTER);
-		final Label closedHeader = new Label("Closed");
+
+		final Label closedHeader = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.CLOSED_PHASE_TITLE));
 		closedHeader.setSizeUndefined();
 		closedHeaderLayout.addComponent(closedHeader);
 		closedHeaderLayout.setComponentAlignment(closedHeader,
@@ -111,7 +115,8 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		inProgressHeaderLayout.addComponent(embeddInProgress);
 		inProgressHeaderLayout.setComponentAlignment(embeddInProgress,
 				Alignment.MIDDLE_CENTER);
-		final Label inProgressHeader = new Label("In Progress");
+		final Label inProgressHeader = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.INPROGRESS_PHASE_TITLE));
 		inProgressHeader.setSizeUndefined();
 		inProgressHeaderLayout.addComponent(inProgressHeader);
 		inProgressHeaderLayout.setComponentAlignment(inProgressHeader,
@@ -132,7 +137,8 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		futureHeaderLayout.addComponent(embeddFuture);
 		futureHeaderLayout.setComponentAlignment(embeddFuture,
 				Alignment.MIDDLE_CENTER);
-		final Label futureHeader = new Label("Future");
+		final Label futureHeader = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.FUTURE_PHASE_TITLE));
 		futureHeader.setSizeUndefined();
 		futureHeaderLayout.addComponent(futureHeader);
 		futureHeaderLayout.setComponentAlignment(futureHeader,
@@ -198,34 +204,38 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				5, "100%", "80px");
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getStartdate(),
-						"<<Not Set>>")), "Start Date", 0, 0,
-				Alignment.MIDDLE_LEFT);
+						"<<Not Set>>")), AppContext
+						.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
+				0, 0, Alignment.MIDDLE_LEFT);
 		layoutHelper.addComponent(
 				new Label(AppContext.formatDate(milestone.getEnddate(),
-						"<<Not Set>>")), "End Date", 0, 1,
-				Alignment.MIDDLE_LEFT);
+						"<<Not Set>>")), AppContext
+						.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0,
+				1, Alignment.MIDDLE_LEFT);
 
 		CssLayout linkWrapper = new CssLayout();
 		linkWrapper.setWidth("100%");
 		linkWrapper.addComponent(new ProjectUserLink(milestone.getOwner(),
 				milestone.getOwnerAvatarId(), milestone.getOwnerFullName(),
 				false, true));
-		layoutHelper.addComponent(linkWrapper, AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 2,
-				Alignment.MIDDLE_LEFT);
+		layoutHelper.addComponent(linkWrapper,
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+				2, Alignment.MIDDLE_LEFT);
 
 		final ProgressBarIndicator progressTask = new ProgressBarIndicator(
 				milestone.getNumTasks(), milestone.getNumOpenTasks());
 		progressTask.setWidth("100%");
 
-		layoutHelper.addComponent(progressTask, "Tasks", 0, 3,
+		layoutHelper.addComponent(progressTask,
+				AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 3,
 				Alignment.MIDDLE_LEFT);
 
 		final ProgressBarIndicator progressBug = new ProgressBarIndicator(
 				milestone.getNumBugs(), milestone.getNumOpenBugs());
 		progressBug.setWidth("100%");
 
-		layoutHelper.addComponent(progressBug, "Bugs", 0, 4,
+		layoutHelper.addComponent(progressBug,
+				AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 0, 4,
 				Alignment.MIDDLE_LEFT);
 		final GridLayout milestoneInfoLayout = layoutHelper.getLayout();
 		milestoneInfoLayout.setWidth("100%");

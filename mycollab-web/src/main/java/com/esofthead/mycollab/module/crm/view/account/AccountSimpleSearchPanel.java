@@ -45,7 +45,7 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class AccountSimpleSearchPanel extends
-GenericSearchPanel<AccountSearchCriteria> {
+		GenericSearchPanel<AccountSearchCriteria> {
 
 	private AccountSearchCriteria searchCriteria;
 	private TextField textValueField;
@@ -63,15 +63,9 @@ GenericSearchPanel<AccountSearchCriteria> {
 
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
-		final ValueComboBox group = new ValueComboBox(
-				false,
-				new String[] {
-						"Name",
-						"Email",
-						"Website",
-						"Phone",
-						AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
+		final ValueComboBox group = new ValueComboBox(false, new String[] {
+				"Name", "Email", "Website", "Phone",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -99,10 +93,10 @@ GenericSearchPanel<AccountSearchCriteria> {
 
 		addTextFieldSearch();
 
-		Button searchBtn = new Button("Search");
+		Button searchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource
-				.newResource("icons/16/search.png"));
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
@@ -120,20 +114,20 @@ GenericSearchPanel<AccountSearchCriteria> {
 
 							if (searchType.equals("Name")) {
 								searchCriteria
-								.setAccountname(new StringSearchField(
-										SearchField.AND, strSearch));
+										.setAccountname(new StringSearchField(
+												SearchField.AND, strSearch));
 							} else if (searchType.equals("Email")) {
 								searchCriteria
-								.setAnyMail(new StringSearchField(
-										SearchField.AND, strSearch));
+										.setAnyMail(new StringSearchField(
+												SearchField.AND, strSearch));
 							} else if (searchType.equals("Website")) {
 								searchCriteria
-								.setWebsite(new StringSearchField(
-										SearchField.AND, strSearch));
+										.setWebsite(new StringSearchField(
+												SearchField.AND, strSearch));
 							} else if (searchType.equals("Phone")) {
 								searchCriteria
-								.setAnyPhone(new StringSearchField(
-										SearchField.AND, strSearch));
+										.setAnyPhone(new StringSearchField(
+												SearchField.AND, strSearch));
 							}
 						}
 					}
@@ -142,15 +136,15 @@ GenericSearchPanel<AccountSearchCriteria> {
 						String user = (String) userBox.getValue();
 						if (StringUtils.isNotNullOrEmpty(user)) {
 							searchCriteria
-							.setAssignUsers(new SetSearchField<String>(
-									SearchField.AND,
-									new String[] { user }));
+									.setAssignUsers(new SetSearchField<String>(
+											SearchField.AND,
+											new String[] { user }));
 						}
 					}
 				}
 
 				AccountSimpleSearchPanel.this
-				.notifySearchHandler(searchCriteria);
+						.notifySearchHandler(searchCriteria);
 			}
 		});
 		layoutSearchPane.addComponent(searchBtn, 2, 0);
@@ -171,7 +165,7 @@ GenericSearchPanel<AccountSearchCriteria> {
 		userBox.setImmediate(true);
 		layoutSearchPane.addComponent(userBox, 0, 0);
 		layoutSearchPane
-		.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
+				.setComponentAlignment(userBox, Alignment.MIDDLE_CENTER);
 	}
 
 	private void removeComponents() {

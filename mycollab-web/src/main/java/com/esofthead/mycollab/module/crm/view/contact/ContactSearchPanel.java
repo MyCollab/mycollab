@@ -57,17 +57,17 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class ContactSearchPanel extends
-DefaultGenericSearchPanel<ContactSearchCriteria> {
+		DefaultGenericSearchPanel<ContactSearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-		ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
-		ContactSearchCriteria.p_leadsource,
-		ContactSearchCriteria.p_billingCountry,
-		ContactSearchCriteria.p_shippingCountry,
-		ContactSearchCriteria.p_anyPhone, ContactSearchCriteria.p_anyEmail,
-		ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee,
-		ContactSearchCriteria.p_createdtime,
-		ContactSearchCriteria.p_lastupdatedtime };
+			ContactSearchCriteria.p_name, ContactSearchCriteria.p_account,
+			ContactSearchCriteria.p_leadsource,
+			ContactSearchCriteria.p_billingCountry,
+			ContactSearchCriteria.p_shippingCountry,
+			ContactSearchCriteria.p_anyPhone, ContactSearchCriteria.p_anyEmail,
+			ContactSearchCriteria.p_anyCity, ContactSearchCriteria.p_assignee,
+			ContactSearchCriteria.p_createdtime,
+			ContactSearchCriteria.p_lastupdatedtime };
 
 	private HorizontalLayout createSearchTopPanel() {
 		final HorizontalLayout layout = new HorizontalLayout();
@@ -89,14 +89,14 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 
 		final Button createAccountBtn = new Button("Create Contact",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new ContactEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ContactEvent.GotoAdd(this, null));
+					}
+				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -147,18 +147,18 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-
-
 			this.myItemCheckbox = new CheckBox(
 					AppContext
-					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 				@Override
@@ -167,7 +167,8 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 				}
 			});
 
-			UiUtils.addComponent(basicSearchBody, searchBtn, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(basicSearchBody, searchBtn,
+					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -179,18 +180,19 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 					ContactBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, cancelBtn, Alignment.MIDDLE_CENTER);
+			UiUtils.addComponent(basicSearchBody, cancelBtn,
+					Alignment.MIDDLE_CENTER);
 
 			final Button advancedSearchBtn = new Button(
 					AppContext
-					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							ContactSearchPanel.this
-							.moveToAdvancedSearchLayout();
+									.moveToAdvancedSearchLayout();
 						}
 					});
 			advancedSearchBtn.setStyleName("link");
@@ -208,7 +210,7 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 					.toString().trim())) {
 				searchCriteria.setContactName(new StringSearchField(
 						SearchField.AND, this.nameField.getValue().toString()
-						.trim()));
+								.trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
@@ -223,7 +225,7 @@ DefaultGenericSearchPanel<ContactSearchCriteria> {
 	}
 
 	private class ContactAdvancedSearchLayout extends
-	DynamicQueryParamLayout<ContactSearchCriteria> {
+			DynamicQueryParamLayout<ContactSearchCriteria> {
 
 		public ContactAdvancedSearchLayout() {
 			super(ContactSearchPanel.this, CrmTypeConstants.CONTACT);

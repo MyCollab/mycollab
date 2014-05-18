@@ -21,6 +21,7 @@ import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.ProjectTaskListComboBox;
 import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
@@ -67,7 +68,9 @@ public class TaskAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Task" : "Task Edit";
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(TaskI18nEnum.FORM_NEW_TASK_TITLE) : AppContext
+				.getMessage(TaskI18nEnum.FORM_EDIT_TASK_TITLE);
 	}
 
 	@Override

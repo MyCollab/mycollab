@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
@@ -39,24 +40,34 @@ public class BugHistoryList extends HistoryLogComponent {
 		this.addStyleName("activity-panel");
 		this.setMargin(true);
 
-		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("environment", "Environment");
-		this.generateFieldDisplayHandler("summary", "Summary");
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(BugI18nEnum.FORM_DESCRIPTION));
+		this.generateFieldDisplayHandler("environment",
+				AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT));
+		this.generateFieldDisplayHandler("summary",
+				AppContext.getMessage(BugI18nEnum.FORM_SUMMARY));
 		this.generateFieldDisplayHandler("detail", "Detail");
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("priority", "Priority");
-		this.generateFieldDisplayHandler("severity", "Severity");
-		this.generateFieldDisplayHandler("resolution", "Resolution");
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(BugI18nEnum.FORM_STATUS));
+		this.generateFieldDisplayHandler("priority",
+				AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
+		this.generateFieldDisplayHandler("severity",
+				AppContext.getMessage(BugI18nEnum.FORM_SEVERITY));
+		this.generateFieldDisplayHandler("resolution",
+				AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION));
 		this.generateFieldDisplayHandler("estimateremaintime",
-				"Estimated Remain Time");
-		this.generateFieldDisplayHandler("duedate", "Due Date",
+				AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE));
+		this.generateFieldDisplayHandler("duedate",
+				AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("createdTime", "Created Time",
+		this.generateFieldDisplayHandler("createdTime",
+				AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("loguserFullName", "Logged by",
+		this.generateFieldDisplayHandler("loguserFullName",
+				AppContext.getMessage(BugI18nEnum.FORM_LOG_BY),
 				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid",
 				AppContext.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),

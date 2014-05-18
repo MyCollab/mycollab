@@ -17,12 +17,15 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.localization.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
+import com.esofthead.mycollab.module.project.localization.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -49,8 +52,8 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectRoleReadComp() {
-		super("Role Detail", MyCollabResource
-				.newResource("icons/22/user/group.png"));
+		super(AppContext.getMessage(ProjectRoleI18nEnum.FORM_READ_TITLE),
+				MyCollabResource.newResource("icons/22/user/group.png"));
 	}
 
 	@Override
@@ -79,7 +82,8 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		permissionsPanel = new VerticalLayout();
-		final Label organizationHeader = new Label("Permissions");
+		final Label organizationHeader = new Label(
+				AppContext.getMessage(ProjectRoleI18nEnum.PERMISSIONS_HEADER));
 		organizationHeader.setStyleName("h2");
 		permissionsPanel.addComponent(organizationHeader);
 
@@ -141,7 +145,7 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 			final String permissionItem) {
 		final Integer perVal = permissionMap.get(permissionItem);
 		if (perVal == null) {
-			return "No Access";
+			return AppContext.getMessage(SecurityI18nEnum.NO_ACCESS);
 		} else {
 			return AccessPermissionFlag.toString(perVal);
 		}

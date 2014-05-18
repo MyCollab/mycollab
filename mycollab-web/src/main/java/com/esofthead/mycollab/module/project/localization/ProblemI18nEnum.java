@@ -21,9 +21,13 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/problem")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProblemI18nEnum {
 	NEW_PROBLEM_ACTION,
+	
+	FORM_READ_TITLE,
+	FORM_NEW_TITLE,
+	FORM_EDIT_TITLE,
 	FORM_NAME,
 	FORM_DESCRIPTION,
 	FORM_RAISED_BY,
@@ -31,5 +35,7 @@ public enum ProblemI18nEnum {
 	FORM_STATUS,
 	FORM_IMPACT,
 	FORM_PRIORITY,
-	FORM_RATING
+	FORM_RATING,
+	FORM_RELATED,
+	FORM_RESOLUTION
 }

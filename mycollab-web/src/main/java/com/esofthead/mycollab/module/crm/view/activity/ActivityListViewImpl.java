@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
@@ -60,7 +61,7 @@ public class ActivityListViewImpl extends
 	@Override
 	protected AbstractPagedBeanTable<ActivitySearchCriteria, SimpleActivity> createBeanTable() {
 		ActivityTableDisplay table = new ActivityTableDisplay(
-				new TableViewField("", "selected",
+				new TableViewField(null, "selected",
 						UIConstants.TABLE_CONTROL_WIDTH),
 				Arrays.asList(new TableViewField(
 						TaskI18nEnum.TABLE_SUBJECT_HEADER, "subject",
@@ -83,26 +84,34 @@ public class ActivityListViewImpl extends
 		if (AppContext.canAccess(RolePermissionCollections.CRM_CALL)
 				|| AppContext.canAccess(RolePermissionCollections.CRM_MEETING)
 				|| AppContext.canAccess(RolePermissionCollections.CRM_TASK)) {
+
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
 					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete");
+					"delete",
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
 		}
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
 				MyCollabResource.newResource("icons/16/action/mail.png"),
-				"mail");
+				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
+
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
 				MyCollabResource.newResource("icons/16/action/pdf.png"),
-				"export", "export.pdf");
+				"export", "export.pdf",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
 				MyCollabResource.newResource("icons/16/action/excel.png"),
-				"export", "export.xlsx");
+				"export", "export.xlsx",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
 				MyCollabResource.newResource("icons/16/action/csv.png"),
-				"export", "export.csv");
+				"export", "export.csv",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
 		return container;
 	}

@@ -24,12 +24,14 @@ import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
@@ -74,7 +76,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class VersionListViewImpl extends AbstractPageView implements
-VersionListView {
+		VersionListView {
 
 	private static Logger log = LoggerFactory
 			.getLogger(VersionListViewImpl.class);
@@ -103,67 +105,72 @@ VersionListView {
 	private void generateDisplayTable() {
 		this.tableItem = new DefaultPagedBeanTable<VersionService, VersionSearchCriteria, SimpleVersion>(
 				ApplicationContextUtil.getSpringBean(VersionService.class),
-				SimpleVersion.class, new TableViewField("", "selected",
-						UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-								new TableViewField("Name", "versionname",
-										UIConstants.TABLE_EX_LABEL_WIDTH),
-										new TableViewField("Description", "description",
-												UIConstants.TABLE_EX_LABEL_WIDTH)));
+				SimpleVersion.class,
+				new TableViewField(null, "selected",
+						UIConstants.TABLE_CONTROL_WIDTH),
+				Arrays.asList(
+						new TableViewField(VersionI18nEnum.FORM_NAME,
+								"versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
+						new TableViewField(VersionI18nEnum.FORM_DESCRIPTION,
+								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Object generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
-				cb.setImmediate(true);
-				cb.addValueChangeListener(new ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void valueChange(ValueChangeEvent event) {
-						final SimpleVersion version = VersionListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
-						VersionListViewImpl.this.tableItem
-						.fireSelectItemEvent(version);
+					public Object generateCell(final Table source,
+							final Object itemId, final Object columnId) {
+						final CheckBoxDecor cb = new CheckBoxDecor("", false);
+						cb.setImmediate(true);
+						cb.addValueChangeListener(new ValueChangeListener() {
+							private static final long serialVersionUID = 1L;
 
+							@Override
+							public void valueChange(ValueChangeEvent event) {
+								final SimpleVersion version = VersionListViewImpl.this.tableItem
+										.getBeanByIndex(itemId);
+								VersionListViewImpl.this.tableItem
+										.fireSelectItemEvent(version);
+
+							}
+						});
+
+						final Version version = VersionListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						version.setExtraData(cb);
+						return cb;
 					}
 				});
 
-				final Version version = VersionListViewImpl.this.tableItem
-						.getBeanByIndex(itemId);
-				version.setExtraData(cb);
-				return cb;
-			}
-		});
-
 		this.tableItem.addGeneratedColumn("versionname",
 				new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final Version bugVersion = VersionListViewImpl.this.tableItem
-						.getBeanByIndex(itemId);
-				final LabelLink b = new LabelLink(bugVersion
-						.getVersionname(), ProjectLinkBuilder.generateBugVersionPreviewFullLink(bugVersion.getProjectid(), bugVersion.getId()));
-				if (bugVersion.getStatus() != null
-						&& bugVersion.getStatus().equals("Close")) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				} else if (bugVersion.getDuedate() != null
-						&& (bugVersion.getDuedate()
-								.before(new GregorianCalendar()
-								.getTime()))) {
-					b.addStyleName(UIConstants.LINK_OVERDUE);
-				}
-				b.setDescription(generateToolTip(bugVersion));
-				return b;
+					@Override
+					public Component generateCell(final Table source,
+							final Object itemId, final Object columnId) {
+						final Version bugVersion = VersionListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						final LabelLink b = new LabelLink(bugVersion
+								.getVersionname(), ProjectLinkBuilder
+								.generateBugVersionPreviewFullLink(
+										bugVersion.getProjectid(),
+										bugVersion.getId()));
+						if (bugVersion.getStatus() != null
+								&& bugVersion.getStatus().equals("Close")) {
+							b.addStyleName(UIConstants.LINK_COMPLETED);
+						} else if (bugVersion.getDuedate() != null
+								&& (bugVersion.getDuedate()
+										.before(new GregorianCalendar()
+												.getTime()))) {
+							b.addStyleName(UIConstants.LINK_OVERDUE);
+						}
+						b.setDescription(generateToolTip(bugVersion));
+						return b;
 
-			}
-		});
+					}
+				});
 
 		this.tableItem.setWidth("100%");
 
@@ -195,24 +202,31 @@ VersionListView {
 			tableActionControls.addActionItem(
 					MassItemActionHandler.DELETE_ACTION,
 					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete");
+					"delete",
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
 		}
 
 		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
 				MyCollabResource.newResource("icons/16/action/mail.png"),
-				"mail");
+				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
 				MyCollabResource.newResource("icons/16/action/pdf.png"),
-				"export", "export.pdf");
+				"export", "export.pdf",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
 				MyCollabResource.newResource("icons/16/action/excel.png"),
-				"export", "export.xlsx");
+				"export", "export.xlsx",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
 				MyCollabResource.newResource("icons/16/action/csv.png"),
-				"export", "export.csv");
+				"export", "export.csv",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
 		layout.addComponent(this.tableActionControls);
 		layout.addComponent(this.selectedItemsNumberLabel);
@@ -261,7 +275,7 @@ VersionListView {
 			Div div = new Div();
 			H3 versionName = new H3();
 			versionName
-			.appendText(Jsoup.parse(version.getVersionname()).html());
+					.appendText(Jsoup.parse(version.getVersionname()).html());
 			div.appendChild(versionName);
 
 			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
@@ -271,14 +285,14 @@ VersionListView {
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Version Name:")).appendChild(
-									new Td().appendText(StringUtils.getStringFieldValue(version
-											.getVersionname())));
+					new Td().appendText(StringUtils.getStringFieldValue(version
+							.getVersionname())));
 
 			Tr trRow2 = new Tr();
 
 			Td trRow2_value = new Td()
-			.setStyle(
-					"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+					.setStyle(
+							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
 							StringUtils.getStringRemoveHtmlTag(version
 									.getDescription()));
@@ -287,14 +301,14 @@ VersionListView {
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Description:")).appendChild(
-									trRow2_value);
+					trRow2_value);
 			Tr trRow3 = new Tr();
 			trRow3.appendChild(
 					new Td().setStyle(
 							"width: 100px; vertical-align: top; text-align: right;")
 							.appendText("Due Date:")).appendChild(
-									new Td().appendText(AppContext.formatDate(version
-											.getDuedate())));
+					new Td().appendText(AppContext.formatDate(version
+							.getDuedate())));
 
 			table.appendChild(trRow1);
 			table.appendChild(trRow2);

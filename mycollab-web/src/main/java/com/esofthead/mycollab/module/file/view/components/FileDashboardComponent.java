@@ -99,25 +99,25 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 		this.displayResourcesInTable(this.baseFolder);
 
 		resourceHandlerComponent
-		.addSearchHandlerToBreadCrumb(new SearchHandler<FileSearchCriteria>() {
-			@Override
-			public void onSearch(FileSearchCriteria criteria) {
-				Folder selectedFolder = null;
-				selectedFolder = (Folder) FileDashboardComponent.this.resourceService
-						.getResource(criteria.getBaseFolder());
-				resourceHandlerComponent
-				.constructBodyItemContainer(selectedFolder);
-				resourceHandlerComponent
-				.gotoFolderBreadCumb(selectedFolder);
-				FileDashboardComponent.this.baseFolder = selectedFolder;
-				resourceHandlerComponent
-				.setCurrentBaseFolder(selectedFolder);
-			}
-		});
+				.addSearchHandlerToBreadCrumb(new SearchHandler<FileSearchCriteria>() {
+					@Override
+					public void onSearch(FileSearchCriteria criteria) {
+						Folder selectedFolder = null;
+						selectedFolder = (Folder) FileDashboardComponent.this.resourceService
+								.getResource(criteria.getBaseFolder());
+						resourceHandlerComponent
+								.constructBodyItemContainer(selectedFolder);
+						resourceHandlerComponent
+								.gotoFolderBreadCumb(selectedFolder);
+						FileDashboardComponent.this.baseFolder = selectedFolder;
+						resourceHandlerComponent
+								.setCurrentBaseFolder(selectedFolder);
+					}
+				});
 	}
 
 	private class FileSearchPanel extends
-	GenericSearchPanel<FileSearchCriteria> {
+			GenericSearchPanel<FileSearchCriteria> {
 		private static final long serialVersionUID = 1L;
 		protected FileSearchCriteria searchCriteria;
 		private ComponentContainer menuBar = null;
@@ -186,21 +186,26 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				final HorizontalLayout basicSearchBody = new HorizontalLayout();
 				basicSearchBody.setSpacing(true);
 				basicSearchBody.setMargin(true);
-				UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
-
+				UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+						Alignment.MIDDLE_LEFT);
 
 				this.nameField = new TextField();
 				this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 				UiUtils.addComponent(basicSearchBody, this.nameField,
 						Alignment.MIDDLE_CENTER);
 
-				this.myItemCheckbox = new CheckBox("My Items");
+				this.myItemCheckbox = new CheckBox(
+						AppContext
+								.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 				UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 						Alignment.MIDDLE_CENTER);
 
-				final Button searchBtn = new Button("Search");
+				final Button searchBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 				searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-				searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+				searchBtn.setIcon(MyCollabResource
+						.newResource("icons/16/search.png"));
 
 				searchBtn.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -208,14 +213,13 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						FileDashboardComponent.this
-						.doSearch((FileSearchCriteria) fillupSearchCriteria());
+								.doSearch((FileSearchCriteria) fillupSearchCriteria());
 					}
 				});
 				UiUtils.addComponent(basicSearchBody, searchBtn,
 						Alignment.MIDDLE_LEFT);
-				final Button cancelBtn = new Button(AppContext
-						.getMessage(GenericI18Enum.BUTTON_CLEAR));
-
+				final Button cancelBtn = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 
 				cancelBtn.addClickListener(new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -227,7 +231,6 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 				});
 				cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 				basicSearchBody.addComponent(cancelBtn);
-
 
 				return basicSearchBody;
 			}

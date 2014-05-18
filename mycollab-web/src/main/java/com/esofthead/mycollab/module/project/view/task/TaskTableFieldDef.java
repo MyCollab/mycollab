@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -28,26 +28,26 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
  * 
  */
 public class TaskTableFieldDef {
-	public static TableViewField id = new TableViewField("", "id",
+	public static TableViewField id = new TableViewField(null, "id",
 			UIConstants.TABLE_CONTROL_WIDTH);
 
 	public static TableViewField taskname = new TableViewField(
-			AppContext.getMessage(TaskI18nEnum.TABLE_TASK_NAME_HEADER),
-			"taskname", UIConstants.TABLE_X_LABEL_WIDTH);
+			TaskI18nEnum.TABLE_TASK_NAME_HEADER, "taskname",
+			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField startdate = new TableViewField(
-			AppContext.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-			"startdate", UIConstants.TABLE_DATE_WIDTH);
+			TaskI18nEnum.TABLE_START_DATE_HEADER, "startdate",
+			UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField duedate = new TableViewField(
-			AppContext.getMessage(TaskI18nEnum.TABLE_DUE_DATE_HEADER),
-			"deadline", UIConstants.TABLE_DATE_WIDTH);
+			TaskI18nEnum.TABLE_DUE_DATE_HEADER, "deadline",
+			UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField percentagecomplete = new TableViewField(
-			AppContext
-					.getMessage(TaskI18nEnum.TABLE_PER_COMPLETE_HEADER),
-			"percentagecomplete", UIConstants.TABLE_S_LABEL_WIDTH);
+			TaskI18nEnum.TABLE_PER_COMPLETE_HEADER, "percentagecomplete",
+			UIConstants.TABLE_S_LABEL_WIDTH);
 
-	public static TableViewField assignee = new TableViewField("Assignee",
-			"assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH);
+	public static TableViewField assignee = new TableViewField(
+			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			UIConstants.TABLE_X_LABEL_WIDTH);
 }

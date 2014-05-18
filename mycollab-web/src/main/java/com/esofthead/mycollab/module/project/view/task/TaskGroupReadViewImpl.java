@@ -26,10 +26,13 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -72,8 +75,9 @@ public class TaskGroupReadViewImpl extends
 	private SplitButton taskListFilterControl;
 
 	public TaskGroupReadViewImpl() {
-		super("Task Group", MyCollabResource
-				.newResource("icons/22/project/task_group.png"));
+		super(AppContext
+				.getMessage(TaskGroupI18nEnum.FORM_VIEW_TASKGROUP_TITLE),
+				MyCollabResource.newResource("icons/22/project/task_group.png"));
 	}
 
 	@Override
@@ -131,14 +135,19 @@ public class TaskGroupReadViewImpl extends
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
 
-		tabContainer.addTab(commentList, "Comments", MyCollabResource
-				.newResource("icons/16/project/gray/comment.png"));
+		tabContainer.addTab(commentList, AppContext
+				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
-		tabContainer.addTab(taskDisplayComp, "Tasks",
+		tabContainer.addTab(taskDisplayComp,
+				AppContext.getMessage(TaskGroupI18nEnum.TASKS_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/task.png"));
 
-		tabContainer.addTab(historyList, "History", MyCollabResource
-				.newResource("icons/16/project/gray/history.png"));
+		tabContainer.addTab(historyList, AppContext
+				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/history.png"));
 		return tabContainer;
 	}
 
@@ -166,7 +175,9 @@ public class TaskGroupReadViewImpl extends
 			componentHeader.setStyleName("comp-header");
 
 			final Button parentTaskListFilterButton = new Button(
-					"Active Tasks only", new Button.ClickListener() {
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
+					new Button.ClickListener() {
 
 						private static final long serialVersionUID = 1L;
 
@@ -190,28 +201,33 @@ public class TaskGroupReadViewImpl extends
 			filterBtnLayout.setMargin(true);
 			filterBtnLayout.setSpacing(true);
 
-			final Button allTasksFilterBtn = new Button("All Tasks",
+			final Button allTasksFilterBtn = new Button(
+					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption("All Tasks");
+							taskListFilterControl.setCaption(AppContext
+									.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS));
 							SubTasksDisplayComp.this.displayAllTasks();
 						}
 					});
 			allTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(allTasksFilterBtn);
 
-			final Button activeTasksFilterBtn = new Button("Active Tasks Only",
+			final Button activeTasksFilterBtn = new Button(
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							taskListFilterControl.setPopupVisible(false);
-							taskListFilterControl.setCaption("Active Tasks");
+							taskListFilterControl.setCaption(AppContext
+									.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS));
 							SubTasksDisplayComp.this.displayActiveTasksOnly();
 						}
 					});
@@ -219,12 +235,15 @@ public class TaskGroupReadViewImpl extends
 			filterBtnLayout.addComponent(activeTasksFilterBtn);
 
 			final Button archievedTasksFilterBtn = new Button(
-					"Archieved Tasks Only", new Button.ClickListener() {
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
+					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							taskListFilterControl.setCaption("Archieved Tasks");
+							taskListFilterControl.setCaption(AppContext
+									.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS));
 							taskListFilterControl.setPopupVisible(false);
 							SubTasksDisplayComp.this.displayInActiveTasks();
 						}

@@ -31,30 +31,16 @@ public class TableViewField implements Serializable {
 
 	private Enum descKey;
 
-	private String desc;
-
 	private String field;
 
 	private int defaultWidth;
 
 	public TableViewField() {
-		this("", "");
+		this(null, "");
 	}
 
 	public TableViewField(Enum desc, String field) {
 		this(desc, field, -1);
-	}
-
-	@Deprecated
-	public TableViewField(String desc, String field) {
-		this(desc, field, -1);
-	}
-
-	@Deprecated
-	public TableViewField(String desc, String field, int defaultWidth) {
-		this.desc = desc;
-		this.field = field;
-		this.defaultWidth = defaultWidth;
 	}
 
 	public TableViewField(Enum descKey, String field, int defaultWidth) {
@@ -72,15 +58,11 @@ public class TableViewField implements Serializable {
 	}
 
 	public String getDesc() {
-		if (desc != null) {
-			return desc;
+		if (descKey == null) {
+			return "";
 		} else {
 			return AppContext.getMessage(descKey);
 		}
-	}
-
-	public void setDesc(String key) {
-		this.desc = key;
 	}
 
 	public String getField() {

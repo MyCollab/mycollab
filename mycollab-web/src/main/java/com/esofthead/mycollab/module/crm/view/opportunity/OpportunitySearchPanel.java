@@ -58,19 +58,19 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class OpportunitySearchPanel extends
-DefaultGenericSearchPanel<OpportunitySearchCriteria> {
+		DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
 	private static Param[] paramFields = new Param[] {
-		OpportunitySearchCriteria.p_opportunityName,
-		OpportunitySearchCriteria.p_account,
-		OpportunitySearchCriteria.p_nextStep,
-		OpportunitySearchCriteria.p_campaign,
-		OpportunitySearchCriteria.p_leadSource,
-		OpportunitySearchCriteria.p_saleStage,
-		OpportunitySearchCriteria.p_type,
-		OpportunitySearchCriteria.p_expectedcloseddate,
-		OpportunitySearchCriteria.p_createdtime,
-		OpportunitySearchCriteria.p_lastupdatedtime };
+			OpportunitySearchCriteria.p_opportunityName,
+			OpportunitySearchCriteria.p_account,
+			OpportunitySearchCriteria.p_nextStep,
+			OpportunitySearchCriteria.p_campaign,
+			OpportunitySearchCriteria.p_leadSource,
+			OpportunitySearchCriteria.p_saleStage,
+			OpportunitySearchCriteria.p_type,
+			OpportunitySearchCriteria.p_expectedcloseddate,
+			OpportunitySearchCriteria.p_createdtime,
+			OpportunitySearchCriteria.p_lastupdatedtime };
 
 	protected OpportunitySearchCriteria searchCriteria;
 
@@ -98,15 +98,15 @@ DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
 		final Button createAccountBtn = new Button("Create Opportunity",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new OpportunityEvent.GotoAdd(
-								OpportunitySearchPanel.this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new OpportunityEvent.GotoAdd(
+										OpportunitySearchPanel.this, null));
+					}
+				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -159,12 +159,13 @@ DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
-					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(layout, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
@@ -191,14 +192,14 @@ DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 
 			final Button advancedSearchBtn = new Button("Advanced Search",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					OpportunitySearchPanel.this
-					.moveToAdvancedSearchLayout();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							OpportunitySearchPanel.this
+									.moveToAdvancedSearchLayout();
+						}
+					});
 			advancedSearchBtn.setStyleName("link");
 			UiUtils.addComponent(layout, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
@@ -209,22 +210,22 @@ DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			OpportunitySearchPanel.this.searchCriteria = new OpportunitySearchCriteria();
 			OpportunitySearchPanel.this.searchCriteria
-			.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
+					.setSaccountid(new NumberSearchField(SearchField.AND,
+							AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue()
 					.toString().trim())) {
 				OpportunitySearchPanel.this.searchCriteria
-				.setOpportunityName(new StringSearchField(
-						SearchField.AND, this.nameField
-						.getValue().trim()));
+						.setOpportunityName(new StringSearchField(
+								SearchField.AND, this.nameField.getValue()
+										.trim()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				OpportunitySearchPanel.this.searchCriteria
-				.setAssignUsers(new SetSearchField<String>(
-						SearchField.AND, new String[] { AppContext
-								.getUsername() }));
+						.setAssignUsers(new SetSearchField<String>(
+								SearchField.AND, new String[] { AppContext
+										.getUsername() }));
 			} else {
 				OpportunitySearchPanel.this.searchCriteria.setAssignUsers(null);
 			}
@@ -234,7 +235,7 @@ DefaultGenericSearchPanel<OpportunitySearchCriteria> {
 	}
 
 	private class OpportunityAdvancedSearchLayout extends
-	DynamicQueryParamLayout<OpportunitySearchCriteria> {
+			DynamicQueryParamLayout<OpportunitySearchCriteria> {
 
 		public OpportunityAdvancedSearchLayout() {
 			super(OpportunitySearchPanel.this, CrmTypeConstants.OPPORTUNITY);

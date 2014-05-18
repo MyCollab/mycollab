@@ -54,11 +54,6 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 		this.setSpacing(true);
 	}
 
-	@Deprecated
-	public void addActionItem(final String id, Resource resource, String groupId) {
-		addActionItem(id, resource, groupId, "");
-	}
-
 	public void addActionItem(final String id, Resource resource,
 			String groupId, String description) {
 		ButtonGroup group = groupMap.get(groupId);
@@ -78,10 +73,10 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 				changeOption(id);
 			}
 		});
-		
+
 		optionBtn.setIcon(resource);
 		if ("delete".equals(groupId)) {
-			
+
 			optionBtn.addStyleName(UIConstants.THEME_RED_LINK);
 		} else {
 			optionBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
@@ -92,13 +87,7 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 
 		group.addButton(optionBtn);
 	}
-	
-	@Deprecated
-	public void addDownloadActionItem(final String id, Resource resource,
-			String groupId, String downloadFileName) {
-		addDownloadActionItem(id, resource, groupId, downloadFileName, "");
-	}
-	
+
 	public void addDownloadActionItem(final String id, Resource resource,
 			String groupId, String downloadFileName, String description) {
 		ButtonGroup group = groupMap.get(groupId);

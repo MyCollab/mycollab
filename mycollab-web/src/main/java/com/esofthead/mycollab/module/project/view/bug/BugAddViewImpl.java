@@ -21,6 +21,7 @@ import java.util.List;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.BugPriorityStatusConstants;
 import com.esofthead.mycollab.module.project.BugSeverityConstants;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -177,7 +179,9 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Bug" : "Bug Edit";
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(BugI18nEnum.FORM_NEW_BUG_TITLE) : AppContext
+				.getMessage(BugI18nEnum.FORM_EDIT_BUG_TITLE);
 	}
 
 	@Override

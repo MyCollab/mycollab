@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -29,6 +30,8 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -144,7 +147,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		}
 
 		if (beanItem.getStatus() == null || beanItem.getStatus().equals("Open")) {
-			quickActionStatusBtn.setCaption("Close");
+			quickActionStatusBtn.setCaption(AppContext
+					.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
 			quickActionStatusBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/closeTask.png"));
 		} else {
@@ -202,7 +206,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					beanItem.setPercentagecomplete(0d);
 					TaskReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
-					quickActionStatusBtn.setCaption("Close");
+					quickActionStatusBtn.setCaption(AppContext
+							.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
 				} else {
@@ -210,7 +215,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					beanItem.setPercentagecomplete(100d);
 					TaskReadViewImpl.this
 							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
-					quickActionStatusBtn.setCaption("ReOpen");
+					quickActionStatusBtn.setCaption(AppContext
+							.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
 				}
@@ -238,16 +244,22 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		final TabsheetLazyLoadComp tabTaskDetail = new TabsheetLazyLoadComp();
 		tabTaskDetail.setWidth("100%");
 
-		tabTaskDetail.addTab(commentList, "Comments", MyCollabResource
-				.newResource("icons/16/project/gray/comment.png"));
+		tabTaskDetail.addTab(commentList, AppContext
+				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
-		tabTaskDetail.addTab(historyList, "History", MyCollabResource
-				.newResource("icons/16/project/gray/history.png"));
+		tabTaskDetail.addTab(historyList, AppContext
+				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/history.png"));
 
-		tabTaskDetail.addTab(followerSheet, "Follower", MyCollabResource
+		tabTaskDetail.addTab(followerSheet, AppContext
+				.getMessage(TaskI18nEnum.FOLLOWERS_TAB), MyCollabResource
 				.newResource("icons/16/project/gray/follow.png"));
 
-		tabTaskDetail.addTab(timesheet, "Time",
+		tabTaskDetail.addTab(timesheet,
+				AppContext.getMessage(TaskI18nEnum.TIME_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/time.png"));
 
 		return tabTaskDetail;

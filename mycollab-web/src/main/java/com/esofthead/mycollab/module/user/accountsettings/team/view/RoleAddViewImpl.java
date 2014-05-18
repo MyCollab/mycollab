@@ -20,12 +20,14 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.view.component.PermissionComboBoxFactory;
 import com.esofthead.mycollab.security.PermissionDefItem;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -130,7 +132,9 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			}
 
 			protected String initFormHeader() {
-				return role.getId() == null ? "Create Role" : "Role Edit";
+				return role.getId() == null ? AppContext
+						.getMessage(RoleI18nEnum.FORM_NEW_TITLE) : AppContext
+						.getMessage(RoleI18nEnum.FORM_EDIT_TITLE);
 			}
 
 			protected String initFormTitle() {
@@ -152,7 +156,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			@Override
 			protected Layout createBottomPanel() {
 				final VerticalLayout permissionsPanel = new VerticalLayout();
-				final Label organizationHeader = new Label("Permissions");
+				final Label organizationHeader = new Label(
+						AppContext.getMessage(RoleI18nEnum.PERMISSION_HEADER));
 				organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 				permissionsPanel.addComponent(organizationHeader);
 
@@ -188,17 +193,20 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 							permissionDefItem.getCaption(), 0, i);
 				}
 
-				permissionsPanel.addComponent(constructGridLayout(
-						"Project Management", perMap,
+				permissionsPanel.addComponent(constructGridLayout(AppContext
+						.getMessage(RoleI18nEnum.PROJECT_MANAGEMENT_TITLE),
+						perMap,
 						RolePermissionCollections.PROJECT_PERMISSION_ARR));
 				permissionsPanel.addComponent(constructGridLayout(
-						"Customer Management", perMap,
+						AppContext.getMessage(RoleI18nEnum.CRM_TITLE), perMap,
 						RolePermissionCollections.CRM_PERMISSIONS_ARR));
-				permissionsPanel.addComponent(constructGridLayout("Document",
+				permissionsPanel.addComponent(constructGridLayout(
+						AppContext.getMessage(RoleI18nEnum.DOCUMENT_TITLE),
 						perMap,
 						RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
-				permissionsPanel.addComponent(constructGridLayout(
-						"Account Management", perMap,
+				permissionsPanel.addComponent(constructGridLayout(AppContext
+						.getMessage(RoleI18nEnum.ACCOUNT_MANAGEMENT_TITLE),
+						perMap,
 						RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 
 				return permissionsPanel;

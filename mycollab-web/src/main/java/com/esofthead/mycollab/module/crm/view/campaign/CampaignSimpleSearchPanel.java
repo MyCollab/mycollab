@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -83,10 +84,10 @@ public class CampaignSimpleSearchPanel extends
 		layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
 		addTextFieldSearch();
 
-		Button searchBtn = new Button("Search");
+		Button searchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		searchBtn.setIcon(MyCollabResource
-				.newResource("icons/16/search.png"));
+		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

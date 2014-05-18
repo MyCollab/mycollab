@@ -17,9 +17,6 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
@@ -37,8 +34,6 @@ import com.vaadin.ui.ComponentContainer;
 public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
-			.getLogger(MilestonePresenter.class);
 
 	public MilestonePresenter() {
 		super(MilestoneContainer.class);
@@ -56,16 +51,13 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 
 		AbstractPresenter presenter = null;
 		if (data instanceof MilestoneScreenData.Search) {
-			log.debug("Go to milestone list view");
 			presenter = PresenterResolver
 					.getPresenter(MilestoneListPresenter.class);
 		} else if (data instanceof MilestoneScreenData.Add
 				|| data instanceof MilestoneScreenData.Edit) {
-			log.debug("Go to milestone add view");
 			presenter = PresenterResolver
 					.getPresenter(MilestoneAddPresenter.class);
 		} else if (data instanceof MilestoneScreenData.Read) {
-			log.debug("Go to milestone preview view");
 			presenter = PresenterResolver
 					.getPresenter(MilestoneReadPresenter.class);
 		} else {

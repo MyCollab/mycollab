@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -115,7 +116,8 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			searchComp.addComponent(this.nameField);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));

@@ -133,8 +133,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 
 		if (cancelButtonEnable) {
 			final Button cancelBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -149,7 +148,8 @@ public class ProjectCommentInput extends HorizontalLayout {
 					Alignment.MIDDLE_RIGHT);
 		}
 
-		final Button newCommentBtn = new Button("Post",
+		final Button newCommentBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

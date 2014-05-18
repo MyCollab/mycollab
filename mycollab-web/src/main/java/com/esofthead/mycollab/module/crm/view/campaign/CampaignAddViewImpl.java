@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +44,8 @@ public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Campaign" : beanItem
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(CampaignI18nEnum.FORM_NEW_TITLE) : beanItem
 				.getCampaignname();
 	}
 

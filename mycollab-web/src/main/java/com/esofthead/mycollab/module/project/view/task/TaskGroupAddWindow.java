@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneComboBox;
@@ -133,8 +134,7 @@ public class TaskGroupAddWindow extends Window {
 				layout.setMargin(true);
 				layout.setStyleName("control-buttons");
 				final Button saveBtn = new Button(
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -228,21 +228,27 @@ public class TaskGroupAddWindow extends Window {
 			public boolean attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("name")) {
-					this.informationLayout.addComponent(field, "Name", 0, 0, 2,
-							"100%");
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD), 0,
+							0, 2, "100%");
 				} else if (propertyId.equals("description")) {
-					this.informationLayout.addComponent(field, "Description",
-							0, 1, 2, "100%");
-				} else if (propertyId.equals("owner")) {
 					this.informationLayout
 							.addComponent(
 									field,
 									AppContext
-											.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
-									0, 2);
+											.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD),
+									0, 1, 2, "100%");
+				} else if (propertyId.equals("owner")) {
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							2);
 				} else if (propertyId.equals("milestoneid")) {
-					this.informationLayout.addComponent(field,
-							"Related Milestone", 1, 2);
+					this.informationLayout
+							.addComponent(
+									field,
+									AppContext
+											.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
+									1, 2);
 				} else {
 					return false;
 				}

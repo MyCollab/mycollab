@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.contact;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -30,66 +29,64 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
  * 
  */
 public interface ContactTableFieldDef {
-	public static TableViewField selected = new TableViewField("", "selected",
-			UIConstants.TABLE_CONTROL_WIDTH);
+	public static TableViewField selected = new TableViewField(null,
+			"selected", UIConstants.TABLE_CONTROL_WIDTH);
 
-	public static TableViewField action = new TableViewField("", "id",
+	public static TableViewField action = new TableViewField(null, "id",
 			UIConstants.TABLE_ACTION_CONTROL_WIDTH);
 
 	public static TableViewField name = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_NAME),
-			"contactName", UIConstants.TABLE_X_LABEL_WIDTH);
+			ContactI18nEnum.FORM_NAME, "contactName",
+			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField account = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS),
-			"accountName", UIConstants.TABLE_EX_LABEL_WIDTH);
+			ContactI18nEnum.FORM_ACCOUNTS, "accountName",
+			UIConstants.TABLE_EX_LABEL_WIDTH);
 
 	public static TableViewField dicisionRole = new TableViewField(
-			"Dicision Role", "decisionRole", UIConstants.TABLE_M_LABEL_WIDTH);
+			ContactI18nEnum.FORM_DECISION_ROLE, "decisionRole",
+			UIConstants.TABLE_M_LABEL_WIDTH);
 
 	public static TableViewField title = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_TITLE), "title",
+			ContactI18nEnum.FORM_TITLE, "title",
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	public static TableViewField department = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_DEPARTMENT),
-			"department", UIConstants.TABLE_M_LABEL_WIDTH);
-
-	public static TableViewField email = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_EMAIL), "email",
-			UIConstants.TABLE_EMAIL_WIDTH);
-
-	public static TableViewField assistant = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_ASSISTANT),
-			"assistant", UIConstants.TABLE_X_LABEL_WIDTH);
-
-	public static TableViewField assistantPhone = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_ASSISTANT_PHONE),
-			"assistantphone", UIConstants.TABLE_X_LABEL_WIDTH);
-
-	public static TableViewField phoneOffice = new TableViewField(
-			AppContext
-					.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD),
-			"officephone", UIConstants.TABLE_M_LABEL_WIDTH);
-
-	public static TableViewField mobile = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_MOBILE),
-			"mobile", UIConstants.TABLE_M_LABEL_WIDTH);
-
-	public static TableViewField fax = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_FAX), "fax",
+			ContactI18nEnum.FORM_DEPARTMENT, "department",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
+	public static TableViewField email = new TableViewField(
+			ContactI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH);
+
+	public static TableViewField assistant = new TableViewField(
+			ContactI18nEnum.FORM_ASSISTANT, "assistant",
+			UIConstants.TABLE_X_LABEL_WIDTH);
+
+	public static TableViewField assistantPhone = new TableViewField(
+			ContactI18nEnum.FORM_ASSISTANT_PHONE, "assistantphone",
+			UIConstants.TABLE_X_LABEL_WIDTH);
+
+	public static TableViewField phoneOffice = new TableViewField(
+			CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD, "officephone",
+			UIConstants.TABLE_M_LABEL_WIDTH);
+
+	public static TableViewField mobile = new TableViewField(
+			ContactI18nEnum.FORM_MOBILE, "mobile",
+			UIConstants.TABLE_M_LABEL_WIDTH);
+
+	public static TableViewField fax = new TableViewField(
+			ContactI18nEnum.FORM_FAX, "fax", UIConstants.TABLE_M_LABEL_WIDTH);
+
 	public static TableViewField birthday = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_BIRTHDAY),
-			"birthday", UIConstants.TABLE_DATE_WIDTH);
+			ContactI18nEnum.FORM_BIRTHDAY, "birthday",
+			UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField isCallable = new TableViewField(
-			AppContext.getMessage(ContactI18nEnum.FORM_IS_CALLABLE),
-			"iscallable", UIConstants.TABLE_S_LABEL_WIDTH);
+			ContactI18nEnum.FORM_IS_CALLABLE, "iscallable",
+			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
-			"assignUserFullName", UIConstants.TABLE_X_LABEL_WIDTH);
+			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			UIConstants.TABLE_X_LABEL_WIDTH);
 
 }

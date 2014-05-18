@@ -30,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.localization.FollowerI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberMultiSelectComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -95,53 +96,58 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 		layoutAdd.addComponent(memberSelection);
 		layoutAdd.setComponentAlignment(memberSelection, Alignment.MIDDLE_LEFT);
 
-		btnSave = new Button("Add", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		btnSave = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
+					@Override
+					public void buttonClick(ClickEvent event) {
 
-				List<SimpleProjectMember> members = memberSelection
-						.getSelectedItems();
+						List<SimpleProjectMember> members = memberSelection
+								.getSelectedItems();
 
-				boolean canSendEmail = false;
+						boolean canSendEmail = false;
 
-				for (ProjectMember member : members) {
+						for (ProjectMember member : members) {
 
-					ProjectMemberService memberService = ApplicationContextUtil
-							.getSpringBean(ProjectMemberService.class);
+							ProjectMemberService memberService = ApplicationContextUtil
+									.getSpringBean(ProjectMemberService.class);
 
-					SimpleProjectMember projectMember = memberService
-							.findMemberByUsername(AppContext.getUsername(),
-									CurrentProjectVariables.getProjectId(),
-									AppContext.getAccountId());
+							SimpleProjectMember projectMember = memberService
+									.findMemberByUsername(AppContext
+											.getUsername(),
+											CurrentProjectVariables
+													.getProjectId(), AppContext
+													.getAccountId());
 
-					boolean haveRightToSave = projectMember.getIsadmin()
-							|| (AppContext.getUsername().equals(member
-									.getUsername()));
+							boolean haveRightToSave = projectMember
+									.getIsadmin()
+									|| (AppContext.getUsername().equals(member
+											.getUsername()));
 
-					if (haveRightToSave && member != null
-							&& member.getUsername() != null) {
+							if (haveRightToSave && member != null
+									&& member.getUsername() != null) {
 
-						if (saveMonitorItem(member.getUsername())) {
-							if (member.getUsername().equals(
-									AppContext.getUsername())) {
-								followBtn.setCaption("UnFollow by Me");
-								followBtn.setDescription("UnFollow");
+								if (saveMonitorItem(member.getUsername())) {
+									if (member.getUsername().equals(
+											AppContext.getUsername())) {
+										followBtn.setCaption("UnFollow by Me");
+										followBtn.setDescription("UnFollow");
+									}
+									canSendEmail = true;
+								}
 							}
-							canSendEmail = true;
 						}
+
+						if (canSendEmail) {
+							saveRelayNotification();
+						}
+
+						memberSelection.resetComp();
+						loadMonitorItems();
 					}
-				}
-
-				if (canSendEmail) {
-					saveRelayNotification();
-				}
-
-				memberSelection.resetComp();
-				loadMonitorItems();
-			}
-		});
+				});
 
 		btnSave.setEnabled(isEnableAdd());
 		btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -191,11 +197,11 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 		tableItem = new DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem>(
 				ApplicationContextUtil.getSpringBean(MonitorItemService.class),
 				SimpleMonitorItem.class, Arrays.asList(new TableViewField(
-						"Name", "user", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField("Created Date", "monitorDate",
-								UIConstants.TABLE_DATE_WIDTH),
-						new TableViewField("", "id",
-								UIConstants.TABLE_CONTROL_WIDTH)));
+						FollowerI18nEnum.FOLLOWER_NAME, "user",
+						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
+						FollowerI18nEnum.FOLLOWER_CREATE_DATE, "monitorDate",
+						UIConstants.TABLE_DATE_WIDTH), new TableViewField(null,
+						"id", UIConstants.TABLE_CONTROL_WIDTH)));
 
 		tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
 			private static final long serialVersionUID = 1L;

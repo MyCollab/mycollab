@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -53,21 +54,26 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public boolean attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("name")) {
-			this.informationLayout.addComponent(field, "Name", 0, 0, 2, "100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD),
+					0, 0, 2, "100%");
 		} else if (propertyId.equals("description")) {
-			this.informationLayout.addComponent(field, "Description", 0, 1, 2,
-					"100%");
-		} else if (propertyId.equals("owner")) {
 			this.informationLayout.addComponent(field, AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 2);
+					.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD), 0,
+					1, 2, "100%");
+		} else if (propertyId.equals("owner")) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					0, 2);
 		} else if (propertyId.equals("milestoneid")) {
-			this.informationLayout.addComponent(field, "Related Milestone", 1,
-					2);
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD), 1, 2);
 		} else if (propertyId.equals("percentageComplete")) {
-			this.informationLayout.addComponent(field, "Progress", 0, 3);
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD), 0, 3);
 		} else if (propertyId.equals("numOpenTasks")) {
-			this.informationLayout.addComponent(field, "Number of open tasks",
-					1, 3);
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD), 1, 3);
 		} else {
 			return false;
 		}

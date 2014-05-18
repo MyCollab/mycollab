@@ -13,5 +13,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/file")
 @LocaleData({ @Locale("en_US") })
 public enum FileI18nEnum {
-	EXCEL, PDF, CSV, EXPORT_FILE, NOT_ATTACH_FILE_WARNING
+	EXCEL, PDF, CSV, IMPORT_FILE, EXPORT_FILE, NOT_ATTACH_FILE_WARNING, IMPORT_FILE_SUCCESS
 }

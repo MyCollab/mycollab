@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
-import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -94,7 +94,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		viewHeader.setExpandRatio(headerText, 1.0f);
 
 		Button createBtn = new Button(
-				AppContext.getMessage(PeopleI18nEnum.NEW_USER_ACTION),
+				AppContext.getMessage(ProjectMemberI18nEnum.NEW_USER_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

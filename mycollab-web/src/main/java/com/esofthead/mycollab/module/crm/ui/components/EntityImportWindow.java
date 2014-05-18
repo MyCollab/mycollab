@@ -133,13 +133,10 @@ public abstract class EntityImportWindow<E> extends Window {
 
 			CssLayout fileUploadLayout = fileUploadLayout();
 			CssLayout fileInfomationLayout = fileConfigurationLayout();
-			// CssLayout handleDuplicationLayout =
-			// handelDuplicateRecordLayout();
 
 			informationLayout.addComponent(fileUploadLayout);
 			informationLayout.addComponent(fileInfomationLayout);
 			layout.addComponent(informationLayout);
-			// layout.addComponent(handleDuplicationLayout);
 
 			HorizontalLayout controlGroupBtn = new HorizontalLayout();
 			controlGroupBtn.setSpacing(true);
@@ -165,7 +162,8 @@ public abstract class EntityImportWindow<E> extends Window {
 									UI.getCurrent(),
 									"Message information",
 									"You choose a vcf file. This step will import to database. Do you want to do it?",
-									"Import",
+									AppContext
+											.getMessage(FileI18nEnum.IMPORT_FILE),
 									AppContext
 											.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 									new ConfirmDialog.Listener() {
@@ -197,7 +195,8 @@ public abstract class EntityImportWindow<E> extends Window {
 													}
 
 													NotificationUtil
-															.showNotification("Import successfully.");
+															.showNotification(AppContext
+																	.getMessage(FileI18nEnum.IMPORT_FILE_SUCCESS));
 													EntityImportWindow.this
 															.close();
 													ContactSearchCriteria contactSearchCriteria = new ContactSearchCriteria();
@@ -295,40 +294,6 @@ public abstract class EntityImportWindow<E> extends Window {
 					Alignment.MIDDLE_CENTER);
 			this.addComponent(layout);
 		}
-
-		// private CssLayout handelDuplicateRecordLayout() {
-		// final CssLayout bodyLayoutWapper = new CssLayout();
-		// bodyLayoutWapper.addStyleName(UIConstants.BORDER_BOX_2);
-		// bodyLayoutWapper.setWidth("100%");
-		//
-		// final HorizontalLayout bodyLayout = new HorizontalLayout();
-		//
-		// HorizontalLayout titleHorizontal = new HorizontalLayout();
-		// Label title = new Label("Step 3:");
-		// title.addStyleName("h3");
-		// UiUtils.addComponent(titleHorizontal, title, Alignment.TOP_LEFT);
-		// bodyLayout.addComponent(titleHorizontal);
-		//
-		// VerticalLayout informationLayout = new VerticalLayout();
-		// informationLayout.setMargin(true);
-		//
-		// HorizontalLayout infoLayout = new HorizontalLayout();
-		// infoLayout.setSpacing(true);
-		//
-		// informationLayout.addComponent(infoLayout);
-		// bodyLayout.addComponent(informationLayout);
-		//
-		// Label labelInfo = new Label("Duplicate Record Handling");
-		// infoLayout.addComponent(labelInfo);
-		//
-		// CheckBox checkbox = new CheckBox();
-		// checkbox.setValue(true);
-		// infoLayout.addComponent(checkbox);
-		//
-		// bodyLayoutWapper.addComponent(bodyLayout);
-		//
-		// return bodyLayoutWapper;
-		// }
 
 		@SuppressWarnings("unchecked")
 		private CssLayout fileConfigurationLayout() {

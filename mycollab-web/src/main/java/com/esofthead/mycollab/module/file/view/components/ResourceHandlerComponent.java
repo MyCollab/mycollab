@@ -229,18 +229,20 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 		ButtonGroup navButton = new ButtonGroup();
 		navButton.addStyleName(UIConstants.THEME_BLUE_LINK);
-		Button createBtn = new Button("Create", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		Button createBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				AddNewFolderWindow addnewFolderWindow = new AddNewFolderWindow();
-				UI.getCurrent().addWindow(addnewFolderWindow);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						AddNewFolderWindow addnewFolderWindow = new AddNewFolderWindow();
+						UI.getCurrent().addWindow(addnewFolderWindow);
+					}
+				});
 		createBtn.setIcon(MyCollabResource.newResource("icons/16/ecm/add.png"));
 		createBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
-		createBtn.setDescription("Create");
+		createBtn.setDescription("Create new folder");
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		navButton.addButton(createBtn);
@@ -972,77 +974,87 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
-			final Button save = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button save = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final String oldPath = RenameResourceWindow.this.resource
-							.getPath();
-					String parentPath = oldPath.substring(0,
-							oldPath.lastIndexOf("/") + 1);
-					if (resource instanceof ExternalFolder
-							|| resource instanceof ExternalContent) {
-						parentPath = (parentPath.length() == 0) ? "/"
-								: parentPath;
-					}
-					String newNameValue = newName.getValue();
-					String newPath = parentPath + newNameValue;
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final String oldPath = RenameResourceWindow.this.resource
+									.getPath();
+							String parentPath = oldPath.substring(0,
+									oldPath.lastIndexOf("/") + 1);
+							if (resource instanceof ExternalFolder
+									|| resource instanceof ExternalContent) {
+								parentPath = (parentPath.length() == 0) ? "/"
+										: parentPath;
+							}
+							String newNameValue = newName.getValue();
+							String newPath = parentPath + newNameValue;
 
-					if (resource instanceof ExternalFolder
-							|| resource instanceof ExternalContent) {
-						if (resource instanceof ExternalFolder)
-							externalResourceService.rename(
-									((ExternalFolder) resource)
-											.getExternalDrive(), oldPath,
-									newPath);
-						else
-							externalResourceService.rename(
-									((ExternalContent) resource)
-											.getExternalDrive(), oldPath,
-									newPath);
-					} else {
+							if (resource instanceof ExternalFolder
+									|| resource instanceof ExternalContent) {
+								if (resource instanceof ExternalFolder)
+									externalResourceService.rename(
+											((ExternalFolder) resource)
+													.getExternalDrive(),
+											oldPath, newPath);
+								else
+									externalResourceService.rename(
+											((ExternalContent) resource)
+													.getExternalDrive(),
+											oldPath, newPath);
+							} else {
 
-						RenameResourceWindow.this.service.rename(oldPath,
-								newPath, AppContext.getUsername());
-						if (menuTree != null) {
-							final List<Folder> childs = baseFolder.getChilds();
-							for (final Folder folder : childs) {
-								if (folder.getName().equals(
-										RenameResourceWindow.this.resource
-												.getName())) {
-									menuTree.removeItem(folder);
-									folder.setPath(newPath);
-									menuTree.addItem(folder);
-									menuTree.setParent(folder, baseFolder);
-									menuTree.setItemCaption(folder,
-											newNameValue);
+								RenameResourceWindow.this.service.rename(
+										oldPath, newPath,
+										AppContext.getUsername());
+								if (menuTree != null) {
+									final List<Folder> childs = baseFolder
+											.getChilds();
+									for (final Folder folder : childs) {
+										if (folder
+												.getName()
+												.equals(RenameResourceWindow.this.resource
+														.getName())) {
+											menuTree.removeItem(folder);
+											folder.setPath(newPath);
+											menuTree.addItem(folder);
+											menuTree.setParent(folder,
+													baseFolder);
+											menuTree.setItemCaption(folder,
+													newNameValue);
+										}
+									}
 								}
 							}
-						}
-					}
-					itemResourceContainerLayout.constructBody(baseFolder);
+							itemResourceContainerLayout
+									.constructBody(baseFolder);
 
-					if ((resource instanceof ExternalFolder || resource instanceof ExternalContent)
-							&& (pagingResourceWapper != null && pagingResourceWapper
-									.getCurrentPage() != 1))
-						pagingResourceWapper.pageChange(pagingResourceWapper
-								.getCurrentPage());
-					RenameResourceWindow.this.close();
-				}
-			});
+							if ((resource instanceof ExternalFolder || resource instanceof ExternalContent)
+									&& (pagingResourceWapper != null && pagingResourceWapper
+											.getCurrentPage() != 1))
+								pagingResourceWapper
+										.pageChange(pagingResourceWapper
+												.getCurrentPage());
+							RenameResourceWindow.this.close();
+						}
+					});
 			save.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
 
-			final Button cancel = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button cancel = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					RenameResourceWindow.this.close();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							RenameResourceWindow.this.close();
+						}
+					});
 			cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
 			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);
@@ -1087,8 +1099,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.setMargin(new MarginInfo(true, false, false, false));
 
 			final Button saveBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -1157,8 +1168,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -1275,8 +1285,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			controlsLayout.addComponent(uploadBtn);
 
 			final Button cancelBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

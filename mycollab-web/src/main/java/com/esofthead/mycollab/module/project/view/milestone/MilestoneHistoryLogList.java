@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -33,14 +34,18 @@ class MilestoneHistoryLogList extends HistoryLogComponent {
 	public MilestoneHistoryLogList(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("name", "Name");
-		this.generateFieldDisplayHandler("owner", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+		this.generateFieldDisplayHandler("name",
+				AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD));
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD));
+		this.generateFieldDisplayHandler("owner",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("flag", "Flag");
-		this.generateFieldDisplayHandler("startdate", "Start Date",
+		this.generateFieldDisplayHandler("startdate",
+				AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("enddate", "End Date",
+		this.generateFieldDisplayHandler("enddate",
+				AppContext.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD),
 				HistoryLogComponent.DATE_FIELD);
 	}
 

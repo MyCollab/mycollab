@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -49,7 +50,7 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  */
 public class VersionSearchPanel extends
-GenericSearchPanel<VersionSearchCriteria> {
+		GenericSearchPanel<VersionSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	private final SimpleProject project;
@@ -112,7 +113,7 @@ GenericSearchPanel<VersionSearchCriteria> {
 
 	@SuppressWarnings("rawtypes")
 	private class VersionBasicSearchLayout extends
-	GenericSearchPanel.BasicSearchLayout {
+			GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public VersionBasicSearchLayout() {
@@ -133,21 +134,25 @@ GenericSearchPanel<VersionSearchCriteria> {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
-
+			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox("My Items");
+			this.myItemCheckbox = new CheckBox(
+					AppContext
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button("Search");
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 
 			searchBtn.addClickListener(new Button.ClickListener() {
 
@@ -168,13 +173,11 @@ GenericSearchPanel<VersionSearchCriteria> {
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					VersionBasicSearchLayout.this.nameField
-					.setValue("");
+					VersionBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
-
 
 			return basicSearchBody;
 		}
@@ -183,11 +186,11 @@ GenericSearchPanel<VersionSearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			VersionSearchPanel.this.searchCriteria = new VersionSearchCriteria();
 			VersionSearchPanel.this.searchCriteria
-			.setProjectId(new NumberSearchField(SearchField.AND,
-					VersionSearchPanel.this.project.getId()));
+					.setProjectId(new NumberSearchField(SearchField.AND,
+							VersionSearchPanel.this.project.getId()));
 			VersionSearchPanel.this.searchCriteria
-			.setVersionname(new StringSearchField(this.nameField
-					.getValue().toString().trim()));
+					.setVersionname(new StringSearchField(this.nameField
+							.getValue().toString().trim()));
 			return VersionSearchPanel.this.searchCriteria;
 		}
 	}

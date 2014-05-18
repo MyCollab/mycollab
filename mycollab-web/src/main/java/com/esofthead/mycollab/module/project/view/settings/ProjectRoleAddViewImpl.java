@@ -23,9 +23,11 @@ import java.util.Map;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
+import com.esofthead.mycollab.module.project.localization.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.user.view.component.AccessPermissionComboBox;
 import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -57,7 +59,9 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 
 	@Override
 	protected String initFormHeader() {
-		return beanItem.getId() == null ? "Create Role" : "Role Edit";
+		return beanItem.getId() == null ? AppContext
+				.getMessage(ProjectRoleI18nEnum.FORM_NEW_TITLE) : AppContext
+				.getMessage(ProjectRoleI18nEnum.FORM_EDIT_TITLE);
 	}
 
 	@Override
@@ -117,7 +121,8 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		final VerticalLayout permissionsPanel = new VerticalLayout();
-		final Label organizationHeader = new Label("Permissions");
+		final Label organizationHeader = new Label(
+				AppContext.getMessage(ProjectRoleI18nEnum.PERMISSIONS_HEADER));
 		organizationHeader.setStyleName("h2");
 		permissionsPanel.addComponent(organizationHeader);
 

@@ -29,10 +29,10 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
  */
 public interface AccountTableFieldDef {
 
-	public static TableViewField selected = new TableViewField("", "selected",
-			UIConstants.TABLE_CONTROL_WIDTH);
+	public static TableViewField selected = new TableViewField(null,
+			"selected", UIConstants.TABLE_CONTROL_WIDTH);
 
-	public static TableViewField action = new TableViewField("", "id",
+	public static TableViewField action = new TableViewField(null, "id",
 			UIConstants.TABLE_ACTION_CONTROL_WIDTH);
 
 	public static TableViewField accountname = new TableViewField(

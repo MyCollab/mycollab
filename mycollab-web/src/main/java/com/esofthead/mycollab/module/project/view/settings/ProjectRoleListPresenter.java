@@ -25,7 +25,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
-import com.esofthead.mycollab.module.project.localization.PeopleI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -74,7 +74,7 @@ public class ProjectRoleListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Role List";
+						return "Roles";
 					}
 
 					@Override
@@ -98,7 +98,7 @@ public class ProjectRoleListPresenter
 				} else {
 					NotificationUtil.showErrorNotification(AppContext
 							.getMessage(
-									PeopleI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
+									ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
 									item.getRolename()));
 				}
 			}

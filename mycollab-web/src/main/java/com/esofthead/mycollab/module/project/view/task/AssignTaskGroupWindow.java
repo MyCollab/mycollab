@@ -27,6 +27,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
+import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -58,7 +59,8 @@ public class AssignTaskGroupWindow extends Window {
 	private final EditForm editForm;
 
 	public AssignTaskGroupWindow(TaskList task) {
-		super("Assign taskList group '" + task.getName() + "'");
+		super(AppContext.getMessage(TaskI18nEnum.ASSIGN_TASKGROUP_TITLE,
+				task.getName()));
 		this.taskList = task;
 		this.setWidth("750px");
 
@@ -107,7 +109,9 @@ public class AssignTaskGroupWindow extends Window {
 				controlsBtn.setMargin(new MarginInfo(true, true, true, false));
 				layout.addComponent(controlsBtn);
 
-				Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				Button cancelBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -121,7 +125,9 @@ public class AssignTaskGroupWindow extends Window {
 				controlsBtn.setComponentAlignment(cancelBtn,
 						Alignment.MIDDLE_LEFT);
 
-				Button approveBtn = new Button("Assign",
+				Button approveBtn = new Button(
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -186,8 +192,9 @@ public class AssignTaskGroupWindow extends Window {
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
 							0);
 				} else if (propertyId.equals("comment")) {
-					informationLayout.addComponent(field, "Comment", 0, 1, 2,
-							"100%");
+					informationLayout.addComponent(field, AppContext
+							.getMessage(TaskI18nEnum.FORM_COMMENT_FIELD), 0, 1,
+							2, "100%");
 				} else {
 					return false;
 				}

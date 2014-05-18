@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -39,23 +40,35 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public boolean attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("name")) {
-			this.informationLayout.addComponent(field, "Name", 0, 0, 2, "100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD),
+					0, 0, 2, "100%");
 		} else if (propertyId.equals("startdate")) {
-			this.informationLayout.addComponent(field, "Start Date", 0, 1);
-		} else if (propertyId.equals("enddate")) {
-			this.informationLayout.addComponent(field, "End Date", 0, 2);
-		} else if (propertyId.equals("owner")) {
 			this.informationLayout.addComponent(field, AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 1);
+					.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD), 0, 1);
+		} else if (propertyId.equals("enddate")) {
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 2);
+		} else if (propertyId.equals("owner")) {
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					1, 1);
 		} else if (propertyId.equals("status")) {
-			this.informationLayout.addComponent(field, "Status", 1, 2);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD),
+					1, 2);
 		} else if (propertyId.equals("numOpenTasks")) {
-			this.informationLayout.addComponent(field, "Tasks", 0, 3);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD),
+					0, 3);
 		} else if (propertyId.equals("numOpenBugs")) {
-			this.informationLayout.addComponent(field, "Bugs", 1, 3);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 1,
+					3);
 		} else if (propertyId.equals("description")) {
-			this.informationLayout.addComponent(field, "Description", 0, 4, 2,
-					"100%");
+			this.informationLayout.addComponent(field, AppContext
+					.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD), 0,
+					4, 2, "100%");
 		} else {
 			return false;
 		}

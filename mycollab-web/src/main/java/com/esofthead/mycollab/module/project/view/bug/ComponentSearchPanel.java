@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -49,7 +50,7 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  */
 public class ComponentSearchPanel extends
-GenericSearchPanel<ComponentSearchCriteria> {
+		GenericSearchPanel<ComponentSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
 	private final SimpleProject project;
@@ -112,7 +113,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 
 	@SuppressWarnings("rawtypes")
 	private class ComponentBasicSearchCriteria extends
-	GenericSearchPanel.BasicSearchLayout {
+			GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public ComponentBasicSearchCriteria() {
@@ -133,19 +134,23 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			final HorizontalLayout basicSearchBody = new HorizontalLayout();
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
-			UiUtils.addComponent(basicSearchBody,new Label("Name:"), Alignment.MIDDLE_LEFT);
-
+			UiUtils.addComponent(basicSearchBody, new Label("Name:"),
+					Alignment.MIDDLE_LEFT);
 
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			UiUtils.addComponent(basicSearchBody, this.nameField,
 					Alignment.MIDDLE_CENTER);
 
-			this.myItemCheckbox = new CheckBox("My Items");
+			this.myItemCheckbox = new CheckBox(
+					AppContext
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
-			final Button searchBtn = new Button("Search");
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 			searchBtn.addClickListener(new Button.ClickListener() {
@@ -154,8 +159,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					ComponentBasicSearchCriteria.this
-					.callSearchAction();
+					ComponentBasicSearchCriteria.this.callSearchAction();
 				}
 			});
 			UiUtils.addComponent(basicSearchBody, searchBtn,
@@ -168,13 +172,11 @@ GenericSearchPanel<ComponentSearchCriteria> {
 
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
-					ComponentBasicSearchCriteria.this.nameField
-					.setValue("");
+					ComponentBasicSearchCriteria.this.nameField.setValue("");
 				}
 			});
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
-
 
 			return basicSearchBody;
 		}
@@ -183,12 +185,12 @@ GenericSearchPanel<ComponentSearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			ComponentSearchPanel.this.searchCriteria = new ComponentSearchCriteria();
 			ComponentSearchPanel.this.searchCriteria
-			.setProjectid(new NumberSearchField(SearchField.AND,
-					ComponentSearchPanel.this.project.getId()));
+					.setProjectid(new NumberSearchField(SearchField.AND,
+							ComponentSearchPanel.this.project.getId()));
 			ComponentSearchPanel.this.searchCriteria
-			.setComponentName(new StringSearchField(this.nameField
-					.getValue().toString().trim()));
-			
+					.setComponentName(new StringSearchField(this.nameField
+							.getValue().toString().trim()));
+
 			if (this.myItemCheckbox.getValue()) {
 				ComponentSearchPanel.this.searchCriteria
 						.setUserlead(new StringSearchField(SearchField.AND,
@@ -196,7 +198,7 @@ GenericSearchPanel<ComponentSearchCriteria> {
 			} else {
 				ComponentSearchPanel.this.searchCriteria.setUserlead(null);
 			}
-			
+
 			return ComponentSearchPanel.this.searchCriteria;
 		}
 	}

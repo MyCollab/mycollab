@@ -117,7 +117,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		controlsBtn.setSpacing(true);
 		controlsBtn.setMargin(true);
 
-		Button addCriteriaBtn = new Button("Add Criteria",
+		Button addCriteriaBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -146,7 +147,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		filterComboBox.setWidth("125px");
 		filterBox.addComponent(filterComboBox);
 
-		Button saveSearchBtn = new Button("New Filter",
+		Button saveSearchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

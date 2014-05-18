@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -60,23 +61,25 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		layout.setMargin(new MarginInfo(true, false, true, false));
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-		layout.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+		layout.addComponent(new Image(null, MyCollabResource
+				.newResource("icons/24/project/user.png")));
 
 		final Label searchtitle = new Label("Roles");
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 
-		final Button createBtn = new Button("Create",
+		final Button createBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL),
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final Button.ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new RoleEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new RoleEvent.GotoAdd(this, null));
+					}
+				});
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
@@ -90,7 +93,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 
 	@SuppressWarnings("rawtypes")
 	private class RoleBasicSearchLayout extends
-	GenericSearchPanel.BasicSearchLayout {
+			GenericSearchPanel.BasicSearchLayout {
 
 		@SuppressWarnings("unchecked")
 		public RoleBasicSearchLayout() {
@@ -112,14 +115,14 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 			basicSearchBody.setSpacing(true);
 			basicSearchBody.setMargin(true);
 
-
-
 			this.nameField = new TextField();
 			this.nameField.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 			basicSearchBody.addComponent(this.nameField);
 
-			final Button searchBtn = new Button("Search");
-			searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+			searchBtn.setIcon(MyCollabResource
+					.newResource("icons/16/search.png"));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
@@ -133,16 +136,15 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 			});
 			basicSearchBody.addComponent(searchBtn);
 
-
 			final Button clearBtn = new Button("Clear",
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final Button.ClickEvent event) {
-					RoleBasicSearchLayout.this.nameField.setValue("");
-				}
-			});
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							RoleBasicSearchLayout.this.nameField.setValue("");
+						}
+					});
 			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
@@ -154,11 +156,10 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		@Override
 		protected SearchCriteria fillupSearchCriteria() {
 			RoleSearchPanel.this.searchCriteria = new RoleSearchCriteria();
-			if (StringUtils
-					.isNotNullOrEmpty(this.nameField.getValue())) {
+			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue())) {
 				RoleSearchPanel.this.searchCriteria
-				.setRoleName(new StringSearchField(SearchField.AND,
-						this.nameField.getValue()));
+						.setRoleName(new StringSearchField(SearchField.AND,
+								this.nameField.getValue()));
 			}
 			return RoleSearchPanel.this.searchCriteria;
 		}

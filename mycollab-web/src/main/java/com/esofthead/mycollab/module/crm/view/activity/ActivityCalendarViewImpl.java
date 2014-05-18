@@ -113,7 +113,8 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 
 		this.addStyleName("activityCalendar");
 
-		calendarActionBtn = new PopupButton("Create");
+		calendarActionBtn = new PopupButton(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL));
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		calendarActionBtn.addStyleName("esofthead");
 
@@ -833,7 +834,9 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 
 					layout.setSpacing(true);
 					layout.setStyleName("addNewControl");
-					Button saveBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					Button saveBtn = new Button(
+							AppContext
+									.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 

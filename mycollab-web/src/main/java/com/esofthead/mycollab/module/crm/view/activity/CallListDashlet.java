@@ -54,38 +54,35 @@ public class CallListDashlet extends Depot {
 	public CallListDashlet() {
 		super("My Calls", new VerticalLayout());
 
-		tableItem = new CallTableDisplay(new TableViewField("", "isClosed",
+		tableItem = new CallTableDisplay(new TableViewField(null, "isClosed",
 				UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-						new TableViewField(AppContext
-								.getMessage(TaskI18nEnum.TABLE_SUBJECT_HEADER),
-								"subject", UIConstants.TABLE_X_LABEL_WIDTH),
-								new TableViewField(AppContext
-										.getMessage(TaskI18nEnum.TABLE_START_DATE_HEADER),
-										"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
-										new TableViewField(AppContext
-												.getMessage(CrmCommonI18nEnum.TABLE_STATUS_HEADER),
-												"status", UIConstants.TABLE_S_LABEL_WIDTH)));
+				new TableViewField(TaskI18nEnum.TABLE_SUBJECT_HEADER,
+						"subject", UIConstants.TABLE_X_LABEL_WIDTH),
+				new TableViewField(TaskI18nEnum.TABLE_START_DATE_HEADER,
+						"startdate", UIConstants.TABLE_DATE_TIME_WIDTH),
+				new TableViewField(CrmCommonI18nEnum.TABLE_STATUS_HEADER,
+						"status", UIConstants.TABLE_S_LABEL_WIDTH)));
 
 		tableItem
-		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
 
-			@Override
-			public void handle(final TableClickEvent event) {
-				final SimpleCall call = (SimpleCall) event.getData();
-				if ("isClosed".equals(event.getFieldName())) {
-					call.setIsclosed(true);
-					final CallService callService = ApplicationContextUtil
-							.getSpringBean(CallService.class);
-					callService.updateWithSession(call,
-							AppContext.getUsername());
-					display();
-				}
-			}
-		});
+					@Override
+					public void handle(final TableClickEvent event) {
+						final SimpleCall call = (SimpleCall) event.getData();
+						if ("isClosed".equals(event.getFieldName())) {
+							call.setIsclosed(true);
+							final CallService callService = ApplicationContextUtil
+									.getSpringBean(CallService.class);
+							callService.updateWithSession(call,
+									AppContext.getUsername());
+							display();
+						}
+					}
+				});
 		bodyContent.addComponent(tableItem);
 
 		Button customizeViewBtn = new Button("", new Button.ClickListener() {

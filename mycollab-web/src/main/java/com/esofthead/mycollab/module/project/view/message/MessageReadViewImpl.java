@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.module.project.localization.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.ProjectAttachmentDisplayComponentFactory;
@@ -193,7 +194,8 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
 			HorizontalLayout isSticky = new HorizontalLayout();
 			isSticky.setSpacing(true);
-			Label isStickyText = new Label("Is sticky:");
+			Label isStickyText = new Label(
+					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK_FIELD));
 			isSticky.setStyleName("hdr-text");
 			stickyCheck = new CheckBox("", message.getIsstick());
 
@@ -285,11 +287,11 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
 			final Label timePostLbl = new Label(
-					"<span class=\"post-owner\"><b>"
-							+ message.getFullPostedUserName()
-							+ "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;"
-							+ DateTimeUtils.getStringDateFromNow(message
-									.getPosteddate()), ContentMode.HTML);
+					AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD,
+							message.getFullPostedUserName(), DateTimeUtils
+									.getStringDateFromNow(message
+											.getPosteddate())),
+					ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 
@@ -320,7 +322,9 @@ public class MessageReadViewImpl extends AbstractPageView implements
 						MyCollabResource.newResource("icons/16/attachment.png"));
 				attachmentField.addComponent(attachmentIcon);
 
-				Label lbAttachment = new Label("Attachment: ");
+				Label lbAttachment = new Label(
+						AppContext
+								.getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
 				attachmentField.addComponent(lbAttachment);
 
 				Component attachmentDisplayComp = ProjectAttachmentDisplayComponentFactory

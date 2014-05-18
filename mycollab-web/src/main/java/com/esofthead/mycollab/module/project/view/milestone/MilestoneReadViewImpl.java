@@ -25,6 +25,8 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -94,14 +96,19 @@ public class MilestoneReadViewImpl extends
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
 
-		tabContainer.addTab(this.associateCommentListComp, "Comments",
+		tabContainer.addTab(this.associateCommentListComp, AppContext
+				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
 				MyCollabResource
 						.newResource("icons/16/project/gray/comment.png"));
-		tabContainer.addTab(historyList, "History", MyCollabResource
-				.newResource("icons/16/project/gray/history.png"));
-		tabContainer.addTab(this.associateTaskGroupListComp, "Related Task",
+		tabContainer.addTab(historyList, AppContext
+				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/history.png"));
+		tabContainer.addTab(this.associateTaskGroupListComp,
+				AppContext.getMessage(MilestoneI18nEnum.RELATED_TASKS_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/task.png"));
-		tabContainer.addTab(this.associateBugListComp, "Related Bugs",
+		tabContainer.addTab(this.associateBugListComp,
+				AppContext.getMessage(MilestoneI18nEnum.RELATED_BUGS_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
 
 		return tabContainer;
@@ -178,21 +185,31 @@ public class MilestoneReadViewImpl extends
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("startdate")) {
-				this.informationLayout.addComponent(field, "Start Date", 0, 0);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
+						0, 0);
 			} else if (propertyId.equals("enddate")) {
-				this.informationLayout.addComponent(field, "End Date", 0, 1);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0,
+						1);
 			} else if (propertyId.equals("owner")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 0);
 			} else if (propertyId.equals("status")) {
-				this.informationLayout.addComponent(field, "Status", 1, 1);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD), 1, 1);
 			} else if (propertyId.equals("numOpenTasks")) {
-				this.informationLayout.addComponent(field, "Tasks", 0, 2);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD), 0, 2);
 			} else if (propertyId.equals("numOpenBugs")) {
-				this.informationLayout.addComponent(field, "Bugs", 1, 2);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD),
+								1, 2);
 			} else if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field, "Description", 0, 3,
-						2, "100%");
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD),
+						0, 3, 2, "100%");
 			} else {
 				return false;
 			}

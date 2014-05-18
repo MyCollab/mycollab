@@ -32,7 +32,8 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
-import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
@@ -112,7 +113,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 						.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			final Button startProgressBtn = new Button("Start Progress",
+			final Button startProgressBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.START_PROGRESS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -129,7 +131,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			startProgressBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(startProgressBtn);
 
-			final Button resolveBtn = new Button("Resolved",
+			final Button resolveBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.RESOLVED),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -143,7 +146,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			resolveBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(resolveBtn);
 
-			final Button wontFixBtn = new Button("Won't Fix",
+			final Button wontFixBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.WONTFIX),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -161,7 +165,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			final Button stopProgressBtn = new Button("Stop Progress",
+			final Button stopProgressBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.STOP_PROGRESS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -178,7 +183,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			stopProgressBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(stopProgressBtn);
 
-			final Button resolveBtn = new Button("Resolved",
+			final Button resolveBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.RESOLVED),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -196,7 +202,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				.equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			final Button reopenBtn = new Button("Reopen",
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -215,7 +222,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				.equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			final Button reopenBtn = new Button("Reopen",
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -229,7 +237,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			reopenBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(reopenBtn);
 
-			final Button approveNCloseBtn = new Button("Approve & Close",
+			final Button approveNCloseBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.APPROVE_CLOSE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -247,7 +256,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				.equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
-			final Button reopenBtn = new Button("Reopen",
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -378,19 +388,26 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		final TabSheet tabBugDetail = new TabSheet();
 		tabBugDetail.setWidth("100%");
 
-		tabBugDetail.addTab(commentList, "Comments", MyCollabResource
-				.newResource("icons/16/project/gray/comment.png"));
+		tabBugDetail.addTab(commentList, AppContext
+				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
-		tabBugDetail.addTab(historyList, "History", MyCollabResource
-				.newResource("icons/16/project/gray/history.png"));
+		tabBugDetail.addTab(historyList, AppContext
+				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/history.png"));
 
-		tabBugDetail.addTab(bugRelatedField, "Related Bugs",
+		tabBugDetail.addTab(bugRelatedField,
+				AppContext.getMessage(BugI18nEnum.RELATED_BUGS_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
 
-		tabBugDetail.addTab(bugFollowersList, "Followers", MyCollabResource
+		tabBugDetail.addTab(bugFollowersList, AppContext
+				.getMessage(BugI18nEnum.FOLLOWERS_TAB), MyCollabResource
 				.newResource("icons/16/project/gray/follow.png"));
 
-		tabBugDetail.addTab(bugTimeLogList, "Time",
+		tabBugDetail.addTab(bugTimeLogList,
+				AppContext.getMessage(BugI18nEnum.TIME_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/time.png"));
 
 		return tabBugDetail;
@@ -403,47 +420,62 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("summary")) {
-				this.informationLayout.addComponent(field, "Summary", 0, 0, 2,
-						"100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0,
+						2, "100%");
 			} else if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field, "Description", 0, 1,
-						2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_DESCRIPTION), 0,
+						1, 2, "100%");
 			} else if (propertyId.equals("environment")) {
-				this.informationLayout.addComponent(field, "Environment", 0, 2,
-						2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0,
+						2, 2, "100%");
 			} else if (propertyId.equals("status")) {
-				this.informationLayout.addComponent(field, "Status", 0, 3);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_STATUS), 0, 3);
 			} else if (propertyId.equals("priority")) {
-				this.informationLayout.addComponent(field, "Priority", 1, 3);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_PRIORITY), 1, 3);
 			} else if (propertyId.equals("severity")) {
-				this.informationLayout.addComponent(field, "Severity", 0, 4);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_SEVERITY), 0, 4);
 			} else if (propertyId.equals("resolution")) {
-				this.informationLayout.addComponent(field, "Resolution", 1, 4);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION), 1,
+						4);
 			} else if (propertyId.equals("duedate")) {
-				this.informationLayout.addComponent(field, "Due Date", 0, 5);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 5);
 			} else if (propertyId.equals("createdtime")) {
-				this.informationLayout
-						.addComponent(field, "Created Time", 1, 5);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME),
+						1, 5);
 			} else if (propertyId.equals("loguserFullName")) {
-				this.informationLayout.addComponent(field, "Logged by", 0, 6);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 6);
 			} else if (propertyId.equals("assignuserFullName")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 6);
 			} else if (propertyId.equals("milestoneName")) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),
-						0, 7, 2, "100%");
+						AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 7, 2,
+						"100%");
 			} else if (propertyId.equals("components")) {
-				this.informationLayout.addComponent(field, "Components", 0, 8,
-						2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_COMPONENTS), 0,
+						8, 2, "100%");
 			} else if (propertyId.equals("affectedVersions")) {
-				this.informationLayout.addComponent(field, "Affected Versions",
-						0, 9, 2, "100%");
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(BugI18nEnum.FORM_AFFECTED_VERSIONS), 0, 9,
+						2, "100%");
 			} else if (propertyId.equals("fixedVersions")) {
-				this.informationLayout.addComponent(field, "Fixed Versions", 0,
-						10, 2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS),
+						0, 10, 2, "100%");
 			} else if (propertyId.equals("id")) {
-				this.informationLayout.addComponent(field, "Attachments", 0,
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
 						11, 2, "100%");
 			} else {
 				return false;

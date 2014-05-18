@@ -64,14 +64,9 @@ public class CaseSimpleSearchPanel extends
 		layoutSearchPane = new GridLayout(3, 3);
 		layoutSearchPane.setSpacing(true);
 
-		final ValueComboBox group = new ValueComboBox(
-				false,
-				new String[] {
-						"Subject",
-						"Account Name",
-						"Status",
-						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
+		final ValueComboBox group = new ValueComboBox(false, new String[] {
+				"Subject", "Account Name", "Status",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -96,7 +91,8 @@ public class CaseSimpleSearchPanel extends
 		layoutSearchPane.setComponentAlignment(group, Alignment.MIDDLE_CENTER);
 		addTextFieldSearch();
 
-		Button searchBtn = new Button("Search");
+		Button searchBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {

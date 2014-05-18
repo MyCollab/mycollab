@@ -21,7 +21,13 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/message")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum MessageI18nEnum {
-	NEW_MESSAGE_ACTION
+	NEW_MESSAGE_ACTION,
+	FORM_TITLE_FIELD,
+	FORM_IS_STICK_FIELD,
+	FORM_ATTACHMENT_FIELD,
+	FORM_TITLE_REQUIRED_ERROR,
+	
+	USER_COMMENT_ADD
 }

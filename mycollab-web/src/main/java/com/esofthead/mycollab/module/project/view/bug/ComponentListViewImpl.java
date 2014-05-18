@@ -23,12 +23,14 @@ import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -76,7 +78,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ComponentListViewImpl extends AbstractPageView implements
-ComponentListView {
+		ComponentListView {
 	private static Logger log = LoggerFactory
 			.getLogger(ComponentListViewImpl.class);
 
@@ -104,85 +106,89 @@ ComponentListView {
 	private void generateDisplayTable() {
 		this.tableItem = new DefaultPagedBeanTable<ComponentService, ComponentSearchCriteria, SimpleComponent>(
 				ApplicationContextUtil.getSpringBean(ComponentService.class),
-				SimpleComponent.class, new TableViewField("", "selected",
-						UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-								new TableViewField("Name", "componentname",
-										UIConstants.TABLE_EX_LABEL_WIDTH),
-										new TableViewField("Lead Name", "userLeadFullName",
-												UIConstants.TABLE_X_LABEL_WIDTH),
-												new TableViewField("Description", "description",
-														UIConstants.TABLE_EX_LABEL_WIDTH)));
+				SimpleComponent.class,
+				new TableViewField(null, "selected",
+						UIConstants.TABLE_CONTROL_WIDTH),
+				Arrays.asList(
+						new TableViewField(ComponentI18nEnum.FORM_NAME,
+								"componentname",
+								UIConstants.TABLE_EX_LABEL_WIDTH),
+						new TableViewField(ComponentI18nEnum.FORM_LEAD,
+								"userLeadFullName",
+								UIConstants.TABLE_X_LABEL_WIDTH),
+						new TableViewField(ComponentI18nEnum.FORM_DESCRIPTION,
+								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Object generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
-				cb.setImmediate(true);
-				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void valueChange(ValueChangeEvent event) {
+					public Object generateCell(final Table source,
+							final Object itemId, final Object columnId) {
+						final CheckBoxDecor cb = new CheckBoxDecor("", false);
+						cb.setImmediate(true);
+						cb.addValueChangeListener(new Property.ValueChangeListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void valueChange(ValueChangeEvent event) {
+								final SimpleComponent component = ComponentListViewImpl.this.tableItem
+										.getBeanByIndex(itemId);
+								ComponentListViewImpl.this.tableItem
+										.fireSelectItemEvent(component);
+
+							}
+						});
+
 						final SimpleComponent component = ComponentListViewImpl.this.tableItem
 								.getBeanByIndex(itemId);
-						ComponentListViewImpl.this.tableItem
-						.fireSelectItemEvent(component);
-
+						component.setExtraData(cb);
+						return cb;
 					}
 				});
 
-				final SimpleComponent component = ComponentListViewImpl.this.tableItem
-						.getBeanByIndex(itemId);
-				component.setExtraData(cb);
-				return cb;
-			}
-		});
-
 		this.tableItem.addGeneratedColumn("componentname",
 				new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(
-					final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
-						.getBeanByIndex(itemId);
-				final LabelLink b = new LabelLink(bugComponent
+					@Override
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						final LabelLink b = new LabelLink(bugComponent
 								.getComponentname(), ProjectLinkBuilder
 								.generateComponentPreviewFullLink(
 										bugComponent.getProjectid(),
 										bugComponent.getId()));
-				if (bugComponent.getStatus() != null
-						&& bugComponent.getStatus().equals("Close")) {
-					b.addStyleName(UIConstants.LINK_COMPLETED);
-				}
-				b.setDescription(generateToolTip(bugComponent));
-				return b;
+						if (bugComponent.getStatus() != null
+								&& bugComponent.getStatus().equals("Close")) {
+							b.addStyleName(UIConstants.LINK_COMPLETED);
+						}
+						b.setDescription(generateToolTip(bugComponent));
+						return b;
 
-			}
-		});
+					}
+				});
 
 		this.tableItem.addGeneratedColumn("userLeadFullName",
 				new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(
-					final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
-						.getBeanByIndex(itemId);
-				return new ProjectUserLink(bugComponent.getUserlead(),
-						bugComponent.getUserLeadAvatarId(),
-						bugComponent.getUserLeadFullName());
+					@Override
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleComponent bugComponent = ComponentListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						return new ProjectUserLink(bugComponent.getUserlead(),
+								bugComponent.getUserLeadAvatarId(),
+								bugComponent.getUserLeadFullName());
 
-			}
-		});
+					}
+				});
 
 		this.tableItem.setWidth("100%");
 
@@ -213,25 +219,31 @@ ComponentListView {
 			tableActionControls.addActionItem(
 					MassItemActionHandler.DELETE_ACTION,
 					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete");
+					"delete",
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
 		}
 
 		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
 				MyCollabResource.newResource("icons/16/action/mail.png"),
-				"mail");
+				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
 				MyCollabResource.newResource("icons/16/action/pdf.png"),
-				"export", "export.pdf");
+				"export", "export.pdf",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
 				MyCollabResource.newResource("icons/16/action/excel.png"),
-				"export", "export.xlsx");
+				"export", "export.xlsx",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
+
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
 				MyCollabResource.newResource("icons/16/action/csv.png"),
-				"export", "export.csv");
+				"export", "export.csv",
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 
 		layout.addComponent(this.tableActionControls);
 		layout.addComponent(this.selectedItemsNumberLabel);
@@ -290,15 +302,15 @@ ComponentListView {
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Component Name:"))
-							.appendChild(
-									new Td().appendText(StringUtils
-											.getStringFieldValue(component
-													.getComponentname())));
+					.appendChild(
+							new Td().appendText(StringUtils
+									.getStringFieldValue(component
+											.getComponentname())));
 
 			Tr trRow2 = new Tr();
 			Td trRow2_value = new Td()
-			.setStyle(
-					"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+					.setStyle(
+							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
 							StringUtils.getStringRemoveHtmlTag(component
 									.getDescription()));
@@ -307,36 +319,36 @@ ComponentListView {
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Description:")).appendChild(
-									trRow2_value);
+					trRow2_value);
 			Tr trRow3 = new Tr();
 			trRow3.appendChild(
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
 							.appendText("Lead:"))
-							.appendChild(
-									new Td().setStyle(
-											"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-											.appendChild(
-													new A().setHref(
-															(component.getUserlead() != null) ? UserLinkUtils
-																	.generatePreviewFullUserLink(
-																			AppContext
+					.appendChild(
+							new Td().setStyle(
+									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
+									.appendChild(
+											new A().setHref(
+													(component.getUserlead() != null) ? UserLinkUtils
+															.generatePreviewFullUserLink(
+																	AppContext
 																			.getSiteUrl(),
-																			component
+																	component
 																			.getUserlead())
-																			: "")
-																			.appendChild(
-																					new Img(
-																							"",
-																							UserAvatarControlFactory
-																							.getAvatarLink(
-																									component
-																									.getUserLeadAvatarId(),
-																									16)))
-																									.appendText(
-																											StringUtils
-																											.getStringFieldValue(component
-																													.getUserLeadFullName()))));
+															: "")
+													.appendChild(
+															new Img(
+																	"",
+																	UserAvatarControlFactory
+																			.getAvatarLink(
+																					component
+																							.getUserLeadAvatarId(),
+																					16)))
+													.appendText(
+															StringUtils
+																	.getStringFieldValue(component
+																			.getUserLeadFullName()))));
 
 			table.appendChild(trRow1);
 			table.appendChild(trRow2);

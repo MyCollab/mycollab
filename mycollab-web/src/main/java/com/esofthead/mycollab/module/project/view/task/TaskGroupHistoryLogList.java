@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -37,14 +38,19 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK_LIST);
 		this.addStyleName("activity-panel");
 
-		this.generateFieldDisplayHandler("name", "Name");
-		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("owner", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+		this.generateFieldDisplayHandler("name",
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD));
+		this.generateFieldDisplayHandler("owner",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("milestoneid", "Related Milestone",
+		this.generateFieldDisplayHandler("milestoneid",
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
 				new MilestoneHistoryFieldFormat());
-		this.generateFieldDisplayHandler("percentageComplete", "Progress");
-		this.generateFieldDisplayHandler("numOpenTasks", "Number of open tasks");
+		this.generateFieldDisplayHandler("percentageComplete",
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD));
+		this.generateFieldDisplayHandler("numOpenTasks",
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD));
 	}
 }

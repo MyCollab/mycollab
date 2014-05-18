@@ -19,9 +19,11 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -69,18 +71,21 @@ public class TrackerContainer extends AbstractPageView {
 				.getPresenter(BugDashboardPresenter.class);
 
 		this.myProjectTab.addTab(this.dashboardPresenter.initView(),
-				"Dashboard");
+				AppContext.getMessage(BugI18nEnum.DASHBOARD_TAB));
 
 		bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
-		this.myProjectTab.addTab(bugPresenter.initView(), "Bugs");
+		this.myProjectTab.addTab(bugPresenter.initView(),
+				AppContext.getMessage(BugI18nEnum.BUG_TAB));
 
 		componentPresenter = PresenterResolver
 				.getPresenter(ComponentPresenter.class);
-		this.myProjectTab.addTab(componentPresenter.initView(), "Components");
+		this.myProjectTab.addTab(componentPresenter.initView(),
+				AppContext.getMessage(BugI18nEnum.COMPONENT_TAB));
 
 		versionPresenter = PresenterResolver
 				.getPresenter(VersionPresenter.class);
-		this.myProjectTab.addTab(versionPresenter.initView(), "Versions");
+		this.myProjectTab.addTab(versionPresenter.initView(),
+				AppContext.getMessage(BugI18nEnum.VERSION_TAB));
 
 		this.myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -94,11 +99,16 @@ public class TrackerContainer extends AbstractPageView {
 						final SimpleProject project = CurrentProjectVariables
 								.getProject();
 
-						if ("Dashboard".equals(caption)
-								&& !"Dashboard".equals(selectedTabId)) {
+						if (AppContext.getMessage(BugI18nEnum.DASHBOARD_TAB)
+								.equals(caption)
+								&& !AppContext.getMessage(
+										BugI18nEnum.DASHBOARD_TAB).equals(
+										selectedTabId)) {
 							dashboardPresenter.go(TrackerContainer.this, null);
-						} else if ("Bugs".equals(caption)
-								&& !"Bugs".equals(selectedTabId)) {
+						} else if (AppContext.getMessage(BugI18nEnum.BUG_TAB)
+								.equals(caption)
+								&& !AppContext.getMessage(BugI18nEnum.BUG_TAB)
+										.equals(selectedTabId)) {
 							final BugSearchCriteria criteria = new BugSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
@@ -106,11 +116,17 @@ public class TrackerContainer extends AbstractPageView {
 									new BugScreenData.Search(
 											new BugFilterParameter("All Bugs",
 													criteria)));
-						} else if ("Components".equals(caption)
-								&& !"Components".equals(selectedTabId)) {
+						} else if (AppContext.getMessage(
+								BugI18nEnum.COMPONENT_TAB).equals(caption)
+								&& !AppContext.getMessage(
+										BugI18nEnum.COMPONENT_TAB).equals(
+										selectedTabId)) {
 							componentPresenter.go(TrackerContainer.this, null);
-						} else if ("Versions".equals(caption)
-								&& !"Versions".equals(selectedTabId)) {
+						} else if (AppContext.getMessage(
+								BugI18nEnum.VERSION_TAB).equals(caption)
+								&& !AppContext.getMessage(
+										BugI18nEnum.VERSION_TAB).equals(
+										selectedTabId)) {
 							versionPresenter.go(TrackerContainer.this, null);
 						}
 						selectedTabId = "";
