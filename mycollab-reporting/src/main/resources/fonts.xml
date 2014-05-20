@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fontFamilies>
 
-    <fontFamily name="Hiragino Mincho Pro">
-        <pdfEncoding>UniJIS-UCS2-H</pdfEncoding>
+    <fontFamily name="DejaVuSerif">
+        <normal>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif.ttf</normal>
+        <bold>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</bold>
+        <italic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Italic.ttf</italic>
+        <boldItalic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
 

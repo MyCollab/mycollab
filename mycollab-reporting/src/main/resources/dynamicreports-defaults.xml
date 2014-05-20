@@ -1,4 +1,4 @@
 <DynamicReports>
     <!-- DEFAULT FONT -->
-    <font fontName="Hiragino Mincho Pro" fontSize="10" />
+    <font fontName="DejaVuSerif" fontSize="10" />
 </DynamicReports>

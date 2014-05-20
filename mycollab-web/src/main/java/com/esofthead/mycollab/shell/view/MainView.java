@@ -269,12 +269,12 @@ public final class MainView extends AbstractPageView {
 				}
 			}
 		}
-		NotificationButton notificationButton = new NotificationButton();
-		accountLayout.addComponent(notificationButton);
-		if (AppContext.getSession().getTimezone() == null) {
-			notificationButton.addNotification(new Label(
-					"You haven't set timezone yet"));
-		}
+//		NotificationButton notificationButton = new NotificationButton();
+//		accountLayout.addComponent(notificationButton);
+//		if (AppContext.getSession().getTimezone() == null) {
+//			notificationButton.addNotification(new Label(
+//					"You haven't set timezone yet"));
+//		}
 
 		UserAvatarComp userAvatar = new UserAvatarComp();
 		accountLayout.addComponent(userAvatar);
