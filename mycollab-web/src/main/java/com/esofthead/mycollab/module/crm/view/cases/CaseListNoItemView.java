@@ -67,7 +67,7 @@ public class CaseListNoItemView extends AbstractPageView {
 		contact.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(contact);
 
-		Button btCreateContact = new Button("Create Case",
+		Button btCreateContact = new Button("New Case",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

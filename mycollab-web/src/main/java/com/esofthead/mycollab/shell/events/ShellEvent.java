@@ -82,4 +82,11 @@ public class ShellEvent {
 			super(source, data);
 		}
 	}
+
+	public static class NewNotification extends ApplicationEvent {
+
+		public NewNotification(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

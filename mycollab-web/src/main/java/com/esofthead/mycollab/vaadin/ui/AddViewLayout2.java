@@ -41,7 +41,6 @@ public class AddViewLayout2 extends VerticalLayout {
 	private final Label titleLbl;
 	private final VerticalLayout body;
 
-
 	public AddViewLayout2(final String title, final Resource icon) {
 		setStyleName("addview-layout");
 
@@ -50,7 +49,7 @@ public class AddViewLayout2 extends VerticalLayout {
 		this.header.setSpacing(true);
 		this.header.setMargin(new MarginInfo(true, false, true, false));
 		this.header.setStyleName(UIConstants.HEADER_VIEW);
-		this.header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		this.header.setDefaultComponentAlignment(Alignment.TOP_LEFT);
 
 		this.iconEmbed = new Image();
 		this.setTitleIcon(icon);
@@ -77,7 +76,6 @@ public class AddViewLayout2 extends VerticalLayout {
 		body.setStyleName("addview-layout-body");
 		this.addComponent(body);
 
-
 	}
 
 	public void addBody(final ComponentContainer body) {
@@ -89,15 +87,11 @@ public class AddViewLayout2 extends VerticalLayout {
 		return this.body;
 	}
 
-
-
 	public void addControlButtons(final Component controlsBtn) {
 		controlsBtn.addStyleName("control-buttons");
 		addHeaderRight(controlsBtn);
 
 	}
-
-
 
 	public void setTitle(final String title) {
 		titleLbl.setValue(title);

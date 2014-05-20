@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.GridLayout;
@@ -44,7 +46,8 @@ public class PeopleInfoComp extends VerticalLayout {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(false, false, false, true));
 
-		Label peopleInfoHeader = new Label("People");
+		Label peopleInfoHeader = new Label(
+				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE));
 		peopleInfoHeader.setStyleName("info-hdr");
 		this.addComponent(peopleInfoHeader);
 
@@ -53,7 +56,9 @@ public class PeopleInfoComp extends VerticalLayout {
 		layout.setWidth("100%");
 		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
-			Label createdLbl = new Label("Created:");
+			Label createdLbl = new Label(
+					AppContext
+							.getMessage(CrmCommonI18nEnum.ITEM_CREATED_PEOPLE));
 			createdLbl.setSizeUndefined();
 			layout.addComponent(createdLbl, 0, 0);
 
@@ -69,7 +74,8 @@ public class PeopleInfoComp extends VerticalLayout {
 			layout.addComponent(createdUserLink, 1, 0);
 			layout.setColumnExpandRatio(1, 1.0f);
 
-			Label assigneeLbl = new Label("Assignee: ");
+			Label assigneeLbl = new Label(
+					AppContext.getMessage(CrmCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
 			assigneeLbl.setSizeUndefined();
 			layout.addComponent(assigneeLbl, 0, 1);
 			String assignUserName = (String) PropertyUtils.getProperty(bean,

@@ -249,32 +249,32 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 			public void buttonClick(ClickEvent event) {
 				calendarActionBtn.setPopupVisible(false);
 				String caption = event.getButton().getCaption();
-				if (caption.equals("Create Task")) {
+				if (caption.equals("New Task")) {
 					EventBus.getInstance().fireEvent(
 							new ActivityEvent.TaskAdd(this, null));
-				} else if (caption.equals("Create Call")) {
+				} else if (caption.equals("New Call")) {
 					EventBus.getInstance().fireEvent(
 							new ActivityEvent.CallAdd(this, null));
-				} else if (caption.equals("Create Event")) {
+				} else if (caption.equals("New Event")) {
 					EventBus.getInstance().fireEvent(
 							new ActivityEvent.MeetingAdd(this, null));
 				}
 			}
 		};
 
-		ButtonLink todoBtn = new ButtonLink("Create Task", listener);
+		ButtonLink todoBtn = new ButtonLink("New Task", listener);
 		actionBtnLayout.addComponent(todoBtn);
 		todoBtn.setIcon(MyCollabResource.newResource("icons/16/crm/task.png"));
 		todoBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
 
-		Button callBtn = new ButtonLink("Create Call", listener);
+		Button callBtn = new ButtonLink("New Call", listener);
 		actionBtnLayout.addComponent(callBtn);
 		callBtn.setIcon(MyCollabResource.newResource("icons/16/crm/call.png"));
 		callBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
 
-		ButtonLink meetingBtn = new ButtonLink("Create Event", listener);
+		ButtonLink meetingBtn = new ButtonLink("New Event", listener);
 		actionBtnLayout.addComponent(meetingBtn);
 		meetingBtn.setIcon(MyCollabResource
 				.newResource("icons/16/crm/meeting.png"));
@@ -290,7 +290,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(calendarViewBtn);
 
-		Button activityListBtn = new Button("Activities List",
+		Button activityListBtn = new Button("Activities",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 2156576556541398934L;
 
@@ -823,7 +823,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 				private static final long serialVersionUID = 1L;
 
 				public FormLayoutFactory() {
-					super(meeting.getId() == null ? "Create Event" : meeting
+					super(meeting.getId() == null ? "New Meeting" : meeting
 							.getSubject());
 				}
 
@@ -910,7 +910,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 						if (isValidateForm) {
 							tf.setNullRepresentation("");
 							tf.setRequired(true);
-							tf.setRequiredError("Subject must not be null");
+							tf.setRequiredError("Subject must be not null");
 						}
 
 						return tf;

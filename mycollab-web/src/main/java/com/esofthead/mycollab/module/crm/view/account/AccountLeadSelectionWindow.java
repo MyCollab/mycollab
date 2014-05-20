@@ -18,12 +18,14 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;
 import com.esofthead.mycollab.module.crm.view.lead.LeadSimpleSearchPanel;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableDisplay;
 import com.esofthead.mycollab.module.crm.view.lead.LeadTableFieldDef;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Button;
@@ -35,7 +37,7 @@ import com.vaadin.ui.Button;
  */
 @SuppressWarnings("serial")
 public class AccountLeadSelectionWindow extends
-RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
+		RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 
 	public AccountLeadSelectionWindow(AccountLeadListComp associateLeadList) {
 		super("Select Leads", associateLeadList);
@@ -49,25 +51,27 @@ RelatedItemSelectionWindow<SimpleLead, LeadSearchCriteria> {
 				Arrays.asList(LeadTableFieldDef.name, LeadTableFieldDef.title,
 						LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
 
-		Button selectBtn = new Button("Select", new Button.ClickListener() {
+		Button selectBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SELECT_LABEL),
+				new Button.ClickListener() {
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				close();
-			}
-		});
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						close();
+					}
+				});
 		selectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
 		LeadSimpleSearchPanel leadSimpleSearchPanel = new LeadSimpleSearchPanel();
 		leadSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
+				.addSearchHandler(new SearchHandler<LeadSearchCriteria>() {
 
-			@Override
-			public void onSearch(LeadSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
+					@Override
+					public void onSearch(LeadSearchCriteria criteria) {
+						tableItem.setSearchCriteria(criteria);
+					}
 
-		});
+				});
 
 		this.bodyContent.addComponent(leadSimpleSearchPanel);
 		this.bodyContent.addComponent(selectBtn);

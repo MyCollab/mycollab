@@ -102,7 +102,7 @@ public class CaseSearchPanel extends
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create Case",
+		final Button createAccountBtn = new Button("New Case",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

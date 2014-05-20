@@ -42,7 +42,7 @@ public class LeadAddViewImpl extends AbstractEditItemComp<SimpleLead> implements
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Lead" : beanItem
+		return (beanItem.getId() == null) ? "New Lead" : beanItem
 				.getLeadName();
 	}
 

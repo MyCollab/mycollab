@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
+import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -67,7 +68,9 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 			final VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label("Case Information");
+			final Label organizationHeader = new Label(
+					AppContext
+							.getMessage(CaseI18nEnum.SECTION_CASE_INFORMATION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 

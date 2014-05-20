@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
+import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -70,7 +71,9 @@ public class MassUpdateCampaignWindow extends
 			final VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label("Campaign Information");
+			final Label organizationHeader = new Label(
+					AppContext
+							.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
@@ -86,7 +89,8 @@ public class MassUpdateCampaignWindow extends
 
 			this.campaignGoal = new GridFormLayoutHelper(2, 6, "100%", "167px",
 					Alignment.TOP_LEFT);
-			final Label campaignMoreInfo = new Label("Campaign Goal");
+			final Label campaignMoreInfo = new Label(
+					AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL));
 			campaignMoreInfo.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(campaignMoreInfo);
 			this.campaignGoal.getLayout().setWidth("100%");
@@ -108,13 +112,17 @@ public class MassUpdateCampaignWindow extends
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 0);
 			}
 			if (propertyId.equals("status")) {
-				this.informationLayout.addComponent(field, "Status", 1, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(CampaignI18nEnum.FORM_STATUS), 1,
+						0);
 			} else if (propertyId.equals("type")) {
-				this.informationLayout.addComponent(field, "Type", 0, 1, 2,
-						"297px", Alignment.TOP_LEFT);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(CampaignI18nEnum.FORM_TYPE), 0,
+						1, 2, "297px", Alignment.TOP_LEFT);
 			} else if (propertyId.equals("currencyid")) {
-				this.campaignGoal
-						.addComponent(field, "Currency", 0, 0, "297px");
+				this.campaignGoal.addComponent(field,
+						AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY),
+						0, 0, "297px");
 			} else {
 				return false;
 			}

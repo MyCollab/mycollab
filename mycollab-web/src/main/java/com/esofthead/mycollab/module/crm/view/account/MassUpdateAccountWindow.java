@@ -69,7 +69,9 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 			final VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label informationHeader = new Label("Account Information");
+			final Label informationHeader = new Label(
+					AppContext
+							.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION));
 			informationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(informationHeader);
 
@@ -85,7 +87,9 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 
 			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
 					"167px", Alignment.TOP_LEFT);
-			final Label addressHeader = new Label("Address Information");
+			final Label addressHeader = new Label(
+					AppContext
+							.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION));
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);
 			this.addressLayout.getLayout().setWidth("100%");
@@ -102,14 +106,16 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("industry")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(AccountI18nEnum.FORM_INDUSTRY), 0, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY),
+						0, 0);
 			} else if (propertyId.equals("type")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(AccountI18nEnum.FORM_TYPE), 1, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(AccountI18nEnum.FORM_TYPE), 1, 0);
 			} else if (propertyId.equals("ownership")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(AccountI18nEnum.FORM_OWNERSHIP), 0, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP),
+						0, 1);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 1);

@@ -45,7 +45,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.TWO_COLUMN)
 				.orderIndex(0)
 				.header(AppContext
-						.getMessage(ContactI18nEnum.FORM_INFO_SECTION)).build();
+						.getMessage(ContactI18nEnum.SECTION_INFORMATION)).build();
 
 		contactSection.addField(new TextDynaFieldBuilder()
 				.fieldName("firstname")
@@ -105,9 +105,9 @@ public class ContactDefaultDynaFormLayoutFactory {
 						AppContext.getMessage(ContactI18nEnum.FORM_DEPARTMENT))
 				.fieldIndex(8).build());
 
-		contactSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName(AppContext.getMessage(ContactI18nEnum.FORM_FAX))
-				.displayName("Fax").fieldIndex(9).build());
+		contactSection.addField(new PhoneDynaFieldBuilder().fieldName("fax")
+				.displayName(AppContext.getMessage(ContactI18nEnum.FORM_FAX))
+				.fieldIndex(9).build());
 
 		contactSection.addField(new EmailDynaFieldBuilder().fieldName("email")
 				.displayName(AppContext.getMessage(ContactI18nEnum.FORM_EMAIL))
@@ -163,7 +163,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.TWO_COLUMN)
 				.orderIndex(1)
 				.header(AppContext
-						.getMessage(ContactI18nEnum.FORM_ADDRESS_SECTION))
+						.getMessage(ContactI18nEnum.SECTION_ADDRESS))
 				.build();
 
 		addressSection
@@ -249,7 +249,7 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.ONE_COLUMN)
 				.orderIndex(2)
 				.header(AppContext
-						.getMessage(ContactI18nEnum.FORM_DESC_SECTION)).build();
+						.getMessage(ContactI18nEnum.SECTION_DESCRIPTION)).build();
 
 		descSection
 				.addField(new TextDynaFieldBuilder()

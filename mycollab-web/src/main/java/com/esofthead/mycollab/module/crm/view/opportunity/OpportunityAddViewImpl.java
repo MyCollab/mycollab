@@ -42,7 +42,7 @@ public class OpportunityAddViewImpl extends
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Opportunity" : beanItem
+		return (beanItem.getId() == null) ? "New Opportunity" : beanItem
 				.getOpportunityname();
 	}
 

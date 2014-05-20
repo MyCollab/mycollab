@@ -57,7 +57,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Call" : beanItem
+		return (beanItem.getId() == null) ? "New Call" : beanItem
 				.getSubject();
 	}
 

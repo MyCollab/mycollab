@@ -92,7 +92,7 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create Lead",
+		final Button createAccountBtn = new Button("New Lead",
 				new Button.ClickListener() {
 
 			@Override

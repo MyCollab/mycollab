@@ -19,7 +19,13 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 
-public class CasesOriginComboBox extends ValueComboBox{
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class CasesOriginComboBox extends ValueComboBox {
 	private static final long serialVersionUID = 1L;
 
 	public CasesOriginComboBox() {

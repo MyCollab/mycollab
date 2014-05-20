@@ -94,7 +94,7 @@ public class ActivitySearchPanel extends
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		controlsBtn.setCaption("Create Task");
+		controlsBtn.setCaption("New Task");
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -110,7 +110,7 @@ public class ActivitySearchPanel extends
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
 		controlsBtn.setContent(btnControlsLayout);
 
-		final Button createMeetingBtn = new Button("Create Event",
+		final Button createMeetingBtn = new Button("New Meeting",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -125,7 +125,7 @@ public class ActivitySearchPanel extends
 		btnControlsLayout.addComponent(createMeetingBtn);
 		createMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
-		final Button createCallBtn = new Button("Create Call",
+		final Button createCallBtn = new Button("New Call",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -157,7 +157,7 @@ public class ActivitySearchPanel extends
 		calendarViewBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(calendarViewBtn);
 
-		Button activityListBtn = new Button("Activitities List");
+		Button activityListBtn = new Button("Activitities");
 		activityListBtn.setStyleName("selected");
 		activityListBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		viewSwitcher.addButton(activityListBtn);
@@ -217,16 +217,16 @@ public class ActivitySearchPanel extends
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button("Clear");
-			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
-			cancelBtn.addStyleName("cancel-button");
-			cancelBtn.addClickListener(new Button.ClickListener() {
+			final Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
+			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			clearBtn.addStyleName("cancel-button");
+			clearBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final Button.ClickEvent event) {
 					EventBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, cancelBtn,
+			UiUtils.addComponent(basicSearchBody, clearBtn,
 					Alignment.MIDDLE_CENTER);
 			return basicSearchBody;
 		}

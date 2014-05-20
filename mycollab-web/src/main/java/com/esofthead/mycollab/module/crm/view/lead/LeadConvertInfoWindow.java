@@ -145,16 +145,16 @@ public class LeadConvertInfoWindow extends Window {
 		layout.setComponentAlignment(convertButton, Alignment.MIDDLE_CENTER);
 
 		Button cancelButton = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				LeadConvertInfoWindow.this.close();
+					@Override
+					public void buttonClick(ClickEvent event) {
+						LeadConvertInfoWindow.this.close();
 
-			}
-		});
+					}
+				});
 		cancelButton.setStyleName(UIConstants.THEME_GRAY_LINK);
 		layout.addComponent(cancelButton);
 		layout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
@@ -192,7 +192,7 @@ public class LeadConvertInfoWindow extends Window {
 		infoLayout.addComponent(createContactLbl);
 
 		final CheckBox isCreateOpportunityChk = new CheckBox(
-				"Create an new opportunity for this account");
+				"Create a new opportunity for this account");
 		isCreateOpportunityChk
 				.addValueChangeListener(new ValueChangeListener() {
 					private static final long serialVersionUID = 1L;

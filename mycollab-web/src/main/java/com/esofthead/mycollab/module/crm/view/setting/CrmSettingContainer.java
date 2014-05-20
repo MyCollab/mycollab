@@ -29,6 +29,7 @@ import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
@@ -52,7 +53,7 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		this.setWidth("100%");
 
 		final CssLayout contentWrapper = new CssLayout();
-		contentWrapper.setStyleName("verticalTabView");
+		// contentWrapper.setStyleName("verticalTabView");
 		contentWrapper.setWidth("100%");
 		this.addComponent(contentWrapper);
 
@@ -66,6 +67,15 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		buildComponents();
 		contentWrapper.addComponent(settingTab);
 
+	}
+
+	@Override
+	public void attach() {
+		super.attach();
+
+		if (this.getParent() instanceof CustomLayout) {
+			this.getParent().addStyleName("preview-comp");
+		}
 	}
 
 	private void buildComponents() {

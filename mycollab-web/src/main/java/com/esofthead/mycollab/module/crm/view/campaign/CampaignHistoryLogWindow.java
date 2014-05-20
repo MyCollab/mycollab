@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -33,21 +34,32 @@ class CampaignHistoryLogWindow extends HistoryLogWindow {
 	public CampaignHistoryLogWindow(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("campaignname", "Name");
-		this.generateFieldDisplayHandler("startdate", "Start Date",
+		this.generateFieldDisplayHandler("campaignname",
+				AppContext.getMessage(CampaignI18nEnum.FORM_CAMPAIGN_NAME));
+		this.generateFieldDisplayHandler("startdate",
+				AppContext.getMessage(CampaignI18nEnum.FORM_START_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("enddate", "End Date",
+		this.generateFieldDisplayHandler("enddate",
+				AppContext.getMessage(CampaignI18nEnum.FORM_END_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("type", "Type");
-		this.generateFieldDisplayHandler("currencyid", "Currency",
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(CampaignI18nEnum.FORM_STATUS));
+		this.generateFieldDisplayHandler("type",
+				AppContext.getMessage(CampaignI18nEnum.FORM_TYPE));
+		this.generateFieldDisplayHandler("currencyid",
+				AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY),
 				HistoryLogComponent.CURRENCY_FIELD);
-		this.generateFieldDisplayHandler("budget", "Budget");
-		this.generateFieldDisplayHandler("expectedcost", "Expected Cost");
-		this.generateFieldDisplayHandler("actualcost", "Actual Cost");
-		this.generateFieldDisplayHandler("expectedrevenue", "Expected Revenue");
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-		this.generateFieldDisplayHandler("description", "Description");
+		this.generateFieldDisplayHandler("budget",
+				AppContext.getMessage(CampaignI18nEnum.FORM_BUDGET));
+		this.generateFieldDisplayHandler("expectedcost",
+				AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST));
+		this.generateFieldDisplayHandler("actualcost",
+				AppContext.getMessage(CampaignI18nEnum.FORM_ACTUAL_COST));
+		this.generateFieldDisplayHandler("expectedrevenue",
+				AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE));
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}
 }

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
@@ -77,30 +79,35 @@ public abstract class MassUpdateWindow<B> extends Window {
 		controlsLayout.setSpacing(true);
 		controlsLayout.setStyleName("addNewControl");
 
-		updateBtn = new Button("Update", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		updateBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				updateForm.commit();
-				massUpdateCommand.massUpdate(beanItem);
-				MassUpdateWindow.this.close();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						updateForm.commit();
+						massUpdateCommand.massUpdate(beanItem);
+						MassUpdateWindow.this.close();
+					}
+				});
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		updateBtn.setIcon(MyCollabResource.newResource("icons/16/action/massupdate.png"));
+		updateBtn.setIcon(MyCollabResource
+				.newResource("icons/16/action/massupdate.png"));
 		controlsLayout.addComponent(updateBtn);
 		controlsLayout
 				.setComponentAlignment(updateBtn, Alignment.MIDDLE_CENTER);
 
-		closeBtn = new Button("Close", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		closeBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				MassUpdateWindow.this.close();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						MassUpdateWindow.this.close();
+					}
+				});
 		closeBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlsLayout.addComponent(closeBtn);
 		controlsLayout.setComponentAlignment(closeBtn, Alignment.MIDDLE_CENTER);

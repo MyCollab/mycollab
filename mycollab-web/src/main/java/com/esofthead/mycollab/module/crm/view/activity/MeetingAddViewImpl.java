@@ -51,7 +51,7 @@ public class MeetingAddViewImpl extends AbstractEditItemComp<MeetingWithBLOBs>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Event" : beanItem
+		return (beanItem.getId() == null) ? "New Meeting" : beanItem
 				.getSubject();
 	}
 

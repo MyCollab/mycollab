@@ -43,8 +43,11 @@ public class LeadDefaultDynaFormLayoutFactory {
 		defaultForm = new DynaForm();
 
 		DynaSection infoSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Contact Information").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(0)
+				.header(AppContext
+						.getMessage(LeadI18nEnum.SECTION_LEAD_INFORMATION))
+				.build();
 
 		infoSection
 				.addField(new TextDynaFieldBuilder()
@@ -134,7 +137,8 @@ public class LeadDefaultDynaFormLayoutFactory {
 
 		DynaSection addressSection = new DynaSectionBuilder()
 				.layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
-				.header("Address Information").build();
+				.header(AppContext.getMessage(LeadI18nEnum.SECTION_ADDRESS))
+				.build();
 
 		addressSection.addField(new TextDynaFieldBuilder()
 				.fieldName("primaddress")
@@ -205,8 +209,10 @@ public class LeadDefaultDynaFormLayoutFactory {
 		defaultForm.addSection(addressSection);
 
 		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(2)
-				.header("Description").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(2)
+				.header(AppContext.getMessage(LeadI18nEnum.SECTION_DESCRIPTION))
+				.build();
 
 		descSection.addField(new TextAreaDynaFieldBuilder()
 				.fieldName("description")

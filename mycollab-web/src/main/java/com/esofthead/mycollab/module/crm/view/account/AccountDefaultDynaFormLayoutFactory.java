@@ -44,8 +44,11 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		// Build block account information
 		DynaSection accountSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Account Information").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(0)
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION))
+				.build();
 		accountSection.addField(new TextDynaFieldBuilder()
 				.fieldName("accountname")
 				.displayName(
@@ -65,65 +68,52 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("website")
 				.fieldIndex(2)
 				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_WEBSITE))
+						AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE))
 				.customField(false).build());
 
-		accountSection
-				.addField(new PhoneDynaFieldBuilder()
-						.fieldName("fax")
-						.fieldIndex(3)
-						.displayName(
-								AppContext
-										.getMessage(AccountI18nEnum.FORM_FAX))
-						.customField(false).build());
+		accountSection.addField(new PhoneDynaFieldBuilder().fieldName("fax")
+				.fieldIndex(3)
+				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_FAX))
+				.customField(false).build());
 
 		accountSection.addField(new IntDynaFieldBuilder()
 				.fieldName("numemployees")
 				.fieldIndex(4)
 				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_EMPLOYEES))
+						AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES))
 				.customField(false).build());
 
-		accountSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName("alternatephone")
-				.fieldIndex(5)
-				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_OTHER_PHONE))
-				.customField(false).build());
+		accountSection
+				.addField(new PhoneDynaFieldBuilder()
+						.fieldName("alternatephone")
+						.fieldIndex(5)
+						.displayName(
+								AppContext
+										.getMessage(AccountI18nEnum.FORM_OTHER_PHONE))
+						.customField(false).build());
 
 		accountSection.addField(new PickListDynaFieldBuilder<String>()
 				.fieldName("industry")
 				.fieldIndex(6)
 				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_INDUSTRY))
+						AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY))
 				.customField(false).build());
 
-		accountSection.addField(new EmailDynaFieldBuilder()
-				.fieldName("email")
+		accountSection.addField(new EmailDynaFieldBuilder().fieldName("email")
 				.fieldIndex(7)
-				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_EMAIL))
+				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_EMAIL))
 				.customField(false).build());
 
 		accountSection.addField(new PickListDynaFieldBuilder<String>()
-				.fieldName("type")
-				.fieldIndex(8)
-				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_TYPE))
+				.fieldName("type").fieldIndex(8)
+				.displayName(AppContext.getMessage(AccountI18nEnum.FORM_TYPE))
 				.customField(false).build());
 
 		accountSection.addField(new TextDynaFieldBuilder()
 				.fieldName("ownership")
 				.fieldIndex(9)
 				.displayName(
-						AppContext
-								.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
+						AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
 				.customField(false).build());
 
 		accountSection
@@ -149,7 +139,9 @@ public class AccountDefaultDynaFormLayoutFactory {
 		// build block address
 		DynaSection addressSection = new DynaSectionBuilder()
 				.layoutType(LayoutType.TWO_COLUMN)
-				.header("Address Information").orderIndex(1).build();
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION))
+				.orderIndex(1).build();
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(0)
@@ -241,7 +233,9 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		// build block description
 		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).header("Description")
+				.layoutType(LayoutType.ONE_COLUMN)
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_DESCRIPTION))
 				.orderIndex(2).build();
 
 		descSection.addField(new TextDynaFieldBuilder()
@@ -249,8 +243,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 				.fieldName("description")
 				.customField(false)
 				.displayName(
-						AppContext
-								.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
 				.build());
 		defaultForm.addSection(descSection);
 

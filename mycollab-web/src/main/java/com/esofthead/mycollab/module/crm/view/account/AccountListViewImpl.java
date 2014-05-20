@@ -130,7 +130,7 @@ public class AccountListViewImpl extends
 					MyCollabResource
 							.newResource("icons/16/action/massupdate.png"),
 					"update", AppContext
-							.getMessage(GenericI18Enum.BUTTON_MASSUPDATE));
+							.getMessage(GenericI18Enum.MASS_UPDATE_TOOLTIP));
 		}
 
 		return container;

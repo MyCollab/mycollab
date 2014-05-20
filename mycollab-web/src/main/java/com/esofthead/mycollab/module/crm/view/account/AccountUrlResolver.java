@@ -22,6 +22,12 @@ import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class AccountUrlResolver extends CrmUrlResolver {
 	public AccountUrlResolver() {
 		this.addSubResolver("list", new AccountListUrlResolver());

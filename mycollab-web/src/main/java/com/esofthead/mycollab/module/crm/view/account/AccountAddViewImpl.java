@@ -42,7 +42,7 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Account" : beanItem
+		return (beanItem.getId() == null) ? "New Account" : beanItem
 				.getAccountname();
 	}
 

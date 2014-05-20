@@ -67,7 +67,7 @@ public class AccountListNoItemView extends AbstractPageView {
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button btCreateContact = new Button("Create Account",
+		Button createAccountBtn = new Button("Create Account",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -80,8 +80,8 @@ public class AccountListNoItemView extends AbstractPageView {
 
 		HorizontalLayout links = new HorizontalLayout();
 
-		links.addComponent(btCreateContact);
-		btCreateContact.addStyleName(UIConstants.THEME_GREEN_LINK);
+		links.addComponent(createAccountBtn);
+		createAccountBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
 		/*
 		 * Label or = new Label("Or"); or.setStyleName("h2");

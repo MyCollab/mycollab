@@ -43,8 +43,11 @@ public class OpportunityDefaultDynaFormLayoutFactory {
 		defaultForm = new DynaForm();
 
 		DynaSection infoSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Opportunity Information").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(0)
+				.header(AppContext
+						.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION))
+				.build();
 
 		infoSection.addField(new TextDynaFieldBuilder()
 				.fieldName("opportunityname")
@@ -138,8 +141,11 @@ public class OpportunityDefaultDynaFormLayoutFactory {
 		defaultForm.addSection(infoSection);
 
 		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).orderIndex(1)
-				.header("Description").build();
+				.layoutType(LayoutType.ONE_COLUMN)
+				.orderIndex(1)
+				.header(AppContext
+						.getMessage(OpportunityI18nEnum.SECTION_DESCRIPTION))
+				.build();
 
 		descSection.addField(new TextAreaDynaFieldBuilder()
 				.fieldName("description")

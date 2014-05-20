@@ -52,8 +52,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Assignment" : beanItem
-				.getSubject();
+		return (beanItem.getId() == null) ? "New Task" : beanItem.getSubject();
 	}
 
 	@Override

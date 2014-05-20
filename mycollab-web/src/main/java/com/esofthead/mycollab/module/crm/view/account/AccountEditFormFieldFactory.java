@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.module.crm.domain.Account;
+import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -72,7 +74,8 @@ class AccountEditFormFieldFactory<B extends Account> extends
 			if (isValidateForm) {
 				tf.setNullRepresentation("");
 				tf.setRequired(true);
-				tf.setRequiredError("Please enter an Account Name");
+				tf.setRequiredError(AppContext
+						.getMessage(AccountI18nEnum.ERROR_ACCOUNT_NAME_IS_NULL));
 			}
 
 			return tf;

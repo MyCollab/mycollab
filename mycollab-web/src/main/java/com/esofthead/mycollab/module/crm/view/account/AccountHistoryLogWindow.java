@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -32,27 +34,45 @@ class AccountHistoryLogWindow extends HistoryLogWindow {
 	public AccountHistoryLogWindow(String module, String type, int typeid) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("accountname", "Account Name");
+		this.generateFieldDisplayHandler("accountname",
+				AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME));
 		this.generateFieldDisplayHandler("phoneoffice", AppContext
 				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
-		this.generateFieldDisplayHandler("website", "Website");
-		this.generateFieldDisplayHandler("fax", "Fax");
-		this.generateFieldDisplayHandler("numemployees", "Employees");
-		this.generateFieldDisplayHandler("alternatephone", "Other Phone");
-		this.generateFieldDisplayHandler("industry", "Industry");
-		this.generateFieldDisplayHandler("email", "Email");
-		this.generateFieldDisplayHandler("type", "Type");
-		this.generateFieldDisplayHandler("ownership", "Ownership");
-		this.generateFieldDisplayHandler("annualrevenue", "Annual Revenue");
-		this.generateFieldDisplayHandler("billingaddress", "Billing Address");
-		this.generateFieldDisplayHandler("shippingaddress", "Shipping Address");
-		this.generateFieldDisplayHandler("city", "Billing City");
-		this.generateFieldDisplayHandler("shippingcity", "Shipping City");
-		this.generateFieldDisplayHandler("state", "Billing State");
-		this.generateFieldDisplayHandler("shippingstate", "Shipping State");
-		this.generateFieldDisplayHandler("postalcode", "Postal Code");
-		this.generateFieldDisplayHandler("shippingpostalcode",
-				"Shipping Postal Code");
-		this.generateFieldDisplayHandler("description", "Description");
+		this.generateFieldDisplayHandler("website",
+				AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE));
+		this.generateFieldDisplayHandler("fax",
+				AppContext.getMessage(AccountI18nEnum.FORM_FAX));
+		this.generateFieldDisplayHandler("numemployees",
+				AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES));
+		this.generateFieldDisplayHandler("alternatephone",
+				AppContext.getMessage(AccountI18nEnum.FORM_OTHER_PHONE));
+		this.generateFieldDisplayHandler("industry",
+				AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY));
+		this.generateFieldDisplayHandler("email",
+				AppContext.getMessage(AccountI18nEnum.FORM_EMAIL));
+		this.generateFieldDisplayHandler("type",
+				AppContext.getMessage(AccountI18nEnum.FORM_TYPE));
+		this.generateFieldDisplayHandler("ownership",
+				AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP));
+		this.generateFieldDisplayHandler("annualrevenue",
+				AppContext.getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE));
+		this.generateFieldDisplayHandler("billingaddress",
+				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS));
+		this.generateFieldDisplayHandler("shippingaddress",
+				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS));
+		this.generateFieldDisplayHandler("city",
+				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY));
+		this.generateFieldDisplayHandler("shippingcity",
+				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY));
+		this.generateFieldDisplayHandler("state",
+				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_STATE));
+		this.generateFieldDisplayHandler("shippingstate",
+				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE));
+		this.generateFieldDisplayHandler("postalcode",
+				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE));
+		this.generateFieldDisplayHandler("shippingpostalcode", AppContext
+				.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}
 }

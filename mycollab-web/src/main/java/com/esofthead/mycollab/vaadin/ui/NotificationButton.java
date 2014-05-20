@@ -22,8 +22,14 @@ import java.util.List;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.ui.components.AbstractNotification;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
+import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -34,15 +40,16 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class NotificationButton extends PopupButton implements
-		PopupButton.PopupVisibilityListener {
+		PopupButton.PopupVisibilityListener,
+		ApplicationEventListener<ShellEvent.NewNotification> {
 	private static final long serialVersionUID = 2908372640829060184L;
 
-	private final List<Component> notificationItems;
+	private final List<AbstractNotification> notificationItems;
 	private final VerticalLayout notificationContainer;
 
 	public NotificationButton() {
 		super();
-		notificationItems = new ArrayList<Component>();
+		notificationItems = new ArrayList<AbstractNotification>();
 		notificationContainer = new VerticalLayout();
 		notificationContainer.setMargin(true);
 		this.setContent(notificationContainer);
@@ -51,6 +58,7 @@ public class NotificationButton extends PopupButton implements
 		this.setStyleName("notification-button");
 
 		addPopupVisibilityListener(this);
+		EventBus.getInstance().addListener(this);
 	}
 
 	@Override
@@ -58,9 +66,23 @@ public class NotificationButton extends PopupButton implements
 		notificationContainer.removeAllComponents();
 
 		if (notificationItems.size() > 0) {
-			Iterator<Component> iterator = notificationItems.iterator();
+			Iterator<AbstractNotification> iterator = notificationItems
+					.iterator();
 			while (iterator.hasNext()) {
-				notificationContainer.addComponent(iterator.next());
+				HorizontalLayout notificationItem = new HorizontalLayout();
+				notificationItem.setSpacing(true);
+				AbstractNotification item = iterator.next();
+				Label notificationType = new Label(item.getType() + ":");
+				notificationType.setStyleName("notification-type");
+				notificationType.addStyleName("notification-type-"
+						+ item.getType());
+				notificationItem.addComponent(notificationType);
+
+				Label notificationLbl = new Label(item.renderContent(),
+						ContentMode.HTML);
+				notificationItem.addComponent(notificationLbl);
+				notificationItem.setExpandRatio(notificationLbl, 1.0f);
+				notificationContainer.addComponent(notificationItem);
 			}
 		} else {
 			Label noItemLbl = new Label("No notification right now");
@@ -70,12 +92,12 @@ public class NotificationButton extends PopupButton implements
 		}
 	}
 
-	public void addNotification(Component notification) {
+	public void addNotification(AbstractNotification notification) {
 		notificationItems.add(notification);
 		updateCaption();
 	}
 
-	public void removeNotification(Component notification) {
+	public void removeNotification(AbstractNotification notification) {
 		notificationItems.remove(notification);
 		updateCaption();
 	}
@@ -85,6 +107,18 @@ public class NotificationButton extends PopupButton implements
 			this.setCaption(String.valueOf(notificationItems.size()));
 		} else {
 			this.setCaption(null);
+		}
+	}
+
+	@Override
+	public Class<? extends ApplicationEvent> getEventType() {
+		return ShellEvent.NewNotification.class;
+	}
+
+	@Override
+	public void handle(ShellEvent.NewNotification event) {
+		if (event.getData() instanceof AbstractNotification) {
+			addNotification((AbstractNotification) event.getData());
 		}
 	}
 }

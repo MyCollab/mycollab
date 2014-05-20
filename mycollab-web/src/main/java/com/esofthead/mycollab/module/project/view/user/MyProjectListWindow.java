@@ -48,12 +48,18 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.0.0
+ * 
+ */
 public class MyProjectListWindow extends Window {
 	private static final long serialVersionUID = -3927621612074942453L;
 	ProjectPagedList projectList;
 
 	public MyProjectListWindow() {
-		super("My Project");
+		super("My Projects");
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setStyleName("myprojectlist");

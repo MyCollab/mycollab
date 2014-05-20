@@ -67,7 +67,7 @@ public class LeadListNoItemView extends AbstractPageView {
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button btCreateContact = new Button("Create Lead",
+		Button btCreateContact = new Button("New Lead",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -113,9 +113,9 @@ public class UserLink extends Button {
 
 			String userFullLinkStr = UserLinkUtils.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), user.getUsername());
-			userFullLinkStr = userFullLinkStr.substring(0, 50);
-			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr, userFullLinkStr);
-			
+			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr,
+					userFullLinkStr);
+
 			userFullLinkBtn.setWidth("100%");
 			topLayout.addComponent(userFullLinkBtn);
 			topLayout.setExpandRatio(userFullLinkBtn, 1.0f);

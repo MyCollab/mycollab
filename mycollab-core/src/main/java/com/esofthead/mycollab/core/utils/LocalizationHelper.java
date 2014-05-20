@@ -73,7 +73,7 @@ public class LocalizationHelper {
 		try {
 			return english.getMessage(key);
 		} catch (Exception e) {
-			log.error("Can not find resource key {}", key);
+			log.error("Can not find resource key " + key, e);
 			return "Undefined";
 		}
 	}
@@ -82,7 +82,7 @@ public class LocalizationHelper {
 		try {
 			return english.getMessage(key, objects);
 		} catch (Exception e) {
-			log.error("Can not find resource key {}", key);
+			log.error("Can not find resource key " + key, e);
 			return "Undefined";
 		}
 	}

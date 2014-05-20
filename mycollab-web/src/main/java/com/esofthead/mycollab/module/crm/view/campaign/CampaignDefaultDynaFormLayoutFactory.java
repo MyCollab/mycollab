@@ -41,8 +41,11 @@ public class CampaignDefaultDynaFormLayoutFactory {
 		defaultForm = new DynaForm();
 
 		DynaSection campaignSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Campaign Information").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(0)
+				.header(AppContext
+						.getMessage(CampaignI18nEnum.SECTION_CAMPAIGN_INFORMATION))
+				.build();
 
 		campaignSection
 				.addField(new TextDynaFieldBuilder()
@@ -67,7 +70,8 @@ public class CampaignDefaultDynaFormLayoutFactory {
 						.fieldIndex(2).build());
 
 		campaignSection.addField(new TextDynaFieldBuilder().fieldName("type")
-				.displayName("Type").fieldIndex(3).build());
+				.displayName(AppContext.getMessage(CampaignI18nEnum.FORM_TYPE))
+				.fieldIndex(3).build());
 
 		campaignSection.addField(new DateDynaFieldBuilder()
 				.fieldName("enddate")
@@ -87,7 +91,7 @@ public class CampaignDefaultDynaFormLayoutFactory {
 
 		DynaSection goalSection = new DynaSectionBuilder()
 				.layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
-				.header(AppContext.getMessage(CampaignI18nEnum.FORM_GOAL))
+				.header(AppContext.getMessage(CampaignI18nEnum.SECTION_GOAL))
 				.build();
 
 		goalSection.addField(new CurrencyDynaFieldBuilder()
@@ -104,8 +108,11 @@ public class CampaignDefaultDynaFormLayoutFactory {
 										.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST))
 						.fieldIndex(2).build());
 
-		goalSection.addField(new NumberDynaFieldBuilder().fieldName("budget")
-				.displayName("Budget").fieldIndex(3).build());
+		goalSection.addField(new NumberDynaFieldBuilder()
+				.fieldName("budget")
+				.displayName(
+						AppContext.getMessage(CampaignI18nEnum.FORM_BUDGET))
+				.fieldIndex(3).build());
 
 		goalSection
 				.addField(new NumberDynaFieldBuilder()
@@ -125,8 +132,11 @@ public class CampaignDefaultDynaFormLayoutFactory {
 		defaultForm.addSection(goalSection);
 
 		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).orderIndex(2)
-				.header("Description").build();
+				.layoutType(LayoutType.ONE_COLUMN)
+				.orderIndex(2)
+				.header(AppContext
+						.getMessage(CampaignI18nEnum.SECTION_DESCRIPTION))
+				.build();
 
 		descSection.addField(new TextAreaDynaFieldBuilder()
 				.fieldName("description")

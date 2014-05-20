@@ -94,15 +94,16 @@ public class CaseSelectionWindow extends Window {
 					final Object itemId, final Object columnId) {
 				final SimpleCase cases = tableItem.getBeanByIndex(itemId);
 
-				ButtonLink b = new ButtonLink(cases.getSubject(),new Button.ClickListener() {
-					
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(cases);
-						CaseSelectionWindow.this.close();
-					}
-				});
+				ButtonLink b = new ButtonLink(cases.getSubject(),
+						new Button.ClickListener() {
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								fieldSelection.fireValueChange(cases);
+								CaseSelectionWindow.this.close();
+							}
+						});
 				return b;
 			}
 		});

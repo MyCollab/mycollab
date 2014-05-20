@@ -96,7 +96,7 @@ public class OpportunitySearchPanel extends
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("Create Opportunity",
+		final Button createAccountBtn = new Button("New Opportunity",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

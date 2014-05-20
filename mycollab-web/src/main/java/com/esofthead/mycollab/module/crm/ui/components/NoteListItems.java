@@ -40,6 +40,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
@@ -147,15 +148,18 @@ public class NoteListItems extends VerticalLayout {
 		this.addComponent(noteWrapper);
 		addStyleName("note-list");
 
-		createBtn = new Button("New Note", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		createBtn = new Button(
+				AppContext.getMessage(CrmCommonI18nEnum.BUTTON_NEW_NOTE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
+					@Override
+					public void buttonClick(final ClickEvent event) {
 
-				noteWrapper.replaceComponent(createBtn, new NoteEditor());
-			}
-		});
+						noteWrapper.replaceComponent(createBtn,
+								new NoteEditor());
+					}
+				});
 
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
@@ -408,8 +412,7 @@ public class NoteListItems extends VerticalLayout {
 			controls.setExpandRatio(emptySpace, 1.0f);
 
 			final Button cancelBtn = new Button(
-					AppContext
-							.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

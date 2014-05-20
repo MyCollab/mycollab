@@ -73,7 +73,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 
 		public FormLayoutFactory() {
 			super(
-					(ProjectAddViewImpl.this.project.getId() == null) ? "Create Project"
+					(ProjectAddViewImpl.this.project.getId() == null) ? "New Project"
 							: ProjectAddViewImpl.this.project.getName());
 		}
 

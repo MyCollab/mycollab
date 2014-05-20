@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
+import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -69,7 +70,9 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 			final VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label("Account Information");
+			final Label organizationHeader = new Label(
+					AppContext
+							.getMessage(OpportunityI18nEnum.SECTION_OPPORTUNITY_INFORMATION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
@@ -91,31 +94,55 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("opportunityname")) {
-				this.informationLayout.addComponent(field, "Opportunity Name",
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(OpportunityI18nEnum.FORM_NAME),
 						0, 0);
 			} else if (propertyId.equals("currencyid")) {
-				this.informationLayout.addComponent(field, "Currency", 0, 1);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(OpportunityI18nEnum.FORM_CURRENCY), 0, 1);
 			} else if (propertyId.equals("amount")) {
-				this.informationLayout.addComponent(field, "Amount", 0, 2);
-			} else if (propertyId.equals("salesstage")) {
-				this.informationLayout.addComponent(field, "Sales Stage", 0, 3);
-			} else if (propertyId.equals("probability")) {
-				this.informationLayout.addComponent(field, "Probability (%)",
-						0, 4);
-			} else if (propertyId.equals("nextstep")) {
-				this.informationLayout.addComponent(field, "Next Step", 0, 5);
-			} else if (propertyId.equals("accountid")) {
-				this.informationLayout
-						.addComponent(field, "Account Name", 1, 0);
-			} else if (propertyId.equals("expectedcloseddate")) {
 				this.informationLayout.addComponent(field,
-						"Expected Close Date", 1, 1);
+						AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT),
+						0, 2);
+			} else if (propertyId.equals("salesstage")) {
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE), 0, 3);
+			} else if (propertyId.equals("probability")) {
+				this.informationLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(OpportunityI18nEnum.FORM_PROBABILITY),
+								0, 4);
+			} else if (propertyId.equals("nextstep")) {
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP), 0, 5);
+			} else if (propertyId.equals("accountid")) {
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME), 1,
+						0);
+			} else if (propertyId.equals("expectedcloseddate")) {
+				this.informationLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE),
+								1, 1);
 			} else if (propertyId.equals("opportunitytype")) {
-				this.informationLayout.addComponent(field, "Type", 1, 2);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE),
+						1, 2);
 			} else if (propertyId.equals("source")) {
-				this.informationLayout.addComponent(field, "Lead Source", 1, 3);
+				this.informationLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE),
+								1, 3);
 			} else if (propertyId.equals("campaignid")) {
-				this.informationLayout.addComponent(field, "Campaign", 1, 4);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME), 1,
+						4);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 5);

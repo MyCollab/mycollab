@@ -22,6 +22,7 @@ import java.util.Date;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.ui.components.TimezoneNotification;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -269,12 +270,14 @@ public final class MainView extends AbstractPageView {
 				}
 			}
 		}
-//		NotificationButton notificationButton = new NotificationButton();
-//		accountLayout.addComponent(notificationButton);
-//		if (AppContext.getSession().getTimezone() == null) {
-//			notificationButton.addNotification(new Label(
-//					"You haven't set timezone yet"));
-//		}
+
+		NotificationButton notificationButton = new NotificationButton();
+		accountLayout.addComponent(notificationButton);
+		if (AppContext.getSession().getTimezone() == null) {
+			EventBus.getInstance().fireEvent(
+					new ShellEvent.NewNotification(this,
+							new TimezoneNotification()));
+		}
 
 		UserAvatarComp userAvatar = new UserAvatarComp();
 		accountLayout.addComponent(userAvatar);

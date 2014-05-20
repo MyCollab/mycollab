@@ -67,7 +67,7 @@ public class ContactListNoItemView extends AbstractPageView {
 		contact.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(contact);
 
-		Button btCreateContact = new Button("Create Contact",
+		Button btCreateContact = new Button("New Contact",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

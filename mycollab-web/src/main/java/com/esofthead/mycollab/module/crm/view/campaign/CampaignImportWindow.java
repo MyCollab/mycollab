@@ -31,6 +31,12 @@ import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
 	private static final long serialVersionUID = 1L;
 

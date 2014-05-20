@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.Contact;
+import com.esofthead.mycollab.module.crm.localization.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -68,7 +69,8 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 			final VerticalLayout formLayout = new VerticalLayout();
 			formLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
-			final Label organizationHeader = new Label("Contact Information");
+			final Label organizationHeader = new Label(
+					AppContext.getMessage(ContactI18nEnum.SECTION_DESCRIPTION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(organizationHeader);
 
@@ -84,7 +86,8 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 
 			this.addressLayout = new GridFormLayoutHelper(2, 6, "100%",
 					"167px", Alignment.TOP_LEFT);
-			final Label addressHeader = new Label("Address Information");
+			final Label addressHeader = new Label(
+					AppContext.getMessage(ContactI18nEnum.SECTION_ADDRESS));
 			addressHeader.setStyleName(UIConstants.H2_STYLE2);
 			formLayout.addComponent(addressHeader);
 			this.addressLayout.getLayout().setWidth("100%");
@@ -101,35 +104,59 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 		@Override
 		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("accountid")) {
-				this.informationLayout.addComponent(field, "Account", 0, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS),
+						0, 0);
 			} else if (propertyId.equals("title")) {
-				this.informationLayout.addComponent(field, "Title", 1, 0);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(ContactI18nEnum.FORM_TITLE), 1, 0);
 			} else if (propertyId.equals("leadsource")) {
-				this.informationLayout.addComponent(field, "Leader Source", 0,
-						1);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(ContactI18nEnum.FORM_LEAD_SOURCE),
+								0, 1);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 1);
 			} else if (propertyId.equals("iscallable")) {
-				this.informationLayout.addComponent(field, "Callable", 0, 2, 2,
-						"100%", Alignment.TOP_LEFT);
+				this.informationLayout
+						.addComponent(field, AppContext
+								.getMessage(ContactI18nEnum.FORM_IS_CALLABLE),
+								0, 2, 2, "100%", Alignment.TOP_LEFT);
 			} else if (propertyId.equals("primcity")) {
-				this.addressLayout.addComponent(field, "City", 0, 0);
+				this.addressLayout.addComponent(field, AppContext
+						.getMessage(ContactI18nEnum.FORM_PRIMARY_CITY), 0, 0);
 			} else if (propertyId.equals("primstate")) {
-				this.addressLayout.addComponent(field, "State", 1, 0);
+				this.addressLayout.addComponent(field, AppContext
+						.getMessage(ContactI18nEnum.FORM_PRIMARY_STATE), 1, 0);
 			} else if (propertyId.equals("primpostalcode")) {
-				this.addressLayout.addComponent(field, "Postal Code", 0, 1);
+				this.addressLayout.addComponent(field, AppContext
+						.getMessage(ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE),
+						0, 1);
 			} else if (propertyId.equals("primcountry")) {
-				this.addressLayout.addComponent(field, "Country", 1, 1);
+				this.addressLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(ContactI18nEnum.FORM_PRIMARY_COUNTRY),
+								1, 1);
 			} else if (propertyId.equals("othercity")) {
-				this.addressLayout.addComponent(field, "Other City", 0, 2);
+				this.addressLayout.addComponent(field,
+						AppContext.getMessage(ContactI18nEnum.FORM_OTHER_CITY),
+						0, 2);
 			} else if (propertyId.equals("otherstate")) {
-				this.addressLayout.addComponent(field, "Other State", 1, 2);
+				this.addressLayout
+						.addComponent(field, AppContext
+								.getMessage(ContactI18nEnum.FORM_OTHER_STATE),
+								1, 2);
 			} else if (propertyId.equals("otherpostalcode")) {
-				this.addressLayout.addComponent(field, "Other Postal Code", 0,
+				this.addressLayout.addComponent(field, AppContext
+						.getMessage(ContactI18nEnum.FORM_OTHER_POSTAL_CODE), 0,
 						3);
 			} else if (propertyId.equals("othercountry")) {
-				this.addressLayout.addComponent(field, "Other Country", 1, 3);
+				this.addressLayout.addComponent(field, AppContext
+						.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY), 1, 3);
 			} else {
 				return false;
 			}
