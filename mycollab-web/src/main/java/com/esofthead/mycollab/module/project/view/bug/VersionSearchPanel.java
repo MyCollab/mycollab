@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -83,7 +84,8 @@ public class VersionSearchPanel extends
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label versionTitle = new Label("Versions");
+		final Label versionTitle = new Label(
+				AppContext.getMessage(VersionI18nEnum.LIST_VIEW_TITLE));
 		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(versionTitle);
 		layout.setComponentAlignment(versionTitle, Alignment.MIDDLE_LEFT);
@@ -166,7 +168,8 @@ public class VersionSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, searchBtn,
 					Alignment.MIDDLE_LEFT);
 
-			final Button cancelBtn = new Button("Clear");
+			final Button cancelBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;

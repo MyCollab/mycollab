@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
+import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -102,7 +103,7 @@ public class TaskGroupDisplayWidget
 		private void initHeader() {
 			final HorizontalLayout headerElement = new HorizontalLayout();
 			final Button parentTaskListFilterButton = new Button(
-					"Active Tasks only",
+					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
 
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -131,7 +132,8 @@ public class TaskGroupDisplayWidget
 			filterBtnLayout.setSpacing(true);
 			filterBtnLayout.setWidth("200px");
 
-			final Button allTasksFilterBtn = new Button("All Tasks",
+			final Button allTasksFilterBtn = new Button(
+					AppContext.getMessage(TaskGroupI18nEnum.FILTER_ALL_TASKS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -147,7 +149,9 @@ public class TaskGroupDisplayWidget
 			allTasksFilterBtn.setStyleName("link");
 			filterBtnLayout.addComponent(allTasksFilterBtn);
 
-			final Button activeTasksFilterBtn = new Button("Active Tasks Only",
+			final Button activeTasksFilterBtn = new Button(
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_ACTIVE_TASKS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -164,7 +168,9 @@ public class TaskGroupDisplayWidget
 			filterBtnLayout.addComponent(activeTasksFilterBtn);
 
 			final Button pendingTasksFilterBtn = new Button(
-					"Pending Tasks Only", new Button.ClickListener() {
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_PENDING_TASKS),
+					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -180,7 +186,9 @@ public class TaskGroupDisplayWidget
 			filterBtnLayout.addComponent(pendingTasksFilterBtn);
 
 			final Button archievedTasksFilterBtn = new Button(
-					"Archieved Tasks Only", new Button.ClickListener() {
+					AppContext
+							.getMessage(TaskGroupI18nEnum.FILTER_ARCHIEVED_TASKS),
+					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -213,7 +221,8 @@ public class TaskGroupDisplayWidget
 			actionBtnLayout.setWidth("200px");
 			this.taskListActionControl.setContent(actionBtnLayout);
 
-			final Button readBtn = new Button("View",
+			final Button readBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_VIEW_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -233,7 +242,8 @@ public class TaskGroupDisplayWidget
 			readBtn.setStyleName("link");
 			actionBtnLayout.addComponent(readBtn);
 
-			final Button editBtn = new Button("Edit",
+			final Button editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -251,7 +261,8 @@ public class TaskGroupDisplayWidget
 			editBtn.setStyleName("link");
 			actionBtnLayout.addComponent(editBtn);
 
-			final Button closeBtn = new Button("Close",
+			final Button closeBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

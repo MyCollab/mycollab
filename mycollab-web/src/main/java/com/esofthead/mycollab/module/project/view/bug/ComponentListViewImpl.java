@@ -312,7 +312,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(component
+							StringUtils.trimHtmlTags(component
 									.getDescription()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(

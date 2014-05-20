@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -83,7 +84,8 @@ public class ComponentSearchPanel extends
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label componenttitle = new Label("Components");
+		final Label componenttitle = new Label(
+				AppContext.getMessage(ComponentI18nEnum.LIST_VIEW_TITLE));
 		componenttitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(componenttitle);
 		layout.setExpandRatio(componenttitle, 1.0f);

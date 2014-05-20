@@ -992,11 +992,11 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 #topNavigation .accountMenu {
-	float: right;
-	margin-right: 30px;
+/* 	float: right; */
+/* 	margin-right: 30px; */
 	height: 40px;
-	display: block;
-	padding: 12px 12px 11px;
+/* 	display: block; */
+	padding: 12px 0px 11px;
 	background: none;
 	border: none;
 }
@@ -7057,4 +7057,16 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+/*Notification Button */
+#topNavigation .v-button.notification-button, #topNavigation .v-button.notification-button:focus {
+	background: none no-repeat left top #E4E4E4;
+	border-radius: 5px;
+}
+#topNavigation .v-button.notification-button .v-button-caption, #topNavigation .v-button.notification-button:focus .v-button-caption {
+	color: #c31616;
+}
+#topNavigation .v-button.notification-button .v-popup-indicator {
+	display: none;
 }

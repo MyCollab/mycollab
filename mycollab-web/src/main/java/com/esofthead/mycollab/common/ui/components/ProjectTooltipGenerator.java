@@ -200,7 +200,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(task.getNotes()));
+							StringUtils.trimHtmlTags(task.getNotes()));
 			trRow6_value.setAttribute("colspan", "3");
 			trRow6.appendChild(
 					new Td().setStyle(
@@ -243,7 +243,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(bug
+							StringUtils.trimHtmlTags(bug
 									.getDescription()));
 			trRow1_value.setAttribute("colspan", "3");
 			trRow1.appendChild(
@@ -257,7 +257,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(bug
+							StringUtils.trimHtmlTags(bug
 									.getEnvironment()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(
@@ -354,7 +354,7 @@ public class ProjectTooltipGenerator {
 																					16)))
 													.appendText(
 															StringUtils
-																	.getStringRemoveHtmlTag(bug
+																	.trimHtmlTags(bug
 																			.getLoguserFullName()))));
 			trRow6.appendChild(
 					new Td().setStyle(
@@ -443,7 +443,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(risk
+							StringUtils.trimHtmlTags(risk
 									.getDescription()));
 			trRow5_value.setAttribute("colspan", "3");
 
@@ -580,7 +580,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(risk
+							StringUtils.trimHtmlTags(risk
 									.getResponse()));
 			trRow6_value.setAttribute("colspan", "3");
 
@@ -624,7 +624,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(problem
+							StringUtils.trimHtmlTags(problem
 									.getDescription()));
 			trRow5_value.setAttribute("colspan", "3");
 
@@ -761,7 +761,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(problem
+							StringUtils.trimHtmlTags(problem
 									.getResolution()));
 			trRow6_value.setAttribute("colspan", "3");
 
@@ -820,7 +820,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(version
+							StringUtils.trimHtmlTags(version
 									.getDescription()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(
@@ -880,7 +880,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(component
+							StringUtils.trimHtmlTags(component
 									.getDescription()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(
@@ -959,7 +959,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(taskList
+							StringUtils.trimHtmlTags(taskList
 									.getDescription()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(
@@ -1173,7 +1173,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(project
+							StringUtils.trimHtmlTags(project
 									.getDescription()));
 			trRow6_value.setAttribute("colspan", "3");
 			trRow6.appendChild(
@@ -1309,7 +1309,7 @@ public class ProjectTooltipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(milestone
+							StringUtils.trimHtmlTags(milestone
 									.getDescription()));
 			trRow6_value.setAttribute("colspan", "3");
 			trRow6.appendChild(

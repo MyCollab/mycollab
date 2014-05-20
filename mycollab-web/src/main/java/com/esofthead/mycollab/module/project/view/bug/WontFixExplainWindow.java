@@ -24,6 +24,7 @@ import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
@@ -129,7 +130,8 @@ public class WontFixExplainWindow extends Window {
 				controlsBtn.setComponentAlignment(cancelBtn,
 						Alignment.MIDDLE_LEFT);
 
-				final Button wonFixBtn = new Button("Won't Fix",
+				final Button wonFixBtn = new Button(
+						AppContext.getMessage(BugI18nEnum.BUTTON_WONT_FIX),
 						new Button.ClickListener() {
 							@Override
 							public void buttonClick(final ClickEvent event) {
@@ -185,7 +187,8 @@ public class WontFixExplainWindow extends Window {
 												.refreshBugItem();
 									} else {
 										NotificationUtil
-												.showErrorNotification("You must enter a comment to explain for won't fix resolution");
+												.showErrorNotification(AppContext
+														.getMessage(BugI18nEnum.WONT_FIX_EXPLAIN_REQUIRE_MSG));
 										return;
 									}
 
@@ -208,20 +211,19 @@ public class WontFixExplainWindow extends Window {
 			public boolean attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("resolution")) {
-					this.informationLayout.addComponent(field, "Resolution", 0,
-							0);
-				} else if (propertyId.equals("assignuser")) {
-					this.informationLayout
-							.addComponent(
-									field,
-									AppContext
-											.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
-									0, 1);
-				} else if (propertyId.equals("fixedVersions")) {
 					this.informationLayout.addComponent(field,
-							"Fixed Versions", 0, 2);
+							AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
+							0, 0);
+				} else if (propertyId.equals("assignuser")) {
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							1);
+				} else if (propertyId.equals("fixedVersions")) {
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);
 				} else if (propertyId.equals("comment")) {
-					this.informationLayout.addComponent(field, "Comments", 0,
+					this.informationLayout.addComponent(field,
+							AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
 							3, 2, "100%", Alignment.MIDDLE_LEFT);
 				} else {
 					return false;

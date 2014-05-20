@@ -23,8 +23,15 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/bug")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum BugI18nEnum {
+	BUTTON_REOPEN,
+	BUTTON_RESOLVED,
+	BUTTON_WONT_FIX,
+	
+	WONT_FIX_EXPLAIN_REQUIRE_MSG,
+	
 	BUG_DASHBOARD_TITLE,
 	BUG_SEARCH_TITLE,
+	RECENT_BUGS_WIDGET_TITLE,
 	MY_BUGS_WIDGET_TITLE,
 	MY_OPEN_BUGS_WIDGET_TITLE,
 	DUE_BUGS_WIDGET_TITLE,
@@ -66,6 +73,7 @@ public enum BugI18nEnum {
 	FORM_REMAIN_ESTIMATE,
 	FORM_ATTACHMENT,
 	FORM_PHASE,
+	FORM_COMMENT,
 	
 	TABLE_EXPORT_BUTTON,
 	

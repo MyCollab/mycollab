@@ -36,8 +36,10 @@ import com.vaadin.ui.Table;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
-public class MeetingTableDisplay extends
+public class MeetingTableDisplay
+		extends
 		DefaultPagedBeanTable<MeetingService, MeetingSearchCriteria, SimpleMeeting> {
 
 	private static final long serialVersionUID = 1L;
@@ -54,10 +56,10 @@ public class MeetingTableDisplay extends
 					final Object itemId, Object columnId) {
 				final SimpleMeeting meeting = MeetingTableDisplay.this
 						.getBeanByIndex(itemId);
-				
+
 				LabelLink b = new LabelLink(meeting.getSubject(),
 						CrmLinkBuilder.generateMeetingPreviewLinkFull(meeting
-								.getId()));									
+								.getId()));
 				b.addStyleName(UIConstants.LINK_COMPLETED);
 
 				if ("Held".equals(meeting.getStatus())) {

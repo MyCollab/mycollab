@@ -19,33 +19,24 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlLink;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.server.ExternalResource;
@@ -112,14 +103,14 @@ public class LeadTableDisplay extends
 					Object columnId) {
 				final SimpleLead lead = LeadTableDisplay.this
 						.getBeanByIndex(itemId);
-				
-				LabelLink b = new LabelLink(lead.getLeadName(),
-						CrmLinkBuilder.generateLeadPreviewLinkFull(lead
-								.getId()));	
+
+				LabelLink b = new LabelLink(lead.getLeadName(), CrmLinkBuilder
+						.generateLeadPreviewLinkFull(lead.getId()));
 				if ("Dead".equals(lead.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}
-				b.setDescription(generateTooltip(lead));
+				b.setDescription(CrmTooltipGenerator.generateTooltipLead(lead,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 				return b;
 			}
 		});
@@ -175,256 +166,5 @@ public class LeadTableDisplay extends
 		});
 
 		this.setWidth("100%");
-	}
-
-	private String generateTooltip(SimpleLead lead) {
-		try {
-			Div div = new Div();
-			H3 leadName = new H3();
-			leadName.appendText(Jsoup.parse(lead.getLeadName()).html());
-			div.appendChild(leadName);
-
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("First Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getFirstname())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getEmail() != null) ? "mailto:"
-															+ lead.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getEmail()))));
-
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Last Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getLastname())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Office Phone:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getOfficephone())));
-
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Title:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getTitle())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Mobile:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getMobile())));
-
-			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Department:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getDepartment())));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Fax:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getFax())));
-			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Account Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getAccountname())));
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Website:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getWebsite() != null) ? lead
-															.getWebsite() : "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getWebsite()))));
-
-			Tr trRow6 = new Tr();
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Lead Source:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getLeadsourcedesc())));
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	AppContext
-																			.getSiteUrl(),
-																	lead.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					lead.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getAssignUserFullName()))));
-			Tr trRow7 = new Tr();
-			trRow7.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getPrimaddress())));
-			trRow7.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Other Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getOtheraddress())));
-
-			Tr trRow8 = new Tr();
-			trRow8.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Postal Code:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getPrimpostalcode())));
-			trRow8.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Other Postal Code:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getOtherpostalcode())));
-			Tr trRow9 = new Tr();
-
-			Td trRow9_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(lead
-									.getDescription()));
-			trRow9_value.setAttribute("colspan", "3");
-
-			trRow9.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow9_value);
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			table.appendChild(trRow7);
-			table.appendChild(trRow8);
-			table.appendChild(trRow9);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			log.error("Error while generate Lead tooltip", e);
-			return "";
-		}
 	}
 }

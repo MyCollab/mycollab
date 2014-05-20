@@ -96,7 +96,8 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 
 	@Override
 	protected void initRelatedComponents() {
-		this.noteListItems = new NoteListItems("Notes");
+		this.noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");

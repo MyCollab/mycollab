@@ -84,7 +84,8 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 					if (index > 0) {
 						assignUserFullName = displayName.substring(0, index);
 					} else {
-						assignUserFullName = "Undefined";
+						assignUserFullName = AppContext
+								.getMessage(TaskI18nEnum.UNDEFINED_USER);
 					}
 				}
 
@@ -116,8 +117,9 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 					searchCriteria.setAssignUser(new StringSearchField(
 							SearchField.AND, assignee));
 					TaskFilterParameter filterParam = new TaskFilterParameter(
-							searchCriteria, "Filter Tasks by Assignee: "
-									+ assigneeFullName);
+							searchCriteria, AppContext.getMessage(
+									TaskI18nEnum.FILTER_TASK_BY_ASSIGNEE,
+									assigneeFullName));
 					EventBus.getInstance().fireEvent(
 							new TaskEvent.Filter(this, filterParam));
 				}

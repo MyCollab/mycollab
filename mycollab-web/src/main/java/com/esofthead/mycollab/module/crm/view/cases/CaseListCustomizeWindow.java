@@ -23,6 +23,12 @@ import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.CustomizedTableWindow;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class CaseListCustomizeWindow extends CustomizedTableWindow {
 	private static final long serialVersionUID = 1L;
 

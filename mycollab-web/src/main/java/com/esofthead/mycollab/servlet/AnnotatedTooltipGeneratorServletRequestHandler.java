@@ -90,7 +90,8 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 @Component("tooltipGeneratorServlet")
-public class AnnotatedTooltipGeneratorServletRequestHandler extends GenericServletRequestHandler {
+public class AnnotatedTooltipGeneratorServletRequestHandler extends
+		GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
 			.getLogger(AnnotatedTooltipGeneratorServletRequestHandler.class);
 
@@ -183,7 +184,7 @@ public class AnnotatedTooltipGeneratorServletRequestHandler extends GenericServl
 						.getSpringBean(AccountService.class);
 				SimpleAccount account = service.findById(typeid, sAccountId);
 				html = CrmTooltipGenerator.generateToolTipAccount(account,
-						siteURL, timeZone);
+						siteURL);
 			} else if ("Contact".equals(type)) {
 				ContactService service = ApplicationContextUtil
 						.getSpringBean(ContactService.class);

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,7 @@ public class CustomViewStoreServiceImpl extends
 		CustomViewStore viewLayoutDef = getViewLayoutDef(
 				viewStore.getSaccountid(), viewStore.getCreateduser(),
 				viewStore.getViewid());
+		viewStore.setCreatedtime(new GregorianCalendar().getTime());
 		if (!(viewLayoutDef instanceof NullCustomViewStore)) {
 			viewStore.setId(viewLayoutDef.getId());
 			updateWithSession(viewStore, viewStore.getCreateduser());

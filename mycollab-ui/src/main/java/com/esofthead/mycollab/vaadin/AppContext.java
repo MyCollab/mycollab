@@ -470,6 +470,11 @@ public class AppContext implements Serializable {
 		return timezone;
 	}
 
+	public static String getTimezoneId() {
+		SimpleUser session = getInstance().session;
+		return session.getTimezone();
+	}
+
 	/**
 	 * 
 	 * @param date

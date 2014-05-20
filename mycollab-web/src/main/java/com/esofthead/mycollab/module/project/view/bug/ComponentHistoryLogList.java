@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -30,10 +32,14 @@ public class ComponentHistoryLogList extends HistoryLogComponent {
 	public ComponentHistoryLogList(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("componentname", "Component Name");
-		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("userlead", "Lead");
-		this.generateFieldDisplayHandler("status", "Status");
+		this.generateFieldDisplayHandler("componentname",
+				AppContext.getMessage(ComponentI18nEnum.FORM_NAME));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(ComponentI18nEnum.FORM_DESCRIPTION));
+		this.generateFieldDisplayHandler("userlead",
+				AppContext.getMessage(ComponentI18nEnum.FORM_LEAD));
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(ComponentI18nEnum.FORM_STATUS));
 	}
 
 }

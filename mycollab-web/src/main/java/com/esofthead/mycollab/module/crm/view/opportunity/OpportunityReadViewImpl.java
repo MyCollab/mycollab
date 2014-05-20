@@ -146,7 +146,8 @@ public class OpportunityReadViewImpl extends
 		associateContactList = new OpportunityContactListComp();
 		associateLeadList = new OpportunityLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();

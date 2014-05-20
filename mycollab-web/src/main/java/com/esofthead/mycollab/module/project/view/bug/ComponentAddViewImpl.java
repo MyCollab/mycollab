@@ -17,9 +17,11 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -48,8 +50,9 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Component"
-				: "Edit Component";
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(ComponentI18nEnum.FORM_NEW_TITLE) : AppContext
+				.getMessage(ComponentI18nEnum.FORM_EDIT_TITLE);
 	}
 
 	@Override
@@ -105,7 +108,8 @@ public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
 					tf.setRequired(true);
-					tf.setRequiredError("Please enter a Component Name");
+					tf.setRequiredError(AppContext
+							.getMessage(ComponentI18nEnum.FORM_COMPONENT_ERROR));
 				}
 				return tf;
 			} else if (propertyId.equals("description")) {

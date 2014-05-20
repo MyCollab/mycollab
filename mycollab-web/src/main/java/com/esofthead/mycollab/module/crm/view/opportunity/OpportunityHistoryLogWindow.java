@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -33,21 +34,33 @@ class OpportunityHistoryLogWindow extends HistoryLogWindow {
 	public OpportunityHistoryLogWindow(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("opportunityname", "Opportunity Name");
-		this.generateFieldDisplayHandler("currencyid", "Currency",
+		this.generateFieldDisplayHandler("opportunityname",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_NAME));
+		this.generateFieldDisplayHandler("currencyid",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_CURRENCY),
 				HistoryLogComponent.CURRENCY_FIELD);
-		this.generateFieldDisplayHandler("amount", "Amount");
-		this.generateFieldDisplayHandler("salesstage", "Sales Stage");
-		this.generateFieldDisplayHandler("probability", "Probability (%)");
-		this.generateFieldDisplayHandler("nextstep", "Next Step");
-		this.generateFieldDisplayHandler("accountid", "Account Name");
-		this.generateFieldDisplayHandler("expectedcloseddate",
-				"Expected Close Date", HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("opportunitytype", "Type");
-		this.generateFieldDisplayHandler("source", "Lead Source");
-		this.generateFieldDisplayHandler("campaignid", "Campaign");
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-		this.generateFieldDisplayHandler("description", "Description");
+		this.generateFieldDisplayHandler("amount",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT));
+		this.generateFieldDisplayHandler("salesstage",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE));
+		this.generateFieldDisplayHandler("probability",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE));
+		this.generateFieldDisplayHandler("nextstep",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP));
+		this.generateFieldDisplayHandler("accountid",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME));
+		this.generateFieldDisplayHandler("expectedcloseddate", AppContext
+				.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE),
+				HistoryLogComponent.DATE_FIELD);
+		this.generateFieldDisplayHandler("opportunitytype",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE));
+		this.generateFieldDisplayHandler("source",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE));
+		this.generateFieldDisplayHandler("campaignid",
+				AppContext.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}
 }

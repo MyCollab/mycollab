@@ -228,7 +228,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(meeting
+							StringUtils.trimHtmlTags(meeting
 									.getDescription()));
 			trRow3_value.setAttribute("colspan", "3");
 
@@ -306,7 +306,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(call
+							StringUtils.trimHtmlTags(call
 									.getDescription()));
 			trRow3_value.setAttribute("colspan", "3");
 
@@ -321,7 +321,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(call
+							StringUtils.trimHtmlTags(call
 									.getCallResult()));
 			trRow4_value.setAttribute("colspan", "3");
 
@@ -450,7 +450,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(event
+							StringUtils.trimHtmlTags(event
 									.getDescription()));
 			trRow4_value.setAttribute("colspan", "3");
 

@@ -70,7 +70,7 @@ public class ActivityListViewImpl extends
 						UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
 						TaskI18nEnum.TABLE_TYPE_HEADER, "eventType",
 						UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
-						TaskI18nEnum.TABLE_START_DATE_HEADER, "startDate",
+						TaskI18nEnum.FORM_START_DATE, "startDate",
 						UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
 						TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
 						UIConstants.TABLE_DATE_TIME_WIDTH)));

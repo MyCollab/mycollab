@@ -27,6 +27,8 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -62,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
-implements VersionReadView {
+		implements VersionReadView {
 	private static final long serialVersionUID = 1L;
 
 	private VersionHistoryLogList historyLogList;
@@ -71,7 +73,8 @@ implements VersionReadView {
 	private Button quickActionStatusBtn;
 
 	public VersionReadViewImpl() {
-		super("Version Detail", MyCollabResource.newResource("icons/22/project/version.png"));
+		super("Version Detail", MyCollabResource
+				.newResource("icons/22/project/version.png"));
 	}
 
 	@Override
@@ -153,7 +156,7 @@ implements VersionReadView {
 						&& beanItem.getStatus().equals("Close")) {
 					beanItem.setStatus("Open");
 					VersionReadViewImpl.this
-					.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("Close");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
@@ -161,7 +164,7 @@ implements VersionReadView {
 					beanItem.setStatus("Close");
 
 					VersionReadViewImpl.this
-					.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("ReOpen");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
@@ -190,15 +193,18 @@ implements VersionReadView {
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
 
-		tabContainer.addTab(relatedBugComp, "Related Bugs",
+		tabContainer.addTab(relatedBugComp,
+				AppContext.getMessage(VersionI18nEnum.RELATED_BUGS_TAB),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
-		tabContainer.addTab(historyLogList, "History", MyCollabResource
-				.newResource("icons/16/project/gray/history.png"));
+		tabContainer.addTab(historyLogList, AppContext
+				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				MyCollabResource
+						.newResource("icons/16/project/gray/history.png"));
 		return tabContainer;
 	}
 
 	class RelatedBugComp extends VerticalLayout implements
-	IBugReportDisplayContainer {
+			IBugReportDisplayContainer {
 		private static final long serialVersionUID = 1L;
 
 		private HorizontalLayout bottomLayout;
@@ -226,13 +232,13 @@ implements VersionReadView {
 
 			final Button simpleDisplay = new Button(null,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					displaySimpleView();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							displaySimpleView();
+						}
+					});
 			simpleDisplay.setIcon(MyCollabResource
 					.newResource("icons/16/project/list_display.png"));
 
@@ -240,13 +246,13 @@ implements VersionReadView {
 
 			final Button advanceDisplay = new Button(null,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					displayAdvancedView();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							displayAdvancedView();
+						}
+					});
 			advanceDisplay.setIcon(MyCollabResource
 					.newResource("icons/16/project/bug_advanced_display.png"));
 			viewGroup.addButton(advanceDisplay);
@@ -257,7 +263,7 @@ implements VersionReadView {
 
 			this.bottomLayout = new HorizontalLayout();
 			this.bottomLayout
-			.setMargin(new MarginInfo(false, true, true, true));
+					.setMargin(new MarginInfo(false, true, true, true));
 			this.bottomLayout.setSpacing(true);
 			this.bottomLayout.setWidth("100%");
 
@@ -301,16 +307,16 @@ implements VersionReadView {
 
 			final BugSearchCriteria unresolvedByPrioritySearchCriteria = new BugSearchCriteria();
 			unresolvedByPrioritySearchCriteria
-			.setProjectId(new NumberSearchField(project.getId()));
+					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByPrioritySearchCriteria
-			.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
+					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
 			unresolvedByPrioritySearchCriteria
-			.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.INPROGRESS,
-					BugStatusConstants.OPEN,
-					BugStatusConstants.REOPENNED }));
+					.setStatuses(new SetSearchField<String>(SearchField.AND,
+							new String[] { BugStatusConstants.INPROGRESS,
+									BugStatusConstants.OPEN,
+									BugStatusConstants.REOPENNED }));
 			unresolvedBugWidget
-			.setSearchCriteria(unresolvedByPrioritySearchCriteria);
+					.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 
 			final UnresolvedBugsByAssigneeWidget unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget(
 					this);
@@ -320,16 +326,16 @@ implements VersionReadView {
 
 			final BugSearchCriteria unresolvedByAssigneeSearchCriteria = new BugSearchCriteria();
 			unresolvedByAssigneeSearchCriteria
-			.setProjectId(new NumberSearchField(project.getId()));
+					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByAssigneeSearchCriteria
-			.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
+					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
 			unresolvedByAssigneeSearchCriteria
-			.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.INPROGRESS,
-					BugStatusConstants.OPEN,
-					BugStatusConstants.REOPENNED }));
+					.setStatuses(new SetSearchField<String>(SearchField.AND,
+							new String[] { BugStatusConstants.INPROGRESS,
+									BugStatusConstants.OPEN,
+									BugStatusConstants.REOPENNED }));
 			unresolvedByAssigneeWidget
-			.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
+					.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 
 			final VerticalLayout rightColumn = new VerticalLayout();
 			rightColumn.setMargin(new MarginInfo(false, false, false, true));

@@ -54,17 +54,17 @@ import com.vaadin.ui.TextField;
  * 
  */
 public class CampaignSearchPanel extends
-DefaultGenericSearchPanel<CampaignSearchCriteria> {
+		DefaultGenericSearchPanel<CampaignSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	private static Param[] paramFields = new Param[] {
-		CampaignSearchCriteria.p_campaignName,
-		CampaignSearchCriteria.p_startDate,
-		CampaignSearchCriteria.p_endDate,
-		CampaignSearchCriteria.p_createdtime,
-		CampaignSearchCriteria.p_lastUpdatedTime,
-		CampaignSearchCriteria.p_types, CampaignSearchCriteria.p_statuses,
-		CampaignSearchCriteria.p_assignee };
+			CampaignSearchCriteria.p_campaignName,
+			CampaignSearchCriteria.p_startDate,
+			CampaignSearchCriteria.p_endDate,
+			CampaignSearchCriteria.p_createdtime,
+			CampaignSearchCriteria.p_lastUpdatedTime,
+			CampaignSearchCriteria.p_types, CampaignSearchCriteria.p_statuses,
+			CampaignSearchCriteria.p_assignee };
 
 	protected CampaignSearchCriteria searchCriteria;
 
@@ -92,15 +92,15 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 
 		final Button createAccountBtn = new Button("Create Campaign",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new CampaignEvent.GotoAdd(this, null));
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new CampaignEvent.GotoAdd(this, null));
 
-			}
-		});
+					}
+				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -122,7 +122,7 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 	}
 
 	private class CampaignBasicSearchLayout extends
-	BasicSearchLayout<CampaignSearchCriteria> {
+			BasicSearchLayout<CampaignSearchCriteria> {
 		private static final long serialVersionUID = 1L;
 		private TextField nameField;
 		private CheckBox myItemCheckbox;
@@ -150,12 +150,13 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
-					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
@@ -167,7 +168,8 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 					CampaignBasicSearchLayout.this.callSearchAction();
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, searchBtn, Alignment.MIDDLE_LEFT);
+			UiUtils.addComponent(basicSearchBody, searchBtn,
+					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
@@ -181,18 +183,21 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 					CampaignBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			UiUtils.addComponent(basicSearchBody, cancelBtn, Alignment.MIDDLE_CENTER);
+			UiUtils.addComponent(basicSearchBody, cancelBtn,
+					Alignment.MIDDLE_CENTER);
 
-			final Button advancedSearchBtn = new Button("Advanced Search",
+			final Button advancedSearchBtn = new Button(
+					AppContext
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					CampaignSearchPanel.this
-					.moveToAdvancedSearchLayout();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							CampaignSearchPanel.this
+									.moveToAdvancedSearchLayout();
+						}
+					});
 			advancedSearchBtn.setStyleName("link");
 			UiUtils.addComponent(basicSearchBody, advancedSearchBtn,
 					Alignment.MIDDLE_CENTER);
@@ -203,21 +208,21 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 		protected CampaignSearchCriteria fillupSearchCriteria() {
 			CampaignSearchPanel.this.searchCriteria = new CampaignSearchCriteria();
 			CampaignSearchPanel.this.searchCriteria
-			.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
+					.setSaccountid(new NumberSearchField(SearchField.AND,
+							AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue()
 					.toString().trim())) {
 				CampaignSearchPanel.this.searchCriteria
-				.setCampaignName(new StringSearchField(SearchField.AND,
-						this.nameField.getValue()));
+						.setCampaignName(new StringSearchField(SearchField.AND,
+								this.nameField.getValue()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				CampaignSearchPanel.this.searchCriteria
-				.setAssignUsers(new SetSearchField<String>(
-						SearchField.AND, new String[] { AppContext
-								.getUsername() }));
+						.setAssignUsers(new SetSearchField<String>(
+								SearchField.AND, new String[] { AppContext
+										.getUsername() }));
 			} else {
 				CampaignSearchPanel.this.searchCriteria.setAssignUsers(null);
 			}
@@ -226,7 +231,7 @@ DefaultGenericSearchPanel<CampaignSearchCriteria> {
 	}
 
 	private class CampaignAdvancedSearchLayout extends
-	DynamicQueryParamLayout<CampaignSearchCriteria> {
+			DynamicQueryParamLayout<CampaignSearchCriteria> {
 		private static final long serialVersionUID = 1L;
 
 		public CampaignAdvancedSearchLayout() {

@@ -35,7 +35,7 @@ import com.google.gson.JsonParser;
  * @since 4.0
  * 
  */
-public class JsonDeSerializerHelper {
+public class JsonDeSerializerSearchFieldInfoHelper {
 
 	public static String toJson(List<SearchFieldInfo> fieldInfos) {
 		return JsonDeSerializer.toJson(fieldInfos);

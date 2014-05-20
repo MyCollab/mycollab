@@ -168,7 +168,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateOpportunityList = new AccountOpportunityListComp();
 		associateLeadList = new AccountLeadListComp();
 		associateCaseList = new AccountCaseListComp();
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();

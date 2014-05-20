@@ -197,7 +197,9 @@ public class BugSearchPanel extends
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			basicSearchBody.addComponent(cancelBtn);
 
-			final Button advancedSearchBtn = new Button("Advanced Search",
+			final Button advancedSearchBtn = new Button(
+					AppContext
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(final ClickEvent event) {

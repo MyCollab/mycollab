@@ -39,10 +39,10 @@ public class JsonDeSerializerHelperTest {
 
 		List<SearchFieldInfo> list = Arrays.asList(fieldInfo1, fieldInfo2,
 				fieldInfo3);
-		String jsonText = JsonDeSerializerHelper.toJson(list);
+		String jsonText = JsonDeSerializerSearchFieldInfoHelper.toJson(list);
 		System.out.println("Json text: " + jsonText);
 
-		List<SearchFieldInfo> list2 = JsonDeSerializerHelper.fromJson(jsonText);
+		List<SearchFieldInfo> list2 = JsonDeSerializerSearchFieldInfoHelper.fromJson(jsonText);
 		Assert.assertEquals(3, list2.size());
 
 		SearchFieldInfo newFieldInfo3 = list2.get(2);

@@ -27,8 +27,15 @@ import com.esofthead.mycollab.form.view.builder.UrlDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 2.0
+ * 
+ */
 public class LeadDefaultDynaFormLayoutFactory {
 	public static final DynaForm defaultForm;
 
@@ -39,55 +46,81 @@ public class LeadDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
 				.header("Contact Information").build();
 
-		infoSection.addField(new TextDynaFieldBuilder()
-				.fieldName("firstname").displayName("First Name").fieldIndex(0)
-				.build());
+		infoSection
+				.addField(new TextDynaFieldBuilder()
+						.fieldName("firstname")
+						.displayName(
+								AppContext
+										.getMessage(LeadI18nEnum.FORM_FIRSTNAME))
+						.fieldIndex(0).build());
 
 		infoSection.addField(new EmailDynaFieldBuilder().fieldName("email")
-				.displayName("Email").fieldIndex(1).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_EMAIL))
+				.fieldIndex(1).build());
 
 		infoSection.addField(new TextDynaFieldBuilder().fieldName("lastname")
-				.displayName("Last Name").fieldIndex(2).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_LASTNAME))
+				.fieldIndex(2).build());
 
 		infoSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName("officephone").displayName("Office Phone")
+				.fieldName("officephone")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE))
 				.fieldIndex(3).build());
 
 		infoSection.addField(new TextDynaFieldBuilder().fieldName("title")
-				.displayName("Title").fieldIndex(4).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_TITLE))
+				.fieldIndex(4).build());
 
 		infoSection.addField(new PhoneDynaFieldBuilder().fieldName("mobile")
-				.displayName("Mobile").fieldIndex(5).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_MOBILE))
+				.fieldIndex(5).build());
 
 		infoSection.addField(new TextDynaFieldBuilder()
-				.fieldName("department").displayName("Department")
+				.fieldName("department")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_DEPARTMENT))
 				.fieldIndex(6).build());
 
 		infoSection.addField(new PhoneDynaFieldBuilder()
-				.fieldName("otherphone").displayName("Other Phone")
+				.fieldName("otherphone")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_PHONE))
 				.fieldIndex(7).build());
 
 		infoSection.addField(new TextDynaFieldBuilder()
-				.fieldName("accountname").displayName("Account Name")
+				.fieldName("accountname")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME))
 				.fieldIndex(8).build());
 
 		infoSection.addField(new PhoneDynaFieldBuilder().fieldName("fax")
-				.displayName("Fax").fieldIndex(9).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_FAX))
+				.fieldIndex(9).build());
 
-		infoSection.addField(new TextDynaFieldBuilder().fieldName("source")
-				.displayName("Lead Source").fieldIndex(10).build());
+		infoSection.addField(new TextDynaFieldBuilder()
+				.fieldName("source")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_LEAD_SOURCE))
+				.fieldIndex(10).build());
 
 		infoSection.addField(new UrlDynaFieldBuilder().fieldName("website")
-				.displayName("Website").fieldIndex(11).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_WEBSITE))
+				.fieldIndex(11).build());
 
 		infoSection.addField(new TextDynaFieldBuilder().fieldName("industry")
-				.displayName("Industry").fieldIndex(12).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_INDUSTRY))
+				.fieldIndex(12).build());
 
 		infoSection.addField(new TextDynaFieldBuilder().fieldName("status")
-				.displayName("Status").fieldIndex(13).build());
+				.displayName(AppContext.getMessage(LeadI18nEnum.FORM_STATUS))
+				.fieldIndex(13).build());
 
-		infoSection.addField(new IntDynaFieldBuilder().fieldName("noemployees")
-				.displayName("No of Employees").fieldIndex(14).build());
+		infoSection.addField(new IntDynaFieldBuilder()
+				.fieldName("noemployees")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_NO_EMPLOYEES))
+				.fieldIndex(14).build());
 
 		infoSection
 				.addField(new TextDynaFieldBuilder()
@@ -104,43 +137,69 @@ public class LeadDefaultDynaFormLayoutFactory {
 				.header("Address Information").build();
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primaddress").displayName("Address").fieldIndex(0)
-				.build());
+				.fieldName("primaddress")
+				.displayName(
+						AppContext
+								.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS))
+				.fieldIndex(0).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("otheraddress").displayName("Other Address")
+				.fieldName("otheraddress")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_ADDRESS))
 				.fieldIndex(1).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primcity").displayName("City").fieldIndex(2)
-				.build());
+				.fieldName("primcity")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_CITY))
+				.fieldIndex(2).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("othercity").displayName("Other City").fieldIndex(3)
-				.build());
+				.fieldName("othercity")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_CITY))
+				.fieldIndex(3).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primstate").displayName("State").fieldIndex(4)
-				.build());
+				.fieldName("primstate")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_STATE))
+				.fieldIndex(4).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("otherstate").displayName("Other State")
+				.fieldName("otherstate")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_STATE))
 				.fieldIndex(5).build());
 
-		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primpostalcode").displayName("Postal Code")
-				.fieldIndex(6).build());
+		addressSection
+				.addField(new TextDynaFieldBuilder()
+						.fieldName("primpostalcode")
+						.displayName(
+								AppContext
+										.getMessage(LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE))
+						.fieldIndex(6).build());
+
+		addressSection
+				.addField(new TextDynaFieldBuilder()
+						.fieldName("otherpostalcode")
+						.displayName(
+								AppContext
+										.getMessage(LeadI18nEnum.FORM_OTHER_POSTAL_CODE))
+						.fieldIndex(7).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("otherpostalcode").displayName("Other Postal Code")
-				.fieldIndex(7).build());
+				.fieldName("primcountry")
+				.displayName(
+						AppContext
+								.getMessage(LeadI18nEnum.FORM_PRIMARY_COUNTRY))
+				.fieldIndex(8).build());
 
 		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("primcountry").displayName("Country").fieldIndex(8)
-				.build());
-
-		addressSection.addField(new TextDynaFieldBuilder()
-				.fieldName("othercountry").displayName("Other Country")
+				.fieldName("othercountry")
+				.displayName(
+						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_COUNTRY))
 				.fieldIndex(9).build());
 
 		defaultForm.addSection(addressSection);
@@ -150,7 +209,9 @@ public class LeadDefaultDynaFormLayoutFactory {
 				.header("Description").build();
 
 		descSection.addField(new TextAreaDynaFieldBuilder()
-				.fieldName("description").displayName("Description")
+				.fieldName("description")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
 				.fieldIndex(0).build());
 
 		defaultForm.addSection(descSection);

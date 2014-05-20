@@ -57,7 +57,7 @@ public class BugToolTipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(bug
+							StringUtils.trimHtmlTags(bug
 									.getDescription()));
 			trRow1_value.setAttribute("colspan", "3");
 			trRow1.appendChild(
@@ -71,7 +71,7 @@ public class BugToolTipGenerator {
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(bug
+							StringUtils.trimHtmlTags(bug
 									.getEnvironment()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(

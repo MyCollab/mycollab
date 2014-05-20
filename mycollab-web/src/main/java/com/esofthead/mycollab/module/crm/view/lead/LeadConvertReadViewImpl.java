@@ -41,6 +41,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
@@ -160,7 +161,8 @@ public class LeadConvertReadViewImpl extends
 	protected void initRelatedComponents() {
 		associateCampaignList = new LeadCampaignListComp();
 
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 		noteListItems.setEnableCreateButton(false);
 
 		associateActivityList = new ActivityRelatedItemListComp(false);

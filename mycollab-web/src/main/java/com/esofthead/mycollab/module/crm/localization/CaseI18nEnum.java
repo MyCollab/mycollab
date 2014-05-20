@@ -21,8 +21,13 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm/case")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum CaseI18nEnum {
+	NO_ITEM_VIEW_TITLE,
+	NO_ITEM_VIEW_HINT,
+	
+	FORM_NEW_TITLE,
+	
 	FORM_PRIORITY,
 	FORM_STATUS,
 	FORM_ACCOUNT,
@@ -33,5 +38,7 @@ public enum CaseI18nEnum {
 	FORM_SUBJECT,
 	FORM_EMAIL,
 	FORM_CREATED_TIME,
-	FORM_LAST_UPDATED_TIME
+	FORM_LAST_UPDATED_TIME,
+	FORM_DESCRIPTION,
+	FORM_RESOLUTION
 }

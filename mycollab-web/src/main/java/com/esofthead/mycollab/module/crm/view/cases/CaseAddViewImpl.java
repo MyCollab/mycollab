@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
+import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +44,8 @@ public class CaseAddViewImpl extends AbstractEditItemComp<SimpleCase> implements
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "Create Case" : beanItem
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(CaseI18nEnum.FORM_NEW_TITLE) : beanItem
 				.getSubject();
 	}
 

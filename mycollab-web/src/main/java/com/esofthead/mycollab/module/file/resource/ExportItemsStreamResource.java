@@ -20,10 +20,12 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 import static net.sf.dynamicreports.report.builder.DynamicReports.export;
 import static net.sf.dynamicreports.report.builder.DynamicReports.report;
 
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.Arrays;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperCsvExporterBuilder;
@@ -167,6 +169,11 @@ public abstract class ExportItemsStreamResource<T> implements
 		}
 
 		return reportBuilder;
+	}
+
+	public static void main(String[] args) throws Exception {
+		System.out.println(Arrays.asList(GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
 	}
 
 }

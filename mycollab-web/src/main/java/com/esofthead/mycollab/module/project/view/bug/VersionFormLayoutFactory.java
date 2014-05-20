@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -48,13 +50,16 @@ public class VersionFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public boolean attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("versionname")) {
-			this.informationLayout.addComponent(field, "Version Name", 0, 0, 2,
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(VersionI18nEnum.FORM_NAME), 0, 0, 2,
 					"100%");
 		} else if (propertyId.equals("description")) {
-			this.informationLayout.addComponent(field, "Description", 0, 1, 2,
-					"100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(VersionI18nEnum.FORM_DESCRIPTION), 0,
+					1, 2, "100%");
 		} else if (propertyId.equals("duedate")) {
-			this.informationLayout.addComponent(field, "Due Date", 0, 2);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE), 0, 2);
 		} else {
 			return false;
 		}

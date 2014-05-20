@@ -41,6 +41,7 @@ import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.FeedbackWindow;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.NotificationButton;
 import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
@@ -208,6 +209,9 @@ public final class MainView extends AbstractPageView {
 		layout.addComponent(serviceMenu, "serviceMenu");
 
 		final HorizontalLayout accountLayout = new HorizontalLayout();
+		accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		accountLayout.setMargin(new MarginInfo(false, true, false, false));
+		accountLayout.setSpacing(true);
 
 		// display trial box if user in trial mode
 		SimpleBillingAccount billingAccount = AppContext.getBillingAccount();
@@ -265,6 +269,13 @@ public final class MainView extends AbstractPageView {
 				}
 			}
 		}
+		NotificationButton notificationButton = new NotificationButton();
+		accountLayout.addComponent(notificationButton);
+		if (AppContext.getSession().getTimezone() == null) {
+			notificationButton.addNotification(new Label(
+					"You haven't set timezone yet"));
+		}
+
 		UserAvatarComp userAvatar = new UserAvatarComp();
 		accountLayout.addComponent(userAvatar);
 		accountLayout.setComponentAlignment(userAvatar, Alignment.MIDDLE_LEFT);

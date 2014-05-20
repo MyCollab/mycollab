@@ -108,7 +108,7 @@ public class StringUtils {
 		}
 	}
 
-	public static String getStringRemoveHtmlTag(Object o) {
+	public static String trimHtmlTags(Object o) {
 		if (o == null) {
 			return "";
 		} else {

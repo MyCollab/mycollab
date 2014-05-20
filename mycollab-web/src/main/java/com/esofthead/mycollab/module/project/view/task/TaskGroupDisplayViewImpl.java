@@ -381,7 +381,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		advanceDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/advanced_display.png"));
 		advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-		advanceDisplay.setDescription("Advanced View");
+		advanceDisplay.setDescription(AppContext
+				.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
 		simpleDisplay = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -398,7 +399,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		});
 		simpleDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/list_display.png"));
-		simpleDisplay.setDescription("List View");
+		simpleDisplay.setDescription(AppContext
+				.getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
 
 		viewButtons = new ToggleButtonGroup();
 		viewButtons.addButton(simpleDisplay);

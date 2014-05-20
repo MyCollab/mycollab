@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -32,35 +33,62 @@ class LeadHistoryLogWindow extends HistoryLogWindow {
 	public LeadHistoryLogWindow(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("prefixname", "Prefix name");
-		this.generateFieldDisplayHandler("firstname", "First name");
-		this.generateFieldDisplayHandler("lastname", "Last Name");
-		this.generateFieldDisplayHandler("title", "Title");
-		this.generateFieldDisplayHandler("department", "Department");
-		this.generateFieldDisplayHandler("accountname", "Account Name");
-		this.generateFieldDisplayHandler("source", "Lead Source");
-		this.generateFieldDisplayHandler("industry", "Industry");
-		this.generateFieldDisplayHandler("noemployees", "No of Employees");
-		this.generateFieldDisplayHandler("email", "Email");
-		this.generateFieldDisplayHandler("officephone", "Office Phone");
-		this.generateFieldDisplayHandler("mobile", "Mobile");
-		this.generateFieldDisplayHandler("otherphone", "Other Phone");
-		this.generateFieldDisplayHandler("fax", "Fax");
-		this.generateFieldDisplayHandler("website", "Web Site");
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-		this.generateFieldDisplayHandler("primaddress", "Address");
-		this.generateFieldDisplayHandler("primcity", "City");
-		this.generateFieldDisplayHandler("primstate", "State");
-		this.generateFieldDisplayHandler("primpostalcode", "Postal Code");
-		this.generateFieldDisplayHandler("primcountry", "Country");
-		this.generateFieldDisplayHandler("otheraddress", "Other Address");
-		this.generateFieldDisplayHandler("othercity", "Other City");
-		this.generateFieldDisplayHandler("otherstate", "Other State");
-		this.generateFieldDisplayHandler("otherpostalcode", "Other Postal Code");
-		this.generateFieldDisplayHandler("othercountry", "Other Country");
-		this.generateFieldDisplayHandler("description", "Description");
+		this.generateFieldDisplayHandler("prefixname",
+				AppContext.getMessage(LeadI18nEnum.FORM_PREFIX));
+		this.generateFieldDisplayHandler("firstname",
+				AppContext.getMessage(LeadI18nEnum.FORM_FIRSTNAME));
+		this.generateFieldDisplayHandler("lastname",
+				AppContext.getMessage(LeadI18nEnum.FORM_LASTNAME));
+		this.generateFieldDisplayHandler("title",
+				AppContext.getMessage(LeadI18nEnum.FORM_TITLE));
+		this.generateFieldDisplayHandler("department",
+				AppContext.getMessage(LeadI18nEnum.FORM_DEPARTMENT));
+		this.generateFieldDisplayHandler("accountname",
+				AppContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME));
+		this.generateFieldDisplayHandler("source",
+				AppContext.getMessage(LeadI18nEnum.FORM_LEAD_SOURCE));
+		this.generateFieldDisplayHandler("industry",
+				AppContext.getMessage(LeadI18nEnum.FORM_INDUSTRY));
+		this.generateFieldDisplayHandler("noemployees",
+				AppContext.getMessage(LeadI18nEnum.FORM_NO_EMPLOYEES));
+		this.generateFieldDisplayHandler("email",
+				AppContext.getMessage(LeadI18nEnum.FORM_EMAIL));
+		this.generateFieldDisplayHandler("officephone",
+				AppContext.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE));
+		this.generateFieldDisplayHandler("mobile",
+				AppContext.getMessage(LeadI18nEnum.FORM_MOBILE));
+		this.generateFieldDisplayHandler("otherphone",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_PHONE));
+		this.generateFieldDisplayHandler("fax",
+				AppContext.getMessage(LeadI18nEnum.FORM_FAX));
+		this.generateFieldDisplayHandler("website",
+				AppContext.getMessage(LeadI18nEnum.FORM_WEBSITE));
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(LeadI18nEnum.FORM_STATUS));
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+		this.generateFieldDisplayHandler("primaddress",
+				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS));
+		this.generateFieldDisplayHandler("primcity",
+				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_CITY));
+		this.generateFieldDisplayHandler("primstate",
+				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_STATE));
+		this.generateFieldDisplayHandler("primpostalcode",
+				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE));
+		this.generateFieldDisplayHandler("primcountry",
+				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_COUNTRY));
+		this.generateFieldDisplayHandler("otheraddress",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_ADDRESS));
+		this.generateFieldDisplayHandler("othercity",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_CITY));
+		this.generateFieldDisplayHandler("otherstate",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_STATE));
+		this.generateFieldDisplayHandler("otherpostalcode",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_POSTAL_CODE));
+		this.generateFieldDisplayHandler("othercountry",
+				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_COUNTRY));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}
 
 }

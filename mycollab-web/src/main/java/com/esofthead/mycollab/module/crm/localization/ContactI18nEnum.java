@@ -23,6 +23,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/contact")
 @LocaleData({ @Locale("en_US") })
 public enum ContactI18nEnum {
+	NO_ITEM_VIEW_TITLE,
+	NO_ITEM_VIEW_HINT,
+	
 	FORM_NEW_TITLE,
 	
 	FORM_INFO_SECTION,

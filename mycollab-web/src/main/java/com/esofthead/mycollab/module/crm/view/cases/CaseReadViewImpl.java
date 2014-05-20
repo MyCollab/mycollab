@@ -116,7 +116,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	protected void initRelatedComponents() {
 		associateContactList = new CaseContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();

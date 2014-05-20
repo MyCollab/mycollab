@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -31,20 +32,31 @@ class CaseHistoryLogWindow extends HistoryLogWindow {
 
 	public CaseHistoryLogWindow(String module, String type) {
 		super(module, type);
-		
-		this.generateFieldDisplayHandler("priority", "Priority");
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("accountid", "Account Name");
-		this.generateFieldDisplayHandler("phonenumber", "Phone Number");
-		this.generateFieldDisplayHandler("origin", "Origin");
-		this.generateFieldDisplayHandler("type", "Type");
-		this.generateFieldDisplayHandler("reason", "Reason");
-		this.generateFieldDisplayHandler("subject", "Subject");
-		this.generateFieldDisplayHandler("email", "Email");
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("resolution", "Resolution");
+
+		this.generateFieldDisplayHandler("priority",
+				AppContext.getMessage(CaseI18nEnum.FORM_PRIORITY));
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(CaseI18nEnum.FORM_STATUS));
+		this.generateFieldDisplayHandler("accountid",
+				AppContext.getMessage(CaseI18nEnum.FORM_ACCOUNT));
+		this.generateFieldDisplayHandler("phonenumber",
+				AppContext.getMessage(CaseI18nEnum.FORM_PHONE));
+		this.generateFieldDisplayHandler("origin",
+				AppContext.getMessage(CaseI18nEnum.FORM_ORIGIN));
+		this.generateFieldDisplayHandler("type",
+				AppContext.getMessage(CaseI18nEnum.FORM_TYPE));
+		this.generateFieldDisplayHandler("reason",
+				AppContext.getMessage(CaseI18nEnum.FORM_REASON));
+		this.generateFieldDisplayHandler("subject",
+				AppContext.getMessage(CaseI18nEnum.FORM_SUBJECT));
+		this.generateFieldDisplayHandler("email",
+				AppContext.getMessage(CaseI18nEnum.FORM_EMAIL));
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(CaseI18nEnum.FORM_DESCRIPTION));
+		this.generateFieldDisplayHandler("resolution",
+				AppContext.getMessage(CaseI18nEnum.FORM_RESOLUTION));
 	}
 
 }

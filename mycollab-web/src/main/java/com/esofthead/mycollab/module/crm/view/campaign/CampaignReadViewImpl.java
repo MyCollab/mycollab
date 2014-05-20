@@ -106,7 +106,8 @@ public class CampaignReadViewImpl extends
 		associateContactList = new CampaignContactListComp();
 		associateLeadList = new CampaignLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");

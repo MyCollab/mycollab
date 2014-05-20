@@ -95,7 +95,8 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 	@Override
 	protected void initRelatedComponents() {
-		noteListItems = new NoteListItems("Notes");
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");

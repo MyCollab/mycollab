@@ -294,7 +294,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(version
+							StringUtils.trimHtmlTags(version
 									.getDescription()));
 			trRow2_value.setAttribute("colspan", "3");
 			trRow2.appendChild(

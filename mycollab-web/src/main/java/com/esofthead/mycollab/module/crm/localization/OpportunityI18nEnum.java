@@ -21,11 +21,14 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm/opportunity")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum OpportunityI18nEnum {
+	NO_ITEM_VIEW_TITLE,
+	NO_ITEM_VIEW_HINT,
+	
 	FORM_AMOUNT,
 	FORM_SALE_STAGE,
-	FORM_CLOSE_DATE,
+	FORM_EXPECTED_CLOSE_DATE,
 	FORM_NAME,
 	FORM_CURRENCY,
 	FORM_PROBABILITY,
@@ -34,5 +37,6 @@ public enum OpportunityI18nEnum {
 	FORM_TYPE,
 	FORM_LEAD_SOURCE,
 	FORM_CAMPAIGN_NAME,
-	FORM_ASSIGN_USER
+	FORM_ASSIGN_USER,
+	FORM_NEXT_STEP,
 }

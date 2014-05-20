@@ -53,7 +53,9 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 
 	@Override
 	protected BugFilterParameter constructMoreDisplayFilter() {
-		return new BugFilterParameter("Recent Bugs", searchCriteria);
+		return new BugFilterParameter(
+				AppContext.getMessage(BugI18nEnum.RECENT_BUGS_WIDGET_TITLE),
+				searchCriteria);
 	}
 
 	public static class RecentBugRowDisplayHandler implements

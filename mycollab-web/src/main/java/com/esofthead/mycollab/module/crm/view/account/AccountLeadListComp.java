@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.AccountLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -79,7 +80,8 @@ public class AccountLeadListComp extends
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption("New Lead");
+		controlsBtn.setCaption(AppContext
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION));
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -53,6 +54,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class AccountOpportunityListComp
 		extends
 		RelatedListComp2<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
@@ -111,7 +118,9 @@ public class AccountOpportunityListComp
 		controlsBtnWrap.addComponent(notesWrap);
 
 		controlsBtnWrap.setWidth("100%");
-		final Button createBtn = new Button("New Opportunity",
+		final Button createBtn = new Button(
+				AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = -8101659779838108951L;
 

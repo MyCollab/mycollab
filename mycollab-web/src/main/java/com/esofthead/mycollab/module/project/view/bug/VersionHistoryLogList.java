@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -30,10 +32,14 @@ public class VersionHistoryLogList extends HistoryLogComponent {
 	public VersionHistoryLogList(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("versionname", "Version Name");
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("description", "Description");
-		this.generateFieldDisplayHandler("duedate", "Due Date",
+		this.generateFieldDisplayHandler("versionname",
+				AppContext.getMessage(VersionI18nEnum.FORM_NAME));
+		this.generateFieldDisplayHandler("status",
+				AppContext.getMessage(VersionI18nEnum.FORM_STATUS));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(VersionI18nEnum.FORM_DESCRIPTION));
+		this.generateFieldDisplayHandler("duedate",
+				AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE),
 				HistoryLogComponent.DATE_FIELD);
 	}
 

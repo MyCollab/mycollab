@@ -48,7 +48,7 @@ public class MeetingListDashlet extends Depot {
 		tableItem = new MeetingTableDisplay(Arrays.asList(new TableViewField(
 				TaskI18nEnum.TABLE_SUBJECT_HEADER, "subject",
 				UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
-				TaskI18nEnum.TABLE_START_DATE_HEADER, "startdate",
+				TaskI18nEnum.FORM_START_DATE, "startdate",
 				UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
 				CrmCommonI18nEnum.TABLE_STATUS_HEADER, "status",
 				UIConstants.TABLE_S_LABEL_WIDTH)));

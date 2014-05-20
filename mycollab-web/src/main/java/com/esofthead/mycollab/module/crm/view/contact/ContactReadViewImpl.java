@@ -170,7 +170,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	protected void initRelatedComponents() {
 		this.associateOpportunityList = new ContactOpportunityListComp();
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
-		this.noteListItems = new NoteListItems("Notes");
+		this.noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();

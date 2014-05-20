@@ -38,26 +38,34 @@ public class TaskHistoryList extends HistoryLogComponent {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
 		this.addStyleName("activity-panel");
 
-		this.generateFieldDisplayHandler("taskname", "Task Name");
-		this.generateFieldDisplayHandler("startdate", "Start Date",
+		this.generateFieldDisplayHandler("taskname",
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME));
+		this.generateFieldDisplayHandler("startdate",
+				AppContext.getMessage(TaskI18nEnum.FORM_START_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("enddate", "End Date",
+		this.generateFieldDisplayHandler("enddate",
+				AppContext.getMessage(TaskI18nEnum.FORM_END_DATE),
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("actualstartdate",
-				"Actual Start Date", HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("actualenddate", "Actual End Date",
+				AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("deadline", "Deadline",
+		this.generateFieldDisplayHandler("actualenddate",
+				AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE),
 				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("isestimated", "Is Estimated");
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+		this.generateFieldDisplayHandler("deadline",
+				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+				HistoryLogComponent.DATE_FIELD);
+		this.generateFieldDisplayHandler("isestimated",
+				AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED_FIELD));
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
 				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("tasklistid", AppContext
-				.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
+		this.generateFieldDisplayHandler("tasklistid",
+				AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
 				new TaskGroupHistoryFieldFormat());
-		this.generateFieldDisplayHandler("percentagecomplete", "Complete(%)");
-		this.generateFieldDisplayHandler("notes", "Notes");
+		this.generateFieldDisplayHandler("percentagecomplete",
+				AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
+		this.generateFieldDisplayHandler("notes",
+				AppContext.getMessage(TaskI18nEnum.FORM_NOTES_FIELD));
 	}
-
 }

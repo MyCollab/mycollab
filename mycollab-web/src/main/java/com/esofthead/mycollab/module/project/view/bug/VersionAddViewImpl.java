@@ -17,8 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.tracker.domain.Version;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -58,7 +60,9 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Version" : "Edit Version";
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(VersionI18nEnum.FORM_NEW_TITLE) : AppContext
+				.getMessage(VersionI18nEnum.FORM_EDIT_TITLE);
 	}
 
 	@Override
@@ -104,7 +108,8 @@ public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
 					tf.setRequired(true);
-					tf.setRequiredError("Please enter a Version Name");
+					tf.setRequiredError(AppContext
+							.getMessage(VersionI18nEnum.FORM_VERSION_ERROR_MSG));
 				}
 				return tf;
 			} else if (propertyId.equals("description")) {

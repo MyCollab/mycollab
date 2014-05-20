@@ -36,7 +36,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.ConcatStringParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
-import com.esofthead.mycollab.core.db.query.JsonDeSerializerHelper;
+import com.esofthead.mycollab.core.db.query.JsonDeSerializerSearchFieldInfoHelper;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
@@ -713,7 +713,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 								.getItem(itemId).getBean();
 
 						String queryText = data.getQuerytext();
-						List<SearchFieldInfo> fieldInfos = JsonDeSerializerHelper
+						List<SearchFieldInfo> fieldInfos = JsonDeSerializerSearchFieldInfoHelper
 								.fromJson(queryText);
 						fillSearchFieldInfo(fieldInfos);
 

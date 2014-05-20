@@ -224,7 +224,9 @@ public class CaseSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, cancelBtn,
 					Alignment.MIDDLE_CENTER);
 
-			final Button advancedSearchBtn = new Button("Advanced Search",
+			final Button advancedSearchBtn = new Button(
+					AppContext
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

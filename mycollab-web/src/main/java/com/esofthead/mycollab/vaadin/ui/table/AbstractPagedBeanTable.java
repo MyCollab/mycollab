@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.domain.NullCustomViewStore;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
@@ -66,6 +69,9 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		extends VerticalLayout implements IPagedBeanTable<S, B> {
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory
+			.getLogger(AbstractPagedBeanTable.class);
 
 	protected int displayNumItems = SearchRequest.DEFAULT_NUMBER_SEARCH_ITEMS;
 	protected List<B> currentListData;
@@ -115,12 +121,16 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					.getViewLayoutDef(AppContext.getAccountId(),
 							AppContext.getUsername(), viewId);
 			if (!(viewLayoutDef instanceof NullCustomViewStore)) {
-
-				List<TableViewField> selectedColumns = JsonDeSerializer
-						.fromJson(viewLayoutDef.getViewinfo(),
-								new TypeToken<List<TableViewField>>() {
-								}.getType());
-				this.displayColumns = selectedColumns;
+				try {
+					List<TableViewField> selectedColumns = JsonDeSerializer
+							.fromJson(viewLayoutDef.getViewinfo(),
+									new TypeToken<List<TableViewField>>() {
+									}.getType());
+					this.displayColumns = selectedColumns;
+				} catch (Exception e) {
+					log.error("Error", e);
+					this.displayColumns = displayColumns;
+				}
 			} else {
 				this.displayColumns = displayColumns;
 			}

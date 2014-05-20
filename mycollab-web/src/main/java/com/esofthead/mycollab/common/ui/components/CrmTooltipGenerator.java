@@ -16,12 +16,16 @@
  */
 package com.esofthead.mycollab.common.ui.components;
 
-import org.jsoup.Jsoup;
+import static com.esofthead.mycollab.core.utils.StringUtils.trimHtmlTags;
+import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellLink;
+import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellName;
+import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellValue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
@@ -32,12 +36,22 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.CallI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.ContactI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.MeetingI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.TooltipBuilder;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Table;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Tr;
 
@@ -48,153 +62,99 @@ import com.hp.gagawa.java.elements.Tr;
  * 
  */
 public class CrmTooltipGenerator {
+
 	private static Logger log = LoggerFactory
 			.getLogger(CrmTooltipGenerator.class);
 
-	public static String generateTolltipNull(){
+	public static String generateTolltipNull() {
 		Div div = new Div();
-		com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
+		Table table = new Table();
 		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
-		
+
 		Tr trRow1 = new Tr();
-		trRow1.appendChild(
-				new Td().setStyle(
-						"vertical-align: top; text-align: left;")
-						.appendText("The item is not existed"));
-		
+		trRow1.appendChild(new Td().setStyle(
+				"vertical-align: top; text-align: left;").appendText(
+				"The item is not existed"));
+
 		table.appendChild(trRow1);
 		div.appendChild(table);
-		
+
 		return div.write();
 	}
-	
-	public static String generateToolTipAccount(SimpleAccount account,
-			String siteURL, String timeZone) {
-		try {
-			if (account == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 accountName = new H3();
-			accountName
-					.appendText(Jsoup.parse(account.getAccountname()).html());
-			div.appendChild(accountName);
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+	private static String getStringBaseNullCondition(Object value) {
+		return (value != null) ? value.toString() : "";
+	}
+
+	public static String generateToolTipAccount(SimpleAccount account,
+			String siteURL) {
+		if (account == null) {
+			return generateTolltipNull();
+		}
+
+		try {
+			TooltipBuilder tooltipBuilder = new TooltipBuilder();
+			tooltipBuilder.setTitle(account.getAccountname());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Website:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getWebsite() != null) ? account
-															.getWebsite() : "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getWebsite()))));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 150px; vertical-align: top; text-align: right;")
-							.appendText("Office Phone:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:180px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(account
-															.getPhoneoffice())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(AccountI18nEnum.FORM_WEBSITE) + ": ");
+
+			Td cell12 = buildCellLink(
+					getStringBaseNullCondition(account.getWebsite()),
+					account.getWebsite());
+
+			Td cell13 = buildCellName(AppContext
+					.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+			Td cell14 = buildCellValue(account.getPhoneoffice());
+
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipBuilder.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Employees:"))
-					.appendChild(
-							new Td().appendText((account.getNumemployees() != null) ? account
-									.getNumemployees().toString() : ""));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:180px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getEmail() != null) ? "mailto:"
-															+ account
-																	.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getEmail()))));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(AccountI18nEnum.FORM_EMPLOYEES));
+
+			Td cell22 = buildCellValue(getStringBaseNullCondition(account
+					.getNumemployees()));
+
+			Td cell23 = buildCellName(AppContext
+					.getMessage(AccountI18nEnum.FORM_EMAIL));
+
+			String emailLink = (account.getEmail() != null) ? String.format(
+					"mailto: %s", account.getEmail()) : "";
+			Td cell24 = buildCellLink(emailLink, account.getEmail());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipBuilder.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURL,
-																	account.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					account.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getAssignUserFullName()))));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 150px; vertical-align: top; text-align: right;")
-							.appendText("Annual Revenue:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 180px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(account
-															.getAnnualrevenue())));
+			String userLink = (account.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURL,
+							account.getAssignuser()) : "";
+			String userAvatarLink = UserAvatarControlFactory.getAvatarLink(
+					account.getAssignUserAvatarId(), 16);
+			Td cell32 = buildCellLink(userLink, userAvatarLink,
+					account.getAssignUserFullName());
+
+			Td cell33 = buildCellName(AppContext
+					.getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE));
+
+			Td cell34 = buildCellValue(account.getAnnualrevenue());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipBuilder.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(account
-									.getDescription()));
-			trRow4_value.setAttribute("colspan", "3");
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow4_value);
+			Td cell41 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell42 = buildCellValue(trimHtmlTags(account.getDescription()));
+			cell42.setAttribute("colspan", "3");
+			trRow4.appendChild(cell41, cell42);
+			tooltipBuilder.appendRow(trRow4);
 
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			div.appendChild(table);
-			return div.write();
+			return tooltipBuilder.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Account tooltip servlet", e);
 			return null;
@@ -203,362 +163,172 @@ public class CrmTooltipGenerator {
 
 	public static String generateToolTipContact(SimpleContact contact,
 			String siteURL, String userTimeZone) {
-		try {
-			if (contact == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 contactName = new H3();
-			contactName
-					.appendText(Jsoup.parse(contact.getContactName()).html());
-			div.appendChild(contactName);
+		if (contact == null) {
+			return generateTolltipNull();
+		}
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipBuilder = new TooltipBuilder();
+			tooltipBuilder.setTitle(contact.getContactName());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("First Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getFirstname())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Office Phone:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getOfficephone())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_FIRSTNAME));
+			Td cell12 = buildCellValue(contact.getFirstname());
+			Td cell13 = buildCellName(AppContext
+					.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+			Td cell14 = buildCellValue(contact.getOfficephone());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Last Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getLastname())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Mobile:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getMobile())));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_LASTNAME));
+			Td cell22 = buildCellValue(contact.getLastname());
+			Td cell23 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_MOBILE));
+			Td cell24 = buildCellValue(contact.getMobile());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipBuilder.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(contact.getEmail() != null) ? "mailto:"
-															+ contact
-																	.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(contact
-																			.getEmail()))));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_EMAIL));
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Birthday:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															contact.getBirthday(),
-															userTimeZone)));
+			String contactEmailLink = (contact.getEmail() != null) ? String
+					.format("mailto:%s", contact.getEmail()) : "";
+			Td cell32 = buildCellLink(contactEmailLink, contact.getEmail());
+
+			Td cell33 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_BIRTHDAY));
+			String birthday = DateTimeUtils.converToStringWithUserTimeZone(
+					contact.getBirthday(), userTimeZone);
+			Td cell34 = buildCellValue(birthday);
+
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipBuilder.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Department:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getDepartment())));
+			Td cell41 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_DEPARTMENT));
+			Td cell42 = buildCellValue(contact.getDepartment());
+			Td cell43 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			String assignUserLink = (contact.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURL,
+							contact.getAssignuser()) : "";
+			String assignAvatarLink = UserAvatarControlFactory.getAvatarLink(
+					contact.getAssignUserAvatarId(), 16);
+			Td cell44 = buildCellLink(assignUserLink, assignAvatarLink,
+					contact.getAssignUserFullName());
+			trRow4.appendChild(cell41, cell42, cell43, cell44);
+			tooltipBuilder.appendRow(trRow4);
 
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(contact.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURL,
-																	contact.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					contact.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(contact
-																			.getAssignUserFullName()))));
 			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getPrimaddress())));
+			Td cell51 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_PRIMARY_ADDRESS));
+			Td cell52 = buildCellValue(contact.getPrimaddress());
+			Td cell53 = buildCellName(AppContext
+					.getMessage(ContactI18nEnum.FORM_OTHER_ADDRESS));
+			Td cell54 = buildCellValue(contact.getOtheraddress());
+			trRow5.appendChild(cell51, cell52, cell53, cell54);
+			tooltipBuilder.appendRow(trRow5);
 
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Other Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(contact
-															.getOtheraddress())));
 			Tr trRow6 = new Tr();
-			Td trRow6_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(contact
-									.getDescription()));
-			trRow6_value.setAttribute("colspan", "3");
+			Td cell61 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell62 = buildCellValue(trimHtmlTags(contact.getDescription()));
+			cell62.setAttribute("colspan", "3");
+			trRow6.appendChild(cell61, cell62);
+			tooltipBuilder.appendRow(trRow6);
 
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow6_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			div.appendChild(table);
-			return div.write();
+			return tooltipBuilder.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Contact tooltip servlet", e);
 			return null;
 		}
 	}
 
-	public static String generateTooltipCampaign(SimpleCampaign campagin,
+	public static String generateTooltipCampaign(SimpleCampaign campaign,
 			String siteURl, String userTimeZone) {
-		try {
-			if (campagin == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 campaginName = new H3();
-			campaginName.appendText(campagin.getCampaignname());
-			div.appendChild(campaginName);
+		if (campaign == null)
+			return generateTolltipNull();
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipBuilder = new TooltipBuilder();
+			tooltipBuilder.setTitle(campaign.getCampaignname());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Start Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															campagin.getStartdate(),
-															userTimeZone)));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getStatus())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_START_DATE));
+			String startDate = DateTimeUtils.converToStringWithUserTimeZone(
+					campaign.getStartdate(), userTimeZone);
+			Td cell12 = buildCellValue(startDate);
+			Td cell13 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_STATUS));
+			Td cell14 = buildCellValue(campaign.getStatus());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipBuilder.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("End Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															campagin.getEnddate(),
-															userTimeZone)));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Type:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getType())));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_END_DATE));
+			String endDate = DateTimeUtils.converToStringWithUserTimeZone(
+					campaign.getEnddate(), userTimeZone);
+			Td cell22 = buildCellValue(endDate);
+			Td cell23 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_TYPE));
+			Td cell24 = buildCellValue(campaign.getType());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipBuilder.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Currency:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue((campagin
-															.getCurrency() != null) ? campagin
-															.getCurrency()
-															.getSymbol() : "")));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(campagin.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURl,
-																	campagin.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					campagin.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(campagin
-																			.getAssignUserFullName()))));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_CURRENCY));
+			String currency = (campaign.getCurrency() != null) ? campaign
+					.getCurrency().getSymbol() : "";
+			Td cell32 = buildCellValue(currency);
+			Td cell33 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+
+			String assignUserLink = (campaign.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURl,
+							campaign.getAssignuser()) : "";
+			String assignUserAvatarLink = UserAvatarControlFactory
+					.getAvatarLink(campaign.getAssignUserAvatarId(), 16);
+			Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink,
+					campaign.getAssignUserFullName());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipBuilder.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Expected Cost:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getExpectedcost())));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Budget:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getBudget())));
+			Td cell41 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_EXPECTED_COST));
+			Td cell42 = buildCellValue(campaign.getExpectedcost());
+			Td cell43 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_BUDGET));
+			Td cell44 = buildCellValue(campaign.getBudget());
+			trRow4.appendChild(cell41, cell42, cell43, cell44);
+			tooltipBuilder.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Expected Revenue:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getExpectedrevenue())));
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Actual Cost:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(campagin
-															.getActualcost())));
+			Td cell51 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE));
+			Td cell52 = buildCellValue(campaign.getExpectedrevenue());
+			Td cell53 = buildCellName(AppContext
+					.getMessage(CampaignI18nEnum.FORM_ACTUAL_COST));
+			Td cell54 = buildCellValue(campaign.getActualcost());
+			trRow5.appendChild(cell51, cell52, cell53, cell54);
+			tooltipBuilder.appendRow(trRow5);
+
 			Tr trRow6 = new Tr();
+			Td cell61 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell62 = buildCellValue(trimHtmlTags(campaign.getDescription()));
+			cell62.setAttribute("colspan", "3");
+			trRow6.appendChild(cell61, cell62);
+			tooltipBuilder.appendRow(trRow6);
 
-			Td trRow6_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(campagin
-									.getDescription()));
-			trRow6_value.setAttribute("colspan", "3");
-
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow6_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			div.appendChild(table);
-			return div.write();
+			return tooltipBuilder.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Camapgin tooltip servlet", e);
 			return null;
@@ -567,252 +337,112 @@ public class CrmTooltipGenerator {
 
 	public static String generateTooltipLead(SimpleLead lead, String siteURl,
 			String userTimeZone) {
-		try {
-			if (lead == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 leadName = new H3();
-			leadName.appendText(Jsoup.parse(lead.getLeadName()).html());
-			div.appendChild(leadName);
+		if (lead == null)
+			return generateTolltipNull();
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(lead.getLeadName());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("First Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getFirstname())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getEmail() != null) ? "mailto:"
-															+ lead.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getEmail()))));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_FIRSTNAME));
+			Td cell12 = buildCellValue(lead.getFirstname());
+			Td cell13 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_EMAIL));
+			String emailLink = (lead.getEmail() != null) ? "mailto:"
+					+ lead.getEmail() : "";
+			Td cell14 = buildCellLink(emailLink, lead.getEmail());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Last Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getLastname())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Office Phone:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getOfficephone())));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_LASTNAME));
+			Td cell22 = buildCellValue(lead.getLastname());
+			Td cell23 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE));
+			Td cell24 = buildCellValue(lead.getOfficephone());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Title:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getTitle())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Mobile:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getMobile())));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_TITLE));
+			Td cell32 = buildCellValue(lead.getTitle());
+			Td cell33 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_MOBILE));
+			Td cell34 = buildCellValue(lead.getMobile());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Department:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getDepartment())));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Fax:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getFax())));
+			Td cell41 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_DEPARTMENT));
+			Td cell42 = buildCellValue(lead.getDepartment());
+			Td cell43 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_FAX));
+			Td cell44 = buildCellValue(lead.getFax());
+			trRow4.appendChild(cell41, cell42, cell43, cell44);
+			tooltipManager.appendRow(trRow4);
+
 			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Account Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getAccountname())));
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Website:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getWebsite() != null) ? lead
-															.getWebsite() : "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getWebsite()))));
+			Td cell51 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME));
+			Td cell52 = buildCellValue(lead.getAccountname());
+			Td cell53 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_WEBSITE));
+			Td cell54 = buildCellLink(
+					getStringBaseNullCondition(lead.getWebsite()),
+					lead.getWebsite());
+			trRow5.appendChild(cell51, cell52, cell53, cell54);
+			tooltipManager.appendRow(trRow5);
 
 			Tr trRow6 = new Tr();
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Lead Source:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getLeadsourcedesc())));
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(lead.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURl,
-																	lead.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					lead.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(lead
-																			.getAssignUserFullName()))));
+			Td cell61 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_LEAD_SOURCE));
+			Td cell62 = buildCellValue(lead.getLeadsourcedesc());
+			Td cell63 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+
+			String assignUserLink = (lead.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURl, lead.getAssignuser())
+					: "";
+			String assignUserAvatarLink = UserAvatarControlFactory
+					.getAvatarLink(lead.getAssignUserAvatarId(), 16);
+			Td cell64 = buildCellLink(assignUserLink, assignUserAvatarLink,
+					lead.getAssignUserFullName());
+			trRow6.appendChild(cell61, cell62, cell63, cell64);
+			tooltipManager.appendRow(trRow6);
+
 			Tr trRow7 = new Tr();
-			trRow7.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getPrimaddress())));
-			trRow7.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Other Address:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(lead
-															.getOtheraddress())));
+			Td cell71 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS));
+			Td cell72 = buildCellValue(lead.getPrimaddress());
+			Td cell73 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_OTHER_ADDRESS));
+			Td cell74 = buildCellValue(lead.getOtheraddress());
+			trRow7.appendChild(cell71, cell72, cell73, cell74);
 
 			Tr trRow8 = new Tr();
-			trRow8.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Postal Code:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getPrimpostalcode())));
-			trRow8.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Other Postal Code:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(lead
-													.getOtherpostalcode())));
+			Td cell81 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE));
+			Td cell82 = buildCellValue(lead.getPrimpostalcode());
+			Td cell83 = buildCellName(AppContext
+					.getMessage(LeadI18nEnum.FORM_OTHER_POSTAL_CODE));
+			Td cell84 = buildCellValue(lead.getOtherpostalcode());
+			trRow8.appendChild(cell81, cell82, cell83, cell84);
+			tooltipManager.appendRow(trRow8);
+
 			Tr trRow9 = new Tr();
+			Td cell91 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell92 = buildCellValue(trimHtmlTags(lead.getDescription()));
+			cell92.setAttribute("colspan", "3");
+			trRow9.appendChild(cell91, cell92);
+			tooltipManager.appendRow(trRow9);
 
-			Td trRow9_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(lead
-									.getDescription()));
-			trRow9_value.setAttribute("colspan", "3");
-
-			trRow9.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow9_value);
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			table.appendChild(trRow7);
-			table.appendChild(trRow8);
-			table.appendChild(trRow9);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Lead tooltip servlet", e);
 			return null;
@@ -821,199 +451,91 @@ public class CrmTooltipGenerator {
 
 	public static String generateTooltipOpportunity(
 			SimpleOpportunity opportunity, String siteURl, String userTimeZone) {
-		try {
-			if (opportunity == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 opportunityName = new H3();
-			opportunityName.appendText(Jsoup.parse(
-					opportunity.getOpportunityname()).html());
-			div.appendChild(opportunityName);
+		if (opportunity == null)
+			return generateTolltipNull();
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(opportunity.getOpportunityname());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Currency:"))
-					.appendChild(
-							new Td().setStyle(
-									"vertical-align: top; text-align: left;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue((opportunity
-															.getCurrency() != null) ? opportunity
-															.getCurrency()
-															.getSymbol() : "")));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Account Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(opportunity.getAccountid() != null) ? siteURl
-															+ "#"
-															+ CrmLinkGenerator
-																	.generateAccountPreviewLink(opportunity
-																			.getAccountid())
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(opportunity
-																			.getAccountName()))));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_CURRENCY));
+			String currency = (opportunity.getCurrency() != null) ? opportunity
+					.getCurrency().getSymbol() : "";
+			Td cell12 = buildCellValue(currency);
+			Td cell13 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME));
+			String accountLink = (opportunity.getAccountid() != null) ? CrmLinkGenerator
+					.generateAccountPreviewFullLink(siteURl,
+							opportunity.getAccountid()) : "";
+			Td cell14 = buildCellLink(accountLink, opportunity.getAccountName());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Amount:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(opportunity
-															.getAmount())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 140px; vertical-align: top; text-align: right;")
-							.appendText("Expected Close Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															opportunity
-																	.getExpectedcloseddate(),
-															userTimeZone)));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_AMOUNT));
+			Td cell22 = buildCellValue(opportunity.getAmount());
+			Td cell23 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE));
+			String expectedClosedDate = DateTimeUtils
+					.converToStringWithUserTimeZone(
+							opportunity.getExpectedcloseddate(), userTimeZone);
+			Td cell24 = buildCellValue(expectedClosedDate);
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Sales Stage:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(opportunity
-															.getSalesstage())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Lead Source:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(opportunity
-															.getSource())));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE));
+			Td cell32 = buildCellValue(opportunity.getSalesstage());
+			Td cell33 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE));
+			Td cell34 = buildCellValue(opportunity.getSource());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Probability (%):"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(opportunity
-															.getProbability())));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Campaign:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(opportunity
-															.getCampaignid() != null) ? siteURl
-															+ "#"
-															+ CrmLinkGenerator
-																	.generateCampaignPreviewLink(opportunity
-																			.getCampaignid())
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(opportunity
-																			.getCampaignName()))));
+			Td cell41 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_PROBABILITY));
+			Td cell42 = buildCellValue(opportunity.getProbability());
+			Td cell43 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
+			String campaignLink = (opportunity.getCampaignid() != null) ? CrmLinkGenerator
+					.generateCampaignPreviewFullLink(siteURl,
+							opportunity.getCampaignid()) : "";
+			Td cell44 = buildCellLink(campaignLink,
+					opportunity.getCampaignName());
+			trRow4.appendChild(cell41, cell42, cell43, cell44);
+			tooltipManager.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Next Step:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(opportunity
-															.getNextstep())));
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Actual Cost:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(opportunity
-															.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURl,
-																	opportunity
-																			.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					opportunity
-																							.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(opportunity
-																			.getAssignUserFullName()))));
+			Td cell51 = buildCellName(AppContext
+					.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP));
+			Td cell52 = buildCellValue(opportunity.getNextstep());
+			Td cell53 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			String assignUserLink = (opportunity.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURl,
+							opportunity.getAssignuser()) : "";
+			String assignUserAvatarLink = UserAvatarControlFactory
+					.getAvatarLink(opportunity.getAssignUserAvatarId(), 16);
+			Td cell54 = buildCellLink(assignUserLink, assignUserAvatarLink,
+					opportunity.getAssignUserFullName());
+			trRow5.appendChild(cell51, cell52, cell53, cell54);
+			tooltipManager.appendRow(trRow5);
+
 			Tr trRow6 = new Tr();
+			Td cell61 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell62 = buildCellValue(trimHtmlTags(opportunity
+					.getDescription()));
+			cell62.setAttribute("colspan", "3");
+			trRow6.appendChild(cell61, cell62);
+			tooltipManager.appendRow(trRow6);
 
-			Td trRow6_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(opportunity
-									.getDescription()));
-			trRow6_value.setAttribute("colspan", "3");
-
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow6_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Opportunity tooltip servlet", e);
 			return null;
@@ -1022,178 +544,81 @@ public class CrmTooltipGenerator {
 
 	public static String generateTooltipCases(SimpleCase cases, String siteURL,
 			String userTimeZone) {
-		try {
-			if (cases == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 caseName = new H3();
-			caseName.appendText(Jsoup.parse(cases.getSubject()).html());
-			div.appendChild(caseName);
+		if (cases == null)
+			return generateTolltipNull();
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(cases.getSubject());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Priority:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(cases
-															.getPriority())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Type:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(cases
-															.getType())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_PRIORITY));
+			Td cell12 = buildCellValue(cases.getPriority());
+			Td cell13 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_TYPE));
+			Td cell14 = buildCellValue(cases.getType());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(StringUtils
-													.getStringFieldValue(cases
-															.getStatus()))));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Reason:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(cases
-															.getReason())));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_STATUS));
+			Td cell22 = buildCellValue(cases.getStatus());
+			Td cell23 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_REASON));
+			Td cell24 = buildCellValue(cases.getReason());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Account Name:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(cases.getAccountid() != null) ? siteURL
-															+ "#"
-															+ CrmLinkGenerator
-																	.generateAccountPreviewLink(cases
-																			.getAccountid())
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(cases
-																			.getAccountName()))));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(cases.getEmail() != null) ? "mailto:"
-															+ cases.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(cases
-																			.getEmail()))));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_ACCOUNT));
+			String accountLink = (cases.getAccountid() != null) ? CrmLinkGenerator
+					.generateAccountPreviewFullLink(siteURL,
+							cases.getAccountid()) : "";
+			Td cell32 = buildCellLink(accountLink, cases.getAccountName());
+			Td cell33 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_EMAIL));
+			String emailLink = (cases.getEmail() != null) ? String.format(
+					"mailto:%s", cases.getEmail()) : "";
+			Td cell34 = buildCellLink(emailLink, cases.getEmail());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Phone Number:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(cases
-															.getPhonenumber())));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(cases.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURL,
-																	cases.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					cases.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(cases
-																			.getAssignUserFullName()))));
+			Td cell41 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_PHONE));
+			Td cell42 = buildCellValue(cases.getPhonenumber());
+			Td cell43 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			String assignUserLink = (cases.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURL, cases.getAssignuser())
+					: "";
+			String assignUserAvatarLink = UserAvatarControlFactory
+					.getAvatarLink(cases.getAssignUserAvatarId(), 16);
+			Td cell44 = buildCellLink(assignUserLink, assignUserAvatarLink,
+					cases.getAssignUserFullName());
+			trRow4.appendChild(cell41, cell42, cell43, cell44);
+			tooltipManager.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			Td trRow5_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(cases
-									.getDescription()));
-			trRow5_value.setAttribute("colspan", "3");
-
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow5_value);
+			Td cell51 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell52 = buildCellValue(trimHtmlTags(cases.getDescription()));
+			cell52.setAttribute("colspan", "3");
+			trRow5.appendChild(cell51, cell52);
+			tooltipManager.appendRow(trRow5);
 
 			Tr trRow6 = new Tr();
-			Td trRow6_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(cases
-									.getResolution()));
-			trRow6_value.setAttribute("colspan", "3");
+			Td cell61 = buildCellName(AppContext
+					.getMessage(CaseI18nEnum.FORM_RESOLUTION));
+			Td cell62 = buildCellValue(trimHtmlTags(cases.getResolution()));
+			cell62.setAttribute("colspan", "3");
+			trRow6.appendChild(cell61, cell62);
+			tooltipManager.appendRow(trRow6);
 
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Resolution:")).appendChild(
-					trRow6_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate Case tooltip servlet", e);
 			return null;
@@ -1202,88 +627,46 @@ public class CrmTooltipGenerator {
 
 	public static String generateToolTipMeeting(SimpleMeeting meeting,
 			String siteURl, String userTimeZone) {
+		if (meeting == null)
+			return generateTolltipNull();
 		try {
-			if (meeting == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 eventName = new H3();
-			eventName.appendText(meeting.getSubject());
-			div.appendChild(eventName);
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(meeting.getSubject());
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Start Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															meeting.getStartdate(),
-															userTimeZone)));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.setStyle(
-											"width:110px; vertical-align: top; text-align: left;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(meeting
-															.getStatus())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(MeetingI18nEnum.FORM_START_DATE_TIME));
+			String startDateTime = DateTimeUtils
+					.converToStringWithUserTimeZone(meeting.getStartdate(),
+							userTimeZone);
+			Td cell12 = buildCellValue(startDateTime);
+			Td cell13 = buildCellName(AppContext
+					.getMessage(MeetingI18nEnum.FORM_STATUS));
+			Td cell14 = buildCellValue(meeting.getStatus());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("End Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															meeting.getEnddate(),
-															userTimeZone)));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Location:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(meeting
-															.getLocation())));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(MeetingI18nEnum.FORM_END_DATE_TIME));
+			String endDateTime = DateTimeUtils.converToStringWithUserTimeZone(
+					meeting.getEnddate(), userTimeZone);
+			Td cell22 = buildCellValue(endDateTime);
+			Td cell23 = buildCellName(AppContext
+					.getMessage(MeetingI18nEnum.FORM_LOCATION));
+			Td cell24 = buildCellValue(meeting.getLocation());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
+
 			Tr trRow3 = new Tr();
-			Td trRow3_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(meeting
-									.getDescription()));
-			trRow3_value.setAttribute("colspan", "3");
+			Td cell31 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell32 = buildCellValue(trimHtmlTags(meeting.getDescription()));
+			cell32.setAttribute("colspan", "3");
+			trRow3.appendChild(cell31, cell32);
+			tooltipManager.appendRow(trRow3);
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow3_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error(
 					"Error while generate CRM Meeting servlert tooltip servlet",
@@ -1294,97 +677,51 @@ public class CrmTooltipGenerator {
 
 	public static String generateToolTipCall(SimpleCall call, String siteURL,
 			String userTimeZone) {
+		if (call == null)
+			return generateTolltipNull();
 		try {
-			if (call == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 callName = new H3();
-			callName.appendText(call.getSubject());
-			div.appendChild(callName);
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(call.getSubject());
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 120px; vertical-align: top; text-align: right;")
-							.appendText("Start Date & Time:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															call.getStartdate(),
-															userTimeZone)));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(call
-															.getStatus())));
+			Td cell11 = buildCellValue(AppContext
+					.getMessage(CallI18nEnum.FORM_START_DATE_TIME));
+			String datetime = DateTimeUtils.converToStringWithUserTimeZone(
+					call.getStartdate(), userTimeZone);
+			Td cell12 = buildCellValue(datetime);
+			Td cell13 = buildCellValue(AppContext
+					.getMessage(CallI18nEnum.FORM_STATUS));
+			Td cell14 = buildCellValue(call.getStatus());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Duration:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(call
-													.getDurationinseconds())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Purpose:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(call
-															.getPurpose())));
-			Tr trRow3 = new Tr();
-			Td trRow3_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(call
-									.getDescription()));
-			trRow3_value.setAttribute("colspan", "3");
+			Td cell21 = buildCellName(AppContext
+					.getMessage(CallI18nEnum.FORM_DURATION));
+			Td cell22 = buildCellValue(call.getDurationinseconds());
+			Td cell23 = buildCellName(AppContext
+					.getMessage(CallI18nEnum.FORM_PURPOSE));
+			Td cell24 = buildCellValue(call.getPurpose());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
 
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow3_value);
+			Tr trRow3 = new Tr();
+			Td cell31 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell32 = buildCellValue(trimHtmlTags(call.getDescription()));
+			cell32.setAttribute("colspan", "3");
+			trRow3.appendChild(cell31, cell32);
+			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(call.getResult()));
-			trRow4_value.setAttribute("colspan", "3");
+			Td cell41 = buildCellName(AppContext
+					.getMessage(CallI18nEnum.FORM_RESULT));
+			Td cell42 = buildCellValue(trimHtmlTags(call.getResult()));
+			cell42.setAttribute("colspan", "3");
+			trRow4.appendChild(cell41, cell42);
+			tooltipManager.appendRow(trRow4);
 
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Result:")).appendChild(trRow4_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow4);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate CRM Call servlert tooltip servlet",
 					e);
@@ -1394,134 +731,65 @@ public class CrmTooltipGenerator {
 
 	public static String generateToolTipCrmTask(SimpleTask task,
 			String siteURL, String userTimeZone) {
-		try {
-			if (task == null)
-				return generateTolltipNull();
-			Div div = new Div()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			H3 eventName = new H3();
-			eventName.appendText(Jsoup.parse(task.getSubject()).html());
-			div.appendChild(eventName);
+		if (task == null)
+			return generateTolltipNull();
 
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
+		try {
+			TooltipBuilder tooltipManager = new TooltipBuilder();
+			tooltipManager.setTitle(task.getSubject());
+
 			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Start Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															task.getStartdate(),
-															userTimeZone)));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Status:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(task
-															.getStatus())));
+			Td cell11 = buildCellName(AppContext
+					.getMessage(TaskI18nEnum.FORM_START_DATE));
+			String startDate = DateTimeUtils.converToStringWithUserTimeZone(
+					task.getStartdate(), userTimeZone);
+			Td cell12 = buildCellValue(startDate);
+			Td cell13 = buildCellName(AppContext
+					.getMessage(TaskI18nEnum.FORM_STATUS));
+			Td cell14 = buildCellValue(task.getStatus());
+			trRow1.appendChild(cell11, cell12, cell13, cell14);
+			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Due Date:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils
-													.converToStringWithUserTimeZone(
-															task.getDuedate(),
-															userTimeZone)));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Contact:"))
-
-					.appendChild(
-							new Td().setStyle(
-									"width:110px; vertical-align: top; text-align: left;")
-									.appendChild(
-											new A().setHref(
-													(task.getContactid() != null) ? siteURL
-															+ "#"
-															+ CrmLinkGenerator
-																	.generateContactPreviewLink(task
-																			.getContactid())
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(task
-																			.getContactName()))));
+			Td cell21 = buildCellName(AppContext
+					.getMessage(TaskI18nEnum.FORM_DUE_DATE));
+			String duedate = DateTimeUtils.converToStringWithUserTimeZone(
+					task.getDuedate(), userTimeZone);
+			Td cell22 = buildCellValue(duedate);
+			Td cell23 = buildCellName(AppContext
+					.getMessage(TaskI18nEnum.FORM_CONTACT));
+			String contactLink = (task.getContactid() != null) ? CrmLinkGenerator
+					.generateContactPreviewFullLink(siteURL,
+							task.getContactid()) : "";
+			Td cell24 = buildCellLink(contactLink, task.getContactName());
+			trRow2.appendChild(cell21, cell22, cell23, cell24);
+			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Priority:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(task
-															.getPriority())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 90px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(task.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	siteURL,
-																	task.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					task.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(task
-																			.getAssignUserFullName()))));
+			Td cell31 = buildCellName(AppContext
+					.getMessage(TaskI18nEnum.FORM_PRIORITY));
+			Td cell32 = buildCellValue(task.getPriority());
+			Td cell33 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			String assignUserLink = (task.getAssignuser() != null) ? UserLinkUtils
+					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
+					: "";
+			String assignUserAvatarLink = UserAvatarControlFactory
+					.getAvatarLink(task.getAssignUserAvatarId(), 16);
+			Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink,
+					task.getAssignUserFullName());
+			trRow3.appendChild(cell31, cell32, cell33, cell34);
+			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(task
-									.getDescription()));
-			trRow4_value.setAttribute("colspan", "3");
+			Td cell41 = buildCellName(AppContext
+					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell42 = buildCellValue(trimHtmlTags(task.getDescription()));
+			cell42.setAttribute("colspan", "3");
+			trRow4.appendChild(cell41, cell42);
+			tooltipManager.appendRow(trRow4);
 
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow4_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			div.appendChild(table);
-			return div.write();
+			return tooltipManager.create().write();
 		} catch (Exception e) {
 			log.error("Error while generate CRM Task tooltip servlet", e);
 			return null;

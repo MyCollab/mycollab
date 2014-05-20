@@ -21,10 +21,15 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm/task")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum TaskI18nEnum {
-	TABLE_START_DATE_HEADER,
+	FORM_START_DATE,
+	FORM_STATUS,
+	FORM_DUE_DATE,
+	FORM_CONTACT,
+	FORM_PRIORITY,
 	TABLE_SUBJECT_HEADER,
 	TABLE_TYPE_HEADER,
-	TABLE_END_DATE_HEADER
+	TABLE_END_DATE_HEADER,
+	
 }

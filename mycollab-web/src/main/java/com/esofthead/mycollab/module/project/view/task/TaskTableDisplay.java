@@ -508,7 +508,7 @@ public class TaskTableDisplay extends
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.getStringRemoveHtmlTag(task.getNotes()));
+							StringUtils.trimHtmlTags(task.getNotes()));
 			trRow6_value.setAttribute("colspan", "3");
 
 			trRow6.appendChild(

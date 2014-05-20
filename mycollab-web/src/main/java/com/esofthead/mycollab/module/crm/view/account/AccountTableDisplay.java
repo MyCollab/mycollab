@@ -19,33 +19,21 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.EmailLink;
 import com.esofthead.mycollab.vaadin.ui.UrlLink;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Label;
@@ -60,9 +48,6 @@ public class AccountTableDisplay
 		extends
 		DefaultPagedBeanTable<AccountService, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = 1L;
-
-	private static Logger log = LoggerFactory
-			.getLogger(AccountTableDisplay.class);
 
 	public AccountTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
@@ -131,7 +116,8 @@ public class AccountTableDisplay
 				LabelLink b = new LabelLink(account.getAccountname(),
 						CrmLinkBuilder.generateAccountPreviewLinkFull(account
 								.getId()));
-				b.setDescription(generateAccountToolTip(account));
+				b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
+						account, AppContext.getSiteUrl()));
 				return b;
 			}
 		});
@@ -170,139 +156,5 @@ public class AccountTableDisplay
 		});
 
 		this.setWidth("100%");
-	}
-
-	private String generateAccountToolTip(SimpleAccount account) {
-		try {
-			Div div = new Div();
-			H3 accountName = new H3();
-			accountName
-					.appendText(Jsoup.parse(account.getAccountname()).html());
-			div.appendChild(accountName);
-
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Website:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getWebsite() != null) ? account
-															.getWebsite() : "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getWebsite()))));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 150px; vertical-align: top; text-align: right;")
-							.appendText("Office Phone:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(account
-															.getPhoneoffice())));
-
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Employees:"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											(account.getNumemployees() != null) ? account
-													.getNumemployees()
-													.toString() : ""));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Email:"))
-					.appendChild(
-							new Td().setStyle(
-									"width:200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getEmail() != null) ? "mailto:"
-															+ account
-																	.getEmail()
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getEmail()))));
-
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(account.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	AppContext
-																			.getSiteUrl(),
-																	account.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					account.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(account
-																			.getAssignUserFullName()))));
-
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 150px; vertical-align: top; text-align: right;")
-							.appendText("Annual Revenue:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 180px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(account
-															.getAnnualrevenue())));
-
-			Tr trRow4 = new Tr();
-			Td trRow4_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.getStringRemoveHtmlTag(account
-									.getDescription()));
-			trRow4_value.setAttribute("colspan", "3");
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow4_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			log.error("Error while generate Account tooltip", e);
-			return "";
-		}
 	}
 }
