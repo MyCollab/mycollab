@@ -65,6 +65,7 @@ public class ContactInfoChangeWindow extends Window {
 	public ContactInfoChangeWindow(final User user) {
 		this.user = user;
 		this.setWidth("450px");
+		this.setResizable(false);
 		this.validation = ApplicationContextUtil
 				.getSpringBean(LocalValidatorFactoryBean.class);
 		this.initUI();
@@ -120,8 +121,7 @@ public class ContactInfoChangeWindow extends Window {
 		hlayoutControls.setSpacing(true);
 		hlayoutControls.setMargin(true);
 		final Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

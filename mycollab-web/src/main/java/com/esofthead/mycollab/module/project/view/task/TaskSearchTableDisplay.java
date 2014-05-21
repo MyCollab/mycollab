@@ -19,20 +19,17 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -40,23 +37,15 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -66,12 +55,16 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 2.0
+ * 
+ */
 public class TaskSearchTableDisplay
 		extends
 		DefaultPagedBeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
-			.getLogger(TaskSearchTableDisplay.class);
 
 	public TaskSearchTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
@@ -100,7 +93,9 @@ public class TaskSearchTableDisplay
 				LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
 						.generateTaskPreviewFullLink(task.getProjectid(),
 								task.getId()));
-				b.setDescription(generateToolTip(task));
+				b.setDescription(ProjectTooltipGenerator.generateToolTipTask(
+						task, AppContext.getSiteUrl(),
+						AppContext.getTimezoneId()));
 
 				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
 					b.setIconLink(ProjectResources
@@ -384,145 +379,5 @@ public class TaskSearchTableDisplay
 					}
 				});
 		this.setWidth("100%");
-	}
-
-	private String generateToolTip(SimpleTask task) {
-		try {
-			Div div = new Div();
-			H3 taksName = new H3();
-			taksName.appendText(Jsoup.parse(task.getTaskname()).html());
-			div.appendChild(taksName);
-
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :500px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Start Date:")).appendChild(
-					new Td().appendText(AppContext.formatDate(task
-							.getStartdate())));
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Actual Start Date:")).appendChild(
-					new Td().appendText(AppContext.formatDate(task
-							.getActualstartdate())));
-
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("End Date:"))
-					.appendChild(
-							new Td().appendText(AppContext.formatDate(task
-									.getEnddate())));
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Actual End Date:")).appendChild(
-					new Td().appendText(AppContext.formatDate(task
-							.getActualenddate())));
-
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Deadline:")).appendChild(
-					new Td().appendText(AppContext.formatDate(task
-							.getDeadline())));
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("Priority:")).appendChild(
-					new Td().appendText(StringUtils.getStringFieldValue(task
-							.getPriority())));
-
-			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Assignee:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(task.getAssignuser() != null) ? UserLinkUtils
-															.generatePreviewFullUserLink(
-																	AppContext
-																			.getSiteUrl(),
-																	task.getAssignuser())
-															: "")
-													.appendChild(
-															new Img(
-																	"",
-																	UserAvatarControlFactory
-																			.getAvatarLink(
-																					task.getAssignUserAvatarId(),
-																					16)))
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(task
-																			.getAssignUserFullName()))));
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText("TaskGroup:"))
-					.appendChild(
-							new Td().setStyle(
-									"width: 200px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendChild(
-											new A().setHref(
-													(task.getTasklistid() != null) ? AppContext
-															.getSiteUrl()
-															+ "#"
-															+ ProjectLinkUtils
-																	.generateTaskGroupPreviewLink(
-																			task.getProjectid(),
-																			task.getTasklistid())
-															: "")
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(task
-																			.getTaskListName()))));
-
-			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Complete(%):"))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											StringUtils.getStringFieldValue(task
-													.getPercentagecomplete())));
-			Tr trRow6 = new Tr();
-
-			Td trRow6_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(task.getNotes()));
-			trRow6_value.setAttribute("colspan", "3");
-
-			trRow6.appendChild(
-					new Td().setStyle(
-							"width: 70px; vertical-align: top; text-align: right;")
-							.appendText("Notes:")).appendChild(trRow6_value);
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			table.appendChild(trRow6);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			log.error("Error while generate tooltip for Version", e);
-			return "";
-		}
 	}
 }

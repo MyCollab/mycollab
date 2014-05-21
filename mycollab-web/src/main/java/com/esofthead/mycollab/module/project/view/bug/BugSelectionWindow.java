@@ -54,6 +54,7 @@ public class BugSelectionWindow extends Window {
 		this.setHeight("500px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);

@@ -44,6 +44,7 @@ public class LeadSelectionWindow extends Window {
 		this.setWidth("800px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	public void show() {
@@ -82,7 +83,7 @@ public class LeadSelectionWindow extends Window {
 				LeadTableFieldDef.accountName));
 
 		tableItem.setWidth("100%");
-	
+
 		tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
 			private static final long serialVersionUID = 1L;
 
@@ -91,15 +92,17 @@ public class LeadSelectionWindow extends Window {
 					final Object itemId, final Object columnId) {
 				final SimpleLead lead = tableItem.getBeanByIndex(itemId);
 
-				ButtonLink b = new ButtonLink(lead.getLeadName(),new Button.ClickListener() {
-					
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(lead);
-						LeadSelectionWindow.this.close();
-					}
-				});
+				ButtonLink b = new ButtonLink(lead.getLeadName(),
+						new Button.ClickListener() {
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								// TODO Auto-generated method stub
+								fieldSelection.fireValueChange(lead);
+								LeadSelectionWindow.this.close();
+							}
+						});
 				return b;
 			}
 		});

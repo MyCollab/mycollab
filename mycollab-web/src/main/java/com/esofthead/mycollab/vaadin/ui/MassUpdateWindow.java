@@ -50,6 +50,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 			B initialValue, MassUpdateCommand<B> massUpdatePresenter) {
 		super(title);
 		this.setWidth("1000px");
+		this.setResizable(false);
 		this.massUpdateCommand = massUpdatePresenter;
 		this.beanItem = initialValue;
 		this.setIcon(iconResource);

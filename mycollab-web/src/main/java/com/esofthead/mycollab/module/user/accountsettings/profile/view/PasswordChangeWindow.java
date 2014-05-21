@@ -57,6 +57,7 @@ public class PasswordChangeWindow extends Window {
 		this.setWidth("500px");
 		this.initUI();
 		this.center();
+		this.setResizable(false);
 		this.user = user;
 		this.setCaption(AppContext
 				.getMessage(UserI18nEnum.CHANGE_PASSWORD_WINDOW_TITLE));
@@ -70,14 +71,12 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final Label lbInstruct1 = new Label(
-				AppContext
-						.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_1));
+				AppContext.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_1));
 		mainLayout.addComponent(lbInstruct1);
 		mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
 		final Label lbInstruct2 = new Label(
-				AppContext
-						.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_2));
+				AppContext.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_2));
 		mainLayout.addComponent(lbInstruct2);
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
@@ -101,8 +100,7 @@ public class PasswordChangeWindow extends Window {
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 
 		final Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -156,14 +154,14 @@ public class PasswordChangeWindow extends Window {
 		}
 
 		try {
-			PasswordCheckerUtil.checkValidPassword((String) this.txtNewPassword
+			PasswordCheckerUtil.checkValidPassword(this.txtNewPassword
 					.getValue());
 		} catch (InvalidPasswordException e) {
 			NotificationUtil.showErrorNotification(e.getMessage());
 		}
 
 		this.user.setPassword(PasswordEncryptHelper
-				.encryptSaltPassword((String) this.txtNewPassword.getValue()));
+				.encryptSaltPassword(this.txtNewPassword.getValue()));
 
 		final UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);

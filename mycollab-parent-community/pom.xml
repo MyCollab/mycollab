@@ -15,7 +15,7 @@
         <slf4jVersion>1.6.4</slf4jVersion>
         <log4jVersion>1.2.16</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.1.15</vaadinVersion>
+        <vaadinVersion>7.2.0</vaadinVersion>
         <jettyVersion>9.1.4.v20140401</jettyVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.inceptionYear>2011</project.inceptionYear>

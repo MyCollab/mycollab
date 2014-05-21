@@ -26,6 +26,7 @@ import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickEvent;
 import org.vaadin.peter.contextmenu.ContextMenu.ContextMenuItemClickListener;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -272,7 +273,9 @@ public class BugTableDisplay extends
 									.getPriority()));
 				}
 
-				b.setDescription(BugToolTipGenerator.generateToolTip(bug));
+				b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
+						bug, AppContext.getSiteUrl(),
+						AppContext.getTimezoneId()));
 
 				if (bug.isCompleted()) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

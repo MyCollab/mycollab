@@ -71,6 +71,7 @@ public class MyProjectListWindow extends Window {
 		layout.addComponent(projectList);
 		this.setContent(layout);
 		this.setModal(true);
+		this.setResizable(false);
 		this.center();
 	}
 

@@ -63,6 +63,7 @@ public abstract class CustomizedTableWindow extends Window {
 		this.viewId = viewId;
 		this.addStyleName("customize-table-window");
 		this.setWidth("400px");
+		this.setResizable(false);
 		this.center();
 
 		this.tableItem = table;
@@ -156,8 +157,7 @@ public abstract class CustomizedTableWindow extends Window {
 		buttonControls.addComponent(saveBtn);
 
 		final Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

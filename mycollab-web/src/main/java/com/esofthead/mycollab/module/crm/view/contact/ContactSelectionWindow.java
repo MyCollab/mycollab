@@ -50,6 +50,7 @@ public class ContactSelectionWindow extends Window {
 		this.setWidth("900px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	public void show() {
@@ -89,27 +90,31 @@ public class ContactSelectionWindow extends Window {
 				ContactTableFieldDef.assignUser));
 		tableItem.setWidth("100%");
 
+		tableItem.addGeneratedColumn("contactName",
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-		tableItem.addGeneratedColumn("contactName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleContact contact = tableItem.getBeanByIndex(itemId);
-
-				ButtonLink b = new ButtonLink(contact.getContactName(),new Button.ClickListener() {
-					
 					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(contact);
-						ContactSelectionWindow.this.close();
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleContact contact = tableItem
+								.getBeanByIndex(itemId);
+
+						ButtonLink b = new ButtonLink(contact.getContactName(),
+								new Button.ClickListener() {
+
+									@Override
+									public void buttonClick(
+											final Button.ClickEvent event) {
+										// TODO Auto-generated method stub
+										fieldSelection.fireValueChange(contact);
+										ContactSelectionWindow.this.close();
+									}
+								});
+						return b;
 					}
 				});
-				return b;
-			}
-		});
 
 	}
 }

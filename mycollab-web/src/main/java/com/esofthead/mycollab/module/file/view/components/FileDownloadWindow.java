@@ -57,6 +57,7 @@ public class FileDownloadWindow extends Window {
 		super(content.getName());
 		this.setWidth("400px");
 		this.center();
+		this.setResizable(false);
 
 		this.content = content;
 		this.constructBody();
@@ -117,15 +118,15 @@ public class FileDownloadWindow extends Window {
 				Alignment.MIDDLE_CENTER);
 
 		final Button cancel = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				FileDownloadWindow.this.close();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						FileDownloadWindow.this.close();
+					}
+				});
 		cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
 
 		UiUtils.addComponent(buttonControls, cancel, Alignment.MIDDLE_CENTER);

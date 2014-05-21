@@ -49,6 +49,7 @@ public class OpportunitySelectionWindow extends Window {
 		this.setWidth("900px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	public void show() {
@@ -87,26 +88,33 @@ public class OpportunitySelectionWindow extends Window {
 				OpportunityTableFieldDef.assignUser));
 
 		tableItem.setWidth("100%");
-		
-		tableItem.addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleOpportunity opportunity = tableItem.getBeanByIndex(itemId);
+		tableItem.addGeneratedColumn("opportunityname",
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-				ButtonLink b = new ButtonLink(opportunity.getOpportunityname(),new Button.ClickListener() {
-					
 					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(opportunity);
-						OpportunitySelectionWindow.this.close();
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleOpportunity opportunity = tableItem
+								.getBeanByIndex(itemId);
+
+						ButtonLink b = new ButtonLink(opportunity
+								.getOpportunityname(),
+								new Button.ClickListener() {
+
+									@Override
+									public void buttonClick(
+											final Button.ClickEvent event) {
+										// TODO Auto-generated method stub
+										fieldSelection
+												.fireValueChange(opportunity);
+										OpportunitySelectionWindow.this.close();
+									}
+								});
+						return b;
 					}
 				});
-				return b;
-			}
-		});
 	}
 }

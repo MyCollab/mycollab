@@ -388,5 +388,42 @@ public class VerticalTabsheet extends CustomComponent {
 			return component.getStyleName();
 		}
 
+		@Override
+		public void setDefaultFocusComponent(Focusable component) {
+			throw new MyCollabException("Do not support");
+			
+		}
+
+		@Override
+		public Focusable getDefaultFocusComponent() {
+			throw new MyCollabException("Do not support");
+		}
+
+		@Override
+		public void setIcon(Resource icon, String iconAltText) {
+			throw new MyCollabException("Do not support");
+		}
+
+		@Override
+		public String getIconAlternateText() {
+			throw new MyCollabException("Do not support");
+		}
+
+		@Override
+		public void setIconAlternateText(String iconAltText) {
+			throw new MyCollabException("Do not support");
+		}
+
+		@Override
+		public void setId(String id) {
+			throw new MyCollabException("Do not support");
+			
+		}
+
+		@Override
+		public String getId() {
+			throw new MyCollabException("Do not support");
+		}
+
 	}
 }

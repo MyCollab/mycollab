@@ -73,6 +73,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 			boolean isNeedLoadExternalDrive) {
 		super("Move File/Foler");
 		center();
+		this.setResizable(false);
 		this.setWidth("600px");
 		this.resourceEditting = resource;
 		this.resourceService = ApplicationContextUtil
@@ -92,6 +93,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		super("Move File/Foler");
 		center();
 		this.setWidth("600px");
+		this.setResizable(false);
 		this.lstResEditting = lstRes;
 		this.resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
@@ -330,15 +332,15 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		moveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlGroupBtnLayout.addComponent(moveBtn);
 		Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				AbstractResourceMovingWindow.this.close();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						AbstractResourceMovingWindow.this.close();
+					}
+				});
 		cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
 		controlGroupBtnLayout.addComponent(cancelBtn);
 

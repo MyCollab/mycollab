@@ -99,6 +99,7 @@ public abstract class EntityImportWindow<E> extends Window {
 		super(title);
 		center();
 		this.setWidth("1000px");
+		this.setResizable(false);
 		this.setStyleName("entity-import-window");
 		this.isSupportVCard = isSupportVCard;
 		this.services = service;

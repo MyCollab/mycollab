@@ -63,6 +63,7 @@ public class AssignTaskGroupWindow extends Window {
 				task.getName()));
 		this.taskList = task;
 		this.setWidth("750px");
+		this.setResizable(false);
 
 		VerticalLayout contentLayout = new VerticalLayout();
 		editForm = new EditForm();

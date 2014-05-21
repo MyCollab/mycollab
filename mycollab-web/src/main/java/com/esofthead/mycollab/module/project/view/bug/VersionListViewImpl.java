@@ -20,12 +20,8 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
-import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -53,10 +49,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -77,9 +69,6 @@ import com.vaadin.ui.VerticalLayout;
 @ViewComponent
 public class VersionListViewImpl extends AbstractPageView implements
 		VersionListView {
-
-	private static Logger log = LoggerFactory
-			.getLogger(VersionListViewImpl.class);
 
 	private static final long serialVersionUID = 1L;
 	private final VersionSearchPanel componentSearchPanel;
@@ -166,7 +155,10 @@ public class VersionListViewImpl extends AbstractPageView implements
 												.getTime()))) {
 							b.addStyleName(UIConstants.LINK_OVERDUE);
 						}
-						b.setDescription(generateToolTip(bugVersion));
+						b.setDescription(ProjectTooltipGenerator
+								.generateToolTipVersion(bugVersion,
+										AppContext.getSiteUrl(),
+										AppContext.getTimezoneId()));
 						return b;
 
 					}
@@ -268,56 +260,5 @@ public class VersionListViewImpl extends AbstractPageView implements
 	@Override
 	public AbstractPagedBeanTable<VersionSearchCriteria, SimpleVersion> getPagedBeanTable() {
 		return this.tableItem;
-	}
-
-	private String generateToolTip(Version version) {
-		try {
-			Div div = new Div();
-			H3 versionName = new H3();
-			versionName
-					.appendText(Jsoup.parse(version.getVersionname()).html());
-			div.appendChild(versionName);
-
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :400px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Version Name:")).appendChild(
-					new Td().appendText(StringUtils.getStringFieldValue(version
-							.getVersionname())));
-
-			Tr trRow2 = new Tr();
-
-			Td trRow2_value = new Td()
-					.setStyle(
-							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(version
-									.getDescription()));
-			trRow2_value.setAttribute("colspan", "3");
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Description:")).appendChild(
-					trRow2_value);
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 100px; vertical-align: top; text-align: right;")
-							.appendText("Due Date:")).appendChild(
-					new Td().appendText(AppContext.formatDate(version
-							.getDuedate())));
-
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			log.error("Error while generate tooltip for Version", e);
-			return "";
-		}
 	}
 }

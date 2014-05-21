@@ -68,6 +68,7 @@ public class AssignTaskWindow extends Window {
 
 		this.task = task;
 		this.setWidth("750px");
+		this.setResizable(false);
 		editForm = new EditForm();
 		contentLayout.addComponent(editForm);
 		editForm.setBean(task);

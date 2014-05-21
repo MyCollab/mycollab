@@ -64,6 +64,7 @@ public class BasicInfoChangeWindow extends Window {
 	public BasicInfoChangeWindow(final User user) {
 		this.user = user;
 		this.setWidth("450px");
+		this.setResizable(false);
 		this.initUI();
 		this.center();
 		this.setCaption("Change your basic information");

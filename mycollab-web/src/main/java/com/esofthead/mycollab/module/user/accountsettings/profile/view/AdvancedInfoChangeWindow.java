@@ -54,6 +54,7 @@ public class AdvancedInfoChangeWindow extends Window {
 	public AdvancedInfoChangeWindow(final User user) {
 		this.user = user;
 		this.setWidth("450px");
+		this.setResizable(false);
 		this.initUI();
 		this.center();
 		this.setCaption("Change your advanced information");
@@ -96,7 +97,8 @@ public class AdvancedInfoChangeWindow extends Window {
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 		hlayoutControls.setSpacing(true);
 		hlayoutControls.setMargin(true);
-		final Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+		final Button cancelBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -111,14 +113,16 @@ public class AdvancedInfoChangeWindow extends Window {
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button sendBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		final Button sendBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				AdvancedInfoChangeWindow.this.changePassword();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						AdvancedInfoChangeWindow.this.changePassword();
+					}
+				});
 		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		hlayoutControls.addComponent(sendBtn);
 		hlayoutControls.setComponentAlignment(sendBtn, Alignment.MIDDLE_CENTER);

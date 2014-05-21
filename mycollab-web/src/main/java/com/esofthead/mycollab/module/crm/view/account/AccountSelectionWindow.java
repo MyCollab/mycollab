@@ -48,6 +48,7 @@ public class AccountSelectionWindow extends Window {
 	public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
 		super("Account Name Lookup");
 		this.setWidth("900px");
+		this.setResizable(false);
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
 	}
@@ -88,26 +89,31 @@ public class AccountSelectionWindow extends Window {
 				AccountTableFieldDef.assignUser));
 
 		tableItem.setWidth("100%");
-		tableItem.addGeneratedColumn("accountname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+		tableItem.addGeneratedColumn("accountname",
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = tableItem.getBeanByIndex(itemId);
-
-				ButtonLink b = new ButtonLink(account.getAccountname(),new Button.ClickListener() {
-					
 					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(account);
-						AccountSelectionWindow.this.close();
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleAccount account = tableItem
+								.getBeanByIndex(itemId);
+
+						ButtonLink b = new ButtonLink(account.getAccountname(),
+								new Button.ClickListener() {
+
+									@Override
+									public void buttonClick(
+											final Button.ClickEvent event) {
+										// TODO Auto-generated method stub
+										fieldSelection.fireValueChange(account);
+										AccountSelectionWindow.this.close();
+									}
+								});
+						return b;
 					}
 				});
-				return b;
-			}
-		});
-		
+
 	}
 }

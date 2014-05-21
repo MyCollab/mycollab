@@ -51,6 +51,7 @@ public class CampaignSelectionWindow extends Window {
 		this.setWidth("800px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	public void show() {
@@ -89,26 +90,31 @@ public class CampaignSelectionWindow extends Window {
 				CampaignTableFieldDef.assignUser));
 
 		tableItem.setWidth("100%");
-	
-		tableItem.addGeneratedColumn("campaignname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleCampaign campaign = tableItem.getBeanByIndex(itemId);
+		tableItem.addGeneratedColumn("campaignname",
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-				ButtonLink b = new ButtonLink(campaign.getCampaignname(),new Button.ClickListener() {
-					
 					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-						// TODO Auto-generated method stub
-						fieldSelection.fireValueChange(campaign);
-						CampaignSelectionWindow.this.close();
+					public com.vaadin.ui.Component generateCell(
+							final Table source, final Object itemId,
+							final Object columnId) {
+						final SimpleCampaign campaign = tableItem
+								.getBeanByIndex(itemId);
+
+						ButtonLink b = new ButtonLink(campaign
+								.getCampaignname(), new Button.ClickListener() {
+
+							@Override
+							public void buttonClick(
+									final Button.ClickEvent event) {
+								// TODO Auto-generated method stub
+								fieldSelection.fireValueChange(campaign);
+								CampaignSelectionWindow.this.close();
+							}
+						});
+						return b;
 					}
 				});
-				return b;
-			}
-		});
 	}
 }

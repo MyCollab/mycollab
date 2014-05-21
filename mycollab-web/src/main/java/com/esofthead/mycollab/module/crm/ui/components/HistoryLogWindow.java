@@ -35,6 +35,7 @@ public class HistoryLogWindow extends Window {
 		super("Change Log");
 
 		this.setWidth("700px");
+		this.setResizable(false);
 
 		this.historyLogComponent = new HistoryLogComponent(module, type);
 		this.setContent(historyLogComponent);

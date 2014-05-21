@@ -35,7 +35,7 @@ import com.vaadin.ui.Window;
  * @author MyCollab Ltd.
  */
 public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
-extends Window {
+		extends Window {
 	private static final long serialVersionUID = 1L;
 
 	private static final String selectedFieldName = "selected";
@@ -54,37 +54,38 @@ extends Window {
 		this.setContent(bodyContent);
 		this.relatedListComp = relatedList;
 		this.setModal(true);
+		this.setResizable(false);
 		initUI();
 
 		tableItem
-		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			private static final long serialVersionUID = 1L;
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
-
-			@Override
-			public void handle(TableClickEvent event) {
-				try {
-					Object rowItem = event.getData();
-					Boolean selectedVal = (Boolean) PropertyUtils
-							.getProperty(rowItem, selectedFieldName);
-					if (selectedVal == true) {
-						selectedItems.remove(rowItem);
-						PropertyUtils.setProperty(rowItem,
-								selectedFieldName, false);
-					} else {
-						selectedItems.add(rowItem);
-						PropertyUtils.setProperty(rowItem,
-								selectedFieldName, true);
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
 					}
-				} catch (Exception ex) {
-					throw new MyCollabException(ex);
-				}
-			}
-		});
+
+					@Override
+					public void handle(TableClickEvent event) {
+						try {
+							Object rowItem = event.getData();
+							Boolean selectedVal = (Boolean) PropertyUtils
+									.getProperty(rowItem, selectedFieldName);
+							if (selectedVal == true) {
+								selectedItems.remove(rowItem);
+								PropertyUtils.setProperty(rowItem,
+										selectedFieldName, false);
+							} else {
+								selectedItems.add(rowItem);
+								PropertyUtils.setProperty(rowItem,
+										selectedFieldName, true);
+							}
+						} catch (Exception ex) {
+							throw new MyCollabException(ex);
+						}
+					}
+				});
 	}
 
 	@Override

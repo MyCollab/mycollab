@@ -94,6 +94,7 @@ public class UserLink extends Button {
 			super("User preview");
 			this.center();
 			this.setWidth("500px");
+			this.setResizable(false);
 			this.addStyleName("user-preview-window");
 			this.user = user;
 			constructBody();

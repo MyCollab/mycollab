@@ -98,7 +98,7 @@ public class DefaultMassItemActionHandlersContainer extends HorizontalLayout
 			this.addComponent(group);
 		}
 
-		Button optionBtn = new Button(null);
+		Button optionBtn = new Button("");
 
 		FileDownloader fileDownler = new FileDownloader(new StreamResource(
 				new LazyStreamSource(id), downloadFileName));

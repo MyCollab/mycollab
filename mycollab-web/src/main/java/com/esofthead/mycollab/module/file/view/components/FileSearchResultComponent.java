@@ -385,6 +385,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 				final ResourceService service) {
 			super("Rename folder/file");
 			this.center();
+			this.setResizable(false);
 			this.setWidth("400px");
 
 			this.service = service;
@@ -420,8 +421,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 									.getPath();
 							final String parentPath = oldPath.substring(0,
 									oldPath.lastIndexOf("/") + 1);
-							final String newNameValue = (String) newName
-									.getValue();
+							final String newNameValue = newName.getValue();
 							final String newPath = parentPath + newNameValue;
 							try {
 								RenameResourceWindow.this.service.rename(

@@ -49,6 +49,7 @@ public class CaseSelectionWindow extends Window {
 		this.setWidth("900px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	public void show() {

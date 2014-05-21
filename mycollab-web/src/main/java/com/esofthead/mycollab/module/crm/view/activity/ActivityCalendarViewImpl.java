@@ -790,6 +790,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 		public QuickCreateEventWindow(Date startDate, Date endDate) {
 			super("Quick Create Event");
 			this.center();
+			this.setResizable(false);
 			this.setWidth("1220px");
 
 			this.meeting = new MeetingWithBLOBs();

@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -74,7 +75,9 @@ public class DueBugWidget extends BugDisplayWidget {
 					ProjectLinkBuilder.generateBugPreviewFullLink(
 							bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
-			defectLink.setDescription(BugToolTipGenerator.generateToolTip(bug));
+			defectLink.setDescription(ProjectTooltipGenerator
+					.generateToolTipBug(bug, AppContext.getSiteUrl(),
+							AppContext.getTimezoneId()));
 
 			if (bug.isOverdue()) {
 				defectLink.addStyleName(UIConstants.LINK_OVERDUE);

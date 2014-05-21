@@ -82,6 +82,7 @@ public class MailFormWindow extends Window {
 		initUI();
 		center();
 		this.setModal(true);
+		this.setResizable(false);
 	}
 
 	@SuppressWarnings("serial")
@@ -201,15 +202,15 @@ public class MailFormWindow extends Window {
 		controlsLayout.setSpacing(true);
 
 		Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				MailFormWindow.this.close();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						MailFormWindow.this.close();
+					}
+				});
 
 		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlsLayout.addComponent(cancelBtn);

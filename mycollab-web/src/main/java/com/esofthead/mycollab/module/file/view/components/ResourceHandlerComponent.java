@@ -949,6 +949,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 				final ResourceService service) {
 			super("Rename folder/file");
 			this.center();
+			this.setResizable(false);
 			this.setWidth("400px");
 
 			this.service = service;
@@ -1071,6 +1072,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		public AddNewFolderWindow() {
 			this.setModal(true);
 			this.setCaption("New Folder");
+			this.setResizable(false);
 			this.center();
 
 			VerticalLayout contentLayout = new VerticalLayout();
@@ -1197,6 +1199,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		public MultiUploadContentWindow() {
 			super("Multi Upload Content");
 			this.setWidth("500px");
+			this.setResizable(false);
 
 			VerticalLayout contentLayout = new VerticalLayout();
 			contentLayout.setMargin(new MarginInfo(false, false, true, false));

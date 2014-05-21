@@ -5945,12 +5945,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 
 /* Custom Field Settings Section */
-.crmContainer .verticalTabView
-{
-    padding: 0px;
-    margin: 0px auto;
-}
-
 .customFieldSection {
     background-color: rgb(247, 247, 247);
     border: 1px solid rgb(157, 157, 157);
@@ -6271,62 +6265,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
     vertical-align: middle;
 }
 /* End VerticalTabsheet */
-
-/* CRM Tabview */
-.verticalTabView {
-    margin: 20px auto;
-    background-color: #F5F5F5;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#F5F5F5),
-        to(#DDDDDD));
-    background-image: -webkit-linear-gradient(top, #F5F5F5, #DDDDDD);
-    background-image: -moz-linear-gradient(top, #F5F5F5, #DDDDDD);
-    background-image: -ms-linear-gradient(top, #F5F5F5, #DDDDDD);
-    background-image: -o-linear-gradient(top, #F5F5F5, #DDDDDD);
-    background-image: linear-gradient(top, #F5F5F5, #DDDDDD);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 5px;
-    //*border: 1px solid #8F8F8F;*/
-    overflow: hidden;
-}
-.verticalTabView .sidebar-menu {
-    background: none;
-}
-
-.verticalTabView .sidebar-menu {
-    padding: 0px 0px;
-}
-
-.verticalTabView .sidebar-menu .v-label.sectionHeader {
-    font-size: 14px;
-    padding: 4px 15px;
-}
-
-.verticalTabView .sidebar-menu .v-nativebutton {
-    font-size: 14px;
-    padding: 0px;
-    margin: 3px 0px;
-}
-
-.verticalTabView .sidebar-menu .tab-selected {
-    background: none no-repeat scroll 0px 0px rgb(40, 126, 206);
-}
-
-.verticalTabView .v-nativebutton .v-nativebutton-caption {
-    padding: 5px 0px 4px 15px !important;
-    border-radius: 0px;
-    display: block;
-    text-align: left;
-    padding-left: 10px;
-    font-size: 12px;
-}
-
-.verticalTabView .v-nativebutton-tab-selected .v-nativebutton-caption, .verticalTabView .tab-selected .v-nativebutton-caption {
-    background: #287ECE;
-    font-weight: bold;
-    font-size: 12px;
-}
 
 /* OptionGroup */
 .v-radiobutton input[type="radio"] {
