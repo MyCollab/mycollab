@@ -23,6 +23,10 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/timetracking")
 @LocaleData({ @Locale("en_US") })
 public enum TimeTrackingI18nEnum {
+	LOG_TIME_ACTION,
+	LINK_TASK_ACTION,
+	DETACH_TASK_ACTION,
+	
 	TIME_RECORD_HEADER,
 	TASK_LIST_RANGE,
 	TASK_LIST_RANGE_WITH_TOTAL_HOUR,
@@ -35,5 +39,15 @@ public enum TimeTrackingI18nEnum {
 	LOG_VALUE,
 	FORM_SUMMARY,
 	FORM_IS_BILLABLE,
-	FORM_PROJECT
+	FORM_PROJECT,
+	FORM_WEEK,
+	FORM_WHO,
+	
+	MONDAY_FIELD,
+	TUESDAY_FIELD,
+	WEDNESDAY_FIELD,
+	THURSDAY_FIELD,
+	FRIDAY_FIELD,
+	SATURDAY_FIELD,
+	SUNDAY_FIELD
 }

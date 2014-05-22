@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Properties;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -50,7 +51,7 @@ import com.esofthead.mycollab.servlet.DatabaseValidate;
 import com.esofthead.mycollab.servlet.EmailValidationServlet;
 import com.esofthead.mycollab.servlet.InstallationServlet;
 import com.esofthead.mycollab.servlet.SetupServlet;
-import com.jolbox.bonecp.BoneCPDataSource;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Generic MyCollab embedded server
@@ -237,19 +238,18 @@ public abstract class GenericServerRunner {
 
 		DatabaseConfiguration dbConf = SiteConfiguration
 				.getDatabaseConfiguration();
-		BoneCPDataSource dataSource = new BoneCPDataSource();
-		dataSource.setDriverClass(dbConf.getDriverClass());
+		HikariDataSource dataSource = new HikariDataSource();
+		dataSource.setDriverClassName(dbConf.getDriverClass());
 		dataSource.setJdbcUrl(dbConf.getDbUrl());
 		dataSource.setUsername(dbConf.getUser());
 		dataSource.setPassword(dbConf.getPassword());
-		dataSource.setIdleConnectionTestPeriodInMinutes(1);
-		dataSource.setIdleMaxAgeInMinutes(4);
-		dataSource.setMaxConnectionsPerPartition(5);
-		dataSource.setMinConnectionsPerPartition(1);
-		dataSource.setPoolAvailabilityThreshold(5);
-		dataSource.setPartitionCount(1);
-		dataSource.setAcquireIncrement(3);
-		dataSource.setConnectionTestStatement("SELECT 1");
+
+		Properties dsProperties = new Properties();
+		dsProperties.setProperty("cachePrepStmts", "true");
+		dsProperties.setProperty("prepStmtCacheSize", "250");
+		dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
+		dsProperties.setProperty("useServerPrepStmts", "true");
+		dataSource.setDataSourceProperties(dsProperties);
 		return dataSource;
 	}
 

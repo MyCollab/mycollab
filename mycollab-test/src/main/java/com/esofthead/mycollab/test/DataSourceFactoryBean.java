@@ -22,7 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
-import com.jolbox.bonecp.BoneCPDataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 	private static Logger log = LoggerFactory
 			.getLogger(DataSourceFactoryBean.class);
 
-	private BoneCPDataSource dataSource;
+	private HikariDataSource dataSource;
 
 	public DataSource getDataSource() {
 		try {
@@ -48,19 +49,12 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 	@Override
 	protected DataSource createInstance() throws Exception {
 		TestDbConfiguration dbConf = new TestDbConfiguration();
-		dataSource = new BoneCPDataSource();
-		dataSource.setDriverClass(dbConf.getDriverClassName());
-		dataSource.setJdbcUrl(dbConf.getJdbcUrl());
-		dataSource.setUsername(dbConf.getUsername());
-		dataSource.setPassword(dbConf.getPassword());
-		dataSource.setIdleConnectionTestPeriodInMinutes(1);
-		dataSource.setIdleMaxAgeInMinutes(4);
-		dataSource.setMaxConnectionsPerPartition(5);
-		dataSource.setMinConnectionsPerPartition(1);
-		dataSource.setPoolAvailabilityThreshold(5);
-		dataSource.setPartitionCount(1);
-		dataSource.setAcquireIncrement(3);
-		dataSource.setConnectionTestStatement("SELECT 1");
+		HikariConfig config = new HikariConfig();
+		config.setMaximumPoolSize(100);
+		config.setDriverClassName(dbConf.getDriverClassName());
+		config.setJdbcUrl(dbConf.getJdbcUrl());
+		config.addDataSourceProperty("user", dbConf.getUsername());
+		config.addDataSourceProperty("password", dbConf.getPassword());
 		return dataSource;
 	}
 

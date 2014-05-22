@@ -51,6 +51,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 		controlBtns = new Popover(createButtonControls());
 		controlBtns.setClosable(true);
+		controlBtns.setResizable(false);
 		controlBtns.setStyleName("controls-popover");
 		editBtn = new Button("Edit", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;

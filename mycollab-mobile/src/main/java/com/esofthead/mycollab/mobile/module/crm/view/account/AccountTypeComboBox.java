@@ -32,8 +32,8 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
+import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 
 /**
  * 

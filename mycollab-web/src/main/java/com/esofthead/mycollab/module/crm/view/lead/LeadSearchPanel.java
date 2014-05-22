@@ -170,7 +170,7 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 			UiUtils.addComponent(layout, searchBtn, Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
 			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {

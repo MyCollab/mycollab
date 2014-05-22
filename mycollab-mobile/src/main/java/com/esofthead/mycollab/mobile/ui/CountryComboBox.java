@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.view.cases;
+package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.mobile.ui.ValueComboBox;
-import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.common.CountryValueFactory;
 
 /**
  * 
@@ -25,12 +24,10 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
  * @since 4.1
  * 
  */
-public class CaseReasonComboBox extends ValueComboBox {
+public class CountryComboBox extends ValueComboBox {
 	private static final long serialVersionUID = 1L;
 
-	public CaseReasonComboBox() {
-		super();
-		setCaption(null);
-		this.loadData(CrmDataTypeFactory.getCasesReason());
+	public CountryComboBox() {
+		loadData(CountryValueFactory.getCountryList());
 	}
 }

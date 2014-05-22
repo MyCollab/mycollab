@@ -41,7 +41,11 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
 import com.esofthead.mycollab.module.project.events.RiskEvent;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.localization.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
@@ -385,7 +389,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		popupButtonsControl.setSpacing(true);
 		popupButtonsControl.setWidth("150px");
 
-		Button createPhaseBtn = new Button("Create Phase",
+		Button createPhaseBtn = new Button(
+				AppContext.getMessage(MilestoneI18nEnum.NEW_PHASE_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(ClickEvent event) {
@@ -402,7 +407,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		createPhaseBtn.setStyleName("link");
 		popupButtonsControl.addComponent(createPhaseBtn);
 
-		Button createBugBtn = new Button("Create Bug",
+		Button createBugBtn = new Button(
+				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(ClickEvent event) {
@@ -418,7 +424,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		createBugBtn.setStyleName("link");
 		popupButtonsControl.addComponent(createBugBtn);
 
-		Button createRiskBtn = new Button("Create Risk",
+		Button createRiskBtn = new Button(
+				AppContext.getMessage(RiskI18nEnum.NEW_RISK_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(ClickEvent event) {
@@ -434,7 +441,8 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 		createRiskBtn.setStyleName("link");
 		popupButtonsControl.addComponent(createRiskBtn);
 
-		Button createProblemBtn = new Button("Create Problem",
+		Button createProblemBtn = new Button(
+				AppContext.getMessage(ProblemI18nEnum.NEW_PROBLEM_ACTION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(ClickEvent event) {

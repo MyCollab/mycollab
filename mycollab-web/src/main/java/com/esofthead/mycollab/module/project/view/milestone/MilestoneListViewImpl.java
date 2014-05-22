@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
-import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -156,7 +155,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		final HorizontalLayout layout = new HorizontalLayout();
 
 		this.createBtn.setCaption(AppContext
-				.getMessage(TaskI18nEnum.NEW_PHASE_ACTION));
+				.getMessage(MilestoneI18nEnum.NEW_PHASE_ACTION));
 		this.createBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 

@@ -3,6 +3,10 @@
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
+    
+    .v-table-body {
+    	border: none;
+    }
 
     .content-wrapper {
         margin: 0 auto;
@@ -361,7 +365,17 @@
 				line-height: 1;
 			}
 			
-			.v-filterselect-button:before {
+			.v-select {
+				border: 1px solid rgb(186, 186, 186);
+				border-radius: 0px;
+				background-color: rgb(255,255,255);
+				
+				select.v-select-select {
+					font-size: 1.3rem;
+				}
+			}
+			
+			.v-select:after {
 				font-family: 'icomoon';
 				content: "\e60c";
 				color: rgb(133, 133, 133);

@@ -95,7 +95,8 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 		layoutSearchPane.setComponentAlignment(searchBtn,
 				Alignment.MIDDLE_CENTER);
 
-		Button clearBtn = new Button("Clear");
+		Button clearBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
 		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		clearBtn.addClickListener(new Button.ClickListener() {
 			@Override

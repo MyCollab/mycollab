@@ -45,7 +45,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ListSelect;
 
 /**
  * 
@@ -53,7 +53,7 @@ import com.vaadin.ui.ComboBox;
  * @since 2.0
  * 
  */
-public class ActiveUserComboBox extends ComboBox {
+public class ActiveUserComboBox extends ListSelect {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +61,7 @@ public class ActiveUserComboBox extends ComboBox {
 	public ActiveUserComboBox() {
 		super();
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+		this.setRows(1);
 
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND,

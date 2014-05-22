@@ -115,7 +115,8 @@ public class ProjectRoleSearchPanel extends
 					.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
-			final Button clearBtn = new Button("Clear",
+			final Button clearBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -146,7 +147,8 @@ public class ProjectRoleSearchPanel extends
 			Label headerText = new Label("Role List");
 
 			final Button createBtn = new Button(
-					AppContext.getMessage(ProjectMemberI18nEnum.NEW_ROLE_ACTION),
+					AppContext
+							.getMessage(ProjectMemberI18nEnum.NEW_ROLE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

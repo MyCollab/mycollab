@@ -151,14 +151,16 @@ public class MilestoneSearchPanel extends
 					.newResource("icons/16/search.png"));
 			basicSearchBody.addComponent(searchBtn);
 
-			Button clearBtn = new Button("Clear", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			Button clearBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					nameField.setValue("");
-				}
-			});
+						@Override
+						public void buttonClick(Button.ClickEvent event) {
+							nameField.setValue("");
+						}
+					});
 			clearBtn.setStyleName(UIConstants.THEME_ROUND_BUTTON);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;

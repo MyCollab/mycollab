@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
+import com.esofthead.mycollab.mobile.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
@@ -33,7 +33,7 @@ import com.vaadin.ui.TextField;
  * @param <B>
  */
 class CampaignEditFormFieldFactory<B extends CampaignWithBLOBs> extends
-AbstractBeanFieldGroupEditFieldFactory<B> {
+		AbstractBeanFieldGroupEditFieldFactory<B> {
 	private static final long serialVersionUID = 1L;
 
 	CampaignEditFormFieldFactory(GenericBeanForm<B> form) {

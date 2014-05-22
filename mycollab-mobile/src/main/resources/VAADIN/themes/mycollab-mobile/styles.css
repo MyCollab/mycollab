@@ -92,6 +92,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Message Row */
   /* Confirm Dialog */
 }
+.mycollab-mobile .v-table-body {
+  border: none;
+}
 .mycollab-mobile .content-wrapper {
   margin: 0 auto;
   display: block;
@@ -373,7 +376,15 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   text-transform: none;
   line-height: 1;
 }
-.mycollab-mobile .editview-layout .v-filterselect-button:before {
+.mycollab-mobile .editview-layout .v-select {
+  border: 1px solid #bababa;
+  border-radius: 0px;
+  background-color: white;
+}
+.mycollab-mobile .editview-layout .v-select select.v-select-select {
+  font-size: 1.3rem;
+}
+.mycollab-mobile .editview-layout .v-select:after {
   font-family: 'icomoon';
   content: "\e60c";
   color: #858585;

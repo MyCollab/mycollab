@@ -7,6 +7,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/milestone")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum MilestoneI18nEnum {
+	NEW_PHASE_ACTION,
+	
 	PHASE_LIST_TITLE,
 	CLOSED_PHASE_TITLE,
 	INPROGRESS_PHASE_TITLE,

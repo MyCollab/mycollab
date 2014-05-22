@@ -23,7 +23,6 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/task")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum TaskI18nEnum {
-	NEW_PHASE_ACTION,
 	NEW_TASKGROUP_ACTION,
 	NEW_TASK_ACTION,
 	DISPLAY_GANTT_CHART_ACTION,

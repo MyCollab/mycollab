@@ -132,7 +132,8 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 			searchComp.addComponent(searchBtn);
 			basicSearchBody.addComponent(searchComp);
 
-			final Button clearBtn = new Button("Clear",
+			final Button clearBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

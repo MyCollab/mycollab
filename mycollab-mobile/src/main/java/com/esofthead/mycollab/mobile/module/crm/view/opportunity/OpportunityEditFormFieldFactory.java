@@ -20,9 +20,9 @@ import com.esofthead.mycollab.mobile.module.crm.view.account.AccountSelectionFie
 import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadSourceComboBox;
 import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
+import com.esofthead.mycollab.mobile.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.TextArea;
