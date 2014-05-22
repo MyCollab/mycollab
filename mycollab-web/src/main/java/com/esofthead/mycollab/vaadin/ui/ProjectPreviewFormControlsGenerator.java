@@ -201,9 +201,12 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 			popupButtonsControl.addComponent(cloneBtn);
 		}
 
-		optionBtn.setContent(popupButtonsControl);
-		editButtons.addComponent(optionBtn);
-		editButtons.setComponentAlignment(optionBtn, Alignment.MIDDLE_CENTER);
+		if (popupButtonsControl.getComponentCount() > 0) {
+			optionBtn.setContent(popupButtonsControl);
+			editButtons.addComponent(optionBtn);
+			editButtons.setComponentAlignment(optionBtn,
+					Alignment.MIDDLE_CENTER);
+		}
 
 		layout.addComponent(editButtons);
 		layout.setComponentAlignment(editButtons, Alignment.MIDDLE_CENTER);

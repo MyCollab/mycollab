@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,8 +32,13 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.security.PermissionMap;
-import com.googlecode.flyway.core.api.migration.spring.SpringJdbcMigration;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 	private static Logger log = LoggerFactory
 			.getLogger(V20131101_3__Insert_Default_Values.class);

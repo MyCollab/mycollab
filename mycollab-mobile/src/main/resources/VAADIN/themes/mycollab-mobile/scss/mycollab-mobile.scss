@@ -351,45 +351,57 @@
 	
 	.editview-layout {
 		input.v-textfield, .v-filterselect, .v-textarea {
-				border: 1px solid rgb(186, 186, 186);
-				border-radius: 0px;
-			}
+			border: 1px solid rgb(186, 186, 186);
+			border-radius: 0px;
+			height: 22px;
+		}
 			
-			.v-filterselect-button {
-				font-family: 'icomoon';
-				speak: none;
-				font-style: normal;
-				font-weight: normal;
-				font-variant: normal;
-				text-transform: none;
-				line-height: 1;
-			}
+		.v-filterselect-button {
+			font-family: 'icomoon';
+			speak: none;
+			font-style: normal;
+			font-weight: normal;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+		}
+		
+		.v-select {
+			border: 1px solid rgb(186, 186, 186);
+			border-radius: 0px;
+			background-color: rgb(255,255,255);
+			height: 22px;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
 			
-			.v-select {
-				border: 1px solid rgb(186, 186, 186);
-				border-radius: 0px;
-				background-color: rgb(255,255,255);
-				
-				select.v-select-select {
-					font-size: 1.3rem;
-				}
+			select.v-select-select {
+				font-size: 1.3rem;
 			}
+		}
+		
+		.v-select:after {
+			font-family: 'icomoon';
+			content: "\e60c";
+			color: rgb(133, 133, 133);
+			padding-right: 5px;
+		}
+		
+		.v-datefield.v-datefield-popupcalendar {
+			height: 22px;
 			
-			.v-select:after {
-				font-family: 'icomoon';
-				content: "\e60c";
-				color: rgb(133, 133, 133);
-				padding-right: 5px;
-			}
-			
-			input {
+			input.v-textfield.v-datefield-textfield {
 				border: none;
 			}
-			
-			.v-touchkit-datepicker .v-select-select {
-				font-size: 1.3rem;
-				line-height: 22px;
+			.v-datefield-button {
+				line-height: normal;
 			}
+		}
+		
+		.v-touchkit-datepicker .v-select-select {
+			font-size: 1.3rem;
+			line-height: 22px;
+		}
 	}
 	
 	/* Filterselect */

@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="mailRepository"
-        class="org.springframework.extensions.jcr.jackrabbit.JackrabbitRepositoryFactoryBean"
+        class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean"
         p:configuration="classpath:/mail-repo.xml" p:homeDir="file:repo/mail-workspace">
     </bean>
 

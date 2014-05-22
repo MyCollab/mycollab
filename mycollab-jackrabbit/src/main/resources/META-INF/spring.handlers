@@ -1,1 +1,1 @@
-http\://www.springsource.org/extensions/se-jcr/schema/jcr/jackrabbit=org.springframework.extensions.jcr.jackrabbit.config.JackrabbitNamespaceHandler
+http\://www.springsource.org/extensions/se-jcr/schema/jcr=org.springframework.extensions.jcr.config.JcrNamespaceHandler

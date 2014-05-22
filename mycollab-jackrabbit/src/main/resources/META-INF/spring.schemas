@@ -1,1 +1,1 @@
-http\://www.springsource.org/extensions/se-jcr/schema/jcr/jackrabbit/se-jcr-jackrabbit.xsd=org/springframework/extension/jcr/jackrabbit/config/se-jcr-jackrabbit.xsd
+http\://www.springsource.org/extensions/se-jcr/schema/jcr/se-jcr.xsd=org/springframework/extension/jcr/config/se-jcr.xsd

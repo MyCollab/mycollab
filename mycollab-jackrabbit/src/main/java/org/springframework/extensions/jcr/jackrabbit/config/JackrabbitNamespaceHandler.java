@@ -1,25 +1,24 @@
 /**
- * This file is part of mycollab-jackrabbit.
+ * Copyright 2009-2012 the original author or authors
  *
- * mycollab-jackrabbit is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
- * mycollab-jackrabbit is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *        http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-jackrabbit.  If not, see <http://www.gnu.org/licenses/>.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 package org.springframework.extensions.jcr.jackrabbit.config;
 
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.springframework.extensions.jcr.jackrabbit.LocalTransactionManager;
-import org.springframework.extensions.jcr.jackrabbit.JackrabbitRepositoryFactoryBean;
+import org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean;
 import org.w3c.dom.Element;
 
 /**
@@ -42,8 +41,8 @@ public class JackrabbitNamespaceHandler extends NamespaceHandlerSupport {
     private static class JackrabbitRepositoryBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
         @Override
-        protected Class<JackrabbitRepositoryFactoryBean> getBeanClass(Element element) {
-            return JackrabbitRepositoryFactoryBean.class;
+        protected Class<RepositoryFactoryBean> getBeanClass(Element element) {
+            return RepositoryFactoryBean.class;
         }
     }
 

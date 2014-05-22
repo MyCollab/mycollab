@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.jgroups;
 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 import org.infinispan.CacheImpl;
@@ -31,13 +33,24 @@ import org.jgroups.stack.ProtocolStack;
 import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.core.MyCollabException;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class DistributionLockUtil {
 	private static ForkChannel getChannel() {
 		CacheImpl<Object, Object> cache = (CacheImpl<Object, Object>) LocalCacheManager
 				.getCache();
 		Transport tp;
 		ForkChannel fork_ch;
-		tp = cache.getAdvancedCache().getRpcManager().getTransport();
+		try {
+			tp = cache.getAdvancedCache().getRpcManager().getTransport();
+		} catch (Exception e) {
+			return null;
+		}
+
 		Channel main_ch = ((JGroupsTransport) tp).getChannel();
 		try {
 			fork_ch = new ForkChannel(main_ch, "hijack-stack", "lead-hijacker",
@@ -50,15 +63,52 @@ public class DistributionLockUtil {
 
 	public static Lock getLock(String lockName) {
 		ForkChannel channel = getChannel();
+		if (channel != null) {
+			ProtocolStack protocolStack = channel.getProtocolStack();
+			Protocol tmp = protocolStack.getDownProtocol();
+			while (tmp != null) {
+				tmp = tmp.getDownProtocol();
+			}
 
-		ProtocolStack protocolStack = channel.getProtocolStack();
-		Protocol tmp = protocolStack.getDownProtocol();
-		while (tmp != null) {
-			tmp = tmp.getDownProtocol();
+			LockService lock_service = new LockService(channel);
+			Lock lock = lock_service.getLock(lockName);
+			return lock;
+		} else {
+			return new DummyLock();
+		}
+	}
+
+	private static class DummyLock implements Lock {
+
+		@Override
+		public void lock() {
 		}
 
-		LockService lock_service = new LockService(channel);
-		Lock lock = lock_service.getLock(lockName);
-		return lock;
+		@Override
+		public void lockInterruptibly() throws InterruptedException {
+
+		}
+
+		@Override
+		public boolean tryLock() {
+			return false;
+		}
+
+		@Override
+		public boolean tryLock(long time, TimeUnit unit)
+				throws InterruptedException {
+			return false;
+		}
+
+		@Override
+		public void unlock() {
+
+		}
+
+		@Override
+		public Condition newCondition() {
+			return null;
+		}
+
 	}
 }

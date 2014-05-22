@@ -1,4 +1,0 @@
-#
-# JackRabbit specific SessionHolderProvider.
-#
-org.springframework.extensions.jcr.jackrabbit.support.JackRabbitSessionHolderProvider

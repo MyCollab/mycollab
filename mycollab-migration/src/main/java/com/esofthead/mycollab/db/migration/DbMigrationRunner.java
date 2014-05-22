@@ -35,12 +35,11 @@ package com.esofthead.mycollab.db.migration;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.googlecode.flyway.core.Flyway;
 
 @Component(value = "dbMigration")
 public class DbMigrationRunner {

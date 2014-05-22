@@ -366,6 +366,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout input.v-textfield, .mycollab-mobile .editview-layout .v-filterselect, .mycollab-mobile .editview-layout .v-textarea {
   border: 1px solid #bababa;
   border-radius: 0px;
+  height: 22px;
 }
 .mycollab-mobile .editview-layout .v-filterselect-button {
   font-family: 'icomoon';
@@ -380,6 +381,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border: 1px solid #bababa;
   border-radius: 0px;
   background-color: white;
+  height: 22px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
 }
 .mycollab-mobile .editview-layout .v-select select.v-select-select {
   font-size: 1.3rem;
@@ -390,8 +395,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #858585;
   padding-right: 5px;
 }
-.mycollab-mobile .editview-layout input {
+.mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar {
+  height: 22px;
+}
+.mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar input.v-textfield.v-datefield-textfield {
   border: none;
+}
+.mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar .v-datefield-button {
+  line-height: normal;
 }
 .mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
   font-size: 1.3rem;

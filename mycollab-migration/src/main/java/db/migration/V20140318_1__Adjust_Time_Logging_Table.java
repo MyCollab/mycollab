@@ -16,10 +16,15 @@
  */
 package db.migration;
 
+import org.flywaydb.core.api.migration.spring.SpringJdbcMigration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.googlecode.flyway.core.api.migration.spring.SpringJdbcMigration;
-
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class V20140318_1__Adjust_Time_Logging_Table implements
 		SpringJdbcMigration {
 

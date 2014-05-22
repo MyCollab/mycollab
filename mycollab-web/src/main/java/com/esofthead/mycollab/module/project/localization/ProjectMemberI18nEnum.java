@@ -25,7 +25,7 @@ import ch.qos.cal10n.LocaleData;
 public enum ProjectMemberI18nEnum {
 	LIST_VIEW_TITLE,
 	READ_VIEW_TITLE,
-	
+
 	FORM_INVITE_MEMBERS,
 	FORM_NEW_TITLE,
 	FORM_EDIT_TITLE,
