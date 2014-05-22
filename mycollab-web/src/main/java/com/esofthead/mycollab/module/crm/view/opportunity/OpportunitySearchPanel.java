@@ -28,6 +28,8 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
@@ -90,13 +92,16 @@ public class OpportunitySearchPanel extends
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label searchtitle = new Label("Opportunities");
+		final Label searchtitle = new Label(
+				AppContext.getMessage(OpportunityI18nEnum.LIST_VIEW_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("New Opportunity",
+		final Button createAccountBtn = new Button(
+				AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

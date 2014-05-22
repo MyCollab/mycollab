@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
@@ -73,9 +74,8 @@ public class CaseListPresenter extends
 					protected void onSelectExtra(String id) {
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
-								NotificationUtil
-										.showWarningNotification(AppContext
-												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+								NotificationUtil.showWarningNotification(AppContext
+										.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
 								List<SimpleCase> tableData = view
@@ -105,7 +105,8 @@ public class CaseListPresenter extends
 
 					@Override
 					protected String getReportTitle() {
-						return "Case List";
+						return AppContext
+								.getMessage(CaseI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override
@@ -131,9 +132,8 @@ public class CaseListPresenter extends
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/cases/list",
-					AppContext.getMessage(
-							GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Case"));
+			AppContext.addFragment("crm/cases/list", AppContext.getMessage(
+					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Case"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

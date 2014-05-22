@@ -23,6 +23,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/message")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum MessageI18nEnum {
+	LIST_VIEW_TITLE,
+	
 	NEW_MESSAGE_ACTION,
 	FORM_TITLE_FIELD,
 	FORM_IS_STICK_FIELD,

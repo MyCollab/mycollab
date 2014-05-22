@@ -192,8 +192,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	protected ComponentContainer createButtonControls() {
 		ProjectPreviewFormControlsGenerator<SimpleTask> taskPreviewForm = new ProjectPreviewFormControlsGenerator<SimpleTask>(
 				previewForm);
-		final HorizontalLayout topPanel = taskPreviewForm.createButtonControls(
-				ProjectRolePermissionCollections.TASKS, true);
+		final HorizontalLayout topPanel = taskPreviewForm
+				.createButtonControls(
+						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+						ProjectRolePermissionCollections.TASKS);
 
 		quickActionStatusBtn = new Button("", new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;

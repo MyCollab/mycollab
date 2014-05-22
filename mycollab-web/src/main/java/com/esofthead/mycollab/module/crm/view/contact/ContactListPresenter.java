@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
@@ -71,7 +72,8 @@ public class ContactListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Contact List";
+						return AppContext
+								.getMessage(ContactI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override

@@ -41,6 +41,13 @@ import com.vaadin.ui.VerticalLayout;
 public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final int ADD_BTN_PRESENTED = 2;
+	public static final int EDIT_BTN_PRESENTED = 4;
+	public static final int DELETE_BTN_PRESENTED = 8;
+	public static final int CLONE_BTN_PRESENTED = 16;
+	public static final int ASSIGN_BTN_PRESENTED = 32;
+	public static final int NAVIGATOR_BTN_PRESENTED = 64;
+
 	private final AdvancedPreviewBeanForm<T> previewForm;
 	private Button addBtn;
 	private Button editBtn;
@@ -50,7 +57,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private Button nextItemBtn;
 
 	private Button assignBtn;
-	private boolean haveAssignButton;
 
 	private SplitButton optionBtn;
 	private Button optionParentBtn;
@@ -59,14 +65,13 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	private HorizontalLayout editButtons;
 	private HorizontalLayout layout;
 
-	private boolean haveNavigationBtns;
-
 	public ProjectPreviewFormControlsGenerator(
 			final AdvancedPreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
 	}
 
-	public HorizontalLayout createButtonControls(final String permissionItem) {
+	public HorizontalLayout createButtonControls(int buttonEnableFlags,
+			final String permissionItem) {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
@@ -83,10 +88,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						/*
-						 * if (optionBtn.getPopupVisible())
-						 * optionBtn.setPopupVisible(false); else
-						 */
 						optionBtn.setPopupVisible(true);
 					}
 				});
@@ -100,60 +101,70 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
 		popupButtonsControl.setSpacing(true);
 
-		addBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
-				new Button.ClickListener() {
+		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
+			addBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+					new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						optionBtn.setPopupVisible(false);
-						final T item = previewForm.getBean();
-						previewForm.fireAddForm(item);
-					}
-				});
-		addBtn.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
-		addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		editButtons.addComponent(addBtn);
-		editButtons.setComponentAlignment(addBtn, Alignment.MIDDLE_CENTER);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireAddForm(item);
+						}
+					});
+			addBtn.setIcon(MyCollabResource
+					.newResource("icons/16/addRecord.png"));
+			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			editButtons.addComponent(addBtn);
+			editButtons.setComponentAlignment(addBtn, Alignment.MIDDLE_CENTER);
+		}
 
-		editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
-				new Button.ClickListener() {
+		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
+			editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						optionBtn.setPopupVisible(false);
-						final T item = previewForm.getBean();
-						previewForm.fireEditForm(item);
-					}
-				});
-		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit_white.png"));
-		editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		editButtons.addComponent(editBtn);
-		editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireEditForm(item);
+						}
+					});
+			editBtn.setIcon(MyCollabResource
+					.newResource("icons/16/edit_white.png"));
+			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			editButtons.addComponent(editBtn);
+			editButtons.setComponentAlignment(editBtn, Alignment.MIDDLE_CENTER);
+		}
 
-		deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
-				new Button.ClickListener() {
+		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
+			deleteBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						final T item = previewForm.getBean();
-						previewForm.fireDeleteForm(item);
-					}
-				});
-		deleteBtn.setIcon(MyCollabResource.newResource("icons/16/delete2.png"));
-		deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
-		editButtons.addComponent(deleteBtn);
-		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							final T item = previewForm.getBean();
+							previewForm.fireDeleteForm(item);
+						}
+					});
+			deleteBtn.setIcon(MyCollabResource
+					.newResource("icons/16/delete2.png"));
+			deleteBtn.setStyleName(UIConstants.THEME_RED_LINK);
+			editButtons.addComponent(deleteBtn);
+			editButtons.setComponentAlignment(deleteBtn,
+					Alignment.MIDDLE_CENTER);
+		}
 
-		if (haveAssignButton) {
+		if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
 			assignBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
 					new Button.ClickListener() {
@@ -172,21 +183,23 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		}
 
-		cloneBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
+		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
+			cloneBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(final ClickEvent event) {
-						optionBtn.setPopupVisible(false);
-						final T item = previewForm.getBean();
-						previewForm.fireCloneForm(item);
-					}
-				});
-		cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
-		cloneBtn.setStyleName("link");
-		popupButtonsControl.addComponent(cloneBtn);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							optionBtn.setPopupVisible(false);
+							final T item = previewForm.getBean();
+							previewForm.fireCloneForm(item);
+						}
+					});
+			cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
+			cloneBtn.setStyleName("link");
+			popupButtonsControl.addComponent(cloneBtn);
+		}
 
 		optionBtn.setContent(popupButtonsControl);
 		editButtons.addComponent(optionBtn);
@@ -196,7 +209,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		layout.setComponentAlignment(editButtons, Alignment.MIDDLE_CENTER);
 		layout.setExpandRatio(editButtons, 1.0f);
 
-		if (haveNavigationBtns) {
+		if ((buttonEnableFlags & NAVIGATOR_BTN_PRESENTED) == NAVIGATOR_BTN_PRESENTED) {
 			ButtonGroup navigationBtns = new ButtonGroup();
 			navigationBtns.setStyleName("navigation-btns");
 			previousItem = new Button("<", new Button.ClickListener() {
@@ -234,21 +247,30 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		}
 
 		if (permissionItem != null) {
-			final boolean canRead = CurrentProjectVariables
-					.canRead(permissionItem);
 			final boolean canWrite = CurrentProjectVariables
 					.canWrite(permissionItem);
 			final boolean canAccess = CurrentProjectVariables
 					.canAccess(permissionItem);
 
-			if (haveAssignButton) {
+			if (assignBtn != null) {
 				assignBtn.setEnabled(canWrite);
 			}
 
-			addBtn.setEnabled(canWrite);
-			editBtn.setEnabled(canWrite);
-			cloneBtn.setEnabled(canWrite);
-			deleteBtn.setEnabled(canAccess);
+			if (addBtn != null) {
+				addBtn.setEnabled(canWrite);
+			}
+
+			if (editBtn != null) {
+				editBtn.setEnabled(canWrite);
+			}
+
+			if (cloneBtn != null) {
+				cloneBtn.setEnabled(canWrite);
+			}
+
+			if (deleteBtn != null) {
+				deleteBtn.setEnabled(canAccess);
+			}
 		}
 		return layout;
 	}
@@ -257,15 +279,9 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		editButtons.addComponent(button, 0);
 	}
 
-	public HorizontalLayout createButtonControls(final String permissionItem,
-			final boolean haveAssignButton) {
-		this.haveAssignButton = haveAssignButton;
-		return createButtonControls(permissionItem);
-	}
-
-	public HorizontalLayout createButtonControls(final String permissionItem,
-			final boolean haveAssignButton, boolean haveNavigationButtons) {
-		this.haveNavigationBtns = haveNavigationButtons;
-		return createButtonControls(permissionItem, haveAssignButton);
+	public HorizontalLayout createButtonControls(final String permissionItem) {
+		return createButtonControls(ADD_BTN_PRESENTED | EDIT_BTN_PRESENTED
+				| DELETE_BTN_PRESENTED | CLONE_BTN_PRESENTED
+				| NAVIGATOR_BTN_PRESENTED, permissionItem);
 	}
 }

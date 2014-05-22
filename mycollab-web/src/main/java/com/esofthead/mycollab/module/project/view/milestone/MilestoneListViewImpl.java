@@ -67,7 +67,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		super(AppContext.getMessage(MilestoneI18nEnum.PHASE_LIST_TITLE),
+		super(AppContext.getMessage(MilestoneI18nEnum.LIST_VIEW_TITLE),
 				"phase.png");
 		createBtn = new Button();
 

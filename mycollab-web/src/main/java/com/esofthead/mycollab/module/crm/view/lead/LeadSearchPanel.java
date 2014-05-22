@@ -28,6 +28,8 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -56,17 +58,17 @@ import com.vaadin.ui.TextField;
  */
 @SuppressWarnings("serial")
 public class LeadSearchPanel extends
-DefaultGenericSearchPanel<LeadSearchCriteria> {
+		DefaultGenericSearchPanel<LeadSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
 	private static Param[] paramFields = new Param[] {
-		LeadSearchCriteria.p_leadContactName,
-		LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
-		LeadSearchCriteria.p_anyEmail, LeadSearchCriteria.p_anyPhone,
-		LeadSearchCriteria.p_billingCountry,
-		LeadSearchCriteria.p_shippingCountry,
-		LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
-		LeadSearchCriteria.p_assignee };
+			LeadSearchCriteria.p_leadContactName,
+			LeadSearchCriteria.p_accountName, LeadSearchCriteria.p_website,
+			LeadSearchCriteria.p_anyEmail, LeadSearchCriteria.p_anyPhone,
+			LeadSearchCriteria.p_billingCountry,
+			LeadSearchCriteria.p_shippingCountry,
+			LeadSearchCriteria.p_statuses, LeadSearchCriteria.p_sources,
+			LeadSearchCriteria.p_assignee };
 
 	protected LeadSearchCriteria searchCriteria;
 
@@ -86,21 +88,24 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 		layout.addComponent(titleIcon);
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label searchtitle = new Label("Leads");
+		final Label searchtitle = new Label(
+				AppContext.getMessage(LeadI18nEnum.LIST_VIEW_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button("New Lead",
+		final Button createAccountBtn = new Button(
+				AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
 				new Button.ClickListener() {
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new LeadEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new LeadEvent.GotoAdd(this, null));
+					}
+				});
 		createAccountBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -151,12 +156,13 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 
 			this.myItemCheckbox = new CheckBox(
 					AppContext
-					.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
+							.getMessage(GenericI18Enum.SEARCH_MYITEMS_CHECKBOX));
 			this.myItemCheckbox.setWidth("75px");
 			UiUtils.addComponent(layout, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 
-			final Button searchBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+			final Button searchBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
@@ -183,7 +189,7 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 
 			final Button advancedSearchBtn = new Button(
 					AppContext
-					.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
+							.getMessage(GenericI18Enum.BUTTON_ADVANCED_SEARCH),
 					new Button.ClickListener() {
 
 						@Override
@@ -201,21 +207,21 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 		protected SearchCriteria fillupSearchCriteria() {
 			LeadSearchPanel.this.searchCriteria = new LeadSearchCriteria();
 			LeadSearchPanel.this.searchCriteria
-			.setSaccountid(new NumberSearchField(SearchField.AND,
-					AppContext.getAccountId()));
+					.setSaccountid(new NumberSearchField(SearchField.AND,
+							AppContext.getAccountId()));
 
 			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue()
 					.toString().trim())) {
 				LeadSearchPanel.this.searchCriteria
-				.setLeadName(new StringSearchField(SearchField.AND,
-						this.nameField.getValue()));
+						.setLeadName(new StringSearchField(SearchField.AND,
+								this.nameField.getValue()));
 			}
 
 			if (this.myItemCheckbox.getValue()) {
 				LeadSearchPanel.this.searchCriteria
-				.setAssignUsers(new SetSearchField<String>(
-						SearchField.AND, new String[] { AppContext
-								.getUsername() }));
+						.setAssignUsers(new SetSearchField<String>(
+								SearchField.AND, new String[] { AppContext
+										.getUsername() }));
 			} else {
 				LeadSearchPanel.this.searchCriteria.setAssignUsers(null);
 			}
@@ -224,7 +230,7 @@ DefaultGenericSearchPanel<LeadSearchCriteria> {
 	}
 
 	private class LeadAdvancedSearchLayout extends
-	DynamicQueryParamLayout<LeadSearchCriteria> {
+			DynamicQueryParamLayout<LeadSearchCriteria> {
 
 		public LeadAdvancedSearchLayout() {
 			super(LeadSearchPanel.this, CrmTypeConstants.LEAD);

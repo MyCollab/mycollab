@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -144,7 +145,8 @@ public class ProjectRoleSearchPanel extends
 		public ComponentContainer constructHeader() {
 			Image titleIcon = new Image(null,
 					MyCollabResource.newResource("icons/24/project/user.png"));
-			Label headerText = new Label("Role List");
+			Label headerText = new Label(
+					AppContext.getMessage(ProjectRoleI18nEnum.LIST_VIEW_TITLE));
 
 			final Button createBtn = new Button(
 					AppContext

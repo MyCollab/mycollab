@@ -91,7 +91,8 @@ public class BugSearchPanel extends
 	private ComponentContainer constructHeader() {
 		Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/24/project/bug.png"));
-		Label headerText = new Label("Bug List");
+		Label headerText = new Label(
+				AppContext.getMessage(BugI18nEnum.LIST_VIEW_TITLE));
 
 		final Button createBtn = new Button(
 				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),

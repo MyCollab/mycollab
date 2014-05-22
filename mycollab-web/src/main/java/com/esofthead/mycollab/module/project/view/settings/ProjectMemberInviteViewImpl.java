@@ -28,6 +28,7 @@ import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -91,7 +92,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		this.roleComboBox = new ProjectRoleComboBox();
 
 		final AddViewLayout userAddLayout = new AddViewLayout(
-				"Invite Project Members",
+				AppContext
+						.getMessage(ProjectMemberI18nEnum.FORM_INVITE_MEMBERS),
 				MyCollabResource.newResource("icons/24/project/user.png"));
 
 		userAddLayout.addHeaderRight(createButtonControls());
@@ -105,14 +107,17 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		HorizontalLayout lo = new HorizontalLayout();
 		lo.setSpacing(true);
 		inviteUserTokenField = new InviteUserTokenField(lo);
-		informationLayout.addComponent(inviteUserTokenField,
-				"Invitee's emails", 0, 0);
-		informationLayout.addComponent(roleComboBox, "Role", 0, 1);
+		informationLayout.addComponent(inviteUserTokenField, AppContext
+				.getMessage(ProjectMemberI18nEnum.FORM_INVITEES_EMAIL), 0, 0);
+		informationLayout.addComponent(roleComboBox,
+				AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0, 1);
 
 		messageArea = new TextArea();
 		messageArea
 				.setValue("Please join me to our new tool. This is a place where everyone can manage our business sales, projects, documents. But it is easy to use too!");
-		informationLayout.addComponent(messageArea, "Message", 0, 2);
+		informationLayout
+				.addComponent(messageArea, AppContext
+						.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
 		userAddLayout.addBody(informationLayout.getLayout());
 		this.addComponent(userAddLayout);
@@ -122,35 +127,42 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		final HorizontalLayout controlButtons = new HorizontalLayout();
 		controlButtons.setSpacing(true);
 
-		Button inviteBtn = new Button("Invite", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		Button inviteBtn = new Button(
+				AppContext.getMessage(ProjectMemberI18nEnum.NEW_INVITEE_ACTION),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				roleId = (Integer) roleComboBox.getValue();
-				ProjectMemberInviteViewImpl.this
-						.fireEvent(new ProjectMemberEvent.InviteProjectMembers(
-								ProjectMemberInviteViewImpl.this, inviteEmails,
-								roleId, messageArea.getValue()));
+					@Override
+					public void buttonClick(ClickEvent event) {
+						roleId = (Integer) roleComboBox.getValue();
+						ProjectMemberInviteViewImpl.this
+								.fireEvent(new ProjectMemberEvent.InviteProjectMembers(
+										ProjectMemberInviteViewImpl.this,
+										inviteEmails, roleId, messageArea
+												.getValue()));
 
-			}
-		});
+					}
+				});
 		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		controlButtons.addComponent(inviteBtn);
 
-		Button cancelBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		Button cancelBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
-							new ProjectMemberEvent.GotoList(this, null));
-				}
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ViewState viewState = HistoryViewManager.back();
+						if (viewState instanceof NullViewState) {
+							EventBus.getInstance()
+									.fireEvent(
+											new ProjectMemberEvent.GotoList(
+													this, null));
+						}
 
-			}
-		});
+					}
+				});
 		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 		controlButtons.addComponent(cancelBtn);
 
@@ -163,7 +175,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		public InviteUserTokenField(Layout container) {
 			super(container);
-			this.setInputPrompt("Enter username or email address. Press enter to finish editing");
+			this.setInputPrompt(AppContext
+					.getMessage(ProjectMemberI18nEnum.USER_TOKEN_INVITE_HINT));
 			this.setWidth("100%");
 			this.setInputWidth("100%");
 			this.setFilteringMode(FilteringMode.CONTAINS);
@@ -230,7 +243,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 			inviteEmails.remove(invitedEmail);
 			if (inviteEmails.size() == 0) {
-				this.setInputPrompt("Enter username or email address. Press enter to finish editing");
+				this.setInputPrompt(AppContext
+						.getMessage(ProjectMemberI18nEnum.EMPTY_EMAILS_OF_USERS_TO_INVITE_ERRPR_MESSAGE));
 			}
 			super.onTokenClick(tokenId);
 		}

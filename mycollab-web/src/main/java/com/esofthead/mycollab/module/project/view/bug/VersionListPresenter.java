@@ -24,6 +24,7 @@ import java.util.List;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -76,7 +77,8 @@ public class VersionListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Version List";
+						return AppContext
+								.getMessage(VersionI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override

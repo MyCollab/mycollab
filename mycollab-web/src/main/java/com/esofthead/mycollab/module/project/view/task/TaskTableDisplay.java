@@ -188,7 +188,8 @@ public class TaskTableDisplay extends
 				filterBtnLayout.setSpacing(true);
 				filterBtnLayout.setWidth("100px");
 
-				Button editButton = new Button("Edit",
+				Button editButton = new Button(AppContext
+						.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -207,7 +208,8 @@ public class TaskTableDisplay extends
 				if ((task.getPercentagecomplete() != null && task
 						.getPercentagecomplete() != 100)
 						|| task.getPercentagecomplete() == null) {
-					Button closeBtn = new Button("Close",
+					Button closeBtn = new Button(AppContext
+							.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 

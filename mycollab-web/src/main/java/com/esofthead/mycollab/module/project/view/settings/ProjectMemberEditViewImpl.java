@@ -18,8 +18,10 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -46,7 +48,7 @@ import com.vaadin.ui.HorizontalLayout;
  */
 @ViewComponent
 public class ProjectMemberEditViewImpl extends
-AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
+		AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,8 +58,9 @@ AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 
 	@Override
 	protected String initFormHeader() {
-		return (beanItem.getId() == null) ? "Create Member"
-				: "Member Edit";
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(ProjectMemberI18nEnum.FORM_NEW_TITLE) : AppContext
+				.getMessage(ProjectMemberI18nEnum.FORM_EDIT_TITLE);
 	}
 
 	@Override
@@ -94,7 +97,7 @@ AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 	}
 
 	private class EditFormFieldFactory extends
-	AbstractBeanFieldGroupEditFieldFactory<ProjectMember> {
+			AbstractBeanFieldGroupEditFieldFactory<ProjectMember> {
 		private static final long serialVersionUID = 1L;
 
 		public EditFormFieldFactory(GenericBeanForm<ProjectMember> form) {
@@ -125,16 +128,16 @@ AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 		public AdminRoleSelectionField() {
 			this.roleComboBox = new ProjectRoleComboBox();
 			this.roleComboBox
-			.addValueChangeListener(new Property.ValueChangeListener() {
-				private static final long serialVersionUID = 1L;
+					.addValueChangeListener(new Property.ValueChangeListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void valueChange(
-						final Property.ValueChangeEvent event) {
-					getValue();
+						@Override
+						public void valueChange(
+								final Property.ValueChangeEvent event) {
+							getValue();
 
-				}
-			});
+						}
+					});
 		}
 
 		@Override

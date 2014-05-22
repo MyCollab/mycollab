@@ -103,11 +103,11 @@ public class OpportunitySelectionWindow extends Window {
 						ButtonLink b = new ButtonLink(opportunity
 								.getOpportunityname(),
 								new Button.ClickListener() {
+									private static final long serialVersionUID = 1L;
 
 									@Override
 									public void buttonClick(
 											final Button.ClickEvent event) {
-										// TODO Auto-generated method stub
 										fieldSelection
 												.fireValueChange(opportunity);
 										OpportunitySelectionWindow.this.close();

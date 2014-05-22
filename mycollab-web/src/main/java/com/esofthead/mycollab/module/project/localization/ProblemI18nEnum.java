@@ -23,6 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/problem")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProblemI18nEnum {
+	LIST_VIEW_TITLE,
 	NEW_PROBLEM_ACTION,
 	
 	FORM_READ_TITLE,

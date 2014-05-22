@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
@@ -86,7 +87,8 @@ public class CampaignListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Campaign List";
+						return AppContext
+								.getMessage(CampaignI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override
@@ -112,9 +114,8 @@ public class CampaignListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/campaign/list", AppContext
-					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-							"Campaign"));
+			AppContext.addFragment("crm/campaign/list", AppContext.getMessage(
+					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Campaign"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

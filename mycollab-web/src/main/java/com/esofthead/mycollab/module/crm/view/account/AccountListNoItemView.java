@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.account;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -67,7 +68,9 @@ public class AccountListNoItemView extends AbstractPageView {
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button createAccountBtn = new Button("Create Account",
+		Button createAccountBtn = new Button(
+				AppContext
+						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

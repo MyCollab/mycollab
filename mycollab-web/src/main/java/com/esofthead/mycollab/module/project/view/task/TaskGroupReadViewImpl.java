@@ -126,8 +126,14 @@ public class TaskGroupReadViewImpl extends
 	@Override
 	protected ComponentContainer createButtonControls() {
 		return (new ProjectPreviewFormControlsGenerator<SimpleTaskList>(
-				previewForm)).createButtonControls(
-				ProjectRolePermissionCollections.TASKS, true);
+				previewForm))
+				.createButtonControls(
+						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.ASSIGN_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED,
+						ProjectRolePermissionCollections.TASKS);
 	}
 
 	@Override

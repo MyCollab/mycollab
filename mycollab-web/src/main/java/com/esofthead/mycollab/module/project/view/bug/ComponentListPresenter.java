@@ -24,6 +24,7 @@ import java.util.List;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
@@ -75,7 +76,8 @@ public class ComponentListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Component List";
+						return AppContext
+								.getMessage(ComponentI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override

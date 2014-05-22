@@ -351,8 +351,12 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		bugPreviewFormControls = new ProjectPreviewFormControlsGenerator<SimpleBug>(
 				previewForm);
 		final HorizontalLayout topPanel = bugPreviewFormControls
-				.createButtonControls(ProjectRolePermissionCollections.BUGS,
-						false, false);
+				.createButtonControls(
+						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
+								| ProjectPreviewFormControlsGenerator.CLONE_BTN_PRESENTED,
+						ProjectRolePermissionCollections.BUGS);
 
 		final Button assignBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),

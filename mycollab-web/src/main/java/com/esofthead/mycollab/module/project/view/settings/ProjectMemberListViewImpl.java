@@ -87,7 +87,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		viewHeader.addComponent(new Image(null, MyCollabResource
 				.newResource("icons/24/project/user.png")));
 
-		Label headerText = new Label("Project Members");
+		Label headerText = new Label(
+				AppContext.getMessage(ProjectMemberI18nEnum.LIST_VIEW_TITLE));
 		headerText.setStyleName("hdr-text");
 
 		viewHeader.addComponent(headerText);
@@ -164,10 +165,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 								SiteConfiguration.getSiteName()),
 						AppContext
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
@@ -237,12 +236,16 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		if (RegisterStatusConstants.SENT_VERIFICATION_EMAIL.equals(member
 				.getStatus())) {
 			final VerticalLayout waitingNotLayout = new VerticalLayout();
-			Label infoStatus = new Label("Waiting for accept invitation");
+			Label infoStatus = new Label(
+					AppContext
+							.getMessage(ProjectMemberI18nEnum.WAITING_ACCEPT_INVITATION));
 			infoStatus.addStyleName("member-email");
 			waitingNotLayout.addComponent(infoStatus);
 
 			ButtonLink resendInvitationLink = new ButtonLink(
-					"Resend Invitation", new Button.ClickListener() {
+					AppContext
+							.getMessage(ProjectMemberI18nEnum.RESEND_INVITATION_ACTION),
+					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -254,7 +257,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 									.updateByPrimaryKeySelective(member);
 							waitingNotLayout.removeAllComponents();
 							Label statusEmail = new Label(
-									"Sending invitation email");
+									AppContext
+											.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
 							statusEmail.addStyleName("member-email");
 							waitingNotLayout.addComponent(statusEmail);
 						}
@@ -271,7 +275,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 			memberInfo.addComponent(lastAccessTimeLbl);
 		} else if (RegisterStatusConstants.VERIFICATING.equals(member
 				.getStatus())) {
-			Label infoStatus = new Label("Sending invitation email");
+			Label infoStatus = new Label(
+					AppContext
+							.getMessage(ProjectMemberI18nEnum.SENDING_EMAIL_INVITATION));
 			infoStatus.addStyleName("member-email");
 			memberInfo.addComponent(infoStatus);
 		}

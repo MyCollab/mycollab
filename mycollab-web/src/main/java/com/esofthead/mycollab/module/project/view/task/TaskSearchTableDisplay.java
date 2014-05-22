@@ -188,7 +188,8 @@ public class TaskSearchTableDisplay
 				filterBtnLayout.setSpacing(true);
 				filterBtnLayout.setWidth("100px");
 
-				Button editButton = new Button("Edit",
+				Button editButton = new Button(AppContext
+						.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 

@@ -71,57 +71,51 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		this.setWidth("100%");
 		this.setSpacing(true);
 		this.addStyleName("readview-layout");
-		this.setMargin(new MarginInfo( true, true, false, true));
-		
+		this.setMargin(new MarginInfo(true, true, false, true));
 
-	
 		HorizontalLayout header = new HorizontalLayout();
 		header.setWidth("100%");
 		header.setSpacing(true);
 		header.setMargin(new MarginInfo(true, false, true, false));
 		header.setStyleName(UIConstants.HEADER_VIEW);
-		
-		
+
 		final Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/22/crm/notification.png"));
 		header.addComponent(titleIcon);
 		header.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
-		
+
 		final Label searchtitle = new Label("Notification Settings");
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		header.addComponent(searchtitle);
 		header.setExpandRatio(searchtitle, 1.0f);
 		header.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
-		
+
 		this.addComponent(header);
-		
 
 		VerticalLayout bodyWrapper = new VerticalLayout();
 		bodyWrapper.setSpacing(true);
-		bodyWrapper.setMargin(new MarginInfo( true, false, false, false));
+		bodyWrapper.setMargin(new MarginInfo(true, false, false, false));
 		bodyWrapper.setSizeFull();
 
-		
 		HorizontalLayout notificationLabelWrapper = new HorizontalLayout();
 		notificationLabelWrapper.setSizeFull();
 		notificationLabelWrapper.setMargin(true);
-		
+
 		notificationLabelWrapper.setStyleName("notification-label");
 
 		Label notificationLabel = new Label("Notification Levels");
 		notificationLabel.addStyleName("h2");
-		
+
 		notificationLabel.setHeight(Sizeable.SIZE_UNDEFINED,
 				Sizeable.Unit.PIXELS);
 		notificationLabelWrapper.addComponent(notificationLabel);
 
-		
 		bodyWrapper.addComponent(notificationLabelWrapper);
-		
+
 		VerticalLayout body = new VerticalLayout();
 		body.setSpacing(true);
-		body.setMargin(new MarginInfo( true, false, false, false));
-		
+		body.setMargin(new MarginInfo(true, false, false, false));
+
 		List<String> options = Arrays
 				.asList(new String[] {
 						"Default- By default you will receive notifications about items that you are involved in. To be involved with and item you need to have added a comment, been assigned the item, or when the item was created you were specified as a person to notify. Within the email notifications you can unsubscribe from any item.",
@@ -203,16 +197,16 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 						}
 					});
 			upgradeBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			upgradeBtn.setIcon(MyCollabResource.newResource("icons/16/crm/refresh.png"));
+			upgradeBtn.setIcon(MyCollabResource
+					.newResource("icons/16/crm/refresh.png"));
 			body.addComponent(upgradeBtn);
 			body.setComponentAlignment(upgradeBtn, Alignment.BOTTOM_CENTER);
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
-		
+
 		bodyWrapper.addComponent(body);
 		this.addComponent(bodyWrapper);
-		
-		
+
 	}
 }

@@ -49,6 +49,13 @@ import com.esofthead.mycollab.module.project.events.StandUpEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.localization.BreadcrumbI18nEnum;
+import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
+import com.esofthead.mycollab.module.project.localization.MessageI18nEnum;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ProblemI18nEnum;
+import com.esofthead.mycollab.module.project.localization.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.Component;
@@ -130,7 +137,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/message/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"Message List");
+				AppContext.getMessage(MessageI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoMessage(Message message) {
@@ -160,7 +167,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.addFragment(
 						"project/risk/list/"
 								+ UrlEncodeDecoder.encode(project.getId()),
-						"Risk List");
+						AppContext.getMessage(RiskI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoRiskRead(Risk risk) {
@@ -210,7 +217,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.getMessage(GenericI18Enum.BUTTON_ADD_LABEL)));
 		AppContext.addFragment(
 				"project/risk/add/" + UrlEncodeDecoder.encode(project.getId()),
-				"Risk Add");
+				"New Risk");
 	}
 
 	private static class GotoRiskListListener implements Button.ClickListener {
@@ -230,7 +237,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/milestone/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"Phase List");
+				AppContext.getMessage(MilestoneI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoMilestoneRead(Milestone milestone) {
@@ -283,7 +290,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.addFragment(
 						"project/milestone/add/"
 								+ UrlEncodeDecoder.encode(project.getId()),
-						"Add Phase");
+						"New Phase");
 	}
 
 	private static class GotoMilestoneListListener implements
@@ -304,7 +311,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/problem/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"Problem List");
+				AppContext.getMessage(ProblemI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoProblemRead(Problem problem) {
@@ -532,7 +539,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.addLink(new Button("List"));
 		AppContext.addFragment(
 				"project/bug/list/" + UrlEncodeDecoder.encode(project.getId()),
-				"Bug List");
+				AppContext.getMessage(BugI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoBugAdd() {
@@ -544,7 +551,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.getMessage(GenericI18Enum.BUTTON_ADD_LABEL)));
 		AppContext.addFragment(
 				"project/bug/add/" + UrlEncodeDecoder.encode(project.getId()),
-				"New Bug");
+				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION));
 	}
 
 	public void gotoBugEdit(final BugWithBLOBs bug) {
@@ -593,7 +600,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/bug/version/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"Version List");
+				AppContext.getMessage(VersionI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoVersionAdd() {
@@ -677,7 +684,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/bug/component/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"Component List");
+				AppContext.getMessage(ComponentI18nEnum.LIST_VIEW_TITLE));
 	}
 
 	public void gotoComponentAdd() {
@@ -694,7 +701,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/bug/component/add/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				"New Component");
+				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION));
 	}
 
 	public void gotoComponentEdit(final Component component) {
@@ -768,13 +775,13 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 			AppContext.addFragment(
 					"project/standup/list/"
 							+ UrlEncodeDecoder.encode(project.getId()),
-					"Standup List");
+					"Standups");
 		} else {
 			AppContext.addFragment(
 					"project/standup/list/"
 							+ UrlEncodeDecoder.encode(project.getId() + "/"
 									+ AppContext.formatDate(onDate)),
-					"Standup List");
+					"Standups");
 		}
 
 	}
@@ -804,7 +811,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.addFragment(
 						"project/user/list/"
 								+ UrlEncodeDecoder.encode(project.getId()),
-						"Project Members");
+						"Members");
 	}
 
 	public void gotoUserAdd() {
@@ -813,10 +820,10 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				AppContext.getMessage(BreadcrumbI18nEnum.USERS),
 				new GotoUserListener()));
 		this.setLinkEnabled(true, 1);
-		this.addLink(new Button("Invite Project Members"));
+		this.addLink(new Button("Invite Members"));
 		AppContext.addFragment(
 				"project/user/add/" + UrlEncodeDecoder.encode(project.getId()),
-				"Invite Project Member(s)");
+				"Invite Member(s)");
 	}
 
 	public void gotoUserRead(SimpleProjectMember member) {
@@ -829,7 +836,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/user/preview/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
-								+ member.getUsername()), "Project Member: "
+								+ member.getUsername()), "Member: "
 						+ member.getMemberFullName());
 	}
 
@@ -843,7 +850,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/user/edit/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
-								+ member.getId()), "Edit Project Member: "
+								+ member.getId()), "Edit Member: "
 						+ member.getMemberFullName());
 	}
 
@@ -854,7 +861,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.addFragment(
 						"project/role/list/"
 								+ UrlEncodeDecoder.encode(project.getId()),
-						"Project Roles");
+						"Roles");
 	}
 
 	public void gotoRoleRead(SimpleProjectRole role) {
@@ -868,7 +875,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				"project/role/preview/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
 								+ role.getId()),
-				"Project Role: " + role.getRolename());
+				"Role: " + role.getRolename());
 	}
 
 	public void gotoNotificationSetting(ProjectNotificationSetting notify) {
@@ -890,7 +897,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				.getMessage(GenericI18Enum.BUTTON_ADD_LABEL)));
 		AppContext.addFragment(
 				"project/role/add/" + UrlEncodeDecoder.encode(project.getId()),
-				"New Project Role");
+				"New Role");
 	}
 
 	public void gotoRoleEdit(SimpleProjectRole role) {
@@ -904,7 +911,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				"project/role/edit/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
 								+ role.getId()),
-				"Edit Project Role: " + role.getRolename());
+				"Edit Role: " + role.getRolename());
 	}
 
 	private static class GotoNotificationSetttingListener implements
@@ -978,7 +985,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoProjectEdit() {
 		this.select(0);
-		this.addLink(new Button("Edit"));
+		this.addLink(new Button(AppContext
+				.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL)));
 		AppContext.addFragment(
 				"project/edit/" + UrlEncodeDecoder.encode(project.getId()),
 				"Edit Project: " + project.getName());

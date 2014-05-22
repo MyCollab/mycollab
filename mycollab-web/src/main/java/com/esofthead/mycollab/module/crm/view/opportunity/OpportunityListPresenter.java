@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
@@ -48,9 +49,9 @@ import com.vaadin.ui.UI;
  * 
  */
 public class OpportunityListPresenter
-extends
-CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
-implements MassUpdateCommand<Opportunity> {
+		extends
+		CrmGenericListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity>
+		implements MassUpdateCommand<Opportunity> {
 
 	private static final long serialVersionUID = 1L;
 	private OpportunityService opportunityService;
@@ -76,10 +77,10 @@ implements MassUpdateCommand<Opportunity> {
 						} else if ("massUpdate".equals(id)) {
 							MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
 									AppContext
-									.getMessage(
-											GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
-											"Opportunity"),
-											OpportunityListPresenter.this);
+											.getMessage(
+													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													"Opportunity"),
+									OpportunityListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);
 						}
 
@@ -87,7 +88,8 @@ implements MassUpdateCommand<Opportunity> {
 
 					@Override
 					protected String getReportTitle() {
-						return "Opportunity List";
+						return AppContext
+								.getMessage(OpportunityI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override

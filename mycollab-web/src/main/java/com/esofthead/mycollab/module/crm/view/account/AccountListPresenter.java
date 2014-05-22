@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
@@ -78,7 +79,8 @@ public class AccountListPresenter
 
 					@Override
 					protected String getReportTitle() {
-						return "Account List";
+						return AppContext
+								.getMessage(AccountI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override

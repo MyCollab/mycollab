@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericListPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
@@ -72,9 +73,8 @@ public class LeadListPresenter extends
 					protected void onSelectExtra(String id) {
 						if (MassItemActionHandler.MAIL_ACTION.equals(id)) {
 							if (isSelectAll) {
-								NotificationUtil
-										.showWarningNotification(AppContext
-												.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
+								NotificationUtil.showWarningNotification(AppContext
+										.getMessage(WebExceptionI18nEnum.NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS));
 							} else {
 								List<String> lstMail = new ArrayList<String>();
 
@@ -107,7 +107,8 @@ public class LeadListPresenter extends
 
 					@Override
 					protected String getReportTitle() {
-						return "Lead List";
+						return AppContext
+								.getMessage(LeadI18nEnum.LIST_VIEW_TITLE);
 					}
 
 					@Override
@@ -133,9 +134,8 @@ public class LeadListPresenter extends
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/lead/list",
-					AppContext.getMessage(
-							GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Lead"));
+			AppContext.addFragment("crm/lead/list", AppContext.getMessage(
+					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Lead"));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

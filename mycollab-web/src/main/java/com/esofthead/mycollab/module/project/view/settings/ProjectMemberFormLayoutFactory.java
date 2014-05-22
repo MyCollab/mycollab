@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.module.project.localization.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
@@ -37,7 +39,9 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public Layout getLayout() {
 		final VerticalLayout layout = new VerticalLayout();
-		final Label organizationHeader = new Label("Member Information");
+		final Label organizationHeader = new Label(
+				AppContext
+						.getMessage(ProjectMemberI18nEnum.FORM_INFORMATION_SECTION));
 		organizationHeader.setStyleName("h2");
 		layout.addComponent(organizationHeader);
 
@@ -54,9 +58,13 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 	@Override
 	public boolean attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("username")) {
-			this.informationLayout.addComponent(field, "User", 0, 0);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0,
+					0);
 		} else if (propertyId.equals("projectroleid")) {
-			this.informationLayout.addComponent(field, "Role", 0, 1);
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0,
+					1);
 		} else {
 			return false;
 		}
