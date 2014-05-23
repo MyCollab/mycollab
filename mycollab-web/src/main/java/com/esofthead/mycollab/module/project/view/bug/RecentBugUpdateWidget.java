@@ -80,7 +80,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 							bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(ProjectTooltipGenerator
-					.generateToolTipBug(null, AppContext.getSiteUrl(),
+					.generateToolTipBug(bug, AppContext.getSiteUrl(),
 							AppContext.getTimezoneId()));
 
 			if (bug.isCompleted()) {

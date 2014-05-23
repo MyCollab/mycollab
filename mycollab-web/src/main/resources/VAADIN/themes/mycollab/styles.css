@@ -598,7 +598,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     border-left: none;
 }
 .v-buttongroup .v-button.v-button-right .v-button-wrap{
-    border-left:1px solid #F9F9F9;
+    border-left:1px solid #8f8f8f;
     border-radius: 0px;
 }
 
@@ -4163,18 +4163,6 @@ div.v-lazyloadingwrapper-loading {
 .v-buttongroup.toggle-btn-group .v-button.v-button-left,.v-buttongroup.toggle-btn-group .v-button.v-button-middle,.v-buttongroup.toggle-btn-group .v-button.v-button-right
     {
     border: none;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.v-button-left {
-    margin-right: 1px;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.v-button-right {
-    margin-left: 1px;
-}
-
-.v-buttongroup.toggle-btn-group .v-button.v-button-middle {
-    margin: 0px 1px;
 }
 
 .v-buttongroup.toggle-btn-group .v-button .v-button-wrap {
