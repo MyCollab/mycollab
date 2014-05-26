@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissi
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -48,7 +48,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class AccountModuleImpl extends AbstractPageView implements
+public class AccountModuleImpl extends AbstractCssPageView implements
 		AccountModule {
 	private static final long serialVersionUID = 1L;
 
@@ -63,7 +63,6 @@ public class AccountModuleImpl extends AbstractPageView implements
 	public AccountModuleImpl() {
 		ControllerRegistry.addController(new UserAccountController(this));
 		this.setWidth("100%");
-		this.setMargin(false);
 		this.addStyleName("main-content-wrapper");
 		this.addStyleName("accountViewContainer");
 
@@ -82,6 +81,7 @@ public class AccountModuleImpl extends AbstractPageView implements
 		this.accountTab.setNavigatorStyleName("sidebar-menu");
 		this.accountTab.setContainerStyleName("tab-content");
 		this.accountTab.setHeight(null);
+		this.setVerticalTabsheetFix(true);
 
 		VerticalLayout contentWrapper = this.accountTab.getContentWrapper();
 		contentWrapper.addStyleName("main-content");

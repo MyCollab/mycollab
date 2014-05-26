@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
@@ -41,7 +41,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @param <B>
  */
-public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
+public abstract class AbstractPreviewItemComp<B> extends AbstractCssPageView {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -62,6 +62,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractPageView {
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		navigatorWrapper.setWidth("250px");
+		this.setVerticalTabsheetFix(true);
+		this.setVerticalTabsheetFixToLeft(false);
 
 		previewItemContainer
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {

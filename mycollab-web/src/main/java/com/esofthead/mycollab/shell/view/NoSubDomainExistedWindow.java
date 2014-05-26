@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.shell.view;
 
+import com.esofthead.mycollab.shell.localization.ShellI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutExt;
 import com.vaadin.ui.Alignment;
@@ -48,11 +50,12 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 			super("noSubdomainWindow");
 
 			final VerticalLayout warningContent = new VerticalLayout();
-			final Label warningMsg = new Label("There is no sudomain: "
-					+ domain + ". Do you forgot your domain?");
+			final Label warningMsg = new Label(AppContext.getMessage(
+					ShellI18nEnum.NO_SUB_DOMAIN_ERROR, domain));
 			warningContent.addComponent(warningMsg);
 
-			final Button backToHome = new Button("Go back to Home Page",
+			final Button backToHome = new Button(
+					AppContext.getMessage(ShellI18nEnum.BACK_TO_HOME_PAGE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

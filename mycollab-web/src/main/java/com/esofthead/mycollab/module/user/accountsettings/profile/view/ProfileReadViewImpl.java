@@ -73,7 +73,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 
 	public ProfileReadViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(false, true, false, true));
+		this.setMargin(new MarginInfo(false, true, true, true));
 		this.viewLayout = new HorizontalLayout();
 		this.viewLayout.setWidth("100%");
 		this.viewLayout.setSpacing(true);

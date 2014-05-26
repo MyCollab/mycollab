@@ -70,7 +70,7 @@ import com.esofthead.mycollab.module.project.view.user.ProjectListComponent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -102,7 +102,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class ProjectViewImpl extends AbstractPageView implements ProjectView {
+public class ProjectViewImpl extends AbstractCssPageView implements ProjectView {
 
 	private final ProjectVerticalTabsheet myProjectTab;
 	private final HorizontalLayout topPanel;
@@ -124,9 +124,10 @@ public class ProjectViewImpl extends AbstractPageView implements ProjectView {
 	public ProjectViewImpl() {
 		this.setWidth("100%");
 
-		this.setMargin(false);
+		// this.setMargin(false);
 		this.addStyleName("main-content-wrapper");
 		this.addStyleName("projectDashboardView");
+		this.setVerticalTabsheetFix(true);
 
 		breadCrumb = ViewManager.getView(ProjectBreadcrumb.class);
 

@@ -1174,12 +1174,13 @@ input.v-textfield-pagedtable-pagefield {
 .crmContainer {
     width: 100%:
 }
-.crmContainer-wrap.preview-comp {
-    background: url("icons/crm-module-bg.jpg") repeat-y right top #FFFFFF;
-}
 .crmContainer .main-view {
     background-color: #FFFFFF;
     min-height: 100%;
+}
+.crmContainer .crm-toolbar {
+	z-index: 1;
+	position: relative;
 }
 .crmContainer .crm-toolbar.v-margin-right, .crmContainer .main-view.v-margin-right {
     padding-right: 30px;
@@ -1707,7 +1708,6 @@ input.v-textfield-errorField {
 /* Account Settings */
 .accountViewContainer {
     min-height: 100%;
-    background: url("icons/project-module-bg.jpg") repeat-y left top #FFFFFF;
     position: absolute;
     top: 0;
     left: 0;
@@ -1852,7 +1852,6 @@ input.v-textfield-errorField {
 }
 .projectDashboardView {
     min-height: 100%;
-    background: url("icons/project-module-bg.jpg") repeat-y left top #FFFFFF;
     position: absolute;
     top: 0;
     left: 0;
@@ -7002,4 +7001,16 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .notification-type.notification-type-warning {
     color: #c31616;
+}
+
+/* Vertical Tabsheet Fix */
+.verticaltabsheet-fix {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: #7B7B7B;
+}
+.verticaltabsheet-fix.is-left {
+	left: 0px;
 }

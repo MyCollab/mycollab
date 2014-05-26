@@ -76,8 +76,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	private Button reOrderBtn;
 
-	// private Button viewGanttChartBtn;
-	// TaskGanttChart ganttChart;
+	private Button viewGanttChartBtn;
+	private TaskGanttChart ganttChart;
 
 	private PopupButton exportButtonControl;
 
@@ -297,21 +297,20 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
 
 		// Add gantt chart button
-		// viewGanttChartBtn = new Button("Gantt chart",
-		// new Button.ClickListener() {
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// public void buttonClick(ClickEvent arg0) {
-		// displayGanttChartView();
-		//
-		// }
-		// });
-		//
-		// viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		// viewGanttChartBtn.setDescription("Toggle Gantt chart view");
-		// UiUtils.addComponent(header, viewGanttChartBtn,
-		// Alignment.MIDDLE_RIGHT);
+		viewGanttChartBtn = new Button("Gantt chart",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent arg0) {
+						displayGanttChartView();
+
+					}
+				});
+
+		viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		viewGanttChartBtn.setDescription("Show Gantt Chart");
+		UiUtils.addComponent(header, viewGanttChartBtn, Alignment.MIDDLE_RIGHT);
 
 		this.reOrderBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -611,20 +610,20 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		this.addComponent(mainLayout);
 	}
 
-	// private void displayGanttChartView() {
-	//
-	// if (this.getComponentIndex(ganttChart) < 0) {
-	// viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
-	//
-	// ganttChart = new TaskGanttChart();
-	// ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
-	//
-	// this.addComponent(ganttChart, 1);
-	// } else {
-	// this.removeComponent(ganttChart);
-	// viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-	// }
-	// }
+	private void displayGanttChartView() {
+
+		if (this.getComponentIndex(ganttChart) < 0) {
+			viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+
+			ganttChart = new TaskGanttChart();
+			ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
+
+			this.addComponent(ganttChart, 1);
+		} else {
+			this.removeComponent(ganttChart);
+			viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		}
+	}
 
 	private void displayActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();

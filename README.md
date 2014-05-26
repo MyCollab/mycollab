@@ -1,5 +1,5 @@
 # MyCollab an open source Java CRM, Project and Document Management Platform
- 
+
 ## Introduction
 MyCollab is an online system comprising project management, CRM and document management that helps manage your team, projects, tasks, assignments, customers and documents. It is specially designed for companies who are involved in lots of projects dealing with remote teams. MyCollab removes the hassle of tracking large email threads, going back and forth. It manages all of your project documents, images, tasks, bugs and risks in one place and easier to find. MyCollab help teams to plan, monitor and control their projects quickly, cost-effectively and efficiently. In addition, it assists you to increase sales and keep in touch with your value customers. You can use sales information from customers records to finely tune your marketing campaigns. CRM system helps salespeople to identify various trends in their customers behavior it can assist them when selling products.
 
@@ -65,18 +65,30 @@ We started development MyCollab since November 2011. MyCollab is developed mainl
 
 You can try MyCollab on-demand edition on site http://www.mycollab.com
 
+## System Requirements
+MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
+
+Please take a look at MyCollab requirements:
+    http://wiki.mycollab.com/Installation_Guideline#System_Requirements
+
+## Installation
+1. Download MyCollab - http://www.mycollab.com/pricing/download/
+2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
+
+If you need understand more MyCollab advanced configuration settings, please visit link http://wiki.mycollab.com/Configuration. You should be finished in a matter of minutes.
+
 ## Document
 MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
 * Installation http://wiki.mycollab.com/Installation_Guideline
 * Configuration http://wiki.mycollab.com/Configuration
 
-If you want to customize MyCollab:
+If you want to customize MyCollab, following links are useful for you:
 * Setup MyCollab in Eclipse workspace http://wiki.mycollab.com/Set_up_Eclipse_workspace
 * Start customize MyCollab http://wiki.mycollab.com/How_to_customize_MyCollab
 
 ## Contact
 Contact the MyCollab team at:
-* You contact us via email support@mycollab.com 
+* You contact us via email support@mycollab.com
 * Our web form http://www.mycollab.com/contact-us
 
 ## License & Author
