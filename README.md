@@ -52,16 +52,16 @@ MyCollab is an online system comprising project management, CRM and document man
   </tr>
 </table>
 
-More MyCollab’s screenshots could be viewed at here http://www.flickr.com/photos/34441795@N06/sets/72157634867411915/
+More MyCollab’s screenshots could be viewed at http://www.flickr.com/photos/34441795@N06/sets/72157634867411915/
 
-New features, enhancements, and updates appear on regular basis.
+New features, enhancements, and updates appear on a regular basis.
 
 Pull requests and bug reports are always welcome!
 
 Visit our website at http://www.mycollab.com/
 
 ## History
-We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we think there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
+We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we believe that there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
 
 You can try MyCollab on-demand edition on site http://www.mycollab.com
 
@@ -75,7 +75,7 @@ Please take a look at MyCollab requirements:
 1. Download MyCollab - http://www.mycollab.com/pricing/download/
 2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
 
-If you need understand more MyCollab advanced configuration settings, please visit link http://wiki.mycollab.com/Configuration. You should be finished in a matter of minutes.
+If you need understand more MyCollab advanced configuration settings, please visit link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
 
 ## Document
 MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
@@ -88,7 +88,7 @@ If you want to customize MyCollab, following links are useful for you:
 
 ## Contact
 Contact the MyCollab team at:
-* You contact us via email support@mycollab.com
+* Our email support@mycollab.com
 * Our web form http://www.mycollab.com/contact-us
 
 ## License & Author
