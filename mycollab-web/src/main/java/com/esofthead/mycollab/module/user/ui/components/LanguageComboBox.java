@@ -18,16 +18,12 @@ public class LanguageComboBox extends ComboBox {
 		super();
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
-		this.addItem(LocalizationHelper.ENGLISH);
-		this.setItemCaption(LocalizationHelper.ENGLISH,
+		this.addItem("English");
+		this.setItemCaption("English",
 				AppContext.getMessage(LangI18Enum.ENGLISH));
 
-		this.addItem(LocalizationHelper.JAPANESE);
-		this.setItemCaption(LocalizationHelper.JAPANESE,
+		this.addItem("Japanese");
+		this.setItemCaption("Japanese",
 				AppContext.getMessage(LangI18Enum.JAPANESE));
-
-		this.addItem(LocalizationHelper.SPANISH);
-		this.setItemCaption(LocalizationHelper.SPANISH,
-				AppContext.getMessage(LangI18Enum.SPANISH));
 	}
 }

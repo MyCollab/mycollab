@@ -4,67 +4,67 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
-    <context id="MySQL" targetRuntime="MyBatis3">
+	<context id="MySQL" targetRuntime="MyBatis3">
 
-        <plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
+		<plugin type="com.esofthead.mybatis.plugin.MyCollabModelFilePlugin" />
 
-        <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab"
-            driverClass="com.mysql.jdbc.Driver" password="esofthead321"
-            userId="root" />
+		<jdbcConnection connectionURL="jdbc:mysql://localhost:3306/mycollab"
+			driverClass="com.mysql.jdbc.Driver" password="esofthead321" userId="root" />
 
-        <javaModelGenerator targetPackage="com.esofthead.mycollab.module.user.domain"
-            targetProject="src/main/java">
-            <property name="rootClass"
-                value="com.esofthead.mycollab.core.arguments.ValuedBean" />
-        </javaModelGenerator>
+		<javaModelGenerator targetPackage="com.esofthead.mycollab.module.user.domain"
+			targetProject="src/main/java">
+			<property name="rootClass"
+				value="com.esofthead.mycollab.core.arguments.ValuedBean" />
+		</javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="."
-            targetProject="src/main/resources/sqlMap/user" />
+		<sqlMapGenerator targetPackage="."
+			targetProject="src/main/resources/sqlMap/user" />
 
-        <javaClientGenerator targetPackage="com.esofthead.mycollab.module.user.dao"
-            targetProject="src/main/java" type="XMLMAPPER">
+		<javaClientGenerator targetPackage="com.esofthead.mycollab.module.user.dao"
+			targetProject="src/main/java" type="XMLMAPPER">
 
-            <property name="exampleMethodVisibility" value="public" />
+			<property name="exampleMethodVisibility" value="public" />
 
-            <property name="rootInterface"
-                value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
-        </javaClientGenerator>
+			<property name="rootInterface"
+				value="com.esofthead.mycollab.core.persistence.ICrudGenericDAO" />
+		</javaClientGenerator>
 
-        <table domainObjectName="BillingAccount" schema="mycollab"
-            tableName="s_account" />
+		<table domainObjectName="BillingAccount" schema="mycollab"
+			tableName="s_account" />
 
-        <table domainObjectName="BillingPlan" schema="mycollab"
-            tableName="s_billing_plan" />
+		<table domainObjectName="BillingPlan" schema="mycollab"
+			tableName="s_billing_plan" />
 
-        <table domainObjectName="Role" schema="mycollab"
-            tableName="s_roles" />
+		<table domainObjectName="Role" schema="mycollab" tableName="s_roles" />
 
-        <table domainObjectName="User" schema="mycollab"
-            tableName="s_user" />
+		<table domainObjectName="User" schema="mycollab" tableName="s_user" />
 
-        <table domainObjectName="UserAccount" schema="mycollab"
-            tableName="s_user_account" />
+		<table domainObjectName="UserAccount" schema="mycollab"
+			tableName="s_user_account" />
 
-        <table domainObjectName="UserAccountInvitation" schema="mycollab"
-            tableName="s_user_account_invitation" />
+		<table domainObjectName="UserAccountInvitation" schema="mycollab"
+			tableName="s_user_account_invitation" />
 
-        <table domainObjectName="RolePermission" schema="mycollab"
-            tableName="s_role_permission" />
+		<table domainObjectName="RolePermission" schema="mycollab"
+			tableName="s_role_permission" />
 
-        <table domainObjectName="UserPermission" schema="mycollab"
-            tableName="s_user_permission" />
+		<table domainObjectName="UserPermission" schema="mycollab"
+			tableName="s_user_permission" />
 
-        <table domainObjectName="UserInformation" schema="mycollab"
-            tableName="s_user_information" />
+		<table domainObjectName="UserInformation" schema="mycollab"
+			tableName="s_user_information" />
 
-        <table domainObjectName="AccountSettings" schema="mycollab"
-            tableName="s_account_settings" />
+		<table domainObjectName="AccountSettings" schema="mycollab"
+			tableName="s_account_settings" />
 
-        <table domainObjectName="UserPreference" schema="mycollab"
-            tableName="s_user_preference" />
+		<table domainObjectName="UserPreference" schema="mycollab"
+			tableName="s_user_preference" />
 
-        <table schema="mycollab" tableName="s_user_tracking"
-            domainObjectName="UserTracking" />
-    </context>
+		<table schema="mycollab" tableName="s_user_tracking"
+			domainObjectName="UserTracking" />
+
+		<table domainObjectName="AccountTheme" schema="mycollab"
+			tableName="s_account_theme" />
+	</context>
 
 </generatorConfiguration>

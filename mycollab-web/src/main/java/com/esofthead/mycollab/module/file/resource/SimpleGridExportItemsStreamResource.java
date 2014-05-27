@@ -32,12 +32,13 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.reporting.BeanDataSource;
-import com.esofthead.mycollab.reporting.ColumnFieldComponentBuilder;
+import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
+import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.GroupIteratorDataSource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
-import com.esofthead.mycollab.reporting.SimpleColumnComponentBuilderMap;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -59,7 +60,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 	public SimpleGridExportItemsStreamResource(String reportTitle,
 			RpParameterBuilder paramters, ReportExportType outputForm,
 			Class<T> classType) {
-		super(reportTitle, outputForm);
+		super(AppContext.getLanguageSupport(), reportTitle, outputForm);
 		this.parameters = paramters;
 		this.classType = classType;
 	}
@@ -83,7 +84,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 		}
 		List<TableViewFieldDecorator> fields = parameters.getFields();
 
-		List<? extends ColumnFieldComponentBuilder> lstFieldBuilder = SimpleColumnComponentBuilderMap
+		List<? extends AbstractColumnFieldComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
 				.getListFieldBuilder(classType);
 
 		// build columns of report
@@ -92,11 +93,9 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 			log.debug("Inject renderer if any");
 			if (lstFieldBuilder != null) {
 				for (int i = lstFieldBuilder.size() - 1; i >= 0; i--) {
-					ColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
+					AbstractColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
 							.get(i);
 					if (field.getField().equals(fieldBuilder.getFieldName())) {
-						field.setFieldComponentExpression(fieldBuilder
-								.getDriExpression());
 						field.setComponentBuilder(fieldBuilder
 								.getComponentBuilder());
 					}

@@ -54,17 +54,18 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.BeanDataSource;
-import com.esofthead.mycollab.reporting.ColumnFieldComponentBuilder;
+import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
+import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
-import com.esofthead.mycollab.reporting.SimpleColumnComponentBuilderMap;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
-import com.esofthead.mycollab.reporting.Templates;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -89,7 +90,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 	public ExportTaskListStreamResource(String reportTitle,
 			ReportExportType outputForm, ISearchableService searchService,
 			S searchCriteria, RpParameterBuilder parameters) {
-		super(reportTitle, outputForm);
+		super(AppContext.getLanguageSupport(), reportTitle, outputForm);
 		this.searchCriteria = searchCriteria;
 		this.searchService = searchService;
 		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname,
@@ -132,39 +133,41 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 		for (SimpleTaskList taskList : lstSimleTaskList) {
 			VerticalListBuilder componetBuilder = cmp.verticalList();
-			StyleBuilder style = stl.style(Templates.bold12TitleStyle)
-					.setBorder(stl.penThin());
+			StyleBuilder style = stl
+					.style(reportTemplate.getBold12TitleStyle()).setBorder(
+							stl.penThin());
 
-			StyleBuilder styleHyperLink = stl.style(Templates.bold12TitleStyle)
+			StyleBuilder styleHyperLink = stl
+					.style(reportTemplate.getBold12TitleStyle())
 					.setBorder(stl.penThin()).setUnderline(true);
 
-			ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-					taskList.getProjectid());
-			String phaseHyperLink = linkGenerator
-					.generateMilestonePreviewFullLink(taskList.getMilestoneid());
+			String phaseHyperLink = ProjectLinkBuilder
+					.generateMilestonePreviewFullLink(taskList.getProjectid(),
+							taskList.getMilestoneid());
 
 			HorizontalListBuilder taskGroupLabel = cmp.horizontalList();
 			taskGroupLabel.add(cmp.text("Task group: ").setFixedWidth(50)
-					.setStyle(Templates.columnTitleStyle));
+					.setStyle(reportTemplate.getColumnTitleStyle()));
 
 			// TaskList Name
 			StyleBuilder taskGroupStyle = stl
-					.style(Templates.boldStyle)
+					.style(reportTemplate.getBoldStyle())
 					.setUnderline(true)
 					.setFontSize(12)
 					.setAlignment(HorizontalAlignment.CENTER,
 							VerticalAlignment.MIDDLE);
+
+			String taskListLink = ProjectLinkBuilder
+					.generateTaskGroupPreviewFullLink(taskList.getProjectid(),
+							taskList.getId());
+
 			TextFieldBuilder<String> taskListNameHeader = cmp
-					.text(taskList.getName())
-					.setFixedWidth(1116)
+					.text(taskList.getName()).setFixedWidth(1116)
 					.setHorizontalAlignment(HorizontalAlignment.CENTER)
-					.setHyperLink(
-							hyperLink(linkGenerator
-									.generateTaskGroupPreviewFullLink(taskList
-											.getId())))
+					.setHyperLink(hyperLink(taskListLink))
 					.setStyle(taskGroupStyle);
 			taskGroupLabel.add(taskListNameHeader).setStyle(
-					Templates.columnTitleStyle);
+					reportTemplate.getColumnTitleStyle());
 
 			// label
 			log.debug("Label value : " + taskList.getDescription());
@@ -190,7 +193,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			TextFieldBuilder<String> phase = cmp
 					.text(taskList.getMilestoneName())
 					.setHyperLink(hyperLink(phaseHyperLink))
-					.setStyle(Templates.underlineStyle)
+					.setStyle(reportTemplate.getUnderlineStyle())
 					.setStyle(styleHyperLink).setFixedWidth(435);
 
 			HorizontalListBuilder assingeeAndPhaseHorizontal = cmp
@@ -230,7 +233,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.add(assingeeAndPhaseHorizontal)
 					.add(horizontalOfProgressAndNumberTask);
 			SimpleTaskJasperReportBuilder subReportBuilder = new SimpleTaskJasperReportBuilder(
-					taskList.getSubTasks(), parameters);
+					reportTemplate, taskList.getSubTasks(), parameters);
 			if (taskList.getSubTasks() != null
 					&& taskList.getSubTasks().size() > 0) {
 				componetBuilder.add(subReportBuilder.getSubreportBuilder());
@@ -241,11 +244,12 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 	}
 
 	private static class SimpleTaskJasperReportBuilder {
-
+		private AbstractReportTemplate reportTemplate;
 		private BeanDataSource dataSource;
 		private RpParameterBuilder parameters;
 
-		public SimpleTaskJasperReportBuilder(List data,
+		public SimpleTaskJasperReportBuilder(
+				AbstractReportTemplate reportTemplate, List data,
 				RpParameterBuilder parameters) {
 			this.dataSource = new BeanDataSource(data);
 			this.parameters = parameters;
@@ -253,8 +257,9 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 		public ComponentBuilder getSubreportBuilder() {
 			HorizontalListBuilder horizontalBuilder = cmp.horizontalList();
-			horizontalBuilder.setStyle(stl.style(Templates.boldCenteredStyle)
-					.setBorder(stl.penThin()));
+			horizontalBuilder.setStyle(stl.style(
+					reportTemplate.getBoldCenteredStyle()).setBorder(
+					stl.penThin()));
 			SubreportBuilder subreport = cmp.subreport(
 					new SimpleTaskExpression()).setDataSource(dataSource);
 			horizontalBuilder.add(subreport);
@@ -268,7 +273,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			@Override
 			public JasperReportBuilder evaluate(ReportParameters param) {
 				JasperReportBuilder report = report();
-				report.setTemplate(Templates.reportTemplate);
+				report.setTemplate(reportTemplate.getReportTemplateBuilder());
 
 				Field[] clsFields = ClassUtils.getAllFields(Task.class);
 				for (Field objField : clsFields) {
@@ -283,7 +288,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 				List<TableViewFieldDecorator> fields = parameters.getFields();
 
-				List<? extends ColumnFieldComponentBuilder> lstFieldBuilder = SimpleColumnComponentBuilderMap
+				List<? extends AbstractColumnFieldComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
 						.getListFieldBuilder(Task.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
@@ -291,12 +296,10 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					log.debug("Inject renderer if any");
 					if (lstFieldBuilder != null) {
 						for (int i = lstFieldBuilder.size() - 1; i >= 0; i--) {
-							ColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
+							AbstractColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
 									.get(i);
 							if (field.getField().equals(
 									fieldBuilder.getFieldName())) {
-								field.setFieldComponentExpression(fieldBuilder
-										.getDriExpression());
 								field.setComponentBuilder(fieldBuilder
 										.getComponentBuilder());
 							}

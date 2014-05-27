@@ -85,9 +85,9 @@ public class ContactInfoChangeWindow extends Window {
 				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtWorkPhone = (TextField) passInfo.addComponent(new TextField(),
-				"Work phone", 0, 0);
+				AppContext.getMessage(UserI18nEnum.FORM_WORK_PHONE), 0, 0);
 		this.txtHomePhone = (TextField) passInfo.addComponent(new TextField(),
-				"Home phone", 0, 1);
+				AppContext.getMessage(UserI18nEnum.FORM_HOME_PHONE), 0, 1);
 		this.txtFaceBook = (TextField) passInfo.addComponent(new TextField(),
 				"Facebook", 0, 2);
 		this.txtTwitter = (TextField) passInfo.addComponent(new TextField(),

@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSear
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.reporting.GroupIteratorDataSource;
 import com.esofthead.mycollab.reporting.ReportExportType;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class ExportTimeLoggingStreamResource extends
 	public ExportTimeLoggingStreamResource(String title,
 			ReportExportType outputForm, ItemTimeLoggingService searchService,
 			ItemTimeLoggingSearchCriteria searchCriteria) {
-		super(title, outputForm);
+		super(AppContext.getLanguageSupport(), title, outputForm);
 
 		this.searchService = searchService;
 		this.searchCriteria = searchCriteria;

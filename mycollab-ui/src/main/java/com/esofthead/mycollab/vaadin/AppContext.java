@@ -33,6 +33,7 @@ import ch.qos.cal10n.IMessageConveyor;
 
 import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.LanguageSupport;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
@@ -102,6 +103,8 @@ public class AppContext implements Serializable {
 	private Integer accountId = null;
 
 	private IMessageConveyor messageHelper;
+
+	private LanguageSupport languageSupport = LanguageSupport.ENGLISH;
 
 	public AppContext() {
 		MyCollabSession.putVariable("context", this);
@@ -180,7 +183,12 @@ public class AppContext implements Serializable {
 
 	private void setLanguage() {
 		String language = session.getLanguage();
-		messageHelper = LocalizationHelper.getMessageConveyor(language);
+		if ("English".equals(language)) {
+			languageSupport = LanguageSupport.ENGLISH;
+		} else if ("Japan".equals(language)) {
+			languageSupport = LanguageSupport.JAPAN;
+		}
+		messageHelper = LocalizationHelper.getMessageConveyor(languageSupport);
 	}
 
 	public static String getMessage(Enum key) {
@@ -196,6 +204,14 @@ public class AppContext implements Serializable {
 			return getInstance().messageHelper.getMessage(key, objects);
 		} catch (Exception e) {
 			return LocalizationHelper.getMessage(key, objects);
+		}
+	}
+
+	public static LanguageSupport getLanguageSupport() {
+		try {
+			return getInstance().languageSupport;
+		} catch (Exception e) {
+			return LanguageSupport.ENGLISH;
 		}
 	}
 

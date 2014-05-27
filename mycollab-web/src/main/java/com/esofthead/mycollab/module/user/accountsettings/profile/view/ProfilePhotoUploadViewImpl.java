@@ -104,7 +104,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		VerticalLayout previewBoxRight = new VerticalLayout();
 		previewBoxRight.setMargin(new MarginInfo(false, true, false, true));
 		Label lbPreview = new Label(
-				"<p style='margin: 0px;'><strong>To the left is what your profile photo will look like.</strong></p><p style='margin-top: 0px;'>To make adjustments, you can drag around and resize the selection square below. When you are happy with your photo click the &ldquo;Accept&ldquo; button.</p>",
+				"<p style='margin: 0px;'><strong>To the left is what your profile photo will look like.</strong></p><p style='margin-top: 0px;'>To make adjustment, you can drag around and resize the selection square below. When you are happy with your photo, click the &ldquo;Accept&ldquo; button.</p>",
 				ContentMode.HTML);
 		previewBoxRight.addComponent(lbPreview);
 

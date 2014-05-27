@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @since 3.0
  * 
  */
+@Component
 public class WebServiceInitialize implements InitializingBean {
 
 	@Override

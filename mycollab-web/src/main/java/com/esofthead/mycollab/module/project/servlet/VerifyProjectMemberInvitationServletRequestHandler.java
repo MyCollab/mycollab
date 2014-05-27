@@ -39,6 +39,7 @@ import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -48,7 +49,6 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.email.project.ProjectMailLinkGenerator;
 import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -110,9 +110,8 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 						Map<String, Object> context = new HashMap<String, Object>();
 						context.put("inviterEmail", inviterEmail);
 						context.put("inviterName", inviterName);
-						
-						String html = generatePageByTemplate(
-								EXPIER_PAGE,
+
+						String html = generatePageByTemplate(EXPIER_PAGE,
 								context);
 
 						PrintWriter out = response.getWriter();
@@ -188,9 +187,9 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 				member.setProjectroleid(projectRoleId);
 				projectMemberService.updateWithSession(member, "");
 			}
-			ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-					projectId);
-			response.sendRedirect(linkGenerator.generateProjectFullLink());
+			String projectLink = ProjectLinkBuilder
+					.generateProjectFullLink(projectId);
+			response.sendRedirect(projectLink);
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
@@ -199,9 +198,8 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 	private void handleOutSideMemberInvite(String email, Integer projectId,
 			Integer sAccountId, Integer projectRoleId, String inviterName,
 			HttpServletResponse response, HttpServletRequest request) {
-		ProjectMailLinkGenerator linkGenerator = new ProjectMailLinkGenerator(
-				projectId);
-		String projectLinkURL = linkGenerator.generateProjectFullLink();
+		String projectLinkURL = ProjectLinkBuilder
+				.generateProjectFullLink(projectId);
 
 		String handelCreateAccountURL = request.getContextPath() + "/"
 				+ "project/outside/createAccount/";
@@ -213,9 +211,8 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 		context.put("projectId", projectId);
 		context.put("roleId", projectRoleId);
 		context.put("inviterName", inviterName);
-		
-		String html = generatePageByTemplate(
-				OUTSIDE_MEMBER_WELCOME_PAGE,
+
+		String html = generatePageByTemplate(OUTSIDE_MEMBER_WELCOME_PAGE,
 				context);
 
 		PrintWriter out = null;

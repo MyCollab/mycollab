@@ -107,4 +107,10 @@
         <property name="mapperInterface"
             value="com.esofthead.mycollab.module.user.dao.UserTrackingMapper" />
     </bean>
+    
+    <bean id="accountThemeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionTemplate" ref="sqlMapClient" />
+        <property name="mapperInterface"
+            value="com.esofthead.mycollab.module.user.dao.AccountThemeMapper" />
+    </bean>
 </beans>

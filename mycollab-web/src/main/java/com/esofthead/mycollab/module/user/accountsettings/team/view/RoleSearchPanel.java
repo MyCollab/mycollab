@@ -23,6 +23,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -64,7 +65,8 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 		layout.addComponent(new Image(null, MyCollabResource
 				.newResource("icons/24/project/user.png")));
 
-		final Label searchtitle = new Label("Roles");
+		final Label searchtitle = new Label(
+				AppContext.getMessage(RoleI18nEnum.LIST_VIEW_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);

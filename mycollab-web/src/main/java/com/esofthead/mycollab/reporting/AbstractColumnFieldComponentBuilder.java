@@ -16,19 +16,31 @@
  */
 package com.esofthead.mycollab.reporting;
 
+import java.io.Serializable;
+
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.definition.expression.DRIExpression;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.1.2
  * 
  */
-public interface ColumnFieldComponentBuilder<T> {
-	String getFieldName();
+public abstract class AbstractColumnFieldComponentBuilder implements
+		Serializable {
+	private static final long serialVersionUID = 1L;
 
-	DRIExpression<T> getDriExpression();
+	protected String fieldName;
 
-	ComponentBuilder getComponentBuilder();
+	public AbstractColumnFieldComponentBuilder(String fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+
+
+	public abstract ComponentBuilder getComponentBuilder();
 }

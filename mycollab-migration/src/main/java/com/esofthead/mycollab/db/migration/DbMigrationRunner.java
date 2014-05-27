@@ -41,6 +41,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @Component(value = "dbMigration")
 public class DbMigrationRunner {
 	private static Logger log = LoggerFactory
@@ -55,6 +61,7 @@ public class DbMigrationRunner {
 			Flyway flyway = new Flyway();
 			flyway.setInitOnMigrate(true);
 			flyway.setDataSource(dataSource);
+			flyway.setValidateOnMigrate(false);
 			flyway.migrate();
 		} catch (Exception e) {
 			log.error("Error while migrate database", e);

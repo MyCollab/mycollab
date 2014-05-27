@@ -146,7 +146,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		controllGroupBtn.addStyleName(UIConstants.THEME_SMALL_PADDING);
 
 		selectAllBtn = new Button();
-		selectAllBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		selectAllBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		selectAllBtn.setIcon(MyCollabResource
 				.newResource("icons/16/checkbox_empty.png"));
 		selectAllBtn.setData(false);
@@ -223,12 +223,12 @@ public class ResourceHandlerComponent extends VerticalLayout {
 			}
 		});
 		goUpBtn.setDescription("Back to parent folder");
-		goUpBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
+		goUpBtn.setStyleName(UIConstants.THEME_BROWN_LINK);
 		goUpBtn.setDescription("Go up");
 		UiUtils.addComponent(controllGroupBtn, goUpBtn, Alignment.MIDDLE_LEFT);
 
 		ButtonGroup navButton = new ButtonGroup();
-		navButton.addStyleName(UIConstants.THEME_BLUE_LINK);
+		navButton.addStyleName(UIConstants.THEME_BROWN_LINK);
 		Button createBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL),
 				new Button.ClickListener() {
@@ -241,7 +241,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 					}
 				});
 		createBtn.setIcon(MyCollabResource.newResource("icons/16/ecm/add.png"));
-		createBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		createBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		createBtn.setDescription("Create new folder");
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
@@ -258,7 +258,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		});
 		uploadBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/upload.png"));
-		uploadBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		uploadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		uploadBtn.setDescription("Upload");
 		;
 		uploadBtn.setEnabled(AppContext
@@ -290,7 +290,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 
 		downloadBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/download.png"));
-		downloadBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		downloadBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		downloadBtn.setDescription("Download");
 		downloadBtn.setEnabled(AppContext
 				.canRead(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
@@ -314,7 +314,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 		});
 		moveToBtn.setIcon(MyCollabResource
 				.newResource("icons/16/ecm/move_up.png"));
-		moveToBtn.addStyleName(UIConstants.THEME_BLUE_LINK);
+		moveToBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 		moveToBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.PUBLIC_DOCUMENT_ACCESS));
 		moveToBtn.setDescription("Move to");

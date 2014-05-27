@@ -18,9 +18,7 @@ package com.esofthead.mycollab.reporting;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import net.sf.dynamicreports.report.definition.expression.DRIExpression;
 
-import com.esofthead.mycollab.reporting.SimpleColumnComponentBuilderMap.StringFieldUtilExpression;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
 /**
@@ -32,14 +30,10 @@ import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 public class TableViewFieldDecorator extends TableViewField {
 	private TableViewField tableField;
 
-	private DRIExpression fieldComponentExpression;
-
 	private ComponentBuilder componentBuilder;
 
 	public TableViewFieldDecorator(TableViewField tableField) {
 		this.tableField = tableField;
-		this.fieldComponentExpression = new StringFieldUtilExpression(
-				tableField.getField(), null);
 	}
 
 	@Override
@@ -67,19 +61,10 @@ public class TableViewFieldDecorator extends TableViewField {
 		tableField.setDefaultWidth(defaultWidth);
 	}
 
-	public DRIExpression getFieldComponentExpression() {
-		return fieldComponentExpression;
-	}
-
-	public void setFieldComponentExpression(
-			DRIExpression fieldComponentExpression) {
-		this.fieldComponentExpression = fieldComponentExpression;
-	}
-
 	public ComponentBuilder getComponentBuilder() {
 		if (componentBuilder == null) {
 			componentBuilder = cmp.text(
-					new StringFieldUtilExpression(tableField.getField(), null))
+					new StringExpression(tableField.getField()))
 					.setWidth(tableField.getDefaultWidth());
 		}
 		return componentBuilder;

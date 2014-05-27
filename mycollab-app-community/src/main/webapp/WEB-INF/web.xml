@@ -53,7 +53,6 @@
             classpath:/META-INF/spring/tracker-context.xml
             classpath:/META-INF/spring/user-context.xml
             classpath:/META-INF/spring-scheduler-standalone/*-context.xml
-            classpath:/META-INF/spring-web/initialize-context.xml
         </param-value>
     </context-param>
 

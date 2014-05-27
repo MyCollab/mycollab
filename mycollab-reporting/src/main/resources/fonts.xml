@@ -9,5 +9,10 @@
         <pdfEncoding>Identity-H</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
+    
+    <fontFamily name="HeiseiKakuGo-W5">
+        <pdfEncoding>UniJIS-UCS2-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+    </fontFamily>
 
 </fontFamilies>

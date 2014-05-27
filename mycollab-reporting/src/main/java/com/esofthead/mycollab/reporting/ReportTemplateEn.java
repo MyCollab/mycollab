@@ -1,19 +1,3 @@
-/**
- * This file is part of mycollab-reporting.
- *
- * mycollab-reporting is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-reporting is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-reporting.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.reporting;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
@@ -25,7 +9,6 @@ import java.awt.Color;
 import java.util.Locale;
 
 import net.sf.dynamicreports.report.builder.HyperLinkBuilder;
-import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.PaddingBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -35,28 +18,13 @@ import net.sf.dynamicreports.report.constant.VerticalAlignment;
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.1.2
  * 
  */
-public class Templates {
-	public static final StyleBuilder rootStyle;
-	public static final StyleBuilder boldStyle;
-	public static final StyleBuilder italicStyle;
-	public static final StyleBuilder underlineStyle;
-	public static final StyleBuilder boldCenteredStyle;
-	public static final StyleBuilder boldLeftStyle;
-	public static final StyleBuilder bold18CenteredStyle;
-	public static final StyleBuilder bold22CenteredStyle;
-	public static final StyleBuilder bold12TitleStyle;
-	public static final StyleBuilder bold18TitleStyle;
-	public static final StyleBuilder columnTitleStyle;
-	public static final StyleBuilder columnStyle;
-	public static final StyleBuilder bold12CenteredStyle;
-	public static final StyleBuilder groupStyle;
-	public static final StyleBuilder subtotalStyle;
-	public static final ReportTemplateBuilder reportTemplate;
+class ReportTemplateEn extends AbstractReportTemplate {
+	
 
-	static {
+	ReportTemplateEn() {
 		rootStyle = stl.style().setPadding(2);
 		boldStyle = stl.style(rootStyle).bold();
 		italicStyle = stl.style(rootStyle).italic();
@@ -94,7 +62,7 @@ public class Templates {
 		StyleBuilder crosstabCellStyle = stl.style(columnStyle).setBorder(
 				stl.pen1Point());
 
-		reportTemplate = template().setLocale(Locale.ENGLISH)
+		reportTemplateBuilder = template().setLocale(Locale.ENGLISH)
 				.setColumnStyle(columnStyle)
 				.setColumnTitleStyle(columnTitleStyle)
 				.setGroupStyle(groupStyle).setGroupTitleStyle(groupStyle)
@@ -110,16 +78,19 @@ public class Templates {
 	 * Creates custom component which is possible to add to any report band
 	 * component
 	 */
-	public static ComponentBuilder<?, ?> createTitleComponent(String label) {
+	public ComponentBuilder<?, ?> createTitleComponent(String label) {
 		HyperLinkBuilder link = hyperLink("http://www.mycollab.com");
 		ComponentBuilder<?, ?> dynamicReportsComponent = cmp.horizontalList(
 				cmp.image(
-						Templates.class.getClassLoader().getResourceAsStream(
-								"images/logo.png")).setFixedDimension(150, 28),
-				cmp.verticalList(cmp.text(label).setStyle(bold22CenteredStyle)
-						.setHorizontalAlignment(HorizontalAlignment.LEFT), cmp
-						.text("http://www.mycollab.com").setStyle(italicStyle)
-						.setHyperLink(link)));
+						ReportTemplateFactory.class.getClassLoader()
+								.getResourceAsStream("images/logo.png"))
+						.setFixedDimension(150, 28), cmp.verticalList(
+						cmp.text(label)
+								.setStyle(bold22CenteredStyle)
+								.setHorizontalAlignment(
+										HorizontalAlignment.LEFT),
+						cmp.text("http://www.mycollab.com")
+								.setStyle(italicStyle).setHyperLink(link)));
 
 		return cmp.horizontalList().add(dynamicReportsComponent).newRow()
 				.add(cmp.line()).newRow().add(cmp.verticalGap(10));

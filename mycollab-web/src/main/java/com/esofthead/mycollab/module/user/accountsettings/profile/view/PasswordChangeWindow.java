@@ -84,9 +84,9 @@ public class PasswordChangeWindow extends Window {
 				UIConstants.DEFAULT_CONTROL_WIDTH_1024_RESOLUTION, "150px");
 
 		this.txtNewPassword = (PasswordField) passInfo.addComponent(
-				new PasswordField(), "New password", 0, 0);
+				new PasswordField(), "New Password", 0, 0);
 		this.txtConfirmPassword = (PasswordField) passInfo.addComponent(
-				new PasswordField(), "Confirm new password", 0, 1);
+				new PasswordField(), "Confirmed New Password", 0, 1);
 
 		passInfo.getLayout().setSpacing(true);
 		mainLayout.addComponent(passInfo.getLayout());

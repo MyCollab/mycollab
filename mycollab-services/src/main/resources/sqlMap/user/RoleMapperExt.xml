@@ -10,26 +10,26 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.saccountid != null">
-          <![CDATA[
-            ${searchCriteria.saccountid.operation} s_roles.sAccountId = #{searchCriteria.saccountid.value}
-            ]]>
-        </if>
-        <if test="searchCriteria.roleName != null">
-          <![CDATA[
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} s_roles.sAccountId = @{searchCriteria.saccountid.value}
+        #end
+        
+        #ifnotnull($searchCriteria.roleName)
             ${searchCriteria.roleName.operation} s_roles.rolename like '%${searchCriteria.roleName.value}%'
-            ]]>
-        </if>
+        #end
+        ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="RoleSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM s_roles
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </select>
 
     <sql id="selectSimpleRole">
@@ -41,22 +41,19 @@
     </sql>
 
     <select id="findPagableListByCriteria" resultMap="SimpleRoleUser"
-        parameterType="RoleSearchCriteria">
-        <include
-            refid="com.esofthead.mycollab.module.user.dao.RoleMapperExt.selectSimpleRole" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+        parameterType="RoleSearchCriteria" lang="velocity">
+        <include refid="selectSimpleRole" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include refid="querySearchCriteria" />
-            </trim>
-        </if>
+            #end
+        #end
     </select>
 
     <select id="findById" parameterType="java.lang.Integer"
-        resultMap="SimpleRoleUser">
-        <include
-            refid="com.esofthead.mycollab.module.user.dao.RoleMapperExt.selectSimpleRole" />
+        resultMap="SimpleRoleUser" lang="velocity">
+        <include refid="selectSimpleRole" />
 
-        WHERE s_roles.id=#{roleId, jdbcType=NUMERIC}
+        WHERE s_roles.id=@{roleId, jdbcType=NUMERIC}
     </select>
 </mapper>

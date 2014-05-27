@@ -155,7 +155,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				}
 			}
 		};
-		avatarUploadField.setButtonCaption("Change Avatar");
+		avatarUploadField.setButtonCaption(AppContext
+				.getMessage(UserI18nEnum.CHANGE_AVATAR_ACTION));
 		avatarUploadField.setSizeUndefined();
 		avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
 		this.userAvatar.addComponent(avatarUploadField);
@@ -191,7 +192,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			@Override
 			public Layout getLayout() {
 				final AddViewLayout2 accountAddLayout = new AddViewLayout2(
-						"User Information",
+						AppContext.getMessage(UserI18nEnum.DETAIL_USER_VIEW),
 						MyCollabResource
 								.newResource("icons/24/project/user.png"));
 				accountAddLayout.setWidth("100%");
@@ -204,7 +205,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				basicInformationHeader.setWidth("100%");
 				basicInformationHeader.addStyleName("info-block-header");
 				final Label basicInformationHeaderLbl = new Label(
-						"Basic Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
 				basicInformationHeaderLbl.setStyleName("h2");
 				basicInformationHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
 						Sizeable.Unit.PIXELS);
@@ -214,7 +216,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				contactInformationHeader.setWidth("100%");
 				contactInformationHeader.addStyleName("info-block-header");
 				final Label contactInformationHeaderLbl = new Label(
-						"Contact Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 				contactInformationHeaderLbl.setStyleName("h2");
 				contactInformationHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
 						Sizeable.Unit.PIXELS);
@@ -225,7 +228,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				advanceInfoHeader.setWidth("100%");
 				advanceInfoHeader.addStyleName("info-block-header");
 				final Label advanceInfoHeaderLbl = new Label(
-						"Advanced Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 				advanceInfoHeaderLbl.setStyleName("h2");
 				advanceInfoHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
 						Sizeable.Unit.PIXELS);
@@ -311,34 +315,52 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			public boolean attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("firstname")) {
-					this.basicInformation.addComponent(field, "First Name", 0,
-							0);
-				} else if (propertyId.equals("lastname")) {
 					this.basicInformation
-							.addComponent(field, "Last Name", 0, 1);
-				} else if (propertyId.equals("email")) {
-					this.basicInformation.addComponent(field, "Email", 0, 2);
-				} else if (propertyId.equals("dateofbirth")) {
-					this.basicInformation.addComponent(field, "Birthday", 0, 3);
-				} else if (propertyId.equals("timezone")) {
-					this.basicInformation.addComponent(field, "Timezone", 0, 4);
-				} else if (propertyId.equals("language")) {
-					this.basicInformation.addComponent(field, "Language", 0, 5);
-				} else if (propertyId.equals("website")) {
-					this.advanceInformation
-							.addComponent(field, "Website", 0, 0);
-				} else if (propertyId.equals("company")) {
-					this.advanceInformation
-							.addComponent(field, "Company", 0, 1);
-				} else if (propertyId.equals("country")) {
-					this.advanceInformation
-							.addComponent(field, "Country", 0, 2);
-				} else if (propertyId.equals("workphone")) {
-					this.contactInformation.addComponent(field, "Work phone",
-							0, 0);
-				} else if (propertyId.equals("homephone")) {
-					this.contactInformation.addComponent(field, "Home phone",
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_FIRST_NAME),
+									0, 0);
+				} else if (propertyId.equals("lastname")) {
+					this.basicInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME),
 							0, 1);
+				} else if (propertyId.equals("email")) {
+					this.basicInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0,
+							2);
+				} else if (propertyId.equals("dateofbirth")) {
+					this.basicInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY),
+							0, 3);
+				} else if (propertyId.equals("timezone")) {
+					this.basicInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE),
+							0, 4);
+				} else if (propertyId.equals("language")) {
+					this.basicInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE),
+							0, 5);
+				} else if (propertyId.equals("website")) {
+					this.advanceInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_WEBSITE),
+							0, 0);
+				} else if (propertyId.equals("company")) {
+					this.advanceInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_COMPANY),
+							0, 1);
+				} else if (propertyId.equals("country")) {
+					this.advanceInformation.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_COUNTRY),
+							0, 2);
+				} else if (propertyId.equals("workphone")) {
+					this.contactInformation
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_WORK_PHONE),
+									0, 0);
+				} else if (propertyId.equals("homephone")) {
+					this.contactInformation
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_HOME_PHONE),
+									0, 1);
 				} else if (propertyId.equals("facebookaccount")) {
 					this.contactInformation.addComponent(field, "Facebook", 0,
 							2);

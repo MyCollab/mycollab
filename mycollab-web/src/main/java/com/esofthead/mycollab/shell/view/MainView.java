@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.FeedbackWindow;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationButton;
 import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
+import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.event.LayoutEvents;
@@ -93,6 +94,7 @@ public final class MainView extends AbstractPageView {
 		this.addComponent(this.bodyLayout);
 		this.setExpandRatio(this.bodyLayout, 1.0f);
 		this.addComponent(this.createFooter());
+		ThemeManager.loadUserTheme(AppContext.getAccountId());
 	}
 
 	public void addModule(final IModule module) {

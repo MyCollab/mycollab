@@ -23,6 +23,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.core.LanguageSupport;
+
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
 
@@ -37,29 +39,23 @@ public class LocalizationHelper {
 	private static Logger log = LoggerFactory
 			.getLogger(LocalizationHelper.class);
 
-	public static final String ENGLISH = "English";
-	public static final String JAPANESE = "Japanese";
-	public static final String SPANISH = "Spanish";
-
-	public static final String[] SUPPORTED_LANGUAGE = { ENGLISH, JAPANESE,
-			SPANISH };
-
-	private static final Map<String, IMessageConveyor> languageMap;
+	private static final Map<LanguageSupport, IMessageConveyor> languageMap;
 
 	static {
-		languageMap = new HashMap<String, IMessageConveyor>();
-		languageMap.put(ENGLISH, new MessageConveyor(Locale.US));
-		languageMap.put(JAPANESE, new MessageConveyor(Locale.JAPAN));
-		languageMap.put(SPANISH, new MessageConveyor(new Locale("es", "ES")));
+		languageMap = new HashMap<LanguageSupport, IMessageConveyor>();
+		languageMap
+				.put(LanguageSupport.ENGLISH, new MessageConveyor(Locale.US));
+		languageMap.put(LanguageSupport.JAPAN,
+				new MessageConveyor(Locale.JAPAN));
 	}
 
-	public static IMessageConveyor getMessageConveyor(String language) {
+	public static IMessageConveyor getMessageConveyor(LanguageSupport language) {
 		if (language == null) {
-			return languageMap.get(ENGLISH);
+			return languageMap.get(LanguageSupport.ENGLISH);
 		} else {
 			IMessageConveyor messageConveyor = languageMap.get(language);
 			if (messageConveyor == null) {
-				return languageMap.get(ENGLISH);
+				return languageMap.get(LanguageSupport.ENGLISH);
 			}
 
 			return messageConveyor;

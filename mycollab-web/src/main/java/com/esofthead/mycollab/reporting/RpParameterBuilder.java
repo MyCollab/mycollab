@@ -42,15 +42,6 @@ public class RpParameterBuilder {
 		}
 	}
 
-	public RpParameterBuilder inject(String fieldname, DRIExpression expression) {
-		for (TableViewFieldDecorator decorator : viewFields) {
-			if (fieldname.equals(decorator.getField())) {
-				decorator.setFieldComponentExpression(expression);
-			}
-		}
-		return this;
-	}
-
 	public List<TableViewFieldDecorator> getFields() {
 		return viewFields;
 	}

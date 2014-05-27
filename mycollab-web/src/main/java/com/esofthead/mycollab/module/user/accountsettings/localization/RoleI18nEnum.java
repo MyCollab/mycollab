@@ -7,6 +7,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/accountsettings/role")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum RoleI18nEnum {
+	LIST_VIEW_TITLE,
+	
 	PERMISSION_HEADER,
 	PROJECT_MANAGEMENT_TITLE,
 	CRM_TITLE,

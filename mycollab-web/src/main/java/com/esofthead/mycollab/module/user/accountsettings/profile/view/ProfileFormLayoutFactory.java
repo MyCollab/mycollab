@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -100,7 +102,8 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 			} else {
 				final VerticalLayout layout = new VerticalLayout();
 				final Label organizationHeader = new Label(
-						"Basic User Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
 				organizationHeader.setStyleName("h2");
 				layout.addComponent(organizationHeader);
 
@@ -114,7 +117,8 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(this.basicInformationLayout.getLayout());
 
 				final Label contactHeader = new Label(
-						"Contact User Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 				contactHeader.setStyleName("h2");
 				layout.addComponent(contactHeader);
 
@@ -128,7 +132,8 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				layout.addComponent(this.contactInformationLayout.getLayout());
 
 				final Label advancedHeader = new Label(
-						"Advanced User Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 				advancedHeader.setStyleName("h2");
 				layout.addComponent(advancedHeader);
 
@@ -145,7 +150,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field field) {
+		public boolean attachField(final Object propertyId, final Field<?> field) {
 			if (!ProfileFormLayoutFactory.isLoadEdit) {
 				if (propertyId.equals("email")) {
 					userInformationLayout.getBasicInformationLayout()
@@ -160,41 +165,56 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 				return true;
 			} else {
 				if (propertyId.equals("firstname")) {
-					this.basicInformationLayout.addComponent(field,
-							"First Name", 0, 0);
+					this.basicInformationLayout
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_FIRST_NAME),
+									0, 0);
 				} else if (propertyId.equals("lastname")) {
 					this.basicInformationLayout.addComponent(field,
-							"Last Name", 0, 1);
+							AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME),
+							0, 1);
 				} else if (propertyId.equals("nickname")) {
 					this.basicInformationLayout.addComponent(field,
-							"Nick Name", 1, 0);
+							AppContext.getMessage(UserI18nEnum.FORM_NICK_NAME),
+							1, 0);
 				} else if (propertyId.equals("dateofbirth")) {
-					this.basicInformationLayout.addComponent(field, "Birthday",
+					this.basicInformationLayout.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY),
 							1, 1);
 				} else if (propertyId.equals("email")) {
-					this.basicInformationLayout.addComponent(field, "Email", 0,
+					this.basicInformationLayout.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0,
 							2);
 				} else if (propertyId.equals("timezone")) {
-					this.basicInformationLayout.addComponent(field, "Timezone",
+					this.basicInformationLayout.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE),
 							0, 3, 2, "262px", Alignment.MIDDLE_LEFT);
 				} else if (propertyId.equals("roleid")) {
-					this.basicInformationLayout.addComponent(field, "Role", 1,
-							2);
+					this.basicInformationLayout
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_ROLE), 1, 2);
 				} else if (propertyId.equals("company")) {
 					this.advancedInformationLayout.addComponent(field,
-							"Company", 0, 0);
+							AppContext.getMessage(UserI18nEnum.FORM_COMPANY),
+							0, 0);
 				} else if (propertyId.equals("country")) {
 					this.advancedInformationLayout.addComponent(field,
-							"Country", 0, 1, 2, "262px", Alignment.MIDDLE_LEFT);
+							AppContext.getMessage(UserI18nEnum.FORM_COUNTRY),
+							0, 1, 2, "262px", Alignment.MIDDLE_LEFT);
 				} else if (propertyId.equals("website")) {
 					this.advancedInformationLayout.addComponent(field,
-							"Website", 1, 0);
+							AppContext.getMessage(UserI18nEnum.FORM_WEBSITE),
+							1, 0);
 				} else if (propertyId.equals("workphone")) {
-					this.contactInformationLayout.addComponent(field,
-							"Work phone", 0, 0);
+					this.contactInformationLayout
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_WORK_PHONE),
+									0, 0);
 				} else if (propertyId.equals("homephone")) {
-					this.contactInformationLayout.addComponent(field,
-							"Home phone", 0, 1);
+					this.contactInformationLayout
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_HOME_PHONE),
+									0, 1);
 				} else if (propertyId.equals("facebookaccount")) {
 					this.contactInformationLayout.addComponent(field,
 							"Facebook", 1, 0);
@@ -220,7 +240,8 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 			public Layout getLayout() {
 				final VerticalLayout layout = new VerticalLayout();
 				final Label organizationHeader = new Label(
-						"Basic User Information");
+						AppContext
+								.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
 				organizationHeader.setStyleName("h2");
 				layout.addComponent(organizationHeader);
 
@@ -239,11 +260,13 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 			public boolean attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("email")) {
-					this.basicInformationLayout.addComponent(field, "Email", 0,
+					this.basicInformationLayout.addComponent(field,
+							AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0,
 							0, "167px");
 				} else if (propertyId.equals("roleid")) {
-					this.basicInformationLayout.addComponent(field, "Role", 1,
-							0);
+					this.basicInformationLayout
+							.addComponent(field, AppContext
+									.getMessage(UserI18nEnum.FORM_ROLE), 1, 0);
 				} else {
 					return false;
 				}

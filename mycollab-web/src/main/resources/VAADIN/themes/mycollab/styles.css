@@ -361,7 +361,9 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-button
     {
     background-color: #F9F9F9;
-    border: 1px solid #6a6a6a;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #6a6a6a;
     border-radius: 2px;
     background-image:none;
     padding:0;
@@ -369,25 +371,22 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-ie .v-button, .v-ie .v-button:active, .v-ie .v-button:focus {
     background-image:none;
 }
+
+.v-button:active, .v-ie8 .v-pressed.v-button, div.v-button-down {
+	background-image:none;
+}
+
+.v-button:hover .v-button-wrap {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.v-button.link:hover .v-button-wrap {
+	background-color: transparent;
+}
+
 .v-button.v-button-blankbtn, .v-button-blankbtn:focus {
     background-color: #FAFAFA;
     font-weight:normal;
-    border-color:#B3B3B3;
-}
-
-.v-button-blankbtn:active, .v-button-blankbtn:hover {
-
-    background-image:none;
-    background-color: #F0F0F0;
-    background-image: -webkit-linear-gradient(top,#F0F0F0,#E0E0E0);
-    background-image: -moz-linear-gradient(top,#F0F0F0,#E0E0E0);
-    background-image: -ms-linear-gradient(top,#F0F0F0,#E0E0E0);
-    background-image: -o-linear-gradient(top,#F0F0F0,#E0E0E0);
-    background-image: linear-gradient(top,#F0F0F0,#E0E0E0);
-}
-
-.v-button.v-button-blankbtn:active .v-button-wrap {
-    border-top-color: #C7C7C7;
 }
 
 .v-button.v-button-graybtn, .v-button-graybtn:focus {
@@ -396,35 +395,10 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     font-weight:normal;
 }
 
-.v-button-graybtn:hover, .v-button-graybtn:active {
-    background-color: #8B8B8B;
-    background-image: -webkit-linear-gradient(top,#8B8B8B,#808080);
-    background-image: -moz-linear-gradient(top,#8B8B8B,#808080);
-    background-image: -ms-linear-gradient(top,#8B8B8B,#808080);
-    background-image: -o-linear-gradient(top,#8B8B8B,#808080);
-    background-image: linear-gradient(top,#8B8B8B,#808080);
-}
-
-.v-button.v-button-graybtn:active .v-button-wrap
-{
-    border-top-color: #5F5F5F;
-}
-
-
 .v-button.v-button-redbtn, .v-button-redbtn:focus {
     background-color:#F64A46;
     color:white;
     font-weight:normal;
-}
-
-
-.v-button-redbtn:hover, .v-button-redbtn:active {
-    background-color: #F64A46;
-    background-image: -webkit-linear-gradient(top,#F64A46,#F53431);
-    background-image: -moz-linear-gradient(top,#F64A46,#F53431);
-    background-image: -ms-linear-gradient(top,#F64A46,#F53431);
-    background-image: -o-linear-gradient(top,#F64A46,#F53431);
-    background-image: linear-gradient(top,#F64A46,#F53431);
 }
 
 .v-button.v-button-redbtn:active .v-button-wrap
@@ -438,78 +412,27 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     font-weight:normal;
 }
 
-
-.v-button-brownbtn:hover, .v-button-brownbtn:active {
-    background-color: #C06B11;
-    background-image: -webkit-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -moz-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -ms-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -o-linear-gradient(top,#C06B11,#AF620F);
-    background-image: linear-gradient(top,#C06B11,#AF620F);
-}
-
-.v-button.v-button-brownbtn:active .v-button-wrap
-{
-    border-top-color: #76420A;
-}
-
-
 .v-button.v-button-greenbtn, .v-button-greenbtn:focus  {
     background-color:#17d61b;
     color:white;
     font-weight:normal;
-    border-color: rgb(66, 129, 68);
 }
 
-.v-button.v-button-greenbtn.selected {
-    background-color: rgb(22, 151, 25);
-}
-
-.v-button-greenbtn:hover, .v-button-greenbtn:active{
-    background-color: #17d61b;
-    background-image: -webkit-linear-gradient(top,#17d61b,#16CA19);
-    background-image: -moz-linear-gradient(top,#17d61b,#16CA19);
-    background-image: -ms-linear-gradient(top,#17d61b,#16CA19);
-    background-image: -o-linear-gradient(top,#17d61b,#16CA19);
-    background-image: linear-gradient(top,#17d61b,#16CA19);
-}
-
-.v-button.v-button-greenbtn:active .v-button-wrap{
-    border-top-color: #348536;
-}
 
 .v-button.v-button-orangebtn, .v-button-orangebtn:focus  {
     background-color:rgb(251, 87, 24);
     color:white;
     font-weight:normal;
-    border-color: rgb(251, 87, 24);
 }
 
 .v-button.v-button-orangebtn.selected, .v-button-orangebtn:hover, .v-button-orangebtn:active {
     background: none no-repeat left top rgb(232, 82, 23);
 }
 
-.v-button.v-button-orangebtn:active .v-button-wrap{
-    border-top-color: rgb(251, 87, 24);
-}
-
-.v-button.v-button-bluebtn, .v-button-bluebtn:focus  {
+.v-button.v-button-bluebtn, .v-button-bluebtn:focus, .v-buttongroup.toggle-btn-group .v-button.active  {
     background-color: #1C7DCE;
     color:white;
     font-weight:normal;
-}
-
-.v-button-bluebtn:hover, .v-button-bluebtn:active{
-    background-color: #1C7DCE;
-    background-image: -webkit-linear-gradient(top,#1C7DCE,#1970B7);
-    background-image: -moz-linear-gradient(top,#1C7DCE,#1970B7);
-    background-image: -ms-linear-gradient(top,#1C7DCE,#1970B7);
-    background-image: -o-linear-gradient(top,#1C7DCE,#1970B7);
-    background-image: linear-gradient(top,#1C7DCE,#1970B7);
-}
-
-.v-button.v-button-bluebtn:active .v-button-wrap{
-    border-top-color: #2E5788;
 }
 
 .v-ie .v-button.v-button-transparentbtn .v-button-wrap,
@@ -598,7 +521,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     border-left: none;
 }
 .v-buttongroup .v-button.v-button-right .v-button-wrap{
-    border-left:1px solid #8f8f8f;
+    border-left:1px solid #F9F9F9;
     border-radius: 0px;
 }
 
@@ -788,8 +711,7 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
     line-height: 16px;
 }
 
-.h-sidebar-menu {
-    height: 50px;
+.h-sidebar-menu, .projectfeed-hdr-wrapper {
     background: none repeat-x left bottom rgb(71, 116, 157);
 }
 
@@ -1862,9 +1784,6 @@ input.v-textfield-errorField {
     padding-bottom: 0;
 }
 
-.navigator-wrap {
-    background-color: #7B7B7B;
-}
 .projectDashboardView .navigator-wrap .project-list-comp {
     padding: 13px 7px 0px;
 }
@@ -2196,7 +2115,6 @@ input.v-textfield-errorField {
 }
 
 .projectfeed-hdr-wrapper {
-    background-color: rgb(71, 116, 157);
     padding: 15px 30px;
 }
 .projectfeed-hdr-wrapper .h1 {
@@ -2715,6 +2633,7 @@ td.v-tabsheet-spacertd div {
 .v-tabsheet-tabitem.v-tabsheet-tabitem-selected .v-caption {
     border: none;
     border-radius: 0px;
+    background-image: none;
 }
 
 .v-tabsheet-tabitem.v-tabsheet-tabitem-selected {
@@ -2724,7 +2643,7 @@ td.v-tabsheet-spacertd div {
 }
 
 .v-tabsheet-tabitem {
-    background: url('icons/grad-light-top2.png') repeat-x left top
+    background: none repeat-x left top
         transparent;
     border-radius: 0px;
     padding: 0px;
@@ -4168,6 +4087,10 @@ div.v-lazyloadingwrapper-loading {
     background: none;
 }
 
+.v-buttongroup.toggle-btn-group .v-button.v-button-right .v-button-wrap {
+	border-left: 1px solid #8F8F8F;
+}
+
 .v-buttongroup.toggle-btn-group .v-button.selected .v-button-wrap {
     background: none;
 }
@@ -4186,7 +4109,6 @@ div.v-lazyloadingwrapper-loading {
     background-image: url("icons/grad-dark-top2.png");
     background-repeat: no-repeat;
     background-position: left bottom;
-    background-color: rgb(40, 126, 206);
 }
 
 .v-buttongroup.toggle-btn-group .v-button {
@@ -6298,7 +6220,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
     /* border-bottom: 1px solid #CFCFCF; */
 }
 .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem {
-    background: url(icons/tab-bg.jpg) repeat-x scroll left bottom #F7F7F7;
+    background: none repeat-x scroll left bottom #F7F7F7;
     border-width: 0px 1px 0px 0px;
     border-style: solid;
     border-color: #CFCFCF;
@@ -6307,6 +6229,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 }
 .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem .v-caption {
     padding: 8px 17px 9px;
+    border-bottom: 1px solid #CFCFCF;
 }
 .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem .v-caption .v-captiontext {
     font-size: 13px;
@@ -6317,9 +6240,15 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
     color: rgb(94, 94, 94);
 } 
 .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell.v-tabsheet-tabitemcell-selected > .v-tabsheet-tabitem {
-    background: url(icons/tab-bg-selected.jpg) repeat-x scroll left bottom #1c7dce;
+    background: none repeat-x scroll left bottom #1c7dce;
 }
-.tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem-selected .v-caption {
+.tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem-selected .v-caption:after {
+	content: "";
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	height: 8px;
     background: url(icons/tab-selected-indicator.png) no-repeat center bottom transparent;
     cursor: pointer;
 }

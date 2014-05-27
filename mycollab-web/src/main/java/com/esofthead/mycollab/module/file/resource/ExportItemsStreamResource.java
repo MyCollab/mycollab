@@ -37,10 +37,12 @@ import net.sf.dynamicreports.report.constant.PageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.core.LanguageSupport;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.MyCollabThread;
+import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.Templates;
+import com.esofthead.mycollab.reporting.ReportTemplateFactory;
 import com.vaadin.server.StreamResource;
 
 /**
@@ -57,14 +59,18 @@ public abstract class ExportItemsStreamResource<T> implements
 	private static Logger log = LoggerFactory
 			.getLogger(ExportItemsStreamResource.class);
 
+	protected AbstractReportTemplate reportTemplate;
+
 	protected String reportTitle;
 
 	protected ReportExportType outputForm;
 
 	protected JasperReportBuilder reportBuilder;
 
-	public ExportItemsStreamResource(String reportTitle,
-			ReportExportType outputForm) {
+	public ExportItemsStreamResource(LanguageSupport languageSupport,
+			String reportTitle, ReportExportType outputForm) {
+		this.reportTemplate = ReportTemplateFactory
+				.getTemplate(languageSupport);
 		this.reportTitle = reportTitle;
 		this.outputForm = outputForm;
 	}
@@ -147,19 +153,20 @@ public abstract class ExportItemsStreamResource<T> implements
 		JasperReportBuilder reportBuilder = report();
 		if (outputForm == ReportExportType.PDF) {
 			reportBuilder
-					.title(Templates.createTitleComponent(reportTitle))
-					.noData(Templates.createTitleComponent(reportTitle),
+					.title(reportTemplate.createTitleComponent(reportTitle))
+					.noData(reportTemplate.createTitleComponent(reportTitle),
 							cmp.text("There is no data"))
 					.setPageFormat(PageType.A3, PageOrientation.LANDSCAPE)
-					.setColumnTitleStyle(Templates.columnTitleStyle)
+					.setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
 					.highlightDetailEvenRows()
 					.pageFooter(
-							cmp.pageXofY()
-									.setStyle(Templates.boldCenteredStyle));
+							cmp.pageXofY().setStyle(
+									reportTemplate.getBoldCenteredStyle()));
 		} else if (outputForm == ReportExportType.CSV) {
 			reportBuilder.setIgnorePagination(true);
 		} else if (outputForm == ReportExportType.EXCEL) {
-			reportBuilder.setColumnTitleStyle(Templates.columnTitleStyle)
+			reportBuilder
+					.setColumnTitleStyle(reportTemplate.getColumnTitleStyle())
 					.addProperty(JasperProperty.EXPORT_XLS_FREEZE_ROW, "2")
 					.ignorePageWidth().ignorePagination();
 

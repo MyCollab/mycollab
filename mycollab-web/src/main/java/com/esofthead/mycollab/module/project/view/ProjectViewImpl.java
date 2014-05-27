@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view;
 import java.util.GregorianCalendar;
 
 import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -79,7 +80,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.SplitButton;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
@@ -118,7 +119,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private UserSettingPresenter userPresenter;
 	private IStandupPresenter standupPresenter;
 	private final ProjectBreadcrumb breadCrumb;
-	private SplitButton controlsBtn;
+	private PopupButton controlsBtn;
 	private ProjectListComponent prjList;
 
 	public ProjectViewImpl() {
@@ -371,20 +372,19 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		breadCrumb.setProject(project);
 
-		Button quickActionBtn = new Button("", new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				controlsBtn.setPopupVisible(true);
-			}
-		});
-
-		quickActionBtn.setDescription("Quick action");
-		controlsBtn = new SplitButton(quickActionBtn);
+		/*
+		 * Button quickActionBtn = new Button("", new Button.ClickListener() {
+		 * 
+		 * @Override public void buttonClick(ClickEvent event) {
+		 * controlsBtn.setPopupVisible(true); } });
+		 * 
+		 * quickActionBtn.setDescription("Quick action");
+		 */
+		controlsBtn = new PopupButton();
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/project/quick_action_edited.png"));
-		controlsBtn.addStyleName("action-button");
-		controlsBtn.setWidthPopupButton("0");
+		controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+		// controlsBtn.setWidthPopupButton("0");
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setSpacing(true);
