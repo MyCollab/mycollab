@@ -42,6 +42,7 @@ public enum UserI18nEnum {
 
 	PROFILE_VIEW,
 	BILLING_VIEW,
+	THEME_VIEW,
 	USERS_VIEW,
 	DETAIL_USER_VIEW,
 	

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
@@ -255,7 +255,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 		}
 
 		private class ReadFormFieldFactory extends
-				AbstractBeanFieldGroupViewFieldFactory<Role> {
+				AbstractBeanFieldGroupEditFieldFactory<Role> {
 			private static final long serialVersionUID = 1L;
 
 			public ReadFormFieldFactory(GenericBeanForm<Role> form) {

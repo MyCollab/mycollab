@@ -185,7 +185,7 @@ public class AppContext implements Serializable {
 		String language = session.getLanguage();
 		if ("English".equals(language)) {
 			languageSupport = LanguageSupport.ENGLISH;
-		} else if ("Japan".equals(language)) {
+		} else if ("Japanese".equals(language)) {
 			languageSupport = LanguageSupport.JAPAN;
 		}
 		messageHelper = LocalizationHelper.getMessageConveyor(languageSupport);

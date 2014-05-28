@@ -1373,7 +1373,9 @@ input.v-textfield-errorField {
 #loginForm .rememberMe .v-checkbox input {
     margin-left: 0px;
 }
-
+#loginForm #submitLogin .v-button {
+	border: none;
+}
 #loginForm #submitLogin .v-button-wrap {
     height: 30px;
 }

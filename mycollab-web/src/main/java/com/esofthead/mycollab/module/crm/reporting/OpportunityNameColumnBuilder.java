@@ -18,7 +18,6 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
 import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.ReportTemplateFactory;
-import com.esofthead.mycollab.reporting.StringExpression;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**

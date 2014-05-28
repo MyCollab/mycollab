@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -69,7 +70,11 @@ public class DenyUserServletRequestHandler extends
 				String username = urlTokenizer.getString();
 				String inviterName = urlTokenizer.getString();
 				String inviterEmail = urlTokenizer.getString();
-				String subdomain = urlTokenizer.getString();
+				String subdomain = "";
+
+				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+					subdomain = urlTokenizer.getString();
+				}
 
 				UserService userService = ApplicationContextUtil
 						.getSpringBean(UserService.class);

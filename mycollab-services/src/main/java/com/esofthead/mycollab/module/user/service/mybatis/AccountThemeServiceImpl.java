@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.user.dao.AccountThemeMapper;
 import com.esofthead.mycollab.module.user.domain.AccountSettings;
 import com.esofthead.mycollab.module.user.domain.AccountSettingsExample;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
-import com.esofthead.mycollab.module.user.domain.AccountThemeExample;
 import com.esofthead.mycollab.module.user.service.AccountThemeService;
 
 /**
@@ -48,18 +47,6 @@ public class AccountThemeServiceImpl extends
 
 	@Autowired
 	private AccountSettingsMapper accountSettingsMapper;
-
-	@Override
-	public List<AccountTheme> getThemeConfigList(int saccountid) {
-		AccountThemeExample ex = new AccountThemeExample();
-
-		ex.createCriteria().andSaccountidEqualTo(saccountid);
-		List<AccountTheme> userThemes = userThemeMapper.selectByExample(ex);
-		if (userThemes == null || userThemes.size() == 0) {
-			return null;
-		}
-		return userThemes;
-	}
 
 	@Override
 	public ICrudGenericDAO<Integer, AccountTheme> getCrudMapper() {

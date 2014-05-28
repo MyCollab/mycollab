@@ -21,15 +21,16 @@ import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingP
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.theme.view.IThemePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
+import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.shared.ui.MarginInfo;
@@ -52,11 +53,12 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		AccountModule {
 	private static final long serialVersionUID = 1L;
 
-	private final VerticalTabsheet accountTab;
+	private final UserVerticalTabsheet accountTab;
 
 	private ProfilePresenter profilePresenter;
 	private UserPermissionManagementPresenter userPermissionPresenter;
 	private IBillingPresenter billingPresenter;
+	private IThemePresenter themePresenter;
 
 	private final AccountSettingBreadcrumb breadcrumb;
 
@@ -75,7 +77,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 		topPanel.addComponent(this.breadcrumb);
 
-		this.accountTab = new VerticalTabsheet();
+		this.accountTab = new UserVerticalTabsheet();
 		this.accountTab.setWidth("100%");
 		this.accountTab.setNavigatorWidth("250px");
 		this.accountTab.setNavigatorStyleName("sidebar-menu");
@@ -109,16 +111,16 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 	private void buildComponents() {
 		this.accountTab.addTab(this.constructUserInformationComponent(),
-				"profile", AppContext.getMessage(UserI18nEnum.PROFILE_VIEW),
-				MyCollabResource.newResource("icons/22/user/menu_profile.png"));
+				"profile", AppContext.getMessage(UserI18nEnum.PROFILE_VIEW));
 
 		this.accountTab.addTab(this.constructAccountSettingsComponent(),
-				"billing", AppContext.getMessage(UserI18nEnum.BILLING_VIEW),
-				MyCollabResource.newResource("icons/22/user/menu_account.png"));
+				"billing", AppContext.getMessage(UserI18nEnum.BILLING_VIEW));
 
 		this.accountTab.addTab(this.constructUserRoleComponent(), "users",
-				AppContext.getMessage(UserI18nEnum.USERS_VIEW),
-				MyCollabResource.newResource("icons/22/user/menu_team.png"));
+				AppContext.getMessage(UserI18nEnum.USERS_VIEW));
+
+		this.accountTab.addTab(this.constructThemeComponent(), "theme",
+				AppContext.getMessage(UserI18nEnum.THEME_VIEW));
 
 		this.accountTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -159,6 +161,12 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		this.userPermissionPresenter = PresenterResolver
 				.getPresenter(UserPermissionManagementPresenter.class);
 		return this.userPermissionPresenter.initView();
+	}
+
+	private ComponentContainer constructThemeComponent() {
+		this.themePresenter = PresenterResolver
+				.getPresenter(IThemePresenter.class);
+		return this.themePresenter.initView();
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -79,7 +80,9 @@ public class VerifyUserServletRequestHandler extends
 
 				int accountId = urlTokenizer.getInt();
 				String username = urlTokenizer.getString();
-				subdomain = urlTokenizer.getString();
+				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+					subdomain = urlTokenizer.getString();
+				}
 
 				User user = userService.findUserByUserName(username);
 				SimpleUser userInAccount = userService
@@ -115,7 +118,7 @@ public class VerifyUserServletRequestHandler extends
 							String redirectURL = SiteConfiguration
 									.getSiteUrl(subdomain)
 									+ "user/confirm_invite/update_info/";
-							
+
 							Map<String, Object> context = new HashMap<String, Object>();
 							context.put("username", username);
 							context.put("accountId", accountId);

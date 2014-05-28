@@ -14,7 +14,6 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println("AAA");
 	}
 
 }

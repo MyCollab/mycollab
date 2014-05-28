@@ -38,6 +38,7 @@ public class RolePermissionCollections {
 	public static final String ACCOUNT_USER = "User";
 	public static final String ACCOUNT_ROLE = "Role";
 	public static final String ACCOUNT_BILLING = "Billing";
+	public static final String ACCOUNT_THEME = "Theme";
 
 	public static final String CREATE_NEW_PROJECT = "CreateNewProject";
 
@@ -65,6 +66,8 @@ public class RolePermissionCollections {
 			new PermissionDefItem(ACCOUNT_ROLE, "Role",
 					AccessPermissionFlag.class),
 			new PermissionDefItem(ACCOUNT_BILLING, "Billing Management",
+					BooleanPermissionFlag.class),
+			new PermissionDefItem(ACCOUNT_THEME, "Theme",
 					BooleanPermissionFlag.class) };
 
 	public static final PermissionDefItem[] PROJECT_PERMISSION_ARR = { new PermissionDefItem(

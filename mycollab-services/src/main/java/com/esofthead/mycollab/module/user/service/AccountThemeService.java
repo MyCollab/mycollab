@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.service;
 
-import java.util.List;
-
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 
@@ -29,7 +27,5 @@ import com.esofthead.mycollab.module.user.domain.AccountTheme;
  */
 public interface AccountThemeService extends
 		ICrudService<Integer, AccountTheme> {
-	List<AccountTheme> getThemeConfigList(int saccountid);
-
 	AccountTheme getAccountTheme(int saccountid);
 }

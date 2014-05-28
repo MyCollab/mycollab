@@ -14,31 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.reporting;
+package com.esofthead.mycollab.module.user.accountsettings.theme.view;
 
-import java.io.Serializable;
-
-import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 4.1.2
+ * @since 4.1
  * 
  */
-public abstract class AbstractColumnFieldComponentBuilder implements
-		Serializable {
-	private static final long serialVersionUID = 1L;
+public interface IThemePresenter extends IPresenter<IThemeContainer> {
 
-	protected String fieldName;
-
-	public AbstractColumnFieldComponentBuilder(String fieldName) {
-		this.fieldName = fieldName;
-	}
-
-	public String getFieldName() {
-		return fieldName;
-	}
-
-	public abstract ComponentBuilder getComponentBuilder();
 }

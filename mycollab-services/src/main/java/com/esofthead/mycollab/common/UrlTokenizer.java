@@ -27,9 +27,10 @@ import java.util.StringTokenizer;
 public class UrlTokenizer {
 
 	private StringTokenizer urlTokenizer;
+	private String internalVal;
 
 	public UrlTokenizer(String url) {
-		String internalVal = (url.startsWith("/")) ? url.substring(1) : url;
+		internalVal = (url.startsWith("/")) ? url.substring(1) : url;
 		internalVal = UrlEncodeDecoder.decode(internalVal);
 		urlTokenizer = new StringTokenizer(internalVal, "/");
 	}
@@ -43,7 +44,7 @@ public class UrlTokenizer {
 				throw new InvalidTokenException(e);
 			}
 		} else {
-			throw new InvalidTokenException("Invalid token");
+			throw new InvalidTokenException("Invalid token " + internalVal);
 		}
 	}
 
@@ -51,7 +52,7 @@ public class UrlTokenizer {
 		if (urlTokenizer.hasMoreTokens()) {
 			return urlTokenizer.nextToken();
 		} else {
-			throw new InvalidTokenException("Invalid token");
+			throw new InvalidTokenException("Invalid token " + internalVal);
 		}
 	}
 }
