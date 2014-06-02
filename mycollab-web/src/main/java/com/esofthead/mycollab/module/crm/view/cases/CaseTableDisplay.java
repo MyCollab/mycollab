@@ -68,19 +68,19 @@ public class CaseTableDisplay extends
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleCase cases = CaseTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", cases
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new ValueChangeListener() {
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleCase cases = CaseTableDisplay.this
-								.getBeanByIndex(itemId);
 						CaseTableDisplay.this.fireSelectItemEvent(cases);
 					}
 				});
 
-				SimpleCase cases = CaseTableDisplay.this.getBeanByIndex(itemId);
 				cases.setExtraData(cb);
 				return cb;
 			}

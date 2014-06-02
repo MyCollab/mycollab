@@ -19,9 +19,6 @@ package com.esofthead.mycollab.module.crm.view.lead;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
@@ -52,7 +49,6 @@ import com.vaadin.ui.Table;
 @SuppressWarnings("serial")
 public class LeadTableDisplay extends
 		DefaultPagedBeanTable<LeadService, LeadSearchCriteria, SimpleLead> {
-	private static Logger log = LoggerFactory.getLogger(LeadTableDisplay.class);
 
 	public LeadTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
@@ -75,14 +71,15 @@ public class LeadTableDisplay extends
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleLead lead = LeadTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", lead
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleLead lead = LeadTableDisplay.this
-								.getBeanByIndex(itemId);
 						LeadTableDisplay.this.fireSelectItemEvent(lead);
 
 						fireTableEvent(new TableClickEvent(
@@ -91,7 +88,6 @@ public class LeadTableDisplay extends
 					}
 				});
 
-				SimpleLead lead = LeadTableDisplay.this.getBeanByIndex(itemId);
 				lead.setExtraData(cb);
 				return cb;
 			}

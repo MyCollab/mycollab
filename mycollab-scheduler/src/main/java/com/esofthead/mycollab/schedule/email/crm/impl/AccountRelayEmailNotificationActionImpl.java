@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -197,7 +197,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						account.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(account.getSaccountid()),
 						account.getAssignuser());
 
@@ -223,7 +223,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);

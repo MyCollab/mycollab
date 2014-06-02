@@ -110,23 +110,22 @@ public class VersionListViewImpl extends AbstractPageView implements
 					@Override
 					public Object generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final CheckBoxDecor cb = new CheckBoxDecor("", false);
+						final SimpleVersion version = VersionListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						final CheckBoxDecor cb = new CheckBoxDecor("", version
+								.isSelected());
 						cb.setImmediate(true);
 						cb.addValueChangeListener(new ValueChangeListener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
 							public void valueChange(ValueChangeEvent event) {
-								final SimpleVersion version = VersionListViewImpl.this.tableItem
-										.getBeanByIndex(itemId);
 								VersionListViewImpl.this.tableItem
 										.fireSelectItemEvent(version);
 
 							}
 						});
 
-						final Version version = VersionListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
 						version.setExtraData(cb);
 						return cb;
 					}

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -66,7 +67,8 @@ class LeadHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("status",
 				AppContext.getMessage(LeadI18nEnum.FORM_STATUS));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("primaddress",
 				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS));
 		this.generateFieldDisplayHandler("primcity",

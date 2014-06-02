@@ -70,14 +70,14 @@ public class CampaignTableDisplay
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
-				cb.setImmediate(true);
+				final SimpleCampaign campaign = CampaignTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", campaign
+						.isSelected());
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleCampaign campaign = CampaignTableDisplay.this
-								.getBeanByIndex(itemId);
 						CampaignTableDisplay.this.fireSelectItemEvent(campaign);
 						fireTableEvent(new TableClickEvent(
 								CampaignTableDisplay.this, campaign, "selected"));
@@ -85,8 +85,6 @@ public class CampaignTableDisplay
 					}
 				});
 
-				SimpleCampaign campaign = CampaignTableDisplay.this
-						.getBeanByIndex(itemId);
 				campaign.setExtraData(cb);
 				return cb;
 			}

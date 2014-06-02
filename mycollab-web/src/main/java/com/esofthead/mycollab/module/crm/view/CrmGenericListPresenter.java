@@ -75,9 +75,4 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 		crmModule.addView(candidateView);
 	}
 
-	@Override
-	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		displayListView(container, data);
-	}
-
 }

@@ -70,15 +70,16 @@ public class OpportunityTableDisplay
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleOpportunity opportunity = OpportunityTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", opportunity
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleOpportunity opportunity = OpportunityTableDisplay.this
-								.getBeanByIndex(itemId);
 						OpportunityTableDisplay.this
 								.fireSelectItemEvent(opportunity);
 						fireTableEvent(new TableClickEvent(
@@ -87,8 +88,6 @@ public class OpportunityTableDisplay
 					}
 				});
 
-				SimpleOpportunity opportunity = OpportunityTableDisplay.this
-						.getBeanByIndex(itemId);
 				opportunity.setExtraData(cb);
 				return cb;
 			}

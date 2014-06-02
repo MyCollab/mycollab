@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.ui.components;
+package com.esofthead.mycollab.module.project.ui.format;
 
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
@@ -28,14 +28,14 @@ import com.vaadin.ui.Label;
  * @since 4.0
  * 
  */
-public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
+public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public Component formatField(String value) {
 		try {
-			int taskgroupId = Integer.parseInt(value);
+			int milestoneId = Integer.parseInt(value);
 			String html = ProjectLinkBuilder
-					.generateTaskGroupHtmlLink(taskgroupId);
+					.generateMilestoneHtmlLink(milestoneId);
 			return (value != null) ? new Label(html, ContentMode.HTML)
 					: new Label("");
 		} catch (NumberFormatException e) {

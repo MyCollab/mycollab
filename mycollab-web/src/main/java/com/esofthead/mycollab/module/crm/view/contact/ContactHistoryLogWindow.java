@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
@@ -67,7 +68,8 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("iscallable",
 				AppContext.getMessage(ContactI18nEnum.FORM_IS_CALLABLE));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("primaddress",
 				AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_ADDRESS));
 		this.generateFieldDisplayHandler("primcity",

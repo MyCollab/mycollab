@@ -113,6 +113,7 @@ public class AccountListViewImpl extends
 				MyCollabResource.newResource("icons/16/action/pdf.png"),
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
+
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
 				MyCollabResource.newResource("icons/16/action/excel.png"),

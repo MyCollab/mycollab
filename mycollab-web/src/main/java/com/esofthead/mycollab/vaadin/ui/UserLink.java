@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -112,7 +112,7 @@ public class UserLink extends Button {
 			topLayout.setSpacing(true);
 			topLayout.addComponent(new Label("View full profile at: "));
 
-			String userFullLinkStr = UserLinkUtils.generatePreviewFullUserLink(
+			String userFullLinkStr = AccountLinkUtils.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), user.getUsername());
 			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr,
 					userFullLinkStr);

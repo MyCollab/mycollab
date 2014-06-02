@@ -70,7 +70,7 @@ public abstract class SendMailToFollowersAction implements
 	@Override
 	public void sendNotificationForCreateAction(
 			SimpleRelayEmailNotification notification) {
-		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
+		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
@@ -97,7 +97,7 @@ public abstract class SendMailToFollowersAction implements
 	@Override
 	public void sendNotificationForUpdateAction(
 			SimpleRelayEmailNotification notification) {
-		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
+		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
@@ -125,7 +125,7 @@ public abstract class SendMailToFollowersAction implements
 	@Override
 	public void sendNotificationForCommentAction(
 			SimpleRelayEmailNotification notification) {
-		List<SimpleUser> notifiers = getListNotififyUserWithFilter((ProjectRelayEmailNotification) notification);
+		List<SimpleUser> notifiers = getListNotifyUsersWithFilter((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			TemplateGenerator templateGenerator = templateGeneratorForCommentAction(notification);
@@ -161,6 +161,6 @@ public abstract class SendMailToFollowersAction implements
 	protected abstract TemplateGenerator templateGeneratorForCommentAction(
 			SimpleRelayEmailNotification emailNotification);
 
-	protected abstract List<SimpleUser> getListNotififyUserWithFilter(
+	protected abstract List<SimpleUser> getListNotifyUsersWithFilter(
 			ProjectRelayEmailNotification notification);
 }

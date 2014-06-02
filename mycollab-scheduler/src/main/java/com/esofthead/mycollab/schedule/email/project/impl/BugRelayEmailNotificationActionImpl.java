@@ -46,7 +46,7 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -205,7 +205,7 @@ public class BugRelayEmailNotificationActionImpl extends
 	}
 
 	@Override
-	protected List<SimpleUser> getListNotififyUserWithFilter(
+	protected List<SimpleUser> getListNotifyUsersWithFilter(
 			ProjectRelayEmailNotification notification) {
 		List<ProjectNotificationSetting> notificationSettings = projectNotificationService
 				.findNotifications(notification.getProjectId(),
@@ -396,7 +396,7 @@ public class BugRelayEmailNotificationActionImpl extends
 						bug.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(bug.getSaccountid()),
 						bug.getAssignuser());
 				A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
@@ -419,7 +419,7 @@ public class BugRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
@@ -444,7 +444,7 @@ public class BugRelayEmailNotificationActionImpl extends
 						bug.getLoguserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(bug.getSaccountid()),
 						bug.getLogby());
 				A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
@@ -467,7 +467,7 @@ public class BugRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);

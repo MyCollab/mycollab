@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -218,7 +218,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 						problem.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(problem.getSaccountid()),
 						problem.getAssigntouser());
 				A link = TagBuilder.newA(userLink,
@@ -242,7 +242,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
@@ -267,7 +267,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 						problem.getRaisedByUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(problem.getSaccountid()),
 						problem.getRaisedbyuser());
 				A link = TagBuilder.newA(userLink,
@@ -291,7 +291,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = LinkUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = UserLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
 						LinkUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);

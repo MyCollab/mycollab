@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.crm.view.campaign;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
@@ -58,7 +59,8 @@ class CampaignHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("expectedrevenue",
 				AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}

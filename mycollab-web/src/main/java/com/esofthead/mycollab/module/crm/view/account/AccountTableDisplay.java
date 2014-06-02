@@ -70,23 +70,22 @@ public class AccountTableDisplay
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					final Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleAccount account = AccountTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", account
+						.isSelected());
 				cb.addValueChangeListener(new ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						final SimpleAccount account = AccountTableDisplay.this
-								.getBeanByIndex(itemId);
+
 						AccountTableDisplay.this.fireSelectItemEvent(account);
 						fireTableEvent(new TableClickEvent(
 								AccountTableDisplay.this, account, "selected"));
 
 					}
 				});
-
-				final SimpleAccount account = AccountTableDisplay.this
-						.getBeanByIndex(itemId);
 				account.setExtraData(cb);
 				return cb;
 			}

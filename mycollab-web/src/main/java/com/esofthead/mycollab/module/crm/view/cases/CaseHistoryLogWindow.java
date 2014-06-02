@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -52,7 +53,8 @@ class CaseHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("email",
 				AppContext.getMessage(CaseI18nEnum.FORM_EMAIL));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(CaseI18nEnum.FORM_DESCRIPTION));
 		this.generateFieldDisplayHandler("resolution",

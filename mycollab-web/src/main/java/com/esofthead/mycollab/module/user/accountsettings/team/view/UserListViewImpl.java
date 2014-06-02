@@ -28,7 +28,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
@@ -259,7 +259,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		if (member.getRoleid() != null) {
 			String memberRoleLinkPrefix = "<a href=\""
 					+ AppContext.getSiteUrl()
-					+ UserLinkUtils.generateUserRoleLink(member.getRoleid())
+					+ AccountLinkUtils.generateUserRoleLink(member.getRoleid())
 					+ "\"";
 			Label memberRole = new Label();
 			memberRole.setContentMode(ContentMode.HTML);

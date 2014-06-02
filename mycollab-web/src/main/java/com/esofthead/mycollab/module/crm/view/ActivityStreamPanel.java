@@ -41,7 +41,7 @@ import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmLocalizationTypeMap;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -222,7 +222,7 @@ public class ActivityStreamPanel extends CssLayout {
 					String arg0 = UserAvatarControlFactory.getAvatarLink(
 							activityStream.getCreatedUserAvatarId(), 16);
 					String arg1 = idUsertagA;
-					String arg2 = UserLinkUtils.generatePreviewFullUserLink(
+					String arg2 = AccountLinkUtils.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(),
 							activityStream.getCreateduser());
 					String arg3 = "'" + randomStrId + "'";

@@ -50,7 +50,7 @@ import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.TooltipBuilder;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -140,7 +140,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow4 = new Tr();
 			Td cell41 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (task.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (task.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -245,7 +245,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow6 = new Tr();
 			Td cell61 = buildCellName(AppContext
 					.getMessage(BugI18nEnum.FORM_LOG_BY));
-			String logbyUserLink = (bug.getLogby() != null) ? UserLinkUtils
+			String logbyUserLink = (bug.getLogby() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, bug.getLogby()) : "";
 			String logbyAvatarLink = UserAvatarControlFactory.getAvatarLink(
 					bug.getLoguserAvatarId(), 16);
@@ -253,7 +253,7 @@ public class ProjectTooltipGenerator {
 					bug.getLoguserFullName());
 			Td cell63 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (bug.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (bug.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, bug.getAssignuser())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -302,7 +302,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow1 = new Tr();
 			Td cell11 = buildCellName(AppContext
 					.getMessage(RiskI18nEnum.FORM_RAISED_BY));
-			String raisedUserLink = (risk.getRaisedbyuser() != null) ? UserLinkUtils
+			String raisedUserLink = (risk.getRaisedbyuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							risk.getRaisedbyuser()) : "";
 			String raisedUserAvatarLink = UserAvatarControlFactory
@@ -318,7 +318,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow2 = new Tr();
 			Td cell21 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (risk.getAssigntouser() != null) ? UserLinkUtils
+			String assignUserLink = (risk.getAssigntouser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							risk.getAssigntouser()) : "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -386,7 +386,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow1 = new Tr();
 			Td cell11 = buildCellName(AppContext
 					.getMessage(ProblemI18nEnum.FORM_RAISED_BY));
-			String raisedByUserLink = (problem.getRaisedbyuser() != null) ? UserLinkUtils
+			String raisedByUserLink = (problem.getRaisedbyuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							problem.getRaisedbyuser()) : "";
 			String raisedByUserAvatarLink = UserAvatarControlFactory
@@ -402,7 +402,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow2 = new Tr();
 			Td cell21 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (problem.getAssigntouser() != null) ? UserLinkUtils
+			String assignUserLink = (problem.getAssigntouser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							problem.getAssigntouser()) : "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -506,7 +506,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow3 = new Tr();
 			Td cell31 = buildCellName(AppContext
 					.getMessage(ComponentI18nEnum.FORM_LEAD));
-			String leadLink = (component.getUserlead() != null) ? UserLinkUtils
+			String leadLink = (component.getUserlead() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							component.getUserlead()) : "";
 			String leadAvatarLink = UserAvatarControlFactory.getAvatarLink(
@@ -544,7 +544,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow3 = new Tr();
 			Td cell31 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String ownerLink = (taskList.getOwner() != null) ? UserLinkUtils
+			String ownerLink = (taskList.getOwner() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, taskList.getOwner())
 					: "";
 			String ownerAvatarLink = UserAvatarControlFactory.getAvatarLink(
@@ -676,7 +676,7 @@ public class ProjectTooltipGenerator {
 			Td cell22 = buildCellValue(startDate);
 			Td cell23 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (milestone.getOwner() != null) ? UserLinkUtils
+			String assignUserLink = (milestone.getOwner() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, milestone.getOwner())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory

@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
@@ -30,7 +32,9 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public Component formatField(String value) {
-		return new Label(value);
+		String html = AccountLinkBuilder.generateUserHtmlLink(value);
+		return (value != null) ? new Label(html, ContentMode.HTML) : new Label(
+				"");
 	}
 
 }

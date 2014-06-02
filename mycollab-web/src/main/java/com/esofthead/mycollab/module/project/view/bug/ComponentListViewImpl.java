@@ -112,23 +112,22 @@ public class ComponentListViewImpl extends AbstractPageView implements
 					@Override
 					public Object generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final CheckBoxDecor cb = new CheckBoxDecor("", false);
+						final SimpleComponent component = ComponentListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						final CheckBoxDecor cb = new CheckBoxDecor("",
+								component.isSelected());
 						cb.setImmediate(true);
 						cb.addValueChangeListener(new Property.ValueChangeListener() {
 							private static final long serialVersionUID = 1L;
 
 							@Override
 							public void valueChange(ValueChangeEvent event) {
-								final SimpleComponent component = ComponentListViewImpl.this.tableItem
-										.getBeanByIndex(itemId);
 								ComponentListViewImpl.this.tableItem
 										.fireSelectItemEvent(component);
 
 							}
 						});
 
-						final SimpleComponent component = ComponentListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
 						component.setExtraData(cb);
 						return cb;
 					}

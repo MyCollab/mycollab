@@ -21,6 +21,7 @@ import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.localization.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -36,6 +37,10 @@ class AccountHistoryLogWindow extends HistoryLogWindow {
 
 		this.generateFieldDisplayHandler("accountname",
 				AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME));
+
+		this.generateFieldDisplayHandler("assignuser",
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("phoneoffice", AppContext
 				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
 		this.generateFieldDisplayHandler("website",

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
@@ -78,22 +78,21 @@ public class ActivityTableDisplay
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleActivity simpleEvent = ActivityTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", simpleEvent
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleActivity simpleEvent = ActivityTableDisplay.this
-								.getBeanByIndex(itemId);
 						ActivityTableDisplay.this
 								.fireSelectItemEvent(simpleEvent);
 					}
 				});
 
-				SimpleActivity simpleEvent = ActivityTableDisplay.this
-						.getBeanByIndex(itemId);
 				simpleEvent.setExtraData(cb);
 				return cb;
 			}
@@ -136,9 +135,11 @@ public class ActivityTableDisplay
 					final Object itemId, Object columnId) {
 				final SimpleActivity simpleEvent = ActivityTableDisplay.this
 						.getBeanByIndex(itemId);
-				
-				final LabelLink b = new LabelLink(simpleEvent.getSubject(),
-						CrmLinkBuilder.generateActivityPreviewLinkFull(simpleEvent.getEventType(),simpleEvent.getId()));
+
+				final LabelLink b = new LabelLink(
+						simpleEvent.getSubject(),
+						CrmLinkBuilder.generateActivityPreviewLinkFull(
+								simpleEvent.getEventType(), simpleEvent.getId()));
 
 				if ("Held".equals(simpleEvent.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
@@ -228,8 +229,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.trimHtmlTags(meeting
-									.getDescription()));
+							StringUtils.trimHtmlTags(meeting.getDescription()));
 			trRow3_value.setAttribute("colspan", "3");
 
 			trRow3.appendChild(
@@ -305,9 +305,7 @@ public class ActivityTableDisplay
 			Td trRow3_value = new Td()
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(call
-									.getDescription()));
+					.appendText(StringUtils.trimHtmlTags(call.getDescription()));
 			trRow3_value.setAttribute("colspan", "3");
 
 			trRow3.appendChild(
@@ -320,9 +318,7 @@ public class ActivityTableDisplay
 			Td trRow4_value = new Td()
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-					.appendText(
-							StringUtils.trimHtmlTags(call
-									.getCallResult()));
+					.appendText(StringUtils.trimHtmlTags(call.getCallResult()));
 			trRow4_value.setAttribute("colspan", "3");
 
 			trRow4.appendChild(
@@ -427,7 +423,7 @@ public class ActivityTableDisplay
 									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 									.appendChild(
 											new A().setHref(
-													(event.getAssignUser() != null) ? UserLinkUtils
+													(event.getAssignUser() != null) ? AccountLinkUtils
 															.generatePreviewFullUserLink(
 																	AppContext
 																			.getSiteUrl(),
@@ -450,8 +446,7 @@ public class ActivityTableDisplay
 					.setStyle(
 							"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 					.appendText(
-							StringUtils.trimHtmlTags(event
-									.getDescription()));
+							StringUtils.trimHtmlTags(event.getDescription()));
 			trRow4_value.setAttribute("colspan", "3");
 
 			trRow4.appendChild(

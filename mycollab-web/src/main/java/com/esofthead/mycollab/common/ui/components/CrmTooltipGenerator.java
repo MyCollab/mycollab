@@ -46,7 +46,7 @@ import com.esofthead.mycollab.module.crm.localization.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.localization.TaskI18nEnum;
-import com.esofthead.mycollab.module.user.UserLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.TooltipBuilder;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -131,7 +131,7 @@ public class CrmTooltipGenerator {
 			Td cell31 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			String userLink = (account.getAssignuser() != null) ? UserLinkUtils
+			String userLink = (account.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							account.getAssignuser()) : "";
 			String userAvatarLink = UserAvatarControlFactory.getAvatarLink(
@@ -213,7 +213,7 @@ public class CrmTooltipGenerator {
 			Td cell42 = buildCellValue(contact.getDepartment());
 			Td cell43 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (contact.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (contact.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							contact.getAssignuser()) : "";
 			String assignAvatarLink = UserAvatarControlFactory.getAvatarLink(
@@ -290,7 +290,7 @@ public class CrmTooltipGenerator {
 			Td cell33 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			String assignUserLink = (campaign.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (campaign.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl,
 							campaign.getAssignuser()) : "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -405,7 +405,7 @@ public class CrmTooltipGenerator {
 			Td cell63 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			String assignUserLink = (lead.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (lead.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl, lead.getAssignuser())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -516,7 +516,7 @@ public class CrmTooltipGenerator {
 			Td cell52 = buildCellValue(opportunity.getNextstep());
 			Td cell53 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (opportunity.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (opportunity.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl,
 							opportunity.getAssignuser()) : "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -592,7 +592,7 @@ public class CrmTooltipGenerator {
 			Td cell42 = buildCellValue(cases.getPhonenumber());
 			Td cell43 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (cases.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (cases.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, cases.getAssignuser())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory
@@ -771,7 +771,7 @@ public class CrmTooltipGenerator {
 			Td cell32 = buildCellValue(task.getPriority());
 			Td cell33 = buildCellName(AppContext
 					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
-			String assignUserLink = (task.getAssignuser() != null) ? UserLinkUtils
+			String assignUserLink = (task.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
 					: "";
 			String assignUserAvatarLink = UserAvatarControlFactory

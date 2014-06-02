@@ -70,14 +70,15 @@ public class ContactTableDisplay
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					final Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleContact contact = ContactTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", contact
+						.isSelected());
 				cb.addValueChangeListener(new ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						final SimpleContact contact = ContactTableDisplay.this
-								.getBeanByIndex(itemId);
 						ContactTableDisplay.this.fireSelectItemEvent(contact);
 						fireTableEvent(new TableClickEvent(
 								ContactTableDisplay.this, contact, "selected"));
@@ -85,8 +86,6 @@ public class ContactTableDisplay
 					}
 				});
 
-				final SimpleContact contact = ContactTableDisplay.this
-						.getBeanByIndex(itemId);
 				contact.setExtraData(cb);
 				return cb;
 			}

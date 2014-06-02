@@ -21,8 +21,8 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.localization.TaskGroupI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.MilestoneHistoryFieldFormat;
-import com.esofthead.mycollab.module.project.ui.components.ProjectMemberHistoryFieldFormat;
+import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
+import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
