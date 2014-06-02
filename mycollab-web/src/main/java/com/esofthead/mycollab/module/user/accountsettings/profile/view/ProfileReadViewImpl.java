@@ -67,16 +67,12 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 	public static final int MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 
 	private final PreviewForm formItem;
-	private final HorizontalLayout viewLayout;
 	private final VerticalLayout userAvatar;
 	private final HorizontalLayout avatarAndPass;
 
 	public ProfileReadViewImpl() {
 		super();
 		this.setMargin(new MarginInfo(false, true, true, true));
-		this.viewLayout = new HorizontalLayout();
-		this.viewLayout.setWidth("100%");
-		this.viewLayout.setSpacing(true);
 		this.addStyleName("userInfoContainer");
 		this.userAvatar = new VerticalLayout();
 		this.userAvatar.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
@@ -86,8 +82,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 		this.avatarAndPass.addStyleName("avatar-pass-wrapper");
 		this.formItem = new PreviewForm();
 		this.formItem.setWidth("100%");
-		this.viewLayout.addComponent(this.formItem);
-		this.addComponent(this.viewLayout);
+		this.addComponent(this.formItem);
 	}
 
 	private void displayUserAvatar() {

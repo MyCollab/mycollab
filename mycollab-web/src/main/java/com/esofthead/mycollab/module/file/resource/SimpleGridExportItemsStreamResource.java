@@ -20,8 +20,10 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.dynamicreports.report.builder.column.ComponentColumnBuilder;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 
@@ -33,7 +35,6 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.reporting.BeanDataSource;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.GroupIteratorDataSource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
@@ -84,21 +85,16 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 		}
 		List<TableViewFieldDecorator> fields = parameters.getFields();
 
-		List<? extends AbstractColumnFieldComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
+		Map<String, ComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
 				.getListFieldBuilder(classType);
 
 		// build columns of report
 		for (TableViewFieldDecorator field : fields) {
-
-			log.debug("Inject renderer if any");
 			if (lstFieldBuilder != null) {
-				for (int i = lstFieldBuilder.size() - 1; i >= 0; i--) {
-					AbstractColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
-							.get(i);
-					if (field.getField().equals(fieldBuilder.getFieldName())) {
-						field.setComponentBuilder(fieldBuilder
-								.getComponentBuilder());
-					}
+				ComponentBuilder columnFieldBuilder = lstFieldBuilder.get(field
+						.getField());
+				if (columnFieldBuilder != null) {
+					field.setComponentBuilder(columnFieldBuilder);
 				}
 			}
 

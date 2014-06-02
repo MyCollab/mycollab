@@ -7,5 +7,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/accountsettings/breadcrumb")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum AccountBreadcrumbI18nEnum {
-	PROFILE, BILLING, USERS, ROLES, CANCEL_ACCOUNT
+	PROFILE, BILLING, USERS, ROLES, CANCEL_ACCOUNT, CUSTOMIZE
 }

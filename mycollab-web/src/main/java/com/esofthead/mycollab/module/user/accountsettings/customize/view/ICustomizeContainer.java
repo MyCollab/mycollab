@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.accountsettings.theme.view;
+package com.esofthead.mycollab.module.user.accountsettings.customize.view;
 
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
@@ -24,6 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 4.1
  * 
  */
-public interface IThemeContainer extends PageView {
+public interface ICustomizeContainer extends PageView {
 
 }

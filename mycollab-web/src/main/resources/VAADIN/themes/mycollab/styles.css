@@ -817,15 +817,11 @@ input.v-textfield-pagedtable-pagefield {
 
 /* Top Menu */
 .topNavigation {
-    background-color: #FFF;
-}
-
-#topNavigation {
     height: 40px;
     background: none no-repeat 0 0 rgb(87, 87, 87);
 }
 
-#topNavigation .v-button,#topNavigation .v-button .v-button-wrap {
+.topNavigation .v-button,.topNavigation .v-button .v-button-wrap {
     border-radius: 0px;
     box-shadow: initial;
     -webkit-box-shadow: initial;
@@ -848,16 +844,16 @@ input.v-textfield-pagedtable-pagefield {
     padding: 0px;
 }
 
-.service-menu.v-buttongroup .v-button.v-button-left, .service-menu.v-buttongroup .v-button.v-button-middle, .service-menu.v-buttongroup .v-button.v-button-right, #topNavigation .service-menu.v-buttongroup .v-button:focus {
+.service-menu.v-buttongroup .v-button.v-button-left, .service-menu.v-buttongroup .v-button.v-button-middle, .service-menu.v-buttongroup .v-button.v-button-right, .topNavigation .service-menu.v-buttongroup .v-button:focus {
     background: none;
 }
 
-#topNavigation .service-menu.v-buttongroup .v-button.selected {
+.topNavigation .service-menu.v-buttongroup .v-button.selected {
     background: none no-repeat 0 0 #E4E4E4;
     border-radius: 2px;
 }
 
-#topNavigation .service-menu.v-buttongroup .v-button.selected .v-button-caption {
+.topNavigation .service-menu.v-buttongroup .v-button.selected .v-button-caption {
     color: #575757;
 }
 
@@ -865,7 +861,7 @@ input.v-textfield-pagedtable-pagefield {
     border-left: none;
 }
 
-#topNavigation .service-menu .v-button-caption {
+.topNavigation .service-menu .v-button-caption {
     font-weight: bold;
     font-size: 13px;
     padding: 0 6px 0 3px;
@@ -874,24 +870,35 @@ input.v-textfield-pagedtable-pagefield {
         direction=45); */
 }
 
-#topNavigation .v-button-wrap,#topNavigation .v-button:active .v-button-wrap
+.topNavigation .v-button-wrap,.topNavigation .v-button:active .v-button-wrap, .topNavigation .v-button span.v-button-wrap,
+ .topNavigation .v-button:active span.v-button-wrap, .topNavigation .v-button:hover span.v-button-wrap,
+ .topNavigation .v-buttongroup .v-button span.v-button-wrap
     {
     border: none;
     background: none;
     /* padding: 0px; */
 }
 
-#topNavigation .v-button-caption {
+.topNavigation .service-menu div.v-button-link:focus, .topNavigation .service-menu div.v-button-link:active, .topNavigation .service-menu div.v-button-link {
+	margin: 1px;
+}
+
+.topNavigation .service-menu div.v-button-link:focus .v-button-wrap, .topNavigation .service-menu div.v-button-link:active .v-button-wrap,
+.topNavigation .service-menu div.v-button-link .v-button-wrap {
+	padding: 2px 5px;
+}
+
+.topNavigation .v-button-caption {
     color: white;
     text-decoration: none;
     padding: 0 3px;
 }
 
-#topNavigation .v-popupbutton .v-popup-indicator {
+.topNavigation .v-popupbutton .v-popup-indicator {
     background: url("icons/sprites.png") no-repeat -5px -10px transparent;
 }
 
-#topNavigation .navSeparator {
+.topNavigation .navSeparator {
     display: block;
     float: left;
     border-left: solid 1px #FFF;
@@ -913,7 +920,7 @@ input.v-textfield-pagedtable-pagefield {
     float: right;
 }
 
-#topNavigation .accountMenu {
+.topNavigation .accountMenu {
 /*  float: right; */
 /*  margin-right: 30px; */
     height: 40px;
@@ -923,7 +930,7 @@ input.v-textfield-pagedtable-pagefield {
     border: none;
 }
 
-#topNavigation .accountMenu .v-button-caption {
+.topNavigation .accountMenu .v-button-caption {
     text-shadow: 1px 1px 0px #6b6b6b;
     filter: progid:DXImageTransform.Microsoft.Shadow(color=#6B6B6B,
         direction=45);
@@ -6916,14 +6923,14 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 
 /*Notification Button */
-#topNavigation .v-button.notification-button, #topNavigation .v-button.notification-button:focus {
+.topNavigation .v-button.notification-button, .topNavigation .v-button.notification-button:focus {
     background: none no-repeat left top #E4E4E4;
     border-radius: 5px;
 }
-#topNavigation .v-button.notification-button .v-button-caption, #topNavigation .v-button.notification-button:focus .v-button-caption {
+.topNavigation .v-button.notification-button .v-button-caption, .topNavigation .v-button.notification-button:focus .v-button-caption {
     color: #c31616;
 }
-#topNavigation .v-button.notification-button .v-popup-indicator {
+.topNavigation .v-button.notification-button .v-popup-indicator {
     display: none;
 }
 .notification-type {
@@ -6944,4 +6951,16 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .verticaltabsheet-fix.is-left {
 	left: 0px;
+}
+
+.v-colorpicker-popup .v-button .v-button-wrap, .v-colorpicker-popup .v-button:active .v-button-wrap {
+	padding: 3px 10px;
+}
+
+/* gridlayout without border fixes */
+.addview-layout-body .v-gridlayout.no-border {
+	border: none;
+}
+.addview-layout-body .v-gridlayout.no-border .v-gridlayout-slot > div {
+	border: none;
 }

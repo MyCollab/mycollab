@@ -392,7 +392,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				Img img = TagBuilder.newImg("icon", taskgroupIconLink);
 
 				String tasklistlink = ProjectLinkUtils
-						.generateTaskPreviewFullLink(context.getSiteUrl(),
+						.generateTaskGroupPreviewFullLink(context.getSiteUrl(),
 								task.getProjectid(), task.getTasklistid());
 				A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
 				return TagBuilder.newLink(img, link).write();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.esofthead.mycollab.module.user.dao.AccountThemeMapperExt">
+	<insert id="saveAccountTheme" parameterType="com.esofthead.mycollab.module.user.domain.AccountTheme" useGeneratedKeys="true" keyProperty="id">
+		insert into s_account_theme (logoPath, topMenuBg, 
+	      topMenuBgSelected, topMenuText, topMenuTextSelected, 
+	      tabsheetBg, tabsheetBgSelected, tabsheetText, 
+	      tabsheetTextSelected, vTabsheetBg, vTabsheetBgSelected, 
+	      vTabsheetText, vTabsheetTextSelected, hTopMenuBg, 
+	      hTopMenuBgSelected, hTopMenuText, hTopMenuTextSelected, 
+	      actionBtn, actionBtnText, optionBtn, 
+	      optionBtnText, clearBtn, clearBtnText, 
+	      controlBtn, controlBtnText, dangerBtn, 
+	      dangerBtnText, toggleBtn, toggleBtnSelected, 
+	      toggleBtnText, toggleBtnTextSelected, isDefault
+	      )
+	    values (#{logopath,jdbcType=VARCHAR}, #{topmenubg,jdbcType=VARCHAR}, 
+	      #{topmenubgselected,jdbcType=VARCHAR}, #{topmenutext,jdbcType=VARCHAR}, #{topmenutextselected,jdbcType=VARCHAR}, 
+	      #{tabsheetbg,jdbcType=VARCHAR}, #{tabsheetbgselected,jdbcType=VARCHAR}, #{tabsheettext,jdbcType=VARCHAR}, 
+	      #{tabsheettextselected,jdbcType=VARCHAR}, #{vtabsheetbg,jdbcType=VARCHAR}, #{vtabsheetbgselected,jdbcType=VARCHAR}, 
+	      #{vtabsheettext,jdbcType=VARCHAR}, #{vtabsheettextselected,jdbcType=VARCHAR}, #{htopmenubg,jdbcType=VARCHAR}, 
+	      #{htopmenubgselected,jdbcType=VARCHAR}, #{htopmenutext,jdbcType=VARCHAR}, #{htopmenutextselected,jdbcType=VARCHAR}, 
+	      #{actionbtn,jdbcType=VARCHAR}, #{actionbtntext,jdbcType=VARCHAR}, #{optionbtn,jdbcType=VARCHAR}, 
+	      #{optionbtntext,jdbcType=VARCHAR}, #{clearbtn,jdbcType=VARCHAR}, #{clearbtntext,jdbcType=VARCHAR}, 
+	      #{controlbtn,jdbcType=VARCHAR}, #{controlbtntext,jdbcType=VARCHAR}, #{dangerbtn,jdbcType=VARCHAR}, 
+	      #{dangerbtntext,jdbcType=VARCHAR}, #{togglebtn,jdbcType=VARCHAR}, #{togglebtnselected,jdbcType=VARCHAR}, 
+	      #{togglebtntext,jdbcType=VARCHAR}, #{togglebtntextselected,jdbcType=VARCHAR}, #{isdefault,jdbcType=BIT}
+	      )
+	</insert>
+</mapper>

@@ -20,6 +20,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.RoleUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
@@ -37,6 +38,7 @@ public class AccountUrlResolver extends UrlResolver {
 		this.addSubResolver("billing", new BillingUrlResolver());
 		this.addSubResolver("user", new UserUrlResolver());
 		this.addSubResolver("role", new RoleUrlResolver());
+		this.addSubResolver("customization", new CustomizeUrlResolver());
 		return this;
 	}
 
@@ -58,6 +60,7 @@ public class AccountUrlResolver extends UrlResolver {
 	}
 
 	private static class ReadUrlResolver extends AccountUrlResolver {
+		@Override
 		protected void handlePage(String... params) {
 			EventBus.getInstance().fireEvent(
 					new ProfileEvent.GotoProfileView(this, null));
@@ -65,9 +68,18 @@ public class AccountUrlResolver extends UrlResolver {
 	}
 
 	private static class BillingUrlResolver extends AccountUrlResolver {
+		@Override
 		protected void handlePage(String... params) {
 			EventBus.getInstance().fireEvent(
 					new AccountBillingEvent.GotoSummary(this, null));
+		}
+	}
+
+	private static class CustomizeUrlResolver extends AccountUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			EventBus.getInstance().fireEvent(
+					new AccountCustomizeEvent.GotoCustomize(this, null));
 		}
 	}
 }

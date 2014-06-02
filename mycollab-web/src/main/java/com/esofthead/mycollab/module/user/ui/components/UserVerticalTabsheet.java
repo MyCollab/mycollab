@@ -52,9 +52,10 @@ public class UserVerticalTabsheet extends VerticalTabsheet {
 			btn.setIcon(MyCollabResource
 					.newResource("icons/22/user/menu_account.png"));
 			break;
-		case "theme":
-			btn.setIcon(MyCollabResource.newResource("icons/22/user/menu_theme"
-					+ suffix + ".png"));
+		case "customize":
+			btn.setIcon(MyCollabResource
+					.newResource("icons/22/user/menu_customize" + suffix
+							+ ".png"));
 			break;
 		default:
 		}

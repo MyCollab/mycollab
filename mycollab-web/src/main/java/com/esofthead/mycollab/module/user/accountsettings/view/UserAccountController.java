@@ -24,9 +24,12 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent;
+import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent.GotoCustomize;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.ProfileScreenData;
@@ -54,6 +57,7 @@ public class UserAccountController implements IController {
 		bindBillingEvents();
 		bindRoleEvents();
 		bindUserEvents();
+		bindCustomizeEvents();
 	}
 
 	private void bindBillingEvents() {
@@ -299,5 +303,25 @@ public class UserAccountController implements IController {
 								criteria));
 					}
 				});
+	}
+
+	private void bindCustomizeEvents() {
+		EventBus.getInstance()
+				.addListener(
+						new ApplicationEventListener<AccountCustomizeEvent.GotoCustomize>() {
+							private static final long serialVersionUID = -6661915642327554162L;
+
+							@Override
+							public Class<? extends ApplicationEvent> getEventType() {
+								return AccountCustomizeEvent.GotoCustomize.class;
+							}
+
+							@Override
+							public void handle(GotoCustomize event) {
+								ICustomizePresenter presenter = PresenterResolver
+										.getPresenter(ICustomizePresenter.class);
+								presenter.go(container, null);
+							}
+						});
 	}
 }

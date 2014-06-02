@@ -18,10 +18,10 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
+import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
-import com.esofthead.mycollab.module.user.accountsettings.theme.view.IThemePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
@@ -58,7 +58,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 	private ProfilePresenter profilePresenter;
 	private UserPermissionManagementPresenter userPermissionPresenter;
 	private IBillingPresenter billingPresenter;
-	private IThemePresenter themePresenter;
+	private ICustomizePresenter customizePresenter;
 
 	private final AccountSettingBreadcrumb breadcrumb;
 
@@ -119,8 +119,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		this.accountTab.addTab(this.constructUserRoleComponent(), "users",
 				AppContext.getMessage(UserI18nEnum.USERS_VIEW));
 
-		this.accountTab.addTab(this.constructThemeComponent(), "theme",
-				AppContext.getMessage(UserI18nEnum.THEME_VIEW));
+		this.accountTab.addTab(this.constructThemeComponent(), "customize",
+				AppContext.getMessage(UserI18nEnum.CUSTOMIZE_VIEW));
 
 		this.accountTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -139,6 +139,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 						} else if ("users".equals(tabId)) {
 							userPermissionPresenter.go(AccountModuleImpl.this,
 									null);
+						} else if ("customize".equals(tabId)) {
+							customizePresenter.go(AccountModuleImpl.this, null);
 						}
 
 					}
@@ -164,9 +166,9 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 	}
 
 	private ComponentContainer constructThemeComponent() {
-		this.themePresenter = PresenterResolver
-				.getPresenter(IThemePresenter.class);
-		return this.themePresenter.initView();
+		this.customizePresenter = PresenterResolver
+				.getPresenter(ICustomizePresenter.class);
+		return this.customizePresenter.initView();
 	}
 
 	@Override

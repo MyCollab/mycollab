@@ -7,22 +7,20 @@ import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.ImageBuilder;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
-import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
-
 /**
  * 
  * @author MyCollab Ltd.
  * @since 4.1.2
  * 
  */
-public class RatingColumnFieldBuilder extends
-		AbstractColumnFieldComponentBuilder {
+public class RatingColumnFieldBuilder extends ComponentBuilder {
 	private static final long serialVersionUID = 1L;
 
 	private String field;
 
 	public RatingColumnFieldBuilder(String field) {
-		super(field);
+		super(null);
+		this.field = field;
 	}
 
 	private class RatingComponentBuilderExpression extends
@@ -51,7 +49,7 @@ public class RatingColumnFieldBuilder extends
 	}
 
 	@Override
-	public ComponentBuilder getComponentBuilder() {
+	public ComponentBuilder build() {
 		HorizontalListBuilder componentBuilder = cmp.horizontalList()
 				.setFixedWidth(120);
 		ImageBuilder imgBuilder = cmp.image(

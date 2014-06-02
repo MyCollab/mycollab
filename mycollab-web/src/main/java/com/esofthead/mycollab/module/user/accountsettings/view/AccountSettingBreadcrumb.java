@@ -141,6 +141,14 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				"Edit User " + user.getUsername());
 	}
 
+	public void gotoCustomizationPage() {
+		this.select(0);
+		this.addLink(new Button(AppContext
+				.getMessage(AccountBreadcrumbI18nEnum.CUSTOMIZE)));
+		AppContext.addFragment("account/customization",
+				AppContext.getMessage(AccountBreadcrumbI18nEnum.CUSTOMIZE));
+	}
+
 	private static class GotoUserListListener implements Button.ClickListener {
 		private static final long serialVersionUID = 1L;
 

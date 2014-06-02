@@ -28,6 +28,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
@@ -61,7 +62,6 @@ import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.BeanDataSource;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
-import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
@@ -288,21 +288,17 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 				List<TableViewFieldDecorator> fields = parameters.getFields();
 
-				List<? extends AbstractColumnFieldComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
+				Map<String, ComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
 						.getListFieldBuilder(Task.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
 
 					log.debug("Inject renderer if any");
 					if (lstFieldBuilder != null) {
-						for (int i = lstFieldBuilder.size() - 1; i >= 0; i--) {
-							AbstractColumnFieldComponentBuilder fieldBuilder = lstFieldBuilder
-									.get(i);
-							if (field.getField().equals(
-									fieldBuilder.getFieldName())) {
-								field.setComponentBuilder(fieldBuilder
-										.getComponentBuilder());
-							}
+						ComponentBuilder columnFieldBuilder = lstFieldBuilder
+								.get(field.getField());
+						if (columnFieldBuilder != null) {
+							field.setComponentBuilder(columnFieldBuilder);
 						}
 					}
 					log.debug("Construct component builder {} and width {}",

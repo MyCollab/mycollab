@@ -7,15 +7,16 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import net.sf.dynamicreports.report.base.component.DRList;
 import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.style.ConditionalStyleBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.ListType;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
-import com.esofthead.mycollab.reporting.AbstractColumnFieldComponentBuilder;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.ReportTemplateFactory;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -26,15 +27,14 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 4.1.2
  * 
  */
-public class OpportunityNameColumnBuilder extends
-		AbstractColumnFieldComponentBuilder {
+public class OpportunityNameColumnBuilder extends ComponentBuilder {
 
 	public OpportunityNameColumnBuilder(String fieldName) {
-		super(fieldName);
+		super(null);
 	}
 
 	@Override
-	public ComponentBuilder getComponentBuilder() {
+	public ComponentBuilder build() {
 		HorizontalListBuilder componentBuilder = cmp.horizontalList();
 		TextFieldBuilder textBuilder = null;
 		AbstractReportTemplate reportTemplate = ReportTemplateFactory
@@ -51,11 +51,11 @@ public class OpportunityNameColumnBuilder extends
 				.addConditionalStyle(overDueStyle)
 				.addConditionalStyle(isCompleteStyle);
 
-//		textBuilder = cmp
-//				.text(new StringExpression(fieldName))
-//				.setHyperLink(
-//						hyperLink(new CrmFieldComponetBuilderExpression()))
-//				.setStyle(styleBuilder);
+		// textBuilder = cmp
+		// .text(new StringExpression(fieldName))
+		// .setHyperLink(
+		// hyperLink(new CrmFieldComponetBuilderExpression()))
+		// .setStyle(styleBuilder);
 		componentBuilder.add(textBuilder);
 		return componentBuilder;
 	}

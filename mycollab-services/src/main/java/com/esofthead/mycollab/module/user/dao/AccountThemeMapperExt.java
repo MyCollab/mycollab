@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.service;
+package com.esofthead.mycollab.module.user.dao;
 
-import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 
 /**
@@ -25,11 +24,6 @@ import com.esofthead.mycollab.module.user.domain.AccountTheme;
  * @since 4.1
  * 
  */
-public interface AccountThemeService extends
-		ICrudService<Integer, AccountTheme> {
-	AccountTheme getAccountTheme(int saccountid);
-
-	AccountTheme getDefaultTheme();
-
-	void saveAccountTheme(AccountTheme theme, int saccountid);
+public interface AccountThemeMapperExt {
+	int saveAccountTheme(AccountTheme theme);
 }
