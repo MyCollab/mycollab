@@ -29,9 +29,9 @@ import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePr
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent;
-import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCustomizeEvent.GotoCustomize;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.CustomizeScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.ProfileScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.RoleScreenData;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.UserScreenData;
@@ -317,10 +317,15 @@ public class UserAccountController implements IController {
 							}
 
 							@Override
-							public void handle(GotoCustomize event) {
+							public void handle(
+									AccountCustomizeEvent.GotoCustomize event) {
 								ICustomizePresenter presenter = PresenterResolver
 										.getPresenter(ICustomizePresenter.class);
-								presenter.go(container, null);
+								CustomizeScreenData.ThemeCustomize screenData = new CustomizeScreenData.ThemeCustomize();
+								if (event.getData() != null) {
+									screenData.setParams(event.getData());
+								}
+								presenter.go(container, screenData);
 							}
 						});
 	}

@@ -28,6 +28,17 @@ import com.vaadin.server.Page;
  * 
  */
 public class ThemeManager {
+    
+        public static String loadLogoPath(int saccountid) {
+            AccountThemeService themeService = ApplicationContextUtil
+				.getSpringBean(AccountThemeService.class);
+
+            AccountTheme accountTheme = themeService.getAccountTheme(saccountid);
+
+            if (accountTheme == null || accountTheme.getId() == null)
+                    return null;
+            return accountTheme.getLogopath();
+        }
 
 	public static void loadUserTheme(int saccountid) {
 		AccountThemeService themeService = ApplicationContextUtil

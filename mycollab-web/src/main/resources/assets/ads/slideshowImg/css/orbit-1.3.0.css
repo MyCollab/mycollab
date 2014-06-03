@@ -211,7 +211,7 @@ div.slider-nav span.left {
 .orbit-bullets li.has-thumb {
     background: none;
     width: 100px;
-    height: 75px; } }
+    height: 75px; }
 
 .orbit-bullets li.active.has-thumb {
     background-position: 0 0;

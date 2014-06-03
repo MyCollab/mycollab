@@ -53,20 +53,20 @@ public class RoleTableDisplay extends
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleRole role = RoleTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", role
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleRole role = RoleTableDisplay.this
-								.getBeanByIndex(itemId);
+
 						RoleTableDisplay.this.fireSelectItemEvent(role);
 					}
 				});
-
-				Role role = RoleTableDisplay.this.getBeanByIndex(itemId);
 				role.setExtraData(cb);
 				return cb;
 			}
@@ -80,10 +80,9 @@ public class RoleTableDisplay extends
 					final Object itemId, Object columnId) {
 				final SimpleRole role = RoleTableDisplay.this
 						.getBeanByIndex(itemId);
-                
-                LabelLink b = new LabelLink(role.getRolename(),
-						AccountLinkUtils.generateUserRoleLink(role
-								.getId()));	
+
+				LabelLink b = new LabelLink(role.getRolename(),
+						AccountLinkUtils.generateUserRoleLink(role.getId()));
 				return b;
 
 			}

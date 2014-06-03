@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -109,7 +110,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 				.newResource("icons/24/time_tracking.png"));
 		header.addComponent(timeIcon);
 
-		final Label layoutHeader = new Label("Your Time Reporting");
+		final Label layoutHeader = new Label("Time Tracking");
 		layoutHeader.addStyleName("h2");
 		header.addComponent(layoutHeader);
 		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
@@ -125,7 +126,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		contentWrapper.addComponent(controlsPanel);
 		this.addComponent(contentWrapper);
 
-		final Button backBtn = new Button("Back to Work Board");
+		final Button backBtn = new Button("Back to Workboard");
 		backBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -162,7 +163,8 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		toDateField.setResolution(Resolution.DAY);
 		dateSelectionLayout.addComponent(toDateField);
 
-		final Button queryBtn = new Button("Submit",
+		final Button queryBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

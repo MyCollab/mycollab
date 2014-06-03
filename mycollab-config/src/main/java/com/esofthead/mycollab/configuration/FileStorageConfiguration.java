@@ -37,7 +37,9 @@ public class FileStorageConfiguration implements StorageConfiguration {
 
 	private FileStorageConfiguration() {
 		File avatarFolder = new File(baseContentFolder, "avatar");
+		File logoFolder = new File(baseContentFolder, "logo");
 		avatarFolder.mkdirs();
+		logoFolder.mkdirs();
 	}
 
 	public static FileStorageConfiguration build() {
@@ -54,6 +56,15 @@ public class FileStorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
+	public String generateLogoPath(String accountLogoId, int size) {
+		if (accountLogoId == null || "".equals(accountLogoId)) {
+			return MyCollabAssets.newResourceLink("icons/logo.png");
+		}
+		return SiteConfiguration.getSiteUrl("app") + "logo/" + accountLogoId
+				+ "/" + size;
+	}
+
+	@Override
 	public String generateResourcePath(String documentPath) {
 		return baseContentFolder.getPath() + "/" + documentPath;
 	}
@@ -63,6 +74,16 @@ public class FileStorageConfiguration implements StorageConfiguration {
 				+ "_" + size + ".png");
 		if (userAvatarFile.exists()) {
 			return userAvatarFile;
+		} else {
+			return null;
+		}
+	}
+
+	public File getLogoFile(String logoId, int size) {
+		File logoFile = new File(baseContentFolder, "/logo/" + logoId + "_"
+				+ size + ".png");
+		if (logoFile.exists()) {
+			return logoFile;
 		} else {
 			return null;
 		}

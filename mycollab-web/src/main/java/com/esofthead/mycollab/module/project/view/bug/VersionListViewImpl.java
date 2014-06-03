@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
@@ -101,7 +102,9 @@ public class VersionListViewImpl extends AbstractPageView implements
 						new TableViewField(VersionI18nEnum.FORM_NAME,
 								"versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
 						new TableViewField(VersionI18nEnum.FORM_DESCRIPTION,
-								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
+								"description", UIConstants.TABLE_EX_LABEL_WIDTH),
+						new TableViewField(VersionI18nEnum.FORM_DUE_DATE,
+								"duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",
 				new Table.ColumnGenerator() {
@@ -160,6 +163,24 @@ public class VersionListViewImpl extends AbstractPageView implements
 										AppContext.getTimezoneId()));
 						return b;
 
+					}
+				});
+
+		this.tableItem.addGeneratedColumn("duedate",
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Component generateCell(final Table source,
+							final Object itemId, final Object columnId) {
+						final Version bugVersion = VersionListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						Date duedate = bugVersion.getDuedate();
+						if (duedate != null) {
+							return new Label(AppContext.formatDate(duedate));
+						} else {
+							return new Label("");
+						}
 					}
 				});
 

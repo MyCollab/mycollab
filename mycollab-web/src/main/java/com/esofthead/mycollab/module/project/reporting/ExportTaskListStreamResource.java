@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.resource;
+package com.esofthead.mycollab.module.project.reporting;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
@@ -55,10 +55,13 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.localization.TaskI18nEnum;
+import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.BeanDataSource;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
@@ -141,13 +144,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					.style(reportTemplate.getBold12TitleStyle())
 					.setBorder(stl.penThin()).setUnderline(true);
 
-			String phaseHyperLink = ProjectLinkBuilder
-					.generateMilestonePreviewFullLink(taskList.getProjectid(),
-							taskList.getMilestoneid());
-
 			HorizontalListBuilder taskGroupLabel = cmp.horizontalList();
-			taskGroupLabel.add(cmp.text("Task group: ").setFixedWidth(50)
-					.setStyle(reportTemplate.getColumnTitleStyle()));
 
 			// TaskList Name
 			StyleBuilder taskGroupStyle = stl
@@ -171,7 +168,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 			// label
 			log.debug("Label value : " + taskList.getDescription());
-			TextFieldBuilder<String> desLabel = cmp.text("Desciption :")
+			TextFieldBuilder<String> desLabel = cmp.text("Description :")
 					.setStyle(style).setFixedWidth(150);
 			TextFieldBuilder<String> descriptText = cmp
 					.text(taskList.getDescription()).setFixedWidth(1020)
@@ -183,13 +180,20 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			log.debug("Assignee value : " + taskList.getOwnerFullName());
 			TextFieldBuilder<String> assigneeLbl = cmp.text("Assignee :")
 					.setStyle(style).setFixedWidth(150);
+			String assigneeHyperlink = AccountLinkBuilder
+					.generatePreviewFullUserLink(taskList.getOwner());
 			TextFieldBuilder<String> assignee = cmp
-					.text(taskList.getOwnerFullName()).setStyle(style)
-					.setFixedWidth(435);
+					.text(taskList.getOwnerFullName())
+					.setHyperLink(hyperLink(assigneeHyperlink))
+					.setStyle(reportTemplate.getUnderlineStyle())
+					.setStyle(styleHyperLink).setFixedWidth(435);
 
-			TextFieldBuilder<String> phaseLbl = cmp.text("Phase name :")
+			TextFieldBuilder<String> phaseLbl = cmp.text("Phase :")
 					.setStyle(style).setFixedWidth(150);
 
+			String phaseHyperLink = ProjectLinkBuilder
+					.generateMilestonePreviewFullLink(taskList.getProjectid(),
+							taskList.getMilestoneid());
 			TextFieldBuilder<String> phase = cmp
 					.text(taskList.getMilestoneName())
 					.setHyperLink(hyperLink(phaseHyperLink))
@@ -253,6 +257,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 				RpParameterBuilder parameters) {
 			this.dataSource = new BeanDataSource(data);
 			this.parameters = parameters;
+			this.reportTemplate = reportTemplate;
 		}
 
 		public ComponentBuilder getSubreportBuilder() {
@@ -277,6 +282,10 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 				Field[] clsFields = ClassUtils.getAllFields(Task.class);
 				for (Field objField : clsFields) {
+					if ("extraData".equals(objField.getName())
+							|| "selected".equals(objField.getName())) {
+						continue;
+					}
 					DRIDataType<Object, ? extends Object> jrType = null;
 					try {
 						jrType = type.detectType(objField.getType().getName());
@@ -289,7 +298,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 				List<TableViewFieldDecorator> fields = parameters.getFields();
 
 				Map<String, ComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
-						.getListFieldBuilder(Task.class);
+						.getListFieldBuilder(SimpleTask.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
 

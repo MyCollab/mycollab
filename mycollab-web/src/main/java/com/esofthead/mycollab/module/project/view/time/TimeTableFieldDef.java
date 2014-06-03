@@ -46,7 +46,7 @@ public class TimeTableFieldDef {
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	public static TableViewField logForDate = new TableViewField(
-			TimeTrackingI18nEnum.LOG_CREATED_TIME, "logforday",
+			TimeTrackingI18nEnum.LOG_FOR_DATE, "logforday",
 			UIConstants.TABLE_DATE_TIME_WIDTH);
 
 	public static TableViewField project = new TableViewField(

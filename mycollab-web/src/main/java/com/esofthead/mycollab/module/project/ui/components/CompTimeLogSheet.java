@@ -214,7 +214,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 									"logUserFullName",
 									UIConstants.TABLE_X_LABEL_WIDTH),
 							new TableViewField(
-									TimeTrackingI18nEnum.LOG_CREATED_TIME,
+									TimeTrackingI18nEnum.LOG_FOR_DATE,
 									"createdtime",
 									UIConstants.TABLE_DATE_TIME_WIDTH),
 							new TableViewField(TimeTrackingI18nEnum.LOG_VALUE,

@@ -19,7 +19,6 @@ package com.esofthead.mycollab.cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
@@ -32,6 +31,8 @@ import com.esofthead.mycollab.core.utils.JsonDeSerializer;
  */
 public class CacheUtils {
 	private static Logger log = LoggerFactory.getLogger(CacheUtils.class);
+
+	private static Class<IgnoreServiceEntity> ignoreCacheService = IgnoreServiceEntity.class;
 
 	public static String constructParamsKey(Object[] args) {
 		return JsonDeSerializer.toJson(args);
@@ -46,9 +47,7 @@ public class CacheUtils {
 		Class<?> cls = ClassUtils.getInterfaceInstanceOf(serviceClass,
 				IService.class);
 		if (cls == null) {
-			throw new MyCollabException(
-					"Can not get enclosing interface service of class "
-							+ serviceClass.getName());
+			return ignoreCacheService;
 		}
 
 		return cls;

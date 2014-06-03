@@ -37,5 +37,7 @@ public interface StorageConfiguration {
 
 	public String generateAvatarPath(String userAvatarId, int size);
 
+	public String generateLogoPath(String accountLogoId, int size);
+
 	public String generateResourcePath(String documentPath);
 }

@@ -12,7 +12,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 4.1.2
  * 
  */
-public class AssigneeExpression extends AbstractExpression {
+public class AssigneeExpression extends AbstractFieldExpression {
 	private static final long serialVersionUID = 1L;
 
 	public AssigneeExpression(String field) {

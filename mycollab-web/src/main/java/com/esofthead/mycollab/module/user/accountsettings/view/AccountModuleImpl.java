@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePr
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.accountsettings.view.parameters.BillingScreenData;
+import com.esofthead.mycollab.module.user.accountsettings.view.parameters.CustomizeScreenData;
 import com.esofthead.mycollab.module.user.ui.components.UserVerticalTabsheet;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
@@ -140,7 +141,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 							userPermissionPresenter.go(AccountModuleImpl.this,
 									null);
 						} else if ("customize".equals(tabId)) {
-							customizePresenter.go(AccountModuleImpl.this, null);
+							customizePresenter.go(AccountModuleImpl.this,
+									new CustomizeScreenData.ThemeCustomize());
 						}
 
 					}

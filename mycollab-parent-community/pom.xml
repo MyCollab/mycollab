@@ -12,8 +12,8 @@
         <springVersion>4.0.5.RELEASE</springVersion>
         <aspectjVersion>1.7.4</aspectjVersion>
         <javaVersion>1.7</javaVersion>
-        <slf4jVersion>1.6.4</slf4jVersion>
-        <log4jVersion>1.2.16</log4jVersion>
+        <slf4jVersion>1.7.7</slf4jVersion>
+        <log4jVersion>1.2.17</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
         <vaadinVersion>7.2.1</vaadinVersion>
         <jettyVersion>9.1.5.v20140505</jettyVersion>

@@ -63,20 +63,20 @@ public class UserTableDisplay extends
 			@Override
 			public Object generateCell(final Table source, final Object itemId,
 					Object columnId) {
-				final CheckBoxDecor cb = new CheckBoxDecor("", false);
+				final SimpleUser user = UserTableDisplay.this
+						.getBeanByIndex(itemId);
+				final CheckBoxDecor cb = new CheckBoxDecor("", user
+						.isSelected());
 				cb.setImmediate(true);
 				cb.addValueChangeListener(new Property.ValueChangeListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void valueChange(ValueChangeEvent event) {
-						SimpleUser user = UserTableDisplay.this
-								.getBeanByIndex(itemId);
 						UserTableDisplay.this.fireSelectItemEvent(user);
 					}
 				});
 
-				SimpleUser user = UserTableDisplay.this.getBeanByIndex(itemId);
 				user.setExtraData(cb);
 				return cb;
 			}

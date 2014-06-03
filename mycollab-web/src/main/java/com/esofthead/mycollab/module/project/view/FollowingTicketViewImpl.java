@@ -71,7 +71,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class FollowingTicketViewImpl extends AbstractPageView implements
-FollowingTicketView {
+		FollowingTicketView {
 	private static final long serialVersionUID = 1L;
 
 	private SplitButton exportButtonControl;
@@ -91,7 +91,8 @@ FollowingTicketView {
 		header.setWidth("100%");
 		header.setSpacing(true);
 
-		final Image timeIcon = new Image(null, MyCollabResource.newResource("icons/24/follow.png"));
+		final Image timeIcon = new Image(null,
+				MyCollabResource.newResource("icons/24/follow.png"));
 		header.addComponent(timeIcon);
 
 		final Label layoutHeader = new Label("Your Following Tickets");
@@ -110,7 +111,7 @@ FollowingTicketView {
 		contentWrapper.addComponent(controlBtns);
 		this.addComponent(contentWrapper);
 
-		final Button backBtn = new Button("Back to Work Board");
+		final Button backBtn = new Button("Back to Workboard");
 		backBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -125,7 +126,6 @@ FollowingTicketView {
 
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
-
 
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.setWidth("100%");
@@ -142,7 +142,8 @@ FollowingTicketView {
 			}
 		});
 		exportButtonControl = new SplitButton(exportBtn);
-		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED,
+				Sizeable.Unit.PIXELS);
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
@@ -170,8 +171,6 @@ FollowingTicketView {
 
 		controlBtns.addComponent(exportButtonControl);
 
-
-
 		this.ticketTable = new FollowingTicketTable();
 		this.ticketTable.addStyleName("full-border-table");
 		this.ticketTable.setMargin(new MarginInfo(true, false, false, false));
@@ -191,7 +190,7 @@ FollowingTicketView {
 						new RpParameterBuilder(ticketTable.getDisplayColumns()),
 						exportType,
 						ApplicationContextUtil
-						.getSpringBean(ProjectFollowingTicketService.class),
+								.getSpringBean(ProjectFollowingTicketService.class),
 						searchCriteria, FollowingTicket.class);
 			}
 		};
@@ -214,7 +213,7 @@ FollowingTicketView {
 	}
 
 	private class FollowingTicketTable extends
-	AbstractPagedBeanTable<MonitorSearchCriteria, FollowingTicket> {
+			AbstractPagedBeanTable<MonitorSearchCriteria, FollowingTicket> {
 
 		private static final long serialVersionUID = 1L;
 		private ProjectFollowingTicketService projectFollowingTicketService;
@@ -248,9 +247,8 @@ FollowingTicketView {
 								.getStatus())) {
 							ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
 						} else if (ticket.getDueDate() != null
-								&& ticket.getDueDate()
-								.before(new GregorianCalendar()
-								.getTime())) {
+								&& ticket.getDueDate().before(
+										new GregorianCalendar().getTime())) {
 							ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
 						}
 					} else if ("Task".equals(ticket.getType())) {
@@ -262,13 +260,12 @@ FollowingTicketView {
 						} else {
 							if ("Pending".equals(ticket.getStatus())) {
 								ticketLink
-								.addStyleName(UIConstants.LINK_PENDING);
+										.addStyleName(UIConstants.LINK_PENDING);
 							} else if (ticket.getDueDate() != null
-									&& ticket.getDueDate()
-									.before(new GregorianCalendar()
-									.getTime())) {
+									&& ticket.getDueDate().before(
+											new GregorianCalendar().getTime())) {
 								ticketLink
-								.addStyleName(UIConstants.LINK_OVERDUE);
+										.addStyleName(UIConstants.LINK_OVERDUE);
 							}
 						}
 					}
@@ -324,9 +321,9 @@ FollowingTicketView {
 							final PageActionChain chain = new PageActionChain(
 									new ProjectScreenData.Goto(projectId));
 							EventBus.getInstance()
-							.fireEvent(
-									new ProjectEvent.GotoMyProject(
-											this, chain));
+									.fireEvent(
+											new ProjectEvent.GotoMyProject(
+													this, chain));
 						}
 					});
 					projectLink.setIcon(MyCollabResource

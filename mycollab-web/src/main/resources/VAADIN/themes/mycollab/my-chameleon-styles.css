@@ -87,7 +87,7 @@ body.v-ie7 .v-menubar-submenu,
 .v-label,
 .sidebar-menu .v-label,
 .v-table-scrollposition {
-	@optional-generated-shadow@
+	//@optional-generated-shadow@
 	}
 
 /* Base background color */
@@ -336,7 +336,8 @@ td.v-datefield-calendarpanel-month,
 .sidebar-menu .tab-selected,
 .sidebar-menu .selected {
 	text-shadow: 0 1px 0 rgb(73,89,114);
-	}@import "../chameleon/styles.css";
+	}
+//@import "../chameleon/styles.css";
 
 /** 
  * "optional-" prefix means that the style is not necessarily used, it can be left blank
@@ -429,7 +430,7 @@ body.v-ie7 .v-menubar-submenu,
 .v-label,
 .sidebar-menu .v-label,
 .v-table-scrollposition {
-	@optional-generated-shadow@
+	//@optional-generated-shadow@
 	}
 
 /* Base background color */

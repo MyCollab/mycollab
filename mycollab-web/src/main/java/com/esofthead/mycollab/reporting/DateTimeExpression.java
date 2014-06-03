@@ -12,17 +12,17 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 4.1.2
  * 
  */
-public class DateExpression extends AbstractFieldExpression {
+public class DateTimeExpression extends AbstractFieldExpression {
 	private static final long serialVersionUID = 1L;
 
-	public DateExpression(String field) {
+	public DateTimeExpression(String field) {
 		super(field);
 	}
 
 	@Override
 	public String evaluate(ReportParameters reportParameters) {
 		Date date = reportParameters.getFieldValue(field);
-		return AppContext.formatDate(date);
+		return AppContext.formatDateTime(date);
 	}
 
 }

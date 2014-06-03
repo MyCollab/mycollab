@@ -40,6 +40,7 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.AccountLogoFactory;
 import com.esofthead.mycollab.vaadin.ui.FeedbackWindow;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationButton;
@@ -167,6 +168,9 @@ public final class MainView extends AbstractPageView {
 		layout.setStyleName("topNavigation");
 		layout.setHeight("40px");
 		layout.setWidth("100%");
+		layout.addComponent(AccountLogoFactory.createAccountLogoImageComponent(
+				ThemeManager.loadLogoPath(AppContext.getAccountId()), 150),
+				"mainLogo");
 		serviceMenu = new ServiceMenu();
 		serviceMenu.addStyleName("topNavPopup");
 

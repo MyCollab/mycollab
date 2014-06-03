@@ -18,11 +18,13 @@ package com.esofthead.mycollab.module.file.service;
 
 import java.awt.image.BufferedImage;
 
+import com.esofthead.mycollab.core.persistence.service.IService;
+
 /**
  * @author MyCollab Ltd.
  * @since 4.1.2
  * 
  */
-public interface AccountLogoService {
+public interface AccountLogoService extends IService {
 	String uploadLogo(BufferedImage logo, String logoId, int saccountid);
 }

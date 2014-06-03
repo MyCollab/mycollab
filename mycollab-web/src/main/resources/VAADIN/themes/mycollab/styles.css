@@ -346,7 +346,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     }
 
 .small-padding .v-icon, 
-.v-ie .small-padding .v-icon,{
+.v-ie .small-padding .v-icon{
     margin-right: 3px;
 }
 
@@ -566,15 +566,6 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .splitbutton .v-popupbutton .v-button-wrap, .v-ie .splitbutton .v-popupbutton .v-button-wrap {
     padding-left:3px;
     padding-right:3px;
-}
-
-
- {
-    /* background-color:#b2b2b2; */
-}
-
-.v-upload .v-button {
-    /*color: white;*/
 }
 
 div.v-button-nonPopupIndicator div.v-popup-indicator {
@@ -910,7 +901,6 @@ input.v-textfield-pagedtable-pagefield {
 
 #mainLogo {
     float: left;
-    height: 38px;
     width: 150px;
     margin: 6px 15px 1px 0px;
     display: block;
@@ -1101,7 +1091,7 @@ input.v-textfield-pagedtable-pagefield {
     min-height: 100%;
 }
 .crmContainer {
-    width: 100%:
+    width: 100%;
 }
 .crmContainer .main-view {
     background-color: #FFFFFF;
@@ -3603,8 +3593,7 @@ div.v-window-header {
 /* End no border Panel */
 
 /* Form Container View Field */
-.form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus,
- {
+.form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus {
     height: 18px;
     /*border-radius: 8px 8px 8px 8px;*/
     background: url("icons/grad-dark-bottom.png") repeat-x scroll left
@@ -6438,7 +6427,7 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .splitbutton .v-button.action-button:active {
     border-color:#CFCFCF;   
 }
-.splitbutton .v-button.action-button .v-button-wrap {p
+.splitbutton .v-button.action-button .v-button-wrap {
     padding: 6px 12px 6px 12px !important;
     border:none;
     border-top:1px solid transparent;
@@ -6963,4 +6952,10 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .addview-layout-body .v-gridlayout.no-border .v-gridlayout-slot > div {
 	border: none;
+}
+.example-block {
+	position: relative;
+}
+.accountViewContainer .example-block .sidebar-menu {
+	padding: 10px 0px;
 }

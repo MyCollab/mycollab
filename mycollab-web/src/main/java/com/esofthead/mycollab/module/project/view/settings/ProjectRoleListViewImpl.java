@@ -107,7 +107,10 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 					@Override
 					public Object generateCell(final Table source,
 							final Object itemId, final Object columnId) {
-						final CheckBoxDecor cb = new CheckBoxDecor("", false);
+						final SimpleProjectRole role = ProjectRoleListViewImpl.this.tableItem
+								.getBeanByIndex(itemId);
+						final CheckBoxDecor cb = new CheckBoxDecor("", role
+								.isSelected());
 						cb.setImmediate(true);
 						cb.addValueChangeListener(new ValueChangeListener() {
 							private static final long serialVersionUID = 1L;
@@ -115,15 +118,11 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 							@Override
 							public void valueChange(
 									Property.ValueChangeEvent event) {
-								final SimpleProjectRole role = ProjectRoleListViewImpl.this.tableItem
-										.getBeanByIndex(itemId);
 								ProjectRoleListViewImpl.this.tableItem
 										.fireSelectItemEvent(role);
 							}
 						});
 
-						final ProjectRole role = ProjectRoleListViewImpl.this.tableItem
-								.getBeanByIndex(itemId);
 						role.setExtraData(cb);
 						return cb;
 					}

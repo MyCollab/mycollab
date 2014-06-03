@@ -84,6 +84,21 @@ public class S3StorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
+	public String generateLogoPath(String accountLogoId, int size) {
+		String s3UrlPath = ApplicationProperties.getString(S3_DOWNLOAD_URL, "");
+		if ("".equals(s3UrlPath)) {
+			return "";
+		} else {
+			if (accountLogoId == null || "".equals(accountLogoId.trim())) {
+				return MyCollabAssets.newResourceLink("icons/logo.png");
+			} else {
+				return s3UrlPath + "avatar/" + accountLogoId + "_" + size
+						+ ".png";
+			}
+		}
+	}
+
+	@Override
 	public String generateResourcePath(String documentPath) {
 		String s3UrlPath = ApplicationProperties.getString(S3_DOWNLOAD_URL, "");
 		if ("".equals(s3UrlPath)) {

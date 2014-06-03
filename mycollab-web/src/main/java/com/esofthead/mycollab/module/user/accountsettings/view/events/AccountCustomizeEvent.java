@@ -49,4 +49,12 @@ public class AccountCustomizeEvent {
 			super(source, data);
 		}
 	}
+
+	public static class ResetTheme extends ApplicationEvent {
+		private static final long serialVersionUID = 1045585990446557122L;
+
+		public ResetTheme(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

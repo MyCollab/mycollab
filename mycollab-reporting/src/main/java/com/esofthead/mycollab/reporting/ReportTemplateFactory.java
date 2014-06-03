@@ -28,6 +28,10 @@ public class ReportTemplateFactory {
 	private static final AbstractReportTemplate jpReport = new ReportTemplateJp();
 	private static final AbstractReportTemplate enReport = new ReportTemplateEn();
 
+	public static AbstractReportTemplate getTemplate() {
+		return getTemplate(null);
+	}
+
 	public static AbstractReportTemplate getTemplate(LanguageSupport language) {
 		if (language == LanguageSupport.JAPAN) {
 			return jpReport;
