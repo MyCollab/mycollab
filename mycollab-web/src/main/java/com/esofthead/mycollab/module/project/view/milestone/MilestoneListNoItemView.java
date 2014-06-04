@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.view.bug;
+package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -39,53 +39,54 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
+
 @ViewComponent
-public class BugListNoItemView extends AbstractPageView {
-	private static final long serialVersionUID = 7964672404043432755L;
+public class MilestoneListNoItemView extends AbstractPageView {
+	private static final long serialVersionUID = 740826537581761743L;
 
-	public BugListNoItemView() {
-
+	public MilestoneListNoItemView() {
 		VerticalLayout layout = new VerticalLayout();
-		layout.addStyleName("bug-noitem");
+		layout.addStyleName("milestone-noitem");
 		layout.setSpacing(true);
 		layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		layout.setMargin(true);
 
 		Image image = new Image(null,
-				MyCollabResource.newResource("icons/48/project/bug.png"));
+				MyCollabResource.newResource("icons/48/project/milestone.png"));
 		layout.addComponent(image);
 
 		Label title = new Label(
-				AppContext.getMessage(BugI18nEnum.NO_ITEM_VIEW_TITLE));
+				AppContext.getMessage(MilestoneI18nEnum.NO_ITEM_VIEW_TITLE));
 		title.addStyleName("h2");
 		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(title);
 
 		Label body = new Label(
-				AppContext.getMessage(BugI18nEnum.NO_ITEM_VIEW_HINT));
+				AppContext.getMessage(MilestoneI18nEnum.NO_ITEM_VIEW_HINT));
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+		Button createMilestoneBtn = new Button(
+				AppContext.getMessage(MilestoneI18nEnum.NEW_PHASE_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						EventBus.getInstance().fireEvent(
-								new BugEvent.GotoAdd(this, null));
+								new MilestoneEvent.GotoAdd(this, null));
 					}
 				});
 
 		HorizontalLayout links = new HorizontalLayout();
 
-		links.addComponent(createBugBtn);
-		createBugBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		links.addComponent(createMilestoneBtn);
+		createMilestoneBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		links.setSpacing(true);
 
 		layout.addComponent(links);
 		this.addComponent(layout);
 		this.setComponentAlignment(layout, Alignment.TOP_CENTER);
 	}
+
 }

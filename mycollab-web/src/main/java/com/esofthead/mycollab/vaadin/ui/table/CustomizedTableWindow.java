@@ -166,7 +166,7 @@ public abstract class CustomizedTableWindow extends Window {
 						CustomizedTableWindow.this.close();
 					}
 				});
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonControls.addComponent(cancelBtn);
 
 		contentLayout.addComponent(buttonControls);

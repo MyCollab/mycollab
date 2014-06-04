@@ -42,11 +42,11 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
-extends VerticalLayout implements HasPagableHandlers {
+		extends VerticalLayout implements HasPagableHandlers {
 	private static final long serialVersionUID = 1L;
 
 	private int defaultNumberSearchItems = 10;
-	protected final VerticalLayout listContainer;
+	protected final CssLayout listContainer;
 	protected final RowDisplayHandler<T> rowDisplayHandler;
 	protected int currentPage = 1;
 	protected int totalPage = 1;
@@ -63,7 +63,9 @@ extends VerticalLayout implements HasPagableHandlers {
 			final int defaultNumberSearchItems) {
 		this.defaultNumberSearchItems = defaultNumberSearchItems;
 		this.rowDisplayHandler = rowDisplayHandler;
-		listContainer = new VerticalLayout();
+		listContainer = new CssLayout();
+		listContainer.setStyleName("beanlist-content");
+		listContainer.setWidth("100%");
 		this.addComponent(listContainer);
 	}
 
@@ -89,14 +91,15 @@ extends VerticalLayout implements HasPagableHandlers {
 		// defined layout here ---------------------------
 
 		if (this.currentPage > 1) {
-			final Button firstLink = new ButtonLink("1", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			final Button firstLink = new ButtonLink("1",
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanPagedList.this.pageChange(1);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanPagedList.this.pageChange(1);
+						}
+					}, false);
 			firstLink.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(firstLink);
 		}
@@ -113,7 +116,7 @@ extends VerticalLayout implements HasPagableHandlers {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractBeanPagedList.this
-							.pageChange(AbstractBeanPagedList.this.currentPage - 2);
+									.pageChange(AbstractBeanPagedList.this.currentPage - 2);
 						}
 					}, false);
 			previous2.addStyleName("buttonPaging");
@@ -127,7 +130,7 @@ extends VerticalLayout implements HasPagableHandlers {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							AbstractBeanPagedList.this
-							.pageChange(AbstractBeanPagedList.this.currentPage - 1);
+									.pageChange(AbstractBeanPagedList.this.currentPage - 1);
 						}
 					}, false);
 			previous1.addStyleName("buttonPaging");
@@ -136,14 +139,14 @@ extends VerticalLayout implements HasPagableHandlers {
 		// Here add current ButtonLink
 		final Button current = new ButtonLink("" + this.currentPage,
 				new ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				AbstractBeanPagedList.this
-				.pageChange(AbstractBeanPagedList.this.currentPage);
-			}
-		}, false);
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						AbstractBeanPagedList.this
+								.pageChange(AbstractBeanPagedList.this.currentPage);
+					}
+				}, false);
 		current.addStyleName("buttonPaging");
 		current.addStyleName("buttonPagingcurrent");
 
@@ -152,28 +155,28 @@ extends VerticalLayout implements HasPagableHandlers {
 		if (range >= 1) {
 			final Button next1 = new ButtonLink("" + (this.currentPage + 1),
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanPagedList.this
-					.pageChange(AbstractBeanPagedList.this.currentPage + 1);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanPagedList.this
+									.pageChange(AbstractBeanPagedList.this.currentPage + 1);
+						}
+					}, false);
 			next1.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next1);
 		}
 		if (range >= 2) {
 			final Button next2 = new ButtonLink("" + (this.currentPage + 2),
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanPagedList.this
-					.pageChange(AbstractBeanPagedList.this.currentPage + 2);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanPagedList.this
+									.pageChange(AbstractBeanPagedList.this.currentPage + 2);
+						}
+					}, false);
 			next2.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(next2);
 		}
@@ -185,14 +188,14 @@ extends VerticalLayout implements HasPagableHandlers {
 		if (range >= 3) {
 			final Button last = new ButtonLink("" + this.totalPage,
 					new ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					AbstractBeanPagedList.this
-					.pageChange(AbstractBeanPagedList.this.totalPage);
-				}
-			}, false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							AbstractBeanPagedList.this
+									.pageChange(AbstractBeanPagedList.this.totalPage);
+						}
+					}, false);
 			last.addStyleName("buttonPaging");
 			this.pageManagement.addComponent(last);
 		}
@@ -230,22 +233,10 @@ extends VerticalLayout implements HasPagableHandlers {
 
 		currentListData = queryCurrentData();
 
-		if (getComponentCount() > 0) {
-			final Component comp = getComponent(0);
-			if (comp instanceof CssLayout) {
-				removeComponent(comp);
-			}
-		}
-
-		final CssLayout content = new CssLayout();
-		content.setStyleName("beanlist-content");
-		content.setWidth("100%");
-		this.addComponent(content, 0);
-
 		int i = 0;
 		for (final T item : currentListData) {
 			final Component row = rowDisplayHandler.generateRow(item, i);
-			content.addComponent(row);
+			listContainer.addComponent(row);
 			i++;
 		}
 	}

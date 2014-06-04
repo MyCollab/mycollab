@@ -130,7 +130,7 @@ public class BasicInfoChangeWindow extends Window {
 					}
 				});
 
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		hlayoutControls.addComponent(cancelBtn);
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);

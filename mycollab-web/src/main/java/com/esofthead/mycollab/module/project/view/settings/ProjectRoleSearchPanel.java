@@ -127,7 +127,7 @@ public class ProjectRoleSearchPanel extends
 									.setValue("");
 						}
 					});
-			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			basicSearchBody.addComponent(clearBtn);
 			return basicSearchBody;
 		}

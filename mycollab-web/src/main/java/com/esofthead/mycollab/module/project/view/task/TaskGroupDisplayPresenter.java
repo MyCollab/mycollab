@@ -16,12 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -30,24 +36,43 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class TaskGroupDisplayPresenter extends
-		AbstractPresenter<TaskGroupDisplayView> {
+public class TaskGroupDisplayPresenter
+		extends
+		ProjectGenericListPresenter<TaskGroupDisplayView, TaskListSearchCriteria, SimpleTaskList> {
 
 	private static final long serialVersionUID = 1L;
 
+	private final ProjectTaskListService taskListService;
+
 	public TaskGroupDisplayPresenter() {
-		super(TaskGroupDisplayView.class);
+		super(TaskGroupDisplayView.class, TaskGroupNoItemView.class);
+
+		taskListService = ApplicationContextUtil
+				.getSpringBean(ProjectTaskListService.class);
+	}
+
+	@Override
+	protected void postInitView() {
+		// Override to avoid presenter setting up search handlers
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS)) {
-			TaskContainer taskContainer = (TaskContainer) container;
-			taskContainer.removeAllComponents();
 
-			taskContainer.addComponent(view.getWidget());
-			view.displayTaskList();
+			final TaskListSearchCriteria criteria = new TaskListSearchCriteria();
+			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
+					.getProjectId()));
+
+			int totalCount = taskListService.getTotalCount(criteria);
+
+			if (totalCount > 0) {
+				view.displayTaskList();
+				displayListView(container, data);
+			} else {
+				displayNoExistItems(container, data);
+			}
 
 			ProjectBreadcrumb breadCrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
@@ -55,5 +80,16 @@ public class TaskGroupDisplayPresenter extends
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
+	}
+
+	@Override
+	public ISearchableService<TaskListSearchCriteria> getSearchService() {
+		return taskListService;
+	}
+
+	@Override
+	protected void deleteSelectedItems() {
+		throw new UnsupportedOperationException(
+				"This presenter doesn't support this operation");
 	}
 }

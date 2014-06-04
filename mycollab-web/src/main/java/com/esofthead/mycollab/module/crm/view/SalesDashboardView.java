@@ -41,7 +41,7 @@ import com.vaadin.ui.VerticalLayout;
 public class SalesDashboardView extends Depot {
 	private static final long serialVersionUID = 1L;
 	private final String[] reportDashboard = { "OpportunitySalesStage",
-	"OpportunityLeadSource" };
+			"OpportunityLeadSource" };
 	private int currentReportIndex = 0;
 
 	public SalesDashboardView() {
@@ -86,7 +86,8 @@ public class SalesDashboardView extends Depot {
 
 		final PopupButton saleChartPopup = new PopupButton("");
 		saleChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
-		saleChartPopup.setIcon(MyCollabResource.newResource("icons/12/filter.png"));
+		saleChartPopup.setIcon(MyCollabResource
+				.newResource("icons/12/filter.png"));
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);
@@ -109,15 +110,15 @@ public class SalesDashboardView extends Depot {
 
 		final Button btnOpportunityLead = new Button("Opportunity Lead Source",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				saleChartPopup.setPopupVisible(false);
-				SalesDashboardView.this.currentReportIndex = 1;
-				SalesDashboardView.this.displayReport();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						saleChartPopup.setPopupVisible(false);
+						SalesDashboardView.this.currentReportIndex = 1;
+						SalesDashboardView.this.displayReport();
+					}
+				});
 		btnOpportunityLead.setStyleName("link");
 		filterBtnLayout.addComponent(btnOpportunityLead);
 

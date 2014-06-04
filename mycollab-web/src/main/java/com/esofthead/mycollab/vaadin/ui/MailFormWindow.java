@@ -212,7 +212,7 @@ public class MailFormWindow extends Window {
 					}
 				});
 
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlsLayout.addComponent(cancelBtn);
 		controlsLayout.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 

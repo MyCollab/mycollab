@@ -109,7 +109,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 						MassUpdateWindow.this.close();
 					}
 				});
-		closeBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		closeBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlsLayout.addComponent(closeBtn);
 		controlsLayout.setComponentAlignment(closeBtn, Alignment.MIDDLE_CENTER);
 		return controlsLayout;

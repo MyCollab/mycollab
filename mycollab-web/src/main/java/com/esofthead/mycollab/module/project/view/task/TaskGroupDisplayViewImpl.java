@@ -40,6 +40,10 @@ import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -47,6 +51,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
@@ -678,5 +683,47 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
 				new String[] { "Closed" }));
 		this.doSearch(criteria);
+	}
+
+	@Override
+	public void enableActionControls(int numOfSelectedItem) {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public void disableActionControls() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSearchHandlers<TaskListSearchCriteria> getSearchHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasMassItemActionHandlers getPopupActionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSelectableItemHandlers<SimpleTaskList> getSelectableItemHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public AbstractPagedBeanTable<TaskListSearchCriteria, SimpleTaskList> getPagedBeanTable() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
 	}
 }

@@ -31,7 +31,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -90,13 +89,9 @@ public class AdvancedInfoChangeWindow extends Window {
 		mainLayout.setComponentAlignment(passInfo.getLayout(),
 				Alignment.TOP_LEFT);
 
-		final Label lbSpace = new Label();
-		mainLayout.addComponent(lbSpace);
-		mainLayout.setExpandRatio(lbSpace, 1.0f);
-
 		final HorizontalLayout hlayoutControls = new HorizontalLayout();
 		hlayoutControls.setSpacing(true);
-		hlayoutControls.setMargin(true);
+		hlayoutControls.setMargin(new MarginInfo(false, true, false, true));
 		final Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
@@ -108,7 +103,7 @@ public class AdvancedInfoChangeWindow extends Window {
 					}
 				});
 
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		hlayoutControls.addComponent(cancelBtn);
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);

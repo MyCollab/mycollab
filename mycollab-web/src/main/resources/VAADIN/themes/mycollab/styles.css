@@ -361,12 +361,15 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-button
     {
     background-color: #F9F9F9;
-    border-width: 1px;
+    border-width: 0px;
     border-style: solid;
     border-color: #6a6a6a;
     border-radius: 2px;
     background-image:none;
     padding:0;
+}
+.v-button.hasborder {
+	border-width: 1px;
 }
 .v-ie .v-button, .v-ie .v-button:active, .v-ie .v-button:focus {
     background-image:none;
@@ -380,12 +383,14 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 	background-color: rgba(0, 0, 0, 0.1);
 }
 
-.v-button.link:hover .v-button-wrap {
+.v-button.link:hover .v-button-wrap, .v-button.transparentbtn:hover .v-button-wrap {
 	background-color: transparent;
 }
 
 .v-button.v-button-blankbtn, .v-button-blankbtn:focus {
     background-color: #FAFAFA;
+    border-color: #C8C8C8;
+    border-width: 1px;
     font-weight:normal;
 }
 
@@ -507,7 +512,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 }
 
 .v-buttongroup .v-button.v-button-middle {
-    border-width: 1px 0px 1px 0px;
+   /*  border-width: 1px 0px 1px 0px; */
     border-radius: 0px;
 }
 .v-buttongroup .v-button.v-button-middle .v-button-wrap{
@@ -526,7 +531,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 }
 
 .v-buttongroup .v-button.v-button-left {
-    border-width: 1px 0px 1px 1px;
+   /*  border-width: 1px 0px 1px 1px; */
 }
 
 .v-buttongroup .v-button:active .v-button-wrap {
@@ -556,7 +561,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     padding-left: 8px;
 }
 .splitbutton .v-popupbutton {
-    border-right-width: 1px;
+    /* border-right-width: 1px; */
     border-top-left-radius:0;
     border-bottom-left-radius:0;
 }
@@ -1056,6 +1061,7 @@ input.v-textfield-pagedtable-pagefield {
     border-radius: 3px 0px 0px 3px;
     border-right: medium none;
     border-color: #CFCFCF;
+    border-width: 1px;
     padding: 1px 0px 0px;
 }
 
@@ -1669,6 +1675,7 @@ input.v-textfield-errorField {
 .avatar-pass-wrapper .v-upload .v-button {
     color: #525252;
     border-color: #CFCFCF;
+    border-width: 1px;
 }
 
 .accountViewContainer .addview-layout-body {
@@ -1803,6 +1810,9 @@ input.v-textfield-errorField {
 .projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr .v-button-wrap {
     text-align: left;
     font-size: 13px;
+    position: relative;
+    padding-right: 20px;
+    text-overflow: ellipsis;
 }
 
 .projectDashboardView .navigator-wrap .project-list-comp .project-list-comp-hdr .v-button-wrap .v-icon {
@@ -1830,8 +1840,8 @@ input.v-textfield-errorField {
     position: relative;
     float: right;
     position: absolute;
-    right: 34px;
-    top: 10px;
+    right: 7px;
+    top: 7px;
 }
 
 
@@ -5198,7 +5208,7 @@ div.v-button-link.buttonPaging .v-button-wrap {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    border: 1px solid #777575;
+    border: 1px solid #C8C8C8;
 }
 div.v-button-link.buttonPaging:active .v-button-wrap, div.v-button-link.buttonPaging:focus .v-button-wrap {
     padding: 4px 0px 3px;

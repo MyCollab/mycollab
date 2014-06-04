@@ -26,13 +26,13 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -47,21 +47,21 @@ import com.vaadin.ui.UI;
  */
 public class ComponentListPresenter
 		extends
-		ListSelectionPresenter<ComponentListView, ComponentSearchCriteria, SimpleComponent> {
+		ProjectGenericListPresenter<ComponentListView, ComponentSearchCriteria, SimpleComponent> {
 
 	private static final long serialVersionUID = 1L;
-	private ComponentService componentService;
+	private final ComponentService componentService;
 
 	public ComponentListPresenter() {
-		super(ComponentListView.class);
+		super(ComponentListView.class, ComponentListNoItemView.class);
+
+		componentService = ApplicationContextUtil
+				.getSpringBean(ComponentService.class);
 	}
 
 	@Override
 	protected void postInitView() {
 		super.postInitView();
-
-		componentService = ApplicationContextUtil
-				.getSpringBean(ComponentService.class);
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
@@ -96,7 +96,15 @@ public class ComponentListPresenter
 			trackerContainer.removeAllComponents();
 			trackerContainer.addComponent(view.getWidget());
 
-			doSearch((ComponentSearchCriteria) data.getParams());
+			int totalCount = componentService
+					.getTotalCount((ComponentSearchCriteria) data.getParams());
+
+			if (totalCount > 0) {
+				displayListView(container, data);
+				doSearch((ComponentSearchCriteria) data.getParams());
+			} else {
+				displayNoExistItems(container, data);
+			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
@@ -121,19 +129,25 @@ public class ComponentListPresenter
 			if (keyList.size() > 0) {
 				componentService.massRemoveWithSession(keyList,
 						AppContext.getUsername(), AppContext.getAccountId());
-				doSearch(searchCriteria);
-				checkWhetherEnableTableActionControl();
 			}
 		} else {
 			componentService.removeByCriteria(searchCriteria,
 					AppContext.getAccountId());
+		}
+
+		int totalCount = componentService.getTotalCount(searchCriteria);
+
+		if (totalCount > 0) {
+			displayListView((ComponentContainer) view.getParent(), null);
 			doSearch(searchCriteria);
+		} else {
+			displayNoExistItems((ComponentContainer) view.getParent(), null);
 		}
 
 	}
 
 	@Override
 	public ISearchableService<ComponentSearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(ComponentService.class);
+		return componentService;
 	}
 }

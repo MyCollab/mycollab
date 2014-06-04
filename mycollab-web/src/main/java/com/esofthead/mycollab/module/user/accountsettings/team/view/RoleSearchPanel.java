@@ -148,7 +148,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 							RoleBasicSearchLayout.this.nameField.setValue("");
 						}
 					});
-			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
 			basicSearchBody.setComponentAlignment(clearBtn,

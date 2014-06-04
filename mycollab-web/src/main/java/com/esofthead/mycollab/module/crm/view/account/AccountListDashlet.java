@@ -55,26 +55,26 @@ public class AccountListDashlet extends Depot {
 				AccountTableFieldDef.phoneoffice, AccountTableFieldDef.email));
 
 		tableItem
-		.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-			private static final long serialVersionUID = 1L;
+				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return TableClickEvent.class;
-			}
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return TableClickEvent.class;
+					}
 
-			@Override
-			public void handle(final TableClickEvent event) {
-				final SimpleAccount account = (SimpleAccount) event
-						.getData();
-				if ("accountname".equals(event.getFieldName())) {
-					EventBus.getInstance().fireEvent(
-							new AccountEvent.GotoRead(
-									AccountListDashlet.this, account
-									.getId()));
-				}
-			}
-		});
+					@Override
+					public void handle(final TableClickEvent event) {
+						final SimpleAccount account = (SimpleAccount) event
+								.getData();
+						if ("accountname".equals(event.getFieldName())) {
+							EventBus.getInstance().fireEvent(
+									new AccountEvent.GotoRead(
+											AccountListDashlet.this, account
+													.getId()));
+						}
+					}
+				});
 		bodyContent.addComponent(tableItem);
 
 		Button customizeViewBtn = new Button("", new Button.ClickListener() {

@@ -98,12 +98,11 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 						clearFields();
 					}
 				});
-		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		UiUtils.addComponent(buttonControls, clearBtn, Alignment.MIDDLE_CENTER);
 
 		final Button basicSearchBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
+				AppContext.getMessage(GenericI18Enum.BUTTON_BASIC_SEARCH),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

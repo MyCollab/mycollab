@@ -142,7 +142,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 							UserBasicSearchLayout.this.nameField.setValue("");
 						}
 					});
-			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			clearBtn.addStyleName("cancel-button");
 			basicSearchBody.addComponent(clearBtn);
 			basicSearchBody.setComponentAlignment(clearBtn,
@@ -164,11 +164,10 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
 									RegisterStatusConstants.VERIFICATING }));
 
-			if (StringUtils
-					.isNotNullOrEmpty((String) this.nameField.getValue())) {
+			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue())) {
 				UserSearchPanel.this.searchCriteria
 						.setDisplayName(new StringSearchField(SearchField.AND,
-								(String) this.nameField.getValue()));
+								this.nameField.getValue()));
 			}
 			return UserSearchPanel.this.searchCriteria;
 		}

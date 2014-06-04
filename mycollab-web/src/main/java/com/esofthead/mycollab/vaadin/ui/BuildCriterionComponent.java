@@ -199,7 +199,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						buildFilterBox(null);
 					}
 				});
-		cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 		filterBox.addComponent(cancelBtn);
 	}
 

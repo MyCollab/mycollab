@@ -17,16 +17,18 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public interface TaskGroupDisplayView extends PageView {
+public interface TaskGroupDisplayView extends
+		ListView<TaskListSearchCriteria, SimpleTaskList> {
 
-    void insertTaskList(SimpleTaskList taskList);
+	void insertTaskList(SimpleTaskList taskList);
 
-    void displayTaskList();
+	void displayTaskList();
 }

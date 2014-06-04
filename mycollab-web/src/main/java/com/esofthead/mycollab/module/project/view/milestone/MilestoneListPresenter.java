@@ -22,17 +22,18 @@ import java.util.List;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.ListCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -41,13 +42,24 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class MilestoneListPresenter extends
-AbstractPresenter<MilestoneListView> implements
-ListCommand<MilestoneSearchCriteria> {
+public class MilestoneListPresenter
+		extends
+		ProjectGenericListPresenter<MilestoneListView, MilestoneSearchCriteria, SimpleMilestone>
+		implements ListCommand<MilestoneSearchCriteria> {
 	private static final long serialVersionUID = 1L;
 
+	private final MilestoneService milestoneService;
+
 	public MilestoneListPresenter() {
-		super(MilestoneListView.class);
+		super(MilestoneListView.class, MilestoneListNoItemView.class);
+
+		milestoneService = ApplicationContextUtil
+				.getSpringBean(MilestoneService.class);
+	}
+
+	@Override
+	protected void postInitView() {
+		// Override to prevent setting up search handlers
 	}
 
 	@Override
@@ -60,16 +72,24 @@ ListCommand<MilestoneSearchCriteria> {
 
 			MilestoneSearchCriteria searchCriteria;
 
-			if (data.getParams() == null || !(data.getParams() instanceof MilestoneSearchCriteria)) {
+			if (data.getParams() == null
+					|| !(data.getParams() instanceof MilestoneSearchCriteria)) {
 				searchCriteria = new MilestoneSearchCriteria();
-				searchCriteria.setProjectId(new NumberSearchField(
-						SearchField.AND, CurrentProjectVariables
-						.getProjectId()));
+				searchCriteria
+						.setProjectId(new NumberSearchField(SearchField.AND,
+								CurrentProjectVariables.getProjectId()));
 			} else {
 				searchCriteria = (MilestoneSearchCriteria) data.getParams();
 			}
 
-			doSearch(searchCriteria);
+			int totalCount = milestoneService.getTotalCount(searchCriteria);
+
+			if (totalCount > 0) {
+				doSearch(searchCriteria);
+				displayListView(container, data);
+			} else {
+				displayNoExistItems(container, data);
+			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
@@ -81,12 +101,21 @@ ListCommand<MilestoneSearchCriteria> {
 
 	@Override
 	public void doSearch(MilestoneSearchCriteria searchCriteria) {
-		MilestoneService milestoneService = ApplicationContextUtil
-				.getSpringBean(MilestoneService.class);
 		List<SimpleMilestone> milestones = milestoneService
 				.findPagableListByCriteria(new SearchRequest<MilestoneSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
 		view.displayMilestones(milestones);
+	}
+
+	@Override
+	public ISearchableService<MilestoneSearchCriteria> getSearchService() {
+		return milestoneService;
+	}
+
+	@Override
+	protected void deleteSelectedItems() {
+		throw new UnsupportedOperationException(
+				"This presenter doesn't support this operation");
 	}
 
 }

@@ -127,7 +127,7 @@ public class FileDownloadWindow extends Window {
 						FileDownloadWindow.this.close();
 					}
 				});
-		cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
+		cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
 
 		UiUtils.addComponent(buttonControls, cancel, Alignment.MIDDLE_CENTER);
 		UiUtils.addComponent(layout, buttonControls, Alignment.MIDDLE_CENTER);

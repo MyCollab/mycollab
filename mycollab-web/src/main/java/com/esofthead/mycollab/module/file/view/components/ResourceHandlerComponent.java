@@ -1056,7 +1056,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 							RenameResourceWindow.this.close();
 						}
 					});
-			cancel.addStyleName(UIConstants.THEME_BLANK_LINK);
+			cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
 			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);
 
@@ -1179,7 +1179,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 							AddNewFolderWindow.this.close();
 						}
 					});
-			cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+			cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 			controlsLayout.addComponent(cancelBtn);
 			controlsLayout.setComponentAlignment(cancelBtn,
 					Alignment.MIDDLE_RIGHT);
@@ -1297,7 +1297,7 @@ public class ResourceHandlerComponent extends VerticalLayout {
 							MultiUploadContentWindow.this.close();
 						}
 					});
-			cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+			cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 			controlsLayout.addComponent(cancelBtn);
 			controlsLayout.setComponentAlignment(cancelBtn,
 					Alignment.MIDDLE_RIGHT);

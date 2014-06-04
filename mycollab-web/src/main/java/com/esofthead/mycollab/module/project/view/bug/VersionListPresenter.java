@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.localization.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
@@ -33,7 +34,6 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.DefaultMassEditActionHandler;
-import com.esofthead.mycollab.vaadin.desktop.ui.ListSelectionPresenter;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -49,21 +49,21 @@ import com.vaadin.ui.UI;
  */
 public class VersionListPresenter
 		extends
-		ListSelectionPresenter<VersionListView, VersionSearchCriteria, SimpleVersion> {
+		ProjectGenericListPresenter<VersionListView, VersionSearchCriteria, SimpleVersion> {
 
 	private static final long serialVersionUID = 1L;
-	private VersionService versionService;
+	private final VersionService versionService;
 
 	public VersionListPresenter() {
-		super(VersionListView.class);
+		super(VersionListView.class, VersionListNoItemView.class);
+
+		versionService = ApplicationContextUtil
+				.getSpringBean(VersionService.class);
 	}
 
 	@Override
 	protected void postInitView() {
 		super.postInitView();
-
-		versionService = ApplicationContextUtil
-				.getSpringBean(VersionService.class);
 
 		view.getPopupActionHandlers().addMassItemActionHandler(
 				new DefaultMassEditActionHandler(this) {
@@ -96,7 +96,15 @@ public class VersionListPresenter
 			versionContainer.removeAllComponents();
 			versionContainer.addComponent(view.getWidget());
 
-			doSearch((VersionSearchCriteria) data.getParams());
+			int totalCount = versionService
+					.getTotalCount((VersionSearchCriteria) data.getParams());
+
+			if (totalCount > 0) {
+				displayListView(container, data);
+				doSearch((VersionSearchCriteria) data.getParams());
+			} else {
+				displayNoExistItems(container, data);
+			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
@@ -121,20 +129,26 @@ public class VersionListPresenter
 			if (keyList.size() > 0) {
 				versionService.massRemoveWithSession(keyList,
 						AppContext.getUsername(), AppContext.getAccountId());
-				doSearch(searchCriteria);
-				checkWhetherEnableTableActionControl();
 			}
 		} else {
 			versionService.removeByCriteria(searchCriteria,
 					AppContext.getAccountId());
+		}
+
+		int totalCount = versionService.getTotalCount(searchCriteria);
+
+		if (totalCount > 0) {
+			displayListView((ComponentContainer) view.getParent(), null);
 			doSearch(searchCriteria);
+		} else {
+			displayNoExistItems((ComponentContainer) view.getParent(), null);
 		}
 
 	}
 
 	@Override
 	public ISearchableService<VersionSearchCriteria> getSearchService() {
-		return ApplicationContextUtil.getSpringBean(VersionService.class);
+		return versionService;
 	}
 
 }

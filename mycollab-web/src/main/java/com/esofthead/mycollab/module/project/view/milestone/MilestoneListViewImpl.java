@@ -26,16 +26,22 @@ import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -269,5 +275,47 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 			}
 		}
 
+	}
+
+	@Override
+	public void enableActionControls(int numOfSelectedItem) {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public void disableActionControls() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSearchHandlers<MilestoneSearchCriteria> getSearchHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasMassItemActionHandlers getPopupActionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSelectableItemHandlers<SimpleMilestone> getSelectableItemHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public AbstractPagedBeanTable<MilestoneSearchCriteria, SimpleMilestone> getPagedBeanTable() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
 	}
 }

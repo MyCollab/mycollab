@@ -17,8 +17,9 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.localization.ComponentI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -36,52 +37,52 @@ import com.vaadin.ui.VerticalLayout;
 /**
  * 
  * @author MyCollab Ltd.
- * @since 4.1
+ * @since 4.1.2
  * 
  */
+
 @ViewComponent
-public class BugListNoItemView extends AbstractPageView {
-	private static final long serialVersionUID = 7964672404043432755L;
+public class ComponentListNoItemView extends AbstractPageView {
+	private static final long serialVersionUID = -77373259977614467L;
 
-	public BugListNoItemView() {
-
+	public ComponentListNoItemView() {
 		VerticalLayout layout = new VerticalLayout();
-		layout.addStyleName("bug-noitem");
+		layout.addStyleName("component-noitem");
 		layout.setSpacing(true);
 		layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		layout.setMargin(true);
 
 		Image image = new Image(null,
-				MyCollabResource.newResource("icons/48/project/bug.png"));
+				MyCollabResource.newResource("icons/48/project/component.png"));
 		layout.addComponent(image);
 
 		Label title = new Label(
-				AppContext.getMessage(BugI18nEnum.NO_ITEM_VIEW_TITLE));
+				AppContext.getMessage(ComponentI18nEnum.NO_ITEM_VIEW_TITLE));
 		title.addStyleName("h2");
 		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(title);
 
 		Label body = new Label(
-				AppContext.getMessage(BugI18nEnum.NO_ITEM_VIEW_HINT));
+				AppContext.getMessage(ComponentI18nEnum.NO_ITEM_VIEW_HINT));
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+		Button createComponentBtn = new Button(
+				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						EventBus.getInstance().fireEvent(
-								new BugEvent.GotoAdd(this, null));
+								new BugComponentEvent.GotoAdd(this, null));
 					}
 				});
 
 		HorizontalLayout links = new HorizontalLayout();
 
-		links.addComponent(createBugBtn);
-		createBugBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+		links.addComponent(createComponentBtn);
+		createComponentBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		links.setSpacing(true);
 
 		layout.addComponent(links);

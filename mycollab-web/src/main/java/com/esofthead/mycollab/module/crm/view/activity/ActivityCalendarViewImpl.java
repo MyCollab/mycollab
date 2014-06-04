@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.crm.view.activity.ActivityEventProvider.Crm
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -94,7 +94,7 @@ import com.vaadin.ui.components.calendar.handler.BasicWeekClickHandler;
  * 
  */
 @ViewComponent
-public class ActivityCalendarViewImpl extends AbstractPageView implements
+public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 		ActivityCalendarView {
 
 	private static final long serialVersionUID = 1L;
@@ -117,6 +117,9 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL));
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		calendarActionBtn.addStyleName("esofthead");
+
+		this.setVerticalTabsheetFix(true);
+		this.setVerticalTabsheetFixToLeft(false);
 
 		initContent();
 	}
@@ -873,7 +876,7 @@ public class ActivityCalendarViewImpl extends AbstractPageView implements
 									QuickCreateEventWindow.this.close();
 								}
 							});
-					cancelBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+					cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 					layout.addComponent(cancelBtn);
 					layout.setComponentAlignment(cancelBtn,
 							Alignment.MIDDLE_CENTER);

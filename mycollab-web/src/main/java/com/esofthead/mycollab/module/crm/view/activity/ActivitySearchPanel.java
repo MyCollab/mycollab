@@ -218,7 +218,7 @@ public class ActivitySearchPanel extends
 					Alignment.MIDDLE_LEFT);
 
 			final Button clearBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
-			clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			clearBtn.addStyleName("cancel-button");
 			clearBtn.addClickListener(new Button.ClickListener() {
 				@Override

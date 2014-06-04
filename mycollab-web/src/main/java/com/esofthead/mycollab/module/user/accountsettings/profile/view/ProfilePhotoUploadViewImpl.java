@@ -123,7 +123,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 										ProfilePhotoUploadViewImpl.this, null));
 					}
 				});
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlBtns.addComponent(cancelBtn);
 		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 

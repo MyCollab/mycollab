@@ -163,7 +163,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 					}
 				});
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlButtons.addComponent(cancelBtn);
 
 		controlButtons.setSizeUndefined();

@@ -104,6 +104,8 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 	private final TopMessagePanel topMessagePanel;
 
+	private boolean isEmpty;
+
 	public MessageListViewImpl() {
 		super();
 		this.setWidth("100%");
@@ -120,12 +122,10 @@ public class MessageListViewImpl extends AbstractPageView implements
 								.setSearchCriteria(criteria);
 					}
 				});
-		this.addComponent(this.topMessagePanel);
 		this.tableItem = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),
 				new MessageRowDisplayHandler());
 		this.tableItem.setStyleName("message-list");
-		this.addComponent(this.tableItem);
 	}
 
 	@Override
@@ -151,9 +151,23 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 	@Override
 	public void setCriteria(final MessageSearchCriteria criteria) {
+		this.removeAllComponents();
 		this.searchCriteria = criteria;
+		MessageService messageService = ApplicationContextUtil
+				.getSpringBean(MessageService.class);
+		int totalCount = messageService.getTotalCount(searchCriteria);
+
+		this.isEmpty = (totalCount > 0) ? false : true;
+
 		this.topMessagePanel.createBasicLayout();
-		this.tableItem.setSearchCriteria(this.searchCriteria);
+		this.addComponent(topMessagePanel);
+
+		if (this.isEmpty) {
+			this.addComponent(new MessageListNoItemView());
+		} else {
+			this.tableItem.setSearchCriteria(searchCriteria);
+			this.addComponent(tableItem);
+		}
 
 	}
 
@@ -523,10 +537,11 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							TopMessagePanel.this.createBasicLayout();
+							MessageListViewImpl.this
+									.setCriteria(searchCriteria);
 						}
 					});
-			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			controls.addComponent(cancelBtn);
 			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
@@ -580,31 +595,91 @@ public class MessageListViewImpl extends AbstractPageView implements
 			this.messagePanelBody.removeAllComponents();
 			this.messagePanelBody.addComponent(this.messageSearchPanel);
 
-			final Button createMessageBtn = new Button(
+			if (!MessageListViewImpl.this.isEmpty) {
+				final Button createMessageBtn = new Button(
+						AppContext
+								.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
+						new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(final ClickEvent event) {
+								TopMessagePanel.this.createAddMessageLayout();
+							}
+						});
+				createMessageBtn.setEnabled(CurrentProjectVariables
+						.canWrite(ProjectRolePermissionCollections.MESSAGES));
+				createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+				createMessageBtn.setIcon(MyCollabResource
+						.newResource("icons/16/addRecord.png"));
+				createMessageBtn.setEnabled(CurrentProjectVariables
+						.canWrite(ProjectRolePermissionCollections.MESSAGES));
+
+				this.messagePanelBody.addComponent(createMessageBtn);
+				this.messagePanelBody.setComponentAlignment(createMessageBtn,
+						Alignment.MIDDLE_RIGHT);
+			}
+
+		}
+
+		public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
+			return this.messageSearchPanel;
+		}
+	}
+
+	private class MessageListNoItemView extends VerticalLayout {
+		private static final long serialVersionUID = 6711716775690122182L;
+
+		public MessageListNoItemView() {
+
+			VerticalLayout layout = new VerticalLayout();
+			layout.addStyleName("message-noitem");
+			layout.setSpacing(true);
+			layout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+			layout.setMargin(true);
+
+			Image image = new Image(null,
+					MyCollabResource
+							.newResource("icons/48/project/message.png"));
+			layout.addComponent(image);
+
+			Label title = new Label(
+					AppContext.getMessage(MessageI18nEnum.NO_ITEM_VIEW_TITLE));
+			title.addStyleName("h2");
+			title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			layout.addComponent(title);
+
+			Label body = new Label(
+					AppContext.getMessage(MessageI18nEnum.NO_ITEM_VIEW_HINT));
+			body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			layout.addComponent(body);
+
+			Button createMessageBtn = new Button(
 					AppContext.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							TopMessagePanel.this.createAddMessageLayout();
+							MessageListViewImpl.this.createAddMessageLayout();
 						}
 					});
-			createMessageBtn.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.MESSAGES));
-			createMessageBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-			createMessageBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
-			createMessageBtn.setEnabled(CurrentProjectVariables
-					.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
-			this.messagePanelBody.addComponent(createMessageBtn);
-			this.messagePanelBody.setComponentAlignment(createMessageBtn,
-					Alignment.MIDDLE_RIGHT);
-		}
+			HorizontalLayout links = new HorizontalLayout();
 
-		public HasSearchHandlers<MessageSearchCriteria> getSearchHandlers() {
-			return this.messageSearchPanel;
+			links.addComponent(createMessageBtn);
+			createMessageBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+			links.setSpacing(true);
+
+			layout.addComponent(links);
+			this.addComponent(layout);
+			this.setComponentAlignment(layout, Alignment.TOP_CENTER);
 		}
+	}
+
+	public void createAddMessageLayout() {
+		this.removeAllComponents();
+		topMessagePanel.createAddMessageLayout();
+		this.addComponent(topMessagePanel);
 	}
 }

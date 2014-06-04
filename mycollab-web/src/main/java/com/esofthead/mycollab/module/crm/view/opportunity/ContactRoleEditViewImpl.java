@@ -138,24 +138,24 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		buttonWrapper.addComponent(updateBtn);
 
 		Button cancelBtn = new Button(
-				AppContext
-						.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ViewState viewState = HistoryViewManager.back();
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ViewState viewState = HistoryViewManager.back();
 
-				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
-							new ContactEvent.GotoList(this, null));
-				}
+						if (viewState instanceof NullViewState) {
+							EventBus.getInstance().fireEvent(
+									new ContactEvent.GotoList(this, null));
+						}
 
-			}
-		});
+					}
+				});
 		cancelBtn.setIcon(MyCollabResource
 				.newResource("icons/16/cancel_black.png"));
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonWrapper.addComponent(cancelBtn);
 
 		layout.addComponent(buttonWrapper);

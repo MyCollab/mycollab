@@ -80,7 +80,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 				searchCriteria.setSummary(new StringSearchField(textValueField
 						.getValue().toString().trim()));
 
-				if ((Boolean) chkIsOpenBug.getValue()) {
+				if (chkIsOpenBug.getValue()) {
 					searchCriteria.setStatuses(new SetSearchField<String>(
 							SearchField.AND, new String[] {
 									BugStatusConstants.INPROGRESS,
@@ -97,7 +97,7 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 
 		Button clearBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
-		clearBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		clearBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		clearBtn.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {

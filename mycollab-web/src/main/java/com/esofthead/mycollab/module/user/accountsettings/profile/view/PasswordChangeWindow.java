@@ -110,7 +110,7 @@ public class PasswordChangeWindow extends Window {
 					}
 				});
 
-		cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		hlayoutControls.addComponent(cancelBtn);
 		hlayoutControls.setSpacing(true);
 		hlayoutControls.setMargin(true);

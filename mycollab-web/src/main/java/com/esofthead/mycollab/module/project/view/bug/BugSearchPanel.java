@@ -189,14 +189,13 @@ public class BugSearchPanel extends
 
 			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
-			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					BugBasicSearchLayout.this.nameField.setValue("");
 				}
 			});
-			cancelBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
+			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			basicSearchBody.addComponent(cancelBtn);
 
 			final Button advancedSearchBtn = new Button(
