@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.community.module.user.service.mybatis;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
+import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
+import com.esofthead.mycollab.module.user.dao.AccountThemeMapper;
 import com.esofthead.mycollab.module.user.domain.AccountTheme;
 import com.esofthead.mycollab.module.user.service.AccountThemeService;
 
@@ -31,64 +33,26 @@ import com.esofthead.mycollab.module.user.service.AccountThemeService;
  * 
  */
 @Service
-public class AccountThemeServiceImpl implements AccountThemeService {
+public class AccountThemeServiceImpl extends
+		DefaultCrudService<Integer, AccountTheme> implements
+		AccountThemeService {
+
+	@Autowired
+	private AccountThemeMapper accountThemeMapper;
 
 	@Override
-	public int saveWithSession(AccountTheme record, String username) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public int updateWithSession(AccountTheme record, String username) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public int updateWithSessionWithSelective(AccountTheme record,
-			String username) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public void massUpdateWithSession(AccountTheme record,
-			List<Integer> primaryKeys, int accountId) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public AccountTheme findByPrimaryKey(Integer primaryKey, int sAccountId) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public int removeWithSession(Integer primaryKey, String username,
-			int sAccountId) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
-	}
-
-	@Override
-	public void massRemoveWithSession(List<Integer> primaryKeys,
-			String username, int sAccountId) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
+	public ICrudGenericDAO<Integer, AccountTheme> getCrudMapper() {
+		return accountThemeMapper;
 	}
 
 	@Override
 	public AccountTheme getAccountTheme(int saccountid) {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
+		return null;
 	}
 
 	@Override
 	public AccountTheme getDefaultTheme() {
-		throw new MyCollabException(
-				"This feature is not supported except onsite and premium mode");
+		return null;
 	}
 
 	@Override
