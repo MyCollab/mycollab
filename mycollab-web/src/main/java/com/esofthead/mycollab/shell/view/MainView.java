@@ -109,6 +109,8 @@ public final class MainView extends AbstractPageView {
 			serviceMenu.selectService(1);
 		} else if (ModuleHelper.isCurrentFileModule()) {
 			serviceMenu.selectService(2);
+		} else if (ModuleHelper.isCurrentAccountModule()) {
+			serviceMenu.selectService(3);
 		}
 	}
 
@@ -210,6 +212,19 @@ public final class MainView extends AbstractPageView {
 					public void buttonClick(final ClickEvent event) {
 						EventBus.getInstance().fireEvent(
 								new ShellEvent.GotoFileModule(this, null));
+					}
+				});
+
+		serviceMenu.addService("People",
+				MyCollabResource.newResource("icons/16/account.png"),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoUserAccountModule(this,
+										new String[] { "user", "list" }));
 					}
 				});
 
@@ -324,7 +339,7 @@ public final class MainView extends AbstractPageView {
 		myAccountBtn.setStyleName("link");
 		accLayout.addComponent(myAccountBtn);
 
-		final Button userMgtBtn = new Button("User Management",
+		final Button userMgtBtn = new Button("Users & Roles",
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -48,9 +48,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 @Component("updateUserInfoServlet")
-public class UserUpdateInfoHandlerServlet extends GenericServletRequestHandler {
+public class UpdateUserInfoAction extends GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
-			.getLogger(UserUpdateInfoHandlerServlet.class);
+			.getLogger(UpdateUserInfoAction.class);
 
 	@Autowired
 	private UserMapper userMapper;

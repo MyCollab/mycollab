@@ -71,7 +71,7 @@ public class SendUserInvitationEmailJob extends QuartzJobBean {
 					invitation.getUsername(), invitation.getSubdomain());
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"You are invited to join the mycollab site ",
+					"You are invited to join the MyCollab!",
 					"templates/email/user/userInvitationNotifier.mt");
 			templateGenerator.putVariable("invitation", invitation);
 

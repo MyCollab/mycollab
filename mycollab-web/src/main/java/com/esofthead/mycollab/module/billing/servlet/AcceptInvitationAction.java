@@ -37,6 +37,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.billing.UserStatusConstants;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -52,11 +53,10 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("acceptUserInvitationServlet")
-public class VerifyUserServletRequestHandler extends
-		VelocityWebServletRequestHandler {
+public class AcceptInvitationAction extends VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(VerifyUserServletRequestHandler.class);
+			.getLogger(AcceptInvitationAction.class);
 
 	@Autowired
 	private UserService userService;
@@ -85,6 +85,12 @@ public class VerifyUserServletRequestHandler extends
 				}
 
 				User user = userService.findUserByUserName(username);
+				if (!UserStatusConstants.EMAIL_VERIFIED
+						.equals(user.getStatus())) {
+					user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
+					userService.updateWithSession(user, "");
+				}
+				
 				SimpleUser userInAccount = userService
 						.findUserByUserNameInAccount(username, accountId);
 

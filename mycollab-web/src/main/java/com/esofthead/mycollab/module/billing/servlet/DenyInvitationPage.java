@@ -50,14 +50,14 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("denyUserInviteServlet")
-public class DenyUserServletRequestHandler extends
+public class DenyInvitationPage extends
 		VelocityWebServletRequestHandler {
 
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
 	private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
 
 	private static Logger log = LoggerFactory
-			.getLogger(DenyUserServletRequestHandler.class);
+			.getLogger(DenyInvitationPage.class);
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,

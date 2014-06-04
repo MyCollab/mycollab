@@ -25,7 +25,7 @@ import java.util.Map;
 
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.billing.servlet.VerifyUserServletRequestHandler;
+import com.esofthead.mycollab.module.billing.servlet.AcceptInvitationAction;
 import com.esofthead.template.velocity.TemplateContext;
 import com.esofthead.template.velocity.TemplateEngine;
 
@@ -45,11 +45,11 @@ public abstract class VelocityWebServletRequestHandler extends
 		Reader reader = null;
 		try {
 			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class.getClassLoader()
+					AcceptInvitationAction.class.getClassLoader()
 							.getResourceAsStream(templatePath), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			reader = new InputStreamReader(
-					VerifyUserServletRequestHandler.class.getClassLoader()
+					AcceptInvitationAction.class.getClassLoader()
 							.getResourceAsStream(templatePath));
 		}
 

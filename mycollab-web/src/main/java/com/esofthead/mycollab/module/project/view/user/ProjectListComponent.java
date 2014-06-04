@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
@@ -106,7 +107,7 @@ public class ProjectListComponent extends VerticalLayout {
 			createProjectBtn.setIcon(MyCollabResource
 					.newResource("icons/18/create.png"));
 			createProjectBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
-			createProjectBtn.setDescription("Create new Project");
+			createProjectBtn.setDescription("New Project");
 			UiUtils.addComponent(headerBar, createProjectBtn,
 					Alignment.MIDDLE_RIGHT);
 		}
@@ -139,8 +140,10 @@ public class ProjectListComponent extends VerticalLayout {
 		this.projectList.setSearchCriteria(searchCriteria);
 		this.headerPopupButton.setCaption(CurrentProjectVariables.getProject()
 				.getName());
-		this.projectDesc.setValue(CurrentProjectVariables.getProject()
-				.getDescription());
+
+		String desc = CurrentProjectVariables.getProject().getDescription();
+		desc = StringUtils.trim(desc, 150, true);
+		this.projectDesc.setValue(desc);
 	}
 
 	private class ProjectPagedList extends

@@ -46,10 +46,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 @Component("updateUserPasswordServlet")
-public class UserRecoveryPasswordActionHandlerServlet extends
+public class RecoverPasswordUpdateAction extends
 		GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
-			.getLogger(UserRecoveryPasswordActionHandlerServlet.class);
+			.getLogger(RecoverPasswordUpdateAction.class);
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,

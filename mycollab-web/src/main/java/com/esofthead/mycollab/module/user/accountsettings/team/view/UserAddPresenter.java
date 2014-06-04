@@ -91,7 +91,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 		item.setAccountId(AppContext.getAccountId());
 
 		if (item.getStatus() == null) {
-			item.setStatus(UserStatusConstants.EMAIL_NOT_VERIFIED);
+			item.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
 		}
 
 		if (item.getUsername() == null) {

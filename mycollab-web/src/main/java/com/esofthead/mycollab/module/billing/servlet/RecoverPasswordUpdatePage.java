@@ -44,11 +44,11 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("recoverUserPasswordServlet")
-public class UserRecoveryPasswordHandlerServlet extends
+public class RecoverPasswordUpdatePage extends
 		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(UserRecoveryPasswordHandlerServlet.class);
+			.getLogger(RecoverPasswordUpdatePage.class);
 
 	@Autowired
 	private UserService userService;
