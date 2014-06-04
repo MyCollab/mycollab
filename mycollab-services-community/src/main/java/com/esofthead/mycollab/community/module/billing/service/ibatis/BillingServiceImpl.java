@@ -18,8 +18,6 @@ package com.esofthead.mycollab.community.module.billing.service.ibatis;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.module.billing.service.BillingService;
-import com.esofthead.mycollab.module.user.dao.AccountSettingsMapper;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapper;
 import com.esofthead.mycollab.module.user.dao.BillingAccountMapperExt;
 import com.esofthead.mycollab.module.user.dao.BillingPlanMapper;
@@ -41,8 +38,6 @@ import com.esofthead.mycollab.module.user.service.RoleService;
 
 @Service(value = "billingService")
 public class BillingServiceImpl implements BillingService {
-	private static Logger log = LoggerFactory
-			.getLogger(BillingServiceImpl.class);
 
 	@Autowired
 	private BillingPlanMapper billingPlanMapper;
@@ -52,9 +47,6 @@ public class BillingServiceImpl implements BillingService {
 
 	@Autowired
 	private BillingAccountMapperExt billingAccountMapperExt;
-
-	@Autowired
-	private AccountSettingsMapper accountSettingMapper;
 
 	@Autowired
 	private UserAccountMapper userAccountMapper;

@@ -28,17 +28,17 @@ import com.vaadin.server.Page;
  * 
  */
 public class ThemeManager {
-    
-        public static String loadLogoPath(int saccountid) {
-            AccountThemeService themeService = ApplicationContextUtil
+
+	public static String loadLogoPath(int saccountid) {
+		AccountThemeService themeService = ApplicationContextUtil
 				.getSpringBean(AccountThemeService.class);
 
-            AccountTheme accountTheme = themeService.getAccountTheme(saccountid);
+		AccountTheme accountTheme = themeService.getAccountTheme(saccountid);
 
-            if (accountTheme == null || accountTheme.getId() == null)
-                    return null;
-            return accountTheme.getLogopath();
-        }
+		if (accountTheme == null || accountTheme.getId() == null)
+			return null;
+		return accountTheme.getLogopath();
+	}
 
 	public static void loadUserTheme(int saccountid) {
 		AccountThemeService themeService = ApplicationContextUtil
@@ -399,7 +399,7 @@ public class ThemeManager {
 		if (accountTheme.getHtopmenubg() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .h-sidebar-menu, .projectfeed-hdr-wrapper { background-color: #"
+					.add(".example-block .h-sidebar-menu, .example-block .projectfeed-hdr-wrapper { background-color: #"
 							+ accountTheme.getHtopmenubg() + "; }");
 		}
 
@@ -413,14 +413,14 @@ public class ThemeManager {
 		if (accountTheme.getHtopmenutext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .h-sidebar-menu .v-button.v-button-link:active .v-button-caption { color: #"
+					.add(".example-block .h-sidebar-menu .v-button.v-button-link:focus .v-button-caption, .example-block .h-sidebar-menu .v-button.v-button-link:active .v-button-caption { color: #"
 							+ accountTheme.getHtopmenutext() + "; }");
 		}
 
 		if (accountTheme.getHtopmenutextselected() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption, .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover { color: #"
+					.add(".example-block .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption, .example-block .h-sidebar-menu .v-button.v-button-link.isSelected .v-button-caption:hover { color: #"
 							+ accountTheme.getHtopmenutextselected() + "; }");
 		}
 
@@ -429,7 +429,7 @@ public class ThemeManager {
 		if (accountTheme.getActionbtn() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-greenbtn, .v-button-greenbtn:focus { background-color: #"
+					.add(".example-block .v-button.v-button-greenbtn, .example-block .v-button-greenbtn:focus { background-color: #"
 							+ accountTheme.getActionbtn()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme.getActionbtn())
@@ -439,7 +439,7 @@ public class ThemeManager {
 		if (accountTheme.getActionbtntext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-greenbtn, .v-button-greenbtn:focus { color: #"
+					.add(".example-block .v-button.v-button-greenbtn, .example-block .v-button-greenbtn:focus { color: #"
 							+ accountTheme.getActionbtntext() + "; }");
 		}
 
@@ -448,7 +448,7 @@ public class ThemeManager {
 		if (accountTheme.getControlbtn() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-brownbtn, .v-button-brownbtn:focus { background-color: #"
+					.add(".example-block .v-button.v-button-brownbtn, .example-block .v-button-brownbtn:focus { background-color: #"
 							+ accountTheme.getControlbtn()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme.getControlbtn())
@@ -458,7 +458,7 @@ public class ThemeManager {
 		if (accountTheme.getControlbtntext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-brownbtn, .v-button-brownbtn:focus { color: #"
+					.add(".example-block .v-button.v-button-brownbtn, .example-block .v-button-brownbtn:focus { color: #"
 							+ accountTheme.getControlbtntext() + "; }");
 		}
 
@@ -467,7 +467,7 @@ public class ThemeManager {
 		if (accountTheme.getOptionbtn() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-graybtn, .v-button-graybtn:focus { background-color: #"
+					.add(".example-block .v-button.v-button-graybtn, .example-block .v-button-graybtn:focus { background-color: #"
 							+ accountTheme.getOptionbtn()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme.getOptionbtn())
@@ -477,7 +477,7 @@ public class ThemeManager {
 		if (accountTheme.getOptionbtntext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-graybtn, .v-button-graybtn:focus { color: #"
+					.add(".example-block .v-button.v-button-graybtn, .example-block .v-button-graybtn:focus { color: #"
 							+ accountTheme.getOptionbtntext() + "; }");
 		}
 
@@ -486,7 +486,7 @@ public class ThemeManager {
 		if (accountTheme.getDangerbtn() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-redbtn, .v-button-redbtn:focus { background-color: #"
+					.add(".example-block .v-button.v-button-redbtn, .example-block .v-button-redbtn:focus { background-color: #"
 							+ accountTheme.getDangerbtn()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme.getDangerbtn())
@@ -496,7 +496,7 @@ public class ThemeManager {
 		if (accountTheme.getDangerbtntext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-redbtn, .v-button-redbtn:focus { color: #"
+					.add(".example-block .v-button.v-button-redbtn, .example-block .v-button-redbtn:focus { color: #"
 							+ accountTheme.getDangerbtntext() + "; }");
 		}
 
@@ -505,7 +505,7 @@ public class ThemeManager {
 		if (accountTheme.getClearbtn() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-blankbtn, .v-button-blankbtn:focus { background-color: #"
+					.add(".example-block .v-button.v-button-blankbtn, .example-block .v-button-blankbtn:focus { background-color: #"
 							+ accountTheme.getClearbtn()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme.getClearbtn())
@@ -515,7 +515,7 @@ public class ThemeManager {
 		if (accountTheme.getClearbtntext() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-blankbtn, .v-button-blankbtn:focus { color: #"
+					.add(".example-block .v-button.v-button-blankbtn, .example-block .v-button-blankbtn:focus { color: #"
 							+ accountTheme.getClearbtntext() + "; }");
 		}
 
@@ -541,7 +541,7 @@ public class ThemeManager {
 		if (accountTheme.getTogglebtnselected() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-bluebtn, .v-button-bluebtn:focus, .v-buttongroup.toggle-btn-group .v-button.active { background-color: #"
+					.add(".example-block .v-button.v-button-bluebtn, .example-block .v-button-bluebtn:focus, .example-block .v-buttongroup.toggle-btn-group .v-button.active { background-color: #"
 							+ accountTheme.getTogglebtnselected()
 							+ "; border-color: #"
 							+ getBorderColor(accountTheme
@@ -551,7 +551,7 @@ public class ThemeManager {
 		if (accountTheme.getTogglebtntextselected() != null) {
 			Page.getCurrent()
 					.getStyles()
-					.add(".example-block .v-button.v-button-bluebtn, .v-button-bluebtn:focus, .v-buttongroup.toggle-btn-group .v-button.active { color: #"
+					.add(".example-block .v-button.v-button-bluebtn, .example-block .v-button-bluebtn:focus, .example-block .v-buttongroup.toggle-btn-group .v-button.active { color: #"
 							+ accountTheme.getTogglebtntextselected() + "; }");
 		}
 

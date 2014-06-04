@@ -56,7 +56,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("username")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(ProjectMemberI18nEnum.FORM_USER), 0,
@@ -65,10 +65,6 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(ProjectMemberI18nEnum.FORM_ROLE), 0,
 					1);
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 }

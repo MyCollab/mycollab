@@ -95,8 +95,8 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		}
 
 		@Override
-		public boolean attachField(Object propertyId, Field<?> field) {
-			return informationLayout.attachField(propertyId, field);
+		public void attachField(Object propertyId, Field<?> field) {
+			informationLayout.attachField(propertyId, field);
 		}
 	}
 

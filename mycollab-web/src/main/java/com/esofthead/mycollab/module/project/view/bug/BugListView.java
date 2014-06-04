@@ -18,10 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
-import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
-import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
-import com.esofthead.mycollab.vaadin.mvp.PageView;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
+import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
 
 /**
  * 
@@ -29,14 +26,8 @@ import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
  * @since 1.0
  * 
  */
-public interface BugListView extends PageView {
+public interface BugListView extends ListView<BugSearchCriteria, SimpleBug> {
 	public static final String VIEW_DEF_ID = "project-bug-list";
 
 	void setTitle(String title);
-
-	HasSearchHandlers<BugSearchCriteria> getSearchHandlers();
-
-	HasSelectableItemHandlers<SimpleBug> getSelectableItemHandlers();
-
-	IPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable();
 }

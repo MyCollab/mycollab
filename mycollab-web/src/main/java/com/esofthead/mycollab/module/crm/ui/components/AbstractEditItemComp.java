@@ -37,7 +37,7 @@ import com.vaadin.ui.Layout;
  * @param <B>
  */
 public abstract class AbstractEditItemComp<B> extends AbstractPageView
-implements IFormAddView<B> {
+		implements IFormAddView<B> {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -87,8 +87,8 @@ implements IFormAddView<B> {
 		}
 
 		@Override
-		public boolean attachField(Object propertyId, Field<?> field) {
-			return informationLayout.attachField(propertyId, field);
+		public void attachField(Object propertyId, Field<?> field) {
+			informationLayout.attachField(propertyId, field);
 		}
 	}
 

@@ -50,7 +50,7 @@ public class ComponentFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("componentname")) {
 			this.gridFormLayout.addComponent(field,
 					AppContext.getMessage(ComponentI18nEnum.FORM_NAME), 0, 0,
@@ -62,11 +62,7 @@ public class ComponentFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("userlead")) {
 			this.gridFormLayout.addComponent(field,
 					AppContext.getMessage(ComponentI18nEnum.FORM_LEAD), 0, 2);
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 
 }

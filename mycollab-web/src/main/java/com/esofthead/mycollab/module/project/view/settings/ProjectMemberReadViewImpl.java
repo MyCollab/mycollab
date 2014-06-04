@@ -349,8 +349,8 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		}
 
 		@Override
-		public boolean attachField(Object propertyId, Field<?> field) {
-			return false;
+		public void attachField(Object propertyId, Field<?> field) {
+
 		}
 
 	}

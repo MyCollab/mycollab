@@ -52,7 +52,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("name")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD),
@@ -74,10 +74,6 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("numOpenTasks")) {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD), 1, 3);
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 }

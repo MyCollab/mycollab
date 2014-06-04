@@ -105,7 +105,7 @@ public class MassUpdateCampaignWindow extends
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 
 			if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
@@ -123,11 +123,7 @@ public class MassUpdateCampaignWindow extends
 				this.campaignGoal.addComponent(field,
 						AppContext.getMessage(CampaignI18nEnum.FORM_CURRENCY),
 						0, 0, "297px");
-			} else {
-				return false;
 			}
-
-			return true;
 
 		}
 	}

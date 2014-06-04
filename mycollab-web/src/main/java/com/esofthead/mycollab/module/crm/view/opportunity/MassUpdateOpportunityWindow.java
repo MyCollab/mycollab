@@ -92,7 +92,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("opportunityname")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(OpportunityI18nEnum.FORM_NAME),
@@ -146,11 +146,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 5);
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 	}
 }

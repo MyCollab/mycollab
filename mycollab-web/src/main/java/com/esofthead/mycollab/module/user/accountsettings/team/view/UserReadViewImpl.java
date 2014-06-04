@@ -71,7 +71,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 		header.setMargin(new MarginInfo(true, false, true, false));
 		header.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
 
-		Label headerText = new Label("User Details");
+		Label headerText = new Label("Detail User");
 		headerText.setSizeUndefined();
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
@@ -177,7 +177,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 			private static final long serialVersionUID = 1L;
 
 			public FormLayoutFactory() {
-				super(user.getDisplayName(), true);
+				super(user.getDisplayName());
 				this.setAvatarLink(user.getAvatarid());
 			}
 

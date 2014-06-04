@@ -109,7 +109,7 @@ class TaskDisplayComponent extends CssLayout {
 				}
 
 				@Override
-				public boolean attachField(Object propertyId, Field<?> field) {
+				public void attachField(Object propertyId, Field<?> field) {
 					if ("description".equals(propertyId)) {
 						layoutHelper
 								.addComponent(field, "Description", 0, 0, 2);
@@ -118,7 +118,6 @@ class TaskDisplayComponent extends CssLayout {
 					} else if ("milestoneid".equals(propertyId)) {
 						layoutHelper.addComponent(field, "Phase name", 1, 1);
 					}
-					return true;
 				}
 			});
 			previewForm
@@ -137,10 +136,13 @@ class TaskDisplayComponent extends CssLayout {
 										.getOwnerAvatarId(), taskList
 										.getOwnerFullName());
 							} else if ("milestoneid".equals(propertyId)) {
-								
-								return new DefaultFormViewFieldFactory.FormLinkViewField(taskList.getMilestoneName(),
-										ProjectLinkBuilder.generateMilestonePreviewFullLink(taskList.getProjectid(), 
-												taskList.getMilestoneid()),
+
+								return new DefaultFormViewFieldFactory.FormLinkViewField(
+										taskList.getMilestoneName(),
+										ProjectLinkBuilder
+												.generateMilestonePreviewFullLink(
+														taskList.getProjectid(),
+														taskList.getMilestoneid()),
 										MyCollabResource
 												.newResourceLink("icons/16/project/milestone.png"));
 							}

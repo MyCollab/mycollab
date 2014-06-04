@@ -367,8 +367,8 @@ public class MessageReadViewImpl extends AbstractPageView implements
 		}
 
 		@Override
-		public boolean attachField(Object propertyId, Field<?> field) {
-			return false;
+		public void attachField(Object propertyId, Field<?> field) {
+
 		}
 	}
 }

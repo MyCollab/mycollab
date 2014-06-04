@@ -307,7 +307,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			}
 
 			@Override
-			public boolean attachField(final Object propertyId,
+			public void attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("firstname")) {
 					this.basicInformation
@@ -364,11 +364,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 							.addComponent(field, "Twitter", 0, 3);
 				} else if (propertyId.equals("skypecontact")) {
 					this.contactInformation.addComponent(field, "Skype", 0, 4);
-				} else {
-					return false;
 				}
-
-				return true;
 			}
 		}
 

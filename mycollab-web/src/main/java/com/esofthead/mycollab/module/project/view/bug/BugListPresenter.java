@@ -16,16 +16,20 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
+import com.esofthead.mycollab.module.project.view.ProjectGenericListPresenter;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
+import com.esofthead.mycollab.module.tracker.service.BugService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.ListCommand;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
-import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -35,13 +39,16 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class BugListPresenter extends AbstractPresenter<BugListView> implements
-		ListCommand<BugSearchCriteria> {
+public class BugListPresenter extends
+		ProjectGenericListPresenter<BugListView, BugSearchCriteria, SimpleBug>
+		implements ListCommand<BugSearchCriteria> {
 
 	private static final long serialVersionUID = 1L;
+	private BugService bugService;
 
 	public BugListPresenter() {
-		super(BugListView.class);
+		super(BugListView.class, BugListNoItemView.class);
+		bugService = ApplicationContextUtil.getSpringBean(BugService.class);
 	}
 
 	@Override
@@ -66,9 +73,16 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 			trackerContainer.addComponent(view.getWidget());
 
 			BugFilterParameter param = (BugFilterParameter) data.getParams();
-
 			view.setTitle(param.getScreenTitle());
-			doSearch(param.getSearchCriteria());
+			int totalCount = bugService
+					.getTotalCount(param.getSearchCriteria());
+
+			if (totalCount > 0) {
+				this.displayListView(container, data);
+				doSearch(searchCriteria);
+			} else {
+				this.displayNoExistItems(container, data);
+			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
@@ -81,5 +95,16 @@ public class BugListPresenter extends AbstractPresenter<BugListView> implements
 	@Override
 	public void doSearch(BugSearchCriteria searchCriteria) {
 		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
+	}
+
+	@Override
+	public ISearchableService<BugSearchCriteria> getSearchService() {
+		return bugService;
+	}
+
+	@Override
+	protected void deleteSelectedItems() {
+		throw new UnsupportedOperationException(
+				"This presenter doesn't support this operation");
 	}
 }

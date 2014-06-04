@@ -67,8 +67,8 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
-		return this.projectInformationLayout.attachField(propertyId, field);
+	public void attachField(final Object propertyId, final Field<?> field) {
+		this.projectInformationLayout.attachField(propertyId, field);
 	}
 
 	protected abstract Layout createTopPanel();
@@ -130,7 +130,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
 				this.informationLayout
 						.addComponent(field, "Project Name", 0, 0);
@@ -162,11 +162,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			} else if (propertyId.equals("description")) {
 				this.descriptionLayout.addComponent(field, "Description", 0, 0,
 						2, UIConstants.DEFAULT_2XCONTROL_WIDTH);
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 	}
 }

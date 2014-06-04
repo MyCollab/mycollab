@@ -28,7 +28,7 @@ import com.esofthead.mycollab.security.PermissionMap;
 public class SimpleUser extends User {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String ACTIVE_STATUS = "active";
 	public static final String INACTION_STATUS = "inactive";
 	public static final String PENDING_STATUS = "pending";
@@ -44,7 +44,6 @@ public class SimpleUser extends User {
 	private String subdomain;
 	private Integer accountId;
 	private String registerstatus;
-	private Boolean isLoadEdit;
 
 	public String getDisplayName() {
 		String result = getFirstname() + " " + getLastname();
@@ -112,14 +111,6 @@ public class SimpleUser extends User {
 
 	public void setRegisterstatus(String registerstatus) {
 		this.registerstatus = registerstatus;
-	}
-
-	public Boolean getIsLoadEdit() {
-		return isLoadEdit;
-	}
-
-	public void setIsLoadEdit(Boolean isLoadEdit) {
-		this.isLoadEdit = isLoadEdit;
 	}
 
 	public boolean equals(Object arg0) {

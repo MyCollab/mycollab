@@ -82,8 +82,8 @@ public abstract class UserFormLayoutFactory implements IFormLayoutFactory {
 	protected abstract Layout createBottomPanel();
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
-		return this.userInformationLayout.attachField(propertyId, field);
+	public void attachField(final Object propertyId, final Field<?> field) {
+		this.userInformationLayout.attachField(propertyId, field);
 	}
 
 	public static class UserInformationLayout implements IFormLayoutFactory {
@@ -109,7 +109,7 @@ public abstract class UserFormLayoutFactory implements IFormLayoutFactory {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("firstname")) {
 				this.informationLayout.addComponent(field, "First Name", 0, 0);
 			} else if (propertyId.equals("lastname")) {
@@ -126,11 +126,7 @@ public abstract class UserFormLayoutFactory implements IFormLayoutFactory {
 				this.informationLayout.addComponent(field, "Company", 0, 3);
 			} else if (propertyId.equals("website")) {
 				this.informationLayout.addComponent(field, "Website", 1, 3);
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 	}
 }

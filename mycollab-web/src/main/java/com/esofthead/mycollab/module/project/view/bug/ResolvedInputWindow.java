@@ -207,7 +207,7 @@ public class ResolvedInputWindow extends Window {
 			}
 
 			@Override
-			public boolean attachField(final Object propertyId,
+			public void attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("resolution")) {
 					this.informationLayout.addComponent(field,
@@ -224,11 +224,7 @@ public class ResolvedInputWindow extends Window {
 					this.informationLayout.addComponent(field,
 							AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
 							3, 2, "100%");
-				} else {
-					return false;
 				}
-
-				return true;
 			}
 		}
 

@@ -102,7 +102,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("accountid")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(ContactI18nEnum.FORM_ACCOUNTS),
@@ -157,11 +157,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 			} else if (propertyId.equals("othercountry")) {
 				this.addressLayout.addComponent(field, AppContext
 						.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY), 1, 3);
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 	}
 }

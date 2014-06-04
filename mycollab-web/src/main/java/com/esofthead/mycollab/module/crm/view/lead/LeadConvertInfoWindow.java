@@ -243,7 +243,7 @@ public class LeadConvertInfoWindow extends Window {
 				}
 
 				@Override
-				public boolean attachField(Object propertyId, Field<?> field) {
+				public void attachField(Object propertyId, Field<?> field) {
 					if (propertyId.equals("opportunityname")) {
 						informationLayout.addComponent(field, "Opportunity", 0,
 								0);
@@ -260,7 +260,6 @@ public class LeadConvertInfoWindow extends Window {
 					} else if (propertyId.equals("currencyid")) {
 						informationLayout.addComponent(field, "Currency", 1, 2);
 					}
-					return false;
 				}
 			});
 

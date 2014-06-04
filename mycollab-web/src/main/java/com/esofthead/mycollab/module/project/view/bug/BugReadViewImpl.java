@@ -422,7 +422,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("summary")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_SUMMARY), 0, 0,
@@ -481,11 +481,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_ATTACHMENT), 0,
 						11, 2, "100%");
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 
 		@Override

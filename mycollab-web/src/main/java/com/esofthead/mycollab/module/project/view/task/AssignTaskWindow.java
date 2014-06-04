@@ -188,7 +188,7 @@ public class AssignTaskWindow extends Window {
 			}
 
 			@Override
-			public boolean attachField(Object propertyId, Field<?> field) {
+			public void attachField(Object propertyId, Field<?> field) {
 				if (propertyId.equals("assignuser")) {
 					informationLayout.addComponent(field, AppContext
 							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
@@ -197,11 +197,7 @@ public class AssignTaskWindow extends Window {
 					informationLayout.addComponent(field, AppContext
 							.getMessage(TaskI18nEnum.FORM_COMMENT_FIELD), 0, 1,
 							2, "100%", Alignment.MIDDLE_LEFT);
-				} else {
-					return false;
 				}
-
-				return true;
 			}
 		}
 

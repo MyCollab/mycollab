@@ -38,7 +38,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 	private GridFormLayoutHelper informationLayout;
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("name")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD),
@@ -69,11 +69,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD), 0,
 					4, 2, "100%");
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 
 	@Override

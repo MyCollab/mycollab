@@ -137,7 +137,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(Object propertyId, Field<?> field) {
+	public void attachField(Object propertyId, Field<?> field) {
 		AbstractDynaField dynaField = fieldMappings.get(propertyId);
 		if (dynaField != null) {
 			DynaSection section = dynaField.getOwnSection();
@@ -151,10 +151,7 @@ public class DynaFormLayout implements IFormLayoutFactory {
 			 * gridLayout.addComponent(field, dynaField.getDisplayName(),
 			 * dynaField.getFieldIndex() % 2, dynaField.getFieldIndex() / 2); }
 			 */
-			return true;
 
 		}
-
-		return false;
 	}
 }

@@ -104,7 +104,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 		}
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("industry")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY),
@@ -150,11 +150,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 				this.addressLayout.addComponent(field, AppContext
 						.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE),
 						1, 3);
-			} else {
-				return false;
 			}
-
-			return true;
 
 		}
 	}

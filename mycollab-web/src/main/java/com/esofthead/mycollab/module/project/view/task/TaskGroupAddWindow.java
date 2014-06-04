@@ -226,7 +226,7 @@ public class TaskGroupAddWindow extends Window {
 			}
 
 			@Override
-			public boolean attachField(final Object propertyId,
+			public void attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("name")) {
 					this.informationLayout.addComponent(field, AppContext
@@ -250,11 +250,7 @@ public class TaskGroupAddWindow extends Window {
 									AppContext
 											.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
 									1, 2);
-				} else {
-					return false;
 				}
-
-				return true;
 			}
 		}
 

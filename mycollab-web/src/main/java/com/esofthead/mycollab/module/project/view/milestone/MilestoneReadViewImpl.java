@@ -183,7 +183,7 @@ public class MilestoneReadViewImpl extends
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("startdate")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),
@@ -210,11 +210,7 @@ public class MilestoneReadViewImpl extends
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD),
 						0, 3, 2, "100%");
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 
 		@Override

@@ -36,15 +36,17 @@ import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
+import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
+import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -277,16 +279,46 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 		return this.tableItem;
 	}
 
-	@Override
-	public IPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable() {
-		return this.tableItem;
-	}
+	// @Override
+	// public IPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable()
+	// {
+	// return this.tableItem;
+	// }
 
 	@Override
 	public void setTitle(final String title) {
 		if (this.bugSearchPanel != null) {
 			this.bugSearchPanel.setBugTitle(title);
 		}
+	}
+
+	@Override
+	public void enableActionControls(int numOfSelectedItem) {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public void disableActionControls() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasSelectionOptionHandlers getOptionSelectionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public HasMassItemActionHandlers getPopupActionHandlers() {
+		throw new UnsupportedOperationException(
+				"This view doesn't support this operation");
+	}
+
+	@Override
+	public AbstractPagedBeanTable<BugSearchCriteria, SimpleBug> getPagedBeanTable() {
+		return this.tableItem;
 	}
 
 }

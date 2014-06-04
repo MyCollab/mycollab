@@ -48,7 +48,7 @@ public class VersionFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("versionname")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(VersionI18nEnum.FORM_NAME), 0, 0, 2,
@@ -60,10 +60,6 @@ public class VersionFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("duedate")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(VersionI18nEnum.FORM_DUE_DATE), 0, 2);
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 }

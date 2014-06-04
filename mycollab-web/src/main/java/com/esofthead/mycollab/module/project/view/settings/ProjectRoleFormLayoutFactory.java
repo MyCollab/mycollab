@@ -54,7 +54,7 @@ public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public boolean attachField(final Object propertyId, final Field<?> field) {
+	public void attachField(final Object propertyId, final Field<?> field) {
 		if (propertyId.equals("rolename")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME), 0, 0);
@@ -63,11 +63,7 @@ public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
 					.addComponent(field, AppContext
 							.getMessage(ProjectRoleI18nEnum.FORM_DESCRIPTION),
 							0, 1, 2, "100%");
-		} else {
-			return false;
 		}
-
-		return true;
 	}
 
 }

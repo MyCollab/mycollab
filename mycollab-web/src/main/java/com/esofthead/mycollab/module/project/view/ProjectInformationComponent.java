@@ -144,7 +144,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 				private GridFormLayoutHelper informationLayout;
 
 				@Override
-				public boolean attachField(final Object propertyId,
+				public void attachField(final Object propertyId,
 						final Field<?> field) {
 					if (propertyId.equals("homepage")) {
 						this.informationLayout.addComponent(field, "Home Page",
@@ -156,11 +156,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 						this.informationLayout.addComponent(field,
 								"Description", 0, 1, 2, "100%",
 								Alignment.TOP_LEFT);
-					} else {
-						return false;
 					}
-
-					return true;
 				}
 
 				@Override

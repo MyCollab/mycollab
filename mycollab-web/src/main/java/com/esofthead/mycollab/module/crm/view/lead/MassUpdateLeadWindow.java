@@ -105,7 +105,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 		// primary/other city, primary/other state, primary/other postal
 		// code, primary/other country
 		@Override
-		public boolean attachField(final Object propertyId, final Field<?> field) {
+		public void attachField(final Object propertyId, final Field<?> field) {
 
 			if (propertyId.equals("title")) {
 				this.informationLayout.addComponent(field,
@@ -158,11 +158,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 				this.addressLayout.addComponent(field,
 						AppContext.getMessage(LeadI18nEnum.FORM_OTHER_COUNTRY),
 						1, 3);
-			} else {
-				return false;
 			}
-
-			return true;
 		}
 	}
 }
