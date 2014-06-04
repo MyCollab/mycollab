@@ -42,15 +42,15 @@ public class UserVerticalTabsheet extends VerticalTabsheet {
 		switch (tabId) {
 		case "profile":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/user/menu_profile.png"));
+					.newResource("icons/22/user/menu_profile" + suffix + ".png"));
 			break;
 		case "users":
-			btn.setIcon(MyCollabResource
-					.newResource("icons/22/user/menu_team.png"));
+			btn.setIcon(MyCollabResource.newResource("icons/22/user/menu_team"
+					+ suffix + ".png"));
 			break;
 		case "billing":
 			btn.setIcon(MyCollabResource
-					.newResource("icons/22/user/menu_account.png"));
+					.newResource("icons/22/user/menu_account" + suffix + ".png"));
 			break;
 		case "customize":
 			btn.setIcon(MyCollabResource

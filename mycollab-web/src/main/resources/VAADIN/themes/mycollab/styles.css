@@ -6969,3 +6969,15 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 .accountViewContainer .example-block .sidebar-menu {
 	padding: 10px 0px;
 }
+
+/* Theme Customize View */
+.theme-customize-view .v-upload .v-button {
+	border-width: 1px;
+	border-color: #C8C8C8;
+}
+.accountViewContainer .theme-customize-view .addview-layout-body {
+	border-top: none;
+}
+.accountViewContainer .theme-customize-view .addview-layout-body .h2 {
+	border-top: 1px solid #CFCFCF;
+}
