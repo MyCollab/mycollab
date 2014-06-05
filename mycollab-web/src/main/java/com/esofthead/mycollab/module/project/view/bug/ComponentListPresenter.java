@@ -96,12 +96,13 @@ public class ComponentListPresenter
 			trackerContainer.removeAllComponents();
 			trackerContainer.addComponent(view.getWidget());
 
-			int totalCount = componentService
-					.getTotalCount((ComponentSearchCriteria) data.getParams());
+			searchCriteria = (ComponentSearchCriteria) data.getParams();
+
+			int totalCount = componentService.getTotalCount(searchCriteria);
 
 			if (totalCount > 0) {
 				displayListView(container, data);
-				doSearch((ComponentSearchCriteria) data.getParams());
+				doSearch(searchCriteria);
 			} else {
 				displayNoExistItems(container, data);
 			}

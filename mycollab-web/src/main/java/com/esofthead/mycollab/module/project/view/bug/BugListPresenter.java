@@ -73,6 +73,7 @@ public class BugListPresenter extends
 			trackerContainer.addComponent(view.getWidget());
 
 			BugFilterParameter param = (BugFilterParameter) data.getParams();
+			searchCriteria = param.getSearchCriteria();
 			view.setTitle(param.getScreenTitle());
 			int totalCount = bugService
 					.getTotalCount(param.getSearchCriteria());

@@ -96,12 +96,12 @@ public class VersionListPresenter
 			versionContainer.removeAllComponents();
 			versionContainer.addComponent(view.getWidget());
 
-			int totalCount = versionService
-					.getTotalCount((VersionSearchCriteria) data.getParams());
+			searchCriteria = (VersionSearchCriteria) data.getParams();
+			int totalCount = versionService.getTotalCount(searchCriteria);
 
 			if (totalCount > 0) {
 				displayListView(container, data);
-				doSearch((VersionSearchCriteria) data.getParams());
+				doSearch(searchCriteria);
 			} else {
 				displayNoExistItems(container, data);
 			}

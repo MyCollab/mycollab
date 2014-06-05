@@ -96,10 +96,11 @@ public class ProjectRoleListPresenter
 								.getIssystemrole() == Boolean.FALSE)) {
 					keyList.add(item.getId());
 				} else {
-					NotificationUtil.showErrorNotification(AppContext
-							.getMessage(
-									ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
-									item.getRolename()));
+					NotificationUtil
+							.showErrorNotification(AppContext
+									.getMessage(
+											ProjectMemberI18nEnum.CAN_NOT_DELETE_ROLE_MESSAGE,
+											item.getRolename()));
 				}
 			}
 
@@ -122,7 +123,8 @@ public class ProjectRoleListPresenter
 		ProjectRoleContainer roleContainer = (ProjectRoleContainer) container;
 		roleContainer.removeAllComponents();
 		roleContainer.addComponent(view.getWidget());
-		doSearch((ProjectRoleSearchCriteria) data.getParams());
+		searchCriteria = (ProjectRoleSearchCriteria) data.getParams();
+		doSearch(searchCriteria);
 
 		ProjectBreadcrumb breadCrumb = ViewManager
 				.getView(ProjectBreadcrumb.class);

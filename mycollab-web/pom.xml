@@ -93,13 +93,13 @@
             <version>${vaadinVersion}</version>
         </dependency>
 
-<!-- 
+
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-push</artifactId>
             <version>${vaadinVersion}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
@@ -111,7 +111,7 @@
             <artifactId>websocket-server</artifactId>
             <version>${jettyVersion}</version>
         </dependency>
-        -->
+
 
         <!-- VAADIN ADDONS -->
         <dependency>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>org.tltv.gantt</groupId>
             <artifactId>gantt-addon</artifactId>
-            <version>0.3.0</version>
+            <version>0.3.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
