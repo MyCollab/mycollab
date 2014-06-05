@@ -26,18 +26,19 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class ProjectSummaryPresenter extends AbstractPresenter<ProjectSummaryView> {
+public class ProjectSummaryPresenter extends
+		AbstractPresenter<ProjectSummaryView> {
 	private static final long serialVersionUID = 1L;
 
 	public ProjectSummaryPresenter() {
-        super(ProjectSummaryView.class);
-    }
-    
-    @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
-        projectViewContainer.removeAllComponents();
-        projectViewContainer.addComponent(view.getWidget());
-        view.displayDashboard();
-    }
+		super(ProjectSummaryView.class);
+	}
+
+	@Override
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		ProjectDashboardContainer projectViewContainer = (ProjectDashboardContainer) container;
+		projectViewContainer.removeAllComponents();
+		projectViewContainer.addComponent(view.getWidget());
+		view.lazyLoadView();
+	}
 }

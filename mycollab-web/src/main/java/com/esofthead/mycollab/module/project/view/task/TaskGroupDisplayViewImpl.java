@@ -45,7 +45,7 @@ import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
@@ -71,7 +71,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class TaskGroupDisplayViewImpl extends AbstractPageView implements
+public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		TaskGroupDisplayView {
 	private static final long serialVersionUID = 1L;
 
@@ -102,14 +102,6 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 
 	public TaskGroupDisplayViewImpl() {
 		super();
-		this.setMargin(new MarginInfo(false, true, true, true));
-		this.setSpacing(true);
-
-		this.constructUI();
-
-		displayAdvancedView();
-		isSimpleDisplay = false;
-
 	}
 
 	private void implementTaskFilterButton() {
@@ -195,6 +187,10 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	}
 
 	private void constructUI() {
+		this.removeAllComponents();
+		this.setMargin(new MarginInfo(false, true, true, true));
+		this.setSpacing(true);
+
 		header = new HorizontalLayout();
 		header.setMargin(new MarginInfo(true, false, true, false));
 		header.setStyleName("hdr-view");
@@ -438,6 +434,9 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 					}
 				});
 		basicSearchView.removeComponent(basicSearchView.getComponent(0));
+
+		displayAdvancedView();
+		isSimpleDisplay = false;
 	}
 
 	private void doSearch(TaskSearchCriteria searchCriteria) {
@@ -486,7 +485,8 @@ public class TaskGroupDisplayViewImpl extends AbstractPageView implements
 	}
 
 	@Override
-	public void displayTaskList() {
+	protected void displayView() {
+		constructUI();
 		displayActiveTaskGroups();
 		displayTaskStatistic();
 	}

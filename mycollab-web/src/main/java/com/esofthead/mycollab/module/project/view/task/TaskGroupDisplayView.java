@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
+import com.esofthead.mycollab.vaadin.mvp.LazyPageView;
 
 /**
  * 
@@ -26,9 +27,7 @@ import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
  * @since 1.0
  */
 public interface TaskGroupDisplayView extends
-		ListView<TaskListSearchCriteria, SimpleTaskList> {
+		ListView<TaskListSearchCriteria, SimpleTaskList>, LazyPageView {
 
 	void insertTaskList(SimpleTaskList taskList);
-
-	void displayTaskList();
 }

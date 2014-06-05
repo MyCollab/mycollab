@@ -225,11 +225,7 @@
             <artifactId>scribe</artifactId>
             <version>1.3.5</version>
         </dependency>
-        <!-- <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
-            <version>1.4.177</version> </dependency> <dependency> <groupId>info.bliki.wiki</groupId> 
-            <artifactId>bliki-core</artifactId> <version>3.0.19</version> <exclusions> 
-            <exclusion> <groupId>commons-httpclient</groupId> <artifactId>commons-httpclient</artifactId> 
-            </exclusion> </exclusions> </dependency> -->
+
         <dependency>
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>

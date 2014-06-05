@@ -56,6 +56,8 @@ import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.communication.PushMode;
+import com.vaadin.ui.UI;
 
 /**
  * The core class that keep user session data while user login to MyCollab
@@ -102,11 +104,16 @@ public class AppContext implements Serializable {
 	 */
 	private Integer accountId = null;
 
+	private boolean isClosed = false;
+
+	private UI uiOwner;
+
 	private IMessageConveyor messageHelper;
 
 	private LanguageSupport languageSupport = LanguageSupport.ENGLISH;
 
-	public AppContext() {
+	public AppContext(UI uiOwner) {
+		this.uiOwner = uiOwner;
 		MyCollabSession.putVariable("context", this);
 
 		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
@@ -163,6 +170,7 @@ public class AppContext implements Serializable {
 	 */
 	public void setSession(SimpleUser userSession, UserPreference userPref,
 			SimpleBillingAccount billingAc) {
+		isClosed = false;
 		session = userSession;
 		userPreference = userPref;
 		billingAccount = billingAc;
@@ -176,9 +184,14 @@ public class AppContext implements Serializable {
 	}
 
 	public void clearSession() {
+		isClosed = true;
 		session = null;
 		userPreference = null;
 		billingAccount = null;
+	}
+
+	public boolean isClosed() {
+		return isClosed;
 	}
 
 	private void setLanguage() {

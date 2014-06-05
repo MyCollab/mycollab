@@ -60,6 +60,9 @@ public class TaskGroupDisplayPresenter
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.TASKS)) {
+			ProjectBreadcrumb breadCrumb = ViewManager
+					.getView(ProjectBreadcrumb.class);
+			breadCrumb.gotoTaskDashboard();
 
 			final TaskListSearchCriteria criteria = new TaskListSearchCriteria();
 			criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
@@ -68,15 +71,11 @@ public class TaskGroupDisplayPresenter
 			int totalCount = taskListService.getTotalCount(criteria);
 
 			if (totalCount > 0) {
-				view.displayTaskList();
 				displayListView(container, data);
+				view.lazyLoadView();
 			} else {
 				displayNoExistItems(container, data);
 			}
-
-			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
-			breadCrumb.gotoTaskDashboard();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

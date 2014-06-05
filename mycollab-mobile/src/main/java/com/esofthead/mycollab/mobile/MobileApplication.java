@@ -71,7 +71,7 @@ public class MobileApplication extends UI {
 
 		initialUrl = this.getPage().getUriFragment();
 		VaadinSession.getCurrent().setAttribute(CURRENT_APP, this);
-		currentContext = new AppContext();
+		currentContext = new AppContext(this);
 		postSetupApp(request);
 		try {
 			currentContext.initDomain(initialSubDomain);
@@ -100,10 +100,11 @@ public class MobileApplication extends UI {
 			initialSubDomain = servletRequest.getServerName();
 		}
 	}
-	
+
 	private void registerControllers(MobileNavigationManager manager) {
 		ControllerRegistry.addController(new ShellController(manager));
-		ControllerRegistry.addController(new CrmModuleController(manager));	}
+		ControllerRegistry.addController(new CrmModuleController(manager));
+	}
 
 	public AppContext getSessionData() {
 		return currentContext;

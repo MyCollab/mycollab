@@ -206,7 +206,7 @@ input.v-widget.v-textfield[type="text"], .v-filterselect  {
 }
 
 .v-window-modalitycurtain {
-    background-color: #000000;
+    background-color: #ffffff;
 }
 
 .popupContent .v-window-contents {
@@ -6980,4 +6980,19 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .accountViewContainer .theme-customize-view .addview-layout-body .h2 {
 	border-top: 1px solid #CFCFCF;
+}
+.lazyload-progress .popupContent .v-window-contents {
+	background-color: transparent;
+}
+.v-shadow-window {
+	display: none;
+}
+.v-window.lazyload-progress {
+	background-color: transparent;
+}
+.v-window.lazyload-progress .v-window-wrap {
+	background: none;
+}
+.v-window.lazyload-progress .v-window-wrap .v-window-outerheader {
+	display: none;
 }

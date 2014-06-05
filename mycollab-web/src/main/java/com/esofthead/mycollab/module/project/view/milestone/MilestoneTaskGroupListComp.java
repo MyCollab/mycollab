@@ -170,11 +170,6 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		}
 
 		@Override
-		public void displayTaskList() {
-
-		}
-
-		@Override
 		public void enableActionControls(int numOfSelectedItem) {
 			throw new UnsupportedOperationException(
 					"This view doesn't support this operation");
@@ -214,6 +209,11 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		public AbstractPagedBeanTable<TaskListSearchCriteria, SimpleTaskList> getPagedBeanTable() {
 			throw new UnsupportedOperationException(
 					"This view doesn't support this operation");
+		}
+
+		@Override
+		public void lazyLoadView() {
+
 		}
 
 	}

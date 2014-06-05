@@ -39,7 +39,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractPageView extends VerticalLayout implements
-PageView, Serializable {
+		PageView, Serializable {
 
 	private static Logger log = LoggerFactory.getLogger(AbstractPageView.class);
 	private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> map;

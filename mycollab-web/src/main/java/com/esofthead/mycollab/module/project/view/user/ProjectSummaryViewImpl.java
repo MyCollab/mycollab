@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.module.project.view.ProjectInformationComponent;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CssLayout;
@@ -32,17 +32,17 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class ProjectSummaryViewImpl extends AbstractPageView implements
-ProjectSummaryView {
+public class ProjectSummaryViewImpl extends AbstractLazyPageView implements
+		ProjectSummaryView {
 
-	private final ProjectActivityStreamComponent activityPanel;
-	private final ProjectInformationComponent prjView;
-	private final ProjectMembersWidget membersWidget;
-//	private final ProjectTaskStatusComponent highlightWidget;
-	private final ProjectTaskOverdueComponent taskOverdueWidget;
-	private final ProjectMessageListComponent messageWidget;
+	private ProjectActivityStreamComponent activityPanel;
+	private ProjectInformationComponent prjView;
+	private ProjectMembersWidget membersWidget;
+	private ProjectTaskOverdueComponent taskOverdueWidget;
+	private ProjectMessageListComponent messageWidget;
 
-	public ProjectSummaryViewImpl() {
+	@Override
+	protected void displayView() {
 		this.setMargin(new MarginInfo(true, false, false, false));
 		this.setSpacing(true);
 
@@ -74,21 +74,16 @@ ProjectSummaryView {
 		rightPanel.addComponent(this.messageWidget);
 
 		this.membersWidget = new ProjectMembersWidget();
-//		this.highlightWidget = new ProjectTaskStatusComponent();
 		this.taskOverdueWidget = new ProjectTaskOverdueComponent();
-		
-		rightPanel.addComponent(this.membersWidget);
-//		rightPanel.addComponent(this.highlightWidget);
-		rightPanel.addComponent(this.taskOverdueWidget);
-	}
 
-	@Override
-	public void displayDashboard() {
+		rightPanel.addComponent(this.membersWidget);
+		rightPanel.addComponent(this.taskOverdueWidget);
+
 		this.activityPanel.showProjectFeeds();
 		this.prjView.displayProjectInformation();
 		this.membersWidget.showInformation();
-//		this.highlightWidget.showProjectTasksByStatus();
 		this.taskOverdueWidget.showOverdueTasks();
 		this.messageWidget.showLatestMessages();
+
 	}
 }
