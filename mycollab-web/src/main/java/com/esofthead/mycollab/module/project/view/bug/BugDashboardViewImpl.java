@@ -168,8 +168,6 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 	@Override
 	protected void displayView() {
 		initUI();
-		BugDashboardViewImpl.this.leftColumn.removeAllComponents();
-		BugDashboardViewImpl.this.rightColumn.removeAllComponents();
 
 		BugDashboardViewImpl.this.rightColumn.setWidth("400px");
 

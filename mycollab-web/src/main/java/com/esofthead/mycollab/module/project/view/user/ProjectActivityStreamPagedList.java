@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.jfree.util.Log;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.ActivityStreamConstants;
@@ -139,16 +138,14 @@ public class ProjectActivityStreamPagedList
 				String arg4 = "'" + activityStream.getCreateduser() + "'";
 				String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
 				String arg6 = "'" + AppContext.getSiteUrl() + "'";
-				System.out.println("Session: " + AppContext.getSession() + "---");
 				String arg7 = AppContext.getSession().getTimezone();
 				String arg8 = "'" + activityStream.getSaccountid() + "'";
 				String arg9 = activityStream.getCreatedUserFullName();
 				String arg10 = idUserStickyToolTipDiv;
 				String arg11 = idUserToopTipDiv;
 				String arg12 = idDivUserSeverData;
-				String arg13 = AppContext
-						.getMessage(ProjectLocalizationTypeMap
-								.getType(activityStream.getType()));
+				String arg13 = AppContext.getMessage(ProjectLocalizationTypeMap
+						.getType(activityStream.getType()));
 				String arg14 = ProjectResources.getResourceLink(activityStream
 						.getType());
 				String arg15 = idtagA;

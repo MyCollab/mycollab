@@ -1,8 +1,9 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.GenericUI;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 
 /**
  * 
@@ -15,12 +16,14 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 	private static final long serialVersionUID = 1L;
 
 	private boolean isRunning = false;
+	private ProgressIndicator progressIndicator = null;
 
 	@Override
 	public void lazyLoadView() {
 		if (!isRunning) {
 			isRunning = true;
-			((GenericUI) UI.getCurrent()).displayProgressWindow();
+			progressIndicator = new ProgressIndicator();
+			UI.getCurrent().addWindow(progressIndicator);
 			new InitializerThread().start();
 		}
 	}
@@ -34,16 +37,32 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 
 				@Override
 				public void run() {
-					if (AppContext.getInstance().isClosed()) {
-						return;
-					}
 					displayView();
-					((GenericUI) UI.getCurrent()).hideProgressWindow();
+					progressIndicator.close();
+					progressIndicator = null;
 					UI.getCurrent().push();
 					isRunning = false;
 				}
 
 			});
 		};
+	}
+
+	private static class ProgressIndicator extends Window {
+		private static final long serialVersionUID = -6157950150738214354L;
+
+		public ProgressIndicator() {
+			super();
+			this.setDraggable(false);
+			this.setClosable(false);
+			this.setResizable(false);
+			this.setStyleName("lazyload-progress");
+			this.center();
+			this.setModal(true);
+
+			Image loadingIcon = new Image(null,
+					MyCollabResource.newResource("icons/lazy-load-icon.gif"));
+			this.setContent(loadingIcon);
+		}
 	}
 }

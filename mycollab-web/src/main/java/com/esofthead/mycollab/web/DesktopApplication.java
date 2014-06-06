@@ -48,8 +48,6 @@ import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
-import com.esofthead.mycollab.vaadin.ui.GenericUI;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
@@ -63,7 +61,6 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.communication.PushMode;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
@@ -76,7 +73,7 @@ import com.vaadin.ui.Window;
 @Theme("mycollab")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
 @Push(value = PushMode.MANUAL)
-public class DesktopApplication extends UI implements GenericUI {
+public class DesktopApplication extends UI {
 
 	private static final long serialVersionUID = 1L;
 
@@ -326,40 +323,6 @@ public class DesktopApplication extends UI implements GenericUI {
 			return getExceptionType(e.getCause(), exceptionType);
 		} else {
 			return null;
-		}
-	}
-
-	private ProgressIndicator progressIndicator = new ProgressIndicator();
-
-	@Override
-	public void displayProgressWindow() {
-		if (progressIndicator.isAttached()) {
-			progressIndicator.setVisible(true);
-		} else {
-			this.addWindow(progressIndicator);
-		}
-	}
-
-	@Override
-	public void hideProgressWindow() {
-		progressIndicator.close();
-	}
-
-	private static class ProgressIndicator extends Window {
-		private static final long serialVersionUID = -6157950150738214354L;
-
-		public ProgressIndicator() {
-			super();
-			this.setDraggable(false);
-			this.setClosable(false);
-			this.setResizable(false);
-			this.setStyleName("lazyload-progress");
-			this.center();
-			this.setModal(true);
-
-			Image loadingIcon = new Image(null,
-					MyCollabResource.newResource("icons/lazy-load-icon.gif"));
-			this.setContent(loadingIcon);
 		}
 	}
 }
