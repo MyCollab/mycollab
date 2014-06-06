@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>parent-community</artifactId>
-        <version>4.1.1</version>
+        <version>4.2.0</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -15,19 +15,19 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-core</artifactId>
-            <version>4.1.1</version>
+            <version>4.2.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-dao</artifactId>
-            <version>4.1.1</version>
+            <version>4.2.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>
-            <version>4.1.1</version>
+            <version>4.2.0</version>
         </dependency>
 
         <dependency>
