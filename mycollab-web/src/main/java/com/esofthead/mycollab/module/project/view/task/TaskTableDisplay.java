@@ -375,7 +375,7 @@ public class TaskTableDisplay extends
 								.getBeanByIndex(itemId);
 						return new ProjectUserLink(task.getAssignuser(), task
 								.getAssignUserAvatarId(), task
-								.getAssignUserFullName(), true, true);
+								.getAssignUserFullName());
 
 					}
 				});

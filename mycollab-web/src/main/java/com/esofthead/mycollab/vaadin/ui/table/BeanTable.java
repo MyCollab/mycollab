@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.vaadin.ui.table;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -102,7 +103,7 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		this.setColumnHeaders(columnHeaders);
 	}
 
-	public void setItems(List<T> itemsCol) {
+	public void setItems(Collection<T> itemsCol) {
 		BeanItemContainer<T> container = new BeanItemContainer<T>(typeClass,
 				itemsCol);
 		this.setContainerDataSource(container);

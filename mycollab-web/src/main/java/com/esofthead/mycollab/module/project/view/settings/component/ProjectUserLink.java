@@ -33,25 +33,20 @@ public class ProjectUserLink extends LabelLink {
 
 	public ProjectUserLink(final String username, String userAvatarId,
 			final String displayName) {
-		this(username, userAvatarId, displayName, true, false);
-	}
-
-	public ProjectUserLink(final String username, String userAvatarId,
-			final String displayName, boolean useWordWrap) {
-		this(username, userAvatarId, displayName, useWordWrap, false);
+		this(username, userAvatarId, displayName, true, true);
 	}
 
 	public ProjectUserLink(final String username, String userAvatarId,
 			final String displayName, boolean useWordWrap,
 			boolean isDisplayAvatar) {
-		
+
 		super(displayName, ProjectLinkBuilder.generateProjectMemberFullLink(
 				CurrentProjectVariables.getProjectId(), username));
 
 		if (isDisplayAvatar && username != null && !username.equals("")) {
-			String link = UserAvatarControlFactory.getAvatarLink(
-					userAvatarId, 16);
-			
+			String link = UserAvatarControlFactory.getAvatarLink(userAvatarId,
+					16);
+
 			this.setIconLink(link);
 		}
 

@@ -231,7 +231,7 @@ public class BugTableDisplay extends
 								.getBeanByIndex(itemId);
 						return new ProjectUserLink(bug.getAssignuser(), bug
 								.getAssignUserAvatarId(), bug
-								.getAssignuserFullName(), true, true);
+								.getAssignuserFullName());
 					}
 				});
 
@@ -244,8 +244,7 @@ public class BugTableDisplay extends
 				final SimpleBug bug = BugTableDisplay.this
 						.getBeanByIndex(itemId);
 				return new ProjectUserLink(bug.getLogby(), bug
-						.getLoguserAvatarId(), bug.getLoguserFullName(), true,
-						true);
+						.getLoguserAvatarId(), bug.getLoguserFullName());
 			}
 		});
 

@@ -213,8 +213,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 						.getBeanByIndex(itemId);
 
 				return new ProjectUserLink(monitorItem.getUser(), monitorItem
-						.getUserAvatarId(), monitorItem.getUserFullname(),
-						true, true);
+						.getUserAvatarId(), monitorItem.getUserFullname());
 
 			}
 		});

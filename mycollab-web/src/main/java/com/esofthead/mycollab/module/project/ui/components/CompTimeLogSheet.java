@@ -208,19 +208,21 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			CompTimeLogSheet.this.tableItem = new DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 					ApplicationContextUtil
 							.getSpringBean(ItemTimeLoggingService.class),
-					SimpleItemTimeLogging.class,
-					Arrays.asList(
-							new TableViewField(TimeTrackingI18nEnum.LOG_USER,
+					SimpleItemTimeLogging.class, Arrays
+							.asList(new TableViewField(
+									TimeTrackingI18nEnum.LOG_USER,
 									"logUserFullName",
 									UIConstants.TABLE_X_LABEL_WIDTH),
-							new TableViewField(
-									TimeTrackingI18nEnum.LOG_FOR_DATE,
-									"createdtime",
-									UIConstants.TABLE_DATE_TIME_WIDTH),
-							new TableViewField(TimeTrackingI18nEnum.LOG_VALUE,
-									"logvalue", UIConstants.TABLE_S_LABEL_WIDTH),
-							new TableViewField(null, "id",
-									UIConstants.TABLE_CONTROL_WIDTH)));
+									new TableViewField(
+											TimeTrackingI18nEnum.LOG_FOR_DATE,
+											"createdtime",
+											UIConstants.TABLE_DATE_TIME_WIDTH),
+									new TableViewField(
+											TimeTrackingI18nEnum.LOG_VALUE,
+											"logvalue",
+											UIConstants.TABLE_S_LABEL_WIDTH),
+									new TableViewField(null, "id",
+											UIConstants.TABLE_CONTROL_WIDTH)));
 
 			CompTimeLogSheet.this.tableItem.addGeneratedColumn(
 					"logUserFullName", new Table.ColumnGenerator() {
@@ -236,7 +238,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 							return new ProjectUserLink(timeLoggingItem
 									.getLoguser(), timeLoggingItem
 									.getLogUserAvatarId(), timeLoggingItem
-									.getLogUserFullName(), true, true);
+									.getLogUserFullName());
 
 						}
 					});

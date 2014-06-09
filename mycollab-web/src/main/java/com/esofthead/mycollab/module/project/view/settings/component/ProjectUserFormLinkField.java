@@ -48,7 +48,7 @@ public class ProjectUserFormLinkField extends CustomField {
 	@Override
 	protected Component initContent() {
 		ProjectUserLink projectLink = new ProjectUserLink(username,
-				userAvatarId, displayName, true, true);
+				userAvatarId, displayName);
 		projectLink.setWidth(UIConstants.DEFAULT_CONTROL_WIDTH);
 		return projectLink;
 	}

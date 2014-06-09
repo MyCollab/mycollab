@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -69,14 +70,22 @@ class TaskGanttChart extends VerticalLayout {
 	private LinkedHashMap<Step, SimpleTask> stepMap;
 	private NativeSelect reso;
 
+	private TaskTableDisplay taskTable;
+
 	private DateField start;
 	private DateField end;
 
 	public TaskGanttChart() {
 		constructGanttChart();
 		Panel controls = createControls();
+		this.setStyleName("gantt-view");
 		this.addComponent(controls);
-		this.addComponent(gantt);
+		HorizontalLayout mainLayout = new HorizontalLayout();
+		mainLayout.setWidth("100%");
+		mainLayout.setStyleName("gantt-wrap");
+		mainLayout.addComponent(taskTable);
+		mainLayout.addComponent(gantt);
+		this.addComponent(mainLayout);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -91,11 +100,18 @@ class TaskGanttChart extends VerticalLayout {
 				.findPagableListByCriteria(new SearchRequest<TaskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 
+		taskTable = new TaskTableDisplay(Arrays.asList(
+				TaskTableFieldDef.taskname, TaskTableFieldDef.startdate,
+				TaskTableFieldDef.duedate, TaskTableFieldDef.assignee));
+		taskTable.setWidth("100%");
+		taskTable.addStyleName("gantt-table");
+
 		gantt = new Gantt();
 		gantt.setWidth(100, Unit.PERCENTAGE);
 		gantt.setHeight(350, Unit.PIXELS);
 		gantt.setResizableSteps(true);
 		gantt.setMovableSteps(true);
+		gantt.setVerticalScrollDelegateTarget(taskTable);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
@@ -172,6 +188,8 @@ class TaskGanttChart extends VerticalLayout {
 			stepMap = new LinkedHashMap<Step, SimpleTask>();
 		}
 
+		// taskTable.removeAllItems();
+
 		/* Add steps */
 		if (!taskList.isEmpty()) {
 
@@ -220,9 +238,13 @@ class TaskGanttChart extends VerticalLayout {
 
 					// stepList.add(step);
 					stepMap.put(step, task);
+
+					// taskTable.setcon
 				}
 
 			}
+
+			taskTable.setItems(stepMap.values());
 		}
 
 		if (stepMap != null) {

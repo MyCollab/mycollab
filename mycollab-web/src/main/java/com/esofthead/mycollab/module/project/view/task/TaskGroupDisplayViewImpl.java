@@ -96,6 +96,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	private HorizontalLayout mainLayout;
 	private Button advanceDisplay;
 	private Button simpleDisplay;
+	private Button chartDisplay;
 	private ToggleButtonGroup viewButtons;
 
 	private boolean isSimpleDisplay;
@@ -298,20 +299,21 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
 
 		// Add gantt chart button
-		viewGanttChartBtn = new Button("Gantt chart",
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent arg0) {
-						displayGanttChartView();
-
-					}
-				});
-
-		viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		viewGanttChartBtn.setDescription("Show Gantt Chart");
-		UiUtils.addComponent(header, viewGanttChartBtn, Alignment.MIDDLE_RIGHT);
+		/*
+		 * viewGanttChartBtn = new Button("Gantt chart", new
+		 * Button.ClickListener() { private static final long serialVersionUID =
+		 * 1L;
+		 * 
+		 * @Override public void buttonClick(ClickEvent arg0) {
+		 * displayGanttChartView();
+		 * 
+		 * } });
+		 * 
+		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		 * viewGanttChartBtn.setDescription("Show Gantt Chart");
+		 * UiUtils.addComponent(header, viewGanttChartBtn,
+		 * Alignment.MIDDLE_RIGHT);
+		 */
 
 		this.reOrderBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -373,10 +375,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				if (isSimpleDisplay) {
-					displayAdvancedView();
-					isSimpleDisplay = false;
-				}
+				chartDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				displayAdvancedView();
 			}
 		});
 		advanceDisplay.setIcon(MyCollabResource
@@ -391,11 +391,9 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 			@Override
 			public void buttonClick(ClickEvent event) {
 				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				chartDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 				simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-				if (!isSimpleDisplay) {
-					displaySimpleView();
-					isSimpleDisplay = true;
-				}
+				displaySimpleView();
 			}
 		});
 		simpleDisplay.setIcon(MyCollabResource
@@ -403,9 +401,24 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		simpleDisplay.setDescription(AppContext
 				.getMessage(TaskGroupI18nEnum.LIST_VIEW_TOOLTIP));
 
+		chartDisplay = new Button(null, new Button.ClickListener() {
+			private static final long serialVersionUID = -5707546605789537298L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
+				chartDisplay.addStyleName(UIConstants.BTN_ACTIVE);
+				displayGanttChartView();
+			}
+		});
+		chartDisplay.setIcon(MyCollabResource
+				.newResource("icons/16/project/chart_view.png"));
+
 		viewButtons = new ToggleButtonGroup();
 		viewButtons.addButton(simpleDisplay);
 		viewButtons.addButton(advanceDisplay);
+		viewButtons.addButton(chartDisplay);
 
 		mainLayout = new HorizontalLayout();
 		mainLayout.setSizeFull();
@@ -616,18 +629,27 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	}
 
 	private void displayGanttChartView() {
+		this.removeAllComponents();
+		VerticalLayout header = new VerticalLayout();
+		header.setMargin(new MarginInfo(true, false, false, false));
+		header.addComponent(viewButtons);
+		header.setComponentAlignment(viewButtons, Alignment.MIDDLE_RIGHT);
 
-		if (this.getComponentIndex(ganttChart) < 0) {
-			viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+		this.addComponent(header);
+		ganttChart = new TaskGanttChart();
+		this.addComponent(ganttChart);
 
-			ganttChart = new TaskGanttChart();
-			ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
-
-			this.addComponent(ganttChart, 1);
-		} else {
-			this.removeComponent(ganttChart);
-			viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		}
+		/*
+		 * if (this.getComponentIndex(ganttChart) < 0) {
+		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
+		 * 
+		 * ganttChart = new TaskGanttChart();
+		 * ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
+		 * 
+		 * this.addComponent(ganttChart, 1); } else {
+		 * this.removeComponent(ganttChart);
+		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK); }
+		 */
 	}
 
 	private void displayActiveTaskGroups() {

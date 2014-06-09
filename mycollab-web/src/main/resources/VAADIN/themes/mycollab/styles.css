@@ -516,8 +516,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     border-radius: 0px;
 }
 .v-buttongroup .v-button.v-button-middle .v-button-wrap{
-    /*border-right:1px solid #F9F9F9;   */
-    border-left:1px solid #F9F9F9;
+    border-left:1px solid #8F8F8F;
 }
 
 
@@ -635,7 +634,7 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 }
 
 .v-table-body-wrapper.v-table-body {
-    height: 100% !important;
+    height: 100%;
     border-width: 0px 1px 1px 1px;
 }
 
@@ -6995,4 +6994,36 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .v-window.lazyload-progress .v-window-wrap .v-window-outerheader {
 	display: none;
+}
+
+/* Gantt Table */
+.gantt-view {
+	border: 1px solid #CFCFCF;
+}
+.gantt-wrap {
+	border-top: 1px solid #CFCFCF;
+}
+.gantt-table .v-table-cell-wrapper a {
+	word-wrap: normal;
+	white-space: nowrap;
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
+	padding-left: 19px;
+	box-sizing: border-box;
+	margin-left: -19px;
+}
+.gantt-table .v-table-header-wrap {
+	border-width: 0px 1px 1px 0px;
+}
+.gantt-table.list-view .v-table-header td, .gantt-table.list-view .v-table-header-wrap, .gantt-table.list-view .v-table-header .v-table-resizer {
+	height: 44px;
+}
+.gantt-table.list-view .v-table-header .v-table-caption-container {
+	line-height: 42px;
+	font-size: 11px;
+}
+.gantt-table .v-table-body-wrapper.v-table-body {
+	border-width: 0px 1px 0px 0px;
 }

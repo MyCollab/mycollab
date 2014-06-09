@@ -69,8 +69,7 @@ public class TimeTrackingTableDisplay
 						.getBeanByIndex(itemId);
 
 				return new ProjectUserLink(timeItem.getLoguser(), timeItem
-						.getLogUserAvatarId(), timeItem.getLogUserFullName(),
-						true, true);
+						.getLogUserAvatarId(), timeItem.getLogUserFullName());
 
 			}
 		});
