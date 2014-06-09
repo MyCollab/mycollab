@@ -11,9 +11,11 @@
     <listener>
         <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
     </listener>
+    
     <listener>
         <listener-class>org.icepush.util.ExtensionRegistry</listener-class>
     </listener>
+    
     <servlet>
         <servlet-name>ICEPush Servlet</servlet-name>
         <servlet-class>org.vaadin.artur.icepush.ICEPushServlet</servlet-class>
@@ -67,6 +69,7 @@
     <servlet>
         <servlet-name>MyCollabApplication</servlet-name>
         <servlet-class>com.esofthead.mycollab.vaadin.MyCollabServlet</servlet-class>
+        <async-supported>true</async-supported>
     </servlet>
 
     <servlet-mapping>

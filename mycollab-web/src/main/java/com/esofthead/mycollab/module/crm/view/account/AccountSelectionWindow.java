@@ -46,9 +46,10 @@ public class AccountSelectionWindow extends Window {
 	private FieldSelection<Account> fieldSelection;
 
 	public AccountSelectionWindow(FieldSelection<Account> fieldSelection) {
-		super("Account Name Lookup");
+		super("Account Selection");
 		this.setWidth("900px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
 	}

@@ -3544,7 +3544,6 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
 .v-window,.v-Notification {
     background-color: white;
     border-radius: 2px;
-    border:0;
 }
 
 .v-window-outerheader {
@@ -6989,6 +6988,7 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .v-window.lazyload-progress {
 	background-color: transparent;
+	border: none;
 }
 .v-window.lazyload-progress .v-window-wrap {
 	background: none;

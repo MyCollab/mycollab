@@ -233,6 +233,8 @@ public abstract class AbstractBeanPagedList<S extends SearchCriteria, T>
 
 		currentListData = queryCurrentData();
 
+		listContainer.removeAllComponents();
+
 		int i = 0;
 		for (final T item : currentListData) {
 			final Component row = rowDisplayHandler.generateRow(item, i);

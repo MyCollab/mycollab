@@ -47,7 +47,7 @@ public class CampaignSelectionWindow extends Window {
 
 	public CampaignSelectionWindow(
 			FieldSelection<CampaignWithBLOBs> fieldSelection) {
-		super("Campaign Name Lookup");
+		super("Campaign Selection");
 		this.setWidth("800px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);

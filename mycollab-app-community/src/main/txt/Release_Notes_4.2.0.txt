@@ -59,6 +59,7 @@
         - Several wrong link in emails
         - Calendar style issue
         - Can not save edit role
+        - Link of following ticket is wrong
         
     
     Changelog from MyCollab 4.1.0

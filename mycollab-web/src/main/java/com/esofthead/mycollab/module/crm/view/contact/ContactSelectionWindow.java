@@ -46,7 +46,7 @@ public class ContactSelectionWindow extends Window {
 	private FieldSelection<Contact> fieldSelection;
 
 	public ContactSelectionWindow(FieldSelection<Contact> fieldSelection) {
-		super("Contact Name Lookup");
+		super("Contact Selection");
 		this.setWidth("900px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);

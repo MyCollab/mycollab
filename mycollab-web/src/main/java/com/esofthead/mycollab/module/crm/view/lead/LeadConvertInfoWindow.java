@@ -71,7 +71,7 @@ public class LeadConvertInfoWindow extends Window {
 		this.setWidth("900px");
 		this.setContent(initContent());
 		this.setResizable(false);
-
+		this.setModal(true);
 		this.center();
 	}
 

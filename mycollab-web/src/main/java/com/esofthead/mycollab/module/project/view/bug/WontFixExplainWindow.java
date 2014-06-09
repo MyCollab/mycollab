@@ -73,6 +73,7 @@ public class WontFixExplainWindow extends Window {
 		this.callbackForm = callbackForm;
 		this.setWidth("750px");
 		this.setResizable(false);
+		this.setModal(true);
 
 		VerticalLayout contentLayout = new VerticalLayout();
 		contentLayout.setMargin(new MarginInfo(false, false, true, false));

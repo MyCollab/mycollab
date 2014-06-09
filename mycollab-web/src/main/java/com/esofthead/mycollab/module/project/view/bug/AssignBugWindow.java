@@ -66,6 +66,7 @@ public class AssignBugWindow extends Window {
 		VerticalLayout contentLayout = new VerticalLayout();
 		this.setWidth("750px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.editForm = new EditForm();
 		contentLayout.addComponent(this.editForm);
 		this.editForm.setBean(bug);

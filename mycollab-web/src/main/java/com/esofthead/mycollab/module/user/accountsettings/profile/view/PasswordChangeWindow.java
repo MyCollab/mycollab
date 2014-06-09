@@ -58,6 +58,7 @@ public class PasswordChangeWindow extends Window {
 		this.initUI();
 		this.center();
 		this.setResizable(false);
+		this.setModal(true);
 		this.user = user;
 		this.setCaption(AppContext
 				.getMessage(UserI18nEnum.CHANGE_PASSWORD_WINDOW_TITLE));

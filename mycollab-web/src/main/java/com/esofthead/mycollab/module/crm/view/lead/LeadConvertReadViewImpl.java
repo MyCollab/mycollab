@@ -239,7 +239,6 @@ public class LeadConvertReadViewImpl extends
 
 	@Override
 	public void displayConvertLeadInfo(final SimpleLead lead) {
-		this.removeAllComponents();
 		previewForm.removeAllComponents();
 		this.lead = lead;
 

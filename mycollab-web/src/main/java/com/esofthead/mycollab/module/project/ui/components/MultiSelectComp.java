@@ -50,6 +50,8 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 	private String propertyDisplayField;
 	private String widthVal;
 
+	private VerticalLayout popupContent;
+
 	protected List<T> selectedItems = new ArrayList<T>();
 
 	protected List<T> items = new ArrayList<T>();
@@ -66,19 +68,22 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 
 		this.componentPopupSelection = new PopupButtonExt();
 		this.componentPopupSelection
-		.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				.addClickListener(new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				MultiSelectComp.this.initContentPopup();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						MultiSelectComp.this.initContentPopup();
+					}
+				});
+
+		popupContent = new VerticalLayout();
+		this.componentPopupSelection.setContent(popupContent);
 	}
 
 	public MultiSelectComp(final String displayName, List<T> data) {
 		this(displayName);
-		items = data;		
+		items = data;
 	}
 
 	protected List<T> createData() {
@@ -128,7 +133,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 	}
 
 	private void initContentPopup() {
-		VerticalLayout popupContent = new VerticalLayout();
+		popupContent.removeAllComponents();
 		for (final T item : items) {
 
 			final ItemSelectionComp<T> chkItem = buildItem(item);
@@ -145,8 +150,6 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 		}
 
 		popupContent.setWidth(widthVal);
-		componentPopupSelection.setContent(popupContent);
-
 	}
 
 	protected ItemSelectionComp<T> buildItem(final T item) {

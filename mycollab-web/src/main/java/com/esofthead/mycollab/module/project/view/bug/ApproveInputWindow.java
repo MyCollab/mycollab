@@ -62,6 +62,7 @@ public class ApproveInputWindow extends Window {
 			final SimpleBug bug) {
 		super("Approve bug '" + bug.getSummary() + "'");
 		this.setResizable(false);
+		this.setModal(true);
 		this.bug = bug;
 		this.callbackForm = callbackForm;
 

@@ -16,16 +16,15 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_APP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
 import com.esofthead.mycollab.common.localization.WindowI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.UI;
 
 /**
  * 
@@ -35,14 +34,15 @@ import com.vaadin.ui.UI;
  */
 public class NotificationUtil {
 
+	private static Logger log = LoggerFactory.getLogger(NotificationUtil.class);
+
 	public static void showNotification(String caption) {
 		showNotification(caption, null, Type.HUMANIZED_MESSAGE);
 	}
 
 	public static void showWarningNotification(String description) {
 		showNotification(
-				AppContext
-						.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
 				description, Type.WARNING_MESSAGE);
 	}
 
@@ -61,16 +61,14 @@ public class NotificationUtil {
 		if (Page.getCurrent() != null) {
 			warnNotif.show(Page.getCurrent());
 		} else {
-			warnNotif.show(((UI) MyCollabSession.getVariable(CURRENT_APP))
-					.getPage());
+			log.error("Current page is null");
 		}
 
 	}
 
 	public static void showGotoLastRecordNotification() {
 		showNotification(
-				AppContext
-						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
 						.getMessage(GenericI18Enum.INFORMATION_GOTO_LAST_RECORD),
 				Type.HUMANIZED_MESSAGE);
@@ -78,8 +76,7 @@ public class NotificationUtil {
 
 	public static void showGotoFirstRecordNotification() {
 		showNotification(
-				AppContext
-						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
 						.getMessage(GenericI18Enum.INFORMATION_GOTO_FIRST_RECORD),
 				Type.HUMANIZED_MESSAGE);
@@ -87,8 +84,7 @@ public class NotificationUtil {
 
 	public static void showRecordNotExistNotification() {
 		showNotification(
-				AppContext
-						.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE),
 				AppContext
 						.getMessage(GenericI18Enum.INFORMATION_RECORD_IS_NOT_EXISTED_MESSAGE),
 				Type.HUMANIZED_MESSAGE);
@@ -96,10 +92,8 @@ public class NotificationUtil {
 
 	public static void showMessagePermissionAlert() {
 		showNotification(
-				AppContext
-						.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
-				AppContext
-						.getMessage(WindowI18nEnum.NO_PERMISSION_DO_TASK),
+				AppContext.getMessage(WindowI18nEnum.WARNING_WINDOW_TITLE),
+				AppContext.getMessage(WindowI18nEnum.NO_PERMISSION_DO_TASK),
 				Type.WARNING_MESSAGE);
 	}
 }

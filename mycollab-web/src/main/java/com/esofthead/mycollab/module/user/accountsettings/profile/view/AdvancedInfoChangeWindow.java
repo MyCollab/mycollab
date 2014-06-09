@@ -54,6 +54,7 @@ public class AdvancedInfoChangeWindow extends Window {
 		this.user = user;
 		this.setWidth("450px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.initUI();
 		this.center();
 		this.setCaption("Change your advanced information");

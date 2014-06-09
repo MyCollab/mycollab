@@ -68,10 +68,12 @@ public class MailFormWindow extends Window {
 	private List<String> lstMail;
 
 	public MailFormWindow() {
+		this.setModal(true);
 		initLayout();
 	}
 
 	public MailFormWindow(List<String> lstMail) {
+		this.setModal(true);
 		this.lstMail = lstMail;
 		initLayout();
 	}

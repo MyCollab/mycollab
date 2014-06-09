@@ -91,6 +91,7 @@ public class GanttChartViewImpl extends AbstractPageView implements
 				return null;
 			}
 		});
+		container.addComponent(taskTree);
 
 		gantt = new Gantt();
 		gantt.setWidth(100, Unit.PERCENTAGE);

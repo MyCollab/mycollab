@@ -62,6 +62,7 @@ public class ProjectAddWindow extends Window {
 		this.setWidth("900px");
 		this.center();
 		this.setResizable(false);
+		this.setModal(true);
 
 		VerticalLayout contentLayout = new VerticalLayout();
 		contentLayout.setMargin(new MarginInfo(false, false, true, false));

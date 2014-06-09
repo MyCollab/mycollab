@@ -74,6 +74,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		super("Move File/Foler");
 		center();
 		this.setResizable(false);
+		this.setModal(true);
 		this.setWidth("600px");
 		this.resourceEditting = resource;
 		this.resourceService = ApplicationContextUtil

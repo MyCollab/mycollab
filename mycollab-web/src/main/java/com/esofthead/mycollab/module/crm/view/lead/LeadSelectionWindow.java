@@ -46,7 +46,7 @@ public class LeadSelectionWindow extends Window {
 	private FieldSelection<Lead> fieldSelection;
 
 	public LeadSelectionWindow(FieldSelection<Lead> fieldSelection) {
-		super("Lead Name Lookup");
+		super("Lead Selection");
 		this.setWidth("800px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);

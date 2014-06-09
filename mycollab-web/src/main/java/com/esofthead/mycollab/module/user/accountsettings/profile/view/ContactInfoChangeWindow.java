@@ -65,6 +65,7 @@ public class ContactInfoChangeWindow extends Window {
 		this.user = user;
 		this.setWidth("450px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.validation = ApplicationContextUtil
 				.getSpringBean(LocalValidatorFactoryBean.class);
 		this.initUI();

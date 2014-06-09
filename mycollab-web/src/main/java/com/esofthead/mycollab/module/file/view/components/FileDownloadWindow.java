@@ -58,6 +58,7 @@ public class FileDownloadWindow extends Window {
 		this.setWidth("400px");
 		this.center();
 		this.setResizable(false);
+		this.setModal(true);
 
 		this.content = content;
 		this.constructBody();

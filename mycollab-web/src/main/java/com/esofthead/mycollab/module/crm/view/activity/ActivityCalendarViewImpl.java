@@ -794,6 +794,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 			super("Quick Create Event");
 			this.center();
 			this.setResizable(false);
+			this.setModal(true);
 			this.setWidth("1220px");
 
 			this.meeting = new MeetingWithBLOBs();

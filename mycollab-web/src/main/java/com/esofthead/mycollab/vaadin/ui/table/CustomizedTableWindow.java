@@ -64,6 +64,7 @@ public abstract class CustomizedTableWindow extends Window {
 		this.addStyleName("customize-table-window");
 		this.setWidth("400px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.center();
 
 		this.tableItem = table;

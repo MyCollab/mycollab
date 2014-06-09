@@ -48,7 +48,6 @@ public class BugDashboardPresenter extends AbstractPresenter<BugDashboardView> {
 		trackerContainer.gotoSubView(AppContext
 				.getMessage(BugI18nEnum.DASHBOARD_TAB));
 
-		view.removeAllComponents();
 		view.lazyLoadView();
 	}
 }

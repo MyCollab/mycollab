@@ -37,6 +37,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 	@Override
 	public void lazyLoadView() {
 		if (!isRunning) {
+			this.removeAllComponents();
 			isRunning = true;
 			progressIndicator = new ProgressIndicator();
 			UI.getCurrent().addWindow(progressIndicator);

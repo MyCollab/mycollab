@@ -26,6 +26,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
@@ -239,7 +240,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 					final ButtonLink ticketLink = new ButtonLink(ticket
 							.getSummary());
 
-					if ("Bug".equals(ticket.getType())) {
+					if (ProjectTypeConstants.BUG.equals(ticket.getType())) {
 						ticketLink.setIcon(MyCollabResource
 								.newResource("icons/16/project/bug.png"));
 
@@ -251,7 +252,24 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 										new GregorianCalendar().getTime())) {
 							ticketLink.addStyleName(UIConstants.LINK_OVERDUE);
 						}
-					} else if ("Task".equals(ticket.getType())) {
+
+						ticketLink.addClickListener(new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(final ClickEvent event) {
+								final int projectId = ticket.getProjectId();
+								final int bugId = ticket.getTypeId();
+								final PageActionChain chain = new PageActionChain(
+										new ProjectScreenData.Goto(projectId),
+										new BugScreenData.Read(bugId));
+								EventBus.getInstance().fireEvent(
+										new ProjectEvent.GotoMyProject(this,
+												chain));
+							}
+						});
+					} else if (ProjectTypeConstants.TASK.equals(ticket
+							.getType())) {
 						ticketLink.setIcon(MyCollabResource
 								.newResource("icons/16/project/task.png"));
 
@@ -268,23 +286,12 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 										.addStyleName(UIConstants.LINK_OVERDUE);
 							}
 						}
-					}
 
-					ticketLink.addClickListener(new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+						ticketLink.addClickListener(new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(final ClickEvent event) {
-							if ("Bug".equals(ticket.getType())) {
-								final int projectId = ticket.getProjectId();
-								final int bugId = ticket.getTypeId();
-								final PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(projectId),
-										new BugScreenData.Read(bugId));
-								EventBus.getInstance().fireEvent(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
-							} else if ("Task".equals(ticket.getType())) {
+							@Override
+							public void buttonClick(final ClickEvent event) {
 								final int projectId = ticket.getProjectId();
 								final int taskId = ticket.getTypeId();
 								final PageActionChain chain = new PageActionChain(
@@ -293,10 +300,10 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 								EventBus.getInstance().fireEvent(
 										new ProjectEvent.GotoMyProject(this,
 												chain));
-							}
 
-						}
-					});
+							}
+						});
+					}
 
 					return ticketLink;
 				}

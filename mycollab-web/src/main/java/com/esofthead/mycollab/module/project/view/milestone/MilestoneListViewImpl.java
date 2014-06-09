@@ -86,7 +86,6 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	}
 
 	private void constructBody() {
-
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 

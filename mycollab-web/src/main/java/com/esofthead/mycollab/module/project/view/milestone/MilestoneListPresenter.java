@@ -85,8 +85,8 @@ public class MilestoneListPresenter
 			int totalCount = milestoneService.getTotalCount(searchCriteria);
 
 			if (totalCount > 0) {
-				doSearch(searchCriteria);
 				displayListView(container, data);
+				doSearch(searchCriteria);
 			} else {
 				displayNoExistItems(container, data);
 			}

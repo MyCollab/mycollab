@@ -74,6 +74,7 @@ public class ResolvedInputWindow extends Window {
 		VerticalLayout contentLayout = new VerticalLayout();
 		this.setWidth("800px");
 		this.setResizable(false);
+		this.setModal(true);
 		this.editForm = new EditForm();
 		contentLayout.addComponent(this.editForm);
 		this.editForm.setBean(bug);

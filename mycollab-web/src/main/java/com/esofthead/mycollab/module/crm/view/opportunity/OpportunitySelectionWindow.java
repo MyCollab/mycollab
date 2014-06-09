@@ -45,7 +45,7 @@ public class OpportunitySelectionWindow extends Window {
 	private FieldSelection fieldSelection;
 
 	public OpportunitySelectionWindow(FieldSelection fieldSelection) {
-		super("Opportunity Name Lookup");
+		super("Opportunity Selection");
 		this.setWidth("900px");
 		this.fieldSelection = fieldSelection;
 		this.setModal(true);
