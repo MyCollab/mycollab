@@ -1,0 +1,1 @@
+$wnd.com_esofthead_mycollab_widgetset_MyCollabWidgetSet.runAsyncCallback1('aob(1832,1,w3d);_.se=function Nic(){L3b((!G3b&&(G3b=new M3b),G3b),this.b.e)};EOd(Hq)(1);\n//# sourceURL=com.esofthead.mycollab.widgetset.MyCollabWidgetSet-1.js\n')

@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-touchkit-agpl</artifactId>
-            <version>4.0.0.alpha3</version>
+            <version>4.0.0.beta1</version>
         </dependency>
 
         <dependency>

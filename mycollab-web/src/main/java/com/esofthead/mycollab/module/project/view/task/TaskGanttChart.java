@@ -48,6 +48,7 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
@@ -104,11 +105,11 @@ class TaskGanttChart extends VerticalLayout {
 				TaskTableFieldDef.taskname, TaskTableFieldDef.startdate,
 				TaskTableFieldDef.duedate, TaskTableFieldDef.assignee));
 		taskTable.setWidth("100%");
+		taskTable.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		taskTable.addStyleName("gantt-table");
 
 		gantt = new Gantt();
 		gantt.setWidth(100, Unit.PERCENTAGE);
-		gantt.setHeight(350, Unit.PIXELS);
 		gantt.setResizableSteps(true);
 		gantt.setMovableSteps(true);
 		gantt.setVerticalScrollDelegateTarget(taskTable);
@@ -188,8 +189,6 @@ class TaskGanttChart extends VerticalLayout {
 			stepMap = new LinkedHashMap<Step, SimpleTask>();
 		}
 
-		// taskTable.removeAllItems();
-
 		/* Add steps */
 		if (!taskList.isEmpty()) {
 
@@ -235,11 +234,7 @@ class TaskGanttChart extends VerticalLayout {
 							step.setBackgroundColor("FC4350");
 						}
 					}
-
-					// stepList.add(step);
 					stepMap.put(step, task);
-
-					// taskTable.setcon
 				}
 
 			}

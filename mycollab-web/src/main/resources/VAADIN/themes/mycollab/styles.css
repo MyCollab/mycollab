@@ -479,30 +479,9 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-button.v-button-transparentbtn .v-button-wrap {
     padding:0;
 }
-/* .v-buttongroup .v-button.v-button-left,.v-buttongroup .v-button.v-button-middle,.v-buttongroup .v-button.v-button-right
-{
-    background-color: #C06B11;
-    color:white;
-    font-weight:normal;
-} */
-
- /* .v-buttongroup .v-button:hover, .v-buttongroup .v-button:active, .v-buttongroup .v-button:focus {
-    background-color: #C06B11;
-    background-image: -webkit-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -moz-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -ms-linear-gradient(top,#C06B11,#AF620F);
-    background-image: -o-linear-gradient(top,#C06B11,#AF620F);
-    background-image: linear-gradient(top,#C06B11,#AF620F);
-} */
-
 
 .v-buttongroup .v-button-left {
     border-radius: 2px 0px 0px 2px;
-}
-
-.v-buttongroup .v-button .v-button-wrap,.v-buttongroup .v-button.v-button-left .v-button-wrap,.v-buttongroup .v-button.v-button-right .v-button-wrap,.v-buttongroup .v-button.v-button-middle .v-button-wrap
-    {
-    /*border-width: 0px;*/
 }
 
 .v-buttongroup .v-button.v-button-left .v-button-wrap,.v-buttongroup .v-button.v-button-middle .v-button-wrap,.v-buttongroup .v-button.v-button-left.v-disabled .v-button-wrap,.v-buttongroup .v-button.v-button-middle.v-disabled .v-button-wrap,.v-buttongroup .v-button.v-button-left.v-disabled:active .v-button-wrap,.v-buttongroup .v-button.v-button-middle.v-disabled:active .v-button-wrap,.v-buttongroup .v-button.v-button-left.v-disabled:focus .v-button-wrap,.v-buttongroup .v-button.v-button-middle.v-disabled:focus .v-button-wrap
@@ -519,7 +498,6 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     border-left:1px solid #8F8F8F;
 }
 
-
 .v-buttongroup .v-button.v-button-right {
     border-radius: 0px 2px 2px 0px;
     border-left: none;
@@ -529,23 +507,12 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
     border-radius: 0px;
 }
 
-.v-buttongroup .v-button.v-button-left {
-   /*  border-width: 1px 0px 1px 1px; */
-}
-
-.v-buttongroup .v-button:active .v-button-wrap {
-    /*border: none;*/
-}
-
 .v-buttongroup .v-button:focus .v-button-wrap {
     background: none;
 }
 
-
-
 .splitbutton .parent-button {
     border-right-width:0px;
-    /*border-right-color:#F9F9F9;*/
     border-top-right-radius:0;
     border-bottom-right-radius:0;
     
@@ -634,7 +601,7 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
 }
 
 .v-table-body-wrapper.v-table-body {
-    height: 100%;
+    height: 100% !important;
     border-width: 0px 1px 1px 1px;
 }
 
@@ -915,10 +882,7 @@ input.v-textfield-pagedtable-pagefield {
 }
 
 .topNavigation .accountMenu {
-/*  float: right; */
-/*  margin-right: 30px; */
     height: 40px;
-/*  display: block; */
     padding: 12px 0px 11px;
     background: none;
     border: none;
@@ -3321,11 +3285,6 @@ div.v-splitbutton,div.v-splitbutton .v-button {
     padding-left: 10px;
 }
 
-/* .messageread-bottompanel {
-    border: 1px solid #CFCFCF;
-    background: none no-repeat 0 0 rgb(229, 239, 240);
-} */
-
 .comment-list .depotContent {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -3603,7 +3562,6 @@ div.v-window-header {
 /* Form Container View Field */
 .form-container div.v-button-link, .form-container div.v-button-link:active, .form-container div.v-button-link:focus {
     height: 18px;
-    /*border-radius: 8px 8px 8px 8px;*/
     background: url("icons/grad-dark-bottom.png") repeat-x scroll left
         bottom rgb(57, 71, 84);
     padding: 0px 7px 1px;
@@ -3611,15 +3569,11 @@ div.v-window-header {
 }
 
 .task-attached {
-    
-    /*border-radius: 8px 8px 8px 8px;*/
     background: none;
     padding: 0px 7px 1px;
     margin-right: 2px;
     color:rgb(51, 51, 236);
     pointer:none;
-    
-
 }
 
 .form-container .v-button-link .v-button-caption {
@@ -3789,10 +3743,6 @@ div.v-lazyloadingwrapper-loading {
 .report-row-block {
     height: 100%;
     padding: 5px 8px 0px;
-}
-
-.report-row-block.special-col {
-    
 }
 
 .addViewLayout .standup-edit-layout .h2 {
@@ -4665,10 +4615,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 
 /* AddViewLayout2 */
 .addview-layout {
-    /* margin-top: 10px; */
-    /*border: 1px solid #CFCFCF;*/
     background-color: #f5f5f5;
-    /*border-radius: 3px 3px 0px 0px;*/
     padding: 0px;
     border-radius:0;
 }
@@ -4867,10 +4814,6 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
     border-color: #CFCFCF;
 }
 
-/*.task-list {
-    background-color: rgb(245, 245, 245);
-}*/
-
 .task-list-footer {
     border-width: 0px 1px 1px 1px;
     border-style: solid;
@@ -4901,11 +4844,6 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
 .popup-footer.v-margin-left {
     padding-left: 15px;
 }
-
-/* .colored-gridlayout .v-csslayout
-{
-    padding: 8px 5px 8px 18px;
-} */
 
 .colored-gridlayout .gridform-caption.v-margin-top, .colored-gridlayout .gridform-field.v-margin-top
 {
@@ -6096,26 +6034,11 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .v-required-field-indicator {
     width: 4px;
 }
-/* new splitbutton */
-.splitbutton .v-button,.splitbutton .v-button.v-disabled,.splitbutton .v-button:active
-{
-    /* font-weight: bold; */
-}
-.splitbutton .v-button.greenbtn {
-    /* background-color: rgb(37, 153, 200); */
-}
-/*.splitbutton .v-button.graybtn {
-    background-color: rgb(178, 178, 178);
-}*/
 
 
 
 .splitbutton .v-popupbutton, .splitbutton .v-popupbutton:active, .splitbutton .v-popupbutton.greenbtn, .splitbutton .v-popupbutton.graybtn, .splitbutton .v-popupbutton.bluebtn, .splitbutton .v-popupbutton.brownbtn
 {
-    /* border-width: 1px; */
-    /* border-right: 1px solid #093768; */
-    /* border-radius: 0px 3px 3px 0px; */
-    /* padding: 3px 7px 3px 2px; */
     border-left: none;
 }
 
@@ -6231,7 +6154,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
     border-style: solid;
     border-color: #CFCFCF;
     position: relative;
-    /* overflow-y: visible; */
 }
 .tab-style3 > .v-tabsheet-tabcontainer > .v-tabsheet-tabs > tbody > tr > .v-tabsheet-tabitemcell > .v-tabsheet-tabitem .v-caption {
     padding: 8px 17px 9px;
@@ -6364,12 +6286,6 @@ div.v-button-link.buttonPagingcurrent,div.v-button-link.buttonPaging:hover
 .contactopp-list-header {
     border-bottom: 1px solid #CFCFCF;
 }
-/* .contactopp-list-header.v-margin-top {
-    padding-top: 8px;
-}
-.contactopp-list-header.v-margin-bottom {
-    padding-bottom: 8px;
-} */
 .contactopp-list-header > .v-expand > .v-slot:first-child .v-label {
     border-left: none;
     padding-left: 0px;
@@ -6557,8 +6473,8 @@ img.icon-btn {
     /* reduce the damage in FF3.0 */
     display: block;
     width: 0;
-    top: 9px; /* controls vertical position */
-    left: -12px; /* value = - border-left-width - border-right-width */
+    top: 9px;
+    left: -12px;
     border-width: 11px 11px 11px 0;
     border-color: transparent #CFCFCF;
     border-radius: 0px;
@@ -6832,10 +6748,8 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 /* Context Menu */
 .v-context-menu {
     float: left;
-    
     font-family: Arial;
     font-size: 12px;
-    
     background-color: #f0f0f0;
 }
 
@@ -6843,13 +6757,9 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 .v-context-menu .v-context-menu-item-basic-submenu {
     float: left;
     clear: left;
-    
     height: 26px;
-    
     color: #222;
-    
     cursor: pointer;
-    
     background-color: #f0f0f0;
 }
 
@@ -6882,29 +6792,22 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 
 .v-context-menu .v-context-menu-item-basic-icon-container {
     float: left;
-    
     width: 26px;
     height: 26px;
-    
     margin-right: 5px;
-        
     border-right: 1px solid #d0d0d0;
-    
     text-align: center;
 }
 
 .v-context-menu .v-context-menu-item-basic-icon-container .v-icon {
     float: left;
-    
     width: 16px;
     height: 16px;
-    
     padding: 5px;
 }
 
 .v-context-menu .v-context-menu-item-basic-text {
     float: left;
-        
     height: 26px;
     line-height: 26px;
     padding: 0 20px 0 10px;
@@ -7026,4 +6929,7 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .gantt-table .v-table-body-wrapper.v-table-body {
 	border-width: 0px 1px 0px 0px;
+}
+.gantt-container {
+	height: 100% !important;
 }

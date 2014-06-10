@@ -88,7 +88,7 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			@Override
 			public void streamingStarted(
 					StreamVariable.StreamingStartEvent event) {
-				UI.getCurrent().setPollInterval(300);
+				UI.getCurrent().setPollInterval(1000);
 			}
 
 			@Override
