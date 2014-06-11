@@ -48,11 +48,6 @@ public class FileRawContentServiceImpl implements RawContentService {
 	private File baseFolder;
 
 	public FileRawContentServiceImpl() {
-		if (!SiteConfiguration.isSupportFileStorage()) {
-			throw new IllegalArgumentException(
-					"Setting does not support file storage");
-		}
-
 		baseFolder = FileStorageConfiguration.baseContentFolder;
 	}
 

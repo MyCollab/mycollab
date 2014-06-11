@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.view.lead.LeadListDashlet;
 import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunityPipelineFunnelChartDashlet;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.vaadin.shared.ui.MarginInfo;
@@ -39,19 +39,25 @@ import com.vaadin.ui.VerticalLayout;
  */
 @SuppressWarnings("serial")
 @ViewComponent
-public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
+public class CrmHomeViewImpl extends AbstractLazyPageView implements
+		CrmHomeView {
 	private IOpportunityPipelineFunnelChartDashlet opportunityChartDashlet;
 	private AccountListDashlet accountDashlet;
 	private MeetingListDashlet meetingDashlet;
 	private CallListDashlet callDashlet;
 	private LeadListDashlet leadDashlet;
 
-	private final ActivityStreamPanel activityStreamPanel;
-	private final SalesDashboardView salesDashboard;
+	private ActivityStreamPanel activityStreamPanel;
+	private SalesDashboardView salesDashboard;
 
 	public CrmHomeViewImpl() {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(false, true, true, true));
+	}
+
+	@Override
+	protected void displayView() {
+		this.removeAllComponents();
 
 		HorizontalLayout contentLayout = new HorizontalLayout();
 		contentLayout.setSpacing(true);
@@ -108,10 +114,11 @@ public class CrmHomeViewImpl extends AbstractPageView implements CrmHomeView {
 		contentLayout.setComponentAlignment(streamsLayout, Alignment.TOP_RIGHT);
 
 		this.addComponent(contentLayout);
+
+		displayDashboard();
 	}
 
-	@Override
-	public void displayDashboard() {
+	private void displayDashboard() {
 		if (accountDashlet != null) {
 			accountDashlet.display();
 		}

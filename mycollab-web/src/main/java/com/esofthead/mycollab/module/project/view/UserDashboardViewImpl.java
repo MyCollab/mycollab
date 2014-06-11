@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -58,7 +58,7 @@ import com.vaadin.ui.themes.Reindeer;
  * 
  */
 @ViewComponent
-public class UserDashboardViewImpl extends AbstractPageView implements
+public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		UserDashboardView {
 	private static final long serialVersionUID = 1L;
 
@@ -75,7 +75,7 @@ public class UserDashboardViewImpl extends AbstractPageView implements
 	private List<Integer> prjKeys;
 
 	@Override
-	public void display() {
+	protected void displayView() {
 		this.removeAllComponents();
 
 		this.setSpacing(true);

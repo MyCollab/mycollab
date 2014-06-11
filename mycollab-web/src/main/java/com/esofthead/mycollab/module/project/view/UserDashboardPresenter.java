@@ -42,6 +42,6 @@ public class UserDashboardPresenter extends
 		prjContainer.removeAllComponents();
 		prjContainer.addComponent((Component) view);
 		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
-		view.display();
+		view.lazyLoadView();
 	}
 }

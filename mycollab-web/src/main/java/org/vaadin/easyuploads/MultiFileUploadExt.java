@@ -61,7 +61,6 @@ public class MultiFileUploadExt extends CssLayout implements DropHandler {
 			AttachmentUploadComponent attachmentDisplayComponent) {
 		this.attachmentDisplayComponent = attachmentDisplayComponent;
 		this.attachmentDisplayComponent.registerMultiUpload(this);
-		// progressBars.setWidth("150px");
 		progressBars.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		setStyleName("v-multifileupload-ext");
 		addComponent(progressBars);

@@ -51,6 +51,22 @@ public class TaskSearchCriteria extends SearchCriteria {
 	public static Param p_status = new StringListParam("task-status", "Status",
 			"m_prj_task", "status", Arrays.asList("Open", "Pending", "Closed"));
 
+	public static Param p_startdate = new DateParam("task-startdate",
+			"Start Date", "m_prj_task", "startdate");
+
+	public static Param p_actualstartdate = new DateParam(
+			"task-actualstartdate", "Actual Start Date", "m_prj_task",
+			"actualStartDate");
+
+	public static Param p_enddate = new DateParam("task-enddate", "End Date",
+			"m_prj_task", "enddate");
+
+	public static Param p_actualenddate = new DateParam("task-actualenddate",
+			"Actual End Date", "m_prj_task", "actualEndDate");
+
+	public static Param p_deadline = new DateParam("task-deadline", "deadline",
+			"m_prj_task", "deadline");
+
 	private NumberSearchField projectid;
 	private NumberSearchField taskListId;
 	private StringSearchField taskName;

@@ -20,16 +20,22 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.localization.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.view.bug.BugSimpleDisplayWidget;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
+import com.esofthead.mycollab.module.project.view.task.TaskDisplayWidget;
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -48,6 +54,8 @@ import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Image;
@@ -74,6 +82,8 @@ public class MilestoneReadViewImpl extends
 
 	protected MilestoneTaskGroupListComp associateTaskGroupListComp;
 
+	private boolean isSimpleView = false;
+
 	public MilestoneReadViewImpl() {
 		super("Phase detail", MyCollabResource
 				.newResource("icons/24/project/phase.png"));
@@ -86,8 +96,28 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<SimpleMilestone>(
-				this.previewForm)
+		ProjectPreviewFormControlsGenerator<SimpleMilestone> controlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleMilestone>(
+				this.previewForm);
+		Button toggleViewBtn = new Button("Toggle View",
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 6800849985797693533L;
+
+					@Override
+					public void buttonClick(ClickEvent arg0) {
+						if (!isSimpleView) {
+							isSimpleView = true;
+							displaySimpleView();
+						} else {
+							isSimpleView = false;
+							MilestoneReadViewImpl.this.previewLayout
+									.addBottomControls(createBottomPanel());
+						}
+					}
+				});
+		toggleViewBtn.setIcon(MyCollabResource
+				.newResource("icons/16/switch-view.png"));
+		controlsGenerator.addOption(toggleViewBtn);
+		return controlsGenerator
 				.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
 	}
 
@@ -112,6 +142,41 @@ public class MilestoneReadViewImpl extends
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
 
 		return tabContainer;
+	}
+
+	private void displaySimpleView() {
+		VerticalLayout simpleViewBottom = new VerticalLayout();
+		simpleViewBottom.setWidth("100%");
+		simpleViewBottom.setStyleName("phase-simple-view");
+
+		Label taskListLbl = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.RELATED_TASKS_TAB));
+		taskListLbl.addStyleName("h2");
+		simpleViewBottom.addComponent(taskListLbl);
+		TaskSearchCriteria criteria = new TaskSearchCriteria();
+		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
+				.getProjectId()));
+		criteria.setMilestoneId(new NumberSearchField(this.beanItem.getId()));
+
+		TaskDisplayWidget taskDisplayWidget = new TaskDisplayWidget();
+		simpleViewBottom.addComponent(taskDisplayWidget);
+		taskDisplayWidget.setSearchCriteria(criteria);
+
+		Label bugListLbl = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.RELATED_BUGS_TAB));
+		bugListLbl.addStyleName("h2");
+		simpleViewBottom.addComponent(bugListLbl);
+		final BugSearchCriteria bugCriteria = new BugSearchCriteria();
+		bugCriteria.setProjectId(new NumberSearchField(CurrentProjectVariables
+				.getProjectId()));
+		bugCriteria.setMilestoneIds(new SetSearchField<Integer>(this.beanItem
+				.getId()));
+
+		final BugSimpleDisplayWidget displayWidget = new BugSimpleDisplayWidget();
+		simpleViewBottom.addComponent(displayWidget);
+		displayWidget.setSearchCriteria(bugCriteria);
+
+		this.previewLayout.addBottomControls(simpleViewBottom);
 	}
 
 	@Override

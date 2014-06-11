@@ -54,6 +54,7 @@ public class BugSimpleDisplayWidget extends
 		@Override
 		public Component generateRow(final SimpleBug bug, int rowIndex) {
 			HorizontalLayout layout = new HorizontalLayout();
+			layout.setSpacing(true);
 			Button bugLink = new Button("Issue #" + bug.getBugkey() + ": ",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;

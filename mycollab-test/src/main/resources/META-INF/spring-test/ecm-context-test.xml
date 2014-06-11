@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="repository"
-        class="org.springframework.extensions.jcr.jackrabbit.JackrabbitRepositoryFactoryBean"
+        class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean"
         p:configuration="classpath:/jackrabbit-repo-test.xml" p:homeDir="file:repo-test">
     </bean>
     <bean id="jcrSessionFactory"

@@ -16,27 +16,61 @@
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" property="projectName" jdbcType="VARCHAR" />
     </resultMap>
+    
+    <sql id="queryTotalCountSearchCriteria">
+        <![CDATA[
+            #set($searchCriteria = $_parameter.searchCriteria)
+            
+            #ifnotnull($searchCriteria.id)
+               ${searchCriteria.id.operation} m_prj_milestone.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+            #end
+            
+            #ifnotnull($searchCriteria.assignUser)
+                ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
+            #end
+            
+            #ifnotnull($searchCriteria.status)
+                ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
+            #end
+            
+            #ifnotnull($searchCriteria.projectId)
+                ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            #end
+            
+            #ifnotnull($searchCriteria.milestoneName)
+                ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
+            #end
+            
+            #totalCountExpr($searchCriteria.extraFields)
+        ]]>
+    </sql>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.id != null">
-            <![CDATA[${searchCriteria.id.operation} m_prj_milestone.id ${searchCriteria.id.compareOperator} #{searchCriteria.id.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.assignUser != null">
-            <![CDATA[${searchCriteria.assignUser.operation} m_prj_milestone.owner = #{searchCriteria.assignUser.value}]]>
-        </if>
-        <if test="searchCriteria.status != null">
-            <![CDATA[${searchCriteria.status.operation} m_prj_milestone.status = #{searchCriteria.status.value}]]>
-        </if>
-        <if test="searchCriteria.projectId != null">
-            <![CDATA[${searchCriteria.projectId.operation} m_prj_milestone.projectid = #{searchCriteria.projectId.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.milestoneName != null">
-          <![CDATA[
-            ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
-            ]]>
-        </if>
+        <![CDATA[
+            #set($searchCriteria = $_parameter.searchCriteria)
+            
+            #ifnotnull($searchCriteria.id)
+               ${searchCriteria.id.operation} m_prj_milestone.id ${searchCriteria.id.compareOperator} @{searchCriteria.id.value,jdbcType=NUMERIC}
+            #end
+            
+            #ifnotnull($searchCriteria.assignUser)
+                ${searchCriteria.assignUser.operation} m_prj_milestone.owner = @{searchCriteria.assignUser.value}
+            #end
+            
+            #ifnotnull($searchCriteria.status)
+                ${searchCriteria.status.operation} m_prj_milestone.status = @{searchCriteria.status.value}
+            #end
+            
+            #ifnotnull($searchCriteria.projectId)
+                ${searchCriteria.projectId.operation} m_prj_milestone.projectid = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
+            #end
+            
+            #ifnotnull($searchCriteria.milestoneName)
+                ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
+            #end
+            
+            #selectExpr($searchCriteria.extraFields)
+        ]]>
     </sql>
 
     <sql id="selectMilestone">
@@ -52,78 +86,68 @@
                     (SELECT COUNT(*) FROM m_tracker_bug WHERE m_tracker_bug.milestoneId=m_prj_milestone.id AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')) AS numOpenBugs,
                    m_prj_project.name as projectName
                 FROM m_prj_milestone
+                    INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
                     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
-                    LEFT OUTER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
         ]]>
     </sql>
 
     <select id="getTotalCount" parameterType="MilestoneSearchCriteria"
-        resultType="int">
+        resultType="int" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_milestone
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
+        #end
     </select>
 
     <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
-        resultMap="MilestoneResult">
+        resultMap="MilestoneResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.selectMilestone" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        <include refid="selectMilestone" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
         <include refid="orderStatement" />
     </select>
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_prj_milestone.lastUpdatedTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        m_prj_milestone.lastUpdatedTime DESC
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer"
-        resultMap="MilestoneResult">
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.selectMilestone" />
+        resultMap="MilestoneResult" lang="velocity">
+        <include refid="selectMilestone" />
 
-        WHERE m_prj_milestone.id=#{milestoneId, jdbcType=NUMERIC}
+        WHERE m_prj_milestone.id=@{milestoneId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
         SELECT MIN(id) FROM m_prj_milestone
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
-        </trim>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+            <include refid="queryTotalCountSearchCriteria" />
+            #end    
+        #end
     </select>
 
     <select id="getPreviousItemKey" parameterType="map"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT MAX(id) FROM m_prj_milestone
 
-        <trim prefix="WHERE" prefixOverrides="AND | OR ">
-            1=1
-            <include
-                refid="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt.querySearchCriteria" />
-        </trim>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end    
+        #end
     </select>
 
 </mapper>    

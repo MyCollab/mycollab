@@ -73,10 +73,14 @@ class TaskGanttChart extends VerticalLayout {
 
 	private TaskTableDisplay taskTable;
 
+	private final ProjectTaskService taskService;
+
 	private DateField start;
 	private DateField end;
 
 	public TaskGanttChart() {
+		taskService = ApplicationContextUtil
+				.getSpringBean(ProjectTaskService.class);
 		constructGanttChart();
 		Panel controls = createControls();
 		this.setStyleName("gantt-view");
@@ -89,17 +93,8 @@ class TaskGanttChart extends VerticalLayout {
 		this.addComponent(mainLayout);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void constructGanttChart() {
 		stepMap = new LinkedHashMap<Step, SimpleTask>();
-		final ProjectTaskService taskService = ApplicationContextUtil
-				.getSpringBean(ProjectTaskService.class);
-		TaskSearchCriteria criteria = new TaskSearchCriteria();
-		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
-		taskList = taskService
-				.findPagableListByCriteria(new SearchRequest<TaskSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
 
 		taskTable = new TaskTableDisplay(Arrays.asList(
 				TaskTableFieldDef.taskname, TaskTableFieldDef.startdate,
@@ -122,7 +117,6 @@ class TaskGanttChart extends VerticalLayout {
 		cal.add(Calendar.DATE, 37);
 		gantt.setEndDate(cal.getTime());
 
-		updateStepList();
 		gantt.addMoveListener(new Gantt.MoveListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -147,6 +141,7 @@ class TaskGanttChart extends VerticalLayout {
 				task.setStartdate(gc.getTime());
 
 				taskService.updateWithSession(task, AppContext.getUsername());
+				taskTable.setItems(stepMap.values());
 			}
 		});
 
@@ -175,11 +170,24 @@ class TaskGanttChart extends VerticalLayout {
 				task.setStartdate(gc.getTime());
 
 				taskService.updateWithSession(task, AppContext.getUsername());
+				taskTable.setItems(stepMap.values());
 			}
 		});
 	}
 
+	public void displayChart() {
+		updateStepList();
+	}
+
+	@SuppressWarnings("unchecked")
 	private void updateStepList() {
+
+		TaskSearchCriteria criteria = new TaskSearchCriteria();
+		criteria.setProjectid(new NumberSearchField(CurrentProjectVariables
+				.getProjectId()));
+		taskList = taskService
+				.findPagableListByCriteria(new SearchRequest<TaskSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
 
 		/* Clear current Gantt chart */
 		if (stepMap != null) {

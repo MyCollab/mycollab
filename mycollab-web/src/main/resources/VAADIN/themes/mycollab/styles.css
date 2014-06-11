@@ -6933,3 +6933,9 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 .gantt-container {
 	height: 100% !important;
 }
+.phase-simple-view .v-slot:first-child + div .bean-list {
+	border-bottom: 1px solid #CFCFCF;
+}
+.phase-simple-view .bean-list {
+	padding: 8px 0px 8px 18px;
+}

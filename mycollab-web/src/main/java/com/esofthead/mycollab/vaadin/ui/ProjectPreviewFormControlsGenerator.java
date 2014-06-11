@@ -68,18 +68,24 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 	public ProjectPreviewFormControlsGenerator(
 			final AdvancedPreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
-	}
 
-	public HorizontalLayout createButtonControls(int buttonEnableFlags,
-			final String permissionItem) {
 		layout = new HorizontalLayout();
 		layout.setStyleName("control-buttons");
 		layout.setSpacing(true);
 		layout.setSizeUndefined();
 
+		popupButtonsControl = new VerticalLayout();
+		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
+		popupButtonsControl.setSpacing(true);
+
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
 		editButtons.addStyleName("edit-btn");
+
+	}
+
+	public HorizontalLayout createButtonControls(int buttonEnableFlags,
+			final String permissionItem) {
 
 		optionParentBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION_LABEL),
@@ -95,11 +101,6 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		optionBtn = new SplitButton(optionParentBtn);
 		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
-
-		popupButtonsControl = new VerticalLayout();
-		popupButtonsControl.setWidth("100px");
-		popupButtonsControl.setMargin(new MarginInfo(false, true, false, true));
-		popupButtonsControl.setSpacing(true);
 
 		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
 			addBtn = new Button(
@@ -280,6 +281,19 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 	public void insertToControlBlock(Component button) {
 		editButtons.addComponent(button, 0);
+	}
+
+	public void addOption(Button button) {
+		button.setStyleName(UIConstants.THEME_LINK);
+		button.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 2710916670115028630L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				optionBtn.setPopupVisible(false);
+			}
+		});
+		popupButtonsControl.addComponent(button);
 	}
 
 	public HorizontalLayout createButtonControls(final String permissionItem) {

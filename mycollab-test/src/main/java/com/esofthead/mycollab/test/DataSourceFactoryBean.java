@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.test;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -55,6 +57,14 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 		config.setJdbcUrl(dbConf.getJdbcUrl());
 		config.addDataSourceProperty("user", dbConf.getUsername());
 		config.addDataSourceProperty("password", dbConf.getPassword());
+
+		dataSource = new HikariDataSource(config);
+		Properties dsProperties = new Properties();
+		dsProperties.setProperty("cachePrepStmts", "true");
+		dsProperties.setProperty("prepStmtCacheSize", "250");
+		dsProperties.setProperty("prepStmtCacheSqlLimit", "2048");
+		dsProperties.setProperty("useServerPrepStmts", "true");
+		dataSource.setDataSourceProperties(dsProperties);
 		return dataSource;
 	}
 

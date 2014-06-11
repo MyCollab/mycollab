@@ -81,7 +81,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private Button reOrderBtn;
 
-	private Button viewGanttChartBtn;
 	private TaskGanttChart ganttChart;
 
 	private PopupButton exportButtonControl;
@@ -298,23 +297,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		header.addComponent(newTaskListBtn);
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
 
-		// Add gantt chart button
-		/*
-		 * viewGanttChartBtn = new Button("Gantt chart", new
-		 * Button.ClickListener() { private static final long serialVersionUID =
-		 * 1L;
-		 * 
-		 * @Override public void buttonClick(ClickEvent arg0) {
-		 * displayGanttChartView();
-		 * 
-		 * } });
-		 * 
-		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		 * viewGanttChartBtn.setDescription("Show Gantt Chart");
-		 * UiUtils.addComponent(header, viewGanttChartBtn,
-		 * Alignment.MIDDLE_RIGHT);
-		 */
-
 		this.reOrderBtn = new Button(null, new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -456,6 +438,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		basicSearchView.getPagedBeanTable().setSearchCriteria(searchCriteria);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private StreamResource constructStreamResource(ReportExportType exportType) {
 		final String title = "Task report of Project "
 				+ ((CurrentProjectVariables.getProject() != null && CurrentProjectVariables
@@ -638,18 +621,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		this.addComponent(header);
 		ganttChart = new TaskGanttChart();
 		this.addComponent(ganttChart);
-
-		/*
-		 * if (this.getComponentIndex(ganttChart) < 0) {
-		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
-		 * 
-		 * ganttChart = new TaskGanttChart();
-		 * ganttChart.setStyleName(UIConstants.BORDER_BOX_2);
-		 * 
-		 * this.addComponent(ganttChart, 1); } else {
-		 * this.removeComponent(ganttChart);
-		 * viewGanttChartBtn.setStyleName(UIConstants.THEME_GREEN_LINK); }
-		 */
+		ganttChart.displayChart();
 	}
 
 	private void displayActiveTaskGroups() {
