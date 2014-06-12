@@ -38,9 +38,9 @@ public class MyCollabHttpSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
-		final HttpSession session = se.getSession();
-		final ServletContext context = session.getServletContext();
-		context.removeAttribute(session.getId());
+//		final HttpSession session = se.getSession();
+//		final ServletContext context = session.getServletContext();
+//		context.removeAttribute(session.getId());
 	}
 
 }

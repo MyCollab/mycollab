@@ -11,11 +11,11 @@
     <listener>
         <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
     </listener>
-    
+
     <listener>
         <listener-class>org.icepush.util.ExtensionRegistry</listener-class>
     </listener>
-    
+
     <servlet>
         <servlet-name>ICEPush Servlet</servlet-name>
         <servlet-class>org.vaadin.artur.icepush.ICEPushServlet</servlet-class>
@@ -286,7 +286,7 @@
         <exception-type>javax.servlet.ServletException</exception-type>
         <location>/error</location>
     </error-page>
- 
+
     <resource-ref>
         <description>DB Connection Pooling</description>
         <res-ref-name>jdbc/mycollabdatasource</res-ref-name>
@@ -294,5 +294,8 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
-  
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
