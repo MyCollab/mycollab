@@ -150,9 +150,9 @@
         lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="queryTotalCountSearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="queryTotalCountSearchCriteria" />
+            #end
         #end
     </select>
 
@@ -161,9 +161,9 @@
         SELECT m_prj_project.id
         FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
     </select>
 
@@ -172,9 +172,9 @@
         parameterType="ProjectSearchCriteria" lang="velocity">
         <include refid="selectSimpleProject" />
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
         #end
     </select>
 
@@ -272,7 +272,7 @@
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
@@ -294,7 +294,7 @@
         m_prj_task_list.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, 
+        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email,  notifier.language AS notifiers_language,
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -315,7 +315,7 @@
         m_prj_message.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email,
+        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email,  notifier.language AS notifiers_language,
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -337,7 +337,7 @@
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
@@ -358,7 +358,7 @@
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
@@ -380,7 +380,7 @@
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname,
         notifier.username AS notifiers_username, notifier.timezone AS notifiers_timezone,
-        notifier.email AS notifiers_email, s_relay_email_notification.sAccountId AS notifiers_accountId
+        notifier.email AS notifiers_email, notifier.language AS notifiers_language, s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
             LEFT OUTER JOIN m_monitor_item ON (m_monitor_item.typeid=s_relay_email_notification.typeid AND s_relay_email_notification.type=m_monitor_item.type)
@@ -400,7 +400,7 @@
         m_prj_message.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email,
+        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)
@@ -421,7 +421,7 @@
         m_prj_message.projectid AS projectId,
         concat(changeUser.firstname, ' ', LTRIM(IFNULL(changeUser.middlename, '')), changeUser.lastname) as changeByUserFullName,
         notifier.firstname AS notifiers_firstname, notifier.lastname AS notifiers_lastname, notifier.username AS notifiers_username,
-        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email,
+        notifier.timezone AS notifiers_timezone, notifier.email AS notifiers_email, notifier.language AS notifiers_language,
         s_relay_email_notification.sAccountId AS notifiers_accountId
         FROM s_relay_email_notification
             LEFT OUTER JOIN s_user AS changeUser ON (changeUser.username=s_relay_email_notification.changeby)

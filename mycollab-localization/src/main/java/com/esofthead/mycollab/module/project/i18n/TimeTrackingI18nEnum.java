@@ -1,0 +1,37 @@
+package com.esofthead.mycollab.module.project.i18n;
+
+import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
+
+@BaseName("localization/project/timetracking")
+@LocaleData({ @Locale("en_US") })
+public enum TimeTrackingI18nEnum {
+	LOG_TIME_ACTION,
+	LINK_TASK_ACTION,
+	DETACH_TASK_ACTION,
+	
+	TIME_RECORD_HEADER,
+	TASK_LIST_RANGE,
+	TASK_LIST_RANGE_WITH_TOTAL_HOUR,
+	SEARCH_TIME_TITLE,
+	DISPLAY_TIME_LOGGING_SUMMARY_WITHOUT_TYPE,
+	DISPLAY_TIME_LOGGING_SUMMARY_WITH_TYPE,
+	
+	LOG_USER,
+	LOG_FOR_DATE,
+	LOG_VALUE,
+	FORM_SUMMARY,
+	FORM_IS_BILLABLE,
+	FORM_PROJECT,
+	FORM_WEEK,
+	FORM_WHO,
+	
+	MONDAY_FIELD,
+	TUESDAY_FIELD,
+	WEDNESDAY_FIELD,
+	THURSDAY_FIELD,
+	FRIDAY_FIELD,
+	SATURDAY_FIELD,
+	SUNDAY_FIELD
+}

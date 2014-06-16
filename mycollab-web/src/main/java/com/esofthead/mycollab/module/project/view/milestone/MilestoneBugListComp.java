@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Milestone;
-import com.esofthead.mycollab.module.project.localization.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.BugChartComponent;
 import com.esofthead.mycollab.module.project.view.bug.BugListWidget;
 import com.esofthead.mycollab.module.project.view.bug.BugSimpleDisplayWidget;

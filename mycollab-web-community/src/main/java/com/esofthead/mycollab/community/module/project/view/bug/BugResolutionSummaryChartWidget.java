@@ -26,23 +26,29 @@ import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.IBugResolutionSummaryChartWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @ViewComponent
 public class BugResolutionSummaryChartWidget extends
 		PieChartWrapper<BugSearchCriteria> implements
@@ -50,16 +56,12 @@ public class BugResolutionSummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public BugResolutionSummaryChartWidget(int width, int height) {
-		super(
-				AppContext
-						.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), width,
+		super(AppContext.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), width,
 				height);
 	}
 
 	public BugResolutionSummaryChartWidget() {
-		super(
-				AppContext
-						.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), 400,
+		super(AppContext.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE), 400,
 				280);
 
 	}

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.time;
 
-import com.esofthead.mycollab.module.project.localization.TimeTrackingI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 

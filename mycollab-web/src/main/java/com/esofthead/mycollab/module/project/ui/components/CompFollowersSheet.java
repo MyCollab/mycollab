@@ -30,7 +30,7 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.localization.FollowerI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberMultiSelectComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;

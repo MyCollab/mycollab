@@ -23,7 +23,7 @@ import java.util.Map;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
-import com.esofthead.mycollab.module.project.localization.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.user.view.component.AccessPermissionComboBox;
 import com.esofthead.mycollab.security.PermissionMap;

@@ -26,23 +26,29 @@ import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
-import com.esofthead.mycollab.module.project.localization.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
-import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 @ViewComponent
 public class PrioritySummaryChartWidget extends
 		PieChartWrapper<BugSearchCriteria> implements
@@ -50,13 +56,12 @@ public class PrioritySummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public PrioritySummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE),
-				width, height);
+		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE), width,
+				height);
 	}
 
 	public PrioritySummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE),
-				400, 280);
+		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE), 400, 280);
 
 	}
 
