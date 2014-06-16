@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
+import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -33,11 +34,13 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
+import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 
 @Service
 @Transactional
 @Traceable(module = ModuleNameConstants.PRJ, nameField = "versionname", type = ProjectTypeConstants.BUG_VERSION, extraFieldName = "projectid")
 @Auditable(module = ModuleNameConstants.PRJ, type = ProjectTypeConstants.BUG_VERSION)
+@Watchable(type = ProjectTypeConstants.BUG_VERSION, extraTypeId = "projectid", emailHandlerBean = VersionRelayEmailNotificationAction.class)
 public class VersionServiceImpl extends
 		DefaultService<Integer, Version, VersionSearchCriteria> implements
 		VersionService {

@@ -237,7 +237,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 	public static class AccountFieldNameMapper extends ItemFieldMapper {
 
 		public AccountFieldNameMapper() {
-			put("accountname", "Account Name");
+			put("accountname", "Name");
 			put("phoneoffice", "Office Phone");
 
 			put("website", "Website");

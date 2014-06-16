@@ -26,8 +26,6 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.jetty.websocket.common.events.JettyListenerEventDriver;
-
 import com.esofthead.mycollab.vaadin.ui.AttachmentUploadComponent;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -52,7 +50,6 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class MultiFileUploadExt extends CssLayout implements DropHandler {
 	private static final long serialVersionUID = 1L;
-	private JettyListenerEventDriver a;
 	private AttachmentUploadComponent attachmentDisplayComponent;
 	private VerticalLayout progressBars = new VerticalLayout();
 	private CssLayout uploads = new CssLayout();

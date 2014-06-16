@@ -159,27 +159,30 @@ public class AuditLogAspect {
 						"id");
 				String monitorType = watchableAnnotation.type();
 
-				String moreUser = (String) PropertyUtils.getProperty(bean,
-						watchableAnnotation.userFieldName());
-
 				Integer extraTypeId = null;
 				if (!"".equals(watchableAnnotation.extraTypeId())) {
 					extraTypeId = (Integer) PropertyUtils.getProperty(bean,
 							watchableAnnotation.extraTypeId());
 				}
+
+				MonitorItem monitorItem = new MonitorItem();
+				monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+				monitorItem.setType(monitorType);
+				monitorItem.setTypeid(monitorTypeId);
+				monitorItem.setExtratypeid(extraTypeId);
+				monitorItem.setUser(username);
+				monitorItem.setSaccountid(sAccountId);
+
+				monitorItemService.saveWithSession(monitorItem, username);
+
 				// check whether the current user is in monitor list, if
 				// not add him in
-				if (moreUser != null) {
-					if (!monitorItemService.isUserWatchingItem(moreUser,
-							monitorType, monitorTypeId)) {
-						MonitorItem monitorItem = new MonitorItem();
-						monitorItem.setMonitorDate(new GregorianCalendar()
-								.getTime());
-						monitorItem.setType(monitorType);
-						monitorItem.setTypeid(monitorTypeId);
+				if (!watchableAnnotation.userFieldName().equals("")) {
+					String moreUser = (String) PropertyUtils.getProperty(bean,
+							watchableAnnotation.userFieldName());
+					if (moreUser != null && !moreUser.equals(username)) {
+						monitorItem.setId(null);
 						monitorItem.setUser(moreUser);
-						monitorItem.setExtratypeid(extraTypeId);
-						monitorItem.setSaccountid(sAccountId);
 						monitorItemService.saveWithSession(monitorItem,
 								moreUser);
 					}

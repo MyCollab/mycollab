@@ -94,7 +94,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 							|| notifierFullName.trim().length() == 0) {
 						log.error(
 								"Can not find user {} of notification {}",
-								new String[] { BeanUtility.printBeanObj(user),
+								new Object[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
@@ -131,7 +131,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					if (notifierFullName == null) {
 						log.error(
 								"Can not find user {} of notification {}",
-								new String[] { BeanUtility.printBeanObj(user),
+								new Object[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
@@ -167,7 +167,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					if (notifierFullName == null) {
 						log.error(
 								"Can not find user {} of notification {}",
-								new String[] { BeanUtility.printBeanObj(user),
+								new Object[] { BeanUtility.printBeanObj(user),
 										BeanUtility.printBeanObj(notification) });
 						return;
 					}
@@ -241,7 +241,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		return inListUsers;
 
 	}
-	
+
 	private void onInitAction(SimpleRelayEmailNotification notification) {
 		siteUrl = LinkUtils.getSiteUrl(notification.getSaccountid());
 	}

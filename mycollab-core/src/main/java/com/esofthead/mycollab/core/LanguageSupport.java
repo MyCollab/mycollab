@@ -35,4 +35,15 @@ public enum LanguageSupport {
 	public String getLanguage() {
 		return language;
 	}
+
+	public static LanguageSupport language(String language) {
+		switch (language) {
+		case "English":
+			return ENGLISH;
+		case "Japan":
+			return JAPAN;
+		default:
+			return ENGLISH;
+		}
+	}
 }
