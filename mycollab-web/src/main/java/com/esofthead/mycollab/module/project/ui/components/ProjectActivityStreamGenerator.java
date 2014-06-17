@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
 import com.esofthead.mycollab.vaadin.AppContext;

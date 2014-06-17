@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;

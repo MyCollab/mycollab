@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;

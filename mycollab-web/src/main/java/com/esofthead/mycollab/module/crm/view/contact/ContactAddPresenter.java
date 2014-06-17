@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.CampaignContact;
 import com.esofthead.mycollab.module.crm.domain.Contact;

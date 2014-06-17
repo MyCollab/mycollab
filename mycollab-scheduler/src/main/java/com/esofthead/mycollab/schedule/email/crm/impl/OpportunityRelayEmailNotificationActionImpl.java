@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -32,15 +33,16 @@ import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.CurrencyFieldFormat;
@@ -98,25 +100,23 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleOpportunity> context) {
 		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 		if (simpleOpportunity != null) {
+			context.setWrappedBean(simpleOpportunity);
 			String subject = StringUtils.trim(
 					simpleOpportunity.getOpportunityname(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has created the opportunity \"" + subject
-							+ "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
-			setupMailHeaders(simpleOpportunity, emailNotification,
+					context.getMessage(
+							OpportunityI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
+			setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleOpportunity>(simpleOpportunity, user,
-							siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -127,32 +127,30 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleOpportunity> context) {
 		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 
 		if (simpleOpportunity == null) {
 			return null;
 		}
+		context.setWrappedBean(simpleOpportunity);
 		String subject = StringUtils.trim(
 				simpleOpportunity.getOpportunityname(), 100);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the opportunity \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
-		setupMailHeaders(simpleOpportunity, emailNotification,
+				context.getMessage(
+						OpportunityI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
+		setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
 				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleOpportunity>(simpleOpportunity, user,
-							siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -160,23 +158,23 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int accountRecordId = emailNotification.getTypeid();
+			MailContext<SimpleOpportunity> context) {
 		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				accountRecordId, emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 
 		if (simpleOpportunity == null) {
 			return null;
 		}
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on the opportunity \""
-						+ StringUtils.trim(
-								simpleOpportunity.getOpportunityname(), 100)
-						+ "\"", "templates/email/crm/itemAddNoteNotifier.mt");
-		setupMailHeaders(simpleOpportunity, emailNotification,
+				context.getMessage(
+						OpportunityI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
+								.getChangeByUserFullName(), StringUtils.trim(
+								simpleOpportunity.getOpportunityname(), 100)),
+				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
+		setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
 				templateGenerator);
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
@@ -184,32 +182,36 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 	public static class OpportunityFieldNameMapper extends ItemFieldMapper {
 
 		public OpportunityFieldNameMapper() {
-			put("opportunityname", "Opportunity Name");
-			put("accountid", new AccountFieldFormat("accountid", "Account"));
+			put("opportunityname", OpportunityI18nEnum.FORM_NAME);
+			put("accountid", new AccountFieldFormat("accountid",
+					OpportunityI18nEnum.FORM_ACCOUNT_NAME));
 
-			put("currencyid", new CurrencyFieldFormat("currency", "Currency"));
+			put("currencyid", new CurrencyFieldFormat("currency",
+					OpportunityI18nEnum.FORM_CURRENCY));
 			put("expectedcloseddate", new DateFieldFormat("expectedcloseddate",
-					"Expected Close Date"));
+					OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE));
 
-			put("amount", "Amount");
-			put("opportunitytype", "Type");
+			put("amount", OpportunityI18nEnum.FORM_AMOUNT);
+			put("opportunitytype", OpportunityI18nEnum.FORM_TYPE);
 
-			put("salesstage", "Sales Stage");
-			put("source", "Lead Source");
+			put("salesstage", OpportunityI18nEnum.FORM_SALE_STAGE);
+			put("source", OpportunityI18nEnum.FORM_LEAD_SOURCE);
 
-			put("probability", "Probability (%)");
-			put("campaignid", new CampaignFieldFormat("campaignid", "Campaign"));
+			put("probability", OpportunityI18nEnum.FORM_PROBABILITY);
+			put("campaignid", new CampaignFieldFormat("campaignid",
+					OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
 
-			put("nextstep", "Next Step");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("nextstep", OpportunityI18nEnum.FORM_NEXT_STEP);
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 
 	public static class AccountFieldFormat extends FieldFormat {
 
-		public AccountFieldFormat(String fieldName, String displayName) {
+		public AccountFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -236,7 +238,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	public static class CampaignFieldFormat extends FieldFormat {
 
-		public CampaignFieldFormat(String fieldName, String displayName) {
+		public CampaignFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -295,7 +297,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -305,13 +307,13 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 					.getWrappedBean();
 
 			if (opportunity.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						opportunity.getAssignUserAvatarId(), 16);
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(opportunity.getSaccountid()),
+						MailUtils.getSiteUrl(opportunity.getSaccountid()),
 						opportunity.getAssignuser());
 				A link = TagBuilder.newA(userLink,
 						opportunity.getAssignUserFullName());
@@ -332,10 +334,10 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.view.component;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;

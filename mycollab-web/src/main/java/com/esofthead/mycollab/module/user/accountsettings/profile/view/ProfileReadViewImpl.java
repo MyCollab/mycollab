@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;

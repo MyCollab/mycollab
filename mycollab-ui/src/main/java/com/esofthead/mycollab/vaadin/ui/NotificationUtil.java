@@ -19,8 +19,8 @@ package com.esofthead.mycollab.vaadin.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
-import com.esofthead.mycollab.common.localization.WindowI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.WindowI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;

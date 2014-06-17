@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.MassUpdateCommand;
 import com.vaadin.server.Resource;

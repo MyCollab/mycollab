@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.form.view.builder.CurrencyDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DateDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;

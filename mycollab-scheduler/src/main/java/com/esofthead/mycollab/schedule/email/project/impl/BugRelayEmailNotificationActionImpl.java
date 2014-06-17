@@ -30,8 +30,10 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -41,6 +43,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingTy
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -50,7 +53,6 @@ import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
@@ -69,7 +71,8 @@ import com.hp.gagawa.java.elements.Img;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class BugRelayEmailNotificationActionImpl extends
-		SendMailToFollowersAction implements BugRelayEmailNotificationAction {
+		SendMailToFollowersAction<SimpleBug> implements
+		BugRelayEmailNotificationAction {
 	private static Logger log = LoggerFactory
 			.getLogger(BugRelayEmailNotificationActionImpl.class);
 
@@ -84,23 +87,23 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Override
 	public TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int bugId = emailNotification.getTypeid();
-		SimpleBug bug = bugService.findById(bugId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleBug> context) {
+		SimpleBug bug = bugService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (bug != null) {
+			context.setWrappedBean(bug);
 			String subject = StringUtils.trim(bug.getSummary(), 100);
 
-			TemplateGenerator templateGenerator = new TemplateGenerator("["
-					+ bug.getProjectname() + "]: "
-					+ emailNotification.getChangeByUserFullName()
-					+ " has created the bug \"" + subject + "\"",
-					"templates/email/project/itemCreatedNotifier.mt");
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							bug.getProjectname(),
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
 
-			setupMailHeaders(bug, emailNotification, templateGenerator);
+			setupMailHeaders(bug, context.getEmailNotification(),
+					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleBug>(bug, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -150,30 +153,28 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Override
 	public TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleBug bug = bugService.findById(emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleBug> context) {
+		SimpleBug bug = bugService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (bug == null) {
 			return null;
 		}
-
+		context.setWrappedBean(bug);
 		String subject = StringUtils.trim(bug.getSummary(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ bug.getProjectname() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has updated the bug \"" + subject + "\"",
-				"templates/email/project/itemUpdatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						bug.getProjectname(),
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
 
-		setupMailHeaders(bug, emailNotification, templateGenerator);
+		setupMailHeaders(bug, context.getEmailNotification(), templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleBug>(bug, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -182,24 +183,24 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Override
 	public TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		int bugId = emailNotification.getTypeid();
-		SimpleBug bug = bugService.findById(bugId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleBug> context) {
+		SimpleBug bug = bugService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (bug == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ bug.getProjectname() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on the bug \""
-				+ StringUtils.trim(bug.getSummary(), 100) + "\"",
-				"templates/email/project/itemCommentNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						bug.getProjectname(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(bug.getSummary(), 100)),
+				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
 
-		setupMailHeaders(bug, emailNotification, templateGenerator);
+		setupMailHeaders(bug, context.getEmailNotification(), templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
@@ -303,30 +304,33 @@ public class BugRelayEmailNotificationActionImpl extends
 	public static class BugFieldNameMapper extends ItemFieldMapper {
 
 		public BugFieldNameMapper() {
-			put("summary", "Bug Summary", true);
+			put("summary", BugI18nEnum.FORM_SUMMARY, true);
 
-			put("environment", "Environment", true);
+			put("environment", BugI18nEnum.FORM_ENVIRONMENT, true);
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
-					"Milestone"));
+					BugI18nEnum.FORM_PHASE));
 
-			put("status", "Status");
-			put("resolution", "Resolution");
+			put("status", BugI18nEnum.FORM_STATUS);
+			put("resolution", BugI18nEnum.FORM_RESOLUTION);
 
-			put("severity", "Serverity");
-			put("priority", "Priority");
+			put("severity", BugI18nEnum.FORM_SEVERITY);
+			put("priority", BugI18nEnum.FORM_PRIORITY);
 
-			put("duedate", new DateFieldFormat("duedate", "Due Date"));
-			put("logby", new LogUserFieldFormat("logby", "Logged By"));
+			put("duedate", new DateFieldFormat("duedate",
+					BugI18nEnum.FORM_DUE_DATE));
+			put("logby", new LogUserFieldFormat("logby",
+					BugI18nEnum.FORM_LOG_BY));
 		}
 	}
 
 	public static class MilestoneFieldFormat extends FieldFormat {
 
-		public MilestoneFieldFormat(String fieldName, String displayName) {
+		public MilestoneFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -384,7 +388,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -392,12 +396,12 @@ public class BugRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 			if (bug.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						bug.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(bug.getSaccountid()),
+						MailUtils.getSiteUrl(bug.getSaccountid()),
 						bug.getAssignuser());
 				A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -417,10 +421,10 @@ public class BugRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -432,7 +436,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	public static class LogUserFieldFormat extends FieldFormat {
 
-		public LogUserFieldFormat(String fieldName, String displayName) {
+		public LogUserFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -440,12 +444,12 @@ public class BugRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 			if (bug.getLogby() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						bug.getLoguserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(bug.getSaccountid()),
+						MailUtils.getSiteUrl(bug.getSaccountid()),
 						bug.getLogby());
 				A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -465,10 +469,10 @@ public class BugRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

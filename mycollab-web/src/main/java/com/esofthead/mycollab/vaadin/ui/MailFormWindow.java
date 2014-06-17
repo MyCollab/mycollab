@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.mail.FileEmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;

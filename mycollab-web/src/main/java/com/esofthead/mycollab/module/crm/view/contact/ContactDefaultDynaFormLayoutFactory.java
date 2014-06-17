@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.form.view.builder.BooleanDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.DynaSectionBuilder;
 import com.esofthead.mycollab.form.view.builder.EmailDynaFieldBuilder;

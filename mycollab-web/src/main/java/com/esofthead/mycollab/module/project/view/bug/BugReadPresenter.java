@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;

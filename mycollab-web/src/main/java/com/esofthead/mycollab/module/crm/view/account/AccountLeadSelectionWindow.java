@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import java.util.Arrays;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedItemSelectionWindow;

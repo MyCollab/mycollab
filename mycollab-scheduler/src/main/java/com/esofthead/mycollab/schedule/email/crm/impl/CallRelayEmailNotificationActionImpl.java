@@ -23,19 +23,21 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.DateTimeFieldFormat;
@@ -88,21 +90,21 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleCall simpleCall = callService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleCall> context) {
+		SimpleCall simpleCall = callService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (simpleCall != null) {
 			String subject = StringUtils.trim(simpleCall.getSubject(), 100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ "has created the call \"" + subject + "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
-			setupMailHeaders(simpleCall, emailNotification, templateGenerator);
+					context.getMessage(CallI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
+			setupMailHeaders(simpleCall, context.getEmailNotification(),
+					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleCall>(simpleCall, user, siteUrl));
+			context.setWrappedBean(simpleCall);
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -113,29 +115,28 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleCall simpleCall = callService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleCall> context) {
+		SimpleCall simpleCall = callService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (simpleCall != null) {
 			String subject = StringUtils.trim(simpleCall.getSubject(), 150);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has updated the call \"" + subject + "\"",
-					"templates/email/crm/itemUpdatedNotifier.mt");
+					context.getMessage(CallI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
 
-			setupMailHeaders(simpleCall, emailNotification, templateGenerator);
+			setupMailHeaders(simpleCall, context.getEmailNotification(),
+					templateGenerator);
 
-			if (emailNotification.getTypeid() != null) {
+			if (context.getTypeid() != null) {
 				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						emailNotification.getTypeid(),
-						emailNotification.getSaccountid());
+						context.getTypeid(), context.getSaccountid());
 
 				templateGenerator.putVariable("historyLog", auditLog);
-				templateGenerator.putVariable("context",
-						new MailContext<SimpleCall>(simpleCall, user, siteUrl));
+				context.setWrappedBean(simpleCall);
+				templateGenerator.putVariable("context", context);
 				templateGenerator.putVariable("mapper", mapper);
 			}
 			return templateGenerator;
@@ -146,21 +147,21 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleCall simpleCall = callService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleCall> context) {
+		SimpleCall simpleCall = callService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (simpleCall != null) {
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has commented on the call \""
-							+ StringUtils.trim(simpleCall.getSubject(), 100)
-							+ "\"",
-					"templates/email/crm/itemAddNoteNotifier.mt");
-			setupMailHeaders(simpleCall, emailNotification, templateGenerator);
+					context.getMessage(CallI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+							context.getChangeByUserFullName(),
+							StringUtils.trim(simpleCall.getSubject(), 100)),
+					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
+			setupMailHeaders(simpleCall, context.getEmailNotification(),
+					templateGenerator);
 
-			templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment",
+					context.getEmailNotification());
 
 			return templateGenerator;
 		} else {
@@ -172,27 +173,28 @@ public class CallRelayEmailNotificationActionImpl extends
 	public static class CallFieldNameMapper extends ItemFieldMapper {
 
 		public CallFieldNameMapper() {
-			put("subject", "Subject", true);
+			put("subject", CallI18nEnum.FORM_SUBJECT, true);
 
-			put("status", "Status");
+			put("status", CallI18nEnum.FORM_STATUS);
 			put("startdate", new DateTimeFieldFormat("startdate",
-					"Start Date & Time"));
+					CallI18nEnum.FORM_START_DATE_TIME));
 
-			put("typeid", "Related to");
-			put("durationinseconds", "Duration");
+			put("typeid", CallI18nEnum.FORM_RELATED);
+			put("durationinseconds", CallI18nEnum.FORM_DURATION);
 
-			put("purpose", "Purpose");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("purpose", CallI18nEnum.FORM_PURPOSE);
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("result", "Result", true);
+			put("result", CallI18nEnum.FORM_RESULT, true);
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -200,13 +202,13 @@ public class CallRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleCall call = (SimpleCall) context.getWrappedBean();
 			if (call.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						call.getAssignUserAvatarId(), 16);
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(call.getSaccountid()),
+						MailUtils.getSiteUrl(call.getSaccountid()),
 						call.getAssignuser());
 				A link = TagBuilder
 						.newA(userLink, call.getAssignUserFullName());
@@ -228,10 +230,10 @@ public class CallRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

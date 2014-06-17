@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;

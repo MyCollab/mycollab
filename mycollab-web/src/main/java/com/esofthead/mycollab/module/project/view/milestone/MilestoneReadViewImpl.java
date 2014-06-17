@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -85,7 +85,7 @@ public class MilestoneReadViewImpl extends
 	private boolean isSimpleView = false;
 
 	public MilestoneReadViewImpl() {
-		super("Phase detail", MyCollabResource
+		super("Detail Phase", MyCollabResource
 				.newResource("icons/24/project/phase.png"));
 	}
 

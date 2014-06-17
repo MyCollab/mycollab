@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.file.view.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.Resource;

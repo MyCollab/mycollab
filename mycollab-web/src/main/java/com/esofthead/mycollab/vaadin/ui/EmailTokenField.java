@@ -22,7 +22,7 @@ import java.util.List;
 import org.vaadin.tokenfield.TokenField;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.utils.ParsingUtils;
 import com.esofthead.mycollab.utils.ParsingUtils.InvalidEmailException;

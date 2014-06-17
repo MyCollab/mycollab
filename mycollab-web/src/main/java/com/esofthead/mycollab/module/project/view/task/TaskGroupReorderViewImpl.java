@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;

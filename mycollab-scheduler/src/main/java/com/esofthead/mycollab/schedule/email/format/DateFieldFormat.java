@@ -37,7 +37,7 @@ import com.hp.gagawa.java.elements.Span;
 public class DateFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory.getLogger(DateFieldFormat.class);
 
-	public DateFieldFormat(String fieldname, String displayName) {
+	public DateFieldFormat(String fieldname, Enum displayName) {
 		super(fieldname, displayName);
 	}
 

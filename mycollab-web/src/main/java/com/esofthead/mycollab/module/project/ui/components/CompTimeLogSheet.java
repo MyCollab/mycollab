@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;

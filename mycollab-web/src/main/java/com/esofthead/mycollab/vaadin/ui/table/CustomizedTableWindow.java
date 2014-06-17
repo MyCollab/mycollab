@@ -24,7 +24,7 @@ import java.util.List;
 import org.vaadin.tepi.listbuilder.ListBuilder;
 
 import com.esofthead.mycollab.common.domain.CustomViewStore;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;

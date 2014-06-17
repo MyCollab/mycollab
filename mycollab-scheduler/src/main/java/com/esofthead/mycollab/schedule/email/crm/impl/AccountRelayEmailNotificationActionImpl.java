@@ -23,20 +23,22 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
@@ -77,10 +79,9 @@ public class AccountRelayEmailNotificationActionImpl extends
 		super(CrmTypeConstants.ACCOUNT);
 	}
 
-	protected void setupMailHeaders(SimpleAccount account,
+	private void setupMailHeaders(SimpleAccount account,
 			SimpleRelayEmailNotification emailNotification,
 			TemplateGenerator templateGenerator) {
-
 		String summary = account.getAccountname();
 		String summaryLink = CrmLinkGenerator.generateAccountPreviewFullLink(
 				siteUrl, account.getId());
@@ -94,25 +95,24 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int recordAccountId = emailNotification.getTypeid();
-		simpleAccount = accountService.findById(recordAccountId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleAccount> context) {
+		simpleAccount = accountService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (simpleAccount != null) {
 			String subject = StringUtils.trim(simpleAccount.getAccountname(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has created the account  \"" + subject + "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
+					context.getMessage(
+							AccountI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
 
-			setupMailHeaders(simpleAccount, emailNotification,
+			setupMailHeaders(simpleAccount, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator
-					.putVariable("context", new MailContext<SimpleAccount>(
-							simpleAccount, user, siteUrl));
+			context.setWrappedBean(simpleAccount);
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -123,31 +123,29 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		simpleAccount = accountService.findById(emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleAccount> context) {
+		simpleAccount = accountService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (simpleAccount != null) {
 			String subject = StringUtils.trim(simpleAccount.getAccountname(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has updated the account \"" + subject + "\"",
-					"templates/email/crm/itemUpdatedNotifier.mt");
+					context.getMessage(
+							AccountI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
 
-			setupMailHeaders(simpleAccount, emailNotification,
+			setupMailHeaders(simpleAccount, context.getEmailNotification(),
 					templateGenerator);
 
-			if (emailNotification.getTypeid() != null) {
+			if (context.getTypeid() != null) {
 				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						emailNotification.getTypeid(),
-						emailNotification.getSaccountid());
+						context.getTypeid(), context.getSaccountid());
 
 				templateGenerator.putVariable("historyLog", auditLog);
-
-				templateGenerator.putVariable("context",
-						new MailContext<SimpleAccount>(simpleAccount, user,
-								siteUrl));
+				context.setWrappedBean(simpleAccount);
+				templateGenerator.putVariable("context", context);
 				templateGenerator.putVariable("mapper", mapper);
 			}
 			return templateGenerator;
@@ -159,23 +157,24 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int accountRecordId = emailNotification.getTypeid();
+			MailContext<SimpleAccount> context) {
+		int accountRecordId = context.getTypeid();
 		simpleAccount = accountService.findById(accountRecordId,
-				emailNotification.getSaccountid());
+				context.getSaccountid());
 
 		if (simpleAccount != null) {
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has commented on the account \""
-							+ StringUtils.trim(simpleAccount.getAccountname(),
-									100) + "\"",
-					"templates/email/crm/itemAddNoteNotifier.mt");
+					context.getMessage(
+							AccountI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
+									.getChangeByUserFullName(), StringUtils
+									.trim(simpleAccount.getAccountname(), 100)),
+					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
 
-			setupMailHeaders(simpleAccount, emailNotification,
+			setupMailHeaders(simpleAccount, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment",
+					context.getEmailNotification());
 
 			return templateGenerator;
 		} else {
@@ -186,7 +185,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -194,11 +193,11 @@ public class AccountRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleAccount account = (SimpleAccount) context.getWrappedBean();
 			if (account.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						account.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(account.getSaccountid()),
+						MailUtils.getSiteUrl(account.getSaccountid()),
 						account.getAssignuser());
 
 				A link = TagBuilder.newA(userLink,
@@ -221,10 +220,10 @@ public class AccountRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -237,41 +236,41 @@ public class AccountRelayEmailNotificationActionImpl extends
 	public static class AccountFieldNameMapper extends ItemFieldMapper {
 
 		public AccountFieldNameMapper() {
-			put("accountname", "Name");
-			put("phoneoffice", "Office Phone");
+			put("accountname", AccountI18nEnum.FORM_ACCOUNT_NAME);
+			put("phoneoffice", AccountI18nEnum.FORM_OFFICE_PHONE);
 
-			put("website", "Website");
-			put("numemployees", "Employees");
+			put("website", AccountI18nEnum.FORM_WEBSITE);
+			put("numemployees", AccountI18nEnum.FORM_EMPLOYEES);
 
-			put("fax", "Fax");
-			put("alternatephone", "Other Phone");
+			put("fax", AccountI18nEnum.FORM_FAX);
+			put("alternatephone", AccountI18nEnum.FORM_OTHER_PHONE);
 
-			put("industry", "Industry");
-			put("email", "Email");
+			put("industry", AccountI18nEnum.FORM_INDUSTRY);
+			put("email", AccountI18nEnum.FORM_EMAIL);
 
-			put("type", "Type");
-			put("ownership", "Ownership");
+			put("type", AccountI18nEnum.FORM_TYPE);
+			put("ownership", AccountI18nEnum.FORM_OWNERSHIP);
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					"Assign User"));
-			put("annualrevenue", "Annual Revenue");
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			put("annualrevenue", AccountI18nEnum.FORM_ANNUAL_REVENUE);
 
-			put("billingaddress", "Billing Address");
-			put("shippingaddress", "Shipping Address");
+			put("billingaddress", AccountI18nEnum.FORM_BILLING_ADDRESS);
+			put("shippingaddress", AccountI18nEnum.FORM_SHIPPING_ADDRESS);
 
-			put("city", "Billing City");
-			put("shippingcity", "Shipping City");
+			put("city", AccountI18nEnum.FORM_BILLING_CITY);
+			put("shippingcity", AccountI18nEnum.FORM_SHIPPING_CITY);
 
-			put("state", "Billing State");
-			put("shippingstate", "Shipping State");
+			put("state", AccountI18nEnum.FORM_BILLING_STATE);
+			put("shippingstate", AccountI18nEnum.FORM_SHIPPING_STATE);
 
-			put("postalcode", "Billing Postal Code");
-			put("shippingpostalcode", "Shipping Postal Code");
+			put("postalcode", AccountI18nEnum.FORM_BILLING_POSTAL_CODE);
+			put("shippingpostalcode", AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE);
 
-			put("billingcountry", "Billing Country");
-			put("shippingcountry", "Shipping Country");
+			put("billingcountry", AccountI18nEnum.FORM_BILLING_COUNTRY);
+			put("shippingcountry", AccountI18nEnum.FORM_SHIPPING_COUNTRY);
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 }

@@ -48,7 +48,7 @@ public class ExportTimeLoggingStreamResource extends
 	public ExportTimeLoggingStreamResource(String title,
 			ReportExportType outputForm, ItemTimeLoggingService searchService,
 			ItemTimeLoggingSearchCriteria searchCriteria) {
-		super(AppContext.getLanguageSupport(), title, outputForm);
+		super(AppContext.getUserLocale(), title, outputForm);
 
 		this.searchService = searchService;
 		this.searchCriteria = searchCriteria;

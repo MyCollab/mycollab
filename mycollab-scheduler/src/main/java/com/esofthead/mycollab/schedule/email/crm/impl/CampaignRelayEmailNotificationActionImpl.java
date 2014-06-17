@@ -23,19 +23,21 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.CurrencyFieldFormat;
@@ -89,25 +91,25 @@ public class CampaignRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleCampaign> context) {
 		SimpleCampaign simpleCampaign = campaignService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 		if (simpleCampaign != null) {
 			String subject = StringUtils.trim(simpleCampaign.getCampaignname(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has created the campaign \"" + subject + "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
+					context.getMessage(
+							CampaignI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
 
-			setupMailHeaders(simpleCampaign, emailNotification,
+			setupMailHeaders(simpleCampaign, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleCampaign>(simpleCampaign, user,
-							siteUrl));
+			context.setWrappedBean(simpleCampaign);
+
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -118,31 +120,29 @@ public class CampaignRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleCampaign> context) {
 		SimpleCampaign simpleCampaign = campaignService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 
 		if (simpleCampaign != null) {
 			String subject = StringUtils.trim(simpleCampaign.getCampaignname(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has updated the campaign \"" + subject + "\"",
-					"templates/email/crm/itemUpdatedNotifier.mt");
+					context.getMessage(
+							CampaignI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
 
-			setupMailHeaders(simpleCampaign, emailNotification,
+			setupMailHeaders(simpleCampaign, context.getEmailNotification(),
 					templateGenerator);
 
-			if (emailNotification.getTypeid() != null) {
+			if (context.getTypeid() != null) {
+				context.setWrappedBean(simpleCampaign);
 				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						emailNotification.getTypeid(),
-						emailNotification.getSaccountid());
+						context.getTypeid(), context.getSaccountid());
 				templateGenerator.putVariable("historyLog", auditLog);
-				templateGenerator.putVariable("context",
-						new MailContext<SimpleCampaign>(simpleCampaign, user,
-								siteUrl));
+				templateGenerator.putVariable("context", context);
 				templateGenerator.putVariable("mapper", mapper);
 			}
 			return templateGenerator;
@@ -154,51 +154,60 @@ public class CampaignRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int accountRecordId = emailNotification.getTypeid();
+			MailContext<SimpleCampaign> context) {
 		SimpleCampaign simpleCampaign = campaignService.findById(
-				accountRecordId, emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
+		if (simpleCampaign != null) {
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					context.getMessage(
+							CampaignI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
+									.getChangeByUserFullName(),
+							StringUtils.trim(simpleCampaign.getCampaignname(),
+									100)),
+					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
+			setupMailHeaders(simpleCampaign, context.getEmailNotification(),
+					templateGenerator);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on the campaign \""
-						+ StringUtils.trim(simpleCampaign.getCampaignname(),
-								100) + "\"",
-				"templates/email/crm/itemAddNoteNotifier.mt");
-		setupMailHeaders(simpleCampaign, emailNotification, templateGenerator);
+			templateGenerator.putVariable("comment",
+					context.getEmailNotification());
 
-		templateGenerator.putVariable("comment", emailNotification);
-
-		return templateGenerator;
+			return templateGenerator;
+		} else {
+			return null;
+		}
 	}
 
 	public static class CampaignFieldNameMapper extends ItemFieldMapper {
 
 		public CampaignFieldNameMapper() {
-			put("campaignname", "Name", true);
+			put("campaignname", CampaignI18nEnum.FORM_CAMPAIGN_NAME, true);
 
-			put("status", "Status");
-			put("type", "Type");
+			put("status", CampaignI18nEnum.FORM_STATUS);
+			put("type", CampaignI18nEnum.FORM_TYPE);
 
-			put("currencyid", new CurrencyFieldFormat("currencyid", "Currency"));
-			put("budget", "Budget");
+			put("currencyid", new CurrencyFieldFormat("currencyid",
+					CampaignI18nEnum.FORM_CURRENCY));
+			put("budget", CampaignI18nEnum.FORM_BUDGET);
 
-			put("expectedcost", "Expected Cost");
-			put("expectedrevenue", "Expected Revenue");
+			put("expectedcost", CampaignI18nEnum.FORM_EXPECTED_COST);
+			put("expectedrevenue", CampaignI18nEnum.FORM_EXPECTED_REVENUE);
 
-			put("actualcost", "Actual Cost");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("actualcost", CampaignI18nEnum.FORM_ACTUAL_COST);
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			put("startdate", new DateFieldFormat("startdate", "Start Date"));
-			put("enddate", new DateFieldFormat("enddate", "End Date"));
+			put("startdate", new DateFieldFormat("startdate",
+					CampaignI18nEnum.FORM_START_DATE));
+			put("enddate", new DateFieldFormat("enddate",
+					CampaignI18nEnum.FORM_END_DATE));
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -206,12 +215,12 @@ public class CampaignRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleCampaign campaign = (SimpleCampaign) context.getWrappedBean();
 			if (campaign.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						campaign.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(campaign.getSaccountid()),
+						MailUtils.getSiteUrl(campaign.getSaccountid()),
 						campaign.getAssignuser());
 				A link = TagBuilder.newA(userLink,
 						campaign.getAssignUserFullName());
@@ -232,10 +241,10 @@ public class CampaignRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

@@ -31,9 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.cal10n.IMessageConveyor;
 
-import com.esofthead.mycollab.common.localization.WebExceptionI18nEnum;
+import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.LanguageSupport;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
@@ -44,6 +43,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
+import com.esofthead.mycollab.i18n.LocaleUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -105,7 +105,7 @@ public class AppContext implements Serializable {
 
 	private IMessageConveyor messageHelper;
 
-	private LanguageSupport languageSupport = LanguageSupport.ENGLISH;
+	private Locale userLocale = Locale.US;
 
 	public AppContext(UI uiOwner) {
 		MyCollabSession.putVariable("context", this);
@@ -184,35 +184,20 @@ public class AppContext implements Serializable {
 
 	private void setLanguage() {
 		String language = session.getLanguage();
-		if ("English".equals(language)) {
-			languageSupport = LanguageSupport.ENGLISH;
-		} else if ("Japanese".equals(language)) {
-			languageSupport = LanguageSupport.JAPAN;
-		}
-		messageHelper = LocalizationHelper.getMessageConveyor(languageSupport);
+		userLocale = LocaleUtils.toLocale(language);
+		messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 	}
 
-	public static String getMessage(Enum key) {
-		try {
-			return getInstance().messageHelper.getMessage(key);
-		} catch (Exception e) {
-			return LocalizationHelper.getMessage(key);
-		}
+	public static Locale getUserLocale() {
+		return getInstance().userLocale;
 	}
 
 	public static String getMessage(Enum key, Object... objects) {
 		try {
 			return getInstance().messageHelper.getMessage(key, objects);
 		} catch (Exception e) {
-			return LocalizationHelper.getMessage(key, objects);
-		}
-	}
-
-	public static LanguageSupport getLanguageSupport() {
-		try {
-			return getInstance().languageSupport;
-		} catch (Exception e) {
-			return LanguageSupport.ENGLISH;
+			return LocalizationHelper.getMessage(
+					LocalizationHelper.defaultLocale, key, objects);
 		}
 	}
 

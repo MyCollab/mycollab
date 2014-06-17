@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.Popover;

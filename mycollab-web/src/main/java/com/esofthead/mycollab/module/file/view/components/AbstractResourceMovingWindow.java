@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
 import com.esofthead.mycollab.module.ecm.domain.ExternalFolder;
 import com.esofthead.mycollab.module.ecm.domain.Folder;

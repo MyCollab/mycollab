@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
-import com.esofthead.mycollab.common.localization.LangI18Enum;
+import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.ComboBox;

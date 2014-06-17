@@ -26,6 +26,12 @@
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-localization</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-migration</artifactId>
             <version>4.2.0</version>
         </dependency>

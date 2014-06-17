@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.account;
 import java.util.Arrays;
 import java.util.List;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.module.crm.domain.Account;

@@ -28,19 +28,22 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProblemService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
@@ -59,7 +62,7 @@ import com.hp.gagawa.java.elements.Img;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectProblemRelayEmailNotificationActionImpl extends
-		SendMailToAllMembersAction implements
+		SendMailToAllMembersAction<SimpleProblem> implements
 		ProjectProblemRelayEmailNotificationAction {
 
 	@Autowired
@@ -104,25 +107,25 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int problemId = emailNotification.getTypeid();
-		SimpleProblem problem = problemService.findById(problemId, 0);
+			MailContext<SimpleProblem> context) {
+		SimpleProblem problem = problemService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (problem == null) {
 			return null;
 		}
+		context.setWrappedBean(problem);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(ProblemI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+						problem.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(problem.getIssuename(), 100)),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ problem.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has created the problem \""
-				+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
+		setupMailHeaders(problem, context.getEmailNotification(),
+				templateGenerator);
 
-		setupMailHeaders(problem, emailNotification, templateGenerator);
-
-		templateGenerator.putVariable("context",
-				new MailContext<SimpleProblem>(problem, user, siteUrl));
+		templateGenerator.putVariable("context", context);
 		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
@@ -130,31 +133,30 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int problemId = emailNotification.getTypeid();
-		SimpleProblem problem = problemService.findById(problemId, 0);
+			MailContext<SimpleProblem> context) {
+		SimpleProblem problem = problemService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (problem == null) {
 			return null;
 		}
-
+		context.setWrappedBean(problem);
 		String subject = StringUtils.trim(problem.getIssuename(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ problem.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has updated the problem \"" + subject + "...\" edited",
-				"templates/email/project/itemUpdatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(ProblemI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						problem.getProjectName(),
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
 
-		setupMailHeaders(problem, emailNotification, templateGenerator);
+		setupMailHeaders(problem, context.getEmailNotification(),
+				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleProblem>(problem, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -163,50 +165,53 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		int problemId = emailNotification.getTypeid();
-		SimpleProblem problem = problemService.findById(problemId, 0);
+			MailContext<SimpleProblem> context) {
+		SimpleProblem problem = problemService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (problem == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ problem.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on the problem \""
-				+ StringUtils.trim(problem.getIssuename(), 100) + "\"",
-				"templates/email/project/itemCommentNotifier.mt");
-		setupMailHeaders(problem, emailNotification, templateGenerator);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						problem.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(problem.getIssuename(), 100)),
+				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
+		setupMailHeaders(problem, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
 
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 		public ProjectFieldNameMapper() {
-			put("issuename", "Issue name", true);
+			put("issuename", ProblemI18nEnum.FORM_NAME, true);
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("datedue", new DateFieldFormat("datedue", "Due Date"));
-			put("status", "Status");
+			put("datedue", new DateFieldFormat("datedue",
+					ProblemI18nEnum.FORM_DATE_DUE));
+			put("status", ProblemI18nEnum.FORM_STATUS);
 
-			put("impact", "Impact");
-			put("priority", "Priority");
+			put("impact", ProblemI18nEnum.FORM_IMPACT);
+			put("priority", ProblemI18nEnum.FORM_PRIORITY);
 
 			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					"Assignee"));
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
-					"Raised By"));
+					ProblemI18nEnum.FORM_RAISED_BY));
 
-			put("resolution", "Resolution", true);
+			put("resolution", ProblemI18nEnum.FORM_RESOLUTION, true);
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -214,12 +219,12 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			if (problem.getAssigntouser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						problem.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(problem.getSaccountid()),
+						MailUtils.getSiteUrl(problem.getSaccountid()),
 						problem.getAssigntouser());
 				A link = TagBuilder.newA(userLink,
 						problem.getAssignedUserFullName());
@@ -240,10 +245,10 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -255,7 +260,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	public static class RaisedByFieldFormat extends FieldFormat {
 
-		public RaisedByFieldFormat(String fieldName, String displayName) {
+		public RaisedByFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -263,12 +268,12 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleProblem problem = (SimpleProblem) context.getWrappedBean();
 			if (problem.getRaisedbyuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						problem.getRaisedByUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(problem.getSaccountid()),
+						MailUtils.getSiteUrl(problem.getSaccountid()),
 						problem.getRaisedbyuser());
 				A link = TagBuilder.newA(userLink,
 						problem.getRaisedByUserFullName());
@@ -289,10 +294,10 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

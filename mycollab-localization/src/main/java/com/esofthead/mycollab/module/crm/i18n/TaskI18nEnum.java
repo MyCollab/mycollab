@@ -7,6 +7,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/task")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum TaskI18nEnum {
+	FORM_SUBJECT,
 	FORM_START_DATE,
 	FORM_STATUS,
 	FORM_DUE_DATE,
@@ -16,4 +17,7 @@ public enum TaskI18nEnum {
 	TABLE_TYPE_HEADER,
 	TABLE_END_DATE_HEADER,
 	
+	MAIL_CREATE_ITEM_SUBJECT,
+	MAIL_UPDATE_ITEM_SUBJECT,
+	MAIL_COMMENT_ITEM_SUBJECT
 }

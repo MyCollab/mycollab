@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.Arrays;
+import java.util.Locale;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperCsvExporterBuilder;
@@ -37,7 +38,6 @@ import net.sf.dynamicreports.report.constant.PageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.LanguageSupport;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.MyCollabThread;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
@@ -67,7 +67,7 @@ public abstract class ExportItemsStreamResource<T> implements
 
 	protected JasperReportBuilder reportBuilder;
 
-	public ExportItemsStreamResource(LanguageSupport languageSupport,
+	public ExportItemsStreamResource(Locale languageSupport,
 			String reportTitle, ReportExportType outputForm) {
 		this.reportTemplate = ReportTemplateFactory
 				.getTemplate(languageSupport);

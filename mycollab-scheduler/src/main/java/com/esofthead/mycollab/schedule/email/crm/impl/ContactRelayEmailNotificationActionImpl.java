@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
@@ -32,15 +33,16 @@ import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
@@ -97,25 +99,24 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleContact> context) {
 		SimpleContact simpleContact = contactService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 		if (simpleContact != null) {
+			context.setWrappedBean(simpleContact);
 			String subject = StringUtils.trim(simpleContact.getContactName(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has created the contact \"" + subject + "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
+					context.getMessage(
+							ContactI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
 
-			setupMailHeaders(simpleContact, emailNotification,
+			setupMailHeaders(simpleContact, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator
-					.putVariable("context", new MailContext<SimpleContact>(
-							simpleContact, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -126,32 +127,30 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleContact> context) {
 		SimpleContact simpleContact = contactService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+				context.getTypeid(), context.getSaccountid());
 
 		if (simpleContact != null) {
+			context.setWrappedBean(simpleContact);
 			String subject = StringUtils.trim(simpleContact.getContactName(),
 					100);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has updated the contact \"" + subject + "\"",
-					"templates/email/crm/itemUpdatedNotifier.mt");
+					context.getMessage(
+							ContactI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
 
-			setupMailHeaders(simpleContact, emailNotification,
+			setupMailHeaders(simpleContact, context.getEmailNotification(),
 					templateGenerator);
 
-			if (emailNotification.getTypeid() != null) {
+			if (context.getTypeid() != null) {
 				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						emailNotification.getTypeid(),
-						emailNotification.getSaccountid());
+						context.getTypeid(), context.getSaccountid());
 
 				templateGenerator.putVariable("historyLog", auditLog);
-				templateGenerator.putVariable("context",
-						new MailContext<SimpleContact>(simpleContact, user,
-								siteUrl));
+				templateGenerator.putVariable("context", context);
 				templateGenerator.putVariable("mapper", mapper);
 			}
 			return templateGenerator;
@@ -163,23 +162,23 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int accountRecordId = emailNotification.getTypeid();
-		SimpleContact simpleContact = contactService.findById(accountRecordId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleContact> context) {
+		SimpleContact simpleContact = contactService.findById(
+				context.getTypeid(), context.getSaccountid());
 
 		if (simpleContact != null) {
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has commented on the contact \""
-							+ StringUtils.trim(simpleContact.getContactName(),
-									100) + "\"",
-					"templates/email/crm/itemAddNoteNotifier.mt");
+					context.getMessage(
+							ContactI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
+									.getChangeByUserFullName(), StringUtils
+									.trim(simpleContact.getContactName(), 100)),
+					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
 
-			setupMailHeaders(simpleContact, emailNotification,
+			setupMailHeaders(simpleContact, context.getEmailNotification(),
 					templateGenerator);
 
-			templateGenerator.putVariable("comment", emailNotification);
+			templateGenerator.putVariable("comment",
+					context.getEmailNotification());
 
 			return templateGenerator;
 		} else {
@@ -191,55 +190,59 @@ public class ContactRelayEmailNotificationActionImpl extends
 	public static class ContactFieldNameMapper extends ItemFieldMapper {
 
 		ContactFieldNameMapper() {
-			put("firstname", "First Name");
-			put("officephone", "Office Phone");
+			put("firstname", ContactI18nEnum.FORM_FIRSTNAME);
+			put("officephone", ContactI18nEnum.FORM_OFFICE_PHONE);
 
-			put("lastname", "Last Name");
-			put("mobile", "Mobile");
+			put("lastname", ContactI18nEnum.FORM_LASTNAME);
+			put("mobile", ContactI18nEnum.FORM_MOBILE);
 
-			put("accountid", new AccountFieldFormat("accountid", "Account"));
-			put("homephone", "Home Phone");
+			put("accountid", new AccountFieldFormat("accountid",
+					ContactI18nEnum.FORM_ACCOUNTS));
+			put("homephone", ContactI18nEnum.FORM_HOME_PHONE);
 
-			put("title", "Title");
-			put("otherphone", "Other Phone");
+			put("title", ContactI18nEnum.FORM_TITLE);
+			put("otherphone", ContactI18nEnum.FORM_OTHER_PHONE);
 
-			put("department", "Department");
-			put("fax", "Fax");
+			put("department", ContactI18nEnum.FORM_DEPARTMENT);
+			put("fax", ContactI18nEnum.FORM_FAX);
 
-			put("email", new EmailLinkFieldFormat("email", "Email"));
-			put("birthday", new DateFieldFormat("birthday", "Birthday"));
+			put("email", new EmailLinkFieldFormat("email",
+					ContactI18nEnum.FORM_EMAIL));
+			put("birthday", new DateFieldFormat("birthday",
+					ContactI18nEnum.FORM_BIRTHDAY));
 
-			put("assistant", "Assistant");
-			put("iscallable", "Callable");
+			put("assistant", ContactI18nEnum.FORM_ASSISTANT);
+			put("iscallable", ContactI18nEnum.FORM_IS_CALLABLE);
 
-			put("assistantphone", "Assistant Phone");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("assistantphone", ContactI18nEnum.FORM_ASSISTANT_PHONE);
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			put("leadsource", "Lead Source", true);
+			put("leadsource", ContactI18nEnum.FORM_LEAD_SOURCE, true);
 
-			put("primaddress", "Address");
-			put("otheraddress", "Other Address");
+			put("primaddress", ContactI18nEnum.FORM_PRIMARY_ADDRESS);
+			put("otheraddress", ContactI18nEnum.FORM_OTHER_ADDRESS);
 
-			put("primcity", "City");
-			put("othercity", "Other City");
+			put("primcity", ContactI18nEnum.FORM_PRIMARY_CITY);
+			put("othercity", ContactI18nEnum.FORM_OTHER_CITY);
 
-			put("primstate", "State");
-			put("otherstate", "Other State");
+			put("primstate", ContactI18nEnum.FORM_PRIMARY_STATE);
+			put("otherstate", ContactI18nEnum.FORM_OTHER_STATE);
 
-			put("primpostalcode", "Postal Code");
-			put("otherpostalcode", "Other Postal Code");
+			put("primpostalcode", ContactI18nEnum.FORM_PRIMARY_POSTAL_CODE);
+			put("otherpostalcode", ContactI18nEnum.FORM_OTHER_POSTAL_CODE);
 
-			put("primcountry", "Country");
-			put("othercountry", "Other Country");
+			put("primcountry", ContactI18nEnum.FORM_PRIMARY_COUNTRY);
+			put("othercountry", ContactI18nEnum.FORM_OTHER_COUNTRY);
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -247,13 +250,13 @@ public class ContactRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleContact contact = (SimpleContact) context.getWrappedBean();
 			if (contact.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						contact.getAssignUserAvatarId(), 16);
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(contact.getSaccountid()),
+						MailUtils.getSiteUrl(contact.getSaccountid()),
 						contact.getAssignuser());
 				A link = TagBuilder.newA(userLink,
 						contact.getAssignUserFullName());
@@ -274,10 +277,10 @@ public class ContactRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -289,7 +292,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 	public static class AccountFieldFormat extends FieldFormat {
 
-		public AccountFieldFormat(String fieldName, String displayName) {
+		public AccountFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 

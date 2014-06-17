@@ -31,8 +31,8 @@ import org.vaadin.easyuploads.SingleFileUploadField;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-import com.esofthead.mycollab.common.localization.FileI18nEnum;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;

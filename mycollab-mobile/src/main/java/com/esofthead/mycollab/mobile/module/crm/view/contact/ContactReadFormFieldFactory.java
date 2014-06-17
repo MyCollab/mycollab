@@ -32,7 +32,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormEmailLinkViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;

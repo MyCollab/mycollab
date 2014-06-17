@@ -31,7 +31,7 @@ import org.tltv.gantt.client.shared.Step;
 import org.tltv.gantt.client.shared.Step.CaptionMode;
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;

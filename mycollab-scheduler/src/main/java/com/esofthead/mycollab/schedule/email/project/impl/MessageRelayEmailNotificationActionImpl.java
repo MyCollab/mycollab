@@ -31,9 +31,10 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
+import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 
 /**
@@ -45,7 +46,7 @@ import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificati
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class MessageRelayEmailNotificationActionImpl extends
-		SendMailToAllMembersAction implements
+		SendMailToAllMembersAction<SimpleMessage> implements
 		MessageRelayEmailNotificationAction {
 
 	@Autowired
@@ -68,8 +69,8 @@ public class MessageRelayEmailNotificationActionImpl extends
 		listOfTitles.add(currentProject);
 
 		String summary = message.getTitle();
-		String summaryLink = ProjectLinkUtils.generateMessagePreviewFullLink(siteUrl,
-				message.getProjectid(), message.getId());
+		String summaryLink = ProjectLinkUtils.generateMessagePreviewFullLink(
+				siteUrl, message.getProjectid(), message.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -81,24 +82,24 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
+			MailContext<SimpleMessage> context) {
+		SimpleMessage message = messageService.findMessageById(
+				context.getTypeid(), context.getSaccountid());
 
-		int messageId = emailNotification.getTypeid();
-
-		SimpleMessage message = messageService.findMessageById(messageId,
-				emailNotification.getSaccountid());
-		
 		if (message == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ message.getProjectName() + "]: "
-				+ message.getFullPostedUserName() + " sent a message \""
-				+ StringUtils.trim(message.getTitle(), 100) + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
+		context.setWrappedBean(message);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+						message.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(message.getTitle(), 100)),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
 
-		setupMailHeaders(message, emailNotification, templateGenerator);
+		setupMailHeaders(message, context.getEmailNotification(),
+				templateGenerator);
 
 		templateGenerator.putVariable("message", message.getMessage());
 		return templateGenerator;
@@ -106,22 +107,22 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int messageId = emailNotification.getTypeid();
-		SimpleMessage message = messageService.findMessageById(messageId,
-				emailNotification.getSaccountid());
-		
+			MailContext<SimpleMessage> context) {
+		SimpleMessage message = messageService.findMessageById(
+				context.getTypeid(), context.getSaccountid());
+
 		if (message == null) {
 			return null;
 		}
-		
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ message.getProjectName() + "]: "
-				+ message.getFullPostedUserName()
-				+ " updated content of the message \""
-				+ StringUtils.trim(message.getTitle(), 100) + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
-		setupMailHeaders(message, emailNotification, templateGenerator);
+		context.setWrappedBean(message);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						message.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(message.getTitle(), 100)),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
+		setupMailHeaders(message, context.getEmailNotification(),
+				templateGenerator);
 
 		templateGenerator.putVariable("message", message.getMessage());
 		return templateGenerator;
@@ -129,23 +130,25 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		int messageId = emailNotification.getTypeid();
-		SimpleMessage message = messageService.findMessageById(messageId,
-				emailNotification.getSaccountid());
-		
+			MailContext<SimpleMessage> context) {
+		SimpleMessage message = messageService.findMessageById(
+				context.getTypeid(), context.getSaccountid());
+
 		if (message == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ message.getProjectName() + "]: "
-				+ message.getFullPostedUserName() + " has commented on \""
-				+ StringUtils.trim(message.getTitle(), 100) + "\"",
-				"templates/email/project/itemCommentNotifier.mt");
-		setupMailHeaders(message, emailNotification, templateGenerator);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						message.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(message.getTitle(), 100)),
+				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
+		setupMailHeaders(message, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}

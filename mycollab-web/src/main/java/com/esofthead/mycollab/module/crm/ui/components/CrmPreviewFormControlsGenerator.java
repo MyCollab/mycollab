@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;

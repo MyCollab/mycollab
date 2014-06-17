@@ -36,11 +36,12 @@ import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
 /**
@@ -86,8 +87,9 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
-				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
-						notification, user);
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(context);
 				if (templateGenerator != null) {
 					String notifierFullName = user.getDisplayName();
 					if (notifierFullName == null
@@ -124,8 +126,9 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
-				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
-						notification, user);
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(context);
 				if (templateGenerator != null) {
 					String notifierFullName = user.getDisplayName();
 					if (notifierFullName == null) {
@@ -160,8 +163,9 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
 				currentUserTimezone = user.getTimezone();
-				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(
-						notification, user);
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(context);
 				if (templateGenerator != null) {
 					String notifierFullName = user.getDisplayName();
 					if (notifierFullName == null) {
@@ -243,7 +247,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 	}
 
 	private void onInitAction(SimpleRelayEmailNotification notification) {
-		siteUrl = LinkUtils.getSiteUrl(notification.getSaccountid());
+		siteUrl = MailUtils.getSiteUrl(notification.getSaccountid());
 	}
 
 	private boolean checkExistInList(List<SimpleUser> lst, SimpleUser user) {
@@ -258,12 +262,12 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 	}
 
 	protected abstract TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+			MailContext<B> context);
 
 	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+			MailContext<B> context);
 
 	protected abstract TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+			MailContext<B> context);
 
 }

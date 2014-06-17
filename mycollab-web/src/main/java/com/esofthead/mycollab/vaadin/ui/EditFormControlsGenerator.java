@@ -18,7 +18,7 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.io.Serializable;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

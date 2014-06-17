@@ -18,8 +18,8 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
-import com.esofthead.mycollab.common.localization.FileI18nEnum;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;

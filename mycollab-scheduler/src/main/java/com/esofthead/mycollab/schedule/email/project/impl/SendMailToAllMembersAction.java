@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
@@ -31,7 +32,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotificatio
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
+import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
 /**
@@ -40,7 +41,7 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
  * @since 1.0
  * 
  */
-public abstract class SendMailToAllMembersAction implements
+public abstract class SendMailToAllMembersAction<B> implements
 		SendingRelayEmailNotificationAction {
 
 	@Autowired
@@ -89,8 +90,9 @@ public abstract class SendMailToAllMembersAction implements
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
-				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(
-						notification, user);
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(context);
 				if (templateGenerator != null) {
 
 					templateGenerator.putVariable("userName",
@@ -117,8 +119,9 @@ public abstract class SendMailToAllMembersAction implements
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
-				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(
-						notification, user);
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(context);
 				if (templateGenerator != null) {
 
 					templateGenerator.putVariable("userName",
@@ -145,37 +148,37 @@ public abstract class SendMailToAllMembersAction implements
 		List<SimpleUser> notifiers = getNotifyUsers((ProjectRelayEmailNotification) notification);
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
-			TemplateGenerator templateGenerator = templateGeneratorForCommentAction(notification);
-			if (templateGenerator != null) {
-				for (SimpleUser user : notifiers) {
 
-					templateGenerator.putVariable("userName",
-							user.getDisplayName());
+			for (SimpleUser user : notifiers) {
+				MailContext<B> context = new MailContext<B>(notification, user,
+						siteUrl);
+				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(context);
+				templateGenerator
+						.putVariable("userName", user.getDisplayName());
 
-					MailRecipientField userMail = new MailRecipientField(
-							user.getEmail(), user.getUsername());
-					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
-					lst.add(userMail);
+				MailRecipientField userMail = new MailRecipientField(
+						user.getEmail(), user.getUsername());
+				List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
+				lst.add(userMail);
 
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"MyCollab", lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
-				}
+				extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
+						lst, null, null,
+						templateGenerator.generateSubjectContent(),
+						templateGenerator.generateBodyContent(), null);
 			}
 		}
 	}
 
 	private void onInitAction(SimpleRelayEmailNotification notification) {
-		siteUrl = LinkUtils.getSiteUrl(notification.getSaccountid());
+		siteUrl = MailUtils.getSiteUrl(notification.getSaccountid());
 	}
 
 	protected abstract TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+			MailContext<B> context);
 
 	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user);
+			MailContext<B> context);
 
 	protected abstract TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification);
+			MailContext<B> context);
 }

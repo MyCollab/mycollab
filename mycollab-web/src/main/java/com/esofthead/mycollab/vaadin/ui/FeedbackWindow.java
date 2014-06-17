@@ -24,7 +24,7 @@ import java.util.List;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;

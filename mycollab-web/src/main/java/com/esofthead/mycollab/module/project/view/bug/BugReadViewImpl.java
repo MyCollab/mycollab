@@ -21,7 +21,7 @@ import java.util.List;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.CommentType;
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.file.AttachmentType;

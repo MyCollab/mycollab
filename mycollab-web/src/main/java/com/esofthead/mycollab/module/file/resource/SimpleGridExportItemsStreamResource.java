@@ -61,7 +61,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 	public SimpleGridExportItemsStreamResource(String reportTitle,
 			RpParameterBuilder paramters, ReportExportType outputForm,
 			Class<T> classType) {
-		super(AppContext.getLanguageSupport(), reportTitle, outputForm);
+		super(AppContext.getUserLocale(), reportTitle, outputForm);
 		this.parameters = paramters;
 		this.classType = classType;
 	}

@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
-import com.esofthead.mycollab.common.localization.FileI18nEnum;
+import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;

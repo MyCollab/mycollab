@@ -28,19 +28,21 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
+import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
@@ -59,7 +61,7 @@ import com.hp.gagawa.java.elements.Img;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectRiskRelayEmailNotificationActionImpl extends
-		SendMailToAllMembersAction implements
+		SendMailToAllMembersAction<SimpleRisk> implements
 		ProjectRiskRelayEmailNotificationAction {
 
 	@Autowired
@@ -104,25 +106,24 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int riskId = emailNotification.getTypeid();
-		SimpleRisk risk = riskService.findById(riskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleRisk> context) {
+		SimpleRisk risk = riskService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (risk == null) {
 			return null;
 		}
+		context.setWrappedBean(risk);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(RiskI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+						risk.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(risk.getRiskname(), 100)),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
+		setupMailHeaders(risk, context.getEmailNotification(),
+				templateGenerator);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ risk.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has created the risk \""
-				+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
-		setupMailHeaders(risk, emailNotification, templateGenerator);
-
-		templateGenerator.putVariable("context", new MailContext<SimpleRisk>(
-				risk, user, siteUrl));
+		templateGenerator.putVariable("context", context);
 		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
@@ -130,32 +131,30 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int riskId = emailNotification.getTypeid();
-		SimpleRisk risk = riskService.findById(riskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleRisk> context) {
+		SimpleRisk risk = riskService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (risk == null) {
 			return null;
 		}
-
+		context.setWrappedBean(risk);
 		String subject = StringUtils.trim(risk.getRiskname(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ risk.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has updated the risk \"" + subject + "\"",
-				"templates/email/project/itemUpdatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(RiskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						risk.getProjectName(),
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
 
-		setupMailHeaders(risk, emailNotification, templateGenerator);
+		setupMailHeaders(risk, context.getEmailNotification(),
+				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleRisk>(risk, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -164,24 +163,25 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		int riskId = emailNotification.getTypeid();
-		SimpleRisk risk = riskService.findById(riskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleRisk> context) {
+		SimpleRisk risk = riskService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (risk == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ risk.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented the risk \""
-				+ StringUtils.trim(risk.getRiskname(), 100) + "\"",
-				"templates/email/project/itemCommentNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(RiskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						risk.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(risk.getRiskname(), 100)),
+				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
 
-		setupMailHeaders(risk, emailNotification, templateGenerator);
+		setupMailHeaders(risk, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
@@ -189,28 +189,29 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 	public static class ProjectFieldNameMapper extends ItemFieldMapper {
 
 		public ProjectFieldNameMapper() {
-			put("riskname", "Risk Name", true);
-			put("description", "Description", true);
+			put("riskname", RiskI18nEnum.FORM_NAME, true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("probability", "Probability");
-			put("consequence", "Consequence");
+			put("probability", RiskI18nEnum.FORM_PROBABILITY);
+			put("consequence", RiskI18nEnum.FORM_CONSEQUENCE);
 
-			put("datedue", new DateFieldFormat("datedue", "Due Date"));
-			put("status", "Status");
+			put("datedue", new DateFieldFormat("datedue",
+					RiskI18nEnum.FORM_DATE_DUE));
+			put("status", RiskI18nEnum.FORM_STATUS);
 
 			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					"Assignee"));
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
-					"Raised By"));
+					RiskI18nEnum.FORM_RAISED_BY));
 
-			put("response", "Response", true);
+			put("response", RiskI18nEnum.FORM_RESPONSE, true);
 
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -218,12 +219,12 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			if (risk.getAssigntouser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						risk.getAssignToUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(risk.getSaccountid()),
+						MailUtils.getSiteUrl(risk.getSaccountid()),
 						risk.getAssigntouser());
 				A link = TagBuilder.newA(userLink,
 						risk.getAssignedToUserFullName());
@@ -244,10 +245,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -259,7 +260,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	public static class RaisedByFieldFormat extends FieldFormat {
 
-		public RaisedByFieldFormat(String fieldName, String displayName) {
+		public RaisedByFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -267,12 +268,12 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleRisk risk = (SimpleRisk) context.getWrappedBean();
 			if (risk.getRaisedbyuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						risk.getRaisedByUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(risk.getSaccountid()),
+						MailUtils.getSiteUrl(risk.getSaccountid()),
 						risk.getRaisedbyuser());
 				A link = TagBuilder.newA(userLink,
 						risk.getRaisedByUserFullName());
@@ -293,10 +294,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

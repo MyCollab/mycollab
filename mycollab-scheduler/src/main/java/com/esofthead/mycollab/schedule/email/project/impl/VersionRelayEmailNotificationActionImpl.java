@@ -12,15 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
@@ -35,7 +36,7 @@ import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificati
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class VersionRelayEmailNotificationActionImpl extends
-		SendMailToAllMembersAction implements
+		SendMailToAllMembersAction<SimpleVersion> implements
 		VersionRelayEmailNotificationAction {
 
 	@Autowired
@@ -78,30 +79,29 @@ public class VersionRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int versionId = emailNotification.getTypeid();
-		SimpleVersion version = versionService.findById(versionId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleVersion> context) {
+		SimpleVersion version = versionService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (version == null) {
 			return null;
 		}
-
+		context.setWrappedBean(version);
 		SimpleProject project = projectService.findById(version.getProjectid(),
-				emailNotification.getSaccountid());
+				context.getSaccountid());
 
 		String subject = StringUtils.trim(version.getDescription(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ project.getName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has created new version \"" + subject + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(VersionI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+						project.getName(), context.getChangeByUserFullName(),
+						subject),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
 
-		setupMailHeaders(version, emailNotification, templateGenerator);
+		setupMailHeaders(version, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("context",
-				new MailContext<SimpleVersion>(version, user, siteUrl));
+		templateGenerator.putVariable("context", context);
 		templateGenerator.putVariable("mapper", mapper);
 
 		return templateGenerator;
@@ -109,34 +109,32 @@ public class VersionRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleVersion version = versionService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleVersion> context) {
+		SimpleVersion version = versionService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (version == null) {
 			return null;
 		}
-
+		context.setWrappedBean(version);
 		SimpleProject project = projectService.findById(version.getProjectid(),
-				emailNotification.getSaccountid());
+				context.getSaccountid());
 
 		String subject = StringUtils.trim(version.getDescription(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ project.getName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has updated the version \"" + subject + "\"",
-				"templates/email/project/itemUpdatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(VersionI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						project.getName(), context.getChangeByUserFullName(),
+						subject),
+				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
 
-		setupMailHeaders(version, emailNotification, templateGenerator);
+		setupMailHeaders(version, context.getEmailNotification(),
+				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleVersion>(version, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -145,16 +143,16 @@ public class VersionRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		// TODO Auto-generated method stub
+			MailContext<SimpleVersion> context) {
 		return null;
 	}
 
 	public static class VersionFieldNameMapper extends ItemFieldMapper {
 		public VersionFieldNameMapper() {
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("duedate", new DateFieldFormat("duedate", "Due date"));
+			put("duedate", new DateFieldFormat("duedate",
+					VersionI18nEnum.FORM_DUE_DATE));
 		}
 	}
 

@@ -23,19 +23,21 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.EmailLinkFieldFormat;
@@ -88,21 +90,21 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleLead simpleLead = leadService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleLead> context) {
+		SimpleLead simpleLead = leadService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (simpleLead != null) {
+			context.setWrappedBean(simpleLead);
 			String subject = StringUtils.trim(simpleLead.getLeadName(), 150);
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
-					emailNotification.getChangeByUserFullName()
-							+ " has created the lead \"" + subject + "\"",
-					"templates/email/crm/itemCreatedNotifier.mt");
-			setupMailHeaders(simpleLead, emailNotification, templateGenerator);
+					context.getMessage(LeadI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+							context.getChangeByUserFullName(), subject),
+					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
+			setupMailHeaders(simpleLead, context.getEmailNotification(),
+					templateGenerator);
 
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleLead>(simpleLead, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 
 			return templateGenerator;
@@ -113,29 +115,29 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleLead lead = leadService.findById(emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleLead> context) {
+		SimpleLead lead = leadService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (lead == null) {
 			return null;
 		}
 
+		context.setWrappedBean(lead);
 		String subject = StringUtils.trim(lead.getLeadName(), 150);
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has updated the lead \"" + subject + "\"",
-				"templates/email/crm/itemUpdatedNotifier.mt");
-		setupMailHeaders(lead, emailNotification, templateGenerator);
+				context.getMessage(LeadI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
+		setupMailHeaders(lead, context.getEmailNotification(),
+				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleLead>(lead, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 		return templateGenerator;
@@ -143,24 +145,25 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		SimpleLead simpleLead = leadService.findById(
-				emailNotification.getTypeid(),
-				emailNotification.getSaccountid());
+			MailContext<SimpleLead> context) {
+		SimpleLead simpleLead = leadService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (simpleLead == null) {
 			return null;
 		}
 
 		TemplateGenerator templateGenerator = new TemplateGenerator(
-				emailNotification.getChangeByUserFullName()
-						+ " has commented on the lead \""
-						+ StringUtils.trim(simpleLead.getLeadName(), 100)
-						+ "\"", "templates/email/crm/itemAddNoteNotifier.mt");
+				context.getMessage(LeadI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						context.getChangeByUserFullName(),
+						StringUtils.trim(simpleLead.getLeadName(), 100)),
+				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
 
-		setupMailHeaders(simpleLead, emailNotification, templateGenerator);
+		setupMailHeaders(simpleLead, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
@@ -168,54 +171,55 @@ public class LeadRelayEmailNotificationActionImpl extends
 	public static class LeadFieldNameMapper extends ItemFieldMapper {
 		public LeadFieldNameMapper() {
 
-			put("firstname", "First Name");
-			put("email", new EmailLinkFieldFormat("email", "Email"));
+			put("firstname", LeadI18nEnum.FORM_FIRSTNAME);
+			put("email", new EmailLinkFieldFormat("email",
+					LeadI18nEnum.FORM_EMAIL));
 
-			put("lastname", "Last Name");
-			put("officephone", "Office Phone");
+			put("lastname", LeadI18nEnum.FORM_LASTNAME);
+			put("officephone", LeadI18nEnum.FORM_OFFICE_PHONE);
 
-			put("title", "Title");
-			put("mobile", "Mobile");
+			put("title", LeadI18nEnum.FORM_TITLE);
+			put("mobile", LeadI18nEnum.FORM_MOBILE);
 
-			put("department", "Department");
-			put("otherphone", "Other Phone");
+			put("department", LeadI18nEnum.FORM_DEPARTMENT);
+			put("otherphone", LeadI18nEnum.FORM_OTHER_PHONE);
 
-			put("accountname", "Account Name");
-			put("fax", "Fax");
+			put("accountname", LeadI18nEnum.FORM_ACCOUNT_NAME);
+			put("fax", LeadI18nEnum.FORM_FAX);
 
-			put("leadsourcedesc", "Lead Source");
-			put("website", "Web Site");
+			put("leadsourcedesc", LeadI18nEnum.FORM_LEAD_SOURCE);
+			put("website", LeadI18nEnum.FORM_WEBSITE);
 
-			put("industry", "Industry");
-			put("status", "Status");
+			put("industry", LeadI18nEnum.FORM_INDUSTRY);
+			put("status", LeadI18nEnum.FORM_STATUS);
 
-			put("noemployees", "No of Employees");
+			put("noemployees", LeadI18nEnum.FORM_NO_EMPLOYEES);
 			put("assignuser", new LeadAssigneeFieldFormat("assignuser",
-					"Assignee"));
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
-			put("primaddress", "Address");
-			put("otheraddress", "Other Address");
+			put("primaddress", LeadI18nEnum.FORM_PRIMARY_ADDRESS);
+			put("otheraddress", LeadI18nEnum.FORM_OTHER_ADDRESS);
 
-			put("primcity", "City");
-			put("othercity", "Other City");
+			put("primcity", LeadI18nEnum.FORM_PRIMARY_CITY);
+			put("othercity", LeadI18nEnum.FORM_OTHER_CITY);
 
-			put("primstate", "State");
-			put("otherstate", "Other State");
+			put("primstate", LeadI18nEnum.FORM_PRIMARY_STATE);
+			put("otherstate", LeadI18nEnum.FORM_OTHER_STATE);
 
-			put("primpostalcode", "Postal Code");
-			put("otherpostalcode", "Other Postal Code");
+			put("primpostalcode", LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE);
+			put("otherpostalcode", LeadI18nEnum.FORM_OTHER_POSTAL_CODE);
 
-			put("primcountry", "Country");
-			put("othercountry", "Other Country");
+			put("primcountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY);
+			put("othercountry", LeadI18nEnum.FORM_OTHER_COUNTRY);
 
-			put("description", "Description", true);
+			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
 		}
 	}
 
 	public static class LeadAssigneeFieldFormat extends FieldFormat {
 
-		public LeadAssigneeFieldFormat(String fieldName, String displayName) {
+		public LeadAssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -223,13 +227,13 @@ public class LeadRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleLead lead = (SimpleLead) context.getWrappedBean();
 			if (lead.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						lead.getAssignUserAvatarId(), 16);
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(lead.getSaccountid()),
+						MailUtils.getSiteUrl(lead.getSaccountid()),
 						lead.getAssignuser());
 				A link = TagBuilder
 						.newA(userLink, lead.getAssignUserFullName());
@@ -250,10 +254,10 @@ public class LeadRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());

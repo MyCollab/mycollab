@@ -30,8 +30,10 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -42,6 +44,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotificatio
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
@@ -50,7 +53,6 @@ import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
-import com.esofthead.mycollab.schedule.email.LinkUtils;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
@@ -69,7 +71,7 @@ import com.hp.gagawa.java.elements.Img;
 @Service
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProjectTaskRelayEmailNotificationActionImpl extends
-		SendMailToFollowersAction implements
+		SendMailToFollowersAction<SimpleTask> implements
 		ProjectTaskRelayEmailNotificationAction {
 
 	private static Logger log = LoggerFactory
@@ -124,59 +126,56 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	@Override
 	public TemplateGenerator templateGeneratorForCreateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int taskId = emailNotification.getTypeid();
-		SimpleTask task = projectTaskService.findById(taskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleTask> context) {
+		SimpleTask task = projectTaskService.findById(context.getTypeid(),
+				context.getSaccountid());
 
 		if (task == null) {
 			return null;
 		}
-
+		context.setWrappedBean(task);
 		String subject = StringUtils.trim(task.getTaskname(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ task.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has created the task \"" + subject + "\"",
-				"templates/email/project/itemCreatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+						task.getProjectName(),
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
 
-		setupMailHeaders(task, emailNotification, templateGenerator);
+		setupMailHeaders(task, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("context", new MailContext<SimpleTask>(
-				task, user, siteUrl));
+		templateGenerator.putVariable("context", context);
 		templateGenerator.putVariable("mapper", mapper);
 		return templateGenerator;
 	}
 
 	@Override
 	public TemplateGenerator templateGeneratorForUpdateAction(
-			SimpleRelayEmailNotification emailNotification, SimpleUser user) {
-		int taskId = emailNotification.getTypeid();
-		SimpleTask task = projectTaskService.findById(taskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleTask> context) {
+		SimpleTask task = projectTaskService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (task == null) {
 			return null;
 		}
-
+		context.setWrappedBean(task);
 		String subject = StringUtils.trim(task.getTaskname(), 100);
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ task.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has updated the task \"" + subject + "\"",
-				"templates/email/project/itemUpdatedNotifier.mt");
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+						task.getProjectName(),
+						context.getChangeByUserFullName(), subject),
+				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
 
-		setupMailHeaders(task, emailNotification, templateGenerator);
+		setupMailHeaders(task, context.getEmailNotification(),
+				templateGenerator);
 
-		if (emailNotification.getTypeid() != null) {
+		if (context.getTypeid() != null) {
 			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					emailNotification.getTypeid(),
-					emailNotification.getSaccountid());
+					context.getTypeid(), context.getSaccountid());
 
 			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context",
-					new MailContext<SimpleTask>(task, user, siteUrl));
+			templateGenerator.putVariable("context", context);
 			templateGenerator.putVariable("mapper", mapper);
 		}
 
@@ -185,23 +184,24 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	@Override
 	public TemplateGenerator templateGeneratorForCommentAction(
-			SimpleRelayEmailNotification emailNotification) {
-		int taskId = emailNotification.getTypeid();
-		SimpleTask task = projectTaskService.findById(taskId,
-				emailNotification.getSaccountid());
+			MailContext<SimpleTask> context) {
+		SimpleTask task = projectTaskService.findById(context.getTypeid(),
+				context.getSaccountid());
 		if (task == null) {
 			return null;
 		}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator("["
-				+ task.getProjectName() + "]: "
-				+ emailNotification.getChangeByUserFullName()
-				+ " has commented on the task \""
-				+ StringUtils.trim(task.getTaskname(), 100) + "\"",
-				"templates/email/project/itemCommentNotifier.mt");
-		setupMailHeaders(task, emailNotification, templateGenerator);
+		TemplateGenerator templateGenerator = new TemplateGenerator(
+				context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+						task.getProjectName(),
+						context.getChangeByUserFullName(),
+						StringUtils.trim(task.getTaskname(), 100)),
+				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
+		setupMailHeaders(task, context.getEmailNotification(),
+				templateGenerator);
 
-		templateGenerator.putVariable("comment", emailNotification);
+		templateGenerator
+				.putVariable("comment", context.getEmailNotification());
 
 		return templateGenerator;
 	}
@@ -306,31 +306,35 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 		public TaskFieldNameMapper() {
 
-			put("taskname", "Task Name", true);
+			put("taskname", TaskI18nEnum.FORM_TASK_NAME, true);
 
-			put("startdate", new DateFieldFormat("startdate", "Start Date"));
-			put("enddate", new DateFieldFormat("enddate", "End Date"));
+			put("startdate", new DateFieldFormat("startdate",
+					TaskI18nEnum.FORM_START_DATE));
+			put("enddate", new DateFieldFormat("enddate",
+					TaskI18nEnum.FORM_END_DATE));
 
 			put("actualstartdate", new DateFieldFormat("actualstartdate",
-					"Actual Start Date"));
+					TaskI18nEnum.FORM_ACTUAL_START_DATE));
 			put("actualenddate", new DateFieldFormat("actualenddate",
-					"Actual End Date"));
+					TaskI18nEnum.FORM_ACTUAL_END_DATE));
 
-			put("deadline", new DateFieldFormat("deadline", "Deadline"));
-			put("percentagecomplete", "Complete (%)");
+			put("deadline", new DateFieldFormat("deadline",
+					TaskI18nEnum.FORM_DEADLINE));
+			put("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
 
-			put("priority", "Priority");
-			put("assignuser", new AssigneeFieldFormat("assignuser", "Assignee"));
+			put("priority", TaskI18nEnum.FORM_PRIORITY);
+			put("assignuser", new AssigneeFieldFormat("assignuser",
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 
 			put("tasklistid", new TaskGroupFieldFormat("tasklistid",
-					"Task Group"));
-			put("notes", "Notes");
+					TaskI18nEnum.FORM_TASKGROUP_FIELD));
+			put("notes", TaskI18nEnum.FORM_NOTES_FIELD);
 		}
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, String displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -338,12 +342,12 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		public String formatField(MailContext<?> context) {
 			SimpleTask task = (SimpleTask) context.getWrappedBean();
 			if (task.getAssignuser() != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						task.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(task.getSaccountid()),
+						MailUtils.getSiteUrl(task.getSaccountid()),
 						task.getAssignuser());
 				A link = TagBuilder
 						.newA(userLink, task.getAssignUserFullName());
@@ -364,10 +368,10 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			SimpleUser user = userService.findUserByUserNameInAccount(value,
 					context.getUser().getAccountId());
 			if (user != null) {
-				String userAvatarLink = LinkUtils.getAvatarLink(
+				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
 				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
-						LinkUtils.getSiteUrl(user.getAccountId()),
+						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
@@ -379,7 +383,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	public static class TaskGroupFieldFormat extends FieldFormat {
 
-		public TaskGroupFieldFormat(String fieldName, String displayName) {
+		public TaskGroupFieldFormat(String fieldName, Enum displayName) {
 			super(fieldName, displayName);
 		}
 

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import static com.esofthead.mycollab.vaadin.MyCollabSession.USER_TIMEZONE;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;

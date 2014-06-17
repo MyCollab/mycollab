@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.schedule.email;
 
+import java.util.Locale;
+
+import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.i18n.LocaleUtils;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
@@ -25,22 +31,22 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
  * 
  */
 public class MailContext<B> {
+	private SimpleRelayEmailNotification emailNotification;
 	private SimpleUser user;
 	private B wrappedBean;
 	private String siteUrl;
+	private Locale locale;
 
-	public MailContext(B wrappedBean, SimpleUser user, String siteUrl) {
-		this.wrappedBean = wrappedBean;
+	public MailContext(SimpleRelayEmailNotification emailNotification,
+			SimpleUser user, String siteUrl) {
+		this.emailNotification = emailNotification;
 		this.user = user;
+		this.locale = LocaleUtils.toLocale(user.getLanguage());
 		this.siteUrl = siteUrl;
 	}
 
 	public SimpleUser getUser() {
 		return user;
-	}
-
-	public void setUser(SimpleUser user) {
-		this.user = user;
 	}
 
 	public B getWrappedBean() {
@@ -55,7 +61,35 @@ public class MailContext<B> {
 		return siteUrl;
 	}
 
-	public void setSiteUrl(String siteUrl) {
-		this.siteUrl = siteUrl;
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public SimpleRelayEmailNotification getEmailNotification() {
+		return emailNotification;
+	}
+
+	public String getMessage(Enum key, Object... params) {
+		return LocalizationHelper.getMessage(locale, key, params);
+	}
+
+	public int getSaccountid() {
+		return emailNotification.getSaccountid();
+	}
+
+	public String getChangeByUserFullName() {
+		return emailNotification.getChangeByUserFullName();
+	}
+
+	public Integer getTypeid() {
+		return emailNotification.getTypeid();
+	}
+
+	public String getType() {
+		return emailNotification.getType();
+	}
+
+	public String templatePath(String resourcePath) {
+		return MailUtils.templatePath(resourcePath, locale);
 	}
 }

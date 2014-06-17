@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.reporting;
 
-import com.esofthead.mycollab.core.LanguageSupport;
+import java.util.Locale;
 
 /**
  * 
@@ -32,8 +32,8 @@ public class ReportTemplateFactory {
 		return getTemplate(null);
 	}
 
-	public static AbstractReportTemplate getTemplate(LanguageSupport language) {
-		if (language == LanguageSupport.JAPAN) {
+	public static AbstractReportTemplate getTemplate(Locale language) {
+		if (Locale.JAPANESE.equals(language)) {
 			return jpReport;
 		} else {
 			return enReport;

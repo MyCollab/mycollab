@@ -67,7 +67,7 @@
     Improvements
         - Refactor tooltip generator for Project and CRM module
         - Allow user choose create new item in read view
-        - Improve localization service, and move texts in localization files
+        - Improve localization.common service, and move texts in localization.common files
         - Upgrade Spring framework to 4.0.5.RELEASE
         - Upgrade Jackrabbit to 2.8.0
         - Upgrade Flyway to 3.0
@@ -84,7 +84,7 @@
         - Boot time of application is much faster than previous version in some OSes
         - Email template of task and bug are re-ordered fields more logically
         - Cache spring service classes to init application context faster
-        - Support user localization
+        - Support user localization.common
         - Make install process easier for non-tech users
         - Add gantt chart
         - Upgrade Vaadin library to 7.1.15

@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.server.Sizeable;

@@ -23,7 +23,7 @@ import javax.validation.Validator;
 
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.esofthead.mycollab.common.localization.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;

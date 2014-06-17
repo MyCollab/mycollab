@@ -25,9 +25,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.template.velocity.TemplateContext;
 
@@ -38,6 +41,7 @@ import com.esofthead.template.velocity.TemplateContext;
  * @since 1.0
  */
 public class TemplateGenerator {
+
 	private final String subjectTemplate;
 	private final String contentTemplatePathFile;
 	private final TemplateContext templateContext;
@@ -106,6 +110,9 @@ public class TemplateGenerator {
 			reader = new InputStreamReader(TemplateGenerator.class
 					.getClassLoader().getResourceAsStream(
 							contentTemplatePathFile));
+		} catch (Exception e) {
+			throw new MyCollabException("Exception while read file path "
+					+ contentTemplatePathFile, e);
 		}
 
 		templateEngine.evaluate(templateContext.getVelocityContext(), writer,
