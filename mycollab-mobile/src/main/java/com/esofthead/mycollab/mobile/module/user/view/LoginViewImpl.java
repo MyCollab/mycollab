@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobileMainView;
@@ -24,6 +25,7 @@ import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -85,6 +87,12 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
 		pwdField.setStyleName("password-input");
 		contentLayout.addComponent(pwdField);
 
+		final CheckBox rememberPassword = new CheckBox();
+		rememberPassword.setWidth("100%");
+		rememberPassword.setCaption("Remember password");
+		rememberPassword.setValue(true);
+		contentLayout.addComponent(rememberPassword);
+
 		Button signInBtn = new Button("Sign In");
 		signInBtn.setWidth("100%");
 		signInBtn.addStyleName(UIConstants.BUTTON_BIG);
@@ -94,10 +102,13 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
 
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				// doLogin(emailField.getValue(), pwdField.getValue());
-				LoginViewImpl.this.fireEvent(new UserEvent.PlainLogin(
-						LoginViewImpl.this, new String[] {
-								emailField.getValue(), pwdField.getValue() }));
+				EventBus.getInstance().fireEvent(
+						new UserEvent.PlainLogin(LoginViewImpl.this,
+								new String[] {
+										emailField.getValue(),
+										pwdField.getValue(),
+										String.valueOf(rememberPassword
+												.getValue()) }));
 			}
 		});
 		contentLayout.addComponent(signInBtn);

@@ -83,7 +83,7 @@ public class AccountSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label(
-				AppContext.getMessage(AccountI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);

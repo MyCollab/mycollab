@@ -17,7 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
+import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -30,7 +33,9 @@ class ProjectRoleHistoryLogWindow extends HistoryLogWindow {
 	public ProjectRoleHistoryLogWindow(String module, String type) {
 		super(module, type);
 
-		this.generateFieldDisplayHandler("rolename", "Role Name");
-		this.generateFieldDisplayHandler("description", "Description");
+		this.generateFieldDisplayHandler("rolename",
+				AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME));
+		this.generateFieldDisplayHandler("description",
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 	}
 }

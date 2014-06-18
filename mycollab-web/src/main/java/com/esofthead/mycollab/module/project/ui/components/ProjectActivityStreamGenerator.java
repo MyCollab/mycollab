@@ -19,8 +19,15 @@ package com.esofthead.mycollab.module.project.ui.components;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
-import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -77,137 +84,158 @@ public class ProjectActivityStreamGenerator {
 
 	private static class BugAuditLogShowHandler extends AuditLogShowHandler {
 		public BugAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("description", "Description");
-			this.generateFieldDisplayHandler("environment", "Environment");
-			this.generateFieldDisplayHandler("detail", "Detail");
-			this.generateFieldDisplayHandler("summary", "Summary");
-			this.generateFieldDisplayHandler("severity", "Severity");
-			this.generateFieldDisplayHandler("priority", "Priority");
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("duedate", "Due Date",
-					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("resolution", "Resolution");
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
+			this.generateFieldDisplayHandler("environment",
+					BugI18nEnum.FORM_ENVIRONMENT);
+			this.generateFieldDisplayHandler("summary",
+					BugI18nEnum.FORM_SUMMARY);
+			this.generateFieldDisplayHandler("severity",
+					BugI18nEnum.FORM_SEVERITY);
+			this.generateFieldDisplayHandler("priority",
+					BugI18nEnum.FORM_PRIORITY);
+			this.generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("duedate",
+					BugI18nEnum.FORM_DUE_DATE, AuditLogShowHandler.DATE_FIELD);
+			this.generateFieldDisplayHandler("resolution",
+					BugI18nEnum.FORM_RESOLUTION);
 		}
 	}
 
 	private static class TaskAuditLogShowHandler extends AuditLogShowHandler {
 		public TaskAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("taskname", "Name");
+			this.generateFieldDisplayHandler("taskname",
+					TaskI18nEnum.FORM_TASK_NAME);
 			this.generateFieldDisplayHandler("percentagecomplete",
-					"Percentage Complete");
-			this.generateFieldDisplayHandler("startdate", "Start Date",
+					TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
+			this.generateFieldDisplayHandler("startdate",
+					TaskI18nEnum.FORM_START_DATE,
 					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("enddate", "End Date",
-					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("priority", "Priority");
-			this.generateFieldDisplayHandler("duration", "Duration");
-			this.generateFieldDisplayHandler("isestimated", "Is Estimated");
-			this.generateFieldDisplayHandler("deadline", "Deadline",
-					AuditLogShowHandler.DATE_FIELD);
+			this.generateFieldDisplayHandler("enddate",
+					TaskI18nEnum.FORM_END_DATE, AuditLogShowHandler.DATE_FIELD);
+			this.generateFieldDisplayHandler("priority",
+					TaskI18nEnum.FORM_PRIORITY);
+			this.generateFieldDisplayHandler("isestimated",
+					TaskI18nEnum.FORM_IS_ESTIMATED);
+			this.generateFieldDisplayHandler("deadline",
+					TaskI18nEnum.FORM_DEADLINE, AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("actualstartdate",
-					"Actual Start Date", AuditLogShowHandler.DATE_FIELD);
+					TaskI18nEnum.FORM_ACTUAL_START_DATE,
+					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("actualenddate",
-					"Actual End Date", AuditLogShowHandler.DATE_FIELD);
+					TaskI18nEnum.FORM_ACTUAL_END_DATE,
+					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("assignUserFullName",
-					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+					GenericI18Enum.FORM_ASSIGNEE);
 		}
 	}
 
 	private static class TaskListAuditLogShowHandler extends
 			AuditLogShowHandler {
 		public TaskListAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("name", "Name");
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("description", "Description");
-			this.generateFieldDisplayHandler("milestoneName", "Milestone");
+			this.generateFieldDisplayHandler("name",
+					TaskGroupI18nEnum.FORM_NAME_FIELD);
+			this.generateFieldDisplayHandler("status",
+					TaskGroupI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
+			this.generateFieldDisplayHandler("milestoneName",
+					TaskGroupI18nEnum.FORM_MILESTONE_FIELD);
 			this.generateFieldDisplayHandler("ownerFullName",
-					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+					GenericI18Enum.FORM_ASSIGNEE);
 		}
 	}
 
 	private static class MilestoneAuditLogShowHandler extends
 			AuditLogShowHandler {
 		public MilestoneAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("name", "Name");
-			this.generateFieldDisplayHandler("startdate", "Start Date",
+			this.generateFieldDisplayHandler("name",
+					MilestoneI18nEnum.FORM_NAME_FIELD);
+			this.generateFieldDisplayHandler("startdate",
+					MilestoneI18nEnum.FORM_START_DATE_FIELD,
 					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("enddate", "End Date",
+			this.generateFieldDisplayHandler("enddate",
+					MilestoneI18nEnum.FORM_END_DATE_FIELD,
 					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("description", "Description");
+			this.generateFieldDisplayHandler("status",
+					MilestoneI18nEnum.FORM_STATUS_FIELD);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
 			this.generateFieldDisplayHandler("ownerFullName",
-					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+					GenericI18Enum.FORM_ASSIGNEE);
 		}
 	}
 
 	private static class RiskAuditLogShowHandler extends AuditLogShowHandler {
 		public RiskAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("riskname", "Name");
-			this.generateFieldDisplayHandler("consequence", "Consequence");
-			this.generateFieldDisplayHandler("probalitity", "Probability");
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("dateraised", "Raised Date",
-					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("datedue", "Due Date",
-					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("response", "Response");
-			this.generateFieldDisplayHandler("resolution", "Resolution");
-			this.generateFieldDisplayHandler("source", "Source");
-			this.generateFieldDisplayHandler("description", "Description");
+			this.generateFieldDisplayHandler("riskname", RiskI18nEnum.FORM_NAME);
+			this.generateFieldDisplayHandler("consequence",
+					RiskI18nEnum.FORM_CONSEQUENCE);
+			this.generateFieldDisplayHandler("probalitity",
+					RiskI18nEnum.FORM_PROBABILITY);
+			this.generateFieldDisplayHandler("status", RiskI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("datedue",
+					RiskI18nEnum.FORM_DATE_DUE, AuditLogShowHandler.DATE_FIELD);
+			this.generateFieldDisplayHandler("response",
+					RiskI18nEnum.FORM_RESPONSE);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
 			this.generateFieldDisplayHandler("raisedByUserFullName",
-					"Raised By");
+					RiskI18nEnum.FORM_RAISED_BY);
 			this.generateFieldDisplayHandler("assignedToUserFullName",
-					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+					GenericI18Enum.FORM_ASSIGNEE);
 		}
 	}
 
 	private static class ProblemAuditLogShowHandler extends AuditLogShowHandler {
 		public ProblemAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("issuename", "Name");
-			this.generateFieldDisplayHandler("impact", "Impact");
-			this.generateFieldDisplayHandler("priority", "Priority");
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("dateraised", "Raised Date",
+			this.generateFieldDisplayHandler("issuename",
+					ProblemI18nEnum.FORM_NAME);
+			this.generateFieldDisplayHandler("impact",
+					ProblemI18nEnum.FORM_IMPACT);
+			this.generateFieldDisplayHandler("priority",
+					ProblemI18nEnum.FORM_PRIORITY);
+			this.generateFieldDisplayHandler("status",
+					ProblemI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("datedue",
+					ProblemI18nEnum.FORM_DATE_DUE,
 					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("datedue", "Due Date",
-					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("actualstartdate",
-					"Actual Start Date", AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("actualenddate",
-					"Actual End Date", AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("resolution", "Resolution");
-			this.generateFieldDisplayHandler("state", "State");
-			this.generateFieldDisplayHandler("problemsource", "Source");
-			this.generateFieldDisplayHandler("description", "Description");
+			this.generateFieldDisplayHandler("resolution",
+					ProblemI18nEnum.FORM_RESOLUTION);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
 			this.generateFieldDisplayHandler("raisedByUserFullName",
-					"Raised By");
+					ProblemI18nEnum.FORM_RAISED_BY);
 			this.generateFieldDisplayHandler("assignedUserFullName",
-					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
+					GenericI18Enum.FORM_ASSIGNEE);
 		}
 	}
 
 	private static class ComponentAuditLogShowHandler extends
 			AuditLogShowHandler {
 		public ComponentAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("componentname", "Name");
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("description", "Description");
-			this.generateFieldDisplayHandler("userLeadFullName", "Lead");
+			this.generateFieldDisplayHandler("componentname",
+					ComponentI18nEnum.FORM_NAME);
+			this.generateFieldDisplayHandler("status",
+					ComponentI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
+			this.generateFieldDisplayHandler("userLeadFullName",
+					ComponentI18nEnum.FORM_LEAD);
 		}
 	}
 
 	private static class VersionAuditLogShowHandler extends AuditLogShowHandler {
 		public VersionAuditLogShowHandler() {
-			this.generateFieldDisplayHandler("duedate", "Due Date",
+			this.generateFieldDisplayHandler("duedate",
+					VersionI18nEnum.FORM_DUE_DATE,
 					AuditLogShowHandler.DATE_FIELD);
-			this.generateFieldDisplayHandler("status", "Status");
-			this.generateFieldDisplayHandler("versionname", "Name");
-			this.generateFieldDisplayHandler("description", "Description");
+			this.generateFieldDisplayHandler("status",
+					VersionI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("versionname",
+					VersionI18nEnum.FORM_NAME);
+			this.generateFieldDisplayHandler("description",
+					GenericI18Enum.FORM_DESCRIPTION);
 		}
 	}
 }

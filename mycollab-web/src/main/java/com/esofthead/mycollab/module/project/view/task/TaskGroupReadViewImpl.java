@@ -142,7 +142,7 @@ public class TaskGroupReadViewImpl extends
 		tabContainer.setWidth("100%");
 
 		tabContainer.addTab(commentList, AppContext
-				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
 						.newResource("icons/16/project/gray/comment.png"));
 
@@ -151,7 +151,7 @@ public class TaskGroupReadViewImpl extends
 				MyCollabResource.newResource("icons/16/project/gray/task.png"));
 
 		tabContainer.addTab(historyList, AppContext
-				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
 		return tabContainer;

@@ -66,7 +66,7 @@ public class MyProjectListComponent extends Depot {
 
 	public MyProjectListComponent() {
 		super(AppContext
-				.getMessage(ProjectCommonI18nEnum.MY_PROJECTS_TITLE),
+				.getMessage(ProjectCommonI18nEnum.WIDGET_MY_PROJECTS_TITLE),
 				new VerticalLayout());
 
 		this.projectList = new ProjectPagedList();

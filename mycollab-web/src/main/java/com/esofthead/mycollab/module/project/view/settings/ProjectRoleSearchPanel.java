@@ -150,7 +150,7 @@ public class ProjectRoleSearchPanel extends
 
 			final Button createBtn = new Button(
 					AppContext
-							.getMessage(ProjectMemberI18nEnum.NEW_ROLE_ACTION),
+							.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_ROLE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

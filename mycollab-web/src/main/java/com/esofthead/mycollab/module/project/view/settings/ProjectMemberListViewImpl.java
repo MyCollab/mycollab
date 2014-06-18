@@ -88,14 +88,14 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 				.newResource("icons/24/project/user.png")));
 
 		Label headerText = new Label(
-				AppContext.getMessage(ProjectMemberI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(ProjectMemberI18nEnum.VIEW_LIST_TITLE));
 		headerText.setStyleName("hdr-text");
 
 		viewHeader.addComponent(headerText);
 		viewHeader.setExpandRatio(headerText, 1.0f);
 
 		Button createBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.NEW_USER_ACTION),
+				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -244,7 +244,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 
 			ButtonLink resendInvitationLink = new ButtonLink(
 					AppContext
-							.getMessage(ProjectMemberI18nEnum.RESEND_INVITATION_ACTION),
+							.getMessage(ProjectMemberI18nEnum.BUTTON_RESEND_INVITATION),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

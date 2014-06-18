@@ -159,37 +159,37 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 	private void buildComponents() {
 		myProjectTab.addTab(constructProjectDashboardComponent(), "dashboard",
-				AppContext.getMessage(ProjectCommonI18nEnum.DASHBOARD_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
 
 		myProjectTab.addTab(constructProjectMessageComponent(), "message",
-				AppContext.getMessage(ProjectCommonI18nEnum.MESSAGE_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
 
 		myProjectTab.addTab(constructProjectMilestoneComponent(), "milestone",
-				AppContext.getMessage(ProjectCommonI18nEnum.MILESTONE_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
 
 		myProjectTab.addTab(constructTaskDashboardComponent(), "task",
-				AppContext.getMessage(ProjectCommonI18nEnum.TASK_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
 
 		myProjectTab.addTab(constructProjectBugComponent(), "bug",
-				AppContext.getMessage(ProjectCommonI18nEnum.BUG_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
 
 		myProjectTab.addTab(constructProjectFileComponent(), "file",
-				AppContext.getMessage(ProjectCommonI18nEnum.FILE_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE));
 
 		myProjectTab.addTab(constructProjectRiskComponent(), "risk",
-				AppContext.getMessage(ProjectCommonI18nEnum.RISK_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK));
 
 		myProjectTab.addTab(constructProjectProblemComponent(), "problem",
-				AppContext.getMessage(ProjectCommonI18nEnum.PROBLEM_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM));
 
 		myProjectTab.addTab(constructTimeTrackingComponent(), "time",
-				AppContext.getMessage(ProjectCommonI18nEnum.TIME_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME));
 
 		myProjectTab.addTab(constructProjectStandupMeeting(), "standup",
-				AppContext.getMessage(ProjectCommonI18nEnum.STANDAUP_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP));
 
 		myProjectTab.addTab(constructProjectUsers(), "member",
-				AppContext.getMessage(ProjectCommonI18nEnum.MEMBER_VIEW));
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER));
 
 		myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -461,7 +461,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		Button editProjectBtn = new Button(
 				AppContext
-						.getMessage(ProjectCommonI18nEnum.EDIT_PROJECT_ACTION),
+						.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(ClickEvent event) {
@@ -481,7 +481,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 				.canAccess(ProjectRolePermissionCollections.PROJECT)) {
 			Button deleteProjectBtn = new Button(
 					AppContext
-							.getMessage(ProjectCommonI18nEnum.DELETE_PROJECT_ACTION),
+							.getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(ClickEvent event) {
@@ -492,7 +492,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 											GenericI18Enum.DIALOG_DELETE_TITLE,
 											SiteConfiguration.getSiteName()),
 									AppContext
-											.getMessage(ProjectCommonI18nEnum.CONFIRM_PROJECT_DELETE_MESSAGE),
+											.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
 									AppContext
 											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 									AppContext

@@ -98,12 +98,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	private Button chartDisplay;
 	private ToggleButtonGroup viewButtons;
 
-	private boolean isSimpleDisplay;
-
-	public TaskGroupDisplayViewImpl() {
-		super();
-	}
-
 	private void implementTaskFilterButton() {
 
 		this.taskSelection = new PopupButton(
@@ -431,7 +425,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		basicSearchView.removeComponent(basicSearchView.getComponent(0));
 
 		displayAdvancedView();
-		isSimpleDisplay = false;
 	}
 
 	private void doSearch(TaskSearchCriteria searchCriteria) {

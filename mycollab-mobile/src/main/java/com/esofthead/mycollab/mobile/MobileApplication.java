@@ -19,18 +19,20 @@ package com.esofthead.mycollab.mobile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmModuleController;
-import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
-import com.esofthead.mycollab.mobile.module.user.view.LoginView;
+import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.vaadin.addon.touchkit.extensions.LocalStorage;
+import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent;
-import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
@@ -50,6 +52,8 @@ public class MobileApplication extends UI {
 	private static final long serialVersionUID = 1L;
 
 	private static final String CURRENT_APP = "mobileApp";
+
+	public static final String LOGIN_DATA = "m_login";
 
 	private static Logger log = LoggerFactory
 			.getLogger(MobileApplication.class);
@@ -82,27 +86,56 @@ public class MobileApplication extends UI {
 			return;
 		}
 
-		final LoginPresenter presenter = PresenterResolver
-				.getPresenter(LoginPresenter.class);
-		LoginView loginView = presenter.initView();
-
 		final NavigationManager manager = new NavigationManager();
-		manager.addNavigationListener(new NavigationManager.NavigationListener() {
-			private static final long serialVersionUID = -2317588983851761998L;
-
-			@Override
-			public void navigate(NavigationEvent event) {
-				if (event.getDirection() == Direction.BACK) {
-					manager.removeComponent(manager.getNextComponent());
-					manager.getState().setNextComponent(null);
-				}
-			}
-		});
+		// manager.addNavigationListener(new
+		// NavigationManager.NavigationListener() {
+		// private static final long serialVersionUID = -2317588983851761998L;
+		//
+		// @Override
+		// public void navigate(NavigationEvent event) {
+		// if (event.getDirection() == Direction.BACK) {
+		// manager.removeComponent(manager.getNextComponent());
+		// manager.getState().setNextComponent(null);
+		// }
+		// }
+		// });
 		setContent(manager);
-		manager.navigateTo(loginView.getWidget());
 
 		registerControllers(manager);
+		checkLocalData();
+	}
 
+	private void checkLocalData() {
+		LocalStorage.detectValue(LOGIN_DATA, new LocalStorageCallback() {
+			private static final long serialVersionUID = 3217947479690600476L;
+
+			@Override
+			public void onSuccess(String value) {
+				if (value != null) {
+					String[] loginParams = value.split("\\$");
+					try {
+						EventBus.getInstance().fireEvent(
+								new UserEvent.PlainLogin(this, new String[] {
+										loginParams[0],
+										PasswordEncryptHelper
+												.decryptText(loginParams[1]),
+										String.valueOf(false) }));
+					} catch (MyCollabException exception) {
+						EventBus.getInstance().fireEvent(
+								new ShellEvent.GotoLoginView(this, null));
+					}
+				} else {
+					EventBus.getInstance().fireEvent(
+							new ShellEvent.GotoLoginView(this, null));
+				}
+			}
+
+			@Override
+			public void onFailure(FailureEvent error) {
+				EventBus.getInstance().fireEvent(
+						new ShellEvent.GotoLoginView(this, null));
+			}
+		});
 	}
 
 	private void postSetupApp(VaadinRequest request) {

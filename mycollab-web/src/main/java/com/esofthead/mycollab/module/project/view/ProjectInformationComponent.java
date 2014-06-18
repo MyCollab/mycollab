@@ -17,8 +17,10 @@
 
 package com.esofthead.mycollab.module.project.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
@@ -72,7 +74,8 @@ public class ProjectInformationComponent extends VerticalLayout {
 		this.projectInfoFooter = new HorizontalLayout();
 		this.projectInfoFooter.setMargin(true);
 		this.projectInfoFooter.setStyleName(UIConstants.PROJECT_INFO_FOOTER);
-		final Button toggleBtn = new Button("More");
+		final Button toggleBtn = new Button(
+				AppContext.getMessage(ProjectI18nEnum.BUTTON_MORE));
 		toggleBtn.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
@@ -147,15 +150,19 @@ public class ProjectInformationComponent extends VerticalLayout {
 				public void attachField(final Object propertyId,
 						final Field<?> field) {
 					if (propertyId.equals("homepage")) {
-						this.informationLayout.addComponent(field, "Home Page",
-								0, 0, Alignment.TOP_LEFT);
+						this.informationLayout.addComponent(field, AppContext
+								.getMessage(ProjectI18nEnum.FORM_HOME_PAGE), 0,
+								0, Alignment.TOP_LEFT);
 					} else if (propertyId.equals("actualstartdate")) {
-						this.informationLayout.addComponent(field,
-								"Start Date", 1, 0, Alignment.TOP_LEFT);
+						this.informationLayout.addComponent(
+								field,
+								AppContext
+										.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE),
+								1, 0, Alignment.TOP_LEFT);
 					} else if (propertyId.equals("description")) {
-						this.informationLayout.addComponent(field,
-								"Description", 0, 1, 2, "100%",
-								Alignment.TOP_LEFT);
+						this.informationLayout.addComponent(field, AppContext
+								.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+								0, 1, 2, "100%", Alignment.TOP_LEFT);
 					}
 				}
 

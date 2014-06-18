@@ -7,10 +7,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/account")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum AccountI18nEnum {
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
-
-	LIST_VIEW_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
+	VIEW_LIST_TITLE,
 	
 	SECTION_ACCOUNT_INFORMATION,
 	SECTION_ADDRESS_INFORMATION,

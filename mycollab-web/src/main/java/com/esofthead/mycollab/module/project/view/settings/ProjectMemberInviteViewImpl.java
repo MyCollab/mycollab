@@ -128,7 +128,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		controlButtons.setSpacing(true);
 
 		Button inviteBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.NEW_INVITEE_ACTION),
+				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

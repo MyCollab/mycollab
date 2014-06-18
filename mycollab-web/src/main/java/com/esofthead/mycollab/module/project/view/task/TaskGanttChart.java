@@ -288,7 +288,7 @@ class TaskGanttChart extends VerticalLayout {
 		String arg13 = idDivSeverData;
 
 		content = AppContext.getMessage(
-				ProjectCommonI18nEnum.GANTT_CHART_TITLE, arg0, arg1, arg2,
+				ProjectCommonI18nEnum.TOOLTIP_GANTT_CHART_TITLE, arg0, arg1, arg2,
 				arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12,
 				arg13);
 		return content;

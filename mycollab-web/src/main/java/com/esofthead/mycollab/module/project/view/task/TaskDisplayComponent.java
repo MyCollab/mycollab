@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
+import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -111,12 +113,18 @@ class TaskDisplayComponent extends CssLayout {
 				@Override
 				public void attachField(Object propertyId, Field<?> field) {
 					if ("description".equals(propertyId)) {
-						layoutHelper
-								.addComponent(field, "Description", 0, 0, 2);
+						layoutHelper.addComponent(field, AppContext
+								.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+								0, 0, 2);
 					} else if ("owner".equals(propertyId)) {
-						layoutHelper.addComponent(field, "Assignee", 0, 1);
+						layoutHelper.addComponent(field, AppContext
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 1);
 					} else if ("milestoneid".equals(propertyId)) {
-						layoutHelper.addComponent(field, "Phase name", 1, 1);
+						layoutHelper.addComponent(
+								field,
+								AppContext
+										.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
+								1, 1);
 					}
 				}
 			});

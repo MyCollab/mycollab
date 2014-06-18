@@ -80,7 +80,7 @@ public class AccountListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(AccountI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(AccountI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

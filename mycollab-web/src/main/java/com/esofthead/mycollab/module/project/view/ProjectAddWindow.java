@@ -21,6 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -71,7 +72,8 @@ public class ProjectAddWindow extends Window {
 		this.project = new Project();
 		this.editForm = new AdvancedEditBeanForm<Project>();
 		contentLayout.addComponent(this.editForm);
-		this.setCaption("New Project");
+		this.setCaption(AppContext
+				.getMessage(ProjectI18nEnum.DIALOG_NEW_PROJECT_TITLE));
 
 		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.editForm
@@ -203,23 +205,34 @@ public class ProjectAddWindow extends Window {
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
-				this.informationLayout
-						.addComponent(field, "Project Name", 0, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
 			} else if (propertyId.equals("homepage")) {
-				this.informationLayout.addComponent(field, "Home Page", 1, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
+						1, 0);
 			} else if (propertyId.equals("shortname")) {
-				this.informationLayout.addComponent(field, "Short Name", 0, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
+						0, 1);
 			} else if (propertyId.equals("projectstatus")) {
-				this.informationLayout.addComponent(field, "Status", 1, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
+						1);
 			} else if (propertyId.equals("planstartdate")) {
-				this.informationLayout.addComponent(field, "Plan Start Date",
-						0, 2);
+				this.informationLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
+								0, 2);
 			} else if (propertyId.equals("planenddate")) {
-				this.informationLayout.addComponent(field, "Plan End Date", 1,
-						2);
+				this.informationLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 1, 2);
 			} else if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field, "Description", 0, 3,
-						2, "100%", Alignment.MIDDLE_LEFT);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+						0, 3, 2, "100%", Alignment.MIDDLE_LEFT);
 			}
 
 		}

@@ -113,7 +113,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
 			final Button createProjectBtn = new Button(
 					AppContext
-							.getMessage(ProjectCommonI18nEnum.NEW_PROJECT_ACTION),
+							.getMessage(ProjectCommonI18nEnum.BUTTON_NEW_PROJECT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

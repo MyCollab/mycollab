@@ -111,7 +111,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 	private ComponentContainer bottomPanel;
 
 	public ProjectMemberReadViewImpl() {
-		super(AppContext.getMessage(ProjectMemberI18nEnum.READ_VIEW_TITLE),
+		super(AppContext.getMessage(ProjectMemberI18nEnum.VIEW_READ_TITLE),
 				"user.png");
 
 		previewForm = initPreviewForm();

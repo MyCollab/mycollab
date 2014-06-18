@@ -194,10 +194,10 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 		tabContainer.setWidth("100%");
 
 		tabContainer.addTab(relatedBugComp,
-				AppContext.getMessage(VersionI18nEnum.RELATED_BUGS_TAB),
+				AppContext.getMessage(VersionI18nEnum.TAB_RELATED_BUGS),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
 		tabContainer.addTab(historyLogList, AppContext
-				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
 		return tabContainer;

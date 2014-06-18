@@ -32,7 +32,14 @@ import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class AuditLogShowHandler {
 
 	private static Logger log = LoggerFactory
@@ -56,18 +63,18 @@ public class AuditLogShowHandler {
 				new CurrencyHistoryFieldFormat());
 	}
 
-	public void generateFieldDisplayHandler(String fieldname, String displayName) {
+	public void generateFieldDisplayHandler(String fieldname, Enum displayName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName));
 	}
 
-	public void generateFieldDisplayHandler(String fieldname,
-			String displayName, HistoryFieldFormat format) {
+	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
+			HistoryFieldFormat format) {
 		fieldsFormat.put(fieldname,
 				new FieldDisplayHandler(displayName, format));
 	}
 
-	public void generateFieldDisplayHandler(String fieldname,
-			String displayName, String formatName) {
+	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
+			String formatName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName,
 				defaultFieldHandlers.get(formatName)));
 	}
@@ -98,19 +105,19 @@ public class AuditLogShowHandler {
 
 	private static class FieldDisplayHandler {
 
-		private String displayName;
+		private Enum displayName;
 		private HistoryFieldFormat format;
 
-		public FieldDisplayHandler(String displayName) {
+		public FieldDisplayHandler(Enum displayName) {
 			this(displayName, new DefaultHistoryFieldFormat());
 		}
 
-		public FieldDisplayHandler(String displayName, HistoryFieldFormat format) {
+		public FieldDisplayHandler(Enum displayName, HistoryFieldFormat format) {
 			this.displayName = displayName;
 			this.format = format;
 		}
 
-		public String getDisplayName() {
+		public Enum getDisplayName() {
 			return displayName;
 		}
 
@@ -121,7 +128,8 @@ public class AuditLogShowHandler {
 		public String generateLogItem(AuditChangeItem item) {
 			StringBuffer str = new StringBuffer();
 			str.append("<li>");
-			str.append(this.getDisplayName()).append(": ").append("<i>")
+			str.append(AppContext.getMessage(displayName)).append(": ")
+					.append("<i>")
 					.append(this.getFormat().formatField(item.getOldvalue()))
 					.append("</i>").append("&nbsp; &rarr; &nbsp; ")
 					.append("<i>")

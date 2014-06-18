@@ -127,11 +127,11 @@ public class MilestoneReadViewImpl extends
 		tabContainer.setWidth("100%");
 
 		tabContainer.addTab(this.associateCommentListComp, AppContext
-				.getMessage(ProjectCommonI18nEnum.COMMENT_TAB),
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
 						.newResource("icons/16/project/gray/comment.png"));
 		tabContainer.addTab(historyList, AppContext
-				.getMessage(ProjectCommonI18nEnum.HISTORY_TAB),
+				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
 		tabContainer.addTab(this.associateTaskGroupListComp,

@@ -24,19 +24,27 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class ShellEvent {
 
-    public static class GotoMainPage extends ApplicationEvent {
+	public static class GotoLoginView extends ApplicationEvent {
+		private static final long serialVersionUID = -551175801973985055L;
+
+		public GotoLoginView(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoMainPage extends ApplicationEvent {
 		private static final long serialVersionUID = -2176247115043539217L;
 
 		public GotoMainPage(Object source, Object data) {
-            super(source, data);
-        }
-    }
+			super(source, data);
+		}
+	}
 
-    public static class GotoCrmModule extends ApplicationEvent {
+	public static class GotoCrmModule extends ApplicationEvent {
 		private static final long serialVersionUID = 4059100422490245421L;
 
 		public GotoCrmModule(Object source, Object data) {
-            super(source, data);
-        }
-    }
+			super(source, data);
+		}
+	}
 }
