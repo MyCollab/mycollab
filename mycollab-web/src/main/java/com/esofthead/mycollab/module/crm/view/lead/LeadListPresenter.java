@@ -97,7 +97,7 @@ public class LeadListPresenter extends
 							MassUpdateLeadWindow massUpdateWindow = new MassUpdateLeadWindow(
 									AppContext
 											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
 													"Lead"),
 									LeadListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);

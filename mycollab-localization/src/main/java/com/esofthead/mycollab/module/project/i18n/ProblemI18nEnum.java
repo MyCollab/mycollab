@@ -7,8 +7,11 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/problem")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProblemI18nEnum {
-	LIST_VIEW_TITLE,
-	NEW_PROBLEM_ACTION,
+	VIEW_LIST_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
+	
+	BUTTON_NEW_PROBLEM,
 	
 	FORM_READ_TITLE,
 	FORM_NEW_TITLE,
@@ -23,9 +26,6 @@ public enum ProblemI18nEnum {
 	FORM_RATING,
 	FORM_RELATED,
 	FORM_RESOLUTION,
-	
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
 	
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,

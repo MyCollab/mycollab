@@ -78,7 +78,7 @@ public class OpportunityListPresenter
 							MassUpdateOpportunityWindow massUpdateWindow = new MassUpdateOpportunityWindow(
 									AppContext
 											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
 													"Opportunity"),
 									OpportunityListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);

@@ -107,7 +107,7 @@ public class MassUpdateCaseWindow extends MassUpdateWindow<CaseWithBLOBs> {
 				this.informationLayout.addComponent(field, "Reason", 1, 2);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 3,
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 3,
 						2, "297px", Alignment.TOP_LEFT);
 			}
 		}

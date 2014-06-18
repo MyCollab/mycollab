@@ -311,7 +311,7 @@ public class BugRelayEmailNotificationActionImpl extends
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					BugI18nEnum.FORM_PHASE));
 

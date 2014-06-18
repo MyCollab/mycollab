@@ -77,7 +77,7 @@ public class ComponentListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(ComponentI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

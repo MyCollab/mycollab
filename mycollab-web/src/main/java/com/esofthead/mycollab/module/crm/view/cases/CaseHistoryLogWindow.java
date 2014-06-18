@@ -53,7 +53,7 @@ class CaseHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("email",
 				AppContext.getMessage(CaseI18nEnum.FORM_EMAIL));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(CaseI18nEnum.FORM_DESCRIPTION));

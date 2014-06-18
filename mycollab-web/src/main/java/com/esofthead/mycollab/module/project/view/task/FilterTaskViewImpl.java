@@ -80,7 +80,7 @@ public class FilterTaskViewImpl extends AbstractPageView implements
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
 		Button backtoTaskListBtn = new Button(
-				AppContext.getMessage(TaskI18nEnum.BACK_TO_DASHBOARD_ACTION),
+				AppContext.getMessage(TaskI18nEnum.BUTTON_BACK_TO_DASHBOARD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

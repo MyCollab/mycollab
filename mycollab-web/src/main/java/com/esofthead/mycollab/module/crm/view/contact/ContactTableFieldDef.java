@@ -86,7 +86,7 @@ public interface ContactTableFieldDef {
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 }

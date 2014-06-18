@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.shell.ui;
 
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 /**
  * @author MyCollab Ltd.
@@ -28,11 +28,11 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 	private static final long serialVersionUID = 7699660189568510585L;
 
 	public MainViewPresenter() {
-        super(MainView.class);
-    }
+		super(MainView.class);
+	}
 
-    @Override
-    protected void onGo(MobileNavigationManager navigationManager, ScreenData<?> data) {
-        navigationManager.navigateTo(view.getWidget());
-    }
+	@Override
+	protected void onGo(NavigationManager navigationManager, ScreenData<?> data) {
+		navigationManager.navigateTo(view.getWidget());
+	}
 }

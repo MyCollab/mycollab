@@ -68,7 +68,7 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("iscallable",
 				AppContext.getMessage(ContactI18nEnum.FORM_IS_CALLABLE));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("primaddress",
 				AppContext.getMessage(ContactI18nEnum.FORM_PRIMARY_ADDRESS));

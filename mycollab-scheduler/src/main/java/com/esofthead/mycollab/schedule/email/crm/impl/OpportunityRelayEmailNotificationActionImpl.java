@@ -203,7 +203,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 			put("nextstep", OpportunityI18nEnum.FORM_NEXT_STEP);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}

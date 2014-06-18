@@ -77,7 +77,7 @@ public class CampaignListPresenter
 							MassUpdateCampaignWindow massUpdateWindow = new MassUpdateCampaignWindow(
 									AppContext
 											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
 													"Campaign"),
 									CampaignListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);

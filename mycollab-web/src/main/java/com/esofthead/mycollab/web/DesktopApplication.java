@@ -129,7 +129,7 @@ public class DesktopApplication extends UI {
 										UI.getCurrent(),
 										AppContext
 												.getMessage(
-														GenericI18Enum.ATTENTION_WINDOW_TITLE,
+														GenericI18Enum.WINDOW_ATTENTION_TITLE,
 														SiteConfiguration
 																.getSiteName()),
 										AppContext

@@ -63,7 +63,7 @@ public class CampaignImportWindow extends EntityImportWindow<SimpleCampaign> {
 				new FieldMapperDef("type", "Type"),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)) };
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)) };
 		return Arrays.asList(fields);
 	}
 

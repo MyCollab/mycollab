@@ -65,7 +65,7 @@ public class MilestoneBugListComp extends VerticalLayout implements
 		header.setSpacing(true);
 		header.setWidth("100%");
 		final Label taskGroupSelection = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.RELATED_BUGS_TAB));
+				AppContext.getMessage(MilestoneI18nEnum.TAB_RELATED_BUGS));
 		taskGroupSelection.addStyleName("h2");
 		taskGroupSelection.addStyleName(UIConstants.THEME_NO_BORDER);
 		header.addComponent(taskGroupSelection);

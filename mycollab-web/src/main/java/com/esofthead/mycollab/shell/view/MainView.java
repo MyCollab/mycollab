@@ -177,7 +177,7 @@ public final class MainView extends AbstractPageView {
 		serviceMenu.addStyleName("topNavPopup");
 
 		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.CRM_MODULE),
+				AppContext.getMessage(GenericI18Enum.MODULE_CRM),
 				MyCollabResource.newResource("icons/16/customer.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -190,7 +190,7 @@ public final class MainView extends AbstractPageView {
 				});
 
 		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.PROJECT_MODULE),
+				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT),
 				MyCollabResource.newResource("icons/16/project.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -203,7 +203,7 @@ public final class MainView extends AbstractPageView {
 				});
 
 		serviceMenu.addService(
-				AppContext.getMessage(GenericI18Enum.DOCUMENT_MODULE),
+				AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT),
 				MyCollabResource.newResource("icons/16/document.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;

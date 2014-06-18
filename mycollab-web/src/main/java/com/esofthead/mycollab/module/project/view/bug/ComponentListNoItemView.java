@@ -57,18 +57,18 @@ public class ComponentListNoItemView extends AbstractPageView {
 		layout.addComponent(image);
 
 		Label title = new Label(
-				AppContext.getMessage(ComponentI18nEnum.NO_ITEM_VIEW_TITLE));
+				AppContext.getMessage(ComponentI18nEnum.VIEW_NO_ITEM_TITLE));
 		title.addStyleName("h2");
 		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(title);
 
 		Label body = new Label(
-				AppContext.getMessage(ComponentI18nEnum.NO_ITEM_VIEW_HINT));
+				AppContext.getMessage(ComponentI18nEnum.VIEW_NO_ITEM_HINT));
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
 		Button createComponentBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

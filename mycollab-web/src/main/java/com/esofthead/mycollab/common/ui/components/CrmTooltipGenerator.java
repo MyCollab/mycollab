@@ -132,7 +132,7 @@ public class CrmTooltipGenerator {
 
 			Tr trRow3 = new Tr();
 			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			String userLink = (account.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
@@ -215,7 +215,7 @@ public class CrmTooltipGenerator {
 					ContactI18nEnum.FORM_DEPARTMENT));
 			Td cell42 = buildCellValue(contact.getDepartment());
 			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			String assignUserLink = (contact.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							contact.getAssignuser()) : "";
@@ -291,7 +291,7 @@ public class CrmTooltipGenerator {
 					.getCurrency().getSymbol() : "";
 			Td cell32 = buildCellValue(currency);
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			String assignUserLink = (campaign.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl,
@@ -406,7 +406,7 @@ public class CrmTooltipGenerator {
 					LeadI18nEnum.FORM_LEAD_SOURCE));
 			Td cell62 = buildCellValue(lead.getLeadsourcedesc());
 			Td cell63 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			String assignUserLink = (lead.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl, lead.getAssignuser())
@@ -518,7 +518,7 @@ public class CrmTooltipGenerator {
 					OpportunityI18nEnum.FORM_NEXT_STEP));
 			Td cell52 = buildCellValue(opportunity.getNextstep());
 			Td cell53 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			String assignUserLink = (opportunity.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURl,
 							opportunity.getAssignuser()) : "";
@@ -594,7 +594,7 @@ public class CrmTooltipGenerator {
 					CaseI18nEnum.FORM_PHONE));
 			Td cell42 = buildCellValue(cases.getPhonenumber());
 			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			String assignUserLink = (cases.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, cases.getAssignuser())
 					: "";
@@ -773,7 +773,7 @@ public class CrmTooltipGenerator {
 					TaskI18nEnum.FORM_PRIORITY));
 			Td cell32 = buildCellValue(task.getPriority());
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			String assignUserLink = (task.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
 					: "";

@@ -198,7 +198,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 			put("origin", CaseI18nEnum.FORM_ORIGIN);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("resolution", CaseI18nEnum.FORM_RESOLUTION, true);
 		}

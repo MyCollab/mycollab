@@ -47,7 +47,7 @@ public class LeadListViewImpl extends
 		super();
 
 		setCaption("Leads");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

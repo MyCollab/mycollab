@@ -216,7 +216,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 			put("assistantphone", ContactI18nEnum.FORM_ASSISTANT_PHONE);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("leadsource", ContactI18nEnum.FORM_LEAD_SOURCE, true);
 

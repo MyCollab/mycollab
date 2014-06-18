@@ -37,7 +37,7 @@ class CallHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("startdate", "Start Date",
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		this.generateFieldDisplayHandler("status", "Status");
 		this.generateFieldDisplayHandler("purpose", "Purpose");
 	}

@@ -252,7 +252,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 			put("ownership", AccountI18nEnum.FORM_OWNERSHIP);
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("annualrevenue", AccountI18nEnum.FORM_ANNUAL_REVENUE);
 
 			put("billingaddress", AccountI18nEnum.FORM_BILLING_ADDRESS);

@@ -115,7 +115,7 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 				ConfirmDialogExt.show(
 						UI.getCurrent(),
 						AppContext.getMessage(
-								GenericI18Enum.DELETE_DIALOG_TITLE,
+								GenericI18Enum.DIALOG_DELETE_TITLE,
 								SiteConfiguration.getSiteName()),
 						AppContext
 								.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),

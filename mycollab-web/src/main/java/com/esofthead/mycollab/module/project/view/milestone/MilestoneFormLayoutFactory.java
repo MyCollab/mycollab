@@ -51,7 +51,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 					.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 2);
 		} else if (propertyId.equals("owner")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 					1, 1);
 		} else if (propertyId.equals("status")) {
 			this.informationLayout.addComponent(field,

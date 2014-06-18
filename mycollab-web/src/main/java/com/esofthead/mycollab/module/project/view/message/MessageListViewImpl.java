@@ -300,10 +300,10 @@ public class MessageListViewImpl extends AbstractPageView implements
 					ConfirmDialogExt.show(
 							UI.getCurrent(),
 							AppContext.getMessage(
-									GenericI18Enum.DELETE_DIALOG_TITLE,
+									GenericI18Enum.DIALOG_DELETE_TITLE,
 									SiteConfiguration.getSiteName()),
 							AppContext
-									.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+									.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 							AppContext
@@ -489,7 +489,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			final HorizontalLayout titleLayout = new HorizontalLayout();
 			titleLayout.setSpacing(true);
 			final Label titleLbl = new Label(
-					AppContext.getMessage(MessageI18nEnum.FORM_TITLE_FIELD));
+					AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
 			titleLbl.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 			titleField.setWidth("100%");
@@ -526,7 +526,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 
 			final CheckBox chkIsStick = new CheckBox(
-					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK_FIELD));
+					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 			controls.addComponent(chkIsStick);
 			controls.setComponentAlignment(chkIsStick, Alignment.MIDDLE_CENTER);
 
@@ -598,7 +598,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			if (!MessageListViewImpl.this.isEmpty) {
 				final Button createMessageBtn = new Button(
 						AppContext
-								.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
+								.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -644,18 +644,18 @@ public class MessageListViewImpl extends AbstractPageView implements
 			layout.addComponent(image);
 
 			Label title = new Label(
-					AppContext.getMessage(MessageI18nEnum.NO_ITEM_VIEW_TITLE));
+					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_TITLE));
 			title.addStyleName("h2");
 			title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 			layout.addComponent(title);
 
 			Label body = new Label(
-					AppContext.getMessage(MessageI18nEnum.NO_ITEM_VIEW_HINT));
+					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_HINT));
 			body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 			layout.addComponent(body);
 
 			Button createMessageBtn = new Button(
-					AppContext.getMessage(MessageI18nEnum.NEW_MESSAGE_ACTION),
+					AppContext.getMessage(MessageI18nEnum.BUTTON_NEW_MESSAGE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

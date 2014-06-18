@@ -222,7 +222,7 @@ public class TaskGroupDisplayWidget
 			this.taskListActionControl.setContent(actionBtnLayout);
 
 			final Button readBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_VIEW_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_VIEW),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -304,10 +304,10 @@ public class TaskGroupDisplayWidget
 							ConfirmDialogExt.show(
 									UI.getCurrent(),
 									AppContext.getMessage(
-											GenericI18Enum.DELETE_DIALOG_TITLE,
+											GenericI18Enum.DIALOG_DELETE_TITLE,
 											SiteConfiguration.getSiteName()),
 									AppContext
-											.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+											.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 									AppContext
 											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 									AppContext

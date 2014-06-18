@@ -146,7 +146,7 @@ public class ProjectRoleSearchPanel extends
 			Image titleIcon = new Image(null,
 					MyCollabResource.newResource("icons/24/project/user.png"));
 			Label headerText = new Label(
-					AppContext.getMessage(ProjectRoleI18nEnum.LIST_VIEW_TITLE));
+					AppContext.getMessage(ProjectRoleI18nEnum.VIEW_LIST_TITLE));
 
 			final Button createBtn = new Button(
 					AppContext

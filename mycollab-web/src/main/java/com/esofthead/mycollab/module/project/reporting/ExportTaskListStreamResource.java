@@ -123,7 +123,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 				UIConstants.TABLE_S_LABEL_WIDTH);
 
 		public static TableViewField assignUser = new TableViewField(
-				GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, "assignuser",
 				UIConstants.TABLE_X_LABEL_WIDTH);
 	}
 

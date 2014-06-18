@@ -65,7 +65,7 @@ public class LeadSimpleSearchPanel extends
 
 		final ValueComboBox group = new ValueComboBox(false, new String[] {
 				"Name", "Email", "Phone",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) });
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -82,7 +82,7 @@ public class LeadSimpleSearchPanel extends
 				} else if (searchType.equals("Phone")) {
 					addTextFieldSearch();
 				} else if (searchType.equals(AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))) {
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
 					addUserListSelectField();
 				}
 			}

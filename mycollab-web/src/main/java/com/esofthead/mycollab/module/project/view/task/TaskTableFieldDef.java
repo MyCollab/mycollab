@@ -32,22 +32,22 @@ public class TaskTableFieldDef {
 			UIConstants.TABLE_CONTROL_WIDTH);
 
 	public static TableViewField taskname = new TableViewField(
-			TaskI18nEnum.TABLE_TASK_NAME_HEADER, "taskname",
+			TaskI18nEnum.FORM_TASK_NAME, "taskname",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField startdate = new TableViewField(
-			TaskI18nEnum.TABLE_START_DATE_HEADER, "startdate",
+			TaskI18nEnum.FORM_START_DATE, "startdate",
 			UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField duedate = new TableViewField(
-			TaskI18nEnum.TABLE_DUE_DATE_HEADER, "deadline",
+			TaskI18nEnum.FORM_DEADLINE, "deadline",
 			UIConstants.TABLE_DATE_WIDTH);
 
 	public static TableViewField percentagecomplete = new TableViewField(
-			TaskI18nEnum.TABLE_PER_COMPLETE_HEADER, "percentagecomplete",
+			TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete",
 			UIConstants.TABLE_S_LABEL_WIDTH);
 
 	public static TableViewField assignee = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 }

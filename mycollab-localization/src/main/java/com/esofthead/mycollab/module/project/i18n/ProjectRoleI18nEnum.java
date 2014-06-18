@@ -7,12 +7,12 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/role")
 @LocaleData({ @Locale("en_US") })
 public enum ProjectRoleI18nEnum {
-	LIST_VIEW_TITLE,
+	VIEW_LIST_TITLE,
 	
 	FORM_READ_TITLE,
 	FORM_NEW_TITLE,
 	FORM_EDIT_TITLE,
 	FORM_NAME,
-	FORM_DESCRIPTION,
-	PERMISSIONS_HEADER
+	
+	SECTION_PERMISSIONS
 }

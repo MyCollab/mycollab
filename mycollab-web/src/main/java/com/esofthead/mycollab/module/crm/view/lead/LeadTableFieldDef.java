@@ -78,7 +78,7 @@ public interface LeadTableFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField assignedUser = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 }

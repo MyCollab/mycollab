@@ -7,19 +7,17 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/component")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ComponentI18nEnum {
-	LIST_VIEW_TITLE,
+	VIEW_LIST_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
 	
 	FORM_NEW_TITLE,
 	FORM_EDIT_TITLE,
 	FORM_NAME,
-	FORM_DESCRIPTION,
 	FORM_LEAD,
 	FORM_STATUS,
 	
 	FORM_COMPONENT_ERROR,
-	
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
 	
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,

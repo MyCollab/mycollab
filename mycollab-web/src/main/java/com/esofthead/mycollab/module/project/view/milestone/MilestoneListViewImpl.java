@@ -73,7 +73,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	private final CustomLayout bodyContent;
 
 	public MilestoneListViewImpl() {
-		super(AppContext.getMessage(MilestoneI18nEnum.LIST_VIEW_TITLE),
+		super(AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE),
 				"phase.png");
 		createBtn = new Button();
 
@@ -99,7 +99,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				Alignment.MIDDLE_CENTER);
 
 		final Label closedHeader = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.CLOSED_PHASE_TITLE));
+				AppContext.getMessage(MilestoneI18nEnum.WIDGET_CLOSED_PHASE_TITLE));
 		closedHeader.setSizeUndefined();
 		closedHeaderLayout.addComponent(closedHeader);
 		closedHeaderLayout.setComponentAlignment(closedHeader,
@@ -120,7 +120,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		inProgressHeaderLayout.setComponentAlignment(embeddInProgress,
 				Alignment.MIDDLE_CENTER);
 		final Label inProgressHeader = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.INPROGRESS_PHASE_TITLE));
+				AppContext.getMessage(MilestoneI18nEnum.WIDGET_INPROGRESS_PHASE_TITLE));
 		inProgressHeader.setSizeUndefined();
 		inProgressHeaderLayout.addComponent(inProgressHeader);
 		inProgressHeaderLayout.setComponentAlignment(inProgressHeader,
@@ -142,7 +142,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		futureHeaderLayout.setComponentAlignment(embeddFuture,
 				Alignment.MIDDLE_CENTER);
 		final Label futureHeader = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.FUTURE_PHASE_TITLE));
+				AppContext.getMessage(MilestoneI18nEnum.WIDGET_FUTURE_PHASE_TITLE));
 		futureHeader.setSizeUndefined();
 		futureHeaderLayout.addComponent(futureHeader);
 		futureHeaderLayout.setComponentAlignment(futureHeader,
@@ -160,7 +160,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		final HorizontalLayout layout = new HorizontalLayout();
 
 		this.createBtn.setCaption(AppContext
-				.getMessage(MilestoneI18nEnum.NEW_PHASE_ACTION));
+				.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE));
 		this.createBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -223,7 +223,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 				milestone.getOwnerAvatarId(), milestone.getOwnerFullName(),
 				false, true));
 		layoutHelper.addComponent(linkWrapper,
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 				2, Alignment.MIDDLE_LEFT);
 
 		final ProgressBarIndicator progressTask = new ProgressBarIndicator(

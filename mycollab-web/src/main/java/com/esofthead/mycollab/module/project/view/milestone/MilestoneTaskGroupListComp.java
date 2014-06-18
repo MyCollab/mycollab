@@ -76,7 +76,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 			mainLayout.setWidth("100%");
 
 			Button newTaskListBtn = new Button(
-					AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
+					AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -95,7 +95,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 			newTaskListBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/new_task_list.png"));
 			newTaskListBtn.setDescription(AppContext
-					.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
+					.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
 			newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			mainLayout.addComponent(newTaskListBtn);
 			mainLayout

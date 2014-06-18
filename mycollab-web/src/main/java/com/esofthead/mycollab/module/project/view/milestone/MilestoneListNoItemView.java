@@ -56,18 +56,18 @@ public class MilestoneListNoItemView extends AbstractPageView {
 		layout.addComponent(image);
 
 		Label title = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.NO_ITEM_VIEW_TITLE));
+				AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_TITLE));
 		title.addStyleName("h2");
 		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(title);
 
 		Label body = new Label(
-				AppContext.getMessage(MilestoneI18nEnum.NO_ITEM_VIEW_HINT));
+				AppContext.getMessage(MilestoneI18nEnum.VIEW_NO_ITEM_HINT));
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
 		Button createMilestoneBtn = new Button(
-				AppContext.getMessage(MilestoneI18nEnum.NEW_PHASE_ACTION),
+				AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

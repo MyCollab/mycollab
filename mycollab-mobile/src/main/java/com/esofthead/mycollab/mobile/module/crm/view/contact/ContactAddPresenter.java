@@ -43,7 +43,7 @@ import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 /**
  * 
@@ -95,7 +95,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager container, ScreenData<?> data) {
+	protected void onGo(NavigationManager container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
 
 			SimpleContact contact = null;

@@ -39,7 +39,7 @@ class MilestoneHistoryLogList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("status",
 				AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD));
 		this.generateFieldDisplayHandler("owner",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("startdate",
 				AppContext.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD),

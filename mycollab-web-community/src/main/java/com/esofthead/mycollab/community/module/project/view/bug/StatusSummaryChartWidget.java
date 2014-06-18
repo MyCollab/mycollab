@@ -55,12 +55,12 @@ public class StatusSummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public StatusSummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
 				width, height);
 	}
 
 	public StatusSummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.CHART_STATUS_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
 				400, 280);
 	}
 

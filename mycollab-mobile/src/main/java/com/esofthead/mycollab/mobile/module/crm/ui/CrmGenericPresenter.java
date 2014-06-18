@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 public class CrmGenericPresenter<V extends PageView> extends
 		AbstractPresenter<V> {
@@ -31,7 +31,7 @@ public class CrmGenericPresenter<V extends PageView> extends
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager navigator, ScreenData<?> data) {
+	protected void onGo(NavigationManager navigator, ScreenData<?> data) {
 		navigator.navigateTo(view.getWidget());
 	}
 }

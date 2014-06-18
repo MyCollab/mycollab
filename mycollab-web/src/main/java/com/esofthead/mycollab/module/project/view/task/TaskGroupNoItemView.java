@@ -69,7 +69,7 @@ public class TaskGroupNoItemView extends AbstractPageView {
 		layout.addComponent(body);
 
 		Button createTaskGroupBtn = new Button(
-				AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

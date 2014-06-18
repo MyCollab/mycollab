@@ -78,10 +78,10 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 						ConfirmDialogExt.show(
 								UI.getCurrent(),
 								AppContext.getMessage(
-										GenericI18Enum.DELETE_DIALOG_TITLE,
+										GenericI18Enum.DIALOG_DELETE_TITLE,
 										SiteConfiguration.getSiteName()),
 								AppContext
-										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+										.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 								AppContext

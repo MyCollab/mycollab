@@ -108,7 +108,7 @@ public class AccountListPresenter
 							MassUpdateAccountWindow massUpdateWindow = new MassUpdateAccountWindow(
 									AppContext
 											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
 													AppContext
 															.getMessage(CrmCommonI18nEnum.ACCOUNT)),
 									AccountListPresenter.this);

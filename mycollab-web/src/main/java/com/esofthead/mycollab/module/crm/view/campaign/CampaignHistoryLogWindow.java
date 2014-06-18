@@ -59,7 +59,7 @@ class CampaignHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("expectedrevenue",
 				AppContext.getMessage(CampaignI18nEnum.FORM_EXPECTED_REVENUE));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));

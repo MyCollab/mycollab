@@ -29,16 +29,17 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class ActivityStreamView extends AbstractMobilePageView implements PageView {
+public class ActivityStreamView extends AbstractMobilePageView implements
+		PageView {
 	private static final long serialVersionUID = 1L;
 
 	public ActivityStreamView() {
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
 		layout.addComponent(new Label("AAAAA"));
-		
+
 		this.setContent(layout);
-		//this.setLeftComponent(new Button("Back"));
-		this.setToggleButton(true);
+		// this.setLeftComponent(new Button("Back"));
+		// this.setToggleButton(true);
 	}
 }

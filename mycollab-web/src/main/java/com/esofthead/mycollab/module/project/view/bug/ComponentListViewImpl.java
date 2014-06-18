@@ -102,7 +102,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 						new TableViewField(ComponentI18nEnum.FORM_LEAD,
 								"userLeadFullName",
 								UIConstants.TABLE_X_LABEL_WIDTH),
-						new TableViewField(ComponentI18nEnum.FORM_DESCRIPTION,
+						new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
 								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",

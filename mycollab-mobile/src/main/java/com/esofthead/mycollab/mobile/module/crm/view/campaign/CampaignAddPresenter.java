@@ -38,7 +38,7 @@ import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 /**
  * 
@@ -88,7 +88,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddview> {
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager container, ScreenData<?> data) {
+	protected void onGo(NavigationManager container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CAMPAIGN)) {
 
 			SimpleCampaign campaign = null;
@@ -97,8 +97,8 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddview> {
 			} else if (data.getParams() instanceof Integer) {
 				CampaignService campaignService = ApplicationContextUtil
 						.getSpringBean(CampaignService.class);
-				campaign = campaignService.findById(
-						(Integer) data.getParams(), AppContext.getAccountId());
+				campaign = campaignService.findById((Integer) data.getParams(),
+						AppContext.getAccountId());
 				if (campaign == null) {
 					NotificationUtil.showRecordNotExistNotification();
 					return;
@@ -116,9 +116,9 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddview> {
 				AppContext.addFragment(
 						"crm/campaign/edit/"
 								+ UrlEncodeDecoder.encode(campaign.getId()),
-								AppContext.getMessage(
-										GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
-										"Campaign", campaign.getCampaignname()));
+						AppContext.getMessage(
+								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+								"Campaign", campaign.getCampaignname()));
 			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
@@ -142,9 +142,9 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddview> {
 				associateLead.setCreatedtime(new GregorianCalendar().getTime());
 
 				campaignService
-				.saveCampaignLeadRelationship(
-						Arrays.asList(associateLead),
-						AppContext.getAccountId());
+						.saveCampaignLeadRelationship(
+								Arrays.asList(associateLead),
+								AppContext.getAccountId());
 			}
 		} else {
 			campaignService.updateWithSession(campaign,

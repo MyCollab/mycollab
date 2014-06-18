@@ -39,7 +39,7 @@ class AccountHistoryLogWindow extends HistoryLogWindow {
 				AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME));
 
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("phoneoffice", AppContext
 				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));

@@ -195,7 +195,7 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 			put("noemployees", LeadI18nEnum.FORM_NO_EMPLOYEES);
 			put("assignuser", new LeadAssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("primaddress", LeadI18nEnum.FORM_PRIMARY_ADDRESS);
 			put("otheraddress", LeadI18nEnum.FORM_OTHER_ADDRESS);

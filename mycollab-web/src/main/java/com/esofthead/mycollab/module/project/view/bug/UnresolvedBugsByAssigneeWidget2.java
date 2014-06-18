@@ -52,7 +52,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 
 	public UnresolvedBugsByAssigneeWidget2() {
 		super(AppContext
-				.getMessage(BugI18nEnum.UNRESOLVED_BY_ASSIGNEE_WIDGET_TITLE),
+				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);

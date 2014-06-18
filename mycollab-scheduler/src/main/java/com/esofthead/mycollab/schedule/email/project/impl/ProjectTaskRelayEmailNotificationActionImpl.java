@@ -324,11 +324,11 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 			put("priority", TaskI18nEnum.FORM_PRIORITY);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("tasklistid", new TaskGroupFieldFormat("tasklistid",
-					TaskI18nEnum.FORM_TASKGROUP_FIELD));
-			put("notes", TaskI18nEnum.FORM_NOTES_FIELD);
+					TaskI18nEnum.FORM_TASKGROUP));
+			put("notes", TaskI18nEnum.FORM_NOTES);
 		}
 	}
 

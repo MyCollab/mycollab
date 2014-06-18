@@ -200,7 +200,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			put("status", RiskI18nEnum.FORM_STATUS);
 
 			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
 					RiskI18nEnum.FORM_RAISED_BY));
 

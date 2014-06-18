@@ -198,7 +198,7 @@ class TaskDisplayComponent extends CssLayout {
 				});
 
 		this.createTaskBtn = new Button(
-				AppContext.getMessage(TaskI18nEnum.NEW_TASK_ACTION),
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

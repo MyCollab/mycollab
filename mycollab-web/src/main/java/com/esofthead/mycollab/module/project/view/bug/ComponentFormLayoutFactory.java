@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -57,7 +58,7 @@ public class ComponentFormLayoutFactory implements IFormLayoutFactory {
 					2, "100%");
 		} else if (propertyId.equals("description")) {
 			this.gridFormLayout.addComponent(field,
-					AppContext.getMessage(ComponentI18nEnum.FORM_DESCRIPTION),
+					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
 					0, 1, 2, "100%");
 		} else if (propertyId.equals("userlead")) {
 			this.gridFormLayout.addComponent(field,

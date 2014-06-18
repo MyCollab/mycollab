@@ -34,7 +34,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.UI;
 
 /**
@@ -65,7 +65,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 						ConfirmDialog.show(
 								UI.getCurrent(),
 								AppContext
-										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+										.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 								AppContext
@@ -151,7 +151,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager container, ScreenData<?> data) {
+	protected void onGo(NavigationManager container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
 
 			SimpleMeeting meeting = null;

@@ -89,7 +89,7 @@ public class OpportunityDefaultDynaFormLayoutFactory {
 						.fieldName("assignuser")
 						.displayName(
 								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
+										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
 						.fieldIndex(11).build());
 
 		defaultForm.addSection(infoSection);

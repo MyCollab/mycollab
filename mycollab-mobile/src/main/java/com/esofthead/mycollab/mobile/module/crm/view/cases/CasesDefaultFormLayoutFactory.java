@@ -77,7 +77,7 @@ public class CasesDefaultFormLayoutFactory {
 						.fieldName("assignuser")
 						.displayName(
 								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
+										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
 						.fieldIndex(9).build());
 
 		defaultForm.addSection(infoSection);

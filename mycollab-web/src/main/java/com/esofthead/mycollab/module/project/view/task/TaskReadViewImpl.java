@@ -261,11 +261,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 						.newResource("icons/16/project/gray/history.png"));
 
 		tabTaskDetail.addTab(followerSheet, AppContext
-				.getMessage(TaskI18nEnum.FOLLOWERS_TAB), MyCollabResource
+				.getMessage(TaskI18nEnum.TAB_FOLLOWERS), MyCollabResource
 				.newResource("icons/16/project/gray/follow.png"));
 
 		tabTaskDetail.addTab(timesheet,
-				AppContext.getMessage(TaskI18nEnum.TIME_TAB),
+				AppContext.getMessage(TaskI18nEnum.TAB_TIME),
 				MyCollabResource.newResource("icons/16/project/gray/time.png"));
 
 		return tabTaskDetail;

@@ -47,7 +47,7 @@ public class BugChartComponent extends Depot {
 
 	public BugChartComponent(final BugSearchCriteria baseSearchCriteria,
 			final int headerWidth, final int titleWidth) {
-		super(AppContext.getMessage(BugI18nEnum.CHARTS_WIDGET_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHARTS_TITLE),
 				null, new CssLayout(), headerWidth + "px", titleWidth + "px");
 		this.setSizeFull();
 		this.baseSearchCriteria = baseSearchCriteria;
@@ -63,7 +63,7 @@ public class BugChartComponent extends Depot {
 		bodyContent.removeAllComponents();
 
 		if ("BugsByPriority".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE));
+			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE));
 			IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager
 					.getView(IPrioritySummaryChartWidget.class);
 			bodyContent.addComponent(prioritySummaryChartWidget);
@@ -73,7 +73,7 @@ public class BugChartComponent extends Depot {
 			prioritySummaryChartWidget
 			.setSearchCriteria(prioritySearchCriteria);
 		} else if ("BugsByStatus".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.CHART_STATUS_TITLE));
+			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE));
 			IStatusSummaryChartWidget statusSummaryChartWidget = ViewManager
 					.getView(IStatusSummaryChartWidget.class);
 			bodyContent.addComponent(statusSummaryChartWidget);
@@ -82,7 +82,7 @@ public class BugChartComponent extends Depot {
 			.deepClone(baseSearchCriteria);
 			statusSummaryChartWidget.setSearchCriteria(statusSearchCriteria);
 		} else if ("BugByResolution".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.CHART_RESOLUTION_TITLE));
+			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE));
 			IBugResolutionSummaryChartWidget resolutionSummaryWdiget = ViewManager
 					.getView(IBugResolutionSummaryChartWidget.class);
 			bodyContent.addComponent(resolutionSummaryWdiget);

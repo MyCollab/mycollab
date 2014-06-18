@@ -19,12 +19,10 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
@@ -34,7 +32,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.UI;
 
 /**
@@ -59,7 +57,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						EventBus.getInstance().fireEvent(
 								new LeadEvent.GotoEdit(this, data));
 					}
-					
+
 					@Override
 					public void onAdd(SimpleLead data) {
 						EventBus.getInstance().fireEvent(
@@ -71,7 +69,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						ConfirmDialog.show(
 								UI.getCurrent(),
 								AppContext
-										.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+										.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 								AppContext
@@ -152,7 +150,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 	}
 
 	@Override
-	protected void onGo(MobileNavigationManager container, ScreenData<?> data) {
+	protected void onGo(NavigationManager container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
 
 			if (data.getParams() instanceof Integer) {

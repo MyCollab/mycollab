@@ -118,7 +118,7 @@ public class MassUpdateAccountWindow extends MassUpdateWindow<Account> {
 						0, 1);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 1);
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
 			} else if (propertyId.equals("city")) {
 				this.addressLayout.addComponent(field, AppContext
 						.getMessage(AccountI18nEnum.FORM_BILLING_CITY), 0, 0);

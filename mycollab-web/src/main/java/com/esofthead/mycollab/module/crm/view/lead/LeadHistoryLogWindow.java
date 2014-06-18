@@ -67,7 +67,7 @@ class LeadHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("status",
 				AppContext.getMessage(LeadI18nEnum.FORM_STATUS));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("primaddress",
 				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS));

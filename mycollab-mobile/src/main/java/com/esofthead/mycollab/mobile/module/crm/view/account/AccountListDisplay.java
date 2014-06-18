@@ -22,7 +22,9 @@ import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton.NavigationButtonClickListener;
 import com.vaadin.ui.Table;
 
 /**
@@ -32,8 +34,8 @@ import com.vaadin.ui.Table;
  * 
  */
 public class AccountListDisplay
-extends
-DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
+		extends
+		DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = 1491890029721763281L;
 
 	public AccountListDisplay(String displayColumnId) {
@@ -49,16 +51,16 @@ DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
 				final SimpleAccount account = AccountListDisplay.this
 						.getBeanByIndex(itemId);
 
-				final Button b = new Button(account.getAccountname(),
-						new Button.ClickListener() {
+				final NavigationButton b = new NavigationButton(account
+						.getAccountname());
+				b.addClickListener(new NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(
-							final Button.ClickEvent event) {
+							final NavigationButtonClickEvent event) {
 						fireTableEvent(new TableClickEvent(
-								AccountListDisplay.this, account,
-								"accountname"));
+								AccountListDisplay.this, account, "accountname"));
 					}
 				});
 				b.setWidth("100%");
@@ -66,5 +68,4 @@ DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
 			}
 		});
 	}
-
 }

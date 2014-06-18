@@ -92,10 +92,10 @@ public class BugSearchPanel extends
 		Image titleIcon = new Image(null,
 				MyCollabResource.newResource("icons/24/project/bug.png"));
 		Label headerText = new Label(
-				AppContext.getMessage(BugI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(BugI18nEnum.VIEW_LIST_TITLE));
 
 		final Button createBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

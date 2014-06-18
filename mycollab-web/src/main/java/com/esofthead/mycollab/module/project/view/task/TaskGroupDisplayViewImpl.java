@@ -276,7 +276,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		this.taskGroupSelection.setContent(filterBtnLayout);
 
 		final Button newTaskListBtn = new Button(
-				AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION),
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -292,7 +292,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		newTaskListBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		newTaskListBtn.setDescription(AppContext
-				.getMessage(TaskI18nEnum.NEW_TASKGROUP_ACTION));
+				.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
 		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(newTaskListBtn);
 		header.setComponentAlignment(newTaskListBtn, Alignment.MIDDLE_RIGHT);
@@ -312,7 +312,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 				.newResource("icons/16/project/reorder.png"));
 		this.reOrderBtn.setStyleName(UIConstants.THEME_BLUE_LINK);
 		this.reOrderBtn.setDescription(AppContext
-				.getMessage(TaskI18nEnum.REODER_TASKGROUP_ACTION));
+				.getMessage(TaskI18nEnum.BUTTON_REODER_TASKGROUP));
 		header.addComponent(this.reOrderBtn);
 		header.setComponentAlignment(this.reOrderBtn, Alignment.MIDDLE_RIGHT);
 

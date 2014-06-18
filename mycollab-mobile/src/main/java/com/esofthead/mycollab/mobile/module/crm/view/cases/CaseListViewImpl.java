@@ -47,7 +47,7 @@ public class CaseListViewImpl extends
 		super();
 
 		setCaption("Cases");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

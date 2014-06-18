@@ -194,7 +194,7 @@ public class ApproveInputWindow extends Window {
 					final Field<?> field) {
 				if (propertyId.equals("assignuser")) {
 					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 							0);
 				} else if (propertyId.equals("comment")) {
 					this.informationLayout.addComponent(field, "Comments", 0,

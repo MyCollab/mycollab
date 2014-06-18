@@ -85,14 +85,14 @@ public class ComponentSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label componenttitle = new Label(
-				AppContext.getMessage(ComponentI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(ComponentI18nEnum.VIEW_LIST_TITLE));
 		componenttitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(componenttitle);
 		layout.setExpandRatio(componenttitle, 1.0f);
 		layout.setComponentAlignment(componenttitle, Alignment.MIDDLE_LEFT);
 
 		final Button createBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

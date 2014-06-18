@@ -190,7 +190,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 
 			put("status", MilestoneI18nEnum.FORM_STATUS_FIELD);
 			put("owner", new AssigneeFieldFormat("owner",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("startdate", new DateFieldFormat("startdate",
 					MilestoneI18nEnum.FORM_START_DATE_FIELD));

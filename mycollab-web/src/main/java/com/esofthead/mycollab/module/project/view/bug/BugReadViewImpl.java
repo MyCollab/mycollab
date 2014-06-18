@@ -114,7 +114,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button startProgressBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.START_PROGRESS),
+					AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -132,7 +132,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			navButton.addButton(startProgressBtn);
 
 			final Button resolveBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.RESOLVED),
+					AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -147,7 +147,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			navButton.addButton(resolveBtn);
 
 			final Button wontFixBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.WONTFIX),
+					AppContext.getMessage(BugI18nEnum.BUTTON_WONTFIX),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -166,7 +166,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button stopProgressBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.STOP_PROGRESS),
+					AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -184,7 +184,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			navButton.addButton(stopProgressBtn);
 
 			final Button resolveBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.RESOLVED),
+					AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -203,7 +203,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.REOPEN),
+					AppContext.getMessage(BugI18nEnum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -223,7 +223,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.REOPEN),
+					AppContext.getMessage(BugI18nEnum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -238,7 +238,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			navButton.addButton(reopenBtn);
 
 			final Button approveNCloseBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.APPROVE_CLOSE),
+					AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -257,7 +257,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(BugI18nEnum.REOPEN),
+					AppContext.getMessage(BugI18nEnum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -403,15 +403,15 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 						.newResource("icons/16/project/gray/history.png"));
 
 		tabBugDetail.addTab(bugRelatedField,
-				AppContext.getMessage(BugI18nEnum.RELATED_BUGS_TAB),
+				AppContext.getMessage(BugI18nEnum.TAB_RELATED_BUGS),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
 
 		tabBugDetail.addTab(bugFollowersList, AppContext
-				.getMessage(BugI18nEnum.FOLLOWERS_TAB), MyCollabResource
+				.getMessage(BugI18nEnum.TAB_FOLLOWERS), MyCollabResource
 				.newResource("icons/16/project/gray/follow.png"));
 
 		tabBugDetail.addTab(bugTimeLogList,
-				AppContext.getMessage(BugI18nEnum.TIME_TAB),
+				AppContext.getMessage(BugI18nEnum.TAB_TIME),
 				MyCollabResource.newResource("icons/16/project/gray/time.png"));
 
 		return tabBugDetail;
@@ -459,8 +459,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY), 0, 6);
 			} else if (propertyId.equals("assignuserFullName")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 6);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1,
+						6);
 			} else if (propertyId.equals("milestoneName")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_PHASE), 0, 7, 2,

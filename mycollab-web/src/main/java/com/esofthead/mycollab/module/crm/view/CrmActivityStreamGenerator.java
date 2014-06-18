@@ -130,7 +130,7 @@ public class CrmActivityStreamGenerator {
 					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("iscallable", "Callable");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("primaddress", "Address");
 			this.generateFieldDisplayHandler("primcity", "City");
 			this.generateFieldDisplayHandler("primstate", "State");
@@ -164,7 +164,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("expectedrevenue",
 					"Expected Revenue");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("description", "Description");
 		}
 	}
@@ -188,7 +188,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("website", "Web Site");
 			this.generateFieldDisplayHandler("status", "Status");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("primaddress", "Address");
 			this.generateFieldDisplayHandler("primcity", "City");
 			this.generateFieldDisplayHandler("primstate", "State");
@@ -222,7 +222,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("source", "Lead Source");
 			this.generateFieldDisplayHandler("campaignid", "Campaign");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("description", "Description");
 		}
 	}
@@ -239,7 +239,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("subject", "Subject");
 			this.generateFieldDisplayHandler("email", "Email");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("description", "Description");
 			this.generateFieldDisplayHandler("resolution", "Resolution");
 		}
@@ -267,7 +267,7 @@ public class CrmActivityStreamGenerator {
 					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("status", "Status");
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("priority", "Priority");
 			this.generateFieldDisplayHandler("description", "Description");
 		}
@@ -279,7 +279,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("startdate", "Start Date",
 					AuditLogShowHandler.DATETIME_FIELD);
 			this.generateFieldDisplayHandler("assignuser", AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 			this.generateFieldDisplayHandler("status", "Status");
 			this.generateFieldDisplayHandler("purpose", "Purpose");
 		}

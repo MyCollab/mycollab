@@ -71,21 +71,21 @@ public class TrackerContainer extends AbstractPageView {
 				.getPresenter(BugDashboardPresenter.class);
 
 		this.myProjectTab.addTab(this.dashboardPresenter.initView(),
-				AppContext.getMessage(BugI18nEnum.DASHBOARD_TAB));
+				AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD));
 
 		bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
 		this.myProjectTab.addTab(bugPresenter.initView(),
-				AppContext.getMessage(BugI18nEnum.BUG_TAB));
+				AppContext.getMessage(BugI18nEnum.TAB_BUG));
 
 		componentPresenter = PresenterResolver
 				.getPresenter(ComponentPresenter.class);
 		this.myProjectTab.addTab(componentPresenter.initView(),
-				AppContext.getMessage(BugI18nEnum.COMPONENT_TAB));
+				AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
 
 		versionPresenter = PresenterResolver
 				.getPresenter(VersionPresenter.class);
 		this.myProjectTab.addTab(versionPresenter.initView(),
-				AppContext.getMessage(BugI18nEnum.VERSION_TAB));
+				AppContext.getMessage(BugI18nEnum.TAB_VERSION));
 
 		this.myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -99,15 +99,15 @@ public class TrackerContainer extends AbstractPageView {
 						final SimpleProject project = CurrentProjectVariables
 								.getProject();
 
-						if (AppContext.getMessage(BugI18nEnum.DASHBOARD_TAB)
+						if (AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD)
 								.equals(caption)
 								&& !AppContext.getMessage(
-										BugI18nEnum.DASHBOARD_TAB).equals(
+										BugI18nEnum.TAB_DASHBOARD).equals(
 										selectedTabId)) {
 							dashboardPresenter.go(TrackerContainer.this, null);
-						} else if (AppContext.getMessage(BugI18nEnum.BUG_TAB)
+						} else if (AppContext.getMessage(BugI18nEnum.TAB_BUG)
 								.equals(caption)
-								&& !AppContext.getMessage(BugI18nEnum.BUG_TAB)
+								&& !AppContext.getMessage(BugI18nEnum.TAB_BUG)
 										.equals(selectedTabId)) {
 							final BugSearchCriteria criteria = new BugSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
@@ -117,15 +117,15 @@ public class TrackerContainer extends AbstractPageView {
 											new BugFilterParameter("All Bugs",
 													criteria)));
 						} else if (AppContext.getMessage(
-								BugI18nEnum.COMPONENT_TAB).equals(caption)
+								BugI18nEnum.TAB_COMPONENT).equals(caption)
 								&& !AppContext.getMessage(
-										BugI18nEnum.COMPONENT_TAB).equals(
+										BugI18nEnum.TAB_COMPONENT).equals(
 										selectedTabId)) {
 							componentPresenter.go(TrackerContainer.this, null);
 						} else if (AppContext.getMessage(
-								BugI18nEnum.VERSION_TAB).equals(caption)
+								BugI18nEnum.TAB_VERSION).equals(caption)
 								&& !AppContext.getMessage(
-										BugI18nEnum.VERSION_TAB).equals(
+										BugI18nEnum.TAB_VERSION).equals(
 										selectedTabId)) {
 							versionPresenter.go(TrackerContainer.this, null);
 						}

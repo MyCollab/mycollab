@@ -66,7 +66,7 @@ public interface CaseTableFieldDef {
 			CaseI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField createdTime = new TableViewField(

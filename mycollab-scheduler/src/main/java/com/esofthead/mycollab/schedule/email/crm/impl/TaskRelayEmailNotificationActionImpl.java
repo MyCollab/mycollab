@@ -182,7 +182,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 					TaskI18nEnum.FORM_START_DATE));
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("duedate", new DateFieldFormat("duedate",
 					TaskI18nEnum.FORM_DUE_DATE));
 

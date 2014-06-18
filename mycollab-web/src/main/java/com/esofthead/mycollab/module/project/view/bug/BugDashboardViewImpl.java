@@ -101,7 +101,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 
 	private void initHeader() {
 		final Label title = new Label(
-				AppContext.getMessage(BugI18nEnum.BUG_DASHBOARD_TITLE));
+				AppContext.getMessage(BugI18nEnum.VIEW_BUG_DASHBOARD_TITLE));
 		title.setStyleName("hdr-text");
 		title.setSizeUndefined();
 		final Image icon = new Image(null,
@@ -112,7 +112,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		header.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
 
 		final Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {
@@ -130,7 +130,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
 		final Button createComponentBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_COMPONENT_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_COMPONENT),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {
@@ -145,7 +145,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		btnControlsLayout.addComponent(createComponentBtn);
 
 		final Button createVersionBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_VERSION_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {

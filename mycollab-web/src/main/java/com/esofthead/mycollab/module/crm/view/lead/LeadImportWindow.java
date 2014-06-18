@@ -66,7 +66,7 @@ public class LeadImportWindow extends EntityImportWindow<SimpleLead> {
 				new FieldMapperDef("fax", "Fax"),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("status", "Status"),
 				new FieldMapperDef("source", "Source"),
 				new FieldMapperDef("website", "Website"),

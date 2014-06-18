@@ -66,7 +66,7 @@ public class CaseSimpleSearchPanel extends
 
 		final ValueComboBox group = new ValueComboBox(false, new String[] {
 				"Subject", "Account Name", "Status",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD) });
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) });
 		group.select("Name");
 		group.setImmediate(true);
 		group.addValueChangeListener(new Property.ValueChangeListener() {
@@ -81,7 +81,7 @@ public class CaseSimpleSearchPanel extends
 				} else if (searchType.equals("Status")) {
 					addTextFieldSearch();
 				} else if (searchType.equals(AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))) {
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE))) {
 					addUserListSelectField();
 				}
 			}

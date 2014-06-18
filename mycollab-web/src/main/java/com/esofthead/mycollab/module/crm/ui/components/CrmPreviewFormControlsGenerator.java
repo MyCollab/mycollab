@@ -230,7 +230,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 			});
 			previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
 			previousItem.setDescription(AppContext
-					.getMessage(GenericI18Enum.SHOW_PREVIOUS_ITEM_TOOLTIP));
+					.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
 			navigationBtns.addButton(previousItem);
 			previousItem.setEnabled(canRead);
 		}
@@ -247,7 +247,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 			});
 			nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			nextItemBtn.setDescription(AppContext
-					.getMessage(GenericI18Enum.SHOW_NEXT_ITEM_TOOLTIP));
+					.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
 			navigationBtns.addButton(nextItemBtn);
 			nextItemBtn.setEnabled(canRead);
 		}

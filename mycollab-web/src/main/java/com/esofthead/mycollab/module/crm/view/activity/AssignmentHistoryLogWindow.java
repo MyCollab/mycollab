@@ -37,7 +37,7 @@ class AssignmentHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("duedate", "Due Date");
 		this.generateFieldDisplayHandler("status", "Status");
 		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+				.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		this.generateFieldDisplayHandler("priority", "Priority");
 		this.generateFieldDisplayHandler("description", "Description");
 	}

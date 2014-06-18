@@ -52,7 +52,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
 	public UnresolvedTaskByPriorityWidget() {
 		super(AppContext
-				.getMessage(TaskI18nEnum.UNRESOLVED_BY_PRIORITY_WIDGET_TITLE),
+				.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);

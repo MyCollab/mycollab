@@ -95,7 +95,7 @@ public class CaseListPresenter extends
 							MassUpdateCaseWindow massUpdateWindow = new MassUpdateCaseWindow(
 									AppContext
 											.getMessage(
-													GenericI18Enum.MASS_UPDATE_WINDOW_TITLE,
+													GenericI18Enum.WINDOW_MASS_UPDATE_TITLE,
 													"Case"),
 									CaseListPresenter.this);
 							UI.getCurrent().addWindow(massUpdateWindow);

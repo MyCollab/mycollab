@@ -43,7 +43,7 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD));
 		this.generateFieldDisplayHandler("owner",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid",
 				AppContext.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),

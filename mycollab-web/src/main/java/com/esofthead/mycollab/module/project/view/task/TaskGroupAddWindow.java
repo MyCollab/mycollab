@@ -72,7 +72,7 @@ public class TaskGroupAddWindow extends Window {
 
 	public TaskGroupAddWindow(final TaskGroupDisplayView taskView,
 			final SimpleTaskList taskList) {
-		super(AppContext.getMessage(TaskI18nEnum.NEW_TASKGROUP_TITLE));
+		super(AppContext.getMessage(TaskI18nEnum.DIALOG_NEW_TASKGROUP_TITLE));
 		this.setModal(true);
 		this.setResizable(false);
 		this.taskView = taskView;
@@ -248,7 +248,7 @@ public class TaskGroupAddWindow extends Window {
 									0, 1, 2, "100%");
 				} else if (propertyId.equals("owner")) {
 					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 							2);
 				} else if (propertyId.equals("milestoneid")) {
 					this.informationLayout

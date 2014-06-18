@@ -156,10 +156,10 @@ public class MessageReadViewImpl extends AbstractPageView implements
 							ConfirmDialogExt.show(
 									UI.getCurrent(),
 									AppContext.getMessage(
-											GenericI18Enum.DELETE_DIALOG_TITLE,
+											GenericI18Enum.DIALOG_DELETE_TITLE,
 											SiteConfiguration.getSiteName()),
 									AppContext
-											.getMessage(GenericI18Enum.CONFIRM_DELETE_RECORD_DIALOG_MESSAGE),
+											.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
 									AppContext
 											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 									AppContext
@@ -195,7 +195,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			HorizontalLayout isSticky = new HorizontalLayout();
 			isSticky.setSpacing(true);
 			Label isStickyText = new Label(
-					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK_FIELD));
+					AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK));
 			isSticky.setStyleName("hdr-text");
 			stickyCheck = new CheckBox("", message.getIsstick());
 

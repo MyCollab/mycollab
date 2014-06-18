@@ -201,7 +201,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 			put("priority", ProblemI18nEnum.FORM_PRIORITY);
 
 			put("assigntouser", new AssigneeFieldFormat("assigntouser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("raisedbyuser", new RaisedByFieldFormat("raisedbyuser",
 					ProblemI18nEnum.FORM_RAISED_BY));
 

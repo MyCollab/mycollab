@@ -37,7 +37,7 @@ public class FollowingTicketFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField assignee = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignUser",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUser",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField createdDate = new TableViewField(

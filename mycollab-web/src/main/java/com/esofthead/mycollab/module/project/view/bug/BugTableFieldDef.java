@@ -75,6 +75,6 @@ public interface BugTableFieldDef {
 			UIConstants.TABLE_DATE_TIME_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			GenericI18Enum.FORM_ASSIGNEE_FIELD, "assignuserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignuserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 }

@@ -56,16 +56,16 @@ public class TaskHistoryList extends HistoryLogComponent {
 				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
 				HistoryLogComponent.DATE_FIELD);
 		this.generateFieldDisplayHandler("isestimated",
-				AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED_FIELD));
+				AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("tasklistid",
-				AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
+				AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP),
 				new TaskGroupHistoryFieldFormat());
 		this.generateFieldDisplayHandler("percentagecomplete",
 				AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
 		this.generateFieldDisplayHandler("notes",
-				AppContext.getMessage(TaskI18nEnum.FORM_NOTES_FIELD));
+				AppContext.getMessage(TaskI18nEnum.FORM_NOTES));
 	}
 }

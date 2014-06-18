@@ -53,7 +53,7 @@ public class CaseImportWindow extends EntityImportWindow<SimpleCase> {
 				new FieldMapperDef("subject", "Subject"),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("reason", "Reason"),
 				new FieldMapperDef("origin", "Origin"),
 				new FieldMapperDef("email", "Email"),

@@ -145,7 +145,7 @@ public class MassUpdateOpportunityWindow extends MassUpdateWindow<Opportunity> {
 						4);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 5);
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 5);
 			}
 		}
 	}

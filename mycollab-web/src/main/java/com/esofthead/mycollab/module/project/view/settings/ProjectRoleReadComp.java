@@ -83,7 +83,7 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 	protected ComponentContainer createBottomPanel() {
 		permissionsPanel = new VerticalLayout();
 		final Label organizationHeader = new Label(
-				AppContext.getMessage(ProjectRoleI18nEnum.PERMISSIONS_HEADER));
+				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
 		organizationHeader.setStyleName("h2");
 		permissionsPanel.addComponent(organizationHeader);
 

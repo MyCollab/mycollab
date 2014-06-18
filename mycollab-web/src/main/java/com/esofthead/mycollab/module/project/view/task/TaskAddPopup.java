@@ -20,7 +20,6 @@ package com.esofthead.mycollab.module.project.view.task;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.i18n.WindowI18nEnum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -78,7 +77,7 @@ class TaskAddPopup extends CustomComponent {
 		popupHeader.addStyleName("popup-header");
 
 		final Label titleLbl = new Label(
-				AppContext.getMessage(TaskI18nEnum.NEW_TASK_TITLE));
+				AppContext.getMessage(TaskI18nEnum.DIALOG_NEW_TASK_TITLE));
 		titleLbl.addStyleName("bold");
 		popupHeader.addComponent(titleLbl);
 		taskLayout.addComponent(popupHeader);
@@ -88,12 +87,12 @@ class TaskAddPopup extends CustomComponent {
 		final TaskInputForm taskInputForm = new TaskInputForm();
 		taskInputForm.setWidth("100%");
 		this.taskContainer.addTab(taskInputForm,
-				AppContext.getMessage(WindowI18nEnum.INFORMATION_WINDOW_TITLE));
+				AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
 		this.taskContainer
 				.addTab(this.taskNoteComponent, AppContext
-						.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT_FIELD));
+						.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT));
 
 		taskLayout.addComponent(this.taskContainer);
 
@@ -213,8 +212,9 @@ class TaskAddPopup extends CustomComponent {
 						.addComponent(field, AppContext
 								.getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
 			} else if (propertyId.equals("assignuser")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 4);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
+						4);
 			} else if (propertyId.equals("percentagecomplete")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE), 1,

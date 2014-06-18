@@ -109,7 +109,7 @@ public class MassUpdateCampaignWindow extends
 
 			if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0, 0);
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0, 0);
 			}
 			if (propertyId.equals("status")) {
 				this.informationLayout.addComponent(field,

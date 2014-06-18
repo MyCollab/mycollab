@@ -184,7 +184,7 @@ public class CallRelayEmailNotificationActionImpl extends
 
 			put("purpose", CallI18nEnum.FORM_PURPOSE);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 

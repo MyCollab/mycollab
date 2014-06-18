@@ -199,7 +199,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 			put("name", TaskGroupI18nEnum.FORM_NAME_FIELD, true);
 
 			put("owner", new AssigneeFieldFormat("owner",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 			put("status", TaskGroupI18nEnum.FORM_STATUS);
 
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",

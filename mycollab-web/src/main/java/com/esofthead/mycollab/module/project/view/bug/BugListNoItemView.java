@@ -67,7 +67,7 @@ public class BugListNoItemView extends AbstractPageView {
 		layout.addComponent(body);
 
 		Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_BUG_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

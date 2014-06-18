@@ -69,7 +69,7 @@ public class AssignmentDefaultFormLayoutFactory {
 						.fieldName("assignuser")
 						.displayName(
 								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
+										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
 						.fieldIndex(7).build());
 
 		defaultForm.addSection(taskSection);

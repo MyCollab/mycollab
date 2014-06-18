@@ -54,7 +54,7 @@ public class ComponentPresenter
 			ScreenData<?> data) {
 		TrackerContainer trackerContainer = (TrackerContainer) container;
 		trackerContainer.gotoSubView(AppContext
-				.getMessage(BugI18nEnum.COMPONENT_TAB));
+				.getMessage(BugI18nEnum.TAB_COMPONENT));
 
 		view.removeAllComponents();
 

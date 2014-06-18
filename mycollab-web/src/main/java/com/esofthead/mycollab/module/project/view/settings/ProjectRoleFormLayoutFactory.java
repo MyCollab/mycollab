@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -59,10 +60,9 @@ public class ProjectRoleFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME), 0, 0);
 		} else if (propertyId.equals("description")) {
-			this.informationLayout
-					.addComponent(field, AppContext
-							.getMessage(ProjectRoleI18nEnum.FORM_DESCRIPTION),
-							0, 1, 2, "100%");
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
+					1, 2, "100%");
 		}
 	}
 

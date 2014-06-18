@@ -48,7 +48,7 @@ public class ContactListViewImpl extends
 		super();
 
 		setCaption("Contacts");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

@@ -119,7 +119,7 @@ public class AccountDefaultDynaFormLayoutFactory {
 						.fieldIndex(10)
 						.displayName(
 								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD))
+										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
 						.customField(false).build());
 
 		accountSection

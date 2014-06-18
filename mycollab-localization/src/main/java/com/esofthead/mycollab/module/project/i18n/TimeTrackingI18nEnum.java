@@ -7,9 +7,9 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/timetracking")
 @LocaleData({ @Locale("en_US") })
 public enum TimeTrackingI18nEnum {
-	LOG_TIME_ACTION,
-	LINK_TASK_ACTION,
-	DETACH_TASK_ACTION,
+	BUTTON_LOG_TIME,
+	BUTTON_LINK_TASK,
+	BUTTON_DETACH_TASK,
 	
 	TIME_RECORD_HEADER,
 	TASK_LIST_RANGE,

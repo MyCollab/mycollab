@@ -110,7 +110,7 @@ public class ProjectActivityStreamGenerator {
 					"Actual End Date", AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("assignUserFullName",
 					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		}
 	}
 
@@ -123,7 +123,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("milestoneName", "Milestone");
 			this.generateFieldDisplayHandler("ownerFullName",
 					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		}
 	}
 
@@ -139,7 +139,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("description", "Description");
 			this.generateFieldDisplayHandler("ownerFullName",
 					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		}
 	}
 
@@ -161,7 +161,7 @@ public class ProjectActivityStreamGenerator {
 					"Raised By");
 			this.generateFieldDisplayHandler("assignedToUserFullName",
 					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		}
 	}
 
@@ -187,7 +187,7 @@ public class ProjectActivityStreamGenerator {
 					"Raised By");
 			this.generateFieldDisplayHandler("assignedUserFullName",
 					AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
 		}
 	}
 

@@ -127,7 +127,7 @@ public class MassUpdateLeadWindow extends MassUpdateWindow<Lead> {
 						AppContext.getMessage(LeadI18nEnum.FORM_STATUS), 0, 2);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 2);
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 2);
 			} else if (propertyId.equals("primcity")) {
 				this.addressLayout.addComponent(field,
 						AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_CITY),

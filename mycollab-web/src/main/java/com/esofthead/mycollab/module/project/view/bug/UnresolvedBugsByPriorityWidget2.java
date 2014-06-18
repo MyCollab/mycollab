@@ -53,7 +53,7 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 
 	public UnresolvedBugsByPriorityWidget2() {
 		super(AppContext
-				.getMessage(BugI18nEnum.UNRESOLVED_BY_PRIORITY_WIDGET_TITLE),
+				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);

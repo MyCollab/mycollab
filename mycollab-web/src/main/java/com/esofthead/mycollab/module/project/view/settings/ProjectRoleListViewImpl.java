@@ -96,8 +96,7 @@ public class ProjectRoleListViewImpl extends AbstractPageView implements
 				Arrays.asList(
 						new TableViewField(ProjectRoleI18nEnum.FORM_NAME,
 								"rolename", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(
-								ProjectRoleI18nEnum.FORM_DESCRIPTION,
+						new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
 								"description", UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem.addGeneratedColumn("selected",

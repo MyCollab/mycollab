@@ -1,4 +1,5 @@
 /**
+
  * This file is part of mycollab-web.
  *
  * mycollab-web is free software: you can redistribute it and/or modify
@@ -155,9 +156,11 @@ public class NoteListItems extends VerticalLayout {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-
+						NoteEditor addCommentEditor = new NoteEditor();
 						noteWrapper.replaceComponent(createBtn,
-								new NoteEditor());
+								addCommentEditor);
+						noteWrapper.setComponentAlignment(addCommentEditor,
+								Alignment.TOP_LEFT);
 					}
 				});
 

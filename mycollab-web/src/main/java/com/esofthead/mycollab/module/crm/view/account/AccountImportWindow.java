@@ -70,7 +70,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
 				new FieldMapperDef("numemployees", "Number Employees"),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("type", "Type"),
 				new FieldMapperDef("industry", "Industry"),
 				new FieldMapperDef("billingcountry", "Billing Country"),

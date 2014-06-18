@@ -50,7 +50,7 @@ public class VersionPresenter extends AbstractPresenter<VersionContainer> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		TrackerContainer trackerContainer = (TrackerContainer) container;
 		trackerContainer.gotoSubView(AppContext
-				.getMessage(BugI18nEnum.VERSION_TAB));
+				.getMessage(BugI18nEnum.TAB_VERSION));
 
 		view.removeAllComponents();
 

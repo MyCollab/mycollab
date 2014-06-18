@@ -56,12 +56,12 @@ public class PrioritySummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public PrioritySummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE), width,
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), width,
 				height);
 	}
 
 	public PrioritySummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.CHART_PRIORIY_TITLE), 400, 280);
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), 400, 280);
 
 	}
 

@@ -190,7 +190,7 @@ public class WontFixExplainWindow extends Window {
 									} else {
 										NotificationUtil
 												.showErrorNotification(AppContext
-														.getMessage(BugI18nEnum.WONT_FIX_EXPLAIN_REQUIRE_MSG));
+														.getMessage(BugI18nEnum.ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG));
 										return;
 									}
 
@@ -218,7 +218,7 @@ public class WontFixExplainWindow extends Window {
 							0, 0);
 				} else if (propertyId.equals("assignuser")) {
 					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 0,
+							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
 							1);
 				} else if (propertyId.equals("fixedVersions")) {
 					this.informationLayout.addComponent(field, AppContext

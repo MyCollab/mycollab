@@ -171,7 +171,7 @@ public class ContactListViewImpl extends
 					MyCollabResource
 							.newResource("icons/16/action/massupdate.png"),
 					"update", AppContext
-							.getMessage(GenericI18Enum.MASS_UPDATE_TOOLTIP));
+							.getMessage(GenericI18Enum.TOOLTIP_MASS_UPDATE));
 		}
 
 		return container;

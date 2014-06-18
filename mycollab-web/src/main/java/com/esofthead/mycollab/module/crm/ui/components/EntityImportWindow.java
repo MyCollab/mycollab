@@ -268,7 +268,7 @@ public abstract class EntityImportWindow<E> extends Window {
 									uploadFieldIndex);
 
 							NotificationUtil.showWarningNotification(AppContext
-									.getMessage(GenericI18Enum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
+									.getMessage(FileI18nEnum.CHOOSE_SUPPORT_FILE_TYPES_WARNING));
 
 						}
 					}

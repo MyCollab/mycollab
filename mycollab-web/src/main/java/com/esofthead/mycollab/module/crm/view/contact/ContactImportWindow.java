@@ -74,7 +74,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 						new CSVBooleanFormatter()),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("primaddress", "Address"),
 				new FieldMapperDef("primcity", "City"),
 				new FieldMapperDef("primstate", "State"),

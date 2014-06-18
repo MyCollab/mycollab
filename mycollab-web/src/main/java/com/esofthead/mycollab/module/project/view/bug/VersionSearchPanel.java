@@ -92,7 +92,7 @@ public class VersionSearchPanel extends
 		layout.setExpandRatio(versionTitle, 1.0f);
 
 		final Button createBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.NEW_VERSION_ACTION),
+				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_VERSION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

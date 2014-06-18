@@ -30,7 +30,6 @@ import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmNavigationMenu;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmRelatedItemsScreenData;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListPresenter;
@@ -77,8 +76,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 
 /**
  * @author MyCollab Ltd.
@@ -86,9 +85,9 @@ import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
  */
 public class CrmModuleController implements IController {
 	private static final long serialVersionUID = 6995176903239247669L;
-	final private MobileNavigationManager crmViewNavigation;
+	final private NavigationManager crmViewNavigation;
 
-	public CrmModuleController(MobileNavigationManager navigationManager) {
+	public CrmModuleController(NavigationManager navigationManager) {
 		this.crmViewNavigation = navigationManager;
 
 		bindCrmEvents();
@@ -117,9 +116,9 @@ public class CrmModuleController implements IController {
 						 * TODO: put setNavigationMenu here seems not right with
 						 * current structure, need to move it to somewhere else
 						 */
-						if (crmViewNavigation.getNavigationMenu() == null)
-							crmViewNavigation
-									.setNavigationMenu(new CrmNavigationMenu());
+						// if (crmViewNavigation.getNavigationMenu() == null)
+						// crmViewNavigation
+						// .setNavigationMenu(new CrmNavigationMenu());
 						EventBus.getInstance()
 								.fireEvent(
 										new AccountEvent.GotoList(this, event
@@ -138,10 +137,9 @@ public class CrmModuleController implements IController {
 
 					@Override
 					public void handle(CrmEvent.PushView event) {
-						if (event.getData() instanceof MobileNavigationView) {
-							crmViewNavigation
-									.navigateTo((MobileNavigationView) event
-											.getData());
+						if (event.getData() instanceof NavigationView) {
+							crmViewNavigation.navigateTo((NavigationView) event
+									.getData());
 						}
 					}
 				});

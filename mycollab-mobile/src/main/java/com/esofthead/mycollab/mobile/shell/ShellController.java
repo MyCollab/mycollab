@@ -25,7 +25,7 @@ import com.esofthead.mycollab.mobile.shell.events.ShellEvent.GotoMainPage;
 import com.esofthead.mycollab.mobile.shell.ui.MainViewPresenter;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 
 /**
  * 
@@ -36,9 +36,9 @@ import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 public class ShellController implements IController {
 	private static final long serialVersionUID = 1L;
 
-	final private MobileNavigationManager mainNav;
+	final private NavigationManager mainNav;
 
-	public ShellController(MobileNavigationManager navigationManager) {
+	public ShellController(NavigationManager navigationManager) {
 		this.mainNav = navigationManager;
 		bind();
 	}
@@ -72,7 +72,8 @@ public class ShellController implements IController {
 
 					@Override
 					public void handle(ShellEvent.GotoCrmModule event) {
-						EventBus.getInstance().fireEvent(new CrmEvent.GotoHome(this, event.getData()));						
+						EventBus.getInstance().fireEvent(
+								new CrmEvent.GotoHome(this, event.getData()));
 					}
 				});
 	}

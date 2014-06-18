@@ -47,7 +47,7 @@ public class OpportunityListViewImpl extends
 		super();
 
 		setCaption("Opportunities");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

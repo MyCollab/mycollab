@@ -54,7 +54,7 @@ public class OpportunityImportWindow extends
 				new FieldMapperDef("probability", "Probability"),
 				new FieldMapperDef("assignuser",
 						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD)),
+								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("opportunitytype", "Opportunity Type"),
 				new FieldMapperDef("salesstage", "Sales Stage"),
 				new FieldMapperDef("description", "Description") };

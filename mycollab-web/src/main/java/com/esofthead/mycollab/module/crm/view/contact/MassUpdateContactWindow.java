@@ -118,7 +118,7 @@ public class MassUpdateContactWindow extends MassUpdateWindow<Contact> {
 								0, 1);
 			} else if (propertyId.equals("assignuser")) {
 				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD), 1, 1);
+						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
 			} else if (propertyId.equals("iscallable")) {
 				this.informationLayout
 						.addComponent(field, AppContext

@@ -67,10 +67,10 @@ public class BugHistoryList extends HistoryLogComponent {
 				AppContext.getMessage(BugI18nEnum.FORM_LOG_BY),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid",
-				AppContext.getMessage(TaskI18nEnum.FORM_PHASE_FIELD),
+				AppContext.getMessage(TaskI18nEnum.FORM_PHASE),
 				new MilestoneHistoryFieldFormat());
 	}
 }

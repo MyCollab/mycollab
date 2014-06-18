@@ -51,7 +51,7 @@ public class ActivityListViewImpl extends
 		super();
 
 		setCaption("Activities");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

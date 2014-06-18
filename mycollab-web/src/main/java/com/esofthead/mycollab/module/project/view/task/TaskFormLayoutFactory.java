@@ -82,11 +82,11 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 					AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY), 1, 3);
 		} else if (propertyId.equals("assignuser")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 					0, 4);
 		} else if (propertyId.equals("tasklistid")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD),
+					AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP),
 					1, 4);
 		} else if (propertyId.equals("percentagecomplete")) {
 			this.informationLayout.addComponent(field, AppContext
@@ -95,11 +95,11 @@ public class TaskFormLayoutFactory implements IFormLayoutFactory {
 		} else if (propertyId.equals("notes")) {
 			field.setSizeUndefined();
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_NOTES_FIELD), 0, 6,
+					AppContext.getMessage(TaskI18nEnum.FORM_NOTES), 0, 6,
 					2, "100%");
 		} else if (propertyId.equals("id")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT_FIELD),
+					AppContext.getMessage(TaskI18nEnum.FORM_ATTACHMENT),
 					0, 7, 2, "100%");
 		}
 	}

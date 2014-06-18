@@ -47,7 +47,7 @@ public class CampaignListViewImpl extends
 		super();
 
 		setCaption("Campaigns");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

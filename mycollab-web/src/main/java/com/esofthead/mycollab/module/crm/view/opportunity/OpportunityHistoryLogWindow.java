@@ -60,7 +60,7 @@ class OpportunityHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("campaignid",
 				AppContext.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
 		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
 				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));

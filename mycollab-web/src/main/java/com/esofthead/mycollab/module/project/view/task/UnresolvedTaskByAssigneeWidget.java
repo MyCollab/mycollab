@@ -50,7 +50,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 
 	public UnresolvedTaskByAssigneeWidget() {
 		super(AppContext
-				.getMessage(TaskI18nEnum.UNRESOLVED_BY_ASSIGNEE_WIDGET_TITLE),
+				.getMessage(TaskI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
 				new VerticalLayout());
 		this.setContentBorder(true);
 		((VerticalLayout) this.bodyContent).setSpacing(true);
@@ -85,7 +85,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 						assignUserFullName = displayName.substring(0, index);
 					} else {
 						assignUserFullName = AppContext
-								.getMessage(TaskI18nEnum.UNDEFINED_USER);
+								.getMessage(TaskI18nEnum.OPT_UNDEFINED_USER);
 					}
 				}
 
@@ -118,7 +118,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 							SearchField.AND, assignee));
 					TaskFilterParameter filterParam = new TaskFilterParameter(
 							searchCriteria, AppContext.getMessage(
-									TaskI18nEnum.FILTER_TASK_BY_ASSIGNEE,
+									TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
 									assigneeFullName));
 					EventBus.getInstance().fireEvent(
 							new TaskEvent.Filter(this, filterParam));

@@ -194,7 +194,7 @@ public class CampaignRelayEmailNotificationActionImpl extends
 
 			put("actualcost", CampaignI18nEnum.FORM_ACTUAL_COST);
 			put("assignuser", new AssigneeFieldFormat("assignuser",
-					GenericI18Enum.FORM_ASSIGNEE_FIELD));
+					GenericI18Enum.FORM_ASSIGNEE));
 
 			put("startdate", new DateFieldFormat("startdate",
 					CampaignI18nEnum.FORM_START_DATE));

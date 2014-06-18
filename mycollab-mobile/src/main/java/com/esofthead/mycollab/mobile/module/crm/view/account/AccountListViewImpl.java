@@ -48,7 +48,7 @@ public class AccountListViewImpl extends
 		super();
 
 		setCaption("Accounts");
-		setToggleButton(true);
+		// setToggleButton(true);
 	}
 
 	@Override

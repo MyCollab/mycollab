@@ -71,7 +71,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE), 0, 3);
 		} else if (propertyId.equals("assignuser")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD),
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 					0, 4);
 		} else if (propertyId.equals("components")) {
 			this.informationLayout.addComponent(field,

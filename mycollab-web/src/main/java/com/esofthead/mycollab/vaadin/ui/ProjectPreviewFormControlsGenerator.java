@@ -228,7 +228,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 			previousItem.setStyleName(UIConstants.THEME_GREEN_LINK);
 			previousItem.setDescription(AppContext
-					.getMessage(GenericI18Enum.SHOW_PREVIOUS_ITEM_TOOLTIP));
+					.getMessage(GenericI18Enum.TOOLTIP_SHOW_PREVIOUS_ITEM));
 			navigationBtns.addButton(previousItem);
 
 			nextItemBtn = new Button(">", new Button.ClickListener() {
@@ -243,7 +243,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 			nextItemBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			nextItemBtn.setDescription(AppContext
-					.getMessage(GenericI18Enum.SHOW_NEXT_ITEM_TOOLTIP));
+					.getMessage(GenericI18Enum.TOOLTIP_SHOW_NEXT_ITEM));
 
 			navigationBtns.addButton(nextItemBtn);
 			layout.addComponent(navigationBtns);
