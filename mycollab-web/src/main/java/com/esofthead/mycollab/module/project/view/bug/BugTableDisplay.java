@@ -273,8 +273,8 @@ public class BugTableDisplay extends
 				}
 
 				b.setDescription(ProjectTooltipGenerator.generateToolTipBug(
-						bug, AppContext.getSiteUrl(),
-						AppContext.getTimezoneId()));
+						AppContext.getUserLocale(), bug,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 
 				if (bug.isCompleted()) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);

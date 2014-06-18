@@ -20,7 +20,7 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("mobile/localization.common/crm/common")
+@BaseName("mobile/localization/crm/common")
 @LocaleData({ @Locale("en_US") })
 public enum CrmCommonI18nEnum {
 	TABLE_OFFICE_PHONE_HEADER,

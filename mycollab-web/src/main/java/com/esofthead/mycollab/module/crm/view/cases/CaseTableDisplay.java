@@ -103,8 +103,8 @@ public class CaseTableDisplay extends
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}
 				b.setDescription(CrmTooltipGenerator.generateTooltipCases(
-						cases, AppContext.getSiteUrl(),
-						AppContext.getTimezoneId()));
+						AppContext.getUserLocale(), cases,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 				return b;
 			}
 		});

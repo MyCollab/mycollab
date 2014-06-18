@@ -44,7 +44,7 @@
     Improvements
         - Refactor tooltip generator for Project and CRM module
         - Allow user choose create new item in read view
-        - Improve localization.common service, and move texts in localization.common files
+        - Improve localization service, and move texts in localization files
         - Upgrade Spring framework to 4.0.5.RELEASE
         - Upgrade Jackrabbit to 2.8.0
         - Upgrade Flyway to 3.0

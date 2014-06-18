@@ -105,7 +105,8 @@ public class LeadTableDisplay extends
 				if ("Dead".equals(lead.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				}
-				b.setDescription(CrmTooltipGenerator.generateTooltipLead(lead,
+				b.setDescription(CrmTooltipGenerator.generateTooltipLead(
+						AppContext.getUserLocale(), lead,
 						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 				return b;
 			}

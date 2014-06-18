@@ -158,7 +158,8 @@ public class VersionListViewImpl extends AbstractPageView implements
 							b.addStyleName(UIConstants.LINK_OVERDUE);
 						}
 						b.setDescription(ProjectTooltipGenerator
-								.generateToolTipVersion(bugVersion,
+								.generateToolTipVersion(
+										AppContext.getUserLocale(), bugVersion,
 										AppContext.getSiteUrl(),
 										AppContext.getTimezoneId()));
 						return b;

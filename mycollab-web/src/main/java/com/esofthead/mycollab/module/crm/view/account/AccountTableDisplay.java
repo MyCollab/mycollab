@@ -116,7 +116,8 @@ public class AccountTableDisplay
 						CrmLinkBuilder.generateAccountPreviewLinkFull(account
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateToolTipAccount(
-						account, AppContext.getSiteUrl()));
+						AppContext.getUserLocale(), account,
+						AppContext.getSiteUrl()));
 				return b;
 			}
 		});

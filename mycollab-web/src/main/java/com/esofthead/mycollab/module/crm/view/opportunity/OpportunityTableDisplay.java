@@ -115,8 +115,8 @@ public class OpportunityTableDisplay
 					}
 				}
 				b.setDescription(CrmTooltipGenerator
-						.generateTooltipOpportunity(opportunity,
-								AppContext.getSiteUrl(),
+						.generateTooltipOpportunity(AppContext.getUserLocale(),
+								opportunity, AppContext.getSiteUrl(),
 								AppContext.getTimezoneId()));
 
 				return b;

@@ -94,8 +94,8 @@ public class TaskSearchTableDisplay
 						.generateTaskPreviewFullLink(task.getProjectid(),
 								task.getId()));
 				b.setDescription(ProjectTooltipGenerator.generateToolTipTask(
-						task, AppContext.getSiteUrl(),
-						AppContext.getTimezoneId()));
+						AppContext.getUserLocale(), task,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 
 				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
 					b.setIconLink(ProjectResources

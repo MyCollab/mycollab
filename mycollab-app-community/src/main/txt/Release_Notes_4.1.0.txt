@@ -44,7 +44,7 @@
         - Boot time of application is much faster than previous version in some OSes
         - Email template of task and bug are re-ordered fields more logically
         - Cache spring service classes to init application context faster
-        - Support user localization.common
+        - Support user localization
         - Make install process easier for non-tech users
         - Add gantt chart
         - Upgrade Vaadin library to 7.1.15

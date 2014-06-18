@@ -103,8 +103,8 @@ public class CampaignTableDisplay
 						CrmLinkBuilder.generateCampaignPreviewLinkFull(campaign
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
-						campaign, AppContext.getSiteUrl(),
-						AppContext.getTimezoneId()));
+						AppContext.getUserLocale(), campaign,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 				b.setStyleName("link");
 
 				if ("Complete".equals(campaign.getStatus())) {

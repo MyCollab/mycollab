@@ -21,6 +21,8 @@ import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellLi
 import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellName;
 import static com.esofthead.mycollab.vaadin.ui.TooltipBuilder.TdUtil.buildCellValue;
 
+import java.util.Locale;
+
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.project.ProjectLinkUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -51,7 +54,6 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.TooltipBuilder;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.elements.Div;
@@ -70,7 +72,7 @@ public class ProjectTooltipGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectTooltipGenerator.class);
 
-	public static String generateTolltipNull() {
+	public static String generateTolltipNull(Locale locale) {
 		Div div = new Div();
 		Table table = new Table();
 		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
@@ -78,7 +80,8 @@ public class ProjectTooltipGenerator {
 		Tr trRow1 = new Tr();
 		trRow1.appendChild(new Td().setStyle(
 				"vertical-align: top; text-align: left;").appendText(
-				"The item is not existed"));
+				LocalizationHelper.getMessage(locale,
+						GenericI18Enum.TOOLTIP_NO_ITEM_EXISTED)));
 
 		table.appendChild(trRow1);
 		div.appendChild(table);
@@ -86,23 +89,23 @@ public class ProjectTooltipGenerator {
 		return div.write();
 	}
 
-	public static String generateToolTipTask(SimpleTask task, String siteURL,
-			String timeZone) {
+	public static String generateToolTipTask(Locale locale, SimpleTask task,
+			String siteURL, String timeZone) {
 		if (task == null) {
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		}
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(task.getTaskname());
 
 			Tr trRow1 = new Tr();
-			Td cell11 = TooltipBuilder.TdUtil.buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_START_DATE));
+			Td cell11 = TooltipBuilder.TdUtil.buildCellName(LocalizationHelper
+					.getMessage(locale, TaskI18nEnum.FORM_START_DATE));
 			String startdate = DateTimeUtils.converToStringWithUserTimeZone(
 					task.getStartdate(), timeZone);
 			Td cell12 = buildCellValue(startdate);
-			Td cell13 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE));
+			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_ACTUAL_START_DATE));
 			String actualStartDate = DateTimeUtils
 					.converToStringWithUserTimeZone(task.getActualstartdate(),
 							timeZone);
@@ -111,13 +114,13 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_END_DATE));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_END_DATE));
 			String endDate = DateTimeUtils.converToStringWithUserTimeZone(
 					task.getEnddate(), timeZone);
 			Td cell22 = buildCellValue(endDate);
-			Td cell23 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE));
+			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_ACTUAL_END_DATE));
 			String actualEndDate = DateTimeUtils
 					.converToStringWithUserTimeZone(task.getActualenddate(),
 							timeZone);
@@ -126,20 +129,20 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_DEADLINE));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_DEADLINE));
 			String deadline = DateTimeUtils.converToStringWithUserTimeZone(
 					task.getDeadline(), timeZone);
 			Td cell32 = buildCellValue(deadline);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_PRIORITY));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_PRIORITY));
 			Td cell34 = buildCellValue(task.getPriority());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String assignUserLink = (task.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
 					: "";
@@ -147,8 +150,8 @@ public class ProjectTooltipGenerator {
 					.getAvatarLink(task.getAssignUserAvatarId(), 16);
 			Td cell42 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					task.getAssignUserFullName());
-			Td cell43 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_TASKGROUP_FIELD));
+			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_TASKGROUP_FIELD));
 			String taskgroupLink = (task.getTaskListName() != null) ? ProjectLinkUtils
 					.generateTaskGroupPreviewFullLink(siteURL,
 							task.getProjectid(), task.getTasklistid()) : "";
@@ -157,15 +160,15 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			Td cell51 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
+			Td cell51 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
 			Td cell52 = buildCellValue(task.getPercentagecomplete());
 			trRow5.appendChild(cell51, cell52);
 			tooltipManager.appendRow(trRow5);
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(TaskI18nEnum.FORM_NOTES_FIELD));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskI18nEnum.FORM_NOTES_FIELD));
 			Td cell62 = buildCellValue(trimHtmlTags(task.getNotes()));
 			cell62.setAttribute("colspan", "3");
 			trRow6.appendChild(cell61, cell62);
@@ -180,10 +183,10 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipBug(SimpleBug bug, String siteURL,
-			String timeZone) {
+	public static String generateToolTipBug(Locale locale, SimpleBug bug,
+			String siteURL, String timeZone) {
 		if (bug == null) {
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		}
 
 		try {
@@ -191,49 +194,49 @@ public class ProjectTooltipGenerator {
 			tooltipManager.setTitle(bug.getSummary());
 
 			Tr trRow1 = new Tr();
-			Td cell11 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell12 = buildCellValue(trimHtmlTags(bug.getDescription()));
 			cell12.setAttribute("colspan", "3");
 			trRow1.appendChild(cell11, cell12);
 			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_ENVIRONMENT));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_ENVIRONMENT));
 			Td cell22 = buildCellValue(trimHtmlTags(bug.getEnvironment()));
 			cell22.setAttribute("colspan", "3");
 			trRow2.appendChild(cell21, cell22);
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_STATUS));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_STATUS));
 			Td cell32 = buildCellValue(bug.getStatus());
-			Td cell33 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_PRIORITY));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_PRIORITY));
 			Td cell34 = buildCellValue(bug.getPriority());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_SEVERITY));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_SEVERITY));
 			Td cell42 = buildCellValue(bug.getSeverity());
-			Td cell43 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_RESOLUTION));
+			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_RESOLUTION));
 			Td cell44 = buildCellValue(bug.getResolution());
 			trRow4.appendChild(cell41, cell42, cell43, cell44);
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			Td cell51 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_DUE_DATE));
+			Td cell51 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_DUE_DATE));
 			String dueDate = DateTimeUtils.converToStringWithUserTimeZone(
 					bug.getDuedate(), timeZone);
 			Td cell52 = buildCellValue(dueDate);
-			Td cell53 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_CREATED_TIME));
+			Td cell53 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_CREATED_TIME));
 			String createdTime = DateTimeUtils.converToStringWithUserTimeZone(
 					bug.getCreatedtime(), timeZone);
 			Td cell54 = buildCellValue(createdTime);
@@ -243,16 +246,16 @@ public class ProjectTooltipGenerator {
 			// Assignee
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_LOG_BY));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_LOG_BY));
 			String logbyUserLink = (bug.getLogby() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, bug.getLogby()) : "";
 			String logbyAvatarLink = UserAvatarControlFactory.getAvatarLink(
 					bug.getLoguserAvatarId(), 16);
 			Td cell62 = buildCellLink(logbyUserLink, logbyAvatarLink,
 					bug.getLoguserFullName());
-			Td cell63 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell63 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String assignUserLink = (bug.getAssignuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, bug.getAssignuser())
 					: "";
@@ -264,8 +267,8 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow6);
 
 			Tr trRow7 = new Tr();
-			Td cell71 = buildCellName(AppContext
-					.getMessage(BugI18nEnum.FORM_PHASE));
+			Td cell71 = buildCellName(LocalizationHelper.getMessage(locale,
+					BugI18nEnum.FORM_PHASE));
 			String phaseLink = (bug.getMilestoneid() != null) ? ProjectLinkUtils
 					.generateMilestonePreviewFullLink(siteURL,
 							bug.getProjectid(), bug.getMilestoneid()) : "";
@@ -283,25 +286,25 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipRisk(SimpleRisk risk, String siteURL,
-			String timeZone) {
+	public static String generateToolTipRisk(Locale locale, SimpleRisk risk,
+			String siteURL, String timeZone) {
 		if (risk == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(risk.getRiskname());
 
 			Tr trRow5 = new Tr();
-			Td cell51 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell51 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell52 = buildCellValue(trimHtmlTags(risk.getDescription()));
 			cell52.setAttribute("colspan", "3");
 			trRow5.appendChild(cell51, cell52);
 			tooltipManager.appendRow(trRow5);
 
 			Tr trRow1 = new Tr();
-			Td cell11 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_RAISED_BY));
+			Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_RAISED_BY));
 			String raisedUserLink = (risk.getRaisedbyuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							risk.getRaisedbyuser()) : "";
@@ -309,15 +312,15 @@ public class ProjectTooltipGenerator {
 					.getAvatarLink(risk.getRaisedByUserAvatarId(), 16);
 			Td cell12 = buildCellLink(raisedUserLink, raisedUserAvatarLink,
 					risk.getRaisedByUserFullName());
-			Td cell13 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_CONSEQUENCE));
+			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_CONSEQUENCE));
 			Td cell14 = buildCellValue(risk.getConsequence());
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
 			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String assignUserLink = (risk.getAssigntouser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							risk.getAssigntouser()) : "";
@@ -325,34 +328,34 @@ public class ProjectTooltipGenerator {
 					.getAvatarLink(risk.getAssignToUserAvatarId(), 16);
 			Td cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					risk.getAssignedToUserFullName());
-			Td cell23 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_PROBABILITY));
+			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_PROBABILITY));
 			Td cell24 = buildCellValue(risk.getProbalitity());
 			trRow2.appendChild(cell21, cell22, cell23, cell24);
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_DATE_DUE));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_DATE_DUE));
 			String datedue = DateTimeUtils.converToStringWithUserTimeZone(
 					risk.getDatedue(), timeZone);
 			Td cell32 = buildCellValue(datedue);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_RATING));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_RATING));
 			Td cell34 = buildCellValue(risk.getLevel());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_STATUS));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_STATUS));
 			Td cell42 = buildCellValue(risk.getStatus());
 			trRow4.appendChild(cell41, cell42);
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(RiskI18nEnum.FORM_RESPONSE));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					RiskI18nEnum.FORM_RESPONSE));
 			Td cell62 = buildCellValue(trimHtmlTags(risk.getResponse()));
 			cell62.setAttribute("colspan", "3");
 			trRow6.appendChild(cell61, cell62);
@@ -367,25 +370,25 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipProblem(SimpleProblem problem,
-			String siteURL, String timeZone) {
+	public static String generateToolTipProblem(Locale locale,
+			SimpleProblem problem, String siteURL, String timeZone) {
 		if (problem == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(problem.getIssuename());
 
 			Tr trRow5 = new Tr();
-			Td cell51 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell51 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell52 = buildCellValue(trimHtmlTags(problem.getDescription()));
 			cell52.setAttribute("colspan", "3");
 			trRow5.appendChild(cell51, cell52);
 			tooltipManager.appendRow(trRow5);
 
 			Tr trRow1 = new Tr();
-			Td cell11 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_RAISED_BY));
+			Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_RAISED_BY));
 			String raisedByUserLink = (problem.getRaisedbyuser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							problem.getRaisedbyuser()) : "";
@@ -393,15 +396,15 @@ public class ProjectTooltipGenerator {
 					.getAvatarLink(problem.getRaisedByUserAvatarId(), 16);
 			Td cell12 = buildCellLink(raisedByUserLink, raisedByUserAvatarLink,
 					problem.getRaisedByUserFullName());
-			Td cell13 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_IMPACT));
+			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_IMPACT));
 			Td cell14 = buildCellValue(problem.getImpact());
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
 			tooltipManager.appendRow(trRow1);
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String assignUserLink = (problem.getAssigntouser() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							problem.getAssigntouser()) : "";
@@ -409,34 +412,34 @@ public class ProjectTooltipGenerator {
 					.getAvatarLink(problem.getAssignUserAvatarId(), 16);
 			Td cell22 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					problem.getAssignedUserFullName());
-			Td cell23 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_PRIORITY));
+			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_PRIORITY));
 			Td cell24 = buildCellValue(problem.getPriority());
 			trRow2.appendChild(cell21, cell22, cell23, cell24);
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_DATE_DUE));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_DATE_DUE));
 			String datedue = DateTimeUtils.converToStringWithUserTimeZone(
 					problem.getDatedue(), timeZone);
 			Td cell32 = buildCellValue(datedue);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_RATING));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_RATING));
 			Td cell34 = buildCellValue(problem.getLevel());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_STATUS));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_STATUS));
 			Td cell42 = buildCellValue(problem.getStatus());
 			trRow4.appendChild(cell41, cell42);
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(ProblemI18nEnum.FORM_RESOLUTION));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProblemI18nEnum.FORM_RESOLUTION));
 			Td cell62 = buildCellValue(trimHtmlTags(problem.getResolution()));
 			cell62.setAttribute("colspan", "3");
 			trRow6.appendChild(cell61, cell62);
@@ -451,30 +454,30 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipVersion(Version version,
+	public static String generateToolTipVersion(Locale locale, Version version,
 			String siteURL, String timeZone) {
 		if (version == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(version.getVersionname());
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell22 = buildCellValue(trimHtmlTags(version.getDescription()));
 			cell22.setAttribute("colspan", "3");
 			trRow2.appendChild(cell21, cell22);
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(VersionI18nEnum.FORM_DUE_DATE));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					VersionI18nEnum.FORM_DUE_DATE));
 			String duedate = DateTimeUtils.converToStringWithUserTimeZone(
 					version.getDuedate(), timeZone);
 			Td cell32 = buildCellValue(duedate);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(VersionI18nEnum.FORM_STATUS));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					VersionI18nEnum.FORM_STATUS));
 			Td cell34 = buildCellValue(version.getStatus());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
@@ -486,26 +489,26 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipComponent(SimpleComponent component,
-			String siteURL, String timeZone) {
+	public static String generateToolTipComponent(Locale locale,
+			SimpleComponent component, String siteURL, String timeZone) {
 		if (component == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(component.getComponentname());
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell22 = buildCellValue(trimHtmlTags(component.getDescription()));
 			cell22.setAttribute("colspan", "3");
 			trRow2.appendChild(cell21, cell22);
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(ComponentI18nEnum.FORM_LEAD));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					ComponentI18nEnum.FORM_LEAD));
 			String leadLink = (component.getUserlead() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL,
 							component.getUserlead()) : "";
@@ -523,18 +526,18 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipTaskList(SimpleTaskList taskList,
-			String siteURL, String timeZone) {
+	public static String generateToolTipTaskList(Locale locale,
+			SimpleTaskList taskList, String siteURL, String timeZone) {
 
 		if (taskList == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(taskList.getName());
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell22 = buildCellValue(trimHtmlTags(taskList.getDescription()));
 			cell22.setAttribute("colspan", "3");
 			trRow2.appendChild(cell21, cell22);
@@ -542,8 +545,8 @@ public class ProjectTooltipGenerator {
 
 			// Assignee
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String ownerLink = (taskList.getOwner() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, taskList.getOwner())
 					: "";
@@ -551,8 +554,8 @@ public class ProjectTooltipGenerator {
 					taskList.getOwnerAvatarId(), 16);
 			Td cell32 = buildCellLink(ownerLink, ownerAvatarLink,
 					taskList.getOwnerFullName());
-			Td cell33 = buildCellName(AppContext
-					.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					TaskGroupI18nEnum.FORM_MILESTONE_FIELD));
 			String milestoneLink = (taskList.getMilestoneid() != null) ? ProjectLinkUtils
 					.generateMilestonePreviewFullLink(siteURL,
 							taskList.getProjectid(), taskList.getId()) : "";
@@ -568,35 +571,35 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipProject(SimpleProject project,
-			String siteURL, String timeZone) {
+	public static String generateToolTipProject(Locale locale,
+			SimpleProject project, String siteURL, String timeZone) {
 		if (project == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(project.getName());
 
 			Tr trRow1 = new Tr();
-			Td cell11 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_HOME_PAGE));
+			Td cell11 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_HOME_PAGE));
 			String homepageLink = (project.getHomepage() != null) ? project
 					.getHomepage() : "";
 			Td cell12 = buildCellLink(homepageLink, project.getHomepage());
-			Td cell13 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_STATUS));
+			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_STATUS));
 			Td cell14 = buildCellValue(project.getProjectstatus());
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_PLAN_START_DATE));
 			String planStartDate = DateTimeUtils
 					.converToStringWithUserTimeZone(project.getPlanstartdate(),
 							timeZone);
 			Td cell22 = buildCellValue(planStartDate);
-			Td cell23 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_CURRENCY));
+			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_CURRENCY));
 			String currency = (project.getCurrency() != null) ? StringUtils
 					.getStringFieldValue(project.getCurrency().getSymbol())
 					: "";
@@ -605,46 +608,46 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_PLAN_END_DATE));
 			String planEndDate = DateTimeUtils.converToStringWithUserTimeZone(
 					project.getPlanenddate(), timeZone);
 			Td cell32 = buildCellValue(planEndDate);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_BILLING_RATE));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_BILLING_RATE));
 			Td cell34 = buildCellValue(project.getDefaultbillingrate());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_ACTUAL_START_DATE));
 			String actualStartDate = DateTimeUtils
 					.converToStringWithUserTimeZone(
 							project.getActualstartdate(), timeZone);
 			Td cell42 = buildCellValue(actualStartDate);
-			Td cell43 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET));
+			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_TARGET_BUDGET));
 			Td cell44 = buildCellValue(project.getTargetbudget());
 			trRow4.appendChild(cell41, cell42, cell43, cell44);
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow5 = new Tr();
-			Td cell51 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE));
+			Td cell51 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_ACTUAL_END_DATE));
 			String actualEndDate = DateTimeUtils
 					.converToStringWithUserTimeZone(project.getActualenddate(),
 							timeZone);
 			Td cell52 = buildCellValue(actualEndDate);
-			Td cell53 = buildCellName(AppContext
-					.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET));
+			Td cell53 = buildCellName(LocalizationHelper.getMessage(locale,
+					ProjectI18nEnum.FORM_ACTUAL_BUDGET));
 			Td cell54 = buildCellValue(project.getActualbudget());
 			trRow5.appendChild(cell51, cell52, cell53, cell54);
 			tooltipManager.appendRow(trRow5);
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell62 = buildCellValue(trimHtmlTags(project.getDescription()));
 			cell62.setAttribute("colspan", "3");
 			trRow6.appendChild(cell61, cell62);
@@ -659,23 +662,23 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipMilestone(SimpleMilestone milestone,
-			String siteURL, String timeZone) {
+	public static String generateToolTipMilestone(Locale locale,
+			SimpleMilestone milestone, String siteURL, String timeZone) {
 		if (milestone == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();
 			tooltipManager.setTitle(milestone.getName());
 
 			Tr trRow2 = new Tr();
-			Td cell21 = buildCellName(AppContext
-					.getMessage(MilestoneI18nEnum.FORM_START_DATE_FIELD));
+			Td cell21 = buildCellName(LocalizationHelper.getMessage(locale,
+					MilestoneI18nEnum.FORM_START_DATE_FIELD));
 			String startDate = DateTimeUtils.converToStringWithUserTimeZone(
 					milestone.getStartdate(), timeZone);
 			Td cell22 = buildCellValue(startDate);
-			Td cell23 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_ASSIGNEE_FIELD));
+			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_ASSIGNEE_FIELD));
 			String assignUserLink = (milestone.getOwner() != null) ? AccountLinkUtils
 					.generatePreviewFullUserLink(siteURL, milestone.getOwner())
 					: "";
@@ -687,30 +690,30 @@ public class ProjectTooltipGenerator {
 			tooltipManager.appendRow(trRow2);
 
 			Tr trRow3 = new Tr();
-			Td cell31 = buildCellName(AppContext
-					.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD));
+			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
+					MilestoneI18nEnum.FORM_END_DATE_FIELD));
 			String endDate = DateTimeUtils.converToStringWithUserTimeZone(
 					milestone.getEnddate(), timeZone);
 			Td cell32 = buildCellValue(endDate);
-			Td cell33 = buildCellName(AppContext
-					.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD));
+			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
+					MilestoneI18nEnum.FORM_STATUS_FIELD));
 			Td cell34 = buildCellValue(milestone.getStatus());
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
-			Td cell41 = buildCellName(AppContext
-					.getMessage(MilestoneI18nEnum.FORM_TASK_FIELD));
+			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
+					MilestoneI18nEnum.FORM_TASK_FIELD));
 			Td cell42 = buildCellValue(milestone.getNumTasks());
-			Td cell43 = buildCellName(AppContext
-					.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD));
+			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
+					MilestoneI18nEnum.FORM_BUG_FIELD));
 			Td cell44 = buildCellValue(milestone.getNumBugs());
 			trRow4.appendChild(cell41, cell42, cell43, cell44);
 			tooltipManager.appendRow(trRow4);
 
 			Tr trRow6 = new Tr();
-			Td cell61 = buildCellName(AppContext
-					.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+			Td cell61 = buildCellName(LocalizationHelper.getMessage(locale,
+					GenericI18Enum.FORM_DESCRIPTION));
 			Td cell62 = buildCellValue(trimHtmlTags(milestone.getDescription()));
 			cell62.setAttribute("colspan", "3");
 			trRow6.appendChild(cell61, cell62);
@@ -725,10 +728,10 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipStandUp(SimpleStandupReport standup,
-			String siteURL, String timeZone) {
+	public static String generateToolTipStandUp(Locale locale,
+			SimpleStandupReport standup, String siteURL, String timeZone) {
 		if (standup == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 
 		try {
 
@@ -748,8 +751,8 @@ public class ProjectTooltipGenerator {
 					new Td().setStyle(
 							"width: 165px; vertical-align: top; text-align: right;")
 							.appendText(
-									AppContext
-											.getMessage(StandupI18nEnum.STANDUP_LASTDAY)))
+									LocalizationHelper.getMessage(locale,
+											StandupI18nEnum.STANDUP_LASTDAY)))
 					.appendChild(
 							new Td().setStyle(
 									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
@@ -760,8 +763,8 @@ public class ProjectTooltipGenerator {
 					new Td().setStyle(
 							"width: 165px;vertical-align: top; text-align: right;")
 							.appendText(
-									AppContext
-											.getMessage(StandupI18nEnum.STANDUP_TODAY)))
+									LocalizationHelper.getMessage(locale,
+											StandupI18nEnum.STANDUP_TODAY)))
 					.appendChild(
 							new Td().setStyle(
 									"break-word; white-space: normal;vertical-align: top; word-break: break-all;")
@@ -771,8 +774,8 @@ public class ProjectTooltipGenerator {
 					new Td().setStyle(
 							"width: 165px;vertical-align: top; text-align: right;")
 							.appendText(
-									AppContext
-											.getMessage(StandupI18nEnum.STANDUP_ISSUE)))
+									LocalizationHelper.getMessage(locale,
+											StandupI18nEnum.STANDUP_ISSUE)))
 					.appendChild(
 							new Td().setStyle(
 									"break-word; white-space: normal;vertical-align: top; word-break: break-all;")
@@ -793,10 +796,10 @@ public class ProjectTooltipGenerator {
 		}
 	}
 
-	public static String generateToolTipMessage(SimpleMessage message,
-			String siteURL, String timeZone) {
+	public static String generateToolTipMessage(Locale locale,
+			SimpleMessage message, String siteURL, String timeZone) {
 		if (message == null)
-			return generateTolltipNull();
+			return generateTolltipNull(locale);
 
 		try {
 			TooltipBuilder tooltipManager = new TooltipBuilder();

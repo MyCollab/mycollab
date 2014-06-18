@@ -104,8 +104,8 @@ public class ContactTableDisplay
 						CrmLinkBuilder.generateContactPreviewLinkFull(contact
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateToolTipContact(
-						contact, AppContext.getSiteUrl(),
-						AppContext.getTimezoneId()));
+						AppContext.getUserLocale(), contact,
+						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 				return b;
 			}
 		});

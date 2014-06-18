@@ -75,9 +75,10 @@ public class DueBugWidget extends BugDisplayWidget {
 					ProjectLinkBuilder.generateBugPreviewFullLink(
 							bug.getProjectid(), bug.getId()));
 			defectLink.setWidth("100%");
-			defectLink.setDescription(ProjectTooltipGenerator
-					.generateToolTipBug(bug, AppContext.getSiteUrl(),
-							AppContext.getTimezoneId()));
+			defectLink
+					.setDescription(ProjectTooltipGenerator.generateToolTipBug(
+							AppContext.getUserLocale(), bug,
+							AppContext.getSiteUrl(), AppContext.getTimezoneId()));
 
 			if (bug.isOverdue()) {
 				defectLink.addStyleName(UIConstants.LINK_OVERDUE);
