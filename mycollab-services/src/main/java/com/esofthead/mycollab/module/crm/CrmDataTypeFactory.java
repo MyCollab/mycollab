@@ -32,6 +32,11 @@
  */
 package com.esofthead.mycollab.module.crm;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -48,9 +53,11 @@ public class CrmDataTypeFactory {
 			"Shipping", "Technology", "Telecommunications", "Utilities",
 			"Other" };
 
-	private static String[] ACCOUNT_TYPE_LIST = new String[] { "Analysts",
-			"Competitor", "Customer", "Integrator", "Investor", "Partner",
-			"Press", "Prospect", "Reseller", "Other" };
+	private static final List<AccountType> ACCOUNT_TYPE_LIST = Arrays.asList(
+			AccountType.Analyst, AccountType.Competitor, AccountType.Customer,
+			AccountType.Integrator, AccountType.Investor, AccountType.Partner,
+			AccountType.Press, AccountType.Prospect, AccountType.Reseller,
+			AccountType.Other);
 
 	private static String[] LEAD_SOURCE_LIST = new String[] { "Cold Call",
 			"Existing Customer", "Self Generated", "Employee", "Partner",
@@ -106,7 +113,7 @@ public class CrmDataTypeFactory {
 		return ACCOUNT_INDUSTRY_LIST;
 	}
 
-	public static String[] getAccountTypeList() {
+	public static List<? extends Enum> getAccountTypeList() {
 		return ACCOUNT_TYPE_LIST;
 	}
 

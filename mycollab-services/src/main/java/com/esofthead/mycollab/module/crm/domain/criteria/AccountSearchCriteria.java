@@ -25,6 +25,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.I18nStringListParam;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
@@ -74,9 +75,9 @@ public class AccountSearchCriteria extends SearchCriteria {
 			"Industry", "m_crm_account", "industry",
 			Arrays.asList(CrmDataTypeFactory.getAccountIndustryList()));
 
-	public static Param p_types = new StringListParam("account-type", "Type",
-			"m_crm_account", "type", Arrays.asList(CrmDataTypeFactory
-					.getAccountTypeList()));
+	public static Param p_types = new I18nStringListParam("account-type",
+			"Type", "m_crm_account", "type",
+			CrmDataTypeFactory.getAccountTypeList());
 
 	public static Param p_billingCountry = new StringListParam(
 			"account-billingCountry", "Billing Country", "m_crm_account",

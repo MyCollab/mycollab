@@ -226,8 +226,7 @@
 		   					padding: 0 12px;
 		   				}
 	    			}
-	    			.add-btn {
-	    				.v-button-caption {
+	    			.v-touchkit-navbutton.add-btn {
 	    					font-family: 'icomoon';
 							speak: none;
 							font-style: normal;
@@ -239,12 +238,12 @@
 							-webkit-font-smoothing: antialiased;
 							-moz-osx-font-smoothing: grayscale;
 							color: rgb(255, 255, 255);
-	    				}
-	    				.v-button-caption:before {
-							content: "\e60e";
-							font-size: 2rem;
-	    				}
+							padding: 4px 10px;
 	    			}
+    				.v-touchkit-navbutton.add-btn:before {
+						content: "\e60e";
+						font-size: 2rem;
+    				}
 	    		}
 	    	}
 	    	

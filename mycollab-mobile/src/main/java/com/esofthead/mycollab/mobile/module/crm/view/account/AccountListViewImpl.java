@@ -26,8 +26,7 @@ import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -82,15 +81,18 @@ public class AccountListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addAccount = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		NavigationButton addAccount = new NavigationButton();
+		addAccount
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
-						new AccountEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						EventBus.getInstance().fireEvent(
+								new AccountEvent.GotoAdd(this, null));
+					}
+				});
 		addAccount.setStyleName("add-btn");
 		return addAccount;
 	}

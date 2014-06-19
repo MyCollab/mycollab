@@ -33,6 +33,8 @@ import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent;
+import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
@@ -87,18 +89,17 @@ public class MobileApplication extends UI {
 		}
 
 		final NavigationManager manager = new NavigationManager();
-		// manager.addNavigationListener(new
-		// NavigationManager.NavigationListener() {
-		// private static final long serialVersionUID = -2317588983851761998L;
-		//
-		// @Override
-		// public void navigate(NavigationEvent event) {
-		// if (event.getDirection() == Direction.BACK) {
-		// manager.removeComponent(manager.getNextComponent());
-		// manager.getState().setNextComponent(null);
-		// }
-		// }
-		// });
+		manager.addNavigationListener(new NavigationManager.NavigationListener() {
+			private static final long serialVersionUID = -2317588983851761998L;
+
+			@Override
+			public void navigate(NavigationEvent event) {
+				if (event.getDirection() == Direction.BACK) {
+					manager.removeComponent(manager.getNextComponent());
+					manager.getState().setNextComponent(null);
+				}
+			}
+		});
 		setContent(manager);
 
 		registerControllers(manager);

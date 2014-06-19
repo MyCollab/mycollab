@@ -34,6 +34,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 
 /**
  * 
@@ -41,7 +42,7 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
  * @since 4.0
  * 
  */
-public class AccountTypeComboBox extends ValueComboBox {
+public class AccountTypeComboBox extends I18nValueComboBox {
 	private static final long serialVersionUID = 1L;
 
 	public AccountTypeComboBox() {

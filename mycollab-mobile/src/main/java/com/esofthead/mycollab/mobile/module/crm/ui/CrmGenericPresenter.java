@@ -32,6 +32,8 @@ public class CrmGenericPresenter<V extends PageView> extends
 
 	@Override
 	protected void onGo(NavigationManager navigator, ScreenData<?> data) {
-		navigator.navigateTo(view.getWidget());
+		if (!view.isAttached()) {
+			navigator.navigateTo(view.getWidget());
+		}
 	}
 }

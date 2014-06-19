@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -42,6 +44,8 @@ import com.vaadin.ui.VerticalLayout;
  * @since 2.0
  */
 public class DefaultFormViewFieldFactory {
+	private static Logger log = LoggerFactory
+			.getLogger(DefaultFormViewFieldFactory.class);
 
 	public static interface AttachmentUploadField extends Field {
 		void saveContentsToRepo(String attachmentPath);
@@ -420,6 +424,46 @@ public class DefaultFormViewFieldFactory {
 
 			if (value != null && (!value.equals(""))) {
 				label.setValue(value);
+			} else {
+				label.setValue("");
+			}
+
+			return label;
+		}
+	}
+
+	public static class I18nFormViewField extends CustomField<String> {
+		private static final long serialVersionUID = 1L;
+
+		private String key;
+		private Class<? extends Enum> enumClass;
+
+		public I18nFormViewField(final String key, Class<? extends Enum> enumCls) {
+			this.key = key;
+			this.enumClass = enumCls;
+		}
+
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
+
+		@Override
+		protected Component initContent() {
+			final Label label = new Label();
+			label.setWidth("100%");
+			label.setContentMode(ContentMode.TEXT);
+
+			if (key != null && (!key.equals(""))) {
+				try {
+					String value = AppContext.getMessage(Enum.valueOf(
+							enumClass, key));
+					label.setValue(value);
+				} catch (Exception e) {
+					label.setValue("");
+					log.error("Error while get i18n message of {} - {}",
+							enumClass, key);
+				}
 			} else {
 				label.setValue("");
 			}

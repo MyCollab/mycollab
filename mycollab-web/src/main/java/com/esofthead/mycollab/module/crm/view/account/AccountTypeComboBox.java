@@ -17,9 +17,15 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 
-public class AccountTypeComboBox extends ValueComboBox {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class AccountTypeComboBox extends I18nValueComboBox {
 	private static final long serialVersionUID = 1L;
 
 	public AccountTypeComboBox() {

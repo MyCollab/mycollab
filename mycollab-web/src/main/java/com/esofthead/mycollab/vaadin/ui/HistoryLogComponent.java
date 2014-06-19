@@ -304,4 +304,24 @@ public class HistoryLogComponent extends VerticalLayout {
 			return new Label("");
 		}
 	}
+
+	public static class I18nHistoryFieldFormat implements HistoryFieldFormat {
+
+		private Class<? extends Enum> enumCls;
+
+		public I18nHistoryFieldFormat(Class<? extends Enum> enumCls) {
+			this.enumCls = enumCls;
+		}
+
+		@Override
+		public Component formatField(String value) {
+			if (value != null && !"".equals(value)) {
+				return new Label(AppContext.getMessage(Enum.valueOf(enumCls,
+						value)));
+			}
+
+			return new Label("");
+		}
+
+	}
 }

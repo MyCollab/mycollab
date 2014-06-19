@@ -38,13 +38,12 @@ public class ValueComboBox extends ComboBox {
 	 * @param values
 	 */
 	public ValueComboBox(boolean nullIsAllowable, String... values) {
-		super();
+		this();
 		this.setNullSelectionAllowed(nullIsAllowable);
 		this.setImmediate(true);
 		this.loadData(values);
 
 		this.select(this.getItemIds().iterator().next());
-		this.setPageLength(20);
 	}
 
 	public ValueComboBox(boolean nullIsAllowable, Number... values) {

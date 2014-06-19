@@ -69,6 +69,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 
 	public AbstractPagedBeanList(Class<B> type, String displayColumnId) {
 		super();
+		setWidth("100%");
 		setSizeFull();
 		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
 		scrollLayout

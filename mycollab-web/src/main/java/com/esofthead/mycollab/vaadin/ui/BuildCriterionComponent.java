@@ -36,6 +36,7 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.ConcatStringParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
+import com.esofthead.mycollab.core.db.query.I18nStringListParam;
 import com.esofthead.mycollab.core.db.query.JsonDeSerializerSearchFieldInfoHelper;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.Param;
@@ -416,6 +417,15 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 				listSelect.setWidth(width);
 				valueBox.addComponent(listSelect);
 
+			} else if (param instanceof I18nStringListParam) {
+				I18nValueListSelect listSelect = new I18nValueListSelect();
+				listSelect.setCaption(null);
+				listSelect.loadData(((I18nStringListParam) param)
+						.getLstValues());
+				listSelect.setValue(searchFieldInfo.getValue());
+				listSelect.setWidth(width);
+				valueBox.addComponent(listSelect);
+
 			} else if (param instanceof CompositionStringParam) {
 				TextField tempTextField = new TextField();
 				tempTextField.setValue(String.valueOf(searchFieldInfo
@@ -458,6 +468,9 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						} else if (field instanceof StringListParam) {
 							compareSelectionBox
 									.loadData(StringListParam.OPTIONS);
+						} else if (field instanceof I18nStringListParam) {
+							compareSelectionBox
+									.loadData(I18nStringListParam.OPTIONS);
 						} else if (field instanceof CompositionStringParam) {
 							compareSelectionBox.loadData(StringParam.OPTIONS);
 						} else if (field instanceof ConcatStringParam) {
@@ -528,6 +541,13 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 						.toArray(new String[0]));
 				listSelect.setWidth(width);
 				valueBox.addComponent(listSelect);
+			} else if (field instanceof I18nStringListParam) {
+				I18nValueListSelect listSelect = new I18nValueListSelect();
+				listSelect.setCaption(null);
+				listSelect.loadData(((I18nStringListParam) field)
+						.getLstValues());
+				listSelect.setWidth(width);
+				valueBox.addComponent(listSelect);
 			} else if (field instanceof CompositionStringParam) {
 				TextField tempTextField = new TextField();
 				tempTextField.setWidth(width);
@@ -586,6 +606,29 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					}
 
 					StringListParam wrapParam = (StringListParam) param;
+
+					switch (compareOper) {
+					case StringListParam.IN:
+						return wrapParam.buildStringParamInList(
+								prefixOperation, value);
+					case StringListParam.NOT_IN:
+						return wrapParam.buildStringParamNotInList(
+								prefixOperation, value);
+					default:
+						throw new MyCollabException("Not support yet");
+					}
+				} else if (param instanceof I18nStringListParam) {
+					if (valueBox.getComponentCount() != 1) {
+						return null;
+					}
+					I18nValueListSelect field = (I18nValueListSelect) valueBox
+							.getComponent(0);
+					Collection<?> value = (Collection<?>) field.getValue();
+					if (value.size() == 0) {
+						return null;
+					}
+
+					I18nStringListParam wrapParam = (I18nStringListParam) param;
 
 					switch (compareOper) {
 					case StringListParam.IN:
