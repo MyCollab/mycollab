@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.CountryValueFactory;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 
 /**
  * 
@@ -43,51 +45,56 @@ public class AccountSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_accountName = new StringParam("account-name",
-			"Account Name", "m_crm_account", "accountName");
+			AccountI18nEnum.FORM_ACCOUNT_NAME, "m_crm_account", "accountName");
 
 	public static Param p_website = new StringParam("account-website",
-			"Website", "m_crm_account", "website");
+			AccountI18nEnum.FORM_WEBSITE, "m_crm_account", "website");
 
 	public static Param p_numemployees = new NumberParam("account-employees",
-			"Employees", "m_crm_account", "numemployees");
+			AccountI18nEnum.FORM_EMPLOYEES, "m_crm_account", "numemployees");
 
 	public static Param p_assignee = new PropertyListParam(
-			"account-assignuser", "Assignee", "m_crm_account", "assignUser");
+			"account-assignuser", GenericI18Enum.FORM_ASSIGNEE,
+			"m_crm_account", "assignUser");
 
 	public static Param p_createdtime = new DateParam("account-createdtime",
-			"Created Time", "m_crm_account", "createdTime");
+			GenericI18Enum.FORM_CREATED_TIME, "m_crm_account", "createdTime");
 
 	public static Param p_lastupdatedtime = new DateParam(
-			"account-lastupdatedtime", "Last Updated Time", "m_crm_account",
-			"lastUpdatedTime");
+			"account-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+			"m_crm_account", "lastUpdatedTime");
 
 	public static Param p_anyCity = new CompositionStringParam(
-			"account-anyCity", "Any City", new StringParam[] {
-					new StringParam("", "", "m_crm_account", "city"),
-					new StringParam("", "", "m_crm_account", "shippingCity") });
+			"account-anyCity",
+			AccountI18nEnum.FORM_ANY_CITY,
+			new StringParam[] {
+					new StringParam("", null, "m_crm_account", "city"),
+					new StringParam("", null, "m_crm_account", "shippingCity") });
 
 	public static Param p_anyPhone = new CompositionStringParam(
-			"account-anyPhone", "Any Phone", new StringParam[] {
-					new StringParam("", "", "m_crm_account", "alternatePhone"),
-					new StringParam("", "", "m_crm_account", "phoneOffice") });
+			"account-anyPhone",
+			AccountI18nEnum.FORM_ANY_PHONE,
+			new StringParam[] {
+					new StringParam("", null, "m_crm_account", "alternatePhone"),
+					new StringParam("", null, "m_crm_account", "phoneOffice") });
 
 	public static Param p_industries = new StringListParam("account-industry",
-			"Industry", "m_crm_account", "industry",
+			AccountI18nEnum.FORM_INDUSTRY, "m_crm_account", "industry",
 			Arrays.asList(CrmDataTypeFactory.getAccountIndustryList()));
 
 	public static Param p_types = new I18nStringListParam("account-type",
-			"Type", "m_crm_account", "type",
+			AccountI18nEnum.FORM_TYPE, "m_crm_account", "type",
 			CrmDataTypeFactory.getAccountTypeList());
 
 	public static Param p_billingCountry = new StringListParam(
-			"account-billingCountry", "Billing Country", "m_crm_account",
-			"billingCountry", Arrays.asList(CountryValueFactory
-					.getCountryList()));
+			"account-billingCountry", AccountI18nEnum.FORM_BILLING_COUNTRY,
+			"m_crm_account", "billingCountry",
+			Arrays.asList(CountryValueFactory.getCountryList()));
 
 	public static Param p_shippingCountry = new StringListParam(
-			"account-shippingCountry", "Shipping Country", "m_crm_account",
-			"shippingCountry", Arrays.asList(CountryValueFactory
-					.getCountryList()));
+			"account-shippingCountry", AccountI18nEnum.FORM_SHIPPING_COUNTRY,
+			"m_crm_account", "shippingCountry",
+			Arrays.asList(CountryValueFactory.getCountryList()));
 
 	private StringSearchField accountname;
 	private StringSearchField assignUser;

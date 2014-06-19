@@ -35,7 +35,7 @@ public class PropertyListParam extends ColumnParam {
 	private static String IN_EXPR = "%s.%s in ";
 	private static String NOT_IN_EXPR = "%s.%s not in ";
 
-	public PropertyListParam(String id, String displayName, String table,
+	public PropertyListParam(String id, Enum displayName, String table,
 			String column) {
 		super(id, displayName, table, column);
 	}

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.core.db.query.PropertyParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 
 /**
  * 
@@ -40,43 +42,43 @@ public class CaseSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_priority = new StringListParam("case-priority",
-			"Priority", "m_crm_case", "priority",
+			CaseI18nEnum.FORM_PRIORITY, "m_crm_case", "priority",
 			Arrays.asList(CrmDataTypeFactory.getCasesPriorityList()));
 
 	public static Param p_account = new PropertyParam("case-account",
-			"Account", "m_crm_case", "accountId");
+			CaseI18nEnum.FORM_ACCOUNT, "m_crm_case", "accountId");
 
-	public static Param p_status = new StringListParam("case-status", "Status",
-			"m_crm_case", "status", Arrays.asList(CrmDataTypeFactory
-					.getCasesStatusList()));
+	public static Param p_status = new StringListParam("case-status",
+			CaseI18nEnum.FORM_STATUS, "m_crm_case", "status",
+			Arrays.asList(CrmDataTypeFactory.getCasesStatusList()));
 
-	public static Param p_type = new StringListParam("case-type", "Type",
-			"m_crm_case", "type", Arrays.asList(CrmDataTypeFactory
-					.getCasesType()));
+	public static Param p_type = new StringListParam("case-type",
+			CaseI18nEnum.FORM_TYPE, "m_crm_case", "type",
+			Arrays.asList(CrmDataTypeFactory.getCasesType()));
 
-	public static Param p_reason = new StringListParam("case-reason", "Reason",
-			"m_crm_case", "reason", Arrays.asList(CrmDataTypeFactory
-					.getCasesReason()));
+	public static Param p_reason = new StringListParam("case-reason",
+			CaseI18nEnum.FORM_REASON, "m_crm_case", "reason",
+			Arrays.asList(CrmDataTypeFactory.getCasesReason()));
 
-	public static Param p_origin = new StringListParam("case-origin", "Origin",
-			"m_crm_case", "origin", Arrays.asList(CrmDataTypeFactory
-					.getCasesOrigin()));
+	public static Param p_origin = new StringListParam("case-origin",
+			CaseI18nEnum.FORM_ORIGIN, "m_crm_case", "origin",
+			Arrays.asList(CrmDataTypeFactory.getCasesOrigin()));
 
-	public static Param p_subject = new StringParam("case-subject", "Subject",
-			"m_crm_case", "subject");
+	public static Param p_subject = new StringParam("case-subject",
+			CaseI18nEnum.FORM_SUBJECT, "m_crm_case", "subject");
 
-	public static Param p_email = new StringParam("case-subject", "Email",
-			"m_crm_case", "email");
+	public static Param p_email = new StringParam("case-subject",
+			CaseI18nEnum.FORM_EMAIL, "m_crm_case", "email");
 
 	public static Param p_assignee = new PropertyListParam("case-assignuser",
-			"Assignee", "m_crm_case", "assignUser");
+			GenericI18Enum.FORM_ASSIGNEE, "m_crm_case", "assignUser");
 
 	public static Param p_createdtime = new DateParam("case-createdtime",
-			"Created Time", "m_crm_case", "createdTime");
+			GenericI18Enum.FORM_CREATED_TIME, "m_crm_case", "createdTime");
 
 	public static Param p_lastupdatedtime = new DateParam(
-			"case-lastupdatedtime", "Last Updated Time", "m_crm_case",
-			"lastUpdatedTime");
+			"case-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+			"m_crm_case", "lastUpdatedTime");
 
 	private StringSearchField subject;
 

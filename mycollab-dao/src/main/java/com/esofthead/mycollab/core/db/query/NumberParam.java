@@ -50,8 +50,7 @@ public class NumberParam extends ColumnParam {
 	private static String LESS_THAN_EXPR = "%s.%s < ";
 	private static String LESS_THAN_EQUAL_EXPR = "%s.%s <= ";
 
-	public NumberParam(String id, String displayName, String table,
-			String column) {
+	public NumberParam(String id, Enum displayName, String table, String column) {
 		super(id, displayName, table, column);
 	}
 

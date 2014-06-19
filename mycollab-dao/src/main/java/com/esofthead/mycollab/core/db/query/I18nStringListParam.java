@@ -17,7 +17,7 @@ public class I18nStringListParam extends ColumnParam {
 
 	private List<? extends Enum> lstValues;
 
-	public I18nStringListParam(String id, String displayName, String table,
+	public I18nStringListParam(String id, Enum displayName, String table,
 			String column, List<? extends Enum> values) {
 		super(id, displayName, table, column);
 		this.lstValues = values;

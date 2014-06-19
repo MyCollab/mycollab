@@ -39,7 +39,7 @@ public class StringListParam extends ColumnParam {
 
 	private List<String> lstValues;
 
-	public StringListParam(String id, String displayName, String table,
+	public StringListParam(String id, Enum displayName, String table,
 			String column, List<String> values) {
 		super(id, displayName, table, column);
 		this.lstValues = values;

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -28,6 +29,7 @@ import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 
 /**
  * 
@@ -39,31 +41,33 @@ public class CampaignSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_campaignName = new StringParam("campaign-name",
-			"Campaign Name", "m_crm_campaign", "campaignName");
+			CampaignI18nEnum.FORM_CAMPAIGN_NAME, "m_crm_campaign",
+			"campaignName");
 
 	public static Param p_startDate = new DateParam("campaign-startdate",
-			"Start Date", "m_crm_campaign", "startDate");
+			CampaignI18nEnum.FORM_START_DATE, "m_crm_campaign", "startDate");
 
 	public static Param p_endDate = new DateParam("campaign-enddate",
-			"End Date", "m_crm_campaign", "endDate");
+			CampaignI18nEnum.FORM_END_DATE, "m_crm_campaign", "endDate");
 
 	public static Param p_createdtime = new DateParam("campaign-createdtime",
-			"Created Time", "m_crm_campaign", "createdTime");
+			GenericI18Enum.FORM_CREATED_TIME, "m_crm_campaign", "createdTime");
 
 	public static Param p_lastUpdatedTime = new DateParam(
-			"campaign-lastUpdatedTime", "Last Updated Time", "m_crm_campaign",
-			"lastUpdatedTime");
+			"campaign-lastUpdatedTime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+			"m_crm_campaign", "lastUpdatedTime");
 
-	public static Param p_types = new StringListParam("campaign-type", "Type",
-			"m_crm_campaign", "type", Arrays.asList(CrmDataTypeFactory
-					.getCampaignTypeList()));
+	public static Param p_types = new StringListParam("campaign-type",
+			CampaignI18nEnum.FORM_TYPE, "m_crm_campaign", "type",
+			Arrays.asList(CrmDataTypeFactory.getCampaignTypeList()));
 
 	public static Param p_statuses = new StringListParam("campaign-status",
-			"Status", "m_crm_campaign", "status",
+			CampaignI18nEnum.FORM_STATUS, "m_crm_campaign", "status",
 			Arrays.asList(CrmDataTypeFactory.getCampaignStatusList()));
 
 	public static Param p_assignee = new PropertyListParam(
-			"campaign-assignuser", "Assignee", "m_crm_campaign", "assignUser");
+			"campaign-assignuser", GenericI18Enum.FORM_ASSIGNEE,
+			"m_crm_campaign", "assignUser");
 
 	private StringSearchField campaignName;
 	private StringSearchField assignUser;

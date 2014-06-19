@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.tracker.domain.criteria;
 
 import java.util.Arrays;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateTimeSearchField;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 
 /**
  * 
@@ -42,37 +44,37 @@ public class BugSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_textDesc = new CompositionStringParam("bug-textDesc",
-			"Summary, Detail or Environment", new StringParam[] {
-					new StringParam("", "", "m_tracker_bug", "summary"),
-					new StringParam("", "", "m_tracker_bug", "detail") });
+			BugI18nEnum.FORM_ANY_TEXT, new StringParam[] {
+					new StringParam("", null, "m_tracker_bug", "summary"),
+					new StringParam("", null, "m_tracker_bug", "detail") });
 
 	public static Param p_createdtime = new DateParam("bug-createdtime",
-			"Created Date", "m_tracker_bug", "createdTime");
+			GenericI18Enum.FORM_CREATED_TIME, "m_tracker_bug", "createdTime");
 
 	public static Param p_lastupdatedtime = new DateParam(
-			"bug-lastupdatedtime", "Last Updated Date", "m_tracker_bug",
-			"lastUpdatedTime");
+			"bug-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+			"m_tracker_bug", "lastUpdatedTime");
 
 	public static Param p_resolveddate = new DateParam("bug-resolveddate",
-			"Resolved Date", "m_tracker_bug", "resolveddate");
+			BugI18nEnum.FORM_RESOLVED_DATE, "m_tracker_bug", "resolveddate");
 
-	public static Param p_duedate = new DateParam("bug-duedate", "Due Date",
-			"m_tracker_bug", "duedate");
+	public static Param p_duedate = new DateParam("bug-duedate",
+			BugI18nEnum.FORM_DUE_DATE, "m_tracker_bug", "duedate");
 
-	public static Param p_priority = new StringListParam("bug-industry",
-			"Priority", "m_tracker_bug", "priority",
+	public static Param p_priority = new StringListParam("bug-priority",
+			BugI18nEnum.FORM_PRIORITY, "m_tracker_bug", "priority",
 			Arrays.asList(ProjectDataTypeFactory.getBugPriorityList()));
 
 	public static Param p_severity = new StringListParam("bug-severity",
-			"Severity", "m_tracker_bug", "severity",
+			BugI18nEnum.FORM_SEVERITY, "m_tracker_bug", "severity",
 			Arrays.asList(ProjectDataTypeFactory.getBugSeverityList()));
 
-	public static Param p_status = new StringListParam("bug-status", "Status",
-			"m_tracker_bug", "status", Arrays.asList(ProjectDataTypeFactory
-					.getBugStatusList()));
+	public static Param p_status = new StringListParam("bug-status",
+			BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status",
+			Arrays.asList(ProjectDataTypeFactory.getBugStatusList()));
 
 	public static Param p_assignee = new PropertyListParam("bug-assignuser",
-			"Assignee", "m_tracker_bug", "assignuser");
+			GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");
 
 	private StringSearchField assignuser;
 

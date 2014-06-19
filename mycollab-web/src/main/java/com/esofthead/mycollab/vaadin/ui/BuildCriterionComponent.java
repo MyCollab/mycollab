@@ -442,7 +442,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			fieldSelectionBox.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 			for (Param field : paramFields) {
 				fieldSelectionBox.addItem(field);
-				fieldSelectionBox.setItemCaption(field, field.getDisplayName());
+				fieldSelectionBox.setItemCaption(field,
+						AppContext.getMessage(field.getDisplayName()));
 			}
 
 			fieldSelectionBox.addValueChangeListener(new ValueChangeListener() {

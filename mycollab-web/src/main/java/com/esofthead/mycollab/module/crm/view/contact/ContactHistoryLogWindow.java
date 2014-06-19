@@ -91,7 +91,7 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("othercountry",
 				AppContext.getMessage(ContactI18nEnum.FORM_OTHER_COUNTRY));
 		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(ContactI18nEnum.FORM_DESCRIPTION));
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 
 	}
 

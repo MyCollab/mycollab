@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.CountryValueFactory;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.core.db.query.PropertyParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 
 /**
  * 
@@ -43,54 +45,59 @@ public class ContactSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_name = new ConcatStringParam("contact-firstname",
-			"Contact Name", "m_crm_contact", new String[] { "firstname",
-					"lastname" });
+			ContactI18nEnum.FORM_NAME, "m_crm_contact", new String[] {
+					"firstname", "lastname" });
 
 	public static Param p_leadsource = new StringListParam(
-			"contact-leadsource", "Lead Source", "m_crm_contact", "leadSource",
-			Arrays.asList(CrmDataTypeFactory.getLeadSourceList()));
+			"contact-leadsource", ContactI18nEnum.FORM_LEAD_SOURCE,
+			"m_crm_contact", "leadSource", Arrays.asList(CrmDataTypeFactory
+					.getLeadSourceList()));
 
 	public static Param p_billingCountry = new StringListParam(
-			"contact-billingCountry", "Billing Country", "m_crm_contact",
-			"primCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+			"contact-billingCountry", ContactI18nEnum.FORM_PRIMARY_COUNTRY,
+			"m_crm_contact", "primCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
 
 	public static Param p_shippingCountry = new StringListParam(
-			"contact-shippingCountry", "Shipping Country", "m_crm_contact",
-			"otherCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+			"contact-shippingCountry", ContactI18nEnum.FORM_OTHER_COUNTRY,
+			"m_crm_contact", "otherCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
 
 	public static Param p_anyPhone = new CompositionStringParam(
 			"contact-anyPhone",
-			"Any Phone",
+			ContactI18nEnum.FORM_ANY_PHONE,
 			new StringParam[] {
-					new StringParam("", "", "m_crm_contact", "officePhone"),
-					new StringParam("", "", "m_crm_contact", "mobile"),
-					new StringParam("", "", "m_crm_contact", "homePhone"),
-					new StringParam("", "", "m_crm_contact", "otherPhone"),
-					new StringParam("", "", "m_crm_contact", "fax"),
-					new StringParam("", "", "m_crm_contact", "assistantPhone") });
+					new StringParam("", null, "m_crm_contact", "officePhone"),
+					new StringParam("", null, "m_crm_contact", "mobile"),
+					new StringParam("", null, "m_crm_contact", "homePhone"),
+					new StringParam("", null, "m_crm_contact", "otherPhone"),
+					new StringParam("", null, "m_crm_contact", "fax"),
+					new StringParam("", null, "m_crm_contact", "assistantPhone") });
 
 	public static Param p_anyEmail = new CompositionStringParam(
-			"contact-anyEmail", "Any Email",
-			new StringParam[] { new StringParam("", "", "m_crm_contact",
+			"contact-anyEmail", ContactI18nEnum.FORM_ANY_EMAIL,
+			new StringParam[] { new StringParam("", null, "m_crm_contact",
 					"email") });
 
 	public static Param p_anyCity = new CompositionStringParam(
-			"contact-anyCity", "Any City", new StringParam[] {
-					new StringParam("", "", "m_crm_contact", "primCity"),
-					new StringParam("", "", "m_crm_contact", "otherCity") });
+			"contact-anyCity", ContactI18nEnum.FORM_ANY_CITY,
+			new StringParam[] {
+					new StringParam("", null, "m_crm_contact", "primCity"),
+					new StringParam("", null, "m_crm_contact", "otherCity") });
 
 	public static Param p_account = new PropertyParam("contact-account",
-			"Account", "m_crm_contact", "accountId");
+			ContactI18nEnum.FORM_ACCOUNTS, "m_crm_contact", "accountId");
 
 	public static Param p_assignee = new PropertyListParam(
-			"contact-assignuser", "Assignee", "m_crm_contact", "assignUser");
+			"contact-assignuser", GenericI18Enum.FORM_ASSIGNEE,
+			"m_crm_contact", "assignUser");
 
 	public static Param p_createdtime = new DateParam("contact-createdtime",
-			"Created Time", "m_crm_contact", "createdTime");
+			GenericI18Enum.FORM_CREATED_TIME, "m_crm_contact", "createdTime");
 
 	public static Param p_lastupdatedtime = new DateParam(
-			"contact-lastupdatedtime", "Last Updated Time", "m_crm_contact",
-			"lastUpdatedTime");
+			"contact-lastupdatedtime", GenericI18Enum.FORM_LAST_UPDATED_TIME,
+			"m_crm_contact", "lastUpdatedTime");
 
 	private StringSearchField contactName;
 	private SetSearchField<String> assignUsers;

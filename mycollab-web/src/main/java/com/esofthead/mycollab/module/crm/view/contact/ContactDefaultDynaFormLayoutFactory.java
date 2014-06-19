@@ -45,7 +45,8 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.TWO_COLUMN)
 				.orderIndex(0)
 				.header(AppContext
-						.getMessage(ContactI18nEnum.SECTION_INFORMATION)).build();
+						.getMessage(ContactI18nEnum.SECTION_INFORMATION))
+				.build();
 
 		contactSection.addField(new TextDynaFieldBuilder()
 				.fieldName("firstname")
@@ -141,13 +142,11 @@ public class ContactDefaultDynaFormLayoutFactory {
 										.getMessage(ContactI18nEnum.FORM_ASSISTANT_PHONE))
 						.fieldIndex(14).build());
 
-		contactSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.fieldIndex(15).build());
+		contactSection.addField(new TextDynaFieldBuilder()
+				.fieldName("assignuser")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.fieldIndex(15).build());
 
 		contactSection
 				.addField(new TextDynaFieldBuilder()
@@ -160,10 +159,8 @@ public class ContactDefaultDynaFormLayoutFactory {
 		defaultForm.addSection(contactSection);
 
 		DynaSection addressSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN)
-				.orderIndex(1)
-				.header(AppContext
-						.getMessage(ContactI18nEnum.SECTION_ADDRESS))
+				.layoutType(LayoutType.TWO_COLUMN).orderIndex(1)
+				.header(AppContext.getMessage(ContactI18nEnum.SECTION_ADDRESS))
 				.build();
 
 		addressSection
@@ -249,15 +246,14 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.layoutType(LayoutType.ONE_COLUMN)
 				.orderIndex(2)
 				.header(AppContext
-						.getMessage(ContactI18nEnum.SECTION_DESCRIPTION)).build();
+						.getMessage(ContactI18nEnum.SECTION_DESCRIPTION))
+				.build();
 
-		descSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("description")
-						.displayName(
-								AppContext
-										.getMessage(ContactI18nEnum.FORM_DESCRIPTION))
-						.fieldIndex(0).build());
+		descSection.addField(new TextDynaFieldBuilder()
+				.fieldName("description")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
+				.fieldIndex(0).build());
 
 		defaultForm.addSection(descSection);
 	}

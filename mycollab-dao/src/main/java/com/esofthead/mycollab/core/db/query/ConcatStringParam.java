@@ -36,7 +36,7 @@ public class ConcatStringParam extends Param {
 	private String table;
 	private String[] columns;
 
-	public ConcatStringParam(String id, String displayName, String table,
+	public ConcatStringParam(String id, Enum displayName, String table,
 			String[] columns) {
 		super(id, displayName);
 		this.table = table;
@@ -56,15 +56,15 @@ public class ConcatStringParam extends Param {
 	}
 
 	public OneValueSearchField buildStringParamIsLike(String oper, Object value) {
-		return new OneValueSearchField(oper, buildConcatField() + " like ", "%" + value
-				+ "%");
+		return new OneValueSearchField(oper, buildConcatField() + " like ", "%"
+				+ value + "%");
 	}
 
 	public OneValueSearchField buildStringParamIsNotLike(String oper,
 			Object value) {
 
-		return new OneValueSearchField(oper, buildConcatField() + " not like ", "%" + value
-				+ "%");
+		return new OneValueSearchField(oper, buildConcatField() + " not like ",
+				"%" + value + "%");
 	}
 
 	private String buildConcatField() {

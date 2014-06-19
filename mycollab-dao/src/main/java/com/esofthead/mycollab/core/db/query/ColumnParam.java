@@ -27,8 +27,7 @@ public class ColumnParam extends Param {
 	protected String table;
 	protected String column;
 
-	public ColumnParam(String id, String displayName, String table,
-			String column) {
+	public ColumnParam(String id, Enum displayName, String table, String column) {
 		super(id, displayName);
 		this.table = table;
 		this.column = column;

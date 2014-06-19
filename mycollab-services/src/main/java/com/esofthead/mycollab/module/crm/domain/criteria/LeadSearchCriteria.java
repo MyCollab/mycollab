@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.domain.criteria;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.CountryValueFactory;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.core.db.query.PropertyListParam;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 
 /**
  * 
@@ -40,50 +42,53 @@ public class LeadSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	public static Param p_leadContactName = new ConcatStringParam(
-			"lead-contactname", "Contact Name", "m_crm_lead", new String[] {
-					"firstname", "lastname" });
+			"lead-contactname", LeadI18nEnum.FORM_NAME, "m_crm_lead",
+			new String[] { "firstname", "lastname" });
 
 	public static Param p_accountName = new StringParam("lead-accountname",
-			"Account Name", "m_crm_lead", "accountName");
+			LeadI18nEnum.FORM_ACCOUNT_NAME, "m_crm_lead", "accountName");
 
 	public static Param p_website = new StringParam("lead-accountname",
-			"Website", "m_crm_lead", "website");
+			LeadI18nEnum.FORM_WEBSITE, "m_crm_lead", "website");
 
 	public static Param p_anyEmail = new CompositionStringParam(
-			"lead-anyEmail", "Any Email", new StringParam[] { new StringParam(
-					"", "", "m_crm_lead", "email") });
+			"lead-anyEmail",
+			LeadI18nEnum.FORM_ANY_EMAIL,
+			new StringParam[] { new StringParam("", null, "m_crm_lead", "email") });
 
 	public static Param p_anyPhone = new CompositionStringParam(
-			"lead-anyPhone", "Any Phone", new StringParam[] {
-					new StringParam("", "", "m_crm_lead", "officePhone"),
-					new StringParam("", "", "m_crm_lead", "homePhone"),
-					new StringParam("", "", "m_crm_lead", "mobile"),
-					new StringParam("", "", "m_crm_lead", "otherPhone"),
-					new StringParam("", "", "m_crm_lead", "fax") });
+			"lead-anyPhone", LeadI18nEnum.FORM_ANY_PHONE, new StringParam[] {
+					new StringParam("", null, "m_crm_lead", "officePhone"),
+					new StringParam("", null, "m_crm_lead", "homePhone"),
+					new StringParam("", null, "m_crm_lead", "mobile"),
+					new StringParam("", null, "m_crm_lead", "otherPhone"),
+					new StringParam("", null, "m_crm_lead", "fax") });
 
 	public static Param p_anyCity = new CompositionStringParam("lead-anyCity",
-			"Any City", new StringParam[] {
-					new StringParam("", "", "m_crm_lead", "primCity"),
-					new StringParam("", "", "m_crm_lead", "otherCity") });
+			LeadI18nEnum.FORM_ANY_CITY, new StringParam[] {
+					new StringParam("", null, "m_crm_lead", "primCity"),
+					new StringParam("", null, "m_crm_lead", "otherCity") });
 
 	public static Param p_billingCountry = new StringListParam(
-			"lead-billingCountry", "Billing Country", "m_crm_lead",
-			"primCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+			"lead-billingCountry", LeadI18nEnum.FORM_PRIMARY_COUNTRY,
+			"m_crm_lead", "primCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
 
 	public static Param p_shippingCountry = new StringListParam(
-			"lead-shippingCountry", "Shipping Country", "m_crm_lead",
-			"otherCountry", Arrays.asList(CountryValueFactory.getCountryList()));
+			"lead-shippingCountry", LeadI18nEnum.FORM_OTHER_COUNTRY,
+			"m_crm_lead", "otherCountry", Arrays.asList(CountryValueFactory
+					.getCountryList()));
 
 	public static Param p_statuses = new StringListParam("lead-status",
-			"Status", "m_crm_lead", "status", Arrays.asList(CrmDataTypeFactory
-					.getLeadStatusList()));
+			LeadI18nEnum.FORM_STATUS, "m_crm_lead", "status",
+			Arrays.asList(CrmDataTypeFactory.getLeadStatusList()));
 
 	public static Param p_sources = new StringListParam("lead-source",
-			"Source", "m_crm_lead", "source", Arrays.asList(CrmDataTypeFactory
-					.getLeadSourceList()));
+			LeadI18nEnum.FORM_LEAD_SOURCE, "m_crm_lead", "source",
+			Arrays.asList(CrmDataTypeFactory.getLeadSourceList()));
 
 	public static Param p_assignee = new PropertyListParam("lead-assignuser",
-			"Assignee", "m_crm_lead", "assignUser");
+			GenericI18Enum.FORM_ASSIGNEE, "m_crm_lead", "assignUser");
 
 	private StringSearchField leadName;
 	private SetSearchField<String> assignUsers;
