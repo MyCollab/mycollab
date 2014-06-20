@@ -1,4 +1,4 @@
-package com.esofthead.mycollab.i18n;
+package com.esofthead.mycollab.configuration;
 
 import java.util.Locale;
 
@@ -8,7 +8,7 @@ import java.util.Locale;
  * @since 4.3.0
  * 
  */
-public class LocaleUtils {
+public class LocaleHelper {
 	public static Locale toLocale(String language) {
 		if (language == null) {
 			return Locale.US;
@@ -16,8 +16,10 @@ public class LocaleUtils {
 
 		if ("Japanese".equals(language)) {
 			return Locale.JAPAN;
+		} else if ("English".equals(language)) {
+			return Locale.US;
 		}
 
-		return Locale.US;
+		return SiteConfiguration.getDefaultLocale();
 	}
 }

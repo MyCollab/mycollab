@@ -17,5 +17,10 @@
             <artifactId>mycollab-core</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>mycollab-config</artifactId>
+            <version>4.2.0</version>
+        </dependency>
     </dependencies>
 </project>

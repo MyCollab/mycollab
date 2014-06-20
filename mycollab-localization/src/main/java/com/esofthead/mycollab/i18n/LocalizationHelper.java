@@ -7,6 +7,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.configuration.LocaleHelper;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
 
@@ -33,7 +36,7 @@ public class LocalizationHelper {
 
 	public static IMessageConveyor getMessageConveyor(Locale language) {
 		if (language == null) {
-			return languageMap.get(Locale.US);
+			return languageMap.get(SiteConfiguration.getDefaultLocale());
 		} else {
 			IMessageConveyor messageConveyor = languageMap.get(language);
 			if (messageConveyor == null) {
@@ -57,7 +60,7 @@ public class LocalizationHelper {
 	public static String getMessage(String language, Enum key,
 			Object... objects) {
 		try {
-			Locale locale = LocaleUtils.toLocale(language);
+			Locale locale = LocaleHelper.toLocale(language);
 			return getMessage(locale, key, objects);
 		} catch (Exception e) {
 			log.error("Can not find resource key " + key, e);

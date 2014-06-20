@@ -32,9 +32,11 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -74,8 +76,9 @@ public class UserSignUpEmailNotificationJob extends QuartzJobBean {
 		if (lstSimpleUsers != null && lstSimpleUsers.size() > 0) {
 			for (SimpleUser user : lstSimpleUsers) {
 				TemplateGenerator templateGenerator = new TemplateGenerator(
-						"Please confirm your email",
-						userSignUpEmailNotificationTemplate);
+						"Please confirm your email", MailUtils.templatePath(
+								userSignUpEmailNotificationTemplate,
+								SiteConfiguration.getDefaultLocale()));
 				templateGenerator.putVariable("user", user);
 
 				String siteUrl = GenericLinkUtils

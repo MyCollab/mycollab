@@ -19,7 +19,7 @@ package com.esofthead.mycollab.schedule.email;
 import java.util.Locale;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
-import com.esofthead.mycollab.i18n.LocaleUtils;
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -41,7 +41,7 @@ public class MailContext<B> {
 			SimpleUser user, String siteUrl) {
 		this.emailNotification = emailNotification;
 		this.user = user;
-		this.locale = LocaleUtils.toLocale(user.getLanguage());
+		this.locale = LocaleHelper.toLocale(user.getLanguage());
 		this.siteUrl = siteUrl;
 	}
 

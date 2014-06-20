@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import java.util.Locale;
 import java.util.Properties;
 
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -45,6 +46,7 @@ public class SiteConfiguration {
 	private String dropboxCallbackUrl;
 	private String ggDriveCallbackUrl;
 	private String appUrl;
+	private Locale defaultLocale;
 
 	public static void loadInstance(int serverPort) {
 		ApplicationProperties.loadProps();
@@ -58,6 +60,9 @@ public class SiteConfiguration {
 
 		instance.serverAddress = ApplicationProperties.getString(
 				ApplicationProperties.SERVER_ADDRESS, "localhost");
+
+		instance.defaultLocale = toLocale(ApplicationProperties.getString(
+				ApplicationProperties.DEFAULT_LOCALE, "English"));
 
 		instance.serverPort = serverPort;
 
@@ -186,6 +191,10 @@ public class SiteConfiguration {
 		return instance.storageConfiguration;
 	}
 
+	public static Locale getDefaultLocale() {
+		return instance.defaultLocale;
+	}
+
 	public static boolean isSupportFileStorage() {
 		return instance.storageConfiguration instanceof FileStorageConfiguration;
 	}
@@ -225,5 +234,17 @@ public class SiteConfiguration {
 
 	public static int getServerPort() {
 		return instance.serverPort;
+	}
+
+	private static Locale toLocale(String language) {
+		if (language == null) {
+			return Locale.US;
+		}
+
+		if ("Japanese".equals(language)) {
+			return Locale.JAPAN;
+		}
+
+		return Locale.US;
 	}
 }

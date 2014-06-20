@@ -30,10 +30,10 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
 import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.i18n.LocaleUtils;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -110,7 +110,7 @@ public class AnnotatedTooltipGeneratorServletRequestHandler extends
 			String timeZone = request.getParameter("timeZone");
 			String username = request.getParameter("username");
 			String localeParam = request.getParameter("locale");
-			Locale locale = LocaleUtils.toLocale(localeParam);
+			Locale locale = LocaleHelper.toLocale(localeParam);
 
 			String html = "";
 			if (ProjectTypeConstants.PROJECT.equals(type)) {

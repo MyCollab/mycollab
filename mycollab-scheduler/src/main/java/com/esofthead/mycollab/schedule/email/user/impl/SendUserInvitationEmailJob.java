@@ -33,6 +33,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
@@ -72,7 +73,9 @@ public class SendUserInvitationEmailJob extends QuartzJobBean {
 
 			TemplateGenerator templateGenerator = new TemplateGenerator(
 					"You are invited to join the MyCollab!",
-					"templates/email/user/userInvitationNotifier.mt");
+					MailUtils.templatePath(
+							"templates/email/user/userInvitationNotifier.mt",
+							SiteConfiguration.getDefaultLocale()));
 			templateGenerator.putVariable("invitation", invitation);
 
 			templateGenerator.putVariable(

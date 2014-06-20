@@ -18,6 +18,7 @@ package com.esofthead.mycollab.schedule.email.user.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,9 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -50,10 +53,6 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 
 	@Override
 	public void sendEmail(RelayEmailWithBLOBs relayEmail) {
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"[MyCollab] - User recovery password",
-				"templates/email/user/userRecoveryPasswordNotifier.mt");
-
 		String username = relayEmail.getRecipients();
 		if (username != null) {
 			User user = userService.findUserByUserName(username);
@@ -62,7 +61,13 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 					.getSiteUrl(subdomain)
 					+ "user/recoverypassword/"
 					+ UrlEncodeDecoder.encode(username);
-
+			Locale locale = LocaleHelper.toLocale(user.getLanguage());
+			TemplateGenerator templateGenerator = new TemplateGenerator(
+					"[MyCollab] - User recovery password",
+					MailUtils
+							.templatePath(
+									"templates/email/user/userRecoveryPasswordNotifier.mt",
+									locale));
 			templateGenerator.putVariable("username", user.getUsername());
 			templateGenerator.putVariable("urlRecoveryPassword",
 					recoveryPasswordURL);

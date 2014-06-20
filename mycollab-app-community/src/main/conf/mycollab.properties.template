@@ -6,6 +6,7 @@
 #=====================================================
 #    SITE CONFIGURATION
 #=====================================================
+site.defaultLocale=English
 site.name=${sitename}
 running.mode=standalone
 server.address=${serveraddress}

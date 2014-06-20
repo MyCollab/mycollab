@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.cal10n.IMessageConveyor;
 
 import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -43,7 +44,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
-import com.esofthead.mycollab.i18n.LocaleUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
@@ -184,7 +184,7 @@ public class AppContext implements Serializable {
 
 	private void setLanguage() {
 		String language = session.getLanguage();
-		userLocale = LocaleUtils.toLocale(language);
+		userLocale = LocaleHelper.toLocale(language);
 		messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 	}
 
