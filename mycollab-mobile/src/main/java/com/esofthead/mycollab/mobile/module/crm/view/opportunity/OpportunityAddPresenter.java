@@ -39,7 +39,7 @@ import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.ComponentContainer;
 
 /**
  * 
@@ -90,7 +90,7 @@ public class OpportunityAddPresenter extends
 	}
 
 	@Override
-	protected void onGo(NavigationManager container, ScreenData<?> data) {
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
 
 			SimpleOpportunity opportunity = null;

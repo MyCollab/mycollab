@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -73,7 +74,10 @@ public class InviteOutsideProjectCommandListenerImpl implements
 				inviterUserName, sAccountId);
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				"$inviteUser has invited you to join the team for project \" $member.projectName\"",
-				"templates/email/project/memberInvitation/memberInvitationNotifier.mt");
+				MailUtils
+						.templatePath(
+								"templates/email/project/memberInvitation/memberInvitationNotifier.mt",
+								SiteConfiguration.getDefaultLocale()));
 
 		SimpleProjectMember member = new SimpleProjectMember();
 		member.setProjectName(project.getName());

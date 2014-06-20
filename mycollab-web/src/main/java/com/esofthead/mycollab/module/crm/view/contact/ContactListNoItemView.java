@@ -57,13 +57,13 @@ public class ContactListNoItemView extends AbstractPageView {
 		layout.addComponent(image);
 
 		Label title = new Label(
-				AppContext.getMessage(ContactI18nEnum.NO_ITEM_VIEW_TITLE));
+				AppContext.getMessage(ContactI18nEnum.VIEW_NO_ITEM_TITLE));
 		title.addStyleName("h2");
 		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(title);
 
 		Label contact = new Label(
-				AppContext.getMessage(ContactI18nEnum.NO_ITEM_VIEW_HINT));
+				AppContext.getMessage(ContactI18nEnum.VIEW_NO_ITEM_HINT));
 		contact.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(contact);
 

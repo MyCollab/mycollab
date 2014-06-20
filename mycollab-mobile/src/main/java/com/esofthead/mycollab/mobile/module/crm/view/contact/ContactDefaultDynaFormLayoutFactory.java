@@ -41,7 +41,7 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.esofthead.mycollab.mobile.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -120,13 +120,11 @@ public class ContactDefaultDynaFormLayoutFactory {
 				.fieldName("assistantphone").displayName("Assistant Phone")
 				.fieldIndex(14).build());
 
-		contactSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.fieldIndex(15).build());
+		contactSection.addField(new TextDynaFieldBuilder()
+				.fieldName("assignuser")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.fieldIndex(15).build());
 
 		contactSection.addField(new TextDynaFieldBuilder()
 				.fieldName("leadsource").displayName("Lead Source")

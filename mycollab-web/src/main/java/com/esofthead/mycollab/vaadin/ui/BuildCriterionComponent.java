@@ -37,7 +37,6 @@ import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.ConcatStringParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.I18nStringListParam;
-import com.esofthead.mycollab.core.db.query.JsonDeSerializerSearchFieldInfoHelper;
 import com.esofthead.mycollab.core.db.query.NumberParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
@@ -45,7 +44,7 @@ import com.esofthead.mycollab.core.db.query.PropertyParam;
 import com.esofthead.mycollab.core.db.query.SearchFieldInfo;
 import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
-import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -212,7 +211,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		SaveSearchResultWithBLOBs searchResult = new SaveSearchResultWithBLOBs();
 		searchResult.setSaveuser(AppContext.getUsername());
 		searchResult.setSaccountid(AppContext.getAccountId());
-		searchResult.setQuerytext(JsonDeSerializer.toJson(fieldInfos));
+		searchResult.setQuerytext(XStreamJsonDeSerializer.toJson(fieldInfos));
 		searchResult.setType(searchCategory);
 		searchResult.setQueryname(queryText);
 		saveSearchResultService.saveWithSession(searchResult,
@@ -757,8 +756,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 								.getItem(itemId).getBean();
 
 						String queryText = data.getQuerytext();
-						List<SearchFieldInfo> fieldInfos = JsonDeSerializerSearchFieldInfoHelper
+						List<SearchFieldInfo> fieldInfos = (List<SearchFieldInfo>) XStreamJsonDeSerializer
 								.fromJson(queryText);
+						// @HACK: === the library serialize with extra list
+						// wrapper
+						fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
 						fillSearchFieldInfo(fieldInfos);
 
 						if (filterBox.getComponentCount() <= 3) {
@@ -780,7 +782,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 													.getUsername());
 											data.setSaccountid(AppContext
 													.getAccountId());
-											data.setQuerytext(JsonDeSerializer
+											data.setQuerytext(XStreamJsonDeSerializer
 													.toJson(fieldInfos));
 											saveSearchResultService
 													.updateWithSession(

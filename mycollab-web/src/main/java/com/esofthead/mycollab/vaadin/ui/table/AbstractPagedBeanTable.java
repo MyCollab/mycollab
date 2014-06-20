@@ -34,6 +34,7 @@ import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -122,11 +123,12 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 							AppContext.getUsername(), viewId);
 			if (!(viewLayoutDef instanceof NullCustomViewStore)) {
 				try {
-					List<TableViewField> selectedColumns = JsonDeSerializer
-							.fromJson(viewLayoutDef.getViewinfo(),
-									new TypeToken<List<TableViewField>>() {
-									}.getType());
-					this.displayColumns = selectedColumns;
+					List<TableViewField> selectedColumns = (List<TableViewField>) XStreamJsonDeSerializer
+							.fromJson(viewLayoutDef.getViewinfo());
+					// @HACK: the problem in deserialize json cause the list of
+					// list
+					this.displayColumns = (List<TableViewField>) selectedColumns
+							.get(0);
 				} catch (Exception e) {
 					log.error("Error", e);
 					this.displayColumns = displayColumns;

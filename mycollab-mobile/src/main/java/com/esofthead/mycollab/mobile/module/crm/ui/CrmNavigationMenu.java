@@ -28,7 +28,6 @@ import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.mobile.module.user.ui.UserPanel;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -47,11 +46,11 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 	public CrmNavigationMenu() {
 		super();
 
-		setWidth("100%");
-
-		UserPanel userPanel = new UserPanel();
-		userPanel.setWidth("100%");
-		addComponent(userPanel);
+		// setWidth("100%");
+		//
+		// UserPanel userPanel = new UserPanel();
+		// userPanel.setWidth("100%");
+		// addComponent(userPanel);
 
 		final MenuButton accountBtn = new MenuButton("Accounts", "&#xE601;");
 		addComponent(accountBtn);

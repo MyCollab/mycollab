@@ -21,6 +21,7 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.ComponentContainer;
 
 /**
  * 
@@ -48,8 +49,14 @@ public abstract class ListPresenter<V extends IListView<S, B>, S extends SearchC
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void onGo(NavigationManager container, ScreenData<?> data) {
-		container.navigateTo(view.getWidget());
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		if (!view.isAttached()) {
+			if (container instanceof NavigationManager) {
+				((NavigationManager) container).navigateTo(view.getWidget());
+			} else {
+
+			}
+		}
 		doSearch((S) data.getParams());
 	}
 

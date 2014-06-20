@@ -22,9 +22,12 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
@@ -81,7 +84,9 @@ public class AccountListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		NavigationButton addAccount = new NavigationButton();
+		MobileNavigationButton addAccount = new MobileNavigationButton();
+		addAccount.setTargetViewCaption(AppContext
+				.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
 		addAccount
 				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -96,5 +101,4 @@ public class AccountListViewImpl extends
 		addAccount.setStyleName("add-btn");
 		return addAccount;
 	}
-
 }

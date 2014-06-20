@@ -73,7 +73,7 @@ public class ContactListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(ContactI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(ContactI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

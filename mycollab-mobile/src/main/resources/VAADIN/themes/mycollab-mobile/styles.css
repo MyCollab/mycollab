@@ -296,20 +296,20 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper {
   -webkit-tap-highlight-color: transparent;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-tabbar-toolbar .v-touchkit-toolbar {
   overflow-x: hidden;
   box-shadow: none;
   border-top: 1px solid #bbbbbb;
   background-color: #dedede;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .related-items .v-button {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button {
   color: #6a6a6a;
   background-color: #dedede;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .related-items .v-button span[data-icon]:before {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button span[data-icon]:before, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button span[data-icon]:before {
   font-size: 2.1rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
   color: #5e5055;
   background-color: rgba(187, 187, 187, 0.6);
 }

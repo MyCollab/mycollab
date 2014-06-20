@@ -20,6 +20,7 @@ import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.ComponentContainer;
 
 public class CrmGenericPresenter<V extends PageView> extends
 		AbstractPresenter<V> {
@@ -31,9 +32,14 @@ public class CrmGenericPresenter<V extends PageView> extends
 	}
 
 	@Override
-	protected void onGo(NavigationManager navigator, ScreenData<?> data) {
+	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		if (!view.isAttached()) {
-			navigator.navigateTo(view.getWidget());
+			if (navigator instanceof NavigationManager)
+				((NavigationManager) navigator).navigateTo(view.getWidget());
+			else {
+				navigator.removeAllComponents();
+				navigator.addComponent(view.getWidget());
+			}
 		}
 	}
 }

@@ -26,7 +26,7 @@ import org.vaadin.tepi.listbuilder.ListBuilder;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
-import com.esofthead.mycollab.core.utils.JsonDeSerializer;
+import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -147,8 +147,9 @@ public abstract class CustomizedTableWindow extends Window {
 						viewDef.setSaccountid(AppContext.getAccountId());
 						viewDef.setCreateduser(AppContext.getUsername());
 						viewDef.setViewid(viewId);
-						viewDef.setViewinfo(JsonDeSerializer
-								.toJson(selectedColumns));
+						viewDef.setViewinfo(XStreamJsonDeSerializer
+								.toJson(new ArrayList<TableViewField>(
+										selectedColumns)));
 						customViewStoreService
 								.saveOrUpdateViewLayoutDef(viewDef);
 					}

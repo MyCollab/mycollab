@@ -47,8 +47,9 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 		public MenuButton(String caption, String iconCode) {
 			super(
 					"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-							+ iconCode + "\"></span>" + caption,
-					defaultBtnClickListener);
+							+ iconCode
+							+ "\"></span><div class=\"screen-reader-text\">"
+							+ caption + "</div>", defaultBtnClickListener);
 			setStyleName("nav-btn");
 			setHtmlContentAllowed(true);
 			setWidth("100%");

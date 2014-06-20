@@ -24,7 +24,6 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.view.CrmModuleController;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -150,7 +149,7 @@ public class MobileApplication extends UI {
 
 	private void registerControllers(NavigationManager manager) {
 		ControllerRegistry.addController(new ShellController(manager));
-		ControllerRegistry.addController(new CrmModuleController(manager));
+		// ControllerRegistry.addController(new CrmModuleController(manager));
 	}
 
 	public AppContext getSessionData() {

@@ -251,22 +251,20 @@
 				-webkit-tap-highlight-color: transparent;
 	    	}
 	    	
-	    	.v-touchkit-navview-toolbar {
+	    	.v-touchkit-navview-toolbar, .v-touchkit-tabbar-toolbar .v-touchkit-toolbar {
 	    		overflow-x: hidden;
 	    		box-shadow: none;
 	    		border-top: 1px solid rgb(187, 187, 187);
 	    		background-color: rgb(222, 222, 222);
 	    		
-	    		.related-items {
-	    			.v-button {
-		    			color: rgb(106, 106, 106);
-		    			background-color: rgb(222, 222, 222);
-		    		
-		    			span[data-icon]:before {
-		    				font-size: 2.1rem;
-		    			}
-					}
-	    		}
+    			.v-button {
+	    			color: rgb(106, 106, 106);
+	    			background-color: rgb(222, 222, 222);
+	    		
+	    			span[data-icon]:before {
+	    				font-size: 2.1rem;
+	    			}
+				}
 	    		
 	    		.v-mobileview-toolbar {
 	    			.v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar-nextBtn {

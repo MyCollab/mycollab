@@ -26,5 +26,4 @@ public class OptionI18nEnum {
 		Reseller,
 		Other;
 	}
-
 }

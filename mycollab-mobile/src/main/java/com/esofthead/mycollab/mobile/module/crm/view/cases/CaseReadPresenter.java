@@ -32,7 +32,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
@@ -149,7 +149,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 	}
 
 	@Override
-	protected void onGo(NavigationManager container, ScreenData<?> data) {
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CASE)) {
 
 			if (data.getParams() instanceof Integer) {

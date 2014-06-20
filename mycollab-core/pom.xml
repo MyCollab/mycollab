@@ -17,6 +17,7 @@
             <artifactId>mycollab-test</artifactId>
             <version>4.2.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.mortennobel</groupId>
             <artifactId>java-image-scaling</artifactId>
@@ -53,6 +54,18 @@
                     <artifactId>struts-tiles</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.3.5</version>
         </dependency>
 
         <dependency>

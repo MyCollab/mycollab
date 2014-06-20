@@ -26,8 +26,8 @@ import com.esofthead.mycollab.form.view.builder.TextDynaFieldBuilder;
 import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
-import com.esofthead.mycollab.mobile.module.crm.localization.AccountI18nEnum;
-import com.esofthead.mycollab.mobile.module.crm.localization.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -113,14 +113,12 @@ public class AccountDefaultDynaFormLayoutFactory {
 						AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP))
 				.customField(false).build());
 
-		accountSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.fieldIndex(10)
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.customField(false).build());
+		accountSection.addField(new TextDynaFieldBuilder()
+				.fieldName("assignuser")
+				.fieldIndex(10)
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.customField(false).build());
 
 		accountSection
 				.addField(new TextDynaFieldBuilder()

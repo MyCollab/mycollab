@@ -101,30 +101,30 @@ public class CrmModuleController implements IController {
 	}
 
 	private void bindCrmEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CrmEvent.GotoHome>() {
-					private static final long serialVersionUID = -2434410171305636265L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmEvent.GotoHome.class;
-					}
-
-					@Override
-					public void handle(CrmEvent.GotoHome event) {
-						/*
-						 * TODO: put setNavigationMenu here seems not right with
-						 * current structure, need to move it to somewhere else
-						 */
-						// if (crmViewNavigation.getNavigationMenu() == null)
-						// crmViewNavigation
-						// .setNavigationMenu(new CrmNavigationMenu());
-						EventBus.getInstance()
-								.fireEvent(
-										new AccountEvent.GotoList(this, event
-												.getData()));
-					}
-				});
+		// EventBus.getInstance().addListener(
+		// new ApplicationEventListener<CrmEvent.GotoHome>() {
+		// private static final long serialVersionUID = -2434410171305636265L;
+		//
+		// @Override
+		// public Class<? extends ApplicationEvent> getEventType() {
+		// return CrmEvent.GotoHome.class;
+		// }
+		//
+		// @Override
+		// public void handle(CrmEvent.GotoHome event) {
+		// /*
+		// * TODO: put setNavigationMenu here seems not right with
+		// * current structure, need to move it to somewhere else
+		// */
+		// // if (crmViewNavigation.getNavigationMenu() == null)
+		// // crmViewNavigation
+		// // .setNavigationMenu(new CrmNavigationMenu());
+		// EventBus.getInstance()
+		// .fireEvent(
+		// new AccountEvent.GotoList(this, event
+		// .getData()));
+		// }
+		// });
 
 		EventBus.getInstance().addListener(
 				new ApplicationEventListener<CrmEvent.PushView>() {

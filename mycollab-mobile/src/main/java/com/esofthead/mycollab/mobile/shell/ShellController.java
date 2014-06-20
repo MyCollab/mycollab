@@ -27,7 +27,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.mobile.module.crm.view.CrmModulePresenter;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -125,8 +125,9 @@ public class ShellController implements IController {
 
 					@Override
 					public void handle(ShellEvent.GotoCrmModule event) {
-						EventBus.getInstance().fireEvent(
-								new CrmEvent.GotoHome(this, event.getData()));
+						CrmModulePresenter presenter = PresenterResolver
+								.getPresenter(CrmModulePresenter.class);
+						presenter.go(mainNav, null);
 					}
 				});
 	}
