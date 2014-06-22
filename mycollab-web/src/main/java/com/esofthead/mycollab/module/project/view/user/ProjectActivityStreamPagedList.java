@@ -159,10 +159,11 @@ public class ProjectActivityStreamPagedList
 				String arg21 = "'" + activityStream.getSaccountid() + "'";
 				String arg22 = "'" + AppContext.getSiteUrl() + "'";
 				String arg23 = AppContext.getSession().getTimezone();
-				String arg24 = activityStream.getNamefield();
-				String arg25 = idStickyToolTipDiv;
-				String arg26 = idToopTipDiv;
-				String arg27 = idDivSeverData;
+				String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+				String arg25 = activityStream.getNamefield();
+				String arg26 = idStickyToolTipDiv;
+				String arg27 = idToopTipDiv;
+				String arg28 = idDivSeverData;
 				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
 						.getAction())) {
 					content = AppContext
@@ -172,7 +173,7 @@ public class ProjectActivityStreamPagedList
 									arg7, arg8, arg9, arg10, arg11, arg12,
 									arg13, arg14, arg15, arg16, arg17, arg18,
 									arg19, arg20, arg21, arg22, arg23, arg24,
-									arg25, arg26, arg27);
+									arg25, arg26, arg27, arg28);
 				} else if (ActivityStreamConstants.ACTION_UPDATE
 						.equals(activityStream.getAction())) {
 					content = AppContext
@@ -182,7 +183,7 @@ public class ProjectActivityStreamPagedList
 									arg7, arg8, arg9, arg10, arg11, arg12,
 									arg13, arg14, arg15, arg16, arg17, arg18,
 									arg19, arg20, arg21, arg22, arg23, arg24,
-									arg25, arg26, arg27);
+									arg25, arg26, arg27, arg28);
 					if (activityStream.getAssoAuditLog() != null) {
 						content += ProjectActivityStreamGenerator
 								.generatorDetailChangeOfActivity(activityStream);

@@ -129,6 +129,7 @@ div.v-cache-loading-indicator {
 	background-color: rgba(0, 0, 0, 0.7);
 	z-index: 1;
 	color: #fff;
+	border-radius: 0px;
 }
 .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn {
 	left: 0px;

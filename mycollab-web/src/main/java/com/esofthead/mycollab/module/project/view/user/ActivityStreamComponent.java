@@ -174,17 +174,20 @@ public class ActivityStreamComponent extends CssLayout {
 					String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
 					String arg21 = "'" + activityStream.getSaccountid() + "'";
 					String arg22 = "'" + AppContext.getSiteUrl() + "'";
-					String arg23 = AppContext.getSession().getTimezone();
-					String arg24 = activityStream.getNamefield();
-					String arg25 = MyCollabResource
+					String arg23_timezone = AppContext.getSession()
+							.getTimezone();
+					String arg24_locale = "'"
+							+ AppContext.getUserLocale().toString() + "'";
+					String arg25_fieldname = activityStream.getNamefield();
+					String arg26_projecticon = MyCollabResource
 							.newResourceLink("icons/16/project/project.png");
-					String arg26 = ProjectLinkBuilder
+					String arg27 = ProjectLinkBuilder
 							.generateProjectFullLink(activityStream
 									.getProjectId());
-					String arg27 = activityStream.getProjectName();
-					String arg28 = idStickyToolTipDiv;
-					String arg29 = idToopTipDiv;
-					String arg30 = idDivSeverData;
+					String arg28 = activityStream.getProjectName();
+					String arg29 = idStickyToolTipDiv;
+					String arg30 = idToopTipDiv;
+					String arg31 = idDivSeverData;
 
 					if (ActivityStreamConstants.ACTION_CREATE
 							.equals(activityStream.getAction())) {
@@ -195,8 +198,9 @@ public class ActivityStreamComponent extends CssLayout {
 										arg6, arg7, arg8, arg9, arg10, arg11,
 										arg12, arg13, arg14, arg15, arg16,
 										arg17, arg18, arg19, arg20, arg21,
-										arg22, arg23, arg24, arg25, arg26,
-										arg27, arg28, arg29, arg30);
+										arg22, arg23_timezone, arg24_locale,
+										arg25_fieldname, arg26_projecticon,
+										arg27, arg28, arg29, arg30, arg31);
 					} else if (ActivityStreamConstants.ACTION_UPDATE
 							.equals(activityStream.getAction())) {
 						content = AppContext
@@ -206,8 +210,9 @@ public class ActivityStreamComponent extends CssLayout {
 										arg6, arg7, arg8, arg9, arg10, arg11,
 										arg12, arg13, arg14, arg15, arg16,
 										arg17, arg18, arg19, arg20, arg21,
-										arg22, arg23, arg24, arg25, arg26,
-										arg27, arg28, arg29, arg30);
+										arg22, arg23_timezone, arg24_locale,
+										arg25_fieldname, arg26_projecticon,
+										arg27, arg28, arg29, arg30, arg31);
 						if (activityStream.getAssoAuditLog() != null) {
 							content += ProjectActivityStreamGenerator
 									.generatorDetailChangeOfActivity(activityStream);

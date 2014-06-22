@@ -158,7 +158,7 @@ public class DateTimeUtils {
 		long years = (diffInSeconds = (diffInSeconds / 12));
 
 		if (years > 0) {
-			sb.append((years == 1) ? "a year" : (years + " years"));
+			sb.append((years == 1) ? "a year"  : (years + " years"));
 			if (years <= 6 && months > 0) {
 				sb.append(" and ");
 				sb.append((months == 1) ? "a month" : (months + " months"));

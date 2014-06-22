@@ -234,9 +234,8 @@ public class ActivityStreamPanel extends CssLayout {
 					String arg10 = idUserStickyToolTipDiv;
 					String arg11 = idUserToopTipDiv;
 					String arg12 = idDivUserSeverData;
-					String arg13 = AppContext
-							.getMessage(CrmLocalizationTypeMap
-									.getType(activityStream.getType()));
+					String arg13 = AppContext.getMessage(CrmLocalizationTypeMap
+							.getType(activityStream.getType()));
 					String arg14 = CrmResources.getResourceLink(activityStream
 							.getType());
 					String arg15 = idtagA;
@@ -250,17 +249,19 @@ public class ActivityStreamPanel extends CssLayout {
 					String arg21 = "'" + activityStream.getSaccountid() + "'";
 					String arg22 = "'" + AppContext.getSiteUrl() + "'";
 					String arg23 = AppContext.getSession().getTimezone();
-					String arg24 = activityStream.getNamefield();
-					String arg25 = idStickyToolTipDiv;
-					String arg26 = idToopTipDiv;
-					String arg27 = idDivSeverData;
+					String arg24 = "'" + AppContext.getUserLocale().toString()
+							+ "'";
+					String arg25 = activityStream.getNamefield();
+					String arg26 = idStickyToolTipDiv;
+					String arg27 = idToopTipDiv;
+					String arg28 = idDivSeverData;
 					StringBuffer content = new StringBuffer(
-							AppContext.getMessage(action, arg0, arg1,
-									arg2, arg3, arg4, arg5, arg6, arg7, arg8,
-									arg9, arg10, arg11, arg12, arg13, arg14,
-									arg15, arg16, arg17, arg18, arg19, arg20,
-									arg21, arg22, arg23, arg24, arg25, arg26,
-									arg27));
+							AppContext.getMessage(action, arg0, arg1, arg2,
+									arg3, arg4, arg5, arg6, arg7, arg8, arg9,
+									arg10, arg11, arg12, arg13, arg14, arg15,
+									arg16, arg17, arg18, arg19, arg20, arg21,
+									arg22, arg23, arg24, arg25, arg26, arg27,
+									arg28));
 					if (activityStream.getAssoAuditLog() != null) {
 						content.append(CrmActivityStreamGenerator
 								.generatorDetailChangeOfActivity(activityStream));

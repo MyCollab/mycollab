@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
@@ -42,6 +43,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
@@ -248,7 +250,8 @@ public class AccountRelayEmailNotificationActionImpl extends
 			put("industry", AccountI18nEnum.FORM_INDUSTRY);
 			put("email", AccountI18nEnum.FORM_EMAIL);
 
-			put("type", AccountI18nEnum.FORM_TYPE);
+			put("type", new I18nFieldFormat("type", AccountI18nEnum.FORM_TYPE,
+					AccountType.class));
 			put("ownership", AccountI18nEnum.FORM_OWNERSHIP);
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
