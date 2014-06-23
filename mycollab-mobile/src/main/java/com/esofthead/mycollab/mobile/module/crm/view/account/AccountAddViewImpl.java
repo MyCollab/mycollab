@@ -20,6 +20,8 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -37,8 +39,8 @@ public class AccountAddViewImpl extends AbstractEditItemComp<SimpleAccount>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getAccountname() != null ? beanItem.getAccountname()
-				: "New Account");
+		return beanItem.getAccountname() != null ? beanItem.getAccountname()
+				: AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE);
 	}
 
 	@Override

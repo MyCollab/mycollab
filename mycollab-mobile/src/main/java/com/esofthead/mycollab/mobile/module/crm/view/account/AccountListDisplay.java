@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -50,8 +49,8 @@ public class AccountListDisplay
 				final SimpleAccount account = AccountListDisplay.this
 						.getBeanByIndex(itemId);
 
-				final MobileNavigationButton b = new MobileNavigationButton(
-						account.getAccountname());
+				final NavigationButton b = new NavigationButton(account
+						.getAccountname());
 				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -25,6 +25,8 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -47,8 +49,7 @@ public class ContactListViewImpl extends
 	public ContactListViewImpl() {
 		super();
 
-		setCaption("Contacts");
-		// setToggleButton(true);
+		setCaption(AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override

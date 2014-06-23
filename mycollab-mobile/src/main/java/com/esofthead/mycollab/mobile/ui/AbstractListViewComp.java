@@ -54,7 +54,7 @@ public abstract class AbstractListViewComp<S extends SearchCriteria, B> extends
 	}
 
 	@Override
-	protected void onBecomingVisible() {
+	public void onBecomingVisible() {
 		super.onBecomingVisible();
 
 		if (getPagedBeanTable().getSearchRequest() != null)

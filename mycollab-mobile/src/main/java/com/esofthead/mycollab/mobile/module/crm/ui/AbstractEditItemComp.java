@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
@@ -49,7 +51,8 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		this.editForm.setStyleName("editview-layout");
 		this.setContent(this.editForm);
 
-		this.saveBtn = new Button("Done");
+		this.saveBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE));
 		this.saveBtn.addStyleName("save-btn");
 		this.saveBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -5504095132334808021L;

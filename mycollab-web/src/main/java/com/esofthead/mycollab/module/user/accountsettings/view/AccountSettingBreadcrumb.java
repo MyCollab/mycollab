@@ -66,35 +66,35 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoProfile() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.PROFILE)));
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_PROFILE)));
 		AppContext.addFragment("account/preview", "User Profile");
 	}
 
 	public void gotoBillingPage() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.BILLING)));
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_BILLING)));
 		AppContext.addFragment("account/billing", "Billing");
 	}
 
 	public void gotoCancelAccountPage() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.CANCEL_ACCOUNT)));
+				.getMessage(AccountBreadcrumbI18nEnum.BUTTON_CANCEL_ACCOUNT)));
 		AppContext.addFragment("account/cancel_account", "Cancel Account");
 	}
 
 	public void gotoUserList() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.USERS)));
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS)));
 		AppContext.addFragment("account/user/list", "Users");
 	}
 
 	public void gotoUserRead(SimpleUser user) {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.USERS),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS),
 				new GotoUserListListener()));
 		this.addLink(generateBreadcrumbLink(user.getDisplayName()));
 
@@ -107,7 +107,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoUserAdd() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.USERS),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
@@ -118,7 +118,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoUserEdit(final SimpleUser user) {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.USERS),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_USERS),
 				new GotoUserListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(user.getDisplayName(),
@@ -144,9 +144,9 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoCustomizationPage() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.CUSTOMIZE)));
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE)));
 		AppContext.addFragment("account/customization",
-				AppContext.getMessage(AccountBreadcrumbI18nEnum.CUSTOMIZE));
+				AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE));
 	}
 
 	private static class GotoUserListListener implements Button.ClickListener {
@@ -162,14 +162,14 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoRoleList() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.ROLES)));
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES)));
 		AppContext.addFragment("account/role/list", "Roles");
 	}
 
 	public void gotoRoleAdd() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.ROLES),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
@@ -180,7 +180,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoRoleRead(SimpleRole role) {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.ROLES),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(role.getRolename()));
@@ -194,7 +194,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 	public void gotoRoleEdit(final Role role) {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(AccountBreadcrumbI18nEnum.ROLES),
+				.getMessage(AccountBreadcrumbI18nEnum.VIEW_ROLES),
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(role.getRolename(),

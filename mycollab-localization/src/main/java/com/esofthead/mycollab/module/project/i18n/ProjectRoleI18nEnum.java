@@ -4,7 +4,7 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/role")
+@BaseName("localization/project/prj_role")
 @LocaleData({ @Locale("en_US") })
 public enum ProjectRoleI18nEnum {
 	VIEW_LIST_TITLE,

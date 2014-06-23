@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.shell.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobileMainView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.server.ThemeResource;
@@ -68,7 +70,8 @@ public class MainView extends AbstractMobileMainView {
 		welcomeTextWrapper.setHeight("15px");
 		contentLayout.addComponent(welcomeTextWrapper);
 
-		ModuleButton crmButton = new ModuleButton("Customer Management");
+		ModuleButton crmButton = new ModuleButton(
+				AppContext.getMessage(GenericI18Enum.MODULE_CRM));
 		crmButton.setWidth("100%");
 		crmButton.addStyleName("crm");
 		crmButton.addClickListener(new Button.ClickListener() {
@@ -83,12 +86,14 @@ public class MainView extends AbstractMobileMainView {
 
 		contentLayout.addComponent(crmButton);
 
-		ModuleButton pmButton = new ModuleButton("Project Management");
+		ModuleButton pmButton = new ModuleButton(
+				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
 		pmButton.setWidth("100%");
 		pmButton.addStyleName("project");
 		contentLayout.addComponent(pmButton);
 
-		ModuleButton fileButton = new ModuleButton("Document Management");
+		ModuleButton fileButton = new ModuleButton(
+				AppContext.getMessage(GenericI18Enum.MODULE_DOCUMENT));
 		fileButton.setWidth("100%");
 		fileButton.addStyleName("document");
 		contentLayout.addComponent(fileButton);

@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/accountsettings/breadcrumb")
+@BaseName("localization/accountsettings/account_breadcrumb")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum AccountBreadcrumbI18nEnum {
-	PROFILE, BILLING, USERS, ROLES, CANCEL_ACCOUNT, CUSTOMIZE
+	VIEW_PROFILE, VIEW_BILLING, VIEW_USERS, VIEW_ROLES, BUTTON_CANCEL_ACCOUNT, VIEW_CUSTOMIZE
 }

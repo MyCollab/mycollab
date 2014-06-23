@@ -44,8 +44,11 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		// Build block account information
 		DynaSection accountSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.TWO_COLUMN).orderIndex(0)
-				.header("Account Information").build();
+				.layoutType(LayoutType.TWO_COLUMN)
+				.orderIndex(0)
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_ACCOUNT_INFORMATION))
+				.build();
 		accountSection.addField(new TextDynaFieldBuilder()
 				.fieldName("accountname")
 				.displayName(
@@ -134,7 +137,9 @@ public class AccountDefaultDynaFormLayoutFactory {
 		// build block address
 		DynaSection addressSection = new DynaSectionBuilder()
 				.layoutType(LayoutType.TWO_COLUMN)
-				.header("Address Information").orderIndex(1).build();
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_ADDRESS_INFORMATION))
+				.orderIndex(1).build();
 		addressSection
 				.addField(new TextDynaFieldBuilder()
 						.fieldIndex(0)
@@ -226,7 +231,9 @@ public class AccountDefaultDynaFormLayoutFactory {
 
 		// build block description
 		DynaSection descSection = new DynaSectionBuilder()
-				.layoutType(LayoutType.ONE_COLUMN).header("Description")
+				.layoutType(LayoutType.ONE_COLUMN)
+				.header(AppContext
+						.getMessage(AccountI18nEnum.SECTION_DESCRIPTION))
 				.orderIndex(2).build();
 
 		descSection.addField(new TextDynaFieldBuilder()

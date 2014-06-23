@@ -4,7 +4,7 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/common")
+@BaseName("localization/project/prj_common")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProjectCommonI18nEnum {
 	WIDGET_MY_PROJECTS_TITLE,

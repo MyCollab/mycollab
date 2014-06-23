@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
@@ -53,17 +55,19 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		controlBtns.setClosable(true);
 		controlBtns.setResizable(false);
 		controlBtns.setStyleName("controls-popover");
-		editBtn = new Button("Edit", new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		editBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				if (!controlBtns.isAttached())
-					controlBtns.showRelativeTo(editBtn);
-				else
-					controlBtns.close();
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent evt) {
+						if (!controlBtns.isAttached())
+							controlBtns.showRelativeTo(editBtn);
+						else
+							controlBtns.close();
+					}
+				});
 		editBtn.setStyleName("edit-btn");
 		this.setRightComponent(editBtn);
 		ComponentContainer toolbarContent = createBottomPanel();

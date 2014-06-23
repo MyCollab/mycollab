@@ -12,9 +12,11 @@ import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityList
 import com.esofthead.mycollab.mobile.ui.AbstractTabPageView;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
@@ -57,7 +59,7 @@ public class CrmModule extends AbstractTabPageView implements IModule {
 						+ IconConstants.CRM_ACCOUNT
 						+ "\"></span><div class=\"screen-reader-text\">"
 						+ AppContext
-								.getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER)
 						+ "</div>");
 		this.addTab(
 				getContactTab(),
@@ -65,8 +67,49 @@ public class CrmModule extends AbstractTabPageView implements IModule {
 						+ IconConstants.CRM_CONTACT
 						+ "\"></span><div class=\"screen-reader-text\">"
 						+ AppContext
-								.getMessage(ContactI18nEnum.VIEW_LIST_TITLE)
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER)
 						+ "</div>");
+
+		this.addTab(
+				getCampaignTab(),
+				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_CAMPAIGN
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER)
+						+ "</div>");
+		this.addTab(
+				getLeadTab(),
+				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_LEAD
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER)
+						+ "</div>");
+		this.addTab(
+				getOpportunityTab(),
+				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_OPPORTUNITY
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
+						+ "</div>");
+		// this.addTab(
+		// getCaseTab(),
+		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+		// + IconConstants.CRM_CASE
+		// + "\"></span><div class=\"screen-reader-text\">"
+		// + AppContext
+		// .getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
+		// + "</div>");
+		// this.addTab(
+		// getActivityTab(),
+		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+		// + IconConstants.CRM_ACTIVITY
+		// + "\"></span><div class=\"screen-reader-text\">"
+		// + AppContext
+		// .getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
+		// + "</div>");
 
 		this.addListener(new SelectedTabChangeListener() {
 			private static final long serialVersionUID = -2091640999903863902L;
@@ -88,49 +131,60 @@ public class CrmModule extends AbstractTabPageView implements IModule {
 					contactPresenter.go(CrmModule.this,
 							new ScreenData.Search<ContactSearchCriteria>(
 									criteria));
+				} else if (currentComponent == getCampaignTab()) {
+					CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+					campaignPresenter.go(CrmModule.this,
+							new ScreenData.Search<CampaignSearchCriteria>(
+									criteria));
+				} else if (currentComponent == getLeadTab()) {
+					LeadSearchCriteria criteria = new LeadSearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+					leadPresenter
+							.go(CrmModule.this,
+									new ScreenData.Search<LeadSearchCriteria>(
+											criteria));
+				} else if (currentComponent == getOpportunityTab()) {
+					OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+					opportunityPresenter.go(CrmModule.this,
+							new ScreenData.Search<OpportunitySearchCriteria>(
+									criteria));
 				}
 			}
 		});
-		// this.addTab(
-		// constructAccountTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACCOUNT
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
-		// + "</div>");
-		// this.addTab(
-		// constructAccountTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACCOUNT
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
-		// + "</div>");
-		// this.addTab(
-		// constructAccountTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACCOUNT
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
-		// + "</div>");
-		// this.addTab(
-		// constructAccountTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACCOUNT
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
-		// + "</div>");
-		// this.addTab(
-		// constructAccountTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACCOUNT
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(AccountI18nEnum.VIEW_LIST_TITLE)
-		// + "</div>");
+
+	}
+
+	private Component getActivityTab() {
+		activityPresenter = PresenterResolver
+				.getPresenter(ActivityListPresenter.class);
+		return activityPresenter.initView();
+	}
+
+	private Component getCaseTab() {
+		casePresenter = PresenterResolver.getPresenter(CaseListPresenter.class);
+		return casePresenter.initView();
+	}
+
+	private Component getOpportunityTab() {
+		opportunityPresenter = PresenterResolver
+				.getPresenter(OpportunityListPresenter.class);
+		return opportunityPresenter.initView();
+	}
+
+	private Component getLeadTab() {
+		leadPresenter = PresenterResolver.getPresenter(LeadListPresenter.class);
+		return leadPresenter.initView();
+	}
+
+	private Component getCampaignTab() {
+		campaignPresenter = PresenterResolver
+				.getPresenter(CampaignListPresenter.class);
+		return campaignPresenter.initView();
 	}
 
 	private Component getContactTab() {

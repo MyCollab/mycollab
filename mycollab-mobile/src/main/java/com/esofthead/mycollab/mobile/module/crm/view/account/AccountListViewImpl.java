@@ -49,8 +49,7 @@ public class AccountListViewImpl extends
 	public AccountListViewImpl() {
 		super();
 
-		setCaption("Accounts");
-		// setToggleButton(true);
+		setCaption(AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override
