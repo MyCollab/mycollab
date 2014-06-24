@@ -24,7 +24,6 @@ import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
@@ -93,7 +92,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("accountname",
 					AccountI18nEnum.FORM_ACCOUNT_NAME);
 			this.generateFieldDisplayHandler("phoneoffice",
-					CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD);
+					AccountI18nEnum.FORM_OFFICE_PHONE);
 			this.generateFieldDisplayHandler("website",
 					AccountI18nEnum.FORM_WEBSITE);
 			this.generateFieldDisplayHandler("fax", AccountI18nEnum.FORM_FAX);
@@ -152,7 +151,7 @@ public class CrmActivityStreamGenerator {
 			this.generateFieldDisplayHandler("leadsource",
 					ContactI18nEnum.FORM_LEAD_SOURCE);
 			this.generateFieldDisplayHandler("officephone",
-					CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD);
+					ContactI18nEnum.FORM_OFFICE_PHONE);
 			this.generateFieldDisplayHandler("mobile",
 					ContactI18nEnum.FORM_MOBILE);
 			this.generateFieldDisplayHandler("homephone",

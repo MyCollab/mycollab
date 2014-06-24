@@ -136,7 +136,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	protected void initRelatedComponents() {
 		associateCampaignList = new LeadCampaignListComp();
 		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 		associateActivityList = new ActivityRelatedItemListComp(true);
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
@@ -155,11 +155,11 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.addTab(associateCampaignList, "campaign",
-				AppContext.getMessage(CrmCommonI18nEnum.CAMPAIGN_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_CAMPAIGN));
 		previewItemContainer.addTab(associateActivityList, "activity",
-				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 
 	@Override

@@ -20,6 +20,8 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -32,13 +34,13 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 
 @ViewComponent
 public class CampaignAddViewImpl extends AbstractEditItemComp<SimpleCampaign>
-implements CampaignAddview {
+		implements CampaignAddview {
 	private static final long serialVersionUID = -345238804067938727L;
 
 	@Override
 	protected String initFormTitle() {
 		return beanItem.getCampaignname() != null ? beanItem.getCampaignname()
-				: "New Campaign";
+				: AppContext.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE);
 	}
 
 	@Override

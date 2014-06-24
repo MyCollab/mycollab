@@ -26,7 +26,8 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -56,11 +57,11 @@ public class CallListDashlet extends Depot {
 
 		tableItem = new CallTableDisplay(new TableViewField(null, "isClosed",
 				UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-				new TableViewField(TaskI18nEnum.TABLE_SUBJECT_HEADER,
-						"subject", UIConstants.TABLE_X_LABEL_WIDTH),
-				new TableViewField(TaskI18nEnum.FORM_START_DATE, "startdate",
+				new TableViewField(CallI18nEnum.FORM_SUBJECT, "subject",
+						UIConstants.TABLE_X_LABEL_WIDTH), new TableViewField(
+						TaskI18nEnum.FORM_START_DATE, "startdate",
 						UIConstants.TABLE_DATE_TIME_WIDTH), new TableViewField(
-						CrmCommonI18nEnum.TABLE_STATUS_HEADER, "status",
+						ActivityI18nEnum.FORM_STATUS, "status",
 						UIConstants.TABLE_S_LABEL_WIDTH)));
 
 		tableItem

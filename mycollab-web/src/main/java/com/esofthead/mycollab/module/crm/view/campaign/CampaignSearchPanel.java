@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -87,15 +86,14 @@ public class CampaignSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label(
-				AppContext.getMessage(CampaignI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
 		final Button createAccountBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
+				AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

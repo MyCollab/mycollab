@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
@@ -43,8 +42,8 @@ class AccountHistoryLogWindow extends HistoryLogWindow {
 		this.generateFieldDisplayHandler("assignuser",
 				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("phoneoffice", AppContext
-				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+		this.generateFieldDisplayHandler("phoneoffice",
+				AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE));
 		this.generateFieldDisplayHandler("website",
 				AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE));
 		this.generateFieldDisplayHandler("fax",

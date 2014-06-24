@@ -106,7 +106,7 @@ public class CaseListPresenter extends
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(CaseI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(CaseI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

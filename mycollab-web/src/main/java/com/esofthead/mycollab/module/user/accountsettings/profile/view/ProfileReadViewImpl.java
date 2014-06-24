@@ -151,7 +151,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			}
 		};
 		avatarUploadField.setButtonCaption(AppContext
-				.getMessage(UserI18nEnum.CHANGE_AVATAR_ACTION));
+				.getMessage(UserI18nEnum.BUTTON_CHANGE_AVATAR));
 		avatarUploadField.setSizeUndefined();
 		avatarUploadField.setFieldType(FieldType.BYTE_ARRAY);
 		this.userAvatar.addComponent(avatarUploadField);
@@ -187,7 +187,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 			@Override
 			public Layout getLayout() {
 				final AddViewLayout2 accountAddLayout = new AddViewLayout2(
-						AppContext.getMessage(UserI18nEnum.DETAIL_USER_VIEW),
+						AppContext.getMessage(UserI18nEnum.VIEW_DETAIL_USER),
 						MyCollabResource
 								.newResource("icons/24/project/user.png"));
 				accountAddLayout.setWidth("100%");

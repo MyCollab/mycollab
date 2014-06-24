@@ -133,8 +133,8 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 
 			protected String initFormHeader() {
 				return role.getId() == null ? AppContext
-						.getMessage(RoleI18nEnum.FORM_NEW_TITLE) : AppContext
-						.getMessage(RoleI18nEnum.FORM_EDIT_TITLE);
+						.getMessage(RoleI18nEnum.VIEW_NEW_TITLE) : AppContext
+						.getMessage(RoleI18nEnum.VIEW_EDIT_TITLE);
 			}
 
 			protected String initFormTitle() {
@@ -157,7 +157,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			protected Layout createBottomPanel() {
 				final VerticalLayout permissionsPanel = new VerticalLayout();
 				final Label organizationHeader = new Label(
-						AppContext.getMessage(RoleI18nEnum.PERMISSION_HEADER));
+						AppContext.getMessage(RoleI18nEnum.FORM_PERMISSION_HEADER));
 				organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 				permissionsPanel.addComponent(organizationHeader);
 
@@ -194,18 +194,18 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 				}
 
 				permissionsPanel.addComponent(constructGridLayout(AppContext
-						.getMessage(RoleI18nEnum.PROJECT_MANAGEMENT_TITLE),
+						.getMessage(RoleI18nEnum.SECTION_PROJECT_MANAGEMENT_TITLE),
 						perMap,
 						RolePermissionCollections.PROJECT_PERMISSION_ARR));
 				permissionsPanel.addComponent(constructGridLayout(
-						AppContext.getMessage(RoleI18nEnum.CRM_TITLE), perMap,
+						AppContext.getMessage(RoleI18nEnum.SECTION_CRM_TITLE), perMap,
 						RolePermissionCollections.CRM_PERMISSIONS_ARR));
 				permissionsPanel.addComponent(constructGridLayout(
-						AppContext.getMessage(RoleI18nEnum.DOCUMENT_TITLE),
+						AppContext.getMessage(RoleI18nEnum.SECTION_DOCUMENT_TITLE),
 						perMap,
 						RolePermissionCollections.DOCUMENT_PERMISSION_ARR));
 				permissionsPanel.addComponent(constructGridLayout(AppContext
-						.getMessage(RoleI18nEnum.ACCOUNT_MANAGEMENT_TITLE),
+						.getMessage(RoleI18nEnum.SECTION_ACCOUNT_MANAGEMENT_TITLE),
 						perMap,
 						RolePermissionCollections.ACCOUNT_PERMISSION_ARR));
 

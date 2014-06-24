@@ -33,7 +33,16 @@ import com.esofthead.mycollab.module.crm.events.CrmSettingEvent;
 import com.esofthead.mycollab.module.crm.events.DocumentEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
@@ -156,7 +165,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addComponent(notificationBtn);
 
 		addBtn = new PopupButton(
-				AppContext.getMessage(CrmCommonI18nEnum.CREATE_ACTION));
+				AppContext.getMessage(CrmCommonI18nEnum.BUTTON_CREATE));
 		addBtn.setIcon(MyCollabResource.newResource("icons/18/create.png"));
 		final GridLayout addBtnLayout = new GridLayout(3, 2);
 		addBtnLayout.setMargin(true);
@@ -164,8 +173,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.setSpacing(true);
 
 		final ButtonLink newAccountBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
+				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
 				listener, false);
 		newAccountBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
@@ -174,8 +182,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newAccountBtn);
 
 		final ButtonLink newContactBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
+				AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
 				listener, false);
 		newContactBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
@@ -184,8 +191,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newContactBtn);
 
 		final ButtonLink newCampaignBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION),
+				AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
 				listener, false);
 		newCampaignBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CAMPAIGN));
@@ -195,7 +201,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 		final ButtonLink newOpportunityBtn = new ButtonLink(
 				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
+						.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
 				listener, false);
 		newOpportunityBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_OPPORTUNITY));
@@ -204,9 +210,8 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newOpportunityBtn);
 
 		final ButtonLink newLeadBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION),
-				listener, false);
+				AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD), listener,
+				false);
 		newLeadBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
 		newLeadBtn.setIcon(MyCollabResource
@@ -214,9 +219,8 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newLeadBtn);
 
 		final ButtonLink newCaseBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
-				listener, false);
+				AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE), listener,
+				false);
 		newCaseBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
 		newCaseBtn.setIcon(MyCollabResource
@@ -224,9 +228,8 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newCaseBtn);
 
 		final ButtonLink newTaskBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION),
-				listener, false);
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK), listener,
+				false);
 		newTaskBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_TASK));
 		newTaskBtn.setIcon(MyCollabResource
@@ -234,9 +237,8 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newTaskBtn);
 
 		final ButtonLink newCallBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION),
-				listener, false);
+				AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL), listener,
+				false);
 		newCallBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CALL));
 		newCallBtn.setIcon(MyCollabResource
@@ -244,8 +246,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 		addBtnLayout.addComponent(newCallBtn);
 
 		final ButtonLink newMeetingBtn = new ButtonLink(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION),
+				AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING),
 				listener, false);
 		newMeetingBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_MEETING));
@@ -273,9 +274,9 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 					CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new CrmEvent.GotoHome(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION).equals(
-					caption)) {
+			} else if (AppContext
+					.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT).equals(
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new AccountEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -283,16 +284,15 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				EventBus.getInstance().fireEvent(
 						new AccountEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_CAMPAIGN_NEW_ACTION).equals(
-					caption)) {
+					CampaignI18nEnum.BUTTON_NEW_CAMPAIGN).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new CampaignEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new CampaignEvent.GotoList(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION).equals(caption)) {
+			} else if (AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE)
+					.equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new CaseEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -303,13 +303,13 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 					CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new ContactEvent.GotoList(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION).equals(
-					caption)) {
+			} else if (AppContext
+					.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT).equals(
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new ContactEvent.GotoAdd(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_LEAD_NEW_ACTION).equals(caption)) {
+			} else if (AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD)
+					.equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new LeadEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -317,8 +317,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 				EventBus.getInstance().fireEvent(
 						new LeadEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION).equals(
-					caption)) {
+					OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY).equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new OpportunityEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
@@ -331,17 +330,17 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 					.equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.GotoCalendar(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_TASK_NEW_ACTION).equals(caption)) {
+			} else if (AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK)
+					.equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.TaskAdd(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_CALL_NEW_ACTION).equals(caption)) {
+			} else if (AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL)
+					.equals(caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.CallAdd(this, null));
-			} else if (AppContext.getMessage(
-					CrmCommonI18nEnum.TOOLBAR_MEETING_NEW_ACTION).equals(
-					caption)) {
+			} else if (AppContext
+					.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING).equals(
+							caption)) {
 				EventBus.getInstance().fireEvent(
 						new ActivityEvent.MeetingAdd(this, null));
 			} else if (AppContext.getMessage(

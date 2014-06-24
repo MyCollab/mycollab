@@ -28,7 +28,7 @@ import com.esofthead.mycollab.iexporter.csv.CSVDateFormatter;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -60,10 +60,9 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 				new FieldMapperDef("assistant", "Assistant"),
 				new FieldMapperDef("assistantphone", "Assistant Phone"),
 				new FieldMapperDef("leadsource", "Leader Source"),
-				new FieldMapperDef(
-						"officephone",
+				new FieldMapperDef("officephone",
 						AppContext
-								.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD)),
+								.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE)),
 				new FieldMapperDef("mobile", "Mobile"),
 				new FieldMapperDef("homephone", "Home Phone"),
 				new FieldMapperDef("otherphone", "Other Phone"),
@@ -73,8 +72,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 				new FieldMapperDef("iscallable", "Callable",
 						new CSVBooleanFormatter()),
 				new FieldMapperDef("assignuser",
-						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("primaddress", "Address"),
 				new FieldMapperDef("primcity", "City"),
 				new FieldMapperDef("primstate", "State"),

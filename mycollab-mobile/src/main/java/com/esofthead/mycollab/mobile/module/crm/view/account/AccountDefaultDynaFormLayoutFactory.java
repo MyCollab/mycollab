@@ -27,7 +27,6 @@ import com.esofthead.mycollab.form.view.builder.type.DynaForm;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -56,13 +55,12 @@ public class AccountDefaultDynaFormLayoutFactory {
 								.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME))
 				.customField(false).fieldIndex(0).mandatory(true)
 				.required(true).build());
-		accountSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("phoneoffice")
-						.displayName(
-								AppContext
-										.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD))
-						.customField(false).fieldIndex(1).build());
+		accountSection.addField(new TextDynaFieldBuilder()
+				.fieldName("phoneoffice")
+				.displayName(
+						AppContext
+								.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE))
+				.customField(false).fieldIndex(1).build());
 
 		accountSection.addField(new TextDynaFieldBuilder()
 				.fieldName("website")

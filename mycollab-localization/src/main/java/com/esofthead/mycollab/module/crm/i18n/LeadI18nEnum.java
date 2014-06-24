@@ -7,14 +7,16 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/lead")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum LeadI18nEnum {
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
-	
-	LIST_VIEW_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
+	VIEW_NEW_TITLE,
+	VIEW_LIST_TITLE,
 	
 	SECTION_LEAD_INFORMATION,
 	SECTION_ADDRESS,
 	SECTION_DESCRIPTION,
+	
+	BUTTON_NEW_LEAD,
 
 	FORM_PREFIX,
 	FORM_FIRSTNAME,

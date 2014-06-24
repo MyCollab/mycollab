@@ -127,7 +127,7 @@ public class ActivityRootView extends AbstractPageView {
 	public void gotoCalendar() {
 		com.vaadin.ui.Component calendarComp = activityTabs
 				.selectTab(AppContext
-						.getMessage(ActivityI18nEnum.CALENDAR_TAB_TITLE));
+						.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE));
 
 		if (calendarComp != null) {
 			calendarPresenter.go(this, null);
@@ -140,7 +140,7 @@ public class ActivityRootView extends AbstractPageView {
 
 	public void gotoActivityList() {
 		Component activityList = activityTabs.selectTab(AppContext
-				.getMessage(ActivityI18nEnum.ACTIVITY_LIST_TAB_TITLE));
+				.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
 
 		if (activityList != null) {
 			ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();

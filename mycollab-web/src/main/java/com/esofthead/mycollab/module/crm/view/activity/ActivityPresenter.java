@@ -50,7 +50,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 		ActivityRootView activityContainer = (ActivityRootView) container;
 		ActivityContainer eventContainer = (ActivityContainer) activityContainer
 				.gotoView(AppContext
-						.getMessage(ActivityI18nEnum.ACTIVITY_LIST_TAB_TITLE));
+						.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE));
 
 		AbstractPresenter presenter = null;
 

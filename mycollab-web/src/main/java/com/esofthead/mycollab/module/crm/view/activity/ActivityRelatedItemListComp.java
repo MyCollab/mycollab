@@ -25,7 +25,7 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -111,9 +111,9 @@ public class ActivityRelatedItemListComp extends
 		}
 
 		tableItem = new ActivityTableDisplay(Arrays.asList(new TableViewField(
-				TaskI18nEnum.TABLE_SUBJECT_HEADER, "subject",
+				ActivityI18nEnum.FORM_SUBJECT, "subject",
 				UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-				CrmCommonI18nEnum.TABLE_STATUS_HEADER, "status",
+				ActivityI18nEnum.FORM_STATUS, "status",
 				UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(
 				TaskI18nEnum.TABLE_TYPE_HEADER, "eventType",
 				UIConstants.TABLE_S_LABEL_WIDTH), new TableViewField(

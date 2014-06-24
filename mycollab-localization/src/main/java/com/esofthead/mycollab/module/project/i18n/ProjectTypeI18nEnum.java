@@ -10,8 +10,8 @@ import ch.qos.cal10n.LocaleData;
  * @since 1.0
  * 
  */
-@BaseName("localization/project/type")
-@LocaleData({ @Locale("en_US") })
+@BaseName("localization/project/prj_type")
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProjectTypeI18nEnum {
 	PROJECT_ITEM,
 	MESSAGE_ITEM,

@@ -45,7 +45,7 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
 	@Override
 	protected String initFormTitle() {
 		return (beanItem.getId() == null) ? AppContext
-				.getMessage(ContactI18nEnum.FORM_NEW_TITLE) : beanItem
+				.getMessage(ContactI18nEnum.VIEW_NEW_TITLE) : beanItem
 				.getContactName();
 	}
 

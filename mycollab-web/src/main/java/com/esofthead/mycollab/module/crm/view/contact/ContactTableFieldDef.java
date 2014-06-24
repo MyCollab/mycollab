@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -67,7 +66,7 @@ public interface ContactTableFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField phoneOffice = new TableViewField(
-			CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD, "officephone",
+			ContactI18nEnum.FORM_OFFICE_PHONE, "officephone",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
 	public static TableViewField mobile = new TableViewField(

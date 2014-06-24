@@ -22,12 +22,14 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -46,8 +48,7 @@ public class CampaignListViewImpl extends
 	public CampaignListViewImpl() {
 		super();
 
-		setCaption("Campaigns");
-		// setToggleButton(true);
+		setCaption(AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override
@@ -56,6 +57,7 @@ public class CampaignListViewImpl extends
 				"campaignname");
 		campaignListDisplay
 				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					private static final long serialVersionUID = -3760797111509715080L;
 
 					@Override
 					public Class<? extends ApplicationEvent> getEventType() {
@@ -79,15 +81,18 @@ public class CampaignListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addCampaign = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		MobileNavigationButton addCampaign = new MobileNavigationButton();
+		addCampaign
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
-						new CampaignEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						EventBus.getInstance().fireEvent(
+								new CampaignEvent.GotoAdd(this, null));
+					}
+				});
 		addCampaign.setStyleName("add-btn");
 		return addCampaign;
 	}

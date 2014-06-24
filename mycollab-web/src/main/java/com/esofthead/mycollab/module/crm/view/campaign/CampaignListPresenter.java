@@ -88,7 +88,7 @@ public class CampaignListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(CampaignI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

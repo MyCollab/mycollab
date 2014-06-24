@@ -108,7 +108,7 @@ public class LeadListPresenter extends
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(LeadI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(LeadI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

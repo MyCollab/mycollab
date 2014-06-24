@@ -97,7 +97,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 	@Override
 	protected void initRelatedComponents() {
 		this.noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");
@@ -113,7 +113,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.selectTab("about");
 	}
 

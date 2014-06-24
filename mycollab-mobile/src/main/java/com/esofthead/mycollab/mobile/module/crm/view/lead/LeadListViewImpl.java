@@ -22,12 +22,14 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -46,8 +48,7 @@ public class LeadListViewImpl extends
 	public LeadListViewImpl() {
 		super();
 
-		setCaption("Leads");
-		// setToggleButton(true);
+		setCaption(AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override
@@ -80,11 +81,13 @@ public class LeadListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addLead = new Button(null, new Button.ClickListener() {
+		MobileNavigationButton addLead = new MobileNavigationButton();
+		addLead.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 			private static final long serialVersionUID = -6024437571619598638L;
 
 			@Override
-			public void buttonClick(ClickEvent event) {
+			public void buttonClick(
+					NavigationButton.NavigationButtonClickEvent event) {
 				EventBus.getInstance().fireEvent(
 						new LeadEvent.GotoAdd(this, null));
 			}

@@ -22,8 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
@@ -33,7 +32,9 @@ import com.vaadin.ui.Table.ColumnGenerator;
  * @since 4.0
  * 
  */
-public class ContactListDisplay extends DefaultPagedBeanList<ContactService, ContactSearchCriteria, SimpleContact> {
+public class ContactListDisplay
+		extends
+		DefaultPagedBeanList<ContactService, ContactSearchCriteria, SimpleContact> {
 	private static final long serialVersionUID = -2234454107835680053L;
 
 	public ContactListDisplay(String displayColumnId) {
@@ -48,15 +49,16 @@ public class ContactListDisplay extends DefaultPagedBeanList<ContactService, Con
 					final Object columnId) {
 				final SimpleContact contact = ContactListDisplay.this
 						.getBeanByIndex(itemId);
-				final Button b = new Button(contact.getContactName(),
-						new Button.ClickListener() {
+				final NavigationButton b = new NavigationButton(contact
+						.getContactName());
+				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void buttonClick(final ClickEvent event) {
+					public void buttonClick(
+							final NavigationButton.NavigationButtonClickEvent event) {
 						fireTableEvent(new TableClickEvent(
-								ContactListDisplay.this, contact,
-								"contactName"));
+								ContactListDisplay.this, contact, "contactName"));
 					}
 				});
 				b.setWidth("100%");

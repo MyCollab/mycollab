@@ -150,7 +150,7 @@ public class NoteListItems extends VerticalLayout {
 		addStyleName("note-list");
 
 		createBtn = new Button(
-				AppContext.getMessage(CrmCommonI18nEnum.BUTTON_NEW_NOTE_LABEL),
+				AppContext.getMessage(CrmCommonI18nEnum.BUTTON_NEW_NOTE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -54,8 +53,8 @@ class ContactHistoryLogWindow extends HistoryLogWindow {
 				AppContext.getMessage(ContactI18nEnum.FORM_ASSISTANT_PHONE));
 		this.generateFieldDisplayHandler("leadsource",
 				AppContext.getMessage(ContactI18nEnum.FORM_LEAD_SOURCE));
-		this.generateFieldDisplayHandler("officephone", AppContext
-				.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+		this.generateFieldDisplayHandler("officephone",
+				AppContext.getMessage(ContactI18nEnum.FORM_OFFICE_PHONE));
 		this.generateFieldDisplayHandler("mobile",
 				AppContext.getMessage(ContactI18nEnum.FORM_MOBILE));
 		this.generateFieldDisplayHandler("homephone",

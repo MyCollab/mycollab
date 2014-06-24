@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -99,15 +98,14 @@ public class CaseSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label(
-				AppContext.getMessage(CaseI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
 		final Button createAccountBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CASE_NEW_ACTION),
+				AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

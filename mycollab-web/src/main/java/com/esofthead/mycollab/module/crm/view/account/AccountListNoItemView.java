@@ -69,8 +69,7 @@ public class AccountListNoItemView extends AbstractPageView {
 		layout.addComponent(body);
 
 		Button createAccountBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
+				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

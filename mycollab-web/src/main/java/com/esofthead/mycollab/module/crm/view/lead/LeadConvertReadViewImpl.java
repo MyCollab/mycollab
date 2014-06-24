@@ -162,7 +162,7 @@ public class LeadConvertReadViewImpl extends
 		associateCampaignList = new LeadCampaignListComp();
 
 		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 		noteListItems.setEnableCreateButton(false);
 
 		associateActivityList = new ActivityRelatedItemListComp(false);

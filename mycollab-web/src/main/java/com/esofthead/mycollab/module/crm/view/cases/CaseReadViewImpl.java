@@ -117,7 +117,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		associateContactList = new CaseContactListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();
@@ -135,11 +135,11 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.addTab(associateContactList, "contact",
-				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
 		previewItemContainer.addTab(associateActivityList, "activity",
-				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 
 	@Override

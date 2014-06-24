@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Table;
 
 /**
@@ -31,7 +31,9 @@ import com.vaadin.ui.Table;
  * @since 4.0
  * 
  */
-public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
+public class OpportunityListDisplay
+		extends
+		DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
 	private static final long serialVersionUID = -2350731660593521985L;
 
 	public OpportunityListDisplay(String displayColumnId) {
@@ -47,13 +49,14 @@ public class OpportunityListDisplay extends DefaultPagedBeanList<OpportunityServ
 				final SimpleOpportunity opportunity = OpportunityListDisplay.this
 						.getBeanByIndex(itemId);
 
-				final Button b = new Button(opportunity.getOpportunityname(),
-						new Button.ClickListener() {
+				final NavigationButton b = new NavigationButton(opportunity
+						.getOpportunityname());
+				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(
-							final Button.ClickEvent event) {
+							final NavigationButton.NavigationButtonClickEvent event) {
 						fireTableEvent(new TableClickEvent(
 								OpportunityListDisplay.this, opportunity,
 								"opportunityname"));

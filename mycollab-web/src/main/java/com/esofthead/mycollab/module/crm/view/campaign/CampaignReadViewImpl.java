@@ -107,7 +107,7 @@ public class CampaignReadViewImpl extends
 		associateLeadList = new CampaignLeadListComp();
 		associateActivityList = new ActivityRelatedItemListComp(true);
 		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");
@@ -126,15 +126,15 @@ public class CampaignReadViewImpl extends
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.addTab(associateAccountList, "account",
-				AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACCOUNT));
 		previewItemContainer.addTab(associateContactList, "contact",
-				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
 		previewItemContainer.addTab(associateLeadList, "lead",
-				AppContext.getMessage(CrmCommonI18nEnum.LEAD_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
 		previewItemContainer.addTab(associateActivityList, "activity",
-				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 
 	protected void displayNotes() {

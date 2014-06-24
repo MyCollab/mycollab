@@ -71,7 +71,7 @@ public class ContactInfoChangeWindow extends Window {
 		this.initUI();
 		this.center();
 		this.setCaption(AppContext
-				.getMessage(UserI18nEnum.CHANGE_CONTACT_INFO_WINDOW_TITLE));
+				.getMessage(UserI18nEnum.WINDOW_CHANGE_CONTACT_INFO_TITLE));
 	}
 
 	private void initUI() {

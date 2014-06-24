@@ -89,7 +89,7 @@ public class OpportunityListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(OpportunityI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

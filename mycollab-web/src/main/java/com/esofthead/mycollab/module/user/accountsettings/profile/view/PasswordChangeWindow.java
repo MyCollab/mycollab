@@ -61,7 +61,7 @@ public class PasswordChangeWindow extends Window {
 		this.setModal(true);
 		this.user = user;
 		this.setCaption(AppContext
-				.getMessage(UserI18nEnum.CHANGE_PASSWORD_WINDOW_TITLE));
+				.getMessage(UserI18nEnum.WINDOW_CHANGE_PASSWORD_TITLE));
 	}
 
 	private void initUI() {
@@ -72,12 +72,12 @@ public class PasswordChangeWindow extends Window {
 		mainLayout.setSpacing(true);
 
 		final Label lbInstruct1 = new Label(
-				AppContext.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_1));
+				AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_1));
 		mainLayout.addComponent(lbInstruct1);
 		mainLayout.setComponentAlignment(lbInstruct1, Alignment.MIDDLE_LEFT);
 
 		final Label lbInstruct2 = new Label(
-				AppContext.getMessage(UserI18nEnum.PASSWORD_INSTRUCT_LABEL_2));
+				AppContext.getMessage(UserI18nEnum.MSG_PASSWORD_INSTRUCT_LABEL_2));
 		mainLayout.addComponent(lbInstruct2);
 		mainLayout.setComponentAlignment(lbInstruct2, Alignment.MIDDLE_LEFT);
 
@@ -148,7 +148,7 @@ public class PasswordChangeWindow extends Window {
 		if (!this.txtNewPassword.getValue().equals(
 				this.txtConfirmPassword.getValue())) {
 			NotificationUtil.showErrorNotification(AppContext
-					.getMessage(UserI18nEnum.PASSWORDS_ARE_NOT_MATCH));
+					.getMessage(UserI18nEnum.ERROR_PASSWORDS_ARE_NOT_MATCH));
 			this.txtNewPassword.addStyleName("errorField");
 			this.txtConfirmPassword.addStyleName("errorField");
 			return;

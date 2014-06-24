@@ -30,6 +30,7 @@ import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingService;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -215,7 +216,8 @@ public final class MainView extends AbstractPageView {
 					}
 				});
 
-		serviceMenu.addService("People",
+		serviceMenu.addService(
+				AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
 				MyCollabResource.newResource("icons/16/account.png"),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -307,9 +309,10 @@ public final class MainView extends AbstractPageView {
 		final PopupButton accountMenu = new PopupButton(AppContext.getSession()
 				.getDisplayName());
 		final VerticalLayout accLayout = new VerticalLayout();
-		accLayout.setWidth("120px");
+		accLayout.setWidth("140px");
 
-		final Button myProfileBtn = new Button("Profile",
+		final Button myProfileBtn = new Button(
+				AppContext.getMessage(UserI18nEnum.VIEW_PROFILE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -324,7 +327,8 @@ public final class MainView extends AbstractPageView {
 		myProfileBtn.setStyleName("link");
 		accLayout.addComponent(myProfileBtn);
 
-		final Button myAccountBtn = new Button("Account",
+		final Button myAccountBtn = new Button(
+				AppContext.getMessage(UserI18nEnum.VIEW_BILLING),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -339,7 +343,8 @@ public final class MainView extends AbstractPageView {
 		myAccountBtn.setStyleName("link");
 		accLayout.addComponent(myAccountBtn);
 
-		final Button userMgtBtn = new Button("Users & Roles",
+		final Button userMgtBtn = new Button(
+				AppContext.getMessage(UserI18nEnum.VIEW_USERS),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -354,7 +359,8 @@ public final class MainView extends AbstractPageView {
 		userMgtBtn.setStyleName("link");
 		accLayout.addComponent(userMgtBtn);
 
-		final Button signoutBtn = new Button("Sign out",
+		final Button signoutBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_SIGNOUT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

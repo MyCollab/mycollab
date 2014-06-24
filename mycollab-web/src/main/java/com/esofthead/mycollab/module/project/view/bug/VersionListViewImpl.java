@@ -23,7 +23,6 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -251,9 +250,8 @@ public class VersionListViewImpl extends AbstractPageView implements
 	@Override
 	public void enableActionControls(final int numOfSelectedItems) {
 		this.tableActionControls.setVisible(true);
-		this.selectedItemsNumberLabel.setValue(AppContext
-				.getMessage(CrmCommonI18nEnum.TABLE_SELECTED_ITEM_TITLE,
-						numOfSelectedItems));
+		this.selectedItemsNumberLabel.setValue(AppContext.getMessage(
+				GenericI18Enum.TABLE_SELECTED_ITEM_TITLE, numOfSelectedItems));
 	}
 
 	@Override

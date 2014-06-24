@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -90,8 +89,7 @@ public class AccountSearchPanel extends
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
 		final Button createAccountBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNT_NEW_ACTION),
+				AppContext.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT),
 				new Button.ClickListener() {
 					@Override
 					public void buttonClick(final ClickEvent event) {

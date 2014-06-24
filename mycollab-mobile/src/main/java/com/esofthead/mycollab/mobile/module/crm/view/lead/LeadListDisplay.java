@@ -22,7 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Table;
 
 /**
@@ -31,7 +31,8 @@ import com.vaadin.ui.Table;
  * @since 4.0
  * 
  */
-public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearchCriteria, SimpleLead> {
+public class LeadListDisplay extends
+		DefaultPagedBeanList<LeadService, LeadSearchCriteria, SimpleLead> {
 	private static final long serialVersionUID = -2350731660593521985L;
 
 	public LeadListDisplay(String displayColumnId) {
@@ -47,16 +48,16 @@ public class LeadListDisplay extends DefaultPagedBeanList<LeadService, LeadSearc
 				final SimpleLead lead = LeadListDisplay.this
 						.getBeanByIndex(itemId);
 
-				final Button b = new Button(lead.getLeadName(),
-						new Button.ClickListener() {
+				final NavigationButton b = new NavigationButton(lead
+						.getLeadName());
+				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(
-							final Button.ClickEvent event) {
+							final NavigationButton.NavigationButtonClickEvent event) {
 						fireTableEvent(new TableClickEvent(
-								LeadListDisplay.this, lead,
-								"leadName"));
+								LeadListDisplay.this, lead, "leadName"));
 					}
 				});
 				b.setWidth("100%");

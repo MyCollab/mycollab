@@ -112,16 +112,16 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 	private void buildComponents() {
 		this.accountTab.addTab(this.constructUserInformationComponent(),
-				"profile", AppContext.getMessage(UserI18nEnum.PROFILE_VIEW));
+				"profile", AppContext.getMessage(UserI18nEnum.VIEW_PROFILE));
 
 		this.accountTab.addTab(this.constructAccountSettingsComponent(),
-				"billing", AppContext.getMessage(UserI18nEnum.BILLING_VIEW));
+				"billing", AppContext.getMessage(UserI18nEnum.VIEW_BILLING));
 
 		this.accountTab.addTab(this.constructUserRoleComponent(), "users",
-				AppContext.getMessage(UserI18nEnum.USERS_VIEW));
+				AppContext.getMessage(UserI18nEnum.VIEW_USERS));
 
 		this.accountTab.addTab(this.constructThemeComponent(), "customize",
-				AppContext.getMessage(UserI18nEnum.CUSTOMIZE_VIEW));
+				AppContext.getMessage(UserI18nEnum.VIEW_CUSTOMIZE));
 
 		this.accountTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {

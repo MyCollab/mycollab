@@ -28,7 +28,6 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
@@ -93,7 +92,7 @@ public class OpportunitySearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label searchtitle = new Label(
-				AppContext.getMessage(OpportunityI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);
@@ -101,7 +100,7 @@ public class OpportunitySearchPanel extends
 
 		final Button createAccountBtn = new Button(
 				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNITY_NEW_ACTION),
+						.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

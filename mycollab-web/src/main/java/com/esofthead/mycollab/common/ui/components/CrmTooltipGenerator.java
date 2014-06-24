@@ -44,7 +44,6 @@ import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
@@ -108,7 +107,7 @@ public class CrmTooltipGenerator {
 					account.getWebsite());
 
 			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
-					CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+					AccountI18nEnum.FORM_OFFICE_PHONE));
 			Td cell14 = buildCellValue(account.getPhoneoffice());
 
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
@@ -179,7 +178,7 @@ public class CrmTooltipGenerator {
 					ContactI18nEnum.FORM_FIRSTNAME));
 			Td cell12 = buildCellValue(contact.getFirstname());
 			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
-					CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD));
+					ContactI18nEnum.FORM_OFFICE_PHONE));
 			Td cell14 = buildCellValue(contact.getOfficephone());
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
 

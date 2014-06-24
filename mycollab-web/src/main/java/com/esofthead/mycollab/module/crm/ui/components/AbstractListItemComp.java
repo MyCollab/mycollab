@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.desktop.ui.ListView;
@@ -127,7 +126,7 @@ public abstract class AbstractListItemComp<S extends SearchCriteria, B> extends
 	public void enableActionControls(final int numOfSelectedItems) {
 		this.tableActionControls.setVisible(true);
 		this.selectedItemsNumberLabel.setValue(AppContext
-				.getMessage(CrmCommonI18nEnum.TABLE_SELECTED_ITEM_TITLE,
+				.getMessage(GenericI18Enum.TABLE_SELECTED_ITEM_TITLE,
 						numOfSelectedItems));
 	}
 

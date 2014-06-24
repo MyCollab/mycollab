@@ -22,8 +22,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 
@@ -50,17 +49,19 @@ public class CampaignListDisplay
 					final Object columnId) {
 				final SimpleCampaign campaign = CampaignListDisplay.this
 						.getBeanByIndex(itemId);
-				final Button b = new Button(campaign.getCampaignname(),
-						new Button.ClickListener() {
-							private static final long serialVersionUID = 1L;
+				final NavigationButton b = new NavigationButton(campaign
+						.getCampaignname());
+				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
 
-							@Override
-							public void buttonClick(final ClickEvent event) {
-								fireTableEvent(new TableClickEvent(
-										CampaignListDisplay.this, campaign,
-										"campaignname"));
-							}
-						});
+					@Override
+					public void buttonClick(
+							final NavigationButton.NavigationButtonClickEvent event) {
+						fireTableEvent(new TableClickEvent(
+								CampaignListDisplay.this, campaign,
+								"campaignname"));
+					}
+				});
 				b.setWidth("100%");
 				return b;
 			}

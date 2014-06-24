@@ -85,9 +85,9 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 	private void generateDisplayTable() {
 		this.tableItem = new RoleTableDisplay(new TableViewField(null,
 				"selected", UIConstants.TABLE_CONTROL_WIDTH), Arrays.asList(
-				new TableViewField(RoleI18nEnum.FORM_NAME_FIELD, "rolename",
+				new TableViewField(RoleI18nEnum.FORM_NAME, "rolename",
 						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-						RoleI18nEnum.FORM_DESCRIPTION_FIELD, "description",
+						GenericI18Enum.FORM_DESCRIPTION, "description",
 						UIConstants.TABLE_EX_LABEL_WIDTH)));
 
 		this.tableItem

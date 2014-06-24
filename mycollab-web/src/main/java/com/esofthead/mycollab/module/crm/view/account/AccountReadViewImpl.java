@@ -168,7 +168,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateOpportunityList = new AccountOpportunityListComp();
 		associateLeadList = new AccountLeadListComp();
 		associateCaseList = new AccountCaseListComp();
-		noteListItems = new NoteListItems(AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+		noteListItems = new NoteListItems(AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();
@@ -186,17 +186,17 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.addTab(associateContactList, "contact",
-				AppContext.getMessage(CrmCommonI18nEnum.CONTACT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_CONTACT));
 		previewItemContainer.addTab(associateLeadList, "lead",
-				AppContext.getMessage(CrmCommonI18nEnum.LEAD_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD));
 		previewItemContainer.addTab(associateOpportunityList, "opportunity",
-				AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
 		previewItemContainer.addTab(associateCaseList, "case",
-				AppContext.getMessage(CrmCommonI18nEnum.CASE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_CASE));
 		previewItemContainer.addTab(associateActivityList, "activity",
-				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 
 		previewItemContainer.selectTab("about");
 	}

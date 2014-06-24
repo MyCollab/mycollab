@@ -7,13 +7,16 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/opportunity")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum OpportunityI18nEnum {
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
 	
-	LIST_VIEW_TITLE,
+	VIEW_LIST_TITLE,
+	VIEW_NEW_TITLE,
 	
 	SECTION_OPPORTUNITY_INFORMATION,
 	SECTION_DESCRIPTION,
+	
+	BUTTON_NEW_OPPORTUNITY,
 	
 	FORM_AMOUNT,
 	FORM_SALE_STAGE,

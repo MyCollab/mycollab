@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -93,9 +94,9 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(RoleI18nEnum.FORM_DESCRIPTION_FIELD), 0, 0,
-						2, "100%");
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+						0, 0, 2, "100%");
 			}
 		}
 	}

@@ -171,7 +171,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		this.associateOpportunityList = new ContactOpportunityListComp();
 		this.associateActivityList = new ActivityRelatedItemListComp(true);
 		this.noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();
@@ -189,11 +189,11 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.addTab(associateOpportunityList, "opportunity",
-				AppContext.getMessage(CrmCommonI18nEnum.OPPORTUNITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY));
 		previewItemContainer.addTab(associateActivityList, "activity",
-				AppContext.getMessage(CrmCommonI18nEnum.ACTIVITY_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY));
 	}
 
 	@Override

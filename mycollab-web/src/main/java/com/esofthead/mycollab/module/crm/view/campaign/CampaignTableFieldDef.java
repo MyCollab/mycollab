@@ -44,7 +44,7 @@ public interface CampaignTableFieldDef {
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
 	public static TableViewField campaignname = new TableViewField(
-			CrmCommonI18nEnum.TABLE_NAME_HEADER, "campaignname",
+			CampaignI18nEnum.FORM_CAMPAIGN_NAME, "campaignname",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField status = new TableViewField(

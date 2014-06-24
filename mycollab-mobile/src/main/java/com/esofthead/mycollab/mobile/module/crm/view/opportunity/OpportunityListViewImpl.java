@@ -22,12 +22,14 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -46,8 +48,7 @@ public class OpportunityListViewImpl extends
 	public OpportunityListViewImpl() {
 		super();
 
-		setCaption("Opportunities");
-		// setToggleButton(true);
+		setCaption(AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	@Override
@@ -80,15 +81,18 @@ public class OpportunityListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addOpportunity = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 7172838996944732255L;
+		MobileNavigationButton addOpportunity = new MobileNavigationButton();
+		addOpportunity
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 7172838996944732255L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new OpportunityEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new OpportunityEvent.GotoAdd(this, null));
+					}
+				});
 		addOpportunity.setStyleName("add-btn");
 		return addOpportunity;
 	}

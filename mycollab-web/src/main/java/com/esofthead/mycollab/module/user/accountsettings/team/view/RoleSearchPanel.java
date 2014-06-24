@@ -66,7 +66,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 				.newResource("icons/24/project/user.png")));
 
 		final Label searchtitle = new Label(
-				AppContext.getMessage(RoleI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(RoleI18nEnum.VIEW_LIST_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(searchtitle);
 		layout.setExpandRatio(searchtitle, 1.0f);

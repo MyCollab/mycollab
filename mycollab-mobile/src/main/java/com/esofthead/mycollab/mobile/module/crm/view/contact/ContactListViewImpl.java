@@ -22,14 +22,14 @@ import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -82,17 +82,19 @@ public class ContactListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		Button addContact = new Button(null, new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+		MobileNavigationButton addContact = new MobileNavigationButton();
+		addContact
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
-						new ContactEvent.GotoAdd(this, null));
-			}
-		});
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						EventBus.getInstance().fireEvent(
+								new ContactEvent.GotoAdd(this, null));
+					}
+				});
 		addContact.setStyleName("add-btn");
 		return addContact;
 	}
-
 }

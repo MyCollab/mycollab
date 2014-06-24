@@ -20,6 +20,8 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -38,7 +40,7 @@ public class ContactAddViewImpl extends AbstractEditItemComp<SimpleContact>
 	@Override
 	protected String initFormTitle() {
 		return (beanItem.getContactName() != null ? beanItem.getContactName()
-				: "New Contact");
+				: AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
 	}
 
 	@Override

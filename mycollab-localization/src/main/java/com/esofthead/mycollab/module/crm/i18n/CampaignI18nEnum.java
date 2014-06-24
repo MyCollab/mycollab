@@ -7,16 +7,16 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/campaign")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum CampaignI18nEnum {
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
-	
-	LIST_VIEW_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
+	VIEW_LIST_TITLE,
+	VIEW_NEW_TITLE,
 	
 	SECTION_CAMPAIGN_INFORMATION,
 	SECTION_GOAL,
 	SECTION_DESCRIPTION,
 	
-	FORM_NEW_TITLE,
+	BUTTON_NEW_CAMPAIGN,
 	
 	FORM_CAMPAIGN_NAME,
 	FORM_STATUS,

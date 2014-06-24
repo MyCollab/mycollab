@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -36,27 +36,26 @@ public interface AccountTableFieldDef {
 			UIConstants.TABLE_ACTION_CONTROL_WIDTH);
 
 	public static TableViewField accountname = new TableViewField(
-			CrmCommonI18nEnum.TABLE_NAME_HEADER, "accountname",
+			AccountI18nEnum.FORM_ACCOUNT_NAME, "accountname",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField city = new TableViewField(
-			CrmCommonI18nEnum.TABLE_CITY_HEADER, "city",
+			AccountI18nEnum.FORM_BILLING_CITY, "city",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField phoneoffice = new TableViewField(
-			CrmCommonI18nEnum.TABLE_OFFICE_PHONE_HEADER, "phoneoffice",
+			AccountI18nEnum.FORM_OFFICE_PHONE, "phoneoffice",
 			UIConstants.TABLE_M_LABEL_WIDTH);
 
 	public static TableViewField email = new TableViewField(
-			CrmCommonI18nEnum.TABLE_EMAIL_ADDRESS_HEADER, "email",
-			UIConstants.TABLE_EMAIL_WIDTH);
+			AccountI18nEnum.FORM_EMAIL, "email", UIConstants.TABLE_EMAIL_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			CrmCommonI18nEnum.TABLE_ASSIGNED_USER_HEADER, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField website = new TableViewField(
-			CrmCommonI18nEnum.TABLE_WEBSITE_HEADER, "website",
+			AccountI18nEnum.FORM_WEBSITE, "website",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField type = new TableViewField(

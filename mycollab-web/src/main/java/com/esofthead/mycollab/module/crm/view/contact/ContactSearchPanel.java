@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.view.account.AccountSelectionField;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserListSelect;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -90,9 +89,8 @@ public class ContactSearchPanel extends
 		layout.setExpandRatio(searchtitle, 1.0f);
 		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
 
-		final Button createAccountBtn = new Button(
-				AppContext
-						.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACT_NEW_ACTION),
+		final Button createBtn = new Button(
+				AppContext.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -102,13 +100,13 @@ public class ContactSearchPanel extends
 								new ContactEvent.GotoAdd(this, null));
 					}
 				});
-		createAccountBtn.setIcon(MyCollabResource
+		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
-		createAccountBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		createAccountBtn.setEnabled(AppContext
+		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
 
-		UiUtils.addComponent(layout, createAccountBtn, Alignment.MIDDLE_RIGHT);
+		UiUtils.addComponent(layout, createBtn, Alignment.MIDDLE_RIGHT);
 
 		return layout;
 	}

@@ -96,7 +96,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	@Override
 	protected void initRelatedComponents() {
 		noteListItems = new NoteListItems(
-				AppContext.getMessage(CrmCommonI18nEnum.NOTE_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		VerticalLayout basicInfo = new VerticalLayout();
 		basicInfo.setWidth("100%");
@@ -112,7 +112,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
 		previewItemContainer.addTab(previewContent, "about",
-				AppContext.getMessage(CrmCommonI18nEnum.ABOUT_SUB_VIEW));
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_ABOUT));
 		previewItemContainer.selectTab("about");
 	}
 

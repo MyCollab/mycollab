@@ -7,15 +7,15 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/case")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum CaseI18nEnum {
-	NO_ITEM_VIEW_TITLE,
-	NO_ITEM_VIEW_HINT,
-	
-	LIST_VIEW_TITLE,
+	VIEW_NO_ITEM_TITLE,
+	VIEW_NO_ITEM_HINT,
+	VIEW_LIST_TITLE,
+	VIEW_NEW_TITLE,
 	
 	SECTION_CASE_INFORMATION,
 	SECTION_DESCRIPTION,
 	
-	FORM_NEW_TITLE,
+	BUTTON_NEW_CASE,
 	
 	FORM_PRIORITY,
 	FORM_STATUS,

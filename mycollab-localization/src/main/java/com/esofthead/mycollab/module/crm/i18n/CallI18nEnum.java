@@ -7,6 +7,8 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/call")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum CallI18nEnum {
+	BUTTON_NEW_CALL,
+	
 	FORM_SUBJECT,
 	FORM_STATUS,
 	FORM_START_DATE_TIME,

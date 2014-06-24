@@ -25,7 +25,7 @@ import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.ui.components.EntityImportWindow;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -50,10 +50,9 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
 		FieldMapperDef[] fields = {
 				new FieldMapperDef("accountname", "Account Name"),
 				new FieldMapperDef("website", "Website"),
-				new FieldMapperDef(
-						"phoneoffice",
+				new FieldMapperDef("phoneoffice",
 						AppContext
-								.getMessage(CrmCommonI18nEnum.FORM_PHONE_OFFICE_FIELD)),
+								.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE)),
 				new FieldMapperDef("fax", "Fax"),
 				new FieldMapperDef("alternatephone", "Alternate Phone"),
 				new FieldMapperDef("annualrevenue", "Annual Revenue"),
@@ -69,8 +68,7 @@ public class AccountImportWindow extends EntityImportWindow<Account> {
 				new FieldMapperDef("shippingstate", "Shipping State"),
 				new FieldMapperDef("numemployees", "Number Employees"),
 				new FieldMapperDef("assignuser",
-						AppContext
-								.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)),
 				new FieldMapperDef("type", "Type"),
 				new FieldMapperDef("industry", "Industry"),
 				new FieldMapperDef("billingcountry", "Billing Country"),
