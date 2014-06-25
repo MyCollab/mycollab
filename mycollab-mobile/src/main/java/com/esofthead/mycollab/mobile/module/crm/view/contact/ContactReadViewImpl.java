@@ -52,6 +52,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -92,7 +93,10 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		relatedOpportunities
 				.setCaption("<span aria-hidden=\"true\" data-icon=\""
 						+ IconConstants.CRM_OPPORTUNITY
-						+ "\"></span><div class=\"screen-reader-text\">Opportunities</div>");
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TAB_OPPORTUNITY)
+						+ "</div>");
 		relatedOpportunities.setHtmlContentAllowed(true);
 		relatedOpportunities.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7589415773039335559L;
@@ -111,7 +115,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		Button relatedNotes = new Button();
 		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.CRM_DOCUMENT
-				+ "\"></span><div class=\"screen-reader-text\">Notes</div>");
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE) + "</div>");
 		relatedNotes.setHtmlContentAllowed(true);
 		relatedNotes.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7589415773039335559L;
@@ -127,10 +132,11 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		toolbarLayout.addComponent(relatedNotes);
 
 		Button relatedActivities = new Button();
-		relatedActivities
-				.setCaption("<span aria-hidden=\"true\" data-icon=\""
-						+ IconConstants.CRM_ACTIVITY
-						+ "\"></span><div class=\"screen-reader-text\">Activities</div>");
+		relatedActivities.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.CRM_ACTIVITY
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_ACTIVITY)
+				+ "</div>");
 		relatedActivities.setHtmlContentAllowed(true);
 		relatedActivities.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7589415773039335559L;

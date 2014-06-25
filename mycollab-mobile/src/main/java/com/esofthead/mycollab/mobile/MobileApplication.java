@@ -34,11 +34,13 @@ import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent;
 import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
 /**
@@ -93,9 +95,17 @@ public class MobileApplication extends UI {
 
 			@Override
 			public void navigate(NavigationEvent event) {
+				NavigationManager currentNavigator = (NavigationManager) event
+						.getSource();
 				if (event.getDirection() == Direction.BACK) {
-					manager.removeComponent(manager.getNextComponent());
-					manager.getState().setNextComponent(null);
+					Component nextComponent = currentNavigator
+							.getNextComponent();
+					if (nextComponent instanceof NavigationView) {
+						((NavigationView) nextComponent)
+								.setPreviousComponent(null);
+					}
+					currentNavigator.removeComponent(nextComponent);
+					currentNavigator.getState().setNextComponent(null);
 				}
 			}
 		});

@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
@@ -41,7 +40,7 @@ public interface BugTableFieldDef {
 			UIConstants.TABLE_EX_LABEL_WIDTH);
 
 	public static TableViewField description = new TableViewField(
-			BugI18nEnum.FORM_DESCRIPTION, "description",
+			GenericI18Enum.FORM_DESCRIPTION, "description",
 			UIConstants.TABLE_EX_LABEL_WIDTH);
 
 	public static TableViewField environment = new TableViewField(

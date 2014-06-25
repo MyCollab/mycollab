@@ -21,6 +21,7 @@ public enum TimeTrackingI18nEnum {
 	LOG_USER,
 	LOG_FOR_DATE,
 	LOG_VALUE,
+	
 	FORM_SUMMARY,
 	FORM_IS_BILLABLE,
 	FORM_PROJECT,

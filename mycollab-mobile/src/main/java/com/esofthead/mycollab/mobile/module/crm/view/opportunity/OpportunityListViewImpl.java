@@ -82,6 +82,8 @@ public class OpportunityListViewImpl extends
 	@Override
 	protected Component createRightComponent() {
 		MobileNavigationButton addOpportunity = new MobileNavigationButton();
+		addOpportunity.setTargetViewCaption(AppContext
+				.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
 		addOpportunity
 				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 7172838996944732255L;

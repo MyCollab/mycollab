@@ -85,7 +85,7 @@ public class VersionSearchPanel extends
 		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
 		final Label versionTitle = new Label(
-				AppContext.getMessage(VersionI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
 		versionTitle.setStyleName(UIConstants.HEADER_TEXT);
 		layout.addComponent(versionTitle);
 		layout.setComponentAlignment(versionTitle, Alignment.MIDDLE_LEFT);

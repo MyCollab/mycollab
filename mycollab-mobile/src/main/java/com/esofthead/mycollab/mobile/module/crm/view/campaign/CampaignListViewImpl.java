@@ -82,6 +82,8 @@ public class CampaignListViewImpl extends
 	@Override
 	protected Component createRightComponent() {
 		MobileNavigationButton addCampaign = new MobileNavigationButton();
+		addCampaign.setTargetViewCaption(AppContext
+				.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE));
 		addCampaign
 				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;

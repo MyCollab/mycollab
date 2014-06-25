@@ -23,6 +23,8 @@ import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBo
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.CompoundCustomField;
@@ -55,7 +57,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 	@Override
 	protected String initFormTitle() {
 		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: "Add Call";
+				: AppContext.getMessage(CallI18nEnum.VIEW_NEW_TITLE);
 	}
 
 	@Override

@@ -429,8 +429,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 						2, "100%");
 			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,
-						AppContext.getMessage(BugI18nEnum.FORM_DESCRIPTION), 0,
-						1, 2, "100%");
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+						0, 1, 2, "100%");
 			} else if (propertyId.equals("environment")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT), 0,

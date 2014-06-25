@@ -258,8 +258,9 @@ public class MilestoneReadViewImpl extends
 						.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0,
 						1);
 			} else if (propertyId.equals("owner")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1,
+						0);
 			} else if (propertyId.equals("status")) {
 				this.informationLayout.addComponent(field, AppContext
 						.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD), 1, 1);
@@ -272,8 +273,8 @@ public class MilestoneReadViewImpl extends
 								.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD),
 								1, 2);
 			} else if (propertyId.equals("description")) {
-				this.informationLayout.addComponent(field, AppContext
-						.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD),
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
 						0, 3, 2, "100%");
 			}
 		}

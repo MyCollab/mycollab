@@ -70,10 +70,10 @@ public interface CaseTableFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField createdTime = new TableViewField(
-			CaseI18nEnum.FORM_CREATED_TIME, "createdtime",
+			GenericI18Enum.FORM_CREATED_TIME, "createdtime",
 			UIConstants.TABLE_DATE_TIME_WIDTH);
 
 	public static TableViewField lastUpdatedTime = new TableViewField(
-			CaseI18nEnum.FORM_LAST_UPDATED_TIME, "lastupdatedtime",
+			GenericI18Enum.FORM_LAST_UPDATED_TIME, "lastupdatedtime",
 			UIConstants.TABLE_DATE_TIME_WIDTH);
 }

@@ -7,14 +7,13 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/version")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum VersionI18nEnum {
-	LIST_VIEW_TITLE,
+	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
-
-	FORM_NEW_TITLE,
-	FORM_EDIT_TITLE,
+	VIEW_NEW_TITLE,
+	VIEW_EDIT_TITLE,
+	
 	FORM_NAME,
-	FORM_DESCRIPTION,
 	FORM_STATUS,
 	FORM_DUE_DATE,
 	FORM_VERSION_ERROR_MSG,

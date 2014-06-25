@@ -26,7 +26,9 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
 import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
+import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.user.ActivityStreamComponent;
 import com.esofthead.mycollab.module.project.view.user.MyProjectListComponent;
@@ -133,8 +135,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		final HorizontalLayout headerContentBottom = new HorizontalLayout();
 		headerContentBottom.setSpacing(true);
-		followingTicketsLink = new ButtonLink("My Following Tickets (" + "0"
-				+ ")");
+		followingTicketsLink = new ButtonLink(AppContext.getMessage(
+				FollowerI18nEnum.LABEL_MY_FOLLOWING_TICKETS, 0));
 
 		followingTicketsLink.setIcon(MyCollabResource
 				.newResource("icons/16/follow.png"));
@@ -152,7 +154,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			}
 		});
 
-		timeTrackingLink = new ButtonLink("Time Tracking");
+		timeTrackingLink = new ButtonLink(
+				AppContext.getMessage(TimeTrackingI18nEnum.TIME_RECORD_HEADER));
 		timeTrackingLink.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -230,7 +233,8 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		MonitorItemService monitorService = ApplicationContextUtil
 				.getSpringBean(MonitorItemService.class);
 		int followingItemsCount = monitorService.getTotalCount(searchCriteria);
-		followingTicketsLink.setCaption("My Following Tickets ("
-				+ followingItemsCount + ")");
+		followingTicketsLink.setCaption(AppContext.getMessage(
+				FollowerI18nEnum.LABEL_MY_FOLLOWING_TICKETS,
+				followingItemsCount));
 	}
 }

@@ -12,7 +12,9 @@ import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityList
 import com.esofthead.mycollab.mobile.ui.AbstractTabPageView;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -94,22 +96,22 @@ public class CrmModule extends AbstractTabPageView implements IModule {
 						+ AppContext
 								.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
 						+ "</div>");
-		// this.addTab(
-		// getCaseTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_CASE
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
-		// + "</div>");
-		// this.addTab(
-		// getActivityTab(),
-		// "<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-		// + IconConstants.CRM_ACTIVITY
-		// + "\"></span><div class=\"screen-reader-text\">"
-		// + AppContext
-		// .getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
-		// + "</div>");
+		this.addTab(
+				getCaseTab(),
+				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_CASE
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER)
+						+ "</div>");
+		this.addTab(
+				getActivityTab(),
+				"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+						+ IconConstants.CRM_ACTIVITY
+						+ "\"></span><div class=\"screen-reader-text\">"
+						+ AppContext
+								.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
+						+ "</div>");
 
 		this.addListener(new SelectedTabChangeListener() {
 			private static final long serialVersionUID = -2091640999903863902L;
@@ -152,6 +154,21 @@ public class CrmModule extends AbstractTabPageView implements IModule {
 							SearchField.AND, AppContext.getAccountId()));
 					opportunityPresenter.go(CrmModule.this,
 							new ScreenData.Search<OpportunitySearchCriteria>(
+									criteria));
+				} else if (currentComponent == getCaseTab()) {
+					CaseSearchCriteria criteria = new CaseSearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+					casePresenter
+							.go(CrmModule.this,
+									new ScreenData.Search<CaseSearchCriteria>(
+											criteria));
+				} else if (currentComponent == getActivityTab()) {
+					ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+					criteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+					activityPresenter.go(CrmModule.this,
+							new ScreenData.Search<ActivitySearchCriteria>(
 									criteria));
 				}
 			}

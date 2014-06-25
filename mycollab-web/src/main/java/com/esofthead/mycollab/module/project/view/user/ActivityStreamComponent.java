@@ -40,6 +40,10 @@ import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.hp.gagawa.java.Node;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -124,95 +128,26 @@ public class ActivityStreamComponent extends CssLayout {
 					String content = "";
 
 					// --------------Item hidden div tooltip----------------
-					String randomStrId = UUID.randomUUID().toString();
-					String idDivSeverData = "projectOverViewserverdata"
-							+ randomStrId + "";
-					String idToopTipDiv = "projectOverViewtooltip"
-							+ randomStrId + "";
-					String idStickyToolTipDiv = "projectOverViewmystickyTooltip"
-							+ randomStrId;
-					String idtagA = "projectOverViewtagA" + randomStrId;
-					// --------------User hidden div tooltip-----------------
-					String idDivUserSeverData = "projectuserserverdata"
-							+ randomStrId + "";
-					String idUserToopTipDiv = "projectusertooltip"
-							+ randomStrId + "";
-					String idUserStickyToolTipDiv = "projectusermystickyTooltip"
-							+ randomStrId;
-					String idUsertagA = "projectusertagA" + randomStrId;
-
-					String arg0 = UserAvatarControlFactory.getAvatarLink(
-							activityStream.getCreatedUserAvatarId(), 16);
-					String arg1 = idUsertagA;
-					String arg2 = ProjectLinkBuilder
-							.generateProjectMemberFullLink(
-									activityStream.getExtratypeid(),
-									activityStream.getCreateduser());
-					String arg3 = "'" + randomStrId + "'";
-					String arg4 = "'" + activityStream.getCreateduser() + "'";
-					String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-					String arg6 = "'" + AppContext.getSiteUrl() + "'";
-					String arg7 = AppContext.getSession().getTimezone();
-					String arg8 = "'" + activityStream.getSaccountid() + "'";
-					String arg9 = activityStream.getCreatedUserFullName();
-					String arg10 = idUserStickyToolTipDiv;
-					String arg11 = idUserToopTipDiv;
-					String arg12 = idDivUserSeverData;
-					String arg13 = AppContext
+					String uid = UUID.randomUUID().toString();
+					String type = AppContext
 							.getMessage(ProjectLocalizationTypeMap
 									.getType(activityStream.getType()));
-					String arg14 = ProjectResources
-							.getResourceLink(activityStream.getType());
-					String arg15 = idtagA;
-					String arg16 = ProjectLinkBuilder.generateProjectItemLink(
-							activityStream.getExtratypeid(),
-							activityStream.getType(),
-							activityStream.getTypeid());
-					String arg17 = "'" + randomStrId + "'";
-					String arg18 = "'" + activityStream.getType() + "'";
-					String arg19 = "'" + activityStream.getTypeid() + "'";
-					String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-					String arg21 = "'" + activityStream.getSaccountid() + "'";
-					String arg22 = "'" + AppContext.getSiteUrl() + "'";
-					String arg23_timezone = AppContext.getSession()
-							.getTimezone();
-					String arg24_locale = "'"
-							+ AppContext.getUserLocale().toString() + "'";
-					String arg25_fieldname = activityStream.getNamefield();
-					String arg26_projecticon = MyCollabResource
-							.newResourceLink("icons/16/project/project.png");
-					String arg27 = ProjectLinkBuilder
-							.generateProjectFullLink(activityStream
-									.getProjectId());
-					String arg28 = activityStream.getProjectName();
-					String arg29 = idStickyToolTipDiv;
-					String arg30 = idToopTipDiv;
-					String arg31 = idDivSeverData;
+					String userParam = buildAssigneeValue(activityStream, uid);
+					String itemLink = buildItemValue(activityStream, uid);
+					String projectLink = buildProjectValue(activityStream, uid);
 
 					if (ActivityStreamConstants.ACTION_CREATE
 							.equals(activityStream.getAction())) {
 						content = AppContext
 								.getMessage(
 										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
-										arg0, arg1, arg2, arg3, arg4, arg5,
-										arg6, arg7, arg8, arg9, arg10, arg11,
-										arg12, arg13, arg14, arg15, arg16,
-										arg17, arg18, arg19, arg20, arg21,
-										arg22, arg23_timezone, arg24_locale,
-										arg25_fieldname, arg26_projecticon,
-										arg27, arg28, arg29, arg30, arg31);
+										userParam, type, itemLink, projectLink);
 					} else if (ActivityStreamConstants.ACTION_UPDATE
 							.equals(activityStream.getAction())) {
 						content = AppContext
 								.getMessage(
 										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-										arg0, arg1, arg2, arg3, arg4, arg5,
-										arg6, arg7, arg8, arg9, arg10, arg11,
-										arg12, arg13, arg14, arg15, arg16,
-										arg17, arg18, arg19, arg20, arg21,
-										arg22, arg23_timezone, arg24_locale,
-										arg25_fieldname, arg26_projecticon,
-										arg27, arg28, arg29, arg30, arg31);
+										userParam, type, itemLink, projectLink);
 						if (activityStream.getAssoAuditLog() != null) {
 							content += ProjectActivityStreamGenerator
 									.generatorDetailChangeOfActivity(activityStream);
@@ -229,6 +164,129 @@ public class ActivityStreamComponent extends CssLayout {
 			} catch (final Exception e) {
 				throw new MyCollabException(e);
 			}
+		}
+
+		private String buildAssigneeValue(ProjectActivityStream activityStream,
+				String uid) {
+			Div div = new Div();
+			Img userAvatar = new Img("",
+					UserAvatarControlFactory.getAvatarLink(
+							activityStream.getCreatedUserAvatarId(), 16));
+			A userLink = new A();
+			userLink.setId("projectusertagA" + uid);
+			userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+					activityStream.getExtratypeid(),
+					activityStream.getCreateduser()));
+
+			String arg3 = "'" + uid + "'";
+			String arg4 = "'" + activityStream.getCreateduser() + "'";
+			String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+			String arg6 = "'" + AppContext.getSiteUrl() + "'";
+			String arg7 = AppContext.getSession().getTimezone();
+			String arg8 = "'" + activityStream.getSaccountid() + "'";
+
+			String mouseOverFunc = String.format(
+					"return projectuseroverIt(%s,%s,%s,%s,%s,%s);", arg3, arg4,
+					arg5, arg6, arg7, arg8);
+			userLink.setAttribute("onmouseover", mouseOverFunc);
+
+			String arg9 = activityStream.getCreatedUserFullName();
+			userLink.appendText(arg9);
+
+			Div div1 = new Div();
+			div1.setId("projectusermystickyTooltip" + uid);
+			div1.setAttribute("class", "stickytooltip");
+
+			Div div11 = new Div();
+			div11.setAttribute("style", "padding:5px");
+			div1.appendChild(div11);
+
+			Div div12 = new Div();
+			div12.setId("projectusertooltip" + uid);
+			div12.setAttribute("class", "atip");
+			div12.setAttribute("style", "width:400px");
+			div11.appendChild(div12);
+
+			Div div13 = new Div();
+			div13.setId("projectuserserverdata" + uid);
+			div12.appendChild(div13);
+
+			div.appendChild(userAvatar, userLink, div1);
+			return write(div);
+		}
+
+		private String buildItemValue(ProjectActivityStream activityStream,
+				String uid) {
+			Div div = new Div();
+			Img itemImg = new Img("",
+					ProjectResources.getResourceLink(activityStream.getType()));
+			A itemLink = new A();
+			itemLink.setId("projectOverViewtagA" + uid);
+			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					activityStream.getExtratypeid(), activityStream.getType(),
+					activityStream.getTypeid()));
+
+			String arg17 = "'" + uid + "'";
+			String arg18 = "'" + activityStream.getType() + "'";
+			String arg19 = "'" + activityStream.getTypeid() + "'";
+			String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+			String arg21 = "'" + activityStream.getSaccountid() + "'";
+			String arg22 = "'" + AppContext.getSiteUrl() + "'";
+			String arg23 = AppContext.getSession().getTimezone();
+			String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+			String mouseOverFunc = String.format(
+					"return projectOverViewOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
+					arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
+			itemLink.setAttribute("onmouseover", mouseOverFunc);
+			itemLink.appendText(activityStream.getNamefield());
+
+			div.appendChild(itemImg, itemLink);
+			return write(div);
+		}
+
+		private String buildProjectValue(ProjectActivityStream activityStream,
+				String uid) {
+			Div div = new Div();
+			Img prjImg = new Img("",
+					MyCollabResource
+							.newResourceLink("icons/16/project/project.png"));
+			A prjLink = new A(
+					ProjectLinkBuilder.generateProjectFullLink(activityStream
+							.getProjectId()));
+			prjLink.appendText(activityStream.getProjectName());
+
+			Div div1 = new Div();
+			div1.setId("projectOverViewmystickyTooltip" + uid);
+			div1.setAttribute("class", "stickytooltip");
+
+			Div div12 = new Div();
+			div12.setAttribute("style", "padding:5px");
+			div1.appendChild(div12);
+
+			Div div13 = new Div();
+			div13.setId("projectOverViewtooltip" + uid);
+			div13.setAttribute("class", "atip");
+			div13.setAttribute("style", "width:500px");
+			div12.appendChild(div13);
+
+			Div div14 = new Div();
+			div14.setId("projectOverViewserverdata" + uid);
+			div13.appendChild(div14);
+
+			div.appendChild(prjImg, prjLink, div1);
+
+			return write(div);
+		}
+
+		private static String write(Div div) {
+			StringBuffer b = new StringBuffer();
+			if ((div.children != null) && (div.children.size() > 0)) {
+				for (Node child : div.children) {
+					b.append(child.write());
+				}
+			}
+			return b.toString();
 		}
 
 		@Override

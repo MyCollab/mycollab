@@ -600,7 +600,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/bug/version/list/"
 						+ UrlEncodeDecoder.encode(project.getId()),
-				AppContext.getMessage(VersionI18nEnum.LIST_VIEW_TITLE));
+				AppContext.getMessage(VersionI18nEnum.VIEW_LIST_TITLE));
 	}
 
 	public void gotoVersionAdd() {

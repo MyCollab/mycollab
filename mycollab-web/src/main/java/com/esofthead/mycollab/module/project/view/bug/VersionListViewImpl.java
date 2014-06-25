@@ -100,7 +100,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 				Arrays.asList(
 						new TableViewField(VersionI18nEnum.FORM_NAME,
 								"versionname", UIConstants.TABLE_EX_LABEL_WIDTH),
-						new TableViewField(VersionI18nEnum.FORM_DESCRIPTION,
+						new TableViewField(GenericI18Enum.FORM_DESCRIPTION,
 								"description", UIConstants.TABLE_EX_LABEL_WIDTH),
 						new TableViewField(VersionI18nEnum.FORM_DUE_DATE,
 								"duedate", UIConstants.TABLE_DATE_TIME_WIDTH)));

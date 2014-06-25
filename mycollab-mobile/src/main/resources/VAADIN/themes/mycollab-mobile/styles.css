@@ -217,24 +217,63 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper {
   -webkit-tap-highlight-color: transparent;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar, .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-navview-toolbar {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar {
   overflow-x: hidden;
   box-shadow: none;
   border-top: 1px solid #bbbbbb;
   background-color: #dedede;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  height: 4.8rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button, .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-navview-toolbar .v-button {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button {
   color: #6a6a6a;
   background-color: #dedede;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button .v-button-wrap, .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-navview-toolbar .v-button .v-button-wrap {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap {
   font-size: 1.3rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button .v-button-wrap span[data-icon]:before, .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon]:before {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap span[data-icon]:before {
   font-size: 2.1rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button.v-button-selected, .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-navview-toolbar .v-button.v-button-selected {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button.v-button-selected {
   color: #00A3E8;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar {
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  box-shadow: none;
+  border-top: none;
+  white-space: nowrap;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  height: 100%;
+  border-left: none;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button .v-button-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  height: auto;
+  padding: 0px 10px;
+  line-height: normal;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button .v-button-wrap .v-button-caption {
+  position: relative;
+  bottom: 0px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview {
   background-color: white;
@@ -251,7 +290,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.3rem;
   margin-left: 2rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:before {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after {
   right: 100%;
   top: 50%;
   border: solid transparent;
@@ -260,8 +299,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   width: 0;
   position: absolute;
   pointer-events: none;
-}
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after {
   border-color: rgba(73, 163, 225, 0);
   border-right-color: #49a3e1;
   border-width: 13px;
@@ -270,6 +307,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   margin-right: 0px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
   border-color: rgba(36, 130, 194, 0);
   border-right-color: #2482c2;
   border-width: 14px;
@@ -295,7 +340,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn .v-button-wrap, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn .v-button-wrap {
   padding: 0 12px;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .v-touchkit-navbutton.add-btn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -306,14 +351,54 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  padding: 4px 10px;
+  padding: 5px 10px;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .v-touchkit-navbutton.add-btn:before, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption:before, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption:before {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton:before, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption:before, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption:before {
+  content: "\e60e";
+  font-size: 2rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn .v-button-caption {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn .v-button-caption:before {
   content: "\e60e";
   font-size: 2rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-wrapper {
   -webkit-tap-highlight-color: transparent;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
+  overflow-x: hidden;
+  box-shadow: none;
+  border-top: 1px solid #bbbbbb;
+  background-color: #dedede;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  height: 4.8rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button {
+  color: #6a6a6a;
+  background-color: #dedede;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap {
+  font-size: 1.3rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon]:before {
+  font-size: 2.1rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button.v-button-selected {
+  color: #00A3E8;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
   color: #5e5055;
@@ -331,6 +416,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .controls-popover .v-window-contents .v-button .v-button-wrap {
   padding: 5px 0px;
+}
+.mycollab-mobile .controls-popover .v-window-contents .v-touchkit-navbutton, .mycollab-mobile .controls-popover .v-window-contents .data-list-view .v-button .v-button-wrap .v-button-caption, .mycollab-mobile .data-list-view .v-button .v-button-wrap .controls-popover .v-window-contents .v-button-caption {
+  background-color: #515a62;
+  color: #FFFFFF;
+  padding: 5px 0px;
+  border-radius: 3px;
+  text-align: center;
 }
 .mycollab-mobile .data-list-view .v-table-row, .mycollab-mobile .data-list-view .v-table-row-odd {
   -moz-box-sizing: border-box;
@@ -381,7 +473,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
 }
 .mycollab-mobile .editview-layout .v-select {
   border: 1px solid #bababa;
@@ -490,6 +585,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-button.gray .v-button-caption {
   color: white;
 }
+.mycollab-mobile .v-button:active .v-button-wrap:after {
+  background-color: transparent;
+}
 .mycollab-mobile .v-touchkit-navbutton, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
   line-height: normal;
 }
@@ -504,9 +602,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-textfield.v-textfield-focus {
   box-shadow: 0px 0px 3px 1px #49a3e1;
 }
-.mycollab-mobile .v-button:active .v-button-wrap:after {
-  background-color: transparent;
-}
 .mycollab-mobile .confirm-dialog .v-window-outerheader {
   display: none;
 }
@@ -519,13 +614,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .confirm-dialog .message-wrapper .v-label {
   text-align: center;
 }
-.mycollab-mobile .confirm-dialog .v-button .v-button-wrap:before {
-  content: "";
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap {
   display: inline-block;
   vertical-align: middle;
   height: 100%;
 }
-.mycollab-mobile .confirm-dialog .v-button .v-button-wrap {
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap:before {
+  content: "";
   display: inline-block;
   vertical-align: middle;
   height: 100%;

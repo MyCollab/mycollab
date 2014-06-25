@@ -29,6 +29,7 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
@@ -42,6 +43,10 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.hp.gagawa.java.Node;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -114,76 +119,25 @@ public class ProjectActivityStreamPagedList
 					currentDate = itemCreatedDate;
 				}
 				String content = "";
+				String uid = UUID.randomUUID().toString();
+				String itemType = AppContext
+						.getMessage(ProjectLocalizationTypeMap
+								.getType(activityStream.getType()));
+				String assigneeParam = buildAssigneeValue(activityStream, uid);
+				String itemParam = buildItemValue(activityStream, uid);
 
-				// --------------Item hidden div tooltip----------------
-				String randomStrId = UUID.randomUUID().toString();
-				String idDivSeverData = "serverdata" + randomStrId + "";
-				String idToopTipDiv = "tooltip" + randomStrId + "";
-				String idStickyToolTipDiv = "mystickyTooltip" + randomStrId;
-				String idtagA = "tagA" + randomStrId;
-				// --------------User hidden div tooltip-----------------
-				String idDivUserSeverData = "userserverdata" + randomStrId + "";
-				String idUserToopTipDiv = "usertooltip" + randomStrId + "";
-				String idUserStickyToolTipDiv = "usermystickyTooltip"
-						+ randomStrId;
-				String idUsertagA = "usertagA" + randomStrId;
-
-				String arg0 = UserAvatarControlFactory.getAvatarLink(
-						activityStream.getCreatedUserAvatarId(), 16);
-				String arg1 = idUsertagA;
-				String arg2 = ProjectLinkBuilder.generateProjectMemberFullLink(
-						activityStream.getExtratypeid(),
-						activityStream.getCreateduser());
-				String arg3 = "'" + randomStrId + "'";
-				String arg4 = "'" + activityStream.getCreateduser() + "'";
-				String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-				String arg6 = "'" + AppContext.getSiteUrl() + "'";
-				String arg7 = AppContext.getSession().getTimezone();
-				String arg8 = "'" + activityStream.getSaccountid() + "'";
-				String arg9 = activityStream.getCreatedUserFullName();
-				String arg10 = idUserStickyToolTipDiv;
-				String arg11 = idUserToopTipDiv;
-				String arg12 = idDivUserSeverData;
-				String arg13 = AppContext.getMessage(ProjectLocalizationTypeMap
-						.getType(activityStream.getType()));
-				String arg14 = ProjectResources.getResourceLink(activityStream
-						.getType());
-				String arg15 = idtagA;
-				String arg16 = ProjectLinkBuilder.generateProjectItemLink(
-						activityStream.getExtratypeid(),
-						activityStream.getType(), activityStream.getTypeid());
-				String arg17 = "'" + randomStrId + "'";
-				String arg18 = "'" + activityStream.getType() + "'";
-				String arg19 = "'" + activityStream.getTypeid() + "'";
-				String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
-				String arg21 = "'" + activityStream.getSaccountid() + "'";
-				String arg22 = "'" + AppContext.getSiteUrl() + "'";
-				String arg23 = AppContext.getSession().getTimezone();
-				String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-				String arg25 = activityStream.getNamefield();
-				String arg26 = idStickyToolTipDiv;
-				String arg27 = idToopTipDiv;
-				String arg28 = idDivSeverData;
 				if (ActivityStreamConstants.ACTION_CREATE.equals(activityStream
 						.getAction())) {
 					content = AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
-									arg0, arg1, arg2, arg3, arg4, arg5, arg6,
-									arg7, arg8, arg9, arg10, arg11, arg12,
-									arg13, arg14, arg15, arg16, arg17, arg18,
-									arg19, arg20, arg21, arg22, arg23, arg24,
-									arg25, arg26, arg27, arg28);
+									assigneeParam, itemType, itemParam);
 				} else if (ActivityStreamConstants.ACTION_UPDATE
 						.equals(activityStream.getAction())) {
 					content = AppContext
 							.getMessage(
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-									arg0, arg1, arg2, arg3, arg4, arg5, arg6,
-									arg7, arg8, arg9, arg10, arg11, arg12,
-									arg13, arg14, arg15, arg16, arg17, arg18,
-									arg19, arg20, arg21, arg22, arg23, arg24,
-									arg25, arg26, arg27, arg28);
+									assigneeParam, itemType, itemParam);
 					if (activityStream.getAssoAuditLog() != null) {
 						content += ProjectActivityStreamGenerator
 								.generatorDetailChangeOfActivity(activityStream);
@@ -199,6 +153,111 @@ public class ProjectActivityStreamPagedList
 		} catch (final Exception e) {
 			throw new MyCollabException(e);
 		}
+	}
+
+	private String buildAssigneeValue(SimpleActivityStream activityStream,
+			String uid) {
+		Div div = new Div();
+		Img userAvatar = new Img("", UserAvatarControlFactory.getAvatarLink(
+				activityStream.getCreatedUserAvatarId(), 16));
+		A userLink = new A();
+		userLink.setId("usertagA" + uid);
+		userLink.setHref(ProjectLinkBuilder.generateProjectMemberFullLink(
+				activityStream.getExtratypeid(),
+				activityStream.getCreateduser()));
+
+		String arg3 = "'" + uid + "'";
+		String arg4 = "'" + activityStream.getCreateduser() + "'";
+		String arg5 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+		String arg6 = "'" + AppContext.getSiteUrl() + "'";
+		String arg7 = AppContext.getSession().getTimezone();
+		String arg8 = "'" + activityStream.getSaccountid() + "'";
+
+		String mouseOverFunc = String.format(
+				"return useroverIt(%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
+				arg6, arg7, arg8);
+		userLink.setAttribute("onmouseover", mouseOverFunc);
+		userLink.appendText(activityStream.getCreatedUserFullName());
+
+		Div div1 = new Div();
+		div1.setId("usermystickyTooltip" + uid);
+		div1.setAttribute("class", "stickytooltip");
+
+		Div div12 = new Div();
+		div12.setAttribute("style", "padding:5px");
+		div1.appendChild(div12);
+
+		Div div13 = new Div();
+		div13.setId("usertooltip" + uid);
+		div13.setAttribute("class", "atip");
+		div13.setAttribute("style", "width:400px");
+		div12.appendChild(div13);
+
+		Div div14 = new Div();
+		div14.setId("userserverdata" + uid);
+		div13.appendChild(div14);
+
+		div.appendChild(userAvatar, userLink, div1);
+
+		return write(div);
+	}
+
+	private String buildItemValue(SimpleActivityStream activityStream,
+			String uid) {
+		Div div = new Div();
+		Img image = new Img("", ProjectResources.getResourceLink(activityStream
+				.getType()));
+		A itemLink = new A();
+		itemLink.setId("tagA" + uid);
+		itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+				activityStream.getExtratypeid(), activityStream.getType(),
+				activityStream.getTypeid()));
+
+		String arg17 = "'" + uid + "'";
+		String arg18 = "'" + activityStream.getType() + "'";
+		String arg19 = "'" + activityStream.getTypeid() + "'";
+		String arg20 = "'" + AppContext.getSiteUrl() + "tooltip/'";
+		String arg21 = "'" + activityStream.getSaccountid() + "'";
+		String arg22 = "'" + AppContext.getSiteUrl() + "'";
+		String arg23 = AppContext.getSession().getTimezone();
+		String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
+
+		String mouseOverFunc = String.format(
+				"return overIt(%s,%s,%s,%s,%s,%s,%s,%s);", arg17, arg18, arg19,
+				arg20, arg21, arg22, arg23, arg24);
+		itemLink.setAttribute("onmouseover", mouseOverFunc);
+		itemLink.appendText(activityStream.getNamefield());
+
+		Div div1 = new Div();
+		div1.setId("mystickyTooltip" + uid);
+		div1.setAttribute("class", "stickytooltip");
+
+		Div div12 = new Div();
+		div12.setAttribute("style", "padding:5px");
+		div1.appendChild(div12);
+
+		Div div13 = new Div();
+		div13.setId("tooltip" + uid);
+		div13.setAttribute("class", "atip");
+		div13.setAttribute("style", "width:500px");
+		div12.appendChild(div13);
+
+		Div div14 = new Div();
+		div14.setId("serverdata" + uid);
+		div13.appendChild(div14);
+
+		div.appendChild(image, itemLink, div1);
+		return write(div);
+	}
+
+	private static String write(Div div) {
+		StringBuffer b = new StringBuffer();
+		if ((div.children != null) && (div.children.size() > 0)) {
+			for (Node child : div.children) {
+				b.append(child.write());
+			}
+		}
+		return b.toString();
 	}
 
 	protected void feedBlocksPut(Date currentDate, Date nextDate,
@@ -242,30 +301,34 @@ public class ProjectActivityStreamPagedList
 		this.controlBarWrapper.setStyleName("page-controls");
 		ButtonGroup controlBtns = new ButtonGroup();
 		controlBtns.setStyleName(UIConstants.THEME_GREEN_LINK);
-		Button prevBtn = new Button("Newer", new Button.ClickListener() {
-			private static final long serialVersionUID = -94021599166105307L;
+		Button prevBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_NAV_NEWER),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = -94021599166105307L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ProjectActivityStreamPagedList.this
-						.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ProjectActivityStreamPagedList.this
+								.pageChange(ProjectActivityStreamPagedList.this.currentPage - 1);
+					}
+				});
 		if (currentPage == 1) {
 			prevBtn.setEnabled(false);
 		}
 		prevBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		prevBtn.setWidth("64px");
 
-		Button nextBtn = new Button("Older", new Button.ClickListener() {
-			private static final long serialVersionUID = 3095522916508256018L;
+		Button nextBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_NAV_OLDER),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 3095522916508256018L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ProjectActivityStreamPagedList.this
-						.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
-			}
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ProjectActivityStreamPagedList.this
+								.pageChange(ProjectActivityStreamPagedList.this.currentPage + 1);
+					}
+				});
 		if (currentPage == totalPage) {
 			nextBtn.setEnabled(false);
 		}

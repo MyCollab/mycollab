@@ -41,7 +41,7 @@ public class BugHistoryList extends HistoryLogComponent {
 		this.setMargin(true);
 
 		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(BugI18nEnum.FORM_DESCRIPTION));
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 		this.generateFieldDisplayHandler("environment",
 				AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT));
 		this.generateFieldDisplayHandler("summary",

@@ -78,7 +78,7 @@ public class VersionListPresenter
 					@Override
 					protected String getReportTitle() {
 						return AppContext
-								.getMessage(VersionI18nEnum.LIST_VIEW_TITLE);
+								.getMessage(VersionI18nEnum.VIEW_LIST_TITLE);
 					}
 
 					@Override

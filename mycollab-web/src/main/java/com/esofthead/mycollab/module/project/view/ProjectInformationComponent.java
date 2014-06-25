@@ -88,10 +88,12 @@ public class ProjectInformationComponent extends VerticalLayout {
 						.removeComponent(ProjectInformationComponent.this.prjDisplay);
 				if (ProjectInformationComponent.this.prjDisplay instanceof BasicProjectInformation) {
 					ProjectInformationComponent.this.prjDisplay = new DetailProjectInformation();
-					event.getButton().setCaption("Less");
+					event.getButton().setCaption(
+							AppContext.getMessage(ProjectI18nEnum.BUTTON_LESS));
 				} else {
 					ProjectInformationComponent.this.prjDisplay = new BasicProjectInformation();
-					event.getButton().setCaption("More");
+					event.getButton().setCaption(
+							AppContext.getMessage(ProjectI18nEnum.BUTTON_MORE));
 				}
 				ProjectInformationComponent.this.addComponent(
 						ProjectInformationComponent.this.prjDisplay,

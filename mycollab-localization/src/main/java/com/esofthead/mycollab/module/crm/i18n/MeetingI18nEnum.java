@@ -7,6 +7,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/meeting")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum MeetingI18nEnum {
+	VIEW_NEW_TITLE,
 	BUTTON_NEW_MEETING,
 	
 	FORM_SUBJECT,

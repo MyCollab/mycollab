@@ -51,8 +51,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 					.getMessage(MilestoneI18nEnum.FORM_END_DATE_FIELD), 0, 2);
 		} else if (propertyId.equals("owner")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-					1, 1);
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE), 1, 1);
 		} else if (propertyId.equals("status")) {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD),
@@ -66,8 +65,8 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 					AppContext.getMessage(MilestoneI18nEnum.FORM_BUG_FIELD), 1,
 					3);
 		} else if (propertyId.equals("description")) {
-			this.informationLayout.addComponent(field, AppContext
-					.getMessage(MilestoneI18nEnum.FORM_DESCRIPTION_FIELD), 0,
+			this.informationLayout.addComponent(field,
+					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0,
 					4, 2, "100%");
 		}
 	}

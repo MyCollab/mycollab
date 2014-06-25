@@ -85,7 +85,7 @@ public class AccountListViewImpl extends
 	protected Component createRightComponent() {
 		MobileNavigationButton addAccount = new MobileNavigationButton();
 		addAccount.setTargetViewCaption(AppContext
-				.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
+				.getMessage(AccountI18nEnum.VIEW_NEW_TITLE));
 		addAccount
 				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;

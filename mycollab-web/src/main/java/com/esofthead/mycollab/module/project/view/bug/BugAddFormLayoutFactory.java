@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -98,7 +97,7 @@ public class BugAddFormLayoutFactory implements IFormLayoutFactory {
 					2, "100%");
 		} else if (propertyId.equals("description")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(BugI18nEnum.FORM_DESCRIPTION), 0, 7,
+					AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION), 0, 7,
 					2, "100%");
 		} else if (propertyId.equals("id")) {// add attachment box
 			this.informationLayout.addComponent(field,

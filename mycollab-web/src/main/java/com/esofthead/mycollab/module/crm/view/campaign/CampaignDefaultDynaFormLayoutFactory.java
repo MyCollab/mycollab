@@ -79,13 +79,11 @@ public class CampaignDefaultDynaFormLayoutFactory {
 						AppContext.getMessage(CampaignI18nEnum.FORM_END_DATE))
 				.fieldIndex(4).build());
 
-		campaignSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.fieldIndex(5).build());
+		campaignSection.addField(new TextDynaFieldBuilder()
+				.fieldName("assignuser")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.fieldIndex(5).build());
 
 		defaultForm.addSection(campaignSection);
 
@@ -141,8 +139,7 @@ public class CampaignDefaultDynaFormLayoutFactory {
 		descSection.addField(new TextAreaDynaFieldBuilder()
 				.fieldName("description")
 				.displayName(
-						AppContext
-								.getMessage(CampaignI18nEnum.FORM_DESCRIPTION))
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION))
 				.fieldIndex(0).build());
 
 		defaultForm.addSection(descSection);

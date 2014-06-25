@@ -1,5 +1,7 @@
 /* This contains all of your theme.*/
 /* If somebody wants to extend the theme she will include this mixin. */
+@import "mixins.scss";
+
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
@@ -160,27 +162,45 @@
     .v-touchkit-navpanel-wrapper {
 		-webkit-tap-highlight-color: transparent;
 		
-		.v-touchkit-tabbar-toolbar .v-touchkit-toolbar, .v-touchkit-navview-toolbar {
-			overflow-x: hidden;
-    		box-shadow: none;
-    		border-top: 1px solid rgb(187, 187, 187);
-    		background-color: rgb(222, 222, 222);
-    		
-   			.v-button {
-    			color: rgb(106, 106, 106);
-    			background-color: rgb(222, 222, 222);
-    			
-    			.v-button-wrap {
-    				font-size: 1.3rem;
-    				
-    				span[data-icon]:before {
-	    				font-size: 2.1rem;
-	    			}
-    			}	    			
-			}
+		.v-touchkit-tabbar-toolbar {
+			@include toolbar;
 			
-			.v-button.v-button-selected {
-				color: #00A3E8;
+			.v-touchkit-toolbar {
+				height: 100%;
+				display: inline-block;
+				position: relative;
+				box-shadow: none;
+				border-top: none;
+				white-space: nowrap;
+				
+				.v-button {
+				    display: inline-block;
+				    vertical-align: middle;
+				    position: relative;
+				    height: 100%;
+				    border-left: none;
+				    
+				    .v-button-wrap {
+				    	display: inline-block;
+						vertical-align: middle;
+						position: relative;
+						height: auto;
+						padding: 0px 10px;
+						line-height: normal;
+						
+						.v-button-caption {
+							position: relative;
+							bottom: 0px;
+						}
+				    }
+					&:before {
+						content: "";
+						display: inline-block;
+						height: 100%;
+						vertical-align: middle;
+						width: 0px;
+					}
+				}				
 			}
 		}
 				
@@ -200,30 +220,25 @@
 		   				padding: 0.4rem 0.8rem 0rem 0.5rem;
 		   				font-size: 1.3rem;
 		   				margin-left: 2rem;
-		   			} 
-		   			.v-touchkit-navbutton-back:after, .v-touchkit-navbutton-back:before 
-		   			{ 
-		   				right: 100%; 
-		   				top: 50%; 
-		   				border: solid transparent; content: " "; 
-		   				height: 0; 
-		   				width: 0; 
-		   				position: absolute; 
-		   				pointer-events: none; 
-		   			} 
-		   			.v-touchkit-navbutton-back:after {
-		   				border-color: rgba(73, 163, 225, 0); 
-		   				border-right-color: #49a3e1; 
-		   				border-width: 13px; 
-		   				margin-top: -13px;
-		   				left: auto;
-		   				margin-right: 0px;
-		   			}
-		   			.v-touchkit-navbutton-back:before {
-		   				border-color: rgba(36, 130, 194, 0);
-		   				border-right-color: #2482c2; 
-		   				border-width: 14px; 
-		   				margin-top: -14px; 
+		   				
+		   				&:after {
+		   					@include backbtn;
+		   					
+			   				border-color: rgba(73, 163, 225, 0); 
+			   				border-right-color: #49a3e1; 
+			   				border-width: 13px; 
+			   				margin-top: -13px;
+			   				left: auto;
+			   				margin-right: 0px;
+			   			}
+			   			&:before {
+			   				@include backbtn;
+			   				
+			   				border-color: rgba(36, 130, 194, 0);
+			   				border-right-color: #2482c2; 
+			   				border-width: 14px; 
+			   				margin-top: -14px; 
+			   			}
 		   			}
 		    	}
 		    	
@@ -250,24 +265,28 @@
 		   					padding: 0 12px;
 		   				}
 	    			}
-	    			.v-touchkit-navbutton.add-btn {
-	    					font-family: 'icomoon';
-							speak: none;
-							font-style: normal;
-							font-weight: normal;
-							font-variant: normal;
-							text-transform: none;
-						
-							/* Better Font Rendering =========== */
-							-webkit-font-smoothing: antialiased;
-							-moz-osx-font-smoothing: grayscale;
-							color: rgb(255, 255, 255);
-							padding: 4px 10px;
+	    			.add-btn {
+	    			
+	    				&.v-touchkit-navbutton {
+	    					@include icomoon;
+	    					padding: 5px 10px;
+	    					
+	    					&:before {
+								content: "\e60e";
+								font-size: 2rem;
+	    					}
+	    				}
+    					
+    					.v-button-caption {
+	    					@include icomoon;
+	    					
+	    					&:before {
+								content: "\e60e";
+								font-size: 2rem;
+		    				}
+	    				}
+	    				
 	    			}
-    				.v-touchkit-navbutton.add-btn:before {
-						content: "\e60e";
-						font-size: 2rem;
-    				}
 	    		}
 	    	}
 	    	
@@ -275,12 +294,16 @@
 				-webkit-tap-highlight-color: transparent;
 	    	}
 	    	
-	    	.v-touchkit-navview-toolbar .v-mobileview-toolbar {
-    			.v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar-nextBtn {
-    				color: rgb(94, 80, 85);
-    				background-color: rgba(187, 187, 187, 0.6);
-    			}
-	    	}
+	    	.v-touchkit-navview-toolbar {
+	    		@include toolbar;
+	    		
+		    	.v-mobileview-toolbar {
+	    			.v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar-nextBtn {
+	    				color: rgb(94, 80, 85);
+	    				background-color: rgba(187, 187, 187, 0.6);
+	    			}
+		    	}
+			}
 	    }
 	}
 	
@@ -298,6 +321,14 @@
 				.v-button-wrap {
 					padding: 5px 0px;
 				}
+			}
+			
+			.v-touchkit-navbutton {
+				background-color: #515a62;
+				color: #FFFFFF;
+				padding: 5px 0px;
+				border-radius: 3px;
+				text-align: center;
 			}
 		}
 	}
@@ -365,13 +396,7 @@
 		}
 			
 		.v-filterselect-button {
-			font-family: 'icomoon';
-			speak: none;
-			font-style: normal;
-			font-weight: normal;
-			font-variant: normal;
-			text-transform: none;
-			line-height: 1;
+			@include icomoon;
 		}
 		
 		.v-select {
@@ -475,60 +500,60 @@
         box-shadow: none;
         padding: 0px;
         cursor: pointer;
+        
+        &.big-btn {
+	        font-size: 15px;
+	
+	        .v-button-wrap {
+	            padding: 10px 0px;
+	
+	            .v-button-caption {
+	                font-size: 15px;
+	            }
+	        }
+	    }
+	    
+	    &.blue {
+	        background-color: #49a3e1;
+	        border: 1px solid #226899;
+	
+	        .v-button-caption {
+	            color: white;
+	        }
+	    }
+	    
+	    &.gray {
+	        background-color: #9b9b9b;
+	        border: 1px solid #616161;
+	
+	        .v-button-caption {
+	            color: white;
+	        }
+	    }
+	    
+	    &:active {
+	    	.v-button-wrap:after {
+	    		background-color: transparent;
+	    	}
+    	}
     }
-
-    .v-button.big-btn {
-        font-size: 15px;
-
-        .v-button-wrap {
-            padding: 10px 0px;
-
-            .v-button-caption {
-                font-size: 15px;
-            }
-        }
-    }
-
-    .v-button.blue {
-        background-color: #49a3e1;
-        border: 1px solid #226899;
-
-        .v-button-caption {
-            color: white;
-        }
-    }
-
-    .v-button.gray {
-        background-color: #9b9b9b;
-        border: 1px solid #616161;
-
-        .v-button-caption {
-            color: white;
-        }
-    }
-
+    
     .v-touchkit-navbutton {
         line-height: normal;
-    }
-
-    .v-touchkit-navbutton:after {
-        content: "";
+        
+        &:after {
+	        content: "";
+	    }
     }
 
     .v-textfield {
         border-radius: 4px;
         border: 1px solid #c7c7c7;
         outline: none;
-    }
-
-    .v-textfield.v-textfield-focus {
-        box-shadow: 0px 0px 3px 1px #49a3e1;
-    }
-    
-    .v-button:active {
-    	.v-button-wrap:after {
-    		background-color: transparent;
-    	}
+        
+        &.v-textfield-focus {
+	        box-shadow: 0px 0px 3px 1px #49a3e1;
+	    }
     }
     
     /* Confirm Dialog */
@@ -552,18 +577,18 @@
     	}   	
     	
     	.v-button {
-    	
-	    	.v-button-wrap:before {
-	    		content: "";
-	    		display:inline-block;
-	    		vertical-align: middle;
-	    		height: 100%;
-	    	}
 	    	
 	    	.v-button-wrap {
 	    		display: inline-block;
 	    		vertical-align: middle;
 	    		height: 100%;
+	    		
+	    		&:before {
+		    		content: "";
+		    		display:inline-block;
+		    		vertical-align: middle;
+		    		height: 100%;
+		    	}
 	    	}
 		}
     }

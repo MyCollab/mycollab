@@ -56,7 +56,7 @@ class CaseHistoryLogWindow extends HistoryLogWindow {
 				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new UserHistoryFieldFormat());
 		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(CaseI18nEnum.FORM_DESCRIPTION));
+				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
 		this.generateFieldDisplayHandler("resolution",
 				AppContext.getMessage(CaseI18nEnum.FORM_RESOLUTION));
 	}

@@ -45,7 +45,7 @@ public class CaseAddViewImpl extends AbstractEditItemComp<SimpleCase> implements
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
 		return new DynaFormLayout(CrmTypeConstants.CASE,
-				CasesDefaultFormLayoutFactory.getForm());
+				CaseDefaultFormLayoutFactory.getForm());
 	}
 
 	@Override

@@ -3,29 +3,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="mailRepository"
-        class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean"
-        p:configuration="classpath:/mail-repo.xml" p:homeDir="file:repo/mail-workspace">
-    </bean>
-
-    <bean id="jcrMailSessionFactory"
-        class="com.esofthead.mycollab.module.mail.MailContentSessionFactory">
-        <property name="repository" ref="mailRepository" />
-        <property name="credentials">
-            <bean class="javax.jcr.SimpleCredentials">
-                <constructor-arg index="0" value="hainguyen" />
-                <constructor-arg index="1" value="esofthead321" />
-            </bean>
-        </property>
-    </bean>
-
     <bean id="velocityEngine"
         class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
         <property name="configLocation" value="classpath:velocity.properties" />
-    </bean>
-
-    <bean id="jcrMailTemplate" class="org.springframework.extensions.jcr.JcrTemplate">
-        <property name="sessionFactory" ref="jcrMailSessionFactory" />
-        <property name="allowCreate" value="true" />
     </bean>
 </beans>

@@ -1,0 +1,52 @@
+@mixin toolbar {
+	overflow-x: hidden;
+	box-shadow: none;
+	border-top: 1px solid rgb(187, 187, 187);
+	background-color: rgb(222, 222, 222);
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+	height: 4.8rem;
+	
+	.v-button  {
+ 		color: rgb(106, 106, 106);
+ 		background-color: rgb(222, 222, 222);
+ 			
+ 		.v-button-wrap {
+ 			font-size: 1.3rem;
+ 				
+ 			span[data-icon]:before {
+	  			font-size: 2.1rem;
+	  		}
+  		}    			
+	}
+	
+	.v-button.v-button-selected {
+		color: #00A3E8;
+	}
+}
+
+@mixin icomoon {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: rgb(255, 255, 255);
+}
+
+@mixin backbtn {
+	right: 100%; 
+	top: 50%; 
+	border: solid transparent; content: " "; 
+	height: 0; 
+	width: 0; 
+	position: absolute; 
+	pointer-events: none; 
+}

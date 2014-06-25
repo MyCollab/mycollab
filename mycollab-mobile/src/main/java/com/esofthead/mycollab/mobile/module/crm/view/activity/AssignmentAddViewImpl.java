@@ -20,6 +20,8 @@ import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -39,7 +41,7 @@ public class AssignmentAddViewImpl extends AbstractEditItemComp<Task> implements
 	@Override
 	protected String initFormTitle() {
 		return beanItem.getSubject() != null ? beanItem.getSubject()
-				: "New Task";
+				: AppContext.getMessage(TaskI18nEnum.VIEW_NEW_TITLE);
 	}
 
 	@Override

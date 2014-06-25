@@ -25,15 +25,17 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.ui.Button;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Table;
 
-public class ActivityListDisplay extends
-DefaultPagedBeanList<EventService, ActivitySearchCriteria, SimpleActivity> {
+public class ActivityListDisplay
+		extends
+		DefaultPagedBeanList<EventService, ActivitySearchCriteria, SimpleActivity> {
 	private static final long serialVersionUID = -2050012123292483060L;
 
 	public ActivityListDisplay(String displayColumnId) {
-		super(ApplicationContextUtil.getSpringBean(EventService.class), SimpleActivity.class, displayColumnId);
+		super(ApplicationContextUtil.getSpringBean(EventService.class),
+				SimpleActivity.class, displayColumnId);
 
 		addGeneratedColumn("subject", new Table.ColumnGenerator() {
 			private static final long serialVersionUID = 1L;
@@ -43,12 +45,14 @@ DefaultPagedBeanList<EventService, ActivitySearchCriteria, SimpleActivity> {
 					final Object itemId, Object columnId) {
 				final SimpleActivity simpleEvent = ActivityListDisplay.this
 						.getBeanByIndex(itemId);
-				Button b = new Button(simpleEvent.getSubject(),
-						new Button.ClickListener() {
+				NavigationButton b = new NavigationButton(simpleEvent
+						.getSubject());
+				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public void buttonClick(Button.ClickEvent event) {
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
 						fireTableEvent(new TableClickEvent(
 								ActivityListDisplay.this, simpleEvent,
 								"subject"));

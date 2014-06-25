@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamRe
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -96,7 +97,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 				MyCollabResource.newResource("icons/24/follow.png"));
 		header.addComponent(timeIcon);
 
-		final Label layoutHeader = new Label("Your Following Tickets");
+		final Label layoutHeader = new Label("My Following Tickets");
 		layoutHeader.addStyleName("h2");
 		header.addComponent(layoutHeader);
 		header.setComponentAlignment(layoutHeader, Alignment.MIDDLE_LEFT);
@@ -112,7 +113,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 		contentWrapper.addComponent(controlBtns);
 		this.addComponent(contentWrapper);
 
-		final Button backBtn = new Button("Back to Workboard");
+		final Button backBtn = new Button(
+				AppContext
+						.getMessage(FollowerI18nEnum.BUTTON_BACK_TO_WORKBOARD));
 		backBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 

@@ -28,7 +28,9 @@ import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -104,7 +106,8 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 		Button relatedNotes = new Button();
 		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.CRM_DOCUMENT
-				+ "\"></span><div class=\"screen-reader-text\">Notes</div>");
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE) + "</div>");
 		relatedNotes.setHtmlContentAllowed(true);
 		relatedNotes.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 8846423206027007038L;
