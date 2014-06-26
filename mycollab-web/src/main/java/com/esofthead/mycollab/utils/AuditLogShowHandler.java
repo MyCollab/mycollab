@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -158,11 +159,11 @@ public class AuditLogShowHandler {
 					return currency.getSymbol();
 				} catch (Exception e) {
 					log.error("Error while get currency id" + value, e);
-					return "&lt;Empty&gt;";
+					return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 				}
 			}
 
-			return "&lt;Empty&gt;";
+			return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 		}
 	}
 
@@ -174,7 +175,7 @@ public class AuditLogShowHandler {
 				return (value.length() > 200) ? (value.substring(0, 150) + "...")
 						: value;
 			} else {
-				return "&lt;Empty&gt;";
+				return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 			}
 		}
 	}
@@ -189,7 +190,7 @@ public class AuditLogShowHandler {
 						"MM/dd/yyyy");
 				return simpleDateTimeFormat.format(formatDate);
 			} else {
-				return "&lt;Empty&gt;";
+				return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 			}
 
 		}
@@ -215,7 +216,7 @@ public class AuditLogShowHandler {
 						+ ((timeFormat == 0) ? " AM" : " PM");
 				return dateStr;
 			} else {
-				return "&lt;Empty&gt;";
+				return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 			}
 
 		}

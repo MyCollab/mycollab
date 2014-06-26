@@ -60,6 +60,7 @@ public class AssetHttpServletRequestHandler extends GenericServletRequestHandler
 		}
 
 		if (inputStream != null) {
+			log.debug("Get resource {} successfully ", resourcePath);
 			response.setHeader("Content-Type",
 					MimeTypesUtil.detectMimeType(path));
 			response.setHeader("Content-Length",

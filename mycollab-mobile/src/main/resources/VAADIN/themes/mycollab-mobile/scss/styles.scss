@@ -1,8 +1,8 @@
 @import "common.scss";
 @import "mycollab-mobile.scss";
 
-/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
-/* The actual styles should be defined in vaadinexampleproject.scss */
+@include font-open-sans;
+@include font-icomoon;
 @include common;
 
 .mycollab-mobile {

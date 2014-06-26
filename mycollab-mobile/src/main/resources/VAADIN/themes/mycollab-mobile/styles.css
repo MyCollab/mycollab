@@ -1,7 +1,29 @@
 /* This contains all of your theme.*/
 /* If somebody wants to extend the theme she will include this mixin. */
-/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
-/* The actual styles should be defined in vaadinexampleproject.scss */
+@font-face {
+  font-family: 'Open Sans';
+  src: url("fonts/OpenSans-Light-webfont.eot");
+  src: url("fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/OpenSans-Light-webfont.woff") format("woff"), url("fonts/OpenSans-Light-webfont.ttf") format("truetype"), url("fonts/OpenSans-Light-webfont.svg#OpenSansLight") format("svg");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url("fonts/OpenSans-Regular-webfont.eot");
+  src: url("fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/OpenSans-Regular-webfont.woff") format("woff"), url("fonts/OpenSans-Regular-webfont.ttf") format("truetype"), url("fonts/OpenSans-Regular-webfont.svg#OpenSansRegular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url("fonts/OpenSans-Semibold-webfont.eot");
+  src: url("fonts/OpenSans-Semibold-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/OpenSans-Semibold-webfont.woff") format("woff"), url("fonts/OpenSans-Semibold-webfont.ttf") format("truetype"), url("fonts/OpenSans-Semibold-webfont.svg#OpenSansSemibold") format("svg");
+  font-weight: 600;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'icomoon';
   src: url("fonts/icomoon.eot?-4bdust");
@@ -30,7 +52,7 @@ html {
 }
 
 .v-app {
-  font: 1.3rem Arial,Verdana,Helvetica,sans-serif;
+  font: 1.3rem "Open Sans",Verdana,Helvetica,sans-serif;
 }
 
 .v-app,
@@ -72,7 +94,7 @@ input {
 }
 
 body.v-generated-body {
-  background: none repeat scroll 0% 0% whitesmoke;
+  background: none repeat scroll 0% 0% #F3F1F0;
 }
 
 div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
@@ -146,8 +168,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-weight: bold;
 }
 .mycollab-mobile .main-view .module-button:focus, .mycollab-mobile .main-view .module-button:active {
-  border-width: 2px;
-  border-color: #49a3e1;
+  box-shadow: 0px 0px 4px #49a3e1;
 }
 .mycollab-mobile .main-view .module-button.crm {
   background-image: url("icons/crm_icon.png");
@@ -220,8 +241,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar {
   overflow-x: hidden;
   box-shadow: none;
-  border-top: 1px solid #bbbbbb;
-  background-color: #dedede;
+  border-top: 1px solid #DDDDDD;
+  background-color: #F7F7F7;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -230,10 +251,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button {
   color: #6a6a6a;
-  background-color: #dedede;
+  background-color: #F7F7F7;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap {
   font-size: 1.3rem;
+  line-height: 1;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap span[data-icon]:before {
   font-size: 2.1rem;
@@ -262,7 +284,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   position: relative;
   height: auto;
   padding: 0px 10px;
-  line-height: normal;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-touchkit-toolbar .v-button .v-button-wrap .v-button-caption {
   position: relative;
@@ -274,9 +295,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   height: 100%;
   vertical-align: middle;
   width: 0px;
-}
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview {
-  background-color: white;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back {
   position: relative;
@@ -379,8 +397,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
   overflow-x: hidden;
   box-shadow: none;
-  border-top: 1px solid #bbbbbb;
-  background-color: #dedede;
+  border-top: 1px solid #DDDDDD;
+  background-color: #F7F7F7;
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -389,10 +407,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button {
   color: #6a6a6a;
-  background-color: #dedede;
+  background-color: #F7F7F7;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap {
   font-size: 1.3rem;
+  line-height: 1;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon]:before {
   font-size: 2.1rem;
@@ -428,18 +447,27 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #DDDDDD;
   display: inline-block;
 }
 .mycollab-mobile .data-list-view .v-table-row .v-table-cell-content, .mycollab-mobile .data-list-view .v-table-row-odd .v-table-cell-content {
-  padding-left: 10px;
+  padding: 0px;
 }
 .mycollab-mobile .data-list-view .v-table-row-odd {
   background-color: white;
 }
 .mycollab-mobile .data-list-view .v-touchkit-navbutton, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
-  color: #8e8e8e;
+  color: #8C8C8C;
   font-size: 1.3rem;
+  padding: 7px 27px 7px 10px;
+}
+.mycollab-mobile .data-list-view .v-touchkit-navbutton:after, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption:after {
+  content: "\e60a";
+  font-family: "icomoon";
+  line-height: 1.8rem;
+  padding: 6px 0px;
+  color: #8c8c8c;
+  font-size: 1.1rem;
 }
 .mycollab-mobile .data-list-view .v-button {
   text-align: left;
@@ -449,22 +477,61 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   word-wrap: break-word;
   white-space: normal;
 }
-.mycollab-mobile .readview-layout .h2, .mycollab-mobile .editview-layout .h2 {
-  font-size: 1.5rem;
-  color: #444444;
-  padding: 0.9rem 0rem 0.9rem 1rem;
-  border-bottom: 0.2rem solid #f5932e;
+.mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
+  background-color: #F3F1F0;
+}
+.mycollab-mobile .readview-layout .v-label, .mycollab-mobile .editview-layout .v-label {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+}
+.mycollab-mobile .readview-layout .v-label.h2, .mycollab-mobile .editview-layout .v-label.h2 {
+  font-size: 1.2rem;
+  color: #6B6A70;
+  padding: 2.0rem 0rem 0.9rem 1rem;
+  border-bottom: .1rem solid #dddddd;
 }
 .mycollab-mobile .readview-layout .v-gridlayout, .mycollab-mobile .editview-layout .v-gridlayout {
-  color: #919191;
+  color: #060606;
+  background-color: #FFFFFF;
 }
-.mycollab-mobile .readview-layout .v-gridlayout .even-row, .mycollab-mobile .editview-layout .v-gridlayout .even-row {
-  background-color: #f6f6f6;
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-caption, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field {
+  border-bottom: .1rem solid #dddddd;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top {
+  padding-top: 13px;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom {
+  padding-bottom: 13px;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-caption .v-label.v-widget, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption .v-label.v-widget {
+  text-align: right;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-field, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field {
+  color: #8C8C8C;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label {
+  line-height: 1.8rem;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label:after, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label:after {
+  content: "";
+  position: relative;
+  display: inline-block;
+}
+.mycollab-mobile .editview-layout .v-caption {
+  font-size: 1.3rem;
+}
+.mycollab-mobile .editview-layout .v-caption .v-required-field-indicator {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
 }
 .mycollab-mobile .editview-layout input.v-textfield, .mycollab-mobile .editview-layout .v-filterselect, .mycollab-mobile .editview-layout .v-textarea {
-  border: 1px solid #bababa;
+  border: none;
+  color: #8C8C8C;
   border-radius: 0px;
-  height: 22px;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  padding: 0px 1px;
 }
 .mycollab-mobile .editview-layout .v-filterselect-button {
   font-family: 'icomoon';
@@ -479,25 +546,27 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: white;
 }
 .mycollab-mobile .editview-layout .v-select {
-  border: 1px solid #bababa;
+  border: none;
   border-radius: 0px;
-  background-color: white;
-  height: 22px;
+  background-color: transparent;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 }
 .mycollab-mobile .editview-layout .v-select select.v-select-select {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  color: #8C8C8C;
+  min-height: 1.8rem;
 }
 .mycollab-mobile .editview-layout .v-select:after {
   font-family: 'icomoon';
   content: "\e60c";
-  color: #858585;
   padding-right: 5px;
+  color: #8C8C8C;
 }
 .mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar {
-  height: 22px;
+  font-size: 1.4rem;
 }
 .mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar input.v-textfield.v-datefield-textfield {
   border: none;
@@ -506,8 +575,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   line-height: normal;
 }
 .mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
-  font-size: 1.3rem;
-  line-height: 22px;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
 }
 .mycollab-mobile .v-filterselect {
   overflow: hidden;

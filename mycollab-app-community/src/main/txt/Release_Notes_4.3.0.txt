@@ -1,0 +1,166 @@
+
+    About MyCollab
+    ==============
+    
+    MyCollab is a Collaboration Platform of Project Management System, Customer Management
+    and Document Management.
+
+    MyCollab is licensed under the Affero GPL 3 license.
+    
+    You can checkout our latest development source codes at https://github.com/esofthead/mycollab
+    
+    For further information, please visit:
+      * http://www.mycollab.com/
+      * http://wiki.mycollab.com/
+    
+    Contact the MyCollab team at:
+      * Our email support@mycollab.com
+      * Our web form https://www.mycollab.com/support/
+    
+    
+    System requirements
+    ===================
+    
+    MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented
+    in PATH environment and MySQL (InnoDB support recommended).
+
+    
+    Please have a look at MyCollab requirements:
+      http://wiki.mycollab.com/Installation_Guideline#System_Requirements
+
+
+    Installation
+    ============
+    
+    1. Download MyCollab - http://www.mycollab.com/pricing/download/
+    2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
+
+    If you need to understand more MyCollab advanced configuration settings, please visit link http://wiki.mycollab.com/Configuration
+ 
+    You will finish reading and understanding in a matter of minutes.
+    
+    Changelog from MyCollab 4.2.0
+    =============================
+    Improvements
+        - Upgrade Vaadin to 7.2.3
+        - Upgrade HirakiCP to 4.2.0
+        - Update mobile edition
+        - Improve Gantt chart display 
+        - Add Simple view of phase
+        - Support Japanese localization
+        - Emails are localized per language
+        - Support lazy load view
+        - Allow user can select the default system language
+        
+    Bug Fixes
+        - Exception is thrown when user save customized view
+        - Exception is thrown when user save search result
+        - Can not save login credential in mobile edition    
+    
+    Changelog from MyCollab 4.1.1
+    =============================
+    Improvements
+        - Upgrade Vaadin to 7.2.2
+        - Upgrade Apache Camel to 2.13.1
+        - Refactor reporting engine and improve the output of report
+        - Adjust JVM parameters to avoid the PerGem error
+        - Update icons to make UI more intuitive
+        - Add welcome message for view that has empty retrieved items.
+        - Add push service in Vaadin to lazy load heavy task on UI
+        - Remove border of buttons
+        - Texts of emails
+        
+        
+    Bug Fixes
+        - Invite and accept invitation causes NPE in several exceptional cases.
+        - Can not assign role to new user
+        - Several wrong link in emails
+        - Calendar style issue
+        - Can not save edit role
+        - Link of following ticket is wrong
+        
+    
+    Changelog from MyCollab 4.1.0
+    =============================
+    Improvements
+        - Refactor tooltip generator for Project and CRM module
+        - Allow user choose create new item in read view
+        - Improve localization service, and move texts in localization files
+        - Upgrade Spring framework to 4.0.5.RELEASE
+        - Upgrade Jackrabbit to 2.8.0
+        - Upgrade Flyway to 3.0
+        - Upgrade Resteasy to 3.0.7
+        - Upgrade Vaadin to 7.2.0
+    
+    Bug Fixes
+        - Align button and text on the top in read view
+        - Customized view display wrongly
+    
+    Changelog from MyCollab 4.0.0
+    =============================
+    Improvements
+        - Boot time of application is much faster than previous version in some OSes
+        - Email template of task and bug are re-ordered fields more logically
+        - Cache spring service classes to init application context faster
+        - Support user localization.common
+        - Make install process easier for non-tech users
+        - Add gantt chart
+        - Upgrade Vaadin library to 7.1.15
+        
+    Bug Fixes
+        - Application can not allow users upload big file size
+        - Fix NPE of email sending when user create then delete item before the email is sent out
+        - Fix date issue in email update of project milestone, and crm meeting
+        - Cut username display name if it is long too in bug dashboard
+        - Align user name center in standup report display
+        - Display empty string if user does not enter their last name
+    
+    Changelog from MyCollab 3.0.0
+    =============================
+    Improvements
+        - Redesign application user interface
+        - Redesign email template
+        - Dynamic query builder and let user can save query parameters for next search
+        - Upgrade MyCollab libraries to higher version
+        - Revise standup report and time logging feature
+        - Improve code structure and simplify email processing procedure
+    
+    Bug Fixes
+        - Mass update in CRM module throws exception in several special cases
+        - Fix exception throw when user back to previous screen
+        - MyCollab cache views even when user sign out the site
+        - Upload file in Chrome display upload window two times
+        - Fix several wrong links in email
+        - Improve datasource configuration to avoid site open many connections if the site is under heavy load
+        - Fix database connection bottleneck in unit test cases if we run all batch tests
+    
+    Changelog from MyCollab 2.0.0
+    =============================
+    Improvements
+        - Upgrade UI architect from Vaadin 6 to Vaadin 7
+        - Refactor to share common codes for both web desktop and web mobile.
+        - Update icons for CRM types and tabsheet
+        - Update icons for Project types and tabsheet
+        - Make icons more consistent of size and color
+        - Add Convert Lead feature
+        - Add decision role field to Contact Opportunity relationship and add new edit view for this relationship
+        - Remove print button in all pages
+        - Add mobile implementation (not ready for production yet)
+        - Upgrade MyCollab libraries to higher version
+    
+    Bug Fixes
+        - Mass update account, contact in CRM module throws exception
+        - Permission check in Case view is wrong
+        - Navigate previous and next project member throws exception
+        - Update user account throws exception
+        - Export risk, problem list throws exception
+        - Schedule runner can not send reports in some cases
+        - Display activities throws exception in some cases
+        - Invite member does not send when first name is null
+        - Do not display tooltip of lead and contact if firstname is null
+        - Can not save search result in CRM module
+        - Fix spelling mistakes
+    
+    Well known issues
+    =================
+    Calendar view display badly on IE9 at the first time

@@ -51,8 +51,8 @@ public class GridFormLayoutHelper implements Serializable {
 
 	public GridFormLayoutHelper(final int columns, final int rows,
 			final String defaultCaptionWidth) {
-		this(columns, rows, DEFAULT_CONTROL_WIDTH,
-				defaultCaptionWidth, Alignment.TOP_RIGHT);
+		this(columns, rows, DEFAULT_CONTROL_WIDTH, defaultCaptionWidth,
+				Alignment.TOP_RIGHT);
 	}
 
 	public GridFormLayoutHelper(final int columns, final int rows,
@@ -125,7 +125,7 @@ public class GridFormLayoutHelper implements Serializable {
 			final int columns, final int rows, final int colspan,
 			final int rowspan, final Alignment alignment) {
 		if (caption != null) {
-			final Label l = new Label(caption + ":");
+			final Label l = new Label(caption);
 			l.setSizeUndefined();
 			this.layout.addComponent(l, 2 * columns, rows);
 			this.layout.setComponentAlignment(l, alignment);
@@ -159,8 +159,7 @@ public class GridFormLayoutHelper implements Serializable {
 			final int columns, final int rows, final int colspan,
 			final String width, final Alignment alignment) {
 		if (caption != null) {
-			final Label l = new Label(caption + ":");
-			// l.setHeight("100%");
+			final Label l = new Label(caption);
 			final HorizontalLayout captionWrapper = new HorizontalLayout();
 			captionWrapper.addComponent(l);
 			captionWrapper.setComponentAlignment(l, alignment);
@@ -205,7 +204,7 @@ public class GridFormLayoutHelper implements Serializable {
 	public Component addComponent(final Component field, final String caption,
 			final int columns, final int rows, final int colspan,
 			final String width, final String height, final Alignment alignment) {
-		final Label l = new Label(caption + ":");
+		final Label l = new Label(caption);
 		l.setSizeUndefined();
 		this.layout.addComponent(l, 2 * columns, rows);
 		this.layout.setComponentAlignment(l, alignment);
@@ -229,7 +228,7 @@ public class GridFormLayoutHelper implements Serializable {
 			final int columns, final int rows, final String width,
 			final Alignment alignment) {
 		if (caption != null) {
-			final Label l = new Label(caption + ":");
+			final Label l = new Label(caption);
 			// l.setHeight("100%");
 			final HorizontalLayout captionWrapper = new HorizontalLayout();
 			captionWrapper.addComponent(l);

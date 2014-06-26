@@ -1,8 +1,8 @@
 @mixin toolbar {
 	overflow-x: hidden;
 	box-shadow: none;
-	border-top: 1px solid rgb(187, 187, 187);
-	background-color: rgb(222, 222, 222);
+	border-top: 1px solid #DDDDDD;
+	background-color: #F7F7F7;
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
@@ -11,10 +11,11 @@
 	
 	.v-button  {
  		color: rgb(106, 106, 106);
- 		background-color: rgb(222, 222, 222);
+ 		background-color: #F7F7F7;
  			
  		.v-button-wrap {
  			font-size: 1.3rem;
+ 			line-height: 1;
  				
  			span[data-icon]:before {
 	  			font-size: 2.1rem;

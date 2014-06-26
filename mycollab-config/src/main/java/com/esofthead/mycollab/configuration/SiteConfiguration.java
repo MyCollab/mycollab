@@ -19,6 +19,9 @@ package com.esofthead.mycollab.configuration;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.core.DeploymentMode;
 
 /**
@@ -29,6 +32,9 @@ import com.esofthead.mycollab.core.DeploymentMode;
  * 
  */
 public class SiteConfiguration {
+	private static Logger log = LoggerFactory
+			.getLogger(SiteConfiguration.class);
+
 	private static SiteConfiguration instance;
 
 	private DeploymentMode deploymentMode;
@@ -70,10 +76,13 @@ public class SiteConfiguration {
 		String runningMode = ApplicationProperties.getString(
 				ApplicationProperties.RUNNING_MODE, null);
 		if ("site".equals(runningMode)) {
+			log.debug("MyCollab is run under site mode");
 			instance.deploymentMode = DeploymentMode.SITE;
 		} else if ("standalone".equals(runningMode)) {
+			log.debug("MyCollab is run under standalone mode");
 			instance.deploymentMode = DeploymentMode.STANDALONE;
 		} else {
+			log.debug("MyCollab is run under development mode");
 			instance.deploymentMode = DeploymentMode.DEV;
 		}
 
@@ -88,8 +97,10 @@ public class SiteConfiguration {
 		String storageSystem = ApplicationProperties.getString(
 				ApplicationProperties.STORAGE_SYSTEM, "file");
 		if (StorageConfiguration.FILE_STORAGE_SYSTEM.equals(storageSystem)) {
+			log.debug("MyCollab uses file storage system");
 			instance.storageConfiguration = FileStorageConfiguration.build();
 		} else {
+			log.debug("MyCollab uses amazon s3 system");
 			instance.storageConfiguration = S3StorageConfiguration
 					.build(ApplicationProperties.getAppProperties());
 		}

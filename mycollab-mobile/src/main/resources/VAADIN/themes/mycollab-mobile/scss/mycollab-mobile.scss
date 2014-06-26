@@ -1,7 +1,7 @@
 /* This contains all of your theme.*/
 /* If somebody wants to extend the theme she will include this mixin. */
 @import "mixins.scss";
-
+@import "fonts.scss";
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
@@ -72,8 +72,7 @@
         }
 
         .module-button:focus, .module-button:active {
-            border-width: 2px;
-            border-color: #49a3e1;
+            box-shadow: 0px 0px 4px #49a3e1;
         }
 
         .module-button.crm {
@@ -186,7 +185,6 @@
 						position: relative;
 						height: auto;
 						padding: 0px 10px;
-						line-height: normal;
 						
 						.v-button-caption {
 							position: relative;
@@ -204,9 +202,7 @@
 			}
 		}
 				
-	    .mobilenavview {
-	    	background-color: rgb(255, 255, 255);
-	    	
+	    .mobilenavview {	    	
 	    	.v-touchkit-navbar {
 	    		.v-touchkit-navbar-left {		    		
 		   			.v-touchkit-navbutton-back {
@@ -339,11 +335,11 @@
 			-moz-box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			box-sizing: border-box;
-			border-bottom: 1px solid rgb(236, 236, 236);
+			border-bottom: 1px solid #DDDDDD;
 			display: inline-block;
 			
 			.v-table-cell-content {
-				padding-left: 10px;
+				padding: 0px;
 			}
 		}
 		.v-table-row-odd {
@@ -351,8 +347,18 @@
 			background-color: rgb(255, 255, 255);
 		}
 		.v-touchkit-navbutton {
-			color: rgb(142, 142, 142);
+			color: #8C8C8C;
 			font-size: 1.3rem;
+			padding: 7px 27px 7px 10px;
+			
+			&:after {
+				content: "\e60a";
+				font-family: "icomoon";
+				line-height: 1.8rem;
+				padding: 6px 0px;
+				color: #8c8c8c;
+				font-size: 1.1rem;
+			}
 		}
 		.v-button {
 			text-align: left;
@@ -371,17 +377,54 @@
 	
 	/* Read View Layout */
 	.readview-layout, .editview-layout {
-		.h2 {
-			font-size: 1.5rem;
-			color: rgb(68, 68, 68);
-			padding: 0.9rem 0rem 0.9rem 1rem;
-			border-bottom: .2rem solid rgb(245, 147, 46);
-		}
-		.v-gridlayout {
-			color: rgb(145, 145, 145);
+		background-color: #F3F1F0;
+		
+		.v-label {
+			font-size: 1.3rem;
+			line-height: 1.8rem;
 			
-			.even-row {
-				background-color: rgb(246, 246, 246);
+			&.h2 {
+				font-size: 1.2rem;
+				color: #6B6A70;
+				padding: 2.0rem 0rem 0.9rem 1rem;
+				border-bottom: .1rem solid #dddddd;
+			}
+		}
+		
+		.v-gridlayout {
+			color: #060606;
+			background-color: #FFFFFF;
+			
+			.gridform-caption, .gridform-field {
+				border-bottom: .1rem solid #dddddd;
+				
+				&.v-horizontallayout{
+					&.v-margin-top {
+						padding-top: 13px;
+					}
+					&.v-margin-bottom {
+						padding-bottom: 13px;
+					}
+				}
+			}
+			
+			.gridform-caption {
+				.v-label.v-widget {
+					text-align: right;
+				}				
+			}
+			
+			.gridform-field {
+				color: #8C8C8C;
+				.v-label {
+					line-height: 1.8rem;
+					font-size: 1.4rem;
+					&:after {
+						content: "";
+						position: relative;
+						display: inline-block;
+					}
+				}				
 			}
 		}
 	}
@@ -389,10 +432,20 @@
 	/* Edit View Layout */
 	
 	.editview-layout {
+		.v-caption {
+			font-size: 1.3rem;
+			.v-required-field-indicator {
+				font-size: 1.3rem;
+				line-height: 1.8rem;
+			}
+		}
 		input.v-textfield, .v-filterselect, .v-textarea {
-			border: 1px solid rgb(186, 186, 186);
+			border: none;
+			color: #8C8C8C;
 			border-radius: 0px;
-			height: 22px;
+			font-size: 1.4rem;
+			line-height: 1.8rem;
+			padding: 0px 1px;
 		}
 			
 		.v-filterselect-button {
@@ -400,28 +453,30 @@
 		}
 		
 		.v-select {
-			border: 1px solid rgb(186, 186, 186);
+			border: none;
 			border-radius: 0px;
-			background-color: rgb(255,255,255);
-			height: 22px;
+			background-color: transparent;
 			box-sizing: border-box;
 			-moz-box-sizing: border-box;
 			-webkit-box-sizing: border-box;
 			
 			select.v-select-select {
-				font-size: 1.3rem;
+				font-size: 1.4rem;
+				line-height: 1.8rem;
+				color: #8C8C8C;
+				min-height: 1.8rem;
 			}
 		}
 		
 		.v-select:after {
 			font-family: 'icomoon';
 			content: "\e60c";
-			color: rgb(133, 133, 133);
 			padding-right: 5px;
+			color: #8C8C8C;
 		}
 		
 		.v-datefield.v-datefield-popupcalendar {
-			height: 22px;
+			font-size: 1.4rem;
 			
 			input.v-textfield.v-datefield-textfield {
 				border: none;
@@ -432,8 +487,8 @@
 		}
 		
 		.v-touchkit-datepicker .v-select-select {
-			font-size: 1.3rem;
-			line-height: 22px;
+			font-size: 1.4rem;
+			line-height: 1.8rem;
 		}
 	}
 	
