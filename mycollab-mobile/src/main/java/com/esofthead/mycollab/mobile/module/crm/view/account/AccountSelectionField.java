@@ -16,24 +16,16 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
 
 /**
  * 
@@ -46,13 +38,11 @@ public class AccountSelectionField extends CustomField<Integer> implements
 		FieldSelection<Account> {
 	private static final long serialVersionUID = 1L;
 
-	private TextField accountName = new TextField();
+	private MobileNavigationButton accountName = new MobileNavigationButton();
 	private Account account = null;
-	private Image browseBtn;
-	private Image clearBtn;
 
 	private void clearValue() {
-		accountName.setValue("");
+		accountName.setCaption("");
 		this.account = null;
 		this.setInternalValue(null);
 	}
@@ -87,7 +77,7 @@ public class AccountSelectionField extends CustomField<Integer> implements
 
 	private void setInternalAccount(SimpleAccount account) {
 		this.account = account;
-		accountName.setValue(account.getAccountname());
+		accountName.setCaption(account.getAccountname());
 	}
 
 	public Account getAccount() {
@@ -98,58 +88,22 @@ public class AccountSelectionField extends CustomField<Integer> implements
 	public void fireValueChange(Account data) {
 		account = data;
 		if (account != null) {
-			accountName.setValue(account.getAccountname());
+			accountName.setCaption(account.getAccountname());
 			setInternalValue(account.getId());
+		} else {
+			this.clearValue();
 		}
 	}
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-		accountName.setNullRepresentation("");
-		accountName.setEnabled(true);
+		accountName.setStyleName("combo-box");
+		AccountSelectionView accountWindow = new AccountSelectionView(
+				AccountSelectionField.this);
+		accountName.setTargetView(accountWindow);
 		accountName.setWidth("100%");
-		layout.addComponent(accountName);
-		layout.setComponentAlignment(accountName, Alignment.MIDDLE_LEFT);
 
-		browseBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/browseItem.png"));
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
-
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				AccountSelectionView accountWindow = new AccountSelectionView(
-						AccountSelectionField.this);
-				EventBus.getInstance().fireEvent(
-						new CrmEvent.PushView(this, accountWindow));
-			}
-		});
-
-		clearBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/clearItem.png"));
-
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				clearValue();
-			}
-		});
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		layout.setExpandRatio(accountName, 1.0f);
-
-		return layout;
+		return accountName;
 	}
 
 	@Override

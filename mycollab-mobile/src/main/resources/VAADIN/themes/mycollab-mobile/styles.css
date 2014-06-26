@@ -473,7 +473,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   text-align: left;
 }
 .mycollab-mobile .data-list-view .v-button .v-button-wrap {
-  padding: 0px;
+  padding: 7px 27px 7px 10px;
   word-wrap: break-word;
   white-space: normal;
 }
@@ -577,6 +577,19 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
   font-size: 1.4rem;
   line-height: 1.8rem;
+}
+.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:before, .mycollab-mobile .editview-layout .data-list-view .v-button .v-button-wrap .combo-box.v-button-caption:before, .mycollab-mobile .data-list-view .v-button .v-button-wrap .editview-layout .combo-box.v-button-caption:before {
+  content: "";
+  position: relative;
+  display: inline-block;
+}
+.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:after, .mycollab-mobile .editview-layout .data-list-view .v-button .v-button-wrap .combo-box.v-button-caption:after, .mycollab-mobile .data-list-view .v-button .v-button-wrap .editview-layout .combo-box.v-button-caption:after {
+  content: "\e60a";
+  font-family: "icomoon";
+  color: #8c8c8c;
+  font-size: 1.1rem;
+  right: 0px;
+  top: 3px;
 }
 .mycollab-mobile .v-filterselect {
   overflow: hidden;

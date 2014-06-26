@@ -364,7 +364,7 @@
 			text-align: left;
 			
 			.v-button-wrap {
-				padding: 0px;
+				padding: 7px 27px 7px 10px;
 				word-wrap: break-word;
 				white-space: normal;
 				
@@ -489,6 +489,22 @@
 		.v-touchkit-datepicker .v-select-select {
 			font-size: 1.4rem;
 			line-height: 1.8rem;
+		}
+		
+		.v-touchkit-navbutton.combo-box {
+			&:before {
+				content: "";
+				position: relative;
+				display: inline-block;
+			}
+			&:after {
+				content: "\e60a";
+				font-family: "icomoon";
+				color: #8c8c8c;
+				font-size: 1.1rem;
+				right: 0px;
+				top: 3px;
+			}
 		}
 	}
 	
