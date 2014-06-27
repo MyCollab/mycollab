@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 
@@ -25,17 +27,33 @@ import java.util.Locale;
  * 
  */
 public class LocaleHelper {
+	public static final String JAPANESE = "Japanese";
+	public static final String ENGLISH = "English";
+	public static final String SPANISH = "Spanish";
+	public static final String VIETNAMESE = "Vietnamese";
+
+	public static Locale spanish = new Locale("es", "ES");
+	public static Locale vietnamese = new Locale("vi", "VN");
+
+	private static Map<String, Locale> languages = new HashMap<String, Locale>();
+
+	static {
+		languages.put(JAPANESE, Locale.JAPAN);
+		languages.put(ENGLISH, Locale.US);
+		languages.put(SPANISH, spanish);
+		languages.put(VIETNAMESE, vietnamese);
+	}
+
+	public static Map<String, Locale> getNativeLanguages() {
+		return languages;
+	}
+
 	public static Locale toLocale(String language) {
 		if (language == null) {
 			return Locale.US;
 		}
 
-		if ("Japanese".equals(language)) {
-			return Locale.JAPAN;
-		} else if ("English".equals(language)) {
-			return Locale.US;
-		}
-
-		return SiteConfiguration.getDefaultLocale();
+		Locale locale = languages.get(language);
+		return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
 	}
 }

@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.domain.CampaignContact;
 import com.esofthead.mycollab.module.crm.domain.Contact;
@@ -38,10 +39,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
-import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
-import com.esofthead.mycollab.vaadin.mvp.NullViewState;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
@@ -67,22 +65,12 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 					@Override
 					public void onSave(final SimpleContact contact) {
 						saveContact(contact);
-						ViewState viewState = HistoryViewManager.back();
-
-						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoList(this, null));
-						}
-
+						EventBus.getInstance().fireEvent(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override
 					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoList(this, null));
-						}
 					}
 
 					@Override

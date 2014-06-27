@@ -16,23 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
 
 /**
  * 
@@ -44,56 +36,15 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		FieldSelection<SimpleContact> {
 	private static final long serialVersionUID = 1L;
 
-	private HorizontalLayout layout;
-
-	private TextField contactName;
+	private MobileNavigationButton contactName = new MobileNavigationButton();
 
 	private SimpleContact contact;
-
-	private Image browseBtn;
-	private Image clearBtn;
-
-	public ContactSelectionField() {
-		contactName = new TextField();
-		contactName.setNullRepresentation("");
-		contactName.setWidth("100%");
-		browseBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/browseItem.png"));
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				ContactSelectionView contactView = new ContactSelectionView(
-						ContactSelectionField.this);
-				EventBus.getInstance().fireEvent(
-						new CrmEvent.PushView(ContactSelectionField.this,
-								contactView));
-			}
-		});
-
-		clearBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/clearItem.png"));
-
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void click(ClickEvent event) {
-				contactName.setValue("");
-				contact = null;
-			}
-		});
-	}
 
 	@Override
 	public void fireValueChange(SimpleContact data) {
 		contact = data;
-		if (contact != null) {
-			contactName.setValue(contact.getContactName());
-			setInternalValue(contact.getId());
-		}
-
+		contactName.setCaption(contact.getContactName());
+		setInternalValue(contact.getId());
 	}
 
 	@Override
@@ -105,20 +56,6 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		} else {
 			super.setPropertyDataSource(newDataSource);
 		}
-		/*
-		 * else if (value instanceof SimpleContact) {
-		 * setInternalContact((SimpleContact) value);
-		 * super.setPropertyDataSource(new AbstractField<Integer>() { private
-		 * static final long serialVersionUID = 1L;
-		 * 
-		 * @Override public Integer getValue() { return ((SimpleContact)
-		 * value).getId(); }
-		 * 
-		 * @Override public Class<? extends Integer> getType() { return
-		 * Integer.class; } }); } else { throw new MyCollabException(
-		 * "Do not support property source different than int or SimpleContact"
-		 * ); }
-		 */
 	}
 
 	@Override
@@ -139,7 +76,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 
 	private void setInternalContact(SimpleContact contact) {
 		this.contact = contact;
-		contactName.setValue(contact.getContactName());
+		contactName.setCaption(contact.getContactName());
 	}
 
 	public SimpleContact getContact() {
@@ -148,21 +85,14 @@ public class ContactSelectionField extends CustomField<Integer> implements
 
 	@Override
 	protected Component initContent() {
-		layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
+		contactName.setStyleName("combo-box");
+		contactName.setWidth("100%");
 
-		layout.addComponent(contactName);
-		layout.setComponentAlignment(contactName, Alignment.MIDDLE_LEFT);
-		layout.setExpandRatio(contactName, 1.0f);
+		ContactSelectionView contactView = new ContactSelectionView(
+				ContactSelectionField.this);
+		contactName.setTargetView(contactView);
 
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
-
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		return layout;
+		return contactName;
 	}
 
 	@Override

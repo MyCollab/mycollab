@@ -39,4 +39,12 @@ public class CrmEvent {
 			super(source, data);
 		}
 	}
+
+	public static class NavigateBack extends ApplicationEvent {
+		private static final long serialVersionUID = 2564051233745790618L;
+
+		public NavigateBack(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
@@ -24,8 +24,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 
 /**
  * 
@@ -34,17 +32,13 @@ import com.vaadin.ui.CustomField;
  * 
  */
 
-public class AccountSelectionField extends CustomField<Integer> implements
+public class AccountSelectionField extends
+		AbstractSelectionCustomField<Account> implements
 		FieldSelection<Account> {
 	private static final long serialVersionUID = 1L;
 
-	private MobileNavigationButton accountName = new MobileNavigationButton();
-	private Account account = null;
-
-	private void clearValue() {
-		accountName.setCaption("");
-		this.account = null;
-		this.setInternalValue(null);
+	public AccountSelectionField() {
+		super(AccountSelectionView.class);
 	}
 
 	@Override
@@ -76,34 +70,19 @@ public class AccountSelectionField extends CustomField<Integer> implements
 	}
 
 	private void setInternalAccount(SimpleAccount account) {
-		this.account = account;
-		accountName.setCaption(account.getAccountname());
+		this.beanItem = account;
+		navButton.setCaption(account.getAccountname());
 	}
 
 	public Account getAccount() {
-		return account;
+		return beanItem;
 	}
 
 	@Override
 	public void fireValueChange(Account data) {
-		account = data;
-		if (account != null) {
-			accountName.setCaption(account.getAccountname());
-			setInternalValue(account.getId());
-		} else {
-			this.clearValue();
-		}
-	}
-
-	@Override
-	protected Component initContent() {
-		accountName.setStyleName("combo-box");
-		AccountSelectionView accountWindow = new AccountSelectionView(
-				AccountSelectionField.this);
-		accountName.setTargetView(accountWindow);
-		accountName.setWidth("100%");
-
-		return accountName;
+		beanItem = data;
+		navButton.setCaption(beanItem.getAccountname());
+		setInternalValue(beanItem.getId());
 	}
 
 	@Override

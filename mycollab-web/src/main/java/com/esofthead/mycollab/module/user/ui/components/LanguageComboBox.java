@@ -16,8 +16,12 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
 import com.esofthead.mycollab.common.i18n.LangI18Enum;
-import com.esofthead.mycollab.i18n.LocalizationHelper;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.ComboBox;
 
@@ -34,12 +38,13 @@ public class LanguageComboBox extends ComboBox {
 		super();
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 
-		this.addItem("English");
-		this.setItemCaption("English",
-				AppContext.getMessage(LangI18Enum.ENGLISH));
-
-		this.addItem("Japanese");
-		this.setItemCaption("Japanese",
-				AppContext.getMessage(LangI18Enum.JAPANESE));
+		Map<String, Locale> supportedLanguage = SiteConfiguration
+				.getSupportedLanguages();
+		Set<String> keys = supportedLanguage.keySet();
+		for (String key : keys) {
+			this.addItem(key);
+			this.setItemCaption(key,
+					AppContext.getMessage(Enum.valueOf(LangI18Enum.class, key)));
+		}
 	}
 }

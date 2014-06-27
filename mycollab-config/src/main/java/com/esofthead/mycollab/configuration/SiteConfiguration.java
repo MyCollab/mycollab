@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -53,6 +55,7 @@ public class SiteConfiguration {
 	private String ggDriveCallbackUrl;
 	private String appUrl;
 	private Locale defaultLocale;
+	private Map<String, Locale> supportedLanguages;
 
 	public static void loadInstance(int serverPort) {
 		ApplicationProperties.loadProps();
@@ -69,6 +72,9 @@ public class SiteConfiguration {
 
 		instance.defaultLocale = toLocale(ApplicationProperties.getString(
 				ApplicationProperties.DEFAULT_LOCALE, "English"));
+
+		instance.supportedLanguages = getSupportedLocales(ApplicationProperties
+				.getString(ApplicationProperties.LOCALES, "English, Japanese"));
 
 		instance.serverPort = serverPort;
 
@@ -206,6 +212,10 @@ public class SiteConfiguration {
 		return instance.defaultLocale;
 	}
 
+	public static Map<String, Locale> getSupportedLanguages() {
+		return instance.supportedLanguages;
+	}
+
 	public static boolean isSupportFileStorage() {
 		return instance.storageConfiguration instanceof FileStorageConfiguration;
 	}
@@ -252,10 +262,24 @@ public class SiteConfiguration {
 			return Locale.US;
 		}
 
-		if ("Japanese".equals(language)) {
-			return Locale.JAPAN;
-		}
+		Map<String, Locale> nativeLanguages = LocaleHelper.getNativeLanguages();
+		Locale locale = nativeLanguages.get(language);
+		return (locale != null) ? locale : Locale.US;
+	}
 
-		return Locale.US;
+	private static Map<String, Locale> getSupportedLocales(String languageVal) {
+		Map<String, Locale> locales = new HashMap<String, Locale>();
+		Map<String, Locale> nativeLanguages = LocaleHelper.getNativeLanguages();
+		String[] languages = languageVal.split(",");
+		for (String language : languages) {
+			Locale locale = nativeLanguages.get(language.trim());
+			if (locale == null) {
+				log.error("Do not support native language {}", language);
+				continue;
+			}
+
+			locales.put(language, locale);
+		}
+		return locales;
 	}
 }

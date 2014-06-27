@@ -21,6 +21,7 @@ import static com.esofthead.mycollab.vaadin.MyCollabSession.USER_TIMEZONE;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -81,25 +82,27 @@ public class BasicInfoChangeWindow extends Window {
 				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtFirstName = (TextField) passInfo.addComponent(new TextField(),
-				"First Name", 0, 0);
+				AppContext.getMessage(UserI18nEnum.FORM_FIRST_NAME), 0, 0);
 		this.txtLastName = (TextField) passInfo.addComponent(new TextField(),
-				"Last Name", 0, 1);
+				AppContext.getMessage(UserI18nEnum.FORM_LAST_NAME), 0, 1);
 		this.txtLastName.setRequired(true);
 		this.txtEmail = (TextField) passInfo.addComponent(new TextField(),
-				"Email", 0, 2);
+				AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 2);
 		this.txtEmail.setRequired(true);
 		this.birthdayField = (DateComboboxSelectionField) passInfo
-				.addComponent(new DateComboboxSelectionField(), "Birthday", 0,
-						3);
+				.addComponent(new DateComboboxSelectionField(),
+						AppContext.getMessage(UserI18nEnum.FORM_BIRTHDAY), 0, 3);
 		this.birthdayField.setDate(this.user.getDateofbirth());
 
 		this.timeZoneField = (TimeZoneSelectionField) passInfo.addComponent(
-				new TimeZoneSelectionField(), "TimeZone", 0, 4);
+				new TimeZoneSelectionField(),
+				AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
 		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezone(this.user
 				.getTimezone()));
 
 		this.languageBox = (LanguageComboBox) passInfo.addComponent(
-				new LanguageComboBox(), "Language", 0, 5);
+				new LanguageComboBox(),
+				AppContext.getMessage(UserI18nEnum.FORM_LANGUAGE), 0, 5);
 		this.languageBox.setValue(this.user.getLanguage());
 
 		this.txtFirstName.setValue(this.user.getFirstname() == null ? ""

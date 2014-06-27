@@ -16,24 +16,16 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Property;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.TextField;
 
 /**
  * 
@@ -47,9 +39,7 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 
 	private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
 
-	private TextField campaignName = new TextField();
-	private Image browseBtn;
-	private Image clearBtn;
+	private MobileNavigationButton campaignName = new MobileNavigationButton();
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
@@ -81,50 +71,17 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 
 	private void setInternalCampaign(SimpleCampaign campaign) {
 		this.internalValue = campaign;
-		campaignName.setValue(internalValue.getCampaignname());
+		campaignName.setCaption(internalValue.getCampaignname());
 	}
 
 	@Override
 	protected Component initContent() {
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.setSpacing(true);
-		layout.setWidth("100%");
-		layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		campaignName.setStyleName("combo-box");
 		campaignName.setWidth("100%");
-		layout.addComponent(campaignName);
-
-		browseBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/browseItem.png"));
-		layout.addComponent(browseBtn);
-		layout.setComponentAlignment(browseBtn, Alignment.MIDDLE_LEFT);
-
-		browseBtn.addClickListener(new MouseEvents.ClickListener() {
-
-			@Override
-			public void click(ClickEvent event) {
-				CampaignSelectionView campaignView = new CampaignSelectionView(
-						CampaignSelectionField.this);
-				EventBus.getInstance().fireEvent(
-						new CrmEvent.PushView(this, campaignView));
-
-			}
-		});
-
-		clearBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/clearItem.png"));
-		clearBtn.addClickListener(new MouseEvents.ClickListener() {
-
-			@Override
-			public void click(ClickEvent event) {
-				campaignName.setValue("");
-				internalValue = null;
-			}
-		});
-		layout.addComponent(clearBtn);
-		layout.setComponentAlignment(clearBtn, Alignment.MIDDLE_LEFT);
-
-		layout.setExpandRatio(campaignName, 1.0f);
-		return layout;
+		CampaignSelectionView campaignView = new CampaignSelectionView(
+				CampaignSelectionField.this);
+		campaignName.setTargetView(campaignView);
+		return campaignName;
 	}
 
 	@Override
@@ -135,10 +92,8 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 	@Override
 	public void fireValueChange(CampaignWithBLOBs data) {
 		this.internalValue = data;
-		if (internalValue != null) {
-			campaignName.setValue(internalValue.getCampaignname());
-			setInternalValue(data.getId());
-		}
+		campaignName.setCaption(internalValue.getCampaignname());
+		setInternalValue(data.getId());
 	}
 
 }

@@ -22,8 +22,8 @@ import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -34,7 +34,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class LeadSelectionView extends MobileNavigationView {
+public class LeadSelectionView extends AbstractMobilePageView {
 	private static final long serialVersionUID = 8715554837844950390L;
 	private LeadSearchCriteria searchCriteria;
 	private LeadListDisplay tableItem;
@@ -54,7 +54,6 @@ public class LeadSelectionView extends MobileNavigationView {
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
-		layout.setMargin(true);
 
 		createLeadList();
 
@@ -62,6 +61,9 @@ public class LeadSelectionView extends MobileNavigationView {
 		this.setContent(layout);
 
 		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleLead clearLead = new SimpleLead();
+		tableItem.getBeanContainer().addItemAt(0, clearLead);
 	}
 
 	@SuppressWarnings("serial")

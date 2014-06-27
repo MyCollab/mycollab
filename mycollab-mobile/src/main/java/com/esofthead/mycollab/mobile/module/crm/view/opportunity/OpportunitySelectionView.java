@@ -21,8 +21,8 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -33,7 +33,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class OpportunitySelectionView extends MobileNavigationView {
+public class OpportunitySelectionView extends AbstractMobilePageView {
 	private static final long serialVersionUID = -4651110982471036490L;
 	private OpportunitySearchCriteria searchCriteria;
 	private OpportunityListDisplay tableItem;
@@ -54,7 +54,6 @@ public class OpportunitySelectionView extends MobileNavigationView {
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
-		layout.setMargin(true);
 
 		createOpportunityList();
 
@@ -62,6 +61,9 @@ public class OpportunitySelectionView extends MobileNavigationView {
 		this.setContent(layout);
 
 		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleOpportunity clearOpportunity = new SimpleOpportunity();
+		tableItem.getBeanContainer().addItemAt(0, clearOpportunity);
 	}
 
 	private void createOpportunityList() {

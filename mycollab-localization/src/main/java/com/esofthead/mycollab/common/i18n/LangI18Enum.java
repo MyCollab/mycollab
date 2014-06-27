@@ -23,5 +23,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/common/lang")
 @LocaleData({ @Locale("en_US") })
 public enum LangI18Enum {
-	ENGLISH, SPANISH, JAPANESE
+	English, Spanish, Japanese
 }

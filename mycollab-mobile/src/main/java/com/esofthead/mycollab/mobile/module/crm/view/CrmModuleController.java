@@ -143,6 +143,21 @@ public class CrmModuleController implements IController {
 						}
 					}
 				});
+
+		EventBus.getInstance().addListener(
+				new ApplicationEventListener<CrmEvent.NavigateBack>() {
+					private static final long serialVersionUID = -8816255344013825447L;
+
+					@Override
+					public Class<? extends ApplicationEvent> getEventType() {
+						return CrmEvent.NavigateBack.class;
+					}
+
+					@Override
+					public void handle(CrmEvent.NavigateBack event) {
+						crmViewNavigation.navigateBack();
+					}
+				});
 	}
 
 	private void bindAccountEvents() {

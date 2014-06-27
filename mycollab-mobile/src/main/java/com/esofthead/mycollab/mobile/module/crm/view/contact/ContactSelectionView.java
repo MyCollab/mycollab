@@ -21,8 +21,8 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -33,7 +33,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class ContactSelectionView extends MobileNavigationView {
+public class ContactSelectionView extends AbstractMobilePageView {
 	private static final long serialVersionUID = 7742786524816492321L;
 	private ContactSearchCriteria searchCriteria;
 	private ContactListDisplay tableItem;
@@ -53,7 +53,6 @@ public class ContactSelectionView extends MobileNavigationView {
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
-		layout.setMargin(true);
 
 		createContactList();
 
@@ -61,6 +60,9 @@ public class ContactSelectionView extends MobileNavigationView {
 		this.setContent(layout);
 
 		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleContact clearContact = new SimpleContact();
+		tableItem.getBeanContainer().addItemAt(0, clearContact);
 	}
 
 	@SuppressWarnings("serial")

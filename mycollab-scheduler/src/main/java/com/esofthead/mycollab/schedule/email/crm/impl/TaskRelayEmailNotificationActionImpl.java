@@ -136,7 +136,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 		TemplateGenerator templateGenerator = new TemplateGenerator(
 				context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
 						context.getChangeByUserFullName(), subject),
-				"templates/email/crm/itemUpdatedNotifier.mt");
+				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
 		setupMailHeaders(simpleTask, context.getEmailNotification(),
 				templateGenerator);
 

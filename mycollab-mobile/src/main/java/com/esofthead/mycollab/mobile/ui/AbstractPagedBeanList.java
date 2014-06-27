@@ -228,4 +228,8 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 	public String getDisplayColumnId() {
 		return this.displayColumnId;
 	}
+
+	public BeanItemContainer<B> getBeanContainer() {
+		return this.container;
+	}
 }

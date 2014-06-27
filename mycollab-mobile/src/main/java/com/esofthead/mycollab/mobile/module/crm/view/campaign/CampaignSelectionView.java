@@ -22,8 +22,8 @@ import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -34,7 +34,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class CampaignSelectionView extends MobileNavigationView {
+public class CampaignSelectionView extends AbstractMobilePageView {
 
 	private static final long serialVersionUID = 1L;
 	private CampaignSearchCriteria searchCriteria;
@@ -56,7 +56,6 @@ public class CampaignSelectionView extends MobileNavigationView {
 
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
-		layout.setMargin(true);
 
 		createCampaignList();
 
@@ -64,6 +63,9 @@ public class CampaignSelectionView extends MobileNavigationView {
 		this.setContent(layout);
 
 		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleCampaign clearCampaign = new SimpleCampaign();
+		tableItem.getBeanContainer().addItemAt(0, clearCampaign);
 	}
 
 	@SuppressWarnings("serial")
