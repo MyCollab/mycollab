@@ -2,6 +2,7 @@ package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 
@@ -28,11 +29,21 @@ public abstract class AbstractSelectionCustomField<B> extends
 		navButton.setStyleName("combo-box");
 		try {
 
-			AbstractSelectionView<B> selectionView = targetSelectionViewCls
+			final AbstractSelectionView<B> selectionView = targetSelectionViewCls
 					.newInstance();
 			selectionView.setSelectionField(this);
 			navButton.setTargetView(selectionView);
 			navButton.setWidth("100%");
+			navButton
+					.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+						private static final long serialVersionUID = 7766417204333658973L;
+
+						@Override
+						public void buttonClick(
+								NavigationButton.NavigationButtonClickEvent event) {
+							selectionView.load();
+						}
+					});
 			return navButton;
 		} catch (SecurityException | InstantiationException
 				| IllegalAccessException | IllegalArgumentException e) {

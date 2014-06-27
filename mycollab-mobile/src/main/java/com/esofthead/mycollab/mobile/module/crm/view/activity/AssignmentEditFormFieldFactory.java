@@ -24,7 +24,6 @@ import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.ui.Field;
@@ -81,7 +80,7 @@ public class AssignmentEditFormFieldFactory extends
 					attachForm.getBean());
 			return relatedField;
 		} else if (propertyId.equals("typeid")) {
-			return new DummyCustomField<Integer>();
+			return new RelatedItemSelectionField(attachForm.getBean());
 		} else if (propertyId.equals("assignuser")) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());

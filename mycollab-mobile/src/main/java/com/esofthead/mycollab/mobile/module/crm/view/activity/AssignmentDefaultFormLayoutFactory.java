@@ -51,7 +51,7 @@ public class AssignmentDefaultFormLayoutFactory {
 		taskSection.addField(new DateDynaFieldBuilder().fieldName("startdate")
 				.displayName("Start Date").fieldIndex(2).build());
 
-		taskSection.addField(new TextDynaFieldBuilder().fieldName("type")
+		taskSection.addField(new TextDynaFieldBuilder().fieldName("typeid")
 				.displayName("Related To").fieldIndex(3).build());
 
 		taskSection.addField(new DateDynaFieldBuilder().fieldName("duedate")
@@ -63,13 +63,11 @@ public class AssignmentDefaultFormLayoutFactory {
 		taskSection.addField(new TextDynaFieldBuilder().fieldName("priority")
 				.displayName("Priority").fieldIndex(6).build());
 
-		taskSection
-				.addField(new TextDynaFieldBuilder()
-						.fieldName("assignuser")
-						.displayName(
-								AppContext
-										.getMessage(GenericI18Enum.FORM_ASSIGNEE))
-						.fieldIndex(7).build());
+		taskSection.addField(new TextDynaFieldBuilder()
+				.fieldName("assignuser")
+				.displayName(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE))
+				.fieldIndex(7).build());
 
 		defaultForm.addSection(taskSection);
 

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListPresenter;
 import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListPresenter;
-import com.esofthead.mycollab.mobile.ui.AbstractTabPageView;
+import com.esofthead.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
@@ -53,7 +53,7 @@ import com.vaadin.ui.UI;
  */
 
 @ViewComponent
-public class CrmModule extends AbstractTabPageView implements IModule {
+public class CrmModule extends AbstractMobileTabPageView implements IModule {
 	private static final long serialVersionUID = 1741055981807436733L;
 
 	private AccountListPresenter accountPresenter;

@@ -46,9 +46,6 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 	}
 
 	private void createUI() {
-		searchCriteria = new AccountSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
 
 		VerticalLayout layout = new VerticalLayout();
 
@@ -56,11 +53,6 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 
 		layout.addComponent(tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
-
-		SimpleAccount clearAccount = new SimpleAccount();
-		tableItem.getBeanContainer().addItemAt(0, clearAccount);
 	}
 
 	@SuppressWarnings("serial")
@@ -95,5 +87,17 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 					}
 				});
 
+	}
+
+	@Override
+	public void load() {
+		searchCriteria = new AccountSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+
+		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleAccount clearAccount = new SimpleAccount();
+		tableItem.getBeanContainer().addItemAt(0, clearAccount);
 	}
 }

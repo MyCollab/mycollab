@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
+import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 
 /**
  * 
@@ -11,13 +12,15 @@ import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 public abstract class AbstractSelectionView<B> extends AbstractMobilePageView {
 	private static final long serialVersionUID = 1L;
 
-	protected AbstractSelectionCustomField<B> selectionField;
+	protected FieldSelection<B> selectionField;
 
-	public AbstractSelectionCustomField<B> getSelectionField() {
+	public FieldSelection<B> getSelectionField() {
 		return selectionField;
 	}
 
-	public void setSelectionField(AbstractSelectionCustomField<B> selectionField) {
+	public void setSelectionField(FieldSelection<B> selectionField) {
 		this.selectionField = selectionField;
 	}
+
+	public abstract void load();
 }
