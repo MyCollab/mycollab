@@ -1,36 +1,19 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountSelectionView;
-import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListDisplay;
-import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListDisplay;
-import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
-import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
-import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
+import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignSelectionView;
+import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseSelectionView;
+import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactSelectionView;
+import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadSelectionView;
+import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunitySelectionView;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
-import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
-import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Table;
 
 /**
  * 
@@ -38,24 +21,23 @@ import com.vaadin.ui.Table;
  * @since 4.3.1
  * 
  */
-@SuppressWarnings({ "rawtypes", "serial", "unchecked" })
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RelatedItemSelectionView extends AbstractMobileTabPageView {
 	private static final long serialVersionUID = 2360108571912662272L;
 
 	private AccountSelectionView accountList;
-	private ContactListDisplay contactList;
-	private CampaignListDisplay campaignList;
-	private LeadListDisplay leadList;
-	private OpportunityListDisplay opportunityList;
-	private CaseListDisplay caseList;
+	private ContactSelectionView contactList;
+	private CampaignSelectionView campaignList;
+	private LeadSelectionView leadList;
+	private OpportunitySelectionView opportunityList;
+	private CaseSelectionView caseList;
 
 	private FieldSelection selectionField;
-	private NavigationButton backBtn;
+
+	private Component previousView;
 
 	public RelatedItemSelectionView(FieldSelection selectionField) {
 		this.selectionField = selectionField;
-		backBtn = new NavigationButton("Back");
-		backBtn.setStyleName("back");
 		buildComponents();
 	}
 
@@ -66,8 +48,7 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
 		while (parent != null && !(parent instanceof NavigationManager)) {
 			parent = parent.getParent();
 		}
-		this.backBtn.setTargetView(((NavigationManager) parent)
-				.getCurrentComponent());
+		this.previousView = ((NavigationManager) parent).getCurrentComponent();
 	}
 
 	public void selectTab(String tabName) {
@@ -158,44 +139,22 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
 				Component currentComponent = getSelelectedTab().getComponent();
 				if (currentComponent == accountList) {
 					accountList.load();
-					accountList
-							.setLeftComponent(RelatedItemSelectionView.this.backBtn);
+					accountList.setPreviousComponent(previousView);
 				} else if (currentComponent == contactList) {
-					ContactSearchCriteria criteria = new ContactSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					contactList.setSearchCriteria(criteria);
-					SimpleContact clearContact = new SimpleContact();
-					contactList.getBeanContainer().addItemAt(0, clearContact);
+					contactList.load();
+					contactList.setPreviousComponent(previousView);
 				} else if (currentComponent == campaignList) {
-					CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					campaignList.setSearchCriteria(criteria);
-					SimpleCampaign clearCampaign = new SimpleCampaign();
-					campaignList.getBeanContainer().addItemAt(0, clearCampaign);
+					campaignList.load();
+					campaignList.setPreviousComponent(previousView);
 				} else if (currentComponent == leadList) {
-					LeadSearchCriteria criteria = new LeadSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					leadList.setSearchCriteria(criteria);
-					SimpleLead clearLead = new SimpleLead();
-					leadList.getBeanContainer().addItemAt(0, clearLead);
+					leadList.load();
+					leadList.setPreviousComponent(previousView);
 				} else if (currentComponent == opportunityList) {
-					OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					opportunityList.setSearchCriteria(criteria);
-					SimpleOpportunity clearOpportunity = new SimpleOpportunity();
-					opportunityList.getBeanContainer().addItemAt(0,
-							clearOpportunity);
+					opportunityList.load();
+					opportunityList.setPreviousComponent(previousView);
 				} else if (currentComponent == caseList) {
-					CaseSearchCriteria criteria = new CaseSearchCriteria();
-					criteria.setSaccountid(new NumberSearchField(
-							SearchField.AND, AppContext.getAccountId()));
-					caseList.setSearchCriteria(criteria);
-					SimpleCase clearCase = new SimpleCase();
-					caseList.getBeanContainer().addItemAt(0, clearCase);
+					caseList.load();
+					caseList.setPreviousComponent(previousView);
 				}
 			}
 		});
@@ -206,143 +165,19 @@ public class RelatedItemSelectionView extends AbstractMobileTabPageView {
 		accountList = new AccountSelectionView();
 		accountList.setSelectionField(selectionField);
 
-		contactList = new ContactListDisplay("contactName");
-		contactList.setWidth("100%");
-		contactList.addGeneratedColumn("contactName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
+		contactList = new ContactSelectionView();
+		contactList.setSelectionField(selectionField);
 
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleContact contact = contactList
-								.getBeanByIndex(itemId);
+		campaignList = new CampaignSelectionView();
+		campaignList.setSelectionField(selectionField);
 
-						Button b = new Button(contact.getContactName(),
-								new Button.ClickListener() {
+		caseList = new CaseSelectionView();
+		caseList.setSelectionField(selectionField);
 
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField.fireValueChange(contact);
-										EventBus.getInstance().fireEvent(
-												new CrmEvent.NavigateBack(this,
-														null));
-									}
-								});
-						return b;
-					}
-				});
+		leadList = new LeadSelectionView();
+		leadList.setSelectionField(selectionField);
 
-		campaignList = new CampaignListDisplay("campaignname");
-		campaignList.setWidth("100%");
-		campaignList.addGeneratedColumn("campaignname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleCampaign campaign = campaignList
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(campaign.getCampaignname(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField
-												.fireValueChange(campaign);
-										EventBus.getInstance().fireEvent(
-												new CrmEvent.NavigateBack(this,
-														null));
-									}
-								});
-						return b;
-					}
-				});
-
-		caseList = new CaseListDisplay("subject");
-		caseList.setWidth("100%");
-		caseList.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleCase mycase = caseList.getBeanByIndex(itemId);
-
-				Button b = new Button(mycase.getSubject(),
-						new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								selectionField.fireValueChange(mycase);
-								EventBus.getInstance().fireEvent(
-										new CrmEvent.NavigateBack(this, null));
-							}
-						});
-				return b;
-			}
-		});
-
-		leadList = new LeadListDisplay("leadName");
-		leadList.setWidth("100%");
-		leadList.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleLead lead = leadList.getBeanByIndex(itemId);
-
-				Button b = new Button(lead.getLeadName(),
-						new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								selectionField.fireValueChange(lead);
-								EventBus.getInstance().fireEvent(
-										new CrmEvent.NavigateBack(this, null));
-							}
-						});
-				return b;
-			}
-		});
-
-		opportunityList = new OpportunityListDisplay("opportunityname");
-		opportunityList.setWidth("100%");
-		opportunityList.addGeneratedColumn("opportunityname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleOpportunity opportunity = opportunityList
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(opportunity.getOpportunityname(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField
-												.fireValueChange(opportunity);
-										EventBus.getInstance().fireEvent(
-												new CrmEvent.NavigateBack(this,
-														null));
-									}
-								});
-						return b;
-					}
-				});
+		opportunityList = new OpportunitySelectionView();
+		opportunityList.setSelectionField(selectionField);
 	}
 }

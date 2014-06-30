@@ -18,7 +18,6 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
-import com.esofthead.mycollab.mobile.module.crm.ui.RelatedEditItemField;
 import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -115,16 +114,9 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 			} else if (propertyId.equals("status")
 					|| propertyId.equals("calltype")) {
 				return callStatusField;
-			} else if (propertyId.equals("type")) {
-				RelatedEditItemField field = new RelatedEditItemField(
-						new String[] { CrmTypeConstants.ACCOUNT,
-								CrmTypeConstants.CAMPAIGN,
-								CrmTypeConstants.CONTACT,
-								CrmTypeConstants.LEAD,
-								CrmTypeConstants.OPPORTUNITY,
-								CrmTypeConstants.CASE }, attachForm.getBean());
-				return field;
 			} else if (propertyId.equals("typeid")) {
+				return new RelatedItemSelectionField(attachForm.getBean());
+			} else if (propertyId.equals("type")) {
 				return new DummyCustomField<String>();
 			} else if (propertyId.equals("startdate")) {
 				return new DatePicker();
@@ -234,7 +226,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 				Integer duration = (Integer) value;
 				if (duration != null && duration != 0) {
 					int hours = duration / 3600;
-					int minutes = (duration % 3600) / 60;
+					int minutes = duration % 3600 / 60;
 					hourField.setValue("" + hours);
 					minutesField.select("" + minutes);
 				}

@@ -16,30 +16,27 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.1
  * 
  */
 @SuppressWarnings("serial")
-public class CampaignSelectionField extends CustomField<Integer> implements
-		FieldSelection<CampaignWithBLOBs> {
+public class CampaignSelectionField extends
+		AbstractSelectionCustomField<CampaignWithBLOBs> {
 
-	private CampaignWithBLOBs internalValue = new CampaignWithBLOBs();
-
-	private MobileNavigationButton campaignName = new MobileNavigationButton();
+	public CampaignSelectionField() {
+		super(CampaignSelectionView.class);
+	}
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
@@ -70,30 +67,20 @@ public class CampaignSelectionField extends CustomField<Integer> implements
 	}
 
 	private void setInternalCampaign(SimpleCampaign campaign) {
-		this.internalValue = campaign;
-		campaignName.setCaption(internalValue.getCampaignname());
-	}
-
-	@Override
-	protected Component initContent() {
-		campaignName.setStyleName("combo-box");
-		campaignName.setWidth("100%");
-		CampaignSelectionView campaignView = new CampaignSelectionView(
-				CampaignSelectionField.this);
-		campaignName.setTargetView(campaignView);
-		return campaignName;
-	}
-
-	@Override
-	public Class<Integer> getType() {
-		return Integer.class;
+		this.beanItem = campaign;
+		navButton.setCaption(beanItem.getCampaignname());
 	}
 
 	@Override
 	public void fireValueChange(CampaignWithBLOBs data) {
-		this.internalValue = data;
-		campaignName.setCaption(internalValue.getCampaignname());
+		this.beanItem = data;
+		navButton.setCaption(beanItem.getCampaignname());
 		setInternalValue(data.getId());
+	}
+
+	@Override
+	public Class<? extends Integer> getType() {
+		return Integer.class;
 	}
 
 }

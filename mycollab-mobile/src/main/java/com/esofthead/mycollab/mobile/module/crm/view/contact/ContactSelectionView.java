@@ -18,11 +18,10 @@ package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -33,24 +32,18 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class ContactSelectionView extends AbstractMobilePageView {
+public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 	private static final long serialVersionUID = 7742786524816492321L;
 	private ContactSearchCriteria searchCriteria;
 	private ContactListDisplay tableItem;
-	private FieldSelection<SimpleContact> fieldSelection;
 
-	public ContactSelectionView(FieldSelection<SimpleContact> fieldSelection) {
+	public ContactSelectionView() {
 		super();
 		createUI();
 		this.setCaption("Contact Name Lookup");
-		this.fieldSelection = fieldSelection;
 	}
 
 	public void createUI() {
-		searchCriteria = new ContactSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 
@@ -58,11 +51,6 @@ public class ContactSelectionView extends AbstractMobilePageView {
 
 		layout.addComponent(tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
-
-		SimpleContact clearContact = new SimpleContact();
-		tableItem.getBeanContainer().addItemAt(0, clearContact);
 	}
 
 	@SuppressWarnings("serial")
@@ -87,7 +75,7 @@ public class ContactSelectionView extends AbstractMobilePageView {
 									@Override
 									public void buttonClick(
 											final Button.ClickEvent event) {
-										fieldSelection.fireValueChange(contact);
+										selectionField.fireValueChange(contact);
 										ContactSelectionView.this
 												.getNavigationManager()
 												.navigateBack();
@@ -97,5 +85,17 @@ public class ContactSelectionView extends AbstractMobilePageView {
 					}
 				});
 
+	}
+
+	@Override
+	public void load() {
+		searchCriteria = new ContactSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+
+		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleContact clearContact = new SimpleContact();
+		tableItem.getBeanContainer().addItemAt(0, clearContact);
 	}
 }

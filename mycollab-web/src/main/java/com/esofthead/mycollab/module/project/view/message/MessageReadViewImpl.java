@@ -286,11 +286,11 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			messageHeader.setSpacing(true);
 			messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
-			final Label timePostLbl = new Label(
-					AppContext.getMessage(MessageI18nEnum.USER_COMMENT_ADD,
-							message.getFullPostedUserName(), DateTimeUtils
-									.getStringDateFromNow(message
-											.getPosteddate())),
+			final Label timePostLbl = new Label(AppContext.getMessage(
+					MessageI18nEnum.USER_COMMENT_ADD, message
+							.getFullPostedUserName(), DateTimeUtils
+							.getStringDateFromNow(message.getPosteddate(),
+									AppContext.getUserLocale())),
 					ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");

@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.esofthead.mycollab.common.domain.Currency;
-import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;

@@ -58,18 +58,15 @@ public class RelatedReadItemField extends CustomField {
 	@Override
 	protected Component initContent() {
 		try {
-			final Integer typeid = (Integer) PropertyUtils.getProperty(
-					RelatedReadItemField.this.bean, "typeid");
-			if (typeid == null) {
+			final String type = (String) PropertyUtils.getProperty(
+					RelatedReadItemField.this.bean, "type");
+			if (type == null || type.equals("")) {
 				return new Label("");
 			}
 
-			final String subject = (String) PropertyUtils.getProperty(
-					RelatedReadItemField.this.bean, "subject");
-
-			final String type = (String) PropertyUtils
-					.getProperty(bean, "type");
-			if (type == null || type.equals("")) {
+			final Integer typeid = (Integer) PropertyUtils.getProperty(bean,
+					"typeid");
+			if (typeid == null) {
 				return new Label("");
 			}
 

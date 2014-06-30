@@ -18,12 +18,11 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -34,26 +33,20 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class CampaignSelectionView extends AbstractMobilePageView {
+public class CampaignSelectionView extends
+		AbstractSelectionView<CampaignWithBLOBs> {
 
 	private static final long serialVersionUID = 1L;
 	private CampaignSearchCriteria searchCriteria;
 	private CampaignListDisplay tableItem;
-	private FieldSelection<CampaignWithBLOBs> fieldSelection;
 
-	public CampaignSelectionView(
-			FieldSelection<CampaignWithBLOBs> fieldSelection) {
+	public CampaignSelectionView() {
 		super();
 		createUI();
 		this.setCaption("Campaign Name Lookup");
-		this.fieldSelection = fieldSelection;
 	}
 
 	private void createUI() {
-		searchCriteria = new CampaignSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 
@@ -61,11 +54,6 @@ public class CampaignSelectionView extends AbstractMobilePageView {
 
 		layout.addComponent(tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
-
-		SimpleCampaign clearCampaign = new SimpleCampaign();
-		tableItem.getBeanContainer().addItemAt(0, clearCampaign);
 	}
 
 	@SuppressWarnings("serial")
@@ -91,7 +79,7 @@ public class CampaignSelectionView extends AbstractMobilePageView {
 									@Override
 									public void buttonClick(
 											final Button.ClickEvent event) {
-										fieldSelection
+										selectionField
 												.fireValueChange(campaign);
 										CampaignSelectionView.this
 												.getNavigationManager()
@@ -101,5 +89,17 @@ public class CampaignSelectionView extends AbstractMobilePageView {
 						return b;
 					}
 				});
+	}
+
+	@Override
+	public void load() {
+		searchCriteria = new CampaignSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+
+		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleCampaign clearCampaign = new SimpleCampaign();
+		tableItem.getBeanContainer().addItemAt(0, clearCampaign);
 	}
 }

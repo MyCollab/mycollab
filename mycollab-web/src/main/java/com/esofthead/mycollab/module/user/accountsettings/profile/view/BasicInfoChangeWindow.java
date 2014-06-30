@@ -16,8 +16,9 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.USER_TIMEZONE;
+import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.EventBus;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.module.user.ui.components.LanguageComboBox;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.DateComboboxSelectionField;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -69,7 +69,8 @@ public class BasicInfoChangeWindow extends Window {
 		this.setModal(true);
 		this.initUI();
 		this.center();
-		this.setCaption("Change your basic information");
+		this.setCaption(AppContext
+				.getMessage(UserI18nEnum.WINDOW_CHANGE_BASIC_INFO_TITLE));
 	}
 
 	private void initUI() {

@@ -18,16 +18,16 @@
 
     <m_form_section_field fieldType="TextDynaField"
         displayName="Name" isMandatory="true" fieldname="string1"
-        fieldIndex="0" sectionId="1" fieldFormat="" id="1" isCustom="false"
+        fieldIndex="0" sectionId="1" fieldFormat="1" id="1" isCustom="false"
         isRequired="false" />
 
     <m_form_section_field fieldType="IntDynaField"
         displayName="numEmp" isMandatory="false" fieldname="int1"
-        fieldIndex="1" sectionId="1" fieldFormat="" id="2" isCustom="false"
+        fieldIndex="1" sectionId="1" fieldFormat="1" id="2" isCustom="false"
         isRequired="false" />
 
     <m_form_section_field fieldType="TextDynaField"
         displayName="desc" isMandatory="true" fieldname="string2"
-        fieldIndex="0" sectionId="2" fieldFormat="" id="3" isCustom="false"
+        fieldIndex="0" sectionId="2" fieldFormat="1" id="3" isCustom="false"
         isRequired="false" />
 </dataset>

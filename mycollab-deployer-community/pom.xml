@@ -22,6 +22,7 @@
         <module>../mycollab-esb</module>
         <module>../mycollab-reporting</module>
         <module>../mycollab-scheduler</module>
+        <module>../mycollab-servlet</module>
         <module>../mycollab-ui</module>
         <module>../mycollab-web</module>
         <module>../mycollab-mobile</module>

@@ -20,11 +20,11 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;

@@ -16,13 +16,13 @@
  */
 package com.esofthead.mycollab.vaadin.desktop.ui;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_MODULE;
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_MODULE;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.module.crm.view.CrmModule;
 import com.esofthead.mycollab.module.file.view.IFileModule;
 import com.esofthead.mycollab.module.project.view.ProjectModule;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountModule;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 
 /**

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -29,7 +30,6 @@ import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;

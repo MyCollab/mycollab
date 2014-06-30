@@ -51,7 +51,7 @@ public class MeetingDefaultFormLayoutFactory {
 				.fieldName("startdate").displayName("Start Date & Time")
 				.fieldIndex(2).build());
 
-		meetingSection.addField(new TextDynaFieldBuilder().fieldName("type")
+		meetingSection.addField(new TextDynaFieldBuilder().fieldName("typeid")
 				.displayName("Related To").fieldIndex(3).build());
 
 		meetingSection.addField(new DateTimeDynaFieldBuilder()

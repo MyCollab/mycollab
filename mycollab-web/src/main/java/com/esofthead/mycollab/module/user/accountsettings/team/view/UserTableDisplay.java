@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.user.domain.UserAccountInvitation;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.EmailLink;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
@@ -183,8 +184,9 @@ public class UserTableDisplay extends
 						final SimpleUser user = UserTableDisplay.this
 								.getBeanByIndex(itemId);
 						Label dateLbl = new Label(DateTimeUtils
-								.getStringDateFromNow(user
-										.getLastaccessedtime()));
+								.getStringDateFromNow(
+										user.getLastaccessedtime(),
+										AppContext.getUserLocale()));
 						return dateLbl;
 					}
 				});

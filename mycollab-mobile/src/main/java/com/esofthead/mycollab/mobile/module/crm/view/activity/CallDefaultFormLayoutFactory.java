@@ -50,7 +50,7 @@ public class CallDefaultFormLayoutFactory {
 				.fieldName("startdate").displayName("Start Date & Time")
 				.fieldIndex(2).build());
 
-		callSection.addField(new TextDynaFieldBuilder().fieldName("type")
+		callSection.addField(new TextDynaFieldBuilder().fieldName("typeid")
 				.displayName("Related To").fieldIndex(3).build());
 
 		callSection.addField(new TextDynaFieldBuilder()

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.USER_TIMEZONE;
+import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.cal10n.IMessageConveyor;
 
+import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -109,14 +111,6 @@ public class AppContext implements Serializable {
 
 	public AppContext(UI uiOwner) {
 		MyCollabSession.putVariable("context", this);
-
-		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
-
-			@Override
-			public Integer getGroupId() {
-				return AppContext.getAccountId();
-			}
-		});
 	}
 
 	/**

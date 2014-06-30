@@ -16,14 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.mobile.module.crm.ui.RelatedEditItemField;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactSelectionField;
 import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.addon.touchkit.ui.DatePicker;
 import com.vaadin.ui.Field;
@@ -71,16 +70,10 @@ public class AssignmentEditFormFieldFactory extends
 			}
 
 			return tf;
-		} else if (propertyId.equals("type")) {
-			RelatedEditItemField relatedField = new RelatedEditItemField(
-					new String[] { CrmTypeConstants.ACCOUNT,
-							CrmTypeConstants.CAMPAIGN,
-							CrmTypeConstants.CONTACT, CrmTypeConstants.LEAD,
-							CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE },
-					attachForm.getBean());
-			return relatedField;
 		} else if (propertyId.equals("typeid")) {
 			return new RelatedItemSelectionField(attachForm.getBean());
+		} else if (propertyId.equals("type")) {
+			return new DummyCustomField<String>();
 		} else if (propertyId.equals("assignuser")) {
 			ActiveUserComboBox userBox = new ActiveUserComboBox();
 			userBox.select(attachForm.getBean().getAssignuser());

@@ -313,8 +313,9 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			} else if (RegisterStatusConstants.ACTIVE.equals(beanItem
 					.getStatus())) {
 				Label lastAccessTimeLbl = new Label("Logged in "
-						+ DateTimeUtils.getStringDateFromNow(beanItem
-								.getLastAccessTime()));
+						+ DateTimeUtils.getStringDateFromNow(
+								beanItem.getLastAccessTime(),
+								AppContext.getUserLocale()));
 				lastAccessTimeLbl.addStyleName("member-email");
 				memberInfo.addComponent(lastAccessTimeLbl);
 			} else if (RegisterStatusConstants.VERIFICATING.equals(beanItem

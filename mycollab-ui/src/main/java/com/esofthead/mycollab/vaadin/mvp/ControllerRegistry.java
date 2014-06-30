@@ -19,8 +19,9 @@ package com.esofthead.mycollab.vaadin.mvp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esofthead.mycollab.vaadin.MyCollabSession;
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CONTROLLER_REGISTRY;
+import com.esofthead.mycollab.common.MyCollabSession;
+
+import static com.esofthead.mycollab.common.MyCollabSession.CONTROLLER_REGISTRY;
 
 /**
  * 

@@ -40,11 +40,6 @@ public class UserAvatarControlFactory {
 
 	}
 
-	public static String getAvatarLink(String userAvatarId, int size) {
-		return SiteConfiguration.getStorageConfiguration().generateAvatarPath(
-				userAvatarId, size);
-	}
-
 	public static Resource createAvatarResource(String avatarId, int size) {
 		Resource avatarRes = null;
 

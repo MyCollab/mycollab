@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 
 /**
  * 
@@ -44,8 +44,7 @@ public class ProjectUserLink extends LabelLink {
 				CurrentProjectVariables.getProjectId(), username));
 
 		if (isDisplayAvatar && username != null && !username.equals("")) {
-			String link = UserAvatarControlFactory.getAvatarLink(userAvatarId,
-					16);
+			String link = SiteConfiguration.getAvatarLink(userAvatarId, 16);
 
 			this.setIconLink(link);
 		}

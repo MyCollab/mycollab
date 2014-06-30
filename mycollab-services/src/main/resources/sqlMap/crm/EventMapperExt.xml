@@ -51,7 +51,7 @@
         #end
         
         #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} m_crm_task.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
+            ${searchCriteria.endDate.operation} m_crm_task.duedate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -78,10 +78,6 @@
         
         #ifnotnull($searchCriteria.startDate)
             ${searchCriteria.startDate.operation} m_crm_call.startdate ${searchCriteria.startDate.comparision} @{searchCriteria.startDate.value,javaType=DATE}
-        #end
-        
-        #ifnotnull($searchCriteria.endDate)
-            ${searchCriteria.endDate.operation} m_crm_call.enddate ${searchCriteria.endDate.comparision} @{searchCriteria.endDate.value,javaType=DATE}
         #end
         
         #ifnotnull($searchCriteria.saccountid)

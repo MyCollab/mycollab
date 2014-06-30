@@ -95,7 +95,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		viewHeader.setExpandRatio(headerText, 1.0f);
 
 		Button createBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
+				AppContext
+						.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -269,8 +270,9 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 			memberInfo.addComponent(waitingNotLayout);
 		} else if (RegisterStatusConstants.ACTIVE.equals(member.getStatus())) {
 			Label lastAccessTimeLbl = new Label("Logged in "
-					+ DateTimeUtils.getStringDateFromNow(member
-							.getLastAccessTime()));
+					+ DateTimeUtils.getStringDateFromNow(
+							member.getLastAccessTime(),
+							AppContext.getUserLocale()));
 			lastAccessTimeLbl.addStyleName("member-email");
 			memberInfo.addComponent(lastAccessTimeLbl);
 		} else if (RegisterStatusConstants.VERIFICATING.equals(member

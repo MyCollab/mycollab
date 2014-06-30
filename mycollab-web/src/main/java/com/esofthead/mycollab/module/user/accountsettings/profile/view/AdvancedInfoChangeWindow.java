@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -57,7 +58,8 @@ public class AdvancedInfoChangeWindow extends Window {
 		this.setModal(true);
 		this.initUI();
 		this.center();
-		this.setCaption("Change your advanced information");
+		this.setCaption(AppContext
+				.getMessage(UserI18nEnum.WINDOW_CHANGE_ADVANCED_INFO_TITLE));
 	}
 
 	private void initUI() {
@@ -70,11 +72,12 @@ public class AdvancedInfoChangeWindow extends Window {
 				"100%", "150px", Alignment.TOP_LEFT);
 
 		this.txtWebsite = (TextField) passInfo.addComponent(new TextField(),
-				"Website", 0, 0);
+				AppContext.getMessage(UserI18nEnum.FORM_WEBSITE), 0, 0);
 		this.txtCompany = (TextField) passInfo.addComponent(new TextField(),
-				"Company", 0, 1);
+				AppContext.getMessage(UserI18nEnum.FORM_COMPANY), 0, 1);
 		this.cboCountry = (CountryComboBox) passInfo.addComponent(
-				new CountryComboBox(), "Country", 0, 2);
+				new CountryComboBox(),
+				AppContext.getMessage(UserI18nEnum.FORM_COUNTRY), 0, 2);
 
 		this.txtWebsite.setValue(this.user.getWebsite() == null ? ""
 				: this.user.getWebsite());

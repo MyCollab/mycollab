@@ -22,10 +22,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,61 +140,12 @@ public class DateTimeUtils {
 		}
 	}
 
-	public static String getStringDateFromNow(Date dateTime) {
+	public static String getStringDateFromNow(Date dateTime, Locale locale) {
 		if (dateTime == null) {
 			return "";
 		}
-		StringBuilder sb = new StringBuilder();
-		Date current = Calendar.getInstance().getTime();
-		long diffInSeconds = (current.getTime() - dateTime.getTime()) / 1000;
-
-		long sec = (diffInSeconds >= 60 ? diffInSeconds % 60 : diffInSeconds);
-		long min = (diffInSeconds = (diffInSeconds / 60)) >= 60 ? diffInSeconds % 60
-				: diffInSeconds;
-		long hrs = (diffInSeconds = (diffInSeconds / 60)) >= 24 ? diffInSeconds % 24
-				: diffInSeconds;
-		long days = (diffInSeconds = (diffInSeconds / 24)) >= 30 ? diffInSeconds % 30
-				: diffInSeconds;
-		long months = (diffInSeconds = (diffInSeconds / 30)) >= 12 ? diffInSeconds % 12
-				: diffInSeconds;
-		long years = (diffInSeconds = (diffInSeconds / 12));
-
-		if (years > 0) {
-			sb.append((years == 1) ? "a year"  : (years + " years"));
-			if (years <= 6 && months > 0) {
-				sb.append(" and ");
-				sb.append((months == 1) ? "a month" : (months + " months"));
-			}
-		} else if (months > 0) {
-			sb.append((months == 1) ? "a month" : (months + " months"));
-			if (months <= 6 && days > 0) {
-				sb.append(" and ");
-				sb.append((days == 1) ? "a day" : (days + " days"));
-			}
-		} else if (days > 0) {
-			sb.append((days == 1) ? "a day" : (days + " days"));
-			if (days <= 3 && hrs > 0) {
-				sb.append(" and ");
-				sb.append((hrs == 1) ? "an hour" : (hrs + " hours"));
-			}
-		} else if (hrs > 0) {
-			sb.append((hrs == 1) ? "an hour" : (hrs + " hours"));
-			if (min > 1) {
-				sb.append(" and " + min + " minutes");
-			}
-		} else if (min > 0) {
-			sb.append((min == 1) ? "a minute" : (min + " minutes"));
-			if (sec > 1) {
-				sb.append(" and " + sec + " seconds");
-			}
-		} else {
-			sb.append((sec == 1) ? "about a second"
-					: ("about " + sec + " seconds"));
-		}
-
-		sb.append(" ago");
-
-		return sb.toString();
+		PrettyTime p = new PrettyTime(locale);
+		return p.format(dateTime);
 	}
 
 	/**

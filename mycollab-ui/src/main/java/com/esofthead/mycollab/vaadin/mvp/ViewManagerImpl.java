@@ -23,9 +23,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
-import static com.esofthead.mycollab.vaadin.MyCollabSession.VIEW_MANAGER_VAL;
+
+import static com.esofthead.mycollab.common.MyCollabSession.VIEW_MANAGER_VAL;
 
 /**
  * 

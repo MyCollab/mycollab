@@ -54,6 +54,7 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -820,7 +821,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				AppContext.getMessage(BreadcrumbI18nEnum.USERS),
 				new GotoUserListener()));
 		this.setLinkEnabled(true, 1);
-		this.addLink(new Button("Invite Members"));
+		this.addLink(new Button(AppContext
+				.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEES)));
 		AppContext.addFragment(
 				"project/user/add/" + UrlEncodeDecoder.encode(project.getId()),
 				"Invite Member(s)");
@@ -836,8 +838,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/user/preview/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
-								+ member.getUsername()), "Member: "
-						+ member.getMemberFullName());
+								+ member.getUsername()),
+				"Member: " + member.getMemberFullName());
 	}
 
 	public void gotoUserEdit(SimpleProjectMember member) {
@@ -850,8 +852,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/user/edit/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
-								+ member.getId()), "Edit Member: "
-						+ member.getMemberFullName());
+								+ member.getId()),
+				"Edit Member: " + member.getMemberFullName());
 	}
 
 	public void gotoRoleList() {
@@ -874,8 +876,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				"project/role/preview/"
 						+ UrlEncodeDecoder.encode(project.getId() + "/"
-								+ role.getId()),
-				"Role: " + role.getRolename());
+								+ role.getId()), "Role: " + role.getRolename());
 	}
 
 	public void gotoNotificationSetting(ProjectNotificationSetting notify) {

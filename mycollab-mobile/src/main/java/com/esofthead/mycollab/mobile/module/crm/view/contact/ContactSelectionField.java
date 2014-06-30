@@ -16,15 +16,12 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.data.Property;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
 
 /**
  * 
@@ -32,19 +29,19 @@ import com.vaadin.ui.CustomField;
  * @since 4.1
  * 
  */
-public class ContactSelectionField extends CustomField<Integer> implements
-		FieldSelection<SimpleContact> {
+public class ContactSelectionField extends
+		AbstractSelectionCustomField<SimpleContact> {
 	private static final long serialVersionUID = 1L;
 
-	private MobileNavigationButton contactName = new MobileNavigationButton();
-
-	private SimpleContact contact;
+	public ContactSelectionField() {
+		super(ContactSelectionView.class);
+	}
 
 	@Override
 	public void fireValueChange(SimpleContact data) {
-		contact = data;
-		contactName.setCaption(contact.getContactName());
-		setInternalValue(contact.getId());
+		beanItem = data;
+		navButton.setCaption(beanItem.getContactName());
+		setInternalValue(beanItem.getId());
 	}
 
 	@Override
@@ -75,24 +72,12 @@ public class ContactSelectionField extends CustomField<Integer> implements
 	}
 
 	private void setInternalContact(SimpleContact contact) {
-		this.contact = contact;
-		contactName.setCaption(contact.getContactName());
+		this.beanItem = contact;
+		navButton.setCaption(contact.getContactName());
 	}
 
 	public SimpleContact getContact() {
-		return this.contact;
-	}
-
-	@Override
-	protected Component initContent() {
-		contactName.setStyleName("combo-box");
-		contactName.setWidth("100%");
-
-		ContactSelectionView contactView = new ContactSelectionView(
-				ContactSelectionField.this);
-		contactName.setTargetView(contactView);
-
-		return contactName;
+		return this.beanItem;
 	}
 
 	@Override

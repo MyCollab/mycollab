@@ -247,12 +247,12 @@ public class NoteListItems extends VerticalLayout {
 			HorizontalLayout messageHeader = new HorizontalLayout();
 			messageHeader.setStyleName("message-header");
 
-			Label timePostLbl = new Label(
-					"<span class=\"post-owner\"><b>"
-							+ note.getCreateUserFullName()
-							+ "</b>&nbsp;added a note</span>&nbsp;-&nbsp;"
-							+ DateTimeUtils.getStringDateFromNow(note
-									.getCreatedtime()), ContentMode.HTML);
+			Label timePostLbl = new Label(AppContext.getMessage(
+					CrmCommonI18nEnum.EXT_ADDED_NOTED, note
+							.getCreateUserFullName(), DateTimeUtils
+							.getStringDateFromNow(note.getCreatedtime(),
+									AppContext.getUserLocale())),
+					ContentMode.HTML);
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 			messageHeader.addComponent(timePostLbl);
@@ -273,27 +273,30 @@ public class NoteListItems extends VerticalLayout {
 
 			final VerticalLayout messageFooter = new VerticalLayout();
 			messageFooter.setMargin(new MarginInfo(false, true, false, false));
-			replyBtn = new Button("Reply", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			replyBtn = new Button(
+					AppContext.getMessage(CrmCommonI18nEnum.BUTTON_REPLY),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					if (noteContentLayout.getComponentCount() > 0) {
-						Component component = noteContentLayout
-								.getComponent(noteContentLayout
-										.getComponentCount() - 1);
-						if (!(component instanceof CommentInput)) {
-							commentInput = new CommentInput(
-									NoteRowDisplayHandler.this,
-									CommentType.CRM_NOTE, note.getId(), null,
-									true, false);
-							noteContentLayout.addComponent(commentInput,
-									noteContentLayout.getComponentCount());
-							replyBtn.setVisible(false);
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							if (noteContentLayout.getComponentCount() > 0) {
+								Component component = noteContentLayout
+										.getComponent(noteContentLayout
+												.getComponentCount() - 1);
+								if (!(component instanceof CommentInput)) {
+									commentInput = new CommentInput(
+											NoteRowDisplayHandler.this,
+											CommentType.CRM_NOTE, note.getId(),
+											null, true, false);
+									noteContentLayout.addComponent(
+											commentInput, noteContentLayout
+													.getComponentCount());
+									replyBtn.setVisible(false);
+								}
+							}
 						}
-					}
-				}
-			});
+					});
 
 			replyBtn.setStyleName("link");
 			replyBtn.setIcon(MyCollabResource
@@ -428,7 +431,8 @@ public class NoteListItems extends VerticalLayout {
 			controls.addComponent(cancelBtn);
 			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_RIGHT);
 
-			final Button saveBtn = new Button("Post",
+			final Button saveBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

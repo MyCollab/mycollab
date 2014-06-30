@@ -18,11 +18,10 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -33,24 +32,18 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class CaseSelectionView extends AbstractMobilePageView {
+public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 	private static final long serialVersionUID = 2092608350938161913L;
 	private CaseSearchCriteria searchCriteria;
 	private CaseListDisplay tableItem;
-	private FieldSelection<SimpleCase> fieldSelection;
 
-	public CaseSelectionView(FieldSelection<SimpleCase> fieldSelection) {
+	public CaseSelectionView() {
 		super();
 		createUI();
 		this.setCaption("Case Name Lookup");
-		this.fieldSelection = fieldSelection;
 	}
 
 	public void createUI() {
-		searchCriteria = new CaseSearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 
@@ -58,11 +51,6 @@ public class CaseSelectionView extends AbstractMobilePageView {
 
 		layout.addComponent(tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
-
-		SimpleCase clearCase = new SimpleCase();
-		tableItem.getBeanContainer().addItemAt(0, clearCase);
 	}
 
 	@SuppressWarnings("serial")
@@ -83,7 +71,7 @@ public class CaseSelectionView extends AbstractMobilePageView {
 							@Override
 							public void buttonClick(
 									final Button.ClickEvent event) {
-								fieldSelection.fireValueChange(cases);
+								selectionField.fireValueChange(cases);
 								CaseSelectionView.this.getNavigationManager()
 										.navigateBack();
 							}
@@ -91,5 +79,17 @@ public class CaseSelectionView extends AbstractMobilePageView {
 				return b;
 			}
 		});
+	}
+
+	@Override
+	public void load() {
+		searchCriteria = new CaseSearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+
+		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleCase clearCase = new SimpleCase();
+		tableItem.getBeanContainer().addItemAt(0, clearCase);
 	}
 }

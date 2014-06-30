@@ -112,8 +112,9 @@ public class UserLink extends Button {
 			topLayout.setSpacing(true);
 			topLayout.addComponent(new Label("View full profile at: "));
 
-			String userFullLinkStr = AccountLinkUtils.generatePreviewFullUserLink(
-					AppContext.getSiteUrl(), user.getUsername());
+			String userFullLinkStr = AccountLinkUtils
+					.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+							user.getUsername());
 			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr,
 					userFullLinkStr);
 
@@ -181,8 +182,9 @@ public class UserLink extends Button {
 			lastAccessTimeTitle.setWidth("120px");
 			lastAccessTimeLayout.addComponent(lastAccessTimeTitle);
 			Label lastAccessTimeLabel = new Label(
-					DateTimeUtils.getStringDateFromNow(user
-							.getLastaccessedtime()));
+					DateTimeUtils.getStringDateFromNow(
+							user.getLastaccessedtime(),
+							AppContext.getUserLocale()));
 			lastAccessTimeLayout.addComponent(lastAccessTimeLabel);
 			mainUserInfoLayout.addComponent(lastAccessTimeLayout);
 

@@ -24,6 +24,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -47,7 +48,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 public class CommentRowDisplayHandler implements
-BeanList.RowDisplayHandler<SimpleComment> {
+		BeanList.RowDisplayHandler<SimpleComment> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -65,12 +66,13 @@ BeanList.RowDisplayHandler<SimpleComment> {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(new ProjectMemberEvent.GotoRead(this, comment.getCreateduser()));
+				EventBus.getInstance().fireEvent(
+						new ProjectMemberEvent.GotoRead(this, comment
+								.getCreateduser()));
 			}
 		};
 		Button userAvatarBtn = UserAvatarControlFactory
-				.createUserAvatarButtonLink(
-						comment.getOwnerAvatarId(),
+				.createUserAvatarButtonLink(comment.getOwnerAvatarId(),
 						comment.getOwnerFullName());
 		userAvatarBtn.addClickListener(gotoUser);
 		userBlock.addComponent(userAvatarBtn);
@@ -92,8 +94,11 @@ BeanList.RowDisplayHandler<SimpleComment> {
 		messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		messageHeader.setSpacing(true);
 
-		Label timePostLbl = new Label("<span class=\"post-owner\"><b>" + comment.getOwnerFullName() + "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;" +
-				DateTimeUtils.getStringDateFromNow(comment.getCreatedtime()), ContentMode.HTML);
+		Label timePostLbl = new Label("<span class=\"post-owner\"><b>"
+				+ comment.getOwnerFullName()
+				+ "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;"
+				+ DateTimeUtils.getStringDateFromNow(comment.getCreatedtime(),
+						AppContext.getUserLocale()), ContentMode.HTML);
 		timePostLbl.setSizeUndefined();
 		timePostLbl.setStyleName("time-post");
 		messageHeader.addComponent(timePostLbl);
@@ -112,10 +117,12 @@ BeanList.RowDisplayHandler<SimpleComment> {
 			VerticalLayout messageFooter = new VerticalLayout();
 			messageFooter.setWidth("100%");
 			messageFooter.setStyleName("message-footer");
-			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(attachments);
+			AttachmentDisplayComponent attachmentDisplay = new AttachmentDisplayComponent(
+					attachments);
 			messageFooter.addComponent(attachmentDisplay);
 			messageFooter.setMargin(true);
-			messageFooter.setComponentAlignment(attachmentDisplay, Alignment.MIDDLE_RIGHT);
+			messageFooter.setComponentAlignment(attachmentDisplay,
+					Alignment.MIDDLE_RIGHT);
 			rowLayout.addComponent(messageFooter);
 		}
 

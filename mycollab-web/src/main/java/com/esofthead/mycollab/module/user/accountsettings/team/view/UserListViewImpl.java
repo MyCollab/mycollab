@@ -150,10 +150,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 								SiteConfiguration.getSiteName()),
 						AppContext
 								.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 
@@ -240,8 +238,9 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 		} else if (RegisterStatusConstants.ACTIVE.equals(member
 				.getRegisterstatus())) {
 			Label lastAccessTimeLbl = new Label("Logged in "
-					+ DateTimeUtils.getStringDateFromNow(member
-							.getLastaccessedtime()));
+					+ DateTimeUtils.getStringDateFromNow(
+							member.getLastaccessedtime(),
+							AppContext.getUserLocale()));
 			lastAccessTimeLbl.addStyleName("member-email");
 			memberInfo.addComponent(lastAccessTimeLbl);
 		} else if (RegisterStatusConstants.VERIFICATING.equals(member

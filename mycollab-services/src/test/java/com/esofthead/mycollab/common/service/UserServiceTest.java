@@ -80,7 +80,7 @@ public class UserServiceTest extends ServiceTest {
 		List<SimpleUser> lstSimpleUsers = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		//Assert.assertEquals(2, lstSimpleUsers.size());
+		// Assert.assertEquals(2, lstSimpleUsers.size());
 		Assert.assertEquals(2, userService.getTotalCount(searchCriteria));
 	}
 

@@ -33,6 +33,7 @@ import com.esofthead.mycollab.common.domain.SimpleActivityStream;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.ActivityStreamService;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -47,7 +48,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
@@ -238,9 +238,8 @@ public class ActivityStreamPanel extends CssLayout {
 		private String buildAssigneeValue(SimpleActivityStream activityStream,
 				String uid) {
 			Div div = new Div();
-			Img userAvatar = new Img("",
-					UserAvatarControlFactory.getAvatarLink(
-							activityStream.getCreatedUserAvatarId(), 16));
+			Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(
+					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
 			userLink.setId("crmusertagA" + uid);
 			userLink.setHref(AccountLinkUtils.generatePreviewFullUserLink(

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.contact;
 
 import java.util.List;
 
-import com.esofthead.mycollab.common.ui.components.CrmTooltipGenerator;
+import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;

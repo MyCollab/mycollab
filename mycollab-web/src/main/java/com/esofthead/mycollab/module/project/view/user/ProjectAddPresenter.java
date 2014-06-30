@@ -17,8 +17,9 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -29,7 +30,6 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;

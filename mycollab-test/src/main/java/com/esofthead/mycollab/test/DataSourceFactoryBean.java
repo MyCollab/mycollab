@@ -52,7 +52,7 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 	protected DataSource createInstance() throws Exception {
 		TestDbConfiguration dbConf = new TestDbConfiguration();
 		HikariConfig config = new HikariConfig();
-		config.setMaximumPoolSize(100);
+		config.setMaximumPoolSize(20);
 		config.setDriverClassName(dbConf.getDriverClassName());
 		config.setJdbcUrl(dbConf.getJdbcUrl());
 		config.addDataSourceProperty("user", dbConf.getUsername());

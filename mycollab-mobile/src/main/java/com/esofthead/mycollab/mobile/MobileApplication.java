@@ -19,10 +19,12 @@ package com.esofthead.mycollab.mobile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
@@ -68,6 +70,24 @@ public class MobileApplication extends UI {
 
 	private String initialSubDomain = "1";
 	private String initialUrl = "";
+
+	static {
+		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
+
+			@Override
+			public Integer getGroupId() {
+				return AppContext.getAccountId();
+			}
+		});
+
+		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
+
+			@Override
+			public String getSessionIdApp() {
+				return UI.getCurrent().toString();
+			}
+		});
+	}
 
 	public static MobileApplication getInstance() {
 		return (MobileApplication) VaadinSession.getCurrent().getAttribute(

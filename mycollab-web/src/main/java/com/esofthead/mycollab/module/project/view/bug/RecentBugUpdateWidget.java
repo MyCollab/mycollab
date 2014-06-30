@@ -19,10 +19,10 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.ui.components.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;

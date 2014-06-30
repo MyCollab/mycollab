@@ -267,6 +267,11 @@ public class SiteConfiguration {
 		return (locale != null) ? locale : Locale.US;
 	}
 
+	public static String getAvatarLink(String userAvatarId, int size) {
+		return instance.storageConfiguration.generateAvatarPath(userAvatarId,
+				size);
+	}
+
 	private static Map<String, Locale> getSupportedLocales(String languageVal) {
 		Map<String, Locale> locales = new HashMap<String, Locale>();
 		Map<String, Locale> nativeLanguages = LocaleHelper.getNativeLanguages();

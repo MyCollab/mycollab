@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.mobile.module.crm.ui.RelatedEditItemField;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
@@ -63,14 +61,9 @@ public class MeetingEditFormFieldFactory extends
 			TextArea descArea = new TextArea();
 			descArea.setNullRepresentation("");
 			return descArea;
-		} else if (propertyId.equals("type")) {
-			RelatedEditItemField field = new RelatedEditItemField(new String[] {
-					CrmTypeConstants.ACCOUNT, CrmTypeConstants.CAMPAIGN,
-					CrmTypeConstants.CONTACT, CrmTypeConstants.LEAD,
-					CrmTypeConstants.OPPORTUNITY, CrmTypeConstants.CASE },
-					attachForm.getBean());
-			return field;
 		} else if (propertyId.equals("typeid")) {
+			return new RelatedItemSelectionField(attachForm.getBean());
+		} else if (propertyId.equals("type")) {
 			return new DummyCustomField<String>();
 		} else if (propertyId.equals("isrecurrence")) {
 			return null;

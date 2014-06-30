@@ -102,15 +102,17 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(backToListBtn, Alignment.MIDDLE_RIGHT);
 
 		saveOrderBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL), new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new TaskListEvent.SaveReoderTaskList(event, changeSet));
-			}
-		});
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new TaskListEvent.SaveReoderTaskList(event,
+										changeSet));
+					}
+				});
 		saveOrderBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		header.addComponent(saveOrderBtn);
 		header.setComponentAlignment(saveOrderBtn, Alignment.MIDDLE_RIGHT);
@@ -210,8 +212,9 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 			}
 			this.addComponent(taskName);
 			Label taskCreatedTime = new Label("Last updated on "
-					+ DateTimeUtils.getStringDateFromNow(taskList
-							.getLastupdatedtime()));
+					+ DateTimeUtils.getStringDateFromNow(
+							taskList.getLastupdatedtime(),
+							AppContext.getUserLocale()));
 			taskCreatedTime.setStyleName("created-time");
 			this.addComponent(taskCreatedTime);
 		}

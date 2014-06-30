@@ -18,11 +18,10 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -33,25 +32,19 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-public class OpportunitySelectionView extends AbstractMobilePageView {
+public class OpportunitySelectionView extends
+		AbstractSelectionView<SimpleOpportunity> {
 	private static final long serialVersionUID = -4651110982471036490L;
 	private OpportunitySearchCriteria searchCriteria;
 	private OpportunityListDisplay tableItem;
-	private FieldSelection<SimpleOpportunity> fieldSelection;
 
-	public OpportunitySelectionView(
-			FieldSelection<SimpleOpportunity> fieldSelection) {
+	public OpportunitySelectionView() {
 		super();
 		createUI();
 		this.setCaption("Opportunity Name Lookup");
-		this.fieldSelection = fieldSelection;
 	}
 
 	public void createUI() {
-		searchCriteria = new OpportunitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSpacing(true);
 
@@ -59,11 +52,6 @@ public class OpportunitySelectionView extends AbstractMobilePageView {
 
 		layout.addComponent(tableItem);
 		this.setContent(layout);
-
-		tableItem.setSearchCriteria(searchCriteria);
-
-		SimpleOpportunity clearOpportunity = new SimpleOpportunity();
-		tableItem.getBeanContainer().addItemAt(0, clearOpportunity);
 	}
 
 	private void createOpportunityList() {
@@ -89,7 +77,7 @@ public class OpportunitySelectionView extends AbstractMobilePageView {
 									@Override
 									public void buttonClick(
 											final Button.ClickEvent event) {
-										fieldSelection
+										selectionField
 												.fireValueChange(opportunity);
 										OpportunitySelectionView.this
 												.getNavigationManager()
@@ -99,5 +87,17 @@ public class OpportunitySelectionView extends AbstractMobilePageView {
 						return b;
 					}
 				});
+	}
+
+	@Override
+	public void load() {
+		searchCriteria = new OpportunitySearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+
+		tableItem.setSearchCriteria(searchCriteria);
+
+		SimpleOpportunity clearOpportunity = new SimpleOpportunity();
+		tableItem.getBeanContainer().addItemAt(0, clearOpportunity);
 	}
 }

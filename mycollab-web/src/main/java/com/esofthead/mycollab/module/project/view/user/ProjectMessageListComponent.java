@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -30,7 +31,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -63,7 +63,7 @@ public class ProjectMessageListComponent extends Depot {
 
 			final String content = AppContext.getMessage(
 					ProjectCommonI18nEnum.FEED_PROJECT_MESSAGE_TITLE,
-					UserAvatarControlFactory.getAvatarLink(
+					SiteConfiguration.getAvatarLink(
 							message.getPostedUserAvatarId(), 16),
 					ProjectLinkBuilder.generateProjectMemberFullLink(
 							message.getProjectid(), message.getPosteduser()),
@@ -81,9 +81,11 @@ public class ProjectMessageListComponent extends Depot {
 
 			final CssLayout body = new CssLayout();
 			body.setStyleName("activity-date");
-			final Label dateLbl = new Label("From "
-					+ DateTimeUtils.getStringDateFromNow(message
-							.getPosteddate()));
+			final Label dateLbl = new Label(
+					"From "
+							+ DateTimeUtils.getStringDateFromNow(
+									message.getPosteddate(),
+									AppContext.getUserLocale()));
 			body.addComponent(dateLbl);
 
 			layout.addComponent(body);

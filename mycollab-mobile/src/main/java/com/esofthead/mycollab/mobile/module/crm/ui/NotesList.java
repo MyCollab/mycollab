@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
@@ -55,8 +56,7 @@ public class NotesList extends AbstractMobilePageView {
 		this(title, "", 0);
 	}
 
-	public NotesList(final String title, final String type,
-			final Integer typeid) {
+	public NotesList(final String title, final String type, final Integer typeid) {
 		super();
 		this.setCaption(title);
 		this.setWidth("100%");
@@ -96,7 +96,7 @@ public class NotesList extends AbstractMobilePageView {
 	}
 
 	public static class NoteRowDisplayHandler implements
-	RowDisplayHandler<SimpleNote> {
+			RowDisplayHandler<SimpleNote> {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -127,10 +127,11 @@ public class NotesList extends AbstractMobilePageView {
 			messageHeader.setExpandRatio(username, 1.0f);
 
 			final Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(note.getCreatedtime()));
+					DateTimeUtils.getStringDateFromNow(note.getCreatedtime(),
+							AppContext.getUserLocale()));
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
-			messageHeader.addComponent(timePostLbl);			
+			messageHeader.addComponent(timePostLbl);
 
 			rowLayout.addComponent(messageHeader);
 

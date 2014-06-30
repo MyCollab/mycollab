@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.crm.ui.components;
 
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 import com.vaadin.ui.Window;
@@ -32,7 +34,7 @@ public class HistoryLogWindow extends Window {
 	private final HistoryLogComponent historyLogComponent;
 
 	public HistoryLogWindow(final String module, final String type) {
-		super("Change Log");
+		super(AppContext.getMessage(CrmCommonI18nEnum.DIALOG_CHANGEL_LOG_TITLE));
 
 		this.setWidth("700px");
 		this.setModal(true);

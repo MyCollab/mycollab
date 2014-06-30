@@ -16,14 +16,15 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_PROJECT;
-import static com.esofthead.mycollab.vaadin.MyCollabSession.PROJECT_MEMBER;
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
+import static com.esofthead.mycollab.common.MyCollabSession.PROJECT_MEMBER;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.project.dao.ProjectRolePermissionMapper;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
@@ -35,7 +36,6 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 
 ;
 

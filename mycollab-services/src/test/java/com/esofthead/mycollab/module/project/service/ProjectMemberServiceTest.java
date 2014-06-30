@@ -17,10 +17,12 @@
 package com.esofthead.mycollab.module.project.service;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -30,6 +32,11 @@ import com.esofthead.mycollab.test.service.ServiceTest;
 public class ProjectMemberServiceTest extends ServiceTest {
 	@Autowired
 	private ProjectMemberService projectMemberService;
+
+	@Before
+	public void init() {
+		SiteConfiguration.loadInstance(8080);
+	}
 
 	@DataSet
 	@Test

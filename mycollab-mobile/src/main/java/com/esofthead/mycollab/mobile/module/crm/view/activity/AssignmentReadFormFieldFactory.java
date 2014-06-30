@@ -55,7 +55,7 @@ class AssignmentReadFormFieldFactory extends
 					.getDuedate(), "DATETIME_FIELD");
 		} else if (propertyId.equals("contactid")) {
 			return new FormViewField(attachForm.getBean().getContactName());
-		} else if (propertyId.equals("type")) {
+		} else if (propertyId.equals("typeid")) {
 			return new RelatedReadItemField(attachForm.getBean());
 
 		}

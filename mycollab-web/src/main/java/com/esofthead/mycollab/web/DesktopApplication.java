@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.web;
 
-import static com.esofthead.mycollab.vaadin.MyCollabSession.CURRENT_APP;
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
 
 import java.util.Collection;
 
@@ -26,12 +26,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.dialogs.ConfirmDialog;
 
+import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.SecurityException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
+import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -43,7 +46,6 @@ import com.esofthead.mycollab.shell.view.FragmentNavigator;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.shell.view.NoSubDomainExistedWindow;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.MyCollabSession;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
@@ -91,6 +93,24 @@ public class DesktopApplication extends UI {
 	private String initialUrl = "";
 
 	public static final String NAME_COOKIE = "mycollab";
+
+	static {
+		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
+
+			@Override
+			public Integer getGroupId() {
+				return AppContext.getAccountId();
+			}
+		});
+
+		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
+
+			@Override
+			public String getSessionIdApp() {
+				return UI.getCurrent().toString();
+			}
+		});
+	}
 
 	public static DesktopApplication getInstance() {
 		return (DesktopApplication) MyCollabSession.getVariable(CURRENT_APP);
