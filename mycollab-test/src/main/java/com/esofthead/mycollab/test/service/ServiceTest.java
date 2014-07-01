@@ -39,6 +39,7 @@ import org.springframework.test.context.ContextConfiguration;
 		"classpath:META-INF/spring/project-context.xml",
 		"classpath:META-INF/spring/tracker-context.xml",
 		"classpath:META-INF/spring/user-context.xml",
+		"classpath:META-INF/spring/mail-context.xml",
 		"classpath:META-INF/spring-test/datasource-context-test.xml",
 		"classpath:META-INF/spring-test/service-context-test.xml" })
 public class ServiceTest {
