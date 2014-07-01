@@ -33,7 +33,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
@@ -87,13 +87,13 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", relatedProject.getName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						risk.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = risk.getRiskname();
-		String summaryLink = ProjectLinkUtils.generateRiskPreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(
 				siteUrl, risk.getProjectid(), risk.getId());
 
 		templateGenerator.putVariable("makeChangeUser",

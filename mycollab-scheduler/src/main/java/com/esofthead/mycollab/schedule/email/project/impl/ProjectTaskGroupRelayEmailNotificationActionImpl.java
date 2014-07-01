@@ -35,7 +35,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -93,13 +93,13 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", relatedProject.getName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						tasklist.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = tasklist.getName();
-		String summaryLink = ProjectLinkUtils.generateTaskGroupPreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(
 				siteUrl, tasklist.getProjectid(), tasklist.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
@@ -274,7 +274,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 						.getResourceLink(ProjectTypeConstants.MILESTONE);
 				Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-				String milestoneLink = ProjectLinkUtils
+				String milestoneLink = ProjectLinkGenerator
 						.generateMilestonePreviewFullLink(context.getSiteUrl(),
 								tasklist.getProjectid(),
 								tasklist.getMilestoneid());
@@ -305,7 +305,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 							.getResourceLink(ProjectTypeConstants.MILESTONE);
 					Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-					String milestoneLink = ProjectLinkUtils
+					String milestoneLink = ProjectLinkGenerator
 							.generateMilestonePreviewFullLink(
 									context.getSiteUrl(),
 									milestone.getProjectid(), milestone.getId());

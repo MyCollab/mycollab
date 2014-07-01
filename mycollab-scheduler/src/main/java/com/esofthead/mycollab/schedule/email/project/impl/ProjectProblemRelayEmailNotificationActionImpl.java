@@ -33,7 +33,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
@@ -88,13 +88,13 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", relatedProject.getName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						problem.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = problem.getIssuename();
-		String summaryLink = ProjectLinkUtils.generateProblemPreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateProblemPreviewFullLink(
 				siteUrl, problem.getProjectid(), problem.getId());
 
 		templateGenerator.putVariable("makeChangeUser",

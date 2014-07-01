@@ -35,7 +35,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
@@ -95,7 +95,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", task.getProjectName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						task.getProjectid()));
 
 		listOfTitles.add(currentProject);
@@ -107,13 +107,13 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				+ task.getTaskkey() + "]");
 		taskCode.put(
 				"webLink",
-				ProjectLinkUtils.generateTaskPreviewFullLink(siteUrl,
+				ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
 						task.getProjectid(), task.getId()));
 
 		listOfTitles.add(taskCode);
 
 		String summary = task.getTaskname();
-		String summaryLink = ProjectLinkUtils.generateTaskPreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(
 				siteUrl, task.getProjectid(), task.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
@@ -395,7 +395,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						.getResourceLink(ProjectTypeConstants.TASK_LIST);
 				Img img = TagBuilder.newImg("icon", taskgroupIconLink);
 
-				String tasklistlink = ProjectLinkUtils
+				String tasklistlink = ProjectLinkGenerator
 						.generateTaskGroupPreviewFullLink(context.getSiteUrl(),
 								task.getProjectid(), task.getTasklistid());
 				A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
@@ -423,7 +423,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 							.getResourceLink(ProjectTypeConstants.TASK_LIST);
 					Img img = TagBuilder.newImg("icon", taskgroupIconLink);
 
-					String tasklistlink = ProjectLinkUtils
+					String tasklistlink = ProjectLinkGenerator
 							.generateTaskPreviewFullLink(context.getSiteUrl(),
 									taskgroup.getProjectid(), taskgroup.getId());
 					A link = TagBuilder.newA(tasklistlink, taskgroup.getName());

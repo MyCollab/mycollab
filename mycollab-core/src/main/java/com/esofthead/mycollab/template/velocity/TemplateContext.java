@@ -14,28 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.template.velocity;
+package com.esofthead.mycollab.template.velocity;
 
-import java.io.Reader;
-import java.io.Writer;
-
-import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.tools.Scope;
-import org.apache.velocity.tools.ToolContext;
 import org.apache.velocity.tools.ToolManager;
 import org.apache.velocity.tools.config.EasyFactoryConfiguration;
 import org.apache.velocity.tools.generic.DateTool;
 
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
-
 /**
- * Wrap velocity engine
+ * Template wrapper of velocity context
  * 
  * @author MyCollab Ltd.
- * @since 4.0.0
+ * @since 4.0
  * 
  */
-public class TemplateEngine {
+public class TemplateContext {
+	private final VelocityContext velocityContext;
 
 	private static ToolManager toolManager;
 
@@ -47,16 +42,15 @@ public class TemplateEngine {
 		toolManager.configure(config);
 	}
 
-	public static ToolContext createContext() {
-		return toolManager.createContext();
+	public TemplateContext() {
+		velocityContext = new VelocityContext(toolManager.createContext());
 	}
 
-	public static void evaluate(TemplateContext context, Writer writer,
-			String message, Reader reader) {
-		VelocityEngine voEngine = ApplicationContextUtil
-				.getSpringBean(VelocityEngine.class);
+	public void put(String key, Object value) {
+		velocityContext.put(key, value);
+	}
 
-		voEngine.init();
-		voEngine.evaluate(context.getVelocityContext(), writer, "log", reader);
+	public VelocityContext getVelocityContext() {
+		return velocityContext;
 	}
 }

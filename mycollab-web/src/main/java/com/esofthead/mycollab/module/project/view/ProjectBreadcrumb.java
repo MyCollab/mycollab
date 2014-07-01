@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.Problem;
@@ -156,7 +156,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				}));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(message.getTitle()));
-		AppContext.addFragment(ProjectLinkUtils.generateMessagePreviewLink(
+		AppContext.addFragment(ProjectLinkGenerator.generateMessagePreviewLink(
 				project.getId(), message.getId()), "Preview Message: "
 				+ message.getTitle());
 	}
@@ -179,7 +179,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(risk.getRiskname()));
 		AppContext.addFragment(
-				ProjectLinkUtils.generateRiskPreviewLink(project.getId(),
+				ProjectLinkGenerator.generateRiskPreviewLink(project.getId(),
 						risk.getId()), "Preview Risk: " + risk.getRiskname());
 	}
 
@@ -248,7 +248,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoMilestoneListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(milestone.getName()));
-		AppContext.addFragment(ProjectLinkUtils.generateMilestonePreviewLink(
+		AppContext.addFragment(ProjectLinkGenerator.generateMilestonePreviewLink(
 				project.getId(), milestone.getId()), "Preview Phase: "
 				+ milestone.getName());
 	}
@@ -322,7 +322,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoProblemListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(problem.getIssuename()));
-		AppContext.addFragment(ProjectLinkUtils.generateProblemPreviewLink(
+		AppContext.addFragment(ProjectLinkGenerator.generateProblemPreviewLink(
 				project.getId(), problem.getId()), "Preview Problem: "
 				+ problem.getIssuename());
 	}
@@ -421,7 +421,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoTaskAssignmentDashboard()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink("Task Group: " + taskList.getName()));
-		AppContext.addFragment(ProjectLinkUtils.generateTaskGroupPreviewLink(
+		AppContext.addFragment(ProjectLinkGenerator.generateTaskGroupPreviewLink(
 				project.getId(), taskList.getId()),
 				"TaskGroup: " + taskList.getName());
 	}
@@ -483,7 +483,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink("Task: " + task.getTaskname()));
 		AppContext.addFragment(
-				ProjectLinkUtils.generateTaskPreviewLink(project.getId(),
+				ProjectLinkGenerator.generateTaskPreviewLink(project.getId(),
 						task.getId()), "Task: " + task.getTaskname());
 	}
 
@@ -587,7 +587,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.setLinkEnabled(true, 1);
 		this.addLink(generateBreadcrumbLink(bug.getSummary()));
 		AppContext.addFragment(
-				ProjectLinkUtils.generateBugPreviewLink(bug.getProjectid(),
+				ProjectLinkGenerator.generateBugPreviewLink(bug.getProjectid(),
 						bug.getId()), "Preview Bug: " + bug.getSummary());
 	}
 
@@ -660,7 +660,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoVersionListener()));
 		this.setLinkEnabled(true, 2);
 		this.addLink(generateBreadcrumbLink(version.getVersionname()));
-		AppContext.addFragment(ProjectLinkUtils.generateBugVersionPreviewLink(
+		AppContext.addFragment(ProjectLinkGenerator.generateBugVersionPreviewLink(
 				project.getId(), version.getId()), "Preview Version: "
 				+ version.getVersionname());
 	}
@@ -744,7 +744,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoComponentListener()));
 		this.addLink(generateBreadcrumbLink(component.getComponentname()));
 		AppContext.addFragment(
-				ProjectLinkUtils.generateBugComponentPreviewLink(
+				ProjectLinkGenerator.generateBugComponentPreviewLink(
 						project.getId(), component.getId()),
 				"Preview Component: " + component.getComponentname());
 	}
@@ -980,7 +980,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 	public void gotoProjectDashboard() {
 		this.select(0);
 		AppContext.addFragment(
-				ProjectLinkUtils.generateProjectLink(project.getId()),
+				ProjectLinkGenerator.generateProjectLink(project.getId()),
 				"Dashboard");
 	}
 

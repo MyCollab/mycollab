@@ -251,7 +251,7 @@
     <servlet>
         <display-name>AppExceptionHandlerServlet</display-name>
         <servlet-name>appExceptionHandlerServlet</servlet-name>
-        <servlet-class>com.esofthead.mycollab.servlet.AppExceptionHandler</servlet-class>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -32,7 +32,7 @@ import org.apache.velocity.app.VelocityEngine;
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.template.velocity.TemplateContext;
+import com.esofthead.mycollab.template.velocity.TemplateContext;
 
 /**
  * 

@@ -151,7 +151,7 @@ public class ProjectTooltipGenerator {
 					task.getAssignUserFullName());
 			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
 					TaskI18nEnum.FORM_TASKGROUP));
-			String taskgroupLink = (task.getTaskListName() != null) ? ProjectLinkUtils
+			String taskgroupLink = (task.getTaskListName() != null) ? ProjectLinkGenerator
 					.generateTaskGroupPreviewFullLink(siteURL,
 							task.getProjectid(), task.getTasklistid()) : "";
 			Td cell44 = buildCellLink(taskgroupLink, task.getTaskListName());
@@ -268,7 +268,7 @@ public class ProjectTooltipGenerator {
 			Tr trRow7 = new Tr();
 			Td cell71 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_PHASE));
-			String phaseLink = (bug.getMilestoneid() != null) ? ProjectLinkUtils
+			String phaseLink = (bug.getMilestoneid() != null) ? ProjectLinkGenerator
 					.generateMilestonePreviewFullLink(siteURL,
 							bug.getProjectid(), bug.getMilestoneid()) : "";
 			Td cell72 = buildCellLink(phaseLink, bug.getMilestoneName());
@@ -555,7 +555,7 @@ public class ProjectTooltipGenerator {
 					taskList.getOwnerFullName());
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					TaskGroupI18nEnum.FORM_MILESTONE_FIELD));
-			String milestoneLink = (taskList.getMilestoneid() != null) ? ProjectLinkUtils
+			String milestoneLink = (taskList.getMilestoneid() != null) ? ProjectLinkGenerator
 					.generateMilestonePreviewFullLink(siteURL,
 							taskList.getProjectid(), taskList.getId()) : "";
 			Td cell34 = buildCellLink(milestoneLink,

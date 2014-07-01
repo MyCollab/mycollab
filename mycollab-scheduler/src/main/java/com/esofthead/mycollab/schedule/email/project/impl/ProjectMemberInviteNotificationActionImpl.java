@@ -32,6 +32,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -100,10 +101,12 @@ public class ProjectMemberInviteNotificationActionImpl implements
 					"urlDeny",
 					SiteConfiguration.getSiteUrl(subdomain)
 							+ "project/member/invitation/deny_invite/"
-							+ UrlEncodeDecoder.encode(member.getSaccountid()
-									+ "/" + member.getId() + "/"
-									+ user.getEmail() + "/"
-									+ user.getUsername()));
+							+ ProjectLinkGenerator
+									.generateDenyInvitationParams(
+											member.getSaccountid(),
+											member.getProjectid(),
+											member.getId(), user.getEmail(),
+											user.getUsername()));
 
 			templateGenerator.putVariable("userName",
 					member.getMemberFullName());

@@ -41,7 +41,7 @@ public class ProjectLinkBuilder {
 		if (projectId == null) {
 			return "";
 		}
-		return ProjectLinkUtils.generateProjectFullLink(
+		return ProjectLinkGenerator.generateProjectFullLink(
 				AppContext.getSiteUrl(), projectId);
 	}
 
@@ -50,7 +50,7 @@ public class ProjectLinkBuilder {
 		if (projectId == null || componentId == null) {
 			return "";
 		}
-		return ProjectLinkUtils.generateBugComponentPreviewFullLink(
+		return ProjectLinkGenerator.generateBugComponentPreviewFullLink(
 				AppContext.getSiteUrl(), projectId, componentId);
 	}
 
@@ -59,7 +59,7 @@ public class ProjectLinkBuilder {
 		if (projectId == null || versionId == null) {
 			return "";
 		}
-		return ProjectLinkUtils.generateBugVersionPreviewFullLink(
+		return ProjectLinkGenerator.generateBugVersionPreviewFullLink(
 				AppContext.getSiteUrl(), projectId, versionId);
 	}
 
@@ -68,7 +68,7 @@ public class ProjectLinkBuilder {
 		if (projectId == null || roleId == null) {
 			return "";
 		}
-		return ProjectLinkUtils.generateRolePreviewFullLink(
+		return ProjectLinkGenerator.generateRolePreviewFullLink(
 				AppContext.getSiteUrl(), projectId, roleId);
 	}
 
@@ -77,13 +77,13 @@ public class ProjectLinkBuilder {
 		if (projectId == null || problemId == null) {
 			return "";
 		}
-		return ProjectLinkUtils.generateProblemPreviewFullLink(
+		return ProjectLinkGenerator.generateProblemPreviewFullLink(
 				AppContext.getSiteUrl(), projectId, problemId);
 	}
 
 	public static String generateProjectMemberFullLink(int projectId,
 			String memberName) {
-		return ProjectLinkUtils.generateProjectMemberFullLink(
+		return ProjectLinkGenerator.generateProjectMemberFullLink(
 				AppContext.getSiteUrl(), projectId, memberName);
 	}
 
@@ -111,7 +111,7 @@ public class ProjectLinkBuilder {
 			return "";
 		}
 		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateBugPreviewLink(projectId, bugId);
+				+ ProjectLinkGenerator.generateBugPreviewLink(projectId, bugId);
 	}
 
 	public static String generateMessagePreviewFullLink(Integer projectId,
@@ -121,7 +121,7 @@ public class ProjectLinkBuilder {
 		}
 		return AppContext.getSiteUrl()
 				+ prefixParam
-				+ ProjectLinkUtils.generateMessagePreviewLink(projectId,
+				+ ProjectLinkGenerator.generateMessagePreviewLink(projectId,
 						messageId);
 	}
 
@@ -141,7 +141,7 @@ public class ProjectLinkBuilder {
 			return "";
 		}
 		return AppContext.getSiteUrl() + GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateTaskPreviewLink(projectId, taskId);
+				+ ProjectLinkGenerator.generateTaskPreviewLink(projectId, taskId);
 	}
 
 	public static String generateTaskGroupPreviewFullLink(Integer projectId,
@@ -151,7 +151,7 @@ public class ProjectLinkBuilder {
 		}
 		return AppContext.getSiteUrl()
 				+ GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateTaskGroupPreviewLink(projectId,
+				+ ProjectLinkGenerator.generateTaskGroupPreviewLink(projectId,
 						taskgroupId);
 	}
 
@@ -179,7 +179,7 @@ public class ProjectLinkBuilder {
 		}
 		return AppContext.getSiteUrl()
 				+ GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateMilestonePreviewLink(projectId,
+				+ ProjectLinkGenerator.generateMilestonePreviewLink(projectId,
 						milestoneId);
 	}
 
@@ -206,32 +206,32 @@ public class ProjectLinkBuilder {
 
 		if (ProjectTypeConstants.PROJECT.equals(type)) {
 		} else if (ProjectTypeConstants.MESSAGE.equals(type)) {
-			result = ProjectLinkUtils.generateMessagePreviewLink(projectId,
+			result = ProjectLinkGenerator.generateMessagePreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.MILESTONE.equals(type)) {
-			result = ProjectLinkUtils.generateMilestonePreviewLink(projectId,
+			result = ProjectLinkGenerator.generateMilestonePreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.PROBLEM.equals(type)) {
-			result = ProjectLinkUtils.generateProblemPreviewLink(projectId,
+			result = ProjectLinkGenerator.generateProblemPreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.RISK.equals(type)) {
-			result = ProjectLinkUtils.generateRiskPreviewLink(projectId, typeid);
+			result = ProjectLinkGenerator.generateRiskPreviewLink(projectId, typeid);
 		} else if (ProjectTypeConstants.TASK.equals(type)) {
-			result = ProjectLinkUtils
+			result = ProjectLinkGenerator
 					.generateTaskPreviewLink(projectId, typeid);
 		} else if (ProjectTypeConstants.TASK_LIST.equals(type)) {
-			result = ProjectLinkUtils.generateTaskGroupPreviewLink(projectId,
+			result = ProjectLinkGenerator.generateTaskGroupPreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.BUG.equals(type)) {
-			result = ProjectLinkUtils.generateBugPreviewLink(projectId, typeid);
+			result = ProjectLinkGenerator.generateBugPreviewLink(projectId, typeid);
 		} else if (ProjectTypeConstants.BUG_COMPONENT.equals(type)) {
-			result = ProjectLinkUtils.generateBugComponentPreviewLink(
+			result = ProjectLinkGenerator.generateBugComponentPreviewLink(
 					projectId, typeid);
 		} else if (ProjectTypeConstants.BUG_VERSION.equals(type)) {
-			result = ProjectLinkUtils.generateBugVersionPreviewLink(projectId,
+			result = ProjectLinkGenerator.generateBugVersionPreviewLink(projectId,
 					typeid);
 		} else if (ProjectTypeConstants.STANDUP.equals(type)) {
-			result = ProjectLinkUtils.generateStandUpPreviewLink(projectId,
+			result = ProjectLinkGenerator.generateStandUpPreviewLink(projectId,
 					typeid);
 		}
 

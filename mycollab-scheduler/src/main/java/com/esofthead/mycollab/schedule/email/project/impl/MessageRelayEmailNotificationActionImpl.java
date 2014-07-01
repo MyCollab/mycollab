@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
@@ -63,13 +63,13 @@ public class MessageRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", message.getProjectName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						message.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = message.getTitle();
-		String summaryLink = ProjectLinkUtils.generateMessagePreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateMessagePreviewFullLink(
 				siteUrl, message.getProjectid(), message.getId());
 
 		templateGenerator.putVariable("makeChangeUser",

@@ -31,7 +31,7 @@ import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -209,7 +209,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		String memerRoleLinkPrefix = "<a href=\""
 				+ AppContext.getSiteUrl()
 				+ GenericLinkUtils.URL_PREFIX_PARAM
-				+ ProjectLinkUtils.generateRolePreviewLink(
+				+ ProjectLinkGenerator.generateRolePreviewLink(
 						member.getProjectid(), member.getProjectRoleId())
 				+ "\"";
 		Label memberRole = new Label();

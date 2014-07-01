@@ -35,7 +35,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
@@ -122,7 +122,7 @@ public class BugRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", bug.getProjectname());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						bug.getProjectid()));
 
 		listOfTitles.add(currentProject);
@@ -134,13 +134,13 @@ public class BugRelayEmailNotificationActionImpl extends
 				+ bug.getBugkey() + "]");
 		bugCode.put(
 				"webLink",
-				ProjectLinkUtils.generateBugPreviewFullLink(siteUrl,
+				ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
 						bug.getProjectid(), bug.getId()));
 
 		listOfTitles.add(bugCode);
 
 		String summary = bug.getSummary();
-		String summaryLink = ProjectLinkUtils.generateBugPreviewFullLink(
+		String summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(
 				siteUrl, bug.getProjectid(), bug.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
@@ -345,7 +345,7 @@ public class BugRelayEmailNotificationActionImpl extends
 					.getResourceLink(ProjectTypeConstants.MILESTONE);
 			Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-			String milestoneLink = ProjectLinkUtils
+			String milestoneLink = ProjectLinkGenerator
 					.generateMilestonePreviewFullLink(context.getSiteUrl(),
 							bug.getProjectid(), bug.getMilestoneid());
 			A link = TagBuilder.newA(milestoneLink, bug.getMilestoneName());
@@ -370,7 +370,7 @@ public class BugRelayEmailNotificationActionImpl extends
 							.getResourceLink(ProjectTypeConstants.MILESTONE);
 					Img img = TagBuilder.newImg("icon", milestoneIconLink);
 
-					String milestoneLink = ProjectLinkUtils
+					String milestoneLink = ProjectLinkGenerator
 							.generateMilestonePreviewFullLink(
 									context.getSiteUrl(),
 									milestone.getProjectid(), milestone.getId());

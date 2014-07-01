@@ -14,29 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.template.velocity;
+package com.esofthead.mycollab.template.velocity;
 
-import org.apache.velocity.VelocityContext;
+import java.io.Reader;
+import java.io.Writer;
 
 /**
- * Template wrapper of velocity context
+ * Wrap velocity engine
  * 
  * @author MyCollab Ltd.
- * @since 4.0
+ * @since 4.0.0
  * 
  */
-public class TemplateContext {
-	private final VelocityContext velocityContext;
-
-	public TemplateContext() {
-		velocityContext = new VelocityContext(TemplateEngine.createContext());
-	}
-
-	public void put(String key, Object value) {
-		velocityContext.put(key, value);
-	}
-
-	public VelocityContext getVelocityContext() {
-		return velocityContext;
-	}
+public interface TemplateEngine {
+	void evaluate(TemplateContext context, Writer writer, String message,
+			Reader reader);
 }

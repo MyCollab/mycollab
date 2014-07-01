@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
+import com.esofthead.mycollab.common.UrlEncodeDecoder;
 
 /**
  * 
@@ -24,7 +25,7 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
  * @since 1.0
  * 
  */
-public class ProjectLinkUtils {
+public class ProjectLinkGenerator {
 
 	public static String generateProjectLink(int projectId) {
 		return "project/dashboard/"
@@ -190,5 +191,11 @@ public class ProjectLinkUtils {
 		return "project/time/list/"
 				+ GenericLinkUtils
 						.encodeParam(new Object[] { projectId, timeId });
+	}
+
+	public static String generateDenyInvitationParams(int sAccountId,
+			int projectId, int memberId, String email, String username) {
+		return UrlEncodeDecoder.encode(sAccountId + "/" + projectId + "/"
+				+ memberId + "/" + email + "/" + username);
 	}
 }

@@ -33,7 +33,7 @@ import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -83,13 +83,13 @@ public class ComponentRelayEmailNotificationActionImpl extends
 		currentProject.put("displayName", project.getName());
 		currentProject.put(
 				"webLink",
-				ProjectLinkUtils.generateProjectFullLink(siteUrl,
+				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
 						component.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		String summary = component.getComponentname();
-		String summaryLink = ProjectLinkUtils
+		String summaryLink = ProjectLinkGenerator
 				.generateBugComponentPreviewFullLink(siteUrl,
 						component.getProjectid(), component.getId());
 

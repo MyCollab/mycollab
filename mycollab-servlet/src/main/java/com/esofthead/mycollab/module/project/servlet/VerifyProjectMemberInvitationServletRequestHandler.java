@@ -40,7 +40,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.project.ProjectLinkUtils;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -193,7 +193,7 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 				member.setProjectroleid(projectRoleId);
 				projectMemberService.updateWithSession(member, "");
 			}
-			String projectLink = ProjectLinkUtils.generateProjectFullLink(
+			String projectLink = ProjectLinkGenerator.generateProjectFullLink(
 					siteUrl, projectId);
 			response.sendRedirect(projectLink);
 		} catch (Exception e) {
@@ -205,7 +205,7 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 			Integer projectId, Integer sAccountId, Integer projectRoleId,
 			String inviterName, HttpServletResponse response,
 			HttpServletRequest request) {
-		String projectLinkURL = ProjectLinkUtils.generateProjectFullLink(
+		String projectLinkURL = ProjectLinkGenerator.generateProjectFullLink(
 				siteUrl, projectId);
 
 		String handelCreateAccountURL = request.getContextPath() + "/"
