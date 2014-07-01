@@ -71,6 +71,7 @@ public class AcceptInvitationAction extends VelocityWebServletRequestHandler {
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String pathInfo = request.getPathInfo();
+
 		String subdomain = "";
 		String loginURL = request.getContextPath() + "/";
 
@@ -90,7 +91,7 @@ public class AcceptInvitationAction extends VelocityWebServletRequestHandler {
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED);
 					userService.updateWithSession(user, "");
 				}
-				
+
 				SimpleUser userInAccount = userService
 						.findUserByUserNameInAccount(username, accountId);
 

@@ -30,8 +30,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,14 +57,11 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("acceptMemberInvitationServlet")
-public class VerifyProjectMemberInvitationServletRequestHandler extends
+public class AcceptProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 
-	private static Logger log = LoggerFactory
-			.getLogger(VerifyProjectMemberInvitationServletRequestHandler.class);
-
-	private static String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
-	private static String EXPIER_PAGE = "templates/page/ExpirePage.mt";
+	static String OUTSIDE_MEMBER_WELCOME_PAGE = "templates/page/project/OutsideMemberAcceptInvitationPage.mt";
+	static String EXPIER_PAGE = "templates/page/ExpirePage.mt";
 
 	@Autowired
 	private ProjectMemberService projectMemberService;
@@ -86,64 +81,58 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 		String pathInfo = request.getPathInfo();
 		if (pathInfo != null) {
 			try {
-				if (pathInfo.startsWith("/")) {
-					UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
-					
-					String email = urlTokenizer.getString();
-					int projectId = urlTokenizer.getInt();
-					int sAccountId = urlTokenizer.getInt();
-					int projectRoleId = urlTokenizer.getInt();
-					String inviterName = urlTokenizer.getString();
-					String inviterEmail = urlTokenizer.getString();
 
-					String timeStr = urlTokenizer.getString();
-					DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-					Date invitedDate = df.parse(timeStr);
-					Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.DATE, -7);
-					Date dateBefore7Days = cal.getTime();
+				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
 
-					if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
-						// print out page expire
-						Map<String, Object> context = new HashMap<String, Object>();
-						context.put("inviterEmail", inviterEmail);
-						context.put("inviterName", inviterName);
+				String inviteeEmail = urlTokenizer.getString();
+				int sAccountId = urlTokenizer.getInt();
+				int projectId = urlTokenizer.getInt();
+				int memberId = urlTokenizer.getInt();
+				int projectRoleId = urlTokenizer.getInt();
+				String inviterName = urlTokenizer.getString();
+				String inviterEmail = urlTokenizer.getString();
 
-						String html = generatePageByTemplate(EXPIER_PAGE,
-								context);
+				String timeStr = urlTokenizer.getString();
+				DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+				Date invitedDate = df.parse(timeStr);
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -7);
+				Date dateBefore7Days = cal.getTime();
 
-						PrintWriter out = response.getWriter();
-						out.println(html);
-						return;
-					}
+				if (invitedDate.compareTo(dateBefore7Days) < 0) { // expire
+					// print out page expire
+					Map<String, Object> context = new HashMap<String, Object>();
+					context.put("inviterEmail", inviterEmail);
+					context.put("inviterName", inviterName);
 
-					String subdomain = projectService
-							.getSubdomainOfProject(projectId);
-					String siteUrl = SiteConfiguration.getSiteUrl(subdomain);
+					String html = generatePageByTemplate(EXPIER_PAGE, context);
 
-					log.debug("Checking Member status --------");
-					User user = userService.findUserByUserName(email);
-					if (user != null) { // user exit
-						log.debug("User exist on System -------------");
-						handleMemberInviteWithExistAccount(siteUrl, email,
-								projectId, sAccountId, projectRoleId, response);
-					} else {
-						log.debug("User not exist on System --------- to enter password'Page");
-						handleOutSideMemberInvite(siteUrl, email, projectId,
-								sAccountId, projectRoleId, inviterName,
-								response, request);
-					}
+					PrintWriter out = response.getWriter();
+					out.println(html);
 					return;
+				}
+
+				String subdomain = projectService
+						.getSubdomainOfProject(projectId);
+				String siteUrl = SiteConfiguration.getSiteUrl(subdomain);
+
+				User user = userService.findUserByUserName(inviteeEmail);
+				if (user != null) { // user exit
+					handleMemberInviteWithExistAccount(siteUrl, inviteeEmail,
+							projectId, sAccountId, projectRoleId, response);
 				} else {
-					throw new ResourceNotFoundException();
+					handleOutSideMemberInvite(siteUrl, inviteeEmail, projectId,
+							sAccountId, projectRoleId, inviterName, response,
+							request);
 				}
 			} catch (ResourceNotFoundException e) {
 				throw new ResourceNotFoundException();
 			} catch (Exception e) {
 				throw new MyCollabException(e);
 			}
+		} else {
+			throw new ResourceNotFoundException();
 		}
-		throw new ResourceNotFoundException();
 	}
 
 	private void handleMemberInviteWithExistAccount(String siteUrl,

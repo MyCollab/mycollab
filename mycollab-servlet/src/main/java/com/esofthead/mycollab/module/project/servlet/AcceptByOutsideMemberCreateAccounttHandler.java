@@ -41,11 +41,11 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  *
  */
 @Component("acceptMemberInvitationCreateAccountServlet")
-public class InviteOutsideMemberCreateAccountServletRequestHandler extends
+public class AcceptByOutsideMemberCreateAccounttHandler extends
 		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(InviteOutsideMemberCreateAccountServletRequestHandler.class);
+			.getLogger(AcceptByOutsideMemberCreateAccounttHandler.class);
 
 	@Autowired
 	private ProjectMemberService projectMemberService;

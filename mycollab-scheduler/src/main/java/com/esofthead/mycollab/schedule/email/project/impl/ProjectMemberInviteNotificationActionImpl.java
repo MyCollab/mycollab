@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.schedule.email.project.impl;
 
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -88,15 +88,21 @@ public class ProjectMemberInviteNotificationActionImpl implements
 					notification.getChangeby());
 
 			String userChange = notification.getChangeby();
-			User user = userService.findUserByUserName(userChange);
+			User inviteUser = userService.findUserByUserName(userChange);
 			templateGenerator.putVariable(
 					"urlAccept",
 					SiteConfiguration.getSiteUrl(subdomain)
 							+ "project/member/invitation/confirm_invite/"
-							+ UrlEncodeDecoder.encode(member.getSaccountid()
-									+ "/" + member.getId() + "/"
-									+ user.getEmail() + "/"
-									+ user.getUsername()));
+							+ ProjectLinkGenerator
+									.generateAcceptInvitationParams(
+											member.getUsername(),
+											member.getSaccountid(),
+											member.getProjectid(),
+											member.getId(),
+											member.getProjectRoleId(),
+											inviteUser.getEmail(),
+											inviteUser.getUsername(),
+											new GregorianCalendar()));
 			templateGenerator.putVariable(
 					"urlDeny",
 					SiteConfiguration.getSiteUrl(subdomain)
@@ -105,8 +111,9 @@ public class ProjectMemberInviteNotificationActionImpl implements
 									.generateDenyInvitationParams(
 											member.getSaccountid(),
 											member.getProjectid(),
-											member.getId(), user.getEmail(),
-											user.getUsername()));
+											member.getId(),
+											inviteUser.getEmail(),
+											inviteUser.getUsername()));
 
 			templateGenerator.putVariable("userName",
 					member.getMemberFullName());

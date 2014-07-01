@@ -1,7 +1,5 @@
 package com.esofthead.mycollab.module.servlet;
 
-import static org.mockito.Mockito.mock;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

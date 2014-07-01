@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.module.project;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 
@@ -194,8 +198,20 @@ public class ProjectLinkGenerator {
 	}
 
 	public static String generateDenyInvitationParams(int sAccountId,
-			int projectId, int memberId, String email, String username) {
+			int projectId, int memberId, String inviteUserEmail,
+			String inviteUsername) {
 		return UrlEncodeDecoder.encode(sAccountId + "/" + projectId + "/"
-				+ memberId + "/" + email + "/" + username);
+				+ memberId + "/" + inviteUserEmail + "/" + inviteUsername);
+	}
+
+	public static String generateAcceptInvitationParams(String inviteeEmail,
+			int sAccountId, int projectId, int memberId, int projectRoleId,
+			String inviteUserEmail, String inviteUsername,
+			GregorianCalendar currentDate) {
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+		String formatDate = format.format(currentDate.getTime());
+		return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/"
+				+ projectId + "/" + memberId + "/" + projectRoleId + "/"
+				+ inviteUserEmail + "/" + inviteUsername + "/" + formatDate);
 	}
 }

@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.billing.servlet.AcceptInvitationAction;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
 

@@ -49,11 +49,11 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("denyMemberInvitationServlet")
-public class DenyProjectMemberInvitationServletRequestHandler extends
+public class DenyProjectInvitationHandler extends
 		VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(DenyProjectMemberInvitationServletRequestHandler.class);
+			.getLogger(DenyProjectInvitationHandler.class);
 
 	static String DENY_FEEDBACK_TEMPLATE = "templates/page/project/MemberDenyInvitationPage.mt";
 	static String REFUSE_MEMBER_DENY_TEMPLATE = "templates/page/project/RefuseMemberDenyActionPage.mt";

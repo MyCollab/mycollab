@@ -37,7 +37,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  *
  */
 @Component("denyMemberInvitationFeedbackServlet")
-public class MemberDenyInvitationFeedBackServletRequestHandler extends
+public class DenyInvitationSendFeedBackHandler extends
 		GenericServletRequestHandler {
 
 	@Autowired

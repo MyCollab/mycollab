@@ -30,12 +30,11 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.servlet.GenericServletTest;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DenyProjectMemberInvitationServletRequestHandlerTest extends
-		GenericServletTest {
+public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 	@InjectMocks
 	@Spy
-	private DenyProjectMemberInvitationServletRequestHandler denyProjectMemberRequestHandler;
+	private DenyProjectInvitationHandler denyInvitationHandler;
 
 	@Mock
 	private ProjectMemberService projectMemberService;
@@ -53,17 +52,17 @@ public class DenyProjectMemberInvitationServletRequestHandlerTest extends
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 
-		denyProjectMemberRequestHandler.onHandleRequest(request, response);
+		denyInvitationHandler.onHandleRequest(request, response);
 
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
-		verify(denyProjectMemberRequestHandler).generatePageByTemplate(
+		verify(denyInvitationHandler).generatePageByTemplate(
 				strArgument.capture(), mapArgument.capture());
 		Assert.assertEquals(
-				DenyProjectMemberInvitationServletRequestHandler.PROJECT_NOT_AVAILABLE_TEMPLATE,
+				DenyProjectInvitationHandler.PROJECT_NOT_AVAILABLE_TEMPLATE,
 				strArgument.getValue());
 	}
 
@@ -79,17 +78,17 @@ public class DenyProjectMemberInvitationServletRequestHandlerTest extends
 		when(projectMemberService.findById(1, 1)).thenReturn(
 				new SimpleProjectMember());
 
-		denyProjectMemberRequestHandler.onHandleRequest(request, response);
+		denyInvitationHandler.onHandleRequest(request, response);
 
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
-		verify(denyProjectMemberRequestHandler).generatePageByTemplate(
+		verify(denyInvitationHandler).generatePageByTemplate(
 				strArgument.capture(), mapArgument.capture());
 		Assert.assertEquals(
-				DenyProjectMemberInvitationServletRequestHandler.REFUSE_MEMBER_DENY_TEMPLATE,
+				DenyProjectInvitationHandler.REFUSE_MEMBER_DENY_TEMPLATE,
 				strArgument.getValue());
 	}
 
@@ -103,29 +102,29 @@ public class DenyProjectMemberInvitationServletRequestHandlerTest extends
 
 		when(projectService.findById(1, 1)).thenReturn(new SimpleProject());
 
-		denyProjectMemberRequestHandler.onHandleRequest(request, response);
+		denyInvitationHandler.onHandleRequest(request, response);
 
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
-		verify(denyProjectMemberRequestHandler).generatePageByTemplate(
+		verify(denyInvitationHandler).generatePageByTemplate(
 				strArgument.capture(), mapArgument.capture());
 		Assert.assertEquals(
-				DenyProjectMemberInvitationServletRequestHandler.DENY_FEEDBACK_TEMPLATE,
+				DenyProjectInvitationHandler.DENY_FEEDBACK_TEMPLATE,
 				strArgument.getValue());
 	}
 
 	@Test(expected = ResourceNotFoundException.class)
 	public void testNullParam() throws ServletException, IOException {
 		when(request.getPathInfo()).thenReturn(null);
-		denyProjectMemberRequestHandler.onHandleRequest(request, response);
+		denyInvitationHandler.onHandleRequest(request, response);
 	}
 
 	@Test(expected = MyCollabException.class)
 	public void testInvalidParams() throws ServletException, IOException {
 		when(request.getPathInfo()).thenReturn("1");
-		denyProjectMemberRequestHandler.onHandleRequest(request, response);
+		denyInvitationHandler.onHandleRequest(request, response);
 	}
 }
