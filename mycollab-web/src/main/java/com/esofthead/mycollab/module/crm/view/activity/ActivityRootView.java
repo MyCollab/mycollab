@@ -77,11 +77,12 @@ public class ActivityRootView extends AbstractPageView {
 	}
 
 	private void buildComponents() {
-		activityTabs.addTab(constructCalendarView(), "calendar", "Calendar",
+		activityTabs.addTab(constructCalendarView(), "calendar",
+				AppContext.getMessage(ActivityI18nEnum.TAB_CALENDAR_TITLE),
 				MyCollabResource.newResource("icons/22/crm/calendar.png"));
 
 		activityTabs.addTab(constructActivityListView(), "activities",
-				"Activities List",
+				AppContext.getMessage(ActivityI18nEnum.TAB_ACTIVITY_TITLE),
 				MyCollabResource.newResource("icons/22/crm/activitylist.png"));
 
 		activityTabs
@@ -94,10 +95,14 @@ public class ActivityRootView extends AbstractPageView {
 								.getSelectedTab();
 						String caption = tab.getCaption();
 
-						if ("Calendar".equals(caption)) {
+						if (AppContext.getMessage(
+								ActivityI18nEnum.TAB_CALENDAR_TITLE).equals(
+								caption)) {
 							calendarPresenter.go(ActivityRootView.this,
 									new ActivityScreenData.GotoCalendar());
-						} else if ("Activities List".equals(caption)) {
+						} else if (AppContext.getMessage(
+								ActivityI18nEnum.TAB_ACTIVITY_TITLE).equals(
+								caption)) {
 							ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 							criteria.setSaccountid(new NumberSearchField(
 									AppContext.getAccountId()));

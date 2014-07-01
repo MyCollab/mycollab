@@ -88,14 +88,12 @@ public class VerifyProjectMemberInvitationServletRequestHandler extends
 			try {
 				if (pathInfo.startsWith("/")) {
 					UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
+					
 					String email = urlTokenizer.getString();
 					int projectId = urlTokenizer.getInt();
 					int sAccountId = urlTokenizer.getInt();
-
 					int projectRoleId = urlTokenizer.getInt();
-
 					String inviterName = urlTokenizer.getString();
-
 					String inviterEmail = urlTokenizer.getString();
 
 					String timeStr = urlTokenizer.getString();

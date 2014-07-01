@@ -50,8 +50,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("denyUserInviteServlet")
-public class DenyInvitationPage extends
-		VelocityWebServletRequestHandler {
+public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 
 	private static String USER_DENY_FEEDBACK_TEMPLATE = "templates/page/user/UserDenyInvitationPage.mt";
 	private static String USER_HAS_DENIED_PAGE = "templates/page/user/UserDeniedPage.mt";
@@ -90,7 +89,7 @@ public class DenyInvitationPage extends
 
 					if (checkUser.getRegisterstatus().equals(
 							RegisterStatusConstants.ACTIVE)) {
-						// You cant deny , Userhas active , go to login Page
+						// You cant deny , User has active , go to login Page
 						Map<String, Object> context = new HashMap<String, Object>();
 						context.put("loginURL", request.getContextPath() + "/");
 						String html = generatePageByTemplate(
