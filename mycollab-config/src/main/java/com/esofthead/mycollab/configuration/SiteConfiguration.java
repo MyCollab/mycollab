@@ -168,65 +168,72 @@ public class SiteConfiguration {
 				.getString("ggDrive.callbackUrl");
 	}
 
+	private static SiteConfiguration getInstance() {
+		if (instance == null) {
+			loadInstance(8080);
+		}
+		return instance;
+	}
+
 	public static Properties getCacheProperties() {
-		return instance.cacheProperties;
+		return getInstance().cacheProperties;
 	}
 
 	public static String getCdnUrl() {
-		return instance.cdnUrl;
+		return getInstance().cdnUrl;
 	}
 
 	public static String getAppUrl() {
-		return instance.appUrl;
+		return getInstance().appUrl;
 	}
 
 	public static DatabaseConfiguration getDatabaseConfiguration() {
-		return instance.databaseConfiguration;
+		return getInstance().databaseConfiguration;
 	}
 
 	public static EmailConfiguration getRelayEmailConfiguration() {
-		return instance.relayEmailConfiguration;
+		return getInstance().relayEmailConfiguration;
 	}
 
 	public static EmailConfiguration getEmailConfiguration() {
-		return instance.emailConfiguration;
+		return getInstance().emailConfiguration;
 	}
 
 	public static String getSiteName() {
-		return instance.siteName;
+		return getInstance().siteName;
 	}
 
 	public static DeploymentMode getDeploymentMode() {
-		return instance.deploymentMode;
+		return getInstance().deploymentMode;
 	}
 
 	public static String getSendErrorEmail() {
-		return instance.sentErrorEmail;
+		return getInstance().sentErrorEmail;
 	}
 
 	public static StorageConfiguration getStorageConfiguration() {
-		return instance.storageConfiguration;
+		return getInstance().storageConfiguration;
 	}
 
 	public static Locale getDefaultLocale() {
-		return instance.defaultLocale;
+		return getInstance().defaultLocale;
 	}
 
 	public static Map<String, Locale> getSupportedLanguages() {
-		return instance.supportedLanguages;
+		return getInstance().supportedLanguages;
 	}
 
 	public static boolean isSupportFileStorage() {
-		return instance.storageConfiguration instanceof FileStorageConfiguration;
+		return getInstance().storageConfiguration instanceof FileStorageConfiguration;
 	}
 
 	public static boolean isSupportS3Storage() {
-		return instance.storageConfiguration instanceof S3StorageConfiguration;
+		return getInstance().storageConfiguration instanceof S3StorageConfiguration;
 	}
 
 	public static String getSiteUrl(String subdomain) {
 		String siteUrl = "";
-		if (instance.deploymentMode == DeploymentMode.SITE) {
+		if (getInstance().deploymentMode == DeploymentMode.SITE) {
 			siteUrl = String.format(ApplicationProperties
 					.getString(ApplicationProperties.APP_URL), subdomain);
 		} else {
@@ -238,23 +245,23 @@ public class SiteConfiguration {
 	}
 
 	public static String getDropboxCallbackUrl() {
-		return instance.dropboxCallbackUrl;
+		return getInstance().dropboxCallbackUrl;
 	}
 
 	public static String getGGDriveCallbackUrl() {
-		return instance.ggDriveCallbackUrl;
+		return getInstance().ggDriveCallbackUrl;
 	}
 
 	public static String getEnDecryptPassword() {
-		return instance.endecryptPassword;
+		return getInstance().endecryptPassword;
 	}
 
 	public static String getServerAddress() {
-		return instance.serverAddress;
+		return getInstance().serverAddress;
 	}
 
 	public static int getServerPort() {
-		return instance.serverPort;
+		return getInstance().serverPort;
 	}
 
 	private static Locale toLocale(String language) {
@@ -268,8 +275,8 @@ public class SiteConfiguration {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		return instance.storageConfiguration.generateAvatarPath(userAvatarId,
-				size);
+		return getInstance().storageConfiguration.generateAvatarPath(
+				userAvatarId, size);
 	}
 
 	private static Map<String, Locale> getSupportedLocales(String languageVal) {

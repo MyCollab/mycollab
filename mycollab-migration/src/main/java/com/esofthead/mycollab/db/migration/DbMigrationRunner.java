@@ -65,6 +65,7 @@ public class DbMigrationRunner {
 			flyway.migrate();
 		} catch (Exception e) {
 			log.error("Error while migrate database", e);
+			System.exit(-1);
 		}
 	}
 }

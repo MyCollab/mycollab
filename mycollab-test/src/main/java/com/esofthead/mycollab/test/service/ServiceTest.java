@@ -22,8 +22,6 @@ import java.util.TimeZone;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
-import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 
 /**
@@ -53,10 +51,6 @@ public class ServiceTest {
 		if (resourceUrl != null) {
 			PropertyConfigurator.configure(resourceUrl);
 		}
-	}
 
-	@Before
-	public void init() {
-		MockitoAnnotations.initMocks(this);
 	}
 }
