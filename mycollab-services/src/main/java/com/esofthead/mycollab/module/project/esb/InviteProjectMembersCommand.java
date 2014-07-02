@@ -22,7 +22,7 @@ package com.esofthead.mycollab.module.project.esb;
  * @since 1.0
  * 
  */
-public interface InviteOutsideProjectMemberCommand {
+public interface InviteProjectMembersCommand {
 	void inviteUsers(String[] email, int projectId, int projectRoleId,
 			String inviteUser, String inviteMessage, int sAccountId);
 }

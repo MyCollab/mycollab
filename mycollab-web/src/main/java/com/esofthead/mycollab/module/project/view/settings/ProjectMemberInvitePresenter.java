@@ -65,7 +65,7 @@ public class ProjectMemberInvitePresenter extends
 						.getSpringBean(ProjectMemberService.class);
 				List<String> inviteEmails = event.getInviteEmails();
 				if (inviteEmails != null && inviteEmails.size() > 0) {
-					projectMemberService.inviteProjectMember(
+					projectMemberService.inviteProjectMembers(
 							inviteEmails.toArray(new String[0]),
 							CurrentProjectVariables.getProjectId(),
 							event.getRoleId(), AppContext.getUsername(),

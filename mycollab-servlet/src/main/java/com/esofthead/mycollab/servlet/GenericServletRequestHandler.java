@@ -23,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestHandler;
 
 import com.esofthead.mycollab.core.ResourceNotFoundException;
@@ -36,6 +38,8 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
  */
 public abstract class GenericServletRequestHandler implements
 		HttpRequestHandler {
+	private static Logger log = LoggerFactory
+			.getLogger(GenericServletRequestHandler.class);
 
 	@Override
 	public void handleRequest(HttpServletRequest request,
@@ -43,6 +47,7 @@ public abstract class GenericServletRequestHandler implements
 		try {
 			onHandleRequest(request, response);
 		} catch (Exception e) {
+			log.error("Servlet error", e);
 			if (e instanceof ResourceNotFoundException) {
 				throw new ResourceNotFoundException();
 			} else if (e instanceof UserInvalidInputException) {

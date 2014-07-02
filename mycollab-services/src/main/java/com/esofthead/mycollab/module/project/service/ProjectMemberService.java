@@ -51,7 +51,7 @@ public interface ProjectMemberService extends
 	List<SimpleUser> getActiveUsersInProject(int projectId,
 			@CacheKey Integer sAccountId);
 
-	void inviteProjectMember(String[] email, int projectId, int projectRoleId,
+	void inviteProjectMembers(String[] email, int projectId, int projectRoleId,
 			String inviteUser, String inviteMessage, int sAccountId);
 
 	@CacheEvict

@@ -1,5 +1,6 @@
 package com.esofthead.mycollab.module.project.servlet;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,8 +48,9 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 	@Test
 	public void testCannotFindProject() throws ServletException, IOException {
-		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(1,
-				1, 1, "hainguyen@esofthead.com", "hainguyen@esofthead.com");
+		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(
+				"hainguyen@mycollab.com", 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com");
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 
@@ -69,13 +71,16 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 	@Test
 	public void testDenyWithProjectMember() throws ServletException,
 			IOException {
-		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(1,
-				1, 1, "hainguyen@esofthead.com", "hainguyen@esofthead.com");
+		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(
+				"hainguyen@mycollab.com", 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com");
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 
 		when(projectService.findById(1, 1)).thenReturn(new SimpleProject());
-		when(projectMemberService.findById(1, 1)).thenReturn(
+		when(
+				projectMemberService.findMemberByUsername(any(String.class),
+						any(Integer.class), any(Integer.class))).thenReturn(
 				new SimpleProjectMember());
 
 		denyInvitationHandler.onHandleRequest(request, response);
@@ -95,8 +100,9 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 	@Test
 	public void testDenyNotFoundProjectMember() throws ServletException,
 			IOException {
-		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(1,
-				1, 1, "hainguyen@esofthead.com", "hainguyen@esofthead.com");
+		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(
+				"hainguyen@mycollab.com", 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com");
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 

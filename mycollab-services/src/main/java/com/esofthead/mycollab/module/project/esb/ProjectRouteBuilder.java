@@ -126,7 +126,7 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 		from("seda:projectMemberInvitation.queue")
 				.threads()
 				.bean(ApplicationContextUtil
-						.getSpringBean(InviteOutsideProjectMemberCommand.class),
+						.getSpringBean(InviteProjectMembersCommand.class),
 						"inviteUsers(String[],int, int, String, int)");
 
 		log.debug("Configure project assignments clean cache route");

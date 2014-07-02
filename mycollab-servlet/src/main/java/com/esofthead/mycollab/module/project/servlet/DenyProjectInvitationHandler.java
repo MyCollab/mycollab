@@ -76,9 +76,9 @@ public class DenyProjectInvitationHandler extends
 			if (pathInfo != null) {
 				UrlTokenizer urlTokenizer = new UrlTokenizer(pathInfo);
 
+				String inviteeEmail = urlTokenizer.getString();
 				int sAccountId = urlTokenizer.getInt();
 				int projectId = urlTokenizer.getInt();
-				int memberId = urlTokenizer.getInt();
 
 				String inviterName = urlTokenizer.getString();
 				String inviterEmail = urlTokenizer.getString();
@@ -98,8 +98,9 @@ public class DenyProjectInvitationHandler extends
 					return;
 				}
 
-				ProjectMember projectMember = projectMemberService.findById(
-						memberId, sAccountId);
+				ProjectMember projectMember = projectMemberService
+						.findMemberByUsername(inviteeEmail, projectId,
+								sAccountId);
 
 				if (projectMember != null) {
 					Map<String, Object> context = new HashMap<String, Object>();

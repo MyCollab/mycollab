@@ -65,8 +65,8 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.add(Calendar.DATE, -8);
 		String pathInfo = ProjectLinkGenerator.generateAcceptInvitationParams(
-				"hainguyen@mycollab.com", 1, 1, 1, 1,
-				"hainguyen@esofthead.com", "hainguyen@esofthead.com", calendar);
+				"hainguyen@mycollab.com", 1, 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com", calendar.getTime());
 
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
@@ -89,8 +89,8 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 			ServletException {
 		GregorianCalendar calendar = new GregorianCalendar();
 		String pathInfo = ProjectLinkGenerator.generateAcceptInvitationParams(
-				"hainguyen@mycollab.com", 1, 1, 1, 1,
-				"hainguyen@esofthead.com", "hainguyen@esofthead.com", calendar);
+				"hainguyen@mycollab.com", 1, 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com", calendar.getTime());
 
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));
@@ -110,8 +110,8 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 			ServletException {
 		GregorianCalendar calendar = new GregorianCalendar();
 		String pathInfo = ProjectLinkGenerator.generateAcceptInvitationParams(
-				"hainguyen@mycollab.com", 1, 1, 1, 1,
-				"hainguyen@esofthead.com", "hainguyen@esofthead.com", calendar);
+				"hainguyen@mycollab.com", 1, 1, 1, "hainguyen@esofthead.com",
+				"hainguyen@esofthead.com", calendar.getTime());
 
 		when(request.getPathInfo()).thenReturn(pathInfo);
 		when(response.getWriter()).thenReturn(mock(PrintWriter.class));

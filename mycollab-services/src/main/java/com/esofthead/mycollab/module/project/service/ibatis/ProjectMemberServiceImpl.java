@@ -42,7 +42,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberCommand;
-import com.esofthead.mycollab.module.project.esb.InviteOutsideProjectMemberCommand;
+import com.esofthead.mycollab.module.project.esb.InviteProjectMembersCommand;
 import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
@@ -140,12 +140,12 @@ public class ProjectMemberServiceImpl extends
 	}
 
 	@Override
-	public void inviteProjectMember(String[] email, int projectId,
+	public void inviteProjectMembers(String[] email, int projectId,
 			int projectRoleId, String inviteUser, String inviteMessage,
 			int sAccountId) {
-		InviteOutsideProjectMemberCommand listener = new BeanProxyBuilder()
+		InviteProjectMembersCommand listener = new BeanProxyBuilder()
 				.build(ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
-						InviteOutsideProjectMemberCommand.class);
+						InviteProjectMembersCommand.class);
 		listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
 				inviteMessage, sAccountId);
 	}

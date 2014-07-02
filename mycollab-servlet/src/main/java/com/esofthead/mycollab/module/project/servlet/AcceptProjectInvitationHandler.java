@@ -87,7 +87,6 @@ public class AcceptProjectInvitationHandler extends
 				String inviteeEmail = urlTokenizer.getString();
 				int sAccountId = urlTokenizer.getInt();
 				int projectId = urlTokenizer.getInt();
-				int memberId = urlTokenizer.getInt();
 				int projectRoleId = urlTokenizer.getInt();
 				String inviterName = urlTokenizer.getString();
 				String inviterEmail = urlTokenizer.getString();

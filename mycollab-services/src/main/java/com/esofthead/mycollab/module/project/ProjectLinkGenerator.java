@@ -17,8 +17,7 @@
 package com.esofthead.mycollab.module.project;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
@@ -197,21 +196,20 @@ public class ProjectLinkGenerator {
 						.encodeParam(new Object[] { projectId, timeId });
 	}
 
-	public static String generateDenyInvitationParams(int sAccountId,
-			int projectId, int memberId, String inviteUserEmail,
+	public static String generateDenyInvitationParams(String inviteeEmail,
+			int sAccountId, int projectId, String inviteUserEmail,
 			String inviteUsername) {
-		return UrlEncodeDecoder.encode(sAccountId + "/" + projectId + "/"
-				+ memberId + "/" + inviteUserEmail + "/" + inviteUsername);
+		return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/"
+				+ projectId + "/" + inviteUserEmail + "/" + inviteUsername);
 	}
 
 	public static String generateAcceptInvitationParams(String inviteeEmail,
-			int sAccountId, int projectId, int memberId, int projectRoleId,
-			String inviteUserEmail, String inviteUsername,
-			GregorianCalendar currentDate) {
+			int sAccountId, int projectId, int projectRoleId,
+			String inviteUserEmail, String inviteUsername, Date currentDate) {
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
-		String formatDate = format.format(currentDate.getTime());
+		String formatDate = format.format(currentDate);
 		return UrlEncodeDecoder.encode(inviteeEmail + "/" + sAccountId + "/"
-				+ projectId + "/" + memberId + "/" + projectRoleId + "/"
-				+ inviteUserEmail + "/" + inviteUsername + "/" + formatDate);
+				+ projectId + "/" + projectRoleId + "/" + inviteUserEmail + "/"
+				+ inviteUsername + "/" + formatDate);
 	}
 }
