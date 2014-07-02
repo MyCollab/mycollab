@@ -1,5 +1,0 @@
-test:
-  adapter: mysql2
-  database: mycollab_test
-  username: travis
-  encoding: utf8
