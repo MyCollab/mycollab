@@ -239,7 +239,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-tap-highlight-color: transparent;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar {
-  overflow-x: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   box-shadow: none;
   border-top: 1px solid #DDDDDD;
   background-color: #F7F7F7;
@@ -248,6 +249,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   right: 0px;
   left: 0px;
   height: 4.8rem;
+  -webkit-overflow-scrolling: touch;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button {
   color: #6a6a6a;
@@ -358,7 +360,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .edit-btn .v-button-wrap, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .save-btn .v-button-wrap {
   padding: 0 12px;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -371,7 +373,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: white;
   padding: 5px 10px;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton:before, .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .data-list-view .v-button .v-button-wrap .add-btn.v-button-caption:before, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-button-caption:before {
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton:before {
   content: "\e60e";
   font-size: 2rem;
 }
@@ -395,7 +397,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-tap-highlight-color: transparent;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar {
-  overflow-x: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   box-shadow: none;
   border-top: 1px solid #DDDDDD;
   background-color: #F7F7F7;
@@ -404,6 +407,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   right: 0px;
   left: 0px;
   height: 4.8rem;
+  -webkit-overflow-scrolling: touch;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button {
   color: #6a6a6a;
@@ -436,46 +440,50 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .controls-popover .v-window-contents .v-button .v-button-wrap {
   padding: 5px 0px;
 }
-.mycollab-mobile .controls-popover .v-window-contents .v-touchkit-navbutton, .mycollab-mobile .controls-popover .v-window-contents .data-list-view .v-button .v-button-wrap .v-button-caption, .mycollab-mobile .data-list-view .v-button .v-button-wrap .controls-popover .v-window-contents .v-button-caption {
+.mycollab-mobile .controls-popover .v-window-contents .v-touchkit-navbutton {
   background-color: #515a62;
   color: #FFFFFF;
   padding: 5px 0px;
   border-radius: 3px;
   text-align: center;
 }
-.mycollab-mobile .data-list-view .v-table-row, .mycollab-mobile .data-list-view .v-table-row-odd {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  border-bottom: 1px solid #DDDDDD;
-  display: inline-block;
-}
-.mycollab-mobile .data-list-view .v-table-row .v-table-cell-content, .mycollab-mobile .data-list-view .v-table-row-odd .v-table-cell-content {
-  padding: 0px;
-}
-.mycollab-mobile .data-list-view .v-table-row-odd {
+.mycollab-mobile .data-list-view {
   background-color: white;
 }
-.mycollab-mobile .data-list-view .v-touchkit-navbutton, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
+.mycollab-mobile .data-list-view .v-touchkit-navbutton {
+  padding: 10px 27px 10px 14px;
+  border-bottom: 1px solid #DDDDDD;
   color: #8C8C8C;
   font-size: 1.3rem;
-  padding: 7px 27px 7px 10px;
 }
-.mycollab-mobile .data-list-view .v-touchkit-navbutton:after, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption:after {
+.mycollab-mobile .data-list-view .v-touchkit-navbutton:after {
   content: "\e60a";
   font-family: "icomoon";
   line-height: 1.8rem;
-  padding: 6px 0px;
+  padding: 10px 0px;
   color: #8c8c8c;
   font-size: 1.1rem;
 }
 .mycollab-mobile .data-list-view .v-button {
   text-align: left;
+  margin: 0px;
 }
 .mycollab-mobile .data-list-view .v-button .v-button-wrap {
-  padding: 7px 27px 7px 10px;
+  padding: 10px 27px 10px 14px;
   word-wrap: break-word;
   white-space: normal;
+  border-bottom: 1px solid #DDDDDD;
+}
+.mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
+  color: #8C8C8C;
+  font-size: 1.3rem;
+}
+.mycollab-mobile .data-list-view .v-button .v-button-wrap:before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  width: 0px;
 }
 .mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
   background-color: #F3F1F0;
@@ -518,6 +526,19 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   position: relative;
   display: inline-block;
 }
+.mycollab-mobile .readview-layout .gridform-field .v-button-wrap {
+  text-align: left;
+  padding: 0px;
+}
+.mycollab-mobile .readview-layout .gridform-field .v-button-wrap .v-icon {
+  vertical-align: middle;
+}
+.mycollab-mobile .readview-layout .gridform-field .v-button-wrap .v-button-caption {
+  vertical-align: middle;
+  padding-left: 3px;
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+}
 .mycollab-mobile .editview-layout .v-caption {
   font-size: 1.3rem;
 }
@@ -526,12 +547,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   line-height: 1.8rem;
 }
 .mycollab-mobile .editview-layout input.v-textfield, .mycollab-mobile .editview-layout .v-filterselect, .mycollab-mobile .editview-layout .v-textarea {
-  border: none;
-  color: #8C8C8C;
-  border-radius: 0px;
   font-size: 1.4rem;
   line-height: 1.8rem;
+  min-height: 1.8rem;
+  color: #8C8C8C;
+  border: none;
+  border-radius: 0px;
   padding: 0px 1px;
+  vertical-align: top;
 }
 .mycollab-mobile .editview-layout .v-filterselect-button {
   font-family: 'icomoon';
@@ -556,12 +579,16 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout .v-select select.v-select-select {
   font-size: 1.4rem;
   line-height: 1.8rem;
+  min-height: 1.8rem;
   color: #8C8C8C;
   min-height: 1.8rem;
 }
+.mycollab-mobile .editview-layout .v-select select.v-select-select option {
+  padding: 0px;
+}
 .mycollab-mobile .editview-layout .v-select:after {
-  font-family: 'icomoon';
   content: "\e60c";
+  font-family: "icomoon";
   padding-right: 5px;
   color: #8C8C8C;
 }
@@ -577,19 +604,28 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
   font-size: 1.4rem;
   line-height: 1.8rem;
+  min-height: 1.8rem;
+  color: #8C8C8C;
+  min-height: 1.8rem;
 }
-.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:before, .mycollab-mobile .editview-layout .data-list-view .v-button .v-button-wrap .combo-box.v-button-caption:before, .mycollab-mobile .data-list-view .v-button .v-button-wrap .editview-layout .combo-box.v-button-caption:before {
+.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box {
+  font-size: 1.4rem;
+  line-height: 1.8rem;
+  min-height: 1.8rem;
+  color: #8C8C8C;
+}
+.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:before {
   content: "";
   position: relative;
   display: inline-block;
 }
-.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:after, .mycollab-mobile .editview-layout .data-list-view .v-button .v-button-wrap .combo-box.v-button-caption:after, .mycollab-mobile .data-list-view .v-button .v-button-wrap .editview-layout .combo-box.v-button-caption:after {
+.mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:after {
   content: "\e60a";
   font-family: "icomoon";
   color: #8c8c8c;
   font-size: 1.1rem;
   right: 0px;
-  top: 3px;
+  top: 0px;
 }
 .mycollab-mobile .v-filterselect {
   overflow: hidden;
@@ -670,10 +706,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-button:active .v-button-wrap:after {
   background-color: transparent;
 }
-.mycollab-mobile .v-touchkit-navbutton, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption {
+.mycollab-mobile .v-touchkit-navbutton {
   line-height: normal;
 }
-.mycollab-mobile .v-touchkit-navbutton:after, .mycollab-mobile .data-list-view .v-button .v-button-wrap .v-button-caption:after {
+.mycollab-mobile .v-touchkit-navbutton:after {
   content: "";
 }
 .mycollab-mobile .v-textfield {

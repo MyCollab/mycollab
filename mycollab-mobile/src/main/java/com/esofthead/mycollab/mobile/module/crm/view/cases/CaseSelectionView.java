@@ -18,12 +18,13 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -35,7 +36,9 @@ import com.vaadin.ui.VerticalLayout;
 public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 	private static final long serialVersionUID = 2092608350938161913L;
 	private CaseSearchCriteria searchCriteria;
-	private CaseListDisplay tableItem;
+	private CaseListDisplay itemList;
+
+	private CaseRowDisplayHandler rowHandler = new CaseRowDisplayHandler();
 
 	public CaseSelectionView() {
 		super();
@@ -49,36 +52,14 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 
 		createCaseList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
-	@SuppressWarnings("serial")
 	private void createCaseList() {
-		tableItem = new CaseListDisplay("subject");
-
-		tableItem.addGeneratedColumn("subject", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleCase cases = tableItem.getBeanByIndex(itemId);
-
-				Button b = new Button(cases.getSubject(),
-						new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								selectionField.fireValueChange(cases);
-								CaseSelectionView.this.getNavigationManager()
-										.navigateBack();
-							}
-						});
-				return b;
-			}
-		});
+		itemList = new CaseListDisplay();
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 	}
 
 	@Override
@@ -87,9 +68,32 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleCase clearCase = new SimpleCase();
-		tableItem.getBeanContainer().addItemAt(0, clearCase);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearCase, 0));
+	}
+
+	private class CaseRowDisplayHandler implements
+			RowDisplayHandler<SimpleCase> {
+
+		@Override
+		public Component generateRow(final SimpleCase cases, int rowIndex) {
+			Button b = new Button(cases.getSubject(),
+					new Button.ClickListener() {
+
+						private static final long serialVersionUID = -8792072785486355790L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(cases);
+							CaseSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

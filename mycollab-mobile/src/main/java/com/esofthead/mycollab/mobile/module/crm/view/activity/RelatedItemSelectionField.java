@@ -80,7 +80,7 @@ public class RelatedItemSelectionField extends CustomField<Integer> implements
 	@Override
 	public void setValue(Integer typeid) {
 		try {
-			Integer type = (Integer) PropertyUtils.getProperty(bean, "type");
+			String type = (String) PropertyUtils.getProperty(bean, "type");
 			if (type != null && typeid != null) {
 				if ("Account".equals(type)) {
 					AccountService accountService = ApplicationContextUtil

@@ -33,24 +33,24 @@ public abstract class FieldFormat {
 	}
 
 	protected String fieldName;
-	protected Enum displayName;
+	protected Enum<?> displayName;
 	protected boolean isColSpan = false;
 
-	public FieldFormat(String fieldName, Enum displayName) {
+	public FieldFormat(String fieldName, Enum<?> displayName) {
 		this(fieldName, displayName, false);
 	}
 
-	public FieldFormat(String fieldName, Enum displayName, boolean isColSpan) {
+	public FieldFormat(String fieldName, Enum<?> displayName, boolean isColSpan) {
 		this.fieldName = fieldName;
 		this.displayName = displayName;
 		this.isColSpan = isColSpan;
 	}
 
-	public Enum getDisplayName() {
+	public Enum<?> getDisplayName() {
 		return displayName;
 	}
 
-	public void setDisplayName(Enum displayName) {
+	public void setDisplayName(Enum<?> displayName) {
 		this.displayName = displayName;
 	}
 
@@ -75,7 +75,7 @@ public abstract class FieldFormat {
 	abstract public String formatField(MailContext<?> context, String value);
 
 	public static FieldFormat createFieldFormat(Type fieldType,
-			String fieldName, Enum displayName) {
+			String fieldName, Enum<?> displayName) {
 		if (fieldType == Type.DEFAULT) {
 			return new DefaultFieldFormat(fieldName, displayName);
 		} else if (fieldType == Type.DATE) {

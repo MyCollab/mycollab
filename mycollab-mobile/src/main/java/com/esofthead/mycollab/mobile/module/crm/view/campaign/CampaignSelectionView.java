@@ -18,13 +18,14 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -38,7 +39,9 @@ public class CampaignSelectionView extends
 
 	private static final long serialVersionUID = 1L;
 	private CampaignSearchCriteria searchCriteria;
-	private CampaignListDisplay tableItem;
+	private CampaignListDisplay itemList;
+
+	private CampaignRowDisplayHandler rowHandler = new CampaignRowDisplayHandler();
 
 	public CampaignSelectionView() {
 		super();
@@ -52,43 +55,15 @@ public class CampaignSelectionView extends
 
 		createCampaignList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
-	@SuppressWarnings("serial")
 	private void createCampaignList() {
-		tableItem = new CampaignListDisplay("campaignname");
+		itemList = new CampaignListDisplay();
 
-		tableItem.setWidth("100%");
-
-		tableItem.addGeneratedColumn("campaignname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleCampaign campaign = tableItem
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(campaign.getCampaignname(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField
-												.fireValueChange(campaign);
-										CampaignSelectionView.this
-												.getNavigationManager()
-												.navigateBack();
-									}
-								});
-						return b;
-					}
-				});
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 	}
 
 	@Override
@@ -97,9 +72,31 @@ public class CampaignSelectionView extends
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleCampaign clearCampaign = new SimpleCampaign();
-		tableItem.getBeanContainer().addItemAt(0, clearCampaign);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearCampaign, 0));
+	}
+
+	private class CampaignRowDisplayHandler implements
+			RowDisplayHandler<SimpleCampaign> {
+
+		@Override
+		public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
+			Button b = new Button(campaign.getCampaignname(),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = -2772809360324017746L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(campaign);
+							CampaignSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

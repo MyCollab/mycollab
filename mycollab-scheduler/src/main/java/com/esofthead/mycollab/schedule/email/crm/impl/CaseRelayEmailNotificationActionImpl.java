@@ -23,7 +23,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
@@ -36,9 +35,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CaseService;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -68,114 +65,55 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private CaseService caseService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final CaseFieldNameMapper mapper = new CaseFieldNameMapper();
 
-	public CaseRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.CASE);
-	}
-
-	protected void setupMailHeaders(SimpleCase simpleCase,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = simpleCase.getSubject();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateCasePreviewFullLink(
-				siteUrl, simpleCase.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "case");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "case");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleCase> context) {
-		SimpleCase simpleCase = caseService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (simpleCase != null) {
-			context.setWrappedBean(simpleCase);
-			String subject = StringUtils.trim(simpleCase.getSubject(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CaseI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleCase, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return CaseI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleCase> context) {
-		SimpleCase simpleCase = caseService.findById(context.getTypeid(),
-				context.getSaccountid());
-
-		if (simpleCase != null) {
-			context.setWrappedBean(simpleCase);
-			String subject = StringUtils.trim(simpleCase.getSubject(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CaseI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-
-			setupMailHeaders(simpleCase, context.getEmailNotification(),
-					templateGenerator);
-
-			if (context.getTypeid() != null) {
-				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						context.getTypeid(), context.getSaccountid());
-
-				templateGenerator.putVariable("historyLog", auditLog);
-				templateGenerator.putVariable("context", context);
-				templateGenerator.putVariable("mapper", mapper);
-			}
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getUpdateSubjectKey() {
+		return CaseI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleCase> context) {
-		SimpleCase simpleCase = caseService.findById(context.getTypeid(),
+	protected Enum<?> getCommentSubjectKey() {
+		return CaseI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getSubject(), 100);
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
+
+	@Override
+	protected SimpleCase getBeanInContext(MailContext<SimpleCase> context) {
+		return caseService.findById(context.getTypeid(),
 				context.getSaccountid());
-
-		if (simpleCase != null) {
-			context.setWrappedBean(simpleCase);
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CaseI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-							context.getChangeByUserFullName(),
-							StringUtils.trim(simpleCase.getSubject(), 100)),
-					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-
-			setupMailHeaders(simpleCase, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("comment",
-					context.getEmailNotification());
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
 	}
 
 	public static class CaseFieldNameMapper extends ItemFieldMapper {
@@ -206,7 +144,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 	public static class AccountFieldFormat extends FieldFormat {
 
-		public AccountFieldFormat(String fieldName, Enum displayName) {
+		public AccountFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -263,7 +201,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 

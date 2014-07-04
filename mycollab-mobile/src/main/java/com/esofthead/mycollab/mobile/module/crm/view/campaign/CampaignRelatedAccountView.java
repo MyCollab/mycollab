@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -45,29 +40,8 @@ public class CampaignRelatedAccountView extends
 		super();
 
 		setCaption("Related Accounts");
-		this.tableItem = new AccountListDisplay("accountname");
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = -6371770226928929910L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleAccount account = (SimpleAccount) event
-								.getData();
-						if ("accountname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(
-											CampaignRelatedAccountView.this,
-											account.getId()));
-						}
-					}
-				});
-		this.setContent(tableItem);
+		this.itemList = new AccountListDisplay();
+		this.setContent(itemList);
 	}
 
 	public void displayAccounts(SimpleCampaign campaign) {
@@ -81,7 +55,7 @@ public class CampaignRelatedAccountView extends
 				AppContext.getAccountId()));
 		searchCriteria.setCampaignId(new NumberSearchField(SearchField.AND,
 				this.campaign.getId()));
-		this.tableItem.setSearchCriteria(searchCriteria);
+		this.itemList.setSearchCriteria(searchCriteria);
 	}
 
 	@Override

@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
@@ -47,29 +42,8 @@ public class AccountRelatedOpportunityView extends
 
 	private void initUI() {
 		this.setCaption("Related Opportunities");
-		tableItem = new OpportunityListDisplay("opportunityname");
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 2764565652882497947L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleOpportunity opportunity = (SimpleOpportunity) event
-								.getData();
-						if ("opportunityname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new OpportunityEvent.GotoRead(
-											AccountRelatedOpportunityView.this,
-											opportunity.getId()));
-						}
-					}
-				});
-		this.setContent(tableItem);
+		itemList = new OpportunityListDisplay();
+		this.setContent(itemList);
 	}
 
 	public void displayOpportunities(final Account account) {

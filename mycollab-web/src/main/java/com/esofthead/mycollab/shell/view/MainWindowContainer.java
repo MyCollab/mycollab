@@ -19,6 +19,7 @@ package com.esofthead.mycollab.shell.view;
 import javax.servlet.http.Cookie;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
@@ -42,7 +43,7 @@ public class MainWindowContainer extends CssLayout {
 	private boolean isAutoLogin;
 
 	public MainWindowContainer() {
-		this.setCaption("MyCollab");
+		this.setCaption(SiteConfiguration.getSiteName());
 		isAutoLogin = true;
 		ControllerRegistry.addController(new ShellController(this));
 		this.setDefaultView();

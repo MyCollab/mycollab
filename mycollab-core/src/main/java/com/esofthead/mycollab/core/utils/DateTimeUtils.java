@@ -58,13 +58,11 @@ public class DateTimeUtils {
 	 */
 	public static Date trimHMSOfDate(Date value) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
 		try {
-			date = df.parse(df.format(value.getTime()));
+			return df.parse(df.format(value.getTime()));
 		} catch (ParseException e) {
 			throw new MyCollabException(e);
 		}
-		return date;
 	}
 
 	public static Date convertDateByString(String strDate, String format) {

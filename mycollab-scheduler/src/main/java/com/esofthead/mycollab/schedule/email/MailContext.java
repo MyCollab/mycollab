@@ -69,7 +69,7 @@ public class MailContext<B> {
 		return emailNotification;
 	}
 
-	public String getMessage(Enum key, Object... params) {
+	public String getMessage(Enum<?> key, Object... params) {
 		return LocalizationHelper.getMessage(locale, key, params);
 	}
 

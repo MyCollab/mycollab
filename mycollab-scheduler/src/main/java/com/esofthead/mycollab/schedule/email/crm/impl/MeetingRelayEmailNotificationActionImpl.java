@@ -21,18 +21,14 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
@@ -52,107 +48,55 @@ public class MeetingRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private MeetingService meetingService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final MeetingFieldNameMapper mapper = new MeetingFieldNameMapper();
 
-	public MeetingRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.MEETING);
-	}
-
-	protected void setupMailHeaders(SimpleMeeting meeting,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = meeting.getSubject();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(
-				siteUrl, meeting.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "meeting");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "meeting");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleMeeting> context) {
-		SimpleMeeting simpleMeeting = meetingService.findById(
-				context.getTypeid(), context.getSaccountid());
-		if (simpleMeeting != null) {
-			context.setWrappedBean(simpleMeeting);
-			String subject = StringUtils.trim(simpleMeeting.getSubject(), 150);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(
-							MeetingI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleMeeting, context.getEmailNotification(),
-					templateGenerator);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return MeetingI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleMeeting> context) {
-		SimpleMeeting simpleMeeting = meetingService.findById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (simpleMeeting == null) {
-			return null;
-		}
-		context.setWrappedBean(simpleMeeting);
-		String subject = StringUtils.trim(simpleMeeting.getSubject(), 150);
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(MeetingI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						context.getChangeByUserFullName(), subject),
-				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-		setupMailHeaders(simpleMeeting, context.getEmailNotification(),
-				templateGenerator);
-
-		if (context.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					context.getTypeid(), context.getSaccountid());
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-		}
-		return templateGenerator;
+	protected Enum<?> getUpdateSubjectKey() {
+		return MeetingI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleMeeting> context) {
-		SimpleMeeting simpleMeeting = meetingService.findById(
-				context.getTypeid(), context.getSaccountid());
+	protected Enum<?> getCommentSubjectKey() {
+		return MeetingI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
 
-		if (simpleMeeting == null) {
-			return null;
-		}
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getSubject(), 100);
+	}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(MeetingI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-						context.getChangeByUserFullName(),
-						StringUtils.trim(simpleMeeting.getSubject(), 100)),
-				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-		setupMailHeaders(simpleMeeting, context.getEmailNotification(),
-				templateGenerator);
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
 
-		return templateGenerator;
+	@Override
+	protected SimpleMeeting getBeanInContext(MailContext<SimpleMeeting> context) {
+		return meetingService.findById(context.getTypeid(),
+				context.getSaccountid());
 	}
 
 	public static class MeetingFieldNameMapper extends ItemFieldMapper {
@@ -169,9 +113,7 @@ public class MeetingRelayEmailNotificationActionImpl extends
 			put("enddate", new DateTimeFieldFormat("enddate",
 					MeetingI18nEnum.FORM_END_DATE_TIME));
 
-			// put("typeid", "Related to", true);
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}
-
 }

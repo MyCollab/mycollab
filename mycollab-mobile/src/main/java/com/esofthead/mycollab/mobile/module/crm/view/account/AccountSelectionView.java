@@ -18,13 +18,14 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -37,7 +38,9 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 
 	private static final long serialVersionUID = 1L;
 	private AccountSearchCriteria searchCriteria;
-	private AccountListDisplay tableItem;
+	private AccountListDisplay itemList;
+
+	private AccountRowDisplayHandler rowHandler = new AccountRowDisplayHandler();
 
 	public AccountSelectionView() {
 		super();
@@ -51,41 +54,15 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 
 		createAccountList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
-	@SuppressWarnings("serial")
 	private void createAccountList() {
-		tableItem = new AccountListDisplay("accountname");
+		itemList = new AccountListDisplay();
 
-		tableItem.setWidth("100%");
-		tableItem.addGeneratedColumn("accountname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleAccount account = tableItem
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(account.getAccountname(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField.fireValueChange(account);
-										AccountSelectionView.this
-												.getNavigationManager()
-												.navigateBack();
-									}
-								});
-						return b;
-					}
-				});
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 
 	}
 
@@ -95,9 +72,31 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleAccount clearAccount = new SimpleAccount();
-		tableItem.getBeanContainer().addItemAt(0, clearAccount);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearAccount, 0));
+	}
+
+	private class AccountRowDisplayHandler implements
+			RowDisplayHandler<SimpleAccount> {
+
+		@Override
+		public Component generateRow(final SimpleAccount account, int rowIndex) {
+			Button b = new Button(account.getAccountname(),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = -6728215631308893324L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(account);
+							AccountSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

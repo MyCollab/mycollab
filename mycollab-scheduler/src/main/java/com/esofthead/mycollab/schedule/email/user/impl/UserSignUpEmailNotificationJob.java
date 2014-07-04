@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
@@ -42,6 +41,7 @@ import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 
 /**
  * 
@@ -51,7 +51,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class UserSignUpEmailNotificationJob extends QuartzJobBean {
+public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(UserSignUpEmailNotificationJob.class);
 
@@ -64,7 +64,7 @@ public class UserSignUpEmailNotificationJob extends QuartzJobBean {
 	private static final String userSignUpEmailNotificationTemplate = "templates/email/billing/confirmUserSignUpNotification.mt";
 
 	@Override
-	protected void executeInternal(JobExecutionContext context)
+	protected void executeJob(JobExecutionContext context)
 			throws JobExecutionException {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setStatus(new SetSearchField<String>(new String[] { null,

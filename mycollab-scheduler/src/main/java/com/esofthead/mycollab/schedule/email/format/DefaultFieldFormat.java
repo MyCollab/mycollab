@@ -35,11 +35,11 @@ public class DefaultFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory
 			.getLogger(DefaultFieldFormat.class);
 
-	public DefaultFieldFormat(String fieldname, Enum displayName) {
+	public DefaultFieldFormat(String fieldname, Enum<?> displayName) {
 		super(fieldname, displayName);
 	}
 
-	public DefaultFieldFormat(String fieldname, Enum displayName,
+	public DefaultFieldFormat(String fieldname, Enum<?> displayName,
 			boolean isColspan) {
 		super(fieldname, displayName, isColspan);
 	}

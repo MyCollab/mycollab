@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -41,28 +36,8 @@ public class AccountRelatedCaseView extends
 
 	private void initUI() {
 		this.setCaption("Related Cases");
-		tableItem = new CaseListDisplay("subject");
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 7535615742990786993L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleCase myCase = (SimpleCase) event.getData();
-						if ("subject".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new CaseEvent.GotoRead(
-											AccountRelatedCaseView.this, myCase
-													.getId()));
-						}
-					}
-				});
-		this.setContent(tableItem);
+		itemList = new CaseListDisplay();
+		this.setContent(itemList);
 	}
 
 	public void displayCases(final Account account) {

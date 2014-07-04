@@ -36,7 +36,7 @@ public class EmailLinkFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory
 			.getLogger(EmailLinkFieldFormat.class);
 
-	public EmailLinkFieldFormat(String fieldName, Enum displayName) {
+	public EmailLinkFieldFormat(String fieldName, Enum<?> displayName) {
 		super(fieldName, displayName);
 	}
 

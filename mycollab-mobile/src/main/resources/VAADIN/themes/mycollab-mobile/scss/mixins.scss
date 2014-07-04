@@ -1,5 +1,6 @@
 @mixin toolbar {
-	overflow-x: hidden;
+	overflow-x: auto;
+	overflow-y: hidden;
 	box-shadow: none;
 	border-top: 1px solid #DDDDDD;
 	background-color: #F7F7F7;
@@ -8,6 +9,7 @@
 	right: 0px;
 	left: 0px;
 	height: 4.8rem;
+	-webkit-overflow-scrolling: touch;
 	
 	.v-button  {
  		color: rgb(106, 106, 106);
@@ -50,4 +52,10 @@
 	width: 0; 
 	position: absolute; 
 	pointer-events: none; 
+}
+@mixin editform-field {
+	font-size: 1.4rem;
+	line-height: 1.8rem;
+	min-height: 1.8rem;
+	color: #8C8C8C;
 }

@@ -18,12 +18,13 @@ package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -35,7 +36,9 @@ import com.vaadin.ui.VerticalLayout;
 public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 	private static final long serialVersionUID = 7742786524816492321L;
 	private ContactSearchCriteria searchCriteria;
-	private ContactListDisplay tableItem;
+	private ContactListDisplay itemList;
+
+	private ContactRowDisplayHandler rowHandler = new ContactRowDisplayHandler();
 
 	public ContactSelectionView() {
 		super();
@@ -49,41 +52,14 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 
 		createContactList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
-	@SuppressWarnings("serial")
 	private void createContactList() {
-		tableItem = new ContactListDisplay("contactName");
-		tableItem.setWidth("100%");
-
-		tableItem.addGeneratedColumn("contactName",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleContact contact = tableItem
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(contact.getContactName(),
-								new Button.ClickListener() {
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField.fireValueChange(contact);
-										ContactSelectionView.this
-												.getNavigationManager()
-												.navigateBack();
-									}
-								});
-						return b;
-					}
-				});
+		itemList = new ContactListDisplay();
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 
 	}
 
@@ -93,9 +69,32 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleContact clearContact = new SimpleContact();
-		tableItem.getBeanContainer().addItemAt(0, clearContact);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearContact, 0));
+	}
+
+	private class ContactRowDisplayHandler implements
+			RowDisplayHandler<SimpleContact> {
+
+		@Override
+		public Component generateRow(final SimpleContact contact, int rowIndex) {
+			Button b = new Button(contact.getContactName(),
+					new Button.ClickListener() {
+
+						private static final long serialVersionUID = -5218323555163873836L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(contact);
+							ContactSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

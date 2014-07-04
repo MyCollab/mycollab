@@ -26,7 +26,6 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.hp.gagawa.java.elements.Span;
-import com.mchange.v2.codegen.bean.BeangenUtils;
 
 /**
  * 

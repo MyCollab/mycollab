@@ -21,19 +21,15 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -61,111 +57,55 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private LeadService leadService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final LeadFieldNameMapper mapper = new LeadFieldNameMapper();
 
-	public LeadRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.LEAD);
-	}
-
-	protected void setupMailHeaders(SimpleLead lead,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = lead.getLeadName();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getLeadName();
 		String summaryLink = CrmLinkGenerator.generateLeadPreviewFullLink(
-				siteUrl, lead.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "lead");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "lead");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleLead> context) {
-		SimpleLead simpleLead = leadService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (simpleLead != null) {
-			context.setWrappedBean(simpleLead);
-			String subject = StringUtils.trim(simpleLead.getLeadName(), 150);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(LeadI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleLead, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return LeadI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleLead> context) {
-		SimpleLead lead = leadService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (lead == null) {
-			return null;
-		}
-
-		context.setWrappedBean(lead);
-		String subject = StringUtils.trim(lead.getLeadName(), 150);
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(LeadI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						context.getChangeByUserFullName(), subject),
-				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-		setupMailHeaders(lead, context.getEmailNotification(),
-				templateGenerator);
-
-		if (context.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					context.getTypeid(), context.getSaccountid());
-
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-		}
-		return templateGenerator;
+	protected Enum<?> getUpdateSubjectKey() {
+		return LeadI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleLead> context) {
-		SimpleLead simpleLead = leadService.findById(context.getTypeid(),
+	protected Enum<?> getCommentSubjectKey() {
+		return LeadI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getLeadName(), 100);
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
+
+	@Override
+	protected SimpleLead getBeanInContext(MailContext<SimpleLead> context) {
+		return leadService.findById(context.getTypeid(),
 				context.getSaccountid());
-
-		if (simpleLead == null) {
-			return null;
-		}
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(LeadI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-						context.getChangeByUserFullName(),
-						StringUtils.trim(simpleLead.getLeadName(), 100)),
-				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-
-		setupMailHeaders(simpleLead, context.getEmailNotification(),
-				templateGenerator);
-
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
-
-		return templateGenerator;
 	}
 
 	public static class LeadFieldNameMapper extends ItemFieldMapper {
@@ -219,7 +159,7 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	public static class LeadAssigneeFieldFormat extends FieldFormat {
 
-		public LeadAssigneeFieldFormat(String fieldName, Enum displayName) {
+		public LeadAssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -266,5 +206,4 @@ public class LeadRelayEmailNotificationActionImpl extends
 			return value;
 		}
 	}
-
 }

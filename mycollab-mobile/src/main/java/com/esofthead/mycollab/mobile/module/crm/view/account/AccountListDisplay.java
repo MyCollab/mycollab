@@ -16,14 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -36,34 +37,31 @@ public class AccountListDisplay
 		DefaultPagedBeanList<AccountService, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = 1491890029721763281L;
 
-	public AccountListDisplay(String displayColumnId) {
+	public AccountListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(AccountService.class),
-				SimpleAccount.class, displayColumnId);
+				new AccountRowDisplayHandler());
+	}
 
-		addGeneratedColumn("accountname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+	static public class AccountRowDisplayHandler implements
+			RowDisplayHandler<SimpleAccount> {
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleAccount account = AccountListDisplay.this
-						.getBeanByIndex(itemId);
+		@Override
+		public Component generateRow(final SimpleAccount account, int rowIndex) {
+			final NavigationButton b = new NavigationButton(
+					account.getAccountname());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+				private static final long serialVersionUID = 1L;
 
-				final NavigationButton b = new NavigationButton(account
-						.getAccountname());
-				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+				@Override
+				public void buttonClick(
+						final NavigationButton.NavigationButtonClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new AccountEvent.GotoRead(this, account.getId()));
+				}
+			});
+			b.setWidth("100%");
+			return b;
+		}
 
-					@Override
-					public void buttonClick(
-							final NavigationButton.NavigationButtonClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								AccountListDisplay.this, account, "accountname"));
-					}
-				});
-				b.setWidth("100%");
-				return b;
-			}
-		});
 	}
 }

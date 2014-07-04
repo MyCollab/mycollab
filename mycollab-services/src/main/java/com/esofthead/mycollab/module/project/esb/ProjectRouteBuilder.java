@@ -128,16 +128,6 @@ public class ProjectRouteBuilder extends SpringRouteBuilder {
 				.bean(ApplicationContextUtil
 						.getSpringBean(InviteProjectMembersCommand.class),
 						"inviteUsers(String[],int, int, String, int)");
-
-		log.debug("Configure project assignments clean cache route");
-		from(ProjectEndPoints.PROJECT_CLEAN_ASSIGNMENTS_CACHE)
-				.setExchangePattern(ExchangePattern.InOnly).to(
-						"seda:projectCleanAssignmentsCache.queue");
-		from("seda:projectCleanAssignmentsCache.queue")
-				.threads()
-				.bean(ApplicationContextUtil
-						.getSpringBean(CleanProjectAssignmentsCacheCommand.class),
-						"cleanAssignmentsCache(int, int)");
 	}
 
 }

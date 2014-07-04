@@ -25,6 +25,7 @@ import org.jsoup.Jsoup;
  * @since 1.0
  */
 public class StringUtils {
+
 	public static String trim(String input, int length) {
 		return trim(input, length, true);
 	}

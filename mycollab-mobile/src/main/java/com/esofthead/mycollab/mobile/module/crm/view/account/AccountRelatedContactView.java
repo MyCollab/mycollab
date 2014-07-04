@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -46,29 +41,8 @@ public class AccountRelatedContactView extends
 
 	private void initUI() {
 		this.setCaption("Related Contacts");
-		this.tableItem = new ContactListDisplay("contactName");
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = -1372359233836338759L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleContact contact = (SimpleContact) event
-								.getData();
-						if ("contactName".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(
-											AccountRelatedContactView.this,
-											contact.getId()));
-						}
-					}
-				});
-		this.setContent(tableItem);
+		this.itemList = new ContactListDisplay();
+		this.setContent(itemList);
 	}
 
 	private void loadContacts() {

@@ -46,6 +46,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
@@ -79,10 +80,15 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private ProjectTaskService projectTaskService;
+
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private ProjectNotificationSettingService projectNotificationService;
 
 	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
 
@@ -334,7 +340,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -383,7 +389,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	public static class TaskGroupFieldFormat extends FieldFormat {
 
-		public TaskGroupFieldFormat(String fieldName, Enum displayName) {
+		public TaskGroupFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 

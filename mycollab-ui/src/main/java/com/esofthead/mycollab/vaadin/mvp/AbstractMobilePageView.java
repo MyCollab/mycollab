@@ -31,7 +31,9 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -114,5 +116,17 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 		} else {
 			log.error("No listener is registered for event type " + eventType);
 		}
+	}
+
+	@Override
+	public NavigationManager getNavigationManager() {
+		Component parent = this.getParent();
+		while (parent != null) {
+			if (parent instanceof NavigationManager)
+				return (NavigationManager) parent;
+			else
+				parent = parent.getParent();
+		}
+		return null;
 	}
 }

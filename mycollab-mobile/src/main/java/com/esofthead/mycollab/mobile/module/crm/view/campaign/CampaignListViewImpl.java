@@ -16,14 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
@@ -53,29 +50,7 @@ public class CampaignListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<CampaignSearchCriteria, SimpleCampaign> createBeanTable() {
-		CampaignListDisplay campaignListDisplay = new CampaignListDisplay(
-				"campaignname");
-		campaignListDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = -3760797111509715080L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleCampaign campaign = (SimpleCampaign) event
-								.getData();
-						if ("campaignname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new CampaignEvent.GotoRead(
-											CampaignListViewImpl.this, campaign
-													.getId()));
-						}
-					}
-				});
+		CampaignListDisplay campaignListDisplay = new CampaignListDisplay();
 		return campaignListDisplay;
 	}
 

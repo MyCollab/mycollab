@@ -18,12 +18,13 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -36,7 +37,9 @@ public class OpportunitySelectionView extends
 		AbstractSelectionView<SimpleOpportunity> {
 	private static final long serialVersionUID = -4651110982471036490L;
 	private OpportunitySearchCriteria searchCriteria;
-	private OpportunityListDisplay tableItem;
+	private OpportunityListDisplay itemList;
+
+	private OpportunityRowDisplayHandler rowHandler = new OpportunityRowDisplayHandler();
 
 	public OpportunitySelectionView() {
 		super();
@@ -50,43 +53,15 @@ public class OpportunitySelectionView extends
 
 		createOpportunityList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
 	private void createOpportunityList() {
-		tableItem = new OpportunityListDisplay("opportunityname");
+		itemList = new OpportunityListDisplay();
 
-		tableItem.setWidth("100%");
-
-		tableItem.addGeneratedColumn("opportunityname",
-				new Table.ColumnGenerator() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public com.vaadin.ui.Component generateCell(
-							final Table source, final Object itemId,
-							final Object columnId) {
-						final SimpleOpportunity opportunity = tableItem
-								.getBeanByIndex(itemId);
-
-						Button b = new Button(opportunity.getOpportunityname(),
-								new Button.ClickListener() {
-									private static final long serialVersionUID = -8257474042598100147L;
-
-									@Override
-									public void buttonClick(
-											final Button.ClickEvent event) {
-										selectionField
-												.fireValueChange(opportunity);
-										OpportunitySelectionView.this
-												.getNavigationManager()
-												.navigateBack();
-									}
-								});
-						return b;
-					}
-				});
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 	}
 
 	@Override
@@ -95,9 +70,32 @@ public class OpportunitySelectionView extends
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleOpportunity clearOpportunity = new SimpleOpportunity();
-		tableItem.getBeanContainer().addItemAt(0, clearOpportunity);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearOpportunity, 0));
+	}
+
+	private class OpportunityRowDisplayHandler implements
+			RowDisplayHandler<SimpleOpportunity> {
+
+		@Override
+		public Component generateRow(final SimpleOpportunity opportunity,
+				int rowIndex) {
+			Button b = new Button(opportunity.getOpportunityname(),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = -8257474042598100147L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(opportunity);
+							OpportunitySelectionView.this
+									.getNavigationManager().navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

@@ -21,21 +21,17 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -63,131 +59,66 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private AccountService accountService;
+
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private NoteService noteService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static AccountFieldNameMapper mapper = new AccountFieldNameMapper();
 
-	private SimpleAccount simpleAccount;
-
-	public AccountRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.ACCOUNT);
+	@Override
+	protected Enum<?> getCreateSubjectKey() {
+		return AccountI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
-	private void setupMailHeaders(SimpleAccount account,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-		String summary = account.getAccountname();
+	@Override
+	protected Enum<?> getUpdateSubjectKey() {
+		return AccountI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected Enum<?> getCommentSubjectKey() {
+		return AccountI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getAccountname(), 100);
+	}
+
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getAccountname();
 		String summaryLink = CrmLinkGenerator.generateAccountPreviewFullLink(
-				siteUrl, account.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "account");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "account");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleAccount> context) {
-		simpleAccount = accountService.findById(context.getTypeid(),
+	protected SimpleAccount getBeanInContext(MailContext<SimpleAccount> context) {
+		return accountService.findById(context.getTypeid(),
 				context.getSaccountid());
-		if (simpleAccount != null) {
-			String subject = StringUtils.trim(simpleAccount.getAccountname(),
-					100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(
-							AccountI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-
-			setupMailHeaders(simpleAccount, context.getEmailNotification(),
-					templateGenerator);
-
-			context.setWrappedBean(simpleAccount);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleAccount> context) {
-		simpleAccount = accountService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (simpleAccount != null) {
-			String subject = StringUtils.trim(simpleAccount.getAccountname(),
-					100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(
-							AccountI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-
-			setupMailHeaders(simpleAccount, context.getEmailNotification(),
-					templateGenerator);
-
-			if (context.getTypeid() != null) {
-				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						context.getTypeid(), context.getSaccountid());
-
-				templateGenerator.putVariable("historyLog", auditLog);
-				context.setWrappedBean(simpleAccount);
-				templateGenerator.putVariable("context", context);
-				templateGenerator.putVariable("mapper", mapper);
-			}
-			return templateGenerator;
-		} else {
-			return null;
-		}
-
-	}
-
-	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleAccount> context) {
-		int accountRecordId = context.getTypeid();
-		simpleAccount = accountService.findById(accountRecordId,
-				context.getSaccountid());
-
-		if (simpleAccount != null) {
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(
-							AccountI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
-									.getChangeByUserFullName(), StringUtils
-									.trim(simpleAccount.getAccountname(), 100)),
-					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-
-			setupMailHeaders(simpleAccount, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("comment",
-					context.getEmailNotification());
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
-
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
 	}
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 

@@ -94,8 +94,9 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 		listOfTitles.add(currentProject);
 
 		String summary = problem.getIssuename();
-		String summaryLink = ProjectLinkGenerator.generateProblemPreviewFullLink(
-				siteUrl, problem.getProjectid(), problem.getId());
+		String summaryLink = ProjectLinkGenerator
+				.generateProblemPreviewFullLink(siteUrl,
+						problem.getProjectid(), problem.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -211,7 +212,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -260,7 +261,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	public static class RaisedByFieldFormat extends FieldFormat {
 
-		public RaisedByFieldFormat(String fieldName, Enum displayName) {
+		public RaisedByFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 

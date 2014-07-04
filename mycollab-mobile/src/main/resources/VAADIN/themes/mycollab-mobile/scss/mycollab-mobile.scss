@@ -331,47 +331,44 @@
 	
 	/* Data List View */
 	.data-list-view {
-		.v-table-row {
-			-moz-box-sizing: border-box;
-			-webkit-box-sizing: border-box;
-			box-sizing: border-box;
-			border-bottom: 1px solid #DDDDDD;
-			display: inline-block;
-			
-			.v-table-cell-content {
-				padding: 0px;
-			}
-		}
-		.v-table-row-odd {
-			@extend .v-table-row;
-			background-color: rgb(255, 255, 255);
-		}
+		background-color: rgb(255, 255, 255);
 		.v-touchkit-navbutton {
+			padding: 10px 27px 10px 14px;
+			border-bottom: 1px solid #DDDDDD;
 			color: #8C8C8C;
 			font-size: 1.3rem;
-			padding: 7px 27px 7px 10px;
 			
 			&:after {
 				content: "\e60a";
 				font-family: "icomoon";
 				line-height: 1.8rem;
-				padding: 6px 0px;
+				padding: 10px 0px;
 				color: #8c8c8c;
 				font-size: 1.1rem;
 			}
 		}
 		.v-button {
 			text-align: left;
+			margin: 0px;
 			
 			.v-button-wrap {
-				padding: 7px 27px 7px 10px;
+				padding: 10px 27px 10px 14px;
 				word-wrap: break-word;
 				white-space: normal;
+				border-bottom: 1px solid #DDDDDD;
 				
 				.v-button-caption {
-					@extend .v-touchkit-navbutton;
+					color: #8C8C8C;
+					font-size: 1.3rem;
 				}
-			}
+				&:before {
+					content: "";
+					display: inline-block;
+					height: 100%;
+					vertical-align: middle;
+					width: 0px;
+				}
+			}			
 		}
 	}
 	
@@ -428,24 +425,43 @@
 			}
 		}
 	}
+
+	.readview-layout {
+		.gridform-field {
+			.v-button-wrap {
+				text-align: left;
+				padding: 0px;
+				.v-icon {
+					vertical-align: middle;
+				}
+				.v-button-caption {
+					vertical-align: middle;
+					padding-left: 3px;
+					font-size: 1.4rem;
+					line-height: 1.8rem;
+				}
+			}
+		}
+	}
 	
 	/* Edit View Layout */
 	
 	.editview-layout {
 		.v-caption {
 			font-size: 1.3rem;
+			
 			.v-required-field-indicator {
 				font-size: 1.3rem;
 				line-height: 1.8rem;
 			}
 		}
 		input.v-textfield, .v-filterselect, .v-textarea {
+			@include editform-field;
+			
 			border: none;
-			color: #8C8C8C;
 			border-radius: 0px;
-			font-size: 1.4rem;
-			line-height: 1.8rem;
 			padding: 0px 1px;
+			vertical-align: top;
 		}
 			
 		.v-filterselect-button {
@@ -461,20 +477,20 @@
 			-webkit-box-sizing: border-box;
 			
 			select.v-select-select {
-				font-size: 1.4rem;
-				line-height: 1.8rem;
-				color: #8C8C8C;
+				@include editform-field;
 				min-height: 1.8rem;
+				
+				option {
+					padding: 0px;
+				}
+			}
+			&:after {
+				content: "\e60c";
+				font-family: "icomoon";
+				padding-right: 5px;
+				color: #8C8C8C;
 			}
 		}
-		
-		.v-select:after {
-			font-family: 'icomoon';
-			content: "\e60c";
-			padding-right: 5px;
-			color: #8C8C8C;
-		}
-		
 		.v-datefield.v-datefield-popupcalendar {
 			font-size: 1.4rem;
 			
@@ -487,11 +503,14 @@
 		}
 		
 		.v-touchkit-datepicker .v-select-select {
-			font-size: 1.4rem;
-			line-height: 1.8rem;
+			@include editform-field;
+			
+			min-height: 1.8rem;
 		}
 		
 		.v-touchkit-navbutton.combo-box {
+			@include editform-field;
+			
 			&:before {
 				content: "";
 				position: relative;
@@ -503,7 +522,7 @@
 				color: #8c8c8c;
 				font-size: 1.1rem;
 				right: 0px;
-				top: 3px;
+				top: 0px;
 			}
 		}
 	}

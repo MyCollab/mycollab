@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -44,29 +39,8 @@ public class CampaignRelatedContactView extends
 	public CampaignRelatedContactView() {
 		super();
 		setCaption("Related Contacts");
-		this.tableItem = new ContactListDisplay("contactName");
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 5068048766904442877L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleContact contact = (SimpleContact) event
-								.getData();
-						if ("contactName".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(
-											CampaignRelatedContactView.this,
-											contact.getId()));
-						}
-					}
-				});
-		this.setContent(this.tableItem);
+		this.itemList = new ContactListDisplay();
+		this.setContent(this.itemList);
 	}
 
 	private void loadContacts() {
@@ -75,7 +49,7 @@ public class CampaignRelatedContactView extends
 				AppContext.getAccountId()));
 		searchCriteria.setCampaignId(new NumberSearchField(SearchField.AND,
 				this.campaign.getId()));
-		this.tableItem.setSearchCriteria(searchCriteria);
+		this.itemList.setSearchCriteria(searchCriteria);
 	}
 
 	public void displayContacts(SimpleCampaign campaign) {

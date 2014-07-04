@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -37,34 +37,32 @@ public class CampaignListDisplay
 		DefaultPagedBeanList<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 	private static final long serialVersionUID = -2234454107835680053L;
 
-	public CampaignListDisplay(String displayColumnId) {
+	public CampaignListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(CampaignService.class),
-				SimpleCampaign.class, displayColumnId);
+				new CampaignRowDisplayHandler());
+	}
 
-		addGeneratedColumn("campaignname", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+	static public class CampaignRowDisplayHandler implements
+			RowDisplayHandler<SimpleCampaign> {
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleCampaign campaign = CampaignListDisplay.this
-						.getBeanByIndex(itemId);
-				final NavigationButton b = new NavigationButton(campaign
-						.getCampaignname());
-				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		@Override
+		public Component generateRow(final SimpleCampaign campaign, int rowIndex) {
 
-					@Override
-					public void buttonClick(
-							final NavigationButton.NavigationButtonClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								CampaignListDisplay.this, campaign,
-								"campaignname"));
-					}
-				});
-				b.setWidth("100%");
-				return b;
-			}
-		});
+			final NavigationButton b = new NavigationButton(
+					campaign.getCampaignname());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(
+						final NavigationButton.NavigationButtonClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new CampaignEvent.GotoRead(this, campaign.getId()));
+				}
+			});
+			b.setWidth("100%");
+			return b;
+		}
+
 	}
 }

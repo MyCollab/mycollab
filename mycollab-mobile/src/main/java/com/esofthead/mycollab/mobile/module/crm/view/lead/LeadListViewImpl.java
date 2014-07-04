@@ -16,14 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
@@ -53,29 +50,7 @@ public class LeadListViewImpl extends
 
 	@Override
 	protected AbstractPagedBeanList<LeadSearchCriteria, SimpleLead> createBeanTable() {
-		LeadListDisplay leadListDisplay = new LeadListDisplay("leadName");
-		leadListDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 9195179759480776147L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleLead lead = (SimpleLead) event.getData();
-						if ("leadName".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new LeadEvent.GotoRead(
-													LeadListViewImpl.this, lead
-															.getId()));
-						}
-
-					}
-				});
+		LeadListDisplay leadListDisplay = new LeadListDisplay();
 		return leadListDisplay;
 	}
 

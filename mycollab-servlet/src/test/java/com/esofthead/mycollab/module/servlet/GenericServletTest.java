@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
@@ -23,5 +24,6 @@ public class GenericServletTest {
 	@Before
 	public void setUp() {
 		SiteConfiguration.loadInstance(8080);
+		MockitoAnnotations.initMocks(this);
 	}
 }

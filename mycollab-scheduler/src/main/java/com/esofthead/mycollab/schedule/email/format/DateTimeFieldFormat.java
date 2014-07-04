@@ -38,7 +38,7 @@ public class DateTimeFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory
 			.getLogger(DateTimeFieldFormat.class);
 
-	public DateTimeFieldFormat(String fieldname, Enum displayName) {
+	public DateTimeFieldFormat(String fieldname, Enum<?> displayName) {
 		super(fieldname, displayName);
 	}
 

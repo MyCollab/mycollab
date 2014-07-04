@@ -38,7 +38,7 @@ public class CurrencyFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory
 			.getLogger(CurrencyFieldFormat.class);
 
-	public CurrencyFieldFormat(String fieldname, Enum displayName) {
+	public CurrencyFieldFormat(String fieldname, Enum<?> displayName) {
 		super(fieldname, displayName);
 	}
 

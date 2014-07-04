@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
@@ -46,7 +45,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class SendingRelayEmailJob extends QuartzJobBean {
+public class SendingRelayEmailJob extends GenericQuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(SendingRelayEmailJob.class);
 
@@ -54,7 +53,7 @@ public class SendingRelayEmailJob extends QuartzJobBean {
 	private MailRelayService mailRelayService;
 
 	@Override
-	protected void executeInternal(JobExecutionContext context) {
+	protected void executeJob(JobExecutionContext context) {
 		List<RelayEmailWithBLOBs> relayEmails = mailRelayService
 				.getRelayEmails();
 		mailRelayService.cleanEmails();
@@ -63,7 +62,7 @@ public class SendingRelayEmailJob extends QuartzJobBean {
 				String recipientVal = relayEmail.getRecipients();
 				String[][] recipientArr = (String[][]) JsonDeSerializer
 						.fromJson(recipientVal, String[][].class);
-				
+
 				try {
 					List<MailRecipientField> toMailList = new ArrayList<MailRecipientField>();
 					for (int i = 0; i < recipientArr[0].length; i++) {

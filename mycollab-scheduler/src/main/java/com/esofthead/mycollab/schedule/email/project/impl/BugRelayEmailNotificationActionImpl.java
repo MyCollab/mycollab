@@ -46,6 +46,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -78,10 +79,15 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private BugService bugService;
+	
 	@Autowired
 	private AuditLogService auditLogService;
+	
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private ProjectNotificationSettingService projectNotificationService;
 
 	private static final BugFieldNameMapper mapper = new BugFieldNameMapper();
 
@@ -330,7 +336,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	public static class MilestoneFieldFormat extends FieldFormat {
 
-		public MilestoneFieldFormat(String fieldName, Enum displayName) {
+		public MilestoneFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -388,7 +394,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -436,7 +442,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	public static class LogUserFieldFormat extends FieldFormat {
 
-		public LogUserFieldFormat(String fieldName, Enum displayName) {
+		public LogUserFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 

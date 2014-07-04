@@ -137,12 +137,6 @@ public class DenyProjectInvitationHandler extends
 
 			}
 			throw new ResourceNotFoundException();
-		} catch (IndexOutOfBoundsException e) {
-			throw new ResourceNotFoundException();
-		} catch (ResourceNotFoundException e) {
-			throw new ResourceNotFoundException();
-		} catch (NumberFormatException e) {
-			throw new ResourceNotFoundException();
 		} catch (Exception e) {
 			log.error("Error with projectService", e);
 			throw new MyCollabException(e);

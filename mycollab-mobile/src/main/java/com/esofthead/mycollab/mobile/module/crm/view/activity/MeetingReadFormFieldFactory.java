@@ -39,7 +39,7 @@ class MeetingReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
-		if (propertyId.equals("type")) {
+		if (propertyId.equals("typeid")) {
 			return new RelatedReadItemField(attachForm.getBean());
 		} else if (propertyId.equals("startdate")) {
 			if (attachForm.getBean().getStartdate() == null)

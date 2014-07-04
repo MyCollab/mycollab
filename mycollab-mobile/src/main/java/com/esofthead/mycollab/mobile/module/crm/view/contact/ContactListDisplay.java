@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.ColumnGenerator;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -37,33 +37,31 @@ public class ContactListDisplay
 		DefaultPagedBeanList<ContactService, ContactSearchCriteria, SimpleContact> {
 	private static final long serialVersionUID = -2234454107835680053L;
 
-	public ContactListDisplay(String displayColumnId) {
+	public ContactListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(ContactService.class),
-				SimpleContact.class, displayColumnId);
+				new ContactRowDisplayHandler());
+	}
 
-		addGeneratedColumn("contactName", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+	static public class ContactRowDisplayHandler implements
+			RowDisplayHandler<SimpleContact> {
 
-			@Override
-			public Object generateCell(final Table source, final Object itemId,
-					final Object columnId) {
-				final SimpleContact contact = ContactListDisplay.this
-						.getBeanByIndex(itemId);
-				final NavigationButton b = new NavigationButton(contact
-						.getContactName());
-				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		@Override
+		public Component generateRow(final SimpleContact contact, int rowIndex) {
+			final NavigationButton b = new NavigationButton(
+					contact.getContactName());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+				private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(
-							final NavigationButton.NavigationButtonClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								ContactListDisplay.this, contact, "contactName"));
-					}
-				});
-				b.setWidth("100%");
-				return b;
-			}
-		});
+				@Override
+				public void buttonClick(
+						final NavigationButton.NavigationButtonClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new ContactEvent.GotoRead(this, contact.getId()));
+				}
+			});
+			b.setWidth("100%");
+			return b;
+		}
+
 	}
 }

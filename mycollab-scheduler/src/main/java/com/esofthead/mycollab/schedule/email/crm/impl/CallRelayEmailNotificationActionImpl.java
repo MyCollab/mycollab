@@ -21,19 +21,15 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
-import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CallService;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -61,113 +57,55 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private CallService callService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final CallFieldNameMapper mapper = new CallFieldNameMapper();
 
-	public CallRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.CALL);
-	}
-
-	protected void setupMailHeaders(SimpleCall call,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = call.getSubject();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateCallPreviewFullLink(
-				siteUrl, call.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "call");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "call");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleCall> context) {
-		SimpleCall simpleCall = callService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (simpleCall != null) {
-			String subject = StringUtils.trim(simpleCall.getSubject(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CallI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleCall, context.getEmailNotification(),
-					templateGenerator);
-
-			context.setWrappedBean(simpleCall);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return CallI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleCall> context) {
-		SimpleCall simpleCall = callService.findById(context.getTypeid(),
-				context.getSaccountid());
-
-		if (simpleCall != null) {
-			String subject = StringUtils.trim(simpleCall.getSubject(), 150);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CallI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-
-			setupMailHeaders(simpleCall, context.getEmailNotification(),
-					templateGenerator);
-
-			if (context.getTypeid() != null) {
-				SimpleAuditLog auditLog = auditLogService.findLatestLog(
-						context.getTypeid(), context.getSaccountid());
-
-				templateGenerator.putVariable("historyLog", auditLog);
-				context.setWrappedBean(simpleCall);
-				templateGenerator.putVariable("context", context);
-				templateGenerator.putVariable("mapper", mapper);
-			}
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getUpdateSubjectKey() {
+		return CallI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleCall> context) {
-		SimpleCall simpleCall = callService.findById(context.getTypeid(),
+	protected Enum<?> getCommentSubjectKey() {
+		return CallI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getSubject(), 100);
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
+
+	@Override
+	protected SimpleCall getBeanInContext(MailContext<SimpleCall> context) {
+		return callService.findById(context.getTypeid(),
 				context.getSaccountid());
-
-		if (simpleCall != null) {
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(CallI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-							context.getChangeByUserFullName(),
-							StringUtils.trim(simpleCall.getSubject(), 100)),
-					context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-			setupMailHeaders(simpleCall, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("comment",
-					context.getEmailNotification());
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
-
 	}
 
 	public static class CallFieldNameMapper extends ItemFieldMapper {
@@ -194,7 +132,7 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -242,5 +180,4 @@ public class CallRelayEmailNotificationActionImpl extends
 			return value;
 		}
 	}
-
 }

@@ -17,12 +17,10 @@ import javax.servlet.ServletException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -35,7 +33,6 @@ import com.esofthead.mycollab.module.user.domain.UserAccount;
 import com.esofthead.mycollab.module.user.domain.UserAccountExample;
 import com.esofthead.mycollab.module.user.service.UserService;
 
-@RunWith(MockitoJUnitRunner.class)
 public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 
 	@InjectMocks

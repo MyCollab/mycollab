@@ -13,12 +13,10 @@ import javax.servlet.ServletException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -30,7 +28,6 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.servlet.GenericServletTest;
 
-@RunWith(MockitoJUnitRunner.class)
 public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 	@InjectMocks

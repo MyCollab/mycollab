@@ -37,8 +37,8 @@ public class DefaultPagedBeanList<SearchService extends ISearchableService<S>, S
 	private final SearchService searchService;
 
 	public DefaultPagedBeanList(final SearchService searchService,
-			final Class<B> type, String displayColumnId) {
-		super(type, displayColumnId);
+			RowDisplayHandler<B> rowDisplayHandler) {
+		super(rowDisplayHandler);
 		this.searchService = searchService;
 	}
 

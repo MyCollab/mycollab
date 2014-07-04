@@ -30,8 +30,8 @@ public class ActivityRelatedItemView extends
 
 	private void initUI() {
 		this.setCaption("Related Activities");
-		tableItem = new ActivityListDisplay("subject");
-		this.setContent(tableItem);
+		itemList = new ActivityListDisplay();
+		this.setContent(itemList);
 	}
 
 	@Override

@@ -43,6 +43,4 @@ public class ProjectEndPoints {
 	public static final String PROJECT_TASKLIST_REMOVE_ENDPOINT = "direct:taskListDelete";
 
 	public static final String PROJECT_SEND_INVITATION_USER = "direct:projectMemberInvitation";
-
-	public static final String PROJECT_CLEAN_ASSIGNMENTS_CACHE = "direct:projectCleanAssignmentsCache";
 }

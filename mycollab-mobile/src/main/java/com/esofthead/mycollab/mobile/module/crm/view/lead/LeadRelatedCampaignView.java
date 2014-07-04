@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -45,29 +40,8 @@ public class LeadRelatedCampaignView extends
 		super();
 
 		setCaption("Related Campaigns");
-		this.tableItem = new CampaignListDisplay("campaignname");
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = -4997780841936218907L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleCampaign campaign = (SimpleCampaign) event
-								.getData();
-						if ("campaignname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new CampaignEvent.GotoRead(
-											LeadRelatedCampaignView.this,
-											campaign.getId()));
-						}
-					}
-				});
-		this.setContent(this.tableItem);
+		this.itemList = new CampaignListDisplay();
+		this.setContent(this.itemList);
 	}
 
 	private void loadCampaigns() {
@@ -76,7 +50,7 @@ public class LeadRelatedCampaignView extends
 				AppContext.getAccountId()));
 		searchCriteria.setLeadId(new NumberSearchField(SearchField.AND,
 				this.lead.getId()));
-		this.tableItem.setSearchCriteria(searchCriteria);
+		this.itemList.setSearchCriteria(searchCriteria);
 	}
 
 	public void displayCampaign(SimpleLead lead) {

@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
@@ -46,12 +45,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class CrmSendingRelayEmailNotificationJob extends QuartzJobBean {
+public class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(CrmSendingRelayEmailNotificationJob.class);
 
 	@Override
-	protected void executeInternal(JobExecutionContext context) {
+	protected void executeJob(JobExecutionContext context) {
 		RelayEmailNotificationService relayEmailService = (RelayEmailNotificationService) ApplicationContextUtil
 				.getSpringBean(RelayEmailNotificationService.class);
 

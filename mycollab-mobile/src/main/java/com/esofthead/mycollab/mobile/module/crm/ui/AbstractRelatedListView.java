@@ -37,7 +37,7 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 	private static final long serialVersionUID = 1L;
 
 	protected Set<RelatedListHandler<T>> handlers;
-	protected AbstractPagedBeanList<S, T> tableItem;
+	protected AbstractPagedBeanList<S, T> itemList;
 
 	public AbstractRelatedListView() {
 		this.setWidth("100%");
@@ -69,7 +69,7 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 	}
 
 	public void setSearchCriteria(final S criteria) {
-		tableItem.setSearchCriteria(criteria);
+		itemList.setSearchCriteria(criteria);
 	}
 
 	public void setSelectedItems(final Set<T> selectedItems) {

@@ -25,7 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.service.AuditLogService;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -36,11 +39,13 @@ import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.NoteService;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
@@ -60,6 +65,9 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 	protected ExtMailService extMailService;
 
 	@Autowired
+	private AuditLogService auditLogService;
+
+	@Autowired
 	protected NoteService noteService;
 
 	@Autowired
@@ -68,15 +76,12 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 	@Autowired
 	protected CrmNotificationSettingService notificationService;
 
-	protected String crmType;
+	@Autowired
+	protected IContentGenerator contentGenerator;
 
-	protected String currentUserTimezone;
+	protected B bean;
 
 	protected String siteUrl;
-
-	public CrmDefaultSendingRelayEmailAction(String crmType) {
-		this.crmType = crmType;
-	}
 
 	@Override
 	public void sendNotificationForCreateAction(
@@ -86,21 +91,29 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
-				currentUserTimezone = user.getTimezone();
+
+				String notifierFullName = user.getDisplayName();
+				if (notifierFullName == null
+						|| notifierFullName.trim().length() == 0) {
+					log.error("Can not find user {} of notification {}",
+							new Object[] { BeanUtility.printBeanObj(user),
+									BeanUtility.printBeanObj(notification) });
+					return;
+				}
+
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(context);
-				if (templateGenerator != null) {
-					String notifierFullName = user.getDisplayName();
-					if (notifierFullName == null
-							|| notifierFullName.trim().length() == 0) {
-						log.error(
-								"Can not find user {} of notification {}",
-								new Object[] { BeanUtility.printBeanObj(user),
-										BeanUtility.printBeanObj(notification) });
-						return;
-					}
-					templateGenerator.putVariable("userName", notifierFullName);
+				bean = getBeanInContext(context);
+				if (bean != null) {
+					String subject = context.getMessage(getCreateSubjectKey(),
+							context.getChangeByUserFullName(), getItemName());
+					context.setWrappedBean(bean);
+					contentGenerator.putVariable("context", context);
+					contentGenerator
+							.putVariable("mapper", getItemFieldMapper());
+
+					contentGenerator.putVariable("userName", notifierFullName);
+					buildExtraTemplateVariables(notification);
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -108,9 +121,11 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"MyCollab", lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
+							SiteConfiguration.getSiteName(), lst, null, null,
+							contentGenerator.generateSubjectContent(subject),
+							contentGenerator.generateBodyContent(context
+									.templatePath(getCreateContentPath())),
+							null);
 				}
 			}
 		}
@@ -125,20 +140,31 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
-				currentUserTimezone = user.getTimezone();
+				String notifierFullName = user.getDisplayName();
+				if (notifierFullName == null) {
+					log.error("Can not find user {} of notification {}",
+							new Object[] { BeanUtility.printBeanObj(user),
+									BeanUtility.printBeanObj(notification) });
+					return;
+				}
+				contentGenerator.putVariable("userName", notifierFullName);
+
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(context);
-				if (templateGenerator != null) {
-					String notifierFullName = user.getDisplayName();
-					if (notifierFullName == null) {
-						log.error(
-								"Can not find user {} of notification {}",
-								new Object[] { BeanUtility.printBeanObj(user),
-										BeanUtility.printBeanObj(notification) });
-						return;
-					}
-					templateGenerator.putVariable("userName", notifierFullName);
+				bean = getBeanInContext(context);
+				if (bean != null) {
+					String subject = context.getMessage(getUpdateSubjectKey(),
+							context.getChangeByUserFullName(), getItemName());
+
+					SimpleAuditLog auditLog = auditLogService.findLatestLog(
+							context.getTypeid(), context.getSaccountid());
+
+					contentGenerator.putVariable("historyLog", auditLog);
+					context.setWrappedBean(bean);
+					buildExtraTemplateVariables(notification);
+					contentGenerator.putVariable("context", context);
+					contentGenerator
+							.putVariable("mapper", getItemFieldMapper());
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -146,9 +172,12 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 					lst.add(userMail);
 
 					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"MyCollab", lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
+							SiteConfiguration.getSiteName(), lst, null, null,
+							contentGenerator.generateSubjectContent(subject),
+							contentGenerator.generateBodyContent(context
+									.templatePath(getUpdateContentPath())),
+							null);
+
 				}
 			}
 		}
@@ -162,31 +191,36 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		if ((notifiers != null) && !notifiers.isEmpty()) {
 			onInitAction(notification);
 			for (SimpleUser user : notifiers) {
-				currentUserTimezone = user.getTimezone();
+				String notifierFullName = user.getDisplayName();
+				if (notifierFullName == null) {
+					log.error("Can not find user {} of notification {}",
+							new Object[] { BeanUtility.printBeanObj(user),
+									BeanUtility.printBeanObj(notification) });
+					continue;
+				}
+
+				contentGenerator.putVariable("userName", notifierFullName);
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(context);
-				if (templateGenerator != null) {
-					String notifierFullName = user.getDisplayName();
-					if (notifierFullName == null) {
-						log.error(
-								"Can not find user {} of notification {}",
-								new Object[] { BeanUtility.printBeanObj(user),
-										BeanUtility.printBeanObj(notification) });
-						return;
-					}
-					templateGenerator.putVariable("userName", notifierFullName);
+				bean = getBeanInContext(context);
+				context.setWrappedBean(bean);
+				buildExtraTemplateVariables(notification);
+				contentGenerator.putVariable("comment",
+						context.getEmailNotification());
+				String subject = context.getMessage(getCommentSubjectKey(),
+						context.getChangeByUserFullName(), getItemName());
 
-					MailRecipientField userMail = new MailRecipientField(
-							user.getEmail(), user.getUsername());
-					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
-					lst.add(userMail);
+				MailRecipientField userMail = new MailRecipientField(
+						user.getEmail(), user.getUsername());
+				List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
+				lst.add(userMail);
 
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"MyCollab", lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
-				}
+				extMailService.sendHTMLMail("noreply@mycollab.com",
+						SiteConfiguration.getSiteName(), lst, null, null,
+						contentGenerator.generateSubjectContent(subject),
+						contentGenerator.generateBodyContent(context
+								.templatePath(getNoteContentPath())), null);
+
 			}
 		}
 	}
@@ -201,11 +235,13 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		// "need sending notifications"
 		// ---------------------------------------------------------------
 		NoteSearchCriteria noteSearchCriteria = new NoteSearchCriteria();
-		noteSearchCriteria.setType(new StringSearchField(crmType));
+		noteSearchCriteria
+				.setType(new StringSearchField(notification.getType()));
 		noteSearchCriteria.setTypeid(new NumberSearchField(notification
 				.getTypeid()));
 		noteSearchCriteria.setSaccountid(new NumberSearchField(notification
 				.getSaccountid()));
+
 		List<SimpleNote> lstNote = noteService
 				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
 						noteSearchCriteria, 0, Integer.MAX_VALUE));
@@ -261,13 +297,31 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		return false;
 	}
 
-	protected abstract TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<B> context);
+	protected abstract B getBeanInContext(MailContext<B> context);
 
-	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<B> context);
+	private String getCreateContentPath() {
+		return "templates/email/crm/itemCreatedNotifier.mt";
+	}
 
-	protected abstract TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<B> context);
+	private String getUpdateContentPath() {
+		return "templates/email/crm/itemUpdatedNotifier.mt";
+	}
+
+	private String getNoteContentPath() {
+		return "templates/email/crm/itemAddNoteNotifier.mt";
+	}
+
+	protected abstract void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification);
+
+	protected abstract Enum<?> getCreateSubjectKey();
+
+	protected abstract Enum<?> getUpdateSubjectKey();
+
+	protected abstract Enum<?> getCommentSubjectKey();
+
+	protected abstract String getItemName();
+
+	protected abstract ItemFieldMapper getItemFieldMapper();
 
 }

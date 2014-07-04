@@ -16,14 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -36,36 +37,34 @@ public class OpportunityListDisplay
 		DefaultPagedBeanList<OpportunityService, OpportunitySearchCriteria, SimpleOpportunity> {
 	private static final long serialVersionUID = -2350731660593521985L;
 
-	public OpportunityListDisplay(String displayColumnId) {
+	public OpportunityListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(OpportunityService.class),
-				SimpleOpportunity.class, displayColumnId);
+				new OpportunityRowDisplayHandler());
+	}
 
-		addGeneratedColumn("opportunityname", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+	static public class OpportunityRowDisplayHandler implements
+			RowDisplayHandler<SimpleOpportunity> {
 
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleOpportunity opportunity = OpportunityListDisplay.this
-						.getBeanByIndex(itemId);
+		@Override
+		public Component generateRow(final SimpleOpportunity opportunity,
+				int rowIndex) {
+			final NavigationButton b = new NavigationButton(
+					opportunity.getOpportunityname());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+				private static final long serialVersionUID = 1L;
 
-				final NavigationButton b = new NavigationButton(opportunity
-						.getOpportunityname());
-				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+				@Override
+				public void buttonClick(
+						final NavigationButton.NavigationButtonClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new OpportunityEvent.GotoRead(this, opportunity
+									.getId()));
+				}
+			});
+			b.setWidth("100%");
+			return b;
+		}
 
-					@Override
-					public void buttonClick(
-							final NavigationButton.NavigationButtonClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								OpportunityListDisplay.this, opportunity,
-								"opportunityname"));
-					}
-				});
-				b.setWidth("100%");
-				return b;
-			}
-		});
 	}
 
 }

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.dao.RelayEmailMapper;
 import com.esofthead.mycollab.common.domain.RelayEmailExample;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
 
@@ -38,7 +39,7 @@ public class MailRelayServiceImpl implements MailRelayService {
 			String subject, String bodyContent) {
 		RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
 		relayEmail.setFromemail("noreply@mycollab.com");
-		relayEmail.setFromname("MyCollab");
+		relayEmail.setFromname(SiteConfiguration.getSiteName());
 
 		String recipientList = JsonDeSerializer.toJson(new String[][] {
 				toEmails, toNames });

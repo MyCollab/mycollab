@@ -38,7 +38,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * 
  * @author MyCollab Ltd.
  * @since 1.0
- *
+ * 
  */
 @Component("acceptMemberInvitationCreateAccountServlet")
 public class AcceptByOutsideMemberCreateAccounttHandler extends
@@ -64,9 +64,6 @@ public class AcceptByOutsideMemberCreateAccounttHandler extends
 			PasswordCheckerUtil.checkValidPassword(password);
 			projectMemberService.acceptProjectInvitationByNewUser(email,
 					password, projectId, roleId, sAccountId);
-		} catch (NumberFormatException e) {
-			throw new UserInvalidInputException(
-					"Your request has been refused! Invalid input.");
 		} catch (InvalidPasswordException e) {
 			throw new UserInvalidInputException(e.getMessage());
 		} catch (Exception e) {

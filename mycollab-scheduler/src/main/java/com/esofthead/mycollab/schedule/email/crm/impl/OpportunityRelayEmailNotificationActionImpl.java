@@ -23,7 +23,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
@@ -35,10 +34,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -70,113 +67,56 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private OpportunityService opportunityService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final OpportunityFieldNameMapper mapper = new OpportunityFieldNameMapper();
 
-	public OpportunityRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.OPPORTUNITY);
-	}
-
-	protected void setupMailHeaders(SimpleOpportunity simpleOpportunity,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = simpleOpportunity.getOpportunityname();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getOpportunityname();
 		String summaryLink = CrmLinkGenerator
-				.generateOpportunityPreviewFullLink(siteUrl,
-						simpleOpportunity.getId());
+				.generateOpportunityPreviewFullLink(siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "opportunity");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "opportunity");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleOpportunity> context) {
-		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				context.getTypeid(), context.getSaccountid());
-		if (simpleOpportunity != null) {
-			context.setWrappedBean(simpleOpportunity);
-			String subject = StringUtils.trim(
-					simpleOpportunity.getOpportunityname(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(
-							OpportunityI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return OpportunityI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleOpportunity> context) {
-		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (simpleOpportunity == null) {
-			return null;
-		}
-		context.setWrappedBean(simpleOpportunity);
-		String subject = StringUtils.trim(
-				simpleOpportunity.getOpportunityname(), 100);
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(
-						OpportunityI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						context.getChangeByUserFullName(), subject),
-				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-		setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
-				templateGenerator);
-
-		if (context.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					context.getTypeid(), context.getSaccountid());
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-		}
-		return templateGenerator;
+	protected Enum<?> getUpdateSubjectKey() {
+		return OpportunityI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
+	protected Enum<?> getCommentSubjectKey() {
+		return OpportunityI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getOpportunityname(), 100);
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
+
+	@Override
+	protected SimpleOpportunity getBeanInContext(
 			MailContext<SimpleOpportunity> context) {
-		SimpleOpportunity simpleOpportunity = opportunityService.findById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (simpleOpportunity == null) {
-			return null;
-		}
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(
-						OpportunityI18nEnum.MAIL_COMMENT_ITEM_SUBJECT, context
-								.getChangeByUserFullName(), StringUtils.trim(
-								simpleOpportunity.getOpportunityname(), 100)),
-				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-		setupMailHeaders(simpleOpportunity, context.getEmailNotification(),
-				templateGenerator);
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
-
-		return templateGenerator;
+		return opportunityService.findById(context.getTypeid(),
+				context.getSaccountid());
 	}
 
 	public static class OpportunityFieldNameMapper extends ItemFieldMapper {
@@ -211,7 +151,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	public static class AccountFieldFormat extends FieldFormat {
 
-		public AccountFieldFormat(String fieldName, Enum displayName) {
+		public AccountFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -238,7 +178,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	public static class CampaignFieldFormat extends FieldFormat {
 
-		public CampaignFieldFormat(String fieldName, Enum displayName) {
+		public CampaignFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -297,7 +237,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -346,5 +286,4 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 			return value;
 		}
 	}
-
 }

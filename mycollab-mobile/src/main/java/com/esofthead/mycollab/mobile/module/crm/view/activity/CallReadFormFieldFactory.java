@@ -43,7 +43,7 @@ class CallReadFormFieldFactory extends
 		if (propertyId.equals("assignuser")) {
 			return new FormViewField(attachForm.getBean()
 					.getAssignUserFullName());
-		} else if (propertyId.equals("type")) {
+		} else if (propertyId.equals("typeid")) {
 			return new RelatedReadItemField(attachForm.getBean());
 		} else if (propertyId.equals("status")) {
 			String value = "";

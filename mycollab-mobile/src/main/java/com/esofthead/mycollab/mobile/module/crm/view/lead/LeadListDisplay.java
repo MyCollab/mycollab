@@ -16,14 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
+import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -35,35 +36,30 @@ public class LeadListDisplay extends
 		DefaultPagedBeanList<LeadService, LeadSearchCriteria, SimpleLead> {
 	private static final long serialVersionUID = -2350731660593521985L;
 
-	public LeadListDisplay(String displayColumnId) {
+	public LeadListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(LeadService.class),
-				SimpleLead.class, displayColumnId);
-
-		addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleLead lead = LeadListDisplay.this
-						.getBeanByIndex(itemId);
-
-				final NavigationButton b = new NavigationButton(lead
-						.getLeadName());
-				b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(
-							final NavigationButton.NavigationButtonClickEvent event) {
-						fireTableEvent(new TableClickEvent(
-								LeadListDisplay.this, lead, "leadName"));
-					}
-				});
-				b.setWidth("100%");
-				return b;
-			}
-		});
+				new LeadRowDisplayHandler());
 	}
 
+	static public class LeadRowDisplayHandler implements
+			RowDisplayHandler<SimpleLead> {
+
+		@Override
+		public Component generateRow(final SimpleLead lead, int rowIndex) {
+			final NavigationButton b = new NavigationButton(lead.getLeadName());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(
+						final NavigationButton.NavigationButtonClickEvent event) {
+					EventBus.getInstance().fireEvent(
+							new LeadEvent.GotoRead(this, lead.getId()));
+				}
+			});
+			b.setWidth("100%");
+			return b;
+		}
+
+	}
 }

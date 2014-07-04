@@ -185,7 +185,7 @@ public class ComponentRelayEmailNotificationActionImpl extends
 
 	public static class LeadFieldFormat extends FieldFormat {
 
-		public LeadFieldFormat(String fieldName, Enum displayName) {
+		public LeadFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName, true);
 		}
 

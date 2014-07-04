@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
@@ -39,6 +38,7 @@ import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapperExt;
 import com.esofthead.mycollab.module.user.domain.SimpleUserAccountInvitation;
+import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 
 /**
  * 
@@ -48,7 +48,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUserAccountInvitation;
  */
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class SendUserInvitationEmailJob extends QuartzJobBean {
+public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(SendUserInvitationEmailJob.class);
 
@@ -62,7 +62,7 @@ public class SendUserInvitationEmailJob extends QuartzJobBean {
 	private ExtMailService extMailService;
 
 	@Override
-	protected void executeInternal(JobExecutionContext context)
+	protected void executeJob(JobExecutionContext context)
 			throws JobExecutionException {
 		List<SimpleUserAccountInvitation> invitations = userAccountInvitationMapperExt
 				.findAccountInvitations(RegisterStatusConstants.VERIFICATING);

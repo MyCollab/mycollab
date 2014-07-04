@@ -18,12 +18,13 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -35,7 +36,9 @@ import com.vaadin.ui.VerticalLayout;
 public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 	private static final long serialVersionUID = 8715554837844950390L;
 	private LeadSearchCriteria searchCriteria;
-	private LeadListDisplay tableItem;
+	private LeadListDisplay itemList;
+
+	private LeadRowDisplayHandler rowHandler = new LeadRowDisplayHandler();
 
 	public LeadSelectionView() {
 		super();
@@ -49,38 +52,15 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 
 		createLeadList();
 
-		layout.addComponent(tableItem);
+		layout.addComponent(itemList);
 		this.setContent(layout);
 	}
 
-	@SuppressWarnings("serial")
 	private void createLeadList() {
-		tableItem = new LeadListDisplay("leadName");
+		itemList = new LeadListDisplay();
 
-		tableItem.setWidth("100%");
-
-		tableItem.addGeneratedColumn("leadName", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(final Table source,
-					final Object itemId, final Object columnId) {
-				final SimpleLead lead = tableItem.getBeanByIndex(itemId);
-
-				Button b = new Button(lead.getLeadName(),
-						new Button.ClickListener() {
-
-							@Override
-							public void buttonClick(
-									final Button.ClickEvent event) {
-								selectionField.fireValueChange(lead);
-								LeadSelectionView.this.getNavigationManager()
-										.navigateBack();
-							}
-						});
-				return b;
-			}
-		});
+		itemList.setWidth("100%");
+		itemList.setRowDisplayHandler(rowHandler);
 	}
 
 	@Override
@@ -89,9 +69,31 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
 
-		tableItem.setSearchCriteria(searchCriteria);
+		itemList.setSearchCriteria(searchCriteria);
 
 		SimpleLead clearLead = new SimpleLead();
-		tableItem.getBeanContainer().addItemAt(0, clearLead);
+		itemList.getListContainer().addComponentAsFirst(
+				rowHandler.generateRow(clearLead, 0));
+	}
+
+	private class LeadRowDisplayHandler implements
+			RowDisplayHandler<SimpleLead> {
+
+		@Override
+		public Component generateRow(final SimpleLead lead, int rowIndex) {
+			Button b = new Button(lead.getLeadName(),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 9024530145840868279L;
+
+						@Override
+						public void buttonClick(final Button.ClickEvent event) {
+							selectionField.fireValueChange(lead);
+							LeadSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+			return b;
+		}
+
 	}
 }

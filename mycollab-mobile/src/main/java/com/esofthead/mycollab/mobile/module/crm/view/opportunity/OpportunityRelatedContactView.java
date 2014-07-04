@@ -18,13 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
-import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
-import com.esofthead.mycollab.mobile.ui.TableClickEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -45,29 +40,8 @@ public class OpportunityRelatedContactView extends
 		super();
 
 		setCaption("Related Contacts");
-		this.tableItem = new ContactListDisplay("contactName");
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = -3904514872307444174L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(TableClickEvent event) {
-						final SimpleContact contact = (SimpleContact) event
-								.getData();
-						if ("contactName".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new ContactEvent.GotoRead(
-											OpportunityRelatedContactView.this,
-											contact.getId()));
-						}
-					}
-				});
-		this.setContent(tableItem);
+		this.itemList = new ContactListDisplay();
+		this.setContent(itemList);
 	}
 
 	private void loadContacts() {
@@ -76,7 +50,7 @@ public class OpportunityRelatedContactView extends
 				AppContext.getAccountId()));
 		searchCriteria.setOpportunityId(new NumberSearchField(SearchField.AND,
 				this.opportunity.getId()));
-		this.tableItem.setSearchCriteria(searchCriteria);
+		this.itemList.setSearchCriteria(searchCriteria);
 	}
 
 	public void displayContacts(SimpleOpportunity opportunity) {

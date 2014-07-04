@@ -23,7 +23,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
@@ -35,10 +34,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.service.CrmNotificationSettingService;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -69,107 +66,55 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private AuditLogService auditLogService;
+
 	@Autowired
 	private TaskService taskService;
 
-	@Autowired
-	private CrmNotificationSettingService notificationService;
-
 	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
 
-	public TaskRelayEmailNotificationActionImpl() {
-		super(CrmTypeConstants.TASK);
-	}
-
-	protected void setupMailHeaders(SimpleTask task,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
-
-		String summary = task.getSubject();
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
+		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateTaskPreviewFullLink(
-				siteUrl, task.getId());
+				siteUrl, bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "task");
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "task");
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleTask> context) {
-		SimpleTask simpleTask = taskService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (simpleTask != null) {
-			context.setWrappedBean(simpleTask);
-			String subject = StringUtils.trim(simpleTask.getSubject(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/crm/itemCreatedNotifier.mt"));
-			setupMailHeaders(simpleTask, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-			return templateGenerator;
-		} else {
-			return null;
-		}
+	protected Enum<?> getCreateSubjectKey() {
+		return TaskI18nEnum.MAIL_CREATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleTask> context) {
-		SimpleTask simpleTask = taskService.findById(context.getTypeid(),
-				context.getSaccountid());
-
-		if (simpleTask == null) {
-			return null;
-		}
-
-		context.setWrappedBean(simpleTask);
-		String subject = StringUtils.trim(simpleTask.getSubject(), 100);
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						context.getChangeByUserFullName(), subject),
-				context.templatePath("templates/email/crm/itemUpdatedNotifier.mt"));
-		setupMailHeaders(simpleTask, context.getEmailNotification(),
-				templateGenerator);
-
-		if (context.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					context.getTypeid(), context.getSaccountid());
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-		}
-		return templateGenerator;
+	protected Enum<?> getUpdateSubjectKey() {
+		return TaskI18nEnum.MAIL_UPDATE_ITEM_SUBJECT;
 	}
 
 	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleTask> context) {
-		SimpleTask simpleTask = taskService.findById(context.getTypeid(),
+	protected Enum<?> getCommentSubjectKey() {
+		return TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT;
+	}
+
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getSubject(), 100);
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
+	}
+
+	@Override
+	protected SimpleTask getBeanInContext(MailContext<SimpleTask> context) {
+		return taskService.findById(context.getTypeid(),
 				context.getSaccountid());
-
-		if (simpleTask == null) {
-			return null;
-		}
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(TaskI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-						context.getChangeByUserFullName(),
-						StringUtils.trim(simpleTask.getSubject(), 100)),
-				context.templatePath("templates/email/crm/itemAddNoteNotifier.mt"));
-		setupMailHeaders(simpleTask, context.getEmailNotification(),
-				templateGenerator);
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
-
-		return templateGenerator;
 	}
 
 	public static class TaskFieldNameMapper extends ItemFieldMapper {
@@ -197,7 +142,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 	public static class ContactFieldFormat extends FieldFormat {
 
-		public ContactFieldFormat(String fieldName, Enum displayName) {
+		public ContactFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -254,7 +199,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -302,5 +247,4 @@ public class TaskRelayEmailNotificationActionImpl extends
 			return value;
 		}
 	}
-
 }

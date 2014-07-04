@@ -99,8 +99,9 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 		listOfTitles.add(currentProject);
 
 		String summary = tasklist.getName();
-		String summaryLink = ProjectLinkGenerator.generateTaskGroupPreviewFullLink(
-				siteUrl, tasklist.getProjectid(), tasklist.getId());
+		String summaryLink = ProjectLinkGenerator
+				.generateTaskGroupPreviewFullLink(siteUrl,
+						tasklist.getProjectid(), tasklist.getId());
 
 		templateGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
@@ -212,7 +213,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 	public static class AssigneeFieldFormat extends FieldFormat {
 
-		public AssigneeFieldFormat(String fieldName, Enum displayName) {
+		public AssigneeFieldFormat(String fieldName, Enum<?> displayName) {
 			super(fieldName, displayName);
 		}
 
@@ -261,7 +262,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 
 	public static class MilestoneFieldFormat extends FieldFormat {
 
-		public MilestoneFieldFormat(String fieldName, Enum displayName,
+		public MilestoneFieldFormat(String fieldName, Enum<?> displayName,
 				boolean isColSpan) {
 			super(fieldName, displayName, isColSpan);
 		}
