@@ -42,7 +42,7 @@
     Changelog from MyCollab 4.2.0
     =============================
     Improvements
-        - Upgrade Vaadin to 7.2.3
+        - Upgrade Vaadin to 7.2.4
         - Upgrade HirakiCP to 4.2.0
         - Update mobile edition
         - Improve Gantt chart display 
@@ -51,6 +51,7 @@
         - Emails are localized per language
         - Support lazy load view
         - Allow user can select the default system language
+        - Focus in sysyem stable by adding many unit tests and refactor the system
         
     Bug Fixes
         - Exception is thrown when user save customized view

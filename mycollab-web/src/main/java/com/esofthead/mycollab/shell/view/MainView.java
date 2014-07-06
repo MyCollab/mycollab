@@ -30,7 +30,7 @@ import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
 import com.esofthead.mycollab.module.billing.service.BillingService;
-import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -312,7 +312,7 @@ public final class MainView extends AbstractPageView {
 		accLayout.setWidth("140px");
 
 		final Button myProfileBtn = new Button(
-				AppContext.getMessage(UserI18nEnum.VIEW_PROFILE),
+				AppContext.getMessage(AdminI18nEnum.VIEW_PROFILE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -328,7 +328,7 @@ public final class MainView extends AbstractPageView {
 		accLayout.addComponent(myProfileBtn);
 
 		final Button myAccountBtn = new Button(
-				AppContext.getMessage(UserI18nEnum.VIEW_BILLING),
+				AppContext.getMessage(AdminI18nEnum.VIEW_BILLING),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -344,7 +344,7 @@ public final class MainView extends AbstractPageView {
 		accLayout.addComponent(myAccountBtn);
 
 		final Button userMgtBtn = new Button(
-				AppContext.getMessage(UserI18nEnum.VIEW_USERS),
+				AppContext.getMessage(AdminI18nEnum.VIEW_USERS_AND_ROLES),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

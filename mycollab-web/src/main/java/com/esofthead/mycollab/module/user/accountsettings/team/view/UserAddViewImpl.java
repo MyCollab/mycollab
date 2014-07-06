@@ -114,7 +114,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
 		@Override
 		public Layout getLayout() {
-			String title = (user.getUsername() == null) ? "New User" : user
+			String title = (user.getUsername() == null) ? AppContext
+					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();
 			final AddViewLayout formAddLayout = new AddViewLayout(title,
 					MyCollabResource.newResource("icons/24/project/user.png"));
@@ -177,9 +178,11 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 		@Override
 		public void attachField(Object propertyId, Field<?> field) {
 			if (propertyId.equals("email")) {
-				basicInformationLayout.addComponent(field, "Email", 0, 0);
+				basicInformationLayout.addComponent(field,
+						AppContext.getMessage(UserI18nEnum.FORM_EMAIL), 0, 0);
 			} else if (propertyId.equals("roleid")) {
-				basicInformationLayout.addComponent(field, "Role", 1, 0);
+				basicInformationLayout.addComponent(field,
+						AppContext.getMessage(UserI18nEnum.FORM_ROLE), 1, 0);
 			}
 
 		}
@@ -218,7 +221,8 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 
 		@Override
 		public Layout getLayout() {
-			String title = (user.getUsername() == null) ? "New User" : user
+			String title = (user.getUsername() == null) ? AppContext
+					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();
 			final AddViewLayout formAddLayout = new AddViewLayout(title,
 					MyCollabResource.newResource("icons/24/project/user.png"));

@@ -76,7 +76,8 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 		@Override
 		public Layout getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
-			final Label organizationHeader = new Label("Role Information");
+			final Label organizationHeader = new Label(
+					AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION));
 			organizationHeader.setStyleName(UIConstants.H2_STYLE2);
 			layout.addComponent(organizationHeader);
 
@@ -93,10 +94,14 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
-			if (propertyId.equals("description")) {
+			if (propertyId.equals("rolename")) {
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(RoleI18nEnum.FORM_NAME), 0, 0, 2,
+						"100%");
+			} else if (propertyId.equals("description")) {
 				this.informationLayout.addComponent(field,
 						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
-						0, 0, 2, "100%");
+						0, 1, 2, "100%");
 			}
 		}
 	}
