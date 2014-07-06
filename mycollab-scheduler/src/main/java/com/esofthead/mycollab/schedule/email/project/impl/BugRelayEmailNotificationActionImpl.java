@@ -71,6 +71,7 @@ import com.hp.gagawa.java.elements.Img;
 public class BugRelayEmailNotificationActionImpl extends
 		SendMailToFollowersAction<SimpleBug> implements
 		BugRelayEmailNotificationAction {
+
 	private static Logger log = LoggerFactory
 			.getLogger(BugRelayEmailNotificationActionImpl.class);
 
@@ -79,6 +80,9 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private ProjectMemberService projectMemberService;
 
 	@Autowired
 	private ProjectNotificationSettingService projectNotificationService;
@@ -168,11 +172,9 @@ public class BugRelayEmailNotificationActionImpl extends
 				.findNotifications(notification.getProjectId(),
 						notification.getSaccountid());
 
-		ProjectMemberService projectService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-
-		List<SimpleUser> activeUsers = projectService.getActiveUsersInProject(
-				notification.getProjectId(), notification.getSaccountid());
+		List<SimpleUser> activeUsers = projectMemberService
+				.getActiveUsersInProject(notification.getProjectId(),
+						notification.getSaccountid());
 
 		List<SimpleUser> inListUsers = notification.getNotifyUsers();
 

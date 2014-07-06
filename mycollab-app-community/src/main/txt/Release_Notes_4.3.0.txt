@@ -57,6 +57,7 @@
         - Exception is thrown when user save customized view
         - Exception is thrown when user save search result
         - Can not save login credential in mobile edition    
+        - Save duplicate monitor items
     
     Changelog from MyCollab 4.1.1
     =============================

@@ -83,7 +83,7 @@ public abstract class SendMailToFollowersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,
@@ -131,7 +131,7 @@ public abstract class SendMailToFollowersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,
@@ -172,7 +172,7 @@ public abstract class SendMailToFollowersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,

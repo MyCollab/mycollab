@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.domain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
 public class ProjectNotificationSettingType {
 	public static final String NONE = "None";
 

@@ -32,6 +32,7 @@ mail.port=${smtpPort}
 mail.username=${smtpUserName}
 mail.password=${smtpPassword}
 mail.isTLS=${smtpTLSEnable}
+mail.noreply=noreply@mycollab.com
 
 #=====================================================
 #    ERROR REPORTING

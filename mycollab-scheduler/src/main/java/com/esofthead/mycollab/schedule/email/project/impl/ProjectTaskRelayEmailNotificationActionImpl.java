@@ -82,6 +82,9 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 	private ProjectService projectService;
 
 	@Autowired
+	private ProjectMemberService projectMemberService;
+
+	@Autowired
 	private ProjectNotificationSettingService projectNotificationService;
 
 	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
@@ -169,11 +172,9 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				.findNotifications(notification.getProjectId(),
 						notification.getSaccountid());
 
-		ProjectMemberService projectService = ApplicationContextUtil
-				.getSpringBean(ProjectMemberService.class);
-
-		List<SimpleUser> activeUsers = projectService.getActiveUsersInProject(
-				notification.getProjectId(), notification.getSaccountid());
+		List<SimpleUser> activeUsers = projectMemberService
+				.getActiveUsersInProject(notification.getProjectId(),
+						notification.getSaccountid());
 
 		List<SimpleUser> inListUsers = notification.getNotifyUsers();
 

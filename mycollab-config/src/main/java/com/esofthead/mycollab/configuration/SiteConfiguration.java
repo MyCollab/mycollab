@@ -45,6 +45,7 @@ public class SiteConfiguration {
 	private String siteName;
 	private String serverAddress;
 	private int serverPort;
+	private String noreplyEmail;
 	private EmailConfiguration emailConfiguration;
 	private EmailConfiguration relayEmailConfiguration;
 	private DatabaseConfiguration databaseConfiguration;
@@ -127,6 +128,8 @@ public class SiteConfiguration {
 				ApplicationProperties.MAIL_IS_TLS, "false"));
 		instance.emailConfiguration = new EmailConfiguration(host, user,
 				password, port, isTls);
+		instance.noreplyEmail = ApplicationProperties.getString(
+				ApplicationProperties.MAIL_NOREPLY, "noreply@mycollab.com");
 
 		// load relay email
 		String relayHost = ApplicationProperties.getString(
@@ -197,6 +200,10 @@ public class SiteConfiguration {
 
 	public static EmailConfiguration getEmailConfiguration() {
 		return getInstance().emailConfiguration;
+	}
+
+	public static String getNoReplyEmail() {
+		return getInstance().noreplyEmail;
 	}
 
 	public static String getSiteName() {

@@ -31,10 +31,12 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapperExt;
 import com.esofthead.mycollab.module.user.domain.SimpleUserAccountInvitation;
@@ -101,14 +103,16 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 			contentGenerator.putVariable("inviterName", inviterName);
 			extMailService
 					.sendHTMLMail(
-							"noreply@mycollab.com",
+							SiteConfiguration.getNoReplyEmail(),
 							SiteConfiguration.getSiteName(),
 							Arrays.asList(new MailRecipientField(invitation
 									.getUsername(), invitation.getUsername())),
 							null,
 							null,
-							contentGenerator
-									.generateSubjectContent("You are invited to join the MyCollab!"),
+							contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(
+									SiteConfiguration.getDefaultLocale(),
+									UserI18nEnum.MAIL_INVITE_USER_SUBJECT,
+									SiteConfiguration.getSiteName())),
 							contentGenerator.generateBodyContent(MailUtils
 									.templatePath(
 											"templates/email/user/userInvitationNotifier.mt",

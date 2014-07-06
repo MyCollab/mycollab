@@ -173,7 +173,10 @@ public class AuditLogAspect {
 				monitorItem.setUser(username);
 				monitorItem.setSaccountid(sAccountId);
 
-				monitorItemService.saveWithSession(monitorItem, username);
+				if (!monitorItemService.isUserWatchingItem(username,
+						monitorType, monitorTypeId)) {
+					monitorItemService.saveWithSession(monitorItem, username);
+				}
 
 				// check whether the current user is in monitor list, if
 				// not add him in
@@ -183,8 +186,11 @@ public class AuditLogAspect {
 					if (moreUser != null && !moreUser.equals(username)) {
 						monitorItem.setId(null);
 						monitorItem.setUser(moreUser);
-						monitorItemService.saveWithSession(monitorItem,
-								moreUser);
+						if (!monitorItemService.isUserWatchingItem(moreUser,
+								monitorType, monitorTypeId)) {
+							monitorItemService.saveWithSession(monitorItem,
+									moreUser);
+						}
 					}
 				}
 

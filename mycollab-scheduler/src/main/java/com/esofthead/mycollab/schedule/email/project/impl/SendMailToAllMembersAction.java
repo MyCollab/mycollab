@@ -124,7 +124,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,
@@ -172,7 +172,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,
@@ -213,7 +213,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 
 					extMailService
 							.sendHTMLMail(
-									"noreply@mycollab.com",
+									SiteConfiguration.getNoReplyEmail(),
 									SiteConfiguration.getSiteName(),
 									lst,
 									null,

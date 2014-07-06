@@ -28,9 +28,11 @@ import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
+import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.user.SendingRecoveryPasswordEmailAction;
@@ -76,13 +78,16 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 			lst.add(recipient);
 			extMailService
 					.sendHTMLMail(
-							"noreply@mycollab.com",
+							SiteConfiguration.getNoReplyEmail(),
 							SiteConfiguration.getSiteName(),
 							lst,
 							null,
 							null,
-							contentGenerator
-									.generateSubjectContent("[MyCollab] - User recovery password"),
+							contentGenerator.generateSubjectContent(LocalizationHelper
+									.getMessage(
+											locale,
+											UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
+											SiteConfiguration.getSiteName())),
 							contentGenerator.generateBodyContent(MailUtils
 									.templatePath(
 											"templates/email/user/userRecoveryPasswordNotifier.mt",
