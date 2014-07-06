@@ -21,7 +21,8 @@ import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
 /**
  * 
  * @author MyCollab Ltd.
- *
+ * @since 1.0
+ * 
  */
 public interface SendingRelayEmailsAction {
 	/**

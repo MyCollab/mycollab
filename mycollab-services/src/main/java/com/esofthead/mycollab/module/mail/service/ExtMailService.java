@@ -17,8 +17,9 @@
 package com.esofthead.mycollab.module.mail.service;
 
 /**
+ * @author MyCollab Ltd.
+ * @since 1.0
  * 
- *
  */
 public interface ExtMailService extends IGenericMailService {
 

@@ -64,7 +64,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 	@Autowired
 	private IContentGenerator contentGenerator;
 
-	private static final String userSignUpEmailNotificationTemplate = "templates/email/billing/confirmUserSignUpNotification.mt";
+	static final String CONFIRM_EMAIL_TEMPLATE = "templates/email/billing/confirmUserSignUpNotification.mt";
 
 	@Override
 	protected void executeJob(JobExecutionContext context)
@@ -103,7 +103,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 											.generateSubjectContent("Please confirm your email"),
 									contentGenerator.generateBodyContent(MailUtils
 											.templatePath(
-													userSignUpEmailNotificationTemplate,
+													CONFIRM_EMAIL_TEMPLATE,
 													SiteConfiguration
 															.getDefaultLocale())),
 									null);
@@ -111,7 +111,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
 					userService.updateWithSession(user, user.getUsername());
 				} catch (Exception e) {
-					log.error("Error whle generate template", e);
+					log.error("Error while generate template", e);
 				}
 			}
 		}

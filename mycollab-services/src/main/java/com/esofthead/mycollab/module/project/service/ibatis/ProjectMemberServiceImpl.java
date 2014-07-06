@@ -75,6 +75,12 @@ public class ProjectMemberServiceImpl extends
 	@Autowired
 	private RelayEmailNotificationService relayEmailNotificationService;
 
+	@Autowired
+	private UserMapper userMapper;
+
+	@Autowired
+	private UserAccountMapper userAccountMapper;
+
 	@Override
 	public ICrudGenericDAO getCrudMapper() {
 		return projectMemberMapper;
@@ -143,9 +149,9 @@ public class ProjectMemberServiceImpl extends
 	public void inviteProjectMembers(String[] email, int projectId,
 			int projectRoleId, String inviteUser, String inviteMessage,
 			int sAccountId) {
-		InviteProjectMembersCommand listener = new BeanProxyBuilder()
-				.build(ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
-						InviteProjectMembersCommand.class);
+		InviteProjectMembersCommand listener = new BeanProxyBuilder().build(
+				ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
+				InviteProjectMembersCommand.class);
 		listener.inviteUsers(email, projectId, projectRoleId, inviteUser,
 				inviteMessage, sAccountId);
 	}
@@ -165,9 +171,6 @@ public class ProjectMemberServiceImpl extends
 		simpleUser.setUsername(email);
 		simpleUser.setEmail(email);
 		log.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
-
-		UserMapper userMapper = ApplicationContextUtil
-				.getSpringBean(UserMapper.class);
 		userMapper.insert(simpleUser);
 
 		log.debug("Assign guest role for this user {}", email);
@@ -186,8 +189,6 @@ public class ProjectMemberServiceImpl extends
 
 		log.debug("Start save user account {}",
 				BeanUtility.printBeanObj(userAccount));
-		UserAccountMapper userAccountMapper = ApplicationContextUtil
-				.getSpringBean(UserAccountMapper.class);
 		userAccountMapper.insert(userAccount);
 
 		ProjectMember member = new ProjectMember();
