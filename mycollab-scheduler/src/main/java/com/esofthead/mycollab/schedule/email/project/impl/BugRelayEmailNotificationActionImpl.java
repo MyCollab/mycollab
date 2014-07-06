@@ -28,13 +28,10 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -79,136 +76,89 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private BugService bugService;
-	
-	@Autowired
-	private AuditLogService auditLogService;
-	
+
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@Autowired
 	private ProjectNotificationSettingService projectNotificationService;
 
 	private static final BugFieldNameMapper mapper = new BugFieldNameMapper();
 
 	@Override
-	public TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleBug> context) {
-		SimpleBug bug = bugService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (bug != null) {
-			context.setWrappedBean(bug);
-			String subject = StringUtils.trim(bug.getSummary(), 100);
-
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-							bug.getProjectname(),
-							context.getChangeByUserFullName(), subject),
-					context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
-
-			setupMailHeaders(bug, context.getEmailNotification(),
-					templateGenerator);
-
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-
-			return templateGenerator;
-		} else {
-			return null;
-		}
-
-	}
-
-	protected void setupMailHeaders(SimpleBug bug,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
-		currentProject.put("displayName", bug.getProjectname());
+		currentProject.put("displayName", bean.getProjectname());
 		currentProject.put(
 				"webLink",
 				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
-						bug.getProjectid()));
+						bean.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
 		HashMap<String, String> bugCode = new HashMap<String, String>();
 		SimpleProject relatedProject = projectService.findById(
-				bug.getProjectid(), emailNotification.getSaccountid());
+				bean.getProjectid(), emailNotification.getSaccountid());
 		bugCode.put("displayName", "[" + relatedProject.getShortname() + "-"
-				+ bug.getBugkey() + "]");
+				+ bean.getBugkey() + "]");
 		bugCode.put(
 				"webLink",
 				ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
-						bug.getProjectid(), bug.getId()));
+						bean.getProjectid(), bean.getId()));
 
 		listOfTitles.add(bugCode);
 
-		String summary = bug.getSummary();
+		String summary = bean.getSummary();
 		String summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(
-				siteUrl, bug.getProjectid(), bug.getId());
+				siteUrl, bean.getProjectid(), bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "bug");
-		templateGenerator.putVariable("titles", listOfTitles);
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "bug");
+		contentGenerator.putVariable("titles", listOfTitles);
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
+
 	}
 
 	@Override
-	public TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleBug> context) {
-		SimpleBug bug = bugService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (bug == null) {
-			return null;
-		}
-		context.setWrappedBean(bug);
-		String subject = StringUtils.trim(bug.getSummary(), 100);
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						bug.getProjectname(),
-						context.getChangeByUserFullName(), subject),
-				context.templatePath("templates/email/project/itemUpdatedNotifier.mt"));
-
-		setupMailHeaders(bug, context.getEmailNotification(), templateGenerator);
-
-		if (context.getTypeid() != null) {
-			SimpleAuditLog auditLog = auditLogService.findLatestLog(
-					context.getTypeid(), context.getSaccountid());
-			templateGenerator.putVariable("historyLog", auditLog);
-			templateGenerator.putVariable("context", context);
-			templateGenerator.putVariable("mapper", mapper);
-		}
-
-		return templateGenerator;
+	protected SimpleBug getBeanInContext(MailContext<SimpleBug> context) {
+		return bugService
+				.findById(context.getTypeid(), context.getSaccountid());
 	}
 
 	@Override
-	public TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleBug> context) {
-		SimpleBug bug = bugService.findById(context.getTypeid(),
-				context.getSaccountid());
-		if (bug == null) {
-			return null;
-		}
+	protected String getItemName() {
+		return StringUtils.trim(bean.getSummary(), 100);
+	}
 
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-						bug.getProjectname(),
-						context.getChangeByUserFullName(),
-						StringUtils.trim(bug.getSummary(), 100)),
-				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
+	@Override
+	protected String getCreateSubject(MailContext<SimpleBug> context) {
+		return context.getMessage(BugI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+				bean.getProjectname(), context.getChangeByUserFullName(),
+				getItemName());
+	}
 
-		setupMailHeaders(bug, context.getEmailNotification(), templateGenerator);
+	@Override
+	protected String getUpdateSubject(MailContext<SimpleBug> context) {
+		return context.getMessage(BugI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+				bean.getProjectname(), context.getChangeByUserFullName(),
+				getItemName());
+	}
 
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
+	@Override
+	protected String getCommentSubject(MailContext<SimpleBug> context) {
+		return context.getMessage(BugI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+				bean.getProjectname(), context.getChangeByUserFullName(),
+				getItemName());
+	}
 
-		return templateGenerator;
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return mapper;
 	}
 
 	@Override

@@ -28,8 +28,8 @@ import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
@@ -46,10 +46,13 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 		SendingRecoveryPasswordEmailAction {
 
 	@Autowired
-	protected ExtMailService extMailService;
+	private ExtMailService extMailService;
 
 	@Autowired
-	protected UserService userService;
+	private UserService userService;
+
+	@Autowired
+	private IContentGenerator contentGenerator;
 
 	@Override
 	public void sendEmail(RelayEmailWithBLOBs relayEmail) {
@@ -62,24 +65,28 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 					+ "user/recoverypassword/"
 					+ UrlEncodeDecoder.encode(username);
 			Locale locale = LocaleHelper.toLocale(user.getLanguage());
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"[MyCollab] - User recovery password",
-					MailUtils
-							.templatePath(
-									"templates/email/user/userRecoveryPasswordNotifier.mt",
-									locale));
-			templateGenerator.putVariable("username", user.getUsername());
-			templateGenerator.putVariable("urlRecoveryPassword",
+
+			contentGenerator.putVariable("username", user.getUsername());
+			contentGenerator.putVariable("urlRecoveryPassword",
 					recoveryPasswordURL);
 
 			MailRecipientField recipient = new MailRecipientField(
 					user.getEmail(), user.getUsername());
 			List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 			lst.add(recipient);
-			extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
-					lst, null, null,
-					templateGenerator.generateSubjectContent(),
-					templateGenerator.generateBodyContent(), null);
+			extMailService
+					.sendHTMLMail(
+							"noreply@mycollab.com",
+							SiteConfiguration.getSiteName(),
+							lst,
+							null,
+							null,
+							contentGenerator
+									.generateSubjectContent("[MyCollab] - User recovery password"),
+							contentGenerator.generateBodyContent(MailUtils
+									.templatePath(
+											"templates/email/user/userRecoveryPasswordNotifier.mt",
+											locale)), null);
 		}
 	}
 }

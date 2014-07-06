@@ -54,11 +54,11 @@ public class ContentGenerator implements IContentGenerator, InitializingBean {
 		StringWriter writer = new StringWriter();
 		Reader reader;
 		try {
-			reader = new InputStreamReader(TemplateGenerator.class
+			reader = new InputStreamReader(ContentGenerator.class
 					.getClassLoader().getResourceAsStream(templateFilePath),
 					"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(TemplateGenerator.class
+			reader = new InputStreamReader(ContentGenerator.class
 					.getClassLoader().getResourceAsStream(templateFilePath));
 		} catch (Exception e) {
 			throw new MyCollabException("Exception while read file path "

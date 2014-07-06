@@ -22,13 +22,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
+import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 
@@ -40,8 +43,17 @@ import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction
  */
 public abstract class SendMailToFollowersAction<B> implements
 		SendingRelayEmailNotificationAction {
+
 	@Autowired
 	protected ExtMailService extMailService;
+
+	@Autowired
+	protected IContentGenerator contentGenerator;
+
+	@Autowired
+	private AuditLogService auditLogService;
+
+	protected B bean;
 
 	protected String siteUrl;
 
@@ -54,20 +66,33 @@ public abstract class SendMailToFollowersAction<B> implements
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForCreateAction(context);
-				if (templateGenerator != null) {
-					String userName = user.getDisplayName();
-					templateGenerator.putVariable("userName", userName);
+				bean = getBeanInContext(context);
+				if (bean != null) {
+					context.setWrappedBean(bean);
+					buildExtraTemplateVariables(notification);
+					contentGenerator.putVariable("context", context);
+					contentGenerator
+							.putVariable("mapper", getItemFieldMapper());
+					contentGenerator.putVariable("userName",
+							user.getDisplayName());
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
 					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 					lst.add(userMail);
 
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							SiteConfiguration.getSiteName(), lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
+					extMailService
+							.sendHTMLMail(
+									"noreply@mycollab.com",
+									SiteConfiguration.getSiteName(),
+									lst,
+									null,
+									null,
+									contentGenerator
+											.generateSubjectContent(getCreateSubject(context)),
+									contentGenerator.generateBodyContent(context
+											.templatePath("templates/email/project/itemCreatedNotifier.mt")),
+									null);
 				}
 			}
 		}
@@ -82,20 +107,40 @@ public abstract class SendMailToFollowersAction<B> implements
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForUpdateAction(context);
-				if (templateGenerator != null) {
-					String userName = user.getDisplayName();
-					templateGenerator.putVariable("userName", userName);
+				bean = getBeanInContext(context);
+				if (bean != null) {
+					context.setWrappedBean(bean);
+					buildExtraTemplateVariables(notification);
+					contentGenerator.putVariable("userName",
+							user.getDisplayName());
+
+					if (context.getTypeid() != null) {
+						SimpleAuditLog auditLog = auditLogService
+								.findLatestLog(context.getTypeid(),
+										context.getSaccountid());
+						contentGenerator.putVariable("historyLog", auditLog);
+						contentGenerator.putVariable("context", context);
+						contentGenerator.putVariable("mapper",
+								getItemFieldMapper());
+					}
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
 					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
 					lst.add(userMail);
 
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							SiteConfiguration.getSiteName(), lst, null, null,
-							templateGenerator.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
+					extMailService
+							.sendHTMLMail(
+									"noreply@mycollab.com",
+									SiteConfiguration.getSiteName(),
+									lst,
+									null,
+									null,
+									contentGenerator
+											.generateSubjectContent(getUpdateSubject(context)),
+									contentGenerator.generateBodyContent(context
+											.templatePath("templates/email/project/itemUpdatedNotifier.mt")),
+									null);
 				}
 			}
 		}
@@ -111,19 +156,33 @@ public abstract class SendMailToFollowersAction<B> implements
 			for (SimpleUser user : notifiers) {
 				MailContext<B> context = new MailContext<B>(notification, user,
 						siteUrl);
-				TemplateGenerator templateGenerator = templateGeneratorForCommentAction(context);
-				String userName = user.getDisplayName();
-				templateGenerator.putVariable("userName", userName);
+				bean = getBeanInContext(context);
+				if (bean != null) {
+					context.setWrappedBean(bean);
+					contentGenerator.putVariable("userName",
+							user.getDisplayName());
+					buildExtraTemplateVariables(notification);
+					contentGenerator.putVariable("comment",
+							context.getEmailNotification());
 
-				MailRecipientField userMail = new MailRecipientField(
-						user.getEmail(), user.getUsername());
-				List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
-				lst.add(userMail);
+					MailRecipientField userMail = new MailRecipientField(
+							user.getEmail(), user.getUsername());
+					List<MailRecipientField> lst = new ArrayList<MailRecipientField>();
+					lst.add(userMail);
 
-				extMailService.sendHTMLMail("noreply@mycollab.com",
-						SiteConfiguration.getSiteName(), lst, null, null,
-						templateGenerator.generateSubjectContent(),
-						templateGenerator.generateBodyContent(), null);
+					extMailService
+							.sendHTMLMail(
+									"noreply@mycollab.com",
+									SiteConfiguration.getSiteName(),
+									lst,
+									null,
+									null,
+									contentGenerator
+											.generateSubjectContent(getCommentSubject(context)),
+									contentGenerator.generateBodyContent(context
+											.templatePath("templates/email/project/itemCommentNotifier.mt")),
+									null);
+				}
 			}
 		}
 	}
@@ -132,14 +191,20 @@ public abstract class SendMailToFollowersAction<B> implements
 		siteUrl = MailUtils.getSiteUrl(notification.getSaccountid());
 	}
 
-	protected abstract TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<B> context);
+	protected abstract B getBeanInContext(MailContext<B> context);
 
-	protected abstract TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<B> context);
+	protected abstract String getItemName();
 
-	protected abstract TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<B> context);
+	protected abstract void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification);
+
+	protected abstract ItemFieldMapper getItemFieldMapper();
+
+	protected abstract String getCreateSubject(MailContext<B> context);
+
+	protected abstract String getUpdateSubject(MailContext<B> context);
+
+	protected abstract String getCommentSubject(MailContext<B> context);
 
 	protected abstract List<SimpleUser> getListNotifyUsersWithFilter(
 			ProjectRelayEmailNotification notification);

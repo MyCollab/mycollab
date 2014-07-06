@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -32,9 +33,9 @@ import com.esofthead.mycollab.common.domain.ReportBugIssueWithBLOBs;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.mail.DefaultMailer;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.IMailer;
 import com.esofthead.mycollab.module.mail.NullMailer;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
@@ -47,6 +48,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class SendingErrorReportEmailJob extends QuartzJobBean {
 
+	@Autowired
+	private IContentGenerator contentGenerator;
+
 	@Override
 	protected void executeInternal(JobExecutionContext context) {
 		ReportBugIssueMapper mapper = ApplicationContextUtil
@@ -56,27 +60,29 @@ public class SendingErrorReportEmailJob extends QuartzJobBean {
 					.selectByExampleWithBLOBs(new ReportBugIssueExample());
 
 			if (!listIssues.isEmpty()) {
-				TemplateGenerator templateGenerator = new TemplateGenerator(
-						"My Collab Error Report",
-						"templates/email/errorReport.mt");
-				templateGenerator.putVariable("issueCol", listIssues);
+				contentGenerator.putVariable("issueCol", listIssues);
 				EmailConfiguration emailConfiguration = SiteConfiguration
 						.getRelayEmailConfiguration();
 				IMailer mailer;
 				if (emailConfiguration.getHost().equals("")) {
 					mailer = new NullMailer();
 				} else {
-					// check whether email is configured properly
-
 					mailer = new DefaultMailer(emailConfiguration);
 				}
 
-				mailer.sendHTMLMail("mail@mycollab.com", "Error Agent", Arrays
-						.asList(new MailRecipientField(SiteConfiguration
+				mailer.sendHTMLMail(
+						"mail@mycollab.com",
+						"Error Agent",
+						Arrays.asList(new MailRecipientField(SiteConfiguration
 								.getSendErrorEmail(), SiteConfiguration
-								.getSendErrorEmail())), null, null,
-						templateGenerator.generateSubjectContent(),
-						templateGenerator.generateBodyContent(), null);
+								.getSendErrorEmail())),
+						null,
+						null,
+						contentGenerator
+								.generateSubjectContent("My Collab Error Report"),
+						contentGenerator
+								.generateBodyContent("templates/email/errorReport.mt"),
+						null);
 
 				// Remove all issues in table
 				ReportBugIssueExample ex = new ReportBugIssueExample();

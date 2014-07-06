@@ -35,8 +35,8 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
@@ -61,6 +61,9 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 	@Autowired
 	private ExtMailService extMailService;
 
+	@Autowired
+	private IContentGenerator contentGenerator;
+
 	private static final String userSignUpEmailNotificationTemplate = "templates/email/billing/confirmUserSignUpNotification.mt";
 
 	@Override
@@ -75,31 +78,35 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 						criteria, 0, Integer.MAX_VALUE));
 		if (lstSimpleUsers != null && lstSimpleUsers.size() > 0) {
 			for (SimpleUser user : lstSimpleUsers) {
-				TemplateGenerator templateGenerator = new TemplateGenerator(
-						"Please confirm your email", MailUtils.templatePath(
-								userSignUpEmailNotificationTemplate,
-								SiteConfiguration.getDefaultLocale()));
-				templateGenerator.putVariable("user", user);
+				contentGenerator.putVariable("user", user);
 
 				String siteUrl = GenericLinkUtils
 						.generateSiteUrlByAccountId(user.getAccountId());
 
-				templateGenerator.putVariable("siteUrl", siteUrl);
+				contentGenerator.putVariable("siteUrl", siteUrl);
 
 				String linkComfirm = siteUrl
 						+ "user/confirm_signup/"
 						+ UrlEncodeDecoder.encode(user.getUsername() + "/"
 								+ user.getAccountId());
-				templateGenerator.putVariable("linkConfirm", linkComfirm);
+				contentGenerator.putVariable("linkConfirm", linkComfirm);
 				try {
-
-					log.debug("Start generate template");
-					extMailService.sendHTMLMail("noreply@mycollab.com",
-							"MyCollab", Arrays.asList(new MailRecipientField(
-									user.getEmail(), user.getDisplayName())),
-							null, null, templateGenerator
-									.generateSubjectContent(),
-							templateGenerator.generateBodyContent(), null);
+					extMailService
+							.sendHTMLMail(
+									"noreply@mycollab.com",
+									SiteConfiguration.getSiteName(),
+									Arrays.asList(new MailRecipientField(user
+											.getEmail(), user.getDisplayName())),
+									null,
+									null,
+									contentGenerator
+											.generateSubjectContent("Please confirm your email"),
+									contentGenerator.generateBodyContent(MailUtils
+											.templatePath(
+													userSignUpEmailNotificationTemplate,
+													SiteConfiguration
+															.getDefaultLocale())),
+									null);
 
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
 					userService.updateWithSession(user, user.getUsername());

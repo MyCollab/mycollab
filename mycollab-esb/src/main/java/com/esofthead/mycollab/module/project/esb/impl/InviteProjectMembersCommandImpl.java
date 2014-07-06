@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -50,6 +50,9 @@ public class InviteProjectMembersCommandImpl implements
 	@Autowired
 	private ProjectMemberService projectMemberService;
 
+	@Autowired
+	private IContentGenerator contentGenerator;
+
 	@Override
 	public void inviteUsers(String[] emails, int projectId, int projectRoleId,
 			String inviterUserName, String inviteMessage, int sAccountId) {
@@ -58,25 +61,19 @@ public class InviteProjectMembersCommandImpl implements
 
 		SimpleUser user = userService.findUserByUserNameInAccount(
 				inviterUserName, sAccountId);
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				"$inviteUser has invited you to join the team for project \" $member.projectName\"",
-				MailUtils
-						.templatePath(
-								"templates/email/project/memberInvitation/memberInvitationNotifier.mt",
-								SiteConfiguration.getDefaultLocale()));
 
 		SimpleProjectMember member = new SimpleProjectMember();
 		member.setProjectName(project.getName());
 
-		templateGenerator.putVariable("member", member);
-		templateGenerator.putVariable("inviteUser", user.getDisplayName());
+		contentGenerator.putVariable("member", member);
+		contentGenerator.putVariable("inviteUser", user.getDisplayName());
 
 		String subdomain = projectService.getSubdomainOfProject(projectId);
 
 		Date date = new Date();
 
 		for (String inviteeEmail : emails) {
-			templateGenerator.putVariable(
+			contentGenerator.putVariable(
 					"urlAccept",
 					SiteConfiguration.getSiteUrl(subdomain)
 							+ "project/member/invitation/confirm_invite/"
@@ -87,7 +84,7 @@ public class InviteProjectMembersCommandImpl implements
 											user.getEmail(), inviterUserName,
 											date));
 
-			templateGenerator.putVariable(
+			contentGenerator.putVariable(
 					"urlDeny",
 					SiteConfiguration.getSiteUrl(subdomain)
 							+ "project/member/invitation/deny_invite/"
@@ -96,12 +93,19 @@ public class InviteProjectMembersCommandImpl implements
 											sAccountId, projectId,
 											user.getEmail(), inviterUserName));
 
-			templateGenerator.putVariable("userName", "You");
+			contentGenerator.putVariable("userName", "You");
 
-			mailRelayService.saveRelayEmail(new String[] { inviteeEmail },
-					new String[] { inviteeEmail },
-					templateGenerator.generateSubjectContent(),
-					templateGenerator.generateBodyContent());
+			mailRelayService
+					.saveRelayEmail(
+							new String[] { inviteeEmail },
+							new String[] { inviteeEmail },
+							contentGenerator
+									.generateSubjectContent("$inviteUser has invited you to join the team for project \" $member.projectName\""),
+							contentGenerator.generateBodyContent(MailUtils
+									.templatePath(
+											"templates/email/project/memberInvitation/memberInvitationNotifier.mt",
+											SiteConfiguration
+													.getDefaultLocale())));
 		}
 
 	}

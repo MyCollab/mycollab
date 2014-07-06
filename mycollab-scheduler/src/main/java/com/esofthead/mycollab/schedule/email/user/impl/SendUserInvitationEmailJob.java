@@ -32,8 +32,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
+import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapperExt;
@@ -59,6 +59,9 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 	private UserAccountInvitationMapperExt userAccountInvitationMapperExt;
 
 	@Autowired
+	private IContentGenerator contentGenerator;
+
+	@Autowired
 	private ExtMailService extMailService;
 
 	@Override
@@ -71,14 +74,9 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 			log.debug("Send invitation email to user {} of subdomain {}",
 					invitation.getUsername(), invitation.getSubdomain());
 
-			TemplateGenerator templateGenerator = new TemplateGenerator(
-					"You are invited to join the MyCollab!",
-					MailUtils.templatePath(
-							"templates/email/user/userInvitationNotifier.mt",
-							SiteConfiguration.getDefaultLocale()));
-			templateGenerator.putVariable("invitation", invitation);
+			contentGenerator.putVariable("invitation", invitation);
 
-			templateGenerator.putVariable(
+			contentGenerator.putVariable(
 					"urlAccept",
 					SiteConfiguration.getSiteUrl(invitation.getSubdomain())
 							+ "user/confirm_invite/"
@@ -89,7 +87,7 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 			String inviterName = invitation.getInviterFullName();
 			String inviterMail = invitation.getInviteuser();
 			String subdomain = invitation.getSubdomain();
-			templateGenerator.putVariable(
+			contentGenerator.putVariable(
 					"urlDeny",
 					SiteConfiguration.getSiteUrl(invitation.getSubdomain())
 							+ "user/deny_invite/"
@@ -99,13 +97,23 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 									+ subdomain));
 			String userName = (invitation.getUsername() != null) ? invitation
 					.getUsername() : "there";
-			templateGenerator.putVariable("userName", userName);
-			templateGenerator.putVariable("inviterName", inviterName);
-			extMailService.sendHTMLMail("noreply@mycollab.com", "MyCollab",
-					Arrays.asList(new MailRecipientField(invitation
-							.getUsername(), invitation.getUsername())), null,
-					null, templateGenerator.generateSubjectContent(),
-					templateGenerator.generateBodyContent(), null);
+			contentGenerator.putVariable("userName", userName);
+			contentGenerator.putVariable("inviterName", inviterName);
+			extMailService
+					.sendHTMLMail(
+							"noreply@mycollab.com",
+							SiteConfiguration.getSiteName(),
+							Arrays.asList(new MailRecipientField(invitation
+									.getUsername(), invitation.getUsername())),
+							null,
+							null,
+							contentGenerator
+									.generateSubjectContent("You are invited to join the MyCollab!"),
+							contentGenerator.generateBodyContent(MailUtils
+									.templatePath(
+											"templates/email/user/userInvitationNotifier.mt",
+											SiteConfiguration
+													.getDefaultLocale())), null);
 
 			// Send email and change register status of user to
 			// RegisterStatusConstants.SENT_VERIFICATION_EMAIL
