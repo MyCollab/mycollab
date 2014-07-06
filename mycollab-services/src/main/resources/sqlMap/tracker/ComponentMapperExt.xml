@@ -59,10 +59,10 @@
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')
                             AND m_tracker_bug_related_item.type IN ('Component') 
                             AND m_tracker_bug_related_item.typeid=m_tracker_component.id) AS numOpenBugs,
-                m_project.name AS projectName             
+                m_prj_project.name AS projectName             
         FROM m_tracker_component
         LEFT OUTER JOIN s_user ON (m_tracker_component.userlead=s_user.username)
-        LEFT OUTER JOIN m_project ON (m_tracker_component.projectid=m_project.id)
+        LEFT OUTER JOIN m_prj_project ON (m_tracker_component.projectid=m_prj_project.id)
         ]]>
     </sql>
     
