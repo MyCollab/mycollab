@@ -23,6 +23,8 @@ public class SimpleVersion extends Version {
 
 	private Integer numBugs;
 
+	private String projectName;
+
 	public Integer getNumOpenBugs() {
 		return numOpenBugs;
 	}
@@ -37,5 +39,13 @@ public class SimpleVersion extends Version {
 
 	public void setNumBugs(Integer numBugs) {
 		this.numBugs = numBugs;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }

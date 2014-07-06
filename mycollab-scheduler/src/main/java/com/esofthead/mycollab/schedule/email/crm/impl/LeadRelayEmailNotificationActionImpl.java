@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
@@ -54,9 +53,6 @@ import com.hp.gagawa.java.elements.Img;
 public class LeadRelayEmailNotificationActionImpl extends
 		CrmDefaultSendingRelayEmailAction<SimpleLead> implements
 		LeadRelayEmailNotificationAction {
-
-	@Autowired
-	private AuditLogService auditLogService;
 
 	@Autowired
 	private LeadService leadService;

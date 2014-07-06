@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
@@ -63,9 +62,6 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 	private static Logger log = LoggerFactory
 			.getLogger(TaskRelayEmailNotificationActionImpl.class);
-
-	@Autowired
-	private AuditLogService auditLogService;
 
 	@Autowired
 	private TaskService taskService;
@@ -135,7 +131,6 @@ public class TaskRelayEmailNotificationActionImpl extends
 					TaskI18nEnum.FORM_CONTACT));
 			put("priority", TaskI18nEnum.FORM_PRIORITY);
 
-			// put("typeid", TaskI18nEnum.FORM_RELATED_TO, true);
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 		}
 	}

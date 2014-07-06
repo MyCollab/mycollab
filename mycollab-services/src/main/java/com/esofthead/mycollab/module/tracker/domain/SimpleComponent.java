@@ -33,6 +33,8 @@ public class SimpleComponent extends Component {
 
 	private Integer numBugs;
 
+	private String projectName;
+
 	public String getUserLeadFullName() {
 		return userLeadFullName;
 	}
@@ -63,5 +65,13 @@ public class SimpleComponent extends Component {
 
 	public void setUserLeadAvatarId(String userLeadAvatarId) {
 		this.userLeadAvatarId = userLeadAvatarId;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }

@@ -23,14 +23,12 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.NoteService;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -58,16 +56,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 		AccountRelayEmailNotificationAction {
 
 	@Autowired
-	private AuditLogService auditLogService;
-
-	@Autowired
 	private AccountService accountService;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private NoteService noteService;
 
 	private static AccountFieldNameMapper mapper = new AccountFieldNameMapper();
 

@@ -28,12 +28,12 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.mail.TemplateGenerator;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
 
@@ -54,103 +54,69 @@ public class MessageRelayEmailNotificationActionImpl extends
 	@Autowired
 	private ProjectService projectService;
 
-	protected void setupMailHeaders(SimpleMessage message,
-			SimpleRelayEmailNotification emailNotification,
-			TemplateGenerator templateGenerator) {
+	@Override
+	protected String getItemName() {
+		return StringUtils.trim(bean.getTitle(), 100);
+	}
+
+	@Override
+	protected String getCreateSubject(MailContext<SimpleMessage> context) {
+		return context.getMessage(MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
+				bean.getProjectName(), context.getChangeByUserFullName(),
+				getItemName());
+	}
+
+	@Override
+	protected String getUpdateSubject(MailContext<SimpleMessage> context) {
+		return context.getMessage(MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
+				bean.getProjectName(), context.getChangeByUserFullName(),
+				getItemName());
+	}
+
+	@Override
+	protected String getCommentSubject(MailContext<SimpleMessage> context) {
+		return context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
+				bean.getProjectName(), context.getChangeByUserFullName(),
+				getItemName());
+	}
+
+	@Override
+	protected ItemFieldMapper getItemFieldMapper() {
+		return null;
+	}
+
+	@Override
+	protected SimpleMessage getBeanInContext(MailContext<SimpleMessage> context) {
+		return messageService.findMessageById(context.getTypeid(),
+				context.getSaccountid());
+	}
+
+	@Override
+	protected void buildExtraTemplateVariables(
+			SimpleRelayEmailNotification emailNotification) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
-		currentProject.put("displayName", message.getProjectName());
+		currentProject.put("displayName", bean.getProjectName());
 		currentProject.put(
 				"webLink",
 				ProjectLinkGenerator.generateProjectFullLink(siteUrl,
-						message.getProjectid()));
+						bean.getProjectid()));
 
 		listOfTitles.add(currentProject);
 
-		String summary = message.getTitle();
-		String summaryLink = ProjectLinkGenerator.generateMessagePreviewFullLink(
-				siteUrl, message.getProjectid(), message.getId());
+		String summary = bean.getTitle();
+		String summaryLink = ProjectLinkGenerator
+				.generateMessagePreviewFullLink(siteUrl, bean.getProjectid(),
+						bean.getId());
 
-		templateGenerator.putVariable("makeChangeUser",
+		contentGenerator.putVariable("makeChangeUser",
 				emailNotification.getChangeByUserFullName());
-		templateGenerator.putVariable("itemType", "message");
-		templateGenerator.putVariable("titles", listOfTitles);
-		templateGenerator.putVariable("summary", summary);
-		templateGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("itemType", "message");
+		contentGenerator.putVariable("titles", listOfTitles);
+		contentGenerator.putVariable("summary", summary);
+		contentGenerator.putVariable("summaryLink", summaryLink);
+		contentGenerator.putVariable("message", bean.getMessage());
+
 	}
-
-	@Override
-	protected TemplateGenerator templateGeneratorForCreateAction(
-			MailContext<SimpleMessage> context) {
-		SimpleMessage message = messageService.findMessageById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (message == null) {
-			return null;
-		}
-
-		context.setWrappedBean(message);
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(MessageI18nEnum.MAIL_CREATE_ITEM_SUBJECT,
-						message.getProjectName(),
-						context.getChangeByUserFullName(),
-						StringUtils.trim(message.getTitle(), 100)),
-				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
-
-		setupMailHeaders(message, context.getEmailNotification(),
-				templateGenerator);
-
-		templateGenerator.putVariable("message", message.getMessage());
-		return templateGenerator;
-	}
-
-	@Override
-	protected TemplateGenerator templateGeneratorForUpdateAction(
-			MailContext<SimpleMessage> context) {
-		SimpleMessage message = messageService.findMessageById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (message == null) {
-			return null;
-		}
-		context.setWrappedBean(message);
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(MessageI18nEnum.MAIL_UPDATE_ITEM_SUBJECT,
-						message.getProjectName(),
-						context.getChangeByUserFullName(),
-						StringUtils.trim(message.getTitle(), 100)),
-				context.templatePath("templates/email/project/itemCreatedNotifier.mt"));
-		setupMailHeaders(message, context.getEmailNotification(),
-				templateGenerator);
-
-		templateGenerator.putVariable("message", message.getMessage());
-		return templateGenerator;
-	}
-
-	@Override
-	protected TemplateGenerator templateGeneratorForCommentAction(
-			MailContext<SimpleMessage> context) {
-		SimpleMessage message = messageService.findMessageById(
-				context.getTypeid(), context.getSaccountid());
-
-		if (message == null) {
-			return null;
-		}
-
-		TemplateGenerator templateGenerator = new TemplateGenerator(
-				context.getMessage(MessageI18nEnum.MAIL_COMMENT_ITEM_SUBJECT,
-						message.getProjectName(),
-						context.getChangeByUserFullName(),
-						StringUtils.trim(message.getTitle(), 100)),
-				context.templatePath("templates/email/project/itemCommentNotifier.mt"));
-		setupMailHeaders(message, context.getEmailNotification(),
-				templateGenerator);
-
-		templateGenerator
-				.putVariable("comment", context.getEmailNotification());
-
-		return templateGenerator;
-	}
-
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.esofthead.mycollab.module.tracker.dao.VersionMapperExt">
-    
+
     <resultMap
         type="com.esofthead.mycollab.module.tracker.domain.SimpleVersion"
         extends="com.esofthead.mycollab.module.tracker.dao.VersionMapper.ResultMapWithBLOBs"
         id="SimpleVersionResult">
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -47,25 +48,29 @@
                         FROM m_tracker_bug, m_tracker_bug_related_item 
                         WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')
                             AND m_tracker_bug_related_item.type IN ('AffVersion','Fix Version') 
-                            AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numOpenBugs            
+                            AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numOpenBugs,
+                m_project.name AS projectName                        
         FROM m_tracker_version
+            LEFT OUTER JOIN m_project ON (m_tracker_version.projectid=m_project.id)
     ]]>
     </sql>
-    
+
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        ${_parameter.searchCriteria.orderByField}
+        ${_parameter.searchCriteria.sortDirection},
         #end
         m_tracker_version.lastUpdatedTime DESC
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria" lang="velocity">
+    <select id="getTotalCount" resultType="int" parameterType="VersionSearchCriteria"
+        lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_version
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+        #trimext("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
         #end
     </select>
 
@@ -73,10 +78,10 @@
         parameterType="VersionSearchCriteria" lang="velocity">
         <include refid="selectVersion" />
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
-        #end    
+        #trimext("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
+        #end
         <include refid="orderStatement" />
     </select>
 
@@ -87,11 +92,12 @@
         WHERE m_tracker_version.id=@{versionId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
+        lang="velocity">
         SELECT MIN(id) FROM m_tracker_version
 
         #trimext("WHERE" "AND|OR")
-            <include refid="querySearchCriteria" />
+        <include refid="querySearchCriteria" />
         #end
     </select>
 
@@ -100,7 +106,7 @@
         SELECT MAX(id) FROM m_tracker_version
 
         #trimext("WHERE" "AND|OR")
-            <include refid="querySearchCriteria" />
+        <include refid="querySearchCriteria" />
         #end
     </select>
 </mapper>
