@@ -18,10 +18,16 @@ package com.esofthead.mycollab.module.user;
 
 import com.esofthead.mycollab.core.MyCollabException;
 
-public class UserIsNotExistedException extends MyCollabException {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
+ */
+public class UserExistedException extends MyCollabException {
 	private static final long serialVersionUID = 1L;
 
-	public UserIsNotExistedException(String message) {
+	public UserExistedException(String message) {
 		super(message);
 	}
 

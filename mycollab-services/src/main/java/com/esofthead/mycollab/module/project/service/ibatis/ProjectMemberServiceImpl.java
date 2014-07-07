@@ -23,6 +23,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.cache.CacheUtils;
@@ -45,6 +46,7 @@ import com.esofthead.mycollab.module.project.esb.DeleteProjectMemberCommand;
 import com.esofthead.mycollab.module.project.esb.InviteProjectMembersCommand;
 import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.user.UserExistedException;
 import com.esofthead.mycollab.module.user.dao.UserAccountMapper;
 import com.esofthead.mycollab.module.user.dao.UserMapper;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -80,6 +82,9 @@ public class ProjectMemberServiceImpl extends
 
 	@Autowired
 	private UserAccountMapper userAccountMapper;
+
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	public ICrudGenericDAO getCrudMapper() {
@@ -160,22 +165,24 @@ public class ProjectMemberServiceImpl extends
 	public void acceptProjectInvitationByNewUser(String email, String password,
 			Integer projectId, Integer projectRoleId, Integer sAccountId) {
 
-		SimpleUser simpleUser = new SimpleUser();
-		simpleUser.setAccountId(sAccountId);
-		simpleUser.setFirstname("");
-		simpleUser.setLastname("");
-		simpleUser.setRegisteredtime(new GregorianCalendar().getTime());
-		simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-		simpleUser.setPassword(PasswordEncryptHelper
-				.encryptSaltPassword(password));
-		simpleUser.setUsername(email);
-		simpleUser.setEmail(email);
-		log.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
-		userMapper.insert(simpleUser);
+		try {
+			SimpleUser simpleUser = new SimpleUser();
+			simpleUser.setAccountId(sAccountId);
+			simpleUser.setFirstname("");
+			simpleUser.setLastname("");
+			simpleUser.setRegisteredtime(new GregorianCalendar().getTime());
+			simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
+			simpleUser.setPassword(PasswordEncryptHelper
+					.encryptSaltPassword(password));
+			simpleUser.setUsername(email);
+			simpleUser.setEmail(email);
+			log.debug("Save user {}", BeanUtility.printBeanObj(simpleUser));
+			userMapper.insert(simpleUser);
+		} catch (DuplicateKeyException e) {
+			throw new UserExistedException("User existed " + email);
+		}
 
 		log.debug("Assign guest role for this user {}", email);
-		RoleService roleService = ApplicationContextUtil
-				.getSpringBean(RoleService.class);
 		Integer systemGuestRoleId = roleService.getSystemRoleId(
 				SimpleRole.GUEST, sAccountId);
 

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.user.UserExistedException;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
 /**
@@ -66,6 +67,8 @@ public class AcceptByOutsideMemberCreateAccounttHandler extends
 					password, projectId, roleId, sAccountId);
 		} catch (InvalidPasswordException e) {
 			throw new UserInvalidInputException(e.getMessage());
+		} catch (UserExistedException e) {
+			throw e;
 		} catch (Exception e) {
 			log.error("Error while user try update user password", e);
 			throw new MyCollabException(

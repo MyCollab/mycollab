@@ -178,17 +178,17 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		List<SimpleUser> inListUsers = notification.getNotifyUsers();
 
-		if (notificationSettings != null && notificationSettings.size() > 0) {
+		if (notificationSettings != null) {
 			for (ProjectNotificationSetting notificationSetting : notificationSettings) {
 				if (ProjectNotificationSettingType.NONE
 						.equals(notificationSetting.getLevel())) {
 					// remove users in list if he is already in list
-					for (SimpleUser user : inListUsers) {
-						if ((user.getUsername() != null && user.getUsername()
-								.equals(notificationSetting.getUsername()))
-								|| user.getEmail().equals(
+					for (int i = inListUsers.size() - 1; i >= 0; i--) {
+						SimpleUser inUser = inListUsers.get(i);
+						if ((inUser.getUsername() != null)
+								&& inUser.getUsername().equals(
 										notificationSetting.getUsername())) {
-							inListUsers.remove(user);
+							inListUsers.remove(i);
 							break;
 						}
 					}
@@ -196,9 +196,8 @@ public class BugRelayEmailNotificationActionImpl extends
 						.equals(notificationSetting.getLevel())) {
 					boolean isAlreadyInList = false;
 					for (SimpleUser user : inListUsers) {
-						if ((user.getUsername() != null && user.getUsername()
-								.equals(notificationSetting.getUsername()))
-								|| user.getEmail().equals(
+						if ((user.getUsername() != null)
+								&& user.getUsername().equals(
 										notificationSetting.getUsername())) {
 							isAlreadyInList = true;
 							break;
@@ -213,11 +212,8 @@ public class BugRelayEmailNotificationActionImpl extends
 								&& bug.getAssignuser().equals(
 										notificationSetting.getUsername())) {
 							for (SimpleUser user : activeUsers) {
-								if ((user.getUsername() != null && user
-										.getUsername().equals(
-												notificationSetting
-														.getUsername()))
-										|| user.getEmail().equals(
+								if ((user.getUsername()) != null
+										&& user.getUsername().equals(
 												notificationSetting
 														.getUsername())) {
 									inListUsers.add(user);
@@ -231,9 +227,8 @@ public class BugRelayEmailNotificationActionImpl extends
 						.equals(notificationSetting.getLevel())) {
 					boolean isAlreadyInList = false;
 					for (SimpleUser user : inListUsers) {
-						if ((user.getUsername() != null && user.getUsername()
-								.equals(notificationSetting.getUsername()))
-								|| user.getEmail().equals(
+						if ((user.getUsername() != null)
+								&& user.getUsername().equals(
 										notificationSetting.getUsername())) {
 							isAlreadyInList = true;
 							break;
@@ -242,10 +237,8 @@ public class BugRelayEmailNotificationActionImpl extends
 
 					if (!isAlreadyInList) {
 						for (SimpleUser user : activeUsers) {
-							if ((user.getUsername() != null && user
-									.getUsername().equals(
-											notificationSetting.getUsername()))
-									|| user.getEmail().equals(
+							if ((user.getUsername() != null)
+									&& user.getUsername().equals(
 											notificationSetting.getUsername())) {
 								inListUsers.add(user);
 								break;
