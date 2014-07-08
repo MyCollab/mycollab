@@ -51,12 +51,13 @@
         - Emails are localized per language
         - Support lazy load view
         - Allow user can select the default system language
-        - Focus in sysyem stable by adding many unit tests and refactor the system
+        - Focus in system stable by adding many unit tests and refactor the system
         
     Bug Fixes
         - Exception is thrown when user save customized view
         - Exception is thrown when user save search result
         - Can not save login credential in mobile edition    
+        - Can not add new role or edit role name of existing item
         - Save duplicate monitor items
     
     Changelog from MyCollab 4.1.1

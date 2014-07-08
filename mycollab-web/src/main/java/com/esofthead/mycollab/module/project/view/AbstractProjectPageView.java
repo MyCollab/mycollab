@@ -55,7 +55,7 @@ public class AbstractProjectPageView extends AbstractPageView {
 
 	}
 
-	public ComponentContainer constructHeader() {
+	private ComponentContainer constructHeader() {
 		header = new HorizontalLayout();
 		this.headerText.setStyleName("hdr-text");
 

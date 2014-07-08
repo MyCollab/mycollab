@@ -85,8 +85,8 @@ public class MilestoneReadViewImpl extends
 	private boolean isSimpleView = false;
 
 	public MilestoneReadViewImpl() {
-		super("Detail Phase", MyCollabResource
-				.newResource("icons/24/project/phase.png"));
+		super(AppContext.getMessage(MilestoneI18nEnum.VIEW_DETAIL_TITLE),
+				MyCollabResource.newResource("icons/24/project/phase.png"));
 	}
 
 	@Override

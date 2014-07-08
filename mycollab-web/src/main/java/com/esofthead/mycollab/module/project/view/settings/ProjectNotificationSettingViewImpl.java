@@ -30,8 +30,9 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
  */
 @ViewComponent
 public class ProjectNotificationSettingViewImpl extends AbstractPageView
-implements ProjectNotificationSettingView {
+		implements ProjectNotificationSettingView {
 	private static final long serialVersionUID = 1L;
+
 	private NotificationSettingViewComponent<ProjectNotificationSetting, ProjectNotificationSettingService> component;
 
 	public ProjectNotificationSettingViewImpl() {
@@ -48,7 +49,7 @@ implements ProjectNotificationSettingView {
 		component = new NotificationSettingViewComponent<ProjectNotificationSetting, ProjectNotificationSettingService>(
 				notification,
 				ApplicationContextUtil
-				.getSpringBean(ProjectNotificationSettingService.class)) {
+						.getSpringBean(ProjectNotificationSettingService.class)) {
 		};
 		this.addComponent(component);
 	}

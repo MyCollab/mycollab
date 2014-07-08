@@ -29,18 +29,19 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
-import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
+import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.ui.Alignment;
@@ -60,7 +61,7 @@ import com.vaadin.ui.Label;
  * @since 1.0
  */
 @ViewComponent
-public class MilestoneListViewImpl extends AbstractProjectPageView implements
+public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		MilestoneListView {
 	private static final long serialVersionUID = 1L;
 
@@ -69,23 +70,91 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 	private CssLayout futureContainer;
 
 	private CssLayout closeContainer;
-	private final Button createBtn;
-	private final CustomLayout bodyContent;
 
-	public MilestoneListViewImpl() {
-		super(AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE),
-				"phase.png");
-		createBtn = new Button();
+	private Image titleIcon;
+	private Button createBtn;
+	private CustomLayout bodyContent;
 
-		this.addHeaderRightContent(createHeaderRight());
+	private List<SimpleMilestone> milestones;
 
-		this.bodyContent = CustomLayoutLoader.createLayout("milestoneView");
-
+	@Override
+	protected void displayView() {
+		initUI();
 		constructBody();
-		this.addComponent(bodyContent);
+
+		this.createBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.MILESTONES));
+
+		for (final SimpleMilestone milestone : milestones) {
+			if (SimpleMilestone.STATUS_INPROGRESS.equals(milestone.getStatus())) {
+				this.inProgressContainer.addComponent(this
+						.constructMilestoneBox(milestone));
+			} else if (SimpleMilestone.STATUS_FUTURE.equals(milestone
+					.getStatus())) {
+				this.futureContainer.addComponent(this
+						.constructMilestoneBox(milestone));
+			} else if (SimpleMilestone.STATUS_CLOSE.equals(milestone
+					.getStatus())) {
+				this.closeContainer.addComponent(this
+						.constructMilestoneBox(milestone));
+			}
+		}
+	}
+
+	@Override
+	public void displayMilestones(final List<SimpleMilestone> milestones) {
+		this.milestones = milestones;
+		this.lazyLoadView();
+	}
+
+	private void initUI() {
+		this.titleIcon = new Image(null,
+				MyCollabResource.newResource("icons/24/project/phase.png"));
+		Label headerText = new Label(
+				AppContext.getMessage(MilestoneI18nEnum.VIEW_LIST_TITLE));
+
+		HorizontalLayout header = new HorizontalLayout();
+		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
+		header.setExpandRatio(headerText, 1.0f);
+
+		header.setStyleName("hdr-view");
+		header.setWidth("100%");
+		header.setSpacing(true);
+		header.setMargin(true);
+
+		header.addComponent(createHeaderRight());
+		this.addComponent(header);
+	}
+
+	private HorizontalLayout createHeaderRight() {
+		final HorizontalLayout layout = new HorizontalLayout();
+
+		this.createBtn = new Button(
+				AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						EventBus.getInstance().fireEvent(
+								new MilestoneEvent.GotoAdd(
+										MilestoneListViewImpl.this, null));
+					}
+				});
+
+		this.createBtn.setIcon(MyCollabResource
+				.newResource("icons/16/addRecord.png"));
+		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		layout.addComponent(this.createBtn);
+		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
+
+		return layout;
 	}
 
 	private void constructBody() {
+		this.bodyContent = CustomLayoutLoader.createLayout("milestoneView");
+
 		bodyContent.setWidth("100%");
 		bodyContent.setStyleName("milestone-view");
 
@@ -157,31 +226,7 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		futureContainer.setWidth("100%");
 		bodyContent.addComponent(this.futureContainer, "future-milestones");
 
-	}
-
-	private HorizontalLayout createHeaderRight() {
-		final HorizontalLayout layout = new HorizontalLayout();
-
-		this.createBtn.setCaption(AppContext
-				.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE));
-		this.createBtn.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
-						new MilestoneEvent.GotoAdd(MilestoneListViewImpl.this,
-								null));
-			}
-		});
-
-		this.createBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
-		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		layout.addComponent(this.createBtn);
-		layout.setComponentAlignment(this.createBtn, Alignment.MIDDLE_RIGHT);
-
-		return layout;
+		this.addComponent(bodyContent);
 	}
 
 	private ComponentContainer constructMilestoneBox(
@@ -251,32 +296,6 @@ public class MilestoneListViewImpl extends AbstractProjectPageView implements
 		layout.addComponent(milestoneInfoLayout);
 
 		return layout;
-	}
-
-	@Override
-	public void displayMilestones(final List<SimpleMilestone> milestones) {
-		this.createBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.MILESTONES));
-
-		this.inProgressContainer.removeAllComponents();
-		this.futureContainer.removeAllComponents();
-		this.closeContainer.removeAllComponents();
-
-		for (final SimpleMilestone milestone : milestones) {
-			if (SimpleMilestone.STATUS_INPROGRESS.equals(milestone.getStatus())) {
-				this.inProgressContainer.addComponent(this
-						.constructMilestoneBox(milestone));
-			} else if (SimpleMilestone.STATUS_FUTURE.equals(milestone
-					.getStatus())) {
-				this.futureContainer.addComponent(this
-						.constructMilestoneBox(milestone));
-			} else if (SimpleMilestone.STATUS_CLOSE.equals(milestone
-					.getStatus())) {
-				this.closeContainer.addComponent(this
-						.constructMilestoneBox(milestone));
-			}
-		}
-
 	}
 
 	@Override

@@ -42,7 +42,7 @@ import com.vaadin.ui.VerticalLayout;
  * @param <B>
  */
 public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
-implements PageView {
+		implements PageView {
 	private static final long serialVersionUID = 1L;
 
 	protected B beanItem;
@@ -56,7 +56,7 @@ implements PageView {
 
 	public AbstractPreviewItemComp(String headerText, Resource iconResource) {
 
-		this.titleIcon = new Image(null,iconResource);
+		this.titleIcon = new Image(null, iconResource);
 		this.headerText = new Label(headerText);
 		this.headerText.setSizeUndefined();
 		this.addComponent(constructHeader());
@@ -69,7 +69,7 @@ implements PageView {
 
 		addHeaderRightContent(actionControls);
 
-		CssLayout contentWrapper = new CssLayout(); 
+		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
 
 		previewLayout = new ReadViewLayout("", iconResource);

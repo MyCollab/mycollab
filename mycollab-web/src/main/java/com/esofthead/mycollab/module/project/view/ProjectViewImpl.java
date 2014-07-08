@@ -372,19 +372,10 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		breadCrumb.setProject(project);
 
-		/*
-		 * Button quickActionBtn = new Button("", new Button.ClickListener() {
-		 * 
-		 * @Override public void buttonClick(ClickEvent event) {
-		 * controlsBtn.setPopupVisible(true); } });
-		 * 
-		 * quickActionBtn.setDescription("Quick action");
-		 */
 		controlsBtn = new PopupButton();
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/project/quick_action_edited.png"));
 		controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
-		// controlsBtn.setWidthPopupButton("0");
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		popupButtonsControl.setSpacing(true);

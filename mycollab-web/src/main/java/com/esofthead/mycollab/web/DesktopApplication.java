@@ -52,7 +52,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
@@ -63,7 +62,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
@@ -75,7 +73,6 @@ import com.vaadin.ui.Window;
  */
 @Theme("mycollab")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
-@Push(value = PushMode.MANUAL)
 @PreserveOnRefresh
 public class DesktopApplication extends UI {
 

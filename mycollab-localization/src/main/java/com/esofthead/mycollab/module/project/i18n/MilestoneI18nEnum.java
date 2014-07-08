@@ -24,6 +24,7 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum MilestoneI18nEnum {
 	VIEW_LIST_TITLE,
+	VIEW_DETAIL_TITLE,
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
 	
