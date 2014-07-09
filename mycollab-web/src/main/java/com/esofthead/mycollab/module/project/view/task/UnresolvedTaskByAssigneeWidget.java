@@ -128,6 +128,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 			this.setStyleName("link");
 			this.setWidth("110px");
 			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
+			this.setDescription(assigneeFullName);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
 		}

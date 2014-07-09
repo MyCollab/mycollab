@@ -41,13 +41,7 @@
             <artifactId>mycollab-migration</artifactId>
             <version>4.3.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
-            <artifactId>mycollab-reporting</artifactId>
-            <version>4.3.0</version>
-        </dependency>
-
+        
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-config</artifactId>

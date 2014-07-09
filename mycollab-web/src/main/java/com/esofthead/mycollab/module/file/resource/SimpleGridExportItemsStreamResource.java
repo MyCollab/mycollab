@@ -101,7 +101,8 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 			log.debug("Construct component builder {} and width {}",
 					field.getField(), field.getDefaultWidth());
 			ComponentColumnBuilder columnBuilder = col.componentColumn(
-					field.getDesc(), field.getComponentBuilder()).setWidth(
+					AppContext.getMessage(field.getDescKey()),
+					field.getComponentBuilder()).setWidth(
 					field.getDefaultWidth());
 
 			reportBuilder.addColumn(columnBuilder);

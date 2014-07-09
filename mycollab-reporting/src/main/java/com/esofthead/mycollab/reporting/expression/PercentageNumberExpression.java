@@ -14,21 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-reporting.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.reporting;
+package com.esofthead.mycollab.reporting.expression;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import net.sf.dynamicreports.report.definition.ReportParameters;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 3.0
+ * @since 4.1.2
  * 
  */
-@Target(value = { ElementType.FIELD })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface NotInReport {
+public class PercentageNumberExpression extends AbstractFieldExpression {
+	private static final long serialVersionUID = 1L;
+
+	public PercentageNumberExpression(String field) {
+		super(field);
+	}
+
+	@Override
+	public String evaluate(ReportParameters reportParameters) {
+		DecimalFormat df = new DecimalFormat("#");
+		df.setRoundingMode(RoundingMode.HALF_EVEN);
+		Double percentValue = reportParameters.getValue(field);
+		return df.format(percentValue) + "%";
+	}
 
 }

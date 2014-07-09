@@ -46,11 +46,11 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.ComponentBuilderWrapper;
-import com.esofthead.mycollab.reporting.DateExpression;
-import com.esofthead.mycollab.reporting.DateTimeExpression;
-import com.esofthead.mycollab.reporting.MailExpression;
 import com.esofthead.mycollab.reporting.ReportTemplateFactory;
-import com.esofthead.mycollab.reporting.StringExpression;
+import com.esofthead.mycollab.reporting.expression.DateExpression;
+import com.esofthead.mycollab.reporting.expression.DateTimeExpression;
+import com.esofthead.mycollab.reporting.expression.MailExpression;
+import com.esofthead.mycollab.reporting.expression.StringExpression;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -340,7 +340,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				isCompleteExpr).setStrikeThrough(true);
 
 		StyleBuilder styleBuilder = stl
-				.style(ReportTemplateFactory.getTemplate().getUnderlineStyle())
+				.style(ReportTemplateFactory.getTemplate(null).getUnderlineStyle())
 				.addConditionalStyle(overDueStyle)
 				.addConditionalStyle(isCompleteStyle);
 

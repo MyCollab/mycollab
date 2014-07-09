@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import java.util.List;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.Role;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.module.user.service.RoleService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Table;

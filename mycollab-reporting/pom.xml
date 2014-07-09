@@ -23,7 +23,7 @@
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
-            <artifactId>mycollab-dao</artifactId>
+            <artifactId>mycollab-services</artifactId>
             <version>4.3.0</version>
         </dependency>
 

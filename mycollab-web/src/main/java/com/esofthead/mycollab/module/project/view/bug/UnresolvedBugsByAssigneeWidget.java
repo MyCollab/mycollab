@@ -23,9 +23,11 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -47,7 +49,9 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 
 	public UnresolvedBugsByAssigneeWidget(
 			final IBugReportDisplayContainer componentLayout) {
-		super("Unresolved by assignee", new VerticalLayout());
+		super(AppContext
+				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE),
+				new VerticalLayout());
 
 		this.componentLayout = componentLayout;
 		this.setContentBorder(true);
@@ -70,8 +74,9 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 				assigneeLayout.setWidth("100%");
 
 				String assignUser = item.getGroupid();
-				String assignUserFullName = item.getGroupid() == null ? "Undefnined"
-						: item.getGroupname();
+				String assignUserFullName = item.getGroupid() == null ? AppContext
+						.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) : item
+						.getGroupname();
 				if (assignUserFullName == null
 						|| "".equals(assignUserFullName.trim())) {
 					assignUserFullName = StringUtils
@@ -104,12 +109,12 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria
-					.setAssignuser(new StringSearchField(
-							SearchField.AND, assignee));
+							.setAssignuser(new StringSearchField(
+									SearchField.AND, assignee));
 					UnresolvedBugsByAssigneeWidget.this.componentLayout
-					.displayBugListWidget(
-							assigneeFullName + " Bugs List",
-							UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria);
+							.displayBugListWidget(
+									assigneeFullName + " Bugs List",
+									UnresolvedBugsByAssigneeWidget.this.bugSearchCriteria);
 				}
 			});
 
@@ -118,6 +123,7 @@ public class UnresolvedBugsByAssigneeWidget extends Depot {
 			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
+			this.setDescription(assigneeFullName);
 		}
 	}
 }

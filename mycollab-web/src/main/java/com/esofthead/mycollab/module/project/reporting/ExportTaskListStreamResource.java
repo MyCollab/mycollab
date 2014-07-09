@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -70,7 +71,6 @@ import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
 /**
  * 
@@ -313,8 +313,9 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 					log.debug("Construct component builder {} and width {}",
 							field.getField(), field.getDefaultWidth());
 					ComponentColumnBuilder columnBuilder = col.componentColumn(
-							field.getDesc(), field.getComponentBuilder())
-							.setWidth(field.getDefaultWidth());
+							AppContext.getMessage(field.getDescKey()),
+							field.getComponentBuilder()).setWidth(
+							field.getDefaultWidth());
 
 					report.addColumn(columnBuilder);
 				}

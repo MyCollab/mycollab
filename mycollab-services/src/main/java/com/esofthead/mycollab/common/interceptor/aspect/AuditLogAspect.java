@@ -48,7 +48,7 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.common.service.ibatis.AuditLogServiceImpl.AuditLogUtil;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.domain.User;
 
 /**
  * 
@@ -142,7 +142,7 @@ public class AuditLogAspect {
 					.getProperty(bean, "saccountid");
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
-			if (!(bean instanceof SimpleUser)) {
+			if (!(bean instanceof User)) {
 				log.error("Can not define saccountid field of bean {}", bean);
 			}
 

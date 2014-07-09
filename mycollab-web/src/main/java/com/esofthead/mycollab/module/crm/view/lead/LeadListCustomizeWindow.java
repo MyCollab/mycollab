@@ -19,9 +19,9 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.CustomizedTableWindow;
-import com.esofthead.mycollab.vaadin.ui.table.TableViewField;
 
 /**
  * 

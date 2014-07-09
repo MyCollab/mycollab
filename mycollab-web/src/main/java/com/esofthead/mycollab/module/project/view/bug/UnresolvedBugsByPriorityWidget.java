@@ -23,9 +23,11 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.vaadin.ui.Button;
@@ -46,7 +48,9 @@ public class UnresolvedBugsByPriorityWidget extends Depot {
 
 	public UnresolvedBugsByPriorityWidget(
 			final IBugReportDisplayContainer componentLayout) {
-		super("Unresolved by Priority", new VerticalLayout());
+		super(AppContext
+				.getMessage(BugI18nEnum.WIDGET_UNRESOLVED_BY_PRIORITY_TITLE),
+				new VerticalLayout());
 
 		this.componentLayout = componentLayout;
 		this.setContentBorder(true);

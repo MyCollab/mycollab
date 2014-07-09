@@ -28,13 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
@@ -77,16 +71,10 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
-import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
+import com.esofthead.mycollab.module.user.CommonTooltipGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.hp.gagawa.java.elements.A;
-import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H3;
-import com.hp.gagawa.java.elements.Img;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Tr;
 
 /**
  * 
@@ -97,6 +85,7 @@ import com.hp.gagawa.java.elements.Tr;
 @Component("tooltipGeneratorServlet")
 public class AnnotatedTooltipGeneratorServletRequestHandler extends
 		GenericServletRequestHandler {
+
 	private static Logger log = LoggerFactory
 			.getLogger(AnnotatedTooltipGeneratorServletRequestHandler.class);
 
@@ -247,7 +236,8 @@ public class AnnotatedTooltipGeneratorServletRequestHandler extends
 						.getSpringBean(UserService.class);
 				SimpleUser user = service.findUserByUserNameInAccount(username,
 						sAccountId);
-				html = generateTooltipUser(user, siteURL, timeZone, locale);
+				html = CommonTooltipGenerator.generateTooltipUser(locale, user,
+						siteURL, timeZone);
 			} else {
 				log.error("Can not generate tooltip for item has type " + type);
 			}
@@ -268,116 +258,4 @@ public class AnnotatedTooltipGeneratorServletRequestHandler extends
 		}
 	}
 
-	private String generateTooltipUser(SimpleUser user, String siteURL,
-			String timeZone, Locale locale) {
-		try {
-			if (user == null)
-				return null;
-			Div div = new Div();
-			H3 userFullName = new H3()
-					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
-			userFullName.setStyle("padding-left:10px;").appendText(
-					user.getDisplayName());
-			div.appendChild(userFullName);
-
-			com.hp.gagawa.java.elements.Table table = new com.hp.gagawa.java.elements.Table();
-			table.setStyle("padding-left:10px; width :380px; color: #5a5a5a; font-size:11px;");
-			Tr trRow1 = new Tr();
-			trRow1.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText(
-									LocalizationHelper.getMessage(locale,
-											UserI18nEnum.FORM_EMAIL)))
-					.appendChild(
-							new Td().setStyle("vertical-align: top;")
-									.appendChild(
-											new A().setHref(
-													"mailto:" + user.getEmail())
-													.appendText(
-															StringUtils
-																	.getStringFieldValue(user
-																			.getEmail()))));
-
-			Td trRow1_value = new Td().setStyle(
-					"width:150px;text-align: right; vertical-align: top;")
-					.appendChild(
-							new Img("", SiteConfiguration.getAvatarLink(
-									user.getAvatarid(), 100)));
-			trRow1_value.setAttribute("rowspan", "5");
-			trRow1.appendChild(new Td().setStyle(
-					"width: 0px; vertical-align: top; text-align: right;")
-					.appendChild(trRow1_value));
-
-			Tr trRow2 = new Tr();
-			trRow2.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText(
-									LocalizationHelper.getMessage(locale,
-											UserI18nEnum.FORM_TIMEZONE)))
-					.appendChild(
-							new Td().setStyle("vertical-align: top;")
-									.appendText(
-											TimezoneMapper.getTimezone(
-													user.getTimezone())
-													.getDisplayName()));
-			Tr trRow3 = new Tr();
-			trRow3.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText(
-									LocalizationHelper.getMessage(locale,
-											UserI18nEnum.FORM_COUNTRY)))
-					.appendChild(
-							new Td().setStyle("vertical-align: top;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(user
-															.getCountry())));
-
-			Tr trRow4 = new Tr();
-			trRow4.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText(
-									LocalizationHelper.getMessage(locale,
-											UserI18nEnum.FORM_WORK_PHONE)))
-					.appendChild(
-							new Td().setStyle("vertical-align: top;")
-									.appendText(
-											StringUtils
-													.getStringFieldValue(user
-															.getWorkphone())));
-
-			Tr trRow5 = new Tr();
-			trRow5.appendChild(
-					new Td().setStyle(
-							"width: 110px; vertical-align: top; text-align: right;")
-							.appendText(
-									LocalizationHelper
-											.getMessage(
-													locale,
-													GenericI18Enum.FORM_LAST_ACCESSED_TIME)))
-					.appendChild(
-							new Td().setStyle(
-									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
-									.appendText(
-											DateTimeUtils.getStringDateFromNow(
-													user.getLastaccessedtime(),
-													locale)));
-			table.appendChild(trRow1);
-			table.appendChild(trRow2);
-			table.appendChild(trRow3);
-			table.appendChild(trRow4);
-			table.appendChild(trRow5);
-			div.appendChild(table);
-			return div.write();
-		} catch (Exception e) {
-			log.error(
-					"Error while generate tooltip for servlet project-task tooltip",
-					e);
-			return null;
-		}
-	}
 }

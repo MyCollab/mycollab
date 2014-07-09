@@ -25,7 +25,7 @@ import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 import net.sf.dynamicreports.report.exception.DRException;
 
 import com.esofthead.mycollab.common.domain.Currency;
-import com.esofthead.mycollab.reporting.NotInReport;
+import com.esofthead.mycollab.core.reporting.NotInReport;
 
 /**
  * 

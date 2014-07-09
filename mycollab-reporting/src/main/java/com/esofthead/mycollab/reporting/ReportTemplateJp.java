@@ -41,7 +41,7 @@ class ReportTemplateJp extends AbstractReportTemplate {
 	
 
 	ReportTemplateJp() {
-		rootStyle = stl.style().setPadding(2).setFontName("HeiseiKakuGo-W5");
+		rootStyle = stl.style().setPadding(2).setFontName("Hiragino Kaku Gothic Pro");
 		boldStyle = stl.style(rootStyle).bold();
 		italicStyle = stl.style(rootStyle).italic();
 		underlineStyle = stl.style(rootStyle).underline();

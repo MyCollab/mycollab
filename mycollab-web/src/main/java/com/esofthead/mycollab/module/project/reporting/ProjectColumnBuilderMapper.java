@@ -48,8 +48,8 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.ComponentBuilderWrapper;
-import com.esofthead.mycollab.reporting.DateExpression;
-import com.esofthead.mycollab.reporting.StringExpression;
+import com.esofthead.mycollab.reporting.expression.DateExpression;
+import com.esofthead.mycollab.reporting.expression.StringExpression;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**

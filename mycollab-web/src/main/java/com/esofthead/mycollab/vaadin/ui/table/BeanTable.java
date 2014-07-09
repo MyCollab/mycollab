@@ -25,11 +25,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -78,7 +80,8 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 
 		if (requiredColumn != null) {
 			visibleColumnsCol.add(requiredColumn.getField());
-			columnHeadersCol.add(requiredColumn.getDesc());
+			columnHeadersCol.add(AppContext.getMessage(requiredColumn
+					.getDescKey()));
 			this.setColumnWidth(requiredColumn.getField(),
 					requiredColumn.getDefaultWidth());
 		}
@@ -86,7 +89,7 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		for (int i = 0; i < displayColumns.size(); i++) {
 			TableViewField viewField = displayColumns.get(i);
 			visibleColumnsCol.add(viewField.getField());
-			columnHeadersCol.add(viewField.getDesc());
+			columnHeadersCol.add(AppContext.getMessage(viewField.getDescKey()));
 
 			if (i == 0) {
 				this.setColumnExpandRatio(viewField.getField(), 1.0f);

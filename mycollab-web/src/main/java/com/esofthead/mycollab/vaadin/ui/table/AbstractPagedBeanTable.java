@@ -28,12 +28,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.CustomViewStore;
 import com.esofthead.mycollab.common.domain.NullCustomViewStore;
 import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -43,7 +43,6 @@ import com.esofthead.mycollab.vaadin.events.PagableHandler;
 import com.esofthead.mycollab.vaadin.events.SelectableItemHandler;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.google.gson.reflect.TypeToken;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -159,7 +158,8 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 
 		if (requiredColumn != null) {
 			visibleColumnsCol.add(requiredColumn.getField());
-			columnHeadersCol.add(requiredColumn.getDesc());
+			columnHeadersCol.add(AppContext.getMessage(requiredColumn
+					.getDescKey()));
 			this.tableItem.setColumnWidth(requiredColumn.getField(),
 					requiredColumn.getDefaultWidth());
 		}
@@ -167,7 +167,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		for (int i = 0; i < displayColumns.size(); i++) {
 			TableViewField viewField = displayColumns.get(i);
 			visibleColumnsCol.add(viewField.getField());
-			columnHeadersCol.add(viewField.getDesc());
+			columnHeadersCol.add(AppContext.getMessage(viewField.getDescKey()));
 
 			if (i == 0) {
 				this.tableItem.setColumnExpandRatio(viewField.getField(), 1.0f);

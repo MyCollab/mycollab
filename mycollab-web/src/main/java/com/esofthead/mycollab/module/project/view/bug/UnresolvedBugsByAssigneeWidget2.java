@@ -74,8 +74,9 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				assigneeLayout.setWidth("100%");
 
 				String assignUser = item.getGroupid();
-				String assignUserFullName = item.getGroupid() == null ? "Undefined"
-						: item.getGroupname();
+				String assignUserFullName = item.getGroupid() == null ? AppContext
+						.getMessage(BugI18nEnum.OPT_UNDEFINED_USER) : item
+						.getGroupname();
 				if (assignUserFullName == null
 						|| "".equals(assignUserFullName.trim())) {
 					assignUserFullName = StringUtils
@@ -106,10 +107,10 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 				@Override
 				public void buttonClick(final ClickEvent event) {
 					UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria
-					.setAssignuser(new StringSearchField(
-							SearchField.AND, assignee));
+							.setAssignuser(new StringSearchField(
+									SearchField.AND, assignee));
 					final BugFilterParameter param = new BugFilterParameter(
-							"Unresolved Bug List of " + assigneeFullName,
+							"Unresolved Bugs of " + assigneeFullName,
 							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
 					EventBus.getInstance().fireEvent(
 							new BugEvent.GotoList(this,
@@ -122,6 +123,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 			this.addStyleName(UIConstants.TEXT_ELLIPSIS);
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					assigneeAvatarId, 16));
+			this.setDescription(assigneeFullName);
 		}
 	}
 }
