@@ -16,9 +16,18 @@
  */
 package com.esofthead.mycollab.reporting;
 
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.hyperLink;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.reporting.expression.CompBuilderValue;
+import com.esofthead.mycollab.reporting.expression.DateExpression;
+import com.esofthead.mycollab.reporting.expression.DateTimeExpression;
+import com.esofthead.mycollab.reporting.expression.HyperlinkValue;
+import com.esofthead.mycollab.reporting.expression.MValue;
 
 /**
  * 
@@ -108,5 +117,41 @@ public abstract class AbstractReportTemplate {
 
 	public ReportTemplateBuilder getReportTemplateBuilder() {
 		return reportTemplateBuilder;
+	}
+
+	public ComponentBuilder buildCompBuilder(MValue value) {
+		if (value instanceof HyperlinkValue) {
+			return buildHyperLink((HyperlinkValue) value);
+		} else if (value instanceof CompBuilderValue) {
+			return buildComp((CompBuilderValue) value);
+		} else if (value instanceof DateTimeExpression) {
+			return buildDateTimeText((DateTimeExpression) value);
+		} else if (value instanceof DateExpression) {
+			return buildDateText((DateExpression) value);
+		} else {
+			throw new MyCollabException("Do not support mvalue type " + value);
+		}
+	}
+
+	public ComponentBuilder buildHyperLink(HyperlinkValue hyperlink) {
+		ComponentBuilder compBuilder = cmp.text(hyperlink.getTitle())
+				.setHyperLink(hyperLink(hyperlink.getHref()))
+				.setStyle(underlineStyle);
+		if (hyperlink.getStyle() != null) {
+			compBuilder.setStyle(hyperlink.getStyle());
+		}
+		return compBuilder;
+	}
+
+	public ComponentBuilder buildComp(CompBuilderValue compBuilder) {
+		return compBuilder.getCompBuilder();
+	}
+
+	public ComponentBuilder buildDateTimeText(DateTimeExpression dateExpr) {
+		return cmp.text(dateExpr);
+	}
+
+	public ComponentBuilder buildDateText(DateExpression dateExpr) {
+		return cmp.text(dateExpr);
 	}
 }

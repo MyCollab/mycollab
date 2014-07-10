@@ -39,6 +39,7 @@ import com.esofthead.mycollab.reporting.GroupIteratorDataSource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
+import com.esofthead.mycollab.reporting.expression.MValue;
 import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
@@ -85,16 +86,17 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 		}
 		List<TableViewFieldDecorator> fields = parameters.getFields();
 
-		Map<String, ComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
+		Map<String, MValue> lstFieldBuilder = ColumnBuilderClassMapper
 				.getListFieldBuilder(classType);
 
 		// build columns of report
 		for (TableViewFieldDecorator field : fields) {
 			if (lstFieldBuilder != null) {
-				ComponentBuilder columnFieldBuilder = lstFieldBuilder.get(field
+				MValue columnFieldBuilder = lstFieldBuilder.get(field
 						.getField());
 				if (columnFieldBuilder != null) {
-					field.setComponentBuilder(columnFieldBuilder);
+					field.setComponentBuilder(reportTemplate
+							.buildCompBuilder(columnFieldBuilder));
 				}
 			}
 

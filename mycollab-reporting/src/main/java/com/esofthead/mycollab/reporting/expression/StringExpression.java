@@ -24,7 +24,7 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
  * @since 4.1.2
  * 
  */
-public class StringExpression extends AbstractFieldExpression {
+public class StringExpression extends AbstractFieldExpression implements MValue {
 
 	private static final long serialVersionUID = 1L;
 

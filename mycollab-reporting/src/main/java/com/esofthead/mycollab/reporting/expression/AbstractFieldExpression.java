@@ -25,7 +25,7 @@ import net.sf.dynamicreports.report.base.expression.AbstractSimpleExpression;
  * 
  */
 public abstract class AbstractFieldExpression extends
-		AbstractSimpleExpression<String> {
+		AbstractSimpleExpression<String> implements MValue {
 	private static final long serialVersionUID = 1L;
 	protected String field;
 

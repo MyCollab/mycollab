@@ -28,7 +28,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @since 4.1.2
  * 
  */
-public class AssigneeExpression extends AbstractFieldExpression {
+public class AssigneeExpression extends AbstractFieldExpression implements
+		MValue {
 	private static final long serialVersionUID = 1L;
 
 	public AssigneeExpression(String field) {

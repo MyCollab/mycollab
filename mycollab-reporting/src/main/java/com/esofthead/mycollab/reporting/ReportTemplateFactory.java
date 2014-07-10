@@ -29,7 +29,7 @@ public class ReportTemplateFactory {
 	private static final AbstractReportTemplate enReport = new ReportTemplateEn();
 
 	public static AbstractReportTemplate getTemplate(Locale language) {
-		if (Locale.JAPANESE.equals(language)) {
+		if (Locale.JAPAN.equals(language)) {
 			return jpReport;
 		} else {
 			return enReport;

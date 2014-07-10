@@ -69,6 +69,7 @@ import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
+import com.esofthead.mycollab.reporting.expression.MValue;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
@@ -297,17 +298,18 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 				List<TableViewFieldDecorator> fields = parameters.getFields();
 
-				Map<String, ComponentBuilder> lstFieldBuilder = ColumnBuilderClassMapper
+				Map<String, MValue> lstFieldBuilder = ColumnBuilderClassMapper
 						.getListFieldBuilder(SimpleTask.class);
 				// build columns of report
 				for (TableViewFieldDecorator field : fields) {
 
 					log.debug("Inject renderer if any");
 					if (lstFieldBuilder != null) {
-						ComponentBuilder columnFieldBuilder = lstFieldBuilder
-								.get(field.getField());
+						MValue columnFieldBuilder = lstFieldBuilder.get(field
+								.getField());
 						if (columnFieldBuilder != null) {
-							field.setComponentBuilder(columnFieldBuilder);
+							field.setComponentBuilder(reportTemplate
+									.buildCompBuilder(columnFieldBuilder));
 						}
 					}
 					log.debug("Construct component builder {} and width {}",

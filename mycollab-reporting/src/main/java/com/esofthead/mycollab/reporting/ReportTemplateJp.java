@@ -30,6 +30,7 @@ import net.sf.dynamicreports.report.builder.style.PaddingBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
+import net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory;
 
 /**
  * 
@@ -41,7 +42,8 @@ class ReportTemplateJp extends AbstractReportTemplate {
 	
 
 	ReportTemplateJp() {
-		rootStyle = stl.style().setPadding(2).setFontName("Hiragino Kaku Gothic Pro");
+		SimpleFontExtensionsRegistryFactory a;
+		rootStyle = stl.style().setPadding(2).setFontName("Takao");
 		boldStyle = stl.style(rootStyle).bold();
 		italicStyle = stl.style(rootStyle).italic();
 		underlineStyle = stl.style(rootStyle).underline();

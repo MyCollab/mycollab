@@ -47,6 +47,14 @@ public class TableViewFieldDecorator extends TableViewField {
 		tableField.setField(field);
 	}
 
+	public Enum<?> getDescKey() {
+		return tableField.getDescKey();
+	}
+
+	public void setDescKey(Enum<?> descKey) {
+		tableField.setDescKey(descKey);
+	}
+
 	@Override
 	public int getDefaultWidth() {
 		return tableField.getDefaultWidth();

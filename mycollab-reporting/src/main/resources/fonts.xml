@@ -6,12 +6,16 @@
         <bold>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</bold>
         <italic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Italic.ttf</italic>
         <boldItalic>com/esofthead/mycollab/reporting/resources/fonts/DejaVuSerif-Bold.ttf</boldItalic>
-        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEncoding>UTF-8</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
     
-    <fontFamily name="HeiseiKakuGo-W5">
-        <pdfEncoding>UniJIS-UCS2-H</pdfEncoding>
+    <fontFamily name="Takao">
+        <normal>com/esofthead/mycollab/reporting/resources/fonts/TakaoExMincho.ttf</normal>
+        <bold>com/esofthead/mycollab/reporting/resources/fonts/TakaoExGothic.ttf</bold>
+        <italic>com/esofthead/mycollab/reporting/resources/fonts/TakaoExMincho.ttf</italic>
+        <boldItalic>com/esofthead/mycollab/reporting/resources/fonts/TakaoExGothic.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
 

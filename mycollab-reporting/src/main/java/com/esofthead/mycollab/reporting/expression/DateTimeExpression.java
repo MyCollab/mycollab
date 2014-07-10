@@ -28,7 +28,8 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
  * @since 4.1.2
  * 
  */
-public class DateTimeExpression extends AbstractFieldExpression {
+public class DateTimeExpression extends AbstractFieldExpression implements
+		MValue {
 	private static final long serialVersionUID = 1L;
 
 	public DateTimeExpression(String field) {
