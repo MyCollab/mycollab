@@ -52,6 +52,7 @@ import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -198,8 +199,16 @@ public final class MainView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
-								new ShellEvent.GotoProjectModule(this, null));
+						if (!event.isCtrlKey() && !event.isMetaKey()) {
+							EventBus.getInstance()
+									.fireEvent(
+											new ShellEvent.GotoProjectModule(
+													this, null));
+						} else {
+							Page.getCurrent().open("http://vnexpress.net",
+									"_blank");
+						}
+
 					}
 				});
 

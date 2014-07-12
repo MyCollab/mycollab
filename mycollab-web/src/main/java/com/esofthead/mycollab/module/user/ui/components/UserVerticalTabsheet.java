@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.ui.components;
 
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -30,7 +30,7 @@ public class UserVerticalTabsheet extends VerticalTabsheet {
 	private static final long serialVersionUID = -9095044309853738791L;
 
 	@Override
-	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
+	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
 		ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
 		String tabId = btnTabImpl.getTabId();
 		String suffix;

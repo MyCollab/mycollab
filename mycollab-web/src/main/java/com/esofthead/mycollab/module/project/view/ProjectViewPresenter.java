@@ -95,7 +95,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				CurrentProjectVariables.setProject(project);
 			}
 
-			view.constructProjectHeaderPanel(project, null);
+			view.initView(project);
 
 		}
 	}

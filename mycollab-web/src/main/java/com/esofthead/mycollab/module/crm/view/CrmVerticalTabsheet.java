@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view;
 
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -34,7 +34,7 @@ public class CrmVerticalTabsheet extends VerticalTabsheet {
 	}
 
 	@Override
-	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
+	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
 		String tabId = ((ButtonTabImpl) btn).getTabId();
 		String suffix;
 		if (selected != true)

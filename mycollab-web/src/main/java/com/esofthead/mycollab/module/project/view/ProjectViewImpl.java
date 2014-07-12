@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -72,7 +74,6 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -105,8 +106,8 @@ import com.vaadin.ui.VerticalLayout;
 @ViewComponent
 public class ProjectViewImpl extends AbstractCssPageView implements ProjectView {
 
-	private final ProjectVerticalTabsheet myProjectTab;
-	private final HorizontalLayout topPanel;
+	private ProjectVerticalTabsheet myProjectTab;
+	private HorizontalLayout topPanel;
 	private ProjectDashboardPresenter dashboardPresenter;
 	private MessagePresenter messagePresenter;
 	private MilestonePresenter milestonesPresenter;
@@ -118,78 +119,92 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private ITimeTrackingPresenter timePresenter;
 	private UserSettingPresenter userPresenter;
 	private IStandupPresenter standupPresenter;
-	private final ProjectBreadcrumb breadCrumb;
+	private ProjectBreadcrumb breadCrumb;
 	private PopupButton controlsBtn;
 	private ProjectListComponent prjList;
 
-	public ProjectViewImpl() {
-		this.setWidth("100%");
-
-		// this.setMargin(false);
-		this.addStyleName("main-content-wrapper");
-		this.addStyleName("projectDashboardView");
-		this.setVerticalTabsheetFix(true);
-
-		breadCrumb = ViewManager.getView(ProjectBreadcrumb.class);
-
-		topPanel = new HorizontalLayout();
-		topPanel.setWidth("100%");
-		topPanel.setMargin(true);
-		topPanel.setStyleName("top-panel");
-
-		myProjectTab = new ProjectVerticalTabsheet();
-		myProjectTab.setSizeFull();
-		myProjectTab.setNavigatorWidth("100%");
-		myProjectTab.setNavigatorStyleName("sidebar-menu");
-		myProjectTab.setContainerStyleName("tab-content");
-		myProjectTab.setHeight(null);
-
-		VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
-		contentWrapper.addStyleName("main-content");
-		contentWrapper.addComponentAsFirst(topPanel);
-
-		prjList = new ProjectListComponent();
-		CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
-		navigatorWrapper.addComponentAsFirst(prjList);
-		navigatorWrapper.setWidth("250px");
-
-		buildComponents();
-		this.addComponent(myProjectTab);
-	}
-
 	private void buildComponents() {
-		myProjectTab.addTab(constructProjectDashboardComponent(), "dashboard",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
+		Integer prjId = CurrentProjectVariables.getProjectId();
 
-		myProjectTab.addTab(constructProjectMessageComponent(), "message",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
+		myProjectTab.addTab(
+				constructProjectDashboardComponent(),
+				"dashboard",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateProjectLink(prjId));
 
-		myProjectTab.addTab(constructProjectMilestoneComponent(), "milestone",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE));
+		myProjectTab.addTab(
+				constructProjectMessageComponent(),
+				"message",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateMessagesLink(prjId));
 
-		myProjectTab.addTab(constructTaskDashboardComponent(), "task",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK));
+		myProjectTab.addTab(
+				constructProjectMilestoneComponent(),
+				"milestone",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateMilestonesLink(prjId));
 
-		myProjectTab.addTab(constructProjectBugComponent(), "bug",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG));
+		myProjectTab
+				.addTab(constructTaskDashboardComponent(),
+						"task",
+						AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
+						GenericLinkUtils.URL_PREFIX_PARAM
+								+ ProjectLinkGenerator
+										.generateTaskDashboardLink(prjId));
 
-		myProjectTab.addTab(constructProjectFileComponent(), "file",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE));
+		myProjectTab.addTab(
+				constructProjectBugComponent(),
+				"bug",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateProjectLink(prjId));
 
-		myProjectTab.addTab(constructProjectRiskComponent(), "risk",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK));
+		myProjectTab
+				.addTab(constructProjectFileComponent(),
+						"file",
+						AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
+						GenericLinkUtils.URL_PREFIX_PARAM
+								+ ProjectLinkGenerator
+										.generateFileDashboardLink(prjId));
 
-		myProjectTab.addTab(constructProjectProblemComponent(), "problem",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM));
+		myProjectTab.addTab(
+				constructProjectRiskComponent(),
+				"risk",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateRisksLink(prjId));
 
-		myProjectTab.addTab(constructTimeTrackingComponent(), "time",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME));
+		myProjectTab.addTab(
+				constructProjectProblemComponent(),
+				"problem",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateProblemsLink(prjId));
 
-		myProjectTab.addTab(constructProjectStandupMeeting(), "standup",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP));
+		myProjectTab.addTab(
+				constructTimeTrackingComponent(),
+				"time",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateTimeReportLink(prjId));
 
-		myProjectTab.addTab(constructProjectUsers(), "member",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER));
+		myProjectTab.addTab(
+				constructProjectStandupMeeting(),
+				"standup",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator
+								.generateStandupDashboardLink(prjId));
+
+		myProjectTab.addTab(
+				constructProjectUsers(),
+				"member",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateUsersLink(prjId));
 
 		myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -362,9 +377,39 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	}
 
 	@Override
-	public void constructProjectHeaderPanel(final SimpleProject project,
-			PageActionChain pageActionChain) {
-		topPanel.removeAllComponents();
+	public void initView(final SimpleProject project) {
+		this.removeAllComponents();
+		this.setWidth("100%");
+
+		this.addStyleName("main-content-wrapper");
+		this.addStyleName("projectDashboardView");
+		this.setVerticalTabsheetFix(true);
+
+		breadCrumb = ViewManager.getView(ProjectBreadcrumb.class);
+
+		topPanel = new HorizontalLayout();
+		topPanel.setWidth("100%");
+		topPanel.setMargin(true);
+		topPanel.setStyleName("top-panel");
+
+		myProjectTab = new ProjectVerticalTabsheet();
+		myProjectTab.setSizeFull();
+		myProjectTab.setNavigatorWidth("100%");
+		myProjectTab.setNavigatorStyleName("sidebar-menu");
+		myProjectTab.setContainerStyleName("tab-content");
+		myProjectTab.setHeight(null);
+
+		VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
+		contentWrapper.addStyleName("main-content");
+		contentWrapper.addComponentAsFirst(topPanel);
+
+		prjList = new ProjectListComponent();
+		CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
+		navigatorWrapper.addComponentAsFirst(prjList);
+		navigatorWrapper.setWidth("250px");
+
+		buildComponents();
+		this.addComponent(myProjectTab);
 
 		topPanel.addComponent(breadCrumb);
 		topPanel.setComponentAlignment(breadCrumb, Alignment.MIDDLE_LEFT);

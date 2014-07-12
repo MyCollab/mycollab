@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -30,14 +30,10 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
+	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
 		ButtonTabImpl btnTabImpl = (ButtonTabImpl) btn;
 		String tabId = btnTabImpl.getTabId();
-		String suffix;
-		if (selected == true)
-			suffix = "_selected";
-		else
-			suffix = "";
+		String suffix = (selected) ? "_selected" : "";
 
 		switch (tabId) {
 		case "dashboard":

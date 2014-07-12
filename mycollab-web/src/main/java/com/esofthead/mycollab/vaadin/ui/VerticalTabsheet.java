@@ -24,9 +24,11 @@ import java.util.Map;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
@@ -51,9 +53,9 @@ public class VerticalTabsheet extends CustomComponent {
 	private VerticalLayout contentWrapper;
 	private CssLayout navigatorWrapper;
 
-	private Map<Button, Tab> compMap = new HashMap<Button, Tab>();
+	private Map<Component, Tab> compMap = new HashMap<Component, Tab>();
 
-	private Button selectedButton = null;
+	private Component selectedButton = null;
 	private Tab selectedComp = null;
 
 	private final String TABSHEET_STYLENAME = "vertical-tabsheet";
@@ -94,25 +96,41 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public void addTab(Component component, String id, String caption) {
-		addTab(component, id, caption, null);
+		addTab(component, id, caption, null, null);
+	}
+
+	public void addTab(Component component, String id, String caption,
+			String link) {
+		addTab(component, id, caption, link, null);
 	}
 
 	public void addTab(Component component, String id, String caption,
 			Resource resource) {
-		final ButtonTabImpl button = new ButtonTabImpl(id, caption);
-		button.addClickListener(new Button.ClickListener() {
+		addTab(component, id, caption, null, resource);
+	}
+
+	public void addTab(Component component, String id, String caption,
+			String link, Resource resource) {
+		final ButtonTabImpl button = new ButtonTabImpl(id, caption, link);
+
+		button.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (selectedButton != button) {
-					clearTabSelection(true);
-					selectedButton = button;
-					selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-					selectedComp = compMap.get(selectedButton);
+				if (!event.isCtrlKey() && !event.isMetaKey()) {
+					if (selectedButton != button) {
+						clearTabSelection(true);
+						selectedButton = button;
+						selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+						selectedComp = compMap.get(selectedButton);
+					}
+					fireTabChangeEvent(new SelectedTabChangeEvent(
+							VerticalTabsheet.this));
+				} else {
+					Page.getCurrent().open(button.link, "_blank", false);
 				}
-				fireTabChangeEvent(new SelectedTabChangeEvent(
-						VerticalTabsheet.this));
+
 			}
 		});
 
@@ -158,8 +176,8 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public Component selectTab(String viewId) {
-		Collection<Button> tabs = compMap.keySet();
-		for (Button btn : tabs) {
+		Collection<Component> tabs = compMap.keySet();
+		for (Component btn : tabs) {
 			TabImpl tab = (TabImpl) compMap.get(btn);
 			if (tab.getTabId().equals(viewId)) {
 				selectedButton = btn;
@@ -217,16 +235,16 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	private void clearTabSelection(boolean setDefaultIcon) {
-		Collection<Button> tabs = compMap.keySet();
+		Collection<Component> tabs = compMap.keySet();
 		if (setDefaultIcon == true) {
-			for (Button btn : tabs) {
+			for (Component btn : tabs) {
 				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
 					btn.removeStyleName(TAB_SELECTED_STYLENAME);
 					setDefaulButtonIcon(btn, false);
 				}
 			}
 		} else {
-			for (Button btn : tabs) {
+			for (Component btn : tabs) {
 				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
 					btn.removeStyleName(TAB_SELECTED_STYLENAME);
 				}
@@ -243,7 +261,7 @@ public class VerticalTabsheet extends CustomComponent {
 		return this.navigatorWrapper;
 	}
 
-	protected void setDefaulButtonIcon(Button btn, Boolean selected) {
+	protected void setDefaulButtonIcon(Component btn, Boolean selected) {
 
 	}
 
@@ -266,11 +284,14 @@ public class VerticalTabsheet extends CustomComponent {
 
 	public static class ButtonTabImpl extends Button {
 		private static final long serialVersionUID = 1L;
-		private String tabId;
 
-		public ButtonTabImpl(String id, String caption) {
+		private String tabId;
+		String link;
+
+		public ButtonTabImpl(String id, String caption, String link) {
 			super(caption);
 			this.tabId = id;
+			this.link = link;
 		}
 
 		public String getTabId() {
@@ -391,7 +412,7 @@ public class VerticalTabsheet extends CustomComponent {
 		@Override
 		public void setDefaultFocusComponent(Focusable component) {
 			throw new MyCollabException("Do not support");
-			
+
 		}
 
 		@Override
@@ -417,7 +438,7 @@ public class VerticalTabsheet extends CustomComponent {
 		@Override
 		public void setId(String id) {
 			throw new MyCollabException("Do not support");
-			
+
 		}
 
 		@Override

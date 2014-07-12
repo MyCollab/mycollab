@@ -73,7 +73,6 @@ import com.vaadin.ui.Window;
  */
 @Theme("mycollab")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabWidgetSet")
-@PreserveOnRefresh
 public class DesktopApplication extends UI {
 
 	private static final long serialVersionUID = 1L;
