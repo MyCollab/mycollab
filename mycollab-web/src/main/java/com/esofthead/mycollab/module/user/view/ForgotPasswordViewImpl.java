@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.user.view;
 
 import com.esofthead.mycollab.common.dao.RelayEmailMapper;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.user.SendingRecoveryPasswordEmailAction;
@@ -116,7 +116,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ShellEvent.LogOut(this, null));
 				}
 			});

@@ -18,15 +18,14 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import java.util.Arrays;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -76,25 +75,19 @@ public class BugListWidget extends Depot {
 						BugTableFieldDef.assignUser, BugTableFieldDef.severity,
 						BugTableFieldDef.resolution, BugTableFieldDef.duedate));
 
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		this.tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleBug bug = (SimpleBug) event.getData();
-						if ("summary".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoRead(BugListWidget.this,
-											bug.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleBug bug = (SimpleBug) event.getData();
+				if ("summary".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new BugEvent.GotoRead(BugListWidget.this, bug
+									.getId()));
+				}
+			}
+		});
 
 		this.tableItem.setWidth("100%");
 		contentLayout.addComponent(this.tableItem);

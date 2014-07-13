@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
@@ -71,7 +71,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 						saveLead(lead);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoList(this, null));
 						}
 					}
@@ -80,7 +80,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoList(this, null));
 						}
 					}
@@ -88,7 +88,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleLead lead) {
 						saveLead(lead);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoAdd(this, null));
 					}
 				});

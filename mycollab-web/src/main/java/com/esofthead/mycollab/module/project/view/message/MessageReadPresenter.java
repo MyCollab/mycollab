@@ -18,7 +18,7 @@
 package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
@@ -66,7 +66,7 @@ public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MessageEvent.GotoList(this, null));
 					}
 

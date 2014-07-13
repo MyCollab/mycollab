@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
@@ -39,7 +39,7 @@ public class OpportunityUrlResolver extends CrmUrlResolver {
 	public static class OpportunityListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new OpportunityEvent.GotoList(this, null));
 		}
 	}
@@ -47,7 +47,7 @@ public class OpportunityUrlResolver extends CrmUrlResolver {
 	public static class OpportunityAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new OpportunityEvent.GotoAdd(this, new Account()));
 		}
 	}
@@ -57,7 +57,7 @@ public class OpportunityUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int opportunintyId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new OpportunityEvent.GotoEdit(this, opportunintyId));
 		}
 	}
@@ -67,7 +67,7 @@ public class OpportunityUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int opportunintyId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new OpportunityEvent.GotoRead(this, opportunintyId));
 		}
 	}

@@ -25,7 +25,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -217,7 +217,7 @@ public class ProjectListComponent extends VerticalLayout {
 
 				@Override
 				public void layoutClick(LayoutClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProjectEvent.GotoMyProject(this,
 									new PageActionChain(
 											new ProjectScreenData.Goto(obj

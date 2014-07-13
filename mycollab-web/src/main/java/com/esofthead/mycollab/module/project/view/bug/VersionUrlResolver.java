@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -57,7 +57,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new VersionScreenData.Search(versionSearchCriteria));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
@@ -73,7 +73,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new VersionScreenData.Read(versionId));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
@@ -94,7 +94,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new VersionScreenData.Edit(version));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
@@ -108,7 +108,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new VersionScreenData.Add(new Version()));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}

@@ -21,7 +21,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -60,7 +60,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 				new DefaultPreviewFormHandler<User>() {
 					@Override
 					public void onEdit(User data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoEdit(this, data));
 					}
 
@@ -88,7 +88,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 											userService.pendingUserAccount(
 													data.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new UserEvent.GotoList(
 															this, null));
 										}
@@ -101,13 +101,13 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 					public void onClone(User data) {
 						User cloneData = (User) data.copy();
 						cloneData.setUsername(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoAdd(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoList(this, null));
 					}
 				});

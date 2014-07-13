@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
@@ -33,15 +33,15 @@ public class CaseUrlResolver extends CrmUrlResolver {
 	public static class CaseListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance()
-					.fireEvent(new CaseEvent.GotoList(this, null));
+			EventBusFactory.getInstance()
+					.post(new CaseEvent.GotoList(this, null));
 		}
 	}
 
 	public static class CaseAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new CaseEvent.GotoAdd(this, new Account()));
 		}
 	}
@@ -51,7 +51,7 @@ public class CaseUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int caseId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new CaseEvent.GotoEdit(this, caseId));
 		}
 	}
@@ -61,7 +61,7 @@ public class CaseUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int caseId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new CaseEvent.GotoRead(this, caseId));
 		}
 	}

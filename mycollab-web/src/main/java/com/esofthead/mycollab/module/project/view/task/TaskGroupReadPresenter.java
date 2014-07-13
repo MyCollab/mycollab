@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -66,13 +66,13 @@ public class TaskGroupReadPresenter extends
 
 					@Override
 					public void onAdd(SimpleTaskList data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskListEvent.GotoAdd(this, null));
 					}
 
 					@Override
 					public void onEdit(SimpleTaskList data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskListEvent.GotoEdit(this, data));
 					}
 
@@ -83,24 +83,23 @@ public class TaskGroupReadPresenter extends
 						taskListService.removeWithSession(data.getId(),
 								AppContext.getUsername(),
 								AppContext.getAccountId());
-						EventBus.getInstance()
-								.fireEvent(
-										new TaskListEvent.GotoTaskListScreen(
-												this, null));
+						EventBusFactory.getInstance()
+								.post(new TaskListEvent.GotoTaskListScreen(
+										this, null));
 					}
 
 					@Override
 					public void onClone(SimpleTaskList data) {
 						TaskList cloneData = (TaskList) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskListEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance()
-								.fireEvent(
+						EventBusFactory.getInstance()
+								.post(
 										new TaskListEvent.GotoTaskListScreen(
 												this, null));
 					}
@@ -119,7 +118,7 @@ public class TaskGroupReadPresenter extends
 						Integer nextId = tasklistService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskListEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -141,7 +140,7 @@ public class TaskGroupReadPresenter extends
 						Integer nextId = tasklistService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskListEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

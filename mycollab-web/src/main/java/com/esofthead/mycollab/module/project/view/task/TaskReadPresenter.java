@@ -24,7 +24,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -71,13 +71,13 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 
 					@Override
 					public void onEdit(final SimpleTask data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleTask data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskEvent.GotoAdd(this, null));
 					}
 
@@ -107,10 +107,10 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance()
-													.fireEvent(
-															new TaskListEvent.GotoTaskListScreen(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new TaskListEvent.GotoTaskListScreen(
+															this, null));
 										}
 									}
 								});
@@ -120,16 +120,15 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 					public void onClone(final SimpleTask data) {
 						final Task cloneData = (Task) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance()
-								.fireEvent(
-										new TaskListEvent.GotoTaskListScreen(
-												this, null));
+						EventBusFactory.getInstance()
+								.post(new TaskListEvent.GotoTaskListScreen(
+										this, null));
 					}
 
 					@Override
@@ -147,7 +146,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 						final Integer nextId = taskService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -170,7 +169,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 						final Integer nextId = taskService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

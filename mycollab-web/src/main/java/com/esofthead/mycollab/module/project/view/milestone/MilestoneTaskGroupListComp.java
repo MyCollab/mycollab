@@ -18,8 +18,6 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -165,8 +163,7 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 		}
 
 		@Override
-		public void addViewListener(
-				ApplicationEventListener<? extends ApplicationEvent> listener) {
+		public void addViewListener(ViewListener listener) {
 
 		}
 

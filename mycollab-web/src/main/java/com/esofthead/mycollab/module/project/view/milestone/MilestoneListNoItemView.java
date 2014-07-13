@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -73,7 +73,7 @@ public class MilestoneListNoItemView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoAdd(this, null));
 					}
 				});

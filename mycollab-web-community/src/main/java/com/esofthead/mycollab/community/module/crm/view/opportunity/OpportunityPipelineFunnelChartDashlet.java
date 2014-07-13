@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.community.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.view.opportunity.IOpportunityPipelineFunnelChartDashlet;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.ComponentContainer;
@@ -34,18 +32,17 @@ public class OpportunityPipelineFunnelChartDashlet extends CssLayout implements
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	public void display() {
+
+	}
+
+	@Override
 	public ComponentContainer getWidget() {
 		return this;
 	}
 
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
-
-	}
-
-	@Override
-	public void display() {
+	public void addViewListener(ViewListener listener) {
 
 	}
 

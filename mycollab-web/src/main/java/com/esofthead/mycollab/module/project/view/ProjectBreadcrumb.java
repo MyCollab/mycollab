@@ -21,7 +21,7 @@ import java.util.Date;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.Message;
@@ -95,7 +95,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ProjectEvent.GotoMyProject(this,
 								new PageActionChain(new ProjectScreenData.Goto(
 										project.getId()))));
@@ -149,7 +149,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MessageEvent.GotoList(this, null));
 					}
 				}));
@@ -192,7 +192,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RiskEvent.GotoRead(this, risk.getId()));
 					}
 				}));
@@ -223,8 +223,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance()
-					.fireEvent(new RiskEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(
+					new RiskEvent.GotoList(this, null));
 		}
 	}
 
@@ -262,7 +262,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoRead(this, milestone
 										.getId()));
 					}
@@ -297,7 +297,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new MilestoneEvent.GotoList(this, null));
 		}
 	}
@@ -335,10 +335,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance()
-								.fireEvent(
-										new ProblemEvent.GotoRead(this, problem
-												.getId()));
+						EventBusFactory.getInstance()
+								.post(new ProblemEvent.GotoRead(this, problem
+										.getId()));
 					}
 				}));
 		this.setLinkEnabled(true, 2);
@@ -371,7 +370,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProblemEvent.GotoList(this, null));
 		}
 	}
@@ -436,7 +435,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskListEvent.GotoRead(this, taskList
 										.getId()));
 					}
@@ -495,7 +494,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskEvent.GotoRead(this, task.getId()));
 					}
 				}));
@@ -514,7 +513,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new TaskListEvent.GotoTaskListScreen(this, null));
 		}
 	}
@@ -561,7 +560,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoRead(this, bug.getId()));
 					}
 				}));
@@ -631,7 +630,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoRead(this, version
 										.getId()));
 					}
@@ -666,7 +665,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new BugVersionEvent.GotoList(this, null));
 		}
 	}
@@ -716,7 +715,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugComponentEvent.GotoRead(this, component
 										.getId()));
 					}
@@ -913,7 +912,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectNotificationEvent.GotoList(this, null));
 		}
 	}
@@ -923,7 +922,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectRoleEvent.GotoList(this, null));
 		}
 	}
@@ -933,7 +932,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new StandUpEvent.GotoList(this, null));
 		}
 	}
@@ -943,7 +942,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectMemberEvent.GotoList(this, null));
 		}
 	}
@@ -953,7 +952,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new BugComponentEvent.GotoList(this, null));
 		}
 	}
@@ -964,7 +963,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new BugEvent.GotoDashboard(this, null));
 		}
 	}

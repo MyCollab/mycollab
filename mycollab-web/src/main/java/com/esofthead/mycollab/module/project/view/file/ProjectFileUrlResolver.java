@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.file;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
 import com.esofthead.mycollab.module.project.view.parameters.FileScreenData;
@@ -38,7 +38,7 @@ public class ProjectFileUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new FileScreenData.GotoDashboard());
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}

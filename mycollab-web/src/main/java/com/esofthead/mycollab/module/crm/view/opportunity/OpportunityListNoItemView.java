@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -73,7 +73,7 @@ public class OpportunityListNoItemView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoAdd(this, null));
 					}
 				});

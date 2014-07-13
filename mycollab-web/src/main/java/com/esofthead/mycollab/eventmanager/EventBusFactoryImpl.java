@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.MyCollabSession;
+import com.google.common.eventbus.EventBus;
 
 /**
  * 
@@ -29,16 +30,17 @@ import com.esofthead.mycollab.common.MyCollabSession;
  * @since 1.0
  * 
  */
-class EventBusFactoryImpl implements EventBusFactory {
+class EventBusFactoryImpl extends EventBusFactory {
 	private static Logger log = LoggerFactory
 			.getLogger(EventBusFactoryImpl.class);
 
-	public EventBus getInstance() {
+	@Override
+	EventBus getInstanceInSession() {
 		EventBus eventBus = (EventBus) MyCollabSession
 				.getVariable(EVENT_BUS_VAL);
 		log.debug("Event bus {}", eventBus);
 		if (eventBus == null) {
-			eventBus = new EventBusImpl();
+			eventBus = new EventBus();
 			MyCollabSession.putVariable(EVENT_BUS_VAL, eventBus);
 			log.debug("Create new event bus {}", eventBus);
 		}

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
@@ -82,7 +82,7 @@ public class ActivityListViewImpl extends
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent event) {
 				controlBtns.close();
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.TaskAdd(this, null));
 			}
 		});
@@ -97,7 +97,7 @@ public class ActivityListViewImpl extends
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent event) {
 				controlBtns.close();
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.CallAdd(this, null));
 			}
 		});
@@ -113,7 +113,7 @@ public class ActivityListViewImpl extends
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent event) {
 						controlBtns.close();
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingAdd(this, null));
 					}
 				});

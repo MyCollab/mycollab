@@ -21,9 +21,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
@@ -31,7 +29,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -56,21 +55,16 @@ public class LeadListDashlet extends Depot {
 				LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
 
 		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+				.addTableListener(new TableClickListener() {
 
 					@Override
-					public void handle(final TableClickEvent event) {
+					public void itemClick(final TableClickEvent event) {
 						final SimpleLead lead = (SimpleLead) event.getData();
 						if ("leadName".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new LeadEvent.GotoRead(
-													LeadListDashlet.this, lead
-															.getId()));
+							EventBusFactory
+									.getInstance()
+									.post(new LeadEvent.GotoRead(
+											LeadListDashlet.this, lead.getId()));
 						}
 					}
 				});

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
@@ -65,7 +65,7 @@ public class CaseListViewImpl extends
 			@Override
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GotoAdd(this, null));
 			}
 		});

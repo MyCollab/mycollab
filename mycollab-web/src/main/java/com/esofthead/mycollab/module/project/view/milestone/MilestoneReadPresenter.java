@@ -25,7 +25,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -65,13 +65,13 @@ public class MilestoneReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleMilestone>() {
 					@Override
 					public void onEdit(SimpleMilestone data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleMilestone data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoAdd(this, null));
 					}
 
@@ -100,8 +100,8 @@ public class MilestoneReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance()
-													.fireEvent(
+											EventBusFactory.getInstance()
+													.post(
 															new MilestoneEvent.GotoList(
 																	this, null));
 										}
@@ -114,13 +114,13 @@ public class MilestoneReadPresenter extends
 						SimpleMilestone cloneData = (SimpleMilestone) data
 								.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoList(this, null));
 					}
 
@@ -138,7 +138,7 @@ public class MilestoneReadPresenter extends
 						Integer nextId = milestoneService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new MilestoneEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -160,7 +160,7 @@ public class MilestoneReadPresenter extends
 						Integer nextId = milestoneService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new MilestoneEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

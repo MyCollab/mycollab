@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.RoleUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserUrlResolver;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountBillingEvent;
@@ -45,7 +45,7 @@ public class AccountUrlResolver extends UrlResolver {
 	@Override
 	public void handle(String... params) {
 		if (!ModuleHelper.isCurrentAccountModule()) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ShellEvent.GotoUserAccountModule(this, params));
 		} else {
 			super.handle(params);
@@ -54,7 +54,7 @@ public class AccountUrlResolver extends UrlResolver {
 
 	@Override
 	protected void defaultPageErrorHandler() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ProfileEvent.GotoProfileView(this, null));
 
 	}
@@ -62,7 +62,7 @@ public class AccountUrlResolver extends UrlResolver {
 	private static class ReadUrlResolver extends AccountUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProfileEvent.GotoProfileView(this, null));
 		}
 	}
@@ -70,7 +70,7 @@ public class AccountUrlResolver extends UrlResolver {
 	private static class BillingUrlResolver extends AccountUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new AccountBillingEvent.GotoSummary(this, null));
 		}
 	}
@@ -78,7 +78,7 @@ public class AccountUrlResolver extends UrlResolver {
 	private static class CustomizeUrlResolver extends AccountUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new AccountCustomizeEvent.GotoCustomize(this, null));
 		}
 	}

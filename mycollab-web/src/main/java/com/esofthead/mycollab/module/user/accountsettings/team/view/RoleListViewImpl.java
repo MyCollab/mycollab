@@ -21,9 +21,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -43,7 +41,8 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -90,27 +89,19 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 						GenericI18Enum.FORM_DESCRIPTION, "description",
 						UIConstants.TABLE_EX_LABEL_WIDTH)));
 
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		this.tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final Role role = (Role) event.getData();
-						if ("rolename".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new RoleEvent.GotoRead(
-													RoleListViewImpl.this, role
-															.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final Role role = (Role) event.getData();
+				if ("rolename".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new RoleEvent.GotoRead(RoleListViewImpl.this, role
+									.getId()));
+				}
+			}
+		});
 
 		this.listLayout.addComponent(this.constructTableActionControls());
 		this.listLayout.addComponent(this.tableItem);

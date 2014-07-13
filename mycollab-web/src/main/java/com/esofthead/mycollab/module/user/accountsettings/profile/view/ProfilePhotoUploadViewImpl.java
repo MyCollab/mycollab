@@ -30,7 +30,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -118,7 +118,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProfileEvent.GotoProfileView(
 										ProfilePhotoUploadViewImpl.this, null));
 					}
@@ -144,11 +144,11 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 								userAvatarService.uploadAvatar(image,
 										AppContext.getUsername(),
 										AppContext.getUserAvatarId());
-								EventBus.getInstance()
-										.fireEvent(
-												new ProfileEvent.GotoProfileView(
-														ProfilePhotoUploadViewImpl.this,
-														null));
+								EventBusFactory
+										.getInstance()
+										.post(new ProfileEvent.GotoProfileView(
+												ProfilePhotoUploadViewImpl.this,
+												null));
 							} catch (IOException e) {
 								throw new MyCollabException(
 										"Error when saving user avatar", e);

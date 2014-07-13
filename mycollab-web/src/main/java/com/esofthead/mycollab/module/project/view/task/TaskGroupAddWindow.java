@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -92,7 +92,7 @@ public class TaskGroupAddWindow extends Window {
 		if (this.taskView != null) {
 			this.taskView.insertTaskList(this.taskList);
 		} else {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new TaskListEvent.GotoTaskListScreen(this, null));
 		}
 	}

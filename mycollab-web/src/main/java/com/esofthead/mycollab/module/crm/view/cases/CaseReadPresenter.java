@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.ContactCase;
@@ -77,13 +77,13 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 				new DefaultPreviewFormHandler<SimpleCase>() {
 					@Override
 					public void onEdit(SimpleCase data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleCase data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoAdd(this, null));
 					}
 
@@ -112,7 +112,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new CaseEvent.GotoList(
 															this, null));
 										}
@@ -124,13 +124,13 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					public void onClone(SimpleCase data) {
 						SimpleCase cloneData = (SimpleCase) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoList(this, null));
 					}
 
@@ -145,7 +145,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 								NumberSearchField.GREATER));
 						Integer nextId = caseService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -165,7 +165,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 						Integer nextId = caseService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
@@ -181,21 +181,21 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 							SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.CASE);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskEdit(
 											CaseReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.CASE);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.MeetingEdit(
 											CaseReadPresenter.this, meeting));
 						} else if (itemId.equals("call")) {
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.CASE);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallEdit(
 											CaseReadPresenter.this, call));
 						}
@@ -208,7 +208,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleContact contact = new SimpleContact();
 						contact.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoEdit(
 										CaseReadPresenter.this, contact));
 					}

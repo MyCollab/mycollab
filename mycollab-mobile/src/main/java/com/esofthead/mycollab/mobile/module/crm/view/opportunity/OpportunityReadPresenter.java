@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -55,13 +55,13 @@ public class OpportunityReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleOpportunity>() {
 					@Override
 					public void onEdit(SimpleOpportunity data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleOpportunity data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoAdd(this, null));
 					}
 
@@ -87,10 +87,10 @@ public class OpportunityReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance()
-													.fireEvent(
-															new OpportunityEvent.GotoList(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new OpportunityEvent.GotoList(
+															this, null));
 										}
 									}
 								});
@@ -101,13 +101,13 @@ public class OpportunityReadPresenter extends
 						SimpleOpportunity cloneData = (SimpleOpportunity) data
 								.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoList(this, null));
 					}
 
@@ -123,10 +123,9 @@ public class OpportunityReadPresenter extends
 						Integer nextId = opportunityService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new OpportunityEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new OpportunityEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -145,10 +144,9 @@ public class OpportunityReadPresenter extends
 						Integer nextId = opportunityService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new OpportunityEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new OpportunityEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}

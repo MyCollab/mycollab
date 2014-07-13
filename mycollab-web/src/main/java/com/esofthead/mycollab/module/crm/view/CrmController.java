@@ -19,9 +19,8 @@ package com.esofthead.mycollab.module.crm.view;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -97,6 +96,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 /**
  * 
@@ -106,10 +107,13 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  */
 public class CrmController implements IController {
 	private static final long serialVersionUID = 1L;
+
 	private CrmModule container;
+	private EventBus eventBus;
 
 	public CrmController(CrmModule container) {
 		this.container = container;
+		this.eventBus = EventBusFactory.getInstance();
 
 		bindCrmEvents();
 		bindAccountEvents();
@@ -125,796 +129,575 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindCrmEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CrmEvent.GotoHome>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmEvent.GotoHome.class;
-					}
+		eventBus.register(new ApplicationEventListener<CrmEvent.GotoHome>() {
 
-					@Override
-					public void handle(GotoHome event) {
-						CrmHomePresenter presenter = PresenterResolver
-								.getPresenter(CrmHomePresenter.class);
-						presenter.go(container, null);
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(GotoHome event) {
+				CrmHomePresenter presenter = PresenterResolver
+						.getPresenter(CrmHomePresenter.class);
+				presenter.go(container, null);
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
 	private void bindAccountEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoList>() {
 
-					@Override
-					public void handle(AccountEvent.GotoList event) {
-						AccountListPresenter presenter = PresenterResolver
-								.getPresenter(AccountListPresenter.class);
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoList event) {
+				AccountListPresenter presenter = PresenterResolver
+						.getPresenter(AccountListPresenter.class);
 
-						AccountSearchCriteria criteria = new AccountSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(container,
-								new ScreenData.Search<AccountSearchCriteria>(
-										criteria));
-					}
-				});
+				AccountSearchCriteria criteria = new AccountSearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+						AppContext.getAccountId()));
+				presenter.go(container,
+						new ScreenData.Search<AccountSearchCriteria>(criteria));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoAdd>() {
 
-					@Override
-					public void handle(AccountEvent.GotoAdd event) {
-						AccountAddPresenter presenter = PresenterResolver
-								.getPresenter(AccountAddPresenter.class);
-						presenter.go(container,
-								new ScreenData.Add<SimpleAccount>(
-										new SimpleAccount()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoAdd event) {
+				AccountAddPresenter presenter = PresenterResolver
+						.getPresenter(AccountAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleAccount>(
+						new SimpleAccount()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoEdit.class;
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoEdit>() {
 
-					@Override
-					public void handle(AccountEvent.GotoEdit event) {
-						AccountAddPresenter presenter = PresenterResolver
-								.getPresenter(AccountAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoEdit event) {
+				AccountAddPresenter presenter = PresenterResolver
+						.getPresenter(AccountAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoRead>() {
 
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					@Override
-					public void handle(GotoRead event) {
-						AccountReadPresenter presenter = PresenterResolver
-								.getPresenter(AccountReadPresenter.class);
-						presenter.go(container,
-								new ScreenData.Preview(event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(GotoRead event) {
+				AccountReadPresenter presenter = PresenterResolver
+						.getPresenter(AccountReadPresenter.class);
+				presenter.go(container, new ScreenData.Preview(event.getData()));
+			}
+		});
 	}
 
 	private void bindActivityEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.GotoCalendar>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.GotoCalendar>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.GotoCalendar.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(GotoCalendar event) {
+				ActivityCalendarPresenter presenter = PresenterResolver
+						.getPresenter(ActivityCalendarPresenter.class);
+				presenter.go(container, new ActivityScreenData.GotoCalendar());
+			}
+		});
 
-					@Override
-					public void handle(GotoCalendar event) {
-						ActivityCalendarPresenter presenter = PresenterResolver
-								.getPresenter(ActivityCalendarPresenter.class);
-						presenter.go(container,
-								new ActivityScreenData.GotoCalendar());
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.GotoTodoList>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.GotoTodoList>() {
-					private static final long serialVersionUID = 1L;
+			@Subscribe
+			@Override
+			public void handle(GotoTodoList event) {
+				ActivityListPresenter presenter = PresenterResolver
+						.getPresenter(ActivityListPresenter.class);
+				ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter
+						.go(container, new ActivityScreenData.GotoActivityList(
+								searchCriteria));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.GotoTodoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskAdd>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void handle(GotoTodoList event) {
-						ActivityListPresenter presenter = PresenterResolver
-								.getPresenter(ActivityListPresenter.class);
-						ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(container,
-								new ActivityScreenData.GotoActivityList(
-										searchCriteria));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.TaskAdd event) {
+				AssignmentAddPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentAddPresenter.class);
+				presenter.go(container, new AssignmentScreenData.Add(
+						new SimpleTask()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskAdd>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskEdit>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskAdd.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.TaskEdit event) {
+				AssignmentAddPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(ActivityEvent.TaskAdd event) {
-						AssignmentAddPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentAddPresenter.class);
-						presenter.go(container, new AssignmentScreenData.Add(
-								new SimpleTask()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskRead>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskEdit>() {
-					private static final long serialVersionUID = 1L;
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.TaskRead event) {
+				AssignmentReadPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentReadPresenter.class);
+				presenter.go(container, new AssignmentScreenData.Read(
+						(Integer) event.getData()));
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskEdit.class;
-					}
+			}
+		});
 
-					@Override
-					public void handle(ActivityEvent.TaskEdit event) {
-						AssignmentAddPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskRead>() {
-					private static final long serialVersionUID = 1L;
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.MeetingAdd event) {
+				MeetingAddPresenter presenter = PresenterResolver
+						.getPresenter(MeetingAddPresenter.class);
+				presenter.go(container, new MeetingScreenData.Add(
+						new SimpleMeeting()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void handle(ActivityEvent.TaskRead event) {
-						AssignmentReadPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentReadPresenter.class);
-						presenter.go(container, new AssignmentScreenData.Read(
-								(Integer) event.getData()));
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.MeetingEdit event) {
+				MeetingAddPresenter presenter = PresenterResolver
+						.getPresenter(MeetingAddPresenter.class);
 
-					}
-				});
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingRead>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingAdd.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.MeetingRead event) {
+				MeetingReadPresenter presenter = PresenterResolver
+						.getPresenter(MeetingReadPresenter.class);
+				presenter.go(container, new MeetingScreenData.Read(
+						(Integer) event.getData()));
 
-					@Override
-					public void handle(ActivityEvent.MeetingAdd event) {
-						MeetingAddPresenter presenter = PresenterResolver
-								.getPresenter(MeetingAddPresenter.class);
-						presenter.go(container, new MeetingScreenData.Add(
-								new SimpleMeeting()));
-					}
-				});
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallAdd>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingEdit.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.CallAdd event) {
+				CallAddPresenter presenter = PresenterResolver
+						.getPresenter(CallAddPresenter.class);
+				presenter.go(container,
+						new CallScreenData.Add(new SimpleCall()));
+			}
+		});
 
-					@Override
-					public void handle(ActivityEvent.MeetingEdit event) {
-						MeetingAddPresenter presenter = PresenterResolver
-								.getPresenter(MeetingAddPresenter.class);
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallEdit>() {
+			private static final long serialVersionUID = 1L;
 
-						presenter.go(container, new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.CallEdit event) {
+				CallAddPresenter presenter = PresenterResolver
+						.getPresenter(CallAddPresenter.class);
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingRead>() {
-					private static final long serialVersionUID = 1L;
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallRead>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void handle(ActivityEvent.MeetingRead event) {
-						MeetingReadPresenter presenter = PresenterResolver
-								.getPresenter(MeetingReadPresenter.class);
-						presenter.go(container, new MeetingScreenData.Read(
-								(Integer) event.getData()));
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.CallRead event) {
+				CallReadPresenter presenter = PresenterResolver
+						.getPresenter(CallReadPresenter.class);
+				presenter.go(container,
+						new CallScreenData.Read((Integer) event.getData()));
 
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallAdd>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallAdd.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.CallAdd event) {
-						CallAddPresenter presenter = PresenterResolver
-								.getPresenter(CallAddPresenter.class);
-						presenter.go(container, new CallScreenData.Add(
-								new SimpleCall()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallEdit>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallEdit.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.CallEdit event) {
-						CallAddPresenter presenter = PresenterResolver
-								.getPresenter(CallAddPresenter.class);
-
-						presenter.go(container, new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallRead>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallRead.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.CallRead event) {
-						CallReadPresenter presenter = PresenterResolver
-								.getPresenter(CallReadPresenter.class);
-						presenter.go(container, new CallScreenData.Read(
-								(Integer) event.getData()));
-
-					}
-				});
+			}
+		});
 
 	}
 
 	@SuppressWarnings("serial")
 	private void bindCampaignEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoList>() {
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoList event) {
+				CampaignListPresenter presenter = PresenterResolver
+						.getPresenter(CampaignListPresenter.class);
+				CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
 
-					@Override
-					public void handle(CampaignEvent.GotoList event) {
-						CampaignListPresenter presenter = PresenterResolver
-								.getPresenter(CampaignListPresenter.class);
-						CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
+				presenter.go(container,
+						new ScreenData.Search<CampaignSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						presenter.go(container,
-								new ScreenData.Search<CampaignSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoAdd>() {
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoAdd event) {
+				CampaignAddPresenter presenter = PresenterResolver
+						.getPresenter(CampaignAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleCampaign>(
+						new SimpleCampaign()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoEdit>() {
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoEdit event) {
+				CampaignAddPresenter presenter = PresenterResolver
+						.getPresenter(CampaignAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(CampaignEvent.GotoAdd event) {
-						CampaignAddPresenter presenter = PresenterResolver
-								.getPresenter(CampaignAddPresenter.class);
-						presenter.go(container,
-								new ScreenData.Add<SimpleCampaign>(
-										new SimpleCampaign()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(CampaignEvent.GotoEdit event) {
-						CampaignAddPresenter presenter = PresenterResolver
-								.getPresenter(CampaignAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(CampaignEvent.GotoRead event) {
-						CampaignReadPresenter presenter = PresenterResolver
-								.getPresenter(CampaignReadPresenter.class);
-						presenter.go(container,
-								new ScreenData.Preview(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoRead>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(CampaignEvent.GotoRead event) {
+				CampaignReadPresenter presenter = PresenterResolver
+						.getPresenter(CampaignReadPresenter.class);
+				presenter.go(container, new ScreenData.Preview(event.getData()));
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
 	private void bindContactEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoList>() {
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoList event) {
+				ContactListPresenter presenter = PresenterResolver
+						.getPresenter(ContactListPresenter.class);
 
-					@Override
-					public void handle(ContactEvent.GotoList event) {
-						ContactListPresenter presenter = PresenterResolver
-								.getPresenter(ContactListPresenter.class);
+				ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(container,
+						new ScreenData.Search<ContactSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(container,
-								new ScreenData.Search<ContactSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoAdd>() {
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoAdd event) {
+				ContactAddPresenter presenter = PresenterResolver
+						.getPresenter(ContactAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleContact>(
+						new SimpleContact()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoEdit>() {
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoEdit event) {
+				ContactAddPresenter presenter = PresenterResolver
+						.getPresenter(ContactAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(ContactEvent.GotoAdd event) {
-						ContactAddPresenter presenter = PresenterResolver
-								.getPresenter(ContactAddPresenter.class);
-						presenter.go(container,
-								new ScreenData.Add<SimpleContact>(
-										new SimpleContact()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(ContactEvent.GotoEdit event) {
-						ContactAddPresenter presenter = PresenterResolver
-								.getPresenter(ContactAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(ContactEvent.GotoRead event) {
-						ContactReadPresenter presenter = PresenterResolver
-								.getPresenter(ContactReadPresenter.class);
-						presenter.go(container,
-								new ScreenData.Preview(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoRead>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(ContactEvent.GotoRead event) {
+				ContactReadPresenter presenter = PresenterResolver
+						.getPresenter(ContactReadPresenter.class);
+				presenter.go(container, new ScreenData.Preview(event.getData()));
+			}
+		});
 	}
 
 	private void bindDocumentEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<DocumentEvent.GotoDashboard>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<DocumentEvent.GotoDashboard>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return DocumentEvent.GotoDashboard.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(DocumentEvent.GotoDashboard event) {
+				FileDashboardPresenter presenter = PresenterResolver
+						.getPresenter(FileDashboardPresenter.class);
+				presenter.go(container, null);
+			}
+		});
 
-					@Override
-					public void handle(DocumentEvent.GotoDashboard event) {
-						FileDashboardPresenter presenter = PresenterResolver
-								.getPresenter(FileDashboardPresenter.class);
-						presenter.go(container, null);
-					}
-				});
+		eventBus.register(new ApplicationEventListener<DocumentEvent.Search>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<DocumentEvent.Search>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return DocumentEvent.Search.class;
-					}
-
-					@Override
-					public void handle(DocumentEvent.Search event) {
-						FileSearchResultPresenter presenter = PresenterResolver
-								.getPresenter(FileSearchResultPresenter.class);
-						presenter.go(container,
-								new ScreenData<FileSearchCriteria>(
-										(FileSearchCriteria) event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(DocumentEvent.Search event) {
+				FileSearchResultPresenter presenter = PresenterResolver
+						.getPresenter(FileSearchResultPresenter.class);
+				presenter.go(container, new ScreenData<FileSearchCriteria>(
+						(FileSearchCriteria) event.getData()));
+			}
+		});
 	}
 
 	private void bindSettingEvents() {
-		EventBus.getInstance()
-		.addListener(
-				new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmSettingEvent.GotoNotificationSetting.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(GotoNotificationSetting event) {
+				CrmSettingPresenter presenter = PresenterResolver
+						.getPresenter(CrmSettingPresenter.class);
+				presenter.go(container,
+						new NotificationSettingScreenData.Read());
+			}
+		});
 
-					@Override
-					public void handle(GotoNotificationSetting event) {
-						CrmSettingPresenter presenter = PresenterResolver
-								.getPresenter(CrmSettingPresenter.class);
-						presenter
-						.go(container,
-								new NotificationSettingScreenData.Read());
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance()
-		.addListener(
-				new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmSettingEvent.GotoCustomViewSetting.class;
-					}
-
-					@Override
-					public void handle(
-							CrmSettingEvent.GotoCustomViewSetting event) {
-						CrmSettingPresenter presenter = PresenterResolver
-								.getPresenter(CrmSettingPresenter.class);
-						presenter.go(container,
-								new CustomViewScreenData.Read());
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CrmSettingEvent.GotoCustomViewSetting event) {
+				CrmSettingPresenter presenter = PresenterResolver
+						.getPresenter(CrmSettingPresenter.class);
+				presenter.go(container, new CustomViewScreenData.Read());
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
 	private void bindLeadEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoList>() {
 
-					@Override
-					public void handle(LeadEvent.GotoList event) {
-						LeadListPresenter presenter = PresenterResolver
-								.getPresenter(LeadListPresenter.class);
-						LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(container,
-								new ScreenData.Search<LeadSearchCriteria>(
-										searchCriteria));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoList event) {
+				LeadListPresenter presenter = PresenterResolver
+						.getPresenter(LeadListPresenter.class);
+				LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(container,
+						new ScreenData.Search<LeadSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoAdd>() {
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoAdd event) {
+				LeadAddPresenter presenter = PresenterResolver
+						.getPresenter(LeadAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleLead>(
+						new SimpleLead()));
+			}
+		});
 
-					@Override
-					public void handle(LeadEvent.GotoAdd event) {
-						LeadAddPresenter presenter = PresenterResolver
-								.getPresenter(LeadAddPresenter.class);
-						presenter.go(container, new ScreenData.Add<SimpleLead>(
-								new SimpleLead()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoEdit>() {
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoEdit event) {
+				LeadAddPresenter presenter = PresenterResolver
+						.getPresenter(LeadAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoEdit.class;
-					}
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoRead>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(LeadEvent.GotoRead event) {
+				Object value = event.getData();
+				SimpleLead lead;
+				if (value instanceof Integer) {
+					LeadService leadService = ApplicationContextUtil
+							.getSpringBean(LeadService.class);
+					lead = leadService.findById((Integer) value,
+							AppContext.getAccountId());
+				} else if (value instanceof SimpleLead) {
+					lead = (SimpleLead) value;
+				} else {
+					throw new MyCollabException(
+							"Do not support such param type");
+				}
 
-					@Override
-					public void handle(LeadEvent.GotoEdit event) {
-						LeadAddPresenter presenter = PresenterResolver
-								.getPresenter(LeadAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
+				if ("Converted".equals(lead.getStatus())) {
+					LeadConvertReadPresenter presenter = PresenterResolver
+							.getPresenter(LeadConvertReadPresenter.class);
+					presenter.go(container, new ScreenData.Preview(lead));
+				} else {
+					LeadReadPresenter presenter = PresenterResolver
+							.getPresenter(LeadReadPresenter.class);
+					presenter.go(container, new ScreenData.Preview(lead));
+				}
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(LeadEvent.GotoRead event) {
-						Object value = event.getData();
-						SimpleLead lead;
-						if (value instanceof Integer) {
-							LeadService leadService = ApplicationContextUtil
-									.getSpringBean(LeadService.class);
-							lead = leadService.findById((Integer) value,
-									AppContext.getAccountId());
-						} else if (value instanceof SimpleLead) {
-							lead = (SimpleLead) value;
-						} else {
-							throw new MyCollabException(
-									"Do not support such param type");
-						}
-
-						if ("Converted".equals(lead.getStatus())) {
-							LeadConvertReadPresenter presenter = PresenterResolver
-									.getPresenter(LeadConvertReadPresenter.class);
-							presenter.go(container,
-									new ScreenData.Preview(lead));
-						} else {
-							LeadReadPresenter presenter = PresenterResolver
-									.getPresenter(LeadReadPresenter.class);
-							presenter.go(container,
-									new ScreenData.Preview(lead));
-						}
-
-					}
-				});
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
 	private void bindOpportunityEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoList>() {
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoList event) {
+				OpportunityListPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityListPresenter.class);
+				OpportunitySearchCriteria searchCriteria;
+				if (event.getData() != null) {
+					searchCriteria = (OpportunitySearchCriteria) event
+							.getData();
+				} else {
+					searchCriteria = new OpportunitySearchCriteria();
+					searchCriteria.setSaccountid(new NumberSearchField(
+							SearchField.AND, AppContext.getAccountId()));
+				}
 
-					@Override
-					public void handle(OpportunityEvent.GotoList event) {
-						OpportunityListPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityListPresenter.class);
-						OpportunitySearchCriteria searchCriteria;
-						if (event.getData() != null) {
-							searchCriteria = (OpportunitySearchCriteria) event
-									.getData();
-						} else {
-							searchCriteria = new OpportunitySearchCriteria();
-							searchCriteria.setSaccountid(new NumberSearchField(
-									SearchField.AND, AppContext.getAccountId()));
-						}
+				presenter.go(container,
+						new ScreenData.Search<OpportunitySearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						presenter
-						.go(container,
-								new ScreenData.Search<OpportunitySearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoAdd event) {
+				OpportunityAddPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleOpportunity>(
+						new SimpleOpportunity()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoEdit event) {
+				OpportunityAddPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(OpportunityEvent.GotoAdd event) {
-						OpportunityAddPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityAddPresenter.class);
-						presenter.go(container,
-								new ScreenData.Add<SimpleOpportunity>(
-										new SimpleOpportunity()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoRead>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(OpportunityEvent.GotoRead event) {
+				OpportunityReadPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityReadPresenter.class);
+				presenter.go(container, new ScreenData.Preview(event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(OpportunityEvent.GotoEdit event) {
-						OpportunityAddPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(OpportunityEvent.GotoRead event) {
-						OpportunityReadPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityReadPresenter.class);
-						presenter.go(container,
-								new ScreenData.Preview(event.getData()));
-					}
-				});
-
-		EventBus.getInstance()
-		.addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoContactRoleEdit.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(
-							OpportunityEvent.GotoContactRoleEdit event) {
-						ContactRoleEditPresenter presenter = PresenterResolver
-								.getPresenter(ContactRoleEditPresenter.class);
-						presenter.go(container,
-								new ScreenData(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(OpportunityEvent.GotoContactRoleEdit event) {
+				ContactRoleEditPresenter presenter = PresenterResolver
+						.getPresenter(ContactRoleEditPresenter.class);
+				presenter.go(container, new ScreenData(event.getData()));
+			}
+		});
 	}
 
 	@SuppressWarnings("serial")
 	private void bindCasesEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoList>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoList.class;
-					}
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoList>() {
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoList event) {
+				CaseListPresenter presenter = PresenterResolver
+						.getPresenter(CaseListPresenter.class);
 
-					@Override
-					public void handle(CaseEvent.GotoList event) {
-						CaseListPresenter presenter = PresenterResolver
-								.getPresenter(CaseListPresenter.class);
+				CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(container,
+						new ScreenData.Search<CaseSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(container,
-								new ScreenData.Search<CaseSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoAdd>() {
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoAdd event) {
+				CaseAddPresenter presenter = PresenterResolver
+						.getPresenter(CaseAddPresenter.class);
+				presenter.go(container, new ScreenData.Add<SimpleCase>(
+						new SimpleCase()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoAdd>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoEdit>() {
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoEdit event) {
+				CaseAddPresenter presenter = PresenterResolver
+						.getPresenter(CaseAddPresenter.class);
+				presenter.go(container,
+						new ScreenData.Edit<Object>(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(CaseEvent.GotoAdd event) {
-						CaseAddPresenter presenter = PresenterResolver
-								.getPresenter(CaseAddPresenter.class);
-						presenter.go(container, new ScreenData.Add<SimpleCase>(
-								new SimpleCase()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoEdit>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(CaseEvent.GotoEdit event) {
-						CaseAddPresenter presenter = PresenterResolver
-								.getPresenter(CaseAddPresenter.class);
-						presenter.go(container, new ScreenData.Edit<Object>(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoRead>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(CaseEvent.GotoRead event) {
-						CaseReadPresenter presenter = PresenterResolver
-								.getPresenter(CaseReadPresenter.class);
-						presenter.go(container,
-								new ScreenData.Preview(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoRead>() {
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(CaseEvent.GotoRead event) {
+				CaseReadPresenter presenter = PresenterResolver
+						.getPresenter(CaseReadPresenter.class);
+				presenter.go(container, new ScreenData.Preview(event.getData()));
+			}
+		});
 	}
 }

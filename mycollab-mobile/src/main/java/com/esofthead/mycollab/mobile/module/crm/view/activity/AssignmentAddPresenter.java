@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -54,11 +54,11 @@ public class AssignmentAddPresenter extends
 			@Override
 			public void onSave(final Task item) {
 				save(item);
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CrmEvent.NavigateBack(this, null));
 				// ViewState viewState = HistoryViewManager.back();
 				// if (viewState instanceof NullViewState) {
-				// EventBus.getInstance().fireEvent(
+				// EventBusFactory.getInstance().post(
 				// new ActivityEvent.GotoList(this, null));
 				// }
 			}
@@ -67,7 +67,7 @@ public class AssignmentAddPresenter extends
 			public void onCancel() {
 				// ViewState viewState = HistoryViewManager.back();
 				// if (viewState instanceof NullViewState) {
-				// EventBus.getInstance().fireEvent(
+				// EventBusFactory.getInstance().post(
 				// new ActivityEvent.GotoList(this, null));
 				// }
 			}
@@ -75,7 +75,7 @@ public class AssignmentAddPresenter extends
 			@Override
 			public void onSaveAndNew(final Task item) {
 				save(item);
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.TaskAdd(this, null));
 			}
 		});

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.shell.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobileMainView;
@@ -79,7 +79,7 @@ public class MainView extends AbstractMobileMainView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoCrmModule(this, null));
 			}
 		});

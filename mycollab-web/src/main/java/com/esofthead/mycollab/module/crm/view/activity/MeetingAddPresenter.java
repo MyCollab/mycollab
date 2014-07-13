@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -62,7 +62,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.GotoTodoList(this, null));
 						}
 					}
@@ -71,7 +71,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.GotoTodoList(this, null));
 						}
 					}
@@ -79,7 +79,7 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 					@Override
 					public void onSaveAndNew(final MeetingWithBLOBs item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingAdd(this, null));
 					}
 				});

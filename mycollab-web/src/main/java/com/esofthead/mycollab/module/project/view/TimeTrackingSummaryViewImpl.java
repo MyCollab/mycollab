@@ -25,9 +25,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -52,7 +50,8 @@ import com.esofthead.mycollab.vaadin.resource.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
@@ -132,7 +131,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoProjectModule(
 								TimeTrackingSummaryViewImpl.this, null));
 
@@ -238,51 +237,40 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		this.tableItem.addStyleName("full-border-table");
 		this.tableItem.setMargin(new MarginInfo(true, false, false, false));
 
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		this.tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
+						.getData();
+				if ("summary".equals(event.getFieldName())) {
+					final int typeId = itemLogging.getTypeid();
+					final int projectId = itemLogging.getProjectid();
+
+					if (ProjectTypeConstants.BUG.equals(itemLogging.getType())) {
+						final PageActionChain chain = new PageActionChain(
+								new ProjectScreenData.Goto(projectId),
+								new BugScreenData.Read(typeId));
+						EventBusFactory.getInstance().post(
+								new ProjectEvent.GotoMyProject(this, chain));
+					} else if (ProjectTypeConstants.TASK.equals(itemLogging
+							.getType())) {
+						final PageActionChain chain = new PageActionChain(
+								new ProjectScreenData.Goto(projectId),
+								new TaskScreenData.Read(typeId));
+						EventBusFactory.getInstance().post(
+								new ProjectEvent.GotoMyProject(this, chain));
 					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleItemTimeLogging itemLogging = (SimpleItemTimeLogging) event
-								.getData();
-						if ("summary".equals(event.getFieldName())) {
-							final int typeId = itemLogging.getTypeid();
-							final int projectId = itemLogging.getProjectid();
-
-							if (ProjectTypeConstants.BUG.equals(itemLogging
-									.getType())) {
-								final PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(projectId),
-										new BugScreenData.Read(typeId));
-								EventBus.getInstance().fireEvent(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
-							} else if (ProjectTypeConstants.TASK
-									.equals(itemLogging.getType())) {
-								final PageActionChain chain = new PageActionChain(
-										new ProjectScreenData.Goto(projectId),
-										new TaskScreenData.Read(typeId));
-								EventBus.getInstance().fireEvent(
-										new ProjectEvent.GotoMyProject(this,
-												chain));
-							}
-						} else if ("projectName".equals(event.getFieldName())) {
-							final PageActionChain chain = new PageActionChain(
-									new ProjectScreenData.Goto(itemLogging
-											.getProjectid()));
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this, chain));
-						}
-					}
-				});
+				} else if ("projectName".equals(event.getFieldName())) {
+					final PageActionChain chain = new PageActionChain(
+							new ProjectScreenData.Goto(itemLogging
+									.getProjectid()));
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.GotoMyProject(this, chain));
+				}
+			}
+		});
 		contentWrapper.addComponent(this.tableItem);
 	}
 

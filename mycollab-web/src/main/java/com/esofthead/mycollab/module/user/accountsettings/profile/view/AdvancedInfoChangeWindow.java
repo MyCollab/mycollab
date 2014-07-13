@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.profile.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -143,7 +143,7 @@ public class AdvancedInfoChangeWindow extends Window {
 				.getSpringBean(UserService.class);
 		userService.updateWithSession(this.user, AppContext.getUsername());
 
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this,
 						null));
 		AdvancedInfoChangeWindow.this.close();

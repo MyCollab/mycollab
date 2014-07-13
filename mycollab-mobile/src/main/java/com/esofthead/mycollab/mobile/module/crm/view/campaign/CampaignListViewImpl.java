@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
@@ -66,7 +66,7 @@ public class CampaignListViewImpl extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent arg0) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoAdd(this, null));
 					}
 				});

@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -137,8 +137,8 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 			final BugFilterParameter param = new BugFilterParameter(
 					"Unresolved " + caption + " Bug List",
 					UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
-			EventBus.getInstance()
-					.fireEvent(
+			EventBusFactory.getInstance()
+					.post(
 							new BugEvent.GotoList(this,
 									new BugScreenData.Search(param)));
 		}

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import java.util.GregorianCalendar;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
@@ -55,17 +55,17 @@ public class ActivityListDisplay
 						NavigationButton.NavigationButtonClickEvent event) {
 					if (simpleEvent.getEventType()
 							.equals(CrmTypeConstants.TASK)) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.TaskRead(this, simpleEvent
 										.getId()));
 					} else if (simpleEvent.getEventType().equals(
 							CrmTypeConstants.CALL)) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallRead(this, simpleEvent
 										.getId()));
 					} else if (simpleEvent.getEventType().equals(
 							CrmTypeConstants.MEETING)) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingRead(this, simpleEvent
 										.getId()));
 					}

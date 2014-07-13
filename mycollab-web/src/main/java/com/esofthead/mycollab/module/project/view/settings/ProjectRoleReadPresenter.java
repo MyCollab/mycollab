@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
@@ -56,7 +56,7 @@ public class ProjectRoleReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleProjectRole>() {
 					@Override
 					public void onEdit(SimpleProjectRole data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectRoleEvent.GotoEdit(this, data));
 					}
 
@@ -67,7 +67,7 @@ public class ProjectRoleReadPresenter extends
 						projectRoleService.removeWithSession(data.getId(),
 								AppContext.getUsername(),
 								AppContext.getAccountId());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectRoleEvent.GotoList(this, null));
 					}
 
@@ -76,13 +76,13 @@ public class ProjectRoleReadPresenter extends
 						SimpleProjectRole cloneData = (SimpleProjectRole) data
 								.copy();
 						cloneData.setRolename(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectRoleEvent.GotoAdd(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectRoleEvent.GotoList(this, null));
 					}
 
@@ -100,10 +100,9 @@ public class ProjectRoleReadPresenter extends
 						Integer nextId = projectRoleService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectRoleEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new ProjectRoleEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -124,10 +123,9 @@ public class ProjectRoleReadPresenter extends
 						Integer nextId = projectRoleService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectRoleEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new ProjectRoleEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}

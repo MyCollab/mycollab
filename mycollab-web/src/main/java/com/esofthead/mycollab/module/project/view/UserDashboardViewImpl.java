@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
 import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
 import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
@@ -147,7 +147,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (prjKeys != null) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new FollowingTicketEvent.GotoMyFollowingItems(
 									UserDashboardViewImpl.this, prjKeys));
 				}
@@ -161,7 +161,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new TimeTrackingEvent.GotoTimeTrackingView(
 								UserDashboardViewImpl.this, null));
 			}

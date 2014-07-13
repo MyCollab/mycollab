@@ -18,9 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.Arrays;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -34,7 +32,8 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -92,10 +91,9 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance()
-								.fireEvent(
-										new TaskListEvent.GotoTaskListScreen(
-												this, null));
+						EventBusFactory.getInstance()
+								.post(new TaskListEvent.GotoTaskListScreen(
+										this, null));
 
 					}
 				});
@@ -122,26 +120,19 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 						TaskTableFieldDef.assignee,
 						TaskTableFieldDef.percentagecomplete));
 
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		this.tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleTask task = (SimpleTask) event.getData();
-						if ("taskname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new TaskEvent.GotoRead(
-											TaskSearchViewImpl.this, task
-													.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleTask task = (SimpleTask) event.getData();
+				if ("taskname".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new TaskEvent.GotoRead(TaskSearchViewImpl.this,
+									task.getId()));
+				}
+			}
+		});
 
 		this.taskListLayout.addComponent(this.tableItem);
 	}

@@ -28,7 +28,7 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -432,7 +432,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					@Override
 					public void buttonClick(ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoAdd(
 										ProjectViewImpl.this, null));
 					}
@@ -450,7 +450,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					@Override
 					public void buttonClick(ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoAdd(this, null));
 					}
 				});
@@ -467,7 +467,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					@Override
 					public void buttonClick(ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RiskEvent.GotoAdd(this, null));
 					}
 				});
@@ -484,7 +484,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 					@Override
 					public void buttonClick(ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProblemEvent.GotoAdd(this, null));
 					}
 				});
@@ -548,8 +548,8 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 																.getUsername(),
 														AppContext
 																.getAccountId());
-												EventBus.getInstance()
-														.fireEvent(
+												EventBusFactory.getInstance()
+														.post(
 																new ShellEvent.GotoProjectModule(
 																		this,
 																		null));

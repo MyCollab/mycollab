@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
@@ -82,13 +82,13 @@ public class OpportunityReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleOpportunity>() {
 					@Override
 					public void onEdit(SimpleOpportunity data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleOpportunity data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoAdd(this, null));
 					}
 
@@ -117,10 +117,10 @@ public class OpportunityReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance()
-													.fireEvent(
-															new OpportunityEvent.GotoList(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new OpportunityEvent.GotoList(
+															this, null));
 										}
 									}
 								});
@@ -131,13 +131,13 @@ public class OpportunityReadPresenter extends
 						SimpleOpportunity cloneData = (SimpleOpportunity) data
 								.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoList(this, null));
 					}
 
@@ -153,10 +153,9 @@ public class OpportunityReadPresenter extends
 						Integer nextId = opportunityService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new OpportunityEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new OpportunityEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -175,10 +174,9 @@ public class OpportunityReadPresenter extends
 						Integer nextId = opportunityService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new OpportunityEvent.GotoRead(this,
-													nextId));
+							EventBusFactory.getInstance()
+									.post(new OpportunityEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}
@@ -193,8 +191,9 @@ public class OpportunityReadPresenter extends
 							SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.OPPORTUNITY);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory
+									.getInstance()
+									.post(
 											new ActivityEvent.TaskEdit(
 													OpportunityReadPresenter.this,
 													task));
@@ -202,7 +201,7 @@ public class OpportunityReadPresenter extends
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.OPPORTUNITY);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.MeetingEdit(
 											OpportunityReadPresenter.this,
 											meeting));
@@ -210,8 +209,9 @@ public class OpportunityReadPresenter extends
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.OPPORTUNITY);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory
+									.getInstance()
+									.post(
 											new ActivityEvent.CallEdit(
 													OpportunityReadPresenter.this,
 													call));
@@ -226,8 +226,8 @@ public class OpportunityReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleContact contact = new SimpleContact();
 						contact.setExtraData(view.getItem());
-						EventBus.getInstance()
-								.fireEvent(
+						EventBusFactory.getInstance()
+								.post(
 										new ContactEvent.GotoEdit(
 												OpportunityReadPresenter.this,
 												contact));
@@ -263,7 +263,7 @@ public class OpportunityReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleLead lead = new SimpleLead();
 						lead.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(
 										OpportunityReadPresenter.this, lead));
 					}

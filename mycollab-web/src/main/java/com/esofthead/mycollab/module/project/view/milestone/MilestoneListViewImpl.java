@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 import java.util.List;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -137,7 +137,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoAdd(
 										MilestoneListViewImpl.this, null));
 					}

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.vaadin.addon.touchkit.ui.TabBarView;
 import com.vaadin.server.Resource;
@@ -43,12 +41,11 @@ public class AbstractMobileTabPageView extends TabBarView implements PageView {
 	/*
 	 * Now we use EventBus to manage events
 	 * 
-	 * @see com.esofthead.mycollab.eventmanager.EventBus
+	 * @see com.esofthead.mycollab.eventmanager.EventBusFactory
 	 */
 	@Deprecated
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 		// Do nothing
 	}
 

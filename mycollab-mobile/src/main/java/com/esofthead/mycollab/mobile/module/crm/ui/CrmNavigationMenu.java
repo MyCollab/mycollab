@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
@@ -104,25 +104,25 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 						.getBtnId();
 
 				if ("Accounts".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new AccountEvent.GotoList(this, null));
 				} else if ("Activities".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.GotoList(this, null));
 				} else if ("Contacts".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ContactEvent.GotoList(this, null));
 				} else if ("Campaigns".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new CampaignEvent.GotoList(this, null));
 				} else if ("Cases".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new CaseEvent.GotoList(this, null));
 				} else if ("Leads".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new LeadEvent.GotoList(this, null));
 				} else if ("Opportunities".equals(caption)) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new OpportunityEvent.GotoList(this, null));
 				}
 

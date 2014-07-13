@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nEnum;
 import com.esofthead.mycollab.module.user.domain.criteria.RoleSearchCriteria;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
@@ -78,7 +78,7 @@ public class RoleSearchPanel extends GenericSearchPanel<RoleSearchCriteria> {
 
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RoleEvent.GotoAdd(this, null));
 					}
 				});

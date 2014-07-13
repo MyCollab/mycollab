@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui.table;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.EventListener;
 import java.util.List;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -25,6 +28,7 @@ import com.esofthead.mycollab.vaadin.events.HasPagableHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Table;
+import com.vaadin.util.ReflectTools;
 
 /**
  * 
@@ -39,12 +43,35 @@ public interface IPagedBeanTable<S extends SearchCriteria, T> extends
 
 	List<T> getCurrentDataList();
 
-	void addTableListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener);
+	void addTableListener(TableClickListener listener);
 
 	void addGeneratedColumn(Object id, Table.ColumnGenerator generatedColumn);
 
 	T getBeanByIndex(Object itemId);
 
 	void refresh();
+
+	public static interface TableClickListener extends EventListener,
+			Serializable {
+		public static final Method itemClickMethod = ReflectTools.findMethod(
+				TableClickListener.class, "itemClick", TableClickEvent.class);
+
+		void itemClick(TableClickEvent event);
+	}
+
+	public static class TableClickEvent extends ApplicationEvent {
+		public static final String TABLE_CLICK_IDENTIFIER = "tableClickEvent";
+
+		private static final long serialVersionUID = 1L;
+		private String fieldName;
+
+		public TableClickEvent(IBeanTable source, Object data, String fieldName) {
+			super(source, data);
+			this.fieldName = fieldName;
+		}
+
+		public String getFieldName() {
+			return fieldName;
+		}
+	}
 }

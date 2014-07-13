@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.module.crm.view.account.AccountUrlResolver;
 import com.esofthead.mycollab.module.crm.view.activity.ActivityUrlResolver;
@@ -55,7 +55,7 @@ public class CrmUrlResolver extends UrlResolver {
 	@Override
 	public void handle(String... params) {
 		if (!ModuleHelper.isCurrentCrmModule()) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ShellEvent.GotoCrmModule(this, params));
 		} else {
 			super.handle(params);
@@ -64,7 +64,7 @@ public class CrmUrlResolver extends UrlResolver {
 
 	@Override
 	protected void defaultPageErrorHandler() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ShellEvent.GotoCrmModule(this, null));
 
 	}
@@ -73,7 +73,7 @@ public class CrmUrlResolver extends UrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(new CrmEvent.GotoHome(this, null));
+			EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
 		}
 	}
 }

@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -60,7 +60,7 @@ public class ProjectRoleAddPresenter extends
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ProjectRoleEvent.GotoList(this, null));
 						}
 					}
@@ -69,7 +69,7 @@ public class ProjectRoleAddPresenter extends
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ProjectRoleEvent.GotoList(this, null));
 						}
 					}
@@ -77,7 +77,7 @@ public class ProjectRoleAddPresenter extends
 					@Override
 					public void onSaveAndNew(ProjectRole item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectRoleEvent.GotoAdd(this, null));
 					}
 				});

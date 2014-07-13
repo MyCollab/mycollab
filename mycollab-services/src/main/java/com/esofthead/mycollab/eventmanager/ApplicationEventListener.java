@@ -26,8 +26,6 @@ import java.util.EventListener;
 public interface ApplicationEventListener<E extends ApplicationEvent> extends
 		EventListener, Serializable {
 
-	Class<? extends ApplicationEvent> getEventType();
-
 	/**
 	 * Handles the given application event.
 	 * 

@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.message;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
@@ -51,7 +51,7 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new MessageScreenData.Search(messageSearchCriteria));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}
@@ -67,7 +67,7 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new MessageScreenData.Read(messageId));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 	}

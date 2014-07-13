@@ -21,8 +21,6 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -379,12 +377,6 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 	@Override
 	public ComponentContainer getWidget() {
 		return this;
-	}
-
-	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
-
 	}
 
 }

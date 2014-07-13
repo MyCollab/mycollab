@@ -18,20 +18,16 @@ package com.esofthead.mycollab.vaadin.ui.table;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -55,7 +51,6 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 
 	private Class typeClass;
 	private SearchService searchService;
-	private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> mapEventListener;
 
 	public BeanTable(SearchService searchService, Class typeClass,
 			TableViewField requiredColumn, List<TableViewField> displayColumns) {
@@ -121,38 +116,14 @@ public class BeanTable<SearchService extends ISearchableService<S>, S extends Se
 		return (item == null) ? null : item.getBean();
 	}
 
-	public void addTableListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
-		if (mapEventListener == null) {
-			mapEventListener = new HashMap<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>>();
-		}
-
-		Set<ApplicationEventListener<?>> listenerSet = mapEventListener
-				.get(listener.getEventType());
-		if (listenerSet == null) {
-			listenerSet = new LinkedHashSet<ApplicationEventListener<?>>();
-			mapEventListener.put(listener.getEventType(), listenerSet);
-		}
-
-		listenerSet.add(listener);
+	public void addTableListener(TableClickListener listener) {
+		addListener(TableClickEvent.TABLE_CLICK_IDENTIFIER,
+				TableClickEvent.class, listener,
+				TableClickListener.itemClickMethod);
 	}
 
 	protected void fireTableEvent(ApplicationEvent event) {
 
-		Class<? extends ApplicationEvent> eventType = event.getClass();
-
-		Set<ApplicationEventListener<?>> eventSet = mapEventListener
-				.get(eventType);
-		if (eventSet != null) {
-			Iterator<ApplicationEventListener<?>> listenerSet = mapEventListener
-					.get(eventType).iterator();
-
-			while (listenerSet.hasNext()) {
-				ApplicationEventListener<?> listener = listenerSet.next();
-				@SuppressWarnings("unchecked")
-				ApplicationEventListener<ApplicationEvent> l = (ApplicationEventListener<ApplicationEvent>) listener;
-				l.handle(event);
-			}
-		}
+		fireEvent(event);
 	}
 }

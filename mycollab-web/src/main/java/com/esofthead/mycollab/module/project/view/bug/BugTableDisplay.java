@@ -29,7 +29,7 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.BugSeverityConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -158,7 +158,7 @@ public class BugTableDisplay extends
 									refresh();
 								} else if ("action".equals(category)) {
 									if ("edit".equals(value)) {
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new BugEvent.GotoEdit(
 														BugTableDisplay.this,
 														bug));

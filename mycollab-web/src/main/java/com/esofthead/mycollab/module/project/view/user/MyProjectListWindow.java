@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.project.view.user;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -117,7 +117,7 @@ public class MyProjectListWindow extends Window {
 						@Override
 						public void buttonClick(final ClickEvent event) {
 							closeWindowParent(event);
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ProjectEvent.GotoMyProject(this,
 											new PageActionChain(
 													new ProjectScreenData.Goto(
@@ -137,15 +137,15 @@ public class MyProjectListWindow extends Window {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							closeWindowParent(event);
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new ProjectMemberScreenData.Search(
-																	null))));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new ProjectMemberScreenData.Search(
+															null))));
 						}
 					}, false);
 			linkIconFix.addComponent(projectMember);
@@ -170,14 +170,14 @@ public class MyProjectListWindow extends Window {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							closeWindowParent(event);
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new TaskGroupScreenData.GotoDashboard())));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new TaskGroupScreenData.GotoDashboard())));
 						}
 					}, false);
 			final Image taskIcon = new Image(null,
@@ -202,14 +202,14 @@ public class MyProjectListWindow extends Window {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							closeWindowParent(event);
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new BugScreenData.GotoDashboard())));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new BugScreenData.GotoDashboard())));
 						}
 					}, false);
 
@@ -240,15 +240,15 @@ public class MyProjectListWindow extends Window {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							closeWindowParent(event);
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new MilestoneScreenData.Search(
-																	null))));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new MilestoneScreenData.Search(
+															null))));
 						}
 					}, false);
 			phaseStatus.addComponent(phaseLbl);

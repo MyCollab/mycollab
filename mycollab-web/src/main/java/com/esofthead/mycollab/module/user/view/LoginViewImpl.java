@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.view;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.GenericServerRunner;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -140,7 +140,7 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ShellEvent.GotoForgotPasswordPage(this,
 											null));
 						}

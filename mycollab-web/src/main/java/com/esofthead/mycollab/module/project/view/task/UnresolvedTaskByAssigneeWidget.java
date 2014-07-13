@@ -21,7 +21,7 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -120,7 +120,7 @@ public class UnresolvedTaskByAssigneeWidget extends Depot {
 							searchCriteria, AppContext.getMessage(
 									TaskI18nEnum.OPT_FILTER_TASK_BY_ASSIGNEE,
 									assigneeFullName));
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new TaskEvent.Filter(this, filterParam));
 				}
 			});

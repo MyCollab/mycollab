@@ -40,11 +40,11 @@ import com.esofthead.mycollab.cache.LocalCacheManager;
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
 import com.esofthead.mycollab.module.ecm.StorageNames;
 import com.esofthead.mycollab.module.ecm.esb.CloudDriveOAuthCallbackEvent;
 import com.esofthead.mycollab.module.file.CloudDriveInfo;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
+import com.google.common.eventbus.EventBus;
 
 /**
  * 
@@ -53,7 +53,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * 
  */
 @Component("dropboxAuthServlet")
-public class DropboxAuthServletRequestHandler extends GenericServletRequestHandler {
+public class DropboxAuthServletRequestHandler extends
+		GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
 			.getLogger(DropboxAuthServletRequestHandler.class);
 
@@ -133,7 +134,7 @@ public class DropboxAuthServletRequestHandler extends GenericServletRequestHandl
 
 		EventBus eventBus = (EventBus) cache.get(MyCollabSession.EVENT_BUS_VAL);
 		if (eventBus != null) {
-			eventBus.fireEvent(new CloudDriveOAuthCallbackEvent.ReceiveCloudDriveInfo(
+			eventBus.post(new CloudDriveOAuthCallbackEvent.ReceiveCloudDriveInfo(
 					DropboxAuthServletRequestHandler.this, cloudDriveInfo));
 		} else {
 			log.error(

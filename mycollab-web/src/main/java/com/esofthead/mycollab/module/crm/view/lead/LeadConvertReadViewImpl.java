@@ -28,7 +28,7 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -264,7 +264,7 @@ public class LeadConvertReadViewImpl extends
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, account
 											.getId()));
 
@@ -291,7 +291,7 @@ public class LeadConvertReadViewImpl extends
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ContactEvent.GotoRead(this, contact
 											.getId()));
 
@@ -319,7 +319,7 @@ public class LeadConvertReadViewImpl extends
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new OpportunityEvent.GotoRead(this,
 											opportunity.getId()));
 

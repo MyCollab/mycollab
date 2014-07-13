@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -61,7 +61,7 @@ public class BugSimpleDisplayWidget extends
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugEvent.GotoRead(this, bug.getId()));
 						}
 					});

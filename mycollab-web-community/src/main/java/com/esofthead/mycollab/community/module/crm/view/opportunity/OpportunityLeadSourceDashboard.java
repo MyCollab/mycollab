@@ -26,9 +26,7 @@ import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
@@ -66,8 +64,7 @@ public class OpportunityLeadSourceDashboard extends
 	}
 
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 
 	}
 
@@ -109,7 +106,7 @@ public class OpportunityLeadSourceDashboard extends
 				AppContext.getAccountId()));
 		searchCriteria.setLeadSources(new SetSearchField<String>(
 				SearchField.AND, new String[] { key }));
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new OpportunityEvent.GotoList(this, searchCriteria));
 
 	}

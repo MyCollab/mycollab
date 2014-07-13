@@ -17,19 +17,9 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 
@@ -38,68 +28,35 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 public abstract class AbstractMobileMainView extends VerticalLayout implements
-        PageView, Serializable {
+		PageView, Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	private static Logger log = LoggerFactory.getLogger(AbstractPageView.class);
-    public static String SAVE_ACTION = AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
-    public static String SAVE_AND_NEW_ACTION = "Save & New";
-    public static String EDIT_ACTION = "Edit";
-    public static String CANCEL_ACTION = AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
-    public static String DELETE_ACTION = "Delete";
-    public static String CLONE_ACTION = "Clone";
-    private Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> map;
-    protected ViewState viewState;
 
-    public ViewState getViewState() {
-        return viewState;
-    }
+	public static String SAVE_ACTION = AppContext
+			.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
+	public static String SAVE_AND_NEW_ACTION = "Save & New";
+	public static String EDIT_ACTION = "Edit";
+	public static String CANCEL_ACTION = AppContext
+			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
+	public static String DELETE_ACTION = "Delete";
+	public static String CLONE_ACTION = "Clone";
+	protected ViewState viewState;
 
-    public void setViewState(ViewState viewState) {
-        this.viewState = viewState;
-    }
+	public ViewState getViewState() {
+		return viewState;
+	}
 
-    @Override
-    public ComponentContainer getWidget() {
-        return this;
-    }
+	public void setViewState(ViewState viewState) {
+		this.viewState = viewState;
+	}
 
-    @Override
-    public void addViewListener(
-            ApplicationEventListener<? extends ApplicationEvent> listener) {
-        if (map == null) {
-            map = new HashMap<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>>();
-        }
+	@Override
+	public ComponentContainer getWidget() {
+		return this;
+	}
 
-        Set<ApplicationEventListener<?>> listenerSet = map.get(listener
-                .getEventType());
-        if (listenerSet == null) {
-            listenerSet = new LinkedHashSet<ApplicationEventListener<?>>();
-            map.put(listener.getEventType(), listenerSet);
-        }
-
-        listenerSet.add(listener);
-    }
-
-    protected void fireEvent(ApplicationEvent event) {
-
-        log.debug("Fire event: {}", event);
-
-        Class<? extends ApplicationEvent> eventType = event.getClass();
-
-        Set<ApplicationEventListener<?>> eventSet = map.get(eventType);
-        if (eventSet != null) {
-            Iterator<ApplicationEventListener<?>> listenerSet = map.get(
-                    eventType).iterator();
-
-            while (listenerSet.hasNext()) {
-                ApplicationEventListener<?> listener = listenerSet.next();
-                @SuppressWarnings("unchecked")
-                ApplicationEventListener<ApplicationEvent> l = (ApplicationEventListener<ApplicationEvent>) listener;
-                l.handle(event);
-            }
-        } else {
-            log.error("No listener is registered for event type " + eventType);
-        }
-    }
+	@Override
+	public void addViewListener(ViewListener listener) {
+		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,
+				ViewListener.viewInitMethod);
+	}
 }

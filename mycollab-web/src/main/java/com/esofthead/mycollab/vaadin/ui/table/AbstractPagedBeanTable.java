@@ -19,8 +19,6 @@ package com.esofthead.mycollab.vaadin.ui.table;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,8 +33,6 @@ import com.esofthead.mycollab.common.service.CustomViewStoreService;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.XStreamJsonDeSerializer;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PagableHandler;
@@ -90,7 +86,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	protected Table tableItem;
 	protected CssLayout controlBarWrapper;
 
-	protected Map<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>> mapEventListener;
 	protected Set<SelectableItemHandler<B>> selectableHandlers;
 	protected Set<PagableHandler> pagableHandlers;
 
@@ -213,33 +208,18 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 
 	@Override
 	public List<B> getCurrentDataList() {
-		// final BeanItemContainer<B> containerDataSource =
-		// (BeanItemContainer<B>) this.tableItem
-		// .getContainerDataSource();
-		// final Collection<B> itemIds = containerDataSource.getItemIds();
-		// if (itemIds instanceof List) {
-		// return (List<B>) itemIds;
-		// } else {
-		// return new ArrayList<B>(itemIds);
-		// }
 		return currentListData;
 	}
 
 	@Override
-	public void addTableListener(
-			final ApplicationEventListener<? extends ApplicationEvent> listener) {
-		if (this.mapEventListener == null) {
-			this.mapEventListener = new HashMap<Class<? extends ApplicationEvent>, Set<ApplicationEventListener<?>>>();
-		}
+	public void addTableListener(TableClickListener listener) {
+		addListener(TableClickEvent.TABLE_CLICK_IDENTIFIER,
+				TableClickEvent.class, listener,
+				TableClickListener.itemClickMethod);
+	}
 
-		Set<ApplicationEventListener<?>> listenerSet = this.mapEventListener
-				.get(listener.getEventType());
-		if (listenerSet == null) {
-			listenerSet = new LinkedHashSet<ApplicationEventListener<?>>();
-			this.mapEventListener.put(listener.getEventType(), listenerSet);
-		}
-
-		listenerSet.add(listener);
+	protected void fireTableEvent(final TableClickEvent event) {
+		fireEvent(event);
 	}
 
 	@Override
@@ -278,28 +258,6 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 				for (final PagableHandler handler : this.pagableHandlers) {
 					handler.move(currentPage);
 				}
-			}
-		}
-	}
-
-	protected void fireTableEvent(final ApplicationEvent event) {
-
-		final Class<? extends ApplicationEvent> eventType = event.getClass();
-		if (this.mapEventListener == null) {
-			return;
-		}
-
-		final Set<ApplicationEventListener<?>> eventSet = this.mapEventListener
-				.get(eventType);
-		if (eventSet != null) {
-			final Iterator<ApplicationEventListener<?>> listenerSet = this.mapEventListener
-					.get(eventType).iterator();
-
-			while (listenerSet.hasNext()) {
-				final ApplicationEventListener<?> listener = listenerSet.next();
-				@SuppressWarnings("unchecked")
-				final ApplicationEventListener<ApplicationEvent> l = (ApplicationEventListener<ApplicationEvent>) listener;
-				l.handle(event);
 			}
 		}
 	}
@@ -561,5 +519,4 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 	public Object[] getVisibleColumns() {
 		return tableItem.getVisibleColumns();
 	}
-
 }

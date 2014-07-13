@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.file.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
@@ -38,7 +38,7 @@ public class FileUrlResolver extends UrlResolver {
 	@Override
 	public void handle(String... params) {
 		if (!ModuleHelper.isCurrentFileModule()) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ShellEvent.GotoFileModule(this, params));
 		} else {
 			super.handle(params);
@@ -54,7 +54,7 @@ public class FileUrlResolver extends UrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			// EventBus.getInstance().fireEvent(
+			// EventBusFactory.getInstance().post(
 			// new ShellEvent.GotoFileModule(this, null));
 		}
 	}

@@ -29,9 +29,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -72,7 +70,8 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -411,20 +410,15 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							TaskTableFieldDef.percentagecomplete));
 
 			this.taskDisplay
-					.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					.addTableListener(new TableClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
-						public Class<? extends ApplicationEvent> getEventType() {
-							return TableClickEvent.class;
-						}
-
-						@Override
-						public void handle(final TableClickEvent event) {
+						public void itemClick(final TableClickEvent event) {
 							final SimpleTask task = (SimpleTask) event
 									.getData();
 							if ("taskname".equals(event.getFieldName())) {
-								EventBus.getInstance().fireEvent(
+								EventBusFactory.getInstance().post(
 										new TaskEvent.GotoRead(
 												ProjectMemberReadViewImpl.this,
 												task.getId()));
@@ -589,19 +583,14 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							BugTableFieldDef.duedate));
 
 			this.bugDisplay
-					.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+					.addTableListener(new TableClickListener() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
-						public Class<? extends ApplicationEvent> getEventType() {
-							return TableClickEvent.class;
-						}
-
-						@Override
-						public void handle(final TableClickEvent event) {
+						public void itemClick(final TableClickEvent event) {
 							final SimpleBug bug = (SimpleBug) event.getData();
 							if ("summary".equals(event.getFieldName())) {
-								EventBus.getInstance().fireEvent(
+								EventBusFactory.getInstance().post(
 										new BugEvent.GotoRead(
 												ProjectMemberReadViewImpl.this,
 												bug.getId()));

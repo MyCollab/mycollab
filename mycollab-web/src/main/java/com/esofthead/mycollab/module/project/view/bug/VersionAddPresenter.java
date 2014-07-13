@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
@@ -59,7 +59,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugVersionEvent.GotoList(this, null));
 						}
 					}
@@ -68,7 +68,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugVersionEvent.GotoList(this, null));
 						}
 					}
@@ -76,7 +76,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 					@Override
 					public void onSaveAndNew(final Version item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoAdd(this, null));
 					}
 				});

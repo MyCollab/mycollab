@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.utils.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -168,7 +168,7 @@ public class PasswordChangeWindow extends Window {
 				.getSpringBean(UserService.class);
 		userService.updateWithSession(this.user, AppContext.getUsername());
 
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ProfileEvent.GotoProfileView(PasswordChangeWindow.this,
 						null));
 		PasswordChangeWindow.this.close();

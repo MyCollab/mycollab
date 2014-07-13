@@ -37,7 +37,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVImportEntityProcess;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.ImportFieldDef;
@@ -209,8 +209,8 @@ public abstract class EntityImportWindow<E> extends Window {
 													contactSearchCriteria
 															.setContactName(new StringSearchField(
 																	""));
-													EventBus.getInstance()
-															.fireEvent(
+													EventBusFactory.getInstance()
+															.post(
 																	new ContactEvent.GotoList(
 																			ContactListView.class,
 																			new ContactSearchCriteria()));

@@ -102,7 +102,7 @@ public class SplitButton extends CustomComponent {
 		this.isPopupVisible = isvisible;
 		popupButton.setPopupVisible(isPopupVisible);
 	}
-	
+
 	public boolean getPopupVisible() {
 		return this.isPopupVisible;
 	}
@@ -183,9 +183,8 @@ public class SplitButton extends CustomComponent {
 		parentButton.addStyleName(stylename);
 		popupButton.addStyleName(stylename);
 	}
-	
-	public void setWidthPopupButton(String width)
-	{
+
+	public void setWidthPopupButton(String width) {
 		popupButton.setWidth(width);
 	}
 

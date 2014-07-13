@@ -19,9 +19,8 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import java.util.Set;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -36,6 +35,7 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -53,16 +53,13 @@ public class TaskGroupReorderPresenter extends
 
 	@Override
 	protected void postInitView() {
-		EventBus.getInstance()
-				.addListener(
+		EventBusFactory
+				.getInstance()
+				.register(
 						new ApplicationEventListener<TaskListEvent.SaveReoderTaskList>() {
 							private static final long serialVersionUID = 1L;
 
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return TaskListEvent.SaveReoderTaskList.class;
-							}
-
+							@Subscribe
 							@Override
 							public void handle(SaveReoderTaskList event) {
 								Set<SimpleTaskList> changeSet = (Set<SimpleTaskList>) event
@@ -72,7 +69,7 @@ public class TaskGroupReorderPresenter extends
 								taskListService.updateTaskListIndex(
 										changeSet.toArray(new TaskList[] {}),
 										AppContext.getAccountId());
-								EventBus.getInstance().fireEvent(
+								EventBusFactory.getInstance().post(
 										new TaskListEvent.GotoTaskListScreen(
 												this, null));
 							}

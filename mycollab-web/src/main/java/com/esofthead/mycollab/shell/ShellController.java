@@ -16,9 +16,8 @@
  */
 package com.esofthead.mycollab.shell;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.view.ForgotPasswordPresenter;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent.GotoMainPage;
@@ -29,6 +28,8 @@ import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 /**
  * 
@@ -41,68 +42,53 @@ public class ShellController implements IController {
 	private static final long serialVersionUID = 1L;
 
 	private final MainWindowContainer container;
+	private EventBus eventBus;
 
 	public ShellController(MainWindowContainer container) {
 		this.container = container;
+		this.eventBus = EventBusFactory.getInstance();
 		bind();
 	}
 
 	private void bind() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ShellEvent.GotoMainPage>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ShellEvent.GotoMainPage.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(GotoMainPage event) {
+				MainViewPresenter mainViewPresenter = PresenterResolver
+						.getPresenter(MainViewPresenter.class);
+				MainView mainView = mainViewPresenter.initView();
+				((MainWindowContainer) container).setContent(mainView);
 
-					@Override
-					public void handle(GotoMainPage event) {
-						MainViewPresenter mainViewPresenter = PresenterResolver
-								.getPresenter(MainViewPresenter.class);
-						MainView mainView = mainViewPresenter.initView();
-						((MainWindowContainer) container).setContent(mainView);
+				container.setStyleName("mainView");
 
-						container.setStyleName("mainView");
+				mainViewPresenter.go(container, null);
+			}
+		});
 
-						mainViewPresenter.go(container, null);
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ShellEvent.LogOut>() {
+			private static final long serialVersionUID = 1L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ShellEvent.LogOut>() {
-					private static final long serialVersionUID = 1L;
+			@Subscribe
+			@Override
+			public void handle(LogOut event) {
+				DesktopApplication.getInstance().redirectToLoginView();
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ShellEvent.LogOut.class;
-					}
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoForgotPasswordPage>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void handle(LogOut event) {
-						DesktopApplication.getInstance().redirectToLoginView();
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.GotoForgotPasswordPage event) {
+				ForgotPasswordPresenter presenter = PresenterResolver
+						.getPresenter(ForgotPasswordPresenter.class);
+				presenter.go(container, null);
+			}
 
-		EventBus.getInstance()
-				.addListener(
-						new ApplicationEventListener<ShellEvent.GotoForgotPasswordPage>() {
-							private static final long serialVersionUID = 1L;
-
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return ShellEvent.GotoForgotPasswordPage.class;
-							}
-
-							@Override
-							public void handle(
-									ShellEvent.GotoForgotPasswordPage event) {
-								ForgotPasswordPresenter presenter = PresenterResolver
-										.getPresenter(ForgotPasswordPresenter.class);
-								presenter.go(container, null);
-							}
-
-						});
+		});
 	}
 }

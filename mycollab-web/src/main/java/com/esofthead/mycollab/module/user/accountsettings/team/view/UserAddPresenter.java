@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -61,7 +61,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new UserEvent.GotoList(this, null));
 						}
 					}
@@ -70,7 +70,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new UserEvent.GotoList(this, null));
 						}
 					}
@@ -78,7 +78,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleUser item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoAdd(this, null));
 					}
 				});

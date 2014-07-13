@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
@@ -38,7 +38,7 @@ public class ActivityUrlResolver extends CrmUrlResolver {
 	public static class ActivityCalendartUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ActivityEvent.GotoCalendar(this, null));
 		}
 	}
@@ -46,7 +46,7 @@ public class ActivityUrlResolver extends CrmUrlResolver {
 	public static class ActivityTodoAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ActivityEvent.GotoTodoList(this, null));
 		}
 	}

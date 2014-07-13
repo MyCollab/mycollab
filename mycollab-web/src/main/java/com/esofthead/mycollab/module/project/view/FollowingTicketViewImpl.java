@@ -23,7 +23,7 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -121,7 +121,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoProjectModule(
 								FollowingTicketViewImpl.this, null));
 
@@ -266,7 +266,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 								final PageActionChain chain = new PageActionChain(
 										new ProjectScreenData.Goto(projectId),
 										new BugScreenData.Read(bugId));
-								EventBus.getInstance().fireEvent(
+								EventBusFactory.getInstance().post(
 										new ProjectEvent.GotoMyProject(this,
 												chain));
 							}
@@ -300,7 +300,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 								final PageActionChain chain = new PageActionChain(
 										new ProjectScreenData.Goto(projectId),
 										new TaskScreenData.Read(taskId));
-								EventBus.getInstance().fireEvent(
+								EventBusFactory.getInstance().post(
 										new ProjectEvent.GotoMyProject(this,
 												chain));
 
@@ -330,10 +330,9 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 							final int projectId = ticket.getProjectId();
 							final PageActionChain chain = new PageActionChain(
 									new ProjectScreenData.Goto(projectId));
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this, chain));
+							EventBusFactory.getInstance()
+									.post(new ProjectEvent.GotoMyProject(this,
+											chain));
 						}
 					});
 					projectLink.setIcon(MyCollabResource

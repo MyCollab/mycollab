@@ -26,7 +26,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.AccountLinkUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -93,7 +93,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoAdd(this, null));
 					}
 				});
@@ -164,8 +164,8 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 											.asList(new String[] { member
 													.getUsername() }),
 											AppContext.getAccountId());
-									EventBus.getInstance()
-											.fireEvent(
+									EventBusFactory.getInstance()
+											.post(
 													new UserEvent.GotoList(
 															UserListViewImpl.this,
 															null));
@@ -188,7 +188,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new UserEvent.GotoRead(UserListViewImpl.this, member
 								.getUsername()));
 			}

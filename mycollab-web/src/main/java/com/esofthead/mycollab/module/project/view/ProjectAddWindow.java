@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -162,8 +162,8 @@ public class ProjectAddWindow extends Window {
 										ProjectAddWindow.this.project,
 										AppContext.getUsername());
 
-								EventBus.getInstance()
-										.fireEvent(
+								EventBusFactory.getInstance()
+										.post(
 												new ProjectEvent.GotoMyProject(
 														this,
 														new PageActionChain(

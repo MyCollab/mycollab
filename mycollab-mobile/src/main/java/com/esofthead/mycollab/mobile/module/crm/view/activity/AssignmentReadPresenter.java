@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -57,13 +57,13 @@ public class AssignmentReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleTask>() {
 					@Override
 					public void onEdit(SimpleTask data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.TaskEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleTask data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.TaskAdd(this, null));
 					}
 
@@ -89,7 +89,7 @@ public class AssignmentReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new ActivityEvent.GotoList(
 															this, null));
 										}
@@ -101,13 +101,13 @@ public class AssignmentReadPresenter extends
 					public void onClone(SimpleTask data) {
 						Task cloneData = (Task) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.TaskEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoList(this, null));
 					}
 
@@ -122,7 +122,7 @@ public class AssignmentReadPresenter extends
 								NumberSearchField.GREATER));
 						Integer nextId = taskService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -142,7 +142,7 @@ public class AssignmentReadPresenter extends
 						Integer nextId = taskService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

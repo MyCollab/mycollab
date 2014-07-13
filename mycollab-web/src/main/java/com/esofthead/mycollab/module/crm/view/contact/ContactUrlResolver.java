@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.contact;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
@@ -33,7 +33,7 @@ public class ContactUrlResolver extends CrmUrlResolver {
 	public static class ContactListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ContactEvent.GotoList(this, null));
 		}
 	}
@@ -41,7 +41,7 @@ public class ContactUrlResolver extends CrmUrlResolver {
 	public static class ContactAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ContactEvent.GotoAdd(this, new Contact()));
 		}
 	}
@@ -51,7 +51,7 @@ public class ContactUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int contactId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ContactEvent.GotoEdit(this, contactId));
 		}
 	}
@@ -61,7 +61,7 @@ public class ContactUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int contactId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ContactEvent.GotoRead(this, contactId));
 		}
 	}

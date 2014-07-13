@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
@@ -57,7 +57,7 @@ public class CrmModule extends AbstractPageView implements IModule {
 	}
 
 	public void gotoCrmDashboard() {
-		EventBus.getInstance().fireEvent(new CrmEvent.GotoHome(this, null));
+		EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
 	}
 
 	public void addView(PageView view) {

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -141,7 +141,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				}
 
 				if (mimeType.equals("image/png")) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProfileEvent.GotoUploadPhoto(
 									ProfileReadViewImpl.this, imageData));
 				} else {

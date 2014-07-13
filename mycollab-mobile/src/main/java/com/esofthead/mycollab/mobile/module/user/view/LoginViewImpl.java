@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobileMainView;
@@ -102,7 +102,7 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
 
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new UserEvent.PlainLogin(LoginViewImpl.this,
 								new String[] {
 										emailField.getValue(),

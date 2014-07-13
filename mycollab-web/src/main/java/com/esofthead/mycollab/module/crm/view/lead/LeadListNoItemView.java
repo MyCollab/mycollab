@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -73,7 +73,7 @@ public class LeadListNoItemView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoAdd(this, null));
 					}
 				});

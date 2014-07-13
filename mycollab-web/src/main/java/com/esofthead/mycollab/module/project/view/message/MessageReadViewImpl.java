@@ -26,7 +26,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -254,7 +254,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProjectMemberEvent.GotoRead(
 									MessageReadViewImpl.this, message
 											.getPosteduser()));

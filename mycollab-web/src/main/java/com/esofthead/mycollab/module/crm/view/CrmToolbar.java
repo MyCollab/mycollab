@@ -22,7 +22,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
@@ -272,88 +272,87 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 
 			if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_DASHBOARD_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CrmEvent.GotoHome(this, null));
 			} else if (AppContext
 					.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT).equals(
 							caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CampaignI18nEnum.BUTTON_NEW_CAMPAIGN).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CampaignEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CampaignEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(CaseI18nEnum.BUTTON_NEW_CASE)
 					.equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CASES_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ContactEvent.GotoList(this, null));
 			} else if (AppContext
 					.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT).equals(
 							caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ContactEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD)
 					.equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new LeadEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new LeadEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GotoAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER).equals(
 					caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GotoList(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER)
 					.equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.GotoCalendar(this, null));
 			} else if (AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK)
 					.equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.TaskAdd(this, null));
 			} else if (AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL)
 					.equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.CallAdd(this, null));
 			} else if (AppContext
 					.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING).equals(
 							caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.MeetingAdd(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_DOCUMENT_HEADER).equals(caption)) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new DocumentEvent.GotoDashboard(this, null));
 			} else if (AppContext.getMessage(
 					CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER).equals(
 					caption)) {
-				EventBus.getInstance()
-						.fireEvent(
-								new CrmSettingEvent.GotoNotificationSetting(
-										this, null));
+				EventBusFactory.getInstance()
+						.post(new CrmSettingEvent.GotoNotificationSetting(this,
+								null));
 			}
 
 			addBtn.setPopupVisible(false);
@@ -369,8 +368,7 @@ public class CrmToolbar extends HorizontalLayout implements PageView {
 	}
 
 	@Override
-	public void addViewListener(
-			final ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 	}
 
 	@Override

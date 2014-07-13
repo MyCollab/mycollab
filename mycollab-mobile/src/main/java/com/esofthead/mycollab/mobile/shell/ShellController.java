@@ -23,9 +23,8 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmModulePresenter;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
@@ -42,6 +41,8 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 
@@ -57,79 +58,61 @@ public class ShellController implements IController {
 	private static Logger log = LoggerFactory.getLogger(ShellController.class);
 
 	final private NavigationManager mainNav;
+	private EventBus eventBus;
 
 	public ShellController(NavigationManager navigationManager) {
 		this.mainNav = navigationManager;
+		this.eventBus = EventBusFactory.getInstance();
 		bind();
 	}
 
 	private void bind() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ShellEvent.GotoLoginView>() {
-					private static final long serialVersionUID = 1L;
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoLoginView>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ShellEvent.GotoLoginView.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.GotoLoginView event) {
+				LoginPresenter presenter = PresenterResolver
+						.getPresenter(LoginPresenter.class);
+				presenter.go(mainNav, null);
+			}
 
-					@Override
-					public void handle(ShellEvent.GotoLoginView event) {
-						LoginPresenter presenter = PresenterResolver
-								.getPresenter(LoginPresenter.class);
-						presenter.go(mainNav, null);
-					}
+		});
 
-				});
+		eventBus.register(new ApplicationEventListener<UserEvent.PlainLogin>() {
+			private static final long serialVersionUID = -6601631757376496199L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<UserEvent.PlainLogin>() {
-					private static final long serialVersionUID = -6601631757376496199L;
+			@Subscribe
+			@Override
+			public void handle(UserEvent.PlainLogin event) {
+				String[] data = (String[]) event.getData();
+				doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+			}
+		});
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return UserEvent.PlainLogin.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.GotoMainPage event) {
+				MainViewPresenter presenter = PresenterResolver
+						.getPresenter(MainViewPresenter.class);
+				presenter.go(mainNav, null);
+			}
 
-					@Override
-					public void handle(UserEvent.PlainLogin event) {
-						String[] data = (String[]) event.getData();
-						doLogin(data[0], data[1], Boolean.valueOf(data[2]));
-					}
-				});
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ShellEvent.GotoMainPage>() {
-					private static final long serialVersionUID = 1L;
+		});
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ShellEvent.GotoMainPage.class;
-					}
-
-					@Override
-					public void handle(ShellEvent.GotoMainPage event) {
-						MainViewPresenter presenter = PresenterResolver
-								.getPresenter(MainViewPresenter.class);
-						presenter.go(mainNav, null);
-					}
-
-				});
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ShellEvent.GotoCrmModule.class;
-					}
-
-					@Override
-					public void handle(ShellEvent.GotoCrmModule event) {
-						CrmModulePresenter presenter = PresenterResolver
-								.getPresenter(CrmModulePresenter.class);
-						presenter.go(mainNav, null);
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.GotoCrmModule event) {
+				CrmModulePresenter presenter = PresenterResolver
+						.getPresenter(CrmModulePresenter.class);
+				presenter.go(mainNav, null);
+			}
+		});
 	}
 
 	public void doLogin(String username, String password,
@@ -166,7 +149,7 @@ public class ShellController implements IController {
 		AppContext.getInstance().setSession(user, pref, billingAccount);
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ShellEvent.GotoMainPage(this, null));
 	}
 }

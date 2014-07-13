@@ -22,9 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
@@ -36,6 +34,8 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewEvent;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.web.DesktopApplication;
@@ -59,17 +59,13 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 	@Override
 	protected void postInitView() {
-		view.addViewListener(new ApplicationEventListener<UserEvent.PlainLogin>() {
+		view.addViewListener(new ViewListener<UserEvent.PlainLogin>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return UserEvent.PlainLogin.class;
-			}
-
-			@Override
-			public void handle(PlainLogin event) {
-				String[] data = (String[]) event.getData();
+			public void initView(ViewEvent<PlainLogin> event) {
+				PlainLogin loginData = (PlainLogin) event.getData();
+				String[] data = (String[]) loginData.getData();
 				doLogin(data[0], data[1], Boolean.valueOf(data[2]));
 			}
 		});
@@ -103,14 +99,11 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 		log.debug("Login to system successfully. Save user and preference "
 				+ pref + " to session");
-		
-	  
-		
 
 		AppContext.getInstance().setSession(user, pref, billingAccount);
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ShellEvent.GotoMainPage(this, null));
 	}
 

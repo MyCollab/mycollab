@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
@@ -36,7 +34,8 @@ import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -105,30 +104,22 @@ public class CaseListViewImpl extends
 						CaseTableFieldDef.status, CaseTableFieldDef.assignUser,
 						CaseTableFieldDef.createdTime));
 
-		caseTableDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		caseTableDisplay.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleCase cases = (SimpleCase) event.getData();
-						if ("subject".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new CaseEvent.GotoRead(this, cases
-													.getId()));
-						} else if ("accountName".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new AccountEvent.GotoRead(this, cases
-											.getAccountid()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleCase cases = (SimpleCase) event.getData();
+				if ("subject".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new CaseEvent.GotoRead(this, cases.getId()));
+				} else if ("accountName".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new AccountEvent.GotoRead(this, cases
+									.getAccountid()));
+				}
+			}
+		});
 
 		return caseTableDisplay;
 	}

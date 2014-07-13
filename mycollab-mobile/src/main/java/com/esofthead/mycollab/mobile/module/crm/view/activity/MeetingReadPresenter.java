@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -56,7 +56,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 				new DefaultPreviewFormHandler<SimpleMeeting>() {
 					@Override
 					public void onEdit(SimpleMeeting data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingEdit(this, data));
 					}
 
@@ -82,7 +82,7 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new ActivityEvent.GotoList(
 															this, null));
 										}
@@ -95,13 +95,13 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 						MeetingWithBLOBs cloneData = (MeetingWithBLOBs) data
 								.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoList(this, null));
 					}
 
@@ -117,8 +117,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 						Integer nextId = accountService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new ActivityEvent.MeetingRead(this,
 													nextId));
 						} else {
@@ -139,8 +139,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 						Integer nextId = accountService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new ActivityEvent.MeetingRead(this,
 													nextId));
 						} else {

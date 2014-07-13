@@ -28,7 +28,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -70,8 +70,7 @@ public class StatusSummaryChartWidget extends
 	}
 
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 
 	}
 
@@ -113,7 +112,7 @@ public class StatusSummaryChartWidget extends
 				CurrentProjectVariables.getProjectId()));
 		BugFilterParameter param = new BugFilterParameter(key + " Bug List",
 				searchCriteria);
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new BugEvent.GotoList(this, new BugScreenData.Search(param)));
 
 	}

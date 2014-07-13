@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.module.file.service.ContentService;
 import com.esofthead.mycollab.module.file.service.UserAvatarService;
@@ -115,7 +115,7 @@ public class UserAvatarServiceImpl implements UserAvatarService {
 		}
 
 		log.debug("Notify user avatar change");
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new SessionEvent.UserProfileChangeEvent(
 						UserAvatarServiceImpl.this, "avatarid", newAvatarId));
 

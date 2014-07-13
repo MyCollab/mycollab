@@ -22,8 +22,6 @@ import java.util.GregorianCalendar;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -101,8 +99,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	}
 
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 
 	}
 

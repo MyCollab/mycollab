@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVDateFormatter;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
@@ -63,7 +63,7 @@ public class OpportunityImportWindow extends
 
 	@Override
 	protected void reloadWhenBackToListView() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new OpportunityEvent.GotoList(OpportunityListView.class,
 						new OpportunitySearchCriteria()));
 	}

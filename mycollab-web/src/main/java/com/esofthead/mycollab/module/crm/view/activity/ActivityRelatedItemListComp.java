@@ -20,9 +20,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
@@ -33,7 +31,8 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -44,7 +43,6 @@ import com.vaadin.ui.HorizontalLayout;
  */
 public class ActivityRelatedItemListComp extends
 		RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
-	private static final long serialVersionUID = 1L;
 
 	private final boolean allowCreateNew;
 
@@ -122,34 +120,28 @@ public class ActivityRelatedItemListComp extends
 				TaskI18nEnum.TABLE_END_DATE_HEADER, "endDate",
 				UIConstants.TABLE_DATE_WIDTH)));
 
-		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleActivity simpleEvent = (SimpleActivity) event
-								.getData();
-						if ("Task".equals(simpleEvent.getEventType())) {
-							EventBus.getInstance().fireEvent(
-									new ActivityEvent.TaskRead(this,
-											simpleEvent.getId()));
-						} else if ("Meeting".equals(simpleEvent.getEventType())) {
-							EventBus.getInstance().fireEvent(
-									new ActivityEvent.MeetingRead(this,
-											simpleEvent.getId()));
-						} else if ("Call".equals(simpleEvent.getEventType())) {
-							EventBus.getInstance().fireEvent(
-									new ActivityEvent.CallRead(this,
-											simpleEvent.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleActivity simpleEvent = (SimpleActivity) event
+						.getData();
+				if ("Task".equals(simpleEvent.getEventType())) {
+					EventBusFactory.getInstance().post(
+							new ActivityEvent.TaskRead(this, simpleEvent
+									.getId()));
+				} else if ("Meeting".equals(simpleEvent.getEventType())) {
+					EventBusFactory.getInstance().post(
+							new ActivityEvent.MeetingRead(this, simpleEvent
+									.getId()));
+				} else if ("Call".equals(simpleEvent.getEventType())) {
+					EventBusFactory.getInstance().post(
+							new ActivityEvent.CallRead(this, simpleEvent
+									.getId()));
+				}
+			}
+		});
 
 		this.addComponent(tableItem);
 	}

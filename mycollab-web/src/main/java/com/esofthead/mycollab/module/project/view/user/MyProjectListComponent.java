@@ -21,7 +21,7 @@ import java.util.List;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectStatusConstants;
@@ -135,15 +135,15 @@ public class MyProjectListComponent extends Depot {
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new ProjectMemberScreenData.Search(
-																	null))));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new ProjectMemberScreenData.Search(
+															null))));
 						}
 					}, false);
 			linkIconFix.addComponent(projectMember);
@@ -167,14 +167,14 @@ public class MyProjectListComponent extends Depot {
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new TaskGroupScreenData.GotoDashboard())));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new TaskGroupScreenData.GotoDashboard())));
 						}
 					}, false);
 			final Image taskIcon = new Image(null,
@@ -198,14 +198,14 @@ public class MyProjectListComponent extends Depot {
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new BugScreenData.GotoDashboard())));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new BugScreenData.GotoDashboard())));
 						}
 					}, false);
 
@@ -235,15 +235,15 @@ public class MyProjectListComponent extends Depot {
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	project.getId()),
-															new MilestoneScreenData.Search(
-																	null))));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(
+											this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															project.getId()),
+													new MilestoneScreenData.Search(
+															null))));
 						}
 					}, false);
 			phaseStatus.addComponent(phaseLbl);

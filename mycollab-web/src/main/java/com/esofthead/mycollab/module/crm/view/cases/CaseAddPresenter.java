@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
@@ -63,7 +63,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 						saveCase(cases);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoList(this, null));
 						}
 					}
@@ -72,7 +72,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoList(this, null));
 						}
 					}
@@ -80,7 +80,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleCase cases) {
 						saveCase(cases);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoAdd(this, null));
 					}
 				});

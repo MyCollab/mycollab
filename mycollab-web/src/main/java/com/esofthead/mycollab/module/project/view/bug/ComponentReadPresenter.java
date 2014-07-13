@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
@@ -58,13 +58,13 @@ public class ComponentReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleComponent>() {
 					@Override
 					public void onEdit(SimpleComponent data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugComponentEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleComponent data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugComponentEvent.GotoAdd(this, null));
 					}
 
@@ -75,7 +75,7 @@ public class ComponentReadPresenter extends
 						riskService.removeWithSession(data.getId(),
 								AppContext.getUsername(),
 								AppContext.getAccountId());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugComponentEvent.GotoList(this, null));
 					}
 
@@ -83,15 +83,14 @@ public class ComponentReadPresenter extends
 					public void onClone(SimpleComponent data) {
 						Component cloneData = (Component) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance()
-								.fireEvent(
-										new BugComponentEvent.GotoEdit(this,
-												cloneData));
+						EventBusFactory.getInstance()
+								.post(new BugComponentEvent.GotoEdit(this,
+										cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugComponentEvent.GotoList(this, null));
 					}
 
@@ -108,10 +107,9 @@ public class ComponentReadPresenter extends
 						Integer nextId = componentService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new BugComponentEvent.GotoRead(
-													this, nextId));
+							EventBusFactory.getInstance()
+									.post(new BugComponentEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -131,10 +129,9 @@ public class ComponentReadPresenter extends
 						Integer nextId = componentService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance()
-									.fireEvent(
-											new BugComponentEvent.GotoRead(
-													this, nextId));
+							EventBusFactory.getInstance()
+									.post(new BugComponentEvent.GotoRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}

@@ -20,7 +20,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -60,13 +60,13 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 				new DefaultPreviewFormHandler<SimpleBug>() {
 					@Override
 					public void onEdit(SimpleBug data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleBug data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoAdd(this, null));
 					}
 
@@ -96,7 +96,7 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new BugEvent.GotoList(this,
 															null));
 										}
@@ -108,13 +108,13 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 					public void onClone(SimpleBug data) {
 						SimpleBug cloneData = (SimpleBug) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoList(this, null));
 					}
 				});

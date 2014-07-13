@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -63,7 +63,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.GotoTodoList(this, null));
 						}
 					}
@@ -72,7 +72,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.GotoTodoList(this, null));
 						}
 					}
@@ -80,7 +80,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 					@Override
 					public void onSaveAndNew(final CallWithBLOBs item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallAdd(this, null));
 					}
 				});

@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
@@ -76,13 +76,13 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 				new DefaultPreviewFormHandler<SimpleContact>() {
 					@Override
 					public void onEdit(SimpleContact data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleContact data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoAdd(this, null));
 					}
 
@@ -112,7 +112,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new ContactEvent.GotoList(
 															this, null));
 										}
@@ -124,13 +124,13 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 					public void onClone(SimpleContact data) {
 						SimpleContact cloneData = (SimpleContact) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoList(this, null));
 					}
 
@@ -146,7 +146,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 						Integer nextId = contactService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ContactEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -166,7 +166,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 						Integer nextId = contactService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ContactEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
@@ -182,15 +182,15 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 							SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.CONTACT);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskEdit(
 											ContactReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.CONTACT);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new ActivityEvent.MeetingEdit(
 													ContactReadPresenter.this,
 													meeting));
@@ -198,7 +198,7 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.CONTACT);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallEdit(
 											ContactReadPresenter.this, call));
 						}
@@ -211,8 +211,8 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleOpportunity opportunity = new SimpleOpportunity();
 						opportunity.setExtraData(view.getItem());
-						EventBus.getInstance()
-								.fireEvent(
+						EventBusFactory.getInstance()
+								.post(
 										new OpportunityEvent.GotoEdit(this,
 												opportunity));
 					}

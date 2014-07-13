@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -55,7 +55,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 					@Override
 					public void onSave(final CallWithBLOBs item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CrmEvent.NavigateBack(this, null));
 					}
 
@@ -66,7 +66,7 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 					@Override
 					public void onSaveAndNew(final CallWithBLOBs item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallAdd(this, null));
 					}
 				});

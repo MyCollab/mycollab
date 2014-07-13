@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -54,13 +54,13 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 				new DefaultPreviewFormHandler<SimpleCase>() {
 					@Override
 					public void onEdit(SimpleCase data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleCase data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoAdd(this, null));
 					}
 
@@ -86,7 +86,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new CaseEvent.GotoList(
 															this, null));
 										}
@@ -98,13 +98,13 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 					public void onClone(SimpleCase data) {
 						SimpleCase cloneData = (SimpleCase) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoList(this, null));
 					}
 
@@ -119,7 +119,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 								NumberSearchField.GREATER));
 						Integer nextId = caseService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -139,7 +139,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 						Integer nextId = caseService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CaseEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
@@ -134,7 +134,7 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 					new String[] { caption }));
 			TaskFilterParameter filterParam = new TaskFilterParameter(
 					searchCriteria, "Task Filter by Priority: " + caption);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new TaskEvent.Filter(this, filterParam));
 
 		}

@@ -21,7 +21,7 @@ import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -197,7 +197,7 @@ public class BasicInfoChangeWindow extends Window {
 				.getSpringBean(UserService.class);
 		userService.updateWithSession(this.user, AppContext.getUsername());
 
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this,
 						null));
 		BasicInfoChangeWindow.this.close();

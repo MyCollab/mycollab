@@ -34,7 +34,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -72,7 +72,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 				new DefaultPreviewFormHandler<SimpleAccount>() {
 					@Override
 					public void onEdit(SimpleAccount data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoEdit(this, data));
 					}
 
@@ -99,7 +99,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new AccountEvent.GotoList(
 															this, null));
 										}
@@ -112,13 +112,13 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void onClone(SimpleAccount data) {
 						Account cloneData = (Account) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoList(this, null));
 					}
 
@@ -134,7 +134,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						Integer nextId = accountService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -154,7 +154,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						Integer nextId = accountService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

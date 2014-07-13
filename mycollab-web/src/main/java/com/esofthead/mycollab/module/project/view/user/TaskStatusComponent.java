@@ -23,7 +23,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
@@ -163,7 +163,7 @@ public class TaskStatusComponent extends Depot {
 									PageActionChain chain = new PageActionChain(
 											new ProjectScreenData.Goto(
 													projectId));
-									EventBus.getInstance().fireEvent(
+									EventBusFactory.getInstance().post(
 											new ProjectEvent.GotoMyProject(
 													this, chain));
 
@@ -189,7 +189,7 @@ public class TaskStatusComponent extends Depot {
 												new ProjectScreenData.Goto(
 														projectId),
 												new BugScreenData.Read(bugId));
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
 									} else if (ProjectTypeConstants.TASK
@@ -200,7 +200,7 @@ public class TaskStatusComponent extends Depot {
 												new ProjectScreenData.Goto(
 														projectId),
 												new TaskScreenData.Read(taskId));
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
 									} else if (ProjectTypeConstants.PROBLEM
@@ -212,7 +212,7 @@ public class TaskStatusComponent extends Depot {
 														projectId),
 												new ProblemScreenData.Read(
 														problemId));
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
 									} else if (ProjectTypeConstants.RISK
@@ -223,7 +223,7 @@ public class TaskStatusComponent extends Depot {
 												new ProjectScreenData.Goto(
 														projectId),
 												new RiskScreenData.Read(riskId));
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new ProjectEvent.GotoMyProject(
 														this, chain));
 									}

@@ -27,7 +27,7 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
@@ -253,13 +253,13 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 				calendarActionBtn.setPopupVisible(false);
 				String caption = event.getButton().getCaption();
 				if (caption.equals("New Task")) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.TaskAdd(this, null));
 				} else if (caption.equals("New Call")) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.CallAdd(this, null));
 				} else if (caption.equals("New Event")) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.MeetingAdd(this, null));
 				}
 			}
@@ -302,7 +302,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 						ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 						criteria.setSaccountid(new NumberSearchField(AppContext
 								.getAccountId()));
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoTodoList(this, null));
 					}
 				});
@@ -539,7 +539,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					CrmEvent calendarEvent = (CrmEvent) event
 							.getCalendarEvent();
 					SimpleMeeting source = calendarEvent.getSource();
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.MeetingRead(
 									ActivityCalendarViewImpl.this, source
 											.getId()));
@@ -637,7 +637,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					NotificationUtil.showNotification("Success", "Event: \""
 							+ simpleMeeting.getSubject()
 							+ "\" has been updated!", Type.HUMANIZED_MESSAGE);
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.GotoCalendar(this, null));
 				}
 			});
@@ -677,7 +677,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 								"Event: \"" + simpleMeeting.getSubject()
 										+ "\" has been updated!",
 								Type.HUMANIZED_MESSAGE);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoCalendar(this, null));
 					}
 				}
@@ -853,7 +853,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 										meetingService.saveWithSession(meeting,
 												AppContext.getUsername());
 										QuickCreateEventWindow.this.close();
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new ActivityEvent.GotoCalendar(
 														this, null));
 									}

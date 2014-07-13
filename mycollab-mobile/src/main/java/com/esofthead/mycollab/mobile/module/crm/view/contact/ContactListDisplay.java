@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
@@ -55,7 +55,7 @@ public class ContactListDisplay
 				@Override
 				public void buttonClick(
 						final NavigationButton.NavigationButtonClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ContactEvent.GotoRead(this, contact.getId()));
 				}
 			});

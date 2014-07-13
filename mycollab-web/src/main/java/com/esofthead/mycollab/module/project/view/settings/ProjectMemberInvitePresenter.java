@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import java.util.List;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
@@ -30,6 +28,8 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewEvent;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -51,27 +51,26 @@ public class ProjectMemberInvitePresenter extends
 
 	@Override
 	protected void postInitView() {
-		view.addViewListener(new ApplicationEventListener<ProjectMemberEvent.InviteProjectMembers>() {
+		view.addViewListener(new ViewListener<ProjectMemberEvent.InviteProjectMembers>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Class<? extends ApplicationEvent> getEventType() {
-				return ProjectMemberEvent.InviteProjectMembers.class;
-			}
-
-			@Override
-			public void handle(InviteProjectMembers event) {
+			public void initView(ViewEvent<InviteProjectMembers> event) {
+				InviteProjectMembers inviteMembers = (InviteProjectMembers) event
+						.getData();
 				ProjectMemberService projectMemberService = ApplicationContextUtil
 						.getSpringBean(ProjectMemberService.class);
-				List<String> inviteEmails = event.getInviteEmails();
+				List<String> inviteEmails = inviteMembers.getInviteEmails();
 				if (inviteEmails != null && inviteEmails.size() > 0) {
 					projectMemberService.inviteProjectMembers(
 							inviteEmails.toArray(new String[0]),
 							CurrentProjectVariables.getProjectId(),
-							event.getRoleId(), AppContext.getUsername(),
-							event.getInviteMessage(), AppContext.getAccountId());
+							inviteMembers.getRoleId(),
+							AppContext.getUsername(),
+							inviteMembers.getInviteMessage(),
+							AppContext.getAccountId());
 
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProjectMemberEvent.GotoList(this, null));
 				}
 

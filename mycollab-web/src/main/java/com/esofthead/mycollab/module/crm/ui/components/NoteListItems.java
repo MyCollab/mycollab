@@ -35,7 +35,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
@@ -222,7 +222,7 @@ public class NoteListItems extends VerticalLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProjectMemberEvent.GotoRead(this, note
 									.getCreateduser()));
 				}

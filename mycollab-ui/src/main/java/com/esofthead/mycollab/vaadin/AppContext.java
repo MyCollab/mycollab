@@ -40,9 +40,8 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
@@ -56,6 +55,7 @@ import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -226,16 +226,13 @@ public class AppContext implements Serializable {
 			accountId = account.getId();
 		}
 
-		EventBus.getInstance()
-				.addListener(
+		EventBusFactory
+				.getInstance()
+				.register(
 						new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
 							private static final long serialVersionUID = 1L;
 
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return SessionEvent.UserProfileChangeEvent.class;
-							}
-
+							@Subscribe
 							@Override
 							public void handle(UserProfileChangeEvent event) {
 								if ("avatarid".equals(event.getFieldChange())) {

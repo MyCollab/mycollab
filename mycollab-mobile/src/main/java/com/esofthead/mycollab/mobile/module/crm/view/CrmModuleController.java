@@ -18,9 +18,8 @@ package com.esofthead.mycollab.mobile.module.crm.view;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent.CallEdit;
@@ -76,6 +75,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 
@@ -86,9 +87,11 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 public class CrmModuleController implements IController {
 	private static final long serialVersionUID = 6995176903239247669L;
 	final private NavigationManager crmViewNavigation;
+	private EventBus eventBus;
 
 	public CrmModuleController(NavigationManager navigationManager) {
 		this.crmViewNavigation = navigationManager;
+		this.eventBus = EventBusFactory.getInstance();
 
 		bindCrmEvents();
 		bindAccountEvents();
@@ -101,876 +104,623 @@ public class CrmModuleController implements IController {
 	}
 
 	private void bindCrmEvents() {
-		// EventBus.getInstance().addListener(
-		// new ApplicationEventListener<CrmEvent.GotoHome>() {
-		// private static final long serialVersionUID = -2434410171305636265L;
-		//
-		// @Override
-		// public Class<? extends ApplicationEvent> getEventType() {
-		// return CrmEvent.GotoHome.class;
-		// }
-		//
-		// @Override
-		// public void handle(CrmEvent.GotoHome event) {
-		// /*
-		// * TODO: put setNavigationMenu here seems not right with
-		// * current structure, need to move it to somewhere else
-		// */
-		// // if (crmViewNavigation.getNavigationMenu() == null)
-		// // crmViewNavigation
-		// // .setNavigationMenu(new CrmNavigationMenu());
-		// EventBus.getInstance()
-		// .fireEvent(
-		// new AccountEvent.GotoList(this, event
-		// .getData()));
-		// }
-		// });
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CrmEvent.PushView>() {
-					private static final long serialVersionUID = -7516440510015076475L;
+		eventBus.register(new ApplicationEventListener<CrmEvent.PushView>() {
+			private static final long serialVersionUID = -7516440510015076475L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmEvent.PushView.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(CrmEvent.PushView event) {
+				if (event.getData() instanceof NavigationView) {
+					crmViewNavigation.navigateTo((NavigationView) event
+							.getData());
+				}
+			}
+		});
 
-					@Override
-					public void handle(CrmEvent.PushView event) {
-						if (event.getData() instanceof NavigationView) {
-							crmViewNavigation.navigateTo((NavigationView) event
-									.getData());
-						}
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CrmEvent.NavigateBack>() {
+			private static final long serialVersionUID = -8816255344013825447L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CrmEvent.NavigateBack>() {
-					private static final long serialVersionUID = -8816255344013825447L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CrmEvent.NavigateBack.class;
-					}
-
-					@Override
-					public void handle(CrmEvent.NavigateBack event) {
-						crmViewNavigation.navigateBack();
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CrmEvent.NavigateBack event) {
+				crmViewNavigation.navigateBack();
+			}
+		});
 	}
 
 	private void bindAccountEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoList>() {
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoList>() {
+			private static final long serialVersionUID = -3451799893080539849L;
 
-					private static final long serialVersionUID = -3451799893080539849L;
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoList event) {
+				AccountListPresenter presenter = PresenterResolver
+						.getPresenter(AccountListPresenter.class);
+				AccountSearchCriteria criteria = new AccountSearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+						AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<AccountSearchCriteria>(criteria));
+			}
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoList.class;
-					}
+		});
 
-					@Override
-					public void handle(AccountEvent.GotoList event) {
-						AccountListPresenter presenter = PresenterResolver
-								.getPresenter(AccountListPresenter.class);
-						AccountSearchCriteria criteria = new AccountSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(crmViewNavigation,
-								new ScreenData.Search<AccountSearchCriteria>(
-										criteria));
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoAdd>() {
+			private static final long serialVersionUID = -3309942209489453346L;
 
-				});
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoAdd event) {
+				AccountAddPresenter presenter = PresenterResolver
+						.getPresenter(AccountAddPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Add<SimpleAccount>(new SimpleAccount()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoAdd>() {
-					private static final long serialVersionUID = -3309942209489453346L;
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoEdit>() {
+			private static final long serialVersionUID = 5328513173395719936L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoAdd.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GotoEdit event) {
+				AccountAddPresenter presenter = PresenterResolver
+						.getPresenter(AccountAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(AccountEvent.GotoAdd event) {
-						AccountAddPresenter presenter = PresenterResolver
-								.getPresenter(AccountAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Add<SimpleAccount>(
-										new SimpleAccount()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<AccountEvent.GotoRead>() {
+			private static final long serialVersionUID = -5805283303669877715L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoEdit>() {
-					private static final long serialVersionUID = 5328513173395719936L;
+			@Subscribe
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void handle(AccountEvent.GotoRead event) {
+				AccountReadPresenter presenter = PresenterResolver
+						.getPresenter(AccountReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoEdit.class;
-					}
+		eventBus.register(new ApplicationEventListener<AccountEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = 259904372741221966L;
 
-					@Override
-					public void handle(AccountEvent.GotoEdit event) {
-						AccountAddPresenter presenter = PresenterResolver
-								.getPresenter(AccountAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GotoRead>() {
-					private static final long serialVersionUID = -5805283303669877715L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					@Override
-					public void handle(AccountEvent.GotoRead event) {
-						AccountReadPresenter presenter = PresenterResolver
-								.getPresenter(AccountReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<AccountEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = 259904372741221966L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return AccountEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(AccountEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData)
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(AccountEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
+		});
 	}
 
 	private void bindActivityEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.GotoList>() {
-					private static final long serialVersionUID = 6101515891859134103L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.GotoList>() {
+			private static final long serialVersionUID = 6101515891859134103L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.GotoList.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.GotoList event) {
-						ActivityListPresenter presenter = PresenterResolver
-								.getPresenter(ActivityListPresenter.class);
-						ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(crmViewNavigation,
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.GotoList event) {
+				ActivityListPresenter presenter = PresenterResolver
+						.getPresenter(ActivityListPresenter.class);
+				ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(SearchField.AND,
+						AppContext.getAccountId()));
+				presenter
+						.go(crmViewNavigation,
 								new ScreenData.Search<ActivitySearchCriteria>(
 										criteria));
-					}
-				});
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskRead>() {
-					private static final long serialVersionUID = -3723195748802950651L;
+			}
+		});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskRead>() {
+			private static final long serialVersionUID = -3723195748802950651L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskRead.class;
-					}
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(ActivityEvent.TaskRead event) {
+				AssignmentReadPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(ActivityEvent.TaskRead event) {
-						AssignmentReadPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskAdd>() {
+			private static final long serialVersionUID = -670224728085519779L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskAdd>() {
-					private static final long serialVersionUID = -670224728085519779L;
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.TaskAdd event) {
+				AssignmentAddPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Add<SimpleTask>(
+						new SimpleTask()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskEdit>() {
+			private static final long serialVersionUID = -670224728085519779L;
 
-					@Override
-					public void handle(ActivityEvent.TaskAdd event) {
-						AssignmentAddPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentAddPresenter.class);
-						presenter
-								.go(crmViewNavigation,
-										new ScreenData.Add<SimpleTask>(
-												new SimpleTask()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.TaskEdit event) {
+				AssignmentAddPresenter presenter = PresenterResolver
+						.getPresenter(AssignmentAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.TaskEdit>() {
-					private static final long serialVersionUID = -670224728085519779L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallRead>() {
+			private static final long serialVersionUID = -3723195748802950651L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.TaskEdit.class;
-					}
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(ActivityEvent.CallRead event) {
+				CallReadPresenter presenter = PresenterResolver
+						.getPresenter(CallReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(ActivityEvent.TaskEdit event) {
-						AssignmentAddPresenter presenter = PresenterResolver
-								.getPresenter(AssignmentAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallAdd>() {
+			private static final long serialVersionUID = 8759218728614616964L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallRead>() {
-					private static final long serialVersionUID = -3723195748802950651L;
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.CallAdd event) {
+				CallAddPresenter presenter = PresenterResolver
+						.getPresenter(CallAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCall>(
+						new SimpleCall()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.CallEdit>() {
+			private static final long serialVersionUID = -5416887922292705051L;
 
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(ActivityEvent.CallRead event) {
-						CallReadPresenter presenter = PresenterResolver
-								.getPresenter(CallReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CallEdit event) {
+				CallAddPresenter presenter = PresenterResolver
+						.getPresenter(CallAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallAdd>() {
-					private static final long serialVersionUID = 8759218728614616964L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingRead>() {
+			private static final long serialVersionUID = -3723195748802950651L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallAdd.class;
-					}
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(ActivityEvent.MeetingRead event) {
+				MeetingReadPresenter presenter = PresenterResolver
+						.getPresenter(MeetingReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(ActivityEvent.CallAdd event) {
-						CallAddPresenter presenter = PresenterResolver
-								.getPresenter(CallAddPresenter.class);
-						presenter
-								.go(crmViewNavigation,
-										new ScreenData.Add<SimpleCall>(
-												new SimpleCall()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
+			private static final long serialVersionUID = -7369637977421183110L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.CallEdit>() {
-					private static final long serialVersionUID = -5416887922292705051L;
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.MeetingAdd event) {
+				MeetingAddPresenter presenter = PresenterResolver
+						.getPresenter(MeetingAddPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Add<SimpleMeeting>(new SimpleMeeting()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.CallEdit.class;
-					}
+		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
+			private static final long serialVersionUID = 1784955912645269021L;
 
-					@Override
-					public void handle(CallEdit event) {
-						CallAddPresenter presenter = PresenterResolver
-								.getPresenter(CallAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.MeetingEdit event) {
+				MeetingAddPresenter presenter = PresenterResolver
+						.getPresenter(MeetingAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingRead>() {
-					private static final long serialVersionUID = -3723195748802950651L;
+		eventBus.register(new ApplicationEventListener<ActivityEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = -2245568910777045010L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(ActivityEvent.MeetingRead event) {
-						MeetingReadPresenter presenter = PresenterResolver
-								.getPresenter(MeetingReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
-					private static final long serialVersionUID = -7369637977421183110L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingAdd.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.MeetingAdd event) {
-						MeetingAddPresenter presenter = PresenterResolver
-								.getPresenter(MeetingAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Add<SimpleMeeting>(
-										new SimpleMeeting()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
-					private static final long serialVersionUID = 1784955912645269021L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.MeetingEdit.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.MeetingEdit event) {
-						MeetingAddPresenter presenter = PresenterResolver
-								.getPresenter(MeetingAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ActivityEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = -2245568910777045010L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ActivityEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(ActivityEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData) {
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-						}
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ActivityEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData) {
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+				}
+			}
+		});
 		;
 	}
 
 	private void bindContactEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoList>() {
-					private static final long serialVersionUID = 3327061919614830145L;
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoList>() {
+			private static final long serialVersionUID = 3327061919614830145L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoList.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoList event) {
+				ContactListPresenter presenter = PresenterResolver
+						.getPresenter(ContactListPresenter.class);
 
-					@Override
-					public void handle(ContactEvent.GotoList event) {
-						ContactListPresenter presenter = PresenterResolver
-								.getPresenter(ContactListPresenter.class);
+				ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<ContactSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						ContactSearchCriteria searchCriteria = new ContactSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(crmViewNavigation,
-								new ScreenData.Search<ContactSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoAdd>() {
+			private static final long serialVersionUID = -9082569633338794831L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoAdd>() {
-					private static final long serialVersionUID = -9082569633338794831L;
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoAdd event) {
+				ContactAddPresenter presenter = PresenterResolver
+						.getPresenter(ContactAddPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Add<SimpleContact>(new SimpleContact()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoEdit>() {
+			private static final long serialVersionUID = 1465740039647654585L;
 
-					@Override
-					public void handle(ContactEvent.GotoAdd event) {
-						ContactAddPresenter presenter = PresenterResolver
-								.getPresenter(ContactAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Add<SimpleContact>(
-										new SimpleContact()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GotoEdit event) {
+				ContactAddPresenter presenter = PresenterResolver
+						.getPresenter(ContactAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoEdit>() {
-					private static final long serialVersionUID = 1465740039647654585L;
+		eventBus.register(new ApplicationEventListener<ContactEvent.GotoRead>() {
+			private static final long serialVersionUID = -5099988781106338890L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoEdit.class;
-					}
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(ContactEvent.GotoRead event) {
+				ContactReadPresenter presenter = PresenterResolver
+						.getPresenter(ContactReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(ContactEvent.GotoEdit event) {
-						ContactAddPresenter presenter = PresenterResolver
-								.getPresenter(ContactAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<ContactEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = -8341031306697617759L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GotoRead>() {
-					private static final long serialVersionUID = -5099988781106338890L;
+			@Subscribe
+			@Override
+			public void handle(ContactEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(ContactEvent.GotoRead event) {
-						ContactReadPresenter presenter = PresenterResolver
-								.getPresenter(ContactReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<ContactEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = -8341031306697617759L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return ContactEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(ContactEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData)
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-					}
-
-				});
+		});
 
 	}
 
 	private void bindCampaignEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoList>() {
-					private static final long serialVersionUID = 1553727404269228168L;
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoList>() {
+			private static final long serialVersionUID = 1553727404269228168L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoList.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoList event) {
+				CampaignListPresenter presenter = PresenterResolver
+						.getPresenter(CampaignListPresenter.class);
+				CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
 
-					@Override
-					public void handle(CampaignEvent.GotoList event) {
-						CampaignListPresenter presenter = PresenterResolver
-								.getPresenter(CampaignListPresenter.class);
-						CampaignSearchCriteria searchCriteria = new CampaignSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<CampaignSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						presenter.go(crmViewNavigation,
-								new ScreenData.Search<CampaignSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoAdd>() {
+			private static final long serialVersionUID = 1240143124315010237L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoAdd>() {
-					private static final long serialVersionUID = 1240143124315010237L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoAdd.class;
-					}
-
-					@Override
-					public void handle(CampaignEvent.GotoAdd event) {
-						CampaignAddPresenter presenter = PresenterResolver
-								.getPresenter(CampaignAddPresenter.class);
-						presenter.go(crmViewNavigation,
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoAdd event) {
+				CampaignAddPresenter presenter = PresenterResolver
+						.getPresenter(CampaignAddPresenter.class);
+				presenter
+						.go(crmViewNavigation,
 								new ScreenData.Add<SimpleCampaign>(
 										new SimpleCampaign()));
-					}
-				});
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoEdit>() {
-					private static final long serialVersionUID = 7877885891797325699L;
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoEdit>() {
+			private static final long serialVersionUID = 7877885891797325699L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoEdit.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GotoEdit event) {
+				CampaignAddPresenter presenter = PresenterResolver
+						.getPresenter(CampaignAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(CampaignEvent.GotoEdit event) {
-						CampaignAddPresenter presenter = PresenterResolver
-								.getPresenter(CampaignAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoRead>() {
+			private static final long serialVersionUID = -9221302504462965422L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GotoRead>() {
-					private static final long serialVersionUID = -9221302504462965422L;
+			@Subscribe
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public void handle(CampaignEvent.GotoRead event) {
+				CampaignReadPresenter presenter = PresenterResolver
+						.getPresenter(CampaignReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GotoRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<CampaignEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = -1867638793934682142L;
 
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void handle(CampaignEvent.GotoRead event) {
-						CampaignReadPresenter presenter = PresenterResolver
-								.getPresenter(CampaignReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CampaignEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = -1867638793934682142L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CampaignEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(CampaignEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData)
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CampaignEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
+		});
 	}
 
 	private void bindCaseEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoList>() {
-					private static final long serialVersionUID = -3618797051826954301L;
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoList>() {
+			private static final long serialVersionUID = -3618797051826954301L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoList.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoList event) {
+				CaseListPresenter presenter = PresenterResolver
+						.getPresenter(CaseListPresenter.class);
 
-					@Override
-					public void handle(CaseEvent.GotoList event) {
-						CaseListPresenter presenter = PresenterResolver
-								.getPresenter(CaseListPresenter.class);
+				CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<CaseSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-						CaseSearchCriteria searchCriteria = new CaseSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(crmViewNavigation,
-								new ScreenData.Search<CaseSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoAdd>() {
+			private static final long serialVersionUID = 1735667150147480819L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoAdd>() {
-					private static final long serialVersionUID = 1735667150147480819L;
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoAdd event) {
+				CaseAddPresenter presenter = PresenterResolver
+						.getPresenter(CaseAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Add<SimpleCase>(
+						new SimpleCase()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoAdd.class;
-					}
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoEdit>() {
+			private static final long serialVersionUID = 2353880791537378472L;
 
-					@Override
-					public void handle(CaseEvent.GotoAdd event) {
-						CaseAddPresenter presenter = PresenterResolver
-								.getPresenter(CaseAddPresenter.class);
-						presenter
-								.go(crmViewNavigation,
-										new ScreenData.Add<SimpleCase>(
-												new SimpleCase()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GotoEdit event) {
+				CaseAddPresenter presenter = PresenterResolver
+						.getPresenter(CaseAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoEdit>() {
-					private static final long serialVersionUID = 2353880791537378472L;
+		eventBus.register(new ApplicationEventListener<CaseEvent.GotoRead>() {
+			private static final long serialVersionUID = -5491126759925853548L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoEdit.class;
-					}
+			@Subscribe
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void handle(CaseEvent.GotoRead event) {
+				CaseReadPresenter presenter = PresenterResolver
+						.getPresenter(CaseReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(CaseEvent.GotoEdit event) {
-						CaseAddPresenter presenter = PresenterResolver
-								.getPresenter(CaseAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<CaseEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = 1019540906038925888L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GotoRead>() {
-					private static final long serialVersionUID = -5491126759925853548L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GotoRead.class;
-					}
-
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					@Override
-					public void handle(CaseEvent.GotoRead event) {
-						CaseReadPresenter presenter = PresenterResolver
-								.getPresenter(CaseReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<CaseEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = 1019540906038925888L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return CaseEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(CaseEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData)
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(CaseEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
+		});
 	}
 
 	private void bindLeadEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoList>() {
-					private static final long serialVersionUID = 9037270302083265873L;
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoList>() {
+			private static final long serialVersionUID = 9037270302083265873L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoList.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoList event) {
+				LeadListPresenter presenter = PresenterResolver
+						.getPresenter(LeadListPresenter.class);
+				LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<LeadSearchCriteria>(
+								searchCriteria));
+			}
+		});
 
-					@Override
-					public void handle(LeadEvent.GotoList event) {
-						LeadListPresenter presenter = PresenterResolver
-								.getPresenter(LeadListPresenter.class);
-						LeadSearchCriteria searchCriteria = new LeadSearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter.go(crmViewNavigation,
-								new ScreenData.Search<LeadSearchCriteria>(
-										searchCriteria));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoRead>() {
+			private static final long serialVersionUID = 9113847281543934181L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoRead>() {
-					private static final long serialVersionUID = 9113847281543934181L;
+			@Subscribe
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void handle(LeadEvent.GotoRead event) {
+				LeadReadPresenter presenter = PresenterResolver
+						.getPresenter(LeadReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoAdd>() {
+			private static final long serialVersionUID = -211740720642515595L;
 
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					@Override
-					public void handle(LeadEvent.GotoRead event) {
-						LeadReadPresenter presenter = PresenterResolver
-								.getPresenter(LeadReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoAdd event) {
+				LeadAddPresenter presenter = PresenterResolver
+						.getPresenter(LeadAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Add<SimpleLead>(
+						new SimpleLead()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoAdd>() {
-					private static final long serialVersionUID = -211740720642515595L;
+		eventBus.register(new ApplicationEventListener<LeadEvent.GotoEdit>() {
+			private static final long serialVersionUID = 915856771120600013L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoAdd.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GotoEdit event) {
+				LeadAddPresenter presenter = PresenterResolver
+						.getPresenter(LeadAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(LeadEvent.GotoAdd event) {
-						LeadAddPresenter presenter = PresenterResolver
-								.getPresenter(LeadAddPresenter.class);
-						presenter
-								.go(crmViewNavigation,
-										new ScreenData.Add<SimpleLead>(
-												new SimpleLead()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<LeadEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = -1655170606113750709L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GotoEdit>() {
-					private static final long serialVersionUID = 915856771120600013L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(LeadEvent.GotoEdit event) {
-						LeadAddPresenter presenter = PresenterResolver
-								.getPresenter(LeadAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
-
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<LeadEvent.GoToRelatedItems>() {
-					private static final long serialVersionUID = -1655170606113750709L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return LeadEvent.GoToRelatedItems.class;
-					}
-
-					@Override
-					public void handle(LeadEvent.GoToRelatedItems event) {
-						if (event.getData() instanceof CrmRelatedItemsScreenData)
-							crmViewNavigation
-									.navigateTo(((CrmRelatedItemsScreenData) event
-											.getData()).getParams());
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(LeadEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
+		});
 	}
 
 	private void bindOpportunityEvents() {
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoList>() {
-					private static final long serialVersionUID = -2575430958965270606L;
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoList>() {
+			private static final long serialVersionUID = -2575430958965270606L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoList.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoList event) {
+				OpportunityListPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityListPresenter.class);
+				OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
+				searchCriteria.setSaccountid(new NumberSearchField(
+						SearchField.AND, AppContext.getAccountId()));
+				presenter.go(crmViewNavigation,
+						new ScreenData.Search<OpportunitySearchCriteria>(
+								searchCriteria));
 
-					@Override
-					public void handle(OpportunityEvent.GotoList event) {
-						OpportunityListPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityListPresenter.class);
-						OpportunitySearchCriteria searchCriteria = new OpportunitySearchCriteria();
-						searchCriteria.setSaccountid(new NumberSearchField(
-								SearchField.AND, AppContext.getAccountId()));
-						presenter
-								.go(crmViewNavigation,
-										new ScreenData.Search<OpportunitySearchCriteria>(
-												searchCriteria));
+			}
+		});
 
-					}
-				});
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoRead>() {
+			private static final long serialVersionUID = -4783961655267073679L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoRead>() {
-					private static final long serialVersionUID = -4783961655267073679L;
+			@Subscribe
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			@Override
+			public void handle(OpportunityEvent.GotoRead event) {
+				OpportunityReadPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityReadPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Preview(event.getData()));
+			}
+		});
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoRead.class;
-					}
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
+			private static final long serialVersionUID = -1102539216312225338L;
 
-					@SuppressWarnings({ "rawtypes", "unchecked" })
-					@Override
-					public void handle(OpportunityEvent.GotoRead event) {
-						OpportunityReadPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityReadPresenter.class);
-						presenter.go(crmViewNavigation, new ScreenData.Preview(
-								event.getData()));
-					}
-				});
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoAdd event) {
+				OpportunityAddPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityAddPresenter.class);
+				presenter.go(crmViewNavigation,
+						new ScreenData.Add<SimpleOpportunity>(
+								new SimpleOpportunity()));
+			}
+		});
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
-					private static final long serialVersionUID = -1102539216312225338L;
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
+			private static final long serialVersionUID = -5752644127546011966L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoAdd.class;
-					}
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GotoEdit event) {
+				OpportunityAddPresenter presenter = PresenterResolver
+						.getPresenter(OpportunityAddPresenter.class);
+				presenter.go(crmViewNavigation, new ScreenData.Edit<Object>(
+						event.getData()));
+			}
+		});
 
-					@Override
-					public void handle(OpportunityEvent.GotoAdd event) {
-						OpportunityAddPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Add<SimpleOpportunity>(
-										new SimpleOpportunity()));
-					}
-				});
+		eventBus.register(new ApplicationEventListener<OpportunityEvent.GoToRelatedItems>() {
+			private static final long serialVersionUID = 2389909957063829985L;
 
-		EventBus.getInstance().addListener(
-				new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
-					private static final long serialVersionUID = -5752644127546011966L;
-
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return OpportunityEvent.GotoEdit.class;
-					}
-
-					@Override
-					public void handle(OpportunityEvent.GotoEdit event) {
-						OpportunityAddPresenter presenter = PresenterResolver
-								.getPresenter(OpportunityAddPresenter.class);
-						presenter.go(crmViewNavigation,
-								new ScreenData.Edit<Object>(event.getData()));
-					}
-				});
-
-		EventBus.getInstance()
-				.addListener(
-						new ApplicationEventListener<OpportunityEvent.GoToRelatedItems>() {
-							private static final long serialVersionUID = 2389909957063829985L;
-
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return OpportunityEvent.GoToRelatedItems.class;
-							}
-
-							@Override
-							public void handle(
-									OpportunityEvent.GoToRelatedItems event) {
-								if (event.getData() instanceof CrmRelatedItemsScreenData)
-									crmViewNavigation
-											.navigateTo(((CrmRelatedItemsScreenData) event
-													.getData()).getParams());
-							}
-						});
+			@Subscribe
+			@Override
+			public void handle(OpportunityEvent.GoToRelatedItems event) {
+				if (event.getData() instanceof CrmRelatedItemsScreenData)
+					crmViewNavigation
+							.navigateTo(((CrmRelatedItemsScreenData) event
+									.getData()).getParams());
+			}
+		});
 	}
 }

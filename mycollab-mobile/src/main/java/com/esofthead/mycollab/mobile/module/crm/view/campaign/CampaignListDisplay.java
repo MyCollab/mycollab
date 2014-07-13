@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -56,7 +56,7 @@ public class CampaignListDisplay
 				@Override
 				public void buttonClick(
 						final NavigationButton.NavigationButtonClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new CampaignEvent.GotoRead(this, campaign.getId()));
 				}
 			});

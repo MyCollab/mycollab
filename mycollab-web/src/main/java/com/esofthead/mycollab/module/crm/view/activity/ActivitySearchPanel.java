@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -102,7 +102,7 @@ public class ActivitySearchPanel extends
 					@Override
 					public void splitButtonClick(
 							final SplitButton.SplitButtonClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.TaskAdd(this, null));
 					}
 				});
@@ -117,7 +117,7 @@ public class ActivitySearchPanel extends
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingAdd(this, null));
 					}
 				});
@@ -132,7 +132,7 @@ public class ActivitySearchPanel extends
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
 						controlsBtn.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallAdd(this, null));
 					}
 				});
@@ -150,7 +150,7 @@ public class ActivitySearchPanel extends
 
 					@Override
 					public void buttonClick(ClickEvent evt) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoCalendar(this, null));
 					}
 				});

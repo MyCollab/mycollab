@@ -24,7 +24,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -230,8 +230,8 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListActionControl
 									.setPopupVisible(false);
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new TaskListEvent.GotoRead(event,
 													TaskListDepot.this.taskList
 															.getId()));
@@ -251,7 +251,7 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListActionControl
 									.setPopupVisible(false);
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskListEvent.GotoEdit(event,
 											TaskListDepot.this.taskList));
 						}

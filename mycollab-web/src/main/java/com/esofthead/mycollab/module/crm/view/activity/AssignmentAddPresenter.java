@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
@@ -62,7 +62,7 @@ CrmGenericPresenter<AssignmentAddView> {
 				save(item);
 				ViewState viewState = HistoryViewManager.back();
 				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.GotoTodoList(this, null));
 				}
 			}
@@ -71,7 +71,7 @@ CrmGenericPresenter<AssignmentAddView> {
 			public void onCancel() {
 				ViewState viewState = HistoryViewManager.back();
 				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ActivityEvent.GotoTodoList(this, null));
 				}
 			}
@@ -79,7 +79,7 @@ CrmGenericPresenter<AssignmentAddView> {
 			@Override
 			public void onSaveAndNew(final Task item) {
 				save(item);
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.TaskAdd(this, null));
 			}
 		});

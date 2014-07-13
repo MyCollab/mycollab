@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
@@ -83,13 +83,13 @@ public class CampaignReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleCampaign>() {
 					@Override
 					public void onEdit(SimpleCampaign data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(this, data));
 					}
 					
 					@Override
 					public void onAdd(SimpleCampaign data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoAdd(this, null));
 					}
 
@@ -118,7 +118,7 @@ public class CampaignReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new CampaignEvent.GotoList(
 															this, null));
 										}
@@ -130,13 +130,13 @@ public class CampaignReadPresenter extends
 					public void onClone(SimpleCampaign data) {
 						SimpleCampaign cloneData = (SimpleCampaign) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoList(this, null));
 					}
 
@@ -152,7 +152,7 @@ public class CampaignReadPresenter extends
 						Integer nextId = contactService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -172,7 +172,7 @@ public class CampaignReadPresenter extends
 						Integer nextId = contactService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
@@ -188,15 +188,15 @@ public class CampaignReadPresenter extends
 							SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.CAMPAIGN);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskEdit(
 											CampaignReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.CAMPAIGN);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new ActivityEvent.MeetingEdit(
 													CampaignReadPresenter.this,
 													meeting));
@@ -204,7 +204,7 @@ public class CampaignReadPresenter extends
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.CAMPAIGN);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallEdit(
 											CampaignReadPresenter.this, call));
 						}
@@ -217,7 +217,7 @@ public class CampaignReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleAccount account = new SimpleAccount();
 						account.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoEdit(
 										CampaignReadPresenter.this, account));
 
@@ -256,7 +256,7 @@ public class CampaignReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleContact contact = new SimpleContact();
 						contact.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoEdit(
 										CampaignReadPresenter.this, contact));
 					}
@@ -293,7 +293,7 @@ public class CampaignReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleLead lead = new SimpleLead();
 						lead.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(
 										CampaignReadPresenter.this, lead));
 					}

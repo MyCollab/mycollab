@@ -22,7 +22,7 @@ import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
@@ -112,7 +112,7 @@ public class UnresolvedBugsByAssigneeWidget2 extends Depot {
 					final BugFilterParameter param = new BugFilterParameter(
 							"Unresolved Bugs of " + assigneeFullName,
 							UnresolvedBugsByAssigneeWidget2.this.bugSearchCriteria);
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new BugEvent.GotoList(this,
 									new BugScreenData.Search(param)));
 				}

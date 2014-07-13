@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountUrlResolver;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
@@ -41,14 +41,14 @@ public class RoleUrlResolver extends AccountUrlResolver {
 
 	private class ListUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new RoleEvent.GotoList(ListUrlResolver.this, null));
 		}
 	}
 
 	private class AddUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new RoleEvent.GotoAdd(AddUrlResolver.this, null));
 		}
 	}
@@ -60,7 +60,7 @@ public class RoleUrlResolver extends AccountUrlResolver {
 					.getSpringBean(RoleService.class);
 			SimpleRole role = roleService.findById(roleId,
 					AppContext.getAccountId());
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new RoleEvent.GotoEdit(EditUrlResolver.this, role));
 		}
 	}
@@ -68,7 +68,7 @@ public class RoleUrlResolver extends AccountUrlResolver {
 	private class PreviewUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
 			int roleId = Integer.parseInt(UrlEncodeDecoder.decode(params[0]));
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new RoleEvent.GotoRead(PreviewUrlResolver.this, roleId));
 		}
 	}

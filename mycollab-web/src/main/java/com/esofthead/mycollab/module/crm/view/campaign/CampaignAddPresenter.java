@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -68,7 +68,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 						saveCampaign(campaign);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoList(this, null));
 						}
 					}
@@ -77,7 +77,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoList(this, null));
 						}
 					}
@@ -85,7 +85,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleCampaign campaign) {
 						saveCampaign(campaign);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoAdd(this, null));
 					}
 				});

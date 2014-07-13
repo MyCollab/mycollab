@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -69,7 +69,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 						saveAccount(account);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoList(this, null));
 						}
 					}
@@ -78,7 +78,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoList(this, null));
 						}
 					}
@@ -86,7 +86,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleAccount account) {
 						saveAccount(account);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoAdd(this, null));
 					}
 				});

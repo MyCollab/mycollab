@@ -26,7 +26,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -102,7 +102,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectMemberEvent.GotoInviteMembers(this,
 										null));
 					}
@@ -180,11 +180,11 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 									prjMemberService.updateWithSession(member,
 											AppContext.getUsername());
 
-									EventBus.getInstance()
-											.fireEvent(
-													new ProjectMemberEvent.GotoList(
-															ProjectMemberListViewImpl.this,
-															null));
+									EventBusFactory
+											.getInstance()
+											.post(new ProjectMemberEvent.GotoList(
+													ProjectMemberListViewImpl.this,
+													null));
 								}
 							}
 						});

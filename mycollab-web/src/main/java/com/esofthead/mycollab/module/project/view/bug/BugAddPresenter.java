@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.cache.CacheUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -66,7 +66,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 						saveBug(bug);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugEvent.GotoDashboard(this, null));
 						}
 					}
@@ -75,7 +75,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugEvent.GotoDashboard(this, null));
 						}
 					}
@@ -83,7 +83,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleBug bug) {
 						saveBug(bug);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugEvent.GotoAdd(this, null));
 					}
 				});

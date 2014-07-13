@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
@@ -134,7 +134,7 @@ public class LeadConvertInfoWindow extends Window {
 						leadService.convertLead(lead, opportunity,
 								AppContext.getUsername());
 						LeadConvertInfoWindow.this.close();
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoRead(
 										LeadConvertInfoWindow.this, lead
 												.getId()));

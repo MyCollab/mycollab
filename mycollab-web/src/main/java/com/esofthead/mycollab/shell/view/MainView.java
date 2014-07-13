@@ -23,9 +23,8 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.TimezoneNotification;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.module.billing.AccountStatusConstants;
@@ -49,10 +48,10 @@ import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
 import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -186,7 +185,7 @@ public final class MainView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoCrmModule(this, null));
 					}
 				});
@@ -200,13 +199,11 @@ public final class MainView extends AbstractPageView {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						if (!event.isCtrlKey() && !event.isMetaKey()) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ShellEvent.GotoProjectModule(
-													this, null));
+							EventBusFactory.getInstance()
+									.post(new ShellEvent.GotoProjectModule(
+											this, null));
 						} else {
-							Page.getCurrent().open("http://vnexpress.net",
-									"_blank");
+
 						}
 
 					}
@@ -220,7 +217,7 @@ public final class MainView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoFileModule(this, null));
 					}
 				});
@@ -233,7 +230,7 @@ public final class MainView extends AbstractPageView {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoUserAccountModule(this,
 										new String[] { "user", "list" }));
 					}
@@ -263,7 +260,7 @@ public final class MainView extends AbstractPageView {
 
 						@Override
 						public void layoutClick(LayoutClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ShellEvent.GotoUserAccountModule(this,
 											new String[] { "billing" }));
 						}
@@ -306,7 +303,7 @@ public final class MainView extends AbstractPageView {
 		NotificationButton notificationButton = new NotificationButton();
 		accountLayout.addComponent(notificationButton);
 		if (AppContext.getSession().getTimezone() == null) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new ShellEvent.NewNotification(this,
 							new TimezoneNotification()));
 		}
@@ -328,7 +325,7 @@ public final class MainView extends AbstractPageView {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						accountMenu.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoUserAccountModule(this,
 										new String[] { "preview" }));
 					}
@@ -344,7 +341,7 @@ public final class MainView extends AbstractPageView {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						accountMenu.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoUserAccountModule(this,
 										new String[] { "billing" }));
 					}
@@ -360,7 +357,7 @@ public final class MainView extends AbstractPageView {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						accountMenu.setPopupVisible(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoUserAccountModule(this,
 										new String[] { "user", "list" }));
 					}
@@ -376,7 +373,7 @@ public final class MainView extends AbstractPageView {
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						AppContext.getInstance().clearSession();
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.LogOut(this, null));
 					}
 				});
@@ -401,16 +398,13 @@ public final class MainView extends AbstractPageView {
 
 			// add listener to listen the change avatar or user information to
 			// update top menu
-			EventBus.getInstance()
-					.addListener(
+			EventBusFactory
+					.getInstance()
+					.register(
 							new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
 								private static final long serialVersionUID = 1L;
 
-								@Override
-								public Class<? extends ApplicationEvent> getEventType() {
-									return SessionEvent.UserProfileChangeEvent.class;
-								}
-
+								@Subscribe
 								@Override
 								public void handle(UserProfileChangeEvent event) {
 									if ("avatarid".equals(event

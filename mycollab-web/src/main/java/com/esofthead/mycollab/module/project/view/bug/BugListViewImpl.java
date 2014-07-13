@@ -23,9 +23,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.resource.SimpleGridExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -47,7 +45,8 @@ import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
@@ -94,25 +93,19 @@ public class BugListViewImpl extends AbstractPageView implements BugListView {
 						BugTableFieldDef.severity, BugTableFieldDef.resolution,
 						BugTableFieldDef.duedate));
 
-		this.tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		this.tableItem.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleBug bug = (SimpleBug) event.getData();
-						if ("summary".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
-									new BugEvent.GotoRead(BugListViewImpl.this,
-											bug.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleBug bug = (SimpleBug) event.getData();
+				if ("summary".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new BugEvent.GotoRead(BugListViewImpl.this, bug
+									.getId()));
+				}
+			}
+		});
 		this.bugListLayout.addComponent(this.tableItem);
 	}
 

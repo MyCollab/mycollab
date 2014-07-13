@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -39,7 +39,7 @@ public class CrmModulePresenter extends CrmGenericPresenter<CrmModule> {
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		super.onGo(navigator, data);
 		if (data == null) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new AccountEvent.GotoList(navigator, null));
 		}
 	}

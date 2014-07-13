@@ -23,7 +23,7 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -296,7 +296,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 	@Override
 	public void refreshBugItem() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new BugEvent.GotoRead(BugReadViewImpl.this, this.beanItem
 						.getId()));
 	}
@@ -537,7 +537,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 									@Override
 									public void buttonClick(
 											final ClickEvent event) {
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new BugComponentEvent.GotoRead(
 														BugReadViewImpl.this,
 														component.getId()));
@@ -566,7 +566,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 									@Override
 									public void buttonClick(
 											final ClickEvent event) {
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new BugVersionEvent.GotoRead(
 														BugReadViewImpl.this,
 														version.getId()));
@@ -592,7 +592,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 									@Override
 									public void buttonClick(
 											final ClickEvent event) {
-										EventBus.getInstance().fireEvent(
+										EventBusFactory.getInstance().post(
 												new BugVersionEvent.GotoRead(
 														BugReadViewImpl.this,
 														version.getId()));

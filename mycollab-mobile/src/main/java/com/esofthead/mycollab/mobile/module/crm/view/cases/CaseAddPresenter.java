@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -55,7 +55,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 					@Override
 					public void onSave(final SimpleCase cases) {
 						saveCase(cases);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CrmEvent.NavigateBack(this, null));
 					}
 
@@ -66,7 +66,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 					@Override
 					public void onSaveAndNew(final SimpleCase cases) {
 						saveCase(cases);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoAdd(this, null));
 					}
 				});

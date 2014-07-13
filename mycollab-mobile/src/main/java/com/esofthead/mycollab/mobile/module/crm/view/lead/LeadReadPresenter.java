@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -54,13 +54,13 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 				new DefaultPreviewFormHandler<SimpleLead>() {
 					@Override
 					public void onEdit(SimpleLead data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleLead data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoAdd(this, null));
 					}
 
@@ -86,7 +86,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new LeadEvent.GotoList(
 															this, null));
 										}
@@ -98,13 +98,13 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 					public void onClone(SimpleLead data) {
 						SimpleLead cloneData = (SimpleLead) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoList(this, null));
 					}
 
@@ -120,7 +120,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						Integer nextId = contactService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -140,7 +140,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						Integer nextId = contactService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

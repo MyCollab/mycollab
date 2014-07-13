@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.csv.CSVBooleanFormatter;
 import com.esofthead.mycollab.iexporter.csv.CSVDateFormatter;
@@ -91,7 +91,7 @@ public class ContactImportWindow extends EntityImportWindow<Contact> {
 	protected void reloadWhenBackToListView() {
 		ContactSearchCriteria contactSearchCriteria = new ContactSearchCriteria();
 		contactSearchCriteria.setContactName(new StringSearchField(""));
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ContactEvent.GotoList(ContactListView.class,
 						contactSearchCriteria));
 	}

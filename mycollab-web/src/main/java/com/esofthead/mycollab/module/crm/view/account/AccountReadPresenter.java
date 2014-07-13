@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
@@ -84,7 +84,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 				new DefaultPreviewFormHandler<SimpleAccount>() {
 					@Override
 					public void onEdit(SimpleAccount data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoEdit(this, data));
 					}
 
@@ -113,7 +113,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new AccountEvent.GotoList(
 															this, null));
 										}
@@ -124,7 +124,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 					@Override
 					public void onAdd(SimpleAccount data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoAdd(this, null));
 					}
 
@@ -132,13 +132,13 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void onClone(SimpleAccount data) {
 						Account cloneData = (Account) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new AccountEvent.GotoList(this, null));
 					}
 
@@ -154,7 +154,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						Integer nextId = accountService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -174,7 +174,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						Integer nextId = accountService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
@@ -188,7 +188,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleContact contact = new SimpleContact();
 						contact.setAccountid(view.getItem().getId());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ContactEvent.GotoEdit(this, contact));
 					}
 
@@ -215,8 +215,8 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleOpportunity opportunity = new SimpleOpportunity();
 						opportunity.setAccountid(view.getItem().getId());
-						EventBus.getInstance()
-								.fireEvent(
+						EventBusFactory.getInstance()
+								.post(
 										new OpportunityEvent.GotoEdit(this,
 												opportunity));
 					}
@@ -228,7 +228,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleLead lead = new SimpleLead();
 						lead.setAccountname(view.getItem().getAccountname());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(this, lead));
 					}
 
@@ -262,7 +262,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleCase cases = new SimpleCase();
 						cases.setAccountid(view.getItem().getId());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CaseEvent.GotoEdit(this, cases));
 					}
 				});
@@ -275,15 +275,15 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 							final SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.ACCOUNT);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskEdit(
 											AccountReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							final SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.ACCOUNT);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance()
-									.fireEvent(
+							EventBusFactory.getInstance()
+									.post(
 											new ActivityEvent.MeetingEdit(
 													AccountReadPresenter.this,
 													meeting));
@@ -291,7 +291,7 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 							final SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.ACCOUNT);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallEdit(
 											AccountReadPresenter.this, call));
 						}

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
@@ -75,7 +75,7 @@ public abstract class BugDisplayWidget extends Depot {
 
 				@Override
 				public void buttonClick(final ClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new BugEvent.GotoList(BugDisplayWidget.this,
 									new BugScreenData.Search(
 											constructMoreDisplayFilter())));

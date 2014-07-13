@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
@@ -56,13 +56,13 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 				new DefaultPreviewFormHandler<Version>() {
 					@Override
 					public void onEdit(Version data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(Version data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoAdd(this, null));
 					}
 
@@ -73,7 +73,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 						versionService.removeWithSession(data.getId(),
 								AppContext.getUsername(),
 								AppContext.getAccountId());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoList(this, null));
 					}
 
@@ -81,13 +81,13 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 					public void onClone(Version data) {
 						Version cloneData = (Version) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new BugVersionEvent.GotoList(this, null));
 					}
 
@@ -104,7 +104,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 						Integer nextId = componentService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugVersionEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -125,7 +125,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 						Integer nextId = componentService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new BugVersionEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
@@ -62,10 +62,9 @@ public class ProjectMemberEditPresenter extends
 						saveProjectMember(projectMember);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectMemberEvent.GotoList(
-													this, null));
+							EventBusFactory.getInstance()
+									.post(new ProjectMemberEvent.GotoList(this,
+											null));
 						}
 					}
 
@@ -73,10 +72,9 @@ public class ProjectMemberEditPresenter extends
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectMemberEvent.GotoList(
-													this, null));
+							EventBusFactory.getInstance()
+									.post(new ProjectMemberEvent.GotoList(this,
+											null));
 						}
 					}
 

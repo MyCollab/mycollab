@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -66,7 +66,7 @@ public class CommentRowDisplayHandler implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ProjectMemberEvent.GotoRead(this, comment
 								.getCreateduser()));
 			}

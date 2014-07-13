@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
@@ -63,7 +63,7 @@ public class CaseImportWindow extends EntityImportWindow<SimpleCase> {
 
 	@Override
 	protected void reloadWhenBackToListView() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new CaseEvent.GotoList(CaseListView.class,
 						new CaseSearchCriteria()));
 	}

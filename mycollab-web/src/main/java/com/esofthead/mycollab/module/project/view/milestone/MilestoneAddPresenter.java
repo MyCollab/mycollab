@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -60,7 +60,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 						saveMilestone(milestone);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new MilestoneEvent.GotoList(this, null));
 						}
 					}
@@ -69,7 +69,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new MilestoneEvent.GotoList(this, null));
 						}
 					}
@@ -77,7 +77,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 					@Override
 					public void onSaveAndNew(final Milestone milestone) {
 						saveMilestone(milestone);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new MilestoneEvent.GotoAdd(this, null));
 					}
 				});

@@ -16,12 +16,33 @@
  */
 package com.esofthead.mycollab.eventmanager;
 
+import com.esofthead.mycollab.core.MyCollabException;
+import com.google.common.eventbus.EventBus;
+
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  * 
  */
-public interface EventBusFactory {
-	EventBus getInstance();
+public abstract class EventBusFactory {
+	private static String eventbusFactoryImplClsName = "com.esofthead.mycollab.eventmanager.EventBusFactoryImpl";
+
+	private static EventBusFactory eventbusFactoryImpl;
+
+	static {
+		try {
+			Class<EventBusFactory> cls = (Class<EventBusFactory>) Class
+					.forName(eventbusFactoryImplClsName);
+			eventbusFactoryImpl = cls.newInstance();
+		} catch (Exception e) {
+			throw new MyCollabException(e);
+		}
+	}
+
+	abstract EventBus getInstanceInSession();
+
+	public static EventBus getInstance() {
+		return eventbusFactoryImpl.getInstanceInSession();
+	}
 }

@@ -21,7 +21,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -60,7 +60,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 				new DefaultPreviewFormHandler<Role>() {
 					@Override
 					public void onEdit(Role data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RoleEvent.GotoEdit(this, data));
 					}
 
@@ -89,7 +89,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new RoleEvent.GotoList(
 															this, null));
 										}
@@ -102,13 +102,13 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 						Role cloneData = (Role) data.copy();
 						cloneData.setRolename(null);
 						cloneData.setIssystemrole(false);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RoleEvent.GotoAdd(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RoleEvent.GotoList(this, null));
 					}
 				});

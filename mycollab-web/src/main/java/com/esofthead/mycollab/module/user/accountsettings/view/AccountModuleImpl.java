@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
@@ -180,7 +180,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 	@Override
 	public void gotoUserProfilePage() {
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new ProfileEvent.GotoProfileView(this, null));
 	}
 }

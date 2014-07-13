@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountSettingBreadcrumb;
 import com.esofthead.mycollab.module.user.domain.Role;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
@@ -60,7 +60,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 				save(item);
 				ViewState viewState = HistoryViewManager.back();
 				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new RoleEvent.GotoList(this, null));
 				}
 			}
@@ -69,7 +69,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 			public void onCancel() {
 				ViewState viewState = HistoryViewManager.back();
 				if (viewState instanceof NullViewState) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new RoleEvent.GotoList(this, null));
 				}
 			}
@@ -77,7 +77,7 @@ public class RoleAddPresenter extends AbstractPresenter<RoleAddView> {
 			@Override
 			public void onSaveAndNew(Role item) {
 				save(item);
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new RoleEvent.GotoAdd(this, null));
 			}
 		});

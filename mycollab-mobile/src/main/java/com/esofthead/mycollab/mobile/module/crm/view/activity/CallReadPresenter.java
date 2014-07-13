@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -56,7 +56,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 				new DefaultPreviewFormHandler<SimpleCall>() {
 					@Override
 					public void onEdit(SimpleCall data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallEdit(this, data));
 					}
 
@@ -82,7 +82,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new ActivityEvent.GotoList(
 															this, null));
 										}
@@ -94,13 +94,13 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 					public void onClone(SimpleCall data) {
 						CallWithBLOBs cloneData = (CallWithBLOBs) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.CallEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ActivityEvent.GotoList(this, null));
 					}
 
@@ -115,7 +115,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 								NumberSearchField.GREATER));
 						Integer nextId = callService.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -135,7 +135,7 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 						Integer nextId = callService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

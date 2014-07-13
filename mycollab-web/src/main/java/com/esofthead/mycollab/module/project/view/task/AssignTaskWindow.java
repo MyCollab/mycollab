@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
@@ -171,7 +171,7 @@ public class AssignTaskWindow extends Window {
 									}
 
 									AssignTaskWindow.this.close();
-									EventBus.getInstance().fireEvent(
+									EventBusFactory.getInstance().post(
 											new TaskEvent.GotoRead(this, task
 													.getId()));
 								}

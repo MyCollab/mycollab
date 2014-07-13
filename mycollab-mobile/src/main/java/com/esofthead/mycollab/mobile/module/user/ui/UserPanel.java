@@ -16,13 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.user.ui;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.events.SessionEvent;
 import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -65,16 +65,13 @@ public class UserPanel extends HorizontalLayout {
 
 		// add listener to listen the change avatar or user information to
 		// update panel display info
-		EventBus.getInstance()
-				.addListener(
+		EventBusFactory
+				.getInstance()
+				.register(
 						new ApplicationEventListener<SessionEvent.UserProfileChangeEvent>() {
 							private static final long serialVersionUID = 1L;
 
-							@Override
-							public Class<? extends ApplicationEvent> getEventType() {
-								return SessionEvent.UserProfileChangeEvent.class;
-							}
-
+							@Subscribe
 							@Override
 							public void handle(UserProfileChangeEvent event) {
 								setUserInfo();

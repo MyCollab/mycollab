@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
@@ -116,7 +116,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ActivityEvent.GoToRelatedItems(
 								MeetingReadViewImpl.this,
 								new CrmRelatedItemsScreenData(

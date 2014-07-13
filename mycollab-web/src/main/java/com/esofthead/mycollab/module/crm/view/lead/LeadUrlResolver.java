@@ -17,11 +17,17 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class LeadUrlResolver extends CrmUrlResolver {
 	public LeadUrlResolver() {
 		this.addSubResolver("list", new LeadListUrlResolver());
@@ -33,15 +39,15 @@ public class LeadUrlResolver extends CrmUrlResolver {
 	public static class LeadListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance()
-					.fireEvent(new LeadEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(
+					new LeadEvent.GotoList(this, null));
 		}
 	}
 
 	public static class LeadAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new LeadEvent.GotoAdd(this, new Lead()));
 		}
 	}
@@ -51,7 +57,7 @@ public class LeadUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int leadId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new LeadEvent.GotoEdit(this, leadId));
 		}
 	}
@@ -61,7 +67,7 @@ public class LeadUrlResolver extends CrmUrlResolver {
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
 			int leadId = Integer.parseInt(decodeUrl);
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new LeadEvent.GotoRead(this, leadId));
 		}
 	}

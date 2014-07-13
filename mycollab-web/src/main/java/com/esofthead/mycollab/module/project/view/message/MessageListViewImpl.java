@@ -31,7 +31,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -193,7 +193,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ProjectMemberEvent.GotoRead(
 									MessageListViewImpl.this, message
 											.getPosteduser()));
@@ -222,7 +222,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new MessageEvent.GotoRead(
 											MessageListViewImpl.this, message
 													.getId()));

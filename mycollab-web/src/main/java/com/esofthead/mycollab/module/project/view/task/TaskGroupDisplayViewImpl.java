@@ -24,7 +24,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -296,7 +296,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new TaskListEvent.ReoderTaskList(this, null));
 			}
 		});
@@ -546,8 +546,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	}
 
 	void moveToTaskSearch(TaskFilterParameter taskFilter) {
-		EventBus.getInstance()
-				.fireEvent(new TaskEvent.Search(this, taskFilter));
+		EventBusFactory.getInstance()
+				.post(new TaskEvent.Search(this, taskFilter));
 	};
 
 	private void displayTaskStatistic() {

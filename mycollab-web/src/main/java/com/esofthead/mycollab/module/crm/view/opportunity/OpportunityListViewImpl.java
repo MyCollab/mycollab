@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
@@ -37,7 +35,8 @@ import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -109,24 +108,19 @@ public class OpportunityListViewImpl extends
 						OpportunityTableFieldDef.assignUser));
 
 		opportunityTableDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+				.addTableListener(new TableClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
+					public void itemClick(final TableClickEvent event) {
 						final SimpleOpportunity opportunity = (SimpleOpportunity) event
 								.getData();
 						if (event.getFieldName().equals("opportunityname")) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new OpportunityEvent.GotoRead(this,
 											opportunity.getId()));
 						} else if (event.getFieldName().equals("accountname")) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(this, opportunity
 											.getAccountid()));
 						}

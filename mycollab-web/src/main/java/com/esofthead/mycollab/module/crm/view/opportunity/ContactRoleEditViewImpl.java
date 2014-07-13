@@ -24,7 +24,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmDataTypeFactory;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
@@ -147,7 +147,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 						ViewState viewState = HistoryViewManager.back();
 
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ContactEvent.GotoList(this, null));
 						}
 
@@ -187,7 +187,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		}
 
 		// lead user to opportunity view
-		EventBus.getInstance().fireEvent(
+		EventBusFactory.getInstance().post(
 				new OpportunityEvent.GotoRead(ContactRoleEditViewImpl.this,
 						opportunity.getId()));
 	}
@@ -309,7 +309,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 						@Override
 						public void buttonClick(ClickEvent event) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new AccountEvent.GotoRead(
 											ContactRoleRowComp.this, contactOpp
 													.getAccountid()));

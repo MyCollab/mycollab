@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -60,22 +60,22 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 			if (pref.getLastmodulevisit() == null
 					|| ModuleNameConstants.PRJ
 							.equals(pref.getLastmodulevisit())) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoProjectModule(this, null));
 			} else if (ModuleNameConstants.CRM
 					.equals(pref.getLastmodulevisit())) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoCrmModule(this, null));
 			} else if (ModuleNameConstants.ACCOUNT.equals(pref
 					.getLastmodulevisit())) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoUserAccountModule(this, null));
 			} else if (ModuleNameConstants.FILE.equals(pref
 					.getLastmodulevisit())) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoFileModule(this, null));
 			} else {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoConsolePage(this, null));
 				log.debug("Do not support navigate to module: "
 						+ pref.getLastmodulevisit());

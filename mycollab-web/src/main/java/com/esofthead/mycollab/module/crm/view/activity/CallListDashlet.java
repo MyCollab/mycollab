@@ -23,8 +23,6 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.arguments.BitSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.criteria.CallSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
@@ -36,7 +34,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.VerticalLayout;
@@ -65,14 +64,10 @@ public class CallListDashlet extends Depot {
 						UIConstants.TABLE_S_LABEL_WIDTH)));
 
 		tableItem
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
+				.addTableListener(new TableClickListener() {
 
 					@Override
-					public void handle(final TableClickEvent event) {
+					public void itemClick(final TableClickEvent event) {
 						final SimpleCall call = (SimpleCall) event.getData();
 						if ("isClosed".equals(event.getFieldName())) {
 							call.setIsclosed(true);

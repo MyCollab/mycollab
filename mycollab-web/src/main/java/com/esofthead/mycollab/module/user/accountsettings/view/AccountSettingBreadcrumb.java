@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.user.accountsettings.view;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AccountBreadcrumbI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.module.user.domain.Role;
@@ -57,7 +57,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ProfileEvent.GotoProfileView(this, null));
 			}
 		}));
@@ -127,7 +127,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.GotoRead(this, user));
 
 					}
@@ -145,8 +145,9 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 		this.select(0);
 		this.addLink(new Button(AppContext
 				.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE)));
-		AppContext.addFragment("account/customization",
-				AppContext.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE));
+		AppContext
+				.addFragment("account/customization", AppContext
+						.getMessage(AccountBreadcrumbI18nEnum.VIEW_CUSTOMIZE));
 	}
 
 	private static class GotoUserListListener implements Button.ClickListener {
@@ -154,8 +155,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance()
-					.fireEvent(new UserEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(
+					new UserEvent.GotoList(this, null));
 		}
 	}
 
@@ -203,7 +204,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new RoleEvent.GotoRead(this, role.getId()));
 
 					}
@@ -221,8 +222,8 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 
 		@Override
 		public void buttonClick(ClickEvent event) {
-			EventBus.getInstance()
-					.fireEvent(new RoleEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(
+					new RoleEvent.GotoList(this, null));
 		}
 	}
 

@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
@@ -166,7 +166,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateContacts())));
@@ -188,7 +188,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateOpportunities())));
@@ -208,7 +208,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateLeads())));
@@ -228,7 +228,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateNotes())));
@@ -248,7 +248,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateActivities())));

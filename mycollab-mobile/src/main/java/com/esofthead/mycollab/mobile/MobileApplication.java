@@ -25,7 +25,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -144,25 +144,25 @@ public class MobileApplication extends UI {
 				if (value != null) {
 					String[] loginParams = value.split("\\$");
 					try {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new UserEvent.PlainLogin(this, new String[] {
 										loginParams[0],
 										PasswordEncryptHelper
 												.decryptText(loginParams[1]),
 										String.valueOf(false) }));
 					} catch (MyCollabException exception) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ShellEvent.GotoLoginView(this, null));
 					}
 				} else {
-					EventBus.getInstance().fireEvent(
+					EventBusFactory.getInstance().post(
 							new ShellEvent.GotoLoginView(this, null));
 				}
 			}
 
 			@Override
 			public void onFailure(FailureEvent error) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoLoginView(this, null));
 			}
 		});

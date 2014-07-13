@@ -25,7 +25,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -65,7 +65,7 @@ public class ProjectMemberReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleProjectMember>() {
 					@Override
 					public void onEdit(SimpleProjectMember data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectMemberEvent.GotoEdit(this, data));
 					}
 
@@ -95,10 +95,10 @@ public class ProjectMemberReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance()
-													.fireEvent(
-															new ProjectMemberEvent.GotoList(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new ProjectMemberEvent.GotoList(
+															this, null));
 										}
 									}
 								});
@@ -109,15 +109,14 @@ public class ProjectMemberReadPresenter extends
 						SimpleProjectMember cloneData = (SimpleProjectMember) data
 								.copy();
 						cloneData.setId(null);
-						EventBus.getInstance()
-								.fireEvent(
-										new ProjectMemberEvent.GotoEdit(this,
-												cloneData));
+						EventBusFactory.getInstance()
+								.post(new ProjectMemberEvent.GotoEdit(this,
+										cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectMemberEvent.GotoList(this, null));
 					}
 
@@ -140,7 +139,7 @@ public class ProjectMemberReadPresenter extends
 						Integer nextId = projectMemberService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ProjectMemberEvent.GotoRead(this,
 											nextId));
 						} else {
@@ -166,7 +165,7 @@ public class ProjectMemberReadPresenter extends
 						Integer nextId = projectMemberService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ProjectMemberEvent.GotoRead(this,
 											nextId));
 						} else {

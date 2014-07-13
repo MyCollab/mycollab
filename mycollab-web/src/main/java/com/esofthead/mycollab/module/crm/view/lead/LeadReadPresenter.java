@@ -26,7 +26,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CampaignLead;
@@ -77,13 +77,13 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 				new DefaultPreviewFormHandler<SimpleLead>() {
 					@Override
 					public void onEdit(SimpleLead data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleLead data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoAdd(this, null));
 					}
 
@@ -112,7 +112,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new LeadEvent.GotoList(
 															this, null));
 										}
@@ -124,13 +124,13 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 					public void onClone(SimpleLead data) {
 						SimpleLead cloneData = (SimpleLead) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoList(this, null));
 					}
 
@@ -146,7 +146,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						Integer nextId = contactService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -166,7 +166,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 						Integer nextId = contactService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new LeadEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
@@ -189,21 +189,21 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 							SimpleTask task = new SimpleTask();
 							task.setType(CrmTypeConstants.LEAD);
 							task.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.TaskEdit(
 											LeadReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.LEAD);
 							meeting.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.MeetingEdit(
 											LeadReadPresenter.this, meeting));
 						} else if (itemId.equals("call")) {
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.LEAD);
 							call.setTypeid(view.getItem().getId());
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ActivityEvent.CallEdit(
 											LeadReadPresenter.this, call));
 						}
@@ -216,7 +216,7 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 					public void createNewRelatedItem(String itemId) {
 						SimpleCampaign campaign = new SimpleCampaign();
 						campaign.setExtraData(view.getItem());
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(
 										LeadReadPresenter.this, campaign));
 					}

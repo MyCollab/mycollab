@@ -25,8 +25,9 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import com.esofthead.mycollab.common.ui.components.AbstractNotification;
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
@@ -58,7 +59,7 @@ public class NotificationButton extends PopupButton implements
 		this.setStyleName("notification-button");
 
 		addPopupVisibilityListener(this);
-		EventBus.getInstance().addListener(this);
+		EventBusFactory.getInstance().register(this);
 	}
 
 	@Override
@@ -110,11 +111,7 @@ public class NotificationButton extends PopupButton implements
 		}
 	}
 
-	@Override
-	public Class<? extends ApplicationEvent> getEventType() {
-		return ShellEvent.NewNotification.class;
-	}
-
+	@Subscribe
 	@Override
 	public void handle(ShellEvent.NewNotification event) {
 		if (event.getData() instanceof AbstractNotification) {

@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -62,7 +62,7 @@ public class OpportunityAddPresenter extends
 					@Override
 					public void onSave(final SimpleOpportunity item) {
 						saveOpportunity(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CrmEvent.NavigateBack(this, null));
 					}
 
@@ -73,7 +73,7 @@ public class OpportunityAddPresenter extends
 					@Override
 					public void onSaveAndNew(final SimpleOpportunity item) {
 						saveOpportunity(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new OpportunityEvent.GotoAdd(this, null));
 					}
 				});

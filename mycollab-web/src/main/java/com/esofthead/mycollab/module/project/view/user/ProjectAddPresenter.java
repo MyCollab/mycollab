@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.user;
 import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_PROJECT;
 
 import com.esofthead.mycollab.common.MyCollabSession;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -59,7 +59,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 					@Override
 					public void onSave(final Project project) {
 						saveProject(project);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new ProjectEvent.GotoMyProject(this,
 										new PageActionChain(
 												new ProjectScreenData.Goto(view
@@ -69,18 +69,17 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 					@Override
 					public void onCancel() {
 						if (view.getItem().getId() == null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new ShellEvent.GotoProjectModule(
 											ProjectAddPresenter.this, null));
 						} else {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectEvent.GotoMyProject(
-													this,
-													new PageActionChain(
-															new ProjectScreenData.Goto(
-																	view.getItem()
-																			.getId()))));
+							EventBusFactory
+									.getInstance()
+									.post(new ProjectEvent.GotoMyProject(this,
+											new PageActionChain(
+													new ProjectScreenData.Goto(
+															view.getItem()
+																	.getId()))));
 						}
 					}
 
@@ -113,8 +112,7 @@ public class ProjectAddPresenter extends AbstractPresenter<ProjectAddView> {
 			projectService.saveWithSession(project, AppContext.getUsername());
 		} else {
 			projectService.updateWithSession(project, AppContext.getUsername());
-			MyCollabSession.putVariable(CURRENT_PROJECT,
-					project);
+			MyCollabSession.putVariable(CURRENT_PROJECT, project);
 		}
 
 	}

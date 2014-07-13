@@ -25,7 +25,7 @@ import org.vaadin.tokenfield.TokenField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.EmailValidator;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
@@ -155,10 +155,9 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 					public void buttonClick(ClickEvent event) {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance()
-									.fireEvent(
-											new ProjectMemberEvent.GotoList(
-													this, null));
+							EventBusFactory.getInstance()
+									.post(new ProjectMemberEvent.GotoList(this,
+											null));
 						}
 
 					}

@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.setting;
 
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
 import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
@@ -125,8 +123,7 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 	}
 
 	@Override
-	public void addViewListener(
-			ApplicationEventListener<? extends ApplicationEvent> listener) {
+	public void addViewListener(ViewListener listener) {
 
 	}
 

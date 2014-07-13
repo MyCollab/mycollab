@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
@@ -55,13 +55,13 @@ public class CampaignReadPresenter extends
 				new DefaultPreviewFormHandler<SimpleCampaign>() {
 					@Override
 					public void onEdit(SimpleCampaign data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(this, data));
 					}
 
 					@Override
 					public void onAdd(SimpleCampaign data) {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoAdd(this, null));
 					}
 
@@ -87,7 +87,7 @@ public class CampaignReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBus.getInstance().fireEvent(
+											EventBusFactory.getInstance().post(
 													new CampaignEvent.GotoList(
 															this, null));
 										}
@@ -99,13 +99,13 @@ public class CampaignReadPresenter extends
 					public void onClone(SimpleCampaign data) {
 						SimpleCampaign cloneData = (SimpleCampaign) data.copy();
 						cloneData.setId(null);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(this, cloneData));
 					}
 
 					@Override
 					public void onCancel() {
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoList(this, null));
 					}
 
@@ -121,7 +121,7 @@ public class CampaignReadPresenter extends
 						Integer nextId = contactService
 								.getNextItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
@@ -141,7 +141,7 @@ public class CampaignReadPresenter extends
 						Integer nextId = contactService
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new CampaignEvent.GotoRead(this, nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();

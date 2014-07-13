@@ -19,7 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractPreviewItemComp;
@@ -117,7 +117,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateContacts())));
@@ -136,7 +136,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateNotes())));
@@ -156,7 +156,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBus.getInstance().fireEvent(
+				EventBusFactory.getInstance().post(
 						new CaseEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
 										getAssociateActivities())));

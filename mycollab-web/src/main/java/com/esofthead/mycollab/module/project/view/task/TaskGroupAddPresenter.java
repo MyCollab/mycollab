@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.TaskList;
@@ -59,7 +59,7 @@ public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
 						save(item);
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskListEvent.GotoTaskListScreen(this,
 											null));
 						}
@@ -69,7 +69,7 @@ public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
 					public void onCancel() {
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskListEvent.GotoTaskListScreen(this,
 											null));
 						}
@@ -78,7 +78,7 @@ public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
 					@Override
 					public void onSaveAndNew(final TaskList item) {
 						save(item);
-						EventBus.getInstance().fireEvent(
+						EventBusFactory.getInstance().post(
 								new TaskListEvent.GotoAdd(this, null));
 					}
 				});

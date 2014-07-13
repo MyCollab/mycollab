@@ -24,9 +24,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -50,7 +48,8 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -172,19 +171,14 @@ class TaskDisplayComponent extends CssLayout {
 		this.addComponent(this.taskDisplay);
 
 		this.taskDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
+				.addTableListener(new TableClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
+					public void itemClick(final TableClickEvent event) {
 						final SimpleTask task = (SimpleTask) event.getData();
 						if ("taskname".equals(event.getFieldName())) {
-							EventBus.getInstance().fireEvent(
+							EventBusFactory.getInstance().post(
 									new TaskEvent.GotoRead(
 											TaskDisplayComponent.this, task
 													.getId()));
@@ -275,7 +269,7 @@ class TaskDisplayComponent extends CssLayout {
 	public void saveTaskSuccess(final SimpleTask task) {
 		this.displayTasks();
 		if (!this.isDisplayTaskListInfo) {
-			EventBus.getInstance().fireEvent(
+			EventBusFactory.getInstance().post(
 					new TaskListEvent.GotoRead(this, this.taskList.getId()));
 		}
 	}

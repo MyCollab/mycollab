@@ -35,7 +35,7 @@ import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.SecurityException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
@@ -51,7 +51,6 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
@@ -169,11 +168,11 @@ public class DesktopApplication extends UI {
 													for (Window window : windowsList) {
 														window.close();
 													}
-													EventBus.getInstance()
-															.fireEvent(
-																	new ShellEvent.GotoUserAccountModule(
-																			this,
-																			new String[] { "billing" }));
+													EventBusFactory
+															.getInstance()
+															.post(new ShellEvent.GotoUserAccountModule(
+																	this,
+																	new String[] { "billing" }));
 												}
 											}
 										});
@@ -255,7 +254,6 @@ public class DesktopApplication extends UI {
 			initialUrl = "";
 			ViewManager.clearViewCaches();
 			PresenterResolver.clearCaches();
-			EventBus.getInstance().clear();
 			ControllerRegistry.reset();
 		}
 	}

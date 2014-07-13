@@ -19,9 +19,7 @@ package com.esofthead.mycollab.module.crm.view.lead;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBus;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
@@ -35,7 +33,8 @@ import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
-import com.esofthead.mycollab.vaadin.ui.table.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
+import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -104,27 +103,19 @@ public class LeadListViewImpl extends
 						LeadTableFieldDef.phoneoffice, LeadTableFieldDef.email,
 						LeadTableFieldDef.assignedUser));
 
-		leadTableDisplay
-				.addTableListener(new ApplicationEventListener<TableClickEvent>() {
-					private static final long serialVersionUID = 1L;
+		leadTableDisplay.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public Class<? extends ApplicationEvent> getEventType() {
-						return TableClickEvent.class;
-					}
-
-					@Override
-					public void handle(final TableClickEvent event) {
-						final SimpleLead lead = (SimpleLead) event.getData();
-						if ("leadName".equals(event.getFieldName())) {
-							EventBus.getInstance()
-									.fireEvent(
-											new LeadEvent.GotoRead(
-													LeadListViewImpl.this, lead
-															.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleLead lead = (SimpleLead) event.getData();
+				if ("leadName".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new LeadEvent.GotoRead(LeadListViewImpl.this, lead
+									.getId()));
+				}
+			}
+		});
 
 		return leadTableDisplay;
 	}
