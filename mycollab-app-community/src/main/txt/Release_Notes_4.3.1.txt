@@ -42,10 +42,16 @@
     Changelog from MyCollab 4.3.0
     =============================
     Improvements
+        - Upgrade Reflections to 0.9.9-RC2
+        - Upgrade Guava to 15.0
         - Support Japanese characters in reporting
         - Internalization reporting module
+        - Improve UIs
+        - Update mobile edition
     
     Bug Fixes
+        - Can not save user in some special case
+        - Minor bug fixes in inviting project member
     
     
     Changelog from MyCollab 4.2.0

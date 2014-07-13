@@ -270,13 +270,23 @@ public class UserServiceDBImpl extends
 		userMapper.updateByExampleSelective(record, ex);
 
 		UserAccountExample userAccountEx = new UserAccountExample();
-		userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername());
+		userAccountEx.createCriteria().andUsernameEqualTo(record.getUsername())
+				.andAccountidEqualTo(sAccountId);
+		List<UserAccount> userAccounts = userAccountMapper
+				.selectByExample(userAccountEx);
+		if (userAccounts.size() > 0) {
+			UserAccount userAccount = userAccounts.get(0);
+			if (record.getRoleid() == -1) {
+				userAccount.setRoleid(null);
+				userAccount.setIsaccountowner(true);
+			} else {
+				userAccount.setRoleid(record.getRoleid());
+			}
 
-		UserAccount userAccount = new UserAccount();
-		userAccount.setRoleid(record.getRoleid());
-		userAccount.setRegisterstatus(record.getRegisterstatus());
-		userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
-		userAccountMapper.updateByExampleSelective(userAccount, userAccountEx);
+			userAccount.setRegisterstatus(record.getRegisterstatus());
+			userAccount.setLastaccessedtime(new GregorianCalendar().getTime());
+			userAccountMapper.updateByPrimaryKey(userAccount);
+		}
 	}
 
 	@Override
