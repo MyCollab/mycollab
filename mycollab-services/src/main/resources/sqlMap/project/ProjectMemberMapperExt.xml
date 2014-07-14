@@ -110,7 +110,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
+    <select id="findPagableListByCriteria" parameterType="ProjectMemberSearchCriteria"
         resultMap="ProjectMemberResult" lang="velocity">
 
         <include refid="selectMember" />
@@ -136,7 +136,7 @@
         SELECT m_prj_member.id, m_prj_member.username, m_prj_member.projectId,
             m_prj_member.joinDate, m_prj_member.projectRoleId,
             m_prj_member.isAdmin, m_prj_member.status, s_user.email as email,
-            m_prj_role.rolename,
+            m_prj_role.rolename, m_prj_member.sAccountId,
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')),  s_user.lastname) AS  memberFullName , s_user.avatarId AS memberAvatarId
         FROM m_prj_member
         LEFT OUTER JOIN m_prj_role ON (m_prj_role.id=m_prj_member.projectRoleId)
