@@ -24,7 +24,9 @@ import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
@@ -65,16 +67,20 @@ public class UserSettingViewImpl extends AbstractPageView implements
 	private void buildComponents() {
 		this.userPresenter = PresenterResolver
 				.getPresenter(ProjectUserPresenter.class);
-		this.myProjectTab.addTab(this.userPresenter.initView(), "Users");
+		this.myProjectTab.addTab(this.userPresenter.initView(),
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 
 		this.rolePresenter = PresenterResolver
 				.getPresenter(ProjectRolePresenter.class);
-		this.myProjectTab.addTab(this.rolePresenter.initView(), "Roles");
+		this.myProjectTab.addTab(this.rolePresenter.initView(),
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
 
 		this.notificationSettingPresenter = PresenterResolver
 				.getPresenter(ProjectNotificationSettingPresenter.class);
-		this.myProjectTab.addTab(this.notificationSettingPresenter.initView(),
-				"Notification Settings");
+		this.myProjectTab
+				.addTab(this.notificationSettingPresenter.initView(),
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.VIEW_NOTIFICATION_SETTINGS));
 
 		this.myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -88,7 +94,9 @@ public class UserSettingViewImpl extends AbstractPageView implements
 						final SimpleProject project = CurrentProjectVariables
 								.getProject();
 
-						if ("Users".equals(caption)) {
+						if (AppContext.getMessage(
+								ProjectCommonI18nEnum.VIEW_USERS).equals(
+								caption)) {
 							final ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
@@ -98,14 +106,19 @@ public class UserSettingViewImpl extends AbstractPageView implements
 									.go(UserSettingViewImpl.this,
 											new ScreenData.Search<ProjectMemberSearchCriteria>(
 													criteria));
-						} else if ("Roles".equals(caption)) {
+						} else if (AppContext.getMessage(
+								ProjectCommonI18nEnum.VIEW_ROLES).equals(
+								caption)) {
 							final ProjectRoleSearchCriteria criteria = new ProjectRoleSearchCriteria();
 							criteria.setProjectId(new NumberSearchField(project
 									.getId()));
 							UserSettingViewImpl.this.rolePresenter.go(
 									UserSettingViewImpl.this,
 									new ProjectRoleScreenData.Search(criteria));
-						} else if ("Notification Settings".equals(caption)) {
+						} else if (AppContext
+								.getMessage(
+										ProjectCommonI18nEnum.VIEW_NOTIFICATION_SETTINGS)
+								.equals(caption)) {
 							notificationSettingPresenter.go(
 									UserSettingViewImpl.this, null);
 						}

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -44,7 +45,8 @@ public class ProjectNotificationSettingPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		UserSettingView userSettingView = (UserSettingView) container;
-		userSettingView.gotoSubView("Notification Settings");
+		userSettingView.gotoSubView(AppContext
+				.getMessage(ProjectCommonI18nEnum.VIEW_NOTIFICATION_SETTINGS));
 
 		ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
 				.getSpringBean(ProjectNotificationSettingService.class);

@@ -26,7 +26,6 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
-import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserPreferenceService;
@@ -59,7 +58,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 	@Override
 	protected void postInitView() {
-		view.addViewListener(new ViewListener<UserEvent.PlainLogin>() {
+		view.addViewListener(new ViewListener<PlainLogin>() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

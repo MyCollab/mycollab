@@ -40,20 +40,19 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.module.crm.events.AccountEvent.GotoRead;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoCalendar;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoTodoList;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.events.CrmEvent;
-import com.esofthead.mycollab.module.crm.events.CrmEvent.GotoHome;
 import com.esofthead.mycollab.module.crm.events.CrmSettingEvent;
-import com.esofthead.mycollab.module.crm.events.CrmSettingEvent.GotoNotificationSetting;
 import com.esofthead.mycollab.module.crm.events.DocumentEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
+import com.esofthead.mycollab.module.crm.events.AccountEvent.GotoRead;
+import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoCalendar;
+import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoTodoList;
+import com.esofthead.mycollab.module.crm.events.CrmEvent.GotoHome;
+import com.esofthead.mycollab.module.crm.events.CrmSettingEvent.GotoNotificationSetting;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.module.crm.view.account.AccountListPresenter;
@@ -129,7 +128,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindCrmEvents() {
-		eventBus.register(new ApplicationEventListener<CrmEvent.GotoHome>() {
+		eventBus.register(new ApplicationEventListener<GotoHome>() {
 
 			@Subscribe
 			@Override

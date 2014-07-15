@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.web;
 
 import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
+import static com.esofthead.mycollab.common.MyCollabSession.EVENT_BUS_VAL;
 
 import java.util.Collection;
 
@@ -255,6 +256,7 @@ public class DesktopApplication extends UI {
 			ViewManager.clearViewCaches();
 			PresenterResolver.clearCaches();
 			ControllerRegistry.reset();
+			MyCollabSession.removeVariable(EVENT_BUS_VAL);
 		}
 	}
 

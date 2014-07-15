@@ -19,10 +19,12 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.ClassUtils;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.view.ProjectView;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectSettingScreenData;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -54,7 +56,8 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
 		if (ClassUtils.instanceOf(data, ProjectRoleScreenData.Search.class,
 				ProjectRoleScreenData.Add.class,
 				ProjectRoleScreenData.Read.class)) {
-			view.gotoSubView("Roles");
+			view.gotoSubView(AppContext
+					.getMessage(ProjectCommonI18nEnum.VIEW_ROLES));
 			presenter = PresenterResolver
 					.getPresenter(ProjectRolePresenter.class);
 		} else if (ClassUtils.instanceOf(data,
@@ -62,12 +65,14 @@ public class UserSettingPresenter extends AbstractPresenter<UserSettingView> {
 				ProjectMemberScreenData.Search.class,
 				ProjectMemberScreenData.Add.class,
 				ProjectMemberScreenData.InviteProjectMembers.class)) {
-			view.gotoSubView("Users");
+			view.gotoSubView(AppContext
+					.getMessage(ProjectCommonI18nEnum.VIEW_USERS));
 			presenter = PresenterResolver
 					.getPresenter(ProjectUserPresenter.class);
 		} else if (ClassUtils.instanceOf(data,
 				ProjectSettingScreenData.ViewNotification.class)) {
-			view.gotoSubView("Notification Settings");
+			view.gotoSubView(AppContext
+					.getMessage(ProjectCommonI18nEnum.VIEW_NOTIFICATION_SETTINGS));
 			presenter = PresenterResolver
 					.getPresenter(ProjectNotificationSettingPresenter.class);
 		} else {

@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.user.events;
 
+import java.io.Serializable;
+
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 
 /**
@@ -26,7 +28,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 @SuppressWarnings("serial")
 public class UserEvent {
 
-	public static class PlainLogin {
+	public static class PlainLogin implements Serializable {
 
 		private String username;
 		private String password;
