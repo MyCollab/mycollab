@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui.table;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.vaadin.tepi.listbuilder.ListBuilder;
@@ -84,11 +85,16 @@ public abstract class CustomizedTableWindow extends Window {
 		this.listBuilder.setRightColumnCaption("View Columns");
 		this.listBuilder.setWidth(100, Sizeable.Unit.PERCENTAGE);
 
-		this.listBuilder.setItemCaptionMode(ItemCaptionMode.PROPERTY);
-		this.listBuilder.setItemCaptionPropertyId("desc");
+		this.listBuilder.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		final BeanItemContainer<TableViewField> container = new BeanItemContainer<TableViewField>(
 				TableViewField.class, this.getAvailableColumns());
 		this.listBuilder.setContainerDataSource(container);
+		Iterator<TableViewField> iterator = getAvailableColumns().iterator();
+		while (iterator.hasNext()) {
+			TableViewField field = iterator.next();
+			this.listBuilder.setItemCaption(field,
+					AppContext.getMessage(field.getDescKey()));
+		}
 		this.setSelectedViewColumns();
 		contentLayout.addComponent(this.listBuilder);
 		contentLayout.setComponentAlignment(listBuilder,

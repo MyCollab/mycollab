@@ -19,13 +19,13 @@ package com.esofthead.mycollab.module.crm.view.setting;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
 import com.esofthead.mycollab.module.crm.view.CrmVerticalTabsheet;
+import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet;
 import com.esofthead.mycollab.vaadin.ui.VerticalTabsheet.TabImpl;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
@@ -39,7 +39,8 @@ import com.vaadin.ui.TabSheet.Tab;
  * 
  */
 @ViewComponent
-public class CrmSettingContainer extends CssLayout implements PageView {
+public class CrmSettingContainer extends AbstractCssPageView implements
+		PageView {
 	private static final long serialVersionUID = 1L;
 
 	private final VerticalTabsheet settingTab;
@@ -61,6 +62,8 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		settingTab.setNavigatorStyleName("sidebar-menu");
 		settingTab.setContainerStyleName("tab-content");
 		settingTab.setHeight(null);
+		this.setVerticalTabsheetFix(true);
+		this.setVerticalTabsheetFixToLeft(false);
 
 		buildComponents();
 		contentWrapper.addComponent(settingTab);
@@ -115,16 +118,6 @@ public class CrmSettingContainer extends CssLayout implements PageView {
 		customViewPresenter = PresenterResolver
 				.getPresenter(ICrmCustomViewPresenter.class);
 		return customViewPresenter.initView();
-	}
-
-	@Override
-	public ComponentContainer getWidget() {
-		return this;
-	}
-
-	@Override
-	public void addViewListener(ViewListener listener) {
-
 	}
 
 	public Component gotoSubView(String viewId) {

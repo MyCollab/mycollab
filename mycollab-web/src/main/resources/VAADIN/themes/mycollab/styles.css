@@ -4193,7 +4193,9 @@ div.v-csslayout.member-block {
 .milestone-view-table {
     width: 100%;
     height: 100%;
-    border: 1px solid #CFCFCF;
+    border-width: 1px 0px 0px;
+    border-style: solid;
+    border-color: #CFCFCF;
 }
 
 .milestone-view-header {

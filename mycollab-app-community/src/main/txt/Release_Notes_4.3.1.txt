@@ -53,6 +53,7 @@
         - Can not save user in some special case
         - Minor bug fixes in inviting project member
         - Can not assign new role to project member
+        - Notification Dialog has useless header
     
     
     Changelog from MyCollab 4.2.0

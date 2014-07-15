@@ -18,9 +18,6 @@ package com.esofthead.mycollab.vaadin.mvp;
 
 import java.io.Serializable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 
@@ -33,9 +30,6 @@ import com.vaadin.ui.CssLayout;
 @SuppressWarnings("serial")
 public abstract class AbstractCssPageView extends CssLayout implements
 		PageView, Serializable {
-
-	private static Logger log = LoggerFactory
-			.getLogger(AbstractCssPageView.class);
 
 	private CssLayout vTabsheetFix;
 	private String vTabsheetFixWidth = "250px";
@@ -87,6 +81,7 @@ public abstract class AbstractCssPageView extends CssLayout implements
 		return this;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void addViewListener(ViewListener listener) {
 		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,

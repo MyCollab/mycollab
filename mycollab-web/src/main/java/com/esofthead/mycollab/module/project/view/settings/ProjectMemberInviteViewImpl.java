@@ -105,7 +105,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		informationLayout.getLayout().setMargin(false);
 		informationLayout.getLayout().addStyleName("colored-gridlayout");
 
-		HorizontalLayout lo = new HorizontalLayout();
+		final HorizontalLayout lo = new HorizontalLayout();
 		lo.setSpacing(true);
 		inviteUserTokenField = new InviteUserTokenField(lo);
 		informationLayout.addComponent(inviteUserTokenField, AppContext
@@ -172,6 +172,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 	private class InviteUserTokenField extends TokenField {
 		private static final long serialVersionUID = 1L;
 
+		private Button newButton;
+
 		public InviteUserTokenField(Layout container) {
 			super(container);
 			this.setInputPrompt(AppContext
@@ -194,6 +196,18 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 			this.setTokenCaptionMode(ItemCaptionMode.PROPERTY);
 			this.setTokenCaptionPropertyId("displayName");
+		}
+
+		@Override
+		protected void configureTokenButton(Object tokenId, Button button) {
+			super.configureTokenButton(tokenId, button);
+			this.newButton = button;
+		}
+
+		@Override
+		protected void setInternalValue(Object newValue) {
+			super.setInternalValue(newValue);
+			((HorizontalLayout) layout).setExpandRatio(newButton, 0);
 		}
 
 		@Override
