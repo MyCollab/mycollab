@@ -95,17 +95,18 @@
 
         <dependency>
             <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${vaadinVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client</artifactId>
             <version>${vaadinVersion}</version>
         </dependency>
 
-<!-- 
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-push</artifactId>
-            <version>${vaadinVersion}</version>
-        </dependency>
--->
+        <!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-push</artifactId> 
+            <version>${vaadinVersion}</version> </dependency> -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
@@ -166,6 +167,12 @@
             <groupId>com.lexaden.components</groupId>
             <artifactId>breadcrumb</artifactId>
             <version>1.7.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.vaadin.addons</groupId>
