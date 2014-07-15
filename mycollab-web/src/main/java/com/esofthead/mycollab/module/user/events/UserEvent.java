@@ -26,46 +26,64 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 @SuppressWarnings("serial")
 public class UserEvent {
 
-    
-	public static class PlainLogin extends ApplicationEvent {
+	public static class PlainLogin {
 
-        public PlainLogin(Object source, Object data) {
-            super(source, data);
-        }
-    }
-    
-    public static class Search extends ApplicationEvent {
+		private String username;
+		private String password;
+		private boolean isRememberMe;
 
-        public Search(Object source, Object data) {
-            super(source, data);
-        }
-    }
-    
-    public static class GotoList extends ApplicationEvent {
+		public PlainLogin(String username, String password, boolean isRememberMe) {
+			this.username = username;
+			this.password = password;
+			this.isRememberMe = isRememberMe;
+		}
 
-        public GotoList(Object source, Object data) {
-            super(source, data);
-        }
-    }
-    
-    public static class GotoAdd extends ApplicationEvent {
+		public String getUsername() {
+			return username;
+		}
 
-        public GotoAdd(Object source, Object data) {
-            super(source, data);
-        }
-    }
+		public String getPassword() {
+			return password;
+		}
 
-    public static class GotoRead extends ApplicationEvent {
+		public boolean isRememberMe() {
+			return isRememberMe;
+		}
 
-        public GotoRead(Object source, Object data) {
-            super(source, data);
-        }
-    }
+	}
 
-    public static class GotoEdit extends ApplicationEvent {
+	public static class Search extends ApplicationEvent {
 
-        public GotoEdit(Object source, Object data) {
-            super(source, data);
-        }
-    }
+		public Search(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoList extends ApplicationEvent {
+
+		public GotoList(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoAdd extends ApplicationEvent {
+
+		public GotoAdd(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoRead extends ApplicationEvent {
+
+		public GotoRead(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoEdit extends ApplicationEvent {
+
+		public GotoEdit(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

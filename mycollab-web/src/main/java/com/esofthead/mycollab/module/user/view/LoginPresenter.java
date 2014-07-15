@@ -64,9 +64,9 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 
 			@Override
 			public void initView(ViewEvent<PlainLogin> event) {
-				PlainLogin loginData = (PlainLogin) event.getData();
-				String[] data = (String[]) loginData.getData();
-				doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+				PlainLogin data = (PlainLogin) event.getData();
+				doLogin(data.getUsername(), data.getPassword(),
+						data.isRememberMe());
 			}
 		});
 	}

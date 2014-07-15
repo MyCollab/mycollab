@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.events;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
@@ -29,16 +30,15 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class ProjectMemberEvent {
 
-	public static class InviteProjectMembers extends ApplicationEvent {
+	public static class InviteProjectMembers implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		private List<String> inviteEmails;
 		private Integer roleId;
 		private String inviteMessage;
 
-		public InviteProjectMembers(Object source, List<String> emails,
-				Integer roleId, String inviteMessage) {
-			super(source, null);
+		public InviteProjectMembers(List<String> emails, Integer roleId,
+				String inviteMessage) {
 			this.inviteEmails = emails;
 			this.roleId = roleId;
 			this.inviteMessage = inviteMessage;

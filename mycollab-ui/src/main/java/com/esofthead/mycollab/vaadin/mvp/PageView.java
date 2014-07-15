@@ -49,8 +49,8 @@ public interface PageView extends ComponentContainer, CacheableComponent {
 
 		public static final String VIEW_IDENTIFIER = "viewevent";
 
-		public ViewEvent(E data) {
-			super(null, data);
+		public ViewEvent(Object source, E data) {
+			super(source, data);
 		}
 	}
 }

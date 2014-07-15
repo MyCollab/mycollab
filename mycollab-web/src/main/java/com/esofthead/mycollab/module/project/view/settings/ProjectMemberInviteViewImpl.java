@@ -28,8 +28,10 @@ import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.module.project.events.ProjectMemberEvent.InviteProjectMembers;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.view.ProjectViewImpl;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -135,11 +137,10 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 					@Override
 					public void buttonClick(ClickEvent event) {
 						roleId = (Integer) roleComboBox.getValue();
-						ProjectMemberInviteViewImpl.this
-								.fireEvent(new ProjectMemberEvent.InviteProjectMembers(
-										ProjectMemberInviteViewImpl.this,
-										inviteEmails, roleId, messageArea
-												.getValue()));
+						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteProjectMembers>(
+								ProjectMemberInviteViewImpl.this,
+								new InviteProjectMembers(inviteEmails, roleId,
+										messageArea.getValue())));
 
 					}
 				});

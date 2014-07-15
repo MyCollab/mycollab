@@ -52,6 +52,7 @@
     Bug Fixes
         - Can not save user in some special case
         - Minor bug fixes in inviting project member
+        - Can not assign new role to project member
     
     
     Changelog from MyCollab 4.2.0

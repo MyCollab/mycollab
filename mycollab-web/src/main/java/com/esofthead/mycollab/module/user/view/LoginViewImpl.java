@@ -20,6 +20,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.GenericServerRunner;
 import com.esofthead.mycollab.module.user.events.UserEvent;
+import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -85,12 +86,11 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 							custom.removeComponent("customErrorMsg");
 
 							LoginViewImpl.this
-									.fireEvent(new UserEvent.PlainLogin(
-											LoginViewImpl.this, new String[] {
+									.fireEvent(new ViewEvent<PlainLogin>(
+											LoginViewImpl.this, new PlainLogin(
 													usernameField.getValue(),
 													passwordField.getValue(),
-													String.valueOf(rememberMe
-															.getValue()) }));
+													rememberMe.getValue())));
 						} catch (MyCollabException e) {
 							custom.addComponent(new Label(e.getMessage()),
 									"customErrorMsg");
@@ -116,11 +116,11 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
 						custom.removeComponent("customErrorMsg");
 
-						LoginViewImpl.this.fireEvent(new UserEvent.PlainLogin(
-								LoginViewImpl.this, new String[] {
-										usernameField.getValue(),
-										passwordField.getValue(),
-										String.valueOf(rememberMe.getValue()) }));
+						LoginViewImpl.this.fireEvent(new ViewEvent<PlainLogin>(
+								LoginViewImpl.this, new PlainLogin(
+										usernameField.getValue(), passwordField
+												.getValue(), rememberMe
+												.getValue())));
 					} catch (MyCollabException e) {
 						custom.addComponent(new Label(e.getMessage()),
 								"customErrorMsg");
