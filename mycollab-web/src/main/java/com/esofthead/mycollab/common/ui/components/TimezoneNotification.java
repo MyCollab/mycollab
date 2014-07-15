@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.common.ui.components;
 
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Span;
@@ -43,7 +43,7 @@ public class TimezoneNotification extends AbstractNotification {
 		Span spanEl = new Span();
 		spanEl.appendText(getMessage());
 
-		A link = new A(AccountLinkUtils.generatePreviewFullUserLink(
+		A link = new A(AccountLinkGenerator.generatePreviewFullUserLink(
 				AppContext.getSiteUrl(), AppContext.getSession().getUsername()));
 		link.appendText("here");
 		spanEl.appendChild(link);

@@ -47,7 +47,7 @@ import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingS
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -296,7 +296,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						task.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(task.getSaccountid()),
 						task.getAssignuser());
 				A link = TagBuilder
@@ -320,7 +320,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);

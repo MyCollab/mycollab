@@ -35,7 +35,7 @@ import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.mail.MailUtils;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -210,7 +210,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(simpleCase.getSaccountid()),
 						simpleCase.getAssignuser());
 				A link = TagBuilder.newA(userLink,
@@ -235,7 +235,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);

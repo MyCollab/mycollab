@@ -119,7 +119,7 @@ public class OpportunityAddPresenter extends
 		}
 	}
 
-	public void saveOpportunity(Opportunity opportunity) {
+	private void saveOpportunity(Opportunity opportunity) {
 		OpportunityService opportunityService = ApplicationContextUtil
 				.getSpringBean(OpportunityService.class);
 

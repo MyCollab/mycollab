@@ -18,8 +18,7 @@
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
-import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfileFormLayoutFactory;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -69,7 +68,8 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 		header.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		header.setSpacing(true);
 		header.setMargin(new MarginInfo(true, false, true, false));
-		header.addComponent(new Image(null, MyCollabResource.newResource("icons/24/project/user.png")));
+		header.addComponent(new Image(null, MyCollabResource
+				.newResource("icons/24/project/user.png")));
 
 		Label headerText = new Label("Detail User");
 		headerText.setSizeUndefined();
@@ -84,7 +84,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 		this.addComponent(previewForm);
 
 		Layout controlButtons = createTopPanel();
-		if(controlButtons != null) {
+		if (controlButtons != null) {
 			header.addComponent(controlButtons);
 		}
 	}
@@ -93,7 +93,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 		PreviewFormControlsGenerator<User> previewForm = new PreviewFormControlsGenerator<User>(
 				this.previewForm);
 		previewForm
-		.createButtonControls(RolePermissionCollections.ACCOUNT_USER);
+				.createButtonControls(RolePermissionCollections.ACCOUNT_USER);
 		previewForm.removeCloneButton();
 		return previewForm.getLayout();
 	}
@@ -130,10 +130,10 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 								&& user.getIsAccountOwner() == Boolean.TRUE) {
 							return new FormViewField("Account Owner");
 						} else {
-							FormLinkViewField roleLink = 
-							new FormLinkViewField(user.getRoleName(),
-									ProjectLinkBuilder.generateRolePreviewFullLink(CurrentProjectVariables.getProjectId()
-											, user.getRoleid()),null);
+							FormLinkViewField roleLink = new FormLinkViewField(
+									user.getRoleName(), AccountLinkBuilder
+											.generatePreviewFullRoleLink(user
+													.getRoleid()));
 							return roleLink;
 						}
 					} else if (propertyId.equals("website")) {
@@ -145,7 +145,7 @@ public class UserReadViewImpl extends AbstractPageView implements UserReadView {
 					} else if (propertyId.equals("timezone")) {
 						return new DefaultFormViewFieldFactory.FormViewField(
 								TimezoneMapper.getTimezone(user.getTimezone())
-								.getDisplayName());
+										.getDisplayName());
 					} else if (propertyId.equals("facebookaccount")) {
 						return new DefaultFormViewFieldFactory.FormUrlSocialNetworkLinkViewField(
 								user.getFacebookaccount(),

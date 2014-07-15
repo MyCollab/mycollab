@@ -132,7 +132,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddView> {
 		}
 	}
 
-	public void saveCampaign(CampaignWithBLOBs campaign) {
+	private void saveCampaign(CampaignWithBLOBs campaign) {
 		CampaignService campaignService = ApplicationContextUtil
 				.getSpringBean(CampaignService.class);
 

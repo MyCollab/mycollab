@@ -42,7 +42,7 @@ import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -242,7 +242,7 @@ public class ActivityStreamPanel extends CssLayout {
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
 			userLink.setId("crmusertagA" + uid);
-			userLink.setHref(AccountLinkUtils.generatePreviewFullUserLink(
+			userLink.setHref(AccountLinkGenerator.generatePreviewFullUserLink(
 					AppContext.getSiteUrl(), activityStream.getCreateduser()));
 
 			String arg3 = "'" + uid + "'";

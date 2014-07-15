@@ -43,7 +43,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.ReportTemplateFactory;
 import com.esofthead.mycollab.reporting.expression.DateExpression;
@@ -90,7 +90,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -162,7 +162,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -188,7 +188,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -231,7 +231,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -272,7 +272,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -363,7 +363,7 @@ public class CrmColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 

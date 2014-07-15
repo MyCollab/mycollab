@@ -33,7 +33,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.module.project.LabelLink;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
@@ -423,7 +423,7 @@ public class ActivityTableDisplay
 									"width: 150px;word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 									.appendChild(
 											new A().setHref(
-													(event.getAssignUser() != null) ? AccountLinkUtils
+													(event.getAssignUser() != null) ? AccountLinkGenerator
 															.generatePreviewFullUserLink(
 																	AppContext
 																			.getSiteUrl(),

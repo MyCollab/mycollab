@@ -99,13 +99,13 @@
             <version>${vaadinVersion}</version>
         </dependency>
 
-
+<!-- 
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-push</artifactId>
             <version>${vaadinVersion}</version>
         </dependency>
-
+-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>

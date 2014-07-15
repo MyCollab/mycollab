@@ -133,7 +133,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 		}
 	}
 
-	public void saveAccount(Account account) {
+	private void saveAccount(Account account) {
 		AccountService accountService = ApplicationContextUtil
 				.getSpringBean(AccountService.class);
 

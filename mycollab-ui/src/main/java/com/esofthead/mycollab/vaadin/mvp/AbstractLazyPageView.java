@@ -56,9 +56,9 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 				@Override
 				public void run() {
 					displayView();
+					UI.getCurrent().setPollInterval(-1);
 					progressIndicator.close();
 					progressIndicator = null;
-					UI.getCurrent().setPollInterval(-1);
 					isRunning = false;
 				}
 

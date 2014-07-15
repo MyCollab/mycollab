@@ -69,7 +69,7 @@
     <servlet>
         <servlet-name>MyCollabApplication</servlet-name>
         <servlet-class>com.esofthead.mycollab.vaadin.MyCollabServlet</servlet-class>
-        <async-supported>true</async-supported>
+        <async-supported>false</async-supported>
     </servlet>
 
     <servlet-mapping>

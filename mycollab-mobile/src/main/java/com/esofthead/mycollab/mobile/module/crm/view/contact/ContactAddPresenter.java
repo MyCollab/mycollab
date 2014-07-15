@@ -119,7 +119,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 		}
 	}
 
-	public void saveContact(Contact contact) {
+	private void saveContact(Contact contact) {
 		ContactService contactService = ApplicationContextUtil
 				.getSpringBean(ContactService.class);
 

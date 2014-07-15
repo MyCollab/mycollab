@@ -34,7 +34,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -247,7 +247,7 @@ public class AccountCaseListComp extends
 
 			Label caseAssignUser = new Label("Assigned User: "
 					+ (oneCase.getAssignuser() != null ? "<a href='"
-							+ AccountLinkUtils.generatePreviewFullUserLink(
+							+ AccountLinkGenerator.generatePreviewFullUserLink(
 									SiteConfiguration.getSiteUrl(AppContext
 											.getSession().getSubdomain()),
 									oneCase.getAssignuser()) + "'>"

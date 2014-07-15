@@ -120,7 +120,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 
 	}
 
-	public void saveLead(Lead lead) {
+	private void saveLead(Lead lead) {
 		LeadService leadService = ApplicationContextUtil
 				.getSpringBean(LeadService.class);
 

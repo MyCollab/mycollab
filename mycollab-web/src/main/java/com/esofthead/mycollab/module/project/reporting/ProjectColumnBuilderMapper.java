@@ -44,7 +44,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
 import com.esofthead.mycollab.reporting.expression.CompBuilderValue;
 import com.esofthead.mycollab.reporting.expression.DateExpression;
@@ -113,7 +113,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -154,7 +154,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignuser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -198,7 +198,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 			public String evaluate(ReportParameters reportParameters) {
 				String assignUser = reportParameters.getFieldValue("userlead");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -264,7 +264,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assigntouser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -339,7 +339,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assigntouser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -419,7 +419,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 			public String evaluate(ReportParameters reportParameters) {
 				String assignUser = reportParameters.getFieldValue("loguser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 
@@ -563,7 +563,7 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 				String assignUser = reportParameters
 						.getFieldValue("assignUser");
 				if (assignUser != null) {
-					return AccountLinkUtils.generatePreviewFullUserLink(
+					return AccountLinkGenerator.generatePreviewFullUserLink(
 							AppContext.getSiteUrl(), assignUser);
 				}
 

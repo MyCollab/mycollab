@@ -36,7 +36,7 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
-import com.esofthead.mycollab.module.user.AccountLinkUtils;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
@@ -160,7 +160,7 @@ public class ComponentRelayEmailNotificationActionImpl extends
 						component.getUserLeadAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(component.getSaccountid()),
 						component.getUserlead());
 				A link = TagBuilder.newA(userLink,
@@ -184,7 +184,7 @@ public class ComponentRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkUtils.generatePreviewFullUserLink(
+				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
 						MailUtils.getSiteUrl(user.getAccountId()),
 						user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
