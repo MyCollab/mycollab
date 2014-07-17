@@ -27,6 +27,8 @@ import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -121,13 +123,15 @@ public class ProjectMembersWidget extends Depot {
 			String textRole = "";
 			if (member.getIsadmin() != null
 					&& member.getIsadmin() == Boolean.TRUE) {
-				textRole = "<span style=\"color: #b00000;\"> Project Admin </span>";
+				textRole = AppContext
+						.getMessage(ProjectRoleI18nEnum.OPT_ADMIN_ROLE_DISPLAY);
 			} else {
 				textRole = member.getRoleName();
 			}
-			textRole += "<br/><span>Joined from "
-					+ DateTimeUtils.getStringDateFromNow(member.getJoindate(),
-							AppContext.getUserLocale()) + "</span>";
+			textRole += AppContext.getMessage(
+					ProjectMemberI18nEnum.OPT_MEMBER_JOIN_DATE, DateTimeUtils
+							.getStringDateFromNow(member.getJoindate(),
+									AppContext.getUserLocale()));
 			memberRole.setValue(textRole);
 
 			footer.addComponent(memberRole);

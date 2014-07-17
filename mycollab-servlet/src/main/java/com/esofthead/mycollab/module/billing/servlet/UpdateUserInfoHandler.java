@@ -49,9 +49,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("updateUserInfoServlet")
-public class UpdateUserInfoAction extends GenericServletRequestHandler {
+public class UpdateUserInfoHandler extends GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
-			.getLogger(UpdateUserInfoAction.class);
+			.getLogger(UpdateUserInfoHandler.class);
 
 	@Autowired
 	private UserMapper userMapper;

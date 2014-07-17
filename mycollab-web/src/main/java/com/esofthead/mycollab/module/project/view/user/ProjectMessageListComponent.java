@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -81,11 +82,10 @@ public class ProjectMessageListComponent extends Depot {
 
 			final CssLayout body = new CssLayout();
 			body.setStyleName("activity-date");
-			final Label dateLbl = new Label(
-					"From "
-							+ DateTimeUtils.getStringDateFromNow(
-									message.getPosteddate(),
-									AppContext.getUserLocale()));
+			final Label dateLbl = new Label(AppContext.getMessage(
+					MessageI18nEnum.OPT_FROM_TIME_ENTRY, DateTimeUtils
+							.getStringDateFromNow(message.getPosteddate(),
+									AppContext.getUserLocale())));
 			body.addComponent(dateLbl);
 
 			layout.addComponent(body);
@@ -98,7 +98,8 @@ public class ProjectMessageListComponent extends Depot {
 	private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
 
 	public ProjectMessageListComponent() {
-		super("Latest News", new VerticalLayout());
+		super(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS),
+				new VerticalLayout());
 
 		messageList = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
 				ApplicationContextUtil.getSpringBean(MessageService.class),

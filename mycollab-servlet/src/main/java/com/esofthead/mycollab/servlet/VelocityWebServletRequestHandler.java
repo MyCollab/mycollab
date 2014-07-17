@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.billing.servlet.AcceptInvitationAction;
+import com.esofthead.mycollab.module.billing.servlet.AcceptInvitationHandler;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
 
@@ -49,11 +49,11 @@ public abstract class VelocityWebServletRequestHandler extends
 			Map<String, Object> params) {
 		Reader reader = null;
 		try {
-			reader = new InputStreamReader(AcceptInvitationAction.class
+			reader = new InputStreamReader(AcceptInvitationHandler.class
 					.getClassLoader().getResourceAsStream(templatePath),
 					"UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(AcceptInvitationAction.class
+			reader = new InputStreamReader(AcceptInvitationHandler.class
 					.getClassLoader().getResourceAsStream(templatePath));
 		}
 

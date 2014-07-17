@@ -93,10 +93,8 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				NotificationUtil.showRecordNotExistNotification();
 			} else {
 				CurrentProjectVariables.setProject(project);
+				view.initView(project);
 			}
-
-			view.initView(project);
-
 		}
 	}
 

@@ -84,7 +84,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 						hideEmailStr = "***"
 								+ hideEmailStr.substring(hideEmailStr
 										.indexOf("@") - 1);
-						String remindStr = "An email for recovery password has sent to your email-address: "
+						String remindStr = "An email for reset password has sent to you: "
 								+ hideEmailStr;
 
 						RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();

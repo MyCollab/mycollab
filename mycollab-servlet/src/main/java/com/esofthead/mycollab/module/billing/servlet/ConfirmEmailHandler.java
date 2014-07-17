@@ -40,8 +40,7 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * 
  */
 @Component("userconfirmsignupServlet")
-public class ConfirmEmailAction extends
-		GenericServletRequestHandler {
+public class ConfirmEmailHandler extends GenericServletRequestHandler {
 
 	@Autowired
 	private UserService userServices;

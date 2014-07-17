@@ -53,10 +53,10 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("acceptUserInvitationServlet")
-public class AcceptInvitationAction extends VelocityWebServletRequestHandler {
+public class AcceptInvitationHandler extends VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(AcceptInvitationAction.class);
+			.getLogger(AcceptInvitationHandler.class);
 
 	@Autowired
 	private UserService userService;

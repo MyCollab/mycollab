@@ -905,6 +905,10 @@ input.v-textfield-pagedtable-pagefield {
     padding: 0px 15px;
 }
 
+.v-ie .v-popupbutton.topNavPopup:active .v-button-wrap, .v-ie .v-popupbutton.topNavPopup:focus .v-button-wrap {
+	padding: 2px 5px;
+}
+
 .v-popupbutton-popup-topNavPopup .link,.v-popupbutton-popup-topNavPopup div.v-button-link,.v-popupbutton-popup-topNavPopup div.v-button-link:focus
     {
     padding: 10px 0px;
@@ -1053,7 +1057,7 @@ input.v-textfield-pagedtable-pagefield {
 /* End Basic Search Template */
 
 /* CRM Service */
-.crm-module, .crm-module .crmContainer-wrap {
+.crm-module, .crm-module .crmContainer {
     position: absolute;
     top: 0;
     left: 0;
@@ -6849,7 +6853,7 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
-	background-color: #7B7B7B;
+	background-color: #6C6C6C;
 }
 .verticaltabsheet-fix.is-left {
 	left: 0px;

@@ -44,8 +44,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("recoverUserPasswordServlet")
-public class RecoverPasswordUpdatePage extends
-		VelocityWebServletRequestHandler {
+public class RecoverPasswordUpdatePage extends VelocityWebServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(RecoverPasswordUpdatePage.class);
@@ -90,10 +89,6 @@ public class RecoverPasswordUpdatePage extends
 						"Can not recover user password with context "
 								+ pathInfo);
 			}
-		} catch (IndexOutOfBoundsException e) {
-			throw new ResourceNotFoundException(e);
-		} catch (ResourceNotFoundException e) {
-			throw e;
 		} catch (Exception e) {
 			log.error("Error with userService", e);
 			throw new MyCollabException(e);
