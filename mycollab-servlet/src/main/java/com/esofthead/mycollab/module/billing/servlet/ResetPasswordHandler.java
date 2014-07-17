@@ -17,28 +17,24 @@
 package com.esofthead.mycollab.module.billing.servlet;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.InvalidPasswordException;
 import com.esofthead.mycollab.core.utils.PasswordCheckerUtil;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
-import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -47,14 +43,14 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("updateUserPasswordServlet")
-public class RecoverPasswordUpdateAction extends GenericServletRequestHandler {
-	private static Logger log = LoggerFactory
-			.getLogger(RecoverPasswordUpdateAction.class);
+public class ResetPasswordHandler extends GenericServletRequestHandler {
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String errMsg = "";
 
 		String username = request.getParameter("username");
 
@@ -66,21 +62,16 @@ public class RecoverPasswordUpdateAction extends GenericServletRequestHandler {
 			throw new UserInvalidInputException(e.getMessage());
 		}
 
-		SimpleUser simpleUser = new SimpleUser();
-		simpleUser.setPassword(PasswordEncryptHelper
-				.encryptSaltPassword(password));
-		simpleUser.setRegisterstatus(RegisterStatusConstants.ACTIVE);
-		simpleUser.setUsername(username);
+		User user = userService.findUserByUserName(username);
+		if (user == null) {
+			throw new UserInvalidInputException(LocalizationHelper.getMessage(
+					SiteConfiguration.getDefaultLocale(),
+					WebExceptionI18nEnum.ERROR_USER_IS_NOT_EXISTED, username));
+		} else {
+			user.setPassword(PasswordEncryptHelper
+					.encryptSaltPassword(password));
 
-		try {
-			UserService userService = ApplicationContextUtil
-					.getSpringBean(UserService.class);
-			userService.updateWithSession(simpleUser, username);
-		} catch (Exception e) {
-			log.error("Error with update userService", e);
-			errMsg = LocalizationHelper.getMessage(Locale.US,
-					GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE);
-			throw new MyCollabException(errMsg);
+			userService.updateWithSession(user, username);
 		}
 	}
 }

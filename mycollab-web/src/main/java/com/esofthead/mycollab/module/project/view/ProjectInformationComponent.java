@@ -75,7 +75,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 		this.projectInfoFooter.setMargin(true);
 		this.projectInfoFooter.setStyleName(UIConstants.PROJECT_INFO_FOOTER);
 		final Button toggleBtn = new Button(
-				AppContext.getMessage(ProjectI18nEnum.BUTTON_MORE));
+				AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
 		toggleBtn.addClickListener(new Button.ClickListener() {
 
 			private static final long serialVersionUID = 1L;
@@ -89,11 +89,11 @@ public class ProjectInformationComponent extends VerticalLayout {
 				if (ProjectInformationComponent.this.prjDisplay instanceof BasicProjectInformation) {
 					ProjectInformationComponent.this.prjDisplay = new DetailProjectInformation();
 					event.getButton().setCaption(
-							AppContext.getMessage(ProjectI18nEnum.BUTTON_LESS));
+							AppContext.getMessage(GenericI18Enum.BUTTON_LESS));
 				} else {
 					ProjectInformationComponent.this.prjDisplay = new BasicProjectInformation();
 					event.getButton().setCaption(
-							AppContext.getMessage(ProjectI18nEnum.BUTTON_MORE));
+							AppContext.getMessage(GenericI18Enum.BUTTON_MORE));
 				}
 				ProjectInformationComponent.this.addComponent(
 						ProjectInformationComponent.this.prjDisplay,

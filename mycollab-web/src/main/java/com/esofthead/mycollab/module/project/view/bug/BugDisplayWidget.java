@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
@@ -25,6 +26,7 @@ import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.Depot;
@@ -70,17 +72,21 @@ public abstract class BugDisplayWidget extends Depot {
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		final int displayItemsCount = dataList.setSearchRequest(searchRequest);
 		if (displayItemsCount == BugDisplayWidget.MAX_ITEM_DISPLAY) {
-			moreBtn = new Button("More", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			moreBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new BugEvent.GotoList(BugDisplayWidget.this,
-									new BugScreenData.Search(
-											constructMoreDisplayFilter())));
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory
+									.getInstance()
+									.post(new BugEvent.GotoList(
+											BugDisplayWidget.this,
+											new BugScreenData.Search(
+													constructMoreDisplayFilter())));
+						}
+					});
 			moreBtn.setStyleName(UIConstants.THEME_BLANK_LINK);
 			final VerticalLayout widgetFooter = new VerticalLayout();
 			widgetFooter.addStyleName("widget-footer");

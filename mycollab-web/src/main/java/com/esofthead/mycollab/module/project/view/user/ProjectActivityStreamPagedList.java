@@ -32,6 +32,7 @@ import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteri
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
@@ -43,8 +44,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -158,7 +157,7 @@ public class ProjectActivityStreamPagedList
 
 	private String buildAssigneeValue(SimpleActivityStream activityStream,
 			String uid) {
-		Div div = new Div();
+		DivLessFormatter div = new DivLessFormatter();
 		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(
 				activityStream.getCreatedUserAvatarId(), 16));
 		A userLink = new A();
@@ -200,12 +199,12 @@ public class ProjectActivityStreamPagedList
 
 		div.appendChild(userAvatar, userLink, div1);
 
-		return write(div);
+		return div.write();
 	}
 
 	private String buildItemValue(SimpleActivityStream activityStream,
 			String uid) {
-		Div div = new Div();
+		DivLessFormatter div = new DivLessFormatter();
 		Img image = new Img("", ProjectResources.getResourceLink(activityStream
 				.getType()));
 		A itemLink = new A();
@@ -248,17 +247,7 @@ public class ProjectActivityStreamPagedList
 		div13.appendChild(div14);
 
 		div.appendChild(image, itemLink, div1);
-		return write(div);
-	}
-
-	private static String write(Div div) {
-		StringBuffer b = new StringBuffer();
-		if ((div.children != null) && (div.children.size() > 0)) {
-			for (Node child : div.children) {
-				b.append(child.write());
-			}
-		}
-		return b.toString();
+		return div.write();
 	}
 
 	protected void feedBlocksPut(Date currentDate, Date nextDate,

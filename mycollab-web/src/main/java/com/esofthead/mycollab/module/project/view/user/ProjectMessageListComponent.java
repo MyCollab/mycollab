@@ -20,6 +20,7 @@ import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
@@ -32,6 +33,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DefaultBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -64,16 +67,7 @@ public class ProjectMessageListComponent extends Depot {
 
 			final String content = AppContext.getMessage(
 					ProjectCommonI18nEnum.FEED_PROJECT_MESSAGE_TITLE,
-					SiteConfiguration.getAvatarLink(
-							message.getPostedUserAvatarId(), 16),
-					ProjectLinkBuilder.generateProjectMemberFullLink(
-							message.getProjectid(), message.getPosteduser()),
-					message.getFullPostedUserName(), MyCollabResource
-							.newResourceLink("icons/16/project/message.png"),
-					ProjectLinkBuilder.generateMessagePreviewFullLink(
-							message.getProjectid(), message.getId(),
-							GenericLinkUtils.URL_PREFIX_PARAM), message
-							.getTitle());
+					buildAssigneeValue(message), buildMessage(message));
 			final Label actionLbl = new Label(content, ContentMode.HTML);
 
 			header.addComponent(actionLbl);
@@ -90,6 +84,33 @@ public class ProjectMessageListComponent extends Depot {
 
 			layout.addComponent(body);
 			return layout;
+		}
+
+		private String buildAssigneeValue(SimpleMessage message) {
+			DivLessFormatter div = new DivLessFormatter();
+			Img avatar = new Img("", SiteConfiguration.getAvatarLink(
+					message.getPostedUserAvatarId(), 16));
+			A assigneeLink = new A();
+			assigneeLink.setHref(ProjectLinkBuilder
+					.generateProjectMemberFullLink(message.getProjectid(),
+							message.getPosteduser()));
+			assigneeLink.appendText(message.getFullPostedUserName());
+			div.appendChild(avatar, assigneeLink);
+			return div.write();
+		}
+
+		private String buildMessage(SimpleMessage message) {
+			DivLessFormatter div = new DivLessFormatter();
+			Img messageIcon = new Img("",
+					MyCollabResource
+							.newResourceLink("icons/16/project/message.png"));
+			A msgLink = new A();
+			msgLink.setHref(ProjectLinkBuilder.generateMessagePreviewFullLink(
+					message.getProjectid(), message.getId(),
+					GenericLinkUtils.URL_PREFIX_PARAM));
+			msgLink.appendText(message.getTitle());
+			div.appendChild(messageIcon, msgLink);
+			return div.write();
 		}
 	}
 

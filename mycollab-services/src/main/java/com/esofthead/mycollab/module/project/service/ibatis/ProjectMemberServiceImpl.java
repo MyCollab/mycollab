@@ -185,6 +185,9 @@ public class ProjectMemberServiceImpl extends
 		log.debug("Assign guest role for this user {}", email);
 		Integer systemGuestRoleId = roleService.getSystemRoleId(
 				SimpleRole.GUEST, sAccountId);
+		if (systemGuestRoleId == null) {
+			log.error("Can not find guess role for account {}", sAccountId);
+		}
 
 		UserAccount userAccount = new UserAccount();
 		userAccount.setUsername(email);

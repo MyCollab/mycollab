@@ -20,6 +20,7 @@ package com.esofthead.mycollab.common.ui.components;
 import java.util.List;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -94,11 +95,11 @@ public class CommentRowDisplayHandler implements
 		messageHeader.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		messageHeader.setSpacing(true);
 
-		Label timePostLbl = new Label("<span class=\"post-owner\"><b>"
-				+ comment.getOwnerFullName()
-				+ "</b>&nbsp;added a comment</span>&nbsp;-&nbsp;"
-				+ DateTimeUtils.getStringDateFromNow(comment.getCreatedtime(),
-						AppContext.getUserLocale()), ContentMode.HTML);
+		Label timePostLbl = new Label(AppContext.getMessage(
+				GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
+				DateTimeUtils.getStringDateFromNow(comment.getCreatedtime(),
+						AppContext.getUserLocale())), ContentMode.HTML);
+
 		timePostLbl.setSizeUndefined();
 		timePostLbl.setStyleName("time-post");
 		messageHeader.addComponent(timePostLbl);

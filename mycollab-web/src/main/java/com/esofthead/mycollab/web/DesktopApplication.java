@@ -55,7 +55,6 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.server.Page;
 import com.vaadin.server.Page.UriFragmentChangedEvent;
 import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.VaadinRequest;
@@ -277,8 +276,8 @@ public class DesktopApplication extends UI {
 
 		if (loginView.getParent() == null
 				|| loginView.getParent() == mainWindowContainer) {
-			((MainWindowContainer) mainWindowContainer).setAutoLogin(false);
-			((MainWindowContainer) mainWindowContainer).setContent(loginView);
+			mainWindowContainer.setAutoLogin(false);
+			mainWindowContainer.setContent(loginView);
 		} else {
 			presenter.go(mainWindowContainer, null);
 		}
@@ -297,12 +296,7 @@ public class DesktopApplication extends UI {
 		cookie.setPath("/");
 		cookie.setMaxAge(60 * 60 * 24 * 7);
 
-		Page.getCurrent()
-				.getJavaScript()
-				.execute(
-						String.format(
-								"document.cookie = '%s=%s; expires=%s;';",
-								"mycollab", storeVal, 60 * 60 * 24 * 7 + ""));
+		VaadinService.getCurrentResponse().addCookie(cookie);
 	}
 
 	public void unsetRememberPassword() {
@@ -311,12 +305,7 @@ public class DesktopApplication extends UI {
 		if (cookie != null) {
 			cookie.setValue("");
 			cookie.setMaxAge(0);
-			Page.getCurrent()
-					.getJavaScript()
-					.execute(
-							String.format(
-									"document.cookie = '%s=%s; expires=%s;';",
-									"mycollab", "", "0"));
+			VaadinService.getCurrentResponse().addCookie(cookie);
 		}
 	}
 

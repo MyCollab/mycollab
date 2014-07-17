@@ -32,6 +32,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
@@ -40,8 +41,6 @@ import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStream
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
@@ -169,7 +168,7 @@ public class ActivityStreamComponent extends CssLayout {
 
 		private String buildAssigneeValue(ProjectActivityStream activityStream,
 				String uid) {
-			Div div = new Div();
+			DivLessFormatter div = new DivLessFormatter();
 			Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
@@ -212,12 +211,12 @@ public class ActivityStreamComponent extends CssLayout {
 			div12.appendChild(div13);
 
 			div.appendChild(userAvatar, userLink, div1);
-			return write(div);
+			return div.write();
 		}
 
 		private String buildItemValue(ProjectActivityStream activityStream,
 				String uid) {
-			Div div = new Div();
+			DivLessFormatter div = new DivLessFormatter();
 			Img itemImg = new Img("",
 					ProjectResources.getResourceLink(activityStream.getType()));
 			A itemLink = new A();
@@ -242,12 +241,12 @@ public class ActivityStreamComponent extends CssLayout {
 			itemLink.appendText(activityStream.getNamefield());
 
 			div.appendChild(itemImg, itemLink);
-			return write(div);
+			return div.write();
 		}
 
 		private String buildProjectValue(ProjectActivityStream activityStream,
 				String uid) {
-			Div div = new Div();
+			DivLessFormatter div = new DivLessFormatter();
 			Img prjImg = new Img("",
 					MyCollabResource
 							.newResourceLink("icons/16/project/project.png"));
@@ -276,17 +275,7 @@ public class ActivityStreamComponent extends CssLayout {
 
 			div.appendChild(prjImg, prjLink, div1);
 
-			return write(div);
-		}
-
-		private static String write(Div div) {
-			StringBuffer b = new StringBuffer();
-			if ((div.children != null) && (div.children.size() > 0)) {
-				for (Node child : div.children) {
-					b.append(child.write());
-				}
-			}
-			return b.toString();
+			return div.write();
 		}
 
 		@Override

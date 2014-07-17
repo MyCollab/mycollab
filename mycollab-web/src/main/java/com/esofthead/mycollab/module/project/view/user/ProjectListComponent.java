@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -31,7 +32,6 @@ import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.ProjectAddWindow;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -178,7 +178,7 @@ public class ProjectListComponent extends VerticalLayout {
 				final MyProjectListWindow projectListWindow = new MyProjectListWindow();
 
 				Button showMoreBtn = new Button(
-						AppContext.getMessage(ProjectI18nEnum.BUTTON_MORE),
+						AppContext.getMessage(GenericI18Enum.BUTTON_MORE),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = -2178412846807704534L;
 

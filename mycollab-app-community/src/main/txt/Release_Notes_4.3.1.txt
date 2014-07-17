@@ -54,6 +54,8 @@
         - Minor bug fixes in inviting project member
         - Can not assign new role to project member
         - Notification Dialog has useless header
+        - Minor UI bugs on IE
+        - Can not 'remember password' in IE
     
     
     Changelog from MyCollab 4.2.0

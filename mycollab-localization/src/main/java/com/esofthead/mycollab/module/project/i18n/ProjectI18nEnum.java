@@ -23,9 +23,6 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/project")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProjectI18nEnum {
-	BUTTON_MORE,
-	BUTTON_LESS,
-	
 	DIALOG_NEW_PROJECT_TITLE,
 	
 	FORM_HOME_PAGE,

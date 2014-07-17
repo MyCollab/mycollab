@@ -21,7 +21,8 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/common/webexception")
-@LocaleData({ @Locale("en_US") })
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum WebExceptionI18nEnum {
-	SUB_DOMAIN_IS_NOT_EXISTED, NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS;
+	SUB_DOMAIN_IS_NOT_EXISTED, NOT_SUPPORT_SENDING_EMAIL_TO_ALL_USERS,
+	ERROR_USER_IS_NOT_EXISTED;
 }
