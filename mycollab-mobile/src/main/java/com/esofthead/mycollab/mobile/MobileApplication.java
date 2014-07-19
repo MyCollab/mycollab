@@ -19,17 +19,15 @@ package com.esofthead.mycollab.mobile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.common.SessionIdGenerator;
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
@@ -40,10 +38,8 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServletRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.UI;
 
 /**
  * 
@@ -53,46 +49,13 @@ import com.vaadin.ui.UI;
  */
 @Theme("mycollab-mobile")
 @Widgetset("com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet")
-public class MobileApplication extends UI {
+public class MobileApplication extends MyCollabUI {
 	private static final long serialVersionUID = 1L;
-
-	private static final String CURRENT_APP = "mobileApp";
 
 	public static final String LOGIN_DATA = "m_login";
 
 	private static Logger log = LoggerFactory
 			.getLogger(MobileApplication.class);
-
-	/**
-	 * Context of current logged in user
-	 */
-	private AppContext currentContext;
-
-	private String initialSubDomain = "1";
-	private String initialUrl = "";
-
-	static {
-		GroupIdProvider.registerAccountIdProvider(new GroupIdProvider() {
-
-			@Override
-			public Integer getGroupId() {
-				return AppContext.getAccountId();
-			}
-		});
-
-		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
-
-			@Override
-			public String getSessionIdApp() {
-				return UI.getCurrent().toString();
-			}
-		});
-	}
-
-	public static MobileApplication getInstance() {
-		return (MobileApplication) VaadinSession.getCurrent().getAttribute(
-				CURRENT_APP);
-	}
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -168,34 +131,7 @@ public class MobileApplication extends UI {
 		});
 	}
 
-	private void postSetupApp(VaadinRequest request) {
-		VaadinServletRequest servletRequest = (VaadinServletRequest) request;
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
-			initialSubDomain = servletRequest.getServerName().split("\\.")[0];
-		} else {
-			initialSubDomain = servletRequest.getServerName();
-		}
-	}
-
 	private void registerControllers(NavigationManager manager) {
 		ControllerRegistry.addController(new ShellController(manager));
-		// ControllerRegistry.addController(new CrmModuleController(manager));
 	}
-
-	public AppContext getSessionData() {
-		return currentContext;
-	}
-
-	public String getInitialUrl() {
-		return initialUrl;
-	}
-
-	@Override
-	public void close() {
-		super.close();
-		log.debug("Application is closed. Clean all resources");
-		currentContext = null;
-		VaadinSession.getCurrent().close();
-	}
-
 }

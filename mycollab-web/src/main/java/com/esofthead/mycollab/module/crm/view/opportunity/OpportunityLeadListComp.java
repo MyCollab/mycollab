@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -54,7 +52,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class OpportunityLeadListComp extends
-RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
+		RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 	private static final long serialVersionUID = -2052696198773718949L;
 
 	private Opportunity opportunity;
@@ -77,27 +75,27 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
-		.addClickListener(new SplitButton.SplitButtonClickListener() {
-			@Override
-			public void splitButtonClick(
-					final SplitButton.SplitButtonClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
+				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					@Override
+					public void splitButtonClick(
+							final SplitButton.SplitButtonClickEvent event) {
+						fireNewRelatedItem("");
+					}
+				});
 		final Button selectBtn = new Button("Select from existing leads",
 				new Button.ClickListener() {
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(
-						OpportunityLeadListComp.this);
-				final LeadSearchCriteria criteria = new LeadSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				UI.getCurrent().addWindow(leadsWindow);
-				leadsWindow.setSearchCriteria(criteria);
-				controlsBtn.setPopupVisible(false);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(
+								OpportunityLeadListComp.this);
+						final LeadSearchCriteria criteria = new LeadSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						UI.getCurrent().addWindow(leadsWindow);
+						leadsWindow.setSearchCriteria(criteria);
+						controlsBtn.setPopupVisible(false);
+					}
+				});
 		selectBtn.setIcon(MyCollabResource.newResource("icons/16/select.png"));
 		selectBtn.setStyleName("link");
 		VerticalLayout buttonControlLayout = new VerticalLayout();
@@ -105,7 +103,8 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 		controlsBtn.setContent(buttonControlLayout);
 
 		controlsBtnWrap.addComponent(controlsBtn);
-		controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+		controlsBtnWrap.setComponentAlignment(controlsBtn,
+				Alignment.MIDDLE_RIGHT);
 		return controlsBtnWrap;
 	}
 
@@ -118,8 +117,8 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 		final LeadSearchCriteria criteria = new LeadSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND,
 				AppContext.getAccountId()));
-		criteria.setOpportunityId(new NumberSearchField(SearchField.AND, opportunity
-				.getId()));
+		criteria.setOpportunityId(new NumberSearchField(SearchField.AND,
+				opportunity.getId()));
 		setSearchCriteria(criteria);
 	}
 
@@ -128,12 +127,8 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 		loadLeads();
 	}
 
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
-	}
-
-	public class OpportunityLeadBlockDisplay implements BlockDisplayHandler<SimpleLead> {
+	public class OpportunityLeadBlockDisplay implements
+			BlockDisplayHandler<SimpleLead> {
 
 		@Override
 		public Component generateBlock(final SimpleLead lead, int blockIndex) {
@@ -146,15 +141,16 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image leadAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/lead.png"));
+			Image leadAvatar = new Image(null,
+					MyCollabResource.newResource("icons/48/crm/lead.png"));
 			iconWrap.addComponent(leadAvatar);
 			blockTop.addComponent(iconWrap);
 
 			VerticalLayout leadInfo = new VerticalLayout();
 			leadInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null, MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+			Image btnDelete = new Image(null,
+					MyCollabResource.newResource("icons/12/project/icon_x.png"));
 			btnDelete.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -165,13 +161,13 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 							AppContext.getMessage(
 									GenericI18Enum.DIALOG_DELETE_TITLE,
 									SiteConfiguration.getSiteName()),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -181,16 +177,14 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 												.getSpringBean(OpportunityService.class);
 										final OpportunityLead associateLead = new OpportunityLead();
 										associateLead
-										.setOpportunityid(opportunity
-												.getId());
-										associateLead
-										.setLeadid(lead
-												.getId());
+												.setOpportunityid(opportunity
+														.getId());
+										associateLead.setLeadid(lead.getId());
 										accountService
-										.removeOpportunityLeadRelationship(
-												associateLead,
-												AppContext
-												.getAccountId());
+												.removeOpportunityLeadRelationship(
+														associateLead,
+														AppContext
+																.getAccountId());
 										OpportunityLeadListComp.this.refresh();
 									}
 								}
@@ -202,23 +196,28 @@ RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label leadName = new Label("Name: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()) 
-					+ CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.LEAD, lead.getId()) 
-					+ "'>" + lead.getLeadName() + "</a>", ContentMode.HTML);
+			Label leadName = new Label("Name: <a href='"
+					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
+							.getSubdomain())
+					+ CrmLinkGenerator.generateCrmItemLink(
+							CrmTypeConstants.LEAD, lead.getId()) + "'>"
+					+ lead.getLeadName() + "</a>", ContentMode.HTML);
 
 			leadInfo.addComponent(leadName);
 
-			Label leadStatus = new Label("Status: " + (lead.getStatus() != null ? lead.getStatus() : ""));
+			Label leadStatus = new Label("Status: "
+					+ (lead.getStatus() != null ? lead.getStatus() : ""));
 			leadInfo.addComponent(leadStatus);
 
-			Label leadEmail = new Label("Email: " 
-					+ (lead.getEmail() != null ? 
-							"<a href='mailto:" + lead.getEmail() + "'>" + lead.getEmail() + "</a>" 
-							: "")
-							, ContentMode.HTML);
+			Label leadEmail = new Label("Email: "
+					+ (lead.getEmail() != null ? "<a href='mailto:"
+							+ lead.getEmail() + "'>" + lead.getEmail() + "</a>"
+							: ""), ContentMode.HTML);
 			leadInfo.addComponent(leadEmail);
 
-			Label leadOfficePhone = new Label("Office Phone: " + (lead.getOfficephone() != null ? lead.getOfficephone() : ""));
+			Label leadOfficePhone = new Label("Office Phone: "
+					+ (lead.getOfficephone() != null ? lead.getOfficephone()
+							: ""));
 			leadInfo.addComponent(leadOfficePhone);
 
 			blockTop.addComponent(leadInfo);

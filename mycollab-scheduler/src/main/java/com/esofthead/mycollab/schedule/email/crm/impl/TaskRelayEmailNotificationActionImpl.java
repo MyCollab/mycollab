@@ -23,8 +23,10 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
@@ -69,15 +71,45 @@ public class TaskRelayEmailNotificationActionImpl extends
 	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
 
 	@Override
-	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+	protected void buildExtraTemplateVariables(MailContext<SimpleTask> context) {
 		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateTaskPreviewFullLink(
 				siteUrl, bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "task");
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
+
+		String avatarId = "";
+
+		SimpleUser user = userService.findUserByUserNameInAccount(
+				emailNotification.getChangeby(), context.getSaccountid());
+
+		if (user != null) {
+			avatarId = user.getAvatarid();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
 	}
@@ -207,9 +239,10 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(task.getSaccountid()),
-						task.getAssignuser());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(task.getSaccountid()),
+								task.getAssignuser());
 				A link = TagBuilder
 						.newA(userLink, task.getAssignUserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -232,9 +265,10 @@ public class TaskRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(user.getAccountId()),
-						user.getUsername());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(user.getAccountId()),
+								user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
 				return TagBuilder.newLink(img, link).write();

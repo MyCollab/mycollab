@@ -69,7 +69,7 @@ public abstract class SendMailToFollowersAction<B> implements
 				bean = getBeanInContext(context);
 				if (bean != null) {
 					context.setWrappedBean(bean);
-					buildExtraTemplateVariables(notification);
+					buildExtraTemplateVariables(context);
 					contentGenerator.putVariable("context", context);
 					contentGenerator
 							.putVariable("mapper", getItemFieldMapper());
@@ -110,7 +110,7 @@ public abstract class SendMailToFollowersAction<B> implements
 				bean = getBeanInContext(context);
 				if (bean != null) {
 					context.setWrappedBean(bean);
-					buildExtraTemplateVariables(notification);
+					buildExtraTemplateVariables(context);
 					contentGenerator.putVariable("userName",
 							user.getDisplayName());
 
@@ -161,7 +161,7 @@ public abstract class SendMailToFollowersAction<B> implements
 					context.setWrappedBean(bean);
 					contentGenerator.putVariable("userName",
 							user.getDisplayName());
-					buildExtraTemplateVariables(notification);
+					buildExtraTemplateVariables(context);
 					contentGenerator.putVariable("comment",
 							context.getEmailNotification());
 
@@ -196,7 +196,7 @@ public abstract class SendMailToFollowersAction<B> implements
 	protected abstract String getItemName();
 
 	protected abstract void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification);
+			MailContext<B> emailNotification);
 
 	protected abstract ItemFieldMapper getItemFieldMapper();
 

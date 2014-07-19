@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -51,8 +49,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-public class LeadCampaignListComp extends
-RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
+public class LeadCampaignListComp
+		extends
+		RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 	private static final long serialVersionUID = -1891728022550632203L;
 	private Lead lead;
 
@@ -75,11 +74,6 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 	}
 
 	@Override
-	public void setSelectedItems(Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
-	}
-
-	@Override
 	public void refresh() {
 		loadCampaigns();
 	}
@@ -98,31 +92,31 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
-		.addClickListener(new SplitButton.SplitButtonClickListener() {
-			private static final long serialVersionUID = 1099580202385205069L;
+				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					private static final long serialVersionUID = 1099580202385205069L;
 
-			@Override
-			public void splitButtonClick(
-					SplitButton.SplitButtonClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
+					@Override
+					public void splitButtonClick(
+							SplitButton.SplitButtonClickEvent event) {
+						fireNewRelatedItem("");
+					}
+				});
 		Button selectBtn = new Button("Select from existing campaigns",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 3046728004767791528L;
+					private static final long serialVersionUID = 3046728004767791528L;
 
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(
-						LeadCampaignListComp.this);
-				CampaignSearchCriteria criteria = new CampaignSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				UI.getCurrent().addWindow(leadsWindow);
-				leadsWindow.setSearchCriteria(criteria);
-				controlsBtn.setPopupVisible(false);
-			}
-		});
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						LeadCampaignSelectionWindow leadsWindow = new LeadCampaignSelectionWindow(
+								LeadCampaignListComp.this);
+						CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						UI.getCurrent().addWindow(leadsWindow);
+						leadsWindow.setSearchCriteria(criteria);
+						controlsBtn.setPopupVisible(false);
+					}
+				});
 		selectBtn.setIcon(MyCollabResource.newResource("icons/16/select.png"));
 		selectBtn.setStyleName("link");
 
@@ -131,15 +125,18 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 		controlsBtn.setContent(buttonControlsLayout);
 
 		controlBtnWrap.addComponent(controlsBtn);
-		controlBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+		controlBtnWrap.setComponentAlignment(controlsBtn,
+				Alignment.MIDDLE_RIGHT);
 
 		return controlBtnWrap;
 	}
 
-	protected class LeadCampaignBlockDisplay implements BlockDisplayHandler<SimpleCampaign> {
+	protected class LeadCampaignBlockDisplay implements
+			BlockDisplayHandler<SimpleCampaign> {
 
 		@Override
-		public Component generateBlock(final SimpleCampaign campaign, int blockIndex) {
+		public Component generateBlock(final SimpleCampaign campaign,
+				int blockIndex) {
 			CssLayout beanBlock = new CssLayout();
 			beanBlock.addStyleName("bean-block");
 			beanBlock.setWidth("350px");
@@ -149,15 +146,16 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image campaignIcon = new Image(null, MyCollabResource.newResource("icons/48/crm/campaign.png"));
+			Image campaignIcon = new Image(null,
+					MyCollabResource.newResource("icons/48/crm/campaign.png"));
 			iconWrap.addComponent(campaignIcon);
 			blockTop.addComponent(iconWrap);
 
 			VerticalLayout campaignInfo = new VerticalLayout();
 			campaignInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null, MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+			Image btnDelete = new Image(null,
+					MyCollabResource.newResource("icons/12/project/icon_x.png"));
 			btnDelete.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -168,13 +166,13 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 							AppContext.getMessage(
 									GenericI18Enum.DIALOG_DELETE_TITLE,
 									SiteConfiguration.getSiteName()),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -183,16 +181,14 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 										CampaignService campaignService = ApplicationContextUtil
 												.getSpringBean(CampaignService.class);
 										CampaignLead associateLead = new CampaignLead();
-										associateLead.setLeadid(lead
-												.getId());
-										associateLead
-										.setCampaignid(campaign
+										associateLead.setLeadid(lead.getId());
+										associateLead.setCampaignid(campaign
 												.getId());
 										campaignService
-										.removeCampaignLeadRelationship(
-												associateLead,
-												AppContext
-												.getAccountId());
+												.removeCampaignLeadRelationship(
+														associateLead,
+														AppContext
+																.getAccountId());
 										LeadCampaignListComp.this.refresh();
 									}
 								}
@@ -204,20 +200,29 @@ RelatedListComp2<CampaignService, CampaignSearchCriteria, SimpleCampaign> {
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label contactName = new Label("Name: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()) 
-					+ CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.CAMPAIGN, campaign.getId()) 
-					+ "'>" + campaign.getCampaignname() + "</a>", ContentMode.HTML);
+			Label contactName = new Label("Name: <a href='"
+					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
+							.getSubdomain())
+					+ CrmLinkGenerator.generateCrmItemLink(
+							CrmTypeConstants.CAMPAIGN, campaign.getId()) + "'>"
+					+ campaign.getCampaignname() + "</a>", ContentMode.HTML);
 
 			campaignInfo.addComponent(contactName);
 
-			Label campaignStatus = new Label("Status: " + (campaign.getStatus() != null ? campaign.getStatus() : ""));
+			Label campaignStatus = new Label(
+					"Status: "
+							+ (campaign.getStatus() != null ? campaign
+									.getStatus() : ""));
 			campaignInfo.addComponent(campaignStatus);
 
-			Label campaignType = new Label("Type: " + (campaign.getType() != null ? campaign.getType() : ""));
+			Label campaignType = new Label("Type: "
+					+ (campaign.getType() != null ? campaign.getType() : ""));
 			campaignInfo.addComponent(campaignType);
 
-			Label campaignEndDate = new Label("End Date: " 
-					+ (campaign.getEnddate() != null ? AppContext.formatDate(campaign.getEnddate())  : ""));
+			Label campaignEndDate = new Label(
+					"End Date: "
+							+ (campaign.getEnddate() != null ? AppContext
+									.formatDate(campaign.getEnddate()) : ""));
 			campaignInfo.addComponent(campaignEndDate);
 
 			blockTop.addComponent(campaignInfo);

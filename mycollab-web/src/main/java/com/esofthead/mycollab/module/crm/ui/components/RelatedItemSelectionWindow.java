@@ -85,7 +85,7 @@ public abstract class RelatedItemSelectionWindow<T, S extends SearchCriteria>
 	public void close() {
 		super.close();
 		if (!selectedItems.isEmpty()) {
-			relatedListComp.setSelectedItems(selectedItems);
+			relatedListComp.fireSelectedRelatedItems(selectedItems);
 		}
 	}
 

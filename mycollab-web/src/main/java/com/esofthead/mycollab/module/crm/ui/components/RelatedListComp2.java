@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanBlockList;
@@ -36,6 +35,8 @@ import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
  * @param <S>
  * @param <T>
  */
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class RelatedListComp2<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
 		extends AbstractBeanBlockList<S, T> implements IRelatedListHandlers<T> {
 	private static final long serialVersionUID = -5854451222908978059L;
@@ -61,7 +62,6 @@ public abstract class RelatedListComp2<SearchService extends ISearchableService<
 		return searchService.getTotalCount(searchRequest.getSearchCriteria());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected List<T> queryCurrentData() {
 		return searchService.findPagableListByCriteria(searchRequest);
@@ -84,16 +84,12 @@ public abstract class RelatedListComp2<SearchService extends ISearchableService<
 		}
 	}
 
-	protected void fireSelectedRelatedItems(final Set selectedItems) {
+	public void fireSelectedRelatedItems(final Set selectedItems) {
 		if (handlers != null) {
 			for (final RelatedListHandler handler : handlers) {
 				handler.selectAssociateItems(selectedItems);
 			}
 		}
-	}
-
-	public void setSelectedItems(final Set<T> selectedItems) {
-		throw new MyCollabException("Must be override by support class");
 	}
 
 }

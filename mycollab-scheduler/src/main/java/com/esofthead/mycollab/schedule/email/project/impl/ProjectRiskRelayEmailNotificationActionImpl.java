@@ -26,14 +26,18 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.service.RiskService;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
@@ -66,6 +70,9 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private ProjectMemberService projectMemberService;
 
 	private static final ProjectFieldNameMapper mapper = new ProjectFieldNameMapper();
 
@@ -107,9 +114,11 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 	}
 
 	@Override
-	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+	protected void buildExtraTemplateVariables(MailContext<SimpleRisk> context) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
 
 		SimpleProject relatedProject = projectService.findById(
 				bean.getProjectid(), emailNotification.getSaccountid());
@@ -127,9 +136,37 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 		String summaryLink = ProjectLinkGenerator.generateRiskPreviewFullLink(
 				siteUrl, bean.getProjectid(), bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "risk");
+		String avatarId = "";
+
+		SimpleProjectMember projectMember = projectMemberService
+				.findMemberByUsername(emailNotification.getChangeby(),
+						bean.getProjectid(), emailNotification.getSaccountid());
+		if (projectMember != null) {
+			avatarId = projectMember.getMemberAvatarId();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					RiskI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					RiskI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					RiskI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("titles", listOfTitles);
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
@@ -173,9 +210,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 						risk.getAssignToUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(risk.getSaccountid()),
-						risk.getAssigntouser());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(risk.getSaccountid()),
+								risk.getAssigntouser());
 				A link = TagBuilder.newA(userLink,
 						risk.getAssignedToUserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -197,9 +235,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(user.getAccountId()),
-						user.getUsername());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(user.getAccountId()),
+								user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
 				return TagBuilder.newLink(img, link).write();
@@ -222,9 +261,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 						risk.getRaisedByUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(risk.getSaccountid()),
-						risk.getRaisedbyuser());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(risk.getSaccountid()),
+								risk.getRaisedbyuser());
 				A link = TagBuilder.newA(userLink,
 						risk.getRaisedByUserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -246,9 +286,10 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(user.getAccountId()),
-						user.getUsername());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(user.getAccountId()),
+								user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
 				return TagBuilder.newLink(img, link).write();

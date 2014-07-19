@@ -19,7 +19,7 @@
 		</tr>
         <tr>
             <td style="padding: 10px 30px 0px;">
-				<p><img src="${defaultUrls.cdn_url}default_user_avatar_16.png" width="16" height="16" style="display: inline-block; vertical-align: top;"/>$makeChangeUser <b>updated</b> ${itemType}:</p>
+				<p>$actionHeading</p>
 				<p>
 				#foreach( $title in $titles )
 					#if( $foreach.count > 1 )

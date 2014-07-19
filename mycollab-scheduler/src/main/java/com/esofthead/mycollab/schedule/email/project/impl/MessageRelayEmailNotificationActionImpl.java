@@ -26,16 +26,21 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.service.MessageService;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.project.MessageRelayEmailNotificationAction;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -53,6 +58,9 @@ public class MessageRelayEmailNotificationActionImpl extends
 	private MessageService messageService;
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private ProjectMemberService projectMemberService;
 
 	@Override
 	protected String getItemName() {
@@ -93,8 +101,11 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+			MailContext<SimpleMessage> context) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		currentProject.put("displayName", bean.getProjectName());
@@ -110,9 +121,37 @@ public class MessageRelayEmailNotificationActionImpl extends
 				.generateMessagePreviewFullLink(siteUrl, bean.getProjectid(),
 						bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "message");
+		String avatarId = "";
+
+		SimpleProjectMember projectMember = projectMemberService
+				.findMemberByUsername(emailNotification.getChangeby(),
+						bean.getProjectid(), emailNotification.getSaccountid());
+		if (projectMember != null) {
+			avatarId = projectMember.getMemberAvatarId();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MessageI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MessageI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MessageI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("titles", listOfTitles);
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);

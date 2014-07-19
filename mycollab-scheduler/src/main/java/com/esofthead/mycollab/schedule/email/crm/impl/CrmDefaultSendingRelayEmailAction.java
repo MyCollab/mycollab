@@ -112,7 +112,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 							.putVariable("mapper", getItemFieldMapper());
 
 					contentGenerator.putVariable("userName", notifierFullName);
-					buildExtraTemplateVariables(notification);
+					buildExtraTemplateVariables(context);
 
 					MailRecipientField userMail = new MailRecipientField(
 							user.getEmail(), user.getUsername());
@@ -161,7 +161,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 
 					contentGenerator.putVariable("historyLog", auditLog);
 					context.setWrappedBean(bean);
-					buildExtraTemplateVariables(notification);
+					buildExtraTemplateVariables(context);
 					contentGenerator.putVariable("context", context);
 					contentGenerator
 							.putVariable("mapper", getItemFieldMapper());
@@ -205,7 +205,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 						siteUrl);
 				bean = getBeanInContext(context);
 				context.setWrappedBean(bean);
-				buildExtraTemplateVariables(notification);
+				buildExtraTemplateVariables(context);
 				contentGenerator.putVariable("comment",
 						context.getEmailNotification());
 				String subject = context.getMessage(getCommentSubjectKey(),
@@ -313,8 +313,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		return "templates/email/crm/itemAddNoteNotifier.mt";
 	}
 
-	protected abstract void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification);
+	protected abstract void buildExtraTemplateVariables(MailContext<B> context);
 
 	protected abstract Enum<?> getCreateSubjectKey();
 

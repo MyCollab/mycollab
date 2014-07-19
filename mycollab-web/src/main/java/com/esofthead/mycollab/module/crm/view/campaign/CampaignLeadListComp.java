@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -139,11 +137,6 @@ public class CampaignLeadListComp extends
 	@Override
 	public void refresh() {
 		loadLeads();
-	}
-
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	public class CampaignLeadBlockDisplay implements

@@ -21,17 +21,21 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.service.MeetingService;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
 import com.esofthead.mycollab.schedule.email.format.DateTimeFieldFormat;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -52,14 +56,45 @@ public class MeetingRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+			MailContext<SimpleMeeting> context) {
 		String summary = bean.getSubject();
 		String summaryLink = CrmLinkGenerator.generateMeetingPreviewFullLink(
 				siteUrl, bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "meeting");
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
+
+		String avatarId = "";
+
+		SimpleUser user = userService.findUserByUserNameInAccount(
+				emailNotification.getChangeby(), context.getSaccountid());
+
+		if (user != null) {
+			avatarId = user.getAvatarid();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MeetingI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MeetingI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					MeetingI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
 	}

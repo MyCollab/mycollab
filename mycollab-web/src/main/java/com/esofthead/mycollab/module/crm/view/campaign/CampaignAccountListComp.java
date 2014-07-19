@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -54,7 +52,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 public class CampaignAccountListComp extends
-RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
+		RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = 4624196496275152351L;
 
 	private CampaignWithBLOBs campaign;
@@ -62,11 +60,6 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 	public CampaignAccountListComp() {
 		super(ApplicationContextUtil.getSpringBean(AccountService.class), 20);
 		this.setBlockDisplayHandler(new CampaignAccountBlockDisplay());
-	}
-
-	@Override
-	public void setSelectedItems(Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	@Override
@@ -101,29 +94,29 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
-		.addClickListener(new SplitButton.SplitButtonClickListener() {
+				.addClickListener(new SplitButton.SplitButtonClickListener() {
 
-			@Override
-			public void splitButtonClick(
-					final SplitButton.SplitButtonClickEvent event) {
-				fireNewRelatedItem("");
-			}
-		});
+					@Override
+					public void splitButtonClick(
+							final SplitButton.SplitButtonClickEvent event) {
+						fireNewRelatedItem("");
+					}
+				});
 		final Button selectBtn = new Button("Select from existing contacts",
 				new Button.ClickListener() {
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(
-						CampaignAccountListComp.this);
-				final AccountSearchCriteria criteria = new AccountSearchCriteria();
-				criteria.setSaccountid(new NumberSearchField(AppContext
-						.getAccountId()));
-				UI.getCurrent().addWindow(accountsWindow);
-				accountsWindow.setSearchCriteria(criteria);
-				controlsBtn.setPopupVisible(false);
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						final CampaignAccountSelectionWindow accountsWindow = new CampaignAccountSelectionWindow(
+								CampaignAccountListComp.this);
+						final AccountSearchCriteria criteria = new AccountSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						UI.getCurrent().addWindow(accountsWindow);
+						accountsWindow.setSearchCriteria(criteria);
+						controlsBtn.setPopupVisible(false);
+					}
+				});
 		selectBtn.setIcon(MyCollabResource.newResource("icons/16/select.png"));
 		selectBtn.setStyleName("link");
 		VerticalLayout buttonControlLayout = new VerticalLayout();
@@ -131,14 +124,17 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 		controlsBtn.setContent(buttonControlLayout);
 
 		controlsBtnWrap.addComponent(controlsBtn);
-		controlsBtnWrap.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
+		controlsBtnWrap.setComponentAlignment(controlsBtn,
+				Alignment.MIDDLE_RIGHT);
 		return controlsBtnWrap;
 	}
 
-	protected class CampaignAccountBlockDisplay implements BlockDisplayHandler<SimpleAccount> {
+	protected class CampaignAccountBlockDisplay implements
+			BlockDisplayHandler<SimpleAccount> {
 
 		@Override
-		public Component generateBlock(final SimpleAccount account, int blockIndex) {
+		public Component generateBlock(final SimpleAccount account,
+				int blockIndex) {
 			CssLayout beanBlock = new CssLayout();
 			beanBlock.addStyleName("bean-block");
 			beanBlock.setWidth("350px");
@@ -148,15 +144,16 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 			blockTop.setSpacing(true);
 			CssLayout iconWrap = new CssLayout();
 			iconWrap.setStyleName("icon-wrap");
-			Image accountAvatar = new Image(null, MyCollabResource.newResource("icons/48/crm/account.png"));
+			Image accountAvatar = new Image(null,
+					MyCollabResource.newResource("icons/48/crm/account.png"));
 			iconWrap.addComponent(accountAvatar);
 			blockTop.addComponent(iconWrap);
 
 			VerticalLayout accountInfo = new VerticalLayout();
 			accountInfo.setSpacing(true);
 
-			Image btnDelete = new Image(null, MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+			Image btnDelete = new Image(null,
+					MyCollabResource.newResource("icons/12/project/icon_x.png"));
 			btnDelete.addClickListener(new MouseEvents.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -167,13 +164,13 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 							AppContext.getMessage(
 									GenericI18Enum.DIALOG_DELETE_TITLE,
 									SiteConfiguration.getSiteName()),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-									AppContext
+							AppContext
 									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-									new ConfirmDialog.Listener() {
+							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
 								@Override
@@ -182,19 +179,16 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 										CampaignService campaignService = ApplicationContextUtil
 												.getSpringBean(CampaignService.class);
 										CampaignAccount associateAccount = new CampaignAccount();
-										associateAccount
-										.setAccountid(account
+										associateAccount.setAccountid(account
 												.getId());
-										associateAccount
-										.setCampaignid(campaign
+										associateAccount.setCampaignid(campaign
 												.getId());
 										campaignService
-										.removeCampaignAccountRelationship(
-												associateAccount,
-												AppContext
-												.getAccountId());
-										CampaignAccountListComp.this
-										.refresh();
+												.removeCampaignAccountRelationship(
+														associateAccount,
+														AppContext
+																.getAccountId());
+										CampaignAccountListComp.this.refresh();
 									}
 								}
 							});
@@ -205,23 +199,29 @@ RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 			blockContent.addComponent(btnDelete);
 			blockContent.setComponentAlignment(btnDelete, Alignment.TOP_RIGHT);
 
-			Label accountName = new Label("Name: <a href='" + SiteConfiguration.getSiteUrl(AppContext.getSession().getSubdomain()) 
-					+ CrmLinkGenerator.generateCrmItemLink(CrmTypeConstants.ACCOUNT, account.getId()) 
-					+ "'>" + account.getAccountname() + "</a>", ContentMode.HTML);
+			Label accountName = new Label("Name: <a href='"
+					+ SiteConfiguration.getSiteUrl(AppContext.getSession()
+							.getSubdomain())
+					+ CrmLinkGenerator.generateCrmItemLink(
+							CrmTypeConstants.ACCOUNT, account.getId()) + "'>"
+					+ account.getAccountname() + "</a>", ContentMode.HTML);
 
 			accountInfo.addComponent(accountName);
 
-			Label accountOfficePhone = new Label("Office Phone: " + (account.getPhoneoffice() != null ? account.getPhoneoffice() : ""));
+			Label accountOfficePhone = new Label(
+					"Office Phone: "
+							+ (account.getPhoneoffice() != null ? account
+									.getPhoneoffice() : ""));
 			accountInfo.addComponent(accountOfficePhone);
 
-			Label accountEmail = new Label("Email: " 
-					+ (account.getEmail() != null ? 
-							"<a href='mailto:" + account.getEmail() + "'>" + account.getEmail() + "</a>" 
-							: "")
-							, ContentMode.HTML);
+			Label accountEmail = new Label("Email: "
+					+ (account.getEmail() != null ? "<a href='mailto:"
+							+ account.getEmail() + "'>" + account.getEmail()
+							+ "</a>" : ""), ContentMode.HTML);
 			accountInfo.addComponent(accountEmail);
 
-			Label accountCity = new Label("City: " + (account.getCity() != null ? account.getCity() : ""));
+			Label accountCity = new Label("City: "
+					+ (account.getCity() != null ? account.getCity() : ""));
 			accountInfo.addComponent(accountCity);
 
 			blockTop.addComponent(accountInfo);

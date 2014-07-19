@@ -26,13 +26,17 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
@@ -66,12 +70,18 @@ public class ComponentRelayEmailNotificationActionImpl extends
 	@Autowired
 	private ProjectService projectService;
 
+	@Autowired
+	private ProjectMemberService projectMemberService;
+
 	private static final ComponentFieldNameMapper mapper = new ComponentFieldNameMapper();
 
 	@Override
 	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+			MailContext<SimpleComponent> context) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		SimpleProject project = projectService.findById(bean.getProjectid(),
@@ -89,9 +99,42 @@ public class ComponentRelayEmailNotificationActionImpl extends
 				.generateBugComponentPreviewFullLink(siteUrl,
 						bean.getProjectid(), bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "component");
+		String avatarId = "";
+
+		SimpleProjectMember projectMember = projectMemberService
+				.findMemberByUsername(emailNotification.getChangeby(),
+						bean.getProjectid(), emailNotification.getSaccountid());
+		if (projectMember != null) {
+			avatarId = projectMember.getMemberAvatarId();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator
+					.putVariable("actionHeading", context.getMessage(
+							ComponentI18nEnum.MAIL_CREATE_ITEM_HEADING,
+							makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator
+					.putVariable("actionHeading", context.getMessage(
+							ComponentI18nEnum.MAIL_UPDATE_ITEM_HEADING,
+							makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context
+					.getMessage(ComponentI18nEnum.MAIL_COMMENT_ITEM_HEADING,
+							makeChangeUser));
+		}
+
 		contentGenerator.putVariable("titles", listOfTitles);
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
@@ -160,9 +203,10 @@ public class ComponentRelayEmailNotificationActionImpl extends
 						component.getUserLeadAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(component.getSaccountid()),
-						component.getUserlead());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(component.getSaccountid()),
+								component.getUserlead());
 				A link = TagBuilder.newA(userLink,
 						component.getUserLeadFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -184,9 +228,10 @@ public class ComponentRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(user.getAccountId()),
-						user.getUsername());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(user.getAccountId()),
+								user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
 				return TagBuilder.newLink(img, link).write();

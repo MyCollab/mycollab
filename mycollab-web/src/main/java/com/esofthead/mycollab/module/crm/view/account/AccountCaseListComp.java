@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.account;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -153,11 +152,6 @@ public class AccountCaseListComp extends
 	@Override
 	public void refresh() {
 		loadCases();
-	}
-
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	public class AccountCaseBlockDisplay implements

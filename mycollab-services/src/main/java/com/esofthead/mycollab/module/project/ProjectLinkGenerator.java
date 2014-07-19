@@ -134,6 +134,15 @@ public class ProjectLinkGenerator {
 				+ generateRiskPreviewLink(projectId, riskId);
 	}
 
+	public static String generateRiskEditLink(Integer projectId, Integer riskId) {
+		return "project/risk/edit/"
+				+ UrlEncodeDecoder.encode(projectId + "/" + riskId);
+	}
+
+	public static String generateRiskAddLink(Integer projectId) {
+		return "project/risk/add/" + UrlEncodeDecoder.encode(projectId);
+	}
+
 	public static String generateMessagesLink(Integer projectId) {
 		return "project/message/list/" + UrlEncodeDecoder.encode(projectId);
 	}

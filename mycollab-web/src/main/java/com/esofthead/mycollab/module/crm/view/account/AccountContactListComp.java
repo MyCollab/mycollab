@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -135,11 +133,6 @@ public class AccountContactListComp extends
 	@Override
 	public void refresh() {
 		loadContacts();
-	}
-
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	public class AccountContactBlockDisplay implements

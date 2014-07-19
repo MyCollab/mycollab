@@ -26,12 +26,16 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
@@ -39,6 +43,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
+import com.hp.gagawa.java.elements.Img;
 
 /**
  * 
@@ -58,12 +63,18 @@ public class VersionRelayEmailNotificationActionImpl extends
 	@Autowired
 	private ProjectService projectService;
 
+	@Autowired
+	private ProjectMemberService projectMemberService;
+
 	private VersionFieldNameMapper mapper = new VersionFieldNameMapper();
 
 	@Override
 	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+			MailContext<SimpleVersion> context) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
+
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
 		SimpleProject project = projectService.findById(bean.getProjectid(),
@@ -81,9 +92,37 @@ public class VersionRelayEmailNotificationActionImpl extends
 				.generateBugComponentPreviewFullLink(siteUrl,
 						bean.getProjectid(), bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "version");
+		String avatarId = "";
+
+		SimpleProjectMember projectMember = projectMemberService
+				.findMemberByUsername(emailNotification.getChangeby(),
+						bean.getProjectid(), emailNotification.getSaccountid());
+		if (projectMember != null) {
+			avatarId = projectMember.getMemberAvatarId();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					VersionI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					VersionI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					VersionI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("titles", listOfTitles);
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
@@ -129,7 +168,8 @@ public class VersionRelayEmailNotificationActionImpl extends
 	public static class VersionFieldNameMapper extends ItemFieldMapper {
 		public VersionFieldNameMapper() {
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
-
+			put("status", VersionI18nEnum.FORM_STATUS);
+			put("versionname", VersionI18nEnum.FORM_NAME);
 			put("duedate", new DateFieldFormat("duedate",
 					VersionI18nEnum.FORM_DUE_DATE));
 		}

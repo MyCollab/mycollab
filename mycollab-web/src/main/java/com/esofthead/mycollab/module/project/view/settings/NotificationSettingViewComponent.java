@@ -16,15 +16,17 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.i18n.NotificationSettingI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -33,6 +35,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -55,6 +58,8 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
+	private Map<String, String> levels = new LinkedHashMap<String, String>();
+
 	protected B bean;
 	protected S service;
 	protected CssLayout mainLayout;
@@ -63,6 +68,15 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 	public NotificationSettingViewComponent(B bean, S service) {
 		this.bean = bean;
 		this.service = service;
+
+		levels.put("Default", AppContext
+				.getMessage(NotificationSettingI18nEnum.OPT_DEFAULT_SETTING));
+		levels.put("None", AppContext
+				.getMessage(NotificationSettingI18nEnum.OPT_NONE_SETTING));
+		levels.put("Minimal", AppContext
+				.getMessage(NotificationSettingI18nEnum.OPT_MINIMUM_SETTING));
+		levels.put("Full", AppContext
+				.getMessage(NotificationSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
 		constructBody();
 	}
@@ -84,7 +98,8 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		header.addComponent(titleIcon);
 		header.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
 
-		final Label searchtitle = new Label("Notification Settings");
+		final Label searchtitle = new Label(
+				AppContext.getMessage(NotificationSettingI18nEnum.VIEW_TITLE));
 		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
 		header.addComponent(searchtitle);
 		header.setExpandRatio(searchtitle, 1.0f);
@@ -103,7 +118,8 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 
 		notificationLabelWrapper.setStyleName("notification-label");
 
-		Label notificationLabel = new Label("Notification Levels");
+		Label notificationLabel = new Label(
+				AppContext.getMessage(NotificationSettingI18nEnum.EXT_LEVEL));
 		notificationLabel.addStyleName("h2");
 
 		notificationLabel.setHeight(Sizeable.SIZE_UNDEFINED,
@@ -116,13 +132,13 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		body.setSpacing(true);
 		body.setMargin(new MarginInfo(true, false, false, false));
 
-		List<String> options = Arrays
-				.asList(new String[] {
-						"Default- By default you will receive notifications about items that you are involved in. To be involved with and item you need to have added a comment, been assigned the item, or when the item was created you were specified as a person to notify. Within the email notifications you can unsubscribe from any item.",
-						"None - You won't be notified of anything, this can be a great option if you just wanted to get the daily email with an overview.",
-						"Minimal - We won't do any magic behind the scences to subscribe you to any items, you will only be notified about things you are currently assigned.",
-						"Full - You will be notified every things about your project." });
-		final OptionGroup optionGroup = new OptionGroup(null, options);
+		final OptionGroup optionGroup = new OptionGroup(null);
+		optionGroup.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+		for (String level : levels.keySet()) {
+			optionGroup.addItem(level);
+			optionGroup.setItemCaption(level, levels.get(level));
+		}
+
 		optionGroup.setHeight("100%");
 
 		body.addComponent(optionGroup);
@@ -130,38 +146,26 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		body.setComponentAlignment(optionGroup, Alignment.MIDDLE_LEFT);
 
 		try {
-			if ((String) PropertyUtils.getProperty(bean, "level") == null) {
-				optionGroup.select(options.get(0));
+			String levelVal = (String) PropertyUtils.getProperty(bean, "level");
+			if (levelVal == null) {
+				optionGroup.select("Default");
 				level = "Default";
 			} else {
-				for (String str : options) {
-
-					if (str.startsWith((String) PropertyUtils.getProperty(bean,
-							"level"))) {
-						optionGroup.select(str);
-						break;
-					}
-				}
+				level = levelVal;
+				optionGroup.select(level);
 			}
+
 			optionGroup.addValueChangeListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void valueChange(ValueChangeEvent event) {
-					String strValue = (String) optionGroup.getValue();
-					if (strValue.startsWith("Default")) {
-						level = "Default";
-					} else if (strValue.startsWith("None")) {
-						level = "None";
-					} else if (strValue.startsWith("Minimal")) {
-						level = "Minimal";
-					} else if (strValue.startsWith("Full")) {
-						level = "Full";
-					}
+					level = (String) optionGroup.getValue();
 				}
 			});
 
-			Button upgradeBtn = new Button("Update",
+			Button upgradeBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -189,8 +193,8 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 											.updateWithSession(bean,
 													AppContext.getUsername());
 								}
-								NotificationUtil
-										.showNotification("Update notification setting successfully.");
+								NotificationUtil.showNotification(AppContext
+										.getMessage(NotificationSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
 							} catch (Exception e) {
 								throw new MyCollabException(e);
 							}

@@ -28,8 +28,10 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -39,6 +41,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
@@ -90,8 +93,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 	private static final TaskFieldNameMapper mapper = new TaskFieldNameMapper();
 
 	@Override
-	protected void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification) {
+	protected void buildExtraTemplateVariables(MailContext<SimpleTask> context) {
 		List<Map<String, String>> listOfTitles = new ArrayList<Map<String, String>>();
 
 		HashMap<String, String> currentProject = new HashMap<String, String>();
@@ -102,6 +104,9 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						bean.getProjectid()));
 
 		listOfTitles.add(currentProject);
+
+		SimpleRelayEmailNotification emailNotification = context
+				.getEmailNotification();
 
 		HashMap<String, String> taskCode = new HashMap<String, String>();
 		SimpleProject relatedProject = projectService.findById(
@@ -119,9 +124,37 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		String summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(
 				siteUrl, bean.getProjectid(), bean.getId());
 
-		contentGenerator.putVariable("makeChangeUser",
-				emailNotification.getChangeByUserFullName());
-		contentGenerator.putVariable("itemType", "task");
+		String avatarId = "";
+
+		SimpleProjectMember projectMember = projectMemberService
+				.findMemberByUsername(emailNotification.getChangeby(),
+						bean.getProjectid(), emailNotification.getSaccountid());
+		if (projectMember != null) {
+			avatarId = projectMember.getMemberAvatarId();
+		}
+		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+				16));
+		userAvatar.setWidth("16");
+		userAvatar.setHeight("16");
+		userAvatar.setStyle("display: inline-block; vertical-align: top;");
+
+		String makeChangeUser = userAvatar.toString()
+				+ emailNotification.getChangeByUserFullName();
+
+		if (MonitorTypeConstants.CREATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_CREATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.UPDATE_ACTION.equals(emailNotification
+				.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_UPDATE_ITEM_HEADING, makeChangeUser));
+		} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+				.equals(emailNotification.getAction())) {
+			contentGenerator.putVariable("actionHeading", context.getMessage(
+					TaskI18nEnum.MAIL_COMMENT_ITEM_HEADING, makeChangeUser));
+		}
+
 		contentGenerator.putVariable("titles", listOfTitles);
 		contentGenerator.putVariable("summary", summary);
 		contentGenerator.putVariable("summaryLink", summaryLink);
@@ -296,9 +329,10 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						task.getAssignUserAvatarId(), 16);
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(task.getSaccountid()),
-						task.getAssignuser());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(task.getSaccountid()),
+								task.getAssignuser());
 				A link = TagBuilder
 						.newA(userLink, task.getAssignUserFullName());
 				return TagBuilder.newLink(img, link).write();
@@ -320,9 +354,10 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			if (user != null) {
 				String userAvatarLink = MailUtils.getAvatarLink(
 						user.getAvatarid(), 16);
-				String userLink = AccountLinkGenerator.generatePreviewFullUserLink(
-						MailUtils.getSiteUrl(user.getAccountId()),
-						user.getUsername());
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(user.getAccountId()),
+								user.getUsername());
 				Img img = TagBuilder.newImg("avatar", userAvatarLink);
 				A link = TagBuilder.newA(userLink, user.getDisplayName());
 				return TagBuilder.newLink(img, link).write();

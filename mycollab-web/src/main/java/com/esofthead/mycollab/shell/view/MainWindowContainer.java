@@ -23,6 +23,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
+import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
@@ -68,7 +69,7 @@ public class MainWindowContainer extends CssLayout {
 
 		// Read previously stored cookie value
 		if (isAutoLogin) {
-			Cookie nameCookie = DesktopApplication.getInstance()
+			Cookie nameCookie = ((DesktopApplication) MyCollabUI.getInstance())
 					.getCookieByName(DesktopApplication.NAME_COOKIE);
 			if (nameCookie != null) {
 				String loginInfo = nameCookie.getValue();

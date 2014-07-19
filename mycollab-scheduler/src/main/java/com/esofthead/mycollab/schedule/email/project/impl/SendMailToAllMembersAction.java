@@ -70,9 +70,8 @@ public abstract class SendMailToAllMembersAction<B> implements
 	private List<SimpleUser> getNotifyUsers(
 			ProjectRelayEmailNotification notification) {
 		List<SimpleUser> usersInProject = projectMemberService
-				.getActiveUsersInProject(
-						((ProjectRelayEmailNotification) notification)
-								.getProjectId(), notification.getSaccountid());
+				.getActiveUsersInProject(notification.getProjectId(),
+						notification.getSaccountid());
 
 		List<ProjectNotificationSetting> notificationSettings = projectNotificationService
 				.findNotifications(notification.getProjectId(),
@@ -109,7 +108,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 				if (bean != null) {
 					context.setWrappedBean(bean);
 
-					buildExtraTemplateVariables(context.getEmailNotification());
+					buildExtraTemplateVariables(context);
 
 					contentGenerator.putVariable("context", context);
 					contentGenerator
@@ -154,7 +153,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 					contentGenerator.putVariable("userName",
 							user.getDisplayName());
 
-					buildExtraTemplateVariables(context.getEmailNotification());
+					buildExtraTemplateVariables(context);
 					if (context.getTypeid() != null) {
 						SimpleAuditLog auditLog = auditLogService
 								.findLatestLog(context.getTypeid(),
@@ -200,7 +199,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 						siteUrl);
 				bean = getBeanInContext(context);
 				if (bean != null) {
-					buildExtraTemplateVariables(context.getEmailNotification());
+					buildExtraTemplateVariables(context);
 					contentGenerator.putVariable("userName",
 							user.getDisplayName());
 					contentGenerator.putVariable("comment",
@@ -234,8 +233,7 @@ public abstract class SendMailToAllMembersAction<B> implements
 
 	protected abstract B getBeanInContext(MailContext<B> context);
 
-	protected abstract void buildExtraTemplateVariables(
-			SimpleRelayEmailNotification emailNotification);
+	protected abstract void buildExtraTemplateVariables(MailContext<B> context);
 
 	protected abstract String getItemName();
 

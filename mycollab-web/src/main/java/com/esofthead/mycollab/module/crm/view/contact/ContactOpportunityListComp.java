@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.contact;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -140,11 +138,6 @@ public class ContactOpportunityListComp
 	@Override
 	public void refresh() {
 		loadOpportunities();
-	}
-
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	public class ContactOpportunityBlockDisplay implements

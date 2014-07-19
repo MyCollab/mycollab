@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import java.util.Set;
-
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -78,11 +76,6 @@ public class CaseContactListComp extends
 				AppContext.getAccountId()));
 		criteria.setCaseId(new NumberSearchField(SearchField.AND, cases.getId()));
 		this.setSearchCriteria(criteria);
-	}
-
-	@Override
-	public void setSelectedItems(Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	@Override

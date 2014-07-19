@@ -18,7 +18,6 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -187,11 +186,6 @@ public class OpportunityContactListComp
 	@Override
 	public void refresh() {
 		loadContacts();
-	}
-
-	@Override
-	public void setSelectedItems(final Set selectedItems) {
-		fireSelectedRelatedItems(selectedItems);
 	}
 
 	public class OpportunityContactBlockDisplay implements
