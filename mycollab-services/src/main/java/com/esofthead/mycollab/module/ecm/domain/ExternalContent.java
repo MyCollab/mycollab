@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.ecm.domain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ExternalContent extends Content {
 	private String storageName;
 

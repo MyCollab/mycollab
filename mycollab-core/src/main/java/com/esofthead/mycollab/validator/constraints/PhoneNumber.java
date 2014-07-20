@@ -37,6 +37,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = PhoneNumberValidator.class)
 @Documented
+@SuppressWarnings("ucd")
 public @interface PhoneNumber {
 
     String message() default "{com.esofthead.mycollab.validator.constraints.PhoneNumber}";

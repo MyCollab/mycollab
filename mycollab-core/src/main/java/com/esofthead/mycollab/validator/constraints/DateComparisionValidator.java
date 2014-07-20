@@ -26,6 +26,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class DateComparisionValidator implements
 		ConstraintValidator<DateComparision, Object> {

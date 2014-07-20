@@ -22,11 +22,15 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
 /**
- *
+ * 
  * @author MyCollab Ltd.
+ * @since 1.0
+ *
  */
 public class CommentSearchCriteria extends SearchCriteria {
-    private StringSearchField type;
+	private static final long serialVersionUID = 1L;
+
+	private StringSearchField type;
     
     private NumberSearchField typeid;
 

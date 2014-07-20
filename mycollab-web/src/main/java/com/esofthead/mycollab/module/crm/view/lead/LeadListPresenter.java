@@ -134,8 +134,8 @@ public class LeadListPresenter extends
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/lead/list", AppContext.getMessage(
-					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Lead"));
+			AppContext.addFragment("crm/lead/list",
+					AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

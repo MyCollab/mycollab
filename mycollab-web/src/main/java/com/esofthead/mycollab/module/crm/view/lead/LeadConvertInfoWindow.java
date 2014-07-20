@@ -21,6 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.campaign.CampaignSelectionField;
 import com.esofthead.mycollab.module.crm.view.opportunity.OpportunitySalesStageComboBox;
@@ -77,10 +78,9 @@ public class LeadConvertInfoWindow extends Window {
 
 	@Override
 	public void attach() {
-		String formTitle = "Convert Lead (%s - %s)";
-		formTitle = String.format(formTitle, lead.getLastname(),
-				lead.getFirstname());
-		setCaption(formTitle);
+		setCaption(AppContext.getMessage(
+				LeadI18nEnum.WINDOW_CONVERT_LEAD_TITLE, lead.getLastname(),
+				lead.getFirstname()));
 
 		super.attach();
 	}
@@ -112,7 +112,8 @@ public class LeadConvertInfoWindow extends Window {
 		layout.setSpacing(true);
 		layout.setStyleName("addNewControl");
 
-		Button convertButton = new Button("Convert",
+		Button convertButton = new Button(
+				AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

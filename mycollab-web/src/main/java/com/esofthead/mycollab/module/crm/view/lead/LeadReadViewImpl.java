@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
@@ -92,7 +93,8 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 		CrmPreviewFormControlsGenerator<SimpleLead> controlsButton = new CrmPreviewFormControlsGenerator<SimpleLead>(
 				previewForm);
 
-		Button convertButton = new Button("Convert",
+		Button convertButton = new Button(
+				AppContext.getMessage(LeadI18nEnum.BUTTON_CONVERT_LEAD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -19,6 +19,12 @@ package com.esofthead.mycollab.module.ecm.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class Folder extends Resource {
 	private List<Folder> childs = new ArrayList<Folder>();
 

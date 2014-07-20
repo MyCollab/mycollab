@@ -36,6 +36,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = DateComparisionValidator.class)
 @Documented
+@SuppressWarnings("ucd")
 public @interface DateComparision {
     String message() default "{com.esofthead.mycollab.validator.constraints.DateComparision}";
     

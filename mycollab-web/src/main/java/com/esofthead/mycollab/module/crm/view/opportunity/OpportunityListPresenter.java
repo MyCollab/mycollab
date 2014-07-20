@@ -115,9 +115,8 @@ public class OpportunityListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/opportunity/list", AppContext
-					.getMessage(GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-							"Opportunitie"));
+			AppContext.addFragment("crm/opportunity/list",
+					AppContext.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

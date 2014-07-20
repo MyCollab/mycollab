@@ -132,8 +132,8 @@ public class CaseListPresenter extends
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/cases/list", AppContext.getMessage(
-					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Case"));
+			AppContext.addFragment("crm/cases/list",
+					AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

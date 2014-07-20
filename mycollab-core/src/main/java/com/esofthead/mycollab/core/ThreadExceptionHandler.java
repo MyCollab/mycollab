@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  * 
  */
-public class ThreadExceptionHandler implements Thread.UncaughtExceptionHandler {
+class ThreadExceptionHandler implements Thread.UncaughtExceptionHandler {
 
 	private Logger logger = LoggerFactory
 			.getLogger(ThreadExceptionHandler.class);

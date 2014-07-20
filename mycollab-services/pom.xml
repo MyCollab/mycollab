@@ -128,7 +128,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-                    <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
+                    <!--  <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
                         <overwrite>true</overwrite> </configuration> </execution> -->
                     <!-- <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 

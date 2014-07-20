@@ -31,7 +31,6 @@ import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.SecurityException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
@@ -100,60 +99,53 @@ public class DesktopApplication extends MyCollabUI {
 									GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
 									invalidException.getMessage()));
 				} else {
-					SecurityException securityException = (SecurityException) getExceptionType(
-							e, SecurityException.class);
-					if (securityException != null) {
-						NotificationUtil.showMessagePermissionAlert();
-					} else {
-						UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
-								e, UsageExceedBillingPlanException.class);
-						if (usageBillingException != null) {
-							if (AppContext.isAdmin()) {
-								ConfirmDialogExt.show(
-										UI.getCurrent(),
-										AppContext
-												.getMessage(
-														GenericI18Enum.WINDOW_ATTENTION_TITLE,
-														SiteConfiguration
-																.getSiteName()),
-										AppContext
-												.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
-										AppContext
-												.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-										AppContext
-												.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-										new ConfirmDialog.Listener() {
-											private static final long serialVersionUID = 1L;
 
-											@Override
-											public void onClose(
-													ConfirmDialog dialog) {
-												if (dialog.isConfirmed()) {
-													Collection<Window> windowsList = UI
-															.getCurrent()
-															.getWindows();
-													for (Window window : windowsList) {
-														window.close();
-													}
-													EventBusFactory
-															.getInstance()
-															.post(new ShellEvent.GotoUserAccountModule(
-																	this,
-																	new String[] { "billing" }));
+					UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
+							e, UsageExceedBillingPlanException.class);
+					if (usageBillingException != null) {
+						if (AppContext.isAdmin()) {
+							ConfirmDialogExt.show(
+									UI.getCurrent(),
+									AppContext
+											.getMessage(
+													GenericI18Enum.WINDOW_ATTENTION_TITLE,
+													SiteConfiguration
+															.getSiteName()),
+									AppContext
+											.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									new ConfirmDialog.Listener() {
+										private static final long serialVersionUID = 1L;
+
+										@Override
+										public void onClose(ConfirmDialog dialog) {
+											if (dialog.isConfirmed()) {
+												Collection<Window> windowsList = UI
+														.getCurrent()
+														.getWindows();
+												for (Window window : windowsList) {
+													window.close();
 												}
+												EventBusFactory
+														.getInstance()
+														.post(new ShellEvent.GotoUserAccountModule(
+																this,
+																new String[] { "billing" }));
 											}
-										});
+										}
+									});
 
-							} else {
-								NotificationUtil.showErrorNotification(AppContext
-										.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
-							}
 						} else {
-							log.error("Error", e);
 							NotificationUtil.showErrorNotification(AppContext
-									.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+									.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
 						}
-
+					} else {
+						log.error("Error", e);
+						NotificationUtil.showErrorNotification(AppContext
+								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
 					}
 				}
 

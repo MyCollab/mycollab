@@ -41,12 +41,6 @@
             value="com.esofthead.mycollab.module.project.dao.MilestoneMapperExt" />
     </bean>
 
-    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="permissionMapper">
-        <property name="sqlSessionTemplate" ref="sqlMapClient" />
-        <property name="mapperInterface"
-            value="com.esofthead.mycollab.module.project.dao.PermissionMapper" />
-    </bean>
-
     <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="problemMapper">
         <property name="sqlSessionTemplate" ref="sqlMapClient" />
         <property name="mapperInterface"

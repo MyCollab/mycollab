@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.CaseWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.ContactCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -93,11 +94,14 @@ public class CaseContactListComp extends
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CONTACT));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption("New Contact");
+		controlsBtn.setCaption(AppContext
+				.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void splitButtonClick(
 							SplitButton.SplitButtonClickEvent event) {
@@ -106,6 +110,8 @@ public class CaseContactListComp extends
 				});
 		Button selectBtn = new Button("Select from existing contacts",
 				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void buttonClick(Button.ClickEvent event) {
 						CaseContactSelectionWindow contactsWindow = new CaseContactSelectionWindow(

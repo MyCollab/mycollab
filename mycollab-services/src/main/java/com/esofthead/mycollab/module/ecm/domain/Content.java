@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.ecm.domain;
 
 import java.util.Calendar;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class Content extends Resource {
 	private String title = "";
 	private String description = "";

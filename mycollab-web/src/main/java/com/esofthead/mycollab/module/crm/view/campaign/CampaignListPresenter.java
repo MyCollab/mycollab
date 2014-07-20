@@ -114,8 +114,8 @@ public class CampaignListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/campaign/list", AppContext.getMessage(
-					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE, "Campaign"));
+			AppContext.addFragment("crm/campaign/list",
+					AppContext.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

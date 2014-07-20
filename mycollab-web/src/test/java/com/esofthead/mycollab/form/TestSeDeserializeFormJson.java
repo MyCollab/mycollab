@@ -32,7 +32,7 @@ public class TestSeDeserializeFormJson {
 	public void testFromJsonWithExcludeProps() {
 		DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
 
-		AbstractDynaFieldBuilder val1Builder = new TextDynaFieldBuilder()
+		AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
 				.maxLength(22).fieldIndex(1).fieldName("field1")
 				.displayName("Field 1");
 
@@ -49,7 +49,7 @@ public class TestSeDeserializeFormJson {
 	public void testToJsonWithExcludeProps() {
 		DynaSectionBuilder builder = new DynaSectionBuilder().header("example");
 
-		AbstractDynaFieldBuilder val1Builder = new TextDynaFieldBuilder()
+		AbstractDynaFieldBuilder<TextDynaField> val1Builder = new TextDynaFieldBuilder()
 				.maxLength(22).fieldIndex(1).fieldName("field1")
 				.displayName("Field 1");
 

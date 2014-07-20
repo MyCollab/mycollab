@@ -21,6 +21,12 @@ import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction.Delete;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction.Move;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogAction.Rename;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ContentActivityLogBuilder {
 	public static ContentActivityLogAction makeCreateFolder(String path) {
 		return makeCreate(path, ContentActivityLogAction.FOLDER_TYPE);

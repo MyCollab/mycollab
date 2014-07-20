@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -51,6 +52,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class CampaignAccountListComp extends
 		RelatedListComp2<AccountService, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = 4624196496275152351L;
@@ -90,11 +97,13 @@ public class CampaignAccountListComp extends
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_ACCOUNT));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption("New Account");
+		controlsBtn.setCaption(AppContext
+				.getMessage(AccountI18nEnum.BUTTON_NEW_ACCOUNT));
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void splitButtonClick(
@@ -102,8 +111,9 @@ public class CampaignAccountListComp extends
 						fireNewRelatedItem("");
 					}
 				});
-		final Button selectBtn = new Button("Select from existing contacts",
+		final Button selectBtn = new Button("Select from existing accounts",
 				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {

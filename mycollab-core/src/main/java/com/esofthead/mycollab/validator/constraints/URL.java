@@ -37,6 +37,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = URLValidator.class)
 @Documented
+@SuppressWarnings("ucd")
 public @interface URL {
 	String message() default "{com.esofthead.mycollab.validator.constraints.URL}";
 

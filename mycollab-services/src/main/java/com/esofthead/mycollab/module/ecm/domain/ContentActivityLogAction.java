@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.ecm.domain;
 
 import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ContentActivityLogAction {
 
 	public static final String FOLDER_TYPE = "folder";

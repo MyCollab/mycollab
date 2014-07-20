@@ -34,12 +34,4 @@ public class ResourceNotFoundException extends MyCollabException {
 		super("");
 	}
 
-	public ResourceNotFoundException(final Throwable e) {
-		super(e);
-	}
-
-	public ResourceNotFoundException(String message, Throwable e) {
-		super(message, e);
-	}
-
 }

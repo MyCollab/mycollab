@@ -18,9 +18,13 @@ package com.esofthead.mycollab.module.ecm.domain;
 
 import java.util.Calendar;
 
-import com.esofthead.mycollab.core.MyCollabException;
-
-public class Resource implements Comparable {
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
+public class Resource implements Comparable<Resource> {
 	protected String uuid = "";
 	protected String createdBy = "";
 	protected Calendar created;
@@ -93,25 +97,18 @@ public class Resource implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		if (!(arg0 instanceof Resource)) {
-			throw new MyCollabException(
-					"Object compare is not a resource instance, it has type "
-							+ arg0.getClass().toString());
-		} else {
-			Resource res = (Resource) arg0;
-			if (this instanceof Folder && res instanceof Content) {
-				return -1;
-			} else if (this instanceof Folder && res instanceof Folder) {
-				if (this.getCreated() != null && res.getCreated() != null) {
-					return this.getCreated().getTime()
-							.compareTo(res.getCreated().getTime());
-				} else {
-					return this.getName().compareTo(res.getName());
-				}
+	public int compareTo(Resource arg0) {
+		if (this instanceof Folder && arg0 instanceof Content) {
+			return -1;
+		} else if (this instanceof Folder && arg0 instanceof Folder) {
+			if (this.getCreated() != null && arg0.getCreated() != null) {
+				return this.getCreated().getTime()
+						.compareTo(arg0.getCreated().getTime());
 			} else {
-				return 1;
+				return this.getName().compareTo(arg0.getName());
 			}
+		} else {
+			return 1;
 		}
 	}
 }

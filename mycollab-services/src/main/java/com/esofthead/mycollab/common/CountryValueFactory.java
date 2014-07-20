@@ -38,6 +38,7 @@ package com.esofthead.mycollab.common;
  * @since 1.0
  * 
  */
+@SuppressWarnings("ucd")
 public class CountryValueFactory {
 
 	public static String AFGHANISTAN = "Afghanistan";

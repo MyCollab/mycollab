@@ -19,7 +19,9 @@ package com.esofthead.mycollab.module.crm.view.opportunity;
 import com.esofthead.mycollab.form.view.DynaFormLayout;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractEditItemComp;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
@@ -42,7 +44,8 @@ public class OpportunityAddViewImpl extends
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "New Opportunity" : beanItem
+		return (beanItem.getId() == null) ? AppContext
+				.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE) : beanItem
 				.getOpportunityname();
 	}
 

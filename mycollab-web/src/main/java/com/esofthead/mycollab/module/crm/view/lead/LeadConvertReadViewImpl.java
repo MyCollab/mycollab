@@ -42,6 +42,7 @@ import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
@@ -154,7 +155,7 @@ public class LeadConvertReadViewImpl extends
 
 	@Override
 	protected String initFormTitle() {
-		return "You can not access the Lead, it is converted already";
+		return AppContext.getMessage(LeadI18nEnum.VIEW_CONVERTED_LEAD_TITLE);
 	}
 
 	@Override

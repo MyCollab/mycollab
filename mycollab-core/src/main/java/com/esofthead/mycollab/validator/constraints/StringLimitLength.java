@@ -37,6 +37,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = StringLimitLengthValidator.class)
 @Documented
+@SuppressWarnings("ucd")
 public @interface StringLimitLength {
 
 	String message() default "{com.esofthead.mycollab.validator.constraints.StringLimitLengthValidator}";

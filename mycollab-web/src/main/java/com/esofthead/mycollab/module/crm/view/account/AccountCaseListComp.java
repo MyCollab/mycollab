@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.module.crm.service.CaseService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
 import com.esofthead.mycollab.module.user.AccountLinkGenerator;
@@ -117,7 +118,8 @@ public class AccountCaseListComp extends
 		createBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_CASE));
 		createBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		createBtn.setCaption("New Case");
+		createBtn.setCaption(AppContext
+				.getMessage(CaseI18nEnum.BUTTON_NEW_CASE));
 		createBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		createBtn.addClickListener(new Button.ClickListener() {

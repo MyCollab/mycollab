@@ -134,9 +134,8 @@ public class ContactListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/contact/list", AppContext.getMessage(
-					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-					AppContext.getMessage(CrmCommonI18nEnum.CONTACT)));
+			AppContext.addFragment("crm/contact/list",
+					AppContext.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

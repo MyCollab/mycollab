@@ -67,7 +67,8 @@ public class CampaignListNoItemView extends AbstractPageView {
 		contact.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(contact);
 
-		Button btCreateContact = new Button("New Campaign",
+		Button btCreateContact = new Button(
+				AppContext.getMessage(CampaignI18nEnum.BUTTON_NEW_CAMPAIGN),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

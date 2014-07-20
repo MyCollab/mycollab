@@ -24,6 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  * @author MyCollab Ltd.
  *
  */
+@SuppressWarnings("ucd")
 public class StringLimitLengthValidator implements
 		ConstraintValidator<StringLimitLength, String> {
 

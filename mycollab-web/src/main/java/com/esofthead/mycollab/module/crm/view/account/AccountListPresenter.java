@@ -161,9 +161,8 @@ public class AccountListPresenter
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/account/list", AppContext.getMessage(
-					GenericI18Enum.BROWSER_LIST_ITEMS_TITLE,
-					AppContext.getMessage(CrmCommonI18nEnum.ACCOUNT)));
+			AppContext.addFragment("crm/account/list",
+					AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

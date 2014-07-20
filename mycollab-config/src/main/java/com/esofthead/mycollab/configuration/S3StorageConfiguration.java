@@ -32,9 +32,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
  */
 public class S3StorageConfiguration implements StorageConfiguration {
 
-	public static final String AWS_KEY = "s3.key";
-	public static final String AWS_SECRET_KEY = "s3.secretKey";
-	public static final String BUCKET = "s3.bucket";
+	private static final String AWS_KEY = "s3.key";
+	private static final String AWS_SECRET_KEY = "s3.secretKey";
+	private static final String BUCKET = "s3.bucket";
 	private static final String S3_DOWNLOAD_URL = "s3.downloadurl";
 
 	private String awsKey;
@@ -58,7 +58,7 @@ public class S3StorageConfiguration implements StorageConfiguration {
 		return new AmazonS3Client(myCredentials);
 	}
 
-	public static S3StorageConfiguration build(Properties props) {
+	static S3StorageConfiguration build(Properties props) {
 		return new S3StorageConfiguration(props);
 	}
 

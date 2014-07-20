@@ -67,7 +67,9 @@ public class OpportunityListNoItemView extends AbstractPageView {
 		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		layout.addComponent(body);
 
-		Button btCreateContact = new Button("New Opportunity",
+		Button btCreateContact = new Button(
+				AppContext
+						.getMessage(OpportunityI18nEnum.BUTTON_NEW_OPPORTUNITY),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
