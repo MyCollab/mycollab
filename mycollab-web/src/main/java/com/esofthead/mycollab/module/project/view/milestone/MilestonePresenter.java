@@ -31,6 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 
 	private static final long serialVersionUID = 1L;

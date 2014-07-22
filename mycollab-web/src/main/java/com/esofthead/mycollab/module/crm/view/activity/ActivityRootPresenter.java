@@ -50,6 +50,7 @@ public class ActivityRootPresenter extends
 		super.go(container, data, false);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		super.onGo(container, data);

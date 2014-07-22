@@ -136,6 +136,8 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 	public ComponentContainer constructBody() {
 		buildCriterionComp = new BuildCriterionComponent<S>(getParamFields(),
 				getType(), type) {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected Component buildPropertySearchComp(String fieldId) {
 				return buildSelectionComp(fieldId);

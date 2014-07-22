@@ -27,6 +27,12 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class CrmNotifcationSettingPresenter extends
 		CrmGenericPresenter<CrmNotificationSettingView> {
 	private static final long serialVersionUID = 1L;

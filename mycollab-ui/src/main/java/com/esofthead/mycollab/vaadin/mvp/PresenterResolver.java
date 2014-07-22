@@ -40,6 +40,7 @@ public class PresenterResolver {
 	private static Logger log = LoggerFactory
 			.getLogger(PresenterResolver.class);
 
+	@SuppressWarnings("rawtypes")
 	protected static Set<Class<? extends IPresenter>> presenterClasses;
 
 	static {
@@ -56,7 +57,7 @@ public class PresenterResolver {
 		MyCollabSession.removeVariable(PRESENTER_VAL);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <P extends IPresenter> P getPresenter(Class<P> presenterClass) {
 		Map<Class<?>, Object> presenterMap = (Map<Class<?>, Object>) MyCollabSession
 				.getVariable(PRESENTER_VAL);

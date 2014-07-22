@@ -439,16 +439,8 @@ public class BugTableDisplay extends
 			return action;
 		}
 
-		public void setAction(String action) {
-			this.action = action;
-		}
-
 		public String getKey() {
 			return key;
-		}
-
-		public void setKey(String key) {
-			this.key = key;
 		}
 	}
 

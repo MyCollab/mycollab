@@ -21,6 +21,12 @@ import java.util.List;
 import com.esofthead.mycollab.form.view.builder.type.DynaSection;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public interface ICrmCustomView extends PageView {
 	void display(String moduleName);
 

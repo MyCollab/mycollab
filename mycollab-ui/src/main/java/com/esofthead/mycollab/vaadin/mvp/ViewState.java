@@ -25,6 +25,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
+@SuppressWarnings("rawtypes")
 public class ViewState {
 	private ComponentContainer container;
 	private IPresenter presenter;

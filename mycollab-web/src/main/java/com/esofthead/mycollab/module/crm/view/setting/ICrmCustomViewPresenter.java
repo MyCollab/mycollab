@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.crm.view.setting;
 
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public interface ICrmCustomViewPresenter extends IPresenter<ICrmCustomView> {
 
 }

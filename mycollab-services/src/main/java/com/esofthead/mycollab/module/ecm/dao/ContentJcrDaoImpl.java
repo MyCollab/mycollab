@@ -26,9 +26,6 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
-import javax.jcr.query.Query;
-import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.slf4j.Logger;
@@ -432,28 +429,30 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 			public List<Resource> doInJcr(Session session) throws IOException,
 					RepositoryException {
 				log.debug("WORDSPACE: " + session.getWorkspace().getName());
-				QueryManager queryManager = session.getWorkspace()
-						.getQueryManager();
-
-				String expression = "select * from [nt:base] AS folder where ISDESCENDANTNODE(folder, [/"
-						+ baseFolderPath
-						+ "]) AND LOCALNAME(folder) LIKE '%"
-						+ resourceName + "%' ";
-				Query query = queryManager.createQuery(expression,
-						Query.JCR_SQL2);
-				QueryResult result = query.execute();
-				NodeIterator nodes = result.getNodes();
-				List<Resource> resources = new ArrayList<Resource>();
-				while (nodes.hasNext()) {
-					Node node = nodes.nextNode();
-					if (isNodeFolder(node)) {
-						// do nothing
-					} else if (isNodeMyCollabContent(node)) {
-						Content content = convertNodeToContent(node);
-						resources.add(content);
-					}
-				}
-				return resources;
+				return new ArrayList<Resource>();
+				// QueryManager queryManager = session.getWorkspace()
+				// .getQueryManager();
+				//
+				// String expression =
+				// "select * from [nt:base] AS folder where ISDESCENDANTNODE(folder, [/"
+				// + baseFolderPath
+				// + "]) AND LOCALNAME(folder) LIKE '%"
+				// + resourceName + "%' ";
+				// Query query = queryManager.createQuery(expression,
+				// Query.JCR_SQL2);
+				// QueryResult result = query.execute();
+				// NodeIterator nodes = result.getNodes();
+				// List<Resource> resources = new ArrayList<Resource>();
+				// while (nodes.hasNext()) {
+				// Node node = nodes.nextNode();
+				// if (isNodeFolder(node)) {
+				// // do nothing
+				// } else if (isNodeMyCollabContent(node)) {
+				// Content content = convertNodeToContent(node);
+				// resources.add(content);
+				// }
+				// }
+				// return resources;
 			}
 		});
 	}

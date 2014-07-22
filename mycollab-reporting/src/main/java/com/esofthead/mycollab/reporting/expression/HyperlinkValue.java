@@ -25,6 +25,7 @@ import net.sf.dynamicreports.report.definition.expression.DRIExpression;
  * @since 4.3.1
  *
  */
+@SuppressWarnings("rawtypes")
 public class HyperlinkValue implements MValue {
 	private DRIExpression title;
 	private DRIExpression href;

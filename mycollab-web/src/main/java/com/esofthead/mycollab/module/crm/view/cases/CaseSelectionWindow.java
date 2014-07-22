@@ -37,6 +37,7 @@ import com.vaadin.ui.Window;
  * @since 1.0
  * 
  */
+@SuppressWarnings("rawtypes")
 public class CaseSelectionWindow extends Window {
 
 	private static final long serialVersionUID = 1L;
@@ -98,6 +99,7 @@ public class CaseSelectionWindow extends Window {
 				ButtonLink b = new ButtonLink(cases.getSubject(),
 						new Button.ClickListener() {
 
+							@SuppressWarnings("unchecked")
 							@Override
 							public void buttonClick(
 									final Button.ClickEvent event) {

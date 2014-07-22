@@ -45,6 +45,7 @@ public class ActivityPresenter extends AbstractPresenter<ActivityContainer> {
 		super.go(container, data, false);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ActivityRootView activityContainer = (ActivityRootView) container;

@@ -43,6 +43,7 @@ import com.vaadin.ui.HorizontalLayout;
  */
 public class ActivityRelatedItemListComp extends
 		RelatedListComp<SimpleActivity, ActivitySearchCriteria> {
+	private static final long serialVersionUID = 1L;
 
 	private final boolean allowCreateNew;
 

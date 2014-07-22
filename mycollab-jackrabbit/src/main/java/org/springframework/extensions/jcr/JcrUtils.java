@@ -16,9 +16,6 @@
  */
 package org.springframework.extensions.jcr;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.jcr.Repository;
 
 /**

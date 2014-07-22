@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.zip.GZIPOutputStream;
 
@@ -48,7 +47,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.slf4j.Logger;
@@ -56,8 +54,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.vaadin.server.DownloadStream;
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
@@ -144,7 +142,7 @@ public class JFreeChartWrapper extends Embedded {
 	public void attach() {
 		super.attach();
 		if (mode == RenderingMode.AUTO) {
-			WebBrowser browser = getSession().getBrowser();
+			WebBrowser browser = Page.getCurrent().getWebBrowser();
 			if (browser.isIE() && browser.getBrowserMajorVersion() < 9) {
 				setRenderingMode(RenderingMode.PNG);
 			} else {

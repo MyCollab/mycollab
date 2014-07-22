@@ -26,6 +26,8 @@
                 <include>${project.groupId}:mycollab-reporting</include>
                 <include>${project.groupId}:mycollab-scheduler</include>
                 <include>${project.groupId}:mycollab-servlet</include>
+                <include>${project.groupId}:mycollab-search</include>
+                <include>${project.groupId}:mycollab-search-server</include>
                 <include>${project.groupId}:mycollab-ui</include>
                 <include>${project.groupId}:mycollab-web</include>
                 <include>${project.groupId}:mycollab-mobile</include>

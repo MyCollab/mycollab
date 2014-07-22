@@ -86,7 +86,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 
 	private void initUI() {
 		Label lbInstruct = new Label(
-				"Add people from your team or external team to follow bug activity");
+				"Add people from your team to follow this bug activity");
 		this.addComponent(lbInstruct);
 
 		HorizontalLayout layoutAdd = new HorizontalLayout();
@@ -132,8 +132,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 								if (saveMonitorItem(member.getUsername())) {
 									if (member.getUsername().equals(
 											AppContext.getUsername())) {
-										followBtn.setCaption("UnFollow by Me");
-										followBtn.setDescription("UnFollow");
+										followBtn.setCaption("UnFollow");
 									}
 									canSendEmail = true;
 								}
@@ -162,7 +161,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 
 		followBtn = new Button();
 		followBtn.addStyleName("link");
-		followBtn.setCaption("Follow by Me");
+		followBtn.setCaption("Follow");
 		followBtn.setDescription("Follow");
 		followBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
@@ -175,7 +174,7 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 					saveMonitorItem(AppContext.getUsername());
 					loadMonitorItems();
 				} else if (followBtn.getDescription().equals("UnFollow")) {
-					followBtn.setCaption("Follow by Me");
+					followBtn.setCaption("Follow");
 					followBtn.setDescription("Follow");
 					for (MonitorItem item : tableItem.getCurrentDataList()) {
 						if (item.getUser().equals(AppContext.getUsername())) {
@@ -304,16 +303,14 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 
 		for (SimpleMonitorItem monitorItem : tableItem.getCurrentDataList()) {
 			if (monitorItem.getUser().equals(AppContext.getUsername())) {
-				followBtn.setCaption("UnFollow by Me");
-				followBtn.setDescription("UnFollow");
+				followBtn.setCaption("UnFollow");
 				break;
 			}
 		}
 		if (tableItem.getCurrentDataList().size() == 0
 				|| (followBtn.getDescription() != null && !followBtn
 						.getDescription().equals("UnFollow"))) {
-			followBtn.setCaption("Follow by Me");
-			followBtn.setDescription("Follow");
+			followBtn.setCaption("Follow");
 		}
 	}
 

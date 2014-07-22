@@ -12,7 +12,6 @@ import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.arguments.GroupIdProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServletRequest;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 
 /**

@@ -13,7 +13,7 @@
     <Security appName="Jackrabbit">
         <SecurityManager
             class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
-            workspaceName="default">
+            workspaceName="default2">
         </SecurityManager>
         <AccessManager
             class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
@@ -24,7 +24,7 @@
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo/workspaces' defaultWorkspace='default' />
+    <Workspaces rootPath='repo2/workspaces' defaultWorkspace='default2' />
     <Workspace name="mycollab">
         <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
             <param name="schemaObjectPrefix" value="ecm_s_" />
@@ -34,6 +34,7 @@
             class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_workspace" />
         </PersistenceManager>
+        <!-- 
         <SearchIndex
             class='org.apache.jackrabbit.core.query.lucene.SearchIndex'>
             <param name='path' value='${wsp.home}/index' />
@@ -44,6 +45,7 @@
                 <param name="schemaObjectPrefix" value="ecm_s_" />
             </FileSystem>
         </SearchIndex>
+        -->
     </Workspace>
     <!-- Configures the versioning -->
 

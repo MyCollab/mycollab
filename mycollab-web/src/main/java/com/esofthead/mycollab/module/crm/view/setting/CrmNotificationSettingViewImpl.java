@@ -23,11 +23,17 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 @ViewComponent
 public class CrmNotificationSettingViewImpl extends AbstractPageView implements
 		CrmNotificationSettingView {
 	private static final long serialVersionUID = 1L;
-	
+
 	private NotificationSettingViewComponent<CrmNotificationSetting, CrmNotificationSettingService> component;
 
 	@Override
@@ -39,6 +45,7 @@ public class CrmNotificationSettingViewImpl extends AbstractPageView implements
 				notification,
 				ApplicationContextUtil
 						.getSpringBean(CrmNotificationSettingService.class)) {
+			private static final long serialVersionUID = 1L;
 		};
 		this.addComponent(component);
 	}

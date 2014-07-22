@@ -26,13 +26,13 @@ public class Param {
 
 	protected String id;
 
-	protected Enum displayName;
+	protected Enum<?> displayName;
 
 	public Param() {
 		this("", null);
 	}
 
-	public Param(String id, Enum displayName) {
+	public Param(String id, Enum<?> displayName) {
 		this.id = id;
 		this.displayName = displayName;
 	}
@@ -45,11 +45,11 @@ public class Param {
 		this.id = id;
 	}
 
-	public Enum getDisplayName() {
+	public Enum<?> getDisplayName() {
 		return displayName;
 	}
 
-	public void setDisplayName(Enum displayName) {
+	public void setDisplayName(Enum<?> displayName) {
 		this.displayName = displayName;
 	}
 

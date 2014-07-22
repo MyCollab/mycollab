@@ -628,8 +628,8 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 				public void eventResize(EventResize event) {
 					CrmEvent crmEvent = (CrmEvent) event.getCalendarEvent();
 					SimpleMeeting simpleMeeting = crmEvent.getSource();
-					simpleMeeting.setStartdate(event.getNewStartTime());
-					simpleMeeting.setEnddate(event.getNewEndTime());
+					simpleMeeting.setStartdate(event.getNewStart());
+					simpleMeeting.setEnddate(event.getNewEnd());
 					MeetingService service = ApplicationContextUtil
 							.getSpringBean(MeetingService.class);
 					service.updateWithSession(simpleMeeting,

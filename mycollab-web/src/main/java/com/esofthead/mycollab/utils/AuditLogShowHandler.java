@@ -64,18 +64,19 @@ public class AuditLogShowHandler {
 				new CurrencyHistoryFieldFormat());
 	}
 
-	public void generateFieldDisplayHandler(String fieldname, Enum displayName) {
+	public void generateFieldDisplayHandler(String fieldname,
+			Enum<?> displayName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName));
 	}
 
-	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
-			HistoryFieldFormat format) {
+	public void generateFieldDisplayHandler(String fieldname,
+			Enum<?> displayName, HistoryFieldFormat format) {
 		fieldsFormat.put(fieldname,
 				new FieldDisplayHandler(displayName, format));
 	}
 
-	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
-			String formatName) {
+	public void generateFieldDisplayHandler(String fieldname,
+			Enum<?> displayName, String formatName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName,
 				defaultFieldHandlers.get(formatName)));
 	}
@@ -106,20 +107,17 @@ public class AuditLogShowHandler {
 
 	private static class FieldDisplayHandler {
 
-		private Enum displayName;
+		private Enum<?> displayName;
 		private HistoryFieldFormat format;
 
-		public FieldDisplayHandler(Enum displayName) {
+		public FieldDisplayHandler(Enum<?> displayName) {
 			this(displayName, new DefaultHistoryFieldFormat());
 		}
 
-		public FieldDisplayHandler(Enum displayName, HistoryFieldFormat format) {
+		public FieldDisplayHandler(Enum<?> displayName,
+				HistoryFieldFormat format) {
 			this.displayName = displayName;
 			this.format = format;
-		}
-
-		public Enum getDisplayName() {
-			return displayName;
 		}
 
 		public HistoryFieldFormat getFormat() {

@@ -5,7 +5,7 @@
 
     <bean id="repository"
         class="org.springframework.extensions.jcr.jackrabbit.RepositoryFactoryBean"
-        p:configuration="classpath:/jackrabbit-repo.xml" p:homeDir="file:repo/content-workspace">
+        p:configuration="classpath:/jackrabbit-repo.xml" p:homeDir="file:repo2/content-workspace">
     </bean>
     <bean id="jcrSessionFactory"
         class="com.esofthead.mycollab.module.ecm.MyCollabContentSessionFactory">

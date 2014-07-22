@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedListComp2;
@@ -51,6 +52,12 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class OpportunityLeadListComp extends
 		RelatedListComp2<LeadService, LeadSearchCriteria, SimpleLead> {
 	private static final long serialVersionUID = -2052696198773718949L;
@@ -71,11 +78,14 @@ public class OpportunityLeadListComp extends
 		controlsBtn.setEnabled(AppContext
 				.canWrite(RolePermissionCollections.CRM_LEAD));
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setCaption("New Lead");
+		controlsBtn.setCaption(AppContext
+				.getMessage(LeadI18nEnum.BUTTON_NEW_LEAD));
 		controlsBtn.setIcon(MyCollabResource
 				.newResource("icons/16/addRecord.png"));
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void splitButtonClick(
 							final SplitButton.SplitButtonClickEvent event) {
@@ -84,6 +94,8 @@ public class OpportunityLeadListComp extends
 				});
 		final Button selectBtn = new Button("Select from existing leads",
 				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						final OpportunityLeadSelectionWindow leadsWindow = new OpportunityLeadSelectionWindow(

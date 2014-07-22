@@ -22,6 +22,12 @@ import java.util.List;
 import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.3.0
+ *
+ */
 public class I18nStringListParam extends ColumnParam {
 	public static final String IN = "in";
 	public static final String NOT_IN = "not in";
@@ -31,19 +37,19 @@ public class I18nStringListParam extends ColumnParam {
 
 	public static String[] OPTIONS = { IN, NOT_IN };
 
-	private List<? extends Enum> lstValues;
+	private List<? extends Enum<?>> lstValues;
 
-	public I18nStringListParam(String id, Enum displayName, String table,
-			String column, List<? extends Enum> values) {
+	public I18nStringListParam(String id, Enum<?> displayName, String table,
+			String column, List<? extends Enum<?>> values) {
 		super(id, displayName, table, column);
 		this.lstValues = values;
 	}
 
-	public List<? extends Enum> getLstValues() {
+	public List<? extends Enum<?>> getLstValues() {
 		return lstValues;
 	}
 
-	public void setLstValues(List<? extends Enum> lstValues) {
+	public void setLstValues(List<? extends Enum<?>> lstValues) {
 		this.lstValues = lstValues;
 	}
 

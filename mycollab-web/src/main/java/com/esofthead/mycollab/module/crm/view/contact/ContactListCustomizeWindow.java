@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.table.CustomizedTableWindow;
 public class ContactListCustomizeWindow extends CustomizedTableWindow {
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("rawtypes")
 	public ContactListCustomizeWindow(String viewId,
 			AbstractPagedBeanTable table) {
 		super(viewId, table);

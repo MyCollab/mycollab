@@ -113,7 +113,7 @@ public class CrmDataTypeFactory {
 		return ACCOUNT_INDUSTRY_LIST;
 	}
 
-	public static List<? extends Enum> getAccountTypeList() {
+	public static List<? extends Enum<?>> getAccountTypeList() {
 		return ACCOUNT_TYPE_LIST;
 	}
 

@@ -50,6 +50,7 @@ public class ProjectNotificationSettingViewImpl extends AbstractPageView
 				notification,
 				ApplicationContextUtil
 						.getSpringBean(ProjectNotificationSettingService.class)) {
+			private static final long serialVersionUID = 1L;
 		};
 		this.addComponent(component);
 	}

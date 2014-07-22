@@ -27,6 +27,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleUser;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  *
  */
 public abstract class AbstractMailService implements IGenericMailService {

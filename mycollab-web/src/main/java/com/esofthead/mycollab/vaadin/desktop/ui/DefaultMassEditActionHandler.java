@@ -36,6 +36,7 @@ import com.vaadin.ui.UI;
  * @since 2.0
  * 
  */
+@SuppressWarnings("rawtypes")
 public abstract class DefaultMassEditActionHandler implements
 		MassItemActionHandler {
 
@@ -75,6 +76,7 @@ public abstract class DefaultMassEditActionHandler implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public StreamResource buildStreamResource(String id) {
 		StreamResource res = null;

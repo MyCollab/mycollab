@@ -38,6 +38,7 @@ package com.esofthead.mycollab.core.arguments;
  * @since 1.0
  */
 public class BooleanSearchField extends SearchField {
+	private static final long serialVersionUID = 1L;
 
 	public static String IS = "is";
 
