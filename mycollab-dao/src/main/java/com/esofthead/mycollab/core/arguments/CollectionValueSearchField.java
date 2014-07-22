@@ -25,6 +25,8 @@ import java.util.Collection;
  * 
  */
 public class CollectionValueSearchField extends SearchField {
+	private static final long serialVersionUID = 1L;
+
 	private String queryCount;
 
 	private String querySelect;

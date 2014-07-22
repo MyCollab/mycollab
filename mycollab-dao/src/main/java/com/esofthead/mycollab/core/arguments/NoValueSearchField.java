@@ -23,6 +23,7 @@ package com.esofthead.mycollab.core.arguments;
  * 
  */
 public class NoValueSearchField extends SearchField {
+	private static final long serialVersionUID = 1L;
 
 	private String queryCount;
 	

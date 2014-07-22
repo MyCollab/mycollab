@@ -40,6 +40,8 @@ import java.util.Date;
  * @since 1.0
  */
 public class RangeDateTimeSearchField extends SearchField {
+	private static final long serialVersionUID = 1L;
+
 	protected Date from;
 
 	protected Date to;

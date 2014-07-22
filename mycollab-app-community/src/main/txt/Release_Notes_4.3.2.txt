@@ -46,6 +46,7 @@
         
     Bug Fixes
         - Add more tracked fields in version notification email.
+        - Fixed NPE when browser cookie is disabled.
     
     
     Changelog from MyCollab 4.3.0

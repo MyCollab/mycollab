@@ -29,11 +29,6 @@ public class SimpleUser extends User {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String ACTIVE_STATUS = "active";
-	public static final String INACTION_STATUS = "inactive";
-	public static final String PENDING_STATUS = "pending";
-	public static final int ADMIN_VAL = 1;
-
 	private Integer roleid;
 	private String roleName;
 

@@ -42,6 +42,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
  * @since 1.0
  */
 public class RangeDateSearchField extends RangeDateTimeSearchField {
+	private static final long serialVersionUID = 1L;
 
 	public RangeDateSearchField() {
 		this(null, null);

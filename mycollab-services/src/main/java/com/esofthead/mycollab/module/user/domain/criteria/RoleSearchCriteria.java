@@ -19,7 +19,14 @@ package com.esofthead.mycollab.module.user.domain.criteria;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class RoleSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
 
 	private StringSearchField username;
 	private StringSearchField roleName;

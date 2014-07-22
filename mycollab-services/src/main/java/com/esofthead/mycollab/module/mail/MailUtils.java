@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -58,10 +57,6 @@ public class MailUtils {
 	}
 
 	private static Map<String, String> cacheFile = new HashMap<String, String>();
-
-	public static String templatePath(String path, String language) {
-		return templatePath(path, LocaleHelper.toLocale(language));
-	}
 
 	public static String templatePath(String path, Locale locale) {
 		String key = (locale != null) ? (path + locale.toString())

@@ -38,7 +38,8 @@ package com.esofthead.mycollab.core.arguments;
  * @since 1.0
  */
 public class NumberSearchField extends SearchField {
-
+	private static final long serialVersionUID = 1L;
+	
 	public static final String EQUAL = "=";
 	public static final String NOTEQUAL = "<>";
 	public static final String LESSTHAN = "<";
