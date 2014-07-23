@@ -46,6 +46,8 @@ public class TooltipBuilder {
 
 	public TooltipBuilder setTitle(String title) {
 		H3 htmlTitle = new H3();
+		htmlTitle
+				.setStyle("whitespace: normal; width: 100%; word-wrap: break-word;");
 		htmlTitle.appendText(title);
 		div.appendChild(0, htmlTitle);
 		return this;

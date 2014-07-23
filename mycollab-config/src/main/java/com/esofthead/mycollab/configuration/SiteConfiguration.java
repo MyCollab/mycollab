@@ -297,7 +297,7 @@ public class SiteConfiguration {
 				continue;
 			}
 
-			locales.put(language, locale);
+			locales.put(language.trim(), locale);
 		}
 		return locales;
 	}

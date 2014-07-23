@@ -20,11 +20,11 @@ package com.esofthead.mycollab.module.project.view.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.vaadin.tokenfield.TokenField;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
@@ -66,7 +66,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 	private static final long serialVersionUID = 1L;
 
-	private static final EmailValidator emailValidate = new EmailValidator();
+	private static final EmailValidator emailValidate = EmailValidator
+			.getInstance();
 
 	private List<String> inviteEmails;
 	private Integer roleId = 0;
@@ -223,7 +224,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 						+ tokenId);
 			}
 
-			if (emailValidate.validate(invitedEmail)) {
+			if (emailValidate.isValid(invitedEmail)) {
 				if (!inviteEmails.contains(invitedEmail)) {
 					inviteEmails.add(invitedEmail);
 					super.onTokenInput(tokenId);

@@ -35,6 +35,7 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
@@ -132,22 +133,42 @@ public class ActivityStreamComponent extends CssLayout {
 					String type = AppContext
 							.getMessage(ProjectLocalizationTypeMap
 									.getType(activityStream.getType()));
-					String userParam = buildAssigneeValue(activityStream, uid);
+					String assigneeValue = buildAssigneeValue(activityStream,
+							uid);
 					String itemLink = buildItemValue(activityStream, uid);
 					String projectLink = buildProjectValue(activityStream, uid);
 
 					if (ActivityStreamConstants.ACTION_CREATE
 							.equals(activityStream.getAction())) {
-						content = AppContext
-								.getMessage(
-										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
-										userParam, type, itemLink, projectLink);
+						if (ProjectTypeConstants.PROJECT.equals(activityStream
+								.getType())) {
+							content = AppContext
+									.getMessage(
+											ProjectCommonI18nEnum.FEED_USER_ACTIVITY_CREATE_ACTION_TITLE,
+											assigneeValue, type, projectLink);
+						} else {
+							content = AppContext
+									.getMessage(
+											ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_CREATE_ACTION_TITLE,
+											assigneeValue, type, itemLink,
+											projectLink);
+						}
+
 					} else if (ActivityStreamConstants.ACTION_UPDATE
 							.equals(activityStream.getAction())) {
-						content = AppContext
-								.getMessage(
-										ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
-										userParam, type, itemLink, projectLink);
+						if (ProjectTypeConstants.PROJECT.equals(activityStream
+								.getType())) {
+							content = AppContext
+									.getMessage(
+											ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+											assigneeValue, type, projectLink);
+						} else {
+							content = AppContext
+									.getMessage(
+											ProjectCommonI18nEnum.FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
+											assigneeValue, type, itemLink,
+											projectLink);
+						}
 						if (activityStream.getAssoAuditLog() != null) {
 							content += ProjectActivityStreamGenerator
 									.generatorDetailChangeOfActivity(activityStream);

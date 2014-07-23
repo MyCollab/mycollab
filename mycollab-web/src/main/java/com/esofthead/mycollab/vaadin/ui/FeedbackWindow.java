@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.EmailValidator;
 import com.esofthead.mycollab.module.mail.EmailAttachementSource;
 import com.esofthead.mycollab.module.mail.FileEmailAttachmentSource;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
@@ -167,8 +167,8 @@ public class FeedbackWindow extends Window {
 			public void buttonClick(ClickEvent event) {
 				String email = emailTextField.getValue().toString().trim();
 				String subject = subjectTextField.getValue().toString().trim();
-				EmailValidator emailValidator = new EmailValidator();
-				if (!emailValidator.validate(email)) {
+				EmailValidator emailValidator = EmailValidator.getInstance();
+				if (!emailValidator.isValid(email)) {
 					NotificationUtil
 							.showWarningNotification("The email is not valid, please check it again!");
 					return;

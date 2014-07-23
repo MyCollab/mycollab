@@ -23,10 +23,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mortennobel.imagescaling.ResampleOp;
 
 /**
  * Utility class to process image
@@ -47,9 +46,8 @@ public class ImageUtil {
 			float percenScale) {
 		float width = buffImage.getWidth() * percenScale;
 		float height = buffImage.getHeight() * percenScale;
-		ResampleOp resampleOp = new ResampleOp((int) width, (int) height);
-
-		BufferedImage rescaledImage = resampleOp.filter(buffImage, null);
+		BufferedImage rescaledImage = Scalr.resize(buffImage, (int) width,
+				(int) height);
 		return rescaledImage;
 	}
 
@@ -76,10 +74,8 @@ public class ImageUtil {
 			return buffImage;
 		}
 
-		ResampleOp resampleOp = new ResampleOp((int) destWidth,
+		BufferedImage rescaledImage = Scalr.resize(buffImage, (int) destWidth,
 				(int) destHeight);
-
-		BufferedImage rescaledImage = resampleOp.filter(buffImage, null);
 		return rescaledImage;
 	}
 

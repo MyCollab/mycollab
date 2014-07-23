@@ -40,6 +40,8 @@ public class ConfirmDialogFactory extends DefaultConfirmDialogFactory {
 				cancelCaption);
 
 		d.getContent().setStyleName("custom-dialog");
+		d.getContent().setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		d.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 
 		final Button ok = d.getOkButton();
 		ok.setStyleName(UIConstants.THEME_GREEN_LINK);
