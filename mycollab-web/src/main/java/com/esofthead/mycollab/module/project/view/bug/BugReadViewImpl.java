@@ -103,8 +103,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	private ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls;
 
 	public BugReadViewImpl() {
-		super("Bug Detail", MyCollabResource
-				.newResource("icons/24/project/bug.png"));
+		super(AppContext.getMessage(BugI18nEnum.VIEW_READ_TITLE),
+				MyCollabResource.newResource("icons/24/project/bug.png"));
 	}
 
 	private void displayWorkflowControl() {
