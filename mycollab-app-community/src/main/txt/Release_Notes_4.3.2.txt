@@ -43,10 +43,15 @@
     =============================
     Improvements
         - Update Japanese localization
+        - Upgrade Jasypt library up to 1.9.2
+        - Upgrade Vaadin to 7.2.5
+        - Upgrade Spring framework to 4.0.6.RELEASE
+        - Add the generic search module by using Solr
         
     Bug Fixes
         - Add more tracked fields in version notification email.
         - Fixed NPE when browser cookie is disabled.
+        - Fixed bug view render wrongly in some rare cases.
     
     
     Changelog from MyCollab 4.3.0

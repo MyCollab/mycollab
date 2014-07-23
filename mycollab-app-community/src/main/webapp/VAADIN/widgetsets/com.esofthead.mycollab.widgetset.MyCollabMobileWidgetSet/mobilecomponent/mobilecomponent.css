@@ -1,143 +1,145 @@
 @font-face {
-	font-family: 'mobiletoolbar';
-	src:url('fonts/mobiletoolbar.eot?-5tci7i');
-	src:url('fonts/mobiletoolbar.eot?#iefix-5tci7i') format('embedded-opentype'),
-		url('fonts/mobiletoolbar.woff?-5tci7i') format('woff'),
-		url('fonts/mobiletoolbar.ttf?-5tci7i') format('truetype'),
-		url('fonts/mobiletoolbar.svg?-5tci7i#mobiletoolbar') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'mobiletoolbar';
+    src:url('fonts/mobiletoolbar.eot?-5tci7i');
+    src:url('fonts/mobiletoolbar.eot?#iefix-5tci7i') format('embedded-opentype'),
+        url('fonts/mobiletoolbar.woff?-5tci7i') format('woff'),
+        url('fonts/mobiletoolbar.ttf?-5tci7i') format('truetype'),
+        url('fonts/mobiletoolbar.svg?-5tci7i#mobiletoolbar') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'mobiletoolbar';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
+    font-family: 'mobiletoolbar';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-chevron-right:before {
-	content: "\e60a";
+    content: "\e60a";
 }
 .icon-chevron-left:before {
-	content: "\e60b";
+    content: "\e60b";
 }
 
 html {
-	height: 100%;
-	font-size: 10px;
+    height: 100%;
+    font-size: 10px;
 }
 .v-mobilecomponent {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 div.v-cache-loading-indicator {
-	right: 6px;
+    right: 6px;
 }
 
 .v-mobilecomponent .v-touchkit-navpanel-navigation, .v-mobilecomponent .v-touchkit-navpanel {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	overflow: auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 .v-mobilecomponent .v-touchkit-navpanel-navigation {
-	z-index: 0;
-	width: 80%;
+    z-index: 0;
+    width: 80%;
 }
 .v-mobilecomponent .v-touchkit-navpanel-navigation:after {
-	content: "";
-	position: absolute;
-	right: 0px;
-	top: 0px;
-	width: 0.9rem;
-	height: 100%;
-	background: url('img/drawer_shadow.png') repeat-y left top transparent;
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 0.9rem;
+    height: 100%;
+    background: url('img/drawer_shadow.png') repeat-y left top transparent;
 }
 .v-mobilecomponent .v-touchkit-navpanel {
-	transition: all 0.3s ease;
-	-webkit-transition: all 0.3s ease;
-	/* box-shadow: -3px 0px 5px 0px #444;
-	-webkit-box-shadow: -3px 0px 5px 0px #444;
-	-moz-box-shadow: -3px 0px 5px 0px #444; */
-	z-index: 1;
-	outline: 0;
-	overflow-x: hidden;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    /* box-shadow: -3px 0px 5px 0px #444;
+    -webkit-box-shadow: -3px 0px 5px 0px #444;
+    -moz-box-shadow: -3px 0px 5px 0px #444; */
+    z-index: 1;
+    outline: 0;
+    overflow-x: hidden;
 }
 .mobilenavview {
-	background-color: rgb(255, 255, 255);
+    background-color: #F3F1F0;
 }
-.mobilenavview .v-touchkit-navbar {
-	height: 4rem;
-	box-shadow: none;
-	background-color: #49a3e1;
+.mobilenavview .v-touchkit-navbar, .v-touchkit-navpanel-wrapper .v-touchkit-navpanel-placeholder > div {
+    height: 4rem;
+    box-shadow: none;
+    background-color: #49a3e1;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.6rem;
 }
-.mobilenavview .v-touchkit-navbar:after {
-	content: "";
-	display: block;
-	height: 0.3rem;
-	position: absolute;
-	top: 100%;
-	left: 0;
-	right: 0;
-	background: url(img/header_shadow.png) repeat-x;
-	background-size: auto 100%;
+.mobilenavview .v-touchkit-navbar:after, .v-touchkit-navpanel-wrapper .v-touchkit-navpanel-placeholder > div:after {
+    content: "";
+    display: block;
+    height: 0.3rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
 }
 .mobilenavview .v-touchkit-navview-wrapper {
-	top: 4rem;
+    top: 4rem;
 }
 .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left {
-	top: 0;
-	left: 0;
+    top: 0;
+    left: 0;
 }
 .mobilenavview .toggle-nav-btn {
-	height: 4rem;
-	width: 4.5rem;
-	background: url("img/menu_icon.png") no-repeat left top transparent;
-	cursor: pointer;
+    height: 4rem;
+    width: 4.5rem;
+    background: url("img/menu_icon.png") no-repeat left top transparent;
+    cursor: pointer;
 }
 
 /* Toolbar's Styles */
 .v-mobileview-toolbar {
 }
 .v-mobileview-toolbar .v-mobileview-toolbar-wrap {
-	overflow-x: auto;
+    overflow-x: auto;
 }
 .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
-	width: 2rem;
-	height: 100%;
-	position: absolute;
-	top: 0px;
-	display: none;
-	color: black;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	padding-left: 0.5rem;
-	line-height: 4.8rem;
-	background-color: rgba(0, 0, 0, 0.7);
-	z-index: 1;
-	color: #fff;
-	border-radius: 0px;
+    width: 2rem;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    display: none;
+    color: black;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 0.5rem;
+    line-height: 4.8rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    color: #fff;
+    border-radius: 0px;
 }
 .v-mobileview-toolbar .v-mobileview-toolbar-prevBtn {
-	left: 0px;
+    left: 0px;
 }
 .v-mobileview-toolbar .v-mobileview-toolbar-nextBtn {
-	right: 0px;
+    right: 0px;
 }
 /* InfiniteScrollLayout */
 .v-csslayout.v-scrolllayout {
-	overflow-y: auto;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }

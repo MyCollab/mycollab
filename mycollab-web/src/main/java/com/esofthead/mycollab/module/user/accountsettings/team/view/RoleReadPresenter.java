@@ -72,7 +72,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 										GenericI18Enum.DIALOG_DELETE_TITLE,
 										SiteConfiguration.getSiteName()),
 								AppContext
-										.getMessage(GenericI18Enum.DIALOG_CONFIRM_DELETE_RECORD_MESSAGE),
+										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 								AppContext
