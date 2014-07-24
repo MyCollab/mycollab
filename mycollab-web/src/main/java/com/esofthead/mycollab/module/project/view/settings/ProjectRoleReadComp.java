@@ -17,13 +17,12 @@
 package com.esofthead.mycollab.module.project.view.settings;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -112,8 +111,12 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 		for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
 			final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
 			projectFormHelper.addComponent(
-					new Label(this.getValueFromPerPath(permissionMap,
-							permissionPath)), permissionPath, 0, i);
+					new Label(AppContext.getPermissionCaptionValue(
+							permissionMap, AppContext
+									.getMessage(RolePermissionI18nEnum
+											.valueOf(permissionPath)))),
+					AppContext.getMessage(RolePermissionI18nEnum
+							.valueOf(permissionPath)), 0, i);
 		}
 
 	}
@@ -139,15 +142,5 @@ class ProjectRoleReadComp extends AbstractPreviewItemComp<SimpleProjectRole> {
 				return null;
 			}
 		};
-	}
-
-	private String getValueFromPerPath(final PermissionMap permissionMap,
-			final String permissionItem) {
-		final Integer perVal = permissionMap.get(permissionItem);
-		if (perVal == null) {
-			return AppContext.getMessage(SecurityI18nEnum.NO_ACCESS);
-		} else {
-			return AccessPermissionFlag.toString(perVal);
-		}
 	}
 }

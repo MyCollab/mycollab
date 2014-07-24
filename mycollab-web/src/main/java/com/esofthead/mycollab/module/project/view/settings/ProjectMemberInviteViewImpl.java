@@ -24,15 +24,22 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.vaadin.tokenfield.TokenField;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent.InviteProjectMembers;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
+import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -45,6 +52,8 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -52,8 +61,10 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -75,6 +86,8 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 	private InviteUserTokenField inviteUserTokenField;
 	private ProjectRoleComboBox roleComboBox;
 	private TextArea messageArea;
+	private VerticalLayout permissionsPanel;
+	private GridFormLayoutHelper projectFormHelper;
 
 	public ProjectMemberInviteViewImpl() {
 		super();
@@ -92,6 +105,15 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		this.removeAllComponents();
 
 		this.roleComboBox = new ProjectRoleComboBox();
+		this.roleComboBox.addValueChangeListener(new ValueChangeListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Integer roleId = (Integer) roleComboBox.getValue();
+				displayRolePermission(roleId);
+			}
+		});
 
 		final AddViewLayout userAddLayout = new AddViewLayout(
 				AppContext
@@ -116,12 +138,14 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		messageArea = new TextArea();
 		messageArea
-				.setValue("Please join me to our new tool. This is a place where everyone can manage our business sales, projects, documents. But it is easy to use too!");
+				.setValue(AppContext
+						.getMessage(ProjectMemberI18nEnum.MSG_DEFAULT_INVITATION_COMMENT));
 		informationLayout
 				.addComponent(messageArea, AppContext
 						.getMessage(ProjectMemberI18nEnum.FORM_MESSAGE), 0, 2);
 
 		userAddLayout.addBody(informationLayout.getLayout());
+		userAddLayout.addBottomControls(createBottomPanel());
 		this.addComponent(userAddLayout);
 	}
 
@@ -168,6 +192,58 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 		controlButtons.setSizeUndefined();
 		return controlButtons;
+	}
+
+	private Layout createBottomPanel() {
+		permissionsPanel = new VerticalLayout();
+		final Label organizationHeader = new Label(
+				AppContext.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+		organizationHeader.setStyleName("h2");
+		permissionsPanel.addComponent(organizationHeader);
+
+		projectFormHelper = new GridFormLayoutHelper(2,
+				ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
+				"100%", "167px", Alignment.TOP_LEFT);
+		projectFormHelper.getLayout().setWidth("100%");
+		projectFormHelper.getLayout().setMargin(false);
+		projectFormHelper.getLayout().addStyleName("colored-gridlayout");
+
+		permissionsPanel.addComponent(projectFormHelper.getLayout());
+
+		Integer roleId = (Integer) roleComboBox.getValue();
+		displayRolePermission(roleId);
+
+		return permissionsPanel;
+	}
+
+	private void displayRolePermission(Integer roleId) {
+		projectFormHelper.getLayout().removeAllComponents();
+		if (roleId > 0) {
+			ProjectRoleService roleService = ApplicationContextUtil
+					.getSpringBean(ProjectRoleService.class);
+			SimpleProjectRole role = roleService.findById(roleId,
+					AppContext.getAccountId());
+			if (role != null) {
+				final PermissionMap permissionMap = role.getPermissionMap();
+				for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+					final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+					projectFormHelper.addComponent(
+							new Label(AppContext.getPermissionCaptionValue(
+									permissionMap, permissionPath)), AppContext
+									.getMessage(RolePermissionI18nEnum
+											.valueOf(permissionPath)), 0, i);
+				}
+			}
+		} else {
+			for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+				final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+				projectFormHelper.addComponent(
+						new Label(AppContext
+								.getMessage(SecurityI18nEnum.ACCESS)),
+						permissionPath, 0, i);
+			}
+		}
+
 	}
 
 	private class InviteUserTokenField extends TokenField {
@@ -258,7 +334,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 			inviteEmails.remove(invitedEmail);
 			if (inviteEmails.size() == 0) {
 				this.setInputPrompt(AppContext
-						.getMessage(ProjectMemberI18nEnum.EMPTY_EMAILS_OF_USERS_TO_INVITE_ERRPR_MESSAGE));
+						.getMessage(ProjectMemberI18nEnum.ERROR_EMPTY_EMAILS_OF_USERS_TO_INVITE_MESSAGE));
 			}
 			super.onTokenClick(tokenId);
 		}

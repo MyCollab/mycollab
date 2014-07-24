@@ -11,6 +11,14 @@
 		</div>
 	#end
 	
+	#macro( messageBlock $messageContent )
+        <div style="padding: 20px 15px; background-color: rgb(237, 248, 255); position: relative; color: rgb(71, 87, 116); text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">
+            <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: left;">&ldquo;</div>
+            <div style="padding:0px 20px; font-size: 14px;">$messageContent</div>
+            <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: right;">&bdquo;</div>
+        </div>
+    #end
+	
 	<table width="700" cellpadding="0" cellspacing="0" border="0" style="margin: 20px auto; background-color: rgb(255, 255, 255);">
        <tr>
        		<td>
@@ -27,6 +35,11 @@
 				<p>or decline it and cancel further reminders at:</p>
 				#linkBlock( $!urlDeny )
 			</td>
+		</tr>
+		<tr>
+		<td>
+		#messageBlock( $inviteMessage )
+		</td>
 		</tr>
 		#parse("templates/email/footer_en_US.mt")
 	</table>

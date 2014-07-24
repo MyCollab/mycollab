@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.security;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+
 /**
  * Access permission flag
  */
@@ -59,17 +61,17 @@ public class AccessPermissionFlag implements PermissionFlag {
 		return ((flag & ACCESS) == ACCESS);
 	}
 
-	public static String toString(int flag) {
+	public static SecurityI18nEnum toKey(int flag) {
 		if (flag == NO_ACCESS) {
-			return "No Access";
+			return SecurityI18nEnum.NO_ACCESS;
 		} else if (flag == READ_ONLY) {
-			return "Read Only";
+			return SecurityI18nEnum.READONLY;
 		} else if (flag == READ_WRITE) {
-			return "Read & Write";
+			return SecurityI18nEnum.READ_WRITE;
 		} else if (flag == ACCESS) {
-			return "Access";
+			return SecurityI18nEnum.ACCESS;
 		} else {
-			return "";
+			return SecurityI18nEnum.NO_ACCESS;
 		}
 	}
 }

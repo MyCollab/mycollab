@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.security;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 
 /**
@@ -47,11 +48,11 @@ public class BooleanPermissionFlag implements PermissionFlag {
 		return (flag == FALSE);
 	}
 
-	public static String toString(int flag) {
+	public static SecurityI18nEnum toKey(int flag) {
 		if (flag == TRUE) {
-			return "Yes";
+			return SecurityI18nEnum.YES;
 		} else if (flag == FALSE) {
-			return "No";
+			return SecurityI18nEnum.NO;
 		} else {
 			throw new MyCollabException("Flag could be true or false");
 		}

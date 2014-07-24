@@ -52,10 +52,6 @@ public class ProjectMemberEditViewImpl extends
 
 	private static final long serialVersionUID = 1L;
 
-	public ProjectMemberEditViewImpl() {
-		super();
-	}
-
 	@Override
 	protected String initFormHeader() {
 		return (beanItem.getId() == null) ? AppContext

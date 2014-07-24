@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.module.user.view.component;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.security.BooleanPermissionFlag;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.KeyCaptionComboBox;
 
 /**
@@ -31,8 +33,10 @@ public class YesNoPermissionComboBox extends KeyCaptionComboBox {
 	public YesNoPermissionComboBox() {
 		super(false);
 
-		this.addItem(BooleanPermissionFlag.TRUE, "Yes");
-		this.addItem(BooleanPermissionFlag.FALSE, "No");
+		this.addItem(BooleanPermissionFlag.TRUE,
+				AppContext.getMessage(SecurityI18nEnum.YES));
+		this.addItem(BooleanPermissionFlag.FALSE,
+				AppContext.getMessage(SecurityI18nEnum.NO));
 
 		this.setValue(BooleanPermissionFlag.FALSE);
 	}

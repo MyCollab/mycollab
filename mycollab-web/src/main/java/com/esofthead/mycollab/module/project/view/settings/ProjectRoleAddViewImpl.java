@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.user.view.component.AccessPermissionComboBox;
 import com.esofthead.mycollab.security.PermissionMap;
@@ -144,8 +145,9 @@ public class ProjectRoleAddViewImpl extends AbstractEditItemComp<ProjectRole>
 			final Integer flag = perMap.getPermissionFlag(permissionPath);
 			permissionBox.setValue(flag);
 			permissionControlsMap.put(permissionPath, permissionBox);
-			permissionFormHelper.addComponent(permissionBox, permissionPath, 0,
-					i);
+			permissionFormHelper.addComponent(permissionBox,
+					AppContext.getMessage(RolePermissionI18nEnum
+							.valueOf(permissionPath)), 0, i);
 		}
 
 		permissionFormHelper.getLayout().setWidth("100%");

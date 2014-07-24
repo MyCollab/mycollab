@@ -25,6 +25,9 @@ import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 /**
  * Map contains all permissions in MyCollab, it is used to all permissions if
  * logged in user.
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class PermissionMap extends ValuedBean {
 	private static final long serialVersionUID = 1L;

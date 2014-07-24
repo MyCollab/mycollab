@@ -16,6 +16,12 @@
  */
 package com.esofthead.mycollab.module.project;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ProjectRolePermissionCollections {
 
 	public static final String MESSAGES = "Message";
@@ -37,9 +43,10 @@ public class ProjectRolePermissionCollections {
 	public static final String USERS = "User";
 
 	public static final String ROLES = "Role";
-	
+
 	public static final String PROJECT = "Project";
 
 	public static final String[] PROJECT_PERMISSIONS = { MESSAGES, MILESTONES,
-			TASKS, BUGS, COMPONENTS, VERSIONS, RISKS, PROBLEMS, USERS, ROLES, PROJECT };
+			TASKS, BUGS, COMPONENTS, VERSIONS, RISKS, PROBLEMS, USERS, ROLES,
+			PROJECT };
 }

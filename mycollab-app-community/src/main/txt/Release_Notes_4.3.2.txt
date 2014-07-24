@@ -47,6 +47,7 @@
         - Upgrade Vaadin to 7.2.5
         - Upgrade Spring framework to 4.0.6.RELEASE
         - Add the generic search module by using Solr
+        - Add permission review when user select role
         
     Bug Fixes
         - Add more tracked fields in version notification email.

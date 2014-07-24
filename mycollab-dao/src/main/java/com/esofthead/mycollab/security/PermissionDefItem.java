@@ -19,6 +19,9 @@ package com.esofthead.mycollab.security;
 /**
  * Permission item
  * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ * 
  */
 public class PermissionDefItem {
 	private String key;

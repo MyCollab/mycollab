@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.esb.InviteProjectMembersCommand;
+import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -67,6 +69,7 @@ public class InviteProjectMembersCommandImpl implements
 
 		contentGenerator.putVariable("member", member);
 		contentGenerator.putVariable("inviteUser", user.getDisplayName());
+		contentGenerator.putVariable("inviteMessage", inviteMessage);
 
 		String subdomain = projectService.getSubdomainOfProject(projectId);
 
@@ -93,14 +96,15 @@ public class InviteProjectMembersCommandImpl implements
 											sAccountId, projectId,
 											user.getEmail(), inviterUserName));
 
-			contentGenerator.putVariable("userName", "You");
-
 			mailRelayService
 					.saveRelayEmail(
 							new String[] { inviteeEmail },
 							new String[] { inviteeEmail },
-							contentGenerator
-									.generateSubjectContent("$inviteUser has invited you to join the team for project \" $member.projectName\""),
+							contentGenerator.generateSubjectContent(LocalizationHelper.getMessage(
+									SiteConfiguration.getDefaultLocale(),
+									ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT,
+									user.getDisplayName(),
+									member.getProjectName())),
 							contentGenerator.generateBodyContent(MailUtils
 									.templatePath(
 											"templates/email/project/memberInvitation/memberInvitationNotifier.mt",

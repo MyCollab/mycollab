@@ -26,6 +26,7 @@ import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionDefItem;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.security.RolePermissionCollections;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -132,9 +133,11 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 			return "Undefined";
 		} else {
 			if (PermissionChecker.isAccessPermission(perVal)) {
-				return AccessPermissionFlag.toString(perVal);
+				return AppContext
+						.getMessage(AccessPermissionFlag.toKey(perVal));
 			} else if (PermissionChecker.isBooleanPermission(perVal)) {
-				return BooleanPermissionFlag.toString(perVal);
+				return AppContext.getMessage(BooleanPermissionFlag
+						.toKey(perVal));
 			} else {
 				throw new MyCollabException("Do not support permission value "
 						+ perVal);

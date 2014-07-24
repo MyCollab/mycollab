@@ -24,6 +24,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
+import org.imgscalr.Scalr.Mode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +48,8 @@ public class ImageUtil {
 			float percenScale) {
 		float width = buffImage.getWidth() * percenScale;
 		float height = buffImage.getHeight() * percenScale;
-		BufferedImage rescaledImage = Scalr.resize(buffImage, (int) width,
-				(int) height);
+		BufferedImage rescaledImage = Scalr.resize(buffImage, Method.BALANCED,
+				Mode.AUTOMATIC, (int) width, (int) height);
 		return rescaledImage;
 	}
 
@@ -74,8 +76,8 @@ public class ImageUtil {
 			return buffImage;
 		}
 
-		BufferedImage rescaledImage = Scalr.resize(buffImage, (int) destWidth,
-				(int) destHeight);
+		BufferedImage rescaledImage = Scalr.resize(buffImage, Method.BALANCED,
+				Mode.AUTOMATIC, (int) destWidth, (int) destHeight);
 		return rescaledImage;
 	}
 

@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.cal10n.IMessageConveyor;
 
 import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -53,6 +54,7 @@ import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserPreferenceService;
+import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.google.common.eventbus.Subscribe;
@@ -186,7 +188,7 @@ public class AppContext implements Serializable {
 		return getInstance().userLocale;
 	}
 
-	public static String getMessage(Enum key, Object... objects) {
+	public static String getMessage(Enum<?> key, Object... objects) {
 		try {
 			return (key != null) ? getInstance().messageHelper.getMessage(key,
 					objects) : "";
@@ -441,6 +443,16 @@ public class AppContext implements Serializable {
 	 */
 	public static PermissionMap getPermissionMap() {
 		return getInstance().session.getPermissionMaps();
+	}
+
+	public static String getPermissionCaptionValue(
+			final PermissionMap permissionMap, final String permissionItem) {
+		final Integer perVal = permissionMap.get(permissionItem);
+		if (perVal == null) {
+			return getMessage(SecurityI18nEnum.NO_ACCESS);
+		} else {
+			return AppContext.getMessage(AccessPermissionFlag.toKey(perVal));
+		}
 	}
 
 	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
