@@ -16,11 +16,19 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
+import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectRole;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.RolePermissionI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectRoleComboBox;
+import com.esofthead.mycollab.security.PermissionMap;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
@@ -29,16 +37,21 @@ import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DummyCustomField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -51,6 +64,9 @@ public class ProjectMemberEditViewImpl extends
 		AbstractEditItemComp<ProjectMember> implements ProjectMemberEditView {
 
 	private static final long serialVersionUID = 1L;
+
+	private VerticalLayout permissionsPanel;
+	private GridFormLayoutHelper projectFormHelper;
 
 	@Override
 	protected String initFormHeader() {
@@ -84,7 +100,7 @@ public class ProjectMemberEditViewImpl extends
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new ProjectMemberFormLayoutFactory();
+		return new DecorFormLayourFactory(new ProjectMemberFormLayoutFactory());
 	}
 
 	@Override
@@ -117,6 +133,76 @@ public class ProjectMemberEditViewImpl extends
 		}
 	}
 
+	private class DecorFormLayourFactory implements IFormLayoutFactory {
+		private static final long serialVersionUID = 1L;
+		private IFormLayoutFactory formLayoutFactory;
+
+		DecorFormLayourFactory(IFormLayoutFactory formLayoutFactory) {
+			this.formLayoutFactory = formLayoutFactory;
+		}
+
+		@Override
+		public Layout getLayout() {
+			VerticalLayout layout = new VerticalLayout();
+			layout.addComponent(formLayoutFactory.getLayout());
+
+			permissionsPanel = new VerticalLayout();
+			final Label organizationHeader = new Label(
+					AppContext
+							.getMessage(ProjectRoleI18nEnum.SECTION_PERMISSIONS));
+			organizationHeader.setStyleName("h2");
+			permissionsPanel.addComponent(organizationHeader);
+
+			projectFormHelper = new GridFormLayoutHelper(
+					2,
+					ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length,
+					"100%", "167px", Alignment.TOP_LEFT);
+			projectFormHelper.getLayout().setWidth("100%");
+			projectFormHelper.getLayout().setMargin(false);
+			projectFormHelper.getLayout().addStyleName("colored-gridlayout");
+
+			permissionsPanel.addComponent(projectFormHelper.getLayout());
+			layout.addComponent(permissionsPanel);
+
+			return layout;
+		}
+
+		@Override
+		public void attachField(Object propertyId, Field<?> field) {
+			formLayoutFactory.attachField(propertyId, field);
+		}
+	}
+
+	private void displayRolePermission(Integer roleId) {
+		projectFormHelper.getLayout().removeAllComponents();
+		if (roleId != null && roleId > 0) {
+			ProjectRoleService roleService = ApplicationContextUtil
+					.getSpringBean(ProjectRoleService.class);
+			SimpleProjectRole role = roleService.findById(roleId,
+					AppContext.getAccountId());
+			if (role != null) {
+				final PermissionMap permissionMap = role.getPermissionMap();
+				for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+					final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+					projectFormHelper.addComponent(
+							new Label(AppContext.getPermissionCaptionValue(
+									permissionMap, permissionPath)), AppContext
+									.getMessage(RolePermissionI18nEnum
+											.valueOf(permissionPath)), 0, i);
+				}
+			}
+		} else {
+			for (int i = 0; i < ProjectRolePermissionCollections.PROJECT_PERMISSIONS.length; i++) {
+				final String permissionPath = ProjectRolePermissionCollections.PROJECT_PERMISSIONS[i];
+				projectFormHelper.addComponent(
+						new Label(AppContext
+								.getMessage(SecurityI18nEnum.ACCESS)),
+						permissionPath, 0, i);
+			}
+		}
+
+	}
+
 	private class AdminRoleSelectionField extends CustomField<Integer> {
 		private static final long serialVersionUID = 1L;
 		private ProjectRoleComboBox roleComboBox;
@@ -130,7 +216,8 @@ public class ProjectMemberEditViewImpl extends
 						@Override
 						public void valueChange(
 								final Property.ValueChangeEvent event) {
-							getValue();
+							displayRolePermission((Integer) roleComboBox
+									.getValue());
 
 						}
 					});
@@ -151,14 +238,17 @@ public class ProjectMemberEditViewImpl extends
 		}
 
 		@Override
-		public void setPropertyDataSource(Property newDataSource) {
+		public void setPropertyDataSource(
+				@SuppressWarnings("rawtypes") Property newDataSource) {
 			Object value = newDataSource.getValue();
 			if (value instanceof Integer) {
 				roleComboBox.setValue(value);
+				displayRolePermission((Integer) roleComboBox.getValue());
 			} else if (value == null) {
 				if (beanItem.getIsadmin() != null
 						&& beanItem.getIsadmin() == Boolean.TRUE) {
 					roleComboBox.setValue(-1);
+					displayRolePermission(null);
 				}
 			}
 			super.setPropertyDataSource(newDataSource);

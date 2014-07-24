@@ -218,7 +218,7 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 
 	private void displayRolePermission(Integer roleId) {
 		projectFormHelper.getLayout().removeAllComponents();
-		if (roleId > 0) {
+		if (roleId != null && roleId > 0) {
 			ProjectRoleService roleService = ApplicationContextUtil
 					.getSpringBean(ProjectRoleService.class);
 			SimpleProjectRole role = roleService.findById(roleId,
