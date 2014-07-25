@@ -57,6 +57,8 @@
         - Minor bug fix of project activity stream
         - Fixed confirm dialog body text size calculation wrongly
         - Validate email fails in several email formats
+        - Fix bug view layout display wrongly in several cases
+        - Email misspelling
     
     
     Changelog from MyCollab 4.3.0

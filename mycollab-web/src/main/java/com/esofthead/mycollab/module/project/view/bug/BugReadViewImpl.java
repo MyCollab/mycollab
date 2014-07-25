@@ -75,6 +75,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -487,14 +488,18 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 		@Override
 		public Layout getLayout() {
+			final VerticalLayout layout = new VerticalLayout();
+			layout.setMargin(false);
 			this.informationLayout = new GridFormLayoutHelper(2, 12, "100%",
 					"167px", Alignment.TOP_LEFT);
 			this.informationLayout.getLayout().addStyleName(
 					"colored-gridlayout");
 			this.informationLayout.getLayout().setMargin(false);
 			this.informationLayout.getLayout().setWidth("100%");
-
-			return this.informationLayout.getLayout();
+			layout.addComponent(this.informationLayout.getLayout());
+			layout.setComponentAlignment(this.informationLayout.getLayout(),
+					Alignment.BOTTOM_CENTER);
+			return layout;
 		}
 	}
 

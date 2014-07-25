@@ -49,7 +49,7 @@
 						</p>
 						#linkBlock ($!linkConfirm)
 						<p style="text-align: left;">
-						If you are still having problems, simply forward this e-mail 
+						If you are still having problems, simply forward this e-mail to
 						#confirmLink ("mailto:support@mycollab.com" "support@mycollab.com")
 						, and we will be happy to help you. <br><br>
 						

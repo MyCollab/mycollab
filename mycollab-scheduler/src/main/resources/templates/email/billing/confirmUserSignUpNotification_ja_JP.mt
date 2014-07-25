@@ -24,41 +24,40 @@
 		</tr>
         <tr>
             <td style="padding: 10px 50px; text-align: center;">
-						<p style="font-size: 22px;"><b><i>Thank you for choosing MyCollab!</i></b><p>
+						<p style="font-size: 22px;"><b><i>MyCollab をお選びいただき、ありがとうございます！</i></b><p>
 						<p>You are just one click away from completing your account registration: <p>
 						<div style="background-color: rgb(32, 36, 35); tex-align: center; padding: 3px 0px; width: 330px; margin: 0px auto;">
 							<div style="width: 100%; padding: 10px 0px; border-color: rgb(99, 102, 101); border-width: 1px 0px; border-style: solid;">
-								<a style="text-decoration:none;" href="$!linkConfirm"/><span style="font-size: 22px; text-transform: uppercase; color: rgb(255, 255, 255);">Confirm your e-mail</span></a>
+								<a style="text-decoration:none;" href="$!linkConfirm"/><span style="font-size: 22px; text-transform: uppercase; color: rgb(255, 255, 255);">Eメールをご確認下さい。</span></a>
 							</div>
 						</div> 
-						<br>
-						<p style="text-align: left;">Access your account anytime from 
-						#confirmLink ($siteUrl $siteUrl)
-						 (maybe bookmark this page for future reference).<br>
-						Login with your email address 
+						<br/>
+						<p style="text-align: left;">何時でも、#confirmLink ($siteUrl $siteUrl) にてアカウントがアクセスできます。（今後のご参考のため、ページをブックマークしてください。）<br/>
+						メールアドレス
 						#set ($mailToUrl = "mailto:" + $user.Email)
 						#confirmLink ($mailToUrl $user.Email)
-						 and the password you created.</p>
-						<p style="text-align: left;">By clicking this link, you agree to the 
+						 と登録したパスワードでログインしてください。</p>
+						<p style="text-align: left;">こちらのリンクをクリックすると、 
 						#confirmLink ("http://www.mycollab.com/terms" "Terms of Service")
-						 and the 
+						 と 
 						#confirmLink ("http://www.mycollab.com/privacy" "Privacy Policy")
+						に同意されたものとみなされます。
 						</p>
 						<p style="text-align: left;">
-						If clicking on the link does not work, just copy and paste the following address into your browser:
+						クリックすると、リンクが動作できない場合は、下記のアドレスをコピーして、ブラウザにてアクセスして下さい。
 						</p>
 						#linkBlock ($!linkConfirm)
 						<p style="text-align: left;">
-						If you are still having problems, simply forward this e-mail 
+						何か問題が御座いましたら、こちらのEメールを 
 						#confirmLink ("mailto:support@mycollab.com" "support@mycollab.com")
-						, and we will be happy to help you. <br><br>
+						に転送してください。問題を解決すべくサポート致します。 <br><br>
 						
-						<span style="font-weight: bold;">Have a productive day!</span>
+						<span style="font-weight: bold;">生産的な一日を過ごして下さい！</span>
 						</p>
-						<p style="text-align: left;">P/S: Hope you enjoy using Mycollab to grow the sales in your business, and remember you can switch between plans during the trial!</p>
+						<p style="text-align: left;">あなたのビジネスの売上を成長させてため、Mycollabのご使用をお楽しみください！試用中でも各計画を切り替えることができるとなります。</p>
 					</div>
 					<div id="contentFooter" style="padding:10px 0px 50px; text-align: left;">
-						Best regards, <br>
+						何卒よろしくお願いいたします。<br>
 						<span style="font-weight: bold;">MyCollab's Customer Support Team </span><br>
 						(+84) 862-924-513 <br>
 						<a href="mailto:support@mycollab.com" style="text-decoration : none;"><span style="font-weight: bold; color:#709AC5">support@mycollab.com </span></a>

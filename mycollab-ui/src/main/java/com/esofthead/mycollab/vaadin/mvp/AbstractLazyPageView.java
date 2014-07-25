@@ -41,7 +41,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 			isRunning = true;
 			progressIndicator = new ProgressIndicator();
 			UI.getCurrent().addWindow(progressIndicator);
-			UI.getCurrent().setPollInterval(300);
+			UI.getCurrent().setPollInterval(1000);
 			new InitializerThread().start();
 		}
 	}

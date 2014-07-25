@@ -18,28 +18,29 @@
 		</tr>
         <tr>
             <td style="padding: 20px 30px; text-align: center;">
-				<p style="font-size: 22px; padding-top: 10px;"><b><i>Oh no, your trial has ended!</i></b><p>
+				<p style="font-size: 22px; padding-top: 10px;"><b><i>試用期間が終了しました！</i></b><p>
 				<hr size="1">
 				<div id="contentBody" style="text-align: left;">
-					<p>Hi <b>$!userName</b>,</p>
+					<p><b>$!userName</b> 様</p>
 					<p>
-					Your free trial of MyCollab has just ended. If you wish to continue using MyCollab to manage projects and tasks, you may enter a payment method in your account under Billing Info. <br><br>
+					MyCollabの無料トライアルが終了することになりました。プロジェクトやタスクを管理するため、MyCollabを引き続きご使用の場合は、アカウントの請求情報にて、お支払い方法を選んでください。 <br/>
 					
-					To access your account, visit  
+					アカウントを  
 					#confirmLink( $!link $!link )
-					<br><br>
+					にてアクセスして下さい。
+					<br/>
 					
-					If you decide not to upgrade to a paid plan, you may still use MyCollab free for personal stuff. You don't need to do anything if you want to use it personally. We'll simply convert your account for you. If you wish to cancel your account entirely, please login and go to your Account section.<br></br>
+					有料版にアップグレードしない場合でも、個人的のためMyCollabを無料に使用することができます。個人的に使用するため、何もする必要がありません。あなたのアカウントが変換されます。アカウントを完全にキャンセルする場合は、ログインし、アカウントセクションにて設定して下さい。<br/>
 					
-					<p><b>Thank you!</b></p>
+					<p><b>どうも有り難う御座います！</b></p>
 					</p>
 					<div style="padding-top:10px;">
 						<hr size="1">
 					</div>
 				</div>
 				<div id="contentFooter" style="padding-top:10px; text-align: left;">
-					<span>Question?</span>
-					#confirmLink( "mailto:support@mycollab.com" "Get help" )
+					<span>ご質問は？</span>
+					#confirmLink( "mailto:support@mycollab.com" "ヘルプへ" )
 				</div>
 			</td>
 		</tr>

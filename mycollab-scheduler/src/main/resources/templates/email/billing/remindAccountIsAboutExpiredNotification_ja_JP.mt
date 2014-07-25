@@ -18,25 +18,26 @@
 		</tr>
         <tr>
             <td style="padding: 20px 30px; text-align: center;">
-				<p style="font-size: 22px; padding-top: 10px;"><b><i>Your trial is about to end. Please enter a payment method.</i></b><p>
+				<p style="font-size: 22px; padding-top: 10px;"><b><i>試用期間が終了しました。お支払い方法を選んで下さい。</i></b><p>
 				<hr>
 				<div id="contentBody" style="text-align: left;">
-					<p>Hi <b>$!userName</b>,</p>
+					<p><b>$!userName</b>様、</p>
 					<p>
-					We want to thank you again for trying MyCollab. Your trial is set to expires on <b>$!expireDay</b> and we wanted to remind you that in order to keep using MyCollab for project management, please visit your account and enter a valid form of payment under the Billing Info section. That way, there will be no interruption of service for you or your users. <br><br>
+					MyCollabのご試用、どうも有難う御座いました。 試用期間が <b>$!expireDay</b> に無効となります。プロジェクトやタスクを管理するため、MyCollabを引き続きご使用の場合は、アカウントをアクセスし、アカウントの請求情報にて、有効なお支払い方法を選んでください。そうすれば、あなたやあなたの利用者に対するサービスが中断されません。 <br><br>
 					
-					You may still use MyCollab free for personal stuff if you decide not to keep projects in the system. You don't need to do anything if you want to use it personally. At the end of the trial, we'll simply convert your account for you.<br><br>
+					システム内にプロジェクトを維持しない場合でも、個人的にMyCollabを無料に使用することができます。個人的に使用するため、何もする必要がありません。試用の終了時に、アカウントが変換されます。<br/><br/>
 					
-					To access your account, visit  
+					アカウントを
 					#confirmLink( $!link $!link )
+					にてアクセスして下さい。
 					<br><br>
 					
-					<span style="font-weight: bold;">Thank you!</span>
+					<span style="font-weight: bold;">どうも有り難う御座います！</span>
 					</p>
 				</div>
 				<hr>
 				<div id="contentFooter" style="padding-top:10px; text-align: left;">
-					Best regards, <br>
+					何卒よろしくお願いいたします。<br>
 					<span style="font-weight: bold;">MyCollab's Customer Support Team </span><br>
 					(+84) 862-924-513 <br>
 					#confirmLink( "mailto:support@mycollab.com" "support@mycollab.com" )

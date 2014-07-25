@@ -22,13 +22,13 @@
         <tr>
             <td style="padding: 10px 30px;">
             	<br>
-				<div style="display: block; border-bottom: 1px solid rgb(212, 212, 212); padding-bottom: 5px; margin-bottom: 10px;">Hi <b>$!username</b>,</div>
-				<span style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">We has received a password change request for this email. </span><br>
-				<span style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">If you made this request, then please click on link below: </span> <br><br>
+				<div style="display: block; border-bottom: 1px solid rgb(212, 212, 212); padding-bottom: 5px; margin-bottom: 10px;"><b>$!username</b>様、</div>
+				<span style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">パスワード変更要求のため、このEメールを受けました。 </span><br>
+				<span style="text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">パスワード変更手続きをおこなう際は、下記のリンクをクリックしてください。 </span> <br><br>
 				
 				#linkBlock( $!urlRecoveryPassword )
 				
-				<p style="text-align: left; word-wrap: break-word; white-space: normal; word-break: normal;">If you did not ask to change your password, then please ignore this email. Another user may have entered your username by mistake. No change will be made to your account.</p>
+				<p style="text-align: left; word-wrap: break-word; white-space: normal; word-break: normal;">パスワード変更手続きを行わない際は、このメールを無視してください。別のユーザーが誤ってユーザー名を入力した可能性があります。あなたのアカウントに何も変更しないとなります。</p>
 				<br>
             </td>
         </tr>
