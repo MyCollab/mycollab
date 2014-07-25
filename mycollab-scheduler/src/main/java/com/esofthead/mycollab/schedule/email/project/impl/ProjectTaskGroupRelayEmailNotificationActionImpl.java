@@ -198,7 +198,7 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 			put("status", TaskGroupI18nEnum.FORM_STATUS);
 
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
-					TaskGroupI18nEnum.FORM_MILESTONE_FIELD, true));
+					TaskGroupI18nEnum.FORM_PHASE_FIELD, true));
 
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 

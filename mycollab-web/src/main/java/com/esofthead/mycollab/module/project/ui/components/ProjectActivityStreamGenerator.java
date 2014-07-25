@@ -140,7 +140,7 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("description",
 					GenericI18Enum.FORM_DESCRIPTION);
 			this.generateFieldDisplayHandler("milestoneName",
-					TaskGroupI18nEnum.FORM_MILESTONE_FIELD);
+					TaskGroupI18nEnum.FORM_PHASE_FIELD);
 			this.generateFieldDisplayHandler("ownerFullName",
 					GenericI18Enum.FORM_ASSIGNEE);
 		}

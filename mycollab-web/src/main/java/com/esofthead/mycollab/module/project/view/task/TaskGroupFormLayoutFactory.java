@@ -67,7 +67,7 @@ public class TaskGroupFormLayoutFactory implements IFormLayoutFactory {
 					0, 2);
 		} else if (propertyId.equals("milestoneid")) {
 			this.informationLayout.addComponent(field, AppContext
-					.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD), 1, 2);
+					.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1, 2);
 		} else if (propertyId.equals("percentageComplete")) {
 			this.informationLayout.addComponent(field, AppContext
 					.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD), 0, 3);

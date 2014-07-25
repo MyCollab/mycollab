@@ -39,7 +39,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * 
  */
 @Component("assetsHandlerServlet")
-public class AssetHttpServletRequestHandler extends GenericServletRequestHandler {
+public class AssetHttpServletRequestHandler extends
+		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(AssetHttpServletRequestHandler.class);
@@ -50,8 +51,8 @@ public class AssetHttpServletRequestHandler extends GenericServletRequestHandler
 		String path = request.getPathInfo();
 		String resourcePath = "assets" + path;
 
-		InputStream inputStream = AssetHttpServletRequestHandler.class.getClassLoader()
-				.getResourceAsStream(resourcePath);
+		InputStream inputStream = AssetHttpServletRequestHandler.class
+				.getClassLoader().getResourceAsStream(resourcePath);
 
 		if (inputStream == null) {
 			resourcePath = "VAADIN/themes/mycollab" + path;
@@ -65,8 +66,6 @@ public class AssetHttpServletRequestHandler extends GenericServletRequestHandler
 					MimeTypesUtil.detectMimeType(path));
 			response.setHeader("Content-Length",
 					String.valueOf(inputStream.available()));
-			// response.setHeader("Content-Disposition", "inline; filename=\""
-			// + avatarFile.getName() + "\"");
 
 			BufferedInputStream input = null;
 			BufferedOutputStream output = null;

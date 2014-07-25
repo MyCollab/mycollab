@@ -16,13 +16,8 @@
  */
 package com.esofthead.mycollab.module.mail;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -54,26 +49,5 @@ public class MailUtils {
 	public static String getAvatarLink(String userAvatarId, int size) {
 		return SiteConfiguration.getStorageConfiguration().generateAvatarPath(
 				userAvatarId, size);
-	}
-
-	private static Map<String, String> cacheFile = new HashMap<String, String>();
-
-	public static String templatePath(String path, Locale locale) {
-		String key = (locale != null) ? (path + locale.toString())
-				: (path + Locale.US.toString());
-		String filePath = cacheFile.get(key);
-		if (filePath != null) {
-			return filePath;
-		} else {
-			int index = path.indexOf("mt");
-			if (index == -1) {
-				throw new MyCollabException("File type is not supported "
-						+ path);
-			}
-			filePath = path.substring(0, index - 1);
-			filePath = String.format("%s_%s.mt", filePath, locale);
-			cacheFile.put(key, filePath);
-			return filePath;
-		}
 	}
 }

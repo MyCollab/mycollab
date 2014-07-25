@@ -24,7 +24,6 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
-import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.MailRelayService;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -105,7 +104,7 @@ public class InviteProjectMembersCommandImpl implements
 									ProjectMemberI18nEnum.MAIL_INVITE_USERS_SUBJECT,
 									user.getDisplayName(),
 									member.getProjectName())),
-							contentGenerator.generateBodyContent(MailUtils
+							contentGenerator.generateBodyContent(LocalizationHelper
 									.templatePath(
 											"templates/email/project/memberInvitation/memberInvitationNotifier.mt",
 											SiteConfiguration

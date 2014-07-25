@@ -11,27 +11,28 @@
 }
 
 </style>
-<title>Project has not found</title>
+<title>Expire to registry</title>
 </head>
-<body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
+<body>
+	<div id="container">
 		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing" "></div>
+		<div id="body">
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>This project has been removed</h1>
+					<h1>The invitation is expired</h1>
 				</div>
 				<hr size="1">
-				<div >
-					<h3>
-					<span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif; color: #616161;">Sorry! This project has been removed. Please contact your project admin for more information.
+				<div>
+					h3>
+						Sorry! You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
 					</h3>
 				</div>
-				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+				<div class="right">
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
 				</div>
-				#parse("templates/page/pageFooter.mt")
+				#parse("templates/page/pageFooter_en_US.mt")
+			</div>
 		</div>
 	</div>
 </body>
@@ -40,5 +41,5 @@
 	function login(){
 		window.location.assign("$!loginURL");
 	}
-</script>				
+</script>
 </html>

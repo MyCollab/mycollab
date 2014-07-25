@@ -122,7 +122,7 @@ class TaskDisplayComponent extends CssLayout {
 						layoutHelper.addComponent(
 								field,
 								AppContext
-										.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
+										.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
 								1, 1);
 					}
 				}

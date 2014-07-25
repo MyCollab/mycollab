@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.i18n;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -23,11 +26,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.configuration.LocaleHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
+
+import com.esofthead.mycollab.configuration.LocaleHelper;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
 
 /**
  * Wrapper class to get localization string.
@@ -63,7 +67,8 @@ public class LocalizationHelper {
 		}
 	}
 
-	public static String getMessage(Locale locale, Enum key, Object... objects) {
+	public static String getMessage(Locale locale, Enum<?> key,
+			Object... objects) {
 		try {
 			IMessageConveyor messageConveyor = getMessageConveyor(locale);
 			return messageConveyor.getMessage(key, objects);
@@ -73,7 +78,7 @@ public class LocalizationHelper {
 		}
 	}
 
-	public static String getMessage(String language, Enum key,
+	public static String getMessage(String language, Enum<?> key,
 			Object... objects) {
 		try {
 			Locale locale = LocaleHelper.toLocale(language);
@@ -82,5 +87,41 @@ public class LocalizationHelper {
 			log.error("Can not find resource key " + key, e);
 			return "Undefined";
 		}
+	}
+
+	private static Map<String, String> cacheFile = new HashMap<String, String>();
+
+	public static String templatePath(String fileTemplatePath, Locale locale) {
+		String key = (locale != null) ? (fileTemplatePath + locale.toString())
+				: (fileTemplatePath + Locale.US.toString());
+		String filePath = cacheFile.get(key);
+		if (filePath != null) {
+			return filePath;
+		} else {
+			int index = fileTemplatePath.indexOf("mt");
+			if (index == -1) {
+				throw new MyCollabException("File type is not supported "
+						+ fileTemplatePath);
+			}
+			filePath = fileTemplatePath.substring(0, index - 1);
+			filePath = String.format("%s_%s.mt", filePath, locale);
+			cacheFile.put(key, filePath);
+			return filePath;
+		}
+	}
+
+	public static Reader templateReader(String fileTemplatePath, Locale locale) {
+		String templatePath = templatePath(fileTemplatePath, locale);
+		Reader reader;
+		try {
+			reader = new InputStreamReader(LocalizationHelper.class
+					.getClassLoader().getResourceAsStream(templatePath),
+					"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			reader = new InputStreamReader(LocalizationHelper.class
+					.getClassLoader().getResourceAsStream(templatePath));
+		}
+		
+		return reader;
 	}
 }

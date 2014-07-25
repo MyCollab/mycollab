@@ -11,35 +11,34 @@
 }
 
 </style>
-<title>Expire to registry</title>
+<title>Refuse deny action page</title>
 </head>
-<body>
-	<div id="container">
+<body style="height: 100%; margin: 0; padding: 0; width: 100%;">
+	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
-		<div id="body">
-			<div id="spacing"></div>
+		<div id="body" >
+			<div id="spacing" "></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Expire To Registry</h1>
+					<h1>This action is denied!</h1>
 				</div>
 				<hr size="1">
-				<div>
-					h3>
-						Sorry! You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
+				<div >
+					<h3>
+						You can not leave this project by yourself. Please request your project administrator to remove you out of project if you like so.
 					</h3>
 				</div>
-				<div class="right">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
+				<div style="text-align:right;">
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
 				</div>
-				#parse("templates/page/pageFooter.mt")
-			</div>
+			#parse("templates/page/pageFooter_ja_JP.mt")
 		</div>
 	</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 	function login(){
-		window.location.assign("$!loginURL");
+		window.location.assign("$!projectLinkURL");
 	}
 </script>				
 </html>

@@ -11,41 +11,36 @@
 }
 
 </style>
-<title>Page not found</title>
+<title>User not exist page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Error</h1>
+					<h1>User is not existed</h1>
 				</div>
 				<hr size="1">
-				<div id="content" style="padding-top: 20px">
-					<div id="content_left">
-						<div id="exclamation_mark">&#33;</div>
-						<div id="error_display">
-							<div id="error_code">500</div>
-							<div id="error_brief">Sever error, sorry</div>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div id="content_right">
-						<div id="error_excuse">
-							Oops! Sorry for this inconvenience. This error has been logged to database. We will fix it soon. 
-						</div>
-						<div id="back_to_home" style="padding-left:30px;padding-top:20px;">
-							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Go back to home page</a>
-						</div>
-						<div class="clear"></div>
-					</div>
-					<div class="clear"></div>
+				<div >
+					<h3>
+						The user ${username} is not existed in our database system. 
+					</h3>
 				</div>
-				#parse("templates/page/pageFooter.mt")
-				</div>			
+				<div style="text-align:right;">
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+				</div>
+				#parse("templates/page/pageFooter_ja_JP.mt")
+			</div>
+
 		</div>
 	</div>
 </body>
-</html>	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+	function login(){
+		window.location.assign("$!loginURL");
+	}
+</script>
+</html>

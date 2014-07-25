@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>Member accept the invitation page</title>
+<title>Accept invitation page</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -60,7 +60,7 @@
 					 	</tr>
 					</table>
 				</div>
-				#parse("templates/page/pageFooter.mt")
+				#parse("templates/page/pageFooter_ja_JP.mt")
 			</div>			
 		</div>
 	</div>

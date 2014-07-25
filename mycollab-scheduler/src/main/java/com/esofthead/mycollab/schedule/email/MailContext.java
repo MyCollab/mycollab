@@ -21,7 +21,6 @@ import java.util.Locale;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
-import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
 /**
@@ -90,6 +89,6 @@ public class MailContext<B> {
 	}
 
 	public String templatePath(String resourcePath) {
-		return MailUtils.templatePath(resourcePath, locale);
+		return LocalizationHelper.templatePath(resourcePath, locale);
 	}
 }

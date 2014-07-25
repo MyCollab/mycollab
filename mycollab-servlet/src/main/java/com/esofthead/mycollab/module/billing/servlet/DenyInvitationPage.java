@@ -83,7 +83,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 				if (checkUser == null) {
 					// this user no long exist on System page
 					PageGeneratorUtil.responeUserNotExistPage(response,
-							request.getContextPath() + "/");
+							username, request.getContextPath() + "/");
 					return;
 				} else {
 

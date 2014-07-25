@@ -30,7 +30,6 @@ import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
-import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.User;
@@ -88,7 +87,7 @@ public class SendingRecoveryPasswordEmailActionImpl implements
 											locale,
 											UserI18nEnum.MAIL_RECOVERY_PASSWORD_SUBJECT,
 											SiteConfiguration.getSiteName())),
-							contentGenerator.generateBodyContent(MailUtils
+							contentGenerator.generateBodyContent(LocalizationHelper
 									.templatePath(
 											"templates/email/user/userRecoveryPasswordNotifier.mt",
 											locale)), null);

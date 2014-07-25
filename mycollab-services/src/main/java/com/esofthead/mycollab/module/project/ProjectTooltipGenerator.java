@@ -554,7 +554,7 @@ public class ProjectTooltipGenerator {
 			Td cell32 = buildCellLink(ownerLink, ownerAvatarLink,
 					taskList.getOwnerFullName());
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
-					TaskGroupI18nEnum.FORM_MILESTONE_FIELD));
+					TaskGroupI18nEnum.FORM_PHASE_FIELD));
 			String milestoneLink = (taskList.getMilestoneid() != null) ? ProjectLinkGenerator
 					.generateMilestonePreviewFullLink(siteURL,
 							taskList.getProjectid(), taskList.getId()) : "";

@@ -46,7 +46,7 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new ProjectMemberHistoryFieldFormat());
 		this.generateFieldDisplayHandler("milestoneid",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_MILESTONE_FIELD),
+				AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
 				new MilestoneHistoryFieldFormat());
 		this.generateFieldDisplayHandler("percentageComplete",
 				AppContext.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD));

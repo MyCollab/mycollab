@@ -41,7 +41,7 @@
                         </span></p>
                     </div>
 				</div>
-				#parse("templates/page/pageFooter.mt")
+				#parse("templates/page/pageFooter_ja_JP.mt")
 			</div>			
 		</div>
 	</div>

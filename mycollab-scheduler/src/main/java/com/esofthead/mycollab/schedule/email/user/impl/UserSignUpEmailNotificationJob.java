@@ -37,7 +37,6 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.UserStatusConstants;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
-import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -68,6 +67,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 
 	static final String CONFIRM_EMAIL_TEMPLATE = "templates/email/billing/confirmUserSignUpNotification.mt";
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void executeJob(JobExecutionContext context)
 			throws JobExecutionException {
@@ -106,7 +106,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 													SiteConfiguration
 															.getDefaultLocale(),
 													UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-									contentGenerator.generateBodyContent(MailUtils
+									contentGenerator.generateBodyContent(LocalizationHelper
 											.templatePath(
 													CONFIRM_EMAIL_TEMPLATE,
 													SiteConfiguration

@@ -66,7 +66,7 @@ public class ConfirmEmailHandler extends GenericServletRequestHandler {
 					return;
 				} else {
 					PageGeneratorUtil.responeUserNotExistPage(response,
-							request.getContextPath() + "/");
+							username, request.getContextPath() + "/");
 					return;
 				}
 			} else {

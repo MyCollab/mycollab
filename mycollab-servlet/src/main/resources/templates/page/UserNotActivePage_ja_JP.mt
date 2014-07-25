@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>Refuse deny action page</title>
+<title>User is not active</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -20,25 +20,25 @@
 			<div id="spacing" "></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>You Can Not Leave This Project</h1>
+					<h1>Your account is not activated yet</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<h3>
-						Sorry! You can not leave this project by yourself. Please request your project admin remove you out of project if you like so.
+						Your account has not been activated yet. Please click on the link in the email we sent to activate or you can contact our Customer Support team for assistance.
 					</h3>
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
 				</div>
-			#parse("templates/page/pageFooter.mt")
+				#parse("templates/page/pageFooter_ja_JP.mt")
 		</div>
 	</div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
 	function login(){
-		window.location.assign("$!projectLinkURL");
+		window.location.assign("$!loginURL");
 	}
-</script>				
+</script>
 </html>

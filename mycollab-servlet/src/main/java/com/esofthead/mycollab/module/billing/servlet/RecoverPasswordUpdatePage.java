@@ -23,8 +23,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,9 +44,6 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
 @Component("recoverUserPasswordServlet")
 public class RecoverPasswordUpdatePage extends VelocityWebServletRequestHandler {
 
-	private static Logger log = LoggerFactory
-			.getLogger(RecoverPasswordUpdatePage.class);
-
 	@Autowired
 	private UserService userService;
 
@@ -63,7 +58,7 @@ public class RecoverPasswordUpdatePage extends VelocityWebServletRequestHandler 
 				User user = userService.findUserByUserName(username);
 				if (user == null) {
 					PageGeneratorUtil.responeUserNotExistPage(response,
-							request.getContextPath() + "/");
+							username, request.getContextPath() + "/");
 					return;
 				} else {
 					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/sign-in?username=" + username)
@@ -90,7 +85,6 @@ public class RecoverPasswordUpdatePage extends VelocityWebServletRequestHandler 
 								+ pathInfo);
 			}
 		} catch (Exception e) {
-			log.error("Error with userService", e);
 			throw new MyCollabException(e);
 		}
 	}

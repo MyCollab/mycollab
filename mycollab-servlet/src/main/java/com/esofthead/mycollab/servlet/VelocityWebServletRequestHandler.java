@@ -16,10 +16,8 @@
  */
 package com.esofthead.mycollab.servlet;
 
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.configuration.SharingOptions;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.billing.servlet.AcceptInvitationHandler;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
 
@@ -47,15 +45,8 @@ public abstract class VelocityWebServletRequestHandler extends
 
 	public String generatePageByTemplate(String templatePath,
 			Map<String, Object> params) {
-		Reader reader = null;
-		try {
-			reader = new InputStreamReader(AcceptInvitationHandler.class
-					.getClassLoader().getResourceAsStream(templatePath),
-					"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(AcceptInvitationHandler.class
-					.getClassLoader().getResourceAsStream(templatePath));
-		}
+		Reader reader = LocalizationHelper.templateReader(templatePath,
+				SiteConfiguration.getDefaultLocale());
 
 		if (params != null) {
 			for (String key : params.keySet()) {

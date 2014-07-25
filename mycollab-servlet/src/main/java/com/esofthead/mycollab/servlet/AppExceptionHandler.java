@@ -17,11 +17,9 @@
 package com.esofthead.mycollab.servlet;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +27,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.template.velocity.TemplateContext;
 import com.esofthead.mycollab.template.velocity.TemplateEngine;
 
@@ -44,6 +45,8 @@ import com.esofthead.mycollab.template.velocity.TemplateEngine;
  */
 @Component("appExceptionHandlerServlet")
 public class AppExceptionHandler extends GenericServletRequestHandler {
+	private static Logger log = LoggerFactory
+			.getLogger(AppExceptionHandler.class);
 
 	@Autowired
 	private TemplateEngine templateEngine;
@@ -59,10 +62,19 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 			requestUri = "Unknown";
 		}
 
-		if (status_code == 404) {
-			responsePage404(response);
-		} else {
-			responsePage500(response);
+		try {
+			if (status_code == 404) {
+				responsePage404(response);
+			} else {
+				responsePage500(response);
+			}
+
+			// Analyze the servlet exception
+			Throwable throwable = (Throwable) request
+					.getAttribute("javax.servlet.error.exception");
+			log.error("Error in servlet " + requestUri, throwable);
+		} catch (Exception e) {
+			log.error("Error in servlet", e);
 		}
 	}
 
@@ -72,15 +84,9 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 		String pageNotFoundTemplate = "templates/page/404Page.mt";
 		TemplateContext context = new TemplateContext();
 
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					AppExceptionHandler.class.getClassLoader()
-							.getResourceAsStream(pageNotFoundTemplate), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(AppExceptionHandler.class
-					.getClassLoader().getResourceAsStream(pageNotFoundTemplate));
-		}
+		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate,
+				SiteConfiguration.getDefaultLocale());
+
 		Map<String, String> defaultUrls = new HashMap<String, String>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());
@@ -97,18 +103,11 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 
 	private void responsePage500(HttpServletResponse response)
 			throws IOException {
-		String pageNotFoundTemplate = "templates/page/500Page.mt";
+		String errorPage = "templates/page/500Page.mt";
 		TemplateContext context = new TemplateContext();
 
-		Reader reader;
-		try {
-			reader = new InputStreamReader(
-					AppExceptionHandler.class.getClassLoader()
-							.getResourceAsStream(pageNotFoundTemplate), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			reader = new InputStreamReader(AppExceptionHandler.class
-					.getClassLoader().getResourceAsStream(pageNotFoundTemplate));
-		}
+		Reader reader = LocalizationHelper.templateReader(errorPage,
+				SiteConfiguration.getDefaultLocale());
 		Map<String, String> defaultUrls = new HashMap<String, String>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());

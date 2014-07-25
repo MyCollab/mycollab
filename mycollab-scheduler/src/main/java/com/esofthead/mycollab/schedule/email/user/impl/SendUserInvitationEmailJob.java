@@ -34,7 +34,6 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
-import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.UserI18nEnum;
 import com.esofthead.mycollab.module.user.dao.UserAccountInvitationMapper;
@@ -113,7 +112,7 @@ public class SendUserInvitationEmailJob extends GenericQuartzJobBean {
 									SiteConfiguration.getDefaultLocale(),
 									UserI18nEnum.MAIL_INVITE_USER_SUBJECT,
 									SiteConfiguration.getSiteName())),
-							contentGenerator.generateBodyContent(MailUtils
+							contentGenerator.generateBodyContent(LocalizationHelper
 									.templatePath(
 											"templates/email/user/userInvitationNotifier.mt",
 											SiteConfiguration
