@@ -20,10 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Component;
 
 public class AccountRelatedCaseView extends
 		AbstractRelatedListView<SimpleCase, CaseSearchCriteria> {
@@ -57,6 +61,24 @@ public class AccountRelatedCaseView extends
 	@Override
 	public void refresh() {
 		loadCases();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		MobileNavigationButton addCase = new MobileNavigationButton();
+		addCase.setTargetViewCaption(AppContext
+				.getMessage(CaseI18nEnum.VIEW_NEW_TITLE));
+		addCase.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(
+					NavigationButton.NavigationButtonClickEvent arg0) {
+				fireNewRelatedItem("");
+			}
+		});
+		addCase.setStyleName("add-btn");
+		return addCase;
 	}
 
 }

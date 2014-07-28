@@ -32,6 +32,11 @@ import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCase;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -39,6 +44,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -64,56 +70,29 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 	protected AccountRelatedLeadView associateLeads;
 	protected AccountRelatedOpportunityView associateOpportunities;
 
-	public NotesList getAssociateNotes() {
-		if (associateNotes == null)
-			associateNotes = new NotesList("Related Notes");
+	@Override
+	protected void onPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
-		return associateNotes;
-	}
-
-	public AccountRelatedContactView getAssociateContacts() {
-		if (associateContacts == null)
-			associateContacts = new AccountRelatedContactView();
 		associateContacts.displayContacts(beanItem);
-		return associateContacts;
-	}
-
-	public AccountRelatedCaseView getAssociateCases() {
-		if (associateCases == null)
-			associateCases = new AccountRelatedCaseView();
 		associateCases.displayCases(beanItem);
-		return associateCases;
-	}
-
-	public ActivityRelatedItemView getAssociateActivities() {
-		if (associateActivities == null)
-			associateActivities = new ActivityRelatedItemView();
 		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 		criteria.setType(new StringSearchField(SearchField.AND,
 				CrmTypeConstants.ACCOUNT));
 		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
 		associateActivities.setSearchCriteria(criteria);
-		return associateActivities;
-	}
-
-	public AccountRelatedLeadView getAssociateLeads() {
-		if (associateLeads == null)
-			associateLeads = new AccountRelatedLeadView();
 		associateLeads.displayLeads(beanItem);
-		return associateLeads;
-	}
-
-	public AccountRelatedOpportunityView getAssociateOpportunities() {
-		if (associateOpportunities == null)
-			associateOpportunities = new AccountRelatedOpportunityView();
 		associateOpportunities.displayOpportunities(beanItem);
-		return associateOpportunities;
 	}
 
 	@Override
-	protected void onPreviewItem() {
-
+	protected void initRelatedComponents() {
+		associateNotes = new NotesList("Related Notes");
+		associateContacts = new AccountRelatedContactView();
+		associateCases = new AccountRelatedCaseView();
+		associateActivities = new ActivityRelatedItemView();
+		associateLeads = new AccountRelatedLeadView();
+		associateOpportunities = new AccountRelatedOpportunityView();
 	}
 
 	@Override
@@ -166,10 +145,11 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new AccountEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateContacts())));
+				EventBusFactory
+						.getInstance()
+						.post(new AccountEvent.GoToRelatedItems(
+								this,
+								new CrmRelatedItemsScreenData(associateContacts)));
 			}
 		});
 		toolbarLayout.addComponent(relatedContacts);
@@ -191,7 +171,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateOpportunities())));
+										associateOpportunities)));
 			}
 		});
 		toolbarLayout.addComponent(relatedOpportunities);
@@ -200,8 +180,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		relatedLeads.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.CRM_LEAD
 				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD)
-				+ "</div>");
+				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_LEAD) + "</div>");
 		relatedLeads.setHtmlContentAllowed(true);
 		relatedLeads.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7589415773039335559L;
@@ -210,8 +189,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateLeads())));
+								new CrmRelatedItemsScreenData(associateLeads)));
 			}
 		});
 		toolbarLayout.addComponent(relatedLeads);
@@ -220,8 +198,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		relatedNotes.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.CRM_DOCUMENT
 				+ "\"></span><div class=\"screen-reader-text\">"
-				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE)
-				+ "</div>");
+				+ AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE) + "</div>");
 		relatedNotes.setHtmlContentAllowed(true);
 		relatedNotes.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 7589415773039335559L;
@@ -230,8 +207,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);
@@ -251,12 +227,37 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 				EventBusFactory.getInstance().post(
 						new AccountEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateActivities())));
+										associateActivities)));
 			}
 		});
 		toolbarLayout.addComponent(relatedActivities);
 
 		return toolbarLayout;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
+		return associateContacts;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleOpportunity> getRelatedOpportunityHandlers() {
+		return associateOpportunities;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+		return associateLeads;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleCase> getRelatedCaseHandlers() {
+		return associateCases;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+		return associateActivities;
 	}
 
 }

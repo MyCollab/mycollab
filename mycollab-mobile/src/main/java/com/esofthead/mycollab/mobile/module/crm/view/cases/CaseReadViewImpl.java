@@ -42,7 +42,6 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HorizontalLayout;
 
@@ -68,8 +67,22 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	}
 
 	@Override
+	protected void initRelatedComponents() {
+		associateNotes = new NotesList("Related Notes");
+		associateActivities = new ActivityRelatedItemView();
+		associateContacts = new CaseRelatedContactView();
+	}
+
+	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		associateNotes.showNotes(CrmTypeConstants.CASE, beanItem.getId());
+		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.CASE));
+		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
+		associateActivities.setSearchCriteria(criteria);
+		associateContacts.displayContacts(beanItem);
 	}
 
 	@Override
@@ -117,10 +130,11 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new CaseEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateContacts())));
+				EventBusFactory
+						.getInstance()
+						.post(new CaseEvent.GoToRelatedItems(
+								this,
+								new CrmRelatedItemsScreenData(associateContacts)));
 			}
 		});
 		toolbarLayout.addComponent(relatedContacts);
@@ -138,8 +152,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new CaseEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);
@@ -159,38 +172,12 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 				EventBusFactory.getInstance().post(
 						new CaseEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateActivities())));
+										associateActivities)));
 			}
 		});
 		toolbarLayout.addComponent(relatedActivities);
 
 		return toolbarLayout;
-	}
-
-	protected Component getAssociateNotes() {
-		if (associateNotes == null)
-			associateNotes = new NotesList("Related Notes");
-		associateNotes.showNotes(CrmTypeConstants.CASE, beanItem.getId());
-		return associateNotes;
-	}
-
-	protected Component getAssociateActivities() {
-		if (associateActivities == null)
-			associateActivities = new ActivityRelatedItemView();
-		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.CASE));
-		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
-		associateActivities.setSearchCriteria(criteria);
-		return associateActivities;
-	}
-
-	protected Component getAssociateContacts() {
-		if (associateContacts == null)
-			associateContacts = new CaseRelatedContactView();
-		associateContacts.displayContacts(beanItem);
-		return associateContacts;
 	}
 
 }

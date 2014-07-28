@@ -24,7 +24,7 @@
 				</div>
 				<hr size="1">
 				<div>
-					h3>
+					<h3>
 						Sorry! You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
 					</h3>
 				</div>

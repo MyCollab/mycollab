@@ -26,7 +26,7 @@
 				<div>
 					<table >
 					 	<tr>
-					 		<td style="vertical-align: top; width: 400px;"><h3 >Thank you for accepting the invitation!<br> Please enter your password<h3></td>
+					 		<td style="vertical-align: top; width: 400px;"><h3>Thank you for accepting the invitation! While you are new to MyCollab, please enter your password:</h3></td>
 					 		<td style="display: inline-block; vertical-align: top;">
 								<div id="mainContent">
 					  				 <div>
@@ -34,13 +34,13 @@
 										<table border="0" style="width:100%">
 										<tbody>
 										<tr>
-											<td "><label for="password"><h3 style="margin-top:0">New Password:<h3></label></td>
+											<td "><label for="password"><h3 style="margin-top:0">Password:<h3></label></td>
 										</tr>
 										<tr>
 											<td><input id="password" maxlength="45" name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>
 										</tr>
 										<tr>
-											<td><label for="password"><h3>Confirm New Password:<h3></label></td>
+											<td><label for="password"><h3>Verify Password:<h3></label></td>
 										</tr>
 										<tr>
 											<td><input id="repassword"  name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>

@@ -70,7 +70,7 @@ public class CurrencyFieldFormat extends FieldFormat {
 	@Override
 	public String formatField(MailContext<?> context, String value) {
 		if (value == null || "".equals(value)) {
-			return "";
+			return new Span().write();
 		}
 
 		try {

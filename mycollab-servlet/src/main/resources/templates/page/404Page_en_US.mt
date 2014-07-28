@@ -28,21 +28,16 @@
 						<div id="exclamation_mark">&#33;</div>
 						<div id="error_display">
 							<div id="error_code">404</div>
-							<div id="error_brief">Page not found, sorry</div>
+							<div id="error_brief">Page not found</div>
 						</div>
 						<div class="clear"></div>
 					</div>
 					<div id="content_right">
 						<div id="error_excuse">
-							<p>The page you are looking for might have been removed, had its name changed or is temporarily unavailable. Please try the following:</p>
-							<ul>
-								<li>Make sure that the Web site address displayed in the address bar of your browser is spelled and formatted correctly.</li>
-								<li>If you reached this page by clicking a link, contact us to alert us that the link is incorrectly formatted.</li>
-								<li>Forget that this ever happened, and go browse the files :)</li>
-							</ul>
+							<p>Well, this is embarrassing. We can't find the page you asked for.Bad link? Mistyped address? We're not sure. If you think something is wrong, <a class="v-button-bluebtn" style="text-decoration : none;" href="mailto:support@mycollab.com">contact us</a></p>
 						</div>
 						<div id="back_to_home" style="padding-left:60px;padding-top:20px;">
-							<a class="v-button-bluebtn" style="text-decoration : none;" href="https://www.mycollab.com">Go back to home page</a>
+							<a class="v-button-bluebtn" style="text-decoration : none;" href="http://www.mycollab.com">Return to the home page</a>
 						</div>
 						<div class="clear"></div>
 					</div>

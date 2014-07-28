@@ -149,7 +149,7 @@
         resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
-                s_user.website, s_user.registeredTime, s_user_account.registerStatus,  s_user.avatarId
+                s_user.website, s_user.registeredTime, s_user_account.registerStatus,  s_user.avatarId, s_user.language
             FROM s_user, s_user_account
             WHERE s_user.username=s_user_account.username AND s_user_account.accountId=@{sAccountId,jdbcType=NUMERIC}
                   AND ((SELECT COUNT(*) 
@@ -166,7 +166,7 @@
         <![CDATA[
         SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email, 
                 s_user.website, s_user.registeredTime, s_user_account.registerStatus,
-                s_user_account.accountId AS accountId
+                s_user_account.accountId, s_user.language
             FROM s_user, s_user_account
          WHERE s_user.username=s_user_account.username AND ((SELECT COUNT(*) 
                 FROM m_prj_member 

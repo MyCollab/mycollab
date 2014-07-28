@@ -70,6 +70,9 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 				});
 		editBtn.setStyleName("edit-btn");
 		this.setRightComponent(editBtn);
+
+		initRelatedComponents();
+
 		ComponentContainer toolbarContent = createBottomPanel();
 		if (toolbarContent != null) {
 			toolbarContent.setStyleName("related-items");
@@ -107,7 +110,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 	abstract protected AdvancedPreviewBeanForm<B> initPreviewForm();
 
-	// abstract protected void initRelatedComponents();
+	abstract protected void initRelatedComponents();
 
 	abstract protected IFormLayoutFactory initFormLayoutFactory();
 

@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -61,6 +62,12 @@ public class OpportunityRelatedLeadView extends
 	@Override
 	public void refresh() {
 		loadLeads();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

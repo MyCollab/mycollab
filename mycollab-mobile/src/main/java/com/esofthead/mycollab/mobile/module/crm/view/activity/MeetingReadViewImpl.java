@@ -59,8 +59,13 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	}
 
 	@Override
+	protected void initRelatedComponents() {
+		associateNotes = new NotesList("Related Notes");
+	}
+
+	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		associateNotes.showNotes(CrmTypeConstants.MEETING, beanItem.getId());
 	}
 
 	@Override
@@ -91,14 +96,6 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 				.createButtonControls(RolePermissionCollections.CRM_MEETING);
 	}
 
-	private NotesList getAssociateNotes() {
-		if (associateNotes == null) {
-			associateNotes = new NotesList("Related Notes");
-		}
-		associateNotes.showNotes(CrmTypeConstants.MEETING, beanItem.getId());
-		return associateNotes;
-	}
-
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		HorizontalLayout toolbarLayout = new HorizontalLayout();
@@ -119,8 +116,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.GoToRelatedItems(
 								MeetingReadViewImpl.this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);

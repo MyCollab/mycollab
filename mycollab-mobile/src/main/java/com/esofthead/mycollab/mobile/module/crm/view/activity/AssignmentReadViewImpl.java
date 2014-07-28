@@ -59,7 +59,12 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		associateNotes.showNotes(CrmTypeConstants.TASK, beanItem.getId());
+	}
+
+	@Override
+	protected void initRelatedComponents() {
+		associateNotes = new NotesList("Related Notes");
 	}
 
 	@Override
@@ -89,14 +94,6 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				.createButtonControls(RolePermissionCollections.CRM_TASK);
 	}
 
-	private NotesList getAssociateNotes() {
-		if (associateNotes == null) {
-			associateNotes = new NotesList("Related Notes");
-		}
-		associateNotes.showNotes(CrmTypeConstants.TASK, beanItem.getId());
-		return associateNotes;
-	}
-
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		HorizontalLayout toolbarLayout = new HorizontalLayout();
@@ -117,8 +114,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.GoToRelatedItems(
 								AssignmentReadViewImpl.this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);

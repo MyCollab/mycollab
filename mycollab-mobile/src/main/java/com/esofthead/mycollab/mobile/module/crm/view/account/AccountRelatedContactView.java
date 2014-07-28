@@ -20,10 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Component;
 
 public class AccountRelatedContactView extends
 		AbstractRelatedListView<SimpleContact, ContactSearchCriteria> {
@@ -57,6 +61,25 @@ public class AccountRelatedContactView extends
 	@Override
 	public void refresh() {
 		loadContacts();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		MobileNavigationButton addContact = new MobileNavigationButton();
+		addContact.setTargetViewCaption(AppContext
+				.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
+		addContact
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						fireNewRelatedItem("");
+					}
+				});
+		addContact.setStyleName("add-btn");
+		return addContact;
 	}
 
 }

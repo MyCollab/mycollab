@@ -68,8 +68,31 @@ public class OpportunityReadViewImpl extends
 	}
 
 	@Override
+	protected void initRelatedComponents() {
+		associateActivities = new ActivityRelatedItemView();
+
+		associateNotes = new NotesList("Related Notes");
+
+		associateLeads = new OpportunityRelatedLeadView();
+
+		associateContacts = new OpportunityRelatedContactView();
+
+	}
+
+	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		final ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+		searchCriteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.OPPORTUNITY));
+		searchCriteria.setTypeid(new NumberSearchField(SearchField.AND,
+				beanItem.getId()));
+		associateActivities.setSearchCriteria(searchCriteria);
+		associateNotes
+				.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
+		associateLeads.displayLeads(beanItem);
+		associateContacts.displayContacts(beanItem);
 	}
 
 	@Override
@@ -118,10 +141,11 @@ public class OpportunityReadViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent arg0) {
-				EventBusFactory.getInstance().post(
-						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateContacts())));
+				EventBusFactory
+						.getInstance()
+						.post(new OpportunityEvent.GoToRelatedItems(
+								this,
+								new CrmRelatedItemsScreenData(associateContacts)));
 			}
 		});
 		toolbarLayout.addComponent(relatedContacts);
@@ -139,8 +163,7 @@ public class OpportunityReadViewImpl extends
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateLeads())));
+								new CrmRelatedItemsScreenData(associateLeads)));
 			}
 		});
 		toolbarLayout.addComponent(relatedLeads);
@@ -158,8 +181,7 @@ public class OpportunityReadViewImpl extends
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);
@@ -179,48 +201,12 @@ public class OpportunityReadViewImpl extends
 				EventBusFactory.getInstance().post(
 						new OpportunityEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateActivities())));
+										associateActivities)));
 			}
 		});
 		toolbarLayout.addComponent(relatedActivities);
 
 		return toolbarLayout;
-	}
-
-	private ActivityRelatedItemView getAssociateActivities() {
-		if (associateActivities == null)
-			associateActivities = new ActivityRelatedItemView();
-		final ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.OPPORTUNITY));
-		searchCriteria.setTypeid(new NumberSearchField(SearchField.AND,
-				beanItem.getId()));
-		associateActivities.setSearchCriteria(searchCriteria);
-		return associateActivities;
-	}
-
-	private NotesList getAssociateNotes() {
-		if (associateNotes == null)
-			associateNotes = new NotesList("Related Notes");
-		associateNotes
-				.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
-		return associateNotes;
-	}
-
-	protected OpportunityRelatedLeadView getAssociateLeads() {
-		if (associateLeads == null)
-			associateLeads = new OpportunityRelatedLeadView();
-		associateLeads.displayLeads(beanItem);
-		return associateLeads;
-	}
-
-	protected OpportunityRelatedContactView getAssociateContacts() {
-		if (associateContacts == null)
-			associateContacts = new OpportunityRelatedContactView();
-		associateContacts.displayContacts(beanItem);
-		return associateContacts;
 	}
 
 }

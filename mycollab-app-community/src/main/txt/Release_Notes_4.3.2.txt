@@ -48,6 +48,7 @@
         - Upgrade Spring framework to 4.0.6.RELEASE
         - Add the generic search module by using Solr
         - Add permission review when user select role
+        - Simplify servlet error handler
         
     Bug Fixes
         - Add more tracked fields in version notification email.

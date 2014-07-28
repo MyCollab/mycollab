@@ -77,7 +77,7 @@ public class I18nFieldFormat extends FieldFormat {
 		} catch (Exception e) {
 			log.error("Can not generate email field: " + fieldName + " and "
 					+ value, e);
-			return "";
+			return new Span().write();
 		}
 	}
 

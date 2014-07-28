@@ -62,6 +62,7 @@ import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAc
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -323,7 +324,7 @@ public class BugRelayEmailNotificationActionImpl extends
 			SimpleBug bug = (SimpleBug) context.getWrappedBean();
 
 			if (bug.getMilestoneid() == null || bug.getMilestoneName() == null) {
-				return "";
+				return new Span().write();
 			}
 			String milestoneIconLink = ProjectResources
 					.getResourceLink(ProjectTypeConstants.MILESTONE);
@@ -339,7 +340,7 @@ public class BugRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			try {
@@ -391,14 +392,14 @@ public class BugRelayEmailNotificationActionImpl extends
 				A link = TagBuilder.newA(userLink, bug.getAssignuserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil
@@ -441,14 +442,14 @@ public class BugRelayEmailNotificationActionImpl extends
 				A link = TagBuilder.newA(userLink, bug.getLoguserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil

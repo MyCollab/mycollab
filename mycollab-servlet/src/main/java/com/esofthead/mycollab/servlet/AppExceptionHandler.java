@@ -72,7 +72,10 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 			// Analyze the servlet exception
 			Throwable throwable = (Throwable) request
 					.getAttribute("javax.servlet.error.exception");
-			log.error("Error in servlet " + requestUri, throwable);
+			if (throwable != null) {
+				log.error("Error in servlet " + requestUri, throwable);
+			}
+
 		} catch (Exception e) {
 			log.error("Error in servlet", e);
 		}

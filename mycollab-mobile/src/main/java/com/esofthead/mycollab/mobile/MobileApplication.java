@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.mobile;
 
+import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
@@ -106,17 +106,13 @@ public class MobileApplication extends MyCollabUI {
 			public void onSuccess(String value) {
 				if (value != null) {
 					String[] loginParams = value.split("\\$");
-					try {
-						EventBusFactory.getInstance().post(
-								new UserEvent.PlainLogin(this, new String[] {
-										loginParams[0],
-										PasswordEncryptHelper
-												.decryptText(loginParams[1]),
-										String.valueOf(false) }));
-					} catch (MyCollabException exception) {
-						EventBusFactory.getInstance().post(
-								new ShellEvent.GotoLoginView(this, null));
-					}
+					EventBusFactory.getInstance().post(
+							new UserEvent.PlainLogin(this, new String[] {
+									loginParams[0],
+									PasswordEncryptHelper
+											.decryptText(loginParams[1]),
+									String.valueOf(false) }));
+
 				} else {
 					EventBusFactory.getInstance().post(
 							new ShellEvent.GotoLoginView(this, null));

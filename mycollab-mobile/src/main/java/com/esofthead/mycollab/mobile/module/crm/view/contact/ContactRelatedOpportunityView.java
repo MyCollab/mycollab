@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -63,6 +64,12 @@ public class ContactRelatedOpportunityView extends
 	@Override
 	public void refresh() {
 		loadOpportunities();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

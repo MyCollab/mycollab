@@ -20,10 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -63,6 +67,24 @@ public class AccountRelatedLeadView extends
 	@Override
 	public void refresh() {
 		loadLeads();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		MobileNavigationButton addLead = new MobileNavigationButton();
+		addLead.setTargetViewCaption(AppContext
+				.getMessage(LeadI18nEnum.VIEW_NEW_TITLE));
+		addLead.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			private static final long serialVersionUID = -6024437571619598638L;
+
+			@Override
+			public void buttonClick(
+					NavigationButton.NavigationButtonClickEvent event) {
+				fireNewRelatedItem("");
+			}
+		});
+		addLead.setStyleName("add-btn");
+		return addLead;
 	}
 
 }

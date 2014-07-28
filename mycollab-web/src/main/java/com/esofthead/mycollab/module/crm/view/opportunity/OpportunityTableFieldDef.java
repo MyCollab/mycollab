@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
@@ -70,7 +71,7 @@ public interface OpportunityTableFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField assignUser = new TableViewField(
-			OpportunityI18nEnum.FORM_ASSIGN_USER, "assignUserFullName",
+			GenericI18Enum.FORM_ASSIGNEE, "assignUserFullName",
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField saleStage = new TableViewField(

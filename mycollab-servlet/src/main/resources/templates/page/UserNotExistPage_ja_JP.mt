@@ -20,12 +20,12 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>User is not existed</h1>
+					<h1>このユーザーが存在してない。</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<h3>
-						The user ${username} is not existed in our database system. 
+						${username}がデータベースシステムに存在していません。
 					</h3>
 				</div>
 				<div style="text-align:right;">

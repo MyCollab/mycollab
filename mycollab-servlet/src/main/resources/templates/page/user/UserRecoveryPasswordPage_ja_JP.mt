@@ -14,7 +14,7 @@
 }
 
 </style>
-<title>User recovery password page</title>
+<title>Reset your password</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -23,14 +23,13 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Choose Your New Password
-					</h1>
+					<h1>Reset your password</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<table>
 					 	<tr>
-					 		<td style="width: 350px; vertical-align:top; padding-top:20px;">Please enter a new password!</td>
+					 		<td style="width: 350px; vertical-align:top; padding-top:20px;">Create a strong password with a combination of lowercase, uppercase, and digits. Passwords are case sensitive and must be 6 or more characters in length.</td>
 					 		<td style="display: inline-block; vertical-align: top;">
 								<div id="mainContent" style="height:100%;">
 					  				 <div>
@@ -38,7 +37,7 @@
 										<table border="0">
 										<tbody>
 										<tr>
-											<td style="padding-top:8px;"><label for="password">New Password:</label></td>
+											<td style="padding-top:8px;"><label for="password">Password:</label></td>
 										</tr>
 										<tr>
 											<td><input id="password" maxlength="45" name="password" type="password"/></td>
@@ -47,7 +46,7 @@
 											<td style="height:10px;"></td>
 										</tr>
 										<tr>
-											<td><label for="password">Confirm New Password:</label></td>
+											<td><label for="password">Verify Password:</label></td>
 										</tr>
 										<tr>
 											<td><input id="repassword" maxlength="45" name="password" type="password"/></td>
@@ -56,7 +55,7 @@
 										</form>
 									</div>
 									<div style="padding-top: 15px; text-align: right;">
-										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'verdana';font-size: 15px;">Reset</span></button>
+										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'verdana';font-size: 15px;">Update</span></button>
 									</div>
 								</div>
 							</td>
@@ -78,15 +77,15 @@
 	});
 	function updateInfoAction(){
 		if ($('#password').val() == ""){
-			alert("Please enter password");
+			alert("Password is required");
 			return;
 		}
 		if($('#repassword').val()==""){
-			alert("Please retype password");
+			alert("Verify password is required");
 			return;
 		}
 		if($('#password').val() != $('#repassword').val()){
-			alert("You enter password mismatch with retype password, please re-enter");
+			alert("Password don't match");
 			return;
 		}
 		var url = encodeURI($('#redirectURL').val());
@@ -102,7 +101,7 @@
 		      	 	if(data.length > 0){
 		      	 		alert(data);
 		      	 	}else{
-		      	 		alert("Your account has been updated.");
+		      	 		alert("Your password has been set successfully");
 		      	 		window.location.assign("$!loginURL");
 		      	 	}
 		      	 }

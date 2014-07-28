@@ -31,9 +31,11 @@ import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.mail.MailUtils;
@@ -50,6 +52,7 @@ import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -189,21 +192,52 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 
 		@Override
 		public String formatField(MailContext<?> context) {
-			SimpleOpportunity opportunity = (SimpleOpportunity) context
+			SimpleOpportunity simpleOpportunity = (SimpleOpportunity) context
 					.getWrappedBean();
-			String accountIconLink = CrmResources
-					.getResourceLink(CrmTypeConstants.ACCOUNT);
-			Img img = TagBuilder.newImg("icon", accountIconLink);
+			if (simpleOpportunity.getAccountid() != null) {
+				String accountIconLink = CrmResources
+						.getResourceLink(CrmTypeConstants.ACCOUNT);
+				Img img = TagBuilder.newImg("avatar", accountIconLink);
 
-			String accountLink = CrmLinkGenerator
-					.generateAccountPreviewFullLink(context.getSiteUrl(),
-							opportunity.getAccountid());
-			A link = TagBuilder.newA(accountLink, opportunity.getAccountName());
-			return TagBuilder.newLink(img, link).write();
+				String accountLink = CrmLinkGenerator
+						.generateAccountPreviewFullLink(context.getSiteUrl(),
+								simpleOpportunity.getAccountid());
+				A link = TagBuilder.newA(accountLink,
+						simpleOpportunity.getAccountName());
+				return TagBuilder.newLink(img, link).write();
+			} else {
+				return new Span().write();
+			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
+			if (value == null || "".equals(value)) {
+				return new Span().write();
+			}
+
+			try {
+				Integer accountId = Integer.parseInt(value);
+				AccountService accountService = ApplicationContextUtil
+						.getSpringBean(AccountService.class);
+				SimpleAccount account = accountService.findById(accountId,
+						context.getUser().getAccountId());
+
+				if (account != null) {
+					String accountIconLink = CrmResources
+							.getResourceLink(CrmTypeConstants.ACCOUNT);
+					Img img = TagBuilder.newImg("avatar", accountIconLink);
+
+					String accountLink = CrmLinkGenerator
+							.generateAccountPreviewFullLink(
+									context.getSiteUrl(), account.getId());
+					A link = TagBuilder.newA(accountLink,
+							account.getAccountname());
+					return TagBuilder.newLink(img, link).write();
+				}
+			} catch (Exception e) {
+				log.error("Error", e);
+			}
 			return value;
 		}
 	}
@@ -230,7 +264,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 						opportunity.getCampaignName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 
 		}
@@ -238,7 +272,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			try {
@@ -292,14 +326,14 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 						opportunity.getAssignUserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil

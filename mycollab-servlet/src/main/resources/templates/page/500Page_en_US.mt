@@ -28,7 +28,7 @@
 						<div id="exclamation_mark">&#33;</div>
 						<div id="error_display">
 							<div id="error_code">500</div>
-							<div id="error_brief">Sever error, sorry</div>
+							<div id="error_brief">Something's wrong</div>
 						</div>
 						<div class="clear"></div>
 					</div>
@@ -37,7 +37,7 @@
 							An unexpected error has occurred. We apologize for the inconvenience. Our team has been notified and will investigate the issue right away. 
 						</div>
 						<div id="back_to_home" style="padding-left:30px;padding-top:20px;">
-							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Go back to home page</a>
+							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">GReturn to the home page</a>
 						</div>
 						<div class="clear"></div>
 					</div>

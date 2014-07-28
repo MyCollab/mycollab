@@ -25,6 +25,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -41,7 +42,14 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 
 	public AbstractRelatedListView() {
 		this.setWidth("100%");
+
+		Component rightComponent = createRightComponent();
+		if (rightComponent != null) {
+			setRightComponent(rightComponent);
+		}
 	}
+
+	abstract protected Component createRightComponent();
 
 	@Override
 	public void addRelatedListHandler(final RelatedListHandler<T> handler) {
@@ -74,5 +82,11 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 
 	public void setSelectedItems(final Set<T> selectedItems) {
 		throw new MyCollabException("Must be override by support class");
+	}
+
+	@Override
+	protected void onBecomingVisible() {
+		super.onBecomingVisible();
+		refresh();
 	}
 }

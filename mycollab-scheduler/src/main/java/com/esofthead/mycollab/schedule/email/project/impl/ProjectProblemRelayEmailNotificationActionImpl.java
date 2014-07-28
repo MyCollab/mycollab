@@ -52,6 +52,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNot
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -219,14 +220,14 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 						problem.getAssignedUserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil
@@ -270,14 +271,14 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 						problem.getRaisedByUserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil

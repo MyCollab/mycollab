@@ -51,6 +51,7 @@ import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotifica
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -211,14 +212,14 @@ public class ComponentRelayEmailNotificationActionImpl extends
 						component.getUserLeadFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil

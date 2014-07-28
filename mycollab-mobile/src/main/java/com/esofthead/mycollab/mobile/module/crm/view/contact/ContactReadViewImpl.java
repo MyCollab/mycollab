@@ -106,7 +106,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 				EventBusFactory.getInstance().post(
 						new ContactEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateOpportunities())));
+										associateOpportunityList)));
 			}
 		});
 
@@ -125,8 +125,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 			public void buttonClick(ClickEvent evt) {
 				EventBusFactory.getInstance().post(
 						new ContactEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(noteListItems)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);
@@ -146,7 +145,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 				EventBusFactory.getInstance().post(
 						new ContactEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateActivities())));
+										associateActivityList)));
 			}
 		});
 		toolbarLayout.addComponent(relatedActivities);
@@ -170,36 +169,23 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		return this.previewForm;
 	}
 
-	public NotesList getAssociateNotes() {
-		if (noteListItems == null)
-			noteListItems = new NotesList("Related Notes");
-		noteListItems.showNotes(CrmTypeConstants.CONTACT, beanItem.getId());
-		return noteListItems;
+	@Override
+	protected void initRelatedComponents() {
+		associateActivityList = new ActivityRelatedItemView();
+		associateOpportunityList = new ContactRelatedOpportunityView();
+		noteListItems = new NotesList("Related Notes");
 	}
 
-	public ActivityRelatedItemView getAssociateActivities() {
-		if (associateActivityList == null)
-			associateActivityList = new ActivityRelatedItemView();
+	@Override
+	protected void onPreviewItem() {
 		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
 		criteria.setType(new StringSearchField(SearchField.AND,
 				CrmTypeConstants.CONTACT));
 		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
 		associateActivityList.setSearchCriteria(criteria);
-		return associateActivityList;
-	}
-
-	public ContactRelatedOpportunityView getAssociateOpportunities() {
-		if (associateOpportunityList == null) {
-			associateOpportunityList = new ContactRelatedOpportunityView();
-		}
 		associateOpportunityList.displayOpportunities(beanItem);
-
-		return associateOpportunityList;
-	}
-
-	@Override
-	protected void onPreviewItem() {
+		noteListItems.showNotes(CrmTypeConstants.CONTACT, beanItem.getId());
 	}
 
 	@Override

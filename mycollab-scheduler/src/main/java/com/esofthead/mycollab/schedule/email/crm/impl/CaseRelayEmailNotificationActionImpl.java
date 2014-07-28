@@ -48,6 +48,7 @@ import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -191,14 +192,14 @@ public class CaseRelayEmailNotificationActionImpl extends
 						simpleCase.getAccountName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			try {
@@ -250,7 +251,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 						simpleCase.getAssignUserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 
 		}
@@ -258,7 +259,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil

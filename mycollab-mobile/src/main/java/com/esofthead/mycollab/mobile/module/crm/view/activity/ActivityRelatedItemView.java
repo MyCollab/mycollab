@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.vaadin.ui.Component;
 
 public class ActivityRelatedItemView extends
 		AbstractRelatedListView<SimpleActivity, ActivitySearchCriteria> {
@@ -37,6 +38,12 @@ public class ActivityRelatedItemView extends
 	@Override
 	public void refresh() {
 		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

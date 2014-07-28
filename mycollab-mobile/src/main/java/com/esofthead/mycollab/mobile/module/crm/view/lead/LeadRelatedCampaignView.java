@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -61,6 +62,12 @@ public class LeadRelatedCampaignView extends
 	@Override
 	public void refresh() {
 		loadCampaigns();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

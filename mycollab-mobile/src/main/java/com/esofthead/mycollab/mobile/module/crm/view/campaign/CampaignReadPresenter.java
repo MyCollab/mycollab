@@ -16,14 +16,22 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
+import java.util.Set;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -32,6 +40,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -146,6 +155,61 @@ public class CampaignReadPresenter extends
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}
+					}
+				});
+		view.getRelatedAccountHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleAccount>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleAccount> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						SimpleAccount account = new SimpleAccount();
+						account.setExtraData(view.getItem());
+						EventBusFactory.getInstance().post(
+								new AccountEvent.GotoEdit(
+										CampaignReadPresenter.this, account));
+					}
+				});
+		view.getRelatedContactHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleContact>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleContact> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						SimpleContact contact = new SimpleContact();
+						contact.setExtraData(view.getItem());
+						EventBusFactory.getInstance().post(
+								new ContactEvent.GotoEdit(
+										CampaignReadPresenter.this, contact));
+					}
+				});
+
+		view.getRelatedLeadHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleLead>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleLead> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						SimpleLead lead = new SimpleLead();
+						lead.setExtraData(view.getItem());
+						EventBusFactory.getInstance().post(
+								new LeadEvent.GotoEdit(
+										CampaignReadPresenter.this, lead));
 					}
 				});
 	}

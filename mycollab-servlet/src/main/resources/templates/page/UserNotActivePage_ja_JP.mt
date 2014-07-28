@@ -20,16 +20,16 @@
 			<div id="spacing" "></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Your account is not activated yet</h1>
+					<h1>このアカウントがまだ活性になっていません。</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<h3>
-						Your account has not been activated yet. Please click on the link in the email we sent to activate or you can contact our Customer Support team for assistance.
+						アカウント活性のため、メールに送信されたリンクをクリックし、アクセスしてください。もしくは、お客様サポートチームにてご連絡ください。
 					</h3>
 				</div>
 				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">ログイン</span></button>
 				</div>
 				#parse("templates/page/pageFooter_ja_JP.mt")
 		</div>

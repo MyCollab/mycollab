@@ -62,6 +62,7 @@ import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotifi
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 
 /**
  * 
@@ -337,14 +338,14 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 						.newA(userLink, task.getAssignUserFullName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			UserService userService = ApplicationContextUtil
@@ -386,14 +387,14 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 				A link = TagBuilder.newA(tasklistlink, task.getTaskListName());
 				return TagBuilder.newLink(img, link).write();
 			} else {
-				return "";
+				return new Span().write();
 			}
 		}
 
 		@Override
 		public String formatField(MailContext<?> context, String value) {
 			if (value == null || "".equals(value)) {
-				return "";
+				return new Span().write();
 			}
 
 			try {

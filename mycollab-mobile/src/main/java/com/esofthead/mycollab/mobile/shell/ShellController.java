@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -87,7 +88,12 @@ public class ShellController implements IController {
 			@Override
 			public void handle(UserEvent.PlainLogin event) {
 				String[] data = (String[]) event.getData();
-				doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+				try {
+					doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+				} catch (MyCollabException exception) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoLoginView(this, null));
+				}
 			}
 		});
 		eventBus.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
@@ -116,7 +122,7 @@ public class ShellController implements IController {
 	}
 
 	public void doLogin(String username, String password,
-			boolean isRememberPassword) {
+			boolean isRememberPassword) throws MyCollabException {
 		UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);
 		SimpleUser user = userService.authentication(username, password,

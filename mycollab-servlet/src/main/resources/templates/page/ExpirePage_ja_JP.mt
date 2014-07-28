@@ -20,16 +20,16 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>The invitation is expired</h1>
+					<h1>招待が終了しました</h1>
 				</div>
 				<hr size="1">
 				<div>
-					h3>
-						Sorry! You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
+					<h3>
+						すみません！この招待が7日間以内に承諾できるので、招待を再送信されるようにプロジェクト管理者にてお問い合わせください。
 					</h3>
 				</div>
 				<div class="right">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>ログイン</span></button>
 				</div>
 				#parse("templates/page/pageFooter_ja_JP.mt")
 			</div>

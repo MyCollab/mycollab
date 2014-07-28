@@ -20,10 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -63,6 +67,25 @@ public class AccountRelatedOpportunityView extends
 	@Override
 	public void refresh() {
 		loadOpportunities();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		MobileNavigationButton addOpportunity = new MobileNavigationButton();
+		addOpportunity.setTargetViewCaption(AppContext
+				.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
+		addOpportunity
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 7172838996944732255L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
+						fireNewRelatedItem("");
+					}
+				});
+		addOpportunity.setStyleName("add-btn");
+		return addOpportunity;
 	}
 
 }

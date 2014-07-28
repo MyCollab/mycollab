@@ -65,6 +65,10 @@ public class DefaultFieldFormat extends FieldFormat {
 
 	@Override
 	public String formatField(MailContext<?> context, String value) {
+		if (value == null || "".equals(value)) {
+			return new Span().write();
+		}
+
 		return value;
 	}
 }

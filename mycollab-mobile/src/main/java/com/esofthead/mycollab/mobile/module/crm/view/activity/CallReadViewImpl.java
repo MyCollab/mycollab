@@ -59,8 +59,13 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 	}
 
 	@Override
+	protected void initRelatedComponents() {
+		associateNotes = new NotesList("Related Notes");
+	}
+
+	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		associateNotes.showNotes(CrmTypeConstants.CALL, beanItem.getId());
 	}
 
 	@Override
@@ -90,14 +95,6 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 				.createButtonControls(RolePermissionCollections.CRM_CALL);
 	}
 
-	private NotesList getAssociateNotes() {
-		if (associateNotes == null) {
-			associateNotes = new NotesList("Related Notes");
-		}
-		associateNotes.showNotes(CrmTypeConstants.CALL, beanItem.getId());
-		return associateNotes;
-	}
-
 	@Override
 	protected ComponentContainer createBottomPanel() {
 		HorizontalLayout toolbarLayout = new HorizontalLayout();
@@ -118,8 +115,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.GoToRelatedItems(
 								CallReadViewImpl.this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);

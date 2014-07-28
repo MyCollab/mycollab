@@ -66,8 +66,24 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	}
 
 	@Override
+	protected void initRelatedComponents() {
+		associateCampaigns = new LeadRelatedCampaignView();
+		associateNotes = new NotesList("Related Notes");
+		associateActivities = new ActivityRelatedItemView();
+	}
+
+	@Override
 	protected void onPreviewItem() {
-		// Do nothing
+		associateCampaigns.displayCampaign(beanItem);
+		associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
+		final ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
+		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
+				AppContext.getAccountId()));
+		searchCriteria.setType(new StringSearchField(SearchField.AND,
+				CrmTypeConstants.LEAD));
+		searchCriteria.setTypeid(new NumberSearchField(SearchField.AND,
+				beanItem.getId()));
+		associateActivities.setSearchCriteria(searchCriteria);
 	}
 
 	@Override
@@ -118,7 +134,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GoToRelatedItems(LeadReadViewImpl.this,
 								new CrmRelatedItemsScreenData(
-										getAssociateCampaigns())));
+										associateCampaigns)));
 			}
 		});
 		toolbarLayout.addComponent(relatedCampaigns);
@@ -136,8 +152,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 			public void buttonClick(ClickEvent arg0) {
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GoToRelatedItems(this,
-								new CrmRelatedItemsScreenData(
-										getAssociateNotes())));
+								new CrmRelatedItemsScreenData(associateNotes)));
 			}
 		});
 		toolbarLayout.addComponent(relatedNotes);
@@ -157,41 +172,12 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GoToRelatedItems(this,
 								new CrmRelatedItemsScreenData(
-										getAssociateActivities())));
+										associateActivities)));
 			}
 		});
 		toolbarLayout.addComponent(relatedActivities);
 
 		return toolbarLayout;
-	}
-
-	private LeadRelatedCampaignView getAssociateCampaigns() {
-		if (associateCampaigns == null)
-			associateCampaigns = new LeadRelatedCampaignView();
-		associateCampaigns.displayCampaign(beanItem);
-		return associateCampaigns;
-	}
-
-	private NotesList getAssociateNotes() {
-		if (associateNotes == null)
-			associateNotes = new NotesList("Related Notes");
-		associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
-		return associateNotes;
-	}
-
-	private ActivityRelatedItemView getAssociateActivities() {
-		if (associateActivities == null) {
-			associateActivities = new ActivityRelatedItemView();
-		}
-		final ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.LEAD));
-		searchCriteria.setTypeid(new NumberSearchField(SearchField.AND,
-				beanItem.getId()));
-		associateActivities.setSearchCriteria(searchCriteria);
-		return associateActivities;
 	}
 
 }

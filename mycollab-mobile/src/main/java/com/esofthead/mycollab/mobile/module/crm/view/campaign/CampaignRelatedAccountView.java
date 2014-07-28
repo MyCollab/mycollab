@@ -20,10 +20,14 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Component;
 
 /**
  * 
@@ -61,6 +65,25 @@ public class CampaignRelatedAccountView extends
 	@Override
 	public void refresh() {
 		loadAccounts();
+	}
+
+	@Override
+	protected Component createRightComponent() {
+		MobileNavigationButton addAccount = new MobileNavigationButton();
+		addAccount.setTargetViewCaption(AppContext
+				.getMessage(AccountI18nEnum.VIEW_NEW_TITLE));
+		addAccount
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						fireNewRelatedItem("");
+					}
+				});
+		addAccount.setStyleName("add-btn");
+		return addAccount;
 	}
 
 }

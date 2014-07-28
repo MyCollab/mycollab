@@ -20,7 +20,7 @@
 			<div id="spacing" "></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Error</h1>
+					<h1>何か問題が発生した</h1>
 				</div>
 				<hr size="1">
 				<div id="content" style="padding-top: 20px">
@@ -28,16 +28,16 @@
 						<div id="exclamation_mark">&#33;</div>
 						<div id="error_display">
 							<div id="error_code">500</div>
-							<div id="error_brief">Sever error, sorry</div>
+							<div id="error_brief">何か問題が発生した</div>
 						</div>
 						<div class="clear"></div>
 					</div>
 					<div id="content_right">
 						<div id="error_excuse">
-							An unexpected error has occurred. We apologize for the inconvenience. Our team has been notified and will investigate the issue right away. 
+							予期しないエラーが発生しました。ご迷惑をおかけして申し訳ございません。すぐに問題を調査致します。 
 						</div>
 						<div id="back_to_home" style="padding-left:30px;padding-top:20px;">
-							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Go back to home page</a>
+							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">ホームページへ戻る</a>
 						</div>
 						<div class="clear"></div>
 					</div>
