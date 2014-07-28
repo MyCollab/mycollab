@@ -59,7 +59,7 @@
         - Fixed confirm dialog body text size calculation wrongly
         - Validate email fails in several email formats
         - Fix bug view layout display wrongly in several cases
-        - Email misspelling
+        - Email misspelling issues
     
     
     Changelog from MyCollab 4.3.0

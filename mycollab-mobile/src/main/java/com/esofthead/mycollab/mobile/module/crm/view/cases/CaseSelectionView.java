@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
@@ -41,41 +38,12 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 	private CaseSearchCriteria searchCriteria;
 	private CaseListDisplay itemList;
 
-	private RowDisplayHandler<SimpleCase> rowHandler;
-
-	private boolean isMultiSelect = false;
-
-	private Set<SimpleCase> selections;
-
-	private Button doneBtn;
+	private CaseRowDisplayHandler rowHandler = new CaseRowDisplayHandler();
 
 	public CaseSelectionView() {
 		super();
-		doneBtn = new Button("Done");
-		setMultiSelect(false);
 		createUI();
 		this.setCaption("Case Name Lookup");
-	}
-
-	public void setMultiSelect(boolean value) {
-		if (value == this.isMultiSelect)
-			return;
-
-		if (value) {
-			this.selections = new HashSet<SimpleCase>();
-			this.setRightComponent(doneBtn);
-			this.rowHandler = new CaseRowMultiSelectDisplayHandler();
-		} else {
-			this.selections = null;
-			this.setRightComponent(null);
-			this.rowHandler = new CaseRowDisplayHandler();
-		}
-		this.isMultiSelect = value;
-
-	}
-
-	public boolean isMultiSelect() {
-		return this.isMultiSelect;
 	}
 
 	public void createUI() {
@@ -122,26 +90,6 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 							selectionField.fireValueChange(cases);
 							CaseSelectionView.this.getNavigationManager()
 									.navigateBack();
-						}
-					});
-			return b;
-		}
-
-	}
-
-	private class CaseRowMultiSelectDisplayHandler implements
-			RowDisplayHandler<SimpleCase> {
-
-		@Override
-		public Component generateRow(final SimpleCase cases, int rowIndex) {
-			Button b = new Button(cases.getSubject(),
-					new Button.ClickListener() {
-
-						private static final long serialVersionUID = -8792072785486355790L;
-
-						@Override
-						public void buttonClick(final Button.ClickEvent event) {
-							// TODO: toggle selection
 						}
 					});
 			return b;

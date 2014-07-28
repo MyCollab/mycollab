@@ -12,16 +12,6 @@
         <listener-class>com.esofthead.mycollab.servlet.MyCollabHttpSessionListener</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>org.icepush.util.ExtensionRegistry</listener-class>
-    </listener>
-
-    <servlet>
-        <servlet-name>ICEPush Servlet</servlet-name>
-        <servlet-class>org.vaadin.artur.icepush.ICEPushServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
     <filter>
         <filter-name>ExpiresFilter</filter-name>
         <filter-class>fr.xebia.servlet.filter.ExpiresFilter</filter-class>
@@ -63,7 +53,7 @@
         <description>
         Vaadin production mode</description>
         <param-name>productionMode</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
 
     <servlet>

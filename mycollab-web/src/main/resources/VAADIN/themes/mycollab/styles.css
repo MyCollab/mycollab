@@ -95,6 +95,11 @@ div.v-disabled.v-button-link {
     width: 24px;
 }
 
+.v-popupbutton .v-button-wrap .v-button-caption:before {
+	content: "";
+	display: inline-block;
+}
+
 div.v-button .v-button-link .link .v-button-buttonlinkcenter .buttonlinkcenter .v-popupbutton
     {
     margin: 0px;
