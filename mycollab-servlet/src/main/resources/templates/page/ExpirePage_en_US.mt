@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>Expire to registry</title>
+<title>The invitation is expired</title>
 </head>
 <body>
 	<div id="container">
@@ -25,7 +25,7 @@
 				<hr size="1">
 				<div>
 					<h3>
-						Sorry! You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
+						You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
 					</h3>
 				</div>
 				<div class="right">

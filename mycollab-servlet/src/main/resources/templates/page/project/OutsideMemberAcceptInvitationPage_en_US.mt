@@ -52,7 +52,7 @@
 										</form>
 									</div>
 									<div style="padding-top: 15px; padding-left:200px;">
-										<button style="width:80px;" class="v-button-bluebtn" type="button" onclick="return createAccount();"><span style="font-family: 'verdana';font-size: 15px;">Create</span></button>&nbsp&nbsp&nbsp
+										<button style="width:80px;" class="v-button-bluebtn" type="button" onclick="return createAccount();"><span style="font-family: 'verdana';font-size: 15px;">Save</span></button>&nbsp&nbsp&nbsp
 										<button style="width:80px;" class="v-button-bluebtn" type="button" onclick="return cancel();"><span style="font-family: 'verdana';font-size: 15px;">Cancel</span></button>
 									</div>
 								</div>
@@ -77,15 +77,15 @@
 	function createAccount(){
 		$('#requireMsg').html("").hide();
 		if ($('#password').val() == ""){
-			alert("Please enter password");
+			alert("Password is required");
 			return;
 		}
 		if($('#repassword').val()==""){
-			alert("Please retype password");
+			alert("Verify password is required");
 			return;
 		}
 		if($('#password').val() != $('#repassword').val()){
-			alert("You enter password mismatch with retype password, please re-enter");
+			alert("Password don't match");
 			return;
 		}
 		var url = encodeURI($('#handelCreateAccountURL').val());
@@ -102,7 +102,7 @@
 		      	 	if(data.length > 0){
 		      	 		alert(data);
 		      	 	}else{
-		      	 		alert("Your account has been created.");
+		      	 		alert("Your password has been set successfully.");
 		      	 		window.location.assign("$!projectLinkURL");
 		      	 	}
 		      	 }

@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>Project has not been found</title>
+<title>ページが見つかりません</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -20,16 +20,16 @@
 			<div id="spacing" "></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>This project has been removed</h1>
+					<h1>ページが見つかりません</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<h3>
-					<span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif; color: #616161;">Sorry! This project has been removed. Please contact your project admin for more information.
+					<span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif; color: #616161;">検索中のページが見つかりません。何かが間違っていると思われる場合は、プロジェクト管理者にてご連絡ください。</span>
 					</h3>
 				</div>
 				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">ログイン</span></button>
 				</div>
 				#parse("templates/page/pageFooter_ja_JP.mt")
 		</div>

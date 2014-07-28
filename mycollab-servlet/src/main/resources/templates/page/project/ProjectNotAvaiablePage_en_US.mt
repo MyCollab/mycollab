@@ -11,34 +11,34 @@
 }
 
 </style>
-<title>Project has not found</title>
+<title>Project not found</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
-	<div id="container" style="height:100%;">
-		#parse("templates/page/pageHeader.mt")
-		<div id="body" >
-			<div id="spacing" "></div>
-			<div id="mainBody">
-				<div id="title">
-					<h1>This project has been removed</h1>
-				</div>
-				<hr size="1">
-				<div >
-					<h3>
-					<span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif; color: #616161;">Sorry! This project has been removed. Please contact your project admin for more information.
-					</h3>
-				</div>
-				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
-				</div>
-				#parse("templates/page/pageFooter_en_US.mt")
-		</div>
-	</div>
+    <div id="container" style="height:100%;">
+        #parse("templates/page/pageHeader.mt")
+        <div id="body" >
+            <div id="spacing" "></div>
+            <div id="mainBody">
+                <div id="title">
+                    <h1>Project not found</h1>
+                </div>
+                <hr size="1">
+                <div >
+                    <h3>
+                    <span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif; color: #616161;">We can't find the page you asked for. If you think something is wrong, please contact your project administrator for more information.</span>
+                    </h3>
+                </div>
+                <div style="text-align:right;">
+                    <button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+                </div>
+                #parse("templates/page/pageFooter_ja_JP.mt")
+        </div>
+    </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
-	function login(){
-		window.location.assign("$!loginURL");
-	}
-</script>				
+    function login(){
+        window.location.assign("$!loginURL");
+    }
+</script>               
 </html>

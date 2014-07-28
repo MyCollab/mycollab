@@ -19,14 +19,14 @@
 			<div id="spacing""></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Welcome <span style="font-style:italic; font-size:20px;">$!username</span><h1>
+					<h1><span style="font-style:italic; font-size:20px;">$!username</span>様、ようこそ！<h1>
 				</div>
 				<hr size="1" style="margin: 1px 0 1px 0; ">
 				<hr size="1" style="margin: 1px 0 1px 0; ">
 				<div>
 					<table >
 					 	<tr>
-					 		<td style="vertical-align: top; width: 400px;"><h3>Thank you for accepting the invitation! While you are new to MyCollab, please enter your password:</h3></td>
+					 		<td style="vertical-align: top; width: 400px;"><h3>招待を受諾していただきありがとうございます！MyCollabに新規登録の場合は、パスワードを入力してください：</h3></td>
 					 		<td style="display: inline-block; vertical-align: top;">
 								<div id="mainContent">
 					  				 <div>
@@ -34,13 +34,13 @@
 										<table border="0" style="width:100%">
 										<tbody>
 										<tr>
-											<td "><label for="password"><h3 style="margin-top:0">Password:<h3></label></td>
+											<td "><label for="password"><h3 style="margin-top:0">パスワード:<h3></label></td>
 										</tr>
 										<tr>
 											<td><input id="password" maxlength="45" name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>
 										</tr>
 										<tr>
-											<td><label for="password"><h3>Verify Password:<h3></label></td>
+											<td><label for="password"><h3>パスワードを確認:<h3></label></td>
 										</tr>
 										<tr>
 											<td><input id="repassword"  name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>
@@ -49,7 +49,7 @@
 										</form>
 									</div>
 									<div style="padding-top: 15px; padding-left:250px;">
-										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'Georgia';font-size: 15px;">Update & Go</span></button>
+										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'Georgia';font-size: 15px;">更新 & 次へ</span></button>
 									</div>
 								</div>
 							</td>
@@ -72,15 +72,15 @@
 	function updateInfoAction(){
 		$('#requireMsg').html("").hide();
 		if ($('#password').val() == ""){
-			alert("Please enter password");
+			alert("パスワードを入力してください");
 			return;
 		}
 		if($('#repassword').val()==""){
-			alert("Please retype password");
+			alert("パスワードをもう一度ご確認ください");
 			return;
 		}
 		if($('#password').val() != $('#repassword').val()){
-			alert("You enter password mismatch with retype password, please re-enter");
+			alert("パスワードが不一致です");
 			return;
 		}
 		var url = encodeURI($('#redirectURL').val());
@@ -96,7 +96,7 @@
 		      	 	if(data.length > 0){
 		      	 		alert(data);
 		      	 	}else{
-		      	 		alert("Your account has been updated.");
+		      	 		alert("パスワードが成功に設定されました");
 		      	 		window.location.assign("$!loginURL");
 		      	 	}
 		      	 }

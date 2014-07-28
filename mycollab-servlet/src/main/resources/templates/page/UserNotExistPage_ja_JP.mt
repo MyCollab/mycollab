@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>User not exist page</title>
+<title>このユーザーが存在してない。</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -29,7 +29,7 @@
 					</h3>
 				</div>
 				<div style="text-align:right;">
-					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
+					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">ログイン</span></button>
 				</div>
 				#parse("templates/page/pageFooter_ja_JP.mt")
 			</div>

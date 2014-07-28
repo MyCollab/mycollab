@@ -72,15 +72,15 @@
 	function updateInfoAction(){
 		$('#requireMsg').html("").hide();
 		if ($('#password').val() == ""){
-			alert("Please enter password");
+			alert("Password is required");
 			return;
 		}
 		if($('#repassword').val()==""){
-			alert("Please retype password");
+			alert("Verify password is required");
 			return;
 		}
 		if($('#password').val() != $('#repassword').val()){
-			alert("You enter password mismatch with retype password, please re-enter");
+			alert("Password don't match");
 			return;
 		}
 		var url = encodeURI($('#redirectURL').val());
@@ -96,7 +96,7 @@
 		      	 	if(data.length > 0){
 		      	 		alert(data);
 		      	 	}else{
-		      	 		alert("Your account has been updated.");
+		      	 		alert("Your password has been set successfully");
 		      	 		window.location.assign("$!loginURL");
 		      	 	}
 		      	 }

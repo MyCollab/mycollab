@@ -14,7 +14,7 @@
 }
 
 </style>
-<title>Reset your password</title>
+<title>パスワードをリセット</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container" style="height:100%;">
@@ -23,13 +23,13 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>Reset your password</h1>
+					<h1>パスワードをリセット</h1>
 				</div>
 				<hr size="1">
 				<div >
 					<table>
 					 	<tr>
-					 		<td style="width: 350px; vertical-align:top; padding-top:20px;">Create a strong password with a combination of lowercase, uppercase, and digits. Passwords are case sensitive and must be 6 or more characters in length.</td>
+					 		<td style="width: 350px; vertical-align:top; padding-top:20px;">小文字、大文字、および数字の組み合わせで強力なパスワードを作成してください。パスワードは大文字と小文字が区別され、少なくとも6文字以上でなければなりません。</td>
 					 		<td style="display: inline-block; vertical-align: top;">
 								<div id="mainContent" style="height:100%;">
 					  				 <div>
@@ -37,7 +37,7 @@
 										<table border="0">
 										<tbody>
 										<tr>
-											<td style="padding-top:8px;"><label for="password">Password:</label></td>
+											<td style="padding-top:8px;"><label for="password">パスワード:</label></td>
 										</tr>
 										<tr>
 											<td><input id="password" maxlength="45" name="password" type="password"/></td>
@@ -46,7 +46,7 @@
 											<td style="height:10px;"></td>
 										</tr>
 										<tr>
-											<td><label for="password">Verify Password:</label></td>
+											<td><label for="password">パスワードを確認:</label></td>
 										</tr>
 										<tr>
 											<td><input id="repassword" maxlength="45" name="password" type="password"/></td>
@@ -55,7 +55,7 @@
 										</form>
 									</div>
 									<div style="padding-top: 15px; text-align: right;">
-										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'verdana';font-size: 15px;">Update</span></button>
+										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'verdana';font-size: 15px;">更新</span></button>
 									</div>
 								</div>
 							</td>
@@ -77,15 +77,15 @@
 	});
 	function updateInfoAction(){
 		if ($('#password').val() == ""){
-			alert("Password is required");
+			alert("パスワードを入力してください");
 			return;
 		}
 		if($('#repassword').val()==""){
-			alert("Verify password is required");
+			alert("パスワードをもう一度ご確認ください");
 			return;
 		}
 		if($('#password').val() != $('#repassword').val()){
-			alert("Password don't match");
+			alert("パスワードが不一致です");
 			return;
 		}
 		var url = encodeURI($('#redirectURL').val());
@@ -101,7 +101,7 @@
 		      	 	if(data.length > 0){
 		      	 		alert(data);
 		      	 	}else{
-		      	 		alert("Your password has been set successfully");
+		      	 		alert("パスワードが成功に設定されました");
 		      	 		window.location.assign("$!loginURL");
 		      	 	}
 		      	 }

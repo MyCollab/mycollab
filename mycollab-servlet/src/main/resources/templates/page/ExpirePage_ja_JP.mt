@@ -11,7 +11,7 @@
 }
 
 </style>
-<title>Expire to registry</title>
+<title>招待が終了しました</title>
 </head>
 <body>
 	<div id="container">
