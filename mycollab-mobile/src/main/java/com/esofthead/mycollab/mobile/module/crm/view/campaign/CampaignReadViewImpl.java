@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
@@ -36,7 +33,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -76,7 +72,8 @@ public class CampaignReadViewImpl extends
 	@Override
 	protected void initRelatedComponents() {
 		associateNotes = new NotesList("Related Notes");
-		associateActivities = new ActivityRelatedItemView();
+		associateActivities = new ActivityRelatedItemView(
+				CrmTypeConstants.CAMPAIGN);
 		associateAccounts = new CampaignRelatedAccountView();
 		associateContacts = new CampaignRelatedContactView();
 		associateLeads = new CampaignRelatedLeadView();
@@ -85,13 +82,7 @@ public class CampaignReadViewImpl extends
 	@Override
 	protected void onPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.CAMPAIGN, beanItem.getId());
-		ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.CAMPAIGN));
-		searchCriteria.setTypeid(new NumberSearchField(beanItem.getId()));
-		associateActivities.setSearchCriteria(searchCriteria);
+		associateActivities.displayActivity(beanItem.getId());
 		associateAccounts.displayAccounts(beanItem);
 		associateContacts.displayContacts(beanItem);
 		associateLeads.displayLeads(beanItem);

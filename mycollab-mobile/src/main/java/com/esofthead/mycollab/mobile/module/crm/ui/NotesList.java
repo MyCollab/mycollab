@@ -16,13 +16,29 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
+import java.util.GregorianCalendar;
+
+import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.Note;
 import com.esofthead.mycollab.module.crm.domain.SimpleNote;
 import com.esofthead.mycollab.module.crm.domain.criteria.NoteSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.NoteService;
+import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CallRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.CaseRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.LeadRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.MeetingRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
+import com.esofthead.mycollab.schedule.email.crm.TaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
@@ -30,10 +46,13 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -87,6 +106,96 @@ public class NotesList extends AbstractMobilePageView {
 		noteListContainer = new VerticalLayout();
 		this.setContent(noteListContainer);
 		displayNotes();
+
+		HorizontalLayout commentBox = new HorizontalLayout();
+		commentBox.setSizeFull();
+		commentBox.setStyleName("comment-box");
+		commentBox.setSpacing(true);
+		commentBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		final TextArea noteInput = new TextArea();
+		noteInput.setInputPrompt("Add a note...");
+		noteInput.setSizeFull();
+		commentBox.addComponent(noteInput);
+		commentBox.setExpandRatio(noteInput, 1.0f);
+
+		Button postBtn = new Button("Post");
+		postBtn.setStyleName("submit-btn");
+		postBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		postBtn.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				final Note note = new Note();
+				note.setCreateduser(AppContext.getUsername());
+				note.setNote(noteInput.getValue());
+				note.setSaccountid(AppContext.getAccountId());
+				note.setSubject("");
+				note.setType(type);
+				note.setTypeid(typeid);
+				note.setCreatedtime(new GregorianCalendar().getTime());
+				note.setLastupdatedtime(new GregorianCalendar().getTime());
+				noteService.saveWithSession(note, AppContext.getUsername());
+
+				// Save Relay Email -- having time must refact to
+				// Aop
+				// ------------------------------------------------------
+				RelayEmailNotification relayNotification = new RelayEmailNotification();
+				relayNotification.setChangeby(AppContext.getUsername());
+				relayNotification.setChangecomment(noteInput.getValue());
+				relayNotification.setSaccountid(AppContext.getAccountId());
+				relayNotification.setType(type);
+				relayNotification
+						.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
+				relayNotification.setTypeid(typeid);
+				if (type.equals(CrmTypeConstants.ACCOUNT)) {
+					relayNotification
+							.setEmailhandlerbean(AccountRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.CONTACT)) {
+					relayNotification
+							.setEmailhandlerbean(ContactRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.CAMPAIGN)) {
+					relayNotification
+							.setEmailhandlerbean(CampaignRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.LEAD)) {
+					relayNotification
+							.setEmailhandlerbean(LeadRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.OPPORTUNITY)) {
+					relayNotification
+							.setEmailhandlerbean(OpportunityRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.CASE)) {
+					relayNotification
+							.setEmailhandlerbean(CaseRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.TASK)) {
+					relayNotification
+							.setEmailhandlerbean(TaskRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.MEETING)) {
+					relayNotification
+							.setEmailhandlerbean(MeetingRelayEmailNotificationAction.class
+									.getName());
+				} else if (type.equals(CrmTypeConstants.CALL)) {
+					relayNotification
+							.setEmailhandlerbean(CallRelayEmailNotificationAction.class
+									.getName());
+				}
+				RelayEmailNotificationService relayEmailNotificationService = ApplicationContextUtil
+						.getSpringBean(RelayEmailNotificationService.class);
+				relayEmailNotificationService.saveWithSession(
+						relayNotification, AppContext.getUsername());
+				noteInput.setValue("");
+				displayNotes();
+			}
+		});
+		commentBox.addComponent(postBtn);
+
+		this.setToolbar(commentBox);
+
 	}
 
 	public void showNotes(final String type, final int typeid) {

@@ -20,10 +20,13 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListDisplay;
+import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -66,8 +69,21 @@ public class LeadRelatedCampaignView extends
 
 	@Override
 	protected Component createRightComponent() {
-		// TODO Auto-generated method stub
-		return null;
+		MobileNavigationButton addCampaign = new MobileNavigationButton();
+		addCampaign.setTargetViewCaption(AppContext
+				.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE));
+		addCampaign
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						fireNewRelatedItem("");
+					}
+				});
+		addCampaign.setStyleName("add-btn");
+		return addCampaign;
 	}
 
 }

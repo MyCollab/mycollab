@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
@@ -31,14 +28,17 @@ import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -69,7 +69,8 @@ public class OpportunityReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		associateActivities = new ActivityRelatedItemView();
+		associateActivities = new ActivityRelatedItemView(
+				CrmTypeConstants.OPPORTUNITY);
 
 		associateNotes = new NotesList("Related Notes");
 
@@ -81,14 +82,7 @@ public class OpportunityReadViewImpl extends
 
 	@Override
 	protected void onPreviewItem() {
-		final ActivitySearchCriteria searchCriteria = new ActivitySearchCriteria();
-		searchCriteria.setSaccountid(new NumberSearchField(SearchField.AND,
-				AppContext.getAccountId()));
-		searchCriteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.OPPORTUNITY));
-		searchCriteria.setTypeid(new NumberSearchField(SearchField.AND,
-				beanItem.getId()));
-		associateActivities.setSearchCriteria(searchCriteria);
+		associateActivities.displayActivity(beanItem.getId());
 		associateNotes
 				.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());
 		associateLeads.displayLeads(beanItem);
@@ -207,6 +201,21 @@ public class OpportunityReadViewImpl extends
 		toolbarLayout.addComponent(relatedActivities);
 
 		return toolbarLayout;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleActivity> getRelatedActivityHandlers() {
+		return associateActivities;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleContact> getRelatedContactHandlers() {
+		return associateContacts;
+	}
+
+	@Override
+	public IRelatedListHandlers<SimpleLead> getRelatedLeadHandlers() {
+		return associateLeads;
 	}
 
 }

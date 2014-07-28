@@ -16,14 +16,26 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
+import java.util.Set;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCall;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -32,6 +44,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.DefaultPreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
@@ -149,6 +162,81 @@ public class OpportunityReadPresenter extends
 											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
+						}
+					}
+				});
+		view.getRelatedContactHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleContact>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleContact> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						SimpleContact contact = new SimpleContact();
+						contact.setExtraData(view.getItem());
+						EventBusFactory
+								.getInstance()
+								.post(new ContactEvent.GotoEdit(
+										OpportunityReadPresenter.this, contact));
+					}
+				});
+		view.getRelatedLeadHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleLead>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleLead> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						SimpleLead lead = new SimpleLead();
+						lead.setExtraData(view.getItem());
+						EventBusFactory.getInstance().post(
+								new LeadEvent.GotoEdit(
+										OpportunityReadPresenter.this, lead));
+					}
+				});
+		view.getRelatedActivityHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleActivity>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleActivity> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						if (itemId.equals(CrmTypeConstants.TASK)) {
+							final SimpleTask task = new SimpleTask();
+							task.setType(CrmTypeConstants.ACCOUNT);
+							task.setTypeid(view.getItem().getId());
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.TaskEdit(
+											OpportunityReadPresenter.this, task));
+						} else if (itemId.equals(CrmTypeConstants.MEETING)) {
+							final SimpleMeeting meeting = new SimpleMeeting();
+							meeting.setType(CrmTypeConstants.ACCOUNT);
+							meeting.setTypeid(view.getItem().getId());
+							EventBusFactory.getInstance().post(
+									new ActivityEvent.MeetingEdit(
+											OpportunityReadPresenter.this,
+											meeting));
+						} else if (itemId.equals(CrmTypeConstants.CALL)) {
+							final SimpleCall call = new SimpleCall();
+							call.setType(CrmTypeConstants.ACCOUNT);
+							call.setTypeid(view.getItem().getId());
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.CallEdit(
+											OpportunityReadPresenter.this, call));
 						}
 					}
 				});

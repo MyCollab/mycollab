@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
@@ -37,7 +34,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -75,12 +71,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateNotes.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
 		associateContacts.displayContacts(beanItem);
 		associateCases.displayCases(beanItem);
-		final ActivitySearchCriteria criteria = new ActivitySearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
-		criteria.setType(new StringSearchField(SearchField.AND,
-				CrmTypeConstants.ACCOUNT));
-		criteria.setTypeid(new NumberSearchField(beanItem.getId()));
-		associateActivities.setSearchCriteria(criteria);
+		associateActivities.displayActivity(beanItem.getId());
 		associateLeads.displayLeads(beanItem);
 		associateOpportunities.displayOpportunities(beanItem);
 	}
@@ -90,7 +81,8 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateNotes = new NotesList("Related Notes");
 		associateContacts = new AccountRelatedContactView();
 		associateCases = new AccountRelatedCaseView();
-		associateActivities = new ActivityRelatedItemView();
+		associateActivities = new ActivityRelatedItemView(
+				CrmTypeConstants.ACCOUNT);
 		associateLeads = new AccountRelatedLeadView();
 		associateOpportunities = new AccountRelatedOpportunityView();
 	}

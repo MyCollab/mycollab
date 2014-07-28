@@ -22,16 +22,22 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
+import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -210,6 +216,42 @@ public class CampaignReadPresenter extends
 						EventBusFactory.getInstance().post(
 								new LeadEvent.GotoEdit(
 										CampaignReadPresenter.this, lead));
+					}
+				});
+		view.getRelatedActivityHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleActivity>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleActivity> items) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						if (itemId.equals(CrmTypeConstants.TASK)) {
+							final SimpleTask task = new SimpleTask();
+							task.setType(CrmTypeConstants.ACCOUNT);
+							task.setTypeid(view.getItem().getId());
+							EventBusFactory.getInstance().post(
+									new ActivityEvent.TaskEdit(
+											CampaignReadPresenter.this, task));
+						} else if (itemId.equals(CrmTypeConstants.MEETING)) {
+							final SimpleMeeting meeting = new SimpleMeeting();
+							meeting.setType(CrmTypeConstants.ACCOUNT);
+							meeting.setTypeid(view.getItem().getId());
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.MeetingEdit(
+											CampaignReadPresenter.this, meeting));
+						} else if (itemId.equals(CrmTypeConstants.CALL)) {
+							final SimpleCall call = new SimpleCall();
+							call.setType(CrmTypeConstants.ACCOUNT);
+							call.setTypeid(view.getItem().getId());
+							EventBusFactory.getInstance().post(
+									new ActivityEvent.CallEdit(
+											CampaignReadPresenter.this, call));
+						}
 					}
 				});
 	}

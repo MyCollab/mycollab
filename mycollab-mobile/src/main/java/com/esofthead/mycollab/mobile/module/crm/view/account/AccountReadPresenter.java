@@ -38,6 +38,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
@@ -45,12 +46,17 @@ import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
+import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -242,6 +248,41 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						EventBusFactory.getInstance()
 								.post(new OpportunityEvent.GotoEdit(this,
 										opportunity));
+					}
+				});
+		view.getRelatedActivityHandlers().addRelatedListHandler(
+				new RelatedListHandler<SimpleActivity>() {
+
+					@Override
+					public void selectAssociateItems(Set<SimpleActivity> items) {
+
+					}
+
+					@Override
+					public void createNewRelatedItem(String itemId) {
+						if (itemId.equals(CrmTypeConstants.TASK)) {
+							final SimpleTask task = new SimpleTask();
+							task.setType(CrmTypeConstants.ACCOUNT);
+							task.setTypeid(view.getItem().getId());
+							EventBusFactory.getInstance().post(
+									new ActivityEvent.TaskEdit(
+											AccountReadPresenter.this, task));
+						} else if (itemId.equals(CrmTypeConstants.MEETING)) {
+							final SimpleMeeting meeting = new SimpleMeeting();
+							meeting.setType(CrmTypeConstants.ACCOUNT);
+							meeting.setTypeid(view.getItem().getId());
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.MeetingEdit(
+											AccountReadPresenter.this, meeting));
+						} else if (itemId.equals(CrmTypeConstants.CALL)) {
+							final SimpleCall call = new SimpleCall();
+							call.setType(CrmTypeConstants.ACCOUNT);
+							call.setTypeid(view.getItem().getId());
+							EventBusFactory.getInstance().post(
+									new ActivityEvent.CallEdit(
+											AccountReadPresenter.this, call));
+						}
 					}
 				});
 

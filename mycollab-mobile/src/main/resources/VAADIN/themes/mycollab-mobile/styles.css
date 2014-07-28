@@ -427,6 +427,22 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #5e5055;
   background-color: rgba(187, 187, 187, 0.6);
 }
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box {
+  padding: 6px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-textarea {
+  padding: 6px;
+  border: 1px solid #E6E6E6;
+  font-size: 16px;
+  line-height: 22px;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button {
+  color: #636363;
+  font-weight: bold;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button .v-button-wrap {
+  font-size: 16px;
+}
 .mycollab-mobile .controls-popover {
   top: 4rem !important;
 }

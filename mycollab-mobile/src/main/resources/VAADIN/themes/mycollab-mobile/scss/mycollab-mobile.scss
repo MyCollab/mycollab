@@ -299,6 +299,22 @@
 	    				background-color: rgba(187, 187, 187, 0.6);
 	    			}
 		    	}
+		    	.comment-box {
+    				padding: 6px;
+    				.v-textarea {
+    					padding: 6px;
+    					border: 1px solid #E6E6E6;
+    					font-size: 16px;
+    					line-height: 22px;
+    				}
+    				.v-button {
+    					color: #636363;
+    					font-weight: bold;
+    					.v-button-wrap {
+    						font-size: 16px;
+    					}
+    				}
+    			}
 			}
 	    }
 	}

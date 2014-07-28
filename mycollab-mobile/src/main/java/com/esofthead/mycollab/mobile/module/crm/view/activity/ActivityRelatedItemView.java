@@ -16,17 +16,47 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
+import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.Popover;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.VerticalLayout;
 
 public class ActivityRelatedItemView extends
 		AbstractRelatedListView<SimpleActivity, ActivitySearchCriteria> {
 	private static final long serialVersionUID = 955474758141391716L;
+	private VerticalLayout addButtons;
+	private final String type;
+	private Integer beanId;
 
-	public ActivityRelatedItemView() {
+	public ActivityRelatedItemView(String type) {
+		this.type = type;
 		initUI();
+	}
+
+	public void displayActivity(Integer id) {
+		this.beanId = id;
+		loadActivities();
+	}
+
+	private void loadActivities() {
+		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(AppContext.getAccountId()));
+		criteria.setType(new StringSearchField(SearchField.AND, this.type));
+		criteria.setTypeid(new NumberSearchField(this.beanId));
+		this.itemList.setSearchCriteria(criteria);
 	}
 
 	private void initUI() {
@@ -37,13 +67,80 @@ public class ActivityRelatedItemView extends
 
 	@Override
 	public void refresh() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		loadActivities();
 	}
 
 	@Override
 	protected Component createRightComponent() {
-		// TODO Auto-generated method stub
-		return null;
+		final Popover controlBtns = new Popover();
+		controlBtns.setClosable(true);
+		controlBtns.setStyleName("controls-popover");
+
+		addButtons = new VerticalLayout();
+		addButtons.setSpacing(true);
+		addButtons.setWidth("100%");
+		addButtons.setMargin(true);
+		addButtons.addStyleName("edit-btn-layout");
+
+		NavigationButton addTask = new NavigationButton(
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK));
+		addTask.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			private static final long serialVersionUID = 1920289198458066344L;
+
+			@Override
+			public void buttonClick(
+					NavigationButton.NavigationButtonClickEvent event) {
+				controlBtns.close();
+				fireNewRelatedItem(CrmTypeConstants.TASK);
+			}
+		});
+		addButtons.addComponent(addTask);
+
+		NavigationButton addCall = new NavigationButton(
+				AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL));
+		addCall.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			private static final long serialVersionUID = -279151189261011902L;
+
+			@Override
+			public void buttonClick(
+					NavigationButton.NavigationButtonClickEvent event) {
+				controlBtns.close();
+				fireNewRelatedItem(CrmTypeConstants.CALL);
+			}
+		});
+		addButtons.addComponent(addCall);
+
+		NavigationButton addMeeting = new NavigationButton(
+				AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING));
+		addMeeting
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 4770664404728700960L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
+						controlBtns.close();
+						fireNewRelatedItem(CrmTypeConstants.MEETING);
+					}
+				});
+		addButtons.addComponent(addMeeting);
+
+		controlBtns.setContent(addButtons);
+
+		final Button addActivity = new Button();
+		addActivity.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1920289198458066344L;
+
+			@Override
+			public void buttonClick(ClickEvent evt) {
+				if (!controlBtns.isAttached())
+					controlBtns.showRelativeTo(addActivity);
+				else
+					controlBtns.close();
+			}
+		});
+		addActivity.setStyleName("add-btn");
+		return addActivity;
 	}
 
 }
