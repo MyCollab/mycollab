@@ -35,6 +35,7 @@
             <param name="persistent" value='false' />
             <param name='useFileBlobStore' value='false' />
         </PersistenceManager>
+        <!-- 
         <SearchIndex
             class='org.apache.jackrabbit.core.query.lucene.SearchIndex'>
             <param name='path' value='${wsp.home}/index' />
@@ -44,6 +45,7 @@
                 class='org.apache.jackrabbit.core.fs.mem.MemoryFileSystem'>
             </FileSystem>
         </SearchIndex>
+        -->
     </Workspace>
     <!-- Configures the versioning -->
 
