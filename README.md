@@ -1,4 +1,5 @@
 # MyCollab an open source Java CRM, Project and Document Management Platform
+[![Build Status](https://drone.io/github.com/esofthead/mycollab/status.png)](https://drone.io/github.com/esofthead/mycollab/latest)
 
 ## Introduction
 The MyCollab Platform offers developers the exact business application platform they’ve been looking for, by combining the tools they need. Built in Java and bundles of open source frameworks and libraries, it seamlessly integrates into MyCollab CRM, MyCollab-Project or Document Management. Developing custom business applications has never been so easy.
@@ -79,14 +80,14 @@ Please take a look at MyCollab requirements:
 1. Download MyCollab - http://www.mycollab.com/pricing/download/
 2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
 
-If you need understand more MyCollab advanced configuration settings, please visit link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
+If you need to understand more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
 
 ## Document
 MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
 * Installation http://wiki.mycollab.com/Installation_Guideline
 * Configuration http://wiki.mycollab.com/Configuration
 
-If you want to customize MyCollab, following links are useful for you:
+If you want to customize MyCollab, following links are useful to you:
 * Setup MyCollab in Eclipse workspace http://wiki.mycollab.com/Set_up_Eclipse_workspace
 * Start customize MyCollab http://wiki.mycollab.com/How_to_customize_MyCollab
 
