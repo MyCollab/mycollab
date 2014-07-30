@@ -55,11 +55,4 @@
         </source> <destination>${basedir}/src/main/resources/VAADIN/themes/mycollab-mobile/</destination> 
         </resource> </resources> </configuration> </plugin> </plugins> </build> -->
 
-    <repositories>
-        <repository>
-            <id>mycollab</id>
-            <name>MyCollab Repository</name>
-            <url>http://build.mycollab.com:8080/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
 </project>

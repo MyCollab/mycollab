@@ -67,12 +67,4 @@
             <version>0.9.9-RC2</version>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>mycollab</id>
-            <name>MyCollab Repository</name>
-            <url>http://build.mycollab.com:8080/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
 </project>
