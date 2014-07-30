@@ -36,7 +36,6 @@ import org.mockito.Spy;
 
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -135,7 +134,7 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 				strArgument.getValue());
 	}
 
-	@Test(expected = ResourceNotFoundException.class)
+	@Test(expected = MyCollabException.class)
 	public void testNullParam() throws ServletException, IOException {
 		when(request.getPathInfo()).thenReturn(null);
 		denyInvitationHandler.onHandleRequest(request, response);
