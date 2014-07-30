@@ -12,11 +12,6 @@
     </parent>
     <packaging>jar</packaging>
     <dependencies>
-        <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
-            <artifactId>mycollab-extra-lib</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>

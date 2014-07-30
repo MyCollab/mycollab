@@ -26,8 +26,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?-4bdust");
-  src: url("fonts/icomoon.eot?#iefix-4bdust") format("embedded-opentype"), url("fonts/icomoon.woff?-4bdust") format("woff"), url("fonts/icomoon.ttf?-4bdust") format("truetype"), url("fonts/icomoon.svg?-4bdust#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?6bdejx");
+  src: url("fonts/icomoon.eot?#iefix6bdejx") format("embedded-opentype"), url("fonts/icomoon.woff?6bdejx") format("woff"), url("fonts/icomoon.ttf?6bdejx") format("truetype"), url("fonts/icomoon.svg?6bdejx#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -500,6 +500,19 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   height: 100%;
   vertical-align: middle;
   width: 0px;
+}
+.mycollab-mobile .data-list-view .v-button.selectable-button.selected .v-button-wrap {
+  position: relative;
+}
+.mycollab-mobile .data-list-view .v-button.selectable-button.selected .v-button-wrap:after {
+  content: "\e042";
+  font-family: "icomoon";
+  color: #49A3E1;
+  position: absolute;
+  right: 20px;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 16px;
 }
 .mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
   background-color: #F3F1F0;

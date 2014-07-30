@@ -16,7 +16,7 @@
 	<div id="container">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body">
-			<div id="spacing""></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>Welcome <span style="font-style:italic; font-size:20px;">$!username</span><h1>

@@ -89,4 +89,8 @@ public abstract class AbstractRelatedListView<T, S extends SearchCriteria>
 		super.onBecomingVisible();
 		refresh();
 	}
+
+	public AbstractPagedBeanList<S, T> getItemList() {
+		return this.itemList;
+	}
 }

@@ -32,6 +32,9 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -41,6 +44,7 @@ import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
@@ -48,6 +52,7 @@ import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.Account;
+import com.esofthead.mycollab.module.crm.domain.AccountLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
@@ -59,6 +64,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
+import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -209,8 +215,19 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						// TODO Auto-generated method stub
+						if (items.size() > 0) {
+							ContactService contactService = ApplicationContextUtil
+									.getSpringBean(ContactService.class);
+							SimpleAccount account = view.getItem();
+							for (SimpleContact contact : items) {
+								contact.setAccountid(account.getId());
+								contactService.updateWithSession(contact,
+										AppContext.getUsername());
+							}
 
+							EventBusFactory.getInstance().post(
+									new CrmEvent.NavigateBack(this, null));
+						}
 					}
 
 				});
@@ -219,8 +236,26 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleLead> items) {
-						// TODO Auto-generated method stub
+						if (items.size() > 0) {
+							SimpleAccount account = view.getItem();
+							List<AccountLead> associateLeads = new ArrayList<AccountLead>();
+							for (SimpleLead contact : items) {
+								AccountLead assoLead = new AccountLead();
+								assoLead.setAccountid(account.getId());
+								assoLead.setLeadid(contact.getId());
+								assoLead.setCreatetime(new GregorianCalendar()
+										.getTime());
+								associateLeads.add(assoLead);
+							}
 
+							AccountService accountService = ApplicationContextUtil
+									.getSpringBean(AccountService.class);
+							accountService.saveAccountLeadRelationship(
+									associateLeads, AppContext.getAccountId());
+
+							EventBusFactory.getInstance().post(
+									new CrmEvent.NavigateBack(this, null));
+						}
 					}
 
 					@Override

@@ -32,6 +32,9 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -39,11 +42,13 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
@@ -182,8 +187,29 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 					@Override
 					public void selectAssociateItems(
 							Set<SimpleOpportunity> items) {
-						// TODO Auto-generated method stub
+						if (items.size() > 0) {
+							SimpleContact contact = view.getItem();
+							List<ContactOpportunity> associateOpportunities = new ArrayList<ContactOpportunity>();
+							for (SimpleOpportunity opportunity : items) {
+								ContactOpportunity assoOpportunity = new ContactOpportunity();
+								assoOpportunity.setOpportunityid(opportunity
+										.getId());
+								assoOpportunity.setContactid(contact.getId());
+								assoOpportunity
+										.setCreatedtime(new GregorianCalendar()
+												.getTime());
+								associateOpportunities.add(assoOpportunity);
+							}
 
+							ContactService contactService = ApplicationContextUtil
+									.getSpringBean(ContactService.class);
+							contactService.saveContactOpportunityRelationship(
+									associateOpportunities,
+									AppContext.getAccountId());
+
+							EventBusFactory.getInstance().post(
+									new CrmEvent.NavigateBack(this, null));
+						}
 					}
 
 					@Override

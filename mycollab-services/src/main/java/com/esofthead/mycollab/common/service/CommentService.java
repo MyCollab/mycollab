@@ -33,10 +33,6 @@ public interface CommentService extends
 		IDefaultService<Integer, Comment, CommentSearchCriteria> {
 	@CacheEvict
 	int saveWithSession(@CacheKey Comment record, String username,
-			boolean isSendingEmail);
-
-	@CacheEvict
-	int saveWithSession(@CacheKey Comment record, String username,
 			boolean isSendingEmail,
 			Class<? extends SendingRelayEmailNotificationAction> emailHandler);
 }

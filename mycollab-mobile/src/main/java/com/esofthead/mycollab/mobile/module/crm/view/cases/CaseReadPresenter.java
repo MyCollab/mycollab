@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -24,10 +27,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.ContactCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
@@ -36,6 +41,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CaseService;
+import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -162,8 +168,25 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						// TODO Auto-generated method stub
+						List<ContactCase> associateContacts = new ArrayList<ContactCase>();
+						SimpleCase cases = view.getItem();
+						for (SimpleContact contact : items) {
+							ContactCase associateContact = new ContactCase();
+							associateContact.setCaseid(cases.getId());
+							associateContact.setContactid(contact.getId());
+							associateContact
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
 
+							associateContacts.add(associateContact);
+						}
+
+						ContactService contactService = ApplicationContextUtil
+								.getSpringBean(ContactService.class);
+						contactService.saveContactCaseRelationship(
+								associateContacts, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override

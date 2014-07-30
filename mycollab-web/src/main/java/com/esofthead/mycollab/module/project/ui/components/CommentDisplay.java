@@ -36,7 +36,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class CommentDisplay extends VerticalLayout implements
-ReloadableComponent {
+		ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
@@ -55,17 +55,16 @@ ReloadableComponent {
 		this.type = type;
 		this.setStyleName("comment-display");
 		if (isDisplayCommentInput) {
-			commentBox = new ProjectCommentInput(this, type, extraTypeId, false, isSendingRelayEmail, emailHandler);
+			commentBox = new ProjectCommentInput(this, type, extraTypeId,
+					false, isSendingRelayEmail, emailHandler);
 			this.addComponent(commentBox);
 		}
-		
+
 		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
 		this.addComponent(commentList);
-
-		
 
 		displayCommentList();
 	}

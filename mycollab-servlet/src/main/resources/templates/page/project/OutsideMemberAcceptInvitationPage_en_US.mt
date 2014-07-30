@@ -17,7 +17,7 @@
 	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>Welcome <span style="font-style:italic; font-size:22px;">$!email</h1>
@@ -26,7 +26,7 @@
 				<div>
 					<table>
 					 	<tr>
-					 		<td style="width: 350px; vertical-align:top; padding-top:12px;font-size: 18px; color: #616161;">Thank you for accepting the invitation!<br> Please enter your password</td>
+					 		<td style="width: 350px; vertical-align:top; padding-top:12px;font-size: 18px">Thank you for accepting the invitation!<br> Please enter your password</td>
 					 		<td style="width: 400px; display: inline-block; vertical-align: top;">
 								<div id="mainContent">
 					  				 <div>
@@ -34,26 +34,26 @@
 										<table border="0">
 										<tbody>
 										<tr>
-											<td style="padding-top:8px;"><label for="password"><span style="font-size:14px;color:#616161;">New Password:</span></label></td>
+											<td style="padding-top:8px;"><label for="password"><span style="font-size:14px">New Password:</span></label></td>
 										</tr>
 										<tr>
-											<td><input id="password" maxlength="45" name="password" type="password" style="width:365px;height:25px;border: 1px solid rgb(169, 169, 169); border-radius: 3px;"/></td>
+											<td><input id="password" maxlength="45" name="password" type="password" style="width:365px"/></td>
 										</tr>
 										<tr>
 											<td style="height:10px;"></td>
 										</tr>
 										<tr>
-											<td><label for="password"><span style="font-size:14px;color:#616161;">Confirm New Password:</span></label></td>
+											<td><label for="password"><span style="font-size:14px">Confirm New Password:</span></label></td>
 										</tr>
 										<tr>
-											<td><input id="repassword" maxlength="45" name="password" type="password" style="width:365px;height:25px;border: 1px solid rgb(169, 169, 169); border-radius: 3px;"/></td>
+											<td><input id="repassword" maxlength="45" name="password" type="password" style="width:365px"/></td>
 										</tr>
 										</tbody></table>
 										</form>
 									</div>
 									<div style="padding-top: 15px; padding-left:200px;">
-										<button style="width:80px;" class="v-button-bluebtn" type="button" onclick="return createAccount();"><span style="font-family: 'verdana';font-size: 15px;">Save</span></button>&nbsp&nbsp&nbsp
-										<button style="width:80px;" class="v-button-bluebtn" type="button" onclick="return cancel();"><span style="font-family: 'verdana';font-size: 15px;">Cancel</span></button>
+										<button style="width:80px;" class="v-button v-button-orangebtn" type="button" onclick="return createAccount();"><span style="font-family: 'verdana';font-size: 15px;">Save</span></button>&nbsp&nbsp&nbsp
+										<button style="width:80px;" class="v-button v-button-graybtn" type="button" onclick="return cancel();"><span style="font-family: 'verdana';font-size: 15px;">Cancel</span></button>
 									</div>
 								</div>
 							</td>

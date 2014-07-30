@@ -17,7 +17,7 @@
 	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>This action is denied!</h1>

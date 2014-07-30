@@ -198,7 +198,7 @@
     <select id="getProjectActivityStreams" parameterType="ActivityStreamSearchCriteria"
         resultMap="ActivityStreamResult" lang="velocity">
         <include
-            refid="com.esofthead.mycollab.module.project.dao.ProjectMapperExt.selectSimpleActivityStream" />
+            refid="selectSimpleActivityStream" />
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
         <include

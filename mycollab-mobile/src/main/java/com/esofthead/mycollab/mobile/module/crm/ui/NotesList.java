@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -113,15 +114,18 @@ public class NotesList extends AbstractMobilePageView {
 		commentBox.setSpacing(true);
 		commentBox.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		final TextArea noteInput = new TextArea();
-		noteInput.setInputPrompt("Add a note...");
+		noteInput.setInputPrompt(AppContext
+				.getMessage(GenericI18Enum.M_NOTE_INPUT_PROMPT));
 		noteInput.setSizeFull();
 		commentBox.addComponent(noteInput);
 		commentBox.setExpandRatio(noteInput, 1.0f);
 
-		Button postBtn = new Button("Post");
+		Button postBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL));
 		postBtn.setStyleName("submit-btn");
 		postBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 		postBtn.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = -5095455325725786794L;
 
 			@Override
 			public void buttonClick(Button.ClickEvent event) {

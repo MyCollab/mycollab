@@ -11,13 +11,13 @@
 }
 
 </style>
-<title>Refuse deny action page</title>
+<title>Deny the invitation</title>
 </head>
 <body>
 	<div id="container">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>Your account has already been activated</h1>

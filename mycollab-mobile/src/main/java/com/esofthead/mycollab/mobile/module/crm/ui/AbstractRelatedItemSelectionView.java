@@ -3,8 +3,10 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.mobile.ui.IPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.vaadin.ui.Button;
 
@@ -18,18 +20,36 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 
 	private static final long serialVersionUID = -8672605824883862622L;
 
-	private static String SELECTED_STYLENAME = "selected";
+	protected static String SELECTED_STYLENAME = "selected";
 
-	protected AbstractRelatedListView<T, S> relatedListView;
+	protected final AbstractRelatedListView<T, S> relatedListView;
 	protected Set<T> selections = new HashSet<T>();
-	protected IPagedBeanList<S, T> itemList;
+	protected AbstractPagedBeanList<S, T> itemList;
 
 	public AbstractRelatedItemSelectionView(String title,
-			AbstractRelatedListView<T, S> relatedListView) {
+			final AbstractRelatedListView<T, S> relatedListView) {
 		this.setCaption(title);
 		this.relatedListView = relatedListView;
+		// if (!relatedListView.getItemList().getCurrentDataList().isEmpty())
+		// this.selections = new HashSet<T>(relatedListView.getItemList()
+		// .getCurrentDataList());
 		initUI();
 		this.setContent(itemList);
+		Button doneBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.M_BUTTON_DONE),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = -652476076947907047L;
+
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						if (!selections.isEmpty()) {
+							relatedListView
+									.fireSelectedRelatedItems(selections);
+						}
+					}
+				});
+		doneBtn.setStyleName("save-btn");
+		this.setRightComponent(doneBtn);
 	}
 
 	protected abstract void initUI();
@@ -42,7 +62,9 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 		private static final long serialVersionUID = 8233451662822791473L;
 		private boolean selected = false;
 
-		public SelectableButton() {
+		public SelectableButton(String caption) {
+			super(caption);
+			setStyleName("selectable-button");
 			addClickListener(new Button.ClickListener() {
 
 				private static final long serialVersionUID = 6187441057387703570L;
@@ -61,6 +83,11 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 
 		public boolean isSelected() {
 			return selected;
+		}
+
+		public void select() {
+			this.selected = true;
+			this.addStyleName(SELECTED_STYLENAME);
 		}
 	}
 }

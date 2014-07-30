@@ -150,6 +150,10 @@ a {
 
 .v-button-graybtn {
 	background-color: #D1D1D1;
+	color: #777;
+}
+.v-button-graybtn span {
+	color: #777;
 }
 
 .v-button:hover {

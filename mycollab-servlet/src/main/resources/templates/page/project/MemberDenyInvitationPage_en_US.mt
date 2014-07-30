@@ -17,7 +17,7 @@
 	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>Please Feedback To Inviter</h1>
@@ -33,7 +33,7 @@
                 	</div>
                     <div style="display: block; padding-left: 588px;">
                         <button class="v-button v-button-orangebtn" type="button" onclick="return sendEmailFeedBack();"><span style="font-family: 'verdana';font-size: 15px;">Send</span></button>&nbsp&nbsp
-                        <button class="v-button v-button-blankbtn" type="button" onclick="return skip();"><span style="font-family: 'verdana';font-size: 15px;">Skip</span></button>
+                        <button class="v-button v-button-graybtn" type="button" onclick="return skip();"><span style="font-family: 'verdana';font-size: 15px;">Skip</span></button>
                     </div>
                     <div id="requireMsg" style="display: none; padding: 12px 8px 8px 20px;">
                         <p><span style="color:red; font-style:italic">

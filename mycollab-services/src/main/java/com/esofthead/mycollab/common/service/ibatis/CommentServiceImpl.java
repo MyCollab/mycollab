@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.common.service.ibatis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,9 @@ public class CommentServiceImpl extends
 		DefaultService<Integer, Comment, CommentSearchCriteria> implements
 		CommentService {
 
+	private static Logger log = LoggerFactory
+			.getLogger(CommentServiceImpl.class);
+
 	@Autowired
 	protected CommentMapper commentMapper;
 
@@ -54,6 +59,9 @@ public class CommentServiceImpl extends
 
 	@Autowired
 	private RelayEmailNotificationService relayEmailNotificationService;
+
+	@Autowired
+//	private ActivityStreamService activityStreamService;
 
 	@Override
 	public ICrudGenericDAO<Integer, Comment> getCrudMapper() {
@@ -67,22 +75,51 @@ public class CommentServiceImpl extends
 
 	@Override
 	public int saveWithSession(Comment record, String username) {
-		return this.saveWithSession(record, username, false);
+		return this.saveWithSession(record, username, false, null);
 	}
 
 	@Override
 	public int saveWithSession(Comment record, String username,
-			boolean isSendingEmail) {
+			boolean isSendingEmail,
+			Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
 		int saveId = super.saveWithSession(record, username);
-		if (!isSendingEmail) {
-			return saveId;
-		} else {
+
+		if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
+			CacheUtils
+					.cleanCaches(record.getSaccountid(), MessageService.class);
+		}
+
+		if (isSendingEmail) {
 			relayEmailNotificationService.saveWithSession(
 					getRelayEmailNotification(record, username, isSendingEmail,
-							null), username);
-			return saveId;
+							emailHandler), username);
 		}
+
+//		activityStreamService.saveWithSession(
+//				getActivityStream(record, username), username);
+
+		return saveId;
 	}
+
+//	private ActivityStream getActivityStream(Comment record, String username) {
+//		ActivityStream activityStream = new ActivityStream();
+//		activityStream.setAction(ActivityStreamConstants.ACTION_COMMENT);
+//		activityStream.setCreateduser(username);
+//		activityStream.setSaccountid(record.getSaccountid());
+//		activityStream.setType(record.getType());
+//		activityStream.setTypeid(record.getTypeid());
+//		activityStream.setNamefield(record.getComment());
+//		if (record.getType() != null && record.getType().startsWith("Project-")) {
+//			activityStream.setModule(ModuleNameConstants.PRJ);
+//		} else if (record.getType() != null
+//				&& record.getType().startsWith("Crm-")) {
+//			activityStream.setModule(ModuleNameConstants.CRM);
+//		} else {
+//			log.error("Can not define module type of bean {}",
+//					BeanUtility.printBeanObj(record));
+//		}
+//		return activityStream;
+//	}
 
 	private RelayEmailNotification getRelayEmailNotification(Comment record,
 			String username, boolean isSendingEmail,
@@ -100,25 +137,6 @@ public class CommentServiceImpl extends
 		}
 		relayEmailNotification.setExtratypeid(record.getExtratypeid());
 		return relayEmailNotification;
-	}
-
-	@Override
-	public int saveWithSession(Comment record, String username,
-			boolean isSendingEmail,
-			Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		int saveId = super.saveWithSession(record, username);
-		if (ProjectTypeConstants.MESSAGE.equals(record.getType())) {
-			CacheUtils
-					.cleanCaches(record.getSaccountid(), MessageService.class);
-		}
-		if (!isSendingEmail) {
-			return saveId;
-		} else {
-			relayEmailNotificationService.saveWithSession(
-					getRelayEmailNotification(record, username, isSendingEmail,
-							emailHandler), username);
-			return saveId;
-		}
 	}
 
 }

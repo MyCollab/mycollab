@@ -384,6 +384,22 @@
 					vertical-align: middle;
 					width: 0px;
 				}
+			}
+			&.selectable-button.selected {
+				.v-button-wrap {
+					position: relative;
+					
+					&:after {
+						content: "\e042";
+						font-family: "icomoon";
+						color: #49A3E1;
+						position: absolute;
+						right: 20px;
+						display: inline-block;
+						font-size: 16px;
+						line-height: 16px;
+					}
+				}
 			}			
 		}
 	}

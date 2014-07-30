@@ -17,7 +17,7 @@
 	<div id="container" style="height:100%;">
 		#parse("templates/page/pageHeader.mt")
 		<div id="body" >
-			<div id="spacing" "></div>
+			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
 					<h1>Error</h1>
@@ -37,7 +37,7 @@
 							An unexpected error has occurred. We apologize for the inconvenience. Our team has been notified and will investigate the issue right away. 
 						</div>
 						<div id="back_to_home" style="padding-left:30px;padding-top:20px;">
-							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">GReturn to the home page</a>
+							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">Return to the home page</a>
 						</div>
 						<div class="clear"></div>
 					</div>
