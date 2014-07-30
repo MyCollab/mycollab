@@ -67,4 +67,11 @@
             <version>0.9.9-RC2</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+    </repositories>
 </project>

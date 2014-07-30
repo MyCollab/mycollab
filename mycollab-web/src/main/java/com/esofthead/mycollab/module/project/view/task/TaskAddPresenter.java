@@ -108,7 +108,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 		}
 	}
 
-	public void save(Task item) {
+	private void save(Task item) {
 		ProjectTaskService taskService = ApplicationContextUtil
 				.getSpringBean(ProjectTaskService.class);
 

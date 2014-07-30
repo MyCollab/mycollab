@@ -60,6 +60,6 @@ public class TestDbConfiguration {
 	}
 
 	public String getPassword() {
-		return props.getProperty("db.password", "esofthead321");
+		return props.getProperty("db.password", "");
 	}
 }

@@ -95,7 +95,7 @@ public class ProjectListComponent extends VerticalLayout {
 		headerBar.addComponent(headerPopupButton);
 
 		if (AppContext.canBeYes(RolePermissionCollections.CREATE_NEW_PROJECT)) {
-			final Button createProjectBtn = new Button("",
+			final Button createProjectBtn = new Button("+",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -105,10 +105,10 @@ public class ProjectListComponent extends VerticalLayout {
 							UI.getCurrent().addWindow(projectNewWindow);
 						}
 					});
-			createProjectBtn.setIcon(MyCollabResource
-					.newResource("icons/18/create.png"));
-			createProjectBtn.setStyleName(UIConstants.THEME_TRANSPARENT_LINK);
+			createProjectBtn.setStyleName("add-project-btn");
 			createProjectBtn.setDescription("New Project");
+			createProjectBtn.setWidth("20px");
+			createProjectBtn.setHeight("20px");
 			UiUtils.addComponent(headerBar, createProjectBtn,
 					Alignment.MIDDLE_RIGHT);
 		}
