@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -35,10 +36,16 @@ public class I18nValueComboBox extends ComboBox {
 		this.setPageLength(20);
 	}
 
-	public final void loadData(List<? extends Enum> values) {
+	public I18nValueComboBox(boolean nullIsAllowable, Enum<?>... keys) {
+		this();
+		setNullSelectionAllowed(nullIsAllowable);
+		loadData(Arrays.asList(keys));
+	}
+
+	public final void loadData(List<? extends Enum<?>> values) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 
-		for (Enum entry : values) {
+		for (Enum<?> entry : values) {
 			this.addItem(entry.name());
 			this.setItemCaption(entry.name(), AppContext.getMessage(entry));
 		}

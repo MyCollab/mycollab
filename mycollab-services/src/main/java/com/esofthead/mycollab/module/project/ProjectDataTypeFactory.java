@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.project;
 
-import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
 
 /**
  * 
@@ -38,14 +37,6 @@ public class ProjectDataTypeFactory {
 	private static String[] BUG_SEVERITY_LIST = new String[] { "Critical",
 			"Major", "Minor", "Trivial" };
 
-	private static String[] BUG_RESOLUTION_LIST = new String[] {
-			BugResolutionConstants.CAN_NOT_REPRODUCE,
-			BugResolutionConstants.DUPLICATE, BugResolutionConstants.REOPEN,
-			BugResolutionConstants.FIXED, BugResolutionConstants.INCOMPLETE,
-			BugResolutionConstants.NEWISSUE,
-			BugResolutionConstants.WAITFORVERIFICATION,
-			BugResolutionConstants.WON_FIX };
-
 	public static String[] getProjectTypeList() {
 		return PROJECT_TYPE_LIST;
 	}
@@ -56,9 +47,5 @@ public class ProjectDataTypeFactory {
 
 	public static String[] getBugSeverityList() {
 		return BUG_SEVERITY_LIST;
-	}
-
-	public static String[] getBugResolutionList() {
-		return BUG_RESOLUTION_LIST;
 	}
 }

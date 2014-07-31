@@ -44,6 +44,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 		return ctx.getBean(classType);
 	}
 
+	@SuppressWarnings("ucd")
 	public static ApplicationContext getApplicationContext() {
 		return ctx;
 	}

@@ -37,27 +37,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  */
 public class ResourceUtils {
 
-	public static long KB_SIZE = 1024;
+	private static long KB_SIZE = 1024;
 
-	public static long MB_SIZE = 1024 * 1024;
+	private static long MB_SIZE = 1024 * 1024;
 
-	public static long GB_SIZE = 1024 * 1024 * 1024;
-
-	/**
-	 * 
-	 * @param storageName
-	 * @return
-	 */
-	public static ExternalResourceService getExternalResourceService(
-			String storageName) {
-		if (StorageNames.DROPBOX.equals(storageName)) {
-			return ApplicationContextUtil
-					.getSpringBean(DropboxResourceService.class);
-		} else {
-			throw new MyCollabException(
-					"Current support only dropbox resource service");
-		}
-	}
+	private static long GB_SIZE = 1024 * 1024 * 1024;
 
 	/**
 	 * 

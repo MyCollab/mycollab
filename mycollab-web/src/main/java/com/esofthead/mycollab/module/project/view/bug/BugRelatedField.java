@@ -32,10 +32,10 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.bug.components.BugRelationComboBox;
-import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugRelatedSearchCriteria;
@@ -247,7 +247,7 @@ public class BugRelatedField extends CustomComponent {
 						BugService bugService = ApplicationContextUtil
 								.getSpringBean(BugService.class);
 						bug.setStatus(BugStatus.Resolved.name());
-						bug.setResolution(BugResolutionConstants.DUPLICATE);
+						bug.setResolution(BugResolution.Duplicate.name());
 						bugService.updateWithSession(bug,
 								AppContext.getUsername());
 					}

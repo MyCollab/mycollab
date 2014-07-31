@@ -266,30 +266,6 @@ public class BugSearchCriteria extends SearchCriteria {
 		this.priorities = priorities;
 	}
 
-	public static String getAFFVERSION() {
-		return AFFVERSION;
-	}
-
-	public static void setAFFVERSION(String aFFVERSION) {
-		AFFVERSION = aFFVERSION;
-	}
-
-	public static String getFIXVERSION() {
-		return FIXVERSION;
-	}
-
-	public static void setFIXVERSION(String fIXVERSION) {
-		FIXVERSION = fIXVERSION;
-	}
-
-	public static String getCOMPONENT() {
-		return COMPONENT;
-	}
-
-	public static void setCOMPONENT(String cOMPONENT) {
-		COMPONENT = cOMPONENT;
-	}
-
 	public SetSearchField<String> getSeverities() {
 		return severities;
 	}

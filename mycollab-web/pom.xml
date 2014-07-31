@@ -290,7 +290,7 @@
             <version>${springVersion}</version>
         </dependency>
     </dependencies>
-    
+
     <repositories>
         <repository>
             <id>vaadin-addons</id>

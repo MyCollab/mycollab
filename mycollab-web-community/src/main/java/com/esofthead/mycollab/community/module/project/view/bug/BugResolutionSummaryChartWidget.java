@@ -28,9 +28,10 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.view.bug.IBugResolutionSummaryChartWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
@@ -54,13 +55,13 @@ public class BugResolutionSummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public BugResolutionSummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), width,
-				height);
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
+				width, height);
 	}
 
 	public BugResolutionSummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE), 400,
-				280);
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
+				400, 280);
 
 	}
 
@@ -84,19 +85,20 @@ public class BugResolutionSummaryChartWidget extends
 		List<GroupItem> groupItems = bugService
 				.getResolutionDefectsSummary(searchCriteria);
 
-		String[] bugPriorities = ProjectDataTypeFactory.getBugResolutionList();
-		for (String priority : bugPriorities) {
+		BugResolution[] bugResolutions = OptionI18nEnum.bug_resolutions;
+		for (BugResolution resolution : bugResolutions) {
 			boolean isFound = false;
 			for (GroupItem item : groupItems) {
-				if (priority.equals(item.getGroupid())) {
-					dataset.setValue(priority, item.getValue());
+				if (resolution.name().equals(item.getGroupid())) {
+					dataset.setValue(AppContext.getMessage(resolution),
+							item.getValue());
 					isFound = true;
 					break;
 				}
 			}
 
 			if (!isFound) {
-				dataset.setValue(priority, 0);
+				dataset.setValue(AppContext.getMessage(resolution), 0);
 			}
 		}
 

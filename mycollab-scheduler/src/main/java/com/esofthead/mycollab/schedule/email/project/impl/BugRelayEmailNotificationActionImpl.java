@@ -45,6 +45,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
@@ -301,12 +302,15 @@ public class BugRelayEmailNotificationActionImpl extends
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
 					GenericI18Enum.FORM_ASSIGNEE));
+			
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					BugI18nEnum.FORM_PHASE));
 
 			put("status", new I18nFieldFormat("status",
 					BugI18nEnum.FORM_STATUS, BugStatus.class));
-			put("resolution", BugI18nEnum.FORM_RESOLUTION);
+			
+			put("resolution", new I18nFieldFormat("resolution",
+					BugI18nEnum.FORM_RESOLUTION, BugResolution.class));
 
 			put("severity", new I18nFieldFormat("severity",
 					BugI18nEnum.FORM_SEVERITY, BugSeverity.class));
@@ -315,6 +319,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 			put("duedate", new DateFieldFormat("duedate",
 					BugI18nEnum.FORM_DUE_DATE));
+			
 			put("logby", new LogUserFieldFormat("logby",
 					BugI18nEnum.FORM_LOG_BY));
 		}

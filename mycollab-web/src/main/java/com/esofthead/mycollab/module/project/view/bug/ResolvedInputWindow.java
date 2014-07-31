@@ -25,11 +25,11 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
@@ -244,7 +244,7 @@ public class ResolvedInputWindow extends Window {
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("resolution")) {
 					ResolvedInputWindow.this.bug
-							.setResolution(BugResolutionConstants.FIXED);
+							.setResolution(BugResolution.Fixed.name());
 					return BugResolutionComboBox
 							.getInstanceForResolvedBugWindow();
 				} else if (propertyId.equals("assignuser")) {

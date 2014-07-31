@@ -22,10 +22,10 @@ import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.tracker.BugResolutionConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -119,7 +119,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 		bug.setSaccountid(AppContext.getAccountId());
 		if (bug.getId() == null) {
 			bug.setStatus(BugStatus.Open.name());
-			bug.setResolution(BugResolutionConstants.NEWISSUE);
+			bug.setResolution(BugResolution.Newissue.name());
 			bug.setLogby(AppContext.getUsername());
 			bug.setSaccountid(AppContext.getAccountId());
 			int bugId = bugService.saveWithSession(bug,

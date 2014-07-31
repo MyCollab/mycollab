@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
@@ -60,7 +61,8 @@ public class BugHistoryList extends HistoryLogComponent {
 				AppContext.getMessage(BugI18nEnum.FORM_SEVERITY),
 				new I18nHistoryFieldFormat(BugSeverity.class));
 		this.generateFieldDisplayHandler("resolution",
-				AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION));
+				AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
+				new I18nHistoryFieldFormat(BugResolution.class));
 		this.generateFieldDisplayHandler("estimateremaintime",
 				AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE));
 		this.generateFieldDisplayHandler("duedate",

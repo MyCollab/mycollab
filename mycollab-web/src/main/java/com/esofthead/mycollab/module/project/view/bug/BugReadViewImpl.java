@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -667,6 +668,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 					containerField.getLayout().setExpandRatio(lbPriority, 1.0f);
 					return containerField;
 				}
+			} else if (propertyId.equals("resolution")) {
+				return new I18nFormViewField(beanItem.getResolution(),
+						BugResolution.class);
 			}
 			return null;
 		}

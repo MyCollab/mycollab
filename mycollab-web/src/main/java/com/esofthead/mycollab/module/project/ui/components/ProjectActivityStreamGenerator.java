@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
@@ -106,7 +107,8 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("duedate",
 					BugI18nEnum.FORM_DUE_DATE, AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("resolution",
-					BugI18nEnum.FORM_RESOLUTION);
+					BugI18nEnum.FORM_RESOLUTION, new I18nHistoryFieldFormat(
+							BugResolution.class));
 		}
 	}
 

@@ -44,6 +44,9 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
@@ -219,17 +222,20 @@ public class ProjectTooltipGenerator {
 					BugStatus.class, bug.getStatus()));
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_PRIORITY));
-			Td cell34 = buildCellValue(bug.getPriority());
+			Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale,
+					BugPriority.class, bug.getPriority()));
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
 			Tr trRow4 = new Tr();
 			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_SEVERITY));
-			Td cell42 = buildCellValue(bug.getSeverity());
+			Td cell42 = buildCellValue(LocalizationHelper.getMessage(locale,
+					BugSeverity.class, bug.getSeverity()));
 			Td cell43 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_RESOLUTION));
-			Td cell44 = buildCellValue(bug.getResolution());
+			Td cell44 = buildCellValue(LocalizationHelper.getMessage(locale,
+					BugResolution.class, bug.getResolution()));
 			trRow4.appendChild(cell41, cell42, cell43, cell44);
 			tooltipManager.appendRow(trRow4);
 
