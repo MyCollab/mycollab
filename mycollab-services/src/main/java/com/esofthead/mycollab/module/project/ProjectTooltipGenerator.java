@@ -44,6 +44,9 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
@@ -71,7 +74,7 @@ public class ProjectTooltipGenerator {
 	private static Logger log = LoggerFactory
 			.getLogger(ProjectTooltipGenerator.class);
 
-	public static String generateTolltipNull(Locale locale) {
+	private static String generateTolltipNull(Locale locale) {
 		Div div = new Div();
 		Table table = new Table();
 		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
@@ -135,7 +138,8 @@ public class ProjectTooltipGenerator {
 			Td cell32 = buildCellValue(deadline);
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					TaskI18nEnum.FORM_PRIORITY));
-			Td cell34 = buildCellValue(task.getPriority());
+			Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale,
+					TaskPriority.class, task.getPriority()));
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 
@@ -211,7 +215,8 @@ public class ProjectTooltipGenerator {
 			Tr trRow3 = new Tr();
 			Td cell31 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_STATUS));
-			Td cell32 = buildCellValue(bug.getStatus());
+			Td cell32 = buildCellValue(LocalizationHelper.getMessage(locale,
+					BugStatus.class, bug.getStatus()));
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					BugI18nEnum.FORM_PRIORITY));
 			Td cell34 = buildCellValue(bug.getPriority());
@@ -696,7 +701,8 @@ public class ProjectTooltipGenerator {
 			Td cell32 = buildCellValue(endDate);
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					MilestoneI18nEnum.FORM_STATUS_FIELD));
-			Td cell34 = buildCellValue(milestone.getStatus());
+			Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale,
+					MilestoneStatus.class, milestone.getStatus()));
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 

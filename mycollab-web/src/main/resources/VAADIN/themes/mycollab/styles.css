@@ -3499,13 +3499,14 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
     opacity: .7;
 }
 
-.v-button.select-bg .v-button-wrap,.v-button.select-bg:active .v-button-wrap
+.v-button.select-bg .v-button-wrap,.v-button.select-bg:active .v-button-wrap, .v-button.select-bg:hover .v-button-wrap
     {
     padding: 0px;
     margin: 0px;
     border-width: 0px;
     height: 100%;
     border-radius: 0px;
+    background-color: transparent;
 }
 /* End Background has SELECT icon */
 

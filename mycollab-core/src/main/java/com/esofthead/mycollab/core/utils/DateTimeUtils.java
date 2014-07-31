@@ -77,18 +77,6 @@ public class DateTimeUtils {
 		return new Date();
 	}
 
-	public static Date convertDateByString(String strDate,
-			SimpleDateFormat formatter) {
-		if (strDate != null && !strDate.equals("")) {
-			try {
-				return formatter.parse(strDate);
-			} catch (ParseException e) {
-				log.error("Error while parse date", e);
-			}
-		}
-		return new Date();
-	}
-
 	public static String converToStringWithUserTimeZone(String dateVal,
 			String userTimeZone) {
 		Date date = convertDateByFormatW3C(dateVal);
@@ -119,23 +107,6 @@ public class DateTimeUtils {
 			return "";
 		return DateTimeUtils.formatDate(date,
 				TimezoneMapper.getTimezone(userTimeZone).getTimezone());
-	}
-
-	public static Date converToDateWithUserTimeZone(Date date,
-			String userTimeZone) {
-		if (date == null || userTimeZone == null) {
-			return null;
-		}
-
-		simpleDateFormat.setTimeZone(TimezoneMapper.getTimezone(userTimeZone)
-				.getTimezone());
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		try {
-			return df.parse(simpleDateFormat.format(date));
-		} catch (ParseException e) {
-			log.error("ConverToDateWithUserTimeZone Error while parse date", e);
-			return null;
-		}
 	}
 
 	public static String getStringDateFromNow(Date dateTime, Locale locale) {

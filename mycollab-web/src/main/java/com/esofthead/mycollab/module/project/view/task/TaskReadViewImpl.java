@@ -85,8 +85,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private Button quickActionStatusBtn;
 
 	public TaskReadViewImpl() {
-		super("Detail Task", MyCollabResource
-				.newResource("icons/24/project/task.png"));
+		super(AppContext.getMessage(TaskI18nEnum.VIEW_DETAIL_TITLE),
+				MyCollabResource.newResource("icons/24/project/task.png"));
 	}
 
 	@Override

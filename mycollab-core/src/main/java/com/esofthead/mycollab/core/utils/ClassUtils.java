@@ -21,8 +21,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.esofthead.mycollab.core.MyCollabException;
-
 /**
  * Utility class for processing class meta data.
  * 
@@ -81,28 +79,5 @@ public class ClassUtils {
 
 			populateFields(type.getSuperclass(), fields);
 		}
-	}
-
-	/**
-	 * Seek field of class and its parent classes a field has name equals
-	 * <code>fieldname</code>
-	 * 
-	 * @param type
-	 *            Class
-	 * @param fieldname
-	 *            name of field
-	 * @return
-	 */
-	public static Field getField(Class<?> type, String fieldname) {
-		for (Class<?> c = type; c != null; c = c.getSuperclass()) {
-			try {
-				return c.getDeclaredField(fieldname);
-			} catch (Exception e) {
-				// do nothing
-			}
-		}
-
-		throw new MyCollabException("Can not find field " + fieldname
-				+ " of class " + type.getName());
 	}
 }

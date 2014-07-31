@@ -34,6 +34,9 @@ import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 
 /**
  * 
@@ -218,5 +221,28 @@ public class AuditLogShowHandler {
 			}
 
 		}
+	}
+
+	public static class I18nHistoryFieldFormat implements HistoryFieldFormat {
+
+		private Class<? extends Enum> enumCls;
+
+		public I18nHistoryFieldFormat(Class<? extends Enum> enumCls) {
+			this.enumCls = enumCls;
+		}
+
+		@Override
+		public String formatField(String value) {
+			try {
+				if (value != null && !"".equals(value)) {
+					return AppContext.getMessage(Enum.valueOf(enumCls, value));
+				}
+
+				return "";
+			} catch (Exception e) {
+				return value;
+			}
+		}
+
 	}
 }

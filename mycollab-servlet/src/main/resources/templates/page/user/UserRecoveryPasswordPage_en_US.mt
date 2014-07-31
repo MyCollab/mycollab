@@ -62,7 +62,7 @@
                         </tr>
                     </table>
                 </div>
-                #parse("templates/page/pageFooter_ja_JP.mt")
+                #parse("templates/page/pageFooter_en_US.mt")
             </div>
             
         </div>

@@ -27,6 +27,9 @@ import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.utils.AuditLogShowHandler;
 
 /**
@@ -94,7 +97,8 @@ public class ProjectActivityStreamGenerator {
 					BugI18nEnum.FORM_SEVERITY);
 			this.generateFieldDisplayHandler("priority",
 					BugI18nEnum.FORM_PRIORITY);
-			this.generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS,
+					new I18nHistoryFieldFormat(BugStatus.class));
 			this.generateFieldDisplayHandler("duedate",
 					BugI18nEnum.FORM_DUE_DATE, AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("resolution",
@@ -114,7 +118,8 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("enddate",
 					TaskI18nEnum.FORM_END_DATE, AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("priority",
-					TaskI18nEnum.FORM_PRIORITY);
+					TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
+							TaskPriority.class));
 			this.generateFieldDisplayHandler("isestimated",
 					TaskI18nEnum.FORM_IS_ESTIMATED);
 			this.generateFieldDisplayHandler("deadline",
@@ -158,7 +163,8 @@ public class ProjectActivityStreamGenerator {
 					MilestoneI18nEnum.FORM_END_DATE_FIELD,
 					AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("status",
-					MilestoneI18nEnum.FORM_STATUS_FIELD);
+					MilestoneI18nEnum.FORM_STATUS_FIELD,
+					new I18nHistoryFieldFormat(MilestoneStatus.class));
 			this.generateFieldDisplayHandler("description",
 					GenericI18Enum.FORM_DESCRIPTION);
 			this.generateFieldDisplayHandler("ownerFullName",

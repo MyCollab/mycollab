@@ -51,7 +51,7 @@
         - Fix several broken unit tests
         - Fix css issues of email template
         - Edit project view is not consistent to other views
-    
+        - Can not display Japanese in several servlets
     
     Changelog from MyCollab 4.3.1
     =============================

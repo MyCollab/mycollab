@@ -42,7 +42,7 @@ import com.esofthead.mycollab.servlet.VelocityWebServletRequestHandler;
  * 
  */
 @Component("recoverUserPasswordServlet")
-public class RecoverPasswordUpdatePage extends VelocityWebServletRequestHandler {
+public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 
 	@Autowired
 	private UserService userService;

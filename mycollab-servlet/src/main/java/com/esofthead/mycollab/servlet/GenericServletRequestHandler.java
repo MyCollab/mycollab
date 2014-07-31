@@ -40,6 +40,7 @@ public abstract class GenericServletRequestHandler implements
 	public void handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
+			response.setCharacterEncoding("UTF-8");
 			onHandleRequest(request, response);
 		} catch (Exception e) {
 			if (e instanceof UserInvalidInputException) {
