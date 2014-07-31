@@ -28,9 +28,10 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.view.bug.IPrioritySummaryChartWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
@@ -54,12 +55,13 @@ public class PrioritySummaryChartWidget extends
 	private static final long serialVersionUID = 1L;
 
 	public PrioritySummaryChartWidget(int width, int height) {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), width,
-				height);
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE),
+				width, height);
 	}
 
 	public PrioritySummaryChartWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE), 400, 280);
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE),
+				400, 280);
 
 	}
 
@@ -84,19 +86,20 @@ public class PrioritySummaryChartWidget extends
 		List<GroupItem> groupItems = bugService
 				.getPrioritySummary(searchCriteria);
 
-		String[] bugPriorities = ProjectDataTypeFactory.getBugPriorityList();
-		for (String priority : bugPriorities) {
+		BugPriority[] bugPriorities = OptionI18nEnum.bug_priorities;
+		for (BugPriority priority : bugPriorities) {
 			boolean isFound = false;
 			for (GroupItem item : groupItems) {
-				if (priority.equals(item.getGroupid())) {
-					dataset.setValue(priority, item.getValue());
+				if (priority.name().equals(item.getGroupid())) {
+					dataset.setValue(AppContext.getMessage(priority),
+							item.getValue());
 					isFound = true;
 					break;
 				}
 			}
 
 			if (!isFound) {
-				dataset.setValue(priority, 0);
+				dataset.setValue(AppContext.getMessage(priority), 0);
 			}
 		}
 

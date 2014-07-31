@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.vaadin.server.ExternalResource;
@@ -79,8 +80,8 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 						final HorizontalLayout priorityLayout = new HorizontalLayout();
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
-						final Button userLbl = new Button(
-								AppContext.getMessage(priority), listener);
+						final ButtonI18nComp userLbl = new ButtonI18nComp(
+								priority.name(), priority, listener);
 						final Resource iconPriority = new ExternalResource(
 								ProjectResources
 										.getIconResourceLink12ByTaskPriority(priority
@@ -133,11 +134,11 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
-			final String caption = event.getButton().getCaption();
+			final String key = ((ButtonI18nComp)event.getButton()).getKey();
 			searchCriteria.setPriorities(new SetSearchField<String>(
-					new String[] { caption }));
+					new String[] { key }));
 			TaskFilterParameter filterParam = new TaskFilterParameter(
-					searchCriteria, "Task Filter by Priority: " + caption);
+					searchCriteria, "Task Filter by Priority: " + key);
 			EventBusFactory.getInstance().post(
 					new TaskEvent.Filter(this, filterParam));
 

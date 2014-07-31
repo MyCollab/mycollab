@@ -21,16 +21,18 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.vaadin.server.ExternalResource;
@@ -71,19 +73,20 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 		final BugPriorityClickListener listener = new BugPriorityClickListener();
 
 		if (!groupItems.isEmpty()) {
-			for (final String priority : ProjectDataTypeFactory
-					.getBugPriorityList()) {
+			for (final BugPriority priority : OptionI18nEnum.bug_priorities) {
 				boolean isFound = false;
 				for (final GroupItem item : groupItems) {
-					if (priority.equals(item.getGroupid())) {
+					if (priority.name().equals(item.getGroupid())) {
 						isFound = true;
 						final HorizontalLayout priorityLayout = new HorizontalLayout();
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
-						final Button userLbl = new Button(priority, listener);
+						final ButtonI18nComp userLbl = new ButtonI18nComp(
+								priority.name(), priority, listener);
 						final Resource iconPriority = new ExternalResource(
 								ProjectResources
-										.getIconResourceLink12ByBugPriority(priority));
+										.getIconResourceLink12ByBugPriority(priority
+												.name()));
 						userLbl.setIcon(iconPriority);
 						userLbl.setWidth("110px");
 						userLbl.setStyleName("link");
@@ -104,10 +107,12 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 					final HorizontalLayout priorityLayout = new HorizontalLayout();
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
-					final Button userLbl = new Button(priority, listener);
+					final Button userLbl = new ButtonI18nComp(priority.name(),
+							priority, listener);
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
-									.getIconResourceLink12ByBugPriority(priority));
+									.getIconResourceLink12ByBugPriority(priority
+											.name()));
 					userLbl.setIcon(iconPriority);
 					userLbl.setWidth("110px");
 					userLbl.setStyleName("link");
@@ -130,17 +135,16 @@ public class UnresolvedBugsByPriorityWidget2 extends Depot {
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
-			final String caption = event.getButton().getCaption();
+			final String key = ((ButtonI18nComp) event.getButton()).getKey();
 			UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria
 					.setPriorities(new SetSearchField<String>(
-							new String[] { caption }));
+							new String[] { key }));
 			final BugFilterParameter param = new BugFilterParameter(
-					"Unresolved " + caption + " Bug List",
+					"Unresolved " + key + " Bug List",
 					UnresolvedBugsByPriorityWidget2.this.bugSearchCriteria);
 			EventBusFactory.getInstance()
-					.post(
-							new BugEvent.GotoList(this,
-									new BugScreenData.Search(param)));
+					.post(new BugEvent.GotoList(this, new BugScreenData.Search(
+							param)));
 		}
 	}
 }

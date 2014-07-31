@@ -19,9 +19,9 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.List;
 
 import com.esofthead.mycollab.module.file.AttachmentType;
-import com.esofthead.mycollab.module.project.BugPriorityStatusConstants;
-import com.esofthead.mycollab.module.project.BugSeverityConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.module.project.view.bug.components.BugPriorityComboBox;
@@ -111,7 +111,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				return field;
 			} else if (propertyId.equals("priority")) {
 				if (beanItem.getPriority() == null) {
-					beanItem.setPriority(BugPriorityStatusConstants.MAJOR);
+					beanItem.setPriority(BugPriority.Major.name());
 				}
 				return new BugPriorityComboBox();
 			} else if (propertyId.equals("assignuser")) {
@@ -126,7 +126,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				return BugAddViewImpl.this.attachmentUploadField;
 			} else if (propertyId.equals("severity")) {
 				if (beanItem.getSeverity() == null) {
-					beanItem.setSeverity(BugSeverityConstants.MAJOR);
+					beanItem.setSeverity(BugSeverity.Major.name());
 				}
 				return new BugSeverityComboBox();
 			} else if (propertyId.equals("components")) {

@@ -35,12 +35,6 @@ public class ProjectDataTypeFactory {
 	private static String[] PROJECT_TYPE_LIST = new String[] { "Unknown",
 			"Administrative", "Operative" };
 
-	private static String[] BUG_PRIORITY_LIST = new String[] {
-			BugPriorityStatusConstants.BLOCKER,
-			BugPriorityStatusConstants.CRITICAL,
-			BugPriorityStatusConstants.MAJOR, BugPriorityStatusConstants.MINOR,
-			BugPriorityStatusConstants.TRIVIAL };
-
 	private static String[] BUG_SEVERITY_LIST = new String[] { "Critical",
 			"Major", "Minor", "Trivial" };
 
@@ -54,10 +48,6 @@ public class ProjectDataTypeFactory {
 
 	public static String[] getProjectTypeList() {
 		return PROJECT_TYPE_LIST;
-	}
-
-	public static String[] getBugPriorityList() {
-		return BUG_PRIORITY_LIST;
 	}
 
 	public static String[] getProjectStatusList() {

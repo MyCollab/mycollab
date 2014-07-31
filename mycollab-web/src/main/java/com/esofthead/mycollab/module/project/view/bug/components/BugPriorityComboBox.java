@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.module.project.BugPriorityStatusConstants;
+import java.util.Arrays;
+
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.ComboBox;
 
 /**
  * 
@@ -28,33 +30,25 @@ import com.vaadin.ui.ComboBox;
  * @since 1.0
  * 
  */
-public class BugPriorityComboBox extends ComboBox {
+public class BugPriorityComboBox extends I18nValueComboBox {
 
 	private static final long serialVersionUID = 1L;
 
 	public BugPriorityComboBox() {
-
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-
-		IndexedContainer ic = new IndexedContainer();
-		ic.addItem(BugPriorityStatusConstants.BLOCKER);
-		ic.addItem(BugPriorityStatusConstants.CRITICAL);
-		ic.addItem(BugPriorityStatusConstants.MAJOR);
-		ic.addItem(BugPriorityStatusConstants.MINOR);
-		ic.addItem(BugPriorityStatusConstants.TRIVIAL);
-
-		this.setContainerDataSource(ic);
-
-		this.setItemIcon(BugPriorityStatusConstants.BLOCKER, MyCollabResource
-				.newResource(ProjectResources.B_PRIORITY_BLOCKER_IMG_12));
-		this.setItemIcon(BugPriorityStatusConstants.CRITICAL, MyCollabResource
-				.newResource(ProjectResources.B_PRIORITY_CRITICAL_IMG_12));
-		this.setItemIcon(BugPriorityStatusConstants.MAJOR, MyCollabResource
-				.newResource(ProjectResources.B_PRIORITY_MAJOR_IMG_12));
-		this.setItemIcon(BugPriorityStatusConstants.MINOR, MyCollabResource
-				.newResource(ProjectResources.B_PRIORITY_MINOR_IMG_12));
-		this.setItemIcon(BugPriorityStatusConstants.TRIVIAL, MyCollabResource
-				.newResource(ProjectResources.B_PRIORITY_TRIVIAL_IMG_12));
+		super();
 		this.setNullSelectionAllowed(false);
+		this.setCaption(null);
+		this.loadData(Arrays.asList(OptionI18nEnum.bug_priorities));
+		this.setItemIcon(BugPriority.Blocker.name(), MyCollabResource
+				.newResource(ProjectResources.B_PRIORITY_BLOCKER_IMG_12));
+		this.setItemIcon(BugPriority.Critical.name(), MyCollabResource
+				.newResource(ProjectResources.B_PRIORITY_CRITICAL_IMG_12));
+		this.setItemIcon(BugPriority.Major.name(), MyCollabResource
+				.newResource(ProjectResources.B_PRIORITY_MAJOR_IMG_12));
+		this.setItemIcon(BugPriority.Minor.name(), MyCollabResource
+				.newResource(ProjectResources.B_PRIORITY_MINOR_IMG_12));
+		this.setItemIcon(BugPriority.Trivial.name(), MyCollabResource
+				.newResource(ProjectResources.B_PRIORITY_TRIVIAL_IMG_12));
+
 	}
 }

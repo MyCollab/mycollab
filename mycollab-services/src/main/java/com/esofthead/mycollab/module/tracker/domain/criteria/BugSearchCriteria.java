@@ -33,6 +33,7 @@ import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 
 /**
@@ -64,7 +65,9 @@ public class BugSearchCriteria extends SearchCriteria {
 
 	public static Param p_priority = new StringListParam("bug-priority",
 			BugI18nEnum.FORM_PRIORITY, "m_tracker_bug", "priority",
-			Arrays.asList(ProjectDataTypeFactory.getBugPriorityList()));
+			Arrays.asList(BugPriority.Blocker.name(),
+					BugPriority.Critical.name(), BugPriority.Major.name(),
+					BugPriority.Minor.name(), BugPriority.Trivial.name()));
 
 	public static Param p_severity = new StringListParam("bug-severity",
 			BugI18nEnum.FORM_SEVERITY, "m_tracker_bug", "severity",

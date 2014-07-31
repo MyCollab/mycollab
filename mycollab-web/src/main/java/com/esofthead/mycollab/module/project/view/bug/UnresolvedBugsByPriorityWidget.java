@@ -22,12 +22,14 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.ButtonI18nComp;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.vaadin.ui.Button;
@@ -69,20 +71,20 @@ public class UnresolvedBugsByPriorityWidget extends Depot {
 		final BugPriorityClickListener listener = new BugPriorityClickListener();
 
 		if (!groupItems.isEmpty()) {
-			for (final String status : ProjectDataTypeFactory
-					.getBugPriorityList()) {
+			for (final BugPriority priority : OptionI18nEnum.bug_priorities) {
 				boolean isFound = false;
 				for (final GroupItem item : groupItems) {
-					if (status.equals(item.getGroupid())) {
+					if (priority.name().equals(item.getGroupid())) {
 						isFound = true;
 						final HorizontalLayout priorityLayout = new HorizontalLayout();
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
-						final Button userLbl = new Button(status, listener);
-						userLbl.setWidth("110px");
-						userLbl.setStyleName("link");
+						final ButtonI18nComp priorityLink = new ButtonI18nComp(
+								priority.name(), priority, listener);
+						priorityLink.setWidth("110px");
+						priorityLink.setStyleName("link");
 
-						priorityLayout.addComponent(userLbl);
+						priorityLayout.addComponent(priorityLink);
 						final ProgressBarIndicator indicator = new ProgressBarIndicator(
 								totalCount, totalCount - item.getValue(), false);
 						indicator.setWidth("100%");
@@ -98,10 +100,11 @@ public class UnresolvedBugsByPriorityWidget extends Depot {
 					final HorizontalLayout priorityLayout = new HorizontalLayout();
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
-					final Button userLbl = new Button(status, listener);
-					userLbl.setWidth("110px");
-					userLbl.setStyleName("link");
-					priorityLayout.addComponent(userLbl);
+					final ButtonI18nComp priorityLink = new ButtonI18nComp(
+							priority.name(), priority, listener);
+					priorityLink.setWidth("110px");
+					priorityLink.setStyleName("link");
+					priorityLayout.addComponent(priorityLink);
 					final ProgressBarIndicator indicator = new ProgressBarIndicator(
 							totalCount, totalCount, false);
 					indicator.setWidth("100%");
@@ -120,13 +123,13 @@ public class UnresolvedBugsByPriorityWidget extends Depot {
 
 		@Override
 		public void buttonClick(final ClickEvent event) {
-			final String caption = event.getButton().getCaption();
+			final String key = ((ButtonI18nComp) event.getButton()).getKey();
 			UnresolvedBugsByPriorityWidget.this.bugSearchCriteria
 					.setPriorities(new SetSearchField<String>(SearchField.AND,
-							new String[] { caption }));
+							new String[] { key }));
 			UnresolvedBugsByPriorityWidget.this.componentLayout
 					.displayBugListWidget(
-							caption,
+							key,
 							UnresolvedBugsByPriorityWidget.this.bugSearchCriteria);
 		}
 

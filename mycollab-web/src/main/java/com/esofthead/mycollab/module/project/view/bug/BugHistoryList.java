@@ -21,6 +21,8 @@ import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
@@ -52,9 +54,11 @@ public class BugHistoryList extends HistoryLogComponent {
 				AppContext.getMessage(BugI18nEnum.FORM_STATUS),
 				new I18nHistoryFieldFormat(BugStatus.class));
 		this.generateFieldDisplayHandler("priority",
-				AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
+				AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
+				new I18nHistoryFieldFormat(BugPriority.class));
 		this.generateFieldDisplayHandler("severity",
-				AppContext.getMessage(BugI18nEnum.FORM_SEVERITY));
+				AppContext.getMessage(BugI18nEnum.FORM_SEVERITY),
+				new I18nHistoryFieldFormat(BugSeverity.class));
 		this.generateFieldDisplayHandler("resolution",
 				AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION));
 		this.generateFieldDisplayHandler("estimateremaintime",

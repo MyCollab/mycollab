@@ -27,6 +27,8 @@ import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
@@ -94,9 +96,11 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("summary",
 					BugI18nEnum.FORM_SUMMARY);
 			this.generateFieldDisplayHandler("severity",
-					BugI18nEnum.FORM_SEVERITY);
+					BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(
+							BugSeverity.class));
 			this.generateFieldDisplayHandler("priority",
-					BugI18nEnum.FORM_PRIORITY);
+					BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
+							BugPriority.class));
 			this.generateFieldDisplayHandler("status", BugI18nEnum.FORM_STATUS,
 					new I18nHistoryFieldFormat(BugStatus.class));
 			this.generateFieldDisplayHandler("duedate",

@@ -44,6 +44,8 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -306,8 +308,10 @@ public class BugRelayEmailNotificationActionImpl extends
 					BugI18nEnum.FORM_STATUS, BugStatus.class));
 			put("resolution", BugI18nEnum.FORM_RESOLUTION);
 
-			put("severity", BugI18nEnum.FORM_SEVERITY);
-			put("priority", BugI18nEnum.FORM_PRIORITY);
+			put("severity", new I18nFieldFormat("severity",
+					BugI18nEnum.FORM_SEVERITY, BugSeverity.class));
+			put("priority", new I18nFieldFormat("priority",
+					BugI18nEnum.FORM_PRIORITY, BugPriority.class));
 
 			put("duedate", new DateFieldFormat("duedate",
 					BugI18nEnum.FORM_DUE_DATE));
