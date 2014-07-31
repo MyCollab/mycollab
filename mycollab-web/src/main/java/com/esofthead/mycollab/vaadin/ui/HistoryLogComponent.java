@@ -31,6 +31,7 @@ import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.Currency;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.criteria.AuditLogSearchCriteria;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.AuditLogService;
 import com.esofthead.mycollab.common.service.CurrencyService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -191,18 +192,29 @@ public class HistoryLogComponent extends VerticalLayout {
 					header.setExpandRatio(lbDate, 1.0f);
 					gridLayout.addComponent(header, 0, 0, 2, 0);
 
-					gridLayout.addComponent(new Label(
-							"<div style=\"font-weight: bold;\">Field</div>",
-							ContentMode.HTML), 0, 1);
 					gridLayout
 							.addComponent(
 									new Label(
-											"<div style=\"font-weight: bold;\">Old Value</div>",
+											String.format(
+													"<div style=\"font-weight: bold;\">%s</div>",
+													AppContext
+															.getMessage(GenericI18Enum.HISTORY_FIELD)),
+											ContentMode.HTML), 0, 1);
+					gridLayout
+							.addComponent(
+									new Label(
+											String.format(
+													"<div style=\"font-weight: bold;\">%s</div>",
+													AppContext
+															.getMessage(GenericI18Enum.HISTORY_OLD_VALUE)),
 											ContentMode.HTML), 1, 1);
 					gridLayout
 							.addComponent(
 									new Label(
-											"<div style=\"font-weight: bold;\">New Value</div>",
+											String.format(
+													"<div style=\"font-weight: bold;\">%s</div>",
+													AppContext
+															.getMessage(GenericI18Enum.HISTORY_NEW_VALUE)),
 											ContentMode.HTML), 2, 1);
 
 					gridLayout.setRows(visibleRows + 2);
@@ -316,12 +328,16 @@ public class HistoryLogComponent extends VerticalLayout {
 
 		@Override
 		public Component formatField(String value) {
-			if (value != null && !"".equals(value)) {
-				return new Label(AppContext.getMessage(Enum.valueOf(enumCls,
-						value)));
-			}
+			try {
+				if (value != null && !"".equals(value)) {
+					return new Label(AppContext.getMessage(Enum.valueOf(
+							enumCls, value)));
+				}
 
-			return new Label("");
+				return new Label("");
+			} catch (Exception e) {
+				return new Label(value);
+			}
 		}
 
 	}

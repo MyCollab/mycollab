@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.TaskGroupHistoryFieldFormat;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
@@ -55,6 +56,9 @@ public class TaskHistoryList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("deadline",
 				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
 				HistoryLogComponent.DATE_FIELD);
+		this.generateFieldDisplayHandler("priority",
+				AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
+				new I18nHistoryFieldFormat(TaskPriority.class));
 		this.generateFieldDisplayHandler("isestimated",
 				AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED));
 		this.generateFieldDisplayHandler("assignuser",

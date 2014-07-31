@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
@@ -321,7 +322,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 											.getPriority()));
 					final Embedded iconEmbedded = new Embedded(null,
 							iconPriority);
-					final Label lbPriority = new Label(beanItem.getPriority());
+					final Label lbPriority = new Label(AppContext.getMessage(
+							TaskPriority.class, beanItem.getPriority()));
 
 					final FormContainerHorizontalViewField containerField = new FormContainerHorizontalViewField();
 					containerField.addComponentField(iconEmbedded);

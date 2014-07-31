@@ -33,12 +33,12 @@ import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -56,6 +56,7 @@ import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContaine
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -109,9 +110,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	}
 
 	private void displayWorkflowControl() {
-		if (BugStatusConstants.OPEN.equals(this.beanItem.getStatus())
-				|| BugStatusConstants.REOPENNED.equals(this.beanItem
-						.getStatus())) {
+		if (BugStatus.Open.name().equals(this.beanItem.getStatus())
+				|| BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button startProgressBtn = new Button(
@@ -121,7 +121,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							beanItem.setStatus(BugStatusConstants.INPROGRESS);
+							beanItem.setStatus(BugStatus.InProgress.name());
 							final BugService bugService = ApplicationContextUtil
 									.getSpringBean(BugService.class);
 							bugService.updateWithSession(beanItem,
@@ -162,8 +162,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			wontFixBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(wontFixBtn);
 			this.bugWorkflowControl.addComponent(navButton);
-		} else if (BugStatusConstants.INPROGRESS.equals(this.beanItem
-				.getStatus())) {
+		} else if (BugStatus.InProgress.name()
+				.equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button stopProgressBtn = new Button(
@@ -173,7 +173,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 						@Override
 						public void buttonClick(final ClickEvent event) {
-							beanItem.setStatus(BugStatusConstants.OPEN);
+							beanItem.setStatus(BugStatus.Open.name());
 							final BugService bugService = ApplicationContextUtil
 									.getSpringBean(BugService.class);
 							bugService.updateWithSession(beanItem,
@@ -199,8 +199,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			resolveBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(resolveBtn);
 			this.bugWorkflowControl.addComponent(navButton);
-		} else if (BugStatusConstants.VERIFIED
-				.equals(this.beanItem.getStatus())) {
+		} else if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
@@ -219,8 +218,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			navButton.addButton(reopenBtn);
 
 			this.bugWorkflowControl.addComponent(navButton);
-		} else if (BugStatusConstants.RESOLVED
-				.equals(this.beanItem.getStatus())) {
+		} else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
@@ -253,8 +251,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			approveNCloseBtn.addStyleName(UIConstants.THEME_BROWN_LINK);
 			navButton.addButton(approveNCloseBtn);
 			this.bugWorkflowControl.addComponent(navButton);
-		} else if (BugStatusConstants.RESOLVED
-				.equals(this.beanItem.getStatus())) {
+		} else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
@@ -288,7 +285,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		super.previewItem(item);
 		displayWorkflowControl();
 		this.previewLayout.clearTitleStyleName();
-		if (BugStatusConstants.VERIFIED.equals(this.beanItem.getStatus())) {
+		if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
 			this.previewLayout.addTitleStyleName(UIConstants.LINK_COMPLETED);
 		} else if (this.beanItem.isOverdue()) {
 			this.previewLayout.addTitleStyleName(UIConstants.LINK_OVERDUE);
@@ -632,6 +629,9 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 			} else if (propertyId.equals("description")) {
 				return new DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField(
 						beanItem.getDescription());
+			} else if (propertyId.equals("status")) {
+				return new I18nFormViewField(beanItem.getStatus(),
+						BugStatus.class);
 			} else if (propertyId.equals("priority")) {
 				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(

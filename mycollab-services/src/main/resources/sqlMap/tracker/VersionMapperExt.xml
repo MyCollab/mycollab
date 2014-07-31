@@ -46,7 +46,7 @@
                             AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numBugs,
                 (SELECT COUNT(*) 
                         FROM m_tracker_bug, m_tracker_bug_related_item 
-                        WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'In Progress', 'Reopenned')
+                        WHERE m_tracker_bug.id=m_tracker_bug_related_item.bugid  AND m_tracker_bug.status IN ('Open', 'InProgress', 'Reopenned')
                             AND m_tracker_bug_related_item.type IN ('AffVersion','Fix Version') 
                             AND m_tracker_bug_related_item.typeid=m_tracker_version.id) AS numOpenBugs,
                 m_prj_project.name AS projectName                        

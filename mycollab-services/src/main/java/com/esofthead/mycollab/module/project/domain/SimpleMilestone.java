@@ -24,10 +24,6 @@ package com.esofthead.mycollab.module.project.domain;
 public class SimpleMilestone extends Milestone {
 	private static final long serialVersionUID = 1L;
 
-	public static final String STATUS_INPROGRESS = "In Progress";
-	public static final String STATUS_FUTURE = "Future";
-	public static final String STATUS_CLOSE = "Closed";
-
 	private String ownerAvatarId;
 	private String ownerFullName;
 

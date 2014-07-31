@@ -22,7 +22,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
@@ -83,9 +83,9 @@ public class BugSimpleSearchPanel extends GenericSearchPanel<BugSearchCriteria> 
 				if (chkIsOpenBug.getValue()) {
 					searchCriteria.setStatuses(new SetSearchField<String>(
 							SearchField.AND, new String[] {
-									BugStatusConstants.INPROGRESS,
-									BugStatusConstants.OPEN,
-									BugStatusConstants.REOPENNED }));
+									BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 				}
 
 				BugSimpleSearchPanel.this.notifySearchHandler(searchCriteria);

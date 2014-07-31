@@ -31,6 +31,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProblemScreenData;
@@ -81,8 +82,12 @@ public class TaskStatusComponent extends Depot {
 		this.bodyContent.removeAllComponents();
 		taskTree = new TreeTable();
 		dataContainer = new HierarchicalContainer();
-		dataContainer.addContainerProperty("Name", String.class, "");
-		dataContainer.addContainerProperty("Due Date", String.class, "");
+		dataContainer.addContainerProperty(
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME),
+				String.class, "");
+		dataContainer.addContainerProperty(
+				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+				String.class, "");
 
 		taskTree.setContainerDataSource(dataContainer);
 
@@ -142,123 +147,145 @@ public class TaskStatusComponent extends Depot {
 					taskCount);
 		}
 
-		taskTree.addGeneratedColumn("Name", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+		taskTree.addGeneratedColumn(
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME),
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				if (itemId instanceof ProjectGenericTaskCount) {
-					final ProjectGenericTaskCount taskCount = (ProjectGenericTaskCount) itemId;
-					ButtonLink projectLink = new ButtonLink(taskCount
-							.getProjectName()
-							+ " - "
-							+ taskCount.getTaskCount() + " open tasks",
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+					@Override
+					public Object generateCell(Table source, Object itemId,
+							Object columnId) {
+						if (itemId instanceof ProjectGenericTaskCount) {
+							final ProjectGenericTaskCount taskCount = (ProjectGenericTaskCount) itemId;
+							ButtonLink projectLink = new ButtonLink(taskCount
+									.getProjectName()
+									+ " - "
+									+ taskCount.getTaskCount() + " open tasks",
+									new Button.ClickListener() {
+										private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									int projectId = taskCount.getProjectId();
-									PageActionChain chain = new PageActionChain(
-											new ProjectScreenData.Goto(
-													projectId));
-									EventBusFactory.getInstance().post(
-											new ProjectEvent.GotoMyProject(
-													this, chain));
+										@Override
+										public void buttonClick(ClickEvent event) {
+											int projectId = taskCount
+													.getProjectId();
+											PageActionChain chain = new PageActionChain(
+													new ProjectScreenData.Goto(
+															projectId));
+											EventBusFactory
+													.getInstance()
+													.post(new ProjectEvent.GotoMyProject(
+															this, chain));
 
-								}
-							});
-					projectLink.setIcon(MyCollabResource
-							.newResource("icons/16/project/project.png"));
+										}
+									});
+							projectLink.setIcon(MyCollabResource
+									.newResource("icons/16/project/project.png"));
 
-					return projectLink;
-				} else {
-					final ProjectGenericTask task = (ProjectGenericTask) itemId;
-					ButtonLink taskLink = new ButtonLink(task.getName(),
-							new Button.ClickListener() {
-								private static final long serialVersionUID = 1L;
+							return projectLink;
+						} else {
+							final ProjectGenericTask task = (ProjectGenericTask) itemId;
+							ButtonLink taskLink = new ButtonLink(
+									task.getName(), new Button.ClickListener() {
+										private static final long serialVersionUID = 1L;
 
-								@Override
-								public void buttonClick(ClickEvent event) {
-									if (ProjectTypeConstants.BUG.equals(task
-											.getType())) {
-										int projectId = task.getProjectId();
-										int bugId = task.getTypeId();
-										PageActionChain chain = new PageActionChain(
-												new ProjectScreenData.Goto(
-														projectId),
-												new BugScreenData.Read(bugId));
-										EventBusFactory.getInstance().post(
-												new ProjectEvent.GotoMyProject(
-														this, chain));
-									} else if (ProjectTypeConstants.TASK
-											.equals(task.getType())) {
-										int projectId = task.getProjectId();
-										int taskId = task.getTypeId();
-										PageActionChain chain = new PageActionChain(
-												new ProjectScreenData.Goto(
-														projectId),
-												new TaskScreenData.Read(taskId));
-										EventBusFactory.getInstance().post(
-												new ProjectEvent.GotoMyProject(
-														this, chain));
-									} else if (ProjectTypeConstants.PROBLEM
-											.equals(task.getType())) {
-										int projectId = task.getProjectId();
-										int problemId = task.getTypeId();
-										PageActionChain chain = new PageActionChain(
-												new ProjectScreenData.Goto(
-														projectId),
-												new ProblemScreenData.Read(
-														problemId));
-										EventBusFactory.getInstance().post(
-												new ProjectEvent.GotoMyProject(
-														this, chain));
-									} else if (ProjectTypeConstants.RISK
-											.equals(task.getType())) {
-										int projectId = task.getProjectId();
-										int riskId = task.getTypeId();
-										PageActionChain chain = new PageActionChain(
-												new ProjectScreenData.Goto(
-														projectId),
-												new RiskScreenData.Read(riskId));
-										EventBusFactory.getInstance().post(
-												new ProjectEvent.GotoMyProject(
-														this, chain));
-									}
-								}
-							});
-					taskLink.setIcon(new ExternalResource(ProjectResources
-							.getResourceLink(task.getType())));
-					if (task.getDueDate() != null
-							&& task.getDueDate().before(
-									new GregorianCalendar().getTime())) {
-						taskLink.addStyleName(UIConstants.LINK_OVERDUE);
+										@Override
+										public void buttonClick(ClickEvent event) {
+											if (ProjectTypeConstants.BUG
+													.equals(task.getType())) {
+												int projectId = task
+														.getProjectId();
+												int bugId = task.getTypeId();
+												PageActionChain chain = new PageActionChain(
+														new ProjectScreenData.Goto(
+																projectId),
+														new BugScreenData.Read(
+																bugId));
+												EventBusFactory
+														.getInstance()
+														.post(new ProjectEvent.GotoMyProject(
+																this, chain));
+											} else if (ProjectTypeConstants.TASK
+													.equals(task.getType())) {
+												int projectId = task
+														.getProjectId();
+												int taskId = task.getTypeId();
+												PageActionChain chain = new PageActionChain(
+														new ProjectScreenData.Goto(
+																projectId),
+														new TaskScreenData.Read(
+																taskId));
+												EventBusFactory
+														.getInstance()
+														.post(new ProjectEvent.GotoMyProject(
+																this, chain));
+											} else if (ProjectTypeConstants.PROBLEM
+													.equals(task.getType())) {
+												int projectId = task
+														.getProjectId();
+												int problemId = task
+														.getTypeId();
+												PageActionChain chain = new PageActionChain(
+														new ProjectScreenData.Goto(
+																projectId),
+														new ProblemScreenData.Read(
+																problemId));
+												EventBusFactory
+														.getInstance()
+														.post(new ProjectEvent.GotoMyProject(
+																this, chain));
+											} else if (ProjectTypeConstants.RISK
+													.equals(task.getType())) {
+												int projectId = task
+														.getProjectId();
+												int riskId = task.getTypeId();
+												PageActionChain chain = new PageActionChain(
+														new ProjectScreenData.Goto(
+																projectId),
+														new RiskScreenData.Read(
+																riskId));
+												EventBusFactory
+														.getInstance()
+														.post(new ProjectEvent.GotoMyProject(
+																this, chain));
+											}
+										}
+									});
+							taskLink.setIcon(new ExternalResource(
+									ProjectResources.getResourceLink(task
+											.getType())));
+							if (task.getDueDate() != null
+									&& task.getDueDate().before(
+											new GregorianCalendar().getTime())) {
+								taskLink.addStyleName(UIConstants.LINK_OVERDUE);
+							}
+							return taskLink;
+						}
 					}
-					return taskLink;
-				}
-			}
-		});
+				});
 
-		taskTree.addGeneratedColumn("Due Date", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+		taskTree.addGeneratedColumn(
+				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+				new Table.ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				if (itemId instanceof ProjectGenericTask) {
-					return new Label(AppContext
-							.formatDate(((ProjectGenericTask) itemId)
-									.getDueDate()));
-				} else {
-					return new Label();
-				}
-			}
-		});
+					@Override
+					public Object generateCell(Table source, Object itemId,
+							Object columnId) {
+						if (itemId instanceof ProjectGenericTask) {
+							return new Label(AppContext
+									.formatDate(((ProjectGenericTask) itemId)
+											.getDueDate()));
+						} else {
+							return new Label();
+						}
+					}
+				});
 
-		taskTree.setColumnWidth("Due Date", UIConstants.TABLE_DATE_WIDTH);
-		taskTree.setColumnExpandRatio("Name", 1.0f);
+		taskTree.setColumnWidth(
+				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
+				UIConstants.TABLE_DATE_WIDTH);
+		taskTree.setColumnExpandRatio(
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME), 1.0f);
 	}
 
 }

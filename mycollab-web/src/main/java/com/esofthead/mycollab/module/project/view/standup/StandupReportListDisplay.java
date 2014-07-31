@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.standup;
 
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
 import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.StandupI18nEnum;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -75,8 +76,9 @@ public class StandupReportListDisplay
 			reportContent.setRowExpandRatio(0, 1.0f);
 
 			final CssLayout report1 = new CssLayout();
-			final String prevText = "<b>What I did in the last day/week</b><p>"
-					+ obj.getWhatlastday() + "</p>";
+			final String prevText = String.format("<b>%s<b/><p>%s</p>",
+					AppContext.getMessage(StandupI18nEnum.STANDUP_LASTDAY),
+					obj.getWhatlastday());
 			final Label prevLbl = new Label(prevText);
 			prevLbl.setContentMode(ContentMode.HTML);
 			report1.addComponent(prevLbl);
@@ -86,8 +88,9 @@ public class StandupReportListDisplay
 			reportContent.setColumnExpandRatio(0, 1.0f);
 
 			final CssLayout report2 = new CssLayout();
-			final String todayText = "<b>What I will do today/week</b><p>"
-					+ obj.getWhattoday() + "</p>";
+			final String todayText = String.format("<b>%s<b/><p>%s</p>",
+					AppContext.getMessage(StandupI18nEnum.STANDUP_TODAY),
+					obj.getWhattoday());
 			final Label todatLbl = new Label(todayText);
 			todatLbl.setContentMode(ContentMode.HTML);
 			report2.addComponent(todatLbl);
@@ -98,8 +101,9 @@ public class StandupReportListDisplay
 			reportContent.setColumnExpandRatio(1, 1.0f);
 
 			final CssLayout report3 = new CssLayout();
-			final String issueText = "<b>Do you have roadblocks?</b><p>"
-					+ obj.getWhatproblem() + "</p>";
+			final String issueText = String.format("<b>%s<b/><p>%s</p>",
+					AppContext.getMessage(StandupI18nEnum.STANDUP_ISSUE_SHORT),
+					obj.getWhatproblem());
 			final Label issueLbl = new Label(issueText);
 			issueLbl.setContentMode(ContentMode.HTML);
 			report3.addComponent(issueLbl);

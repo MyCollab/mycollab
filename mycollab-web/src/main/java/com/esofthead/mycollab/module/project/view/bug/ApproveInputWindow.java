@@ -24,8 +24,8 @@ import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -138,7 +138,8 @@ public class ApproveInputWindow extends Window {
 								if (EditForm.this.validateForm()) {
 									// Save bug status and assignee
 									ApproveInputWindow.this.bug
-											.setStatus(BugStatusConstants.VERIFIED);
+											.setStatus(BugStatus.Verified
+													.name());
 
 									final BugService bugService = ApplicationContextUtil
 											.getSpringBean(BugService.class);
@@ -193,9 +194,10 @@ public class ApproveInputWindow extends Window {
 			public void attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("assignuser")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-							0);
+					this.informationLayout
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 0);
 				} else if (propertyId.equals("comment")) {
 					this.informationLayout.addComponent(field, "Comments", 0,
 							1, 2, "100%", Alignment.MIDDLE_LEFT);

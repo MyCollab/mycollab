@@ -37,6 +37,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -47,6 +48,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectMilestoneRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -118,7 +120,8 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 		public MilestoneFieldNameMapper() {
 			put("name", MilestoneI18nEnum.FORM_NAME_FIELD, true);
 
-			put("status", MilestoneI18nEnum.FORM_STATUS_FIELD);
+			put("status", new I18nFieldFormat("status",
+					MilestoneI18nEnum.FORM_STATUS_FIELD, MilestoneStatus.class));
 			put("owner", new AssigneeFieldFormat("owner",
 					GenericI18Enum.FORM_ASSIGNEE));
 

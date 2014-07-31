@@ -25,14 +25,15 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.MilestoneStatusConstant;
+import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComboBox;
 
@@ -66,19 +67,10 @@ public class MilestoneComboBox extends ComboBox {
 				this.addItem(milestone.getId());
 				this.setItemCaption(milestone.getId(), milestone.getName());
 
-				Resource iconRes = null;
-				if (MilestoneStatusConstant.IN_PROGRESS.equals(milestone
-						.getStatus())) {
-					iconRes = MyCollabResource
-							.newResource("icons/16/project/phase_progress.png");
-				} else if (MilestoneStatusConstant.FUTURE.equals(milestone
-						.getStatus())) {
-					iconRes = MyCollabResource
-							.newResource("icons/16/project/phase_future.png");
-				} else {
-					iconRes = MyCollabResource
-							.newResource("icons/16/project/phase_closed.png");
-				}
+				Resource iconRes = new ExternalResource(
+						ProjectResources
+								.getIconResource16LinkOfPhaseStatus(milestone
+										.getStatus()));
 
 				this.setItemIcon(milestone.getId(), iconRes);
 			}
@@ -90,13 +82,13 @@ public class MilestoneComboBox extends ComboBox {
 
 		@Override
 		public int compare(Milestone milestone1, Milestone milestone2) {
-			if (MilestoneStatusConstant.IN_PROGRESS.equals(milestone1
-					.getStatus())) {
+			if (MilestoneStatus.InProgress.toString().equals(
+					milestone1.getStatus())) {
 				return -1;
-			} else if (MilestoneStatusConstant.FUTURE.equals(milestone1
-					.getStatus())) {
-				return MilestoneStatusConstant.IN_PROGRESS.equals(milestone2
-						.getStatus()) ? 1 : -1;
+			} else if (MilestoneStatus.Future.toString().equals(
+					milestone1.getStatus())) {
+				return MilestoneStatus.InProgress.toString().equals(
+						milestone2.getStatus()) ? 1 : -1;
 			} else {
 				return 1;
 			}

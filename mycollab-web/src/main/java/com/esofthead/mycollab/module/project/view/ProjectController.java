@@ -65,6 +65,7 @@ import com.esofthead.mycollab.module.project.events.StandUpEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
 import com.esofthead.mycollab.module.project.events.TimeTrackingEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.StandupReportService;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
@@ -87,7 +88,6 @@ import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.VersionScreenData;
 import com.esofthead.mycollab.module.project.view.problem.IProblemPresenter;
 import com.esofthead.mycollab.module.project.view.user.ProjectDashboardPresenter;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -534,9 +534,9 @@ public class ProjectController implements IController {
 									.getProjectId()));
 					criteria.setStatuses(new SetSearchField<String>(
 							SearchField.AND, new String[] {
-									BugStatusConstants.INPROGRESS,
-									BugStatusConstants.OPEN,
-									BugStatusConstants.REOPENNED }));
+									BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 					BugFilterParameter parameter = new BugFilterParameter(
 							"Open Bugs", criteria);
 					projectView

@@ -115,7 +115,7 @@
         #end
         
         #ifnotnull($searchCriteria.isOpenned)
-            ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','In Progress', 'Reopenned', 'Test Pending')
+            ${searchCriteria.isOpenned.operation} m_tracker_bug.status IN ('Open','InProgress', 'Reopenned', 'Test Pending')
         #end
         
          #ifnotnull($searchCriteria.dueDate)

@@ -89,6 +89,12 @@ public class LocalizationHelper {
 		}
 	}
 
+	public static String getMessage(Locale locale, Class<? extends Enum> cls,
+			String option, Object... objects) {
+		Enum key = Enum.valueOf(cls, option);
+		return getMessage(locale, key, objects);
+	}
+
 	private static Map<String, String> cacheFile = new HashMap<String, String>();
 
 	public static String templatePath(String fileTemplatePath, Locale locale) {
@@ -121,7 +127,7 @@ public class LocalizationHelper {
 			reader = new InputStreamReader(LocalizationHelper.class
 					.getClassLoader().getResourceAsStream(templatePath));
 		}
-		
+
 		return reader;
 	}
 }

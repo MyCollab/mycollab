@@ -16,16 +16,18 @@
  */
 package com.esofthead.mycollab.module.project.view.milestone;
 
-import com.esofthead.mycollab.module.project.MilestoneStatusConstant;
+import java.util.Arrays;
+
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
-import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
@@ -55,7 +57,8 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 			return userbox;
 		} else if (propertyId.equals("status")) {
 			if (attachForm.getBean().getStatus() == null) {
-				attachForm.getBean().setStatus("In Progress");
+				attachForm.getBean().setStatus(
+						MilestoneStatus.InProgress.toString());
 			}
 			return new ProgressStatusComboBox();
 		} else if (propertyId.equals("name")) {
@@ -99,19 +102,22 @@ public class MilestoneEditFormFieldFactory<B extends Milestone> extends
 		return null;
 	}
 
-	private static class ProgressStatusComboBox extends ValueComboBox {
+	private static class ProgressStatusComboBox extends I18nValueComboBox {
 		private static final long serialVersionUID = 1L;
 
 		public ProgressStatusComboBox() {
-			super(false, MilestoneStatusConstant.IN_PROGRESS,
-					MilestoneStatusConstant.FUTURE,
-					MilestoneStatusConstant.CLOSED);
-			this.setItemIcon(MilestoneStatusConstant.IN_PROGRESS,
+			super();
+			setCaption(null);
+			this.setNullSelectionAllowed(false);
+			this.loadData(Arrays.asList(MilestoneStatus.InProgress,
+					MilestoneStatus.Future, MilestoneStatus.Closed));
+
+			this.setItemIcon(MilestoneStatus.InProgress.name(),
 					MyCollabResource
 							.newResource("icons/16/project/phase_progress.png"));
-			this.setItemIcon(MilestoneStatusConstant.FUTURE, MyCollabResource
+			this.setItemIcon(MilestoneStatus.Future.name(), MyCollabResource
 					.newResource("icons/16/project/phase_future.png"));
-			this.setItemIcon(MilestoneStatusConstant.CLOSED, MyCollabResource
+			this.setItemIcon(MilestoneStatus.Closed.name(), MyCollabResource
 					.newResource("icons/16/project/phase_closed.png"));
 		}
 	}

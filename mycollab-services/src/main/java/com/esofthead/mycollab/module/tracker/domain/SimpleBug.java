@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 
 /**
  * 
@@ -145,11 +145,11 @@ public class SimpleBug extends BugWithBLOBs {
 	}
 
 	public boolean isCompleted() {
-		return BugStatusConstants.VERIFIED.equals(getStatus());
+		return BugStatus.Verified.name().equals(getStatus());
 	}
 
 	public boolean isOverdue() {
-		if (BugStatusConstants.VERIFIED.equals(getStatus())) {
+		if (BugStatus.Verified.name().equals(getStatus())) {
 			return false;
 		}
 

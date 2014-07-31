@@ -33,6 +33,7 @@ import com.esofthead.mycollab.core.db.query.StringListParam;
 import com.esofthead.mycollab.core.db.query.StringParam;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 
 /**
  * 
@@ -70,8 +71,10 @@ public class BugSearchCriteria extends SearchCriteria {
 			Arrays.asList(ProjectDataTypeFactory.getBugSeverityList()));
 
 	public static Param p_status = new StringListParam("bug-status",
-			BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status",
-			Arrays.asList(ProjectDataTypeFactory.getBugStatusList()));
+			BugI18nEnum.FORM_STATUS, "m_tracker_bug", "status", Arrays.asList(
+					BugStatus.Verified.name(), BugStatus.InProgress.name(),
+					BugStatus.Open.name(), BugStatus.ReOpened.name(),
+					BugStatus.Resolved.name()));
 
 	public static Param p_assignee = new PropertyListParam("bug-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");

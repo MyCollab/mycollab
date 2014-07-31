@@ -22,7 +22,7 @@ import java.util.GregorianCalendar;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -115,7 +115,7 @@ public class BugSelectionWindow extends Window {
 							}
 						});
 
-				if (BugStatusConstants.VERIFIED.equals(bug.getStatus())) {
+				if (BugStatus.Verified.name().equals(bug.getStatus())) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				} else if (bug.getDuedate() != null
 						&& (bug.getDuedate().before(new GregorianCalendar()

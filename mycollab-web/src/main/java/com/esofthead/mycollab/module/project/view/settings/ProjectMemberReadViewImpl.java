@@ -42,6 +42,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.view.AbstractProjectPageView;
 import com.esofthead.mycollab.module.project.view.bug.BugTableDisplay;
@@ -50,7 +51,6 @@ import com.esofthead.mycollab.module.project.view.standup.StandupReportListDispl
 import com.esofthead.mycollab.module.project.view.task.TaskTableDisplay;
 import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.project.view.user.ProjectActivityStreamPagedList;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -409,31 +409,28 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							TaskTableFieldDef.duedate,
 							TaskTableFieldDef.percentagecomplete));
 
-			this.taskDisplay
-					.addTableListener(new TableClickListener() {
-						private static final long serialVersionUID = 1L;
+			this.taskDisplay.addTableListener(new TableClickListener() {
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void itemClick(final TableClickEvent event) {
-							final SimpleTask task = (SimpleTask) event
-									.getData();
-							if ("taskname".equals(event.getFieldName())) {
-								EventBusFactory.getInstance().post(
-										new TaskEvent.GotoRead(
-												ProjectMemberReadViewImpl.this,
-												task.getId()));
-							} else if ("closeTask".equals(event.getFieldName())
-									|| "reopenTask".equals(event.getFieldName())
-									|| "pendingTask".equals(event
-											.getFieldName())
-									|| "reopenTask".equals(event.getFieldName())
-									|| "deleteTask".equals(event.getFieldName())) {
+				@Override
+				public void itemClick(final TableClickEvent event) {
+					final SimpleTask task = (SimpleTask) event.getData();
+					if ("taskname".equals(event.getFieldName())) {
+						EventBusFactory.getInstance().post(
+								new TaskEvent.GotoRead(
+										ProjectMemberReadViewImpl.this, task
+												.getId()));
+					} else if ("closeTask".equals(event.getFieldName())
+							|| "reopenTask".equals(event.getFieldName())
+							|| "pendingTask".equals(event.getFieldName())
+							|| "reopenTask".equals(event.getFieldName())
+							|| "deleteTask".equals(event.getFieldName())) {
 
-								UserTaskComp.this.taskDisplay
-										.setSearchCriteria(UserTaskComp.this.taskSearchCriteria);
-							}
-						}
-					});
+						UserTaskComp.this.taskDisplay
+								.setSearchCriteria(UserTaskComp.this.taskSearchCriteria);
+					}
+				}
+			});
 
 			this.initHeader();
 			this.addComponent(this.taskDisplay);
@@ -582,21 +579,20 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 							BugTableFieldDef.resolution,
 							BugTableFieldDef.duedate));
 
-			this.bugDisplay
-					.addTableListener(new TableClickListener() {
-						private static final long serialVersionUID = 1L;
+			this.bugDisplay.addTableListener(new TableClickListener() {
+				private static final long serialVersionUID = 1L;
 
-						@Override
-						public void itemClick(final TableClickEvent event) {
-							final SimpleBug bug = (SimpleBug) event.getData();
-							if ("summary".equals(event.getFieldName())) {
-								EventBusFactory.getInstance().post(
-										new BugEvent.GotoRead(
-												ProjectMemberReadViewImpl.this,
-												bug.getId()));
-							}
-						}
-					});
+				@Override
+				public void itemClick(final TableClickEvent event) {
+					final SimpleBug bug = (SimpleBug) event.getData();
+					if ("summary".equals(event.getFieldName())) {
+						EventBusFactory.getInstance().post(
+								new BugEvent.GotoRead(
+										ProjectMemberReadViewImpl.this, bug
+												.getId()));
+					}
+				}
+			});
 
 			this.initHeader();
 
@@ -693,23 +689,22 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		public void displayOpenBugs() {
 			final BugSearchCriteria criteria = this.createBugSearchCriteria();
 			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.INPROGRESS,
-							BugStatusConstants.OPEN,
-							BugStatusConstants.REOPENNED }));
+					new String[] { BugStatus.InProgress.name(),
+							BugStatus.Open.name(), BugStatus.ReOpened.name() }));
 			this.bugDisplay.setSearchCriteria(criteria);
 		}
 
 		private void displayResolvedBugs() {
 			final BugSearchCriteria criteria = this.createBugSearchCriteria();
 			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.RESOLVED }));
+					new String[] { BugStatus.Resolved.name() }));
 			this.bugDisplay.setSearchCriteria(criteria);
 		}
 
 		private void displayClosedBugs() {
 			final BugSearchCriteria criteria = this.createBugSearchCriteria();
 			criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.VERIFIED }));
+					new String[] { BugStatus.Verified.name() }));
 			this.bugDisplay.setSearchCriteria(criteria);
 		}
 	}

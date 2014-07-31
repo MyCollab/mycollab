@@ -25,10 +25,10 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.components.BugResolutionComboBox;
 import com.esofthead.mycollab.module.project.view.bug.components.VersionMultiSelectField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberSelectionField;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.service.BugRelatedItemService;
@@ -142,7 +142,8 @@ public class ReOpenWindow extends Window {
 
 								if (EditForm.this.validateForm()) {
 									ReOpenWindow.this.bug
-											.setStatus(BugStatusConstants.REOPENNED);
+											.setStatus(BugStatus.ReOpened
+													.name());
 
 									final BugRelatedItemService bugRelatedItemService = ApplicationContextUtil
 											.getSpringBean(BugRelatedItemService.class);
@@ -210,9 +211,10 @@ public class ReOpenWindow extends Window {
 							AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
 							0, 0);
 				} else if (propertyId.equals("assignuser")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-							1);
+					this.informationLayout
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 1);
 				} else if (propertyId.equals("fixedVersions")) {
 					this.informationLayout.addComponent(field, AppContext
 							.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS), 0, 2);

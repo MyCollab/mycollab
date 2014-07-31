@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
@@ -147,8 +148,9 @@ public class MyProjectListComponent extends Depot {
 						}
 					}, false);
 			linkIconFix.addComponent(projectMember);
-			linkIconFix.addComponent(new Label("Created on: "
-					+ AppContext.formatDate(project.getCreatedtime())));
+			linkIconFix.addComponent(new Label(AppContext.getMessage(
+					ProjectI18nEnum.OPT_CREATED_ON,
+					AppContext.formatDate(project.getCreatedtime()))));
 
 			projectLink.setWidth("100%");
 			linkWrapper.addComponent(linkIconFix);

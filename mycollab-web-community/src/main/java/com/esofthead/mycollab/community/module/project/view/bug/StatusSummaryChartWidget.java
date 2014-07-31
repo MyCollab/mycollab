@@ -28,9 +28,10 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.IStatusSummaryChartWidget;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
@@ -82,12 +83,13 @@ public class StatusSummaryChartWidget extends
 		List<GroupItem> groupItems = bugService
 				.getStatusSummary(searchCriteria);
 
-		String[] bugStatuses = ProjectDataTypeFactory.getBugStatusList();
-		for (String status : bugStatuses) {
+		BugStatus[] bugStatuses = OptionI18nEnum.bug_statuses;
+		for (BugStatus status : bugStatuses) {
 			boolean isFound = false;
 			for (GroupItem item : groupItems) {
-				if (status.equals(item.getGroupid())) {
-					dataset.setValue(status, item.getValue());
+				if (status.name().equals(item.getGroupid())) {
+					dataset.setValue(AppContext.getMessage(status),
+							item.getValue());
 					isFound = true;
 					break;
 				}

@@ -25,9 +25,9 @@ import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -100,8 +100,8 @@ public class TimeTrackingTableDisplay
 					timeTrackingLink.setIconLink(MyCollabResource
 							.newResourceLink("icons/16/project/bug.png"));
 
-					if (BugStatusConstants.VERIFIED.equals(itemLogging
-							.getStatus())) {
+					if (BugStatus.Verified.name().equals(
+							itemLogging.getStatus())) {
 						timeTrackingLink
 								.addStyleName(UIConstants.LINK_COMPLETED);
 					} else if (itemLogging.getDueDate() != null

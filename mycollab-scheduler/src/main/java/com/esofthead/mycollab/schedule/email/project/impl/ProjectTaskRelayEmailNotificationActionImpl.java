@@ -44,6 +44,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
@@ -57,6 +58,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -306,7 +308,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 					TaskI18nEnum.FORM_DEADLINE));
 			put("percentagecomplete", TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
 
-			put("priority", TaskI18nEnum.FORM_PRIORITY);
+			put("priority", new I18nFieldFormat("priority",
+					TaskI18nEnum.FORM_PRIORITY, TaskPriority.class));
 			put("assignuser", new AssigneeFieldFormat("assignuser",
 					GenericI18Enum.FORM_ASSIGNEE));
 

@@ -32,7 +32,7 @@ import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
@@ -177,9 +177,9 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		myBugsSearchCriteria
 				.setProjectId(new NumberSearchField(project.getId()));
 		myBugsSearchCriteria.setStatuses(new SetSearchField<String>(
-				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
-						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
-						BugStatusConstants.RESOLVED }));
+				SearchField.AND, new String[] { BugStatus.InProgress.name(),
+						BugStatus.Open.name(), BugStatus.ReOpened.name(),
+						BugStatus.Resolved.name() }));
 		myBugsSearchCriteria.setAssignuser(new StringSearchField(AppContext
 				.getUsername()));
 
@@ -193,9 +193,9 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				DateTimeSearchField.LESSTHANEQUAL, new GregorianCalendar()
 						.getTime()));
 		dueDefectsCriteria.setStatuses(new SetSearchField<String>(
-				SearchField.AND, new String[] { BugStatusConstants.INPROGRESS,
-						BugStatusConstants.OPEN, BugStatusConstants.REOPENNED,
-						BugStatusConstants.RESOLVED }));
+				SearchField.AND, new String[] { BugStatus.InProgress.name(),
+						BugStatus.Open.name(), BugStatus.ReOpened.name(),
+						BugStatus.Resolved.name() }));
 		dueBugWidget.setSearchCriteria(dueDefectsCriteria);
 
 		final RecentBugUpdateWidget updateBugWidget = new RecentBugUpdateWidget();
@@ -208,9 +208,9 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				project.getId()));
 		unresolvedByAssigneeSearchCriteria
 				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+						new String[] { BugStatus.InProgress.name(),
+								BugStatus.Open.name(),
+								BugStatus.ReOpened.name() }));
 		unresolvedByAssigneeWidget
 				.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 		BugDashboardViewImpl.this.rightColumn
@@ -223,9 +223,9 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				project.getId()));
 		unresolvedByPrioritySearchCriteria
 				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+						new String[] { BugStatus.InProgress.name(),
+								BugStatus.Open.name(),
+								BugStatus.ReOpened.name() }));
 		unresolvedByPriorityWidget
 				.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 		BugDashboardViewImpl.this.rightColumn

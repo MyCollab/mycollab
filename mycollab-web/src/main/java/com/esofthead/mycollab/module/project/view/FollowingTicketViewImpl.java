@@ -30,11 +30,11 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.FollowingTicket;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.ProjectFollowingTicketService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.shell.events.ShellEvent;
@@ -247,8 +247,8 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 						ticketLink.setIcon(MyCollabResource
 								.newResource("icons/16/project/bug.png"));
 
-						if (BugStatusConstants.VERIFIED.equals(ticket
-								.getStatus())) {
+						if (BugStatus.Verified.name()
+								.equals(ticket.getStatus())) {
 							ticketLink.addStyleName(UIConstants.LINK_COMPLETED);
 						} else if (ticket.getDueDate() != null
 								&& ticket.getDueDate().before(

@@ -25,10 +25,10 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
@@ -310,9 +310,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
 			unresolvedByPrioritySearchCriteria
 					.setStatuses(new SetSearchField<String>(SearchField.AND,
-							new String[] { BugStatusConstants.INPROGRESS,
-									BugStatusConstants.OPEN,
-									BugStatusConstants.REOPENNED }));
+							new String[] { BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 			unresolvedBugWidget
 					.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 
@@ -329,9 +329,9 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 					.setVersionids(new SetSearchField<Integer>(beanItem.getId()));
 			unresolvedByAssigneeSearchCriteria
 					.setStatuses(new SetSearchField<String>(SearchField.AND,
-							new String[] { BugStatusConstants.INPROGRESS,
-									BugStatusConstants.OPEN,
-									BugStatusConstants.REOPENNED }));
+							new String[] { BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 			unresolvedByAssigneeWidget
 					.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 

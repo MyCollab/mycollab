@@ -198,6 +198,18 @@ public class AppContext implements Serializable {
 		}
 	}
 
+	public static String getMessage(Class<? extends Enum> enumCls,
+			String option, Object... objects) {
+		try {
+			Enum key = Enum.valueOf(enumCls, option);
+			return getMessage(key, objects);
+		} catch (Exception e) {
+			log.error("Can not find resource key " + option
+					+ " and enum class " + enumCls, e);
+			return "Undefined";
+		}
+	}
+
 	/**
 	 * Get current user in session
 	 * 

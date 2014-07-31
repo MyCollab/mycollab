@@ -44,6 +44,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
@@ -57,6 +58,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -300,7 +302,8 @@ public class BugRelayEmailNotificationActionImpl extends
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					BugI18nEnum.FORM_PHASE));
 
-			put("status", BugI18nEnum.FORM_STATUS);
+			put("status", new I18nFieldFormat("status",
+					BugI18nEnum.FORM_STATUS, BugStatus.class));
 			put("resolution", BugI18nEnum.FORM_RESOLUTION);
 
 			put("severity", BugI18nEnum.FORM_SEVERITY);

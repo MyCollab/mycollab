@@ -627,7 +627,7 @@
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numOpen,
              (SELECT COUNT(*) 
                 FROM m_tracker_bug, m_tracker_bug_related_item
-                WHERE m_tracker_bug.status="In Progress" 
+                WHERE m_tracker_bug.status="InProgress" 
                     AND m_tracker_bug.id = m_tracker_bug_related_item.bugid
                     AND m_tracker_bug_related_item.type = 'Component' 
                     AND m_tracker_component.id = m_tracker_bug_related_item.typeid) AS numInProgress,

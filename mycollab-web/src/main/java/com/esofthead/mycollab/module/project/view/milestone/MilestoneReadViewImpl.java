@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.view.bug.BugSimpleDisplayWidget;
@@ -341,9 +342,11 @@ public class MilestoneReadViewImpl extends
 				final FormContainerHorizontalViewField statusField = new FormContainerHorizontalViewField();
 				Image icon = new Image();
 				icon.setSource(new ExternalResource(ProjectResources
-						.getIconResourceLink12ByPhase(beanItem.getStatus())));
+						.getIconResource12LinkOfPhaseStatus(beanItem
+								.getStatus())));
 				statusField.addComponentField(icon);
-				Label statusLbl = new Label(beanItem.getStatus());
+				Label statusLbl = new Label(AppContext.getMessage(
+						MilestoneStatus.class, beanItem.getStatus()));
 				statusField.addComponentField(statusLbl);
 				statusField.getLayout().setExpandRatio(statusLbl, 1.0f);
 				return statusField;

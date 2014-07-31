@@ -21,7 +21,6 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
@@ -58,7 +57,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 
 		projectAddLayout.addBody(this.projectInformationLayout.getLayout());
 
-		final Layout bottomPanel = this.createTopPanel();
+		final Layout bottomPanel = this.createBottomPanel();
 		if (bottomPanel != null) {
 			projectAddLayout.addBottomControls(bottomPanel);
 		}
@@ -161,7 +160,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 				this.financialLayout.addComponent(field, "Actual Budget", 1, 3);
 			} else if (propertyId.equals("description")) {
 				this.descriptionLayout.addComponent(field, "Description", 0, 0,
-						2, UIConstants.DEFAULT_2XCONTROL_WIDTH);
+						2, "100%");
 			}
 		}
 	}

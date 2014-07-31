@@ -23,10 +23,10 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.TaskList;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.TaskPercentageCompleteComboBox;
@@ -90,9 +90,8 @@ class TaskAddPopup extends CustomComponent {
 				AppContext.getMessage(GenericI18Enum.WINDOW_INFORMATION_TITLE));
 
 		this.taskNoteComponent = new TaskNoteLayout();
-		this.taskContainer
-				.addTab(this.taskNoteComponent, AppContext
-						.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT));
+		this.taskContainer.addTab(this.taskNoteComponent,
+				AppContext.getMessage(TaskI18nEnum.FORM_NOTES_ATTACHMENT));
 
 		taskLayout.addComponent(this.taskContainer);
 
@@ -286,7 +285,7 @@ class TaskAddPopup extends CustomComponent {
 				return new TaskPercentageCompleteComboBox();
 			} else if ("priority".equals(propertyId)) {
 				if (task.getPriority() == null) {
-					task.setPriority(TaskPriorityStatusContants.PRIORITY_MEDIUM);
+					task.setPriority(TaskPriority.Medium.name());
 				}
 				return new TaskPriorityComboBox();
 			}

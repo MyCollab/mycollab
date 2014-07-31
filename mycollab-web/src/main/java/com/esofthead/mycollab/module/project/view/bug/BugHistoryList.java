@@ -22,6 +22,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -48,7 +49,8 @@ public class BugHistoryList extends HistoryLogComponent {
 				AppContext.getMessage(BugI18nEnum.FORM_SUMMARY));
 		this.generateFieldDisplayHandler("detail", "Detail");
 		this.generateFieldDisplayHandler("status",
-				AppContext.getMessage(BugI18nEnum.FORM_STATUS));
+				AppContext.getMessage(BugI18nEnum.FORM_STATUS),
+				new I18nHistoryFieldFormat(BugStatus.class));
 		this.generateFieldDisplayHandler("priority",
 				AppContext.getMessage(BugI18nEnum.FORM_PRIORITY));
 		this.generateFieldDisplayHandler("severity",

@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
@@ -86,15 +87,15 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 				.canWrite(ProjectRolePermissionCollections.MILESTONES));
 
 		for (final SimpleMilestone milestone : milestones) {
-			if (SimpleMilestone.STATUS_INPROGRESS.equals(milestone.getStatus())) {
+			if (MilestoneStatus.InProgress.name().equals(milestone.getStatus())) {
 				this.inProgressContainer.addComponent(this
 						.constructMilestoneBox(milestone));
-			} else if (SimpleMilestone.STATUS_FUTURE.equals(milestone
-					.getStatus())) {
+			} else if (MilestoneStatus.Future.name().equals(
+					milestone.getStatus())) {
 				this.futureContainer.addComponent(this
 						.constructMilestoneBox(milestone));
-			} else if (SimpleMilestone.STATUS_CLOSE.equals(milestone
-					.getStatus())) {
+			} else if (MilestoneStatus.Closed.name().equals(
+					milestone.getStatus())) {
 				this.closeContainer.addComponent(this
 						.constructMilestoneBox(milestone));
 			}

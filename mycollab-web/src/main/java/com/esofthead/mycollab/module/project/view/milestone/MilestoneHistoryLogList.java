@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -37,7 +38,8 @@ class MilestoneHistoryLogList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("name",
 				AppContext.getMessage(MilestoneI18nEnum.FORM_NAME_FIELD));
 		this.generateFieldDisplayHandler("status",
-				AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD));
+				AppContext.getMessage(MilestoneI18nEnum.FORM_STATUS_FIELD),
+				new I18nHistoryFieldFormat(MilestoneStatus.class));
 		this.generateFieldDisplayHandler("owner",
 				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 				new ProjectMemberHistoryFieldFormat());

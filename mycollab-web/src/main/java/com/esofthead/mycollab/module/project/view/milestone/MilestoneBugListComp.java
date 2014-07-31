@@ -22,13 +22,13 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.bug.BugChartComponent;
 import com.esofthead.mycollab.module.project.view.bug.BugListWidget;
 import com.esofthead.mycollab.module.project.view.bug.BugSimpleDisplayWidget;
 import com.esofthead.mycollab.module.project.view.bug.IBugReportDisplayContainer;
 import com.esofthead.mycollab.module.project.view.bug.UnresolvedBugsByAssigneeWidget;
 import com.esofthead.mycollab.module.project.view.bug.UnresolvedBugsByPriorityWidget;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -134,9 +134,9 @@ public class MilestoneBugListComp extends VerticalLayout implements
 						.getId()));
 		unresolvedByPrioritySearchCriteria
 				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+						new String[] { BugStatus.InProgress.name(),
+								BugStatus.Open.name(),
+								BugStatus.ReOpened.name() }));
 		unresolvedBugWidget
 				.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 
@@ -153,9 +153,9 @@ public class MilestoneBugListComp extends VerticalLayout implements
 						.getId()));
 		unresolvedByAssigneeSearchCriteria
 				.setStatuses(new SetSearchField<String>(SearchField.AND,
-						new String[] { BugStatusConstants.INPROGRESS,
-								BugStatusConstants.OPEN,
-								BugStatusConstants.REOPENNED }));
+						new String[] { BugStatus.InProgress.name(),
+								BugStatus.Open.name(),
+								BugStatus.ReOpened.name() }));
 		unresolvedByAssigneeWidget
 				.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 

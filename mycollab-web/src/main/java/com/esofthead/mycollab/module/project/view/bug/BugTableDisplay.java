@@ -39,8 +39,8 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.events.BugEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -116,27 +116,28 @@ public class BugTableDisplay extends
 								String value = ((MenuItemData) ((ContextMenuItem) event
 										.getSource()).getData()).getKey();
 								if ("status".equals(category)) {
-									if (BugStatusConstants.VERIFIED
-											.equals(value)) {
+									if (AppContext.getMessage(
+											BugStatus.Verified).equals(value)) {
 										UI.getCurrent().addWindow(
 												new ApproveInputWindow(
 														BugTableDisplay.this,
 														bug));
-									} else if (BugStatusConstants.INPROGRESS
-											.equals(value)) {
-										bug.setStatus(BugStatusConstants.INPROGRESS);
+									} else if (AppContext.getMessage(
+											BugStatus.InProgress).equals(value)) {
+										bug.setStatus(BugStatus.InProgress
+												.name());
 										BugService bugService = ApplicationContextUtil
 												.getSpringBean(BugService.class);
 										bugService.updateWithSession(bug,
 												AppContext.getUsername());
-									} else if (BugStatusConstants.OPEN
-											.equals(value)) {
+									} else if (AppContext.getMessage(
+											BugStatus.Open).equals(value)) {
 										UI.getCurrent().addWindow(
 												new ReOpenWindow(
 														BugTableDisplay.this,
 														bug));
-									} else if (BugStatusConstants.RESOLVED
-											.equals(value)) {
+									} else if (AppContext.getMessage(
+											BugStatus.Resolved).equals(value)) {
 										UI.getCurrent().addWindow(
 												new ResolvedInputWindow(
 														BugTableDisplay.this,
@@ -369,30 +370,35 @@ public class BugTableDisplay extends
 		contextMenu.addItem("Edit").setData(new MenuItemData("action", "edit"));
 
 		ContextMenuItem statusMenuItem = contextMenu.addItem("Status");
-		if (BugStatusConstants.OPEN.equals(bug.getStatus())
-				|| BugStatusConstants.REOPENNED.equals(bug.getStatus())) {
+		if (BugStatus.Open.name().equals(bug.getStatus())
+				|| BugStatus.ReOpened.name().equals(bug.getStatus())) {
 			statusMenuItem.addItem("Start Progress").setData(
-					new MenuItemData("status", BugStatusConstants.INPROGRESS));
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.InProgress)));
 			statusMenuItem.addItem("Resolved").setData(
-					new MenuItemData("status", BugStatusConstants.RESOLVED));
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.Resolved)));
 			statusMenuItem.addItem("Won't Fix").setData(
-					new MenuItemData("status", BugStatusConstants.RESOLVED));
-		} else if (BugStatusConstants.INPROGRESS.equals(bug.getStatus())) {
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.Resolved)));
+		} else if (BugStatus.InProgress.name().equals(bug.getStatus())) {
 			statusMenuItem.addItem("Stop Progress").setData(
-					new MenuItemData("status", BugStatusConstants.OPEN));
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.Open)));
 			statusMenuItem.addItem("Resolved").setData(
-					new MenuItemData("status", BugStatusConstants.RESOLVED));
-		} else if (BugStatusConstants.VERIFIED.equals(bug.getStatus())) {
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.Resolved)));
+		} else if (BugStatus.Verified.name().equals(bug.getStatus())) {
 			statusMenuItem.addItem("ReOpen").setData(
-					new MenuItemData("status", BugStatusConstants.REOPENNED));
-		} else if (BugStatusConstants.RESOLVED.equals(bug.getStatus())) {
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.ReOpened)));
+		} else if (BugStatus.Resolved.name().equals(bug.getStatus())) {
 			statusMenuItem.addItem("ReOpen").setData(
-					new MenuItemData("status", BugStatusConstants.REOPENNED));
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.ReOpened)));
 			statusMenuItem.addItem("Approve & Close").setData(
-					new MenuItemData("status", BugStatusConstants.VERIFIED));
-		} else if (BugStatusConstants.RESOLVED.equals(bug.getStatus())) {
-			statusMenuItem.addItem("ReOpen").setData(
-					new MenuItemData("status", BugStatusConstants.REOPENNED));
+					new MenuItemData("status", AppContext
+							.getMessage(BugStatus.Verified)));
 		}
 
 		// Show bug priority

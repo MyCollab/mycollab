@@ -2965,9 +2965,9 @@ div.v-splitbutton,div.v-splitbutton .v-button {
     background: url("icons/sprites.png") no-repeat scroll -5px -10px
         transparent;
 }
-/* .v-popupbutton .v-button-wrap img {
-    margin-right:0;
-} */
+.mycollab .v-popupbutton .v-button-wrap * {
+    float: none;
+}
 /* End Split button*/
 
 /* New Table */
@@ -3504,6 +3504,8 @@ div.v-button-link.xbreadcrumbbutton .v-button-wrap {
     padding: 0px;
     margin: 0px;
     border-width: 0px;
+    height: 100%;
+    border-radius: 0px;
 }
 /* End Background has SELECT icon */
 
@@ -6970,3 +6972,28 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	line-height: 20px;
 	font-weight: bold;
 	color: #FFFFFF;
+}
+/* CRM toolbar quick add button */
+.crm-toolbar .quickadd-btn .v-button-caption:before {
+	content: "+";
+	width: 20px;
+	height: 20px;
+	background-color: #17D61B;
+	border-radius: 10px;
+	border: none;
+	color: #FFFFFF;
+	margin-right: 5px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	font-weight: bold;
+	vertical-align: top;
+}
+.crm-toolbar .quickadd-btn .v-button-caption {
+	line-height: 20px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.v-ie9 .crm-toolbar .quickadd-btn .v-button-caption, .v-ie9 .crm-toolbar .quickadd-btn .v-button-caption:before {
+	line-height: 22px;
+}

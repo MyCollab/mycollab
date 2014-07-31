@@ -21,10 +21,11 @@ import java.util.List;
 import com.esofthead.mycollab.common.domain.GroupItem;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter;
@@ -70,19 +71,20 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 		final TaskPriorityClickListener listener = new TaskPriorityClickListener();
 
 		if (!groupItems.isEmpty()) {
-			for (final String priority : ProjectDataTypeFactory
-					.getTaskPriorityList()) {
+			for (final TaskPriority priority : OptionI18nEnum.task_priorities) {
 				boolean isFound = false;
 				for (final GroupItem item : groupItems) {
-					if (priority.equals(item.getGroupid())) {
+					if (priority.name().equals(item.getGroupid())) {
 						isFound = true;
 						final HorizontalLayout priorityLayout = new HorizontalLayout();
 						priorityLayout.setSpacing(true);
 						priorityLayout.setWidth("100%");
-						final Button userLbl = new Button(priority, listener);
+						final Button userLbl = new Button(
+								AppContext.getMessage(priority), listener);
 						final Resource iconPriority = new ExternalResource(
 								ProjectResources
-										.getIconResourceLink12ByTaskPriority(priority));
+										.getIconResourceLink12ByTaskPriority(priority
+												.name()));
 						userLbl.setIcon(iconPriority);
 						userLbl.setWidth("110px");
 						userLbl.setStyleName("link");
@@ -103,10 +105,12 @@ public class UnresolvedTaskByPriorityWidget extends Depot {
 					final HorizontalLayout priorityLayout = new HorizontalLayout();
 					priorityLayout.setSpacing(true);
 					priorityLayout.setWidth("100%");
-					final Button userLbl = new Button(priority, listener);
+					final Button userLbl = new Button(
+							AppContext.getMessage(priority), listener);
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
-									.getIconResourceLink12ByTaskPriority(priority));
+									.getIconResourceLink12ByTaskPriority(priority
+											.name()));
 					userLbl.setIcon(iconPriority);
 					userLbl.setWidth("110px");
 					userLbl.setStyleName("link");

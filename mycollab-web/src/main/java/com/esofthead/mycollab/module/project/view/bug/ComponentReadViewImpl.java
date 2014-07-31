@@ -25,9 +25,9 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
-import com.esofthead.mycollab.module.tracker.BugStatusConstants;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
@@ -61,7 +61,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ComponentReadViewImpl extends
-AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
+		AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +71,8 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 	private ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm;
 
 	public ComponentReadViewImpl() {
-		super("Component Detail", MyCollabResource.newResource("icons/22/project/component.png"));
+		super("Component Detail", MyCollabResource
+				.newResource("icons/22/project/component.png"));
 	}
 
 	@Override
@@ -161,7 +162,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 						&& beanItem.getStatus().equals("Close")) {
 					beanItem.setStatus("Open");
 					ComponentReadViewImpl.this
-					.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("Close");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
@@ -169,7 +170,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 					beanItem.setStatus("Close");
 
 					ComponentReadViewImpl.this
-					.addLayoutStyleName(UIConstants.LINK_COMPLETED);
+							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption("ReOpen");
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
@@ -205,7 +206,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 	}
 
 	private class RelatedBugComp extends VerticalLayout implements
-	IBugReportDisplayContainer {
+			IBugReportDisplayContainer {
 		private static final long serialVersionUID = 1L;
 
 		private HorizontalLayout bottomLayout;
@@ -230,13 +231,13 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 			final Button simpleDisplay = new Button(null,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					displaySimpleView();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							displaySimpleView();
+						}
+					});
 			simpleDisplay.setIcon(MyCollabResource
 					.newResource("icons/16/project/list_display.png"));
 
@@ -244,13 +245,13 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 			final Button advanceDisplay = new Button(null,
 					new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					displayAdvancedView();
-				}
-			});
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							displayAdvancedView();
+						}
+					});
 			advanceDisplay.setIcon(MyCollabResource
 					.newResource("icons/16/project/bug_advanced_display.png"));
 			viewGroup.addButton(advanceDisplay);
@@ -263,7 +264,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 			this.bottomLayout.setSpacing(true);
 			this.bottomLayout.setWidth("100%");
 			this.bottomLayout
-			.setMargin(new MarginInfo(false, true, false, true));
+					.setMargin(new MarginInfo(false, true, false, true));
 
 			advanceDisplay.addStyleName("selected");
 
@@ -284,7 +285,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 			this.addComponent(displayWidget);
 			this.setMargin(true);
 			displayWidget.setSearchCriteria(criteria);
-			
+
 		}
 
 		private void displayAdvancedView() {
@@ -312,17 +313,17 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 			final BugSearchCriteria unresolvedByPrioritySearchCriteria = new BugSearchCriteria();
 			unresolvedByPrioritySearchCriteria
-			.setProjectId(new NumberSearchField(project.getId()));
+					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByPrioritySearchCriteria
-			.setComponentids(new SetSearchField<Integer>(beanItem
-					.getId()));
+					.setComponentids(new SetSearchField<Integer>(beanItem
+							.getId()));
 			unresolvedByPrioritySearchCriteria
-			.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.INPROGRESS,
-					BugStatusConstants.OPEN,
-					BugStatusConstants.REOPENNED }));
+					.setStatuses(new SetSearchField<String>(SearchField.AND,
+							new String[] { BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 			unresolvedBugWidget
-			.setSearchCriteria(unresolvedByPrioritySearchCriteria);
+					.setSearchCriteria(unresolvedByPrioritySearchCriteria);
 
 			final UnresolvedBugsByAssigneeWidget unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget(
 					this);
@@ -332,17 +333,17 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 
 			final BugSearchCriteria unresolvedByAssigneeSearchCriteria = new BugSearchCriteria();
 			unresolvedByAssigneeSearchCriteria
-			.setProjectId(new NumberSearchField(project.getId()));
+					.setProjectId(new NumberSearchField(project.getId()));
 			unresolvedByAssigneeSearchCriteria
-			.setComponentids(new SetSearchField<Integer>(beanItem
-					.getId()));
+					.setComponentids(new SetSearchField<Integer>(beanItem
+							.getId()));
 			unresolvedByAssigneeSearchCriteria
-			.setStatuses(new SetSearchField<String>(SearchField.AND,
-					new String[] { BugStatusConstants.INPROGRESS,
-					BugStatusConstants.OPEN,
-					BugStatusConstants.REOPENNED }));
+					.setStatuses(new SetSearchField<String>(SearchField.AND,
+							new String[] { BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
 			unresolvedByAssigneeWidget
-			.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
+					.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
 
 			final VerticalLayout rightColumn = new VerticalLayout();
 			rightColumn.setMargin(new MarginInfo(false, false, false, true));
@@ -381,7 +382,7 @@ AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
 	}
 
 	protected class ComponentFormFieldLayout extends
-	AbstractBeanFieldGroupViewFieldFactory<SimpleComponent> {
+			AbstractBeanFieldGroupViewFieldFactory<SimpleComponent> {
 
 		private static final long serialVersionUID = 1L;
 

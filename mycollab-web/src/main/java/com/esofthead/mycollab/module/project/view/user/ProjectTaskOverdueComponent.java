@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import java.util.GregorianCalendar;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -113,12 +115,14 @@ public class ProjectTaskOverdueComponent extends Depot {
 			body.setStyleName("activity-date");
 			body.setSpacing(true);
 
-			final Label dateLbl = new Label("Due date: "
-					+ DateTimeUtils.formatDate(genericTask.getDueDate()));
+			final Label dateLbl = new Label(AppContext.getMessage(
+					TaskI18nEnum.OPT_DUE_DATE,
+					DateTimeUtils.formatDate(genericTask.getDueDate())));
 			body.addComponent(dateLbl);
 
-			final Label assigneeLabel = new Label(
-					"&nbsp;&nbsp;&nbsp;&nbsp;Assignee: ", ContentMode.HTML);
+			final Label assigneeLabel = new Label("&nbsp;&nbsp;&nbsp;&nbsp;"
+					+ AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
+					+ ": ", ContentMode.HTML);
 			final LabelLink assignee = new LabelLink(
 					genericTask.getAssignUserFullName(),
 					ProjectLinkBuilder.generateProjectMemberFullLink(

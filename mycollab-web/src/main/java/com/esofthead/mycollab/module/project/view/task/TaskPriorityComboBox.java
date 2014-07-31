@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import java.util.Arrays;
+
 import com.esofthead.mycollab.module.project.ProjectResources;
-import com.esofthead.mycollab.module.project.TaskPriorityStatusContants;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.ComboBox;
 
 /**
  * 
@@ -28,38 +29,26 @@ import com.vaadin.ui.ComboBox;
  * @since 1.0
  * 
  */
-public class TaskPriorityComboBox extends ComboBox {
+public class TaskPriorityComboBox extends I18nValueComboBox {
 	private static final long serialVersionUID = 1L;
 
 	public TaskPriorityComboBox() {
-		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
-
-		IndexedContainer ic = new IndexedContainer();
-		ic.addItem(TaskPriorityStatusContants.PRIORITY_URGENT);
-		ic.addItem(TaskPriorityStatusContants.PRIORITY_HIGHT);
-		ic.addItem(TaskPriorityStatusContants.PRIORITY_MEDIUM);
-		ic.addItem(TaskPriorityStatusContants.PRIORITY_LOW);
-		ic.addItem(TaskPriorityStatusContants.PRIORITY_NONE);
-
-		this.setContainerDataSource(ic);
-
-		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_HIGHT,
-				MyCollabResource
-						.newResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
-		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_LOW,
-				MyCollabResource
-						.newResource(ProjectResources.T_PRIORITY_LOW_IMG));
-		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_MEDIUM,
-				MyCollabResource
-						.newResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
-		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_NONE,
-				MyCollabResource
-						.newResource(ProjectResources.T_PRIORITY_NONE_IMG));
-		this.setItemIcon(TaskPriorityStatusContants.PRIORITY_URGENT,
-				MyCollabResource
-						.newResource(ProjectResources.T_PRIORITY_URGENT_IMG));
-
 		this.setNullSelectionAllowed(false);
+
+		this.loadData(Arrays.asList(TaskPriority.Urgent, TaskPriority.High,
+				TaskPriority.Medium, TaskPriority.Low, TaskPriority.None));
+
+		this.setItemIcon(TaskPriority.High.name(), MyCollabResource
+				.newResource(ProjectResources.T_PRIORITY_HIGHT_IMG));
+		this.setItemIcon(TaskPriority.Low.name(), MyCollabResource
+				.newResource(ProjectResources.T_PRIORITY_LOW_IMG));
+		this.setItemIcon(TaskPriority.Medium.name(), MyCollabResource
+				.newResource(ProjectResources.T_PRIORITY_MEDIUM_IMG));
+		this.setItemIcon(TaskPriority.None.name(), MyCollabResource
+				.newResource(ProjectResources.T_PRIORITY_NONE_IMG));
+		this.setItemIcon(TaskPriority.Urgent.name(), MyCollabResource
+				.newResource(ProjectResources.T_PRIORITY_URGENT_IMG));
+
 		this.setValue(this.getItemIds().iterator().next());
 	}
 }

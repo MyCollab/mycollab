@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.ui.CurrencyComboBoxField;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
@@ -90,7 +91,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 			}
 			controlButtons.setSizeUndefined();
 			controlPanel.addComponent(controlButtons);
-			controlPanel.setWidth("100%");
+			controlPanel
+					.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
 			controlPanel.setComponentAlignment(controlButtons,
 					Alignment.MIDDLE_CENTER);
 
@@ -104,7 +106,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 
 		@Override
 		protected Layout createBottomPanel() {
-			return this.createButtonControls();
+			return null;
 		}
 	}
 
