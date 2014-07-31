@@ -18,16 +18,20 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListDisplay;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.Popover;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -69,19 +73,72 @@ public class LeadRelatedCampaignView extends
 
 	@Override
 	protected Component createRightComponent() {
-		MobileNavigationButton addCampaign = new MobileNavigationButton();
-		addCampaign.setTargetViewCaption(AppContext
+		final Popover controlBtns = new Popover();
+		controlBtns.setClosable(true);
+		controlBtns.setStyleName("controls-popover");
+
+		VerticalLayout addBtns = new VerticalLayout();
+		addBtns.setStyleName("edit-btn-layout");
+		addBtns.setSpacing(true);
+		addBtns.setMargin(true);
+		addBtns.setWidth("100%");
+
+		NavigationButton newCampaign = new NavigationButton();
+		newCampaign.setTargetViewCaption(AppContext
 				.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE));
-		addCampaign
+		newCampaign
 				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent arg0) {
+						controlBtns.close();
 						fireNewRelatedItem("");
 					}
 				});
+		addBtns.addComponent(newCampaign);
+
+		NavigationButton selectCampaign = new NavigationButton();
+		selectCampaign.setTargetViewCaption("Select Campaigns");
+		selectCampaign
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+
+					private static final long serialVersionUID = 6803421194441320713L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
+						controlBtns.close();
+						final LeadCampaignSelectionView campaignSelectionView = new LeadCampaignSelectionView(
+								LeadRelatedCampaignView.this);
+						CampaignSearchCriteria criteria = new CampaignSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						campaignSelectionView.setSearchCriteria(criteria);
+						EventBusFactory.getInstance().post(
+								new CrmEvent.PushView(
+										LeadRelatedCampaignView.this,
+										campaignSelectionView));
+					}
+				});
+		addBtns.addComponent(selectCampaign);
+
+		controlBtns.setContent(addBtns);
+
+		Button addCampaign = new Button();
+		addCampaign.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = -6450244648419009556L;
+
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				if (!controlBtns.isAttached())
+					controlBtns.showRelativeTo(event.getButton());
+				else
+					controlBtns.close();
+			}
+		});
 		addCampaign.setStyleName("add-btn");
 		return addCampaign;
 	}

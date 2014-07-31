@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -23,11 +26,13 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
@@ -35,6 +40,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -163,8 +169,24 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleCampaign> items) {
-						// TODO Auto-generated method stub
+						SimpleLead lead = view.getItem();
+						List<CampaignLead> associateCampaigns = new ArrayList<CampaignLead>();
+						for (SimpleCampaign campaign : items) {
+							CampaignLead associateCampaign = new CampaignLead();
+							associateCampaign.setCampaignid(campaign.getId());
+							associateCampaign.setLeadid(lead.getId());
+							associateCampaign
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
+							associateCampaigns.add(associateCampaign);
+						}
 
+						CampaignService campaignService = ApplicationContextUtil
+								.getSpringBean(CampaignService.class);
+						campaignService.saveCampaignLeadRelationship(
+								associateCampaigns, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override

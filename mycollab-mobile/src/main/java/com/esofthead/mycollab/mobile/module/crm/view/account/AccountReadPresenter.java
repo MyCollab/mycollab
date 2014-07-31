@@ -215,19 +215,17 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						if (items.size() > 0) {
-							ContactService contactService = ApplicationContextUtil
-									.getSpringBean(ContactService.class);
-							SimpleAccount account = view.getItem();
-							for (SimpleContact contact : items) {
-								contact.setAccountid(account.getId());
-								contactService.updateWithSession(contact,
-										AppContext.getUsername());
-							}
-
-							EventBusFactory.getInstance().post(
-									new CrmEvent.NavigateBack(this, null));
+						ContactService contactService = ApplicationContextUtil
+								.getSpringBean(ContactService.class);
+						SimpleAccount account = view.getItem();
+						for (SimpleContact contact : items) {
+							contact.setAccountid(account.getId());
+							contactService.updateWithSession(contact,
+									AppContext.getUsername());
 						}
+
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 				});
@@ -236,26 +234,24 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 
 					@Override
 					public void selectAssociateItems(Set<SimpleLead> items) {
-						if (items.size() > 0) {
-							SimpleAccount account = view.getItem();
-							List<AccountLead> associateLeads = new ArrayList<AccountLead>();
-							for (SimpleLead contact : items) {
-								AccountLead assoLead = new AccountLead();
-								assoLead.setAccountid(account.getId());
-								assoLead.setLeadid(contact.getId());
-								assoLead.setCreatetime(new GregorianCalendar()
-										.getTime());
-								associateLeads.add(assoLead);
-							}
-
-							AccountService accountService = ApplicationContextUtil
-									.getSpringBean(AccountService.class);
-							accountService.saveAccountLeadRelationship(
-									associateLeads, AppContext.getAccountId());
-
-							EventBusFactory.getInstance().post(
-									new CrmEvent.NavigateBack(this, null));
+						SimpleAccount account = view.getItem();
+						List<AccountLead> associateLeads = new ArrayList<AccountLead>();
+						for (SimpleLead contact : items) {
+							AccountLead assoLead = new AccountLead();
+							assoLead.setAccountid(account.getId());
+							assoLead.setLeadid(contact.getId());
+							assoLead.setCreatetime(new GregorianCalendar()
+									.getTime());
+							associateLeads.add(assoLead);
 						}
+
+						AccountService accountService = ApplicationContextUtil
+								.getSpringBean(AccountService.class);
+						accountService.saveAccountLeadRelationship(
+								associateLeads, AppContext.getAccountId());
+
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override

@@ -540,6 +540,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom {
   padding-bottom: 13px;
 }
+.mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-left, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-left, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-left, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-left {
+  padding-left: 0px;
+}
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption .v-label.v-widget, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption .v-label.v-widget {
   text-align: right;
 }

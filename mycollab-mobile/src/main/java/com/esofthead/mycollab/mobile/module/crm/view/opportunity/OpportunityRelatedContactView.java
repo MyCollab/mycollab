@@ -18,13 +18,20 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.Popover;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -66,8 +73,74 @@ public class OpportunityRelatedContactView extends
 
 	@Override
 	protected Component createRightComponent() {
-		// TODO Auto-generated method stub
-		return null;
+		final Popover controlBtns = new Popover();
+		controlBtns.setClosable(true);
+		controlBtns.setStyleName("controls-popover");
+
+		VerticalLayout addBtns = new VerticalLayout();
+		addBtns.setStyleName("edit-btn-layout");
+		addBtns.setSpacing(true);
+		addBtns.setMargin(true);
+		addBtns.setWidth("100%");
+
+		NavigationButton newContact = new NavigationButton();
+		newContact.setTargetViewCaption(AppContext
+				.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
+		newContact
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent arg0) {
+						controlBtns.close();
+						fireNewRelatedItem("");
+					}
+				});
+		addBtns.addComponent(newContact);
+
+		NavigationButton selectContact = new NavigationButton();
+		selectContact.setTargetViewCaption("Select Contacts");
+		selectContact
+				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+
+					private static final long serialVersionUID = 200350509131199170L;
+
+					@Override
+					public void buttonClick(
+							NavigationButton.NavigationButtonClickEvent event) {
+						controlBtns.close();
+						final OpportunityContactSelectionView contactSelectionView = new OpportunityContactSelectionView(
+								OpportunityRelatedContactView.this);
+						ContactSearchCriteria criteria = new ContactSearchCriteria();
+						criteria.setSaccountid(new NumberSearchField(AppContext
+								.getAccountId()));
+						contactSelectionView.setSearchCriteria(criteria);
+						EventBusFactory.getInstance().post(
+								new CrmEvent.PushView(
+										OpportunityRelatedContactView.this,
+										contactSelectionView));
+					}
+				});
+		addBtns.addComponent(selectContact);
+
+		controlBtns.setContent(addBtns);
+
+		Button addContact = new Button();
+		addContact.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = -9214652765562516216L;
+
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				if (!controlBtns.isAttached())
+					controlBtns.showRelativeTo(event.getButton());
+				else
+					controlBtns.close();
+			}
+		});
+		addContact.setStyleName("add-btn");
+		return addContact;
 	}
 
 }

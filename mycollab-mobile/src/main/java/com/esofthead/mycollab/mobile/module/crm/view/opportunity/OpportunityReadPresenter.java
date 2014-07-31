@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -23,12 +26,15 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
+import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
+import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
@@ -37,6 +43,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -170,8 +177,25 @@ public class OpportunityReadPresenter extends
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						// TODO Auto-generated method stub
+						List<ContactOpportunity> associateContacts = new ArrayList<ContactOpportunity>();
+						SimpleOpportunity opportunity = view.getItem();
+						for (SimpleContact contact : items) {
+							ContactOpportunity associateContact = new ContactOpportunity();
+							associateContact.setContactid(contact.getId());
+							associateContact.setOpportunityid(opportunity
+									.getId());
+							associateContact
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
+							associateContacts.add(associateContact);
+						}
 
+						ContactService contactService = ApplicationContextUtil
+								.getSpringBean(ContactService.class);
+						contactService.saveContactOpportunityRelationship(
+								associateContacts, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override
@@ -189,8 +213,24 @@ public class OpportunityReadPresenter extends
 
 					@Override
 					public void selectAssociateItems(Set<SimpleLead> items) {
-						// TODO Auto-generated method stub
+						SimpleOpportunity opportunity = view.getItem();
+						List<OpportunityLead> associateLeads = new ArrayList<OpportunityLead>();
+						for (SimpleLead lead : items) {
+							OpportunityLead associateLead = new OpportunityLead();
+							associateLead.setLeadid(lead.getId());
+							associateLead.setOpportunityid(opportunity.getId());
+							associateLead
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
+							associateLeads.add(associateLead);
+						}
 
+						OpportunityService opportunityService = ApplicationContextUtil
+								.getSpringBean(OpportunityService.class);
+						opportunityService.saveOpportunityLeadRelationship(
+								associateLeads, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override

@@ -175,27 +175,23 @@ public class CampaignReadPresenter extends
 
 					@Override
 					public void selectAssociateItems(Set<SimpleAccount> items) {
-						if (items.size() > 0) {
-							SimpleCampaign campaign = view.getItem();
-							List<CampaignAccount> associateAccounts = new ArrayList<CampaignAccount>();
-							for (SimpleAccount account : items) {
-								CampaignAccount assoAccount = new CampaignAccount();
-								assoAccount.setAccountid(account.getId());
-								assoAccount.setCampaignid(campaign.getId());
-								assoAccount
-										.setCreatedtime(new GregorianCalendar()
-												.getTime());
-								associateAccounts.add(assoAccount);
-							}
-
-							CampaignService accountService = ApplicationContextUtil
-									.getSpringBean(CampaignService.class);
-							accountService.saveCampaignAccountRelationship(
-									associateAccounts,
-									AppContext.getAccountId());
-							EventBusFactory.getInstance().post(
-									new CrmEvent.NavigateBack(this, null));
+						SimpleCampaign campaign = view.getItem();
+						List<CampaignAccount> associateAccounts = new ArrayList<CampaignAccount>();
+						for (SimpleAccount account : items) {
+							CampaignAccount assoAccount = new CampaignAccount();
+							assoAccount.setAccountid(account.getId());
+							assoAccount.setCampaignid(campaign.getId());
+							assoAccount.setCreatedtime(new GregorianCalendar()
+									.getTime());
+							associateAccounts.add(assoAccount);
 						}
+
+						CampaignService accountService = ApplicationContextUtil
+								.getSpringBean(CampaignService.class);
+						accountService.saveCampaignAccountRelationship(
+								associateAccounts, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override
@@ -212,27 +208,24 @@ public class CampaignReadPresenter extends
 
 					@Override
 					public void selectAssociateItems(Set<SimpleContact> items) {
-						if (items.size() > 0) {
-							SimpleCampaign campaign = view.getItem();
-							List<CampaignContact> associateContacts = new ArrayList<CampaignContact>();
-							for (SimpleContact contact : items) {
-								CampaignContact associateContact = new CampaignContact();
-								associateContact.setCampaignid(campaign.getId());
-								associateContact.setContactid(contact.getId());
-								associateContact
-										.setCreatedtime(new GregorianCalendar()
-												.getTime());
-								associateContacts.add(associateContact);
-							}
-
-							CampaignService campaignService = ApplicationContextUtil
-									.getSpringBean(CampaignService.class);
-							campaignService.saveCampaignContactRelationship(
-									associateContacts,
-									AppContext.getAccountId());
-							EventBusFactory.getInstance().post(
-									new CrmEvent.NavigateBack(this, null));
+						SimpleCampaign campaign = view.getItem();
+						List<CampaignContact> associateContacts = new ArrayList<CampaignContact>();
+						for (SimpleContact contact : items) {
+							CampaignContact associateContact = new CampaignContact();
+							associateContact.setCampaignid(campaign.getId());
+							associateContact.setContactid(contact.getId());
+							associateContact
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
+							associateContacts.add(associateContact);
 						}
+
+						CampaignService campaignService = ApplicationContextUtil
+								.getSpringBean(CampaignService.class);
+						campaignService.saveCampaignContactRelationship(
+								associateContacts, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override
@@ -250,27 +243,24 @@ public class CampaignReadPresenter extends
 
 					@Override
 					public void selectAssociateItems(Set<SimpleLead> items) {
-						if (items.size() > 0) {
-							SimpleCampaign campaign = view.getItem();
-							List<CampaignLead> associateLeads = new ArrayList<CampaignLead>();
-							for (SimpleLead lead : items) {
-								CampaignLead associateLead = new CampaignLead();
-								associateLead.setCampaignid(campaign.getId());
-								associateLead.setLeadid(lead.getId());
-								associateLead
-										.setCreatedtime(new GregorianCalendar()
-												.getTime());
-								associateLeads.add(associateLead);
-							}
-
-							CampaignService campaignService = ApplicationContextUtil
-									.getSpringBean(CampaignService.class);
-							campaignService.saveCampaignLeadRelationship(
-									associateLeads, AppContext.getAccountId());
-							EventBusFactory.getInstance().post(
-									new CrmEvent.NavigateBack(this, null));
-
+						SimpleCampaign campaign = view.getItem();
+						List<CampaignLead> associateLeads = new ArrayList<CampaignLead>();
+						for (SimpleLead lead : items) {
+							CampaignLead associateLead = new CampaignLead();
+							associateLead.setCampaignid(campaign.getId());
+							associateLead.setLeadid(lead.getId());
+							associateLead
+									.setCreatedtime(new GregorianCalendar()
+											.getTime());
+							associateLeads.add(associateLead);
 						}
+
+						CampaignService campaignService = ApplicationContextUtil
+								.getSpringBean(CampaignService.class);
+						campaignService.saveCampaignLeadRelationship(
+								associateLeads, AppContext.getAccountId());
+						EventBusFactory.getInstance().post(
+								new CrmEvent.NavigateBack(this, null));
 					}
 
 					@Override
