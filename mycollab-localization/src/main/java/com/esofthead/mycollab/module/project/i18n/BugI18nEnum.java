@@ -23,7 +23,6 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/bug")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum BugI18nEnum {
-	BUTTON_REOPEN,
 	BUTTON_RESOLVED,
 	BUTTON_WONT_FIX,
 	BUTTON_START_PROGRESS,

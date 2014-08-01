@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -488,7 +489,8 @@ public class ProjectTooltipGenerator {
 			Td cell32 = buildCellValue(duedate);
 			Td cell33 = buildCellName(LocalizationHelper.getMessage(locale,
 					VersionI18nEnum.FORM_STATUS));
-			Td cell34 = buildCellValue(version.getStatus());
+			Td cell34 = buildCellValue(LocalizationHelper.getMessage(locale,
+					StatusI18nEnum.class, version.getStatus()));
 			trRow3.appendChild(cell31, cell32, cell33, cell34);
 			tooltipManager.appendRow(trRow3);
 

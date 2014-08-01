@@ -40,6 +40,8 @@ import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -303,7 +305,8 @@ public class BugTableDisplay extends
 						.getIconResourceLink12ByBugSeverity(bug.getPriority()));
 
 				Embedded iconEmbedded = new Embedded(null, iconPriority);
-				Label lbPriority = new Label(bug.getSeverity());
+				Label lbPriority = new Label(AppContext.getMessage(
+						BugSeverity.class, bug.getSeverity()));
 				HorizontalLayout containerField = new HorizontalLayout();
 				containerField.setSpacing(true);
 				containerField.addComponent(iconEmbedded);
@@ -341,6 +344,18 @@ public class BugTableDisplay extends
 			}
 		});
 
+		this.addGeneratedColumn("resolution", new Table.ColumnGenerator() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object generateCell(Table source, Object itemId,
+					Object columnId) {
+				final SimpleBug bug = BugTableDisplay.this
+						.getBeanByIndex(itemId);
+				return new Label(AppContext.getMessage(BugResolution.class,
+						bug.getResolution()));
+			}
+		});
 		this.setWidth("100%");
 	}
 

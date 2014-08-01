@@ -24,10 +24,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -49,7 +51,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 2.0
  */
 public class BeanList<SearchService extends ISearchableService<S>, S extends SearchCriteria, T>
-extends CustomComponent {
+		extends CustomComponent {
 
 	private static Logger log = LoggerFactory.getLogger(BeanList.class);
 	private static final long serialVersionUID = 1L;
@@ -68,7 +70,7 @@ extends CustomComponent {
 
 	public BeanList(Object parentComponent, SearchService searchService,
 			Class<? extends RowDisplayHandler<T>> rowDisplayHandler,
-					Layout contentLayout) {
+			Layout contentLayout) {
 		this.parentComponent = parentComponent;
 		this.searchService = searchService;
 		this.rowDisplayHandler = rowDisplayHandler;
@@ -152,7 +154,8 @@ extends CustomComponent {
 		try {
 			if ((currentListData == null || currentListData.size() == 0)
 					&& isDisplayEmptyListText) {
-				Label noItemLbl = new Label("<<No item>>");
+				Label noItemLbl = new Label(
+						AppContext.getMessage(GenericI18Enum.EXT_NO_ITEM));
 				final VerticalLayout widgetFooter = new VerticalLayout();
 				widgetFooter.addStyleName("widget-footer");
 				widgetFooter.setWidth("100%");

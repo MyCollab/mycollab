@@ -17,11 +17,13 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectTooltipGenerator;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.view.parameters.BugFilterParameter;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -91,15 +93,19 @@ public class DueBugWidget extends BugDisplayWidget {
 			descInfo.setWidth("100%");
 			rowContent.addComponent(descInfo);
 
-			final Label dateInfo = new Label("Due on "
-					+ AppContext.formatDate(bug.getDuedate()) + ". Status: "
-					+ bug.getStatus());
+			String bugInfo = String.format("%s: %s. %s: %s",
+					AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
+					AppContext.formatDate(bug.getDuedate()),
+					AppContext.getMessage(BugI18nEnum.FORM_STATUS),
+					AppContext.getMessage(BugStatus.class, bug.getStatus()));
+			final Label dateInfo = new Label(bugInfo);
 			dateInfo.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			rowContent.addComponent(dateInfo);
 
 			final HorizontalLayout hLayoutDateInfo = new HorizontalLayout();
 			hLayoutDateInfo.setSpacing(true);
-			final Label lbAssignee = new Label("Assignee: ");
+			final Label lbAssignee = new Label(
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
 			lbAssignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			hLayoutDateInfo.addComponent(lbAssignee);
 			hLayoutDateInfo.setComponentAlignment(lbAssignee,

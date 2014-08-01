@@ -23,7 +23,7 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/project")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ProjectI18nEnum {
-	DIALOG_NEW_PROJECT_TITLE,
+	VIEW_NEW_TITLE,
 	
 	FORM_HOME_PAGE,
 	FORM_NAME,
@@ -39,6 +39,10 @@ public enum ProjectI18nEnum {
 	FORM_CURRENCY,
 	FORM_TARGET_BUDGET,
 	FORM_ACTUAL_BUDGET,
+	
+	SECTION_PROJECT_INFO,
+	SECTION_FINANCE_SCHEDULE,
+	SECTION_DESCRIPTION,
 	
 	OPT_CREATED_ON
 }

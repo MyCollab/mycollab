@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
@@ -46,6 +47,7 @@ import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -183,7 +185,8 @@ public class ComponentRelayEmailNotificationActionImpl extends
 	public static class ComponentFieldNameMapper extends ItemFieldMapper {
 		public ComponentFieldNameMapper() {
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
-
+			put("status", new I18nFieldFormat("status",
+					ComponentI18nEnum.FORM_STATUS, StatusI18nEnum.class));
 			put("userlead", new LeadFieldFormat("userlead",
 					ComponentI18nEnum.FORM_LEAD));
 		}

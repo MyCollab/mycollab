@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -40,7 +41,8 @@ public class ComponentHistoryLogList extends HistoryLogComponent {
 		this.generateFieldDisplayHandler("userlead",
 				AppContext.getMessage(ComponentI18nEnum.FORM_LEAD));
 		this.generateFieldDisplayHandler("status",
-				AppContext.getMessage(ComponentI18nEnum.FORM_STATUS));
+				AppContext.getMessage(ComponentI18nEnum.FORM_STATUS),
+				new I18nHistoryFieldFormat(StatusI18nEnum.class));
 	}
 
 }

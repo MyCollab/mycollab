@@ -17,6 +17,9 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AddViewLayout;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
@@ -84,7 +87,8 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		public Layout getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 
-			final Label organizationHeader = new Label("Project Information");
+			final Label organizationHeader = new Label(
+					AppContext.getMessage(ProjectI18nEnum.SECTION_PROJECT_INFO));
 			organizationHeader.setStyleName("h2");
 			layout.addComponent(organizationHeader);
 
@@ -99,7 +103,8 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 					Alignment.BOTTOM_CENTER);
 
 			final Label financialHeader = new Label(
-					"Schedule & Financial Information");
+					AppContext
+							.getMessage(ProjectI18nEnum.SECTION_FINANCE_SCHEDULE));
 			financialHeader.setStyleName("h2");
 			layout.addComponent(financialHeader);
 
@@ -112,7 +117,8 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 			layout.setComponentAlignment(this.financialLayout.getLayout(),
 					Alignment.BOTTOM_CENTER);
 
-			final Label descHeader = new Label("Description");
+			final Label descHeader = new Label(
+					AppContext.getMessage(ProjectI18nEnum.SECTION_DESCRIPTION));
 			descHeader.setStyleName("h2");
 			layout.addComponent(descHeader);
 
@@ -131,36 +137,58 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		@Override
 		public void attachField(final Object propertyId, final Field<?> field) {
 			if (propertyId.equals("name")) {
-				this.informationLayout
-						.addComponent(field, "Project Name", 0, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_NAME), 0, 0);
 			} else if (propertyId.equals("homepage")) {
-				this.informationLayout.addComponent(field, "Home Page", 1, 0);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_HOME_PAGE),
+						1, 0);
 			} else if (propertyId.equals("shortname")) {
-				this.informationLayout.addComponent(field, "Short Name", 0, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_SHORT_NAME),
+						0, 1);
 			} else if (propertyId.equals("projectstatus")) {
-				this.informationLayout.addComponent(field, "Status", 1, 1);
+				this.informationLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_STATUS), 1,
+						1);
 			} else if (propertyId.equals("planstartdate")) {
-				this.financialLayout.addComponent(field, "Plan Start Date", 0,
-						0);
+				this.financialLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(ProjectI18nEnum.FORM_PLAN_START_DATE),
+								0, 0);
 			} else if (propertyId.equals("currencyid")) {
-				this.financialLayout.addComponent(field, "Currency", 1, 0);
+				this.financialLayout.addComponent(field,
+						AppContext.getMessage(ProjectI18nEnum.FORM_CURRENCY),
+						1, 0);
 			} else if (propertyId.equals("planenddate")) {
-				this.financialLayout.addComponent(field, "Plan End Date", 0, 1);
+				this.financialLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_PLAN_END_DATE), 0, 1);
 			} else if (propertyId.equals("defaultbillingrate")) {
-				this.financialLayout.addComponent(field, "Rate", 1, 1);
+				this.financialLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_BILLING_RATE), 1, 1);
 			} else if (propertyId.equals("actualstartdate")) {
-				this.financialLayout.addComponent(field, "Actual Start Date",
-						0, 2);
+				this.financialLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_ACTUAL_START_DATE), 0,
+						2);
 			} else if (propertyId.equals("targetbudget")) {
-				this.financialLayout.addComponent(field, "Target Budget", 1, 2);
+				this.financialLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_TARGET_BUDGET), 1, 2);
 			} else if (propertyId.equals("actualenddate")) {
-				this.financialLayout.addComponent(field, "Actual End Date", 0,
-						3);
+				this.financialLayout
+						.addComponent(
+								field,
+								AppContext
+										.getMessage(ProjectI18nEnum.FORM_ACTUAL_END_DATE),
+								0, 3);
 			} else if (propertyId.equals("actualbudget")) {
-				this.financialLayout.addComponent(field, "Actual Budget", 1, 3);
+				this.financialLayout.addComponent(field, AppContext
+						.getMessage(ProjectI18nEnum.FORM_ACTUAL_BUDGET), 1, 3);
 			} else if (propertyId.equals("description")) {
-				this.descriptionLayout.addComponent(field, "Description", 0, 0,
-						2, "100%");
+				this.descriptionLayout.addComponent(field,
+						AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION),
+						0, 0, 2, "100%");
 			}
 		}
 	}

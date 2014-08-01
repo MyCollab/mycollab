@@ -134,7 +134,8 @@ public class ReOpenWindow extends Window {
 						Alignment.MIDDLE_LEFT);
 
 				final Button wonFixBtn = new Button(
-						AppContext.getMessage(BugI18nEnum.BUTTON_REOPEN),
+						AppContext
+								.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL),
 						new Button.ClickListener() {
 							@Override
 							public void buttonClick(

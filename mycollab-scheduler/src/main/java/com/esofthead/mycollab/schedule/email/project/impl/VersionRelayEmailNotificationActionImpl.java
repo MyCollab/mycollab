@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -42,6 +43,7 @@ import com.esofthead.mycollab.module.tracker.service.VersionService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 import com.hp.gagawa.java.elements.Img;
 
@@ -168,7 +170,8 @@ public class VersionRelayEmailNotificationActionImpl extends
 	public static class VersionFieldNameMapper extends ItemFieldMapper {
 		public VersionFieldNameMapper() {
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
-			put("status", VersionI18nEnum.FORM_STATUS);
+			put("status", new I18nFieldFormat("status",
+					VersionI18nEnum.FORM_STATUS, StatusI18nEnum.class));
 			put("versionname", VersionI18nEnum.FORM_NAME);
 			put("duedate", new DateFieldFormat("duedate",
 					VersionI18nEnum.FORM_DUE_DATE));

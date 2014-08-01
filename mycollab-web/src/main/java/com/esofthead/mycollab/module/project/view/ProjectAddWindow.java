@@ -73,7 +73,7 @@ public class ProjectAddWindow extends Window {
 		this.editForm = new AdvancedEditBeanForm<Project>();
 		contentLayout.addComponent(this.editForm);
 		this.setCaption(AppContext
-				.getMessage(ProjectI18nEnum.DIALOG_NEW_PROJECT_TITLE));
+				.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
 
 		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.editForm

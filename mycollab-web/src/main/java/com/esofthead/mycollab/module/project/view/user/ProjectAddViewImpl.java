@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.user;
 
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
+import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -74,7 +76,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 
 		public FormLayoutFactory() {
 			super(
-					(ProjectAddViewImpl.this.project.getId() == null) ? "New Project"
+					(ProjectAddViewImpl.this.project.getId() == null) ? AppContext
+							.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE)
 							: ProjectAddViewImpl.this.project.getName());
 		}
 
