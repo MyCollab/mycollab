@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.module.servlet;
 
+import static org.mockito.Mockito.when;
+
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,5 +45,7 @@ public class GenericServletTest {
 	public void setUp() {
 		SiteConfiguration.loadInstance(8080);
 		MockitoAnnotations.initMocks(this);
+
+		when(response.getLocale()).thenReturn(Locale.US);
 	}
 }
