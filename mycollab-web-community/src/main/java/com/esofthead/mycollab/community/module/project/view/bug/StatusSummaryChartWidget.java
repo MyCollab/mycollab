@@ -21,7 +21,6 @@ import java.util.List;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.community.ui.chart.PieChartDescriptionBox;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -55,12 +54,12 @@ public class StatusSummaryChartWidget extends
 
 	public StatusSummaryChartWidget(int width, int height) {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
-				width, height);
+				BugStatus.class, width, height);
 	}
 
 	public StatusSummaryChartWidget() {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE),
-				400, 280);
+				BugStatus.class, 400, 280);
 	}
 
 	@Override
@@ -88,15 +87,14 @@ public class StatusSummaryChartWidget extends
 			boolean isFound = false;
 			for (GroupItem item : groupItems) {
 				if (status.name().equals(item.getGroupid())) {
-					dataset.setValue(AppContext.getMessage(status),
-							item.getValue());
+					dataset.setValue(status.name(), item.getValue());
 					isFound = true;
 					break;
 				}
 			}
 
 			if (!isFound) {
-				dataset.setValue(status, 0);
+				dataset.setValue(status.name(), 0);
 			}
 		}
 
@@ -115,11 +113,6 @@ public class StatusSummaryChartWidget extends
 		EventBusFactory.getInstance().post(
 				new BugEvent.GotoList(this, new BugScreenData.Search(param)));
 
-	}
-
-	@Override
-	protected ComponentContainer createLegendBox() {
-		return PieChartDescriptionBox.createLegendBox(this, pieDataSet);
 	}
 
 }

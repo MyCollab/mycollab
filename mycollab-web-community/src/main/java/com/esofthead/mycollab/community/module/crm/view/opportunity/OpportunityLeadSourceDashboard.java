@@ -21,7 +21,6 @@ import java.util.List;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.community.ui.chart.PieChartDescriptionBox;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -109,26 +108,6 @@ public class OpportunityLeadSourceDashboard extends
 		EventBusFactory.getInstance().post(
 				new OpportunityEvent.GotoList(this, searchCriteria));
 
-	}
-
-	@Override
-	protected ComponentContainer createLegendBox() {
-		final DefaultPieDataset dataset = new DefaultPieDataset();
-		final String[] leadSources = CrmDataTypeFactory.getLeadSourceList();
-		for (final String source : leadSources) {
-			boolean isFound = false;
-			for (final GroupItem item : groupItems) {
-				if (source.equals(item.getGroupid())) {
-					dataset.setValue(source, item.getCountNum());
-					isFound = true;
-					break;
-				}
-			}
-			if (!isFound) {
-				dataset.setValue(source, 0);
-			}
-		}
-		return PieChartDescriptionBox.createLegendBox(this, dataset);
 	}
 
 }

@@ -2,3 +2,6 @@ mycollab-app-community/logs/mycollab.out
 mycollab-app-community/logs/mycollab.out.1
 mycollab-app-community/mail-repo/.lock
 mycollab-app-community/mail-repo/cluster_node.id
+mycollab-app-community/repo2/content-workspace/.lock
+mycollab-app-community/repo2/content-workspace/cluster_node.id
+mycollab-app-community/repo2/workspaces/default2/workspace.xml

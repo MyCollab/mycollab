@@ -17,16 +17,31 @@
 package com.esofthead.mycollab.community.ui.chart;
 
 import java.awt.Color;
+import java.text.AttributedString;
 import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.Rotation;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.web.CustomLayoutLoader;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Button.ClickEvent;
 
 /**
  * 
@@ -39,8 +54,16 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends
 
 	protected DefaultPieDataset pieDataSet;
 
+	private Class<? extends Enum<?>> enumKeyCls;
+
 	public PieChartWrapper(final String title, final int width, final int height) {
 		super(title, width, height);
+	}
+
+	public PieChartWrapper(final String title,
+			Class<? extends Enum<?>> emumKey, final int width, final int height) {
+		super(title, width, height);
+		this.enumKeyCls = emumKey;
 	}
 
 	@Override
@@ -83,4 +106,86 @@ public abstract class PieChartWrapper<S extends SearchCriteria> extends
 	protected abstract DefaultPieDataset createDataset();
 
 	protected abstract void onClickedDescription(String key);
+
+	class JFreeChartLabelCustom implements PieSectionLabelGenerator {
+
+		@Override
+		public String generateSectionLabel(PieDataset dataset, Comparable key) {
+			String result = null;
+			if (dataset != null) {
+				int value = dataset.getValue(key).intValue();
+				if (value == 0) {
+					return null;
+				}
+
+				if (enumKeyCls == null) {
+					return String.format("%s (%d)", key.toString(), value);
+				} else {
+					return String.format("%s (%d)",
+							AppContext.getMessage(enumKeyCls, key.toString()),
+							value);
+				}
+			}
+			return result;
+		}
+
+		@Override
+		public AttributedString generateAttributedSectionLabel(
+				PieDataset dataset, Comparable key) {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+	}
+
+	@Override
+	protected final ComponentContainer createLegendBox() {
+		final CustomLayout boxWrapper = CustomLayoutLoader
+				.createLayout("legendBox");
+		final CssLayout mainLayout = new CssLayout();
+
+		mainLayout.setSizeUndefined();
+		final List keys = pieDataSet.getKeys();
+
+		for (int i = 0; i < keys.size(); i++) {
+			final HorizontalLayout layout = new HorizontalLayout();
+			layout.setMargin(new MarginInfo(false, false, false, true));
+			layout.addStyleName("inline-block");
+			final Comparable key = (Comparable) keys.get(i);
+			final String color = "<div style = \" width:8px;height:8px;border-radius:5px;background: #"
+					+ GenericChartWrapper.CHART_COLOR_STR[i
+							% GenericChartWrapper.CHART_COLOR_STR.length]
+					+ "\" />";
+			final Label lblCircle = new Label(color);
+			lblCircle.setContentMode(ContentMode.HTML);
+
+			String btnCaption = "";
+			if (enumKeyCls == null) {
+				btnCaption = String.format("%s(%d)", key,
+						pieDataSet.getValue(key).intValue());
+			} else {
+				btnCaption = String.format("%s(%d)",
+						AppContext.getMessage(enumKeyCls, key.toString()),
+						pieDataSet.getValue(key).intValue());
+			}
+			final Button btnLink = new Button(btnCaption,
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							PieChartWrapper.this.onClickedDescription(key
+									.toString());
+						}
+					});
+			btnLink.addStyleName("link");
+			layout.addComponent(lblCircle);
+			layout.setComponentAlignment(lblCircle, Alignment.MIDDLE_CENTER);
+			layout.addComponent(btnLink);
+			layout.setComponentAlignment(btnLink, Alignment.MIDDLE_CENTER);
+			layout.setSizeUndefined();
+			mainLayout.addComponent(layout);
+		}
+		boxWrapper.setWidth("100%");
+		boxWrapper.addComponent(mainLayout, "legendBoxContent");
+		return boxWrapper;
+	}
 }

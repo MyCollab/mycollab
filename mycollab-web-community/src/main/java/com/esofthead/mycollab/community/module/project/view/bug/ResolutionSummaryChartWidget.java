@@ -21,7 +21,6 @@ import java.util.List;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.community.ui.chart.PieChartDescriptionBox;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -49,19 +48,19 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 @ViewComponent
-public class BugResolutionSummaryChartWidget extends
+public class ResolutionSummaryChartWidget extends
 		PieChartWrapper<BugSearchCriteria> implements
 		IBugResolutionSummaryChartWidget {
 	private static final long serialVersionUID = 1L;
 
-	public BugResolutionSummaryChartWidget(int width, int height) {
+	public ResolutionSummaryChartWidget(int width, int height) {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-				width, height);
+				BugResolution.class, width, height);
 	}
 
-	public BugResolutionSummaryChartWidget() {
+	public ResolutionSummaryChartWidget() {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE),
-				400, 280);
+				BugResolution.class, 400, 280);
 
 	}
 
@@ -90,15 +89,14 @@ public class BugResolutionSummaryChartWidget extends
 			boolean isFound = false;
 			for (GroupItem item : groupItems) {
 				if (resolution.name().equals(item.getGroupid())) {
-					dataset.setValue(AppContext.getMessage(resolution),
-							item.getValue());
+					dataset.setValue(resolution.name(), item.getValue());
 					isFound = true;
 					break;
 				}
 			}
 
 			if (!isFound) {
-				dataset.setValue(AppContext.getMessage(resolution), 0);
+				dataset.setValue(resolution.name(), 0);
 			}
 		}
 
@@ -116,11 +114,6 @@ public class BugResolutionSummaryChartWidget extends
 				searchCriteria);
 		EventBusFactory.getInstance().post(
 				new BugEvent.GotoList(this, new BugScreenData.Search(param)));
-	}
-
-	@Override
-	protected ComponentContainer createLegendBox() {
-		return PieChartDescriptionBox.createLegendBox(this, pieDataSet);
 	}
 
 }

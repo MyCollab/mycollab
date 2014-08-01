@@ -27,14 +27,14 @@
 				</div>
 				<hr size="1">
 				<div >
-					<table>
+					<table style="width: 100%">
 					 	<tr>
-					 		<td style="width: 350px; vertical-align:top; padding-top:20px;">小文字、大文字、および数字の組み合わせで強力なパスワードを作成してください。パスワードは大文字と小文字が区別され、少なくとも6文字以上でなければなりません。</td>
-					 		<td style="display: inline-block; vertical-align: top;">
+					 		<td style="width: 50%; vertical-align:top; padding-top:20px;">小文字、大文字、および数字の組み合わせで強力なパスワードを作成してください。パスワードは大文字と小文字が区別され、少なくとも6文字以上でなければなりません。</td>
+					 		<td style="display: inline-block; vertical-align: top; width: 50%">
 								<div id="mainContent" style="height:100%;">
 					  				 <div>
 										<form>
-										<table border="0">
+										<table border="0" style="width: 100%">
 										<tbody>
 										<tr>
 											<td style="padding-top:8px;"><label for="password">パスワード:</label></td>

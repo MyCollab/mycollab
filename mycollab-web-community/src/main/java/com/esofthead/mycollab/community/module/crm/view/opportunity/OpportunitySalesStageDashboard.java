@@ -21,7 +21,6 @@ import java.util.List;
 import org.jfree.data.general.DefaultPieDataset;
 
 import com.esofthead.mycollab.common.domain.GroupItem;
-import com.esofthead.mycollab.community.ui.chart.PieChartDescriptionBox;
 import com.esofthead.mycollab.community.ui.chart.PieChartWrapper;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -107,10 +106,4 @@ public class OpportunitySalesStageDashboard extends
 		EventBusFactory.getInstance().post(
 				new OpportunityEvent.GotoList(this, searchCriteria));
 	}
-
-	@Override
-	protected ComponentContainer createLegendBox() {
-		return PieChartDescriptionBox.createLegendBox(this, pieDataSet);
-	}
-
 }

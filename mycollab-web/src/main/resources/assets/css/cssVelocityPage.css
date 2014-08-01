@@ -9,6 +9,9 @@ body {
 	padding: 0; 
 	width: 100%;
 }
+img {
+	border: none;
+}
 #body {
 	padding-bottom: 40px;
 }
@@ -101,6 +104,10 @@ a {
 	color: #4a4a4a;
 	height: 35px;
 	font-size: 17px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 100%;
 }
 
 #mainBody input[type="checkbox"] {
