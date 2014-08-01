@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div >
-					<h3>
 						アカウント活性のため、メールに送信されたリンクをクリックし、アクセスしてください。もしくは、お客様サポートチームにてご連絡ください。
-					</h3>
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">ログイン</span></button>

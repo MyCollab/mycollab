@@ -19,36 +19,38 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1><span style="font-style:italic; font-size:20px;">$!username</span>様、ようこそ！<h1>
+					<h1><span style="font-style:italic; font-size:20px;">$!username</span>様、ようこそ！</h1>
 				</div>
-				<hr size="1" style="margin: 1px 0 1px 0; ">
-				<hr size="1" style="margin: 1px 0 1px 0; ">
+				<hr size="1">
 				<div>
-					<table >
+					<table style="width: 100%" cellspacing="0" cellpadding="0">
 					 	<tr>
-					 		<td style="vertical-align: top; width: 400px;"><h3>招待を受諾していただきありがとうございます！MyCollabに新規登録の場合は、パスワードを入力してください：</h3></td>
-					 		<td style="display: inline-block; vertical-align: top;">
+					 		<td style="vertical-align: top; width: 50%; padding-top: 10px;">招待を受諾していただきありがとうございます！MyCollabに新規登録の場合は、パスワードを入力してください：</td>
+					 		<td style="vertical-align: top; width: 50%">
 								<div id="mainContent">
 					  				 <div>
 										<form>
-										<table border="0" style="width:100%">
+										<table border="0" style="width:100%" cellspacing="0" cellpadding="0">
 										<tbody>
 										<tr>
-											<td "><label for="password"><h3 style="margin-top:0">パスワード:<h3></label></td>
+											<td><label for="password">パスワード:</label></td>
 										</tr>
 										<tr>
-											<td><input id="password" maxlength="45" name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>
+											<td><input id="password" maxlength="45" name="password" type="password"/></td>
 										</tr>
 										<tr>
-											<td><label for="password"><h3>パスワードを確認:<h3></label></td>
+                                            <td style="height:10px;"></td>
+                                        </tr>
+										<tr>
+											<td><label for="password">パスワードを確認:</label></td>
 										</tr>
 										<tr>
-											<td><input id="repassword"  name="password" type="password" style="width:100%;height:35px;border: 1px solid rgb(169, 169, 169);"/></td>
+											<td><input id="repassword"  name="password" type="password"/></td>
 										</tr>
 										</tbody></table>
 										</form>
 									</div>
-									<div style="padding-top: 15px; padding-left:250px;">
+									<div style="padding-top: 15px; text-align: right;">
 										<button class="v-button v-button-orangebtn" type="button" onclick="return updateInfoAction();"><span style="font-family: 'Georgia';font-size: 15px;">更新 & 次へ</span></button>
 									</div>
 								</div>

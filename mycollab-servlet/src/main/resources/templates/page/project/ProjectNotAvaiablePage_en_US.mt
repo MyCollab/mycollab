@@ -24,9 +24,7 @@
                 </div>
                 <hr size="1">
                 <div >
-                    <h3>
                     <span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif;">We can't find the page you asked for. If you think something is wrong, please contact your project administrator for more information.</span>
-                    </h3>
                 </div>
                 <div style="text-align:right;">
                     <button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>

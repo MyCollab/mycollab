@@ -175,9 +175,6 @@ a {
     font-weight: bold;
     line-height: 165px;
 }
-#error_display {
-    float: left;
-}
 #error_code {
     color: #3474B0;
     font-family: "Lucida Bright",Arial,sans-serif;
@@ -197,10 +194,11 @@ a {
 }
 #content_left {
 	float: left;
+	width: 40%;
 }
 #content_right {
     float: left;
-    width: 480px;
+    width: 60%;
 }
 #error_excuse {
     padding-left: 30px;

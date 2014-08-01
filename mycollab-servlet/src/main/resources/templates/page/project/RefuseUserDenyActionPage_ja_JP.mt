@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div >
-					<h3>
 						Your account has already been activated.
-					</h3>
 				</div>
 				<div class="right">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>

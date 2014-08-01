@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div>
-					<h3>
 						すみません！この招待が7日間以内に承諾できるので、招待を再送信されるようにプロジェクト管理者にてお問い合わせください。
-					</h3>
 				</div>
 				<div class="right">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>ログイン</span></button>

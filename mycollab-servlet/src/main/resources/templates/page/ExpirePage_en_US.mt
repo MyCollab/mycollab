@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div>
-					<h3>
 						You can only accept this invitation within 7 days. Please ask your Project Admin to resend the invitation.
-					</h3>
 				</div>
 				<div class="right">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span>Login</span></button>

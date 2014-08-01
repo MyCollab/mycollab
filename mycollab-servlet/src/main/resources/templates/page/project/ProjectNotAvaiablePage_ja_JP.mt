@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div >
-					<h3>
 					<span style="vertical-align:center; padding-top:20px;font: 16px 'verdana', sans-serif;">検索中のページが見つかりません。何かが間違っていると思われる場合は、プロジェクト管理者にてご連絡ください。</span>
-					</h3>
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">ログイン</span></button>

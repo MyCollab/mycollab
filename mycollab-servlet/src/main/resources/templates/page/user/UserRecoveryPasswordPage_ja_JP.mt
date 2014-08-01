@@ -37,7 +37,7 @@
 										<table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
 										<tbody>
 										<tr>
-											<td style="padding-top:8px;"><label for="password">パスワード:</label></td>
+											<td><label for="password">パスワード:</label></td>
 										</tr>
 										<tr>
 											<td><input id="password" maxlength="45" name="password" type="password"/></td>

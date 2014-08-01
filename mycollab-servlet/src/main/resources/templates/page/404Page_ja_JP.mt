@@ -20,7 +20,7 @@
 			<div id="spacing"></div>
 			<div id="mainBody">
 				<div id="title">
-					<h1>ページが見つかりません</h>
+					<h1>ページが見つかりません</h1>
 				</div>
 				<hr size="1">
 				<div id="content" style="padding-top: 20px">
@@ -36,7 +36,7 @@
 						<div id="error_excuse">
 							<p>お探しのページが見つかりません。悪いリンクか、又は間違ったアドレスのいずれかの問題です。何か問題が発生したと判断したら、<a class="v-button-bluebtn" style="text-decoration : none;" href="mailto:support@mycollab.com">ご連絡ください。<a/></p>
 						</div>
-						<div id="back_to_home" style="padding-left:60px;">
+						<div id="back_to_home" style="padding-left:30px;">
 							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">ホームページへ戻る</a>
 						</div>
 						<div class="clear"></div>

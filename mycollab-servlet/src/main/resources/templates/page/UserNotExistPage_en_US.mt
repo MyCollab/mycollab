@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div >
-					<h3>
 						The user ${username} is not existed in our database system. 
-					</h3>
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>

@@ -22,10 +22,8 @@
 				<div id="title">
 					<h1>Deny invitation page</h1>
 				<hr size="1">
-				<div >
-					<h3>
-						We regret you do not want to use MyCollab any longer. We're very glad to show you what things which My Collab Online Tools can help your business. Welcome and take a look. 
-					</h3>
+				<div>
+						We regret you do not want to use MyCollab any longer. We're very glad to show you what things which My Collab Online Tools can help your business. Welcome and take a look.
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Take a look</span></button>

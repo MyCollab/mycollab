@@ -24,9 +24,7 @@
 				</div>
 				<hr size="1">
 				<div >
-					<h3>
 						Your account has not been activated yet. Please click on the link in the email we sent to activate or you can contact our Customer Support team for assistance.
-					</h3>
 				</div>
 				<div style="text-align:right;">
 					<button class="v-button v-button-orangebtn" type="button" onclick="return login();"><span style="font-family: 'verdana';font-size: 15px;">Login</span></button>
