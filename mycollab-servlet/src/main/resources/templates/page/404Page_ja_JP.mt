@@ -36,8 +36,8 @@
 						<div id="error_excuse">
 							<p>お探しのページが見つかりません。悪いリンクか、又は間違ったアドレスのいずれかの問題です。何か問題が発生したと判断したら、<a class="v-button-bluebtn" style="text-decoration : none;" href="mailto:support@mycollab.com">ご連絡ください。<a/></p>
 						</div>
-						<div id="back_to_home" style="padding-left:60px;padding-top:20px;">
-							<a class="v-button-bluebtn" style="text-decoration : none;" href="https://www.mycollab.com">ホームページへ戻る</a>
+						<div id="back_to_home" style="padding-left:60px;">
+							<a class="v-button v-button-orangebtn" style="text-decoration : none;" href="https://www.mycollab.com">ホームページへ戻る</a>
 						</div>
 						<div class="clear"></div>
 					</div>

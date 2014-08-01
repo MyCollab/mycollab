@@ -72,7 +72,7 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 					context.put("loginURL", loginURL);
 					context.put("redirectURL", redirectURL);
 
-					String html = generatePageByTemplate(
+					String html = generatePageByTemplate(response.getLocale(),
 							"templates/page/user/UserRecoveryPasswordPage.mt",
 							context);
 					PrintWriter out = response.getWriter();

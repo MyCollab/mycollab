@@ -92,7 +92,8 @@ a {
 	width: 936px;
 	margin: 0 auto;
 	color: #FFFFFF;
-	font: 20px 'Georgia', sans-serif;
+	font: 18px 'Georgia', sans-serif;
+	line-height: 1.5em;
 }
 
 #mainBody input[type="text"], #mainBody input[type="password"] {
@@ -139,12 +140,12 @@ a {
 }
 
 .v-button {
-	border: 1px solid #093768;
 	color: #FFFFFF;
 	border-radius: 1px;
 	padding: 10px 8px 10px 8px;
 	opacity: 0.9;
 	cursor: pointer;
+	border: none;
 }
 
 .v-button-orangebtn {
@@ -164,7 +165,6 @@ a {
 }
 
 .v-button:hover {
-	border: 1px solid #093768;
 	opacity: 1;
 }
 #exclamation_mark {
@@ -192,7 +192,8 @@ a {
 }
 #content {
 	color: #FFFFFF;
-	font: 20px 'Georgia',sans-serif;
+	font: 18px 'Georgia',sans-serif;
+	line-height: 1.5em;
 }
 #content_left {
 	float: left;

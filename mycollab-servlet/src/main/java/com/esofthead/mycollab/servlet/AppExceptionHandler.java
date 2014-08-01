@@ -63,7 +63,8 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 		}
 
 		try {
-			if (status_code == 404) {
+			if ((status_code != null && status_code == 404)
+					|| ("404".equals(request.getParameter("param")))) {
 				responsePage404(response);
 			} else {
 				responsePage500(response);
@@ -88,7 +89,7 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 		TemplateContext context = new TemplateContext();
 
 		Reader reader = LocalizationHelper.templateReader(pageNotFoundTemplate,
-				SiteConfiguration.getDefaultLocale());
+				response.getLocale());
 
 		Map<String, String> defaultUrls = new HashMap<String, String>();
 
@@ -110,7 +111,7 @@ public class AppExceptionHandler extends GenericServletRequestHandler {
 		TemplateContext context = new TemplateContext();
 
 		Reader reader = LocalizationHelper.templateReader(errorPage,
-				SiteConfiguration.getDefaultLocale());
+				response.getLocale());
 		Map<String, String> defaultUrls = new HashMap<String, String>();
 
 		defaultUrls.put("cdn_url", SiteConfiguration.getCdnUrl());

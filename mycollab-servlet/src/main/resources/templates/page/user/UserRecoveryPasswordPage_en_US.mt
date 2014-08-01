@@ -27,14 +27,14 @@
                 </div>
                 <hr size="1">
                 <div >
-                    <table style="width: 100%">
+                    <table style="width: 100%" cellspacing="0" cellpadding="0">
                         <tr>
                             <td style="width: 50%; vertical-align:top; padding-top:20px;">Create a strong password with a combination of lowercase, uppercase, and digits. Passwords are case sensitive and must be 6 or more characters in length.</td>
-                            <td style="display: inline-block; vertical-align: top; width: 50%">
+                            <td style="vertical-align: top; width: 50%">
                                 <div id="mainContent" style="height:100%;">
                                      <div>
                                         <form>
-                                        <table border="0" style="width: 100%">
+                                        <table border="0" style="width: 100%" cellspacing="0" cellpadding="0">
                                         <tbody>
                                         <tr>
                                             <td style="padding-top:8px;"><label for="password">Password:</label></td>

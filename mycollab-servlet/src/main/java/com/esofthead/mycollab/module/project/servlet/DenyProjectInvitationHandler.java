@@ -91,7 +91,7 @@ public class DenyProjectInvitationHandler extends
 					Map<String, Object> context = new HashMap<String, Object>();
 					context.put("loginURL", request.getContextPath() + "/");
 
-					String html = generatePageByTemplate(
+					String html = generatePageByTemplate(response.getLocale(),
 							PROJECT_NOT_AVAILABLE_TEMPLATE, context);
 					PrintWriter out = response.getWriter();
 					out.println(html);
@@ -109,7 +109,7 @@ public class DenyProjectInvitationHandler extends
 									SiteConfiguration.getSiteUrl(subdomain),
 									projectId));
 
-					String html = generatePageByTemplate(
+					String html = generatePageByTemplate(response.getLocale(),
 							REFUSE_MEMBER_DENY_TEMPLATE, context);
 					PrintWriter out = response.getWriter();
 					out.println(html);
@@ -127,7 +127,7 @@ public class DenyProjectInvitationHandler extends
 					context.put("sAccountId", sAccountId);
 					context.put("projectId", projectId);
 
-					String html = generatePageByTemplate(
+					String html = generatePageByTemplate(response.getLocale(),
 							DENY_FEEDBACK_TEMPLATE, context);
 
 					PrintWriter out = response.getWriter();

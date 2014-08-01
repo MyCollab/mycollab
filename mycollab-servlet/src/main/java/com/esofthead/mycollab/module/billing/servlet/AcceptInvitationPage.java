@@ -133,6 +133,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 							context.put("redirectURL", redirectURL);
 							context.put("loginURL", loginURL);
 							String html = generatePageByTemplate(
+									response.getLocale(),
 									"templates/page/user/FillUserInformation.mt",
 									context);
 							PrintWriter out = response.getWriter();

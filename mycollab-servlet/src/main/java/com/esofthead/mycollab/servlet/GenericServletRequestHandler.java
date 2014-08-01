@@ -18,6 +18,7 @@ package com.esofthead.mycollab.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.HttpRequestHandler;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 
 /**
@@ -40,6 +42,7 @@ public abstract class GenericServletRequestHandler implements
 	public void handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
+			response.setLocale(getResponseLocale(request));
 			response.setCharacterEncoding("UTF-8");
 			onHandleRequest(request, response);
 		} catch (Exception e) {
@@ -50,6 +53,15 @@ public abstract class GenericServletRequestHandler implements
 				throw new ServletException(e);
 			}
 		}
+	}
+
+	protected Locale getResponseLocale(HttpServletRequest request) {
+		String locale = request.getParameter("locale");
+		if (locale != null) {
+			return SiteConfiguration.toLocale(locale);
+		}
+
+		return SiteConfiguration.getDefaultLocale();
 	}
 
 	abstract protected void onHandleRequest(HttpServletRequest request,

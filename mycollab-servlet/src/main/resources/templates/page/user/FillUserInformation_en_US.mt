@@ -10,7 +10,7 @@
     background-image: url('${defaultUrls.cdn_url}footer-clouds.png');  background-repeat: no-repeat;  background-position: bottom right;
 }
 </style>
-<title>User accept the invitation page</title>
+<title>Create New Password</title>
 </head>
 <body style="height: 100%; margin: 0; padding: 0; width: 100%;">
 	<div id="container">

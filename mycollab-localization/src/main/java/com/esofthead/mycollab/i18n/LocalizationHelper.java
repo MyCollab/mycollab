@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
 
-import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 
@@ -72,17 +71,6 @@ public class LocalizationHelper {
 		try {
 			IMessageConveyor messageConveyor = getMessageConveyor(locale);
 			return messageConveyor.getMessage(key, objects);
-		} catch (Exception e) {
-			log.error("Can not find resource key " + key, e);
-			return "Undefined";
-		}
-	}
-
-	public static String getMessage(String language, Enum<?> key,
-			Object... objects) {
-		try {
-			Locale locale = LocaleHelper.toLocale(language);
-			return getMessage(locale, key, objects);
 		} catch (Exception e) {
 			log.error("Can not find resource key " + key, e);
 			return "Undefined";

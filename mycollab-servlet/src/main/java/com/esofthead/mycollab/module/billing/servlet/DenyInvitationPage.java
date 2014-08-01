@@ -93,6 +93,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 						Map<String, Object> context = new HashMap<String, Object>();
 						context.put("loginURL", request.getContextPath() + "/");
 						String html = generatePageByTemplate(
+								response.getLocale(),
 								"templates/page/project/RefuseUserDenyActionPage.mt",
 								context);
 						PrintWriter out = response.getWriter();
@@ -120,6 +121,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 						context.put("projectId", 0);
 						context.put("projectRoleId", 0);
 						String html = generatePageByTemplate(
+								response.getLocale(),
 								USER_DENY_FEEDBACK_TEMPLATE, context);
 
 						PrintWriter out = response.getWriter();
@@ -132,7 +134,8 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 						context.put("loginURL", request.getContextPath() + "/");
 
 						String html = generatePageByTemplate(
-								USER_HAS_DENIED_PAGE, context);
+								response.getLocale(), USER_HAS_DENIED_PAGE,
+								context);
 
 						PrintWriter out = response.getWriter();
 						out.println(html);

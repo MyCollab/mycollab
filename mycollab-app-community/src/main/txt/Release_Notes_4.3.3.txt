@@ -44,6 +44,8 @@
     Improvements
         - Update Japanese localization
         - Update mobile module
+        - Support chart localization
+        - Improve page template
     
     Bug Fixes
         - Remove border of Create Project button

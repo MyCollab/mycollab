@@ -104,7 +104,8 @@ public class AcceptProjectInvitationHandler extends
 					context.put("inviterEmail", inviterEmail);
 					context.put("inviterName", inviterName);
 
-					String html = generatePageByTemplate(EXPIER_PAGE, context);
+					String html = generatePageByTemplate(response.getLocale(),
+							EXPIER_PAGE, context);
 
 					PrintWriter out = response.getWriter();
 					out.println(html);
@@ -205,8 +206,8 @@ public class AcceptProjectInvitationHandler extends
 		context.put("roleId", projectRoleId);
 		context.put("inviterName", inviterName);
 
-		String html = generatePageByTemplate(OUTSIDE_MEMBER_WELCOME_PAGE,
-				context);
+		String html = generatePageByTemplate(response.getLocale(),
+				OUTSIDE_MEMBER_WELCOME_PAGE, context);
 
 		PrintWriter out = null;
 		try {

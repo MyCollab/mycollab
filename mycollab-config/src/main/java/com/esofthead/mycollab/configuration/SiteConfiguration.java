@@ -271,7 +271,7 @@ public class SiteConfiguration {
 		return getInstance().serverPort;
 	}
 
-	private static Locale toLocale(String language) {
+	public static Locale toLocale(String language) {
 		if (language == null) {
 			return Locale.US;
 		}

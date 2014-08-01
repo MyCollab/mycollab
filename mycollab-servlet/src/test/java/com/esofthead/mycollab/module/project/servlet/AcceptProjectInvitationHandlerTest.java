@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -86,13 +87,17 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 
 		verifyPrjMemberHandler.onHandleRequest(request, response);
 
+		ArgumentCaptor<Locale> localeArgument = ArgumentCaptor
+				.forClass(Locale.class);
+
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
 		verify(verifyPrjMemberHandler).generatePageByTemplate(
-				strArgument.capture(), mapArgument.capture());
+				localeArgument.capture(), strArgument.capture(),
+				mapArgument.capture());
 		Assert.assertEquals(AcceptProjectInvitationHandler.EXPIER_PAGE,
 				strArgument.getValue());
 	}
@@ -131,13 +136,17 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 
 		verifyPrjMemberHandler.onHandleRequest(request, response);
 
+		ArgumentCaptor<Locale> localeArgument = ArgumentCaptor
+				.forClass(Locale.class);
+
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
 		verify(verifyPrjMemberHandler).generatePageByTemplate(
-				strArgument.capture(), mapArgument.capture());
+				localeArgument.capture(), strArgument.capture(),
+				mapArgument.capture());
 		Assert.assertEquals(
 				AcceptProjectInvitationHandler.OUTSIDE_MEMBER_WELCOME_PAGE,
 				strArgument.getValue());

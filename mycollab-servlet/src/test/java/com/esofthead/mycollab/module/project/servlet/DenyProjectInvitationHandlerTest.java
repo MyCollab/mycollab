@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -68,13 +69,17 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 		denyInvitationHandler.onHandleRequest(request, response);
 
+		ArgumentCaptor<Locale> localeArgument = ArgumentCaptor
+				.forClass(Locale.class);
+
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
 		verify(denyInvitationHandler).generatePageByTemplate(
-				strArgument.capture(), mapArgument.capture());
+				localeArgument.capture(), strArgument.capture(),
+				mapArgument.capture());
 		Assert.assertEquals(
 				DenyProjectInvitationHandler.PROJECT_NOT_AVAILABLE_TEMPLATE,
 				strArgument.getValue());
@@ -97,13 +102,17 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 		denyInvitationHandler.onHandleRequest(request, response);
 
+		ArgumentCaptor<Locale> localeArgument = ArgumentCaptor
+				.forClass(Locale.class);
+
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
 		verify(denyInvitationHandler).generatePageByTemplate(
-				strArgument.capture(), mapArgument.capture());
+				localeArgument.capture(), strArgument.capture(),
+				mapArgument.capture());
 		Assert.assertEquals(
 				DenyProjectInvitationHandler.REFUSE_MEMBER_DENY_TEMPLATE,
 				strArgument.getValue());
@@ -122,13 +131,17 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 
 		denyInvitationHandler.onHandleRequest(request, response);
 
+		ArgumentCaptor<Locale> localeArgument = ArgumentCaptor
+				.forClass(Locale.class);
+
 		ArgumentCaptor<String> strArgument = ArgumentCaptor
 				.forClass(String.class);
 
 		ArgumentCaptor<Map> mapArgument = ArgumentCaptor.forClass(Map.class);
 
 		verify(denyInvitationHandler).generatePageByTemplate(
-				strArgument.capture(), mapArgument.capture());
+				localeArgument.capture(), strArgument.capture(),
+				mapArgument.capture());
 		Assert.assertEquals(
 				DenyProjectInvitationHandler.DENY_FEEDBACK_TEMPLATE,
 				strArgument.getValue());

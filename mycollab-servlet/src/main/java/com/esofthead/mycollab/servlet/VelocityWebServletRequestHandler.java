@@ -19,6 +19,7 @@ package com.esofthead.mycollab.servlet;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,9 @@ public abstract class VelocityWebServletRequestHandler extends
 
 	protected TemplateContext pageContext = new TemplateContext();
 
-	public String generatePageByTemplate(String templatePath,
+	public String generatePageByTemplate(Locale locale, String templatePath,
 			Map<String, Object> params) {
-		Reader reader = LocalizationHelper.templateReader(templatePath,
-				SiteConfiguration.getDefaultLocale());
+		Reader reader = LocalizationHelper.templateReader(templatePath, locale);
 
 		if (params != null) {
 			for (String key : params.keySet()) {
