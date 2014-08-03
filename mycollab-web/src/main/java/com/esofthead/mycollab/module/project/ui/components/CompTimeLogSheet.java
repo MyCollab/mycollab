@@ -19,8 +19,6 @@ package com.esofthead.mycollab.module.project.ui.components;
 import java.util.Arrays;
 import java.util.List;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -35,7 +33,6 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -50,7 +47,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -293,35 +289,12 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 										@Override
 										public void buttonClick(
 												final ClickEvent event) {
-											ConfirmDialogExt.show(
-													UI.getCurrent(),
-													"Please Confirm:",
-													"Are you sure to delete this entry?",
-													AppContext
-															.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-													AppContext
-															.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-													new ConfirmDialog.Listener() {
-														private static final long serialVersionUID = 1L;
-
-														@Override
-														public void onClose(
-																final ConfirmDialog dialog) {
-															if (dialog
-																	.isConfirmed()) {
-																CompTimeLogSheet.this.itemTimeLoggingService
-																		.removeWithSession(
-																				itemTimeLogging
-																						.getId(),
-																				AppContext
-																						.getUsername(),
-																				AppContext
-																						.getAccountId());
-																AddTimeInvest.this
-																		.loadTimeInvestItem();
-															}
-														}
-													});
+											CompTimeLogSheet.this.itemTimeLoggingService.removeWithSession(
+													itemTimeLogging.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											AddTimeInvest.this
+													.loadTimeInvestItem();
 										}
 									});
 							deleteBtn.setStyleName("link");

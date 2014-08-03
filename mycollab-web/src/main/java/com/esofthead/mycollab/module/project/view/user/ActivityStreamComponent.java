@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
+import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -170,7 +170,7 @@ public class ActivityStreamComponent extends CssLayout {
 											projectLink);
 						}
 						if (activityStream.getAssoAuditLog() != null) {
-							content += ProjectActivityStreamGenerator
+							content += ProjectAuditLogStreamGenerator
 									.generatorDetailChangeOfActivity(activityStream);
 						}
 					}
@@ -204,14 +204,15 @@ public class ActivityStreamComponent extends CssLayout {
 			String arg6 = "'" + AppContext.getSiteUrl() + "'";
 			String arg7 = AppContext.getSession().getTimezone();
 			String arg8 = "'" + activityStream.getSaccountid() + "'";
+			String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
 
 			String mouseOverFunc = String.format(
-					"return projectuseroverIt(%s,%s,%s,%s,%s,%s);", arg3, arg4,
-					arg5, arg6, arg7, arg8);
+					"return projectuseroverIt(%s,%s,%s,%s,%s,%s,%s);", arg3,
+					arg4, arg5, arg6, arg7, arg8, arg9);
 			userLink.setAttribute("onmouseover", mouseOverFunc);
 
-			String arg9 = activityStream.getCreatedUserFullName();
-			userLink.appendText(arg9);
+			String arg10 = activityStream.getCreatedUserFullName();
+			userLink.appendText(arg10);
 
 			Div div1 = new Div();
 			div1.setId("projectusermystickyTooltip" + uid);

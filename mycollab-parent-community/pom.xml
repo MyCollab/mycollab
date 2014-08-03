@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>parent-community</artifactId>
-    <version>4.3.2</version>
+    <version>4.3.3</version>
     <packaging>pom</packaging>
     <properties>
         <springVersion>4.0.6.RELEASE</springVersion>
@@ -15,7 +15,7 @@
         <slf4jVersion>1.7.7</slf4jVersion>
         <log4jVersion>1.2.17</log4jVersion>
         <servletVersion>3.1.0</servletVersion>
-        <vaadinVersion>7.2.5</vaadinVersion>
+        <vaadinVersion>7.2.6</vaadinVersion>
         <jettyVersion>9.1.5.v20140505</jettyVersion>
         <mysqlVersion>5.1.31</mysqlVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

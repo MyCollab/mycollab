@@ -245,31 +245,12 @@ public abstract class CompFollowersSheet<V extends ValuedBean> extends
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								"Please Confirm:",
-								"Are you sure to remove this user from the notification of item activity?",
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
-
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											MonitorItemService monitorItemService = ApplicationContextUtil
-													.getSpringBean(MonitorItemService.class);
-											monitorItemService.removeWithSession(
-													monitorItem.getId(),
-													AppContext.getUsername(),
-													AppContext.getAccountId());
-											CompFollowersSheet.this
-													.displayMonitorItems();
-										}
-									}
-								});
+						MonitorItemService monitorItemService = ApplicationContextUtil
+								.getSpringBean(MonitorItemService.class);
+						monitorItemService.removeWithSession(
+								monitorItem.getId(), AppContext.getUsername(),
+								AppContext.getAccountId());
+						CompFollowersSheet.this.displayMonitorItems();
 					}
 				});
 				deleteBtn.setStyleName("link");

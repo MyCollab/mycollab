@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
@@ -47,6 +48,7 @@ import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.format.DateFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.FieldFormat;
+import com.esofthead.mycollab.schedule.email.format.I18nFieldFormat;
 import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
 import com.esofthead.mycollab.schedule.email.project.ProjectProblemRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -184,7 +186,8 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 			put("datedue", new DateFieldFormat("datedue",
 					ProblemI18nEnum.FORM_DATE_DUE));
-			put("status", ProblemI18nEnum.FORM_STATUS);
+			put("status", new I18nFieldFormat("status",
+					ProblemI18nEnum.FORM_STATUS, StatusI18nEnum.class));
 
 			put("impact", ProblemI18nEnum.FORM_IMPACT);
 			put("priority", ProblemI18nEnum.FORM_PRIORITY);

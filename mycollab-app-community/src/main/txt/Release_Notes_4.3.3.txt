@@ -46,6 +46,7 @@
         - Update mobile module
         - Support chart localization
         - Improve page template
+        - Upgrade Vaadin to 7.2.6
     
     Bug Fixes
         - Remove border of Create Project button

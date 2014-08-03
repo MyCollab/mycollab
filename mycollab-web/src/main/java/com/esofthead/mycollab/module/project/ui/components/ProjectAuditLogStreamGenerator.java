@@ -42,7 +42,7 @@ import com.esofthead.mycollab.utils.AuditLogShowHandler;
  * @since 1.0
  * 
  */
-public class ProjectActivityStreamGenerator {
+public class ProjectAuditLogStreamGenerator {
 	private static AuditLogShowHandler bugHandler = new BugAuditLogShowHandler();
 	private static AuditLogShowHandler taskHandler = new TaskAuditLogShowHandler();
 	private static AuditLogShowHandler taskListHandler = new TaskListAuditLogShowHandler();
@@ -186,7 +186,9 @@ public class ProjectActivityStreamGenerator {
 					RiskI18nEnum.FORM_CONSEQUENCE);
 			this.generateFieldDisplayHandler("probalitity",
 					RiskI18nEnum.FORM_PROBABILITY);
-			this.generateFieldDisplayHandler("status", RiskI18nEnum.FORM_STATUS);
+			this.generateFieldDisplayHandler("status",
+					RiskI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
+							StatusI18nEnum.class));
 			this.generateFieldDisplayHandler("datedue",
 					RiskI18nEnum.FORM_DATE_DUE, AuditLogShowHandler.DATE_FIELD);
 			this.generateFieldDisplayHandler("response",
@@ -209,7 +211,8 @@ public class ProjectActivityStreamGenerator {
 			this.generateFieldDisplayHandler("priority",
 					ProblemI18nEnum.FORM_PRIORITY);
 			this.generateFieldDisplayHandler("status",
-					ProblemI18nEnum.FORM_STATUS);
+					ProblemI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
+							StatusI18nEnum.class));
 			this.generateFieldDisplayHandler("datedue",
 					ProblemI18nEnum.FORM_DATE_DUE,
 					AuditLogShowHandler.DATE_FIELD);

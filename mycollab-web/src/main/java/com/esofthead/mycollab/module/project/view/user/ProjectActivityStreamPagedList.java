@@ -38,7 +38,7 @@ import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
-import com.esofthead.mycollab.module.project.ui.components.ProjectActivityStreamGenerator;
+import com.esofthead.mycollab.module.project.ui.components.ProjectAuditLogStreamGenerator;
 import com.esofthead.mycollab.module.project.view.ProjectLocalizationTypeMap;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -139,7 +139,7 @@ public class ProjectActivityStreamPagedList
 									ProjectCommonI18nEnum.FEED_USER_ACTIVITY_UPDATE_ACTION_TITLE,
 									assigneeParam, itemType, itemParam);
 					if (activityStream.getAssoAuditLog() != null) {
-						content += ProjectActivityStreamGenerator
+						content += ProjectAuditLogStreamGenerator
 								.generatorDetailChangeOfActivity(activityStream);
 					}
 				}
@@ -172,10 +172,11 @@ public class ProjectActivityStreamPagedList
 		String arg6 = "'" + AppContext.getSiteUrl() + "'";
 		String arg7 = AppContext.getSession().getTimezone();
 		String arg8 = "'" + activityStream.getSaccountid() + "'";
+		String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
 
 		String mouseOverFunc = String.format(
-				"return useroverIt(%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
-				arg6, arg7, arg8);
+				"return useroverIt(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4, arg5,
+				arg6, arg7, arg8, arg9);
 		userLink.setAttribute("onmouseover", mouseOverFunc);
 		userLink.appendText(activityStream.getCreatedUserFullName());
 

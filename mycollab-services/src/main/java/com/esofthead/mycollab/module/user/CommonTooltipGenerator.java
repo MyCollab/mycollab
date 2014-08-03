@@ -50,8 +50,10 @@ public class CommonTooltipGenerator {
 	public static String generateTooltipUser(Locale locale, SimpleUser user,
 			String siteURL, String timeZone) {
 		try {
-			if (user == null)
-				return null;
+			if (user == null) {
+				return generateTolltipNull(locale);
+			}
+
 			Div div = new Div();
 			H3 userFullName = new H3()
 					.setStyle("font: 12px Arial, Verdana, Helvetica, sans-serif !important;line-height: normal;");
@@ -158,5 +160,22 @@ public class CommonTooltipGenerator {
 					e);
 			return null;
 		}
+	}
+
+	private static String generateTolltipNull(Locale locale) {
+		Div div = new Div();
+		Table table = new Table();
+		table.setStyle("padding-left:10px;  color: #5a5a5a; font-size:11px;");
+
+		Tr trRow1 = new Tr();
+		trRow1.appendChild(new Td().setStyle(
+				"vertical-align: top; text-align: left;").appendText(
+				LocalizationHelper.getMessage(locale,
+						GenericI18Enum.TOOLTIP_NO_ITEM_EXISTED)));
+
+		table.appendChild(trRow1);
+		div.appendChild(table);
+
+		return div.write();
 	}
 }

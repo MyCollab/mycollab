@@ -354,53 +354,25 @@ public class BugRelatedField extends CustomComponent {
 					@Override
 					public void buttonClick(
 							com.vaadin.ui.Button.ClickEvent event) {
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								"Please Confirm:",
-								"Are you sure to remove this relationship?",
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
+						BugRelatedSearchCriteria relateBugIdCriteria = new BugRelatedSearchCriteria();
+						relateBugIdCriteria.setBugId(new NumberSearchField(
+								relatedItem.getBugid()));
+						relateBugIdCriteria.setRelatedId(new NumberSearchField(
+								relatedItem.getRelatedid()));
 
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
+						relatedBugService.removeByCriteria(relateBugIdCriteria,
+								AppContext.getAccountId());
 
-											BugRelatedSearchCriteria relateBugIdCriteria = new BugRelatedSearchCriteria();
-											relateBugIdCriteria
-													.setBugId(new NumberSearchField(
-															relatedItem
-																	.getBugid()));
-											relateBugIdCriteria
-													.setRelatedId(new NumberSearchField(
-															relatedItem
-																	.getRelatedid()));
+						BugRelatedSearchCriteria relateIdCriteria = new BugRelatedSearchCriteria();
+						relateIdCriteria.setBugId(new NumberSearchField(
+								relatedItem.getRelatedid()));
+						relateIdCriteria.setRelatedId(new NumberSearchField(
+								relatedItem.getBugid()));
 
-											relatedBugService.removeByCriteria(
-													relateBugIdCriteria,
-													AppContext.getAccountId());
+						relatedBugService.removeByCriteria(relateIdCriteria,
+								AppContext.getAccountId());
 
-											BugRelatedSearchCriteria relateIdCriteria = new BugRelatedSearchCriteria();
-											relateIdCriteria
-													.setBugId(new NumberSearchField(
-															relatedItem
-																	.getRelatedid()));
-											relateIdCriteria
-													.setRelatedId(new NumberSearchField(
-															relatedItem
-																	.getBugid()));
-
-											relatedBugService.removeByCriteria(
-													relateIdCriteria,
-													AppContext.getAccountId());
-
-											BugRelatedField.this.setCriteria();
-										}
-									}
-								});
+						BugRelatedField.this.setCriteria();
 					}
 				});
 				deleteBtn.setStyleName("link");

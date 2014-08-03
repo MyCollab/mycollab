@@ -360,7 +360,8 @@ public class ProjectTooltipGenerator {
 			Tr trRow4 = new Tr();
 			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
 					RiskI18nEnum.FORM_STATUS));
-			Td cell42 = buildCellValue(risk.getStatus());
+			Td cell42 = buildCellValue(LocalizationHelper.getMessage(locale,
+					StatusI18nEnum.class, risk.getStatus()));
 			trRow4.appendChild(cell41, cell42);
 			tooltipManager.appendRow(trRow4);
 
@@ -444,7 +445,8 @@ public class ProjectTooltipGenerator {
 			Tr trRow4 = new Tr();
 			Td cell41 = buildCellName(LocalizationHelper.getMessage(locale,
 					ProblemI18nEnum.FORM_STATUS));
-			Td cell42 = buildCellValue(problem.getStatus());
+			Td cell42 = buildCellValue(LocalizationHelper.getMessage(locale,
+					StatusI18nEnum.class, problem.getStatus()));
 			trRow4.appendChild(cell41, cell42);
 			tooltipManager.appendRow(trRow4);
 

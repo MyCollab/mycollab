@@ -288,9 +288,9 @@ class TaskGanttChart extends VerticalLayout {
 		String arg13 = idDivSeverData;
 
 		content = AppContext.getMessage(
-				ProjectCommonI18nEnum.TOOLTIP_GANTT_CHART_TITLE, arg0, arg1, arg2,
-				arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12,
-				arg13);
+				ProjectCommonI18nEnum.TOOLTIP_GANTT_CHART_TITLE, arg0, arg1,
+				arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11,
+				arg12, arg13);
 		return content;
 	}
 
@@ -381,7 +381,8 @@ class TaskGanttChart extends VerticalLayout {
 
 			ConfirmDialogExt
 					.show(UI.getCurrent(),
-							"Please Confirm:",
+							AppContext
+									.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
 							"Timeline range is a quite long for hour resolution. Rendering may be slow. Continue anyway?",
 							AppContext
 									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),

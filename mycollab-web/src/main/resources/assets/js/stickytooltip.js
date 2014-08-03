@@ -279,7 +279,7 @@ function crmActivityOverIt(dateTimeTypeIdStr, type, typeId, url, sAccountId, sit
 	}
 }
 
-function useroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccountId){
+function useroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccountId, locale){
 	var idDIVserverdata = "userserverdata" + dateTimeTypeIdStr;
 	var idStickyToolTipDiv = "usermystickyTooltip"+dateTimeTypeIdStr;
 	var idTagA = "usertagA"+ dateTimeTypeIdStr;
@@ -291,7 +291,7 @@ function useroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccoun
 		$.ajax({
 		      type: 'POST',
 		      url: url,
-		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone , sAccountId:sAccountId},
+		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone , sAccountId:sAccountId, locale:locale},
 		      success: function(data){
 		      	 if(data.trim()!= "null"){
 		      	 		$("#"+ idTagA).attr('data-tooltip', idStickyToolTipDiv);
@@ -305,7 +305,7 @@ function useroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccoun
 	}
 }
 
-function projectuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccountId){
+function projectuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, sAccountId, locale){
 	var idDIVserverdata = "projectuserserverdata" + dateTimeTypeIdStr;
 	var idStickyToolTipDiv = "projectusermystickyTooltip"+dateTimeTypeIdStr;
 	var idTagA = "projectusertagA"+ dateTimeTypeIdStr;
@@ -317,7 +317,7 @@ function projectuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, 
 		$.ajax({
 		      type: 'POST',
 		      url: url,
-		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone, sAccountId:sAccountId},
+		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone, sAccountId:sAccountId, locale:locale},
 		      success: function(data){
 		      	 if(data.trim()!= "null"){
 		      	 		$("#"+ idTagA).attr('data-tooltip', idStickyToolTipDiv);
