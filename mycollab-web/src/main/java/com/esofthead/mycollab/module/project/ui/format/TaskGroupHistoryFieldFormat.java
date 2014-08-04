@@ -31,7 +31,7 @@ import com.vaadin.ui.Label;
 public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
-	public Component formatField(String value) {
+	public Component toVaadinComponent(String value) {
 		try {
 			int taskgroupId = Integer.parseInt(value);
 			String html = ProjectLinkBuilder
@@ -41,6 +41,11 @@ public class TaskGroupHistoryFieldFormat implements HistoryFieldFormat {
 		} catch (NumberFormatException e) {
 			return new Label("");
 		}
+	}
+
+	@Override
+	public String toString(String value) {
+		return value;
 	}
 
 }

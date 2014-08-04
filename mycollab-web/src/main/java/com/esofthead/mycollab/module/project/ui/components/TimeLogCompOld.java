@@ -56,7 +56,8 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * @param <V>
  */
-public abstract class CompTimeLogSheet<V extends ValuedBean> extends
+@Deprecated
+public abstract class TimeLogCompOld<V extends ValuedBean> extends
 		HorizontalLayout {
 	private static final long serialVersionUID = 1L;
 
@@ -68,7 +69,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 	private AddTimeInvest investTimeLayout;
 	private UpdateTimeRemain updateTimeRemainLayout;
 
-	protected CompTimeLogSheet(final V bean) {
+	protected TimeLogCompOld(final V bean) {
 		this.bean = bean;
 		this.setMargin(true);
 		this.setSpacing(true);
@@ -160,7 +161,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			addLayout.setComponentAlignment(this.isBillableField,
 					Alignment.MIDDLE_LEFT);
 
-			CompTimeLogSheet.this.btnAdd = new Button(
+			TimeLogCompOld.this.btnAdd = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -177,7 +178,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 										.showWarningNotification("You must enter a positive number value");
 							}
 							if (d > 0) {
-								CompTimeLogSheet.this.saveTimeInvest();
+								TimeLogCompOld.this.saveTimeInvest();
 								AddTimeInvest.this.loadTimeInvestItem();
 								AddTimeInvest.this.numberField.setValue("0.0");
 							}
@@ -185,14 +186,14 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 
 					});
 
-			CompTimeLogSheet.this.btnAdd.setEnabled(CompTimeLogSheet.this
+			TimeLogCompOld.this.btnAdd.setEnabled(TimeLogCompOld.this
 					.isEnableAdd());
-			CompTimeLogSheet.this.btnAdd
+			TimeLogCompOld.this.btnAdd
 					.setStyleName(UIConstants.THEME_GREEN_LINK);
-			CompTimeLogSheet.this.btnAdd.setIcon(MyCollabResource
+			TimeLogCompOld.this.btnAdd.setIcon(MyCollabResource
 					.newResource("icons/16/addRecord.png"));
-			addLayout.addComponent(CompTimeLogSheet.this.btnAdd);
-			addLayout.setComponentAlignment(CompTimeLogSheet.this.btnAdd,
+			addLayout.addComponent(TimeLogCompOld.this.btnAdd);
+			addLayout.setComponentAlignment(TimeLogCompOld.this.btnAdd,
 					Alignment.MIDDLE_LEFT);
 
 			final Label lbIntructAdd = new Label(
@@ -201,7 +202,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			addLayout
 					.setComponentAlignment(lbIntructAdd, Alignment.MIDDLE_LEFT);
 
-			CompTimeLogSheet.this.tableItem = new DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
+			TimeLogCompOld.this.tableItem = new DefaultPagedBeanTable<ItemTimeLoggingService, ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 					ApplicationContextUtil
 							.getSpringBean(ItemTimeLoggingService.class),
 					SimpleItemTimeLogging.class, Arrays
@@ -220,15 +221,15 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 									new TableViewField(null, "id",
 											UIConstants.TABLE_CONTROL_WIDTH)));
 
-			CompTimeLogSheet.this.tableItem.addGeneratedColumn(
-					"logUserFullName", new Table.ColumnGenerator() {
+			TimeLogCompOld.this.tableItem.addGeneratedColumn("logUserFullName",
+					new Table.ColumnGenerator() {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public com.vaadin.ui.Component generateCell(
 								final Table source, final Object itemId,
 								final Object columnId) {
-							final SimpleItemTimeLogging timeLoggingItem = CompTimeLogSheet.this.tableItem
+							final SimpleItemTimeLogging timeLoggingItem = TimeLogCompOld.this.tableItem
 									.getBeanByIndex(itemId);
 
 							return new ProjectUserLink(timeLoggingItem
@@ -239,7 +240,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						}
 					});
 
-			CompTimeLogSheet.this.tableItem.addGeneratedColumn("createdtime",
+			TimeLogCompOld.this.tableItem.addGeneratedColumn("createdtime",
 					new ColumnGenerator() {
 						private static final long serialVersionUID = 1L;
 
@@ -247,7 +248,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						public com.vaadin.ui.Component generateCell(
 								final Table source, final Object itemId,
 								final Object columnId) {
-							final SimpleItemTimeLogging monitorItem = CompTimeLogSheet.this.tableItem
+							final SimpleItemTimeLogging monitorItem = TimeLogCompOld.this.tableItem
 									.getBeanByIndex(itemId);
 							final Label l = new Label();
 							l.setValue(AppContext.formatDateTime(monitorItem
@@ -256,7 +257,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						}
 					});
 
-			CompTimeLogSheet.this.tableItem.addGeneratedColumn("logvalue",
+			TimeLogCompOld.this.tableItem.addGeneratedColumn("logvalue",
 					new ColumnGenerator() {
 						private static final long serialVersionUID = 1L;
 
@@ -264,7 +265,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						public com.vaadin.ui.Component generateCell(
 								final Table source, final Object itemId,
 								final Object columnId) {
-							final SimpleItemTimeLogging itemTimeLogging = CompTimeLogSheet.this.tableItem
+							final SimpleItemTimeLogging itemTimeLogging = TimeLogCompOld.this.tableItem
 									.getBeanByIndex(itemId);
 							final Label l = new Label();
 							l.setValue(itemTimeLogging.getLogvalue() + "");
@@ -272,7 +273,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						}
 					});
 
-			CompTimeLogSheet.this.tableItem.addGeneratedColumn("id",
+			TimeLogCompOld.this.tableItem.addGeneratedColumn("id",
 					new ColumnGenerator() {
 						private static final long serialVersionUID = 1L;
 
@@ -280,7 +281,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						public com.vaadin.ui.Component generateCell(
 								final Table source, final Object itemId,
 								final Object columnId) {
-							final SimpleItemTimeLogging itemTimeLogging = CompTimeLogSheet.this.tableItem
+							final SimpleItemTimeLogging itemTimeLogging = TimeLogCompOld.this.tableItem
 									.getBeanByIndex(itemId);
 							final Button deleteBtn = new Button(null,
 									new Button.ClickListener() {
@@ -289,7 +290,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 										@Override
 										public void buttonClick(
 												final ClickEvent event) {
-											CompTimeLogSheet.this.itemTimeLoggingService.removeWithSession(
+											TimeLogCompOld.this.itemTimeLoggingService.removeWithSession(
 													itemTimeLogging.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
@@ -318,21 +319,21 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 						}
 					});
 
-			CompTimeLogSheet.this.tableItem.setWidth("100%");
+			TimeLogCompOld.this.tableItem.setWidth("100%");
 
-			this.addComponent(CompTimeLogSheet.this.tableItem);
+			this.addComponent(TimeLogCompOld.this.tableItem);
 		}
 
 		private void loadTimeInvestItem() {
-			final ItemTimeLoggingSearchCriteria searchCriteria = CompTimeLogSheet.this
+			final ItemTimeLoggingSearchCriteria searchCriteria = TimeLogCompOld.this
 					.getItemSearchCriteria();
-			CompTimeLogSheet.this.tableItem.setSearchCriteria(searchCriteria);
+			TimeLogCompOld.this.tableItem.setSearchCriteria(searchCriteria);
 			this.setTotalTimeValue();
 		}
 
 		private double getTotalInvest() {
 			double total = 0;
-			final ItemTimeLoggingSearchCriteria searchCriteria = CompTimeLogSheet.this
+			final ItemTimeLoggingSearchCriteria searchCriteria = TimeLogCompOld.this
 					.getItemSearchCriteria();
 			final List<SimpleItemTimeLogging> listTime = itemTimeLoggingService
 					.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
@@ -386,7 +387,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 			addLayout.setComponentAlignment(this.numberField,
 					Alignment.MIDDLE_LEFT);
 
-			CompTimeLogSheet.this.btnAdd = new Button("Update",
+			TimeLogCompOld.this.btnAdd = new Button("Update",
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -404,7 +405,7 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 											.showWarningNotification("You must enter a positive number value");
 								}
 								if (d > 0) {
-									CompTimeLogSheet.this.updateTimeRemain();
+									TimeLogCompOld.this.updateTimeRemain();
 									UpdateTimeRemain.this.lbUpdateTime
 											.setValue(UpdateTimeRemain.this.numberField
 													.getValue());
@@ -419,12 +420,12 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 
 					});
 
-			CompTimeLogSheet.this.btnAdd.setEnabled(CompTimeLogSheet.this
+			TimeLogCompOld.this.btnAdd.setEnabled(TimeLogCompOld.this
 					.isEnableAdd());
-			CompTimeLogSheet.this.btnAdd
+			TimeLogCompOld.this.btnAdd
 					.setStyleName(UIConstants.THEME_GREEN_LINK);
-			addLayout.addComponent(CompTimeLogSheet.this.btnAdd);
-			addLayout.setComponentAlignment(CompTimeLogSheet.this.btnAdd,
+			addLayout.addComponent(TimeLogCompOld.this.btnAdd);
+			addLayout.setComponentAlignment(TimeLogCompOld.this.btnAdd,
 					Alignment.MIDDLE_LEFT);
 
 			final Label lbIntructAdd = new Label("Update remaining estimate.");
@@ -434,8 +435,8 @@ public abstract class CompTimeLogSheet<V extends ValuedBean> extends
 		}
 
 		public void setUpdateTimeValue() {
-			if (CompTimeLogSheet.this.getEstimateRemainTime() > -1) {
-				this.lbUpdateTime.setValue(CompTimeLogSheet.this
+			if (TimeLogCompOld.this.getEstimateRemainTime() > -1) {
+				this.lbUpdateTime.setValue(TimeLogCompOld.this
 						.getEstimateRemainTime() + "");
 			}
 		}

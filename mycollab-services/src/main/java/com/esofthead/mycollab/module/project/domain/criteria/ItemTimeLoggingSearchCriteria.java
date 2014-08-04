@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
@@ -44,6 +45,8 @@ public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
 	private StringSearchField type;
 	
 	private NumberSearchField typeId;
+	
+	private BooleanSearchField isBillable;
 	
 	
 	public static RangeDateSearchField getCurrentRangeDateOfWeekSearchField() {
@@ -94,5 +97,13 @@ public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
 
 	public NumberSearchField getTypeId() {
 		return typeId;
+	}
+
+	public BooleanSearchField getIsBillable() {
+		return isBillable;
+	}
+
+	public void setIsBillable(BooleanSearchField isBillable) {
+		this.isBillable = isBillable;
 	}
 }

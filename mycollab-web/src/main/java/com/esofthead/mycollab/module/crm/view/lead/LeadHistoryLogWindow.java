@@ -20,7 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 
 /**
  * 
@@ -28,69 +28,78 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 1.0
  * 
  */
-class LeadHistoryLogWindow extends HistoryLogWindow {
+public class LeadHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
+
+	public static final FieldGroupFomatter leadFormatter;
+
+	static {
+		leadFormatter = new FieldGroupFomatter();
+
+		leadFormatter.generateFieldDisplayHandler("prefixname",
+				LeadI18nEnum.FORM_PREFIX);
+		leadFormatter.generateFieldDisplayHandler("firstname",
+				LeadI18nEnum.FORM_FIRSTNAME);
+		leadFormatter.generateFieldDisplayHandler("lastname",
+				LeadI18nEnum.FORM_LASTNAME);
+		leadFormatter.generateFieldDisplayHandler("title",
+				LeadI18nEnum.FORM_TITLE);
+		leadFormatter.generateFieldDisplayHandler("department",
+				LeadI18nEnum.FORM_DEPARTMENT);
+		leadFormatter.generateFieldDisplayHandler("accountname",
+				LeadI18nEnum.FORM_ACCOUNT_NAME);
+		leadFormatter.generateFieldDisplayHandler("source",
+				LeadI18nEnum.FORM_LEAD_SOURCE);
+		leadFormatter.generateFieldDisplayHandler("industry",
+				LeadI18nEnum.FORM_INDUSTRY);
+		leadFormatter.generateFieldDisplayHandler("noemployees",
+				LeadI18nEnum.FORM_NO_EMPLOYEES);
+		leadFormatter.generateFieldDisplayHandler("email",
+				LeadI18nEnum.FORM_EMAIL);
+		leadFormatter.generateFieldDisplayHandler("officephone",
+				LeadI18nEnum.FORM_OFFICE_PHONE);
+		leadFormatter.generateFieldDisplayHandler("mobile",
+				LeadI18nEnum.FORM_MOBILE);
+		leadFormatter.generateFieldDisplayHandler("otherphone",
+				LeadI18nEnum.FORM_OTHER_PHONE);
+		leadFormatter.generateFieldDisplayHandler("fax", LeadI18nEnum.FORM_FAX);
+		leadFormatter.generateFieldDisplayHandler("website",
+				LeadI18nEnum.FORM_WEBSITE);
+		leadFormatter.generateFieldDisplayHandler("status",
+				LeadI18nEnum.FORM_STATUS);
+		leadFormatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
+		leadFormatter.generateFieldDisplayHandler("primaddress",
+				LeadI18nEnum.FORM_PRIMARY_ADDRESS);
+		leadFormatter.generateFieldDisplayHandler("primcity",
+				LeadI18nEnum.FORM_PRIMARY_CITY);
+		leadFormatter.generateFieldDisplayHandler("primstate",
+				LeadI18nEnum.FORM_PRIMARY_STATE);
+		leadFormatter.generateFieldDisplayHandler("primpostalcode",
+				LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE);
+		leadFormatter.generateFieldDisplayHandler("primcountry",
+				LeadI18nEnum.FORM_PRIMARY_COUNTRY);
+		leadFormatter.generateFieldDisplayHandler("otheraddress",
+				LeadI18nEnum.FORM_OTHER_ADDRESS);
+		leadFormatter.generateFieldDisplayHandler("othercity",
+				LeadI18nEnum.FORM_OTHER_CITY);
+		leadFormatter.generateFieldDisplayHandler("otherstate",
+				LeadI18nEnum.FORM_OTHER_STATE);
+		leadFormatter.generateFieldDisplayHandler("otherpostalcode",
+				LeadI18nEnum.FORM_OTHER_POSTAL_CODE);
+		leadFormatter.generateFieldDisplayHandler("othercountry",
+				LeadI18nEnum.FORM_OTHER_COUNTRY);
+		leadFormatter.generateFieldDisplayHandler("description",
+				GenericI18Enum.FORM_DESCRIPTION);
+	}
 
 	public LeadHistoryLogWindow(String module, String type) {
 		super(module, type);
+	}
 
-		this.generateFieldDisplayHandler("prefixname",
-				AppContext.getMessage(LeadI18nEnum.FORM_PREFIX));
-		this.generateFieldDisplayHandler("firstname",
-				AppContext.getMessage(LeadI18nEnum.FORM_FIRSTNAME));
-		this.generateFieldDisplayHandler("lastname",
-				AppContext.getMessage(LeadI18nEnum.FORM_LASTNAME));
-		this.generateFieldDisplayHandler("title",
-				AppContext.getMessage(LeadI18nEnum.FORM_TITLE));
-		this.generateFieldDisplayHandler("department",
-				AppContext.getMessage(LeadI18nEnum.FORM_DEPARTMENT));
-		this.generateFieldDisplayHandler("accountname",
-				AppContext.getMessage(LeadI18nEnum.FORM_ACCOUNT_NAME));
-		this.generateFieldDisplayHandler("source",
-				AppContext.getMessage(LeadI18nEnum.FORM_LEAD_SOURCE));
-		this.generateFieldDisplayHandler("industry",
-				AppContext.getMessage(LeadI18nEnum.FORM_INDUSTRY));
-		this.generateFieldDisplayHandler("noemployees",
-				AppContext.getMessage(LeadI18nEnum.FORM_NO_EMPLOYEES));
-		this.generateFieldDisplayHandler("email",
-				AppContext.getMessage(LeadI18nEnum.FORM_EMAIL));
-		this.generateFieldDisplayHandler("officephone",
-				AppContext.getMessage(LeadI18nEnum.FORM_OFFICE_PHONE));
-		this.generateFieldDisplayHandler("mobile",
-				AppContext.getMessage(LeadI18nEnum.FORM_MOBILE));
-		this.generateFieldDisplayHandler("otherphone",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_PHONE));
-		this.generateFieldDisplayHandler("fax",
-				AppContext.getMessage(LeadI18nEnum.FORM_FAX));
-		this.generateFieldDisplayHandler("website",
-				AppContext.getMessage(LeadI18nEnum.FORM_WEBSITE));
-		this.generateFieldDisplayHandler("status",
-				AppContext.getMessage(LeadI18nEnum.FORM_STATUS));
-		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("primaddress",
-				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_ADDRESS));
-		this.generateFieldDisplayHandler("primcity",
-				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_CITY));
-		this.generateFieldDisplayHandler("primstate",
-				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_STATE));
-		this.generateFieldDisplayHandler("primpostalcode",
-				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_POSTAL_CODE));
-		this.generateFieldDisplayHandler("primcountry",
-				AppContext.getMessage(LeadI18nEnum.FORM_PRIMARY_COUNTRY));
-		this.generateFieldDisplayHandler("otheraddress",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_ADDRESS));
-		this.generateFieldDisplayHandler("othercity",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_CITY));
-		this.generateFieldDisplayHandler("otherstate",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_STATE));
-		this.generateFieldDisplayHandler("otherpostalcode",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_POSTAL_CODE));
-		this.generateFieldDisplayHandler("othercountry",
-				AppContext.getMessage(LeadI18nEnum.FORM_OTHER_COUNTRY));
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return leadFormatter;
 	}
 
 }

@@ -22,64 +22,74 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum.AccountType;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent.I18nHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
 
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  */
-class AccountHistoryLogWindow extends HistoryLogWindow {
+public class AccountHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
+
+	public static final FieldGroupFomatter accountFormatter;
+
+	static {
+		accountFormatter = new FieldGroupFomatter();
+
+		accountFormatter.generateFieldDisplayHandler("accountname",
+				AccountI18nEnum.FORM_ACCOUNT_NAME);
+
+		accountFormatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
+		accountFormatter.generateFieldDisplayHandler("phoneoffice",
+				AccountI18nEnum.FORM_OFFICE_PHONE);
+		accountFormatter.generateFieldDisplayHandler("website",
+				AccountI18nEnum.FORM_WEBSITE);
+		accountFormatter.generateFieldDisplayHandler("fax",
+				AccountI18nEnum.FORM_FAX);
+		accountFormatter.generateFieldDisplayHandler("numemployees",
+				AccountI18nEnum.FORM_EMPLOYEES);
+		accountFormatter.generateFieldDisplayHandler("alternatephone",
+				AccountI18nEnum.FORM_OTHER_PHONE);
+		accountFormatter.generateFieldDisplayHandler("industry",
+				AccountI18nEnum.FORM_INDUSTRY);
+		accountFormatter.generateFieldDisplayHandler("email",
+				AccountI18nEnum.FORM_EMAIL);
+		accountFormatter.generateFieldDisplayHandler("type",
+				AccountI18nEnum.FORM_TYPE, new I18nHistoryFieldFormat(
+						AccountType.class));
+		accountFormatter.generateFieldDisplayHandler("ownership",
+				AccountI18nEnum.FORM_OWNERSHIP);
+		accountFormatter.generateFieldDisplayHandler("annualrevenue",
+				AccountI18nEnum.FORM_ANNUAL_REVENUE);
+		accountFormatter.generateFieldDisplayHandler("billingaddress",
+				AccountI18nEnum.FORM_BILLING_ADDRESS);
+		accountFormatter.generateFieldDisplayHandler("shippingaddress",
+				AccountI18nEnum.FORM_SHIPPING_ADDRESS);
+		accountFormatter.generateFieldDisplayHandler("city",
+				AccountI18nEnum.FORM_BILLING_CITY);
+		accountFormatter.generateFieldDisplayHandler("shippingcity",
+				AccountI18nEnum.FORM_SHIPPING_CITY);
+		accountFormatter.generateFieldDisplayHandler("state",
+				AccountI18nEnum.FORM_BILLING_STATE);
+		accountFormatter.generateFieldDisplayHandler("shippingstate",
+				AccountI18nEnum.FORM_SHIPPING_STATE);
+		accountFormatter.generateFieldDisplayHandler("postalcode",
+				AccountI18nEnum.FORM_BILLING_POSTAL_CODE);
+		accountFormatter.generateFieldDisplayHandler("shippingpostalcode",
+				AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE);
+		accountFormatter.generateFieldDisplayHandler("description",
+				GenericI18Enum.FORM_DESCRIPTION);
+	}
 
 	public AccountHistoryLogWindow(String module, String type, int typeid) {
 		super(module, type);
+	}
 
-		this.generateFieldDisplayHandler("accountname",
-				AppContext.getMessage(AccountI18nEnum.FORM_ACCOUNT_NAME));
-
-		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("phoneoffice",
-				AppContext.getMessage(AccountI18nEnum.FORM_OFFICE_PHONE));
-		this.generateFieldDisplayHandler("website",
-				AppContext.getMessage(AccountI18nEnum.FORM_WEBSITE));
-		this.generateFieldDisplayHandler("fax",
-				AppContext.getMessage(AccountI18nEnum.FORM_FAX));
-		this.generateFieldDisplayHandler("numemployees",
-				AppContext.getMessage(AccountI18nEnum.FORM_EMPLOYEES));
-		this.generateFieldDisplayHandler("alternatephone",
-				AppContext.getMessage(AccountI18nEnum.FORM_OTHER_PHONE));
-		this.generateFieldDisplayHandler("industry",
-				AppContext.getMessage(AccountI18nEnum.FORM_INDUSTRY));
-		this.generateFieldDisplayHandler("email",
-				AppContext.getMessage(AccountI18nEnum.FORM_EMAIL));
-		this.generateFieldDisplayHandler("type",
-				AppContext.getMessage(AccountI18nEnum.FORM_TYPE),
-				new I18nHistoryFieldFormat(AccountType.class));
-		this.generateFieldDisplayHandler("ownership",
-				AppContext.getMessage(AccountI18nEnum.FORM_OWNERSHIP));
-		this.generateFieldDisplayHandler("annualrevenue",
-				AppContext.getMessage(AccountI18nEnum.FORM_ANNUAL_REVENUE));
-		this.generateFieldDisplayHandler("billingaddress",
-				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_ADDRESS));
-		this.generateFieldDisplayHandler("shippingaddress",
-				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_ADDRESS));
-		this.generateFieldDisplayHandler("city",
-				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_CITY));
-		this.generateFieldDisplayHandler("shippingcity",
-				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_CITY));
-		this.generateFieldDisplayHandler("state",
-				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_STATE));
-		this.generateFieldDisplayHandler("shippingstate",
-				AppContext.getMessage(AccountI18nEnum.FORM_SHIPPING_STATE));
-		this.generateFieldDisplayHandler("postalcode",
-				AppContext.getMessage(AccountI18nEnum.FORM_BILLING_POSTAL_CODE));
-		this.generateFieldDisplayHandler("shippingpostalcode", AppContext
-				.getMessage(AccountI18nEnum.FORM_SHIPPING_POSTAL_CODE));
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return accountFormatter;
 	}
 }

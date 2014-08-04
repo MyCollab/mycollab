@@ -20,7 +20,7 @@ package com.esofthead.mycollab.module.project.view.settings;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.project.i18n.ProjectRoleI18nEnum;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 
 /**
  * 
@@ -30,12 +30,23 @@ import com.esofthead.mycollab.vaadin.AppContext;
 class ProjectRoleHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
 
+	public static final FieldGroupFomatter roleFormatter;
+
+	static {
+		roleFormatter = new FieldGroupFomatter();
+
+		roleFormatter.generateFieldDisplayHandler("rolename",
+				ProjectRoleI18nEnum.FORM_NAME);
+		roleFormatter.generateFieldDisplayHandler("description",
+				GenericI18Enum.FORM_DESCRIPTION);
+	}
+
 	public ProjectRoleHistoryLogWindow(String module, String type) {
 		super(module, type);
+	}
 
-		this.generateFieldDisplayHandler("rolename",
-				AppContext.getMessage(ProjectRoleI18nEnum.FORM_NAME));
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return roleFormatter;
 	}
 }

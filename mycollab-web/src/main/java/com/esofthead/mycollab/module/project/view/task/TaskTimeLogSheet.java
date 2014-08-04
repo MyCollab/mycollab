@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
-import com.esofthead.mycollab.module.project.ui.components.CompTimeLogSheet;
+import com.esofthead.mycollab.module.project.ui.components.TimeLogCompOld;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 
@@ -37,7 +37,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * @since 1.0
  * 
  */
-public class TaskTimeLogSheet extends CompTimeLogSheet<SimpleTask> {
+public class TaskTimeLogSheet extends TimeLogCompOld<SimpleTask> {
 	private static final long serialVersionUID = 1L;
 
 	protected TaskTimeLogSheet(SimpleTask bean) {

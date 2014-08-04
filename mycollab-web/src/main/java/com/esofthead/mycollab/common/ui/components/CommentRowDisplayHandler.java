@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
@@ -106,6 +107,13 @@ public class CommentRowDisplayHandler implements
 		messageHeader.setExpandRatio(timePostLbl, 1.0f);
 		messageHeader.setWidth("100%");
 		messageHeader.setMargin(new MarginInfo(true, true, false, true));
+
+		// Message delete button
+		Button msgDeleteBtn = new Button();
+		msgDeleteBtn.setIcon(MyCollabResource
+				.newResource("icons/12/project/icon_x.png"));
+		msgDeleteBtn.setStyleName("delete-btn");
+		messageHeader.addComponent(msgDeleteBtn);
 
 		rowLayout.addComponent(messageHeader);
 

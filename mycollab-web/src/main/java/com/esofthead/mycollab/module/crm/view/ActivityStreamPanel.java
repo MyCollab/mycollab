@@ -251,9 +251,10 @@ public class ActivityStreamPanel extends CssLayout {
 			String arg6 = "'" + AppContext.getSiteUrl() + "'";
 			String arg7 = AppContext.getSession().getTimezone();
 			String arg8 = "'" + activityStream.getSaccountid() + "'";
+			String arg9 = "'" + AppContext.getUserLocale().toString() + "'";
 			String onMouseOverFunc = String.format(
-					"return crmuseroverIt(%s,%s,%s,%s,%s,%s);", arg3, arg4,
-					arg5, arg6, arg7, arg8);
+					"return crmuseroverIt(%s,%s,%s,%s,%s,%s,%s);", arg3, arg4,
+					arg5, arg6, arg7, arg8, arg9);
 			userLink.setAttribute("onmouseover", onMouseOverFunc);
 			userLink.appendText(activityStream.getCreatedUserFullName());
 
@@ -299,7 +300,7 @@ public class ActivityStreamPanel extends CssLayout {
 			String arg23 = AppContext.getSession().getTimezone();
 			String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
 			String onMouseOverFunc = String
-					.format("return crmActivityOverIt({17},{18},{19},{20},{21},{22},{23},{24});",
+					.format("return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
 							arg17, arg18, arg19, arg20, arg21, arg22, arg23,
 							arg24);
 			itemLink.setAttribute("onmouseover", onMouseOverFunc);

@@ -38,6 +38,10 @@
             ${searchCriteria.typeId.operation} m_prj_time_logging.typeid = @{searchCriteria.typeId.value,jdbcType=NUMERIC}
         #end
         
+        #ifnotnull($searchCriteria.isBillable)
+            ${searchCriteria.isBillable.operation} m_prj_time_logging.isBillable = @{searchCriteria.isBillable.value,jdbcType=BOOLEAN}
+        #end
+        
         #ifnotnull($searchCriteria.rangeDate)
             ${searchCriteria.rangeDate.operation}
             CAST(m_prj_time_logging.logForDay AS DATE ) BETWEEN @{searchCriteria.rangeDate.from} AND @{searchCriteria.rangeDate.to}

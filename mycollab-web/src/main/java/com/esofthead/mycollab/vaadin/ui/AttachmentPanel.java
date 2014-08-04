@@ -67,8 +67,10 @@ public class AttachmentPanel extends VerticalLayout implements
 		resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
 		this.setSpacing(true);
+		this.setStyleName("attachment-panel");
 	}
 
+	@Override
 	public void registerMultiUpload(MultiFileUploadExt fileUpload) {
 		multiFileUpload = fileUpload;
 	}
@@ -104,7 +106,7 @@ public class AttachmentPanel extends VerticalLayout implements
 		fileAttachmentLayout.setComponentAlignment(fileLbl,
 				Alignment.MIDDLE_CENTER);
 		fileAttachmentLayout.addComponent(removeBtn);
-		this.addComponent(fileAttachmentLayout, 0);
+		this.addComponent(fileAttachmentLayout);
 	}
 
 	public void removeAllAttachmentsDisplay() {

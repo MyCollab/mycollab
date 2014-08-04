@@ -17,9 +17,10 @@
 package com.esofthead.mycollab.module.crm.view.activity;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
+import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 
 /**
  * 
@@ -27,19 +28,34 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
  * @since 2.0
  * 
  */
-class CallHistoryLogWindow extends HistoryLogWindow {
+public class CallHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
+
+	public static final FieldGroupFomatter callFormatter;
+
+	static {
+		callFormatter = new FieldGroupFomatter();
+
+		callFormatter.generateFieldDisplayHandler("subject",
+				CallI18nEnum.FORM_SUBJECT);
+		callFormatter.generateFieldDisplayHandler("startdate",
+				CallI18nEnum.FORM_START_DATE_TIME,
+				FieldGroupFomatter.DATE_FIELD);
+		callFormatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
+		callFormatter.generateFieldDisplayHandler("status",
+				CallI18nEnum.FORM_STATUS);
+		callFormatter.generateFieldDisplayHandler("purpose",
+				CallI18nEnum.FORM_PURPOSE);
+	}
 
 	public CallHistoryLogWindow(String module, String type) {
 		super(module, type);
+	}
 
-		this.generateFieldDisplayHandler("subject", "Subject");
-		this.generateFieldDisplayHandler("startdate", "Start Date",
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("assignuser", AppContext
-				.getMessage(GenericI18Enum.FORM_ASSIGNEE));
-		this.generateFieldDisplayHandler("status", "Status");
-		this.generateFieldDisplayHandler("purpose", "Purpose");
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return callFormatter;
 	}
 
 }

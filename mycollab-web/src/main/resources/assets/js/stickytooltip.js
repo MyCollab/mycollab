@@ -331,7 +331,7 @@ function projectuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone, 
 	}
 }
 
-function crmuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone,sAccountId){
+function crmuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone,sAccountId,locale){
 	var idDIVserverdata = "crmuserserverdata" + dateTimeTypeIdStr;
 	var idStickyToolTipDiv = "crmusermystickyTooltip"+dateTimeTypeIdStr;
 	var idTagA = "crmusertagA"+ dateTimeTypeIdStr;
@@ -343,7 +343,7 @@ function crmuseroverIt(dateTimeTypeIdStr, username, url, siteURL, timeZone,sAcco
 		$.ajax({
 		      type: 'POST',
 		      url: url,
-		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone,sAccountId:sAccountId},
+		      data : { type: "User", username: username ,siteURL: siteURL , timeZone: timeZone,sAccountId:sAccountId,locale:locale},
 		      success: function(data){
 		      	 if(data.trim()!= "null"){
 		      	 		$("#"+ idTagA).attr('data-tooltip', idStickyToolTipDiv);

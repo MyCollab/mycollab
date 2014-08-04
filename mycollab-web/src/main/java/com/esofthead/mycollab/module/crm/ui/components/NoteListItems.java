@@ -256,8 +256,16 @@ public class NoteListItems extends VerticalLayout {
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");
 			messageHeader.addComponent(timePostLbl);
+			messageHeader.setExpandRatio(timePostLbl, 1.0f);
 			messageHeader.setWidth("100%");
 			messageHeader.setMargin(new MarginInfo(true, true, false, true));
+
+			// Message delete button
+			Button msgDeleteBtn = new Button();
+			msgDeleteBtn.setIcon(MyCollabResource
+					.newResource("icons/12/project/icon_x.png"));
+			msgDeleteBtn.setStyleName("delete-btn");
+			messageHeader.addComponent(msgDeleteBtn);
 
 			rowLayout.addComponent(messageHeader);
 
@@ -265,14 +273,10 @@ public class NoteListItems extends VerticalLayout {
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
 
-			final List<Content> attachments = note.getAttachments();
-			if (attachments != null && !attachments.isEmpty()) {
-				rowLayout.addComponent(new AttachmentDisplayComponent(
-						attachments));
-			}
-
-			final VerticalLayout messageFooter = new VerticalLayout();
-			messageFooter.setMargin(new MarginInfo(false, true, false, false));
+			final HorizontalLayout messageFooter = new HorizontalLayout();
+			messageFooter.setStyleName("message-footer");
+			messageFooter.setMargin(true);
+			messageFooter.setSpacing(true);
 			replyBtn = new Button(
 					AppContext.getMessage(CrmCommonI18nEnum.BUTTON_REPLY),
 					new Button.ClickListener() {
@@ -301,9 +305,17 @@ public class NoteListItems extends VerticalLayout {
 			replyBtn.setStyleName("link");
 			replyBtn.setIcon(MyCollabResource
 					.newResource("icons/16/crm/reply.png"));
-			messageHeader.addComponent(replyBtn);
+			messageFooter.addComponent(replyBtn);
 			messageFooter.setWidth("100%");
-			messageHeader.setComponentAlignment(replyBtn, Alignment.TOP_RIGHT);
+
+			final List<Content> attachments = note.getAttachments();
+			if (attachments != null && !attachments.isEmpty()) {
+				AttachmentDisplayComponent attachmentDisplayComponent = new AttachmentDisplayComponent(
+						attachments);
+				messageFooter.addComponent(attachmentDisplayComponent);
+				messageFooter.setExpandRatio(attachmentDisplayComponent, 1.0f);
+			}
+
 			rowLayout.addComponent(messageFooter);
 
 			layout.addComponent(rowLayout);
@@ -409,6 +421,7 @@ public class NoteListItems extends VerticalLayout {
 
 			final MultiFileUploadExt uploadExt = new MultiFileUploadExt(
 					attachments);
+			uploadExt.addComponent(attachments);
 			controls.addComponent(uploadExt);
 			controls.setComponentAlignment(uploadExt, Alignment.MIDDLE_LEFT);
 

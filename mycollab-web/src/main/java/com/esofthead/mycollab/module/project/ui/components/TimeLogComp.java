@@ -1,0 +1,85 @@
+package com.esofthead.mycollab.module.project.ui.components;
+
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 4.3.3
+ *
+ */
+public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
+	private static final long serialVersionUID = 1L;
+
+	protected ItemTimeLoggingService itemTimeLoggingService;
+
+	protected TimeLogComp() {
+		this.itemTimeLoggingService = ApplicationContextUtil
+				.getSpringBean(ItemTimeLoggingService.class);
+	}
+
+	public void displayTime(final V bean) {
+		this.removeAllComponents();
+		this.setSpacing(true);
+		this.setMargin(new MarginInfo(false, false, false, true));
+
+		HorizontalLayout header = new HorizontalLayout();
+		Label dateInfoHeader = new Label("Time");
+		header.setStyleName("info-hdr");
+		header.addComponent(dateInfoHeader);
+
+		if (hasEditPermission()) {
+			Button editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							showEditTimeWindow(bean);
+
+						}
+					});
+			editBtn.setStyleName("link");
+			header.addComponent(editBtn);
+		}
+
+		this.addComponent(header);
+
+		VerticalLayout layout = new VerticalLayout();
+		layout.setWidth("100%");
+		layout.setSpacing(true);
+		layout.setMargin(new MarginInfo(false, false, false, true));
+
+		double billableHours = getTotalBillableHours(bean);
+		double nonBillableHours = getTotalNonBillableHours(bean);
+		double remainHours = getRemainedHours(bean);
+		layout.addComponent(new Label(String.format("Billable Hours: %.2f",
+				billableHours)));
+		layout.addComponent(new Label(String.format("Non-Billable Hours: %.2f",
+				nonBillableHours)));
+		layout.addComponent(new Label(String.format("Remaining Hours: %.2f",
+				remainHours)));
+		this.addComponent(layout);
+	}
+
+	protected abstract Double getTotalBillableHours(V bean);
+
+	protected abstract Double getTotalNonBillableHours(V bean);
+
+	protected abstract Double getRemainedHours(V bean);
+
+	protected abstract boolean hasEditPermission();
+
+	protected abstract void showEditTimeWindow(V bean);
+}

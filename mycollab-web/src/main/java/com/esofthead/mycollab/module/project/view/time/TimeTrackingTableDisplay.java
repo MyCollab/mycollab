@@ -201,10 +201,10 @@ public class TimeTrackingTableDisplay
 			@Override
 			public Object generateCell(Table source, Object itemId,
 					Object columnId) {
-				final SimpleItemTimeLogging monitorItem = TimeTrackingTableDisplay.this
+				final SimpleItemTimeLogging timeLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 				Button icon = new Button();
-				if (monitorItem.getIsbillable().booleanValue()) {
+				if (timeLogging.getIsbillable().booleanValue()) {
 					icon.setIcon(MyCollabResource
 							.newResource("icons/16/yes.png"));
 				} else {
@@ -222,10 +222,10 @@ public class TimeTrackingTableDisplay
 			@Override
 			public com.vaadin.ui.Component generateCell(final Table source,
 					final Object itemId, final Object columnId) {
-				final SimpleItemTimeLogging monitorItem = TimeTrackingTableDisplay.this
+				final SimpleItemTimeLogging timeLogging = TimeTrackingTableDisplay.this
 						.getBeanByIndex(itemId);
 				final Label l = new Label();
-				l.setValue(AppContext.formatDate(monitorItem.getLogforday()));
+				l.setValue(AppContext.formatDate(timeLogging.getLogforday()));
 				return l;
 			}
 		});

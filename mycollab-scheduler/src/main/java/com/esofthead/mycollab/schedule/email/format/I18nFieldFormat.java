@@ -61,7 +61,7 @@ public class I18nFieldFormat extends FieldFormat {
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
 			log.error(
-					"Can not generate email of object "
+					"Can not generate of object "
 							+ BeanUtility.printBeanObj(wrappedBean)
 							+ " field: " + fieldName + " and " + value, e);
 			return new Span().write();
@@ -75,7 +75,7 @@ public class I18nFieldFormat extends FieldFormat {
 			return LocalizationHelper
 					.getMessage(context.getLocale(), valueEnum);
 		} catch (Exception e) {
-			log.error("Can not generate email field: " + fieldName + " and "
+			log.error("Can not generate of object field: " + fieldName + " and "
 					+ value, e);
 			return new Span().write();
 		}

@@ -24,11 +24,12 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -39,46 +40,52 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 @SuppressWarnings("serial")
 public class BugHistoryList extends HistoryLogComponent {
 
+	public static final FieldGroupFomatter bugFomatter;
+
+	static {
+		bugFomatter = new FieldGroupFomatter();
+
+		bugFomatter.generateFieldDisplayHandler("description",
+				GenericI18Enum.FORM_DESCRIPTION);
+		bugFomatter.generateFieldDisplayHandler("environment",
+				BugI18nEnum.FORM_ENVIRONMENT);
+		bugFomatter.generateFieldDisplayHandler("summary",
+				BugI18nEnum.FORM_SUMMARY);
+		bugFomatter.generateFieldDisplayHandler("status",
+				BugI18nEnum.FORM_STATUS, new I18nHistoryFieldFormat(
+						BugStatus.class));
+		bugFomatter.generateFieldDisplayHandler("priority",
+				BugI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
+						BugPriority.class));
+		bugFomatter.generateFieldDisplayHandler("severity",
+				BugI18nEnum.FORM_SEVERITY, new I18nHistoryFieldFormat(
+						BugSeverity.class));
+		bugFomatter.generateFieldDisplayHandler("resolution",
+				BugI18nEnum.FORM_RESOLUTION, new I18nHistoryFieldFormat(
+						BugResolution.class));
+		bugFomatter.generateFieldDisplayHandler("estimateremaintime",
+				BugI18nEnum.FORM_REMAIN_ESTIMATE);
+		bugFomatter.generateFieldDisplayHandler("duedate",
+				BugI18nEnum.FORM_DUE_DATE, FieldGroupFomatter.DATE_FIELD);
+		bugFomatter.generateFieldDisplayHandler("createdTime",
+				BugI18nEnum.FORM_CREATED_TIME, FieldGroupFomatter.DATE_FIELD);
+		bugFomatter.generateFieldDisplayHandler("loguserFullName",
+				BugI18nEnum.FORM_LOG_BY, new ProjectMemberHistoryFieldFormat());
+		bugFomatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE,
+				new ProjectMemberHistoryFieldFormat());
+		bugFomatter.generateFieldDisplayHandler("milestoneid",
+				TaskI18nEnum.FORM_PHASE, new MilestoneHistoryFieldFormat());
+	}
+
 	public BugHistoryList() {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.BUG);
 		this.addStyleName("activity-panel");
 		this.setMargin(true);
+	}
 
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
-		this.generateFieldDisplayHandler("environment",
-				AppContext.getMessage(BugI18nEnum.FORM_ENVIRONMENT));
-		this.generateFieldDisplayHandler("summary",
-				AppContext.getMessage(BugI18nEnum.FORM_SUMMARY));
-		this.generateFieldDisplayHandler("detail", "Detail");
-		this.generateFieldDisplayHandler("status",
-				AppContext.getMessage(BugI18nEnum.FORM_STATUS),
-				new I18nHistoryFieldFormat(BugStatus.class));
-		this.generateFieldDisplayHandler("priority",
-				AppContext.getMessage(BugI18nEnum.FORM_PRIORITY),
-				new I18nHistoryFieldFormat(BugPriority.class));
-		this.generateFieldDisplayHandler("severity",
-				AppContext.getMessage(BugI18nEnum.FORM_SEVERITY),
-				new I18nHistoryFieldFormat(BugSeverity.class));
-		this.generateFieldDisplayHandler("resolution",
-				AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
-				new I18nHistoryFieldFormat(BugResolution.class));
-		this.generateFieldDisplayHandler("estimateremaintime",
-				AppContext.getMessage(BugI18nEnum.FORM_REMAIN_ESTIMATE));
-		this.generateFieldDisplayHandler("duedate",
-				AppContext.getMessage(BugI18nEnum.FORM_DUE_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("createdTime",
-				AppContext.getMessage(BugI18nEnum.FORM_CREATED_TIME),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("loguserFullName",
-				AppContext.getMessage(BugI18nEnum.FORM_LOG_BY),
-				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("milestoneid",
-				AppContext.getMessage(TaskI18nEnum.FORM_PHASE),
-				new MilestoneHistoryFieldFormat());
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return bugFomatter;
 	}
 }

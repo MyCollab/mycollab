@@ -20,8 +20,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.HistoryLogWindow;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 
 /**
  * 
@@ -29,40 +28,50 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
  * @since 1.0
  * 
  */
-class OpportunityHistoryLogWindow extends HistoryLogWindow {
+public class OpportunityHistoryLogWindow extends HistoryLogWindow {
 	private static final long serialVersionUID = 1L;
+
+	public static final FieldGroupFomatter opportunityFormatter;
+
+	static {
+		opportunityFormatter = new FieldGroupFomatter();
+
+		opportunityFormatter.generateFieldDisplayHandler("opportunityname",
+				OpportunityI18nEnum.FORM_NAME);
+		opportunityFormatter.generateFieldDisplayHandler("currencyid",
+				OpportunityI18nEnum.FORM_CURRENCY,
+				FieldGroupFomatter.CURRENCY_FIELD);
+		opportunityFormatter.generateFieldDisplayHandler("amount",
+				OpportunityI18nEnum.FORM_AMOUNT);
+		opportunityFormatter.generateFieldDisplayHandler("salesstage",
+				OpportunityI18nEnum.FORM_SALE_STAGE);
+		opportunityFormatter.generateFieldDisplayHandler("probability",
+				OpportunityI18nEnum.FORM_SALE_STAGE);
+		opportunityFormatter.generateFieldDisplayHandler("nextstep",
+				OpportunityI18nEnum.FORM_NEXT_STEP);
+		opportunityFormatter.generateFieldDisplayHandler("accountid",
+				OpportunityI18nEnum.FORM_ACCOUNT_NAME);
+		opportunityFormatter.generateFieldDisplayHandler("expectedcloseddate",
+				OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE,
+				FieldGroupFomatter.DATE_FIELD);
+		opportunityFormatter.generateFieldDisplayHandler("opportunitytype",
+				OpportunityI18nEnum.FORM_TYPE);
+		opportunityFormatter.generateFieldDisplayHandler("source",
+				OpportunityI18nEnum.FORM_LEAD_SOURCE);
+		opportunityFormatter.generateFieldDisplayHandler("campaignid",
+				OpportunityI18nEnum.FORM_CAMPAIGN_NAME);
+		opportunityFormatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
+		opportunityFormatter.generateFieldDisplayHandler("description",
+				GenericI18Enum.FORM_DESCRIPTION);
+	}
 
 	public OpportunityHistoryLogWindow(String module, String type) {
 		super(module, type);
+	}
 
-		this.generateFieldDisplayHandler("opportunityname",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_NAME));
-		this.generateFieldDisplayHandler("currencyid",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_CURRENCY),
-				HistoryLogComponent.CURRENCY_FIELD);
-		this.generateFieldDisplayHandler("amount",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_AMOUNT));
-		this.generateFieldDisplayHandler("salesstage",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE));
-		this.generateFieldDisplayHandler("probability",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_SALE_STAGE));
-		this.generateFieldDisplayHandler("nextstep",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_NEXT_STEP));
-		this.generateFieldDisplayHandler("accountid",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_ACCOUNT_NAME));
-		this.generateFieldDisplayHandler("expectedcloseddate", AppContext
-				.getMessage(OpportunityI18nEnum.FORM_EXPECTED_CLOSE_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("opportunitytype",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_TYPE));
-		this.generateFieldDisplayHandler("source",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_LEAD_SOURCE));
-		this.generateFieldDisplayHandler("campaignid",
-				AppContext.getMessage(OpportunityI18nEnum.FORM_CAMPAIGN_NAME));
-		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(GenericI18Enum.FORM_DESCRIPTION));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return opportunityFormatter;
 	}
 }

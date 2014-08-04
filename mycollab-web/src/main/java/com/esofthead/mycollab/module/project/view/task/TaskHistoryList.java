@@ -23,7 +23,8 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.TaskGroupHistoryFieldFormat;
 import com.esofthead.mycollab.module.user.ui.components.UserHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
+import com.esofthead.mycollab.utils.FieldGroupFomatter.I18nHistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -35,41 +36,46 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class TaskHistoryList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
+	public static final FieldGroupFomatter taskFormatter;
+
+	static {
+		taskFormatter = new FieldGroupFomatter();
+		taskFormatter.generateFieldDisplayHandler("taskname",
+				TaskI18nEnum.FORM_TASK_NAME);
+		taskFormatter.generateFieldDisplayHandler("startdate",
+				TaskI18nEnum.FORM_START_DATE, FieldGroupFomatter.DATE_FIELD);
+		taskFormatter.generateFieldDisplayHandler("enddate",
+				TaskI18nEnum.FORM_END_DATE, FieldGroupFomatter.DATE_FIELD);
+		taskFormatter.generateFieldDisplayHandler("actualstartdate",
+				TaskI18nEnum.FORM_ACTUAL_START_DATE,
+				FieldGroupFomatter.DATE_FIELD);
+		taskFormatter.generateFieldDisplayHandler("actualenddate",
+				TaskI18nEnum.FORM_ACTUAL_END_DATE,
+				FieldGroupFomatter.DATE_FIELD);
+		taskFormatter.generateFieldDisplayHandler("deadline",
+				TaskI18nEnum.FORM_DEADLINE, FieldGroupFomatter.DATE_FIELD);
+		taskFormatter.generateFieldDisplayHandler("priority",
+				TaskI18nEnum.FORM_PRIORITY, new I18nHistoryFieldFormat(
+						TaskPriority.class));
+		taskFormatter.generateFieldDisplayHandler("isestimated",
+				TaskI18nEnum.FORM_IS_ESTIMATED);
+		taskFormatter.generateFieldDisplayHandler("assignuser",
+				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
+		taskFormatter.generateFieldDisplayHandler("tasklistid",
+				TaskI18nEnum.FORM_TASKGROUP, new TaskGroupHistoryFieldFormat());
+		taskFormatter.generateFieldDisplayHandler("percentagecomplete",
+				TaskI18nEnum.FORM_PERCENTAGE_COMPLETE);
+		taskFormatter.generateFieldDisplayHandler("notes",
+				TaskI18nEnum.FORM_NOTES);
+	}
+
 	public TaskHistoryList() {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK);
 		this.addStyleName("activity-panel");
+	}
 
-		this.generateFieldDisplayHandler("taskname",
-				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME));
-		this.generateFieldDisplayHandler("startdate",
-				AppContext.getMessage(TaskI18nEnum.FORM_START_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("enddate",
-				AppContext.getMessage(TaskI18nEnum.FORM_END_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("actualstartdate",
-				AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_START_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("actualenddate",
-				AppContext.getMessage(TaskI18nEnum.FORM_ACTUAL_END_DATE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("deadline",
-				AppContext.getMessage(TaskI18nEnum.FORM_DEADLINE),
-				HistoryLogComponent.DATE_FIELD);
-		this.generateFieldDisplayHandler("priority",
-				AppContext.getMessage(TaskI18nEnum.FORM_PRIORITY),
-				new I18nHistoryFieldFormat(TaskPriority.class));
-		this.generateFieldDisplayHandler("isestimated",
-				AppContext.getMessage(TaskI18nEnum.FORM_IS_ESTIMATED));
-		this.generateFieldDisplayHandler("assignuser",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new UserHistoryFieldFormat());
-		this.generateFieldDisplayHandler("tasklistid",
-				AppContext.getMessage(TaskI18nEnum.FORM_TASKGROUP),
-				new TaskGroupHistoryFieldFormat());
-		this.generateFieldDisplayHandler("percentagecomplete",
-				AppContext.getMessage(TaskI18nEnum.FORM_PERCENTAGE_COMPLETE));
-		this.generateFieldDisplayHandler("notes",
-				AppContext.getMessage(TaskI18nEnum.FORM_NOTES));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return taskFormatter;
 	}
 }

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.ui.format.MilestoneHistoryFieldFormat;
 import com.esofthead.mycollab.module.project.ui.format.ProjectMemberHistoryFieldFormat;
-import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 
 /**
@@ -34,23 +34,34 @@ import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
 public class TaskGroupHistoryLogList extends HistoryLogComponent {
 	private static final long serialVersionUID = 1L;
 
+	public static final FieldGroupFomatter tasklistFormatter;
+
+	static {
+		tasklistFormatter = new FieldGroupFomatter();
+
+		tasklistFormatter.generateFieldDisplayHandler("name",
+				TaskGroupI18nEnum.FORM_NAME_FIELD);
+		tasklistFormatter.generateFieldDisplayHandler("description",
+				TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD);
+		tasklistFormatter.generateFieldDisplayHandler("owner",
+				GenericI18Enum.FORM_ASSIGNEE,
+				new ProjectMemberHistoryFieldFormat());
+		tasklistFormatter.generateFieldDisplayHandler("milestoneid",
+				TaskGroupI18nEnum.FORM_PHASE_FIELD,
+				new MilestoneHistoryFieldFormat());
+		tasklistFormatter.generateFieldDisplayHandler("percentageComplete",
+				TaskGroupI18nEnum.FORM_PROGRESS_FIELD);
+		tasklistFormatter.generateFieldDisplayHandler("numOpenTasks",
+				TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD);
+	}
+
 	public TaskGroupHistoryLogList() {
 		super(ModuleNameConstants.PRJ, ProjectTypeConstants.TASK_LIST);
 		this.addStyleName("activity-panel");
+	}
 
-		this.generateFieldDisplayHandler("name",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_NAME_FIELD));
-		this.generateFieldDisplayHandler("description",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD));
-		this.generateFieldDisplayHandler("owner",
-				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
-				new ProjectMemberHistoryFieldFormat());
-		this.generateFieldDisplayHandler("milestoneid",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
-				new MilestoneHistoryFieldFormat());
-		this.generateFieldDisplayHandler("percentageComplete",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_PROGRESS_FIELD));
-		this.generateFieldDisplayHandler("numOpenTasks",
-				AppContext.getMessage(TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD));
+	@Override
+	protected FieldGroupFomatter buildFormatter() {
+		return tasklistFormatter;
 	}
 }

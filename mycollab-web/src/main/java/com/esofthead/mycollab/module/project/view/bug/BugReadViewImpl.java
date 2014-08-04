@@ -18,12 +18,18 @@ package com.esofthead.mycollab.module.project.view.bug;
 
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vaadin.peter.buttongroup.ButtonGroup;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -38,8 +44,9 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
@@ -66,13 +73,16 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -88,10 +98,12 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent
-public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
+public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		implements BugReadView, IBugCallbackStatusComp {
 
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory.getLogger(BugReadViewImpl.class);
 
 	private HorizontalLayout bugWorkflowControl;
 
@@ -104,6 +116,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	private BugRelatedField bugRelatedField;
 
 	private CommentDisplay commentList;
+
+	private DateInfoComp dateInfoComp;
+
+	private PeopleInfoComp peopleInfoComp;
 
 	private ProjectPreviewFormControlsGenerator<SimpleBug> bugPreviewFormControls;
 
@@ -312,18 +328,29 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		historyList = new BugHistoryList();
 		bugFollowersList = new BugFollowersSheet(this.beanItem);
 
-		bugTimeLogList = new BugTimeLogSheet(this.beanItem);
 		bugRelatedField = new BugRelatedField();
+
+		dateInfoComp = new DateInfoComp();
+		addToSideBar(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		addToSideBar(peopleInfoComp);
+		
+		bugTimeLogList = new BugTimeLogSheet();
+		addToSideBar(bugTimeLogList);
 	}
 
 	@Override
 	protected void onPreviewItem() {
 		commentList.loadComments(this.beanItem.getId());
 		historyList.loadHistory(this.beanItem.getId());
-		bugTimeLogList.loadTimeValue(this.beanItem);
+		bugTimeLogList.displayTime(this.beanItem);
 
 		bugFollowersList.displayMonitorItems();
 		bugRelatedField.displayRelatedBugs(this.beanItem);
+
+		dateInfoComp.displayEntryDateTime(this.beanItem);
+		peopleInfoComp.displayEntryPeople(beanItem);
 	}
 
 	@Override
@@ -410,10 +437,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 		tabBugDetail.addTab(bugFollowersList, AppContext
 				.getMessage(BugI18nEnum.TAB_FOLLOWERS), MyCollabResource
 				.newResource("icons/16/project/gray/follow.png"));
-
-		tabBugDetail.addTab(bugTimeLogList,
-				AppContext.getMessage(BugI18nEnum.TAB_TIME),
-				MyCollabResource.newResource("icons/16/project/gray/time.png"));
 
 		return tabBugDetail;
 	}
@@ -679,5 +702,65 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 	@Override
 	public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
 		return this.previewForm;
+	}
+
+	class PeopleInfoComp extends VerticalLayout {
+		private static final long serialVersionUID = 1L;
+
+		public void displayEntryPeople(ValuedBean bean) {
+			this.removeAllComponents();
+			this.setSpacing(true);
+			this.setMargin(new MarginInfo(false, false, false, true));
+
+			Label peopleInfoHeader = new Label(
+					AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE));
+			peopleInfoHeader.setStyleName("info-hdr");
+			this.addComponent(peopleInfoHeader);
+
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setSpacing(true);
+			layout.setWidth("100%");
+			layout.setMargin(new MarginInfo(false, false, false, true));
+			try {
+				Label createdLbl = new Label(
+						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY) + ":");
+				createdLbl.setSizeUndefined();
+				layout.addComponent(createdLbl, 0, 0);
+
+				String createdUserName = (String) PropertyUtils.getProperty(
+						bean, "logby");
+				String createdUserAvatarId = (String) PropertyUtils
+						.getProperty(bean, "loguserAvatarId");
+				String createdUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "loguserFullName");
+
+				UserLink createdUserLink = new UserLink(createdUserName,
+						createdUserAvatarId, createdUserDisplayName);
+				layout.addComponent(createdUserLink, 1, 0);
+				layout.setColumnExpandRatio(1, 1.0f);
+
+				Label assigneeLbl = new Label(
+						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
+								+ ":");
+				assigneeLbl.setSizeUndefined();
+				layout.addComponent(assigneeLbl, 0, 1);
+				String assignUserName = (String) PropertyUtils.getProperty(
+						bean, "assignuser");
+				String assignUserAvatarId = (String) PropertyUtils.getProperty(
+						bean, "assignUserAvatarId");
+				String assignUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "assignuserFullName");
+
+				UserLink assignUserLink = new UserLink(assignUserName,
+						assignUserAvatarId, assignUserDisplayName);
+				layout.addComponent(assignUserLink, 1, 1);
+			} catch (Exception e) {
+				log.error("Can not build user link {} ",
+						BeanUtility.printBeanObj(bean));
+			}
+
+			this.addComponent(layout);
+
+		}
 	}
 }

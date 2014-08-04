@@ -18,6 +18,7 @@
 package com.esofthead.mycollab.module.crm.ui.components;
 
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.utils.FieldGroupFomatter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
 import com.esofthead.mycollab.vaadin.ui.HistoryLogComponent;
@@ -28,7 +29,7 @@ import com.vaadin.ui.Window;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class HistoryLogWindow extends Window {
+public abstract class HistoryLogWindow extends Window {
 	private static final long serialVersionUID = 1L;
 
 	private final HistoryLogComponent historyLogComponent;
@@ -40,7 +41,7 @@ public class HistoryLogWindow extends Window {
 		this.setModal(true);
 		this.setResizable(false);
 
-		this.historyLogComponent = new HistoryLogComponent(module, type);
+		this.historyLogComponent = new WrappedHistoryLogComponent(module, type);
 		this.setContent(historyLogComponent);
 		this.center();
 	}
@@ -49,21 +50,19 @@ public class HistoryLogWindow extends Window {
 		historyLogComponent.loadHistory(typeid);
 	}
 
-	public void generateFieldDisplayHandler(final String fieldname,
-			final String displayName) {
-		this.historyLogComponent.generateFieldDisplayHandler(fieldname,
-				displayName);
-	}
+	protected abstract FieldGroupFomatter buildFormatter();
 
-	public void generateFieldDisplayHandler(final String fieldname,
-			final String displayName, final HistoryFieldFormat format) {
-		this.historyLogComponent.generateFieldDisplayHandler(fieldname,
-				displayName, format);
-	}
+	private class WrappedHistoryLogComponent extends HistoryLogComponent {
+		private static final long serialVersionUID = 1L;
 
-	public void generateFieldDisplayHandler(final String fieldname,
-			final String displayName, final String formatName) {
-		this.historyLogComponent.generateFieldDisplayHandler(fieldname,
-				displayName, formatName);
+		public WrappedHistoryLogComponent(String module, String type) {
+			super(module, type);
+		}
+
+		@Override
+		protected FieldGroupFomatter buildFormatter() {
+			return HistoryLogWindow.this.buildFormatter();
+		}
+
 	}
 }

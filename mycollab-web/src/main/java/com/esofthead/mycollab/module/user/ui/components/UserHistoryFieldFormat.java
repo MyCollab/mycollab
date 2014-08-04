@@ -31,10 +31,15 @@ import com.vaadin.ui.Label;
 public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
-	public Component formatField(String value) {
+	public Component toVaadinComponent(String value) {
 		String html = AccountLinkBuilder.generateUserHtmlLink(value);
 		return (value != null) ? new Label(html, ContentMode.HTML) : new Label(
 				"");
+	}
+
+	@Override
+	public String toString(String value) {
+		return value;
 	}
 
 }
