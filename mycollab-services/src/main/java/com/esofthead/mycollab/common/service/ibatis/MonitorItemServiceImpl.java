@@ -65,6 +65,20 @@ public class MonitorItemServiceImpl extends
 	}
 
 	@Override
+	public int saveWithSession(MonitorItem record, String username) {
+		MonitorItemExample ex = new MonitorItemExample();
+		ex.createCriteria().andTypeEqualTo(record.getType())
+				.andTypeidEqualTo(record.getTypeid())
+				.andUserEqualTo(record.getUser());
+		int count = monitorItemMapper.countByExample(ex);
+		if (count > 0) {
+			return 1;
+		} else {
+			return super.saveWithSession(record, username);
+		}
+	}
+
+	@Override
 	public Integer getNextItemKey(MonitorSearchCriteria arg0) {
 		return null;
 	}

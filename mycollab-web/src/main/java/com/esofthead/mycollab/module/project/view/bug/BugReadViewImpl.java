@@ -34,6 +34,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
@@ -45,6 +46,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.ui.components.CompFollowersSheet;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -108,7 +110,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	private BugHistoryList historyList;
 
-	private BugFollowersSheet bugFollowersList;
+	private CompFollowersSheet<SimpleBug> bugFollowersList;
 
 	private BugTimeLogSheet bugTimeLogList;
 
@@ -325,7 +327,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		commentList.setMargin(true);
 
 		historyList = new BugHistoryList();
-		bugFollowersList = new BugFollowersSheet(this.beanItem);
 
 		bugRelatedField = new BugRelatedField();
 
@@ -334,6 +335,10 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
+
+		bugFollowersList = new CompFollowersSheet<SimpleBug>(
+				ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
+		addToSideBar(bugFollowersList);
 
 		bugTimeLogList = new BugTimeLogSheet();
 		addToSideBar(bugTimeLogList);
@@ -345,7 +350,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		historyList.loadHistory(this.beanItem.getId());
 		bugTimeLogList.displayTime(this.beanItem);
 
-		bugFollowersList.displayMonitorItems();
+		bugFollowersList.displayFollowers(beanItem);
 		bugRelatedField.displayRelatedBugs(this.beanItem);
 
 		dateInfoComp.displayEntryDateTime(this.beanItem);
@@ -354,8 +359,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected String initFormTitle() {
-		return "[Issue #" + this.beanItem.getBugkey() + "]: "
-				+ this.beanItem.getSummary();
+		return AppContext.getMessage(BugI18nEnum.FORM_READ_TITLE,
+				this.beanItem.getBugkey(), this.beanItem.getSummary());
 	}
 
 	@Override
@@ -432,10 +437,6 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		tabBugDetail.addTab(bugRelatedField,
 				AppContext.getMessage(BugI18nEnum.TAB_RELATED_BUGS),
 				MyCollabResource.newResource("icons/16/project/gray/bug.png"));
-
-		tabBugDetail.addTab(bugFollowersList, AppContext
-				.getMessage(BugI18nEnum.TAB_FOLLOWERS), MyCollabResource
-				.newResource("icons/16/project/gray/follow.png"));
 
 		return tabBugDetail;
 	}

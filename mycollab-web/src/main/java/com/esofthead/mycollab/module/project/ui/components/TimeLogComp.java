@@ -35,6 +35,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 		this.setMargin(new MarginInfo(false, false, false, true));
 
 		HorizontalLayout header = new HorizontalLayout();
+		header.setSpacing(true);
 		Label dateInfoHeader = new Label(
 				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
 		header.setStyleName("info-hdr");

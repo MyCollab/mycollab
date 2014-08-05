@@ -23,10 +23,18 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/project/follower")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum FollowerI18nEnum {
+	DIALOG_WATCHERS_TITLE,
 	LABEL_MY_FOLLOWING_TICKETS,
 	BUTTON_BACK_TO_WORKBOARD,
 	FOLLOWER_NAME,
 	FOLLOWER_CREATE_DATE,
 	FORM_PROJECT_NAME,
-	FORM_SUMMARY
+	FORM_SUMMARY,
+	
+	OPT_NUM_FOLLOWERS,
+	
+	BUTTON_FOLLOW,
+	BUTTON_UNFOLLOW,
+	
+	SUB_INFO_WATCHERS,
 }

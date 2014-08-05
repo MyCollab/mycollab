@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -40,6 +41,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.ui.components.CompFollowersSheet;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -91,7 +93,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	private TaskHistoryList historyList;
 
-	private TaskFollowersSheet followerSheet;
+	private CompFollowersSheet<SimpleTask> followerSheet;
 
 	private DateInfoComp dateInfoComp;
 
@@ -142,7 +144,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
 
-		followerSheet = new TaskFollowersSheet(beanItem);
+		followerSheet = new CompFollowersSheet<SimpleTask>(
+				ProjectTypeConstants.TASK,
+				ProjectRolePermissionCollections.TASKS);
+		addToSideBar(followerSheet);
+
 		timesheet = new TaskTimeLogSheet();
 		addToSideBar(timesheet);
 	}
@@ -184,8 +190,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 		historyList.loadHistory(beanItem.getId());
 
-		followerSheet.setBean(beanItem);
-		followerSheet.displayMonitorItems();
+		followerSheet.displayFollowers(beanItem);
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
@@ -283,10 +288,6 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
-
-		tabTaskDetail.addTab(followerSheet, AppContext
-				.getMessage(TaskI18nEnum.TAB_FOLLOWERS), MyCollabResource
-				.newResource("icons/16/project/gray/follow.png"));
 
 		return tabTaskDetail;
 	}

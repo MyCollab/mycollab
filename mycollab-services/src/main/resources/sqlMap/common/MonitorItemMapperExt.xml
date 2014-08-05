@@ -79,5 +79,15 @@
         #end    
         <include refid="orderStatement" />
     </select>
+    
+    <delete id="removeByCriteria" parameterType="MonitorSearchCriteria"
+        lang="velocity">
+        DELETE FROM m_monitor_item
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
+    </delete>
 
 </mapper>

@@ -123,6 +123,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 		}
 
 		if (item.getId() == null) {
+			item.setLogby(AppContext.getUsername());
 			int taskId = taskService.saveWithSession(item,
 					AppContext.getUsername());
 			AttachmentUploadField uploadField = view.getAttachUploadField();

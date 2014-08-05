@@ -194,7 +194,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	public static abstract class RowDisplayHandler<T> implements Serializable {
 		private static final long serialVersionUID = 1L;
 
-		private BeanList owner;
+		protected BeanList owner;
 
 		public BeanList getOwner() {
 			return owner;

@@ -1,25 +1,13 @@
-/**
- * This file is part of mycollab-web.
- *
- * mycollab-web is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-web is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
- */
 package com.esofthead.mycollab.module.project.ui.components;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.vaadin.dialogs.ConfirmDialog;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.MonitorItem;
@@ -27,8 +15,11 @@ import com.esofthead.mycollab.common.domain.SimpleMonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
@@ -37,270 +28,402 @@ import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemb
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.ui.Alignment;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 /**
  * 
- * @author NyCollab Ltd.
- * @since 1.0
- * 
- * @param <V>
+ * @author MyCollab Ltd.
+ * @since 4.3.3
+ *
  */
-public abstract class CompFollowersSheet<V extends ValuedBean> extends
-		VerticalLayout {
+public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	protected DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem> tableItem;
+	private static Logger log = LoggerFactory
+			.getLogger(CompFollowersSheet.class);
+
 	protected MonitorItemService monitorItemService;
-	protected V bean;
-	protected Button btnSave;
-	protected Button followBtn;
 
-	protected CompFollowersSheet(V bean) {
-		this.bean = bean;
-		this.setMargin(true);
-		this.setSpacing(true);
-		this.setWidth("100%");
+	private boolean currentUserFollow;
 
+	private String type;
+
+	private V bean;
+
+	private String permissionItem;
+
+	private Button followersBtn;
+
+	public CompFollowersSheet(String type, String permissionItem) {
+		super();
 		monitorItemService = ApplicationContextUtil
 				.getSpringBean(MonitorItemService.class);
 
-		initUI();
+		this.type = type;
+		this.permissionItem = permissionItem;
 	}
 
-	public void setBean(V bean) {
+	public void displayFollowers(final V bean) {
 		this.bean = bean;
-	}
+		this.removeAllComponents();
+		this.setSpacing(true);
+		this.setMargin(new MarginInfo(false, false, false, true));
 
-	private void initUI() {
-		Label lbInstruct = new Label(
-				"Add people from your team to follow this bug activity");
-		this.addComponent(lbInstruct);
+		HorizontalLayout header = new HorizontalLayout();
+		header.setSpacing(true);
+		Label followerHeader = new Label(
+				AppContext.getMessage(FollowerI18nEnum.SUB_INFO_WATCHERS));
+		header.setStyleName("info-hdr");
+		header.addComponent(followerHeader);
 
-		HorizontalLayout layoutAdd = new HorizontalLayout();
-		layoutAdd.setSpacing(true);
+		if (hasEditPermission()) {
+			Button editBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-		final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();
-		layoutAdd.addComponent(memberSelection);
-		layoutAdd.setComponentAlignment(memberSelection, Alignment.MIDDLE_LEFT);
+						@Override
+						public void buttonClick(ClickEvent event) {
+							showEditWatchersWindow(bean);
 
-		btnSave = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-
-						List<SimpleProjectMember> members = memberSelection
-								.getSelectedItems();
-
-						boolean canSendEmail = false;
-
-						for (ProjectMember member : members) {
-
-							ProjectMemberService memberService = ApplicationContextUtil
-									.getSpringBean(ProjectMemberService.class);
-
-							SimpleProjectMember projectMember = memberService
-									.findMemberByUsername(AppContext
-											.getUsername(),
-											CurrentProjectVariables
-													.getProjectId(), AppContext
-													.getAccountId());
-
-							boolean haveRightToSave = projectMember
-									.getIsadmin()
-									|| (AppContext.getUsername().equals(member
-											.getUsername()));
-
-							if (haveRightToSave && member != null
-									&& member.getUsername() != null) {
-
-								if (saveMonitorItem(member.getUsername())) {
-									if (member.getUsername().equals(
-											AppContext.getUsername())) {
-										followBtn.setCaption("UnFollow");
-									}
-									canSendEmail = true;
-								}
-							}
 						}
+					});
+			editBtn.setStyleName("link");
+			header.addComponent(editBtn);
+		}
 
-						if (canSendEmail) {
-							saveRelayNotification();
-						}
+		this.addComponent(header);
+		header.addComponent(new Label("/"));
 
-						memberSelection.resetComp();
-						loadMonitorItems();
-					}
-				});
+		currentUserFollow = isUserWatching(bean);
 
-		btnSave.setEnabled(isEnableAdd());
-		btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
-		btnSave.setIcon(MyCollabResource.newResource("icons/16/addRecord.png"));
-
-		layoutAdd.addComponent(btnSave);
-		layoutAdd.setComponentAlignment(btnSave, Alignment.MIDDLE_LEFT);
-
-		Label lbl = new Label("or");
-		layoutAdd.addComponent(lbl);
-		layoutAdd.setComponentAlignment(lbl, Alignment.MIDDLE_LEFT);
-
-		followBtn = new Button();
-		followBtn.addStyleName("link");
-		followBtn.setCaption("Follow");
-		followBtn.setDescription("Follow");
-		followBtn.addClickListener(new Button.ClickListener() {
+		final Button toogleWatching = new Button("");
+		toogleWatching.setStyleName("link");
+		toogleWatching.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (followBtn.getDescription().equals("Follow")) {
-					followBtn.setCaption("UnFollow by Me");
-					followBtn.setDescription("UnFollow");
-					saveMonitorItem(AppContext.getUsername());
-					loadMonitorItems();
-				} else if (followBtn.getDescription().equals("UnFollow")) {
-					followBtn.setCaption("Follow");
-					followBtn.setDescription("Follow");
-					for (MonitorItem item : tableItem.getCurrentDataList()) {
-						if (item.getUser().equals(AppContext.getUsername())) {
-							monitorItemService.removeWithSession(item.getId(),
-									AppContext.getUsername(),
-									AppContext.getAccountId());
-							break;
-						}
-					}
-					loadMonitorItems();
+				if (currentUserFollow) {
+					unfollowItem(AppContext.getUsername(), bean);
+					currentUserFollow = false;
+					toogleWatching.setCaption(AppContext
+							.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
+				} else {
+					followItem(AppContext.getUsername(), bean);
+					toogleWatching.setCaption(AppContext
+							.getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
+					currentUserFollow = true;
 				}
+
+				updateTotalFollowers(bean);
 			}
 		});
-		layoutAdd.addComponent(followBtn);
-		layoutAdd.setComponentAlignment(followBtn, Alignment.MIDDLE_LEFT);
+		header.addComponent(toogleWatching);
 
-		this.addComponent(layoutAdd);
+		if (currentUserFollow) {
+			toogleWatching.setCaption(AppContext
+					.getMessage(FollowerI18nEnum.BUTTON_UNFOLLOW));
+		} else {
+			toogleWatching.setCaption(AppContext
+					.getMessage(FollowerI18nEnum.BUTTON_FOLLOW));
+		}
 
-		tableItem = new DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem>(
-				ApplicationContextUtil.getSpringBean(MonitorItemService.class),
-				SimpleMonitorItem.class, Arrays.asList(new TableViewField(
-						FollowerI18nEnum.FOLLOWER_NAME, "user",
-						UIConstants.TABLE_EX_LABEL_WIDTH), new TableViewField(
-						FollowerI18nEnum.FOLLOWER_CREATE_DATE, "monitorDate",
-						UIConstants.TABLE_DATE_WIDTH), new TableViewField(null,
-						"id", UIConstants.TABLE_CONTROL_WIDTH)));
+		VerticalLayout layout = new VerticalLayout();
+		this.addComponent(layout);
+		layout.setWidth("100%");
+		layout.setSpacing(true);
+		layout.setMargin(new MarginInfo(false, false, false, true));
 
-		tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					final Object itemId, Object columnId) {
-				final SimpleMonitorItem monitorItem = tableItem
-						.getBeanByIndex(itemId);
-
-				return new ProjectUserLink(monitorItem.getUser(), monitorItem
-						.getUserAvatarId(), monitorItem.getUserFullname());
-
-			}
-		});
-
-		tableItem.addGeneratedColumn("monitorDate", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public com.vaadin.ui.Component generateCell(Table source,
-					Object itemId, Object columnId) {
-				final MonitorItem monitorItem = tableItem
-						.getBeanByIndex(itemId);
-				Label l = new Label();
-				l.setValue(AppContext.formatDate(monitorItem.getMonitorDate()));
-				return l;
-			}
-		});
-
-		tableItem.addGeneratedColumn("id", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				final MonitorItem monitorItem = tableItem
-						.getBeanByIndex(itemId);
-
-				Button deleteBtn = new Button(null, new Button.ClickListener() {
+		int totalFollowers = getTotalFollowers(bean);
+		followersBtn = new Button(AppContext.getMessage(
+				FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers),
+				new ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						MonitorItemService monitorItemService = ApplicationContextUtil
-								.getSpringBean(MonitorItemService.class);
-						monitorItemService.removeWithSession(
-								monitorItem.getId(), AppContext.getUsername(),
-								AppContext.getAccountId());
-						CompFollowersSheet.this.displayMonitorItems();
+						if (hasReadPermission()) {
+							showEditWatchersWindow(bean);
+						}
+
 					}
 				});
-				deleteBtn.setStyleName("link");
-				deleteBtn.setIcon(MyCollabResource
-						.newResource("icons/16/delete.png"));
-				monitorItem.setExtraData(deleteBtn);
+		followersBtn.setStyleName("link");
+		layout.addComponent(followersBtn);
+	}
 
-				ProjectMemberService memberService = ApplicationContextUtil
-						.getSpringBean(ProjectMemberService.class);
-				SimpleProjectMember member = memberService
-						.findMemberByUsername(AppContext.getUsername(),
-								CurrentProjectVariables.getProjectId(),
-								AppContext.getAccountId());
+	private void updateTotalFollowers(V bean) {
+		int totalFollowers = getTotalFollowers(bean);
+		followersBtn.setCaption(AppContext.getMessage(
+				FollowerI18nEnum.OPT_NUM_FOLLOWERS, totalFollowers));
+	}
 
-				if (member != null) {
-					deleteBtn.setEnabled(member.getIsadmin()
-							|| (AppContext.getUsername().equals(monitorItem
-									.getUser())));
+	private boolean hasReadPermission() {
+		return CurrentProjectVariables.canRead(permissionItem);
+	}
+
+	private boolean hasEditPermission() {
+		return CurrentProjectVariables.canWrite(permissionItem);
+	}
+
+	private void showEditWatchersWindow(V bean) {
+		UI.getCurrent().addWindow(
+				new CompFollowersEditWindow(hasEditPermission()));
+	}
+
+	private boolean isUserWatching(V bean) {
+		try {
+			return monitorItemService.isUserWatchingItem(
+					AppContext.getUsername(), type,
+					(int) PropertyUtils.getProperty(bean, "id"));
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			return false;
+		}
+	}
+
+	private int getTotalFollowers(V bean) {
+		try {
+			MonitorSearchCriteria criteria = new MonitorSearchCriteria();
+			criteria.setTypeId(new NumberSearchField((int) PropertyUtils
+					.getProperty(bean, "id")));
+			criteria.setType(new StringSearchField(type));
+			return monitorItemService.getTotalCount(criteria);
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			log.error("Error", e);
+			return 0;
+		}
+	}
+
+	private void followItem(String username, V bean) {
+		try {
+			MonitorItem monitorItem = new MonitorItem();
+			monitorItem.setMonitorDate(new GregorianCalendar().getTime());
+			monitorItem.setType(type);
+			monitorItem.setTypeid((int) PropertyUtils.getProperty(bean, "id"));
+			monitorItem.setUser(username);
+			monitorItem.setSaccountid(AppContext.getAccountId());
+			monitorItemService.saveWithSession(monitorItem,
+					AppContext.getUsername());
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			log.error("Error", e);
+		}
+	}
+
+	private void unfollowItem(String username, V bean) {
+		try {
+			MonitorSearchCriteria criteria = new MonitorSearchCriteria();
+			criteria.setTypeId(new NumberSearchField((int) PropertyUtils
+					.getProperty(bean, "id")));
+			criteria.setType(new StringSearchField(type));
+			criteria.setUser(new StringSearchField(username));
+			monitorItemService.removeByCriteria(criteria,
+					AppContext.getAccountId());
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			log.error("Error", e);
+		}
+	}
+
+	class CompFollowersEditWindow extends Window {
+		private static final long serialVersionUID = 1L;
+
+		private DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem> tableItem;
+
+		public CompFollowersEditWindow(boolean isEdit) {
+			this.setModal(true);
+			this.setResizable(false);
+			this.setCaption(AppContext
+					.getMessage(FollowerI18nEnum.DIALOG_WATCHERS_TITLE));
+			this.setWidth("600px");
+
+			VerticalLayout content = new VerticalLayout();
+			content.setMargin(true);
+			content.setSpacing(true);
+			this.setContent(content);
+
+			if (isEdit) {
+				HorizontalLayout headerPanel = new HorizontalLayout();
+				headerPanel.setSpacing(true);
+				content.addComponent(headerPanel);
+
+				final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();
+				headerPanel.addComponent(memberSelection);
+				Button btnSave = new Button(
+						AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+						new Button.ClickListener() {
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public void buttonClick(ClickEvent event) {
+
+								List<SimpleProjectMember> members = memberSelection
+										.getSelectedItems();
+
+								for (ProjectMember member : members) {
+									CompFollowersSheet.this.followItem(
+											member.getUsername(), bean);
+								}
+
+								memberSelection.resetComp();
+								loadMonitorItems();
+							}
+						});
+
+				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
+				btnSave.setIcon(MyCollabResource
+						.newResource("icons/16/addRecord.png"));
+
+				headerPanel.addComponent(btnSave);
+
+				this.addCloseListener(new CloseListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void windowClose(CloseEvent e) {
+						displayFollowers(bean);
+					}
+				});
+			}
+
+			tableItem = new DefaultPagedBeanTable<MonitorItemService, MonitorSearchCriteria, SimpleMonitorItem>(
+					ApplicationContextUtil
+							.getSpringBean(MonitorItemService.class),
+					SimpleMonitorItem.class,
+					Arrays.asList(
+							new TableViewField(FollowerI18nEnum.FOLLOWER_NAME,
+									"user", UIConstants.TABLE_EX_LABEL_WIDTH),
+							new TableViewField(
+									FollowerI18nEnum.FOLLOWER_CREATE_DATE,
+									"monitorDate", UIConstants.TABLE_DATE_WIDTH),
+							new TableViewField(null, "id",
+									UIConstants.TABLE_CONTROL_WIDTH)));
+
+			tableItem.addGeneratedColumn("user", new Table.ColumnGenerator() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public com.vaadin.ui.Component generateCell(Table source,
+						final Object itemId, Object columnId) {
+					final SimpleMonitorItem monitorItem = tableItem
+							.getBeanByIndex(itemId);
+
+					return new ProjectUserLink(monitorItem.getUser(),
+							monitorItem.getUserAvatarId(), monitorItem
+									.getUserFullname());
+
 				}
-				return deleteBtn;
+			});
+
+			tableItem.addGeneratedColumn("monitorDate", new ColumnGenerator() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public com.vaadin.ui.Component generateCell(Table source,
+						Object itemId, Object columnId) {
+					final MonitorItem monitorItem = tableItem
+							.getBeanByIndex(itemId);
+					Label l = new Label();
+					l.setValue(AppContext.formatDate(monitorItem
+							.getMonitorDate()));
+					return l;
+				}
+			});
+
+			if (isEdit) {
+				tableItem.addGeneratedColumn("id", new ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Object generateCell(Table source, Object itemId,
+							Object columnId) {
+						final MonitorItem monitorItem = tableItem
+								.getBeanByIndex(itemId);
+
+						Button deleteBtn = new Button(null,
+								new Button.ClickListener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void buttonClick(ClickEvent event) {
+										MonitorItemService monitorItemService = ApplicationContextUtil
+												.getSpringBean(MonitorItemService.class);
+										monitorItemService.removeWithSession(
+												monitorItem.getId(),
+												AppContext.getUsername(),
+												AppContext.getAccountId());
+										CompFollowersEditWindow.this
+												.loadMonitorItems();
+									}
+								});
+						deleteBtn.setStyleName("link");
+						deleteBtn.setIcon(MyCollabResource
+								.newResource("icons/16/delete.png"));
+						monitorItem.setExtraData(deleteBtn);
+
+						ProjectMemberService memberService = ApplicationContextUtil
+								.getSpringBean(ProjectMemberService.class);
+						SimpleProjectMember member = memberService
+								.findMemberByUsername(AppContext.getUsername(),
+										CurrentProjectVariables.getProjectId(),
+										AppContext.getAccountId());
+
+						if (member != null) {
+							deleteBtn.setEnabled(member.getIsadmin()
+									|| (AppContext.getUsername()
+											.equals(monitorItem.getUser())));
+						}
+						return deleteBtn;
+					}
+				});
+			} else {
+				tableItem.addGeneratedColumn("id", new ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public Object generateCell(Table source, Object itemId,
+							Object columnId) {
+						return new Label("");
+					}
+
+				});
 			}
-		});
 
-		tableItem.setWidth("100%");
+			tableItem.setWidth("100%");
 
-		this.addComponent(tableItem);
-	}
+			content.addComponent(tableItem);
 
-	public void displayMonitorItems() {
-		loadMonitorItems();
+			loadMonitorItems();
+		}
 
-		for (SimpleMonitorItem monitorItem : tableItem.getCurrentDataList()) {
-			if (monitorItem.getUser().equals(AppContext.getUsername())) {
-				followBtn.setCaption("UnFollow");
-				break;
+		private void loadMonitorItems() {
+			try {
+				MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
+				searchCriteria.setTypeId(new NumberSearchField(
+						(int) PropertyUtils.getProperty(bean, "id")));
+				searchCriteria.setType(new StringSearchField(
+						ProjectTypeConstants.TASK));
+				tableItem.setSearchCriteria(searchCriteria);
+			} catch (IllegalAccessException | InvocationTargetException
+					| NoSuchMethodException e) {
+				log.error("Error", e);
 			}
 		}
-		if (tableItem.getCurrentDataList().size() == 0
-				|| (followBtn.getDescription() != null && !followBtn
-						.getDescription().equals("UnFollow"))) {
-			followBtn.setCaption("Follow");
-		}
 	}
-
-	protected abstract void loadMonitorItems();
-
-	protected abstract boolean saveMonitorItem(String username);
-
-	protected abstract void saveRelayNotification();
-
-	protected abstract boolean isEnableAdd();
-
 }

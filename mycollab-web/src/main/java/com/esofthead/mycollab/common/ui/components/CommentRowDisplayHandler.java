@@ -19,9 +19,12 @@ package com.esofthead.mycollab.common.ui.components;
 
 import java.util.List;
 
+import org.vaadin.dialogs.ConfirmDialog;
+
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -30,6 +33,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
@@ -44,6 +48,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -57,7 +62,7 @@ public class CommentRowDisplayHandler extends
 
 	@Override
 	public Component generateRow(final SimpleComment comment, int rowIndex) {
-		HorizontalLayout layout = new HorizontalLayout();
+		final HorizontalLayout layout = new HorizontalLayout();
 		layout.setStyleName("message");
 		layout.setWidth("100%");
 		layout.setSpacing(true);
@@ -124,10 +129,34 @@ public class CommentRowDisplayHandler extends
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					CommentService commentService = ApplicationContextUtil
-							.getSpringBean(CommentService.class);
-					commentService.removeWithSession(comment.getId(),
-							AppContext.getUsername(), AppContext.getAccountId());
+					ConfirmDialogExt.show(
+							UI.getCurrent(),
+							AppContext.getMessage(
+									GenericI18Enum.DIALOG_DELETE_TITLE,
+									SiteConfiguration.getSiteName()),
+							AppContext
+									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+							AppContext
+									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+							AppContext
+									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+							new ConfirmDialog.Listener() {
+								private static final long serialVersionUID = 1L;
+
+								@Override
+								public void onClose(ConfirmDialog dialog) {
+									if (dialog.isConfirmed()) {
+										CommentService commentService = ApplicationContextUtil
+												.getSpringBean(CommentService.class);
+										commentService.removeWithSession(
+												comment.getId(),
+												AppContext.getUsername(),
+												AppContext.getAccountId());
+										CommentRowDisplayHandler.this.owner
+												.removeRow(layout);
+									}
+								}
+							});
 				}
 			});
 		} else {
@@ -160,6 +189,9 @@ public class CommentRowDisplayHandler extends
 	}
 
 	private boolean hasDeletePermission(SimpleComment comment) {
+		if (AppContext.getUsername().equals(comment.getCreateduser())) {
+			return true;
+		}
 		return false;
 	}
 }
