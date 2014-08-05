@@ -14,14 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.ui.components;
+package com.esofthead.mycollab.vaadin.ui;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.vaadin.popupbutton.PopupButtonExt;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;

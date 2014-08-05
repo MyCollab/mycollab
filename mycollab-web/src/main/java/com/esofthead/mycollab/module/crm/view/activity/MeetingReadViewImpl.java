@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -49,8 +50,10 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 		implements MeetingReadView {
 
 	private static final long serialVersionUID = 1L;
+
 	protected NoteListItems noteListItems;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleMeeting> followersComp;
 
 	public MeetingReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/meeting.png"));
@@ -86,6 +89,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	protected void onPreviewItem() {
 		displayNotes();
 		dateInfoComp.displayEntryDateTime(beanItem);
+		followersComp.displayFollowers(beanItem);
 	}
 
 	@Override
@@ -108,6 +112,10 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
+
+		followersComp = new CrmFollowersComp<SimpleMeeting>(
+				CrmTypeConstants.MEETING, RolePermissionCollections.CRM_MEETING);
+		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

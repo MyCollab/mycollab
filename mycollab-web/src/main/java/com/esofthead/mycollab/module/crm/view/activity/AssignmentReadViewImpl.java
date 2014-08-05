@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -51,6 +52,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	protected NoteListItems noteListItems;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleTask> followersComp;
 
 	public AssignmentReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/task.png"));
@@ -86,6 +88,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	protected void onPreviewItem() {
 		displayNotes();
 		dateInfoComp.displayEntryDateTime(beanItem);
+		followersComp.displayFollowers(beanItem);
 	}
 
 	@Override
@@ -108,6 +111,10 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
+
+		followersComp = new CrmFollowersComp<SimpleTask>(CrmTypeConstants.TASK,
+				RolePermissionCollections.CRM_TASK);
+		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

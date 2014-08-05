@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -76,6 +77,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 	private DateInfoComp dateInfoComp;
 	private PeopleInfoComp peopleInfoComp;
+	private CrmFollowersComp<SimpleAccount> compFollowers;
 
 	public AccountReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/account.png"));
@@ -168,7 +170,8 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 		associateOpportunityList = new AccountOpportunityListComp();
 		associateLeadList = new AccountLeadListComp();
 		associateCaseList = new AccountCaseListComp();
-		noteListItems = new NoteListItems(AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
+		noteListItems = new NoteListItems(
+				AppContext.getMessage(CrmCommonI18nEnum.TAB_NOTE));
 
 		CssLayout navigatorWrapper = previewItemContainer.getNavigatorWrapper();
 		VerticalLayout basicInfo = new VerticalLayout();
@@ -182,6 +185,10 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
+
+		compFollowers = new CrmFollowersComp<SimpleAccount>(
+				CrmTypeConstants.ACCOUNT, RolePermissionCollections.CRM_ACCOUNT);
+		basicInfo.addComponent(compFollowers);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 
@@ -223,6 +230,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
+		compFollowers.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
 	}

@@ -49,6 +49,7 @@
         - Improve page template
         - Upgrade Vaadin to 7.2.6
         - Improve UIs of project views
+        - Allow users delete comments
     
     Bug Fixes
         - Remove border of Create Project button

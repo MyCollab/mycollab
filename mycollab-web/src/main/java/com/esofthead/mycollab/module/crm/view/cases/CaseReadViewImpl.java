@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -64,6 +65,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleCase> followersComp;
 
 	public CaseReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/case.png"));
@@ -103,6 +105,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 		peopleInfoComp.displayEntryPeople(beanItem);
 		dateInfoComp.displayEntryDateTime(beanItem);
+		followersComp.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
 	}
@@ -131,6 +134,10 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
+
+		followersComp = new CrmFollowersComp<SimpleCase>(CrmTypeConstants.CASE,
+				RolePermissionCollections.CRM_CASE);
+		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -61,6 +63,7 @@ import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.AttachmentPanel;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
@@ -76,6 +79,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -260,12 +264,49 @@ public class NoteListItems extends VerticalLayout {
 			messageHeader.setWidth("100%");
 			messageHeader.setMargin(new MarginInfo(true, true, false, true));
 
-			// Message delete button
-			Button msgDeleteBtn = new Button();
-			msgDeleteBtn.setIcon(MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
-			msgDeleteBtn.setStyleName("delete-btn");
-			messageHeader.addComponent(msgDeleteBtn);
+			if (AppContext.getUsername().equals(note.getCreateduser())
+					|| AppContext.isAdmin()) {
+				// Message delete button
+				Button msgDeleteBtn = new Button("", new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ConfirmDialogExt.show(
+								UI.getCurrent(),
+								AppContext.getMessage(
+										GenericI18Enum.DIALOG_DELETE_TITLE,
+										SiteConfiguration.getSiteName()),
+								AppContext
+										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.Listener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											NoteService noteService = ApplicationContextUtil
+													.getSpringBean(NoteService.class);
+											noteService.removeWithSession(
+													note.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											NoteRowDisplayHandler.this.owner
+													.removeRow(noteContentLayout);
+										}
+									}
+								});
+					}
+				});
+				msgDeleteBtn.setIcon(MyCollabResource
+						.newResource("icons/12/project/icon_x.png"));
+				msgDeleteBtn.setStyleName("delete-btn");
+				messageHeader.addComponent(msgDeleteBtn);
+			}
 
 			rowLayout.addComponent(messageHeader);
 

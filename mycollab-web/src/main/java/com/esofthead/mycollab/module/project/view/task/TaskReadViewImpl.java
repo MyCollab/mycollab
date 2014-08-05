@@ -41,7 +41,7 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.CompFollowersSheet;
+import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -93,7 +93,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 	private TaskHistoryList historyList;
 
-	private CompFollowersSheet<SimpleTask> followerSheet;
+	private ProjectFollowersComp<SimpleTask> followerSheet;
 
 	private DateInfoComp dateInfoComp;
 
@@ -144,7 +144,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
 
-		followerSheet = new CompFollowersSheet<SimpleTask>(
+		followerSheet = new ProjectFollowersComp<SimpleTask>(
 				ProjectTypeConstants.TASK,
 				ProjectRolePermissionCollections.TASKS);
 		addToSideBar(followerSheet);

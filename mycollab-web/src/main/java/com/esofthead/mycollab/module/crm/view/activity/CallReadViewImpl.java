@@ -22,6 +22,7 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -52,6 +53,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 
 	protected NoteListItems noteListItems;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleCall> followersComp;
 
 	public CallReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/call.png"));
@@ -87,6 +89,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 	protected void onPreviewItem() {
 		this.displayNotes();
 		dateInfoComp.displayEntryDateTime(beanItem);
+		followersComp.displayFollowers(beanItem);
 	}
 
 	@Override
@@ -109,6 +112,10 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 
 		dateInfoComp = new DateInfoComp();
 		basicInfo.addComponent(dateInfoComp);
+
+		followersComp = new CrmFollowersComp<SimpleCall>(CrmTypeConstants.CALL,
+				RolePermissionCollections.CRM_CALL);
+		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

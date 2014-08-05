@@ -38,7 +38,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 		header.setSpacing(true);
 		Label dateInfoHeader = new Label(
 				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
-		header.setStyleName("info-hdr");
+		dateInfoHeader.setStyleName("info-hdr");
 		header.addComponent(dateInfoHeader);
 
 		if (hasEditPermission()) {
@@ -54,6 +54,7 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 						}
 					});
 			editBtn.setStyleName("link");
+			editBtn.addStyleName("info-hdr");
 			header.addComponent(editBtn);
 		}
 

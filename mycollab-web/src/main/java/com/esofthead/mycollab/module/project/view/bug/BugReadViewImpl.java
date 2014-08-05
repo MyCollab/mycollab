@@ -46,7 +46,7 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.CompFollowersSheet;
+import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
@@ -110,7 +110,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	private BugHistoryList historyList;
 
-	private CompFollowersSheet<SimpleBug> bugFollowersList;
+	private ProjectFollowersComp<SimpleBug> bugFollowersList;
 
 	private BugTimeLogSheet bugTimeLogList;
 
@@ -336,7 +336,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
 
-		bugFollowersList = new CompFollowersSheet<SimpleBug>(
+		bugFollowersList = new ProjectFollowersComp<SimpleBug>(
 				ProjectTypeConstants.BUG, ProjectRolePermissionCollections.BUGS);
 		addToSideBar(bugFollowersList);
 

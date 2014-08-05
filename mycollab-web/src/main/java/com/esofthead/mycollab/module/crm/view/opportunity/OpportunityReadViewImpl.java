@@ -33,6 +33,7 @@ import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -73,6 +74,7 @@ public class OpportunityReadViewImpl extends
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleOpportunity> followersComp;
 
 	public OpportunityReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/opportunity.png"));
@@ -114,6 +116,7 @@ public class OpportunityReadViewImpl extends
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
+		followersComp.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
 	}
@@ -161,6 +164,11 @@ public class OpportunityReadViewImpl extends
 
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
+
+		followersComp = new CrmFollowersComp<SimpleOpportunity>(
+				CrmTypeConstants.OPPORTUNITY,
+				RolePermissionCollections.CRM_OPPORTUNITY);
+		basicInfo.addComponent(followersComp);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

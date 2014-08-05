@@ -29,6 +29,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.module.crm.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.crm.ui.components.CrmFollowersComp;
 import com.esofthead.mycollab.module.crm.ui.components.CrmPreviewFormControlsGenerator;
 import com.esofthead.mycollab.module.crm.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.crm.ui.components.NoteListItems;
@@ -68,6 +69,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 	private PeopleInfoComp peopleInfoComp;
 	private DateInfoComp dateInfoComp;
+	private CrmFollowersComp<SimpleLead> compFollowers;
 
 	public LeadReadViewImpl() {
 		super(MyCollabResource.newResource("icons/22/crm/lead.png"));
@@ -125,6 +127,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
+		compFollowers.displayFollowers(beanItem);
 
 		previewItemContainer.selectTab("about");
 	}
@@ -153,6 +156,10 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 
 		peopleInfoComp = new PeopleInfoComp();
 		basicInfo.addComponent(peopleInfoComp);
+
+		compFollowers = new CrmFollowersComp<SimpleLead>(
+				CrmTypeConstants.LEAD, RolePermissionCollections.CRM_LEAD);
+		basicInfo.addComponent(compFollowers);
 
 		navigatorWrapper.addComponentAsFirst(basicInfo);
 

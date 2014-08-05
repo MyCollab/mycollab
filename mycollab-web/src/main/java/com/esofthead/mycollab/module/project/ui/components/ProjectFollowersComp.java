@@ -13,17 +13,15 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.SimpleMonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
+import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
-import com.esofthead.mycollab.module.project.i18n.FollowerI18nEnum;
-import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberMultiSelectComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -49,11 +47,11 @@ import com.vaadin.ui.Window;
  * @since 4.3.3
  *
  */
-public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
+public class ProjectFollowersComp<V extends ValuedBean> extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory
-			.getLogger(CompFollowersSheet.class);
+			.getLogger(ProjectFollowersComp.class);
 
 	protected MonitorItemService monitorItemService;
 
@@ -67,7 +65,7 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 
 	private Button followersBtn;
 
-	public CompFollowersSheet(String type, String permissionItem) {
+	public ProjectFollowersComp(String type, String permissionItem) {
 		super();
 		monitorItemService = ApplicationContextUtil
 				.getSpringBean(MonitorItemService.class);
@@ -86,7 +84,7 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 		header.setSpacing(true);
 		Label followerHeader = new Label(
 				AppContext.getMessage(FollowerI18nEnum.SUB_INFO_WATCHERS));
-		header.setStyleName("info-hdr");
+		followerHeader.setStyleName("info-hdr");
 		header.addComponent(followerHeader);
 
 		if (hasEditPermission()) {
@@ -102,16 +100,20 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 						}
 					});
 			editBtn.setStyleName("link");
+			editBtn.addStyleName("info-hdr");
 			header.addComponent(editBtn);
 		}
 
 		this.addComponent(header);
-		header.addComponent(new Label("/"));
+		Label sep = new Label("/");
+		sep.setStyleName("info-hdr");
+		header.addComponent(sep);
 
 		currentUserFollow = isUserWatching(bean);
 
 		final Button toogleWatching = new Button("");
 		toogleWatching.setStyleName("link");
+		toogleWatching.addStyleName("info-hdr");
 		toogleWatching.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -266,7 +268,7 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 				final ProjectMemberMultiSelectComp memberSelection = new ProjectMemberMultiSelectComp();
 				headerPanel.addComponent(memberSelection);
 				Button btnSave = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+						AppContext.getMessage(FollowerI18nEnum.BUTTON_FOLLOW),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -277,7 +279,7 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 										.getSelectedItems();
 
 								for (ProjectMember member : members) {
-									CompFollowersSheet.this.followItem(
+									ProjectFollowersComp.this.followItem(
 											member.getUsername(), bean);
 								}
 
@@ -375,20 +377,6 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 						deleteBtn.setStyleName("link");
 						deleteBtn.setIcon(MyCollabResource
 								.newResource("icons/16/delete.png"));
-						monitorItem.setExtraData(deleteBtn);
-
-						ProjectMemberService memberService = ApplicationContextUtil
-								.getSpringBean(ProjectMemberService.class);
-						SimpleProjectMember member = memberService
-								.findMemberByUsername(AppContext.getUsername(),
-										CurrentProjectVariables.getProjectId(),
-										AppContext.getAccountId());
-
-						if (member != null) {
-							deleteBtn.setEnabled(member.getIsadmin()
-									|| (AppContext.getUsername()
-											.equals(monitorItem.getUser())));
-						}
 						return deleteBtn;
 					}
 				});
@@ -417,8 +405,7 @@ public class CompFollowersSheet<V extends ValuedBean> extends VerticalLayout {
 				MonitorSearchCriteria searchCriteria = new MonitorSearchCriteria();
 				searchCriteria.setTypeId(new NumberSearchField(
 						(int) PropertyUtils.getProperty(bean, "id")));
-				searchCriteria.setType(new StringSearchField(
-						ProjectTypeConstants.TASK));
+				searchCriteria.setType(new StringSearchField(type));
 				tableItem.setSearchCriteria(searchCriteria);
 			} catch (IllegalAccessException | InvocationTargetException
 					| NoSuchMethodException e) {

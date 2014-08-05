@@ -91,6 +91,7 @@ public final class MainView extends AbstractPageView {
 		this.addComponent(this.createTopMenu());
 		this.bodyLayout = new CssLayout();
 		this.bodyLayout.addStyleName("main-body");
+		this.bodyLayout.setId("main-body");
 		this.bodyLayout.setWidth("100%");
 		this.bodyLayout.setHeight("100%");
 		this.addComponent(this.bodyLayout);

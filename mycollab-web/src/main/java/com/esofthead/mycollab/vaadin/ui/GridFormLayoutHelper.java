@@ -18,7 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.io.Serializable;
 
-import com.esofthead.mycollab.module.project.ui.components.MultiSelectComp;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;

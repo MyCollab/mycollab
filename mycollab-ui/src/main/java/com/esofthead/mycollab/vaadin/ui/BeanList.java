@@ -106,7 +106,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	}
 
 	public void insetItemOnBottom(T item) {
-		RowDisplayHandler<T> rowHandler = constructRowndisplayHandler();
+		RowDisplayHandler<T> rowHandler = constructRowDisplayHandler();
 		Component row = rowHandler.generateRow(item,
 				contentLayout.getComponentCount());
 		if (row != null && contentLayout != null) {
@@ -114,7 +114,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		}
 	}
 
-	private RowDisplayHandler<T> constructRowndisplayHandler() {
+	private RowDisplayHandler<T> constructRowDisplayHandler() {
 		RowDisplayHandler<T> rowHandler = null;
 		try {
 
@@ -167,7 +167,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 			} else {
 				int i = 0;
 				for (T item : currentListData) {
-					RowDisplayHandler<T> rowHandler = constructRowndisplayHandler();
+					RowDisplayHandler<T> rowHandler = constructRowDisplayHandler();
 
 					Component row = rowHandler.generateRow(item, i);
 					if (row != null) {

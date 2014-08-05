@@ -71,7 +71,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		bodyContainer.setExpandRatio(bodyContent, 1);
 
 		sidebarContent = new VerticalLayout();
-		sidebarContent.setWidth("300px");
+		sidebarContent.setWidth("250px");
 		sidebarContent.setSpacing(true);
 		sidebarContent.setStyleName("readview-sidebar");
 		bodyContainer.addComponent(sidebarContent);
