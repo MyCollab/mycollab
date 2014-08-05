@@ -98,7 +98,7 @@ public class MyProjectListComponent extends Depot {
 		}
 	}
 
-	public static class ProjectRowDisplayHandler implements
+	public static class ProjectRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleProject> {
 		private static final long serialVersionUID = 1L;
 

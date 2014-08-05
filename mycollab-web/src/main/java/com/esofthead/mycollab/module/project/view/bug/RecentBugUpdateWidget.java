@@ -59,7 +59,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 				searchCriteria);
 	}
 
-	public static class RecentBugRowDisplayHandler implements
+	public static class RecentBugRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
@@ -105,8 +105,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 			final HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
 			hLayoutAssigneeInfo.setSpacing(true);
 			final Label assignee = new Label(
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-							+ ": ");
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
 			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			hLayoutAssigneeInfo.addComponent(assignee);
 			hLayoutAssigneeInfo.setComponentAlignment(assignee,

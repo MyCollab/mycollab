@@ -45,6 +45,7 @@
         - Update Japanese localization
         - Update mobile module
         - Support chart localization
+        - Support gantt chart localization
         - Improve page template
         - Upgrade Vaadin to 7.2.6
         - Improve UIs of project views

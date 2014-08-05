@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.TimeLogComp;
 import com.esofthead.mycollab.module.project.ui.components.TimeLogEditWindow;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -88,7 +89,9 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 	private class BugTimeLogEditWindow extends TimeLogEditWindow<SimpleBug> {
 		public BugTimeLogEditWindow(SimpleBug bean) {
 			super(bean);
-			this.setCaption("Log Time");
+			this.setModal(true);
+			this.setCaption(AppContext
+					.getMessage(TimeTrackingI18nEnum.DIALOG_LOG_TIME_ENTRY_TITLE));
 			this.setModal(true);
 			this.addCloseListener(new CloseListener() {
 

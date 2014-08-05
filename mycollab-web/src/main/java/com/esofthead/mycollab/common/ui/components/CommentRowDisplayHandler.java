@@ -21,10 +21,12 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
@@ -49,7 +51,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class CommentRowDisplayHandler implements
+public class CommentRowDisplayHandler extends
 		BeanList.RowDisplayHandler<SimpleComment> {
 	private static final long serialVersionUID = 1L;
 
@@ -115,6 +117,23 @@ public class CommentRowDisplayHandler implements
 		msgDeleteBtn.setStyleName("delete-btn");
 		messageHeader.addComponent(msgDeleteBtn);
 
+		if (hasDeletePermission(comment)) {
+			msgDeleteBtn.setVisible(true);
+			msgDeleteBtn.addClickListener(new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(ClickEvent event) {
+					CommentService commentService = ApplicationContextUtil
+							.getSpringBean(CommentService.class);
+					commentService.removeWithSession(comment.getId(),
+							AppContext.getUsername(), AppContext.getAccountId());
+				}
+			});
+		} else {
+			msgDeleteBtn.setVisible(false);
+		}
+
 		rowLayout.addComponent(messageHeader);
 
 		Label messageContent = new UrlDetectableLabel(comment.getComment());
@@ -138,5 +157,9 @@ public class CommentRowDisplayHandler implements
 		layout.addComponent(rowLayout);
 		layout.setExpandRatio(rowLayout, 1.0f);
 		return layout;
+	}
+
+	private boolean hasDeletePermission(SimpleComment comment) {
+		return false;
 	}
 }

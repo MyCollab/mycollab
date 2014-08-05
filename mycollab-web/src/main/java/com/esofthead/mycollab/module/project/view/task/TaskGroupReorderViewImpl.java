@@ -186,7 +186,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		taskLists.setSearchCriteria(criteria);
 	}
 
-	public static class TaskListRowDisplayHandler implements
+	public static class TaskListRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleTaskList> {
 		private static final long serialVersionUID = 1L;
 

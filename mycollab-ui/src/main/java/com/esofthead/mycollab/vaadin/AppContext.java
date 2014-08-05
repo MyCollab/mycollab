@@ -38,7 +38,6 @@ import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -50,7 +49,6 @@ import com.esofthead.mycollab.module.billing.SubDomainNotExistException;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
-import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
 import com.esofthead.mycollab.module.user.service.UserPreferenceService;
@@ -570,15 +568,5 @@ public class AppContext implements Serializable {
 		Page.getCurrent().setUriFragment(fragement, false);
 		Page.getCurrent().setTitle(
 				StringUtils.trim(windowTitle, 150) + " [MyCollab]");
-	}
-
-	public static void main(String[] args) {
-		User user = new User();
-		user.setCompany("AAA");
-		String json = JsonDeSerializer.toJson(user);
-		System.out.println(json);
-		User user1 = JsonDeSerializer.fromJson(json, User.class);
-		System.out.println(BeanUtility.printBeanObj(user1));
-
 	}
 }

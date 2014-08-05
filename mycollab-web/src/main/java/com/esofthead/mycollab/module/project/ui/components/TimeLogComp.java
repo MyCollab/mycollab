@@ -2,6 +2,7 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -34,7 +35,8 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 		this.setMargin(new MarginInfo(false, false, false, true));
 
 		HorizontalLayout header = new HorizontalLayout();
-		Label dateInfoHeader = new Label("Time");
+		Label dateInfoHeader = new Label(
+				AppContext.getMessage(TimeTrackingI18nEnum.SUB_INFO_TIME));
 		header.setStyleName("info-hdr");
 		header.addComponent(dateInfoHeader);
 
@@ -64,11 +66,14 @@ public abstract class TimeLogComp<V extends ValuedBean> extends VerticalLayout {
 		double billableHours = getTotalBillableHours(bean);
 		double nonBillableHours = getTotalNonBillableHours(bean);
 		double remainHours = getRemainedHours(bean);
-		layout.addComponent(new Label(String.format("Billable Hours: %.2f",
+		layout.addComponent(new Label(String.format(
+				AppContext.getMessage(TimeTrackingI18nEnum.OPT_BILLABLE_HOURS),
 				billableHours)));
-		layout.addComponent(new Label(String.format("Non-Billable Hours: %.2f",
+		layout.addComponent(new Label(String.format(AppContext
+				.getMessage(TimeTrackingI18nEnum.OPT_NON_BILLABLE_HOURS),
 				nonBillableHours)));
-		layout.addComponent(new Label(String.format("Remaining Hours: %.2f",
+		layout.addComponent(new Label(String.format(
+				AppContext.getMessage(TimeTrackingI18nEnum.OPT_REMAIN_HOURS),
 				remainHours)));
 		this.addComponent(layout);
 	}

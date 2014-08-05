@@ -81,7 +81,7 @@ public class ProjectMembersWidget extends Depot {
 		memberList.setSearchCriteria(searchCriteria);
 	}
 
-	public static class MemberRowDisplayHandler implements
+	public static class MemberRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleProjectMember> {
 		private static final long serialVersionUID = 1L;
 

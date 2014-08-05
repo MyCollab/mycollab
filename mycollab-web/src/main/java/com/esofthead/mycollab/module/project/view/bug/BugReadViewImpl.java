@@ -29,7 +29,6 @@ import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -335,7 +334,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
-		
+
 		bugTimeLogList = new BugTimeLogSheet();
 		addToSideBar(bugTimeLogList);
 	}
@@ -713,7 +712,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			this.setMargin(new MarginInfo(false, false, false, true));
 
 			Label peopleInfoHeader = new Label(
-					AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_PEOPLE));
+					AppContext
+							.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
 			peopleInfoHeader.setStyleName("info-hdr");
 			this.addComponent(peopleInfoHeader);
 
@@ -723,7 +723,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			layout.setMargin(new MarginInfo(false, false, false, true));
 			try {
 				Label createdLbl = new Label(
-						AppContext.getMessage(BugI18nEnum.FORM_LOG_BY) + ":");
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
 				createdLbl.setSizeUndefined();
 				layout.addComponent(createdLbl, 0, 0);
 
@@ -740,8 +741,8 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				layout.setColumnExpandRatio(1, 1.0f);
 
 				Label assigneeLbl = new Label(
-						AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-								+ ":");
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
 				assigneeLbl.setSizeUndefined();
 				layout.addComponent(assigneeLbl, 0, 1);
 				String assignUserName = (String) PropertyUtils.getProperty(

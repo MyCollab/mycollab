@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Label;
@@ -22,7 +22,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class DateInfoComp extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static Logger log = LoggerFactory.getLogger(DateInfoComp.class);
 
 	public void displayEntryDateTime(ValuedBean bean) {
@@ -30,7 +30,7 @@ public class DateInfoComp extends VerticalLayout {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(false, false, false, true));
 		Label dateInfoHeader = new Label(
-				AppContext.getMessage(CrmCommonI18nEnum.SUB_INFO_DATES));
+				AppContext.getMessage(ProjectCommonI18nEnum.SUB_INFO_DATES));
 		dateInfoHeader.setStyleName("info-hdr");
 		this.addComponent(dateInfoHeader);
 
@@ -42,12 +42,12 @@ public class DateInfoComp extends VerticalLayout {
 			String createdDate = AppContext.formatDate((Date) PropertyUtils
 					.getProperty(bean, "createdtime"));
 			layout.addComponent(new Label(AppContext.getMessage(
-					CrmCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
+					ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
 
 			String updatedDate = AppContext.formatDate((Date) PropertyUtils
 					.getProperty(bean, "lastupdatedtime"));
 			layout.addComponent(new Label(AppContext.getMessage(
-					CrmCommonI18nEnum.ITEM_UPDATED_DATE, updatedDate)));
+					ProjectCommonI18nEnum.ITEM_UPDATED_DATE, updatedDate)));
 			this.addComponent(layout);
 		} catch (Exception e) {
 			log.error("Get date is failed {}", BeanUtility.printBeanObj(bean));

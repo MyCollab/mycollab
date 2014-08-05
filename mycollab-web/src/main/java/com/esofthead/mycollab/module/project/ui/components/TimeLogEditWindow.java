@@ -11,6 +11,7 @@ import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
@@ -218,7 +219,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		totalLayout.addStyleName("boxTotal");
 		totalLayout.setWidth("100%");
 		spentTimePanel.addComponent(totalLayout);
-		final Label lbTimeInstructTotal = new Label("Total Spent Hours");
+		final Label lbTimeInstructTotal = new Label(
+				AppContext
+						.getMessage(TimeTrackingI18nEnum.OPT_TOTAL_SPENT_HOURS));
 		totalLayout.addComponent(lbTimeInstructTotal);
 		this.totalSpentTimeLbl = new Label("_");
 		this.totalSpentTimeLbl.addStyleName("numberTotal");
@@ -235,7 +238,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.newTimeInputField,
 				Alignment.MIDDLE_LEFT);
 
-		this.isBillableField = new CheckBox("Is Billable", true);
+		this.isBillableField = new CheckBox(
+				AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
+				true);
 		addLayout.addComponent(this.isBillableField);
 		addLayout.setComponentAlignment(this.isBillableField,
 				Alignment.MIDDLE_LEFT);
@@ -287,7 +292,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		updateLayout.setWidth("100%");
 		remainTimePanel.addComponent(updateLayout);
 
-		final Label lbTimeInstructTotal = new Label("Remaining Work Hours");
+		final Label lbTimeInstructTotal = new Label(
+				AppContext
+						.getMessage(TimeTrackingI18nEnum.OPT_REMAINING_WORK_HOURS));
 		updateLayout.addComponent(lbTimeInstructTotal);
 		this.remainTimeLbl = new Label("_");
 		this.remainTimeLbl.addStyleName("numberTotal");

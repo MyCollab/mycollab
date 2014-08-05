@@ -57,7 +57,7 @@ public class DueBugWidget extends BugDisplayWidget {
 		return new BugFilterParameter("Due Bugs", searchCriteria);
 	}
 
-	public static class DueBugRowDisplayHandler implements
+	public static class DueBugRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 

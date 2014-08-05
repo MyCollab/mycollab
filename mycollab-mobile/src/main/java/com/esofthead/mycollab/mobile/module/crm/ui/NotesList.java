@@ -208,7 +208,7 @@ public class NotesList extends AbstractMobilePageView {
 		displayNotes();
 	}
 
-	public static class NoteRowDisplayHandler implements
+	public static class NoteRowDisplayHandler extends
 			RowDisplayHandler<SimpleNote> {
 		private static final long serialVersionUID = 1L;
 

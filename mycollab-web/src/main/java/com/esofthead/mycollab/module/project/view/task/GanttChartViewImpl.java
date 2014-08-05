@@ -25,14 +25,17 @@ import org.tltv.gantt.Gantt.MoveEvent;
 import org.tltv.gantt.Gantt.ResizeEvent;
 import org.tltv.gantt.client.shared.Step;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.ui.HorizontalLayout;
@@ -74,23 +77,31 @@ public class GanttChartViewImpl extends AbstractPageView implements
 		taskTree = new TreeTable();
 		container.addComponent(taskTree);
 
-		taskTree.addContainerProperty("Task Name", String.class, null);
-		taskTree.addContainerProperty("Start Date", Date.class, null);
-		taskTree.addContainerProperty("End Date", Date.class, null);
-		taskTree.addContainerProperty("Assign User", String.class, null);
+		taskTree.addContainerProperty(
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME),
+				String.class, null);
+		taskTree.addContainerProperty(
+				AppContext.getMessage(TaskI18nEnum.FORM_START_DATE),
+				Date.class, null);
+		taskTree.addContainerProperty(
+				AppContext.getMessage(TaskI18nEnum.FORM_END_DATE), Date.class,
+				null);
+		taskTree.addContainerProperty(
+				AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+				String.class, null);
 		taskTree.setSizeFull();
 
-		taskTree.addGeneratedColumn("Task Name", new ColumnGenerator() {
-			private static final long serialVersionUID = 1L;
+		taskTree.addGeneratedColumn(
+				AppContext.getMessage(TaskI18nEnum.FORM_TASK_NAME),
+				new ColumnGenerator() {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public Object generateCell(Table source, Object itemId,
-					Object columnId) {
-				// TODO Auto-generated method stub
-				System.out.println("Item ud: " + itemId);
-				return null;
-			}
-		});
+					@Override
+					public Object generateCell(Table source, Object itemId,
+							Object columnId) {
+						return null;
+					}
+				});
 		container.addComponent(taskTree);
 
 		gantt = new Gantt();

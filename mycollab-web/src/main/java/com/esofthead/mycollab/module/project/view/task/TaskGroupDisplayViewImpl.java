@@ -81,7 +81,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private Button reOrderBtn;
 
-	private TaskGanttChart ganttChart;
+	private GanttChartTaskContainer ganttChart;
 
 	private PopupButton exportButtonControl;
 
@@ -612,7 +612,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		header.setComponentAlignment(viewButtons, Alignment.MIDDLE_RIGHT);
 
 		this.addComponent(header);
-		ganttChart = new TaskGanttChart();
+		ganttChart = new GanttChartTaskContainer();
 		this.addComponent(ganttChart);
 		ganttChart.displayChart();
 	}

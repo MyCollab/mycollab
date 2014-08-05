@@ -41,6 +41,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -63,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.1
  * 
  */
-class TaskGanttChart extends VerticalLayout {
+class GanttChartTaskContainer extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	private List<SimpleTask> taskList;
 
@@ -78,7 +79,7 @@ class TaskGanttChart extends VerticalLayout {
 	private DateField start;
 	private DateField end;
 
-	public TaskGanttChart() {
+	public GanttChartTaskContainer() {
 		taskService = ApplicationContextUtil
 				.getSpringBean(ProjectTaskService.class);
 		constructGanttChart();
@@ -111,10 +112,10 @@ class TaskGanttChart extends VerticalLayout {
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		cal.add(Calendar.DATE, -7);
+		cal.add(Calendar.DATE, -14);
 
 		gantt.setStartDate(cal.getTime());
-		cal.add(Calendar.DATE, 37);
+		cal.add(Calendar.DATE, 28);
 		gantt.setEndDate(cal.getTime());
 
 		gantt.addMoveListener(new Gantt.MoveListener() {
@@ -281,16 +282,17 @@ class TaskGanttChart extends VerticalLayout {
 		String arg7 = "'" + task.getSaccountid() + "'";
 		String arg8 = "'" + AppContext.getSiteUrl() + "'";
 		String arg9 = AppContext.getSession().getTimezone();
-		String arg10 = task.getTaskname();
+		String arg10 = "'" + AppContext.getUserLocale().toString() + "'";
+		String arg11 = task.getTaskname();
 
-		String arg11 = idStickyToolTipDiv;
-		String arg12 = idToopTipDiv;
-		String arg13 = idDivSeverData;
+		String arg12 = idStickyToolTipDiv;
+		String arg13 = idToopTipDiv;
+		String arg14 = idDivSeverData;
 
 		content = AppContext.getMessage(
 				ProjectCommonI18nEnum.TOOLTIP_GANTT_CHART_TITLE, arg0, arg1,
 				arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11,
-				arg12, arg13);
+				arg12, arg13, arg14);
 		return content;
 	}
 
@@ -304,13 +306,14 @@ class TaskGanttChart extends VerticalLayout {
 		controls.setMargin(true);
 		panel.setContent(controls);
 
-		start = new DateField("Start date");
+		start = new DateField(
+				AppContext.getMessage(TaskI18nEnum.FORM_START_DATE));
 		start.setValue(gantt.getStartDate());
 		start.setResolution(Resolution.DAY);
 		start.setImmediate(true);
 		start.addValueChangeListener(startDateValueChangeListener);
 
-		end = new DateField("End date");
+		end = new DateField(AppContext.getMessage(TaskI18nEnum.FORM_END_DATE));
 		end.setValue(gantt.getEndDate());
 		end.setResolution(Resolution.DAY);
 		end.setImmediate(true);

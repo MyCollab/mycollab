@@ -82,7 +82,7 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 		logTable.setSearchCriteria(criteria);
 	}
 
-	public class HistoryLogRowDisplay implements
+	public class HistoryLogRowDisplay extends
 			BeanList.RowDisplayHandler<SimpleAuditLog> {
 		private static final long serialVersionUID = 1L;
 

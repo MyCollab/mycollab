@@ -47,7 +47,7 @@ public class BugSimpleDisplayWidget extends
 				TaskRowDisplayHandler.class);
 	}
 
-	public static class TaskRowDisplayHandler implements
+	public static class TaskRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 

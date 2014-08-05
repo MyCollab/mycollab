@@ -184,8 +184,8 @@ public class NoteListItems extends VerticalLayout {
 		displayNotes();
 	}
 
-	public static class NoteRowDisplayHandler implements
-			RowDisplayHandler<SimpleNote>, ReloadableComponent {
+	public static class NoteRowDisplayHandler extends
+			RowDisplayHandler<SimpleNote> implements ReloadableComponent {
 		private static final long serialVersionUID = 1L;
 
 		private VerticalLayout noteContentLayout;

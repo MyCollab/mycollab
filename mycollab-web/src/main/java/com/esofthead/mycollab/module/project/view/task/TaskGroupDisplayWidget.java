@@ -69,7 +69,7 @@ public class TaskGroupDisplayWidget
 		this.setDisplayEmptyListText(false);
 	}
 
-	public static class TaskListRowDisplayHandler implements
+	public static class TaskListRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleTaskList> {
 		private static final long serialVersionUID = 1L;
 
@@ -230,11 +230,10 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListActionControl
 									.setPopupVisible(false);
-							EventBusFactory.getInstance()
-									.post(
-											new TaskListEvent.GotoRead(event,
-													TaskListDepot.this.taskList
-															.getId()));
+							EventBusFactory
+									.getInstance()
+									.post(new TaskListEvent.GotoRead(event,
+											TaskListDepot.this.taskList.getId()));
 						}
 					});
 			readBtn.setEnabled(CurrentProjectVariables

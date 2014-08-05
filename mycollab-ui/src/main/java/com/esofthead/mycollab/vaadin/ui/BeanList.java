@@ -129,6 +129,7 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 			} else {
 				rowHandler = rowDisplayHandler.newInstance();
 			}
+			rowHandler.setOwner(this);
 			return rowHandler;
 		} catch (Exception e) {
 			throw new MyCollabException(e);
@@ -190,8 +191,19 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 	 * 
 	 * @param <T>
 	 */
-	public static interface RowDisplayHandler<T> extends Serializable {
+	public static abstract class RowDisplayHandler<T> implements Serializable {
+		private static final long serialVersionUID = 1L;
 
-		Component generateRow(T obj, int rowIndex);
+		private BeanList owner;
+
+		public BeanList getOwner() {
+			return owner;
+		}
+
+		private void setOwner(BeanList owner) {
+			this.owner = owner;
+		}
+
+		public abstract Component generateRow(T obj, int rowIndex);
 	}
 }

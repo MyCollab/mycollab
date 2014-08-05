@@ -52,7 +52,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 				MyBugRowDisplayHandler.class);
 	}
 
-	public static class MyBugRowDisplayHandler implements
+	public static class MyBugRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleBug> {
 		private static final long serialVersionUID = 1L;
 
@@ -97,8 +97,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 			HorizontalLayout hLayoutAssigneeInfo = new HorizontalLayout();
 			hLayoutAssigneeInfo.setSpacing(true);
 			Label assignee = new Label(
-					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE)
-							+ ": ");
+					AppContext.getMessage(GenericI18Enum.FORM_ASSIGNEE) + ": ");
 			assignee.setStyleName(UIConstants.WIDGET_ROW_METADATA);
 			hLayoutAssigneeInfo.addComponent(assignee);
 			hLayoutAssigneeInfo.setComponentAlignment(assignee,

@@ -86,7 +86,7 @@ public class MyProjectListWindow extends Window {
 		}
 	}
 
-	public class ProjectRowDisplayHandler implements
+	public class ProjectRowDisplayHandler extends
 			BeanList.RowDisplayHandler<SimpleProject> {
 		private static final long serialVersionUID = 1L;
 
