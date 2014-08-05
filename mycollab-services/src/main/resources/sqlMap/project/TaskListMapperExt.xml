@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.esofthead.mycollab.module.project.dao.TaskListMapperExt">
-    
+
     <resultMap id="SimpleTaskListResult"
         extends="com.esofthead.mycollab.module.project.dao.TaskListMapper.ResultMapWithBLOBs"
         type="com.esofthead.mycollab.module.project.domain.SimpleTaskList">
@@ -16,7 +16,7 @@
             property="numOpenTasks" />
 
         <result column="numAllTasks" jdbcType="INTEGER" property="numAllTasks" />
-        
+
         <result column="numComments" property="numComments"
             jdbcType="INTEGER" />
 
@@ -25,9 +25,14 @@
 
         <result column="ownerFullName" jdbcType="VARCHAR"
             property="ownerFullName" />
-            
-        <result column="projectName" jdbcType="VARCHAR"
-            property="projectName" />
+
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
+
+        <result column="projectName" jdbcType="VARCHAR" property="projectName" />
 
         <collection property="subTasks"
             ofType="com.esofthead.mycollab.module.project.domain.SimpleTask"
@@ -66,6 +71,8 @@
                     m_prj_task_list.projectid, m_prj_task_list.createdTime, m_prj_task_list.lastUpdatedTime, 
                     m_prj_task_list.sAccountId, m_prj_task_list.milestoneId, m_prj_task_list.groupIndex,
                     m_prj_task_list.owner, m_prj_task_list.status, m_prj_milestone.name AS milestoneName,
+                    m_prj_task_list.createduser, createUserTbl.avatarId AS createdUserAvatarId,
+                    concat(createUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createUserTbl.middlename, ''), ' ')), createUserTbl.lastname) AS createdUserFullName,
                     s_user.avatarId AS ownerAvatarId,
                     concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
                     m_prj_task.id AS subTask_id, m_prj_task.taskname AS subTask_taskname, m_prj_task.percentagecomplete AS subTask_percentagecomplete, 
@@ -84,17 +91,19 @@
                     m_prj_project.name AS projectName
                     FROM m_prj_task_list
                         LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task_list.owner)
+                        LEFT OUTER JOIN s_user AS createUserTbl ON (createUserTbl.username = m_prj_task_list.createduser)
                         LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task_list.milestoneId)
                         LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND (m_prj_task.status='Open'))
                         LEFT OUTER JOIN s_user AS taskUser ON (taskUser.username = m_prj_task.assignUser)
                         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=m_prj_task_list.projectid)
         ]]>
     </sql>
-    
+
     <sql id="orderStatement">
         ORDER BY
         #ifnotnull($_parameter.searchCriteria.orderByField)
-            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        ${_parameter.searchCriteria.orderByField}
+        ${_parameter.searchCriteria.sortDirection},
         #end
         m_prj_task_list.groupIndex, m_prj_task_list.lastUpdatedTime ASC
     </sql>
@@ -104,9 +113,9 @@
         SELECT count(*) as totalCount FROM m_prj_task_list
 
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
+        #trimext("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
         #end
     </select>
 
@@ -115,10 +124,10 @@
 
         <include refid="selectTaskList" />
         #ifnotnull($_parameter.searchCriteria)
-            #trimext("WHERE" "AND|OR")
-                <include refid="querySearchCriteria" />
-            #end
-        #end    
+        #trimext("WHERE" "AND|OR")
+        <include refid="querySearchCriteria" />
+        #end
+        #end
         <include refid="orderStatement" />
     </select>
 
@@ -129,11 +138,12 @@
         WHERE m_prj_task_list.id=@{taskListId, jdbcType=NUMERIC}
     </select>
 
-    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer" lang="velocity">
+    <select id="getNextItemKey" parameterType="map" resultType="java.lang.Integer"
+        lang="velocity">
         SELECT MIN(id) FROM m_prj_task_list
 
         #trimext("WHERE" "AND|OR")
-            <include refid="querySearchCriteria" />
+        <include refid="querySearchCriteria" />
         #end
     </select>
 
@@ -142,7 +152,7 @@
         SELECT MAX(id) FROM m_prj_task_list
 
         #trimext("WHERE" "AND|OR")
-            <include refid="querySearchCriteria" />
+        <include refid="querySearchCriteria" />
         #end
     </select>
 </mapper>

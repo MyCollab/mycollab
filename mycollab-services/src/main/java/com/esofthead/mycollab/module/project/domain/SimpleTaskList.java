@@ -32,6 +32,8 @@ public class SimpleTaskList extends TaskList {
 	private static final long serialVersionUID = 1L;
 	private String projectName;
 	private String milestoneName;
+	private String createdUserAvatarId;
+	private String createdUserFullName;
 	private String ownerAvatarId;
 	private String ownerFullName;
 
@@ -186,4 +188,22 @@ public class SimpleTaskList extends TaskList {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+
+	public String getCreatedUserAvatarId() {
+		return createdUserAvatarId;
+	}
+
+	public void setCreatedUserAvatarId(String createdUserAvatarId) {
+		this.createdUserAvatarId = createdUserAvatarId;
+	}
+
+	public String getCreatedUserFullName() {
+		return createdUserFullName;
+	}
+
+	public void setCreatedUserFullName(String createdUserFullName) {
+		this.createdUserFullName = createdUserFullName;
+	}
+	
+	
 }

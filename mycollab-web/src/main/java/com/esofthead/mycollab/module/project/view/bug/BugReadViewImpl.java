@@ -704,7 +704,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		return this.previewForm;
 	}
 
-	class PeopleInfoComp extends VerticalLayout {
+	private class PeopleInfoComp extends VerticalLayout {
 		private static final long serialVersionUID = 1L;
 
 		public void displayEntryPeople(ValuedBean bean) {

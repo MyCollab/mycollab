@@ -9,6 +9,10 @@
             property="ownerAvatarId" />
         <result column="ownerFullName" jdbcType="VARCHAR"
             property="ownerFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="numOpenTasks" jdbcType="INTEGER"
             property="numOpenTasks" />
         <result column="numTasks" jdbcType="INTEGER" property="numTasks" />
@@ -77,7 +81,8 @@
         <![CDATA[
             SELECT m_prj_milestone.id, m_prj_milestone.name, m_prj_milestone.description, m_prj_milestone.startdate, m_prj_milestone.enddate, 
                    m_prj_milestone.owner, m_prj_milestone.status, m_prj_milestone.projectid, m_prj_milestone.status, m_prj_milestone.createdTime, 
-                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.sAccountId,
+                   m_prj_milestone.lastUpdatedTime, m_prj_milestone.sAccountId, m_prj_milestone.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
+                   concat(createdUserTbl.firstname, ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                    s_user.avatarId AS ownerAvatarId,
                    concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS ownerFullName,
                    (SELECT COUNT(*) FROM m_prj_task, m_prj_task_list WHERE m_prj_task.tasklistid=m_prj_task_list.id AND m_prj_task_list.milestoneId=m_prj_milestone.id) AS numTasks,
@@ -88,6 +93,7 @@
                 FROM m_prj_milestone
                     INNER JOIN m_prj_project ON (m_prj_milestone.projectid = m_prj_project.id)
                     LEFT OUTER JOIN s_user ON (m_prj_milestone.owner = s_user.username)
+                    LEFT OUTER JOIN s_user AS createdUserTbl ON (m_prj_milestone.createduser = createdUserTbl.username)
         ]]>
     </sql>
 

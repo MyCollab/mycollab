@@ -114,6 +114,7 @@ public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
 		item.setSaccountid(AppContext.getAccountId());
 
 		if (item.getId() == null) {
+			item.setCreateduser(AppContext.getUsername());
 			taskService.saveWithSession(item, AppContext.getUsername());
 		} else {
 			taskService.updateWithSession(item, AppContext.getUsername());

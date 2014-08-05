@@ -17,10 +17,16 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -28,8 +34,9 @@ import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -47,12 +54,15 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -63,9 +73,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class TaskGroupReadViewImpl extends
-		AbstractPreviewItemComp<SimpleTaskList> implements TaskGroupReadView {
-
+		AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory
+			.getLogger(TaskGroupReadViewImpl.class);
 
 	private CommentDisplay commentList;
 
@@ -73,6 +85,10 @@ public class TaskGroupReadViewImpl extends
 
 	private TaskGroupHistoryLogList historyList;
 	private SplitButton taskListFilterControl;
+
+	private DateInfoComp dateInfoComp;
+
+	private PeopleInfoComp peopleInfoComp;
 
 	public TaskGroupReadViewImpl() {
 		super(AppContext
@@ -97,12 +113,21 @@ public class TaskGroupReadViewImpl extends
 
 		historyList = new TaskGroupHistoryLogList();
 		historyList.setMargin(true);
+
+		dateInfoComp = new DateInfoComp();
+		addToSideBar(dateInfoComp);
+		
+		peopleInfoComp = new PeopleInfoComp();
+		addToSideBar(peopleInfoComp);
 	}
 
 	@Override
 	protected void onPreviewItem() {
 		commentList.loadComments(beanItem.getId());
 		historyList.loadHistory(beanItem.getId());
+
+		peopleInfoComp.displayEntryPeople(beanItem);
+		dateInfoComp.displayEntryDateTime(beanItem);
 	}
 
 	@Override
@@ -146,14 +171,15 @@ public class TaskGroupReadViewImpl extends
 				MyCollabResource
 						.newResource("icons/16/project/gray/comment.png"));
 
-		tabContainer.addTab(taskDisplayComp,
-				AppContext.getMessage(TaskGroupI18nEnum.TASKS_TAB),
-				MyCollabResource.newResource("icons/16/project/gray/task.png"));
-
 		tabContainer.addTab(historyList, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
+
+		tabContainer.addTab(taskDisplayComp,
+				AppContext.getMessage(TaskGroupI18nEnum.TASKS_TAB),
+				MyCollabResource.newResource("icons/16/project/gray/task.png"));
+
 		return tabContainer;
 	}
 
@@ -332,5 +358,67 @@ public class TaskGroupReadViewImpl extends
 				return null;
 			}
 		};
+	}
+
+	private class PeopleInfoComp extends VerticalLayout {
+		private static final long serialVersionUID = 1L;
+
+		public void displayEntryPeople(ValuedBean bean) {
+			this.removeAllComponents();
+			this.setSpacing(true);
+			this.setMargin(new MarginInfo(false, false, false, true));
+
+			Label peopleInfoHeader = new Label(
+					AppContext
+							.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+			peopleInfoHeader.setStyleName("info-hdr");
+			this.addComponent(peopleInfoHeader);
+
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setSpacing(true);
+			layout.setWidth("100%");
+			layout.setMargin(new MarginInfo(false, false, false, true));
+			try {
+				Label createdLbl = new Label(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+				createdLbl.setSizeUndefined();
+				layout.addComponent(createdLbl, 0, 0);
+
+				String createdUserName = (String) PropertyUtils.getProperty(
+						bean, "createduser");
+				String createdUserAvatarId = (String) PropertyUtils
+						.getProperty(bean, "createdUserAvatarId");
+				String createdUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "createdUserFullName");
+
+				UserLink createdUserLink = new UserLink(createdUserName,
+						createdUserAvatarId, createdUserDisplayName);
+				layout.addComponent(createdUserLink, 1, 0);
+				layout.setColumnExpandRatio(1, 1.0f);
+
+				Label assigneeLbl = new Label(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+				assigneeLbl.setSizeUndefined();
+				layout.addComponent(assigneeLbl, 0, 1);
+				String assignUserName = (String) PropertyUtils.getProperty(
+						bean, "owner");
+				String assignUserAvatarId = (String) PropertyUtils.getProperty(
+						bean, "ownerAvatarId");
+				String assignUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "ownerFullName");
+
+				UserLink assignUserLink = new UserLink(assignUserName,
+						assignUserAvatarId, assignUserDisplayName);
+				layout.addComponent(assignUserLink, 1, 1);
+			} catch (Exception e) {
+				log.error("Can not build user link {} ",
+						BeanUtility.printBeanObj(bean));
+			}
+
+			this.addComponent(layout);
+
+		}
 	}
 }

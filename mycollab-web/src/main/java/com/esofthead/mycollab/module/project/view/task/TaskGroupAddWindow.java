@@ -206,6 +206,8 @@ public class TaskGroupAddWindow extends Window {
 						.getSpringBean(ProjectTaskListService.class);
 				TaskGroupAddWindow.this.taskList.setSaccountid(AppContext
 						.getAccountId());
+				TaskGroupAddWindow.this.taskList.setCreateduser(AppContext
+						.getUsername());
 				TaskGroupAddWindow.this.taskList
 						.setCreatedtime(new GregorianCalendar().getTime());
 				TaskGroupAddWindow.this.taskList.setStatus("Open");
@@ -247,16 +249,14 @@ public class TaskGroupAddWindow extends Window {
 											.getMessage(TaskGroupI18nEnum.FORM_DESCRIPTION_FIELD),
 									0, 1, 2, "100%");
 				} else if (propertyId.equals("owner")) {
-					this.informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-							2);
-				} else if (propertyId.equals("milestoneid")) {
 					this.informationLayout
-							.addComponent(
-									field,
-									AppContext
-											.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD),
-									1, 2);
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 2);
+				} else if (propertyId.equals("milestoneid")) {
+					this.informationLayout.addComponent(field, AppContext
+							.getMessage(TaskGroupI18nEnum.FORM_PHASE_FIELD), 1,
+							2);
 				}
 			}
 		}

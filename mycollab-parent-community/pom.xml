@@ -248,7 +248,7 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <inherited>true</inherited>
-                <version>2.5</version>
+                <version>2.6</version>
                 <configuration>
                     <tag>${project.artifactId}-${project.version}</tag>
                     <header>https://raw.github.com/mycila/license-maven-plugin/master/src/main/resources/com/mycila/maven/plugin/license/templates/GPL-3.txt</header>
@@ -257,8 +257,8 @@
                         <email>support@mycollab.com</email>
                     </properties>
                     <includes>
-                        <include>src/main/java/**/*.java</include>
-                        <include>src/test/java/**/*.java</include>
+                        <include>src/main/java/com/esofthead/**/*.java</include>
+                        <include>src/test/java/com/esofthead/**/*.java</include>
                     </includes>
                 </configuration>
                 <executions>

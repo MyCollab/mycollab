@@ -113,6 +113,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 		milestone.setSaccountid(AppContext.getAccountId());
 
 		if (milestone.getId() == null) {
+			milestone.setCreateduser(AppContext.getUsername());
 			milestoneService.saveWithSession(milestone,
 					AppContext.getUsername());
 		} else {

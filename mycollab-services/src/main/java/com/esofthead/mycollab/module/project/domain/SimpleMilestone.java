@@ -26,6 +26,9 @@ public class SimpleMilestone extends Milestone {
 
 	private String ownerAvatarId;
 	private String ownerFullName;
+	
+	private String createdUserAvatarId;
+	private String createdUserFullName;
 
 	private int numOpenTasks;
 	private int numTasks;
@@ -96,5 +99,21 @@ public class SimpleMilestone extends Milestone {
 
 	public void setOwnerAvatarId(String ownerAvatarId) {
 		this.ownerAvatarId = ownerAvatarId;
+	}
+
+	public String getCreatedUserAvatarId() {
+		return createdUserAvatarId;
+	}
+
+	public void setCreatedUserAvatarId(String createdUserAvatarId) {
+		this.createdUserAvatarId = createdUserAvatarId;
+	}
+
+	public String getCreatedUserFullName() {
+		return createdUserFullName;
+	}
+
+	public void setCreatedUserFullName(String createdUserFullName) {
+		this.createdUserFullName = createdUserFullName;
 	}
 }
