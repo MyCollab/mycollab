@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.project.dao.TaskListMapperExt;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
@@ -83,14 +84,16 @@ public class ProjectTaskListServiceImpl extends
 	@Override
 	public int saveWithSession(TaskList record, String username) {
 		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectGenericTaskService.class);
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
 		return super.saveWithSession(record, username);
 	}
 
 	@Override
 	public int updateWithSession(TaskList record, String username) {
 		CacheUtils.cleanCaches(record.getSaccountid(),
-				ProjectGenericTaskService.class);
+				ProjectGenericTaskService.class,
+				ProjectActivityStreamService.class);
 		return super.updateWithSession(record, username);
 	}
 

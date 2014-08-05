@@ -189,7 +189,8 @@ public class CommentRowDisplayHandler extends
 	}
 
 	private boolean hasDeletePermission(SimpleComment comment) {
-		if (AppContext.getUsername().equals(comment.getCreateduser())) {
+		if (AppContext.getUsername().equals(comment.getCreateduser())
+				|| AppContext.isAdmin()) {
 			return true;
 		}
 		return false;

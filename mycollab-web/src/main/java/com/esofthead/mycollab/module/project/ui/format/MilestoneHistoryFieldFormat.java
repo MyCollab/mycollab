@@ -16,8 +16,22 @@
  */
 package com.esofthead.mycollab.module.project.ui.format;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
+import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -29,6 +43,9 @@ import com.vaadin.ui.Label;
  * 
  */
 public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
+
+	private static Logger log = LoggerFactory
+			.getLogger(MilestoneHistoryFieldFormat.class);
 
 	@Override
 	public Component toVaadinComponent(String value) {
@@ -45,6 +62,33 @@ public class MilestoneHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public String toString(String value) {
+		if (value == null || "".equals(value)) {
+			return new Span().write();
+		}
+
+		try {
+			int milestoneId = Integer.parseInt(value);
+			MilestoneService milestoneService = ApplicationContextUtil
+					.getSpringBean(MilestoneService.class);
+			SimpleMilestone milestone = milestoneService.findById(milestoneId,
+					AppContext.getAccountId());
+
+			if (milestone != null) {
+				String milestoneIconLink = ProjectResources
+						.getResourceLink(ProjectTypeConstants.MILESTONE);
+				Img img = TagBuilder.newImg("icon", milestoneIconLink);
+
+				String milestoneLink = ProjectLinkGenerator
+						.generateMilestonePreviewFullLink(
+								AppContext.getSiteUrl(),
+								milestone.getProjectid(), milestone.getId());
+				A link = TagBuilder.newA(milestoneLink, milestone.getName());
+				return TagBuilder.newLink(img, link).write();
+			}
+		} catch (Exception e) {
+			log.error("Error", e);
+		}
+
 		return value;
 	}
 

@@ -16,8 +16,22 @@
  */
 package com.esofthead.mycollab.module.user.ui.components;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
+import com.esofthead.mycollab.module.user.domain.User;
+import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.schedule.email.format.html.TagBuilder;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.HistoryFieldFormat;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
+import com.hp.gagawa.java.elements.Span;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -30,6 +44,9 @@ import com.vaadin.ui.Label;
  */
 public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
+	private static Logger log = LoggerFactory
+			.getLogger(UserHistoryFieldFormat.class);
+
 	@Override
 	public Component toVaadinComponent(String value) {
 		String html = AccountLinkBuilder.generateUserHtmlLink(value);
@@ -39,6 +56,38 @@ public class UserHistoryFieldFormat implements HistoryFieldFormat {
 
 	@Override
 	public String toString(String value) {
+		if (value == null || "".equals(value)) {
+			return new Span().write();
+		}
+
+		try {
+			UserService userService = ApplicationContextUtil
+					.getSpringBean(UserService.class);
+			User user = userService.findUserByUserName(value);
+			if (user != null) {
+				String userAvatarLink = MailUtils.getAvatarLink(
+						user.getAvatarid(), 16);
+				Img img = TagBuilder.newImg("avatar", userAvatarLink);
+
+				String userLink = AccountLinkGenerator
+						.generatePreviewFullUserLink(
+								MailUtils.getSiteUrl(AppContext.getAccountId()),
+								user.getUsername());
+
+				String userDisplayName = user.getFirstname() + " "
+						+ user.getLastname();
+				if (userDisplayName.trim().equals("")) {
+					String displayName = user.getUsername();
+					userDisplayName = StringUtils
+							.extractNameFromEmail(displayName);
+				}
+
+				A link = TagBuilder.newA(userLink, userDisplayName);
+				return TagBuilder.newLink(img, link).write();
+			}
+		} catch (Exception e) {
+			log.error("Error", e);
+		}
 		return value;
 	}
 

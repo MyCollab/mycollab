@@ -60,19 +60,6 @@ public class StringUtils {
 	}
 
 	/**
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public static String preStringFormat(String value) {
-		if (value == null || "".equals(value)) {
-			return "&nbsp;";
-		} else {
-			return value;
-		}
-	}
-
-	/**
 	 * Check whether <code>text</code> is an Ascii string
 	 * 
 	 * @param text

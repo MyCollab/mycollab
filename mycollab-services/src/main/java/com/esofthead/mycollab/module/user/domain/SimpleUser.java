@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.user.domain;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.security.PermissionMap;
 
 /**
@@ -44,10 +45,7 @@ public class SimpleUser extends User {
 		String result = getFirstname() + " " + getLastname();
 		if (result.trim().equals("")) {
 			String displayName = getUsername();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return StringUtils.extractNameFromEmail(displayName);
 		}
 		return result;
 	}
