@@ -37,7 +37,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/accountsettings/user")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum UserI18nEnum {
 	MAIL_RECOVERY_PASSWORD_SUBJECT,
 	MAIL_INVITE_USER_SUBJECT,

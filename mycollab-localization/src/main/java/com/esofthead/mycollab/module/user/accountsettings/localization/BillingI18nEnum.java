@@ -21,7 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/accountsettings/billing")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum BillingI18nEnum {
 	VIEW_CHANGE_BILLING_PLAN_TITLE,
 	

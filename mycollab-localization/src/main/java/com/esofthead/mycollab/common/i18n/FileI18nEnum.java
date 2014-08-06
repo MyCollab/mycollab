@@ -27,7 +27,7 @@ import ch.qos.cal10n.LocaleData;
  * 
  */
 @BaseName("localization/common/file")
-@LocaleData({ @Locale("en_US") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum FileI18nEnum {
 	EXCEL,
 	PDF,

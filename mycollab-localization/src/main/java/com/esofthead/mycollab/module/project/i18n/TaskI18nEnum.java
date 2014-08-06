@@ -21,7 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/task")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum TaskI18nEnum {
 	BUTTON_NEW_TASKGROUP,
 	BUTTON_NEW_TASK,

@@ -29,7 +29,7 @@ import ch.qos.cal10n.LocaleData;
 public class OptionI18nEnum {
 
 	@BaseName("localization/crm/accounttype")
-	@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+	@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 	public static enum AccountType {
 		Analyst,
 		Competitor,

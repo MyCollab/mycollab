@@ -37,7 +37,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/accountsettings/role")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum RoleI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,

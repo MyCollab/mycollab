@@ -27,7 +27,7 @@ import ch.qos.cal10n.LocaleData;
  * 
  */
 @BaseName("localization/common/day")
-@LocaleData({ @Locale("en_US") })
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum DayI18nEnum {
 	LAST_UPDATED_ON
 }

@@ -21,7 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/crm/crm")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum CrmCommonI18nEnum {
 	WIDGET_ACTIVITY_CREATE_ACTION,
 	WIDGET_ACTIVITY_UPDATE_ACTION,

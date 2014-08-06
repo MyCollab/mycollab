@@ -21,7 +21,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("localization/project/prj_role")
-@LocaleData({ @Locale("en_US") })
+@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum ProjectRoleI18nEnum {
 	VIEW_LIST_TITLE,
 	
