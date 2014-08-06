@@ -30,7 +30,8 @@ import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
@@ -63,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  */
 @ViewComponent
-public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
+public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 		implements VersionReadView {
 	private static final long serialVersionUID = 1L;
 
@@ -71,6 +72,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 	private RelatedBugComp relatedBugComp;
 
 	private Button quickActionStatusBtn;
+
+	private DateInfoComp dateInfoComp;
 
 	public VersionReadViewImpl() {
 		super(AppContext.getMessage(VersionI18nEnum.VIEW_READ_TITLE),
@@ -87,12 +90,16 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp<Version>
 		historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ,
 				ProjectTypeConstants.BUG_VERSION);
 		relatedBugComp = new RelatedBugComp();
+
+		dateInfoComp = new DateInfoComp();
+		addToSideBar(dateInfoComp);
 	}
 
 	@Override
 	protected void onPreviewItem() {
 		relatedBugComp.displayBugReports();
 		historyLogList.loadHistory(beanItem.getId());
+		dateInfoComp.displayEntryDateTime(beanItem);
 
 		if (beanItem.getStatus() == null
 				|| beanItem.getStatus().equals(StatusI18nEnum.Open.name())) {

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.vaadin.floatingcomponent.FloatingComponent;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -91,6 +92,10 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		sidebarContent.setSpacing(true);
 		sidebarContent.setStyleName("readview-sidebar");
 		bodyContainer.addComponent(sidebarContent);
+
+		FloatingComponent floatSidebar = FloatingComponent
+				.floatThis(sidebarContent);
+		floatSidebar.setContainerId("main-body");
 
 		previewLayout.addBody(bodyContainer);
 

@@ -28,6 +28,10 @@ public class SimpleComponent extends Component {
 	private String userLeadAvatarId;
 
 	private String userLeadFullName;
+	
+	private String createdUserAvatarId;
+	
+	private String createdUserFullName;
 
 	private Integer numOpenBugs;
 
@@ -73,5 +77,21 @@ public class SimpleComponent extends Component {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+
+	public String getCreatedUserAvatarId() {
+		return createdUserAvatarId;
+	}
+
+	public void setCreatedUserAvatarId(String createdUserAvatarId) {
+		this.createdUserAvatarId = createdUserAvatarId;
+	}
+
+	public String getCreatedUserFullName() {
+		return createdUserFullName;
+	}
+
+	public void setCreatedUserFullName(String createdUserFullName) {
+		this.createdUserFullName = createdUserFullName;
 	}
 }

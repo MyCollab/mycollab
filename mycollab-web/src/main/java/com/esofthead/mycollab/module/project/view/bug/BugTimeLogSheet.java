@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -112,7 +110,7 @@ public class BugTimeLogSheet extends TimeLogComp<SimpleBug> {
 			item.setType(ProjectTypeConstants.BUG);
 			item.setSaccountid(AppContext.getAccountId());
 			item.setProjectid(CurrentProjectVariables.getProjectId());
-			item.setLogforday(new GregorianCalendar().getTime());
+			item.setLogforday(forLogDate());
 			item.setIsbillable(isBillableHours());
 
 			itemTimeLoggingService.saveWithSession(item,

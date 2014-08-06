@@ -10,6 +10,10 @@
             property="userLeadAvatarId" />
         <result column="userLeadFullName" jdbcType="VARCHAR"
             property="userLeadFullName" />
+        <result column="createdUserAvatarId" jdbcType="VARCHAR"
+            property="createdUserAvatarId" />
+        <result column="createdUserFullName" jdbcType="VARCHAR"
+            property="createdUserFullName" />
         <result column="numOpenBugs" jdbcType="INTEGER" property="numOpenBugs" />
         <result column="numBugs" jdbcType="INTEGER" property="numBugs" />
         <result column="projectName" jdbcType="VARCHAR"
@@ -47,6 +51,8 @@
           SELECT m_tracker_component.id, m_tracker_component.projectid, m_tracker_component.componentname, 
                 m_tracker_component.userlead, m_tracker_component.description, 
                 m_tracker_component.sAccountId, m_tracker_component.lastUpdatedTime, m_tracker_component.createdTime, m_tracker_component.status,
+                m_tracker_component.createduser, createdUserTbl.avatarId AS createdUserAvatarId,
+                concat(createdUserTbl.firstname,  ' ', LTRIM(concat(IFNULL(createdUserTbl.middlename, ''), ' ')), createdUserTbl.lastname) AS createdUserFullName,
                 s_user.avatarId AS userLeadAvatarId,
                concat(s_user.firstname,  ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS userLeadFullName,
                (SELECT COUNT(*) 
@@ -62,6 +68,7 @@
                 m_prj_project.name AS projectName             
         FROM m_tracker_component
         LEFT OUTER JOIN s_user ON (m_tracker_component.userlead=s_user.username)
+        LEFT OUTER JOIN s_user AS createdUserTbl ON (m_tracker_component.createduser=createdUserTbl.username)
         LEFT OUTER JOIN m_prj_project ON (m_tracker_component.projectid=m_prj_project.id)
         ]]>
     </sql>

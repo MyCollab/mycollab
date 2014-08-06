@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -112,7 +110,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 			item.setType(ProjectTypeConstants.TASK);
 			item.setSaccountid(AppContext.getAccountId());
 			item.setProjectid(CurrentProjectVariables.getProjectId());
-			item.setLogforday(new GregorianCalendar().getTime());
+			item.setLogforday(forLogDate());
 			item.setIsbillable(isBillableHours());
 
 			itemTimeLoggingService.saveWithSession(item,

@@ -83,7 +83,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
 				});
 	}
 
-	public void save(Component item) {
+	private void save(Component item) {
 		ComponentService componentService = ApplicationContextUtil
 				.getSpringBean(ComponentService.class);
 

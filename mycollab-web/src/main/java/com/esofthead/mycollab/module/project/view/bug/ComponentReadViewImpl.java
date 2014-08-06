@@ -17,12 +17,18 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.core.arguments.ValuedBean;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
@@ -31,7 +37,8 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp;
+import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -49,12 +56,14 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -66,14 +75,20 @@ import com.vaadin.ui.VerticalLayout;
  */
 @ViewComponent
 public class ComponentReadViewImpl extends
-		AbstractPreviewItemComp<SimpleComponent> implements ComponentReadView {
+		AbstractPreviewItemComp2<SimpleComponent> implements ComponentReadView {
 
 	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory
+			.getLogger(ComponentReadViewImpl.class);
 
 	private RelatedBugComp relatedBugComp;
 	private ComponentHistoryLogList historyLogList;
 	private Button quickActionStatusBtn;
 	private ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm;
+
+	private DateInfoComp dateInfoComp;
+	private PeopleInfoComp peopleInfoComp;
 
 	public ComponentReadViewImpl() {
 		super(AppContext.getMessage(ComponentI18nEnum.VIEW_READ_TITLE),
@@ -106,6 +121,12 @@ public class ComponentReadViewImpl extends
 
 		historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ,
 				ProjectTypeConstants.BUG_COMPONENT);
+
+		dateInfoComp = new DateInfoComp();
+		addToSideBar(dateInfoComp);
+
+		peopleInfoComp = new PeopleInfoComp();
+		addToSideBar(peopleInfoComp);
 	}
 
 	@Override
@@ -113,6 +134,9 @@ public class ComponentReadViewImpl extends
 		relatedBugComp.displayBugReports();
 
 		historyLogList.loadHistory(beanItem.getId());
+
+		dateInfoComp.displayEntryDateTime(beanItem);
+		peopleInfoComp.displayEntryPeople(beanItem);
 
 		if (beanItem.getStatus() == null
 				|| beanItem.getStatus().equals(StatusI18nEnum.Open.name())) {
@@ -423,6 +447,68 @@ public class ComponentReadViewImpl extends
 	@Override
 	public void addViewListener(ViewListener listener) {
 
+	}
+
+	private class PeopleInfoComp extends VerticalLayout {
+		private static final long serialVersionUID = 1L;
+
+		public void displayEntryPeople(ValuedBean bean) {
+			this.removeAllComponents();
+			this.setSpacing(true);
+			this.setMargin(new MarginInfo(false, false, false, true));
+
+			Label peopleInfoHeader = new Label(
+					AppContext
+							.getMessage(ProjectCommonI18nEnum.SUB_INFO_PEOPLE));
+			peopleInfoHeader.setStyleName("info-hdr");
+			this.addComponent(peopleInfoHeader);
+
+			GridLayout layout = new GridLayout(2, 2);
+			layout.setSpacing(true);
+			layout.setWidth("100%");
+			layout.setMargin(new MarginInfo(false, false, false, true));
+			try {
+				Label createdLbl = new Label(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+				createdLbl.setSizeUndefined();
+				layout.addComponent(createdLbl, 0, 0);
+
+				String createdUserName = (String) PropertyUtils.getProperty(
+						bean, "createduser");
+				String createdUserAvatarId = (String) PropertyUtils
+						.getProperty(bean, "createdUserAvatarId");
+				String createdUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "createdUserFullName");
+
+				UserLink createdUserLink = new UserLink(createdUserName,
+						createdUserAvatarId, createdUserDisplayName);
+				layout.addComponent(createdUserLink, 1, 0);
+				layout.setColumnExpandRatio(1, 1.0f);
+
+				Label assigneeLbl = new Label(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.ITEM_ASSIGN_PEOPLE));
+				assigneeLbl.setSizeUndefined();
+				layout.addComponent(assigneeLbl, 0, 1);
+				String assignUserName = (String) PropertyUtils.getProperty(
+						bean, "userlead");
+				String assignUserAvatarId = (String) PropertyUtils.getProperty(
+						bean, "userLeadAvatarId");
+				String assignUserDisplayName = (String) PropertyUtils
+						.getProperty(bean, "userLeadFullName");
+
+				UserLink assignUserLink = new UserLink(assignUserName,
+						assignUserAvatarId, assignUserDisplayName);
+				layout.addComponent(assignUserLink, 1, 1);
+			} catch (Exception e) {
+				log.error("Can not build user link {} ",
+						BeanUtility.printBeanObj(bean));
+			}
+
+			this.addComponent(layout);
+
+		}
 	}
 
 }

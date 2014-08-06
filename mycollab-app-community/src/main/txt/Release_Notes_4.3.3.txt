@@ -58,6 +58,7 @@
         - Fix css issues of email template
         - Edit project view is not consistent to other views
         - Can not display Japanese in several servlets
+        - Can not display well on Safari browser due to Vaadin profiler
     
     Changelog from MyCollab 4.3.1
     =============================

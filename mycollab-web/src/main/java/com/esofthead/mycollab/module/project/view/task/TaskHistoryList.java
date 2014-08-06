@@ -59,6 +59,8 @@ public class TaskHistoryList extends HistoryLogComponent {
 						TaskPriority.class));
 		taskFormatter.generateFieldDisplayHandler("isestimated",
 				TaskI18nEnum.FORM_IS_ESTIMATED);
+		taskFormatter.generateFieldDisplayHandler("remainestimate",
+				TaskI18nEnum.FORM_REMAIN_ESTIMATE);
 		taskFormatter.generateFieldDisplayHandler("assignuser",
 				GenericI18Enum.FORM_ASSIGNEE, new UserHistoryFieldFormat());
 		taskFormatter.generateFieldDisplayHandler("tasklistid",

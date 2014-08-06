@@ -313,6 +313,9 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 			put("assignuser", new AssigneeFieldFormat("assignuser",
 					GenericI18Enum.FORM_ASSIGNEE));
 
+			put("isestimated", TaskI18nEnum.FORM_IS_ESTIMATED);
+			put("remainestimate", TaskI18nEnum.FORM_REMAIN_ESTIMATE);
+
 			put("tasklistid", new TaskGroupFieldFormat("tasklistid",
 					TaskI18nEnum.FORM_TASKGROUP));
 			put("notes", TaskI18nEnum.FORM_NOTES);

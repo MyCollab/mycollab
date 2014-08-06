@@ -1,0 +1,1 @@
+$wnd.com_esofthead_mycollab_widgetset_MyCollabWidgetSet.runAsyncCallback1('Job(1372,1,S5d);_.ve=function dkc(){I4b((!D4b&&(D4b=new J4b),D4b),this.b.e)};JQd(Sq)(1);\n//# sourceURL=com.esofthead.mycollab.widgetset.MyCollabWidgetSet-1.js\n')

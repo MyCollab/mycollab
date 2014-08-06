@@ -30,7 +30,7 @@ import com.hp.gagawa.java.elements.Text;
 public class TagBuilder {
 	public static A newA(String href, String text) {
 		A link = new A(href, new Text(text));
-		link.setStyle("text-decoration: none; color: rgb(36, 127, 211);");
+		link.setStyle("text-decoration: none; color: rgb(0, 109, 172);");
 		return link;
 	}
 

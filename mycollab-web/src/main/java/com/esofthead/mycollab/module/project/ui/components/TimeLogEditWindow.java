@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.ui.components;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.esofthead.mycollab.common.TableViewField;
@@ -42,6 +44,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
@@ -71,6 +74,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	private Label totalSpentTimeLbl;
 	private NumbericTextField newTimeInputField;
 	private CheckBox isBillableField;
+	private DateField forDate;
 
 	private NumbericTextField remainTimeInputField;
 	private Label remainTimeLbl;
@@ -93,7 +97,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 	}
 
 	private void initUI() {
-		this.setWidth("800px");
+		this.setWidth("900px");
 
 		headerPanel = new HorizontalLayout();
 		headerPanel.setSpacing(true);
@@ -254,6 +258,11 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		addLayout.setComponentAlignment(this.newTimeInputField,
 				Alignment.MIDDLE_LEFT);
 
+		this.forDate = new DateField();
+		this.forDate.setValue(new GregorianCalendar().getTime());
+		addLayout.addComponent(this.forDate);
+		addLayout.setComponentAlignment(this.forDate, Alignment.MIDDLE_LEFT);
+
 		this.isBillableField = new CheckBox(
 				AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
 				true);
@@ -410,6 +419,10 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 
 	protected Boolean isBillableHours() {
 		return isBillableField.getValue();
+	}
+
+	protected Date forLogDate() {
+		return this.forDate.getValue();
 	}
 
 	protected abstract void saveTimeInvest();
