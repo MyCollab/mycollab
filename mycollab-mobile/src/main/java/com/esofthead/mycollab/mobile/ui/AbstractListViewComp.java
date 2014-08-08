@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.vaadin.ui.Component;
 
 /**

@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -148,7 +149,8 @@ public class ComponentListViewImpl extends AbstractPageView implements
 										bugComponent.getProjectid(),
 										bugComponent.getId()));
 						if (bugComponent.getStatus() != null
-								&& bugComponent.getStatus().equals("Close")) {
+								&& bugComponent.getStatus().equals(
+										StatusI18nEnum.Closed.name())) {
 							b.addStyleName(UIConstants.LINK_COMPLETED);
 						}
 						b.setDescription(ProjectTooltipGenerator

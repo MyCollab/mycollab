@@ -103,6 +103,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>info.bliki.wiki</groupId>
+            <artifactId>bliki-core</artifactId>
+            <version>3.0.20-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>info.bliki.wiki</groupId>
+            <artifactId>bliki-addons</artifactId>
+            <version>3.0.20-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -123,7 +135,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-                    <!--  <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
+                    <!-- <execution> <id>Crm Artifacts Generator</id> <phase>validate</phase> 
                         <goals> <goal>generate</goal> </goals> <configuration> <configurationFile>${basedir}/src/main/resources/CrmGeneratorConfig.xml</configurationFile> 
                         <overwrite>true</overwrite> </configuration> </execution> -->
                     <!-- <execution> <id>User Artifacts Generator</id> <phase>validate</phase> 

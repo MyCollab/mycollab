@@ -54,6 +54,11 @@ public class ProjectVerticalTabsheet extends VerticalTabsheet {
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/task"
 					+ suffix + ".png"));
 			break;
+			
+		case "page":
+			btn.setIcon(MyCollabResource.newResource("icons/22/project/page"
+					+ suffix + ".png"));
+			break;
 
 		case "bug":
 			btn.setIcon(MyCollabResource.newResource("icons/22/project/bug"

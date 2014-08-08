@@ -31,7 +31,7 @@ import com.esofthead.mycollab.common.MyCollabSession;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class HistoryViewManager {
+public class HistoryViewManager {
 	private static Logger log = LoggerFactory
 			.getLogger(HistoryViewManager.class);
 
@@ -42,16 +42,6 @@ public abstract class HistoryViewManager {
 		}
 
 		history.add(viewState);
-	}
-
-	public static ViewState getPreviousViewState() {
-		List<ViewState> history = getViewState();
-		if (history.size() >= 2) {
-			ViewState viewState = history.get(history.size() - 2);
-			return viewState;
-		} else {
-			return new NullViewState();
-		}
 	}
 
 	public static ViewState back() {

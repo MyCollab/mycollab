@@ -50,6 +50,7 @@ public enum ProjectCommonI18nEnum {
 	VIEW_MILESTONE,
 	VIEW_TASK,
 	VIEW_BUG,
+	VIEW_PAGE,
 	VIEW_FILE,
 	VIEW_RISK,
 	VIEW_PROBLEM,

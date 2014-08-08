@@ -54,6 +54,7 @@ import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
 import com.esofthead.mycollab.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.module.project.view.milestone.MilestonePresenter;
+import com.esofthead.mycollab.module.project.view.page.PagePresenter;
 import com.esofthead.mycollab.module.project.view.parameters.FileScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProblemScreenData;
@@ -113,6 +114,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private MilestonePresenter milestonesPresenter;
 	private TaskPresenter taskPresenter;
 	private TrackerPresenter trackerPresenter;
+	private PagePresenter pagePresenter;
 	private IFilePresenter filePresenter;
 	private IProblemPresenter problemPresenter;
 	private IRiskPresenter riskPresenter;
@@ -159,6 +161,13 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 				constructProjectBugComponent(),
 				"bug",
 				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateProjectLink(prjId));
+
+		myProjectTab.addTab(
+				constructProjectPageComponent(),
+				"page",
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
 				GenericLinkUtils.URL_PREFIX_PARAM
 						+ ProjectLinkGenerator.generateProjectLink(prjId));
 
@@ -294,6 +303,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		riskPresenter.go(ProjectViewImpl.this, data);
 	}
 
+	@Override
 	public void gotoTimeTrackingView(ScreenData<?> data) {
 		timePresenter.go(ProjectViewImpl.this, data);
 	}
@@ -329,6 +339,11 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		messagePresenter = PresenterResolver
 				.getPresenter(MessagePresenter.class);
 		return messagePresenter.initView();
+	}
+
+	private Component constructProjectPageComponent() {
+		pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
+		return pagePresenter.initView();
 	}
 
 	private Component constructProjectMilestoneComponent() {
@@ -513,6 +528,50 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		editProjectBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editProjectBtn);
 
+		Button archieveProjectBtn = new Button(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECT),
+				new Button.ClickListener() {
+					@Override
+					public void buttonClick(ClickEvent event) {
+						controlsBtn.setPopupVisible(false);
+						ConfirmDialogExt.show(
+								UI.getCurrent(),
+								AppContext.getMessage(
+										GenericI18Enum.WINDOW_WARNING_TITLE,
+										SiteConfiguration.getSiteName()),
+								AppContext
+										.getMessage(ProjectCommonI18nEnum.DIALOG_ARCHIVE_PROJECT_TITLE),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.Listener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											ProjectService projectService = ApplicationContextUtil
+													.getSpringBean(ProjectService.class);
+											// TODO: set project status is
+											// archieve
+											EventBusFactory
+													.getInstance()
+													.post(new ShellEvent.GotoProjectModule(
+															this, null));
+										}
+									}
+								});
+					}
+				});
+		archieveProjectBtn.setEnabled(CurrentProjectVariables
+				.canAccess(ProjectRolePermissionCollections.PROJECT));
+		archieveProjectBtn.setIcon(MyCollabResource
+				.newResource("icons/16/project/archive.png"));
+		archieveProjectBtn.setStyleName("link");
+		popupButtonsControl.addComponent(archieveProjectBtn);
+
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.PROJECT)) {
 			Button deleteProjectBtn = new Button(
@@ -548,11 +607,10 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 																.getUsername(),
 														AppContext
 																.getAccountId());
-												EventBusFactory.getInstance()
-														.post(
-																new ShellEvent.GotoProjectModule(
-																		this,
-																		null));
+												EventBusFactory
+														.getInstance()
+														.post(new ShellEvent.GotoProjectModule(
+																this, null));
 											}
 										}
 									});

@@ -43,5 +43,7 @@ public interface ProjectView extends PageView {
 
 	void gotoTaskList(ScreenData<?> data);
 
+	void gotoTimeTrackingView(ScreenData<?> data);
+
 	Component gotoSubView(String name);
 }

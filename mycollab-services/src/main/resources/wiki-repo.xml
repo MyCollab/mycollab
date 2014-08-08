@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE Repository PUBLIC "-//The Apache Software Foundation//DTD Jackrabbit 1.6//EN"
+                "http://jackrabbit.apache.org/dtd/repository-1.6.dtd">
+
+<Repository>
+    <!-- virtual file system where the repository stores global state (e.g. 
+        registered namespaces, custom node types, etc.) -->
+    <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+        <param name="schemaObjectPrefix" value="wiki_s_" />
+    </FileSystem>
+
+    <!-- security configuration -->
+    <Security appName="Jackrabbit">
+        <SecurityManager
+            class="org.apache.jackrabbit.core.security.simple.SimpleSecurityManager"
+            workspaceName="wiki">
+        </SecurityManager>
+        <AccessManager
+            class="org.apache.jackrabbit.core.security.simple.SimpleAccessManager">
+        </AccessManager>
+        <LoginModule
+            class="org.apache.jackrabbit.core.security.simple.SimpleLoginModule">
+            <param name="adminId" value="admin" />
+        </LoginModule>
+    </Security>
+
+    <Workspaces rootPath='repo2/wiki_workspaces' defaultWorkspace='wiki' />
+    <Workspace name="mycollab">
+        <FileSystem class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
+            <param name="schemaObjectPrefix" value="wiki_s_" />
+        </FileSystem>
+
+        <PersistenceManager
+            class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+            <param name="schemaObjectPrefix" value="wiki_p_workspace" />
+        </PersistenceManager>
+        
+    </Workspace>
+    <!-- Configures the versioning -->
+
+    <Versioning rootPath='repo/version'>
+        <FileSystem class='com.esofthead.mycollab.module.ecm.DbFileSystemExt'>
+            <param name="schemaObjectPrefix" value="wiki_s_" />
+        </FileSystem>
+        <PersistenceManager
+            class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
+            <param name="schemaObjectPrefix" value="wiki_p_version" />
+        </PersistenceManager>
+
+    </Versioning>
+
+    <!-- Cluster configuration with system variables. -->
+    <Cluster>
+        <Journal
+            class="com.esofthead.mycollab.module.ecm.MyCollabDatabaseJournal">
+            <param name="schemaObjectPrefix" value="wiki_journal" />
+        </Journal>
+    </Cluster>
+
+</Repository>

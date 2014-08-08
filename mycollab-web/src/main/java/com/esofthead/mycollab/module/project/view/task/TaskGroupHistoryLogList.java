@@ -49,10 +49,6 @@ public class TaskGroupHistoryLogList extends HistoryLogComponent {
 		tasklistFormatter.generateFieldDisplayHandler("milestoneid",
 				TaskGroupI18nEnum.FORM_PHASE_FIELD,
 				new MilestoneHistoryFieldFormat());
-		tasklistFormatter.generateFieldDisplayHandler("percentageComplete",
-				TaskGroupI18nEnum.FORM_PROGRESS_FIELD);
-		tasklistFormatter.generateFieldDisplayHandler("numOpenTasks",
-				TaskGroupI18nEnum.FORM_OPEN_TASKS_FIELD);
 	}
 
 	public TaskGroupHistoryLogList() {

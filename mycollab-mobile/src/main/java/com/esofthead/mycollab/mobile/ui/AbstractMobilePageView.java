@@ -14,20 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.vaadin.mvp;
+package com.esofthead.mycollab.mobile.ui;
 
 import java.io.Serializable;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewEvent;
+import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationView;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public abstract class AbstractMobileMainView extends VerticalLayout implements
+public abstract class AbstractMobilePageView extends NavigationView implements
 		PageView, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +46,18 @@ public abstract class AbstractMobileMainView extends VerticalLayout implements
 			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
 	public static String DELETE_ACTION = "Delete";
 	public static String CLONE_ACTION = "Clone";
+
 	protected ViewState viewState;
+
+	public AbstractMobilePageView() {
+		super();
+		this.setStyleName("mobilenavview");
+		if (this.getLeftComponent() != null
+				&& this.getLeftComponent() instanceof NavigationButton) {
+			this.getLeftComponent().setCaption(
+					AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
+		}
+	}
 
 	public ViewState getViewState() {
 		return viewState;
@@ -58,5 +76,17 @@ public abstract class AbstractMobileMainView extends VerticalLayout implements
 	public void addViewListener(ViewListener listener) {
 		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,
 				ViewListener.viewInitMethod);
+	}
+
+	@Override
+	public NavigationManager getNavigationManager() {
+		Component parent = this.getParent();
+		while (parent != null) {
+			if (parent instanceof NavigationManager)
+				return (NavigationManager) parent;
+			else
+				parent = parent.getParent();
+		}
+		return null;
 	}
 }

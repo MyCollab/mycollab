@@ -33,13 +33,6 @@ public class ProjectScreenData {
 		}
 	}
 
-	public static class Add extends ScreenData<Project> {
-
-		public Add(Project params) {
-			super(params);
-		}
-	}
-
 	public static class Edit extends ScreenData<Project> {
 
 		public Edit(Project params) {

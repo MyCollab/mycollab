@@ -29,6 +29,7 @@ import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -72,7 +73,7 @@ public class MobileApplication extends MyCollabUI {
 			return;
 		}
 
-		final NavigationManager manager = new NavigationManager();
+		final MobileNavigationManager manager = new MobileNavigationManager();
 		manager.addNavigationListener(new NavigationManager.NavigationListener() {
 			private static final long serialVersionUID = -2317588983851761998L;
 

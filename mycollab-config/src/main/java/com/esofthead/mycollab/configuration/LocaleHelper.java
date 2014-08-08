@@ -37,14 +37,21 @@ public class LocaleHelper {
 
 	private static Map<String, Locale> languages = new HashMap<String, Locale>();
 
+	private static Map<String, Locale> languageBase = new HashMap<String, Locale>();
+
 	static {
 		languages.put(JAPANESE, Locale.JAPAN);
 		languages.put(ENGLISH, Locale.US);
 		languages.put(SPANISH, spanish);
 		languages.put(VIETNAMESE, vietnamese);
+
+		languageBase.put(Locale.JAPAN.toString(), Locale.JAPAN);
+		languageBase.put(Locale.US.toString(), Locale.US);
+		languageBase.put(spanish.toString(), spanish);
+		languageBase.put(vietnamese.toString(), vietnamese);
 	}
 
-	public static Map<String, Locale> getNativeLanguages() {
+	static Map<String, Locale> getNativeLanguages() {
 		return languages;
 	}
 
@@ -54,6 +61,9 @@ public class LocaleHelper {
 		}
 
 		Locale locale = languages.get(language);
+		if (locale == null) {
+			locale = languageBase.get(language);
+		}
 		return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
 	}
 }

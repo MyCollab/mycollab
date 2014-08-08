@@ -1,38 +1,23 @@
-/**
- * This file is part of mycollab-ui.
- *
- * mycollab-ui is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * mycollab-ui is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with mycollab-ui.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.esofthead.mycollab.vaadin.mvp;
-
-import java.io.Serializable;
+package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.ViewState;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationView;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
- * @author MyCollab Ltd.
- * @since 1.0
+ * @author MyCollab Inc.
+ * 
+ * @since 4.3.1
  */
-public abstract class AbstractMobilePageView extends NavigationView implements
-		PageView, Serializable {
-	private static final long serialVersionUID = 1L;
+public class AbstractMobileSwipeView extends MobileNavigationView implements
+		PageView {
+
+	private static final long serialVersionUID = -5179416042698544018L;
 
 	public static String SAVE_ACTION = AppContext
 			.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
@@ -45,14 +30,9 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 
 	protected ViewState viewState;
 
-	public AbstractMobilePageView() {
+	public AbstractMobileSwipeView() {
 		super();
 		this.setStyleName("mobilenavview");
-		if (this.getLeftComponent() != null
-				&& this.getLeftComponent() instanceof NavigationButton) {
-			this.getLeftComponent().setCaption(
-					AppContext.getMessage(GenericI18Enum.M_BUTTON_BACK));
-		}
 	}
 
 	public ViewState getViewState() {
@@ -85,4 +65,5 @@ public abstract class AbstractMobilePageView extends NavigationView implements
 		}
 		return null;
 	}
+
 }

@@ -21,8 +21,8 @@ import java.util.Set;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.IRelatedListHandlers;
 import com.esofthead.mycollab.vaadin.ui.RelatedListHandler;
 import com.vaadin.ui.Component;

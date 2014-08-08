@@ -289,11 +289,17 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${springVersion}</version>
         </dependency>
-        
+
         <dependency>
-        	<groupId>com.esofthead.vaadin</groupId>
-        	<artifactId>floatingcomponent</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
+            <groupId>com.esofthead.vaadin</groupId>
+            <artifactId>floatingcomponent</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>ckeditor-wrapper-for-vaadin</artifactId>
+            <version>7.9.2</version>
         </dependency>
     </dependencies>
 

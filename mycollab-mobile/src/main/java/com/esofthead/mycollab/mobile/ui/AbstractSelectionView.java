@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.vaadin.mvp.AbstractMobilePageView;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 
 /**

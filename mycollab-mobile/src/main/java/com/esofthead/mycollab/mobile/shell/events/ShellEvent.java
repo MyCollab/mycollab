@@ -47,4 +47,13 @@ public class ShellEvent {
 			super(source, data);
 		}
 	}
+
+	public static class GotoProjectModule extends ApplicationEvent {
+
+		private static final long serialVersionUID = -7622625470556788796L;
+
+		public GotoProjectModule(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

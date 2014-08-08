@@ -83,11 +83,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * 
  */
 @Component("tooltipGeneratorServlet")
-public class AnnotatedTooltipGeneratorServletRequestHandler extends
+public class TooltipGeneratorServletRequestHandler extends
 		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
-			.getLogger(AnnotatedTooltipGeneratorServletRequestHandler.class);
+			.getLogger(TooltipGeneratorServletRequestHandler.class);
 
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
@@ -249,7 +249,7 @@ public class AnnotatedTooltipGeneratorServletRequestHandler extends
 			return;
 		} catch (Exception e) {
 			log.error(
-					"Error while get html tooltip attachForm AnnotatedTooltipGeneratorServletRequestHandler",
+					"Error while get html tooltip attachForm TooltipGeneratorServletRequestHandler",
 					e);
 			String html = null;
 			PrintWriter out = response.getWriter();

@@ -36,12 +36,12 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  * 
  */
-public class PresenterResolver {
+public final class PresenterResolver {
 	private static Logger log = LoggerFactory
 			.getLogger(PresenterResolver.class);
 
 	@SuppressWarnings("rawtypes")
-	protected static Set<Class<? extends IPresenter>> presenterClasses;
+	private static Set<Class<? extends IPresenter>> presenterClasses;
 
 	static {
 		log.debug("Scan presenter implementation");
