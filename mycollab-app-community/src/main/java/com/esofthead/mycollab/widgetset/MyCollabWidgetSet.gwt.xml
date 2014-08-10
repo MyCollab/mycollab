@@ -12,6 +12,9 @@
     <inherits name="fi.jasoft.dragdroplayouts.DragDropLayoutsWidgetSet" />
 
     <inherits
+        name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
+
+    <inherits
         name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
 
     <inherits name="org.vaadin.tokenfield.TokenfieldWidgetset" />
@@ -37,6 +40,6 @@
     <inherits name="com.esofthead.vaadin.popupbutton.WidgetSet" />
 
     <inherits name="org.vaadin.jouni.animator.AnimatorWidgetset" />
-    
-    <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet"/>
+
+    <inherits name="com.esofthead.vaadin.floatingcomponent.WidgetSet" />
 </module>

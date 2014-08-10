@@ -27,6 +27,7 @@ public enum BreadcrumbI18nEnum {
 	MESSAGES,
 	RISKS,
 	PHASES,
+	PAGES,
 	PROBLEMS,
 	TASKS,
 	BUGS,

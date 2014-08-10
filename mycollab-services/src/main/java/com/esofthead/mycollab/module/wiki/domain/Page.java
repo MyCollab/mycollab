@@ -1,5 +1,7 @@
 package com.esofthead.mycollab.module.wiki.domain;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -17,6 +19,7 @@ public class Page extends WikiResource {
 
 	private String content;
 
+	@NotBindable
 	private boolean isLock;
 
 	private String category;

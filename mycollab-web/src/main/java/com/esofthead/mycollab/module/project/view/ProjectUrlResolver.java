@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.project.view.bug.BugUrlResolver;
 import com.esofthead.mycollab.module.project.view.file.ProjectFileUrlResolver;
 import com.esofthead.mycollab.module.project.view.message.MessageUrlResolver;
 import com.esofthead.mycollab.module.project.view.milestone.MilestoneUrlResolver;
+import com.esofthead.mycollab.module.project.view.page.PageUrlResolver;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.problem.ProblemUrlResolver;
 import com.esofthead.mycollab.module.project.view.risk.RiskUrlResolver;
@@ -50,6 +51,7 @@ public class ProjectUrlResolver extends UrlResolver {
 		this.addSubResolver("milestone", new MilestoneUrlResolver());
 		this.addSubResolver("task", new ScheduleUrlResolver());
 		this.addSubResolver("bug", new BugUrlResolver());
+		this.addSubResolver("page", new PageUrlResolver());
 		this.addSubResolver("risk", new RiskUrlResolver());
 		this.addSubResolver("problem", new ProblemUrlResolver());
 		this.addSubResolver("standup", new StandupUrlResolver());

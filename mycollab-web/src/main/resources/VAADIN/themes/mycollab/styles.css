@@ -2235,7 +2235,7 @@ input.v-textfield-errorField {
         transparent;
 }
 
-.depotHeader .h2, .readview-layout-body .depotHeader .h2, .readViewBottomControls .depotHeader .h2 {
+.depotHeader .h2, .readview-layout-body .depotHeader .h2, .readViewBody .depotHeader .h2, .readViewBottomControls .depotHeader .h2 {
     border: 0px;
     color: #313131;
     text-shadow: none;
@@ -4419,7 +4419,7 @@ div.v-stylecalendar .weekdays TD,.v-stylecalendar .weeknumber,.v-stylecalendar .
     color: #303030;
 }
 
-.readViewLayout .v-label-h2 {
+.readViewLayout .h2 {
     text-shadow: #F0F0F0 0 1px 0;
     padding: 8px 0px 8px 18px;
     font-size: 13px;

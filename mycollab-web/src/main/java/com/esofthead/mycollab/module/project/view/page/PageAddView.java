@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.module.project.view.page;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
  * 
@@ -8,6 +9,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 4.4.0
  *
  */
-public interface PageAddView extends PageView {
+public interface PageAddView extends IFormAddView<Page> {
 
 }

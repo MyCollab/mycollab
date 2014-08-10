@@ -9,5 +9,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  *
  */
 public interface PageListView extends PageView {
-
+	void displayPages();
 }

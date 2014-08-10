@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.jgroups;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -107,7 +108,42 @@ public class DistributionLockUtil {
 
 		@Override
 		public Condition newCondition() {
-			return null;
+			return new Condition() {
+
+				@Override
+				public void signalAll() {
+				}
+
+				@Override
+				public void signal() {
+				}
+
+				@Override
+				public boolean awaitUntil(Date deadline)
+						throws InterruptedException {
+					return false;
+				}
+
+				@Override
+				public void awaitUninterruptibly() {
+				}
+
+				@Override
+				public long awaitNanos(long nanosTimeout)
+						throws InterruptedException {
+					return 0;
+				}
+
+				@Override
+				public boolean await(long time, TimeUnit unit)
+						throws InterruptedException {
+					return false;
+				}
+
+				@Override
+				public void await() throws InterruptedException {
+				}
+			};
 		}
 
 	}

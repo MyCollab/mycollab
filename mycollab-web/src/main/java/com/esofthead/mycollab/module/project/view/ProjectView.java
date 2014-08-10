@@ -34,6 +34,8 @@ public interface ProjectView extends PageView {
 	void gotoUsersAndGroup(ScreenData<?> data);
 
 	void gotoMilestoneView(ScreenData<?> data);
+	
+	void gotoPageView(ScreenData<?> data);
 
 	void gotoStandupReportView(ScreenData<?> data);
 

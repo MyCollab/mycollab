@@ -53,6 +53,7 @@ import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.events.FollowingTicketEvent;
 import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
 import com.esofthead.mycollab.module.project.events.ProjectContentEvent;
 import com.esofthead.mycollab.module.project.events.ProjectContentEvent.GotoDashboard;
@@ -76,6 +77,7 @@ import com.esofthead.mycollab.module.project.view.parameters.FileScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.FollowingTicketsScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.module.project.view.parameters.PageScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProblemScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenData;
@@ -94,11 +96,13 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.domain.criteria.ComponentSearchCriteria;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
+import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -122,6 +126,7 @@ public class ProjectController implements IController {
 		bindFollowingTicketEvents();
 		bindTimeTrackingEvents();
 		bindRiskEvents();
+		bindPageEvents();
 		bindProblemEvents();
 		bindTaskListEvents();
 		bindTaskEvents();
@@ -746,6 +751,34 @@ public class ProjectController implements IController {
 				MilestoneScreenData.Edit data = new MilestoneScreenData.Edit(
 						(Milestone) event.getData());
 				projectView.gotoMilestoneView(data);
+			}
+		});
+	}
+
+	private void bindPageEvents() {
+		eventBus.register(new ApplicationEventListener<PageEvent.GotoAdd>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(PageEvent.GotoAdd event) {
+				ProjectView projectView = ViewManager
+						.getView(ProjectView.class);
+				PageScreenData.Add data = new PageScreenData.Add(new Page());
+				projectView.gotoPageView(data);
+			}
+		});
+
+		eventBus.register(new ApplicationEventListener<PageEvent.GotoList>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(PageEvent.GotoList event) {
+				ProjectView projectView = ViewManager
+						.getView(ProjectView.class);
+
+				projectView.gotoPageView(new PageScreenData.Search());
 			}
 		});
 	}

@@ -39,6 +39,7 @@ import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
 import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
@@ -53,6 +54,7 @@ import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.i18n.ProblemI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectMemberI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
@@ -285,7 +287,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				new GotoMilestoneListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
-				.getMessage(BreadcrumbI18nEnum.PHASES)));
+				.getMessage(MilestoneI18nEnum.VIEW_NEW_TITLE)));
 		AppContext.addFragment(
 				"project/milestone/add/"
 						+ UrlEncodeDecoder.encode(project.getId()),
@@ -300,6 +302,37 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		public void buttonClick(ClickEvent event) {
 			EventBusFactory.getInstance().post(
 					new MilestoneEvent.GotoList(this, null));
+		}
+	}
+
+	public void gotoPageList() {
+		this.select(0);
+		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.PAGES)));
+		AppContext.addFragment(
+				ProjectLinkGenerator.generatePagesLink(project.getId()),
+				AppContext.getMessage(Page18InEnum.VIEW_LIST_TITLE));
+	}
+
+	public void gotoPageAdd() {
+		this.select(0);
+		this.addLink(new Button(
+				AppContext.getMessage(BreadcrumbI18nEnum.PAGES),
+				new GotoPageListListener()));
+		this.setLinkEnabled(true, 1);
+		this.addLink(new Button(AppContext
+				.getMessage(Page18InEnum.VIEW_NEW_TITLE)));
+		AppContext.addFragment(
+				ProjectLinkGenerator.generatePageAdd(project.getId()),
+				AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE));
+	}
+
+	private static class GotoPageListListener implements Button.ClickListener {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void buttonClick(ClickEvent event) {
+			EventBusFactory.getInstance().post(
+					new PageEvent.GotoList(this, null));
 		}
 	}
 

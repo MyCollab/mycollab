@@ -106,7 +106,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 		}
 	}
 
-	public void saveMilestone(Milestone milestone) {
+	private void saveMilestone(Milestone milestone) {
 		MilestoneService milestoneService = ApplicationContextUtil
 				.getSpringBean(MilestoneService.class);
 		milestone.setProjectid(CurrentProjectVariables.getProjectId());
