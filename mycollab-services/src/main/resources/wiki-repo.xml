@@ -38,7 +38,7 @@
     </Workspace>
     <!-- Configures the versioning -->
 
-    <Versioning rootPath='repo/version'>
+    <Versioning rootPath='repo2/version'>
         <FileSystem class='com.esofthead.mycollab.module.ecm.DbFileSystemExt'>
             <param name="schemaObjectPrefix" value="wiki_s_" />
         </FileSystem>

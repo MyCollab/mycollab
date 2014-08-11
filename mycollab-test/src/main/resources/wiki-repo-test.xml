@@ -23,9 +23,9 @@
         </LoginModule>
     </Security>
 
-    <Workspaces rootPath='repo-test/workspaces'
+    <Workspaces rootPath='wiki-repo-test/workspaces'
         defaultWorkspace='default' />
-    <Workspace name="mycollab">
+    <Workspace name="wiki">
         <FileSystem class='org.apache.jackrabbit.core.fs.mem.MemoryFileSystem'>
         </FileSystem>
 
@@ -38,7 +38,7 @@
     </Workspace>
     <!-- Configures the versioning -->
 
-    <Versioning rootPath='repo-test/version'>
+    <Versioning rootPath='wiki-repo-test/version'>
         <FileSystem class='org.apache.jackrabbit.core.fs.mem.MemoryFileSystem'>
         </FileSystem>
         <PersistenceManager

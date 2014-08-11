@@ -1,5 +1,6 @@
 package com.esofthead.mycollab.module.project.view.page;
 
+import org.vaadin.openesignforms.ckeditor.CKEditorConfig;
 import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 import com.esofthead.mycollab.module.wiki.domain.Page;
@@ -26,7 +27,16 @@ class PageEditFormFieldFactory<B extends Page> extends
 	protected Field<?> onCreateField(Object propertyId) {
 		Page page = attachForm.getBean();
 		if (propertyId.equals("content")) {
-			final CKEditorTextField ckEditorTextField = new CKEditorTextField();
+			CKEditorConfig config = new CKEditorConfig();
+			config.useCompactTags();
+			config.disableElementsPath();
+			config.setResizeDir(CKEditorConfig.RESIZE_DIR.HORIZONTAL);
+			config.disableSpellChecker();
+			config.setToolbarCanCollapse(false);
+			config.setWidth("100%");
+
+			final CKEditorTextField ckEditorTextField = new CKEditorTextField(
+					config);
 			return ckEditorTextField;
 		}
 
