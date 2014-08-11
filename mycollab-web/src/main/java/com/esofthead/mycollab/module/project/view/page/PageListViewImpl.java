@@ -20,6 +20,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -108,7 +109,16 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 	private VerticalLayout displayPageBlock(Page resource) {
 		VerticalLayout block = new VerticalLayout();
 		HorizontalLayout headerPanel = new HorizontalLayout();
-		Button pageLink = new Button(resource.getSubject());
+		Button pageLink = new Button(resource.getSubject(),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 		headerPanel.addComponent(pageLink);
 
 		block.addComponent(headerPanel);
