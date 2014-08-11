@@ -1,6 +1,10 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectNavigationMenu;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
+import com.vaadin.ui.ComponentContainer;
 
 /**
  * @author MyCollab Inc.
@@ -14,6 +18,14 @@ public class ProjectModulePresenter extends
 
 	public ProjectModulePresenter() {
 		super(ProjectModule.class);
+	}
+
+	@Override
+	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+		super.onGo(navigator, data);
+		((MobileNavigationManager) navigator)
+				.setNavigationMenu(new ProjectNavigationMenu());
+		((MobileNavigationManager) navigator).navigateTo(view);
 	}
 
 }

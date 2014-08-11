@@ -1,10 +1,15 @@
 package com.esofthead.mycollab.module.project.view.page;
 
+import java.util.List;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
+import com.esofthead.mycollab.module.wiki.domain.Folder;
+import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.wiki.domain.WikiResource;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -68,7 +73,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 				.newResource("icons/16/addRecord.png"));
 		createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
-		
+
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 
 		UiUtils.addComponent(headerLayout, titleIcon, Alignment.MIDDLE_LEFT);
@@ -83,9 +88,31 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 	}
 
 	@Override
-	public void displayPages() {
-		// TODO Auto-generated method stub
+	public void displayPages(List<WikiResource> resources) {
+		pagesLayout.removeAllComponents();
+		if (resources != null) {
+			for (WikiResource resource : resources) {
+				VerticalLayout resourceBlock = (resource instanceof Page) ? displayPageBlock((Page) resource)
+						: displayFolderBlock((Folder) resource);
+				pagesLayout.addComponent(resourceBlock);
+			}
+		}
 
+	}
+
+	private VerticalLayout displayFolderBlock(Folder resource) {
+		VerticalLayout block = new VerticalLayout();
+		return block;
+	}
+
+	private VerticalLayout displayPageBlock(Page resource) {
+		VerticalLayout block = new VerticalLayout();
+		HorizontalLayout headerPanel = new HorizontalLayout();
+		Button pageLink = new Button(resource.getSubject());
+		headerPanel.addComponent(pageLink);
+
+		block.addComponent(headerPanel);
+		return block;
 	}
 
 }

@@ -1,9 +1,13 @@
 package com.esofthead.mycollab.module.project.view.page;
 
+import java.util.List;
+
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.project.view.milestone.MilestoneContainer;
+import com.esofthead.mycollab.module.wiki.domain.WikiResource;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -19,8 +23,12 @@ import com.vaadin.ui.ComponentContainer;
 public class PageListPresenter extends AbstractPresenter<PageListView> {
 	private static final long serialVersionUID = 1L;
 
+	private WikiService wikiService;
+
 	public PageListPresenter() {
 		super(PageListView.class);
+
+		wikiService = ApplicationContextUtil.getSpringBean(WikiService.class);
 	}
 
 	@Override
@@ -31,7 +39,9 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 			pageContainer.removeAllComponents();
 			pageContainer.addComponent(view.getWidget());
 
-			view.displayPages();
+			List<WikiResource> resources = wikiService
+					.getResources(CurrentProjectVariables.getCurrentPagePath());
+			view.displayPages(resources);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.common.CommentType;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 public class AttachmentUtils {
 	private static Logger log = LoggerFactory.getLogger(AttachmentUtils.class);

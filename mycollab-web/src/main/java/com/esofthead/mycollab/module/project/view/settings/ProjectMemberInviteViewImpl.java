@@ -153,24 +153,6 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 		final HorizontalLayout controlButtons = new HorizontalLayout();
 		controlButtons.setSpacing(true);
 
-		Button inviteBtn = new Button(
-				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent event) {
-						roleId = (Integer) roleComboBox.getValue();
-						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteProjectMembers>(
-								ProjectMemberInviteViewImpl.this,
-								new InviteProjectMembers(inviteEmails, roleId,
-										messageArea.getValue())));
-
-					}
-				});
-		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		controlButtons.addComponent(inviteBtn);
-
 		Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new Button.ClickListener() {
@@ -189,6 +171,24 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 				});
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		controlButtons.addComponent(cancelBtn);
+
+		Button inviteBtn = new Button(
+				AppContext.getMessage(ProjectMemberI18nEnum.BUTTON_NEW_INVITEE),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						roleId = (Integer) roleComboBox.getValue();
+						ProjectMemberInviteViewImpl.this.fireEvent(new ViewEvent<InviteProjectMembers>(
+								ProjectMemberInviteViewImpl.this,
+								new InviteProjectMembers(inviteEmails, roleId,
+										messageArea.getValue())));
+
+					}
+				});
+		inviteBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		controlButtons.addComponent(inviteBtn);
 
 		controlButtons.setSizeUndefined();
 		return controlButtons;

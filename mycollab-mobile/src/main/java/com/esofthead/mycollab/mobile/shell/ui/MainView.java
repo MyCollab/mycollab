@@ -90,6 +90,16 @@ public class MainView extends AbstractMobileMainView {
 				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
 		pmButton.setWidth("100%");
 		pmButton.addStyleName("project");
+		pmButton.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = -5323408319082242586L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.GotoProjectModule(this, null));
+			}
+		});
 		contentLayout.addComponent(pmButton);
 
 		ModuleButton fileButton = new ModuleButton(

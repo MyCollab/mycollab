@@ -20,14 +20,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -52,43 +44,50 @@ public class ProjectNavigationMenu extends AbstractNavigationMenu {
 		// userPanel.setWidth("100%");
 		// addComponent(userPanel);
 
-		final MenuButton accountBtn = new MenuButton("Accounts", "&#xE601;");
-		addComponent(accountBtn);
-		buttonMap.put("Accounts", accountBtn);
+		final MenuButton dashboardBtn = new MenuButton("Dashboard", "&#xf0e4;");
+		addComponent(dashboardBtn);
+		buttonMap.put("Dashboard", dashboardBtn);
 
-		final MenuButton contactBtn = new MenuButton("Contacts", "&#xE603;");
-		addComponent(contactBtn);
-		buttonMap.put("Contacts", contactBtn);
+		final MenuButton messageBtn = new MenuButton("Messages", "&#xf04f;");
+		addComponent(messageBtn);
+		buttonMap.put("Messages", messageBtn);
 
-		final MenuButton campaignBtn = new MenuButton("Campaigns", "&#xE602;");
-		addComponent(campaignBtn);
-		buttonMap.put("Campaign", campaignBtn);
+		final MenuButton phaseBtn = new MenuButton("Phases", "&#xf075;");
+		addComponent(phaseBtn);
+		buttonMap.put("Phases", phaseBtn);
 
-		final MenuButton leadBtn = new MenuButton("Leads", "&#xE609;");
-		addComponent(leadBtn);
-		buttonMap.put("Leads", leadBtn);
+		final MenuButton taskBtn = new MenuButton("Tasks", "&#xe60f;");
+		addComponent(taskBtn);
+		buttonMap.put("Tasks", taskBtn);
 
-		final MenuButton opportunityBtn = new MenuButton("Opportunities",
-				"&#xE604;");
-		addComponent(opportunityBtn);
-		buttonMap.put("Opportunities", opportunityBtn);
+		final MenuButton bugBtn = new MenuButton("Bugs", "&#xf188;");
+		addComponent(bugBtn);
+		buttonMap.put("Bugs", bugBtn);
 
-		final MenuButton caseBtn = new MenuButton("Cases", "&#xE605;");
-		addComponent(caseBtn);
-		buttonMap.put("Cases", caseBtn);
+		final MenuButton fileBtn = new MenuButton("Files", "&#xf017;");
+		addComponent(fileBtn);
+		buttonMap.put("Files", fileBtn);
 
-		final MenuButton activityBtn = new MenuButton("Activities", "&#xE606;");
-		addComponent(activityBtn);
-		buttonMap.put("Activities", activityBtn);
+		final MenuButton riskBtn = new MenuButton("Risks", "&#xf02d;");
+		addComponent(riskBtn);
+		buttonMap.put("Risks", riskBtn);
 
-		// final MenuButton documentBtn = new MenuButton("Documents",
-		// "&#xE607;");
-		// addComponent(documentBtn);
-		// buttonMap.put("Documents", documentBtn);
-		//
-		// final MenuButton settingBtn = new MenuButton("Settings", "&#xE608;");
-		// addComponent(settingBtn);
-		// buttonMap.put("Settings", settingBtn);
+		final MenuButton problemBtn = new MenuButton("Problems", "&#xf0d2;");
+		addComponent(problemBtn);
+		buttonMap.put("Problems", problemBtn);
+
+		final MenuButton timeBtn = new MenuButton("Time", "&#xe612;");
+		addComponent(timeBtn);
+		buttonMap.put("Time", timeBtn);
+
+		final MenuButton standupBtn = new MenuButton("Standup", "&#xf0c0;");
+		addComponent(standupBtn);
+		buttonMap.put("Standup", standupBtn);
+
+		final MenuButton userBtn = new MenuButton("Users & Settings",
+				"&#xe601;");
+		addComponent(userBtn);
+		buttonMap.put("Users & Settings", userBtn);
 	}
 
 	@Override
@@ -103,36 +102,6 @@ public class ProjectNavigationMenu extends AbstractNavigationMenu {
 				final String caption = ((MenuButton) event.getButton())
 						.getBtnId();
 
-				if ("Accounts".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new AccountEvent.GotoList(this, null));
-				} else if ("Activities".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new ActivityEvent.GotoList(this, null));
-				} else if ("Contacts".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new ContactEvent.GotoList(this, null));
-				} else if ("Campaigns".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new CampaignEvent.GotoList(this, null));
-				} else if ("Cases".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new CaseEvent.GotoList(this, null));
-				} else if ("Leads".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new LeadEvent.GotoList(this, null));
-				} else if ("Opportunities".equals(caption)) {
-					EventBusFactory.getInstance().post(
-							new OpportunityEvent.GotoList(this, null));
-				}
-
-				/*
-				 * for (final Iterator<MenuButton> it = CrmNavigationMenu.this
-				 * .buttonIterator(); it.hasNext();) { final MenuButton btn =
-				 * it.next(); btn.removeStyleName("isSelected"); }
-				 * 
-				 * event.getButton().addStyleName("isSelected");
-				 */
 			}
 		};
 	}

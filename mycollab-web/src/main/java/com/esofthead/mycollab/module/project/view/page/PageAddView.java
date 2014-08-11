@@ -10,5 +10,4 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  *
  */
 public interface PageAddView extends IFormAddView<Page> {
-
 }

@@ -49,6 +49,8 @@ public class CurrentProjectVariables {
 	private static Logger log = LoggerFactory
 			.getLogger(CurrentProjectVariables.class);
 
+	private static final String CURRENT_PAGE_VAR = "project_page";
+
 	public static SimpleProject getProject() {
 		return (SimpleProject) MyCollabSession.getVariable(CURRENT_PROJECT);
 	}
@@ -89,7 +91,7 @@ public class CurrentProjectVariables {
 		}
 	}
 
-	public static void setProjectMember(SimpleProjectMember prjMember) {
+	private static void setProjectMember(SimpleProjectMember prjMember) {
 		MyCollabSession.putVariable(PROJECT_MEMBER, prjMember);
 	}
 
@@ -165,6 +167,22 @@ public class CurrentProjectVariables {
 			log.error("Error while checking permission", e);
 			return false;
 		}
+	}
+
+	public static String getCurrentPagePath() {
+		String path = (String) MyCollabSession.getVariable(CURRENT_PAGE_VAR);
+		if (path == null) {
+			String newPath = String.format("%d/project/%d/.page",
+					AppContext.getAccountId(), getProjectId());
+			setCurrentPagePath(newPath);
+			return newPath;
+		} else {
+			return path;
+		}
+	}
+
+	public static void setCurrentPagePath(String path) {
+		MyCollabSession.putVariable(CURRENT_PAGE_VAR, path);
 	}
 
 	public static int getProjectId() {

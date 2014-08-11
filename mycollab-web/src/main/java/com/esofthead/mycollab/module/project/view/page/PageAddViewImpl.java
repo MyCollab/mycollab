@@ -62,5 +62,4 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
 	protected AbstractBeanFieldGroupEditFieldFactory<Page> initBeanFormFieldFactory() {
 		return new PageEditFormFieldFactory(editForm);
 	}
-
 }

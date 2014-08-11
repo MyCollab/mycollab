@@ -28,6 +28,7 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmModulePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.ProjectModulePresenter;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -116,6 +117,17 @@ public class ShellController implements IController {
 			public void handle(ShellEvent.GotoCrmModule event) {
 				CrmModulePresenter presenter = PresenterResolver
 						.getPresenter(CrmModulePresenter.class);
+				presenter.go(mainNav, null);
+			}
+		});
+		eventBus.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.GotoProjectModule event) {
+				ProjectModulePresenter presenter = PresenterResolver
+						.getPresenter(ProjectModulePresenter.class);
 				presenter.go(mainNav, null);
 			}
 		});

@@ -8,6 +8,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.HistoryViewManager;
 import com.esofthead.mycollab.vaadin.mvp.NullViewState;
@@ -86,6 +87,11 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 	private void savePage(Page page) {
 		WikiService wikiService = ApplicationContextUtil
 				.getSpringBean(WikiService.class);
+		String pagePath = CurrentProjectVariables.getCurrentPagePath();
+		page.setPath(pagePath + "/" + page.getSubject());
+		wikiService.savePage(page, AppContext.getUsername());
+		EventBusFactory.getInstance().post(
+				new PageEvent.GotoAdd(PageAddPresenter.this, null));
 	}
 
 }

@@ -21,6 +21,21 @@ public class ProjectModuleController implements IController {
 	public ProjectModuleController(MobileNavigationManager navigationManager) {
 		this.navManager = navigationManager;
 		this.eventBus = EventBusFactory.getInstance();
+
+//		bindProjectEvents();
 	}
+
+//	private void bindProjectEvents() {
+//		eventBus.register(new ApplicationEventListener<ProjectEvent.GotoDashboard>() {
+//
+//			private static final long serialVersionUID = -9006615798118115613L;
+//
+//			@Subscribe
+//			@Override
+//			public void handle(ProjectEvent.GotoDashboard event) {
+//
+//			}
+//		});
+//	}
 
 }
