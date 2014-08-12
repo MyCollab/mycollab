@@ -102,7 +102,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -765,6 +764,34 @@ public class ProjectController implements IController {
 				ProjectView projectView = ViewManager
 						.getView(ProjectView.class);
 				PageScreenData.Add data = new PageScreenData.Add(new Page());
+				projectView.gotoPageView(data);
+			}
+		});
+
+		eventBus.register(new ApplicationEventListener<PageEvent.GotoEdit>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(PageEvent.GotoEdit event) {
+				ProjectView projectView = ViewManager
+						.getView(ProjectView.class);
+				PageScreenData.Edit data = new PageScreenData.Edit((Page) event
+						.getData());
+				projectView.gotoPageView(data);
+			}
+		});
+
+		eventBus.register(new ApplicationEventListener<PageEvent.GotoRead>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(PageEvent.GotoRead event) {
+				ProjectView projectView = ViewManager
+						.getView(ProjectView.class);
+				PageScreenData.Read data = new PageScreenData.Read((Page) event
+						.getData());
 				projectView.gotoPageView(data);
 			}
 		});

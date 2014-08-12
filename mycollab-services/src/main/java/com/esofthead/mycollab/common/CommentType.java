@@ -26,7 +26,7 @@ public enum CommentType {
 	PRJ_TASK_LIST("Project-TaskList"), PRJ_TASK("Project-Task"), PRJ_BUG(
 			"Project-Bug"), PRJ_MESSAGE("Project-Message"), PRJ_MILESTONE(
 			"Project-Milestone"), PRJ_RISK("Project-Risk"), PRJ_PROBLEM(
-			"Project-Problem"), CRM_NOTE("Crm-Note");
+			"Project-Problem"), PRJ_PAGE("Project-Page"), CRM_NOTE("Crm-Note");
 
 	private String type;
 

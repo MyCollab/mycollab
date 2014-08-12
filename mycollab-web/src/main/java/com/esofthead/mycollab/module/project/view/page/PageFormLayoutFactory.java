@@ -45,12 +45,9 @@ public class PageFormLayoutFactory implements IFormLayoutFactory {
 			this.informationLayout.addComponent(field,
 					AppContext.getMessage(Page18InEnum.FORM_DESCRIPTION), 0, 1,
 					2, "100%");
-		} else if (propertyId.equals("category")) {
-			this.informationLayout.addComponent(field,
-					AppContext.getMessage(Page18InEnum.FORM_CATEGORY), 0, 2);
 		} else if (propertyId.equals("status")) {
 			this.informationLayout.addComponent(field,
-					AppContext.getMessage(Page18InEnum.FORM_VISIBILITY), 1, 2);
+					AppContext.getMessage(Page18InEnum.FORM_VISIBILITY), 0, 2);
 		}
 	}
 }

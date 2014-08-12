@@ -29,6 +29,7 @@ public enum RolePermissionI18nEnum {
 	Bug,
 	Version,
 	Component,
+	Page,
 	Risk,
 	Problem,
 	User,

@@ -57,6 +57,25 @@ public class WikiServiceTest extends ServiceTest {
 	}
 
 	@Test
+	public void testUpdatePage() {
+		Page page = new Page();
+		page.setCreatedUser("hainguyen@esofthead.com");
+		page.setCategory("abc");
+		page.setPath("1/page/document_1");
+		page.setStatus(WikiI18nEnum.status_public.name());
+		page.setSubject("Hello world 2");
+		page.setContent("My name is <b>Bao Han</b>");
+
+		wikiService.savePage(page, "hainguyen@esofthead.com");
+		List<Page> pages = wikiService.getPages("1/page");
+		Assert.assertEquals(1, pages.size());
+		page = pages.get(0);
+		Assert.assertEquals("Hello world 2", page.getSubject());
+
+		wikiService.getPageVersions("1/page/document_1");
+	}
+
+	@Test
 	public void testGetResources() {
 		savePage2();
 

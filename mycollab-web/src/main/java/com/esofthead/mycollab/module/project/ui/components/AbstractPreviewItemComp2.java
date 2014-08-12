@@ -67,9 +67,8 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		ComponentContainer actionControls = createButtonControls();
 		if (actionControls != null) {
 			actionControls.addStyleName("control-buttons");
+			addHeaderRightContent(actionControls);
 		}
-
-		addHeaderRightContent(actionControls);
 
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");

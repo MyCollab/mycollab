@@ -2,6 +2,8 @@ package com.esofthead.mycollab.module.wiki.service;
 
 import java.util.List;
 
+import javax.jcr.version.Version;
+
 import com.esofthead.mycollab.module.ecm.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
@@ -19,6 +21,15 @@ public interface WikiService {
 	 * @param createdUser
 	 */
 	void savePage(Page page, String createdUser);
+
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 */
+	List<Version> getPageVersions(String path);
+
+	Page getPageByVersion(String path, String versionName);
 
 	/**
 	 * 

@@ -106,7 +106,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		return block;
 	}
 
-	private VerticalLayout displayPageBlock(Page resource) {
+	private VerticalLayout displayPageBlock(final Page resource) {
 		VerticalLayout block = new VerticalLayout();
 		HorizontalLayout headerPanel = new HorizontalLayout();
 		Button pageLink = new Button(resource.getSubject(),
@@ -115,7 +115,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 					@Override
 					public void buttonClick(ClickEvent event) {
-						// TODO Auto-generated method stub
+						EventBusFactory.getInstance().post(
+								new PageEvent.GotoRead(PageListViewImpl.this,
+										resource));
 
 					}
 				});

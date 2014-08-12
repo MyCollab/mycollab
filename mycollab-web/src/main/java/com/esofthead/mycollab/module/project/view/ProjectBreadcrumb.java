@@ -63,6 +63,7 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
+import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -317,7 +318,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.select(0);
 		this.addLink(new Button(
 				AppContext.getMessage(BreadcrumbI18nEnum.PAGES),
-				new GotoPageListListener()));
+				new GotoPageListListener(null)));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
 				.getMessage(Page18InEnum.VIEW_NEW_TITLE)));
@@ -326,13 +327,27 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 				AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE));
 	}
 
+	public void gotoPageEdit(Page page) {
+		this.select(0);
+		this.addLink(new Button(
+				AppContext.getMessage(BreadcrumbI18nEnum.PAGES),
+				new GotoPageListListener(null)));
+		this.setLinkEnabled(true, 1);
+	}
+
 	private static class GotoPageListListener implements Button.ClickListener {
 		private static final long serialVersionUID = 1L;
+
+		private String path;
+
+		public GotoPageListListener(String path) {
+			this.path = path;
+		}
 
 		@Override
 		public void buttonClick(ClickEvent event) {
 			EventBusFactory.getInstance().post(
-					new PageEvent.GotoList(this, null));
+					new PageEvent.GotoList(this, path));
 		}
 	}
 

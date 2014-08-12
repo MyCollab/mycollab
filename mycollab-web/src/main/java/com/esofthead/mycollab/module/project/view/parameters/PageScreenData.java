@@ -11,9 +11,9 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  */
 public class PageScreenData {
 
-	public static class Read extends ScreenData<Integer> {
+	public static class Read extends ScreenData<Page> {
 
-		public Read(Integer params) {
+		public Read(Page params) {
 			super(params);
 		}
 	}

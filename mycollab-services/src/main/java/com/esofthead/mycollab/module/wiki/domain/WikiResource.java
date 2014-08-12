@@ -2,6 +2,8 @@ package com.esofthead.mycollab.module.wiki.domain;
 
 import java.util.Calendar;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -9,10 +11,13 @@ import java.util.Calendar;
  *
  */
 public class WikiResource {
+	@NotBindable
 	private Calendar createdTime;
 
+	@NotBindable
 	private String createdUser;
-	
+
+	@NotBindable
 	protected String path = "";
 
 	public Calendar getCreatedTime() {

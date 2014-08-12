@@ -9,6 +9,10 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
+import javax.jcr.version.Version;
+import javax.jcr.version.VersionHistory;
+import javax.jcr.version.VersionIterator;
+import javax.jcr.version.VersionManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +62,12 @@ public class WikiServiceImpl implements WikiService {
 						throw new ContentException(errorStr);
 					} else if (isNodePage(node)) {
 						log.debug("Found existing resource. Override");
-
+						VersionManager vm = session.getWorkspace()
+								.getVersionManager();
+						vm.checkout("/" + page.getPath());
+						convertPageToNode(node, page, createdUser);
+						session.save();
+						vm.checkin("/" + page.getPath());
 					} else {
 						String errorStr = String
 								.format("Resource is existed. But its node type is not mycollab:content. It has path %s and type is %s",
@@ -132,6 +141,60 @@ public class WikiServiceImpl implements WikiService {
 		} catch (RepositoryException e) {
 			return false;
 		}
+	}
+
+	@Override
+	public List<Version> getPageVersions(final String path) {
+		return pageJcrTemplate.execute(new JcrCallback<List<Version>>() {
+
+			@Override
+			public List<Version> doInJcr(Session session) throws IOException,
+					RepositoryException {
+				Node rootNode = session.getRootNode();
+				Node node = getNode(rootNode, path);
+				if (node != null) {
+					VersionManager vm = session.getWorkspace()
+							.getVersionManager();
+					VersionHistory history = vm.getVersionHistory("/" + path);
+					List<Version> versions = new ArrayList<Version>();
+					for (VersionIterator it = history.getAllVersions(); it
+							.hasNext();) {
+						Version version = (Version) it.next();
+						versions.add(version);
+					}
+					return versions;
+				} else {
+					return null;
+				}
+			}
+		});
+	}
+
+	@Override
+	public Page getPageByVersion(final String path, final String versionName) {
+		return pageJcrTemplate.execute(new JcrCallback<Page>() {
+
+			@Override
+			public Page doInJcr(Session session) throws IOException,
+					RepositoryException {
+				Node rootNode = session.getRootNode();
+				Node node = getNode(rootNode, path);
+				if (node != null) {
+					VersionManager vm = session.getWorkspace()
+							.getVersionManager();
+					VersionHistory history = vm.getVersionHistory("/" + path);
+					Version version = history.getVersion(versionName);
+					if (version != null) {
+						Node frozenNode = version.getFrozenNode();
+						return convertNodeToPage(frozenNode);
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+		});
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -1,5 +1,7 @@
 package com.esofthead.mycollab.module.project.view.page;
 
+import java.util.UUID;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -78,7 +80,12 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
-			breadcrumb.gotoPageAdd();
+			if (page.getPath().equals("")) {
+				breadcrumb.gotoPageAdd();
+			} else {
+				breadcrumb.gotoPageEdit(page);
+			}
+
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}
@@ -87,11 +94,13 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 	private void savePage(Page page) {
 		WikiService wikiService = ApplicationContextUtil
 				.getSpringBean(WikiService.class);
-		String pagePath = CurrentProjectVariables.getCurrentPagePath();
-		page.setPath(pagePath + "/" + page.getSubject());
+		if (page.getPath().equals("")) {
+			String pagePath = CurrentProjectVariables.getCurrentPagePath();
+			page.setPath(pagePath + "/" + UUID.randomUUID().toString());
+		}
+
 		wikiService.savePage(page, AppContext.getUsername());
 		EventBusFactory.getInstance().post(
 				new PageEvent.GotoAdd(PageAddPresenter.this, null));
 	}
-
 }
