@@ -332,8 +332,9 @@ public class NoteListItems extends VerticalLayout {
 								if (!(component instanceof CommentInput)) {
 									commentInput = new CommentInput(
 											NoteRowDisplayHandler.this,
-											CommentType.CRM_NOTE, note.getId(),
-											null, true, false);
+											CommentType.CRM_NOTE, ""
+													+ note.getId(), null, true,
+											false);
 									noteContentLayout.addComponent(
 											commentInput, noteContentLayout
 													.getComponentCount());
@@ -369,7 +370,7 @@ public class NoteListItems extends VerticalLayout {
 			final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 			searchCriteria.setType(new StringSearchField(CommentType.CRM_NOTE
 					.toString()));
-			searchCriteria.setTypeid(new NumberSearchField(note.getId()));
+			searchCriteria.setTypeid(new StringSearchField("" + note.getId()));
 			commentList.setSearchCriteria(searchCriteria);
 		}
 
@@ -519,7 +520,7 @@ public class NoteListItems extends VerticalLayout {
 							relayNotification.setType(type);
 							relayNotification
 									.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
-							relayNotification.setTypeid(typeid);
+							relayNotification.setTypeid("" + typeid);
 							if (type.equals(CrmTypeConstants.ACCOUNT)) {
 								relayNotification
 										.setEmailhandlerbean(AccountRelayEmailNotificationAction.class

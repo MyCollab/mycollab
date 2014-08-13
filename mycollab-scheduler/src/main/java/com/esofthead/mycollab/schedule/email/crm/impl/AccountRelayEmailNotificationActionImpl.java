@@ -130,7 +130,7 @@ public class AccountRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleAccount getBeanInContext(MailContext<SimpleAccount> context) {
-		return accountService.findById(context.getTypeid(),
+		return accountService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

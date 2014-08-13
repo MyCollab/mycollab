@@ -102,7 +102,7 @@ public class MonitorItemAspect {
 				relayNotification.setType(watchableAnnotation.type());
 				relayNotification.setAction(MonitorTypeConstants.CREATE_ACTION);
 				int typeid = (Integer) PropertyUtils.getProperty(bean, "id");
-				relayNotification.setTypeid(typeid);
+				relayNotification.setTypeid("" + typeid);
 				relayNotification.setEmailhandlerbean(watchableAnnotation
 						.emailHandlerBean().getName());
 				relayEmailNotificationService.saveWithSession(

@@ -163,7 +163,7 @@ public class VersionRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleVersion getBeanInContext(MailContext<SimpleVersion> context) {
-		return versionService.findById(context.getTypeid(),
+		return versionService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

@@ -119,8 +119,8 @@ public class ProjectTaskGroupRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleTaskList getBeanInContext(
 			MailContext<SimpleTaskList> context) {
-		return projectTaskListService.findById(context.getTypeid(),
-				context.getSaccountid());
+		return projectTaskListService.findById(
+				Integer.parseInt(context.getTypeid()), context.getSaccountid());
 	}
 
 	@Override

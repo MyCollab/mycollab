@@ -156,7 +156,8 @@ public abstract class SendMailToAllMembersAction<B> implements
 					buildExtraTemplateVariables(context);
 					if (context.getTypeid() != null) {
 						SimpleAuditLog auditLog = auditLogService
-								.findLatestLog(context.getTypeid(),
+								.findLatestLog(
+										Integer.parseInt(context.getTypeid()),
 										context.getSaccountid());
 						contentGenerator.putVariable("historyLog", auditLog);
 						contentGenerator.putVariable("context", context);

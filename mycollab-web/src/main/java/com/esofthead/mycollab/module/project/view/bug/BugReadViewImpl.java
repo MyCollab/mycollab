@@ -346,7 +346,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 
 	@Override
 	protected void onPreviewItem() {
-		commentList.loadComments(this.beanItem.getId());
+		commentList.loadComments("" + this.beanItem.getId());
 		historyList.loadHistory(this.beanItem.getId());
 		bugTimeLogList.displayTime(this.beanItem);
 

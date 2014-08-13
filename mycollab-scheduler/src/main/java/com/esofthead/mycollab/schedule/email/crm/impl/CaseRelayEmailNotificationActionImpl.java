@@ -141,7 +141,7 @@ public class CaseRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleCase getBeanInContext(MailContext<SimpleCase> context) {
-		return caseService.findById(context.getTypeid(),
+		return caseService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

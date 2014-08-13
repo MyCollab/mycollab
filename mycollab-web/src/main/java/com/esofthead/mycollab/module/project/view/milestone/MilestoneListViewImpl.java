@@ -19,7 +19,11 @@ package com.esofthead.mycollab.module.project.view.milestone;
 
 import java.util.List;
 
+import org.vaadin.dialogs.ConfirmDialog;
+import org.vaadin.hene.popupbutton.PopupButton;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -28,9 +32,13 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
+import com.esofthead.mycollab.module.project.view.task.TaskTableDisplay;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasMassItemActionHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
@@ -38,6 +46,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
@@ -55,6 +64,8 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -236,6 +247,8 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		layout.addStyleName(UIConstants.MILESTONE_BOX);
 		layout.setWidth("100%");
 
+		HorizontalLayout milestoneHeader = new HorizontalLayout();
+		milestoneHeader.setWidth("100%");
 		final LabelLink milestoneLink = new LabelLink(milestone.getName(),
 				ProjectLinkBuilder.generateMilestonePreviewFullLink(
 						milestone.getProjectid(), milestone.getId()));
@@ -244,9 +257,82 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 		milestoneLink.addStyleName(UIConstants.WORD_WRAP);
 		milestoneLink.addStyleName("milestone-name");
 		milestoneLink.setWidth("100%");
-		milestone.setDescription(milestone.getDescription());
+		milestoneHeader.addComponent(milestoneLink);
+		milestoneHeader.setExpandRatio(milestoneLink, 1);
 
-		layout.addComponent(milestoneLink);
+		PopupButton taskSettingPopupBtn = new PopupButton();
+		taskSettingPopupBtn.setWidth("20px");
+		VerticalLayout filterBtnLayout = new VerticalLayout();
+		filterBtnLayout.setMargin(true);
+		filterBtnLayout.setSpacing(true);
+		filterBtnLayout.setWidth("100px");
+
+		Button editButton = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						EventBusFactory.getInstance().post(
+								new MilestoneEvent.GotoEdit(
+										MilestoneListViewImpl.this, milestone));
+					}
+				});
+		editButton.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.MILESTONES));
+		editButton.setStyleName("link");
+		filterBtnLayout.addComponent(editButton);
+
+		Button deleteBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						ConfirmDialogExt.show(
+								UI.getCurrent(),
+								AppContext.getMessage(
+										GenericI18Enum.DIALOG_DELETE_TITLE,
+										SiteConfiguration.getSiteName()),
+								AppContext
+										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+								AppContext
+										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+								new ConfirmDialog.Listener() {
+									private static final long serialVersionUID = 1L;
+
+									@Override
+									public void onClose(ConfirmDialog dialog) {
+										if (dialog.isConfirmed()) {
+											MilestoneService projectTaskService = ApplicationContextUtil
+													.getSpringBean(MilestoneService.class);
+											projectTaskService.removeWithSession(
+													milestone.getId(),
+													AppContext.getUsername(),
+													AppContext.getAccountId());
+											milestones.remove(milestone);
+											displayMilestones(milestones);
+										}
+									}
+								});
+					}
+				});
+		deleteBtn.setStyleName("link");
+		deleteBtn.setEnabled(CurrentProjectVariables
+				.canAccess(ProjectRolePermissionCollections.MILESTONES));
+		filterBtnLayout.addComponent(deleteBtn);
+
+		taskSettingPopupBtn.setIcon(MyCollabResource
+				.newResource("icons/16/item_settings.png"));
+		taskSettingPopupBtn.setStyleName("link");
+		taskSettingPopupBtn.setContent(filterBtnLayout);
+
+		milestoneHeader.addComponent(taskSettingPopupBtn);
+		layout.addComponent(milestoneHeader);
 
 		HorizontalLayout spacing = new HorizontalLayout();
 		spacing.setHeight("8px");

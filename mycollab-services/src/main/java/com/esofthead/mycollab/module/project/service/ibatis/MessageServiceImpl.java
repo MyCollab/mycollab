@@ -97,8 +97,7 @@ public class MessageServiceImpl extends
 		RelayEmailNotification relayNotification = new RelayEmailNotification();
 		relayNotification.setChangeby(username);
 		relayNotification.setChangecomment("");
-		if (record.getSaccountid() != null)
-		{
+		if (record.getSaccountid() != null) {
 			int sAccountId = record.getSaccountid();
 			relayNotification.setSaccountid(sAccountId);
 		}
@@ -107,7 +106,7 @@ public class MessageServiceImpl extends
 		relayNotification
 				.setEmailhandlerbean(MessageRelayEmailNotificationAction.class
 						.getName());
-		relayNotification.setTypeid(recordId);
+		relayNotification.setTypeid("" + recordId);
 		relayNotification.setExtratypeid(record.getProjectid());
 		return relayNotification;
 	}

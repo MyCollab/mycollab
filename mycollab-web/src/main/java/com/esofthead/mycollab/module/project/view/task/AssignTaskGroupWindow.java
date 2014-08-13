@@ -158,7 +158,7 @@ public class AssignTaskGroupWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_TASK_LIST
 												.toString());
-										comment.setTypeid(taskList.getId());
+										comment.setTypeid("" + taskList.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -190,13 +190,14 @@ public class AssignTaskGroupWindow extends Window {
 			@Override
 			public void attachField(Object propertyId, Field<?> field) {
 				if (propertyId.equals("owner")) {
-					informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-							0);
+					informationLayout
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 0);
 				} else if (propertyId.equals("comment")) {
-					informationLayout.addComponent(field, AppContext
-							.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1,
-							2, "100%");
+					informationLayout.addComponent(field,
+							AppContext.getMessage(TaskI18nEnum.FORM_COMMENT),
+							0, 1, 2, "100%");
 				}
 			}
 		}

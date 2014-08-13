@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.ui;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
@@ -41,8 +37,6 @@ import com.vaadin.ui.Button.ClickEvent;
 public class CrmNavigationMenu extends AbstractNavigationMenu {
 	private static final long serialVersionUID = 1L;
 
-	private final Map<String, MenuButton> buttonMap = new HashMap<String, MenuButton>();
-
 	public CrmNavigationMenu() {
 		super();
 
@@ -53,33 +47,26 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 		// addComponent(userPanel);
 
 		final MenuButton accountBtn = new MenuButton("Accounts", "&#xE601;");
-		addComponent(accountBtn);
-		buttonMap.put("Accounts", accountBtn);
+		addMenu(accountBtn);
 
 		final MenuButton contactBtn = new MenuButton("Contacts", "&#xE603;");
-		addComponent(contactBtn);
-		buttonMap.put("Contacts", contactBtn);
+		addMenu(contactBtn);
 
 		final MenuButton campaignBtn = new MenuButton("Campaigns", "&#xE602;");
-		addComponent(campaignBtn);
-		buttonMap.put("Campaign", campaignBtn);
+		addMenu(campaignBtn);
 
 		final MenuButton leadBtn = new MenuButton("Leads", "&#xE609;");
-		addComponent(leadBtn);
-		buttonMap.put("Leads", leadBtn);
+		addMenu(leadBtn);
 
 		final MenuButton opportunityBtn = new MenuButton("Opportunities",
 				"&#xE604;");
-		addComponent(opportunityBtn);
-		buttonMap.put("Opportunities", opportunityBtn);
+		addMenu(opportunityBtn);
 
 		final MenuButton caseBtn = new MenuButton("Cases", "&#xE605;");
-		addComponent(caseBtn);
-		buttonMap.put("Cases", caseBtn);
+		addMenu(caseBtn);
 
 		final MenuButton activityBtn = new MenuButton("Activities", "&#xE606;");
-		addComponent(activityBtn);
-		buttonMap.put("Activities", activityBtn);
+		addMenu(activityBtn);
 
 		// final MenuButton documentBtn = new MenuButton("Documents",
 		// "&#xE607;");
@@ -135,20 +122,5 @@ public class CrmNavigationMenu extends AbstractNavigationMenu {
 				 */
 			}
 		};
-	}
-
-	public void selectButton(String caption) {
-		for (final Iterator<MenuButton> it = CrmNavigationMenu.this
-				.buttonIterator(); it.hasNext();) {
-			final MenuButton btn = it.next();
-			btn.removeStyleName("isSelected");
-			if (btn.getCaption().equals(caption)) {
-				btn.addStyleName("isSelected");
-			}
-		}
-	}
-
-	public Iterator<MenuButton> buttonIterator() {
-		return buttonMap.values().iterator();
 	}
 }

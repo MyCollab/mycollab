@@ -22,7 +22,6 @@ import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.common.ui.components.ReloadableComponent;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -41,7 +40,7 @@ public class CommentDisplay extends VerticalLayout implements
 
 	private final BeanList<CommentService, CommentSearchCriteria, SimpleComment> commentList;
 	private CommentType type;
-	private Integer typeid;
+	private String typeid;
 	private Integer numComments;
 	private ProjectCommentInput commentBox;
 
@@ -75,13 +74,13 @@ public class CommentDisplay extends VerticalLayout implements
 	}
 
 	private void displayCommentList() {
-		if (type == null || typeid == null || typeid == 0) {
+		if (type == null || typeid == null) {
 			return;
 		}
 
 		final CommentSearchCriteria searchCriteria = new CommentSearchCriteria();
 		searchCriteria.setType(new StringSearchField(type.toString()));
-		searchCriteria.setTypeid(new NumberSearchField(typeid));
+		searchCriteria.setTypeid(new StringSearchField(typeid));
 		numComments = commentList.setSearchCriteria(searchCriteria);
 	}
 
@@ -89,7 +88,7 @@ public class CommentDisplay extends VerticalLayout implements
 		return numComments;
 	}
 
-	public void loadComments(final int typeid) {
+	public void loadComments(final String typeid) {
 		this.typeid = typeid;
 		if (commentBox != null) {
 			commentBox.setTypeAndId(typeid);

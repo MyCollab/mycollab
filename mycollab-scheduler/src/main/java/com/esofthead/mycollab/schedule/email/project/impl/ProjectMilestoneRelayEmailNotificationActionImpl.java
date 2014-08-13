@@ -112,7 +112,7 @@ public class ProjectMilestoneRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleMilestone getBeanInContext(
 			MailContext<SimpleMilestone> context) {
-		return milestoneService.findById(context.getTypeid(),
+		return milestoneService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

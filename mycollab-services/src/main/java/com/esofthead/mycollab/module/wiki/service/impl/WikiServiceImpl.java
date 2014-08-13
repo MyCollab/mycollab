@@ -17,9 +17,11 @@ import javax.jcr.version.VersionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.extensions.jcr.JcrCallback;
 import org.springframework.extensions.jcr.JcrTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.ecm.ContentException;
@@ -35,17 +37,19 @@ import com.esofthead.mycollab.module.wiki.service.WikiService;
  * @since 4.4.0
  *
  */
-@Service
+@Repository
+@Transactional
 public class WikiServiceImpl implements WikiService {
 	private static Logger log = LoggerFactory.getLogger(WikiServiceImpl.class);
 
+	@Qualifier("pageJcrTemplate")
 	@Autowired
-	private JcrTemplate pageJcrTemplate;
+	private JcrTemplate jcrTemplate;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void savePage(final Page page, final String createdUser) {
-		pageJcrTemplate.execute(new JcrCallback() {
+		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
 			public Object doInJcr(Session session) throws IOException,
@@ -145,7 +149,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Override
 	public List<Version> getPageVersions(final String path) {
-		return pageJcrTemplate.execute(new JcrCallback<List<Version>>() {
+		return jcrTemplate.execute(new JcrCallback<List<Version>>() {
 
 			@Override
 			public List<Version> doInJcr(Session session) throws IOException,
@@ -172,7 +176,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Override
 	public Page getPageByVersion(final String path, final String versionName) {
-		return pageJcrTemplate.execute(new JcrCallback<Page>() {
+		return jcrTemplate.execute(new JcrCallback<Page>() {
 
 			@Override
 			public Page doInJcr(Session session) throws IOException,
@@ -200,7 +204,7 @@ public class WikiServiceImpl implements WikiService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void removeResource(final String path) {
-		pageJcrTemplate.execute(new JcrCallback() {
+		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
 			public Object doInJcr(Session session) throws IOException,
@@ -218,7 +222,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Override
 	public List<Page> getPages(final String path) {
-		return pageJcrTemplate.execute(new JcrCallback<List<Page>>() {
+		return jcrTemplate.execute(new JcrCallback<List<Page>>() {
 
 			@Override
 			public List<Page> doInJcr(Session session) throws IOException,
@@ -252,7 +256,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Override
 	public List<WikiResource> getResources(final String path) {
-		return pageJcrTemplate.execute(new JcrCallback<List<WikiResource>>() {
+		return jcrTemplate.execute(new JcrCallback<List<WikiResource>>() {
 
 			@Override
 			public List<WikiResource> doInJcr(Session session)
@@ -295,7 +299,7 @@ public class WikiServiceImpl implements WikiService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void createFolder(final String folderPath, final String createdUser) {
-		pageJcrTemplate.execute(new JcrCallback() {
+		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
 			public Object doInJcr(Session session) throws IOException,

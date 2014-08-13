@@ -150,8 +150,8 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleOpportunity getBeanInContext(
 			MailContext<SimpleOpportunity> context) {
-		return opportunityService.findById(context.getTypeid(),
-				context.getSaccountid());
+		return opportunityService.findById(
+				Integer.parseInt(context.getTypeid()), context.getSaccountid());
 	}
 
 	public static class OpportunityFieldNameMapper extends ItemFieldMapper {

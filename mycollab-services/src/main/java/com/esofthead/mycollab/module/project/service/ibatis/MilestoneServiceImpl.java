@@ -104,7 +104,7 @@ public class MilestoneServiceImpl extends
 		relayNotification
 				.setEmailhandlerbean(ProjectMilestoneRelayEmailNotificationAction.class
 						.getName());
-		relayNotification.setTypeid(recordId);
+		relayNotification.setTypeid("" + recordId);
 		relayNotification.setExtratypeid(record.getProjectid());
 		return relayNotification;
 	}

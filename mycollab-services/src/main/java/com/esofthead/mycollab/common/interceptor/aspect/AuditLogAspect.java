@@ -200,7 +200,7 @@ public class AuditLogAspect {
 				relayNotification.setChangecomment("");
 				relayNotification.setSaccountid(sAccountId);
 				relayNotification.setType(monitorType);
-				relayNotification.setTypeid(monitorTypeId);
+				relayNotification.setTypeid("" + monitorTypeId);
 				relayNotification.setEmailhandlerbean(watchableAnnotation
 						.emailHandlerBean().getName());
 				if (auditLogId != null) {

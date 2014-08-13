@@ -17,7 +17,6 @@
 
 package com.esofthead.mycollab.common.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 
@@ -31,22 +30,22 @@ public class CommentSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	private StringSearchField type;
-    
-    private NumberSearchField typeid;
 
-    public StringSearchField getType() {
-        return type;
-    }
+	private StringSearchField typeid;
 
-    public void setType(StringSearchField type) {
-        this.type = type;
-    }
+	public StringSearchField getType() {
+		return type;
+	}
 
-    public NumberSearchField getTypeid() {
-        return typeid;
-    }
+	public void setType(StringSearchField type) {
+		this.type = type;
+	}
 
-    public void setTypeid(NumberSearchField typeid) {
-        this.typeid = typeid;
-    }
+	public StringSearchField getTypeid() {
+		return typeid;
+	}
+
+	public void setTypeid(StringSearchField typeid) {
+		this.typeid = typeid;
+	}
 }

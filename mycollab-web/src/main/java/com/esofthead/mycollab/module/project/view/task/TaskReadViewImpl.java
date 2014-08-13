@@ -186,7 +186,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 
 		}
 
-		commentList.loadComments(beanItem.getId());
+		commentList.loadComments("" + beanItem.getId());
 
 		historyList.loadHistory(beanItem.getId());
 

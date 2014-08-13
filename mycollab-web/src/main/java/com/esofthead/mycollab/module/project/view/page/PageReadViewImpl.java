@@ -40,7 +40,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		PageReadView {
 	private static final long serialVersionUID = 1L;
 
-	private CommentDisplay commentDisplay;
+	private CommentDisplay commentListComp;
 
 	private PageInfoComp pageInfoComp;
 
@@ -57,11 +57,11 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected void initRelatedComponents() {
-		commentDisplay = new CommentDisplay(CommentType.PRJ_PAGE,
+		commentListComp = new CommentDisplay(CommentType.PRJ_PAGE,
 				CurrentProjectVariables.getProjectId(), true, true,
 				ProjectPageRelayEmailNotificationAction.class);
-		commentDisplay.setWidth("100%");
-		commentDisplay.setMargin(true);
+		commentListComp.setWidth("100%");
+		commentListComp.setMargin(true);
 
 		pageInfoComp = new PageInfoComp();
 		addToSideBar(pageInfoComp);
@@ -70,6 +70,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected void onPreviewItem() {
+		commentListComp.loadComments(beanItem.getId());
 		pageInfoComp.displayEntryInfo();
 	}
 
@@ -112,6 +113,11 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 	protected ComponentContainer createBottomPanel() {
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
+
+		tabContainer.addTab(this.commentListComp, AppContext
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
 		return tabContainer;
 	}

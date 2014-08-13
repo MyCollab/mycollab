@@ -52,9 +52,9 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -267,12 +267,15 @@ public class ProjectMemberInviteViewImpl extends AbstractPageView implements
 							CurrentProjectVariables.getProjectId(),
 							AppContext.getAccountId());
 
-			BeanItemContainer<SimpleUser> dsContainer = new BeanItemContainer<SimpleUser>(
-					SimpleUser.class, users);
-			this.setContainerDataSource(dsContainer);
-
-			this.setTokenCaptionMode(ItemCaptionMode.PROPERTY);
-			this.setTokenCaptionPropertyId("displayName");
+			this.setTokenCaptionMode(ItemCaptionMode.EXPLICIT);
+			for (SimpleUser user : users) {
+				this.cb.addItem(user);
+				this.cb.setItemCaption(user, user.getDisplayName());
+				this.cb.setItemIcon(
+						user,
+						UserAvatarControlFactory.createAvatarResource(
+								user.getAvatarid(), 16));
+			}
 		}
 
 		@Override

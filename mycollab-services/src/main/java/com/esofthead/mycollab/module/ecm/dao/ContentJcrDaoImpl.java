@@ -31,6 +31,7 @@ import org.apache.jackrabbit.commons.JcrUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.extensions.jcr.JcrCallback;
 import org.springframework.extensions.jcr.JcrTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 	private static Logger log = LoggerFactory
 			.getLogger(ContentJcrDaoImpl.class);
 
+	@Qualifier("jcrTemplate")
 	@Autowired
 	private JcrTemplate jcrTemplate;
 
@@ -96,10 +98,12 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 							if (childNode != null) {
 								if (!isNodeFolder(childNode)) {
 									// node must is folder
-									String errorString = "Invalid path. User want to create a content has path %s but there is a folder has path %s";
+									String errorString = "Invalid path. User want to create a content has path %s but there is a content has path %s. This node has type %s";
 									throw new ContentException(String.format(
 											errorString, content.getPath(),
-											childNode.getPath()));
+											childNode.getPath(), childNode
+													.getPrimaryNodeType()
+													.getName()));
 								}
 							} else {
 								// add node

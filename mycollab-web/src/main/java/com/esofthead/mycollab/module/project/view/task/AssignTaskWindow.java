@@ -160,7 +160,7 @@ public class AssignTaskWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_TASK
 												.toString());
-										comment.setTypeid(task.getId());
+										comment.setTypeid("" + task.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 
@@ -191,13 +191,14 @@ public class AssignTaskWindow extends Window {
 			@Override
 			public void attachField(Object propertyId, Field<?> field) {
 				if (propertyId.equals("assignuser")) {
-					informationLayout.addComponent(field, AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE), 0,
-							0);
+					informationLayout
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 0);
 				} else if (propertyId.equals("comment")) {
-					informationLayout.addComponent(field, AppContext
-							.getMessage(TaskI18nEnum.FORM_COMMENT), 0, 1,
-							2, "100%", Alignment.MIDDLE_LEFT);
+					informationLayout.addComponent(field,
+							AppContext.getMessage(TaskI18nEnum.FORM_COMMENT),
+							0, 1, 2, "100%", Alignment.MIDDLE_LEFT);
 				}
 			}
 		}

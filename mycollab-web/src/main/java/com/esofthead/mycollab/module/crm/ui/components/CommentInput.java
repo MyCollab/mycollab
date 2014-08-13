@@ -51,11 +51,11 @@ public class CommentInput extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	private final RichTextArea commentArea;
 	private CommentType type;
-	private Integer typeid;
+	private String typeid;
 	private Integer extraTypeId;
 
 	public CommentInput(final ReloadableComponent component,
-			final CommentType typeVal, final Integer typeidVal,
+			final CommentType typeVal, final String typeidVal,
 			final Integer extraTypeIdVal, final boolean cancelButtonEnable,
 			final boolean isSendingEmailRelay) {
 		this(component, typeVal, typeidVal, extraTypeIdVal, cancelButtonEnable,
@@ -63,7 +63,7 @@ public class CommentInput extends VerticalLayout {
 	}
 
 	CommentInput(final ReloadableComponent component,
-			final CommentType typeVal, final Integer typeidVal,
+			final CommentType typeVal, final String typeidVal,
 			final Integer extraTypeIdVal, final boolean cancelButtonEnable,
 			final boolean isSendingEmailRelay, final Class emailHandler) {
 		this.setWidth("600px");
@@ -143,8 +143,8 @@ public class CommentInput extends VerticalLayout {
 						if (CommentType.CRM_NOTE.equals(type)) {
 							attachmentPath = AttachmentUtils
 									.getCrmNoteCommentAttachmentPath(
-											AppContext.getAccountId(), typeid,
-											commentId);
+											AppContext.getAccountId(),
+											Integer.parseInt(typeid), commentId);
 						} else {
 							// do nothing
 						}
@@ -199,7 +199,7 @@ public class CommentInput extends VerticalLayout {
 		this.addComponent(commentWrap);
 	}
 
-	void setTypeAndId(final CommentType type, final int typeid) {
+	void setTypeAndId(final CommentType type, final String typeid) {
 		this.type = type;
 		this.typeid = typeid;
 	}

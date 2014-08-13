@@ -133,7 +133,7 @@ public class LeadRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleLead getBeanInContext(MailContext<SimpleLead> context) {
-		return leadService.findById(context.getTypeid(),
+		return leadService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

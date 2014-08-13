@@ -137,7 +137,7 @@ public class CampaignRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleCampaign getBeanInContext(
 			MailContext<SimpleCampaign> context) {
-		return campaignService.findById(context.getTypeid(),
+		return campaignService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

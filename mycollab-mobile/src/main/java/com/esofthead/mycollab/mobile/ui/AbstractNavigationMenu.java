@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 
@@ -30,6 +34,8 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 
 	protected final Button.ClickListener defaultBtnClickListener;
 
+	protected final Map<String, MenuButton> buttonMap = new HashMap<String, MenuButton>();
+
 	public AbstractNavigationMenu() {
 		super();
 
@@ -39,7 +45,7 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 		defaultBtnClickListener = createDefaultButtonClickListener();
 	}
 
-	protected class MenuButton extends Button {
+	public static class MenuButton extends Button {
 		private static final long serialVersionUID = -2516191547029466932L;
 
 		private final String btnId;
@@ -47,8 +53,7 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 		public MenuButton(String caption, String iconCode) {
 			super(
 					"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
-							+ iconCode + "\"></span>" + caption,
-					defaultBtnClickListener);
+							+ iconCode + "\"></span>" + caption);
 			setStyleName("nav-btn");
 			setHtmlContentAllowed(true);
 			setWidth("100%");
@@ -58,6 +63,27 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 		public String getBtnId() {
 			return btnId;
 		}
+	}
+
+	public void addMenu(MenuButton newMenu) {
+		newMenu.addClickListener(defaultBtnClickListener);
+		addComponent(newMenu);
+		buttonMap.put(newMenu.getBtnId(), newMenu);
+	}
+
+	public void selectButton(String caption) {
+		for (final Iterator<MenuButton> it = this.buttonIterator(); it
+				.hasNext();) {
+			final MenuButton btn = it.next();
+			btn.removeStyleName("isSelected");
+			if (btn.getCaption().equals(caption)) {
+				btn.addStyleName("isSelected");
+			}
+		}
+	}
+
+	protected Iterator<MenuButton> buttonIterator() {
+		return buttonMap.values().iterator();
 	}
 
 	protected abstract Button.ClickListener createDefaultButtonClickListener();

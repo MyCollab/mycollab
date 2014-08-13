@@ -88,9 +88,9 @@ public class MilestoneReadViewImpl extends
 	private static Logger log = LoggerFactory
 			.getLogger(MilestoneReadViewImpl.class);
 
-	private CommentDisplay associateCommentListComp;
+	private CommentDisplay commentListComp;
 
-	private MilestoneHistoryLogList historyList;
+	private MilestoneHistoryLogList historyListComp;
 
 	private MilestoneBugListComp associateBugListComp;
 
@@ -144,11 +144,11 @@ public class MilestoneReadViewImpl extends
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
 
-		tabContainer.addTab(this.associateCommentListComp, AppContext
+		tabContainer.addTab(this.commentListComp, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
 				MyCollabResource
 						.newResource("icons/16/project/gray/comment.png"));
-		tabContainer.addTab(historyList, AppContext
+		tabContainer.addTab(historyListComp, AppContext
 				.getMessage(ProjectCommonI18nEnum.TAB_HISTORY),
 				MyCollabResource
 						.newResource("icons/16/project/gray/history.png"));
@@ -199,15 +199,14 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		this.historyList = new MilestoneHistoryLogList(ModuleNameConstants.PRJ,
-				ProjectTypeConstants.MILESTONE);
+		this.historyListComp = new MilestoneHistoryLogList(
+				ModuleNameConstants.PRJ, ProjectTypeConstants.MILESTONE);
 		this.associateBugListComp = new MilestoneBugListComp();
 		this.associateTaskGroupListComp = new MilestoneTaskGroupListComp();
-		this.associateCommentListComp = new CommentDisplay(
-				CommentType.PRJ_MILESTONE,
+		this.commentListComp = new CommentDisplay(CommentType.PRJ_MILESTONE,
 				CurrentProjectVariables.getProjectId(), true, true,
 				ProjectMilestoneRelayEmailNotificationAction.class);
-		this.associateCommentListComp.setMargin(true);
+		this.commentListComp.setMargin(true);
 
 		dateInfoComp = new DateInfoComp();
 		addToSideBar(dateInfoComp);
@@ -228,11 +227,11 @@ public class MilestoneReadViewImpl extends
 
 	@Override
 	protected void onPreviewItem() {
-		displayTaskGroups();
-		displayBugs();
-		displayComments();
+		this.associateTaskGroupListComp.displayTakLists(this.beanItem);
+		this.associateBugListComp.displayBugs(this.beanItem);
+		this.commentListComp.loadComments("" + this.beanItem.getId());
 
-		historyList.loadHistory(beanItem.getId());
+		historyListComp.loadHistory(beanItem.getId());
 
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
@@ -256,18 +255,6 @@ public class MilestoneReadViewImpl extends
 	@Override
 	protected AbstractBeanFieldGroupViewFieldFactory<SimpleMilestone> initBeanFormFieldFactory() {
 		return new MilestoneFormFieldFactory(previewForm);
-	}
-
-	protected void displayBugs() {
-		this.associateBugListComp.displayBugs(this.beanItem);
-	}
-
-	protected void displayComments() {
-		this.associateCommentListComp.loadComments(this.beanItem.getId());
-	}
-
-	protected void displayTaskGroups() {
-		this.associateTaskGroupListComp.displayTakLists(this.beanItem);
 	}
 
 	private class FormLayoutFactory implements IFormLayoutFactory {

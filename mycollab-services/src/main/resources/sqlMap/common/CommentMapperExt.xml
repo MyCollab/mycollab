@@ -14,12 +14,17 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.type != null ">
-            <![CDATA[${searchCriteria.type.operation} m_comment.type = #{searchCriteria.type.value} ]]>
-        </if>
-        <if test="searchCriteria.typeid != null ">
-            <![CDATA[${searchCriteria.typeid.operation} m_comment.typeid = #{searchCriteria.typeid.value} ]]>
-        </if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_comment.type = @{searchCriteria.type.value}
+        #end
+        
+        #ifnotnull($searchCriteria.typeid)
+            ${searchCriteria.typeid.operation} m_comment.typeid = @{searchCriteria.typeid.value}
+        #end
+        ]]>
     </sql>
 
     <sql id="selectSimpleComment">
@@ -35,26 +40,23 @@
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            createdTime DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${_parameter.searchCriteria.orderByField} ${_parameter.searchCriteria.sortDirection},
+        #end
+        createdTime DESC
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="CommentSearchCriteria"
-        resultMap="BaseResultMap">
+        resultMap="BaseResultMap" lang="velocity">
         <include
-            refid="com.esofthead.mycollab.common.dao.CommentMapperExt.selectSimpleComment" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
+            refid="selectSimpleComment" />
+         #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
                 <include
-                    refid="com.esofthead.mycollab.common.dao.CommentMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+                    refid="querySearchCriteria" />
+            #end
+         #end   
+         <include refid="orderStatement" />
     </select>
 
 </mapper>

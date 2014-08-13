@@ -1,7 +1,7 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectNavigationMenu;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
@@ -24,7 +24,7 @@ public class ProjectModulePresenter extends
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		super.onGo(navigator, data);
 		((MobileNavigationManager) navigator)
-				.setNavigationMenu(new ProjectNavigationMenu());
+				.setNavigationMenu(new ProjectModuleNavigationMenu());
 		((MobileNavigationManager) navigator).navigateTo(view);
 	}
 

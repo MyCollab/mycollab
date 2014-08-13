@@ -16,10 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.ui;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -30,12 +26,10 @@ import com.vaadin.ui.Button.ClickEvent;
  * @since 4.0
  * 
  */
-public class ProjectNavigationMenu extends AbstractNavigationMenu {
+public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 	private static final long serialVersionUID = 1L;
 
-	private final Map<String, MenuButton> buttonMap = new HashMap<String, MenuButton>();
-
-	public ProjectNavigationMenu() {
+	public InsideProjectNavigationMenu() {
 		super();
 
 		// setWidth("100%");
@@ -45,49 +39,38 @@ public class ProjectNavigationMenu extends AbstractNavigationMenu {
 		// addComponent(userPanel);
 
 		final MenuButton dashboardBtn = new MenuButton("Dashboard", "&#xf0e4;");
-		addComponent(dashboardBtn);
-		buttonMap.put("Dashboard", dashboardBtn);
+		addMenu(dashboardBtn);
 
 		final MenuButton messageBtn = new MenuButton("Messages", "&#xf04f;");
-		addComponent(messageBtn);
-		buttonMap.put("Messages", messageBtn);
+		addMenu(messageBtn);
 
 		final MenuButton phaseBtn = new MenuButton("Phases", "&#xf075;");
-		addComponent(phaseBtn);
-		buttonMap.put("Phases", phaseBtn);
+		addMenu(phaseBtn);
 
 		final MenuButton taskBtn = new MenuButton("Tasks", "&#xe60f;");
-		addComponent(taskBtn);
-		buttonMap.put("Tasks", taskBtn);
+		addMenu(taskBtn);
 
 		final MenuButton bugBtn = new MenuButton("Bugs", "&#xf188;");
-		addComponent(bugBtn);
-		buttonMap.put("Bugs", bugBtn);
+		addMenu(bugBtn);
 
 		final MenuButton fileBtn = new MenuButton("Files", "&#xf017;");
-		addComponent(fileBtn);
-		buttonMap.put("Files", fileBtn);
+		addMenu(fileBtn);
 
 		final MenuButton riskBtn = new MenuButton("Risks", "&#xf02d;");
-		addComponent(riskBtn);
-		buttonMap.put("Risks", riskBtn);
+		addMenu(riskBtn);
 
 		final MenuButton problemBtn = new MenuButton("Problems", "&#xf0d2;");
-		addComponent(problemBtn);
-		buttonMap.put("Problems", problemBtn);
+		addMenu(problemBtn);
 
 		final MenuButton timeBtn = new MenuButton("Time", "&#xe612;");
-		addComponent(timeBtn);
-		buttonMap.put("Time", timeBtn);
+		addMenu(timeBtn);
 
 		final MenuButton standupBtn = new MenuButton("Standup", "&#xf0c0;");
-		addComponent(standupBtn);
-		buttonMap.put("Standup", standupBtn);
+		addMenu(standupBtn);
 
 		final MenuButton userBtn = new MenuButton("Users & Settings",
 				"&#xe601;");
-		addComponent(userBtn);
-		buttonMap.put("Users & Settings", userBtn);
+		addMenu(userBtn);
 	}
 
 	@Override
@@ -104,20 +87,5 @@ public class ProjectNavigationMenu extends AbstractNavigationMenu {
 
 			}
 		};
-	}
-
-	public void selectButton(String caption) {
-		for (final Iterator<MenuButton> it = ProjectNavigationMenu.this
-				.buttonIterator(); it.hasNext();) {
-			final MenuButton btn = it.next();
-			btn.removeStyleName("isSelected");
-			if (btn.getCaption().equals(caption)) {
-				btn.addStyleName("isSelected");
-			}
-		}
-	}
-
-	public Iterator<MenuButton> buttonIterator() {
-		return buttonMap.values().iterator();
 	}
 }

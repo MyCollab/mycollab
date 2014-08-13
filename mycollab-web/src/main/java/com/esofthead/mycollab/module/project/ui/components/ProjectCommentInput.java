@@ -56,7 +56,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 	private final RichTextArea commentArea;
 
 	private CommentType type;
-	private Integer typeid;
+	private String typeid;
 	private Integer extraTypeId;
 
 	ProjectCommentInput(
@@ -162,7 +162,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 						comment.setCreateduser(AppContext.getUsername());
 						comment.setSaccountid(AppContext.getAccountId());
 						comment.setType(type.toString());
-						comment.setTypeid(typeid);
+						comment.setTypeid("" + typeid);
 						comment.setExtratypeid(extraTypeId);
 
 						final CommentService commentService = ApplicationContextUtil
@@ -197,7 +197,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 		textAreaWrap.addComponent(controlsLayout);
 	}
 
-	void setTypeAndId(final int typeid) {
+	void setTypeAndId(final String typeid) {
 		this.typeid = typeid;
 	}
 }

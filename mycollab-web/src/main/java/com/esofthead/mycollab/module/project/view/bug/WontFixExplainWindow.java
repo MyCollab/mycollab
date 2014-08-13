@@ -175,8 +175,9 @@ public class WontFixExplainWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_BUG
 												.toString());
-										comment.setTypeid(WontFixExplainWindow.this.bug
-												.getId());
+										comment.setTypeid(""
+												+ WontFixExplainWindow.this.bug
+														.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 

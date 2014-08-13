@@ -133,7 +133,7 @@ public class CallRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleCall getBeanInContext(MailContext<SimpleCall> context) {
-		return callService.findById(context.getTypeid(),
+		return callService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

@@ -112,7 +112,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleRisk getBeanInContext(MailContext<SimpleRisk> context) {
-		return riskService.findById(context.getTypeid(),
+		return riskService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

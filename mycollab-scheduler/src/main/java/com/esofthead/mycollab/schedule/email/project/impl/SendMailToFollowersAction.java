@@ -116,7 +116,8 @@ public abstract class SendMailToFollowersAction<B> implements
 
 					if (context.getTypeid() != null) {
 						SimpleAuditLog auditLog = auditLogService
-								.findLatestLog(context.getTypeid(),
+								.findLatestLog(
+										Integer.parseInt(context.getTypeid()),
 										context.getSaccountid());
 						contentGenerator.putVariable("historyLog", auditLog);
 						contentGenerator.putVariable("context", context);

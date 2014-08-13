@@ -43,12 +43,12 @@
     <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria"
         resultMap="SimpleAuditLogResult">
         <include
-            refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.selectSimpleAuditLog" />
+            refid="selectSimpleAuditLog" />
         <if test="searchCriteria != null">
             <trim prefix="WHERE" prefixOverrides="AND | OR ">
                 1=1
                 <include
-                    refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.querySearchCriteria" />
+                    refid="querySearchCriteria" />
             </trim>
             <include refid="orderStatement" />
         </if>
@@ -57,7 +57,7 @@
     <select id="findLatestLog" parameterType="java.lang.Integer"
         resultMap="SimpleAuditLogResult">
         <include
-            refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.selectSimpleAuditLog" />
+            refid="selectSimpleAuditLog" />
 
         WHERE m_audit_log.typeid=#{auditLogId, jdbcType=NUMERIC}
         ORDER BY m_audit_log.id DESC
@@ -81,7 +81,7 @@
             <trim prefix="WHERE" prefixOverrides="AND | OR ">
                 1=1
                 <include
-                    refid="com.esofthead.mycollab.common.dao.AuditLogMapperExt.querySearchCriteria" />
+                    refid="querySearchCriteria" />
             </trim>
         </if>
     </select>

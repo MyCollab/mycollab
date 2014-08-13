@@ -142,7 +142,7 @@ public class TaskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleTask getBeanInContext(MailContext<SimpleTask> context) {
-		return taskService.findById(context.getTypeid(),
+		return taskService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

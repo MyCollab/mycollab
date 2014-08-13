@@ -80,7 +80,7 @@ public class MailContext<B> {
 		return emailNotification.getChangeByUserFullName();
 	}
 
-	public Integer getTypeid() {
+	public String getTypeid() {
 		return emailNotification.getTypeid();
 	}
 

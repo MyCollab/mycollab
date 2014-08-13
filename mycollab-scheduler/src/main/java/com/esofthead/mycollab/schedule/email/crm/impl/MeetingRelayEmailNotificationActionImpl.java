@@ -126,7 +126,7 @@ public class MeetingRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleMeeting getBeanInContext(MailContext<SimpleMeeting> context) {
-		return meetingService.findById(context.getTypeid(),
+		return meetingService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

@@ -61,8 +61,7 @@ public class CommentServiceImpl extends
 	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@Autowired
-//	private ActivityStreamService activityStreamService;
-
+	// private ActivityStreamService activityStreamService;
 	@Override
 	public ICrudGenericDAO<Integer, Comment> getCrudMapper() {
 		return commentMapper;
@@ -95,31 +94,33 @@ public class CommentServiceImpl extends
 							emailHandler), username);
 		}
 
-//		activityStreamService.saveWithSession(
-//				getActivityStream(record, username), username);
+		// activityStreamService.saveWithSession(
+		// getActivityStream(record, username), username);
 
 		return saveId;
 	}
 
-//	private ActivityStream getActivityStream(Comment record, String username) {
-//		ActivityStream activityStream = new ActivityStream();
-//		activityStream.setAction(ActivityStreamConstants.ACTION_COMMENT);
-//		activityStream.setCreateduser(username);
-//		activityStream.setSaccountid(record.getSaccountid());
-//		activityStream.setType(record.getType());
-//		activityStream.setTypeid(record.getTypeid());
-//		activityStream.setNamefield(record.getComment());
-//		if (record.getType() != null && record.getType().startsWith("Project-")) {
-//			activityStream.setModule(ModuleNameConstants.PRJ);
-//		} else if (record.getType() != null
-//				&& record.getType().startsWith("Crm-")) {
-//			activityStream.setModule(ModuleNameConstants.CRM);
-//		} else {
-//			log.error("Can not define module type of bean {}",
-//					BeanUtility.printBeanObj(record));
-//		}
-//		return activityStream;
-//	}
+	// private ActivityStream getActivityStream(Comment record, String username)
+	// {
+	// ActivityStream activityStream = new ActivityStream();
+	// activityStream.setAction(ActivityStreamConstants.ACTION_COMMENT);
+	// activityStream.setCreateduser(username);
+	// activityStream.setSaccountid(record.getSaccountid());
+	// activityStream.setType(record.getType());
+	// activityStream.setTypeid(record.getTypeid());
+	// activityStream.setNamefield(record.getComment());
+	// if (record.getType() != null && record.getType().startsWith("Project-"))
+	// {
+	// activityStream.setModule(ModuleNameConstants.PRJ);
+	// } else if (record.getType() != null
+	// && record.getType().startsWith("Crm-")) {
+	// activityStream.setModule(ModuleNameConstants.CRM);
+	// } else {
+	// log.error("Can not define module type of bean {}",
+	// BeanUtility.printBeanObj(record));
+	// }
+	// return activityStream;
+	// }
 
 	private RelayEmailNotification getRelayEmailNotification(Comment record,
 			String username, boolean isSendingEmail,

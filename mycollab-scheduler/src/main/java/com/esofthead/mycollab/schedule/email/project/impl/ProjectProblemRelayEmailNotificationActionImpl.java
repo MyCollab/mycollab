@@ -112,7 +112,7 @@ public class ProjectProblemRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleProblem getBeanInContext(MailContext<SimpleProblem> context) {
-		return problemService.findById(context.getTypeid(),
+		return problemService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

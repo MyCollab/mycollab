@@ -154,7 +154,7 @@ public class ComponentRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleComponent getBeanInContext(
 			MailContext<SimpleComponent> context) {
-		return componentService.findById(context.getTypeid(),
+		return componentService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

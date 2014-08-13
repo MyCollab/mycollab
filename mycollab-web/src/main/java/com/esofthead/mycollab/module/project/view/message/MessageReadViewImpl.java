@@ -362,7 +362,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 					CommentType.PRJ_MESSAGE,
 					CurrentProjectVariables.getProjectId(), true, true,
 					MessageRelayEmailNotificationAction.class);
-			commentDisplay.loadComments(message.getId());
+			commentDisplay.loadComments("" + message.getId());
 			return commentDisplay;
 		}
 

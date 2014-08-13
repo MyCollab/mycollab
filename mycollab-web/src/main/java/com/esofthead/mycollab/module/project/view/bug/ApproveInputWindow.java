@@ -163,8 +163,9 @@ public class ApproveInputWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_BUG
 												.toString());
-										comment.setTypeid(ApproveInputWindow.this.bug
-												.getId());
+										comment.setTypeid(""
+												+ ApproveInputWindow.this.bug
+														.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 

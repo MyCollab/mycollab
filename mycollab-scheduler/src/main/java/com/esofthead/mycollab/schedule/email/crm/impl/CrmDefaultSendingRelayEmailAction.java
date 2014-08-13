@@ -157,7 +157,8 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 							context.getChangeByUserFullName(), getItemName());
 
 					SimpleAuditLog auditLog = auditLogService.findLatestLog(
-							context.getTypeid(), context.getSaccountid());
+							Integer.parseInt(context.getTypeid()),
+							context.getSaccountid());
 
 					contentGenerator.putVariable("historyLog", auditLog);
 					context.setWrappedBean(bean);
@@ -239,8 +240,8 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		NoteSearchCriteria noteSearchCriteria = new NoteSearchCriteria();
 		noteSearchCriteria
 				.setType(new StringSearchField(notification.getType()));
-		noteSearchCriteria.setTypeid(new NumberSearchField(notification
-				.getTypeid()));
+		noteSearchCriteria.setTypeid(new NumberSearchField(Integer
+				.parseInt(notification.getTypeid())));
 		noteSearchCriteria.setSaccountid(new NumberSearchField(notification
 				.getSaccountid()));
 

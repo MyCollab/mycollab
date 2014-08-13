@@ -142,7 +142,7 @@ public class RiskServiceImpl extends
 		relayNotification
 				.setEmailhandlerbean(ProjectRiskRelayEmailNotificationAction.class
 						.getName());
-		relayNotification.setTypeid(recordId);
+		relayNotification.setTypeid("" + recordId);
 		relayNotification.setExtratypeid(record.getProjectid());
 		return relayNotification;
 	}

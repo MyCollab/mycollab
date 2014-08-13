@@ -175,8 +175,8 @@ public class ReOpenWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_BUG
 												.toString());
-										comment.setTypeid(ReOpenWindow.this.bug
-												.getId());
+										comment.setTypeid(""
+												+ ReOpenWindow.this.bug.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 

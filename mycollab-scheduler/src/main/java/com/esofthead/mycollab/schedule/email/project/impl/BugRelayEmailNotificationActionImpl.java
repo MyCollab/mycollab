@@ -169,8 +169,8 @@ public class BugRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleBug getBeanInContext(MailContext<SimpleBug> context) {
-		return bugService
-				.findById(context.getTypeid(), context.getSaccountid());
+		return bugService.findById(Integer.parseInt(context.getTypeid()),
+				context.getSaccountid());
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 					if (!isAlreadyInList) {
 						SimpleBug bug = bugService.findById(
-								notification.getTypeid(),
+								Integer.parseInt(notification.getTypeid()),
 								notification.getSaccountid());
 						if (bug.getAssignuser() != null
 								&& bug.getAssignuser().equals(
@@ -302,13 +302,13 @@ public class BugRelayEmailNotificationActionImpl extends
 
 			put("assignuser", new AssigneeFieldFormat("assignuser",
 					GenericI18Enum.FORM_ASSIGNEE));
-			
+
 			put("milestoneid", new MilestoneFieldFormat("milestoneid",
 					BugI18nEnum.FORM_PHASE));
 
 			put("status", new I18nFieldFormat("status",
 					BugI18nEnum.FORM_STATUS, BugStatus.class));
-			
+
 			put("resolution", new I18nFieldFormat("resolution",
 					BugI18nEnum.FORM_RESOLUTION, BugResolution.class));
 
@@ -319,7 +319,7 @@ public class BugRelayEmailNotificationActionImpl extends
 
 			put("duedate", new DateFieldFormat("duedate",
 					BugI18nEnum.FORM_DUE_DATE));
-			
+
 			put("logby", new LogUserFieldFormat("logby",
 					BugI18nEnum.FORM_LOG_BY));
 		}

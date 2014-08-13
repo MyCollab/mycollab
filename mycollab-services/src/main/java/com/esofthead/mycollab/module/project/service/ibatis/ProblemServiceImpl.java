@@ -149,7 +149,7 @@ public class ProblemServiceImpl extends
 		relayNotification
 				.setEmailhandlerbean(ProjectProblemRelayEmailNotificationAction.class
 						.getName());
-		relayNotification.setTypeid(recordId);
+		relayNotification.setTypeid("" + recordId);
 		relayNotification.setExtratypeid(record.getProjectid());
 		return relayNotification;
 	}

@@ -33,22 +33,22 @@
         #end
         
         #ifnotnull($searchCriteria.anyCity)
-             ${searchCriteria.anyCity.operation} (shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
-                OR city LIKE '%${searchCriteria.anyCity.value}%')
+             ${searchCriteria.anyCity.operation} (m_crm_account.shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
+                OR m_crm_account.city LIKE '%${searchCriteria.anyCity.value}%')
         #end 
         
         #ifnotnull($searchCriteria.anyPhone)
-             ${searchCriteria.anyPhone.operation} (alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
-                OR phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
+             ${searchCriteria.anyPhone.operation} (m_crm_account.alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
+                OR m_crm_account.phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
         #end
         
         #ifnotnull($searchCriteria.anyAddress)
-            ${searchCriteria.anyAddress.operation} (shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
-                OR billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
+            ${searchCriteria.anyAddress.operation} (m_crm_account.shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
+                OR m_crm_account.billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
         #end
         
         #ifnotnull($searchCriteria.anyMail)
-            ${searchCriteria.anyMail.operation} email LIKE '%${searchCriteria.anyMail.value}%'
+            ${searchCriteria.anyMail.operation}  m_crm_account.email LIKE '%${searchCriteria.anyMail.value}%'
         #end
         
         #ifnotnull($searchCriteria.saccountid)
@@ -112,22 +112,22 @@
         #end
         
         #ifnotnull($searchCriteria.anyCity)
-             ${searchCriteria.anyCity.operation} (shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
-                OR city LIKE '%${searchCriteria.anyCity.value}%')
+             ${searchCriteria.anyCity.operation} (m_crm_account.shippingCity LIKE '%${searchCriteria.anyCity.value}%' 
+                OR m_crm_account.city LIKE '%${searchCriteria.anyCity.value}%')
         #end 
         
         #ifnotnull($searchCriteria.anyPhone)
-             ${searchCriteria.anyPhone.operation} (alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
-                OR phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
+             ${searchCriteria.anyPhone.operation} (m_crm_account.alternatePhone LIKE '%${searchCriteria.anyPhone.value}%' 
+                OR m_crm_account.phoneOffice LIKE '%${searchCriteria.anyPhone.value}%')
         #end
         
         #ifnotnull($searchCriteria.anyAddress)
-            ${searchCriteria.anyAddress.operation} (shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
-                OR billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
+            ${searchCriteria.anyAddress.operation} (m_crm_account.shippingAddress LIKE '%${searchCriteria.anyAddress.value}%'
+                OR m_crm_account.billingAddress LIKE '%${searchCriteria.anyAddress.value}%')
         #end
         
         #ifnotnull($searchCriteria.anyMail)
-            ${searchCriteria.anyMail.operation} email LIKE '%${searchCriteria.anyMail.value}%'
+            ${searchCriteria.anyMail.operation} m_crm_account.email LIKE '%${searchCriteria.anyMail.value}%'
         #end
         
         #ifnotnull($searchCriteria.saccountid)

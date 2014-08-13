@@ -144,7 +144,7 @@ public class ContactRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleContact getBeanInContext(MailContext<SimpleContact> context) {
-		return contactService.findById(context.getTypeid(),
+		return contactService.findById(Integer.parseInt(context.getTypeid()),
 				context.getSaccountid());
 	}
 

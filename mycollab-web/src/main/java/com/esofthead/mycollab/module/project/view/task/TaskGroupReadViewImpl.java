@@ -116,14 +116,14 @@ public class TaskGroupReadViewImpl extends
 
 		dateInfoComp = new DateInfoComp();
 		addToSideBar(dateInfoComp);
-		
+
 		peopleInfoComp = new PeopleInfoComp();
 		addToSideBar(peopleInfoComp);
 	}
 
 	@Override
 	protected void onPreviewItem() {
-		commentList.loadComments(beanItem.getId());
+		commentList.loadComments("" + beanItem.getId());
 		historyList.loadHistory(beanItem.getId());
 
 		peopleInfoComp.displayEntryPeople(beanItem);

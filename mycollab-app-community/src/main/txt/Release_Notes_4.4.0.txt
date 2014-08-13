@@ -47,11 +47,14 @@ Version 4.4.0
 
 * Add new wiki page in project module
 * Allow users can archive project
+* Revise milestone list view to allow user can edit, delete milestone
+* Revise invite project member that displays user avatar in suggested list
 
 **Bug Fixes**
 
 * Tooptip use the default system language instead of user defined language
 * Component and Version do not show the marker of complete right
+* Ambiguous email field search criteria in CRM account search page
 
 Version 4.3.3
 -----------------------------

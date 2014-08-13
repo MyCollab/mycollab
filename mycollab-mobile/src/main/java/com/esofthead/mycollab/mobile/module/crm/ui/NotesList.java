@@ -150,7 +150,7 @@ public class NotesList extends AbstractMobilePageView {
 				relayNotification.setType(type);
 				relayNotification
 						.setAction(MonitorTypeConstants.ADD_COMMENT_ACTION);
-				relayNotification.setTypeid(typeid);
+				relayNotification.setTypeid("" + typeid);
 				if (type.equals(CrmTypeConstants.ACCOUNT)) {
 					relayNotification
 							.setEmailhandlerbean(AccountRelayEmailNotificationAction.class

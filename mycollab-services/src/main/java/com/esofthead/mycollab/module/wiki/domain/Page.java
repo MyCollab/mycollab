@@ -60,4 +60,9 @@ public class Page extends WikiResource {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getId() {
+		int index = this.path.lastIndexOf("/");
+		return (index < 0) ? this.path : this.path.substring(index + 1);
+	}
 }

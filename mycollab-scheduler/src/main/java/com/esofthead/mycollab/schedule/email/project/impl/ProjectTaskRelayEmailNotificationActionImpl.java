@@ -166,8 +166,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected SimpleTask getBeanInContext(MailContext<SimpleTask> context) {
-		return projectTaskService.findById(context.getTypeid(),
-				context.getSaccountid());
+		return projectTaskService.findById(
+				Integer.parseInt(context.getTypeid()), context.getSaccountid());
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 					if (!isAlreadyInList) {
 						SimpleTask task = projectTaskService.findById(
-								notification.getTypeid(),
+								Integer.parseInt(notification.getTypeid()),
 								notification.getSaccountid());
 						if (task.getAssignuser() != null
 								&& task.getAssignuser().equals(
@@ -296,11 +296,13 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 
 			put("startdate", new DateFieldFormat("startdate",
 					TaskI18nEnum.FORM_START_DATE));
-			put("enddate", new DateFieldFormat("enddate",
-					TaskI18nEnum.FORM_END_DATE));
 
 			put("actualstartdate", new DateFieldFormat("actualstartdate",
 					TaskI18nEnum.FORM_ACTUAL_START_DATE));
+
+			put("enddate", new DateFieldFormat("enddate",
+					TaskI18nEnum.FORM_END_DATE));
+
 			put("actualenddate", new DateFieldFormat("actualenddate",
 					TaskI18nEnum.FORM_ACTUAL_END_DATE));
 

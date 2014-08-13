@@ -178,8 +178,9 @@ public class ResolvedInputWindow extends Window {
 												.getAccountId());
 										comment.setType(CommentType.PRJ_BUG
 												.toString());
-										comment.setTypeid(ResolvedInputWindow.this.bug
-												.getId());
+										comment.setTypeid(""
+												+ ResolvedInputWindow.this.bug
+														.getId());
 										comment.setExtratypeid(CurrentProjectVariables
 												.getProjectId());
 

@@ -78,43 +78,48 @@ public class SimpleComment extends Comment {
 					commentPath = AttachmentUtils
 							.getProjectBugCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_MESSAGE.toString().equals(getType())) {
 					commentPath = AttachmentUtils
 							.getProjectMessageCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_MILESTONE.toString().equals(
 						getType())) {
 					commentPath = AttachmentUtils
 							.getProjectMilestoneCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_PROBLEM.toString().equals(getType())) {
 					commentPath = AttachmentUtils
 							.getProjectProblemCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_RISK.toString().equals(getType())) {
 					commentPath = AttachmentUtils
 							.getProjectRiskCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_TASK.toString().equals(getType())) {
 					commentPath = AttachmentUtils
 							.getProjectTaskCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else if (CommentType.PRJ_TASK_LIST.toString().equals(
 						getType())) {
 					commentPath = AttachmentUtils
 							.getProjectTaskListCommentAttachmentPath(
 									getSaccountid(), getExtratypeid(),
+									Integer.parseInt(getTypeid()), getId());
+				} else if (CommentType.PRJ_PAGE.toString().equals(getType())) {
+					commentPath = AttachmentUtils
+							.getProjectPageCommentAttachmentPath(
+									getSaccountid(), getExtratypeid(),
 									getTypeid(), getId());
 				} else if (CommentType.CRM_NOTE.toString().equals(getType())) {
 					commentPath = AttachmentUtils
 							.getCrmNoteCommentAttachmentPath(getSaccountid(),
-									getTypeid(), getId());
+									Integer.parseInt(getTypeid()), getId());
 				} else {
 					throw new MyCollabException("Do not support comment type "
 							+ getType());
