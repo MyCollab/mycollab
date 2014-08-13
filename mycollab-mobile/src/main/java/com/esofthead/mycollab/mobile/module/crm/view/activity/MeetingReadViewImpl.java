@@ -60,7 +60,8 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 
 	@Override
 	protected void initRelatedComponents() {
-		associateNotes = new NotesList("Related Notes");
+		associateNotes = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 	}
 
 	@Override

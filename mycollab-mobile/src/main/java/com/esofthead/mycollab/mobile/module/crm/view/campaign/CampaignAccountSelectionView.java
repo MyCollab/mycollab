@@ -25,6 +25,8 @@ import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListDisplay;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
@@ -40,7 +42,8 @@ public class CampaignAccountSelectionView extends
 
 	public CampaignAccountSelectionView(
 			AbstractRelatedListView<SimpleAccount, AccountSearchCriteria> relatedListView) {
-		super("Select Campaigns", relatedListView);
+		super(AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS),
+				relatedListView);
 	}
 
 	@Override

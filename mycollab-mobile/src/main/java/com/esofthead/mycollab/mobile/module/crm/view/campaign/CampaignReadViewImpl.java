@@ -71,7 +71,8 @@ public class CampaignReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		associateNotes = new NotesList("Related Notes");
+		associateNotes = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 		associateActivities = new ActivityRelatedItemView(
 				CrmTypeConstants.CAMPAIGN);
 		associateAccounts = new CampaignRelatedAccountView();

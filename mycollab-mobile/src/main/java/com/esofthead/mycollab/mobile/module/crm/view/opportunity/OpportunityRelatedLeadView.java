@@ -47,7 +47,7 @@ public class OpportunityRelatedLeadView extends
 	public OpportunityRelatedLeadView() {
 		super();
 
-		setCaption("Related Leads");
+		setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
 		this.itemList = new LeadListDisplay();
 		this.setContent(this.itemList);
 	}

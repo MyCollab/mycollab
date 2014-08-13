@@ -173,7 +173,8 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 		associateActivityList = new ActivityRelatedItemView(
 				CrmTypeConstants.CONTACT);
 		associateOpportunityList = new ContactRelatedOpportunityView();
-		noteListItems = new NotesList("Related Notes");
+		noteListItems = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 	}
 
 	@Override

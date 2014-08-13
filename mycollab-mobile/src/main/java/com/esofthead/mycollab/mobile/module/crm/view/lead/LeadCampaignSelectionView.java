@@ -25,6 +25,8 @@ import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignListDispla
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -42,7 +44,8 @@ public class LeadCampaignSelectionView
 
 	public LeadCampaignSelectionView(
 			AbstractRelatedListView<SimpleCampaign, CampaignSearchCriteria> relatedListView) {
-		super("Select Campaigns", relatedListView);
+		super(AppContext.getMessage(CampaignI18nEnum.M_TITLE_SELECT_CAMPAIGNS),
+				relatedListView);
 	}
 
 	@Override

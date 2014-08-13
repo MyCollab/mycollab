@@ -4,6 +4,7 @@ import org.vaadin.openesignforms.ckeditor.CKEditorConfig;
 import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -31,14 +32,25 @@ class PageEditFormFieldFactory<B extends Page> extends
 		if (propertyId.equals("content")) {
 			CKEditorConfig config = new CKEditorConfig();
 			config.useCompactTags();
-			config.disableElementsPath();
 			config.setResizeDir(CKEditorConfig.RESIZE_DIR.HORIZONTAL);
 			config.disableSpellChecker();
-			config.setToolbarCanCollapse(false);
+			config.disableResizeEditor();
+			config.disableElementsPath();
+			config.setToolbarCanCollapse(true);
 			config.setWidth("100%");
+
+			String appUrl = SiteConfiguration.getAppUrl();
+			if (appUrl.endsWith("/")) {
+				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
+						+ "page/upload");
+			} else {
+				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
+						+ "/page/upload");
+			}
 
 			final CKEditorTextField ckEditorTextField = new CKEditorTextField(
 					config);
+			ckEditorTextField.setHeight("450px");
 			return ckEditorTextField;
 		} else if (propertyId.equals("status")) {
 			page.setStatus(WikiI18nEnum.status_public.name());

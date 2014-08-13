@@ -22,6 +22,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -44,7 +45,8 @@ public class OpportunitySelectionView extends
 	public OpportunitySelectionView() {
 		super();
 		createUI();
-		this.setCaption("Opportunity Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(OpportunityI18nEnum.M_VIEW_OPPORTUNITY_NAME_LOOKUP));
 	}
 
 	public void createUI() {

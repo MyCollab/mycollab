@@ -72,7 +72,8 @@ public class OpportunityReadViewImpl extends
 		associateActivities = new ActivityRelatedItemView(
 				CrmTypeConstants.OPPORTUNITY);
 
-		associateNotes = new NotesList("Related Notes");
+		associateNotes = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 
 		associateLeads = new OpportunityRelatedLeadView();
 

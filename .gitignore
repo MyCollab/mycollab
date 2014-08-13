@@ -5,3 +5,6 @@ mycollab-app-community/mail-repo/cluster_node.id
 mycollab-app-community/repo2/content-workspace/.lock
 mycollab-app-community/repo2/content-workspace/cluster_node.id
 mycollab-app-community/repo2/workspaces/default2/workspace.xml
+mycollab-app-community/repo2/wiki-workspace/.lock
+mycollab-app-community/repo2/wiki-workspace/cluster_node.id
+mycollab-app-community/repo2/wiki_workspaces/wiki/workspace.xml

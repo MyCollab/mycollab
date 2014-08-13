@@ -46,7 +46,7 @@ public class CampaignRelatedLeadView extends
 
 	public CampaignRelatedLeadView() {
 		super();
-		setCaption("Related Leads");
+		setCaption(AppContext.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
 		this.itemList = new LeadListDisplay();
 		this.setContent(itemList);
 	}

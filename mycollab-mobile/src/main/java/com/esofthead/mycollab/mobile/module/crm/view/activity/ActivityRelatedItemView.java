@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CallI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
@@ -60,7 +61,8 @@ public class ActivityRelatedItemView extends
 	}
 
 	private void initUI() {
-		this.setCaption("Related Activities");
+		this.setCaption(AppContext
+				.getMessage(ActivityI18nEnum.M_TITLE_RELATED_ACTIVITIES));
 		itemList = new ActivityListDisplay();
 		this.setContent(itemList);
 	}

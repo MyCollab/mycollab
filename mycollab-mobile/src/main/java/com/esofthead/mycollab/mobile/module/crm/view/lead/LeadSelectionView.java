@@ -22,6 +22,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -43,7 +44,8 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 	public LeadSelectionView() {
 		super();
 		createUI();
-		this.setCaption("Lead Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(LeadI18nEnum.M_VIEW_LEAD_NAME_LOOKUP));
 	}
 
 	public void createUI() {

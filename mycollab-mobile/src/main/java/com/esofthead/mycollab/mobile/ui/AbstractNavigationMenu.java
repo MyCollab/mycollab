@@ -76,7 +76,7 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 				.hasNext();) {
 			final MenuButton btn = it.next();
 			btn.removeStyleName("isSelected");
-			if (btn.getCaption().equals(caption)) {
+			if (btn.getBtnId().equals(caption)) {
 				btn.addStyleName("isSelected");
 			}
 		}

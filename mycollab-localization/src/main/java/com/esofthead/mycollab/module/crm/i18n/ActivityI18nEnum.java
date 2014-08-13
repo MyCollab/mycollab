@@ -23,5 +23,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("localization/crm/activity")
 @LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ActivityI18nEnum {
-	TAB_CALENDAR_TITLE, TAB_ACTIVITY_TITLE, FORM_SUBJECT, FORM_STATUS
+	TAB_CALENDAR_TITLE, TAB_ACTIVITY_TITLE, FORM_SUBJECT, FORM_STATUS, M_TITLE_RELATED_ACTIVITIES
 }

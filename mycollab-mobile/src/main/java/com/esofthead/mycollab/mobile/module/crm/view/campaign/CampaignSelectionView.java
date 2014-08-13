@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -46,7 +47,8 @@ public class CampaignSelectionView extends
 	public CampaignSelectionView() {
 		super();
 		createUI();
-		this.setCaption("Campaign Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(CampaignI18nEnum.M_VIEW_CAMPAIGN_NAME_LOOKUP));
 	}
 
 	private void createUI() {

@@ -45,7 +45,8 @@ public class CaseRelatedContactView extends
 	private CaseWithBLOBs myCase;
 
 	public CaseRelatedContactView() {
-		this.setCaption("Related Contacts");
+		this.setCaption(AppContext
+				.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
 		itemList = new ContactListDisplay();
 		this.setContent(itemList);
 	}

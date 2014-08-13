@@ -1,6 +1,10 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -18,13 +22,21 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 	public ProjectModuleNavigationMenu() {
 		super();
 
-		final MenuButton prjListBtn = new MenuButton("Projects", "&#xe614;");
+		final MenuButton prjListBtn = new MenuButton(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
+				"&#xe614;");
 		addMenu(prjListBtn);
 
-		final MenuButton activityBtn = new MenuButton("Activities", "&#xe610;");
+		final MenuButton activityBtn = new MenuButton(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
+				"&#xe610;");
 		addMenu(activityBtn);
 
-		final MenuButton ticketBtn = new MenuButton("Following Tickets",
+		final MenuButton ticketBtn = new MenuButton(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
 				"&#xe613;");
 		addMenu(ticketBtn);
 	}
@@ -37,7 +49,14 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 
 			@Override
 			public void buttonClick(final ClickEvent event) {
-				// TODO: Handle button click
+				final String caption = ((MenuButton) event.getButton())
+						.getBtnId();
+				if (AppContext.getMessage(
+						ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST).equals(
+						caption)) {
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.GotoProjectList(this, null));
+				}
 			}
 		};
 	}

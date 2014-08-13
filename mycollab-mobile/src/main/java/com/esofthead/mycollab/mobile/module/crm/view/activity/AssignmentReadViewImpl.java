@@ -64,7 +64,8 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected void initRelatedComponents() {
-		associateNotes = new NotesList("Related Notes");
+		associateNotes = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 	}
 
 	@Override

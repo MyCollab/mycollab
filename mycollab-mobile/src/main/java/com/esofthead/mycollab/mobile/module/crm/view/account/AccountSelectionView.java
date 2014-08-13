@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -45,7 +46,8 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 	public AccountSelectionView() {
 		super();
 		createUI();
-		this.setCaption("Account Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(AccountI18nEnum.M_VIEW_ACCOUNT_NAME_LOOKUP));
 	}
 
 	private void createUI() {

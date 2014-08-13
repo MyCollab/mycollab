@@ -50,7 +50,8 @@ public class AccountRelatedLeadView extends
 	}
 
 	private void initUI() {
-		this.setCaption("Related Leads");
+		this.setCaption(AppContext
+				.getMessage(LeadI18nEnum.M_TITLE_RELATED_LEADS));
 		this.itemList = new LeadListDisplay();
 		this.setContent(itemList);
 	}

@@ -22,6 +22,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -43,7 +44,8 @@ public class CaseSelectionView extends AbstractSelectionView<SimpleCase> {
 	public CaseSelectionView() {
 		super();
 		createUI();
-		this.setCaption("Case Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(CaseI18nEnum.M_VIEW_CASE_NAME_LOOKUP));
 	}
 
 	public void createUI() {

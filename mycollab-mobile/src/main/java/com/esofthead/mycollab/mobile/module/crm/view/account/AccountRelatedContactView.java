@@ -49,7 +49,8 @@ public class AccountRelatedContactView extends
 	}
 
 	private void initUI() {
-		this.setCaption("Related Contacts");
+		this.setCaption(AppContext
+				.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
 		this.itemList = new ContactListDisplay();
 		this.setContent(itemList);
 	}

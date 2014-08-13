@@ -39,7 +39,8 @@ public class AccountRelatedCaseView extends
 	}
 
 	private void initUI() {
-		this.setCaption("Related Cases");
+		this.setCaption(AppContext
+				.getMessage(CaseI18nEnum.M_TITLE_RELATED_CASES));
 		itemList = new CaseListDisplay();
 		this.setContent(itemList);
 	}

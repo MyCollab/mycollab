@@ -67,7 +67,8 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 
 	@Override
 	protected void initRelatedComponents() {
-		associateNotes = new NotesList("Related Notes");
+		associateNotes = new NotesList(
+				AppContext.getMessage(CrmCommonI18nEnum.M_TITLE_RELATED_NOTES));
 		associateActivities = new ActivityRelatedItemView(CrmTypeConstants.CASE);
 		associateContacts = new CaseRelatedContactView();
 	}

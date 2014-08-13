@@ -47,7 +47,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -273,7 +273,7 @@ public class TaskGroupAddWindow extends Window {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("description")) {
-					final TextArea area = new TextArea();
+					final RichTextArea area = new RichTextArea();
 					area.setNullRepresentation("");
 					return area;
 				} else if (propertyId.equals("owner")) {
@@ -281,9 +281,7 @@ public class TaskGroupAddWindow extends Window {
 					return projectSelectionField;
 				} else if (propertyId.equals("milestoneid")) {
 					return new MilestoneComboBox();
-				}
-
-				if ("name".equals(propertyId)) {
+				} else if (propertyId.equals("name")) {
 					final TextField tf = new TextField();
 					tf.setNullRepresentation("");
 					tf.setRequired(true);

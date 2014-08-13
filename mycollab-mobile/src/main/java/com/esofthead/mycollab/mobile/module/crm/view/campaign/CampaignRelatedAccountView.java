@@ -47,7 +47,8 @@ public class CampaignRelatedAccountView extends
 	public CampaignRelatedAccountView() {
 		super();
 
-		setCaption("Related Accounts");
+		setCaption(AppContext
+				.getMessage(AccountI18nEnum.M_TITLE_RELATED_ACCOUNTS));
 		this.itemList = new AccountListDisplay();
 		this.setContent(itemList);
 	}

@@ -47,7 +47,8 @@ public class OpportunityRelatedContactView extends
 	public OpportunityRelatedContactView() {
 		super();
 
-		setCaption("Related Contacts");
+		setCaption(AppContext
+				.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
 		this.itemList = new ContactListDisplay();
 		this.setContent(itemList);
 	}

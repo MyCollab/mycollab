@@ -45,7 +45,8 @@ public class AccountRelatedOpportunityView extends
 	}
 
 	private void initUI() {
-		this.setCaption("Related Opportunities");
+		this.setCaption(AppContext
+				.getMessage(OpportunityI18nEnum.M_TITLE_RELATED_OPPORTUNITIES));
 		itemList = new OpportunityListDisplay();
 		this.setContent(itemList);
 	}

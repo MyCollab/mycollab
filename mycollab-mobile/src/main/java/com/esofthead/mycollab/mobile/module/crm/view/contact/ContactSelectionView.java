@@ -22,6 +22,7 @@ import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -43,7 +44,8 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 	public ContactSelectionView() {
 		super();
 		createUI();
-		this.setCaption("Contact Name Lookup");
+		this.setCaption(AppContext
+				.getMessage(ContactI18nEnum.M_VIEW_CONTACT_NAME_LOOKUP));
 	}
 
 	public void createUI() {

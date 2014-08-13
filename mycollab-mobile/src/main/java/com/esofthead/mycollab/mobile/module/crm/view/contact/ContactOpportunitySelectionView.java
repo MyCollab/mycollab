@@ -25,6 +25,8 @@ import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityList
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -42,7 +44,9 @@ public class ContactOpportunitySelectionView
 
 	public ContactOpportunitySelectionView(
 			AbstractRelatedListView<SimpleOpportunity, OpportunitySearchCriteria> relatedListView) {
-		super("Select Opportunities", relatedListView);
+		super(AppContext
+				.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES),
+				relatedListView);
 	}
 
 	@Override

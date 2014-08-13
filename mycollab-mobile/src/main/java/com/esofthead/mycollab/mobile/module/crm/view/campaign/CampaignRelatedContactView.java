@@ -46,7 +46,8 @@ public class CampaignRelatedContactView extends
 
 	public CampaignRelatedContactView() {
 		super();
-		setCaption("Related Contacts");
+		setCaption(AppContext
+				.getMessage(ContactI18nEnum.M_TITLE_RELATED_CONTACTS));
 		this.itemList = new ContactListDisplay();
 		this.setContent(this.itemList);
 	}
