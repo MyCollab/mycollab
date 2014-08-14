@@ -251,7 +251,7 @@ public class WikiServiceImpl implements WikiService {
 										+ " and its path is " + path);
 					}
 				}
-				return null;
+				return new ArrayList<Page>();
 			}
 		});
 	}
@@ -293,7 +293,7 @@ public class WikiServiceImpl implements WikiService {
 				}
 
 				log.debug("There is no resource in path {}", path);
-				return null;
+				return new ArrayList<WikiResource>();
 			}
 		});
 	}
@@ -403,8 +403,13 @@ public class WikiServiceImpl implements WikiService {
 			folder.setCreatedTime(node.getProperty("jcr:created").getDate());
 			folder.setCreatedUser(node.getProperty("wiki:createdUser")
 					.getString());
-			folder.setDescription(node.getProperty("wiki:description")
-					.getString());
+			if (node.hasProperty("wiki:description")) {
+				folder.setDescription(node.getProperty("wiki:description")
+						.getString());
+			} else {
+				folder.setDescription("");
+			}
+
 			folder.setName(node.getProperty("wiki:name").getString());
 
 			String folderPath = node.getPath();

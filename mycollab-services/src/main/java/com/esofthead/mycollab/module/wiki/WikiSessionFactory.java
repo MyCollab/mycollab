@@ -164,7 +164,7 @@ public class WikiSessionFactory extends JcrSessionFactory {
 				.createPropertyDefinitionTemplate();
 		descPropertyTemplate.setMultiple(false);
 		descPropertyTemplate.setName("wiki:description");
-		descPropertyTemplate.setMandatory(false);
+		descPropertyTemplate.setMandatory(true);
 		descPropertyTemplate.setRequiredType(PropertyType.STRING);
 		folderTypeTemplate.getPropertyDefinitionTemplates().add(
 				descPropertyTemplate);

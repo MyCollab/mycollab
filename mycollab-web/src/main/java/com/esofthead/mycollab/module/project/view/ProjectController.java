@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -238,7 +239,7 @@ public class ProjectController implements IController {
 						.getView(ProjectView.class);
 				TaskList taskList = new TaskList();
 				taskList.setProjectid(CurrentProjectVariables.getProjectId());
-				taskList.setStatus("Open");
+				taskList.setStatus(StatusI18nEnum.Open.name());
 				TaskGroupScreenData.Add data = new TaskGroupScreenData.Add(
 						taskList);
 				projectView.gotoTaskList(data);
@@ -805,7 +806,8 @@ public class ProjectController implements IController {
 				ProjectView projectView = ViewManager
 						.getView(ProjectView.class);
 
-				projectView.gotoPageView(new PageScreenData.Search());
+				projectView.gotoPageView(new PageScreenData.Search(
+						(String) event.getData()));
 			}
 		});
 	}

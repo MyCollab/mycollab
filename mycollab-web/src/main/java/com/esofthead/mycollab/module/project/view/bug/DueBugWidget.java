@@ -48,7 +48,7 @@ public class DueBugWidget extends BugDisplayWidget {
 	private static final long serialVersionUID = 1L;
 
 	public DueBugWidget() {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE),
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_DUE_BUGS_TITLE), true,
 				DueBugRowDisplayHandler.class);
 	}
 

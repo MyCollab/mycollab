@@ -28,7 +28,7 @@ public class PageUrlResolver extends ProjectUrlResolver {
 			int projectId = Integer.parseInt(decodeUrl);
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new PageScreenData.Search());
+					new PageScreenData.Search(null));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

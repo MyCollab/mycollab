@@ -32,10 +32,10 @@ public class PageScreenData {
 		}
 	}
 
-	public static class Search extends ScreenData<Object> {
+	public static class Search extends ScreenData<String> {
 
-		public Search() {
-			super(null);
+		public Search(String baseFolder) {
+			super(baseFolder);
 		}
 	}
 }

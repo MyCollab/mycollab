@@ -49,7 +49,7 @@ public class RecentBugUpdateWidget extends BugDisplayWidget {
 
 	public RecentBugUpdateWidget() {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_UPDATED_RECENTLY_TITLE),
-				RecentBugRowDisplayHandler.class);
+				false, RecentBugRowDisplayHandler.class);
 	}
 
 	@Override

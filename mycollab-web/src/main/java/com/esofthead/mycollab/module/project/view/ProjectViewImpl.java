@@ -248,8 +248,11 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 							filePresenter.go(ProjectViewImpl.this,
 									new FileScreenData.GotoDashboard());
 						} else if ("page".equals(caption)) {
-							pagePresenter.go(ProjectViewImpl.this,
-									new PageScreenData.Search());
+							pagePresenter.go(
+									ProjectViewImpl.this,
+									new PageScreenData.Search(
+											CurrentProjectVariables
+													.getCurrentPagePath()));
 						} else if ("problem".equals(caption)) {
 							ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(

@@ -45,17 +45,22 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class BugDisplayWidget extends Depot {
 
 	private static final long serialVersionUID = 1L;
-	public static int MAX_ITEM_DISPLAY = 5;
+	private static int MAX_ITEM_DISPLAY = 5;
 
 	protected BugSearchCriteria searchCriteria;
 	private BeanList<BugService, BugSearchCriteria, SimpleBug> dataList;
 	private Button moreBtn;
 
+	private String title;
+	private boolean isDisplayTotalCount;
+
 	public BugDisplayWidget(
 			final String title,
+			boolean isDisplayTotalCount,
 			final Class<? extends RowDisplayHandler<SimpleBug>> rowDisplayHandler) {
 		super(title, new VerticalLayout());
-
+		this.title = title;
+		this.isDisplayTotalCount = isDisplayTotalCount;
 		dataList = new BeanList<BugService, BugSearchCriteria, SimpleBug>(
 				ApplicationContextUtil.getSpringBean(BugService.class),
 				rowDisplayHandler);
@@ -68,6 +73,11 @@ public abstract class BugDisplayWidget extends Depot {
 
 	public void setSearchCriteria(final BugSearchCriteria searchCriteria) {
 		this.searchCriteria = searchCriteria;
+		if (isDisplayTotalCount) {
+			int totalCount = dataList.getTotalCount(searchCriteria);
+			String depotTitle = String.format("%s (%d)", title, totalCount);
+			this.setTitle(depotTitle);
+		}
 		final SearchRequest<BugSearchCriteria> searchRequest = new SearchRequest<BugSearchCriteria>(
 				searchCriteria, 0, BugDisplayWidget.MAX_ITEM_DISPLAY);
 		final int displayItemsCount = dataList.setSearchRequest(searchRequest);

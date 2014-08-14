@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -11,6 +12,8 @@ import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.wiki.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -22,7 +25,9 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -32,7 +37,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -125,7 +130,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		pagesLayout.removeAllComponents();
 		if (resources != null) {
 			for (WikiResource resource : resources) {
-				VerticalLayout resourceBlock = (resource instanceof Page) ? displayPageBlock((Page) resource)
+				Layout resourceBlock = (resource instanceof Page) ? displayPageBlock((Page) resource)
 						: displayFolderBlock((Folder) resource);
 				pagesLayout.addComponent(resourceBlock);
 			}
@@ -133,12 +138,51 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 	}
 
-	private VerticalLayout displayFolderBlock(Folder resource) {
+	private Layout displayFolderBlock(final Folder resource) {
+		HorizontalLayout container = new HorizontalLayout();
+		container.setWidth("100%");
+		container.setSpacing(true);
+		Image iconResource = new Image("",
+				MyCollabResource.newResource("icons/48/project/folder.png"));
+		container.addComponent(iconResource);
+		container.setComponentAlignment(iconResource, Alignment.TOP_LEFT);
+
 		VerticalLayout block = new VerticalLayout();
-		return block;
+		HorizontalLayout headerPanel = new HorizontalLayout();
+		Button folderLink = new Button(resource.getName(), new ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				EventBusFactory.getInstance().post(
+						new PageEvent.GotoList(PageListViewImpl.this, resource
+								.getPath()));
+
+			}
+		});
+		headerPanel.addComponent(folderLink);
+		block.addComponent(headerPanel);
+		block.addComponent(new Label(resource.getDescription(),
+				ContentMode.HTML));
+
+		HorizontalLayout footer = new HorizontalLayout();
+		block.addComponent(footer);
+
+		container.addComponent(block);
+		container.setExpandRatio(block, 1);
+		return container;
 	}
 
-	private VerticalLayout displayPageBlock(final Page resource) {
+	private Layout displayPageBlock(final Page resource) {
+		HorizontalLayout container = new HorizontalLayout();
+		container.setWidth("100%");
+		container.setSpacing(true);
+
+		Image iconResource = new Image("",
+				MyCollabResource.newResource("icons/48/project/document.png"));
+		container.addComponent(iconResource);
+		container.setComponentAlignment(iconResource, Alignment.TOP_LEFT);
+
 		VerticalLayout block = new VerticalLayout();
 		HorizontalLayout headerPanel = new HorizontalLayout();
 		Button pageLink = new Button(resource.getSubject(),
@@ -156,7 +200,13 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		headerPanel.addComponent(pageLink);
 
 		block.addComponent(headerPanel);
-		return block;
+
+		String content = resource.getContent();
+		block.addComponent(new Label(content, ContentMode.HTML));
+
+		container.addComponent(block);
+		container.setExpandRatio(block, 1);
+		return container;
 	}
 
 	private class NewGroupWindow extends Window {
@@ -167,7 +217,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		public NewGroupWindow() {
 			super(AppContext.getMessage(Page18InEnum.DIALOG_NEW_GROUP_TITLE));
 			this.setModal(true);
-			this.setWidth("600px");
+			this.setWidth("700px");
 			this.setResizable(false);
 			this.center();
 			VerticalLayout content = new VerticalLayout();
@@ -177,6 +227,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 			EditForm editForm = new EditForm();
 
 			folder = new Folder();
+			String pagePath = CurrentProjectVariables.getCurrentPagePath();
+			folder.setPath(pagePath + "/" + UUID.randomUUID().toString());
+
 			editForm.setBean(folder);
 			content.addComponent(editForm);
 
@@ -245,7 +298,13 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 									if (EditForm.this.validateForm()) {
 
+										WikiService wikiService = ApplicationContextUtil
+												.getSpringBean(WikiService.class);
+										wikiService.createFolder(folder,
+												AppContext.getUsername());
+										resources.add(folder);
 										NewGroupWindow.this.close();
+										displayPages(resources);
 									}
 								}
 							});
@@ -286,6 +345,10 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
+				if (propertyId.equals("description")) {
+					return new RichTextArea();
+				}
+
 				return null;
 			}
 		}

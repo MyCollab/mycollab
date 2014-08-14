@@ -49,7 +49,7 @@ public class MyBugListWidget extends BugDisplayWidget {
 
 	public MyBugListWidget() {
 		super(AppContext.getMessage(BugI18nEnum.WIDGET_MY_OPEN_BUGS_TITLE),
-				MyBugRowDisplayHandler.class);
+				true, MyBugRowDisplayHandler.class);
 	}
 
 	public static class MyBugRowDisplayHandler extends

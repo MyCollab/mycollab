@@ -49,6 +49,7 @@ Version 4.4.0
 * Allow users can archive project
 * Revise milestone list view to allow user can edit, delete milestone
 * Revise invite project member that displays user avatar in suggested list
+* Display total open bugs, due bugs in bug dashboard.
 
 **Bug Fixes**
 

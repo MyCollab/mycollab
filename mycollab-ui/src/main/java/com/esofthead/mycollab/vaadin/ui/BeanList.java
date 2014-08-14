@@ -149,6 +149,10 @@ public class BeanList<SearchService extends ISearchableService<S>, S extends Sea
 		return currentListData.size();
 	}
 
+	public int getTotalCount(S searchCriteria) {
+		return searchService.getTotalCount(searchCriteria);
+	}
+
 	public void loadItems(List<T> currentListData) {
 		contentLayout.removeAllComponents();
 
