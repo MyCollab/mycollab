@@ -199,7 +199,7 @@ public class AssignBugWindow extends Window {
 									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 									0, 0);
 				} else if (propertyId.equals("comment")) {
-					this.informationLayout.addComponent(field, "Comments", 0,
+					this.informationLayout.addComponent(field, "Comment", 0,
 							1, 2, "100%", Alignment.MIDDLE_LEFT);
 				}
 			}

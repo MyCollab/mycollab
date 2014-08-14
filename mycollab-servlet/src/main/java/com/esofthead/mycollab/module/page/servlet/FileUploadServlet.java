@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,10 @@ import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
 /**
@@ -32,10 +35,17 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 	private static Logger log = LoggerFactory
 			.getLogger(FileUploadServlet.class);
 
+	@Autowired
+	private ResourceService resourceService;
+
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+		Enumeration<String> parameterNames = request.getParameterNames();
+
+		String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
+		// http://st.f1.vnecdn.net/responsive/i/v9/graphics/img_logo_vne_web.gif
 
 		// Create path components to save the file
 		final Part filePart = request.getPart("upload");
@@ -51,8 +61,16 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 			final byte[] bytes = new byte[1024];
 
 			while ((read = filecontent.read(bytes)) != -1) {
-//				out.write(bytes, 0, read);
+				// out.write(bytes, 0, read);
 			}
+
+			String responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('%s','%s','%s');</script></body></html>";
+			responseHtml = String
+					.format(responseHtml,
+							ckEditorFuncNum,
+							"http://st.f1.vnecdn.net/responsive/i/v9/graphics/img_logo_vne_web.gif",
+							"ABC");
+			writer.write(responseHtml);
 		} catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
 					+ "trying to upload a file to a protected or nonexistent "

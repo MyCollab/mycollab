@@ -106,10 +106,11 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	public void saveContent(Content content, String createdUser,
 			InputStream refStream, Integer sAccountId) {
+		Integer fileSize = 0;
 		try {
-			int available = refStream.available();
+			fileSize = refStream.available();
 			billingPlanCheckerService.validateAccountCanUploadMoreFiles(
-					sAccountId, available);
+					sAccountId, fileSize);
 		} catch (IOException e) {
 			log.error("Can not get available bytes", e);
 		}
@@ -117,6 +118,7 @@ public class ResourceServiceImpl implements ResourceService {
 		// detect mimeType and set to content
 		String mimeType = MimeTypesUtil.detectMimeType(content.getPath());
 		content.setMimeType(mimeType);
+		content.setSize(Long.valueOf(fileSize));
 
 		contentJcrDao.saveContent(content, createdUser);
 

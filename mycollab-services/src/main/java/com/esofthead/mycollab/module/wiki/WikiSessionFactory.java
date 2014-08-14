@@ -150,6 +150,24 @@ public class WikiSessionFactory extends JcrSessionFactory {
 		createdPropertyTemplate.setRequiredType(PropertyType.STRING);
 		folderTypeTemplate.getPropertyDefinitionTemplates().add(
 				createdPropertyTemplate);
+
+		PropertyDefinitionTemplate namePropertyTemplate = manager
+				.createPropertyDefinitionTemplate();
+		namePropertyTemplate.setMultiple(false);
+		namePropertyTemplate.setName("wiki:name");
+		namePropertyTemplate.setMandatory(true);
+		namePropertyTemplate.setRequiredType(PropertyType.STRING);
+		folderTypeTemplate.getPropertyDefinitionTemplates().add(
+				namePropertyTemplate);
+
+		PropertyDefinitionTemplate descPropertyTemplate = manager
+				.createPropertyDefinitionTemplate();
+		descPropertyTemplate.setMultiple(false);
+		descPropertyTemplate.setName("wiki:description");
+		descPropertyTemplate.setMandatory(false);
+		descPropertyTemplate.setRequiredType(PropertyType.STRING);
+		folderTypeTemplate.getPropertyDefinitionTemplates().add(
+				descPropertyTemplate);
 		return folderTypeTemplate;
 	}
 }

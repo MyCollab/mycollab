@@ -20,6 +20,10 @@ public class Page extends WikiResource {
 	private String category;
 
 	private String status;
+	
+	public Page() {
+		super();
+	}
 
 	public String getSubject() {
 		return subject;

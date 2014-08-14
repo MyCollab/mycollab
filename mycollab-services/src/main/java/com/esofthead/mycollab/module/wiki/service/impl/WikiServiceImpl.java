@@ -103,6 +103,8 @@ public class WikiServiceImpl implements WikiService {
 												"{http://www.esofthead.com/wiki}folder");
 								childNode.setProperty("wiki:createdUser",
 										createdUser);
+								childNode.setProperty("wiki:name", pathStr[i]);
+								childNode.setProperty("wiki:description", "");
 							}
 							parentNode = childNode;
 						}
@@ -298,7 +300,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void createFolder(final String folderPath, final String createdUser) {
+	public void createFolder(final Folder folder, final String createdUser) {
 		jcrTemplate.execute(new JcrCallback() {
 
 			@Override
@@ -306,6 +308,7 @@ public class WikiServiceImpl implements WikiService {
 					RepositoryException {
 				try {
 					Node rootNode = session.getRootNode();
+					String folderPath = folder.getPath();
 					String[] pathStr = folderPath.split("/");
 					Node parentNode = rootNode;
 					// create folder note
@@ -335,6 +338,9 @@ public class WikiServiceImpl implements WikiService {
 									"{http://www.esofthead.com/wiki}folder");
 							childNode.setProperty("wiki:createdUser",
 									createdUser);
+							childNode.setProperty("wiki:description",
+									folder.getDescription());
+							childNode.setProperty("wiki:name", folder.getName());
 							session.save();
 						}
 
@@ -346,7 +352,7 @@ public class WikiServiceImpl implements WikiService {
 				} catch (Exception e) {
 					String errorString = "Error while create folder with path %s";
 					throw new MyCollabException(String.format(errorString,
-							folderPath), e);
+							folder.getPath()), e);
 				}
 				return null;
 			}
@@ -397,6 +403,9 @@ public class WikiServiceImpl implements WikiService {
 			folder.setCreatedTime(node.getProperty("jcr:created").getDate());
 			folder.setCreatedUser(node.getProperty("wiki:createdUser")
 					.getString());
+			folder.setDescription(node.getProperty("wiki:description")
+					.getString());
+			folder.setName(node.getProperty("wiki:name").getString());
 
 			String folderPath = node.getPath();
 			if (folderPath.startsWith("/")) {

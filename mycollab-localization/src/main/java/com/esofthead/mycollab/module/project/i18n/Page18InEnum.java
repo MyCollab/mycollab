@@ -9,7 +9,13 @@ import ch.qos.cal10n.LocaleData;
 public enum Page18InEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,
+	
+	DIALOG_NEW_GROUP_TITLE,
+	
+	BUTTON_NEW_GROUP,
 	BUTTON_NEW_PAGE,
+	
+	FORM_GROUP,
 	
 	FORM_SUBJECT,
 	FORM_DESCRIPTION,

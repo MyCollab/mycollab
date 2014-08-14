@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.jcr.version.Version;
 
-import com.esofthead.mycollab.module.ecm.domain.Folder;
+import com.esofthead.mycollab.module.wiki.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
 
@@ -36,7 +36,7 @@ public interface WikiService {
 	 * @param folder
 	 * @param createdUser
 	 */
-	void createFolder(String folderPath, String createdUser);
+	void createFolder(Folder folder, String createdUser);
 
 	/**
 	 * 
