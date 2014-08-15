@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.common;
 
-import java.util.StringTokenizer;
-
 /**
  * 
  * @author MyCollab Ltd.
@@ -25,34 +23,48 @@ import java.util.StringTokenizer;
  * 
  */
 public class UrlTokenizer {
-
-	private StringTokenizer urlTokenizer;
 	private String internalVal;
+
+	private String remainStrVal;
 
 	public UrlTokenizer(String url) {
 		internalVal = (url.startsWith("/")) ? url.substring(1) : url;
 		internalVal = UrlEncodeDecoder.decode(internalVal);
-		urlTokenizer = new StringTokenizer(internalVal, "/");
+		remainStrVal = internalVal;
 	}
 
 	public int getInt() throws InvalidTokenException {
-		if (urlTokenizer.hasMoreTokens()) {
-			try {
-				return Integer.parseInt(urlTokenizer.nextToken());
-			} catch (NumberFormatException e) {
-				throw new InvalidTokenException("Invalid token " + internalVal,
-						e);
-			}
+		if (hasMoreTokens()) {
+			return Integer.parseInt(getNextToken());
 		} else {
 			throw new InvalidTokenException("Invalid token " + internalVal);
 		}
 	}
 
 	public String getString() throws InvalidTokenException {
-		if (urlTokenizer.hasMoreTokens()) {
-			return urlTokenizer.nextToken();
+		if (hasMoreTokens()) {
+			return getNextToken();
 		} else {
 			throw new InvalidTokenException("Invalid token " + internalVal);
 		}
+	}
+
+	public boolean hasMoreTokens() {
+		return !remainStrVal.equals("");
+	}
+
+	private String getNextToken() {
+		int index = remainStrVal.indexOf("/");
+		if (index < 0) {
+			return remainStrVal;
+		} else {
+			String result = remainStrVal.substring(0, index);
+			remainStrVal = remainStrVal.substring(index + 1);
+			return result;
+		}
+	}
+
+	public String getRemainValue() {
+		return remainStrVal;
 	}
 }

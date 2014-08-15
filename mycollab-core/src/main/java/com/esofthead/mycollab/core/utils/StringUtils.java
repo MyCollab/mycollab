@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.core.utils;
 
+import java.util.GregorianCalendar;
+import java.util.Random;
+
 import org.jsoup.Jsoup;
 
 /**
@@ -84,11 +87,11 @@ public class StringUtils {
 						"<a href=\"$0\">$0</a>");
 	}
 
-	public static String getStringFieldValue(Object o) {
+	public static String trimHtmlTags(String o) {
 		if (o == null) {
 			return "";
 		} else {
-			String str = Jsoup.parse(o.toString()).html();
+			String str = Jsoup.parse(o).text();
 			if (str.length() > 200) {
 				str = str.substring(0, 200);
 			}
@@ -96,16 +99,13 @@ public class StringUtils {
 		}
 	}
 
-	public static String trimHtmlTags(Object o) {
-		if (o == null) {
-			return "";
-		} else {
-			String str = Jsoup.parse(o.toString()).text();
-			if (str.length() > 200) {
-				str = str.substring(0, 200);
-			}
-			return str;
-		}
+	public static String generateSoftUniqueId() {
+		return "" + (new GregorianCalendar().getTimeInMillis())
+				+ new Random().nextInt(10);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(generateSoftUniqueId());
 	}
 
 	public static String extractNameFromEmail(String value) {

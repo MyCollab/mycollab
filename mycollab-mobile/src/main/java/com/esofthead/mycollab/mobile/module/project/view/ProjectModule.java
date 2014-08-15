@@ -23,14 +23,6 @@ public class ProjectModule extends AbstractMobileSwipeView implements IModule {
 	public ProjectModule() {
 		ControllerRegistry.addController(new ProjectModuleController(
 				(MobileNavigationManager) UI.getCurrent().getContent()));
-
-		Label introLbl = new Label("This is project dashboard");
-		VerticalLayout mainLayout = new VerticalLayout();
-		mainLayout.setSizeFull();
-		this.setContent(mainLayout);
-		mainLayout.addComponent(introLbl);
-		this.setToggleButton(true);
-		this.setCaption("Dashboard");
 	}
 
 }

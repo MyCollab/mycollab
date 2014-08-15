@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -82,9 +83,12 @@ public class TrackerPresenter extends AbstractPresenter<TrackerContainer> {
 				throw new MyCollabException("Do not support screen data "
 						+ data);
 			}
+
+			presenter.go(view, data);
+		} else {
+			NotificationUtil.showFeatureNotPresentInSubscription();
 		}
 
-		presenter.go(view, data);
 	}
 
 	@Override

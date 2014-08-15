@@ -88,12 +88,28 @@ public class ProjectLinkGenerator {
 				+ generateMilestonePreviewLink(projectId, milestoneId);
 	}
 
-	public static String generatePagesLink(int projectId) {
-		return "project/page/list/" + UrlEncodeDecoder.encode(projectId);
+	public static String generatePagesLink(int projectId, String folderPath) {
+		return "project/page/list/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
+						folderPath });
 	}
-	
-	public static String generatePageAdd(int projectId) {
-		return "project/page/add/" + UrlEncodeDecoder.encode(projectId);
+
+	public static String generatePageAdd(int projectId, String pagePath) {
+		return "project/page/add/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
+						pagePath });
+	}
+
+	public static String generatePageRead(int projectId, String pagePath) {
+		return "project/page/preview/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
+						pagePath });
+	}
+
+	public static String generatePageEdit(int projectId, String pagePath) {
+		return "project/page/edit/"
+				+ GenericLinkUtils.encodeParam(new Object[] { projectId,
+						pagePath });
 	}
 
 	public static String generateProblemsLink(Integer projectId) {

@@ -77,7 +77,7 @@ public class CommonTooltipGenerator {
 													"mailto:" + user.getEmail())
 													.appendText(
 															StringUtils
-																	.getStringFieldValue(user
+																	.trimHtmlTags(user
 																			.getEmail()))));
 
 			Td trRow1_value = new Td().setStyle(
@@ -113,9 +113,8 @@ public class CommonTooltipGenerator {
 					.appendChild(
 							new Td().setStyle("vertical-align: top;")
 									.appendText(
-											StringUtils
-													.getStringFieldValue(user
-															.getCountry())));
+											StringUtils.trimHtmlTags(user
+													.getCountry())));
 
 			Tr trRow4 = new Tr();
 			trRow4.appendChild(
@@ -127,9 +126,8 @@ public class CommonTooltipGenerator {
 					.appendChild(
 							new Td().setStyle("vertical-align: top;")
 									.appendText(
-											StringUtils
-													.getStringFieldValue(user
-															.getWorkphone())));
+											StringUtils.trimHtmlTags(user
+													.getWorkphone())));
 
 			Tr trRow5 = new Tr();
 			trRow5.appendChild(

@@ -125,6 +125,46 @@ public class WikiServiceImpl implements WikiService {
 
 	}
 
+	@Override
+	public Page getPage(final String path) {
+		return jcrTemplate.execute(new JcrCallback<Page>() {
+
+			@Override
+			public Page doInJcr(Session session) throws IOException,
+					RepositoryException {
+				Node rootNode = session.getRootNode();
+				Node node = getNode(rootNode, path);
+				if (node != null) {
+					if (isNodePage(node)) {
+						return convertNodeToPage(node);
+					}
+				}
+
+				return null;
+			}
+		});
+	}
+
+	@Override
+	public Folder getFolder(final String path) {
+		return jcrTemplate.execute(new JcrCallback<Folder>() {
+
+			@Override
+			public Folder doInJcr(Session session) throws IOException,
+					RepositoryException {
+				Node rootNode = session.getRootNode();
+				Node node = getNode(rootNode, path);
+				if (node != null) {
+					if (isNodeFolder(node)) {
+						return convertNodeToFolder(node);
+					}
+				}
+
+				return null;
+			}
+		});
+	}
+
 	private static Node getNode(Node node, String path) {
 		try {
 			return node.getNode(path);
@@ -338,8 +378,11 @@ public class WikiServiceImpl implements WikiService {
 									"{http://www.esofthead.com/wiki}folder");
 							childNode.setProperty("wiki:createdUser",
 									createdUser);
-							childNode.setProperty("wiki:description",
-									folder.getDescription());
+							String desc = folder.getDescription();
+							if (desc == null) {
+								desc = "";
+							}
+							childNode.setProperty("wiki:description", desc);
 							childNode.setProperty("wiki:name", folder.getName());
 							session.save();
 						}

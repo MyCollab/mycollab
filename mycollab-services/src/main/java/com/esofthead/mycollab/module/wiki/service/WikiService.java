@@ -27,6 +27,20 @@ public interface WikiService {
 	 * @param path
 	 * @return
 	 */
+	Page getPage(String path);
+	
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 */
+	Folder getFolder(String path);
+
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 */
 	List<Version> getPageVersions(String path);
 
 	Page getPageByVersion(String path, String versionName);

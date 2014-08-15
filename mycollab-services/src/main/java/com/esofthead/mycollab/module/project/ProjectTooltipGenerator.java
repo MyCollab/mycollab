@@ -615,8 +615,7 @@ public class ProjectTooltipGenerator {
 			Td cell23 = buildCellName(LocalizationHelper.getMessage(locale,
 					ProjectI18nEnum.FORM_CURRENCY));
 			String currency = (project.getCurrency() != null) ? StringUtils
-					.getStringFieldValue(project.getCurrency().getSymbol())
-					: "";
+					.trimHtmlTags(project.getCurrency().getSymbol()) : "";
 			Td cell24 = buildCellValue(currency);
 			trRow2.appendChild(cell21, cell22, cell23, cell24);
 			tooltipManager.appendRow(trRow2);

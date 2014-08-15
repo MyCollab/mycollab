@@ -33,6 +33,7 @@ public class AbstractMobileSwipeView extends MobileNavigationView implements
 	public AbstractMobileSwipeView() {
 		super();
 		this.setStyleName("mobilenavview");
+        this.setToggleButton(true);
 	}
 
 	public ViewState getViewState() {

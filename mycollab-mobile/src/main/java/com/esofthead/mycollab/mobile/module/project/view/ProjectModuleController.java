@@ -9,6 +9,7 @@ import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
+import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
@@ -54,6 +55,16 @@ public class ProjectModuleController implements IController {
 						new ScreenData.Search<ProjectSearchCriteria>(criteria));
 			}
 		});
+        eventBus.register(new ApplicationEventListener<ProjectEvent.GotoMyProject>() {
+            private static final long serialVersionUID = 2554670937118159116L;
+
+            @Subscribe
+            @Override
+            public void handle(ProjectEvent.GotoMyProject event) {
+                ProjectViewPresenter presenter = PresenterResolver.getPresenter(ProjectViewPresenter.class);
+                presenter.handleChain(navManager, (PageActionChain) event.getData());
+            }
+        });
 	}
 
 }

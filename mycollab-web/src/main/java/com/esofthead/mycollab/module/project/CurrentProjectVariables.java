@@ -172,13 +172,16 @@ public class CurrentProjectVariables {
 	public static String getCurrentPagePath() {
 		String path = (String) MyCollabSession.getVariable(CURRENT_PAGE_VAR);
 		if (path == null) {
-			String newPath = String.format("%d/project/%d/.page",
-					AppContext.getAccountId(), getProjectId());
-			setCurrentPagePath(newPath);
-			return newPath;
-		} else {
-			return path;
+			path = getBasePagePath();
+			setCurrentPagePath(path);
 		}
+
+		return path;
+	}
+
+	public static String getBasePagePath() {
+		return String.format("%d/project/%d/.page", AppContext.getAccountId(),
+				getProjectId());
 	}
 
 	public static void setCurrentPagePath(String path) {

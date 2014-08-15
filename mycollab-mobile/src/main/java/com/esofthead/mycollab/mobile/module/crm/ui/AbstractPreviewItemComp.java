@@ -28,6 +28,9 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * 
@@ -44,6 +47,8 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 	private Button editBtn;
 	private Popover controlBtns;
+
+    private Logger logger = LoggerFactory.getLogger(AbstractPreviewItemComp.class.getName());
 
 	public AbstractPreviewItemComp() {
 
@@ -62,6 +67,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 					@Override
 					public void buttonClick(ClickEvent evt) {
+                        logger.debug("button clicked!");
 						if (!controlBtns.isAttached())
 							controlBtns.showRelativeTo(editBtn);
 						else

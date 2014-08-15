@@ -2,14 +2,21 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -22,11 +29,14 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
+import com.hp.gagawa.java.elements.A;
+import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -86,7 +96,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected IFormLayoutFactory initFormLayoutFactory() {
-		return new PageFormLayoutFactory();
+		return new PageReadFormLayout();
 	}
 
 	@Override
@@ -144,6 +154,29 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		}
 	}
 
+	private class PageReadFormLayout implements IFormLayoutFactory {
+		private static final long serialVersionUID = 1L;
+
+		private VerticalLayout layout;
+
+		@Override
+		public Layout getLayout() {
+			layout = new VerticalLayout();
+			layout.setMargin(true);
+			layout.setSpacing(true);
+			layout.setWidth("100%");
+			return layout;
+		}
+
+		@Override
+		public void attachField(Object propertyId, Field<?> field) {
+			if (propertyId.equals("content")) {
+				layout.addComponent(field);
+			}
+		}
+
+	}
+
 	private class PageInfoComp extends VerticalLayout {
 		private static final long serialVersionUID = 1L;
 
@@ -165,13 +198,49 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 			layout.addComponent(new Label(AppContext.getMessage(
 					ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
 
-			Label createdLbl = new Label(
-					AppContext
-							.getMessage(ProjectCommonI18nEnum.ITEM_CREATED_PEOPLE));
+			String createdUser = beanItem.getCreatedUser();
+
+			Label createdLbl = new Label(AppContext.getMessage(
+					Page18InEnum.OPT_CREATED_USER, getMemberLink(createdUser)),
+					ContentMode.HTML);
 			createdLbl.setSizeUndefined();
 			layout.addComponent(createdLbl);
 
+			Label visibilityLbl = new Label(String.format(
+					"%s: %s",
+					AppContext.getMessage(Page18InEnum.FORM_VISIBILITY),
+					AppContext.getMessage(WikiI18nEnum.class,
+							beanItem.getStatus())));
+			layout.addComponent(visibilityLbl);
+
 			this.addComponent(layout);
+		}
+
+		private String getMemberLink(String createdUser) {
+			if (createdUser != null && !createdUser.equals("")) {
+				ProjectMemberService projectMemberService = ApplicationContextUtil
+						.getSpringBean(ProjectMemberService.class);
+				SimpleProjectMember member = projectMemberService
+						.findMemberByUsername(createdUser,
+								CurrentProjectVariables.getProjectId(),
+								AppContext.getAccountId());
+				if (member != null) {
+					DivLessFormatter div = new DivLessFormatter();
+					Img userAvatar = new Img("",
+							SiteConfiguration.getAvatarLink(
+									member.getMemberAvatarId(), 16));
+					A userLink = new A();
+					userLink.setHref(ProjectLinkBuilder
+							.generateProjectMemberFullLink(
+									CurrentProjectVariables.getProjectId(),
+									createdUser));
+					userLink.appendText(member.getMemberFullName());
+					div.appendChild(userAvatar, userLink);
+					return div.write();
+				}
+			}
+
+			return createdUser;
 		}
 	}
 }

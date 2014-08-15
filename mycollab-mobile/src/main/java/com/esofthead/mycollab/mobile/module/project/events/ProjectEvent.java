@@ -17,4 +17,13 @@ public class ProjectEvent {
 		}
 
 	}
+
+    public static class GotoMyProject extends ApplicationEvent {
+
+        private static final long serialVersionUID = -4439780369902098133L;
+
+        public GotoMyProject(Object source, Object data) {
+            super(source, data);
+        }
+    }
 }

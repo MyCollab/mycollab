@@ -96,4 +96,12 @@ public class NotificationUtil {
 						.getMessage(GenericI18Enum.NOTIFICATION_NO_PERMISSION_DO_TASK),
 				Type.WARNING_MESSAGE);
 	}
+
+	public static void showFeatureNotPresentInSubscription() {
+		showNotification(
+				AppContext.getMessage(GenericI18Enum.WINDOW_WARNING_TITLE),
+				AppContext
+						.getMessage(GenericI18Enum.NOTIFICATION_FEATURE_NOT_AVAILABLE_IN_SUBSCRIPTION),
+				Type.WARNING_MESSAGE);
+	}
 }

@@ -97,7 +97,7 @@ public class PageReadPresenter extends AbstractPresenter<PageReadView> {
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getView(ProjectBreadcrumb.class);
-			breadcrumb.gotoPageAdd();
+			breadcrumb.gotoPageRead(page);
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

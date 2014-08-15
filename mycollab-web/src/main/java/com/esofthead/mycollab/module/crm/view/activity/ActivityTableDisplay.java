@@ -366,9 +366,8 @@ public class ActivityTableDisplay
 									.setStyle(
 											"width:110px; vertical-align: top; text-align: left;")
 									.appendText(
-											StringUtils
-													.getStringFieldValue(event
-															.getStatus())));
+											StringUtils.trimHtmlTags(event
+													.getStatus())));
 
 			Tr trRow2 = new Tr();
 			trRow2.appendChild(
@@ -399,7 +398,7 @@ public class ActivityTableDisplay
 															: "")
 													.appendText(
 															StringUtils
-																	.getStringFieldValue(event
+																	.trimHtmlTags(event
 																			.getContactFullName()))));
 
 			Tr trRow3 = new Tr();
@@ -411,9 +410,8 @@ public class ActivityTableDisplay
 							new Td().setStyle(
 									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 									.appendText(
-											StringUtils
-													.getStringFieldValue(event
-															.getPriority())));
+											StringUtils.trimHtmlTags(event
+													.getPriority())));
 			trRow3.appendChild(
 					new Td().setStyle(
 							"width: 90px; vertical-align: top; text-align: right;")
@@ -438,7 +436,7 @@ public class ActivityTableDisplay
 																					16)))
 													.appendText(
 															StringUtils
-																	.getStringFieldValue(event
+																	.trimHtmlTags(event
 																			.getAssignUserFullName()))));
 
 			Tr trRow4 = new Tr();
