@@ -96,9 +96,13 @@ public class SiteConfiguration {
 		instance.cdnUrl = String.format(
 				ApplicationProperties.getString(ApplicationProperties.CDN_URL),
 				instance.serverAddress, instance.serverPort);
+
 		instance.appUrl = String.format(
 				ApplicationProperties.getString(ApplicationProperties.APP_URL),
 				instance.serverAddress, instance.serverPort);
+		if (!instance.appUrl.endsWith("/")) {
+			instance.appUrl += "/";
+		}
 
 		// Load storage configuration
 		String storageSystem = ApplicationProperties.getString(
@@ -282,8 +286,8 @@ public class SiteConfiguration {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		return getInstance().storageConfiguration.generateAvatarPath(
-				userAvatarId, size);
+		return getInstance().storageConfiguration.getAvatarPath(userAvatarId,
+				size);
 	}
 
 	private static Map<String, Locale> getSupportedLocales(String languageVal) {

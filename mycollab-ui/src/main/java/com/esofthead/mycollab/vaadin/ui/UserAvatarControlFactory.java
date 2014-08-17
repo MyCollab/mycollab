@@ -63,7 +63,7 @@ public class UserAvatarControlFactory {
 
 		} else if (SiteConfiguration.isSupportS3Storage()) {
 			avatarRes = new ExternalResource(SiteConfiguration
-					.getStorageConfiguration().generateAvatarPath(avatarId,
+					.getStorageConfiguration().getAvatarPath(avatarId,
 							size));
 		}
 

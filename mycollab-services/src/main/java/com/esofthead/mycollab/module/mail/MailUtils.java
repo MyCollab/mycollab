@@ -47,7 +47,7 @@ public class MailUtils {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		return SiteConfiguration.getStorageConfiguration().generateAvatarPath(
+		return SiteConfiguration.getStorageConfiguration().getAvatarPath(
 				userAvatarId, size);
 	}
 }

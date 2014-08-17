@@ -47,7 +47,7 @@ public class FileStorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateAvatarPath(String userAvatarId, int size) {
+	public String getAvatarPath(String userAvatarId, int size) {
 		if (userAvatarId == null || "".equals(userAvatarId)) {
 			return SiteConfiguration.getSiteUrl("app") + "avatar/null/" + size;
 		}
@@ -56,7 +56,7 @@ public class FileStorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateLogoPath(String accountLogoId, int size) {
+	public String getLogoPath(String accountLogoId, int size) {
 		if (accountLogoId == null || "".equals(accountLogoId)) {
 			return MyCollabAssets.newResourceLink("icons/logo.png");
 		}
@@ -65,7 +65,7 @@ public class FileStorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateResourcePath(String documentPath) {
+	public String getResourcePath(String documentPath) {
 		return baseContentFolder.getPath() + "/" + documentPath;
 	}
 

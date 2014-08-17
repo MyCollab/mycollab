@@ -1,14 +1,9 @@
 package com.esofthead.mycollab.module.page.servlet;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageConfiguration;
+import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
 
@@ -42,7 +40,9 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		Enumeration<String> parameterNames = request.getParameterNames();
+		String path = request.getParameter("path");
+		String createdUser = request.getParameter("createdUser");
+		int sAccountId = Integer.parseInt(request.getParameter("sAccountId"));
 
 		String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
 		// http://st.f1.vnecdn.net/responsive/i/v9/graphics/img_logo_vne_web.gif
@@ -50,26 +50,30 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 		// Create path components to save the file
 		final Part filePart = request.getPart("upload");
 		final String fileName = getFileName(filePart);
-		OutputStream out = null;
 		InputStream filecontent = null;
 		final PrintWriter writer = response.getWriter();
 
 		try {
 			filecontent = filePart.getInputStream();
 
-			int read = 0;
-			final byte[] bytes = new byte[1024];
+			Content content = new Content();
+			content.setPath(path + "/" + fileName);
+			resourceService.saveContent(content, "", filecontent, 1);
 
-			while ((read = filecontent.read(bytes)) != -1) {
-				// out.write(bytes, 0, read);
+			String filePath = "";
+			StorageConfiguration storageConfiguration = SiteConfiguration
+					.getStorageConfiguration();
+			if (SiteConfiguration.isSupportFileStorage()) {
+				filePath = SiteConfiguration.getAppUrl() + "file/"
+						+ content.getPath();
+			} else if (SiteConfiguration.isSupportS3Storage()) {
+				filePath = storageConfiguration.getResourcePath(content
+						.getPath());
 			}
 
 			String responseHtml = "<html><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction('%s','%s','%s');</script></body></html>";
-			responseHtml = String
-					.format(responseHtml,
-							ckEditorFuncNum,
-							"http://st.f1.vnecdn.net/responsive/i/v9/graphics/img_logo_vne_web.gif",
-							"ABC");
+			responseHtml = String.format(responseHtml, ckEditorFuncNum,
+					filePath, "");
 			writer.write(responseHtml);
 		} catch (FileNotFoundException fne) {
 			writer.println("You either did not specify a file to upload or are "
@@ -80,9 +84,6 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 			log.error("Problems during file upload. Error: {0}",
 					new Object[] { fne.getMessage() });
 		} finally {
-			if (out != null) {
-				out.close();
-			}
 			if (filecontent != null) {
 				filecontent.close();
 			}

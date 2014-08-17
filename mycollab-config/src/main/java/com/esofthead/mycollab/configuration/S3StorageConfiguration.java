@@ -67,7 +67,7 @@ public class S3StorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateAvatarPath(String userAvatarId, int size) {
+	public String getAvatarPath(String userAvatarId, int size) {
 		String s3UrlPath = ApplicationProperties.getString(S3_DOWNLOAD_URL, "");
 		if ("".equals(s3UrlPath)) {
 			return "";
@@ -84,7 +84,7 @@ public class S3StorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateLogoPath(String accountLogoId, int size) {
+	public String getLogoPath(String accountLogoId, int size) {
 		String s3UrlPath = ApplicationProperties.getString(S3_DOWNLOAD_URL, "");
 		if ("".equals(s3UrlPath)) {
 			return "";
@@ -99,7 +99,7 @@ public class S3StorageConfiguration implements StorageConfiguration {
 	}
 
 	@Override
-	public String generateResourcePath(String documentPath) {
+	public String getResourcePath(String documentPath) {
 		String s3UrlPath = ApplicationProperties.getString(S3_DOWNLOAD_URL, "");
 		if ("".equals(s3UrlPath)) {
 			return "";

@@ -6,6 +6,7 @@ import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.I18nValueComboBox;
@@ -40,12 +41,15 @@ class PageEditFormFieldFactory<B extends Page> extends
 			config.setWidth("100%");
 
 			String appUrl = SiteConfiguration.getAppUrl();
+			String params = String.format(
+					"path=%s&createdUser=%s&sAccountId=%d", page.getPath(),
+					AppContext.getUsername(), AppContext.getAccountId());
 			if (appUrl.endsWith("/")) {
 				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
-						+ "page/upload");
+						+ "page/upload?" + params);
 			} else {
 				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
-						+ "/page/upload");
+						+ "/page/upload?" + params);
 			}
 
 			final CKEditorTextField ckEditorTextField = new CKEditorTextField(

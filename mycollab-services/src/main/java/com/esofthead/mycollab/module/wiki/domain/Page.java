@@ -16,6 +16,9 @@ public class Page extends WikiResource {
 
 	@NotBindable
 	private boolean isLock;
+	
+	@NotBindable
+	private boolean isNew=true;
 
 	private String category;
 
@@ -68,5 +71,13 @@ public class Page extends WikiResource {
 	public String getId() {
 		int index = this.path.lastIndexOf("/");
 		return (index < 0) ? this.path : this.path.substring(index + 1);
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 }

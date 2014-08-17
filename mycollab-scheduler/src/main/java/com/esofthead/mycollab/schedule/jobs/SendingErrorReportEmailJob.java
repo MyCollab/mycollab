@@ -32,6 +32,7 @@ import com.esofthead.mycollab.common.domain.ReportBugIssueExample;
 import com.esofthead.mycollab.common.domain.ReportBugIssueWithBLOBs;
 import com.esofthead.mycollab.configuration.EmailConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabVersion;
 import com.esofthead.mycollab.module.mail.DefaultMailer;
 import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.IMailer;
@@ -79,7 +80,8 @@ public class SendingErrorReportEmailJob extends QuartzJobBean {
 						null,
 						null,
 						contentGenerator
-								.generateSubjectContent("My Collab Error Report"),
+								.generateSubjectContent("My Collab Error Report "
+										+ MyCollabVersion.getVersion()),
 						contentGenerator
 								.generateBodyContent("templates/email/errorReport.mt"),
 						null);

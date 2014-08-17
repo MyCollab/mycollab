@@ -1,6 +1,5 @@
 package com.esofthead.mycollab.module.project.view.page;
 
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -93,10 +92,6 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 	private void savePage(Page page) {
 		WikiService wikiService = ApplicationContextUtil
 				.getSpringBean(WikiService.class);
-		if (page.getPath().equals("")) {
-			String pagePath = CurrentProjectVariables.getCurrentPagePath();
-			page.setPath(pagePath + "/" + StringUtils.generateSoftUniqueId());
-		}
 
 		wikiService.savePage(page, AppContext.getUsername());
 		EventBusFactory.getInstance().post(

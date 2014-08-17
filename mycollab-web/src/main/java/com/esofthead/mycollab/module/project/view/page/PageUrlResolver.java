@@ -1,9 +1,9 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.common.InvalidTokenException;
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
@@ -114,14 +114,24 @@ public class PageUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			try {
+				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new PageScreenData.Add(new Page()));
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
+				int projectId = tokenizer.getInt();
+				String pagePath = tokenizer.getRemainValue();
+
+				Page page = new Page();
+				page.setPath(pagePath + "/"
+						+ StringUtils.generateSoftUniqueId());
+
+				PageActionChain chain = new PageActionChain(
+						new ProjectScreenData.Goto(projectId),
+						new PageScreenData.Add(page));
+				EventBusFactory.getInstance().post(
+						new ProjectEvent.GotoMyProject(this, chain));
+			} catch (Exception e) {
+				throw new MyCollabException(e);
+			}
 		}
 	}
 }

@@ -434,6 +434,7 @@ public class WikiServiceImpl implements WikiService {
 			page.setCategory(NodesUtil.getString(node, "wiki:category"));
 			page.setCreatedTime(node.getProperty("jcr:created").getDate());
 			page.setCreatedUser(NodesUtil.getString(node, "wiki:createdUser"));
+			page.setNew(false);
 			return page;
 		} catch (Exception e) {
 			throw new MyCollabException(e);

@@ -27,6 +27,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
@@ -764,7 +765,16 @@ public class ProjectController implements IController {
 			public void handle(PageEvent.GotoAdd event) {
 				ProjectView projectView = ViewManager
 						.getView(ProjectView.class);
-				PageScreenData.Add data = new PageScreenData.Add(new Page());
+				String pagePath = (String) event.getData();
+				if (pagePath == null || pagePath.equals("")) {
+					pagePath = CurrentProjectVariables.getCurrentPagePath()
+							+ "/" + StringUtils.generateSoftUniqueId();
+				}
+
+				Page page = new Page();
+				page.setPath(pagePath);
+
+				PageScreenData.Add data = new PageScreenData.Add(page);
 				projectView.gotoPageView(data);
 			}
 		});

@@ -122,16 +122,16 @@
         <servlet-name>pageUploadServlet</servlet-name>
         <url-pattern>/page/upload</url-pattern>
     </servlet-mapping>
-
+    
     <servlet>
-        <display-name>DroboxCallbackServlet</display-name>
-        <servlet-name>dropboxAuthServlet</servlet-name>
+        <display-name>ResourceGetHandler</display-name>
+        <servlet-name>resourceGetHandler</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
     </servlet>
-
+    
     <servlet-mapping>
-        <servlet-name>dropboxAuthServlet</servlet-name>
-        <url-pattern>/drive/dropboxAuth</url-pattern>
+        <servlet-name>resourceGetHandler</servlet-name>
+        <url-pattern>/file</url-pattern>
     </servlet-mapping>
 
     <servlet>

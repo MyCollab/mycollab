@@ -389,8 +389,6 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 			content.setSize(node.getProperty("mycollab:size").getLong());
 			content.setCreatedUser(NodesUtil.getString(node,
 					"mycollab:createdUser"));
-			content.setContentPath(NodesUtil.getString(node,
-					"mycollab:contentPath"));
 			String contentPath = node.getPath();
 			if (contentPath.startsWith("/")) {
 				contentPath = contentPath.substring(1);

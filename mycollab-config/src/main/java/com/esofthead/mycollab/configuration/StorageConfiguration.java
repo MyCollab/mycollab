@@ -35,9 +35,9 @@ public interface StorageConfiguration {
 
 	public static final String S3_STORAGE_SYSTEM = "s3";
 
-	public String generateAvatarPath(String userAvatarId, int size);
+	public String getAvatarPath(String userAvatarId, int size);
 
-	public String generateLogoPath(String accountLogoId, int size);
+	public String getLogoPath(String accountLogoId, int size);
 
-	public String generateResourcePath(String documentPath);
+	public String getResourcePath(String documentPath);
 }

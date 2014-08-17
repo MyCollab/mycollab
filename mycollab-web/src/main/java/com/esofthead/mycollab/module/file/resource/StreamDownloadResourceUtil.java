@@ -93,10 +93,10 @@ public class StreamDownloadResourceUtil {
 				.getStorageConfiguration();
 		if (SiteConfiguration.isSupportFileStorage()) {
 			return new FileResource(new File(
-					storageConfiguration.generateResourcePath(documentPath)));
+					storageConfiguration.getResourcePath(documentPath)));
 		} else if (SiteConfiguration.isSupportS3Storage()) {
 			return new ExternalResource(
-					storageConfiguration.generateResourcePath(documentPath));
+					storageConfiguration.getResourcePath(documentPath));
 		} else {
 			throw new MyCollabException(
 					"Do not support storage system setting. Accept file or s3 only");

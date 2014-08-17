@@ -93,6 +93,12 @@ public class AttachmentUtils {
 				accountId, projectId, AttachmentType.PROJECT_TASKLIST,
 				tasklistId, AttachmentType.COMMON_COMMENT, commentId);
 	}
+	
+	public static String getProjectPageAttachmentPath(int accountId,
+			int projectId, String taskId) {
+		return String.format("%d/project/%d/.attachments/%s/%s", accountId,
+				projectId, AttachmentType.PROJECT_PAGE, taskId);
+	}
 
 	public static String getProjectPageCommentAttachmentPath(int accountId,
 			int projectId, String pageId, int commentId) {
