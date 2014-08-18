@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.user.view;
 
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -43,6 +44,7 @@ public class ForgotPasswordPresenter extends
 
 		windowContainer.addComponent(view.getWidget());
 
-		AppContext.addFragment("user/forgotpassword", "Forgot Password");
+		AppContext.addFragment("user/forgotpassword", AppContext
+				.getMessage(ShellI18nEnum.OPT_FORGOT_PASSWORD_VIEW_TITLE));
 	}
 }

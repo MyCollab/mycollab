@@ -41,8 +41,6 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		String path = request.getParameter("path");
-		String createdUser = request.getParameter("createdUser");
-		int sAccountId = Integer.parseInt(request.getParameter("sAccountId"));
 
 		String ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
 		// http://st.f1.vnecdn.net/responsive/i/v9/graphics/img_logo_vne_web.gif

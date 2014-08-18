@@ -24,6 +24,8 @@ public class Page extends WikiResource {
 
 	private String status;
 	
+	private String lastUpdatedUser;
+	
 	public Page() {
 		super();
 	}
@@ -79,5 +81,13 @@ public class Page extends WikiResource {
 
 	public void setNew(boolean isNew) {
 		this.isNew = isNew;
+	}
+
+	public String getLastUpdatedUser() {
+		return lastUpdatedUser;
+	}
+
+	public void setLastUpdatedUser(String lastUpdatedUser) {
+		this.lastUpdatedUser = lastUpdatedUser;
 	}
 }

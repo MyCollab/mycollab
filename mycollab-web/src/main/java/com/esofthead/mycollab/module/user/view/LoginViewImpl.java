@@ -16,11 +16,13 @@
  */
 package com.esofthead.mycollab.module.user.view;
 
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.jetty.GenericServerRunner;
 import com.esofthead.mycollab.module.user.events.UserEvent.PlainLogin;
 import com.esofthead.mycollab.shell.events.ShellEvent;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -64,11 +66,13 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 			final CustomLayout custom = CustomLayoutLoader
 					.createLayout("loginForm");
 			custom.addStyleName("customLoginForm");
-			usernameField = new TextField("Email address");
+			usernameField = new TextField(
+					AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
 
 			custom.addComponent(usernameField, "usernameField");
 
-			passwordField = new PasswordField("Password");
+			passwordField = new PasswordField(
+					AppContext.getMessage(ShellI18nEnum.FORM_PASSWORD));
 			StringLengthValidator passwordValidator = new StringLengthValidator(
 					"Password length must be greater than 6", 6,
 					Integer.MAX_VALUE, false);
@@ -103,37 +107,42 @@ public class LoginViewImpl extends AbstractPageView implements LoginView {
 
 			custom.addComponent(passwordField, "passwordField");
 
-			rememberMe = new CheckBox("Remember me for a week", false);
+			rememberMe = new CheckBox(
+					AppContext.getMessage(ShellI18nEnum.OPT_REMEMBER_PASSWORD),
+					false);
 			custom.addComponent(rememberMe, "rememberMe");
 
-			Button loginBtn = new Button("Sign In", new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
+			Button loginBtn = new Button(
+					AppContext.getMessage(ShellI18nEnum.BUTTON_LOG_IN),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void buttonClick(ClickEvent event) {
-					try {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							try {
 
-						custom.removeComponent("customErrorMsg");
+								custom.removeComponent("customErrorMsg");
 
-						LoginViewImpl.this.fireEvent(new ViewEvent<PlainLogin>(
-								LoginViewImpl.this, new PlainLogin(
-										usernameField.getValue(), passwordField
-												.getValue(), rememberMe
-												.getValue())));
-					} catch (MyCollabException e) {
-						custom.addComponent(new Label(e.getMessage()),
-								"customErrorMsg");
+								LoginViewImpl.this.fireEvent(new ViewEvent<PlainLogin>(
+										LoginViewImpl.this, new PlainLogin(
+												usernameField.getValue(),
+												passwordField.getValue(),
+												rememberMe.getValue())));
+							} catch (MyCollabException e) {
+								custom.addComponent(new Label(e.getMessage()),
+										"customErrorMsg");
 
-					} catch (Exception e) {
-						throw new MyCollabException(e);
-					}
-				}
-			});
+							} catch (Exception e) {
+								throw new MyCollabException(e);
+							}
+						}
+					});
 
 			loginBtn.setStyleName(UIConstants.THEME_ORANGE_LINK);
 			custom.addComponent(loginBtn, "loginButton");
 
-			Button forgotPasswordBtn = new Button("Forgot your password?",
+			Button forgotPasswordBtn = new Button(
+					AppContext.getMessage(ShellI18nEnum.BUTTON_FORGOT_PASSWORD),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

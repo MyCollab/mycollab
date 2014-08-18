@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.shell.view;
 
-import com.esofthead.mycollab.shell.i18n.ShellI18nEnum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.web.CustomLayoutExt;

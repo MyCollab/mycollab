@@ -14,20 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.user.view;
+package com.esofthead.mycollab.common.i18n;
 
-import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
-/**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- * 
- */
-@ViewComponent
-public class SendEmailVerificationSuccessViewImpl extends AbstractPageView
-		implements SendEmailVerificationSuccessView {
-	private static final long serialVersionUID = 1L;
-
+@BaseName("localization/common/shell")
+@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+public enum ShellI18nEnum {
+	BUTTON_BACK_HOME_PAGE,
+	BUTTON_RESET_PASSWORD,
+	BUTTON_LOG_IN,
+	BUTTON_FORGOT_PASSWORD,
+	NO_SUB_DOMAIN_ERROR,
+	BACK_TO_HOME_PAGE,
+	OPT_FORGOT_PASSWORD_VIEW_TITLE,
+	OPT_EMAIL_SENDER_NOTIFICATION,
+	OPT_REMEMBER_PASSWORD,
+	FORM_EMAIL,
+	FORM_PASSWORD
 }

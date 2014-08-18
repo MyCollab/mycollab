@@ -19,12 +19,15 @@ package com.esofthead.mycollab.module.user.view;
 
 import com.esofthead.mycollab.common.dao.RelayEmailMapper;
 import com.esofthead.mycollab.common.domain.RelayEmailWithBLOBs;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.ShellI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.domain.User;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.schedule.email.user.SendingRecoveryPasswordEmailAction;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
@@ -60,10 +63,12 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 					.createLayout("forgotPassword");
 			customLayout.setStyleName("forgotPwdForm");
 
-			nameOrEmailField = new TextField("Username");
+			nameOrEmailField = new TextField(
+					AppContext.getMessage(ShellI18nEnum.FORM_EMAIL));
 			customLayout.addComponent(nameOrEmailField, "nameoremail");
 
-			Button sendEmail = new Button("Send verification email");
+			Button sendEmail = new Button(
+					AppContext.getMessage(ShellI18nEnum.BUTTON_RESET_PASSWORD));
 			sendEmail.setStyleName(UIConstants.THEME_ORANGE_LINK);
 			sendEmail.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
@@ -76,16 +81,19 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 					User user = userService.findUserByUserName(username);
 
 					if (user == null) {
-						NotificationUtil
-								.showErrorNotification("User is not existed");
+						NotificationUtil.showErrorNotification(AppContext
+								.getMessage(
+										GenericI18Enum.ERROR_USER_IS_NOT_EXISTED,
+										username));
 						return;
 					} else {
 						String hideEmailStr = user.getEmail();
 						hideEmailStr = "***"
 								+ hideEmailStr.substring(hideEmailStr
 										.indexOf("@") - 1);
-						String remindStr = "An email for reset password has sent to you: "
-								+ hideEmailStr;
+						String remindStr = AppContext.getMessage(
+								ShellI18nEnum.OPT_EMAIL_SENDER_NOTIFICATION,
+								hideEmailStr);
 
 						RelayEmailWithBLOBs relayEmail = new RelayEmailWithBLOBs();
 						relayEmail.setRecipients(username);
@@ -109,7 +117,7 @@ public class ForgotPasswordViewImpl extends AbstractPageView implements
 			customLayout.addComponent(sendEmail, "loginButton");
 
 			Button memoBackBtn = new Button(
-					"<<< No thanks, memory's back! Magika!!!");
+					AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_HOME_PAGE));
 			memoBackBtn.setStyleName(UIConstants.THEME_LINK);
 			memoBackBtn.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;

@@ -369,7 +369,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		AppContext.addFragment(
 				ProjectLinkGenerator.generatePageRead(project.getId(),
 						page.getPath()),
-				AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE));
+				AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE));
 	}
 
 	public void gotoPageEdit(Page page) {

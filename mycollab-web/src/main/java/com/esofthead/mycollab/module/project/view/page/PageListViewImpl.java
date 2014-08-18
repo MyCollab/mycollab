@@ -2,6 +2,8 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import java.util.List;
 
+import org.vaadin.peter.buttongroup.ButtonGroup;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -77,6 +79,49 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		UiUtils.addComponent(headerLayout, titleIcon, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(headerLayout, headerText, Alignment.MIDDLE_LEFT);
 		headerLayout.setExpandRatio(headerText, 1.0f);
+
+		Label sortLbl = new Label(
+				AppContext.getMessage(Page18InEnum.OPT_SORT_LABEL));
+		UiUtils.addComponent(headerLayout, sortLbl, Alignment.MIDDLE_RIGHT);
+
+		ButtonGroup sortGroup = new ButtonGroup();
+		UiUtils.addComponent(headerLayout, sortGroup, Alignment.MIDDLE_RIGHT);
+
+		Button sortDateBtn = new Button(
+				AppContext.getMessage(Page18InEnum.OPT_SORT_BY_DATE),
+				new ClickListener() {
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		sortGroup.addButton(sortDateBtn);
+
+		Button sortNameBtn = new Button(
+				AppContext.getMessage(Page18InEnum.OPT_SORT_BY_NAME),
+				new ClickListener() {
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		sortGroup.addButton(sortNameBtn);
+
+		Button sortKindBtn = new Button(
+				AppContext.getMessage(Page18InEnum.OPT_SORT_BY_KIND),
+				new ClickListener() {
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		sortGroup.addButton(sortKindBtn);
 
 		final Button newGroupBtn = new Button(
 				AppContext.getMessage(Page18InEnum.BUTTON_NEW_GROUP),

@@ -10,7 +10,6 @@ import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
-import com.esofthead.mycollab.module.project.i18n.RiskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
@@ -55,7 +54,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 	private PageInfoComp pageInfoComp;
 
 	public PageReadViewImpl() {
-		super(AppContext.getMessage(RiskI18nEnum.FORM_READ_TITLE),
+		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE),
 				MyCollabResource
 						.newResource("icons/22/project/page_selected.png"));
 	}
