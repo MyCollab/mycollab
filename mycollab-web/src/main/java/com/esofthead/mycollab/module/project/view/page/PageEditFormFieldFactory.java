@@ -18,12 +18,12 @@ import com.vaadin.ui.Field;
  * @since 4.4.0
  *
  */
-class PageEditFormFieldFactory<B extends Page> extends
-		AbstractBeanFieldGroupEditFieldFactory<B> {
+class PageEditFormFieldFactory extends
+		AbstractBeanFieldGroupEditFieldFactory<Page> {
 
 	private static final long serialVersionUID = 1L;
 
-	PageEditFormFieldFactory(GenericBeanForm<B> form) {
+	PageEditFormFieldFactory(GenericBeanForm<Page> form) {
 		super(form);
 	}
 

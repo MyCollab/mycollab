@@ -16,15 +16,15 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
-import java.util.List;
+import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
-import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -44,9 +44,11 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -66,28 +68,118 @@ public class MyProjectListComponent extends Depot {
 	private ProjectPagedList projectList;
 
 	public MyProjectListComponent() {
-		super(AppContext
-				.getMessage(ProjectCommonI18nEnum.WIDGET_MY_PROJECTS_TITLE),
-				new VerticalLayout());
+		super("", null, new VerticalLayout(), "565", "200");
 
 		this.projectList = new ProjectPagedList();
 		this.addStyleName("activity-panel");
 		this.addStyleName("myprojectlist");
 		((VerticalLayout) this.bodyContent).setMargin(false);
+
+		final PopupButton projectsPopup = new PopupButton("");
+		projectsPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
+		projectsPopup.setIcon(MyCollabResource
+				.newResource("icons/12/project/task_filter.png"));
+
+		final VerticalLayout filterBtnLayout = new VerticalLayout();
+		filterBtnLayout.setMargin(true);
+		filterBtnLayout.setSpacing(true);
+		filterBtnLayout.setWidth("200px");
+
+		Button allProjectsBtn = new Button(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						displayAllProjects();
+						projectsPopup.setPopupVisible(false);
+					}
+				});
+		allProjectsBtn.setStyleName("link");
+		filterBtnLayout.addComponent(allProjectsBtn);
+
+		Button activeProjectsBtn = new Button(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						displayActiveProjects();
+						projectsPopup.setPopupVisible(false);
+					}
+				});
+		activeProjectsBtn.setStyleName("link");
+		filterBtnLayout.addComponent(activeProjectsBtn);
+
+		Button archiveProjectsBtn = new Button(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS),
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(ClickEvent event) {
+						displayArchiveProjects();
+						projectsPopup.setPopupVisible(false);
+					}
+				});
+		archiveProjectsBtn.setStyleName("link");
+		filterBtnLayout.addComponent(archiveProjectsBtn);
+
+		projectsPopup.setContent(filterBtnLayout);
+		this.addHeaderElement(projectsPopup);
+
+		this.bodyContent.addComponent(this.projectList);
 	}
 
-	public void showProjects(final List<Integer> prjKeys) {
-		this.bodyContent.removeAllComponents();
-		this.bodyContent.addComponent(this.projectList);
+	public void displayDefaultProjectsList() {
+		displayActiveProjects();
+	}
+
+	private void displayAllProjects() {
+		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+				AppContext.getUsername()));
+		this.projectList.setSearchCriteria(searchCriteria);
+
+		int totalCount = this.projectList.getTotalCount(searchCriteria);
+		this.setTitle(AppContext.getMessage(
+				ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, totalCount));
+	}
+
+	private void displayActiveProjects() {
 		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		this.projectList.setSearchCriteria(searchCriteria);
+
+		int totalCount = this.projectList.getTotalCount(searchCriteria);
+		this.setTitle(AppContext.getMessage(
+				ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, totalCount));
 	}
 
-	public static class ProjectPagedList extends
+	private void displayArchiveProjects() {
+		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+				AppContext.getUsername()));
+		searchCriteria.setProjectStatuses(new SetSearchField<String>(
+				new String[] { StatusI18nEnum.Archived.name() }));
+		this.projectList.setSearchCriteria(searchCriteria);
+
+		int totalCount = this.projectList.getTotalCount(searchCriteria);
+		this.setTitle(AppContext
+				.getMessage(
+						ProjectCommonI18nEnum.WIDGET_ARCHIVE_PROJECTS_TITLE,
+						totalCount));
+	}
+
+	static class ProjectPagedList extends
 			BeanList<ProjectService, ProjectSearchCriteria, SimpleProject> {
 		private static final long serialVersionUID = 1L;
 

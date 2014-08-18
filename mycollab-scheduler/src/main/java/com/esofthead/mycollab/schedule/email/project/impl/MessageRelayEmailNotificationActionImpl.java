@@ -56,6 +56,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private MessageService messageService;
+	
 	@Autowired
 	private ProjectService projectService;
 

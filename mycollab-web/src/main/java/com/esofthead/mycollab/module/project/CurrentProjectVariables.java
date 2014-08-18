@@ -112,6 +112,10 @@ public class CurrentProjectVariables {
 		return false;
 	}
 
+	public static boolean isProjectArchived() {
+		return getProject().isProjectArchived();
+	}
+
 	public static boolean canRead(String permissionItem) {
 		if (isAdmin()) {
 			return true;
@@ -132,6 +136,10 @@ public class CurrentProjectVariables {
 	}
 
 	public static boolean canWrite(String permissionItem) {
+		if (isProjectArchived()) {
+			return false;
+		}
+		
 		if (isAdmin()) {
 			return true;
 		}
@@ -151,6 +159,10 @@ public class CurrentProjectVariables {
 	}
 
 	public static boolean canAccess(String permissionItem) {
+		if (isProjectArchived()) {
+			return false;
+		}
+		
 		if (isAdmin()) {
 			return true;
 		}

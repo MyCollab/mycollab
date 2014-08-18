@@ -1,10 +1,13 @@
 package com.esofthead.mycollab.schedule.email.project.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
@@ -21,22 +24,23 @@ public class ProjectPageRelayEmailNotificationActionImpl extends
 		SendMailToAllMembersAction<Page> implements
 		ProjectPageRelayEmailNotificationAction {
 
+	@Autowired
+	private WikiService wikiService;
+
 	@Override
 	protected Page getBeanInContext(MailContext<Page> context) {
-		// TODO Auto-generated method stub
-		return null;
+		return wikiService.getPage(context.getTypeid());
 	}
 
 	@Override
 	protected void buildExtraTemplateVariables(MailContext<Page> context) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected String getItemName() {
-		// TODO Auto-generated method stub
-		return null;
+		return StringUtils.trim(bean.getSubject(), 100);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.esofthead.mycollab.module.wiki.domain;
 
+import java.util.Date;
+
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
 /**
@@ -25,6 +27,8 @@ public class Page extends WikiResource {
 	private String status;
 	
 	private String lastUpdatedUser;
+	
+	private Date lastUpdatedTime;
 	
 	public Page() {
 		super();
@@ -89,5 +93,13 @@ public class Page extends WikiResource {
 
 	public void setLastUpdatedUser(String lastUpdatedUser) {
 		this.lastUpdatedUser = lastUpdatedUser;
+	}
+
+	public Date getLastUpdatedTime() {
+		return lastUpdatedTime;
+	}
+
+	public void setLastUpdatedTime(Date lastUpdatedTime) {
+		this.lastUpdatedTime = lastUpdatedTime;
 	}
 }

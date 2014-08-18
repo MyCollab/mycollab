@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.domain;
 
 import com.esofthead.mycollab.common.domain.Currency;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
 public class SimpleProject extends Project {
@@ -41,17 +42,17 @@ public class SimpleProject extends Project {
 	private int numOpenRisks;
 
 	private int numRisks;
-	
+
 	private int numActiveMembers;
-	
+
 	private int numClosedPhase;
-	
+
 	private int numInProgressPhase;
-	
+
 	private int numFuturePhase;
-	
+
 	private double totalBillableHours;
-	
+
 	private double totalNonBillableHours;
 
 	@NotBindable
@@ -191,5 +192,9 @@ public class SimpleProject extends Project {
 
 	public void setTotalNonBillableHours(double totalNonBillableHours) {
 		this.totalNonBillableHours = totalNonBillableHours;
+	}
+
+	public boolean isProjectArchived() {
+		return StatusI18nEnum.Archived.name().equals(this.getProjectstatus());
 	}
 }

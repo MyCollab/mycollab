@@ -349,15 +349,11 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				chartDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 				displayAdvancedView();
 			}
 		});
 		advanceDisplay.setIcon(MyCollabResource
 				.newResource("icons/16/project/advanced_display.png"));
-		advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 		advanceDisplay.setDescription(AppContext
 				.getMessage(TaskGroupI18nEnum.ADVANCED_VIEW_TOOLTIP));
 
@@ -366,9 +362,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				chartDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 				displaySimpleView();
 			}
 		});
@@ -382,9 +375,6 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-				chartDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 				displayGanttChartView();
 			}
 		});
@@ -395,6 +385,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		viewButtons.addButton(simpleDisplay);
 		viewButtons.addButton(advanceDisplay);
 		viewButtons.addButton(chartDisplay);
+		viewButtons.setDefaultButton(advanceDisplay);
 
 		mainLayout = new HorizontalLayout();
 		mainLayout.setSizeFull();
@@ -546,8 +537,8 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	}
 
 	void moveToTaskSearch(TaskFilterParameter taskFilter) {
-		EventBusFactory.getInstance()
-				.post(new TaskEvent.Search(this, taskFilter));
+		EventBusFactory.getInstance().post(
+				new TaskEvent.Search(this, taskFilter));
 	};
 
 	private void displayTaskStatistic() {

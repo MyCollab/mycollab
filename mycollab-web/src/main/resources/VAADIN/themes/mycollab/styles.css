@@ -7033,3 +7033,74 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	font-weight: bold;
 	padding-top: 15px;
 }
+
+/* Pages List View */
+.pages-list-layout {
+	padding-top: 12px;
+}
+.pages-list-layout:after {
+	content: "";
+	width: 100%;
+	border-bottom: 1px solid #C8C8C8;
+	display: block;
+}
+.pages-list-layout .page-item-block {
+	border-top: 1px solid #C8C8C8;
+	padding: 12px 0px;
+}
+.pages-list-layout .page-item-block .h3 .v-button-caption {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 1.5em;
+}
+.pages-list-layout .page-item-block .control-btns {
+	padding-top: 5px;
+}
+.pages-list-layout .page-item-block .control-btns .link .v-button-wrap .v-icon {
+	vertical-align: middle;
+}
+.pages-list-layout .page-item-block .control-btns .link .v-button-caption {
+	vertical-align: middle;
+	color: rgb(138, 138, 138);
+}
+.pages-list-layout .page-item-block .control-btns .link:hover .v-button-caption {
+	color: rgb(68, 68, 68);
+}
+.pages-list-layout .page-item-block .last-update-info {
+	padding-top: 3px;
+}
+.pages-list-layout .page-item-block .last-update-info, .pages-list-layout .page-item-block .last-update-info a {
+	color: rgb(138, 138, 138);
+	text-decoration: none;
+	font-size: 11px;
+}
+
+/* Page Read View */
+.page-read-layout {
+	border-bottom: 1px solid rgb(207, 207, 207);
+}
+
+/* Sort button group */
+.v-buttongroup.toggle-btn-group .v-button.sort-btn {
+	position: relative;
+}
+
+.v-buttongroup.toggle-btn-group .v-button.sort-btn.active .v-button-wrap,
+.v-buttongroup.toggle-btn-group .v-button.sort-btn.active:active .v-button-wrap,
+.v-buttongroup.toggle-btn-group .v-button.sort-btn.active:focus .v-button-wrap {
+	padding: 6px 20px 6px 10px;
+}
+.v-buttongroup.toggle-btn-group .v-button.sort-btn.active:after {
+	content: "";
+	position: absolute;
+	width: 22px;
+	height: 30px;
+	background-image: url('icons/sort-icons.png');
+	background-position: left -30px;
+	background-repeat: no-repeat;
+	right: 0px;
+	top: 0px;
+}
+.v-buttongroup.toggle-btn-group .v-button.sort-btn.active.asc:after {
+	background-position: left top;
+}

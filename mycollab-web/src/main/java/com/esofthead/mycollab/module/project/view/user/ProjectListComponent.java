@@ -21,6 +21,7 @@ import java.util.List;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -137,7 +137,7 @@ public class ProjectListComponent extends VerticalLayout {
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		this.projectList.setSearchCriteria(searchCriteria);
 		this.headerPopupButton.setCaption(CurrentProjectVariables.getProject()
 				.getName());

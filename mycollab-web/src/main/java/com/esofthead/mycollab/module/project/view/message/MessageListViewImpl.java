@@ -665,9 +665,10 @@ public class MessageListViewImpl extends AbstractPageView implements
 							MessageListViewImpl.this.createAddMessageLayout();
 						}
 					});
+			createMessageBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.MESSAGES));
 
 			HorizontalLayout links = new HorizontalLayout();
-
 			links.addComponent(createMessageBtn);
 			createMessageBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 			links.setSpacing(true);

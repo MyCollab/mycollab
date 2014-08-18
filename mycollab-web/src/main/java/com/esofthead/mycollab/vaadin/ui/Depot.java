@@ -20,6 +20,7 @@ import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -41,26 +42,27 @@ public class Depot extends VerticalLayout {
 	private boolean isOpenned = true;
 	protected HorizontalLayout header;
 	protected final Label headerLbl;
-	protected ComponentContainer headerContent;
+	protected AbstractOrderedLayout headerContent;
 	protected ComponentContainer bodyContent;
 
 	public Depot(final String title, final ComponentContainer component) {
 		this(title, null, component);
 	}
 
-	public Depot(final String title, final ComponentContainer headerElement,
+	public Depot(final String title, final AbstractOrderedLayout headerElement,
 			final ComponentContainer component) {
 		this(new Label(title), headerElement, component, "100%", "100%");
 	}
 
-	public Depot(final String title, final ComponentContainer headerElement,
+	public Depot(final String title, final AbstractOrderedLayout headerElement,
 			final ComponentContainer component, final String headerWidth,
 			final String headerLeftWidth) {
 		this(new Label(title), headerElement, component, headerWidth,
 				headerLeftWidth);
 	}
 
-	public Depot(final Label titleLbl, final ComponentContainer headerElement,
+	public Depot(final Label titleLbl,
+			final AbstractOrderedLayout headerElement,
 			final ComponentContainer component, final String headerWidth,
 			final String headerLeftWidth) {
 		this.setStyleName("depotComp");
@@ -136,6 +138,8 @@ public class Depot extends VerticalLayout {
 	public void addHeaderElement(final Component component) {
 		if (component != null) {
 			this.headerContent.addComponent(component);
+			this.headerContent.setComponentAlignment(component,
+					Alignment.MIDDLE_RIGHT);
 			this.headerContent.setVisible(true);
 		}
 	}

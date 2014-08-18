@@ -602,7 +602,8 @@ public class ProjectTooltipGenerator {
 			Td cell12 = buildCellLink(homepageLink, project.getHomepage());
 			Td cell13 = buildCellName(LocalizationHelper.getMessage(locale,
 					ProjectI18nEnum.FORM_STATUS));
-			Td cell14 = buildCellValue(project.getProjectstatus());
+			Td cell14 = buildCellValue(LocalizationHelper.getMessage(locale,
+					StatusI18nEnum.class, project.getProjectstatus()));
 			trRow1.appendChild(cell11, cell12, cell13, cell14);
 
 			Tr trRow2 = new Tr();

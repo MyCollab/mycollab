@@ -26,27 +26,19 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class ProjectEvent {
 
-    public static class GotoEdit extends ApplicationEvent {
+	public static class GotoEdit extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;
 
 		public GotoEdit(Object source, Object data) {
-            super(source, data);
-        }
-    }
+			super(source, data);
+		}
+	}
 
-    public static class GetMyProjects extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
-
-		public GetMyProjects(Object source, Object data) {
-            super(source, data);
-        }
-    }
-
-    public static class GotoMyProject extends ApplicationEvent {
+	public static class GotoMyProject extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;
 
 		public GotoMyProject(Object source, Object data) {
-            super(source, data);
-        }
-    }
+			super(source, data);
+		}
+	}
 }

@@ -215,7 +215,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 				AppContext.getAccountId());
 		if (prjKeys != null && !prjKeys.isEmpty()) {
 			this.activityStreamComponent.showFeeds(prjKeys);
-			this.myProjectListComponent.showProjects(prjKeys);
+			this.myProjectListComponent.displayDefaultProjectsList();
 			displayFollowingTicketsCount();
 		}
 

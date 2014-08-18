@@ -16,11 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -291,7 +291,7 @@ public class MyProjectListWindow extends Window {
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		this.projectList.setSearchCriteria(searchCriteria);
 	}
 

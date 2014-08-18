@@ -124,8 +124,6 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					advanceDisplay.addStyleName(UIConstants.BTN_ACTIVE);
-					simpleDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
 					displayAdvancedView();
 				}
 			});
@@ -138,8 +136,6 @@ public class MilestoneTaskGroupListComp extends VerticalLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					advanceDisplay.removeStyleName(UIConstants.BTN_ACTIVE);
-					simpleDisplay.addStyleName(UIConstants.BTN_ACTIVE);
 					displaySimpleView();
 
 				}

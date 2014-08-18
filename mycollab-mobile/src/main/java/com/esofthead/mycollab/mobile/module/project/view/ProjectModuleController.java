@@ -1,11 +1,11 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.IController;
@@ -50,21 +50,23 @@ public class ProjectModuleController implements IController {
 				criteria.setInvolvedMember(new StringSearchField(AppContext
 						.getUsername()));
 				criteria.setProjectStatuses(new SetSearchField<String>(
-						new String[] { ProjectStatusConstants.OPEN }));
+						new String[] { StatusI18nEnum.Open.name() }));
 				presenter.go(navManager,
 						new ScreenData.Search<ProjectSearchCriteria>(criteria));
 			}
 		});
-        eventBus.register(new ApplicationEventListener<ProjectEvent.GotoMyProject>() {
-            private static final long serialVersionUID = 2554670937118159116L;
+		eventBus.register(new ApplicationEventListener<ProjectEvent.GotoMyProject>() {
+			private static final long serialVersionUID = 2554670937118159116L;
 
-            @Subscribe
-            @Override
-            public void handle(ProjectEvent.GotoMyProject event) {
-                ProjectViewPresenter presenter = PresenterResolver.getPresenter(ProjectViewPresenter.class);
-                presenter.handleChain(navManager, (PageActionChain) event.getData());
-            }
-        });
+			@Subscribe
+			@Override
+			public void handle(ProjectEvent.GotoMyProject event) {
+				ProjectViewPresenter presenter = PresenterResolver
+						.getPresenter(ProjectViewPresenter.class);
+				presenter.handleChain(navManager,
+						(PageActionChain) event.getData());
+			}
+		});
 	}
 
 }

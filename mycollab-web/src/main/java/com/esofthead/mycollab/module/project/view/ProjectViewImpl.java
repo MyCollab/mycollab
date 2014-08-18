@@ -23,6 +23,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -123,7 +124,6 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private UserSettingPresenter userPresenter;
 	private IStandupPresenter standupPresenter;
 	private ProjectBreadcrumb breadCrumb;
-	private PopupButton controlsBtn;
 	private ProjectListComponent prjList;
 
 	private void buildComponents() {
@@ -444,162 +444,128 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 		breadCrumb.setProject(project);
 
-		controlsBtn = new PopupButton();
-		controlsBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/quick_action_edited.png"));
-		controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
-
-		VerticalLayout popupButtonsControl = new VerticalLayout();
-		popupButtonsControl.setSpacing(true);
-		popupButtonsControl.setWidth("150px");
-
-		Button createPhaseBtn = new Button(
-				AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoAdd(
-										ProjectViewImpl.this, null));
-					}
-				});
-		createPhaseBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.MILESTONES));
-		createPhaseBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/milestone.png"));
-		createPhaseBtn.setStyleName("link");
-		popupButtonsControl.addComponent(createPhaseBtn);
-
-		Button createBugBtn = new Button(
-				AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new BugEvent.GotoAdd(this, null));
-					}
-				});
-		createBugBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.BUGS));
-		createBugBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/bug.png"));
-		createBugBtn.setStyleName("link");
-		popupButtonsControl.addComponent(createBugBtn);
-
-		Button createRiskBtn = new Button(
-				AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new RiskEvent.GotoAdd(this, null));
-					}
-				});
-		createRiskBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.RISKS));
-		createRiskBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/risk.png"));
-		createRiskBtn.setStyleName("link");
-		popupButtonsControl.addComponent(createRiskBtn);
-
-		Button createProblemBtn = new Button(
-				AppContext.getMessage(ProblemI18nEnum.BUTTON_NEW_PROBLEM),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						EventBusFactory.getInstance().post(
-								new ProblemEvent.GotoAdd(this, null));
-					}
-				});
-		createProblemBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.PROBLEMS));
-		createProblemBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/problem.png"));
-		createProblemBtn.setStyleName("link");
-		popupButtonsControl.addComponent(createProblemBtn);
-
-		Button editProjectBtn = new Button(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						dashboardPresenter.go(ProjectViewImpl.this,
-								new ProjectScreenData.Edit(project));
-					}
-				});
-		editProjectBtn.setEnabled(CurrentProjectVariables
-				.canWrite(ProjectRolePermissionCollections.PROJECT));
-		editProjectBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/edit.png"));
-		editProjectBtn.setStyleName("link");
-		popupButtonsControl.addComponent(editProjectBtn);
-
-		Button archieveProjectBtn = new Button(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECT),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(ClickEvent event) {
-						controlsBtn.setPopupVisible(false);
-						ConfirmDialogExt.show(
-								UI.getCurrent(),
-								AppContext.getMessage(
-										GenericI18Enum.WINDOW_WARNING_TITLE,
-										SiteConfiguration.getSiteName()),
-								AppContext
-										.getMessage(ProjectCommonI18nEnum.DIALOG_ARCHIVE_PROJECT_TITLE),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
-								new ConfirmDialog.Listener() {
-									private static final long serialVersionUID = 1L;
-
-									@Override
-									public void onClose(ConfirmDialog dialog) {
-										if (dialog.isConfirmed()) {
-											ProjectService projectService = ApplicationContextUtil
-													.getSpringBean(ProjectService.class);
-											// TODO: set project status is
-											// archieve
-											EventBusFactory
-													.getInstance()
-													.post(new ShellEvent.GotoProjectModule(
-															this, null));
-										}
-									}
-								});
-					}
-				});
-		archieveProjectBtn.setEnabled(CurrentProjectVariables
-				.canAccess(ProjectRolePermissionCollections.PROJECT));
-		archieveProjectBtn.setIcon(MyCollabResource
-				.newResource("icons/16/project/archive.png"));
-		archieveProjectBtn.setStyleName("link");
-		popupButtonsControl.addComponent(archieveProjectBtn);
-
-		if (CurrentProjectVariables
-				.canAccess(ProjectRolePermissionCollections.PROJECT)) {
-			Button deleteProjectBtn = new Button(
+		if (project.isProjectArchived()) {
+			Button activeProjectBtn = new Button(
 					AppContext
-							.getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
+							.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT));
+			activeProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+			topPanel.addComponent(activeProjectBtn);
+			topPanel.setComponentAlignment(activeProjectBtn,
+					Alignment.MIDDLE_RIGHT);
+
+		} else {
+			final PopupButton controlsBtn = new PopupButton();
+			controlsBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/quick_action_edited.png"));
+			controlsBtn.addStyleName(UIConstants.THEME_BLANK_LINK);
+
+			VerticalLayout popupButtonsControl = new VerticalLayout();
+			popupButtonsControl.setSpacing(true);
+			popupButtonsControl.setWidth("150px");
+
+			Button createPhaseBtn = new Button(
+					AppContext.getMessage(MilestoneI18nEnum.BUTTON_NEW_PHASE),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							EventBusFactory.getInstance().post(
+									new MilestoneEvent.GotoAdd(
+											ProjectViewImpl.this, null));
+						}
+					});
+			createPhaseBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.MILESTONES));
+			createPhaseBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/milestone.png"));
+			createPhaseBtn.setStyleName("link");
+			popupButtonsControl.addComponent(createPhaseBtn);
+
+			Button createBugBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_NEW_BUG),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							EventBusFactory.getInstance().post(
+									new BugEvent.GotoAdd(this, null));
+						}
+					});
+			createBugBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.BUGS));
+			createBugBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/bug.png"));
+			createBugBtn.setStyleName("link");
+			popupButtonsControl.addComponent(createBugBtn);
+
+			Button createRiskBtn = new Button(
+					AppContext.getMessage(RiskI18nEnum.BUTTON_NEW_RISK),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							EventBusFactory.getInstance().post(
+									new RiskEvent.GotoAdd(this, null));
+						}
+					});
+			createRiskBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.RISKS));
+			createRiskBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/risk.png"));
+			createRiskBtn.setStyleName("link");
+			popupButtonsControl.addComponent(createRiskBtn);
+
+			Button createProblemBtn = new Button(
+					AppContext.getMessage(ProblemI18nEnum.BUTTON_NEW_PROBLEM),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							EventBusFactory.getInstance().post(
+									new ProblemEvent.GotoAdd(this, null));
+						}
+					});
+			createProblemBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.PROBLEMS));
+			createProblemBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/problem.png"));
+			createProblemBtn.setStyleName("link");
+			popupButtonsControl.addComponent(createProblemBtn);
+
+			Button editProjectBtn = new Button(
+					AppContext
+							.getMessage(ProjectCommonI18nEnum.BUTTON_EDIT_PROJECT),
+					new Button.ClickListener() {
+						@Override
+						public void buttonClick(ClickEvent event) {
+							controlsBtn.setPopupVisible(false);
+							dashboardPresenter.go(ProjectViewImpl.this,
+									new ProjectScreenData.Edit(project));
+						}
+					});
+			editProjectBtn.setEnabled(CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.PROJECT));
+			editProjectBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/edit.png"));
+			editProjectBtn.setStyleName("link");
+			popupButtonsControl.addComponent(editProjectBtn);
+
+			Button archieveProjectBtn = new Button(
+					AppContext
+							.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECT),
 					new Button.ClickListener() {
 						@Override
 						public void buttonClick(ClickEvent event) {
 							controlsBtn.setPopupVisible(false);
 							ConfirmDialogExt.show(
 									UI.getCurrent(),
-									AppContext.getMessage(
-											GenericI18Enum.DIALOG_DELETE_TITLE,
-											SiteConfiguration.getSiteName()),
 									AppContext
-											.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
+											.getMessage(
+													GenericI18Enum.WINDOW_WARNING_TITLE,
+													SiteConfiguration
+															.getSiteName()),
+									AppContext
+											.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
 									AppContext
 											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
 									AppContext
@@ -612,13 +578,14 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 											if (dialog.isConfirmed()) {
 												ProjectService projectService = ApplicationContextUtil
 														.getSpringBean(ProjectService.class);
-												projectService.removeWithSession(
-														CurrentProjectVariables
-																.getProjectId(),
-														AppContext
-																.getUsername(),
-														AppContext
-																.getAccountId());
+												project.setProjectstatus(StatusI18nEnum.Archived
+														.name());
+												projectService
+														.updateWithSessionWithSelective(
+																project,
+																AppContext
+																		.getUsername());
+
 												EventBusFactory
 														.getInstance()
 														.post(new ShellEvent.GotoProjectModule(
@@ -628,19 +595,74 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 									});
 						}
 					});
-			deleteProjectBtn.setEnabled(CurrentProjectVariables
+			archieveProjectBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.PROJECT));
-			deleteProjectBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/delete_project.png"));
-			deleteProjectBtn.setStyleName("link");
-			popupButtonsControl.addComponent(deleteProjectBtn);
+			archieveProjectBtn.setIcon(MyCollabResource
+					.newResource("icons/16/project/archive.png"));
+			archieveProjectBtn.setStyleName("link");
+			popupButtonsControl.addComponent(archieveProjectBtn);
+
+			if (CurrentProjectVariables
+					.canAccess(ProjectRolePermissionCollections.PROJECT)) {
+				Button deleteProjectBtn = new Button(
+						AppContext
+								.getMessage(ProjectCommonI18nEnum.BUTTON_DELETE_PROJECT),
+						new Button.ClickListener() {
+							@Override
+							public void buttonClick(ClickEvent event) {
+								controlsBtn.setPopupVisible(false);
+								ConfirmDialogExt.show(
+										UI.getCurrent(),
+										AppContext
+												.getMessage(
+														GenericI18Enum.DIALOG_DELETE_TITLE,
+														SiteConfiguration
+																.getSiteName()),
+										AppContext
+												.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
+										AppContext
+												.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+										AppContext
+												.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+										new ConfirmDialog.Listener() {
+											private static final long serialVersionUID = 1L;
+
+											@Override
+											public void onClose(
+													ConfirmDialog dialog) {
+												if (dialog.isConfirmed()) {
+													ProjectService projectService = ApplicationContextUtil
+															.getSpringBean(ProjectService.class);
+													projectService.removeWithSession(
+															CurrentProjectVariables
+																	.getProjectId(),
+															AppContext
+																	.getUsername(),
+															AppContext
+																	.getAccountId());
+													EventBusFactory
+															.getInstance()
+															.post(new ShellEvent.GotoProjectModule(
+																	this, null));
+												}
+											}
+										});
+							}
+						});
+				deleteProjectBtn.setEnabled(CurrentProjectVariables
+						.canAccess(ProjectRolePermissionCollections.PROJECT));
+				deleteProjectBtn.setIcon(MyCollabResource
+						.newResource("icons/16/project/delete_project.png"));
+				deleteProjectBtn.setStyleName("link");
+				popupButtonsControl.addComponent(deleteProjectBtn);
+			}
+
+			controlsBtn.setContent(popupButtonsControl);
+			controlsBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+
+			topPanel.addComponent(controlsBtn);
+			topPanel.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 		}
-
-		controlsBtn.setContent(popupButtonsControl);
-		controlsBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
-
-		topPanel.addComponent(controlsBtn);
-		topPanel.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);
 
 		prjList.showProjects();
 	}

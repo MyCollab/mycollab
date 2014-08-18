@@ -56,7 +56,7 @@ public class BugChartComponent extends Depot {
 		initUI();
 	}
 
-	public void displayReport() {
+	private void displayReport() {
 		final String reportName = reportDashboard[currentReportIndex];
 
 		final CssLayout bodyContent = (CssLayout) this.bodyContent;

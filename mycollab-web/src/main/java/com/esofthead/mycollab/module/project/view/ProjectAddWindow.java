@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.view;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
@@ -72,8 +73,7 @@ public class ProjectAddWindow extends Window {
 		this.project = new Project();
 		this.editForm = new AdvancedEditBeanForm<Project>();
 		contentLayout.addComponent(this.editForm);
-		this.setCaption(AppContext
-				.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
+		this.setCaption(AppContext.getMessage(ProjectI18nEnum.VIEW_NEW_TITLE));
 
 		this.editForm.setFormLayoutFactory(new FormLayoutFactory());
 		this.editForm
@@ -101,7 +101,7 @@ public class ProjectAddWindow extends Window {
 				projectCombo.setRequired(true);
 				projectCombo.setRequiredError("Please enter a project status");
 				if (project.getProjectstatus() == null) {
-					project.setProjectstatus("Open");
+					project.setProjectstatus(StatusI18nEnum.Open.name());
 				}
 				return projectCombo;
 			} else if (propertyId.equals("shortname")) {
@@ -162,13 +162,13 @@ public class ProjectAddWindow extends Window {
 										ProjectAddWindow.this.project,
 										AppContext.getUsername());
 
-								EventBusFactory.getInstance()
-										.post(
-												new ProjectEvent.GotoMyProject(
-														this,
-														new PageActionChain(
-																new ProjectScreenData.Goto(
-																		project.getId()))));
+								EventBusFactory
+										.getInstance()
+										.post(new ProjectEvent.GotoMyProject(
+												this,
+												new PageActionChain(
+														new ProjectScreenData.Goto(
+																project.getId()))));
 								ProjectAddWindow.this.close();
 							}
 						}

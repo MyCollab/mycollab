@@ -161,6 +161,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		@Override
 		public Layout getLayout() {
 			layout = new VerticalLayout();
+			layout.setStyleName("page-read-layout");
 			layout.setMargin(true);
 			layout.setSpacing(true);
 			layout.setWidth("100%");

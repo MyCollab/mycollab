@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -80,6 +82,8 @@ public class TaskGroupNoItemView extends AbstractPageView {
 						UI.getCurrent().addWindow(taskListWindow);
 					}
 				});
+		createTaskGroupBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.TASKS));
 
 		HorizontalLayout links = new HorizontalLayout();
 

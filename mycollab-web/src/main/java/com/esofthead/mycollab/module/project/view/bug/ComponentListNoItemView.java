@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
@@ -78,6 +80,8 @@ public class ComponentListNoItemView extends AbstractPageView {
 								new BugComponentEvent.GotoAdd(this, null));
 					}
 				});
+		createComponentBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.VERSIONS));
 
 		HorizontalLayout links = new HorizontalLayout();
 

@@ -23,6 +23,7 @@ import org.springframework.extensions.jcr.JcrTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.ecm.ContentException;
 import com.esofthead.mycollab.module.ecm.NodesUtil;
@@ -45,6 +46,9 @@ public class WikiServiceImpl implements WikiService {
 	@Qualifier("pageJcrTemplate")
 	@Autowired
 	private JcrTemplate jcrTemplate;
+
+	@Autowired
+	private RelayEmailNotificationService relayEmailNotificationService;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
@@ -114,6 +118,8 @@ public class WikiServiceImpl implements WikiService {
 								"{http://www.esofthead.com/wiki}page");
 						convertPageToNode(addNode, page, createdUser);
 						session.save();
+						
+						
 					} catch (Exception e) {
 						log.error("error in convertToNode Method", e);
 						throw new MyCollabException(e);

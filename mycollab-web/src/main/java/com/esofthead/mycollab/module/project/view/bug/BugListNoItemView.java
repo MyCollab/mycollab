@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.module.project.view.bug;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -77,6 +79,8 @@ public class BugListNoItemView extends AbstractPageView {
 								new BugEvent.GotoAdd(this, null));
 					}
 				});
+		createBugBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.BUGS));
 
 		HorizontalLayout links = new HorizontalLayout();
 

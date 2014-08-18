@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
@@ -41,7 +42,6 @@ import com.esofthead.mycollab.esb.BeanProxyBuilder;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
-import com.esofthead.mycollab.module.project.ProjectStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
@@ -220,7 +220,7 @@ public class ProjectServiceImpl extends
 		ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(username));
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		return projectMapperExt.getUserProjectKeys(searchCriteria);
 	}
 
@@ -257,7 +257,7 @@ public class ProjectServiceImpl extends
 		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(sAccountId));
 		criteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		return projectMapperExt.getTotalCount(criteria);
 	}
 
@@ -266,7 +266,7 @@ public class ProjectServiceImpl extends
 		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(sAccountId));
 		criteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { ProjectStatusConstants.OPEN }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		return (List<SimpleProject>) projectMapperExt
 				.findPagableListByCriteria(criteria, new RowBounds(0,
 						Integer.MAX_VALUE));

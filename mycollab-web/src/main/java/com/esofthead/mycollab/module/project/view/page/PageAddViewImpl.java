@@ -27,12 +27,14 @@ public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
 
 	@Override
 	protected String initFormHeader() {
-		return AppContext.getMessage(Page18InEnum.VIEW_NEW_TITLE);
+		return (beanItem.isNew()) ? AppContext
+				.getMessage(Page18InEnum.VIEW_NEW_TITLE) : AppContext
+				.getMessage(Page18InEnum.VIEW_EDIT_TITLE);
 	}
 
 	@Override
 	protected String initFormTitle() {
-		return null;
+		return (beanItem.isNew()) ? null : beanItem.getSubject();
 	}
 
 	@Override

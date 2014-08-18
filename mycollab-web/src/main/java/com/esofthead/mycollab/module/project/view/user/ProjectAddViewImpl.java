@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.module.project.ProjectDataTypeFactory;
 import com.esofthead.mycollab.module.project.domain.Project;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
@@ -132,7 +133,8 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 				projectCombo.setRequired(true);
 				projectCombo.setRequiredError("Please enter a project status");
 				if (ProjectAddViewImpl.this.project.getProjectstatus() == null) {
-					ProjectAddViewImpl.this.project.setProjectstatus("Open");
+					ProjectAddViewImpl.this.project
+							.setProjectstatus(StatusI18nEnum.Open.name());
 				}
 				return projectCombo;
 			} else if (propertyId.equals("shortname")) {
