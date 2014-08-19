@@ -51,6 +51,7 @@ Version 4.4.0
 * Revise invite project member that displays user avatar in suggested list
 * Display total open bugs, due bugs in bug dashboard
 * Clean user session resources properly
+* Optimize image sizes
 
 **Bug Fixes**
 
