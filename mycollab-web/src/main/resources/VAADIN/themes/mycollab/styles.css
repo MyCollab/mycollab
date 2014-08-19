@@ -3642,6 +3642,22 @@ div.v-lazyloadingwrapper-loading {
     margin: -1px;
     border: 1px solid #CDCDCD;
 }
+.v-progressbar.medium {
+    display: block;
+}
+.v-progressbar.medium .v-progressbar-wrapper {
+    height: 7px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+    border: none;
+    background: #f6f7f8;
+    background: -webkit-linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+    background: linear-gradient(#f6f7f8, #f6f7f8 10%, whitesmoke 11%);
+}
+.v-progressbar.medium .v-progressbar-indicator {
+    height: 7px;
+    border: none;
+    background-color: rgb(0, 136, 204);
+}
 /* End Progress Indicator */
 
 /* Vertical Detached Tabs 2 */
@@ -5092,7 +5108,7 @@ div.v-ratingstars-bar {
 .myprojectlist .stream-content .projectlink-wrapper {
     border-right: 1px solid #CFCFCF;
     background-color: #F7F7F7;
-    padding: 10px 15px 25px;
+    padding: 10px 15px 15px;
 }
 
 .myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-wrap,
@@ -5101,21 +5117,62 @@ div.v-ratingstars-bar {
     padding: 0px 0px 10px;
 }
 
-.myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-caption {
-    font-size: 14px;
+.myprojectlist .stream-content .projectlink-wrapper .project-name a {
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .project-status .v-verticallayout.v-margin-top {
     padding-top: 8px;
 }
 .project-status .v-verticallayout.v-margin-right {
-    padding-right: 8px;
+    padding-right: 15px;
 }
 .project-status .v-verticallayout.v-margin-bottom {
-    padding-bottom: 8px;
+    padding-bottom: 5px;
 }
 .project-status .v-verticallayout.v-margin-left {
-    padding-left: 8px;
+    padding-left: 15px;
+}
+.project-status .member-count-lbl .v-button-wrap {
+    padding: 0px;
+    border: none;
+}
+.project-status .createdtime-lbl {
+    color: rgb(128, 128, 128);
+    font-size: 11px;
+}
+
+.project-status .status-lbl {
+    color: #888;
+}
+
+.project-status .phase-status-layout {
+    padding-top: 5px;
+}
+
+.project-status .phase-status-btn .v-button-wrap, .project-status .phase-status-btn:hover .v-button-wrap {
+    padding: 0px;
+    border: none;
+    background: none;
+    border: none;
+}
+
+.project-status .phase-status-btn {
+    padding: 0px;
+    border: none;
+    background: none;
+}
+
+.project-status .phase-status-btn .v-button-caption {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.project-status .phase-status-btn .v-button-caption small {
+    font-weight: 400;
+    font-size: 11px;
+    display: block;
 }
 
 .esofthead-progessbar {

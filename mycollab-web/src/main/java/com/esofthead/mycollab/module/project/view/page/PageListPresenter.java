@@ -46,7 +46,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 				CurrentProjectVariables.setCurrentPagePath(path);
 			}
 			List<WikiResource> resources = wikiService.getResources(path);
-			view.displayPages(resources);
+			view.displayDefaultPages(resources);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
 					.getCacheComponent(ProjectBreadcrumb.class);

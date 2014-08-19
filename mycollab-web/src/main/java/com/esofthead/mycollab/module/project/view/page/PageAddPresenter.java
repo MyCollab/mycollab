@@ -94,7 +94,5 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 				.getSpringBean(WikiService.class);
 
 		wikiService.savePage(page, AppContext.getUsername());
-		EventBusFactory.getInstance().post(
-				new PageEvent.GotoAdd(PageAddPresenter.this, null));
 	}
 }

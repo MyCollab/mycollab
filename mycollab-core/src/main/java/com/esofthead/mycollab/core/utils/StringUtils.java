@@ -104,8 +104,8 @@ public class StringUtils {
 				+ new Random().nextInt(10);
 	}
 
-	public static void main(String[] args) {
-		System.out.println(generateSoftUniqueId());
+	public static String getStrOptionalNullValue(String value) {
+		return (value == null) ? "" : value;
 	}
 
 	public static String extractNameFromEmail(String value) {

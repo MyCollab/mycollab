@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.*;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -43,18 +46,9 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -210,7 +204,7 @@ public class MyProjectListComponent extends Depot {
 			projectLayout.addStyleName("project-status");
 
 			final CssLayout linkWrapper = new CssLayout();
-			linkWrapper.setWidth("200px");
+			linkWrapper.setWidth("100%");
 			linkWrapper.addStyleName("projectlink-wrapper");
 			final VerticalLayout linkIconFix = new VerticalLayout();
 			linkIconFix.setWidth("100%");
@@ -239,23 +233,42 @@ public class MyProjectListComponent extends Depot {
 															null))));
 						}
 					}, false);
-			linkIconFix.addComponent(projectMember);
-			linkIconFix.addComponent(new Label(AppContext.getMessage(
-					ProjectI18nEnum.OPT_CREATED_ON,
-					AppContext.formatDate(project.getCreatedtime()))));
+            projectMember.addStyleName("member-count-lbl");
+            HorizontalLayout metaInfo = new HorizontalLayout();
+            metaInfo.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+            metaInfo.setWidth("100%");
+            metaInfo.setSpacing(true);
+            metaInfo.addComponent(projectMember);
+            Label createdTimeLbl = new Label(" - " + AppContext.getMessage(
+                    ProjectI18nEnum.OPT_CREATED_ON,
+                    AppContext.formatDate(project.getCreatedtime())));
+            createdTimeLbl.setStyleName("createdtime-lbl");
+            createdTimeLbl.setSizeUndefined();
+            metaInfo.addComponent(createdTimeLbl);
+            metaInfo.setExpandRatio(createdTimeLbl, 1.0f);
+			linkIconFix.addComponent(metaInfo);
 
 			projectLink.setWidth("100%");
 			linkWrapper.addComponent(linkIconFix);
 			projectLayout.addComponent(linkWrapper);
 
 			final VerticalLayout projectStatusLayout = new VerticalLayout();
-			projectStatusLayout.setSpacing(true);
 			projectStatusLayout.setMargin(true);
+            projectStatusLayout.setSpacing(true);
+            projectStatusLayout.setWidth("180px");
+            projectStatusLayout.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+//            projectStatusLayout.setHeight("100%");
 
-			final HorizontalLayout taskStatus = new HorizontalLayout();
+			final VerticalLayout taskStatus = new VerticalLayout();
 			taskStatus.setWidth("100%");
 			taskStatus.setSpacing(true);
-			final ButtonLink taskLbl = new ButtonLink("Tasks :",
+            HorizontalLayout taskLblWrap = new HorizontalLayout();
+            taskLblWrap.setWidth("100%");
+            Label taskStatusLbl = new Label("Tasks");
+            taskStatusLbl.setStyleName("status-lbl");
+            taskLblWrap.addComponent(taskStatusLbl);
+
+			final ButtonLink taskStatusBtn = new ButtonLink(project.getNumOpenTasks() + "/" +project.getNumTasks() ,
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -271,22 +284,25 @@ public class MyProjectListComponent extends Depot {
 													new TaskGroupScreenData.GotoDashboard())));
 						}
 					}, false);
-			final Image taskIcon = new Image(null,
-					MyCollabResource.newResource("icons/16/project/task.png"));
-			taskStatus.addComponent(taskIcon);
-			taskLbl.setWidth("45px");
-			taskStatus.addComponent(taskLbl);
-			final ProgressBarIndicator progressTask = new ProgressBarIndicator(
-					project.getNumTasks(), project.getNumOpenTasks());
-			progressTask.setWidth("100%");
-			taskStatus.addComponent(progressTask);
-			taskStatus.setExpandRatio(progressTask, 1.0f);
-			projectStatusLayout.addComponent(taskStatus);
+            taskLblWrap.addComponent(taskStatusBtn);
+            taskLblWrap.setComponentAlignment(taskStatusBtn, Alignment.TOP_RIGHT);
+            taskStatus.addComponent(taskLblWrap);
+            float taskValue = (project.getNumTasks() != 0) ? ((float)(project.getNumTasks() - project.getNumOpenTasks()) / project.getNumTasks()) : 1;
+            ProgressBar taskProgressBar = new ProgressBar(new Float(taskValue));
+            taskProgressBar.setStyleName("medium");
+            taskStatus.addComponent(taskProgressBar);
+            taskStatus.setComponentAlignment(taskProgressBar, Alignment.TOP_LEFT);
+            projectStatusLayout.addComponent(taskStatus);
 
-			final HorizontalLayout bugStatus = new HorizontalLayout();
+			final VerticalLayout bugStatus = new VerticalLayout();
 			bugStatus.setWidth("100%");
 			bugStatus.setSpacing(true);
-			final ButtonLink bugLbl = new ButtonLink("Bugs :",
+            HorizontalLayout bugLblWrap = new HorizontalLayout();
+            bugLblWrap.setWidth("100%");
+            Label bugLbl = new Label("Bugs");
+            bugLbl.setStyleName("status-lbl");
+            bugLblWrap.addComponent(bugLbl);
+			final ButtonLink bugStatusBtn = new ButtonLink(project.getNumOpenBugs() + "/" +project.getNumBugs(),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -302,57 +318,61 @@ public class MyProjectListComponent extends Depot {
 													new BugScreenData.GotoDashboard())));
 						}
 					}, false);
-
-			final Image bugIcon = new Image(null,
-					MyCollabResource.newResource("icons/16/project/bug.png"));
-			bugStatus.addComponent(bugIcon);
-			bugLbl.setWidth("45px");
-			bugStatus.addComponent(bugLbl);
-			final ProgressBarIndicator progressBug = new ProgressBarIndicator(
-					project.getNumBugs(), project.getNumOpenBugs());
-			progressBug.setWidth("100%");
-			bugStatus.addComponent(progressBug);
-			bugStatus.setExpandRatio(progressBug, 1.0f);
-			projectStatusLayout.addComponent(bugStatus);
+            bugLblWrap.addComponent(bugStatusBtn);
+            bugLblWrap.setComponentAlignment(bugStatusBtn, Alignment.TOP_RIGHT);
+            bugStatus.addComponent(bugLblWrap);
+            float bugValue = (project.getNumBugs() != 0) ? ((float)(project.getNumBugs() - project.getNumOpenBugs()) / project.getNumBugs()) : 1;
+            ProgressBar bugProgressBar = new ProgressBar(new Float(bugValue));
+            bugProgressBar.setStyleName("medium");
+            bugStatus.addComponent(bugProgressBar);
+            bugStatus.setComponentAlignment(bugProgressBar, Alignment.TOP_LEFT);
+            projectStatusLayout.addComponent(bugStatus);
 
 			HorizontalLayout phaseStatus = new HorizontalLayout();
 			phaseStatus.setWidth("100%");
 			phaseStatus.setSpacing(true);
-			phaseStatus.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-			Image phaseIcon = new Image(null,
-					MyCollabResource
-							.newResource("icons/16/project/milestone.png"));
-			phaseStatus.addComponent(phaseIcon);
-			ButtonLink phaseLbl = new ButtonLink("Phases: ",
-					new Button.ClickListener() {
-						private static final long serialVersionUID = 1L;
+            phaseStatus.setStyleName("phase-status-layout");
+			phaseStatus.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+            Label phaseLbl = new Label("Phases");
+            phaseLbl.setStyleName("status-lbl");
+            phaseStatus.addComponent(phaseLbl);
+            phaseStatus.setComponentAlignment(phaseLbl, Alignment.TOP_LEFT);
+            Button.ClickListener goToPhaseListener  = new Button.ClickListener() {
+                private static final long serialVersionUID = 1L;
 
-						@Override
-						public void buttonClick(ClickEvent event) {
-							EventBusFactory
-									.getInstance()
-									.post(new ProjectEvent.GotoMyProject(
-											this,
-											new PageActionChain(
-													new ProjectScreenData.Goto(
-															project.getId()),
-													new MilestoneScreenData.Search(
-															null))));
-						}
-					}, false);
-			phaseStatus.addComponent(phaseLbl);
-			Label phaseProgress = new Label(project.getNumClosedPhase()
-					+ " Closed - " + project.getNumInProgressPhase()
-					+ " In Progress - " + project.getNumFuturePhase()
-					+ " Future");
-			phaseStatus.addComponent(phaseProgress);
-			phaseStatus.setExpandRatio(phaseProgress, 1.0f);
-			projectStatusLayout.addComponent(phaseStatus);
+                @Override
+                public void buttonClick(ClickEvent event) {
+                    EventBusFactory
+                            .getInstance()
+                            .post(new ProjectEvent.GotoMyProject(
+                                    this,
+                                    new PageActionChain(
+                                            new ProjectScreenData.Goto(
+                                                    project.getId()),
+                                            new MilestoneScreenData.Search(
+                                                    null))));
+                }
+            };
+            Button closePhaseBtn = new Button(project.getNumClosedPhase() + "<small>Closed</small>", goToPhaseListener);
+            closePhaseBtn.setHtmlContentAllowed(true);
+            closePhaseBtn.setStyleName("phase-status-btn");
+            phaseStatus.addComponent(closePhaseBtn);
+
+            Button inProgressPhaseBtn = new Button(project.getNumClosedPhase() + "<small>In Progress</small>", goToPhaseListener);
+            inProgressPhaseBtn.setHtmlContentAllowed(true);
+            inProgressPhaseBtn.setStyleName("phase-status-btn");
+            phaseStatus.addComponent(inProgressPhaseBtn);
+
+            Button futurePhaseBtn = new Button(project.getNumClosedPhase() + "<small>Future</small>", goToPhaseListener);
+            futurePhaseBtn.setHtmlContentAllowed(true);
+            futurePhaseBtn.setStyleName("phase-status-btn");
+            phaseStatus.addComponent(futurePhaseBtn);
+
+            linkIconFix.addComponent(phaseStatus);
 
 			projectLayout.addComponent(projectStatusLayout);
-			projectStatusLayout.setWidth("100%");
 
-			projectLayout.setExpandRatio(projectStatusLayout, 1.0f);
+			projectLayout.setExpandRatio(linkWrapper, 1.0f);
 
 			header.addComponent(projectLayout);
 

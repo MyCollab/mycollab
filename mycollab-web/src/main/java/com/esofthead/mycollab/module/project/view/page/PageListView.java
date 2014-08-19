@@ -12,5 +12,9 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  *
  */
 public interface PageListView extends PageView {
-	void displayPages(List<WikiResource> resources);
+	/**
+	 * 
+	 * @param resources
+	 */
+	void displayDefaultPages(List<WikiResource> resources);
 }

@@ -58,6 +58,7 @@ Version 4.4.0
 * Component and Version do not show the marker of complete right
 * Ambiguous email field search criteria in CRM account search page
 * Project permissions are cached across projects
+* Show project permissions wrongly in Japanese locale
 
 Version 4.3.3
 -----------------------------

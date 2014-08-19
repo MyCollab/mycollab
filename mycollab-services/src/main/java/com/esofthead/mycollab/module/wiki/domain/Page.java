@@ -1,6 +1,7 @@
 package com.esofthead.mycollab.module.wiki.domain;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
@@ -18,18 +19,18 @@ public class Page extends WikiResource {
 
 	@NotBindable
 	private boolean isLock;
-	
+
 	@NotBindable
-	private boolean isNew=true;
+	private boolean isNew = true;
 
 	private String category;
 
 	private String status;
-	
+
 	private String lastUpdatedUser;
-	
-	private Date lastUpdatedTime;
-	
+
+	private Calendar lastUpdatedTime;
+
 	public Page() {
 		super();
 	}
@@ -95,11 +96,11 @@ public class Page extends WikiResource {
 		this.lastUpdatedUser = lastUpdatedUser;
 	}
 
-	public Date getLastUpdatedTime() {
+	public Calendar getLastUpdatedTime() {
 		return lastUpdatedTime;
 	}
 
-	public void setLastUpdatedTime(Date lastUpdatedTime) {
+	public void setLastUpdatedTime(Calendar lastUpdatedTime) {
 		this.lastUpdatedTime = lastUpdatedTime;
 	}
 }

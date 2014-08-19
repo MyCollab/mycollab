@@ -95,7 +95,7 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				if (page != null) {
 					PageActionChain chain = new PageActionChain(
 							new ProjectScreenData.Goto(projectId),
-							new PageScreenData.Add(page));
+							new PageScreenData.Edit(page));
 					EventBusFactory.getInstance().post(
 							new ProjectEvent.GotoMyProject(this, chain));
 				} else {
