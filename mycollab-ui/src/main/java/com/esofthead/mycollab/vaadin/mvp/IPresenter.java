@@ -55,5 +55,5 @@ public interface IPresenter<V extends PageView> extends Serializable {
 	 * 
 	 * @return
 	 */
-	V initView();
+	V getView();
 }

@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
@@ -42,7 +43,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class ComponentAddViewImpl extends AbstractEditItemComp<Component>
 		implements ComponentAddView {
 

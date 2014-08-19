@@ -89,7 +89,8 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CASE)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER));
 
@@ -110,9 +111,8 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 			view.editItem(cases);
 
 			if (cases.getId() == null) {
-				AppContext.addFragment("crm/cases/add", AppContext
-						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-								"Case"));
+				AppContext.addFragment("crm/cases/add", AppContext.getMessage(
+						GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Case"));
 			} else {
 				AppContext.addFragment(
 						"crm/cases/edit/"

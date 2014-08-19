@@ -17,9 +17,16 @@
 
 package com.esofthead.mycollab.vaadin.mvp;
 
+import static com.esofthead.mycollab.common.MyCollabSession.VIEW_MANAGER_VAL;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.reflections.Reflections;
+
+import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.core.MyCollabException;
 
 /**
  * 
@@ -27,9 +34,7 @@ import org.reflections.Reflections;
  * @since 1.0
  * 
  */
-public abstract class ViewManager {
-
-	private static ViewManager impl = new ViewManagerImpl();
+public class ViewManager {
 
 	protected static Set<Class<?>> viewClasses;
 
@@ -38,21 +43,52 @@ public abstract class ViewManager {
 		viewClasses = reflections.getTypesAnnotatedWith(ViewComponent.class);
 	}
 
-	protected abstract <T extends CacheableComponent> T getViewInstance(
-			final Class<T> viewClass);
+	public static Class<?> getViewImplCls(Class<?> viewClass) {
+		for (Class<?> classInstance : viewClasses) {
+			if (viewClass.isAssignableFrom(classInstance)) {
+				return classInstance;
+			}
+		}
+		return null;
+	}
 
 	public static void init() {
 
 	}
 
-	protected abstract void clearViews();
-
 	public static void clearViewCaches() {
-		impl.clearViews();
+		MyCollabSession.removeVariable(VIEW_MANAGER_VAL);
 	}
 
-	public static <T extends CacheableComponent> T getView(
+	public static <T extends CacheableComponent> T getCacheComponent(
 			final Class<T> viewClass) {
-		return impl.getViewInstance(viewClass);
+		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession
+				.getVariable(VIEW_MANAGER_VAL);
+		if (viewMap == null) {
+			viewMap = new HashMap<Class<?>, Object>();
+			MyCollabSession.putVariable(VIEW_MANAGER_VAL, viewMap);
+		}
+
+		try {
+			T value = (T) viewMap.get(viewClass);
+			if (value == null) {
+				Class<?> implCls = getViewImplCls(viewClass);
+				if (implCls != null) {
+					value = (T) implCls.newInstance();
+					viewMap.put(viewClass, value);
+					return value;
+				}
+			} else {
+				return value;
+			}
+
+			throw new MyCollabException(
+					"Can not find the implementation class for view "
+							+ viewClass);
+		} catch (Exception e) {
+			throw new MyCollabException(
+					"Can not create view instance of class: " + viewClass, e);
+		}
+
 	}
 }

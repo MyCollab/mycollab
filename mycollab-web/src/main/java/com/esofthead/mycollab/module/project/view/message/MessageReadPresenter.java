@@ -109,7 +109,7 @@ public class MessageReadPresenter extends AbstractPresenter<MessageReadView> {
 				view.previewItem(message);
 
 				ProjectBreadcrumb breadCrumb = ViewManager
-						.getView(ProjectBreadcrumb.class);
+						.getCacheComponent(ProjectBreadcrumb.class);
 				breadCrumb.gotoMessage(message);
 			} else {
 				throw new MyCollabException("Unhanddle this case yet");

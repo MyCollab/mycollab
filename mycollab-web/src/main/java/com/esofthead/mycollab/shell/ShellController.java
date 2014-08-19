@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.shell;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.view.ForgotPasswordPresenter;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent.GotoMainPage;
@@ -26,10 +25,9 @@ import com.esofthead.mycollab.shell.view.MainView;
 import com.esofthead.mycollab.shell.view.MainViewPresenter;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
-import com.esofthead.mycollab.vaadin.mvp.IController;
+import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.web.DesktopApplication;
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 /**
@@ -38,21 +36,19 @@ import com.google.common.eventbus.Subscribe;
  * @since 1.0
  * 
  */
-public class ShellController implements IController {
+public class ShellController extends AbstractController {
 
 	private static final long serialVersionUID = 1L;
 
 	private final MainWindowContainer container;
-	private EventBus eventBus;
 
 	public ShellController(MainWindowContainer container) {
 		this.container = container;
-		this.eventBus = EventBusFactory.getInstance();
 		bind();
 	}
 
 	private void bind() {
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -60,7 +56,7 @@ public class ShellController implements IController {
 			public void handle(GotoMainPage event) {
 				MainViewPresenter mainViewPresenter = PresenterResolver
 						.getPresenter(MainViewPresenter.class);
-				MainView mainView = mainViewPresenter.initView();
+				MainView mainView = mainViewPresenter.getView();
 				((MainWindowContainer) container).setContent(mainView);
 
 				container.setStyleName("mainView");
@@ -69,7 +65,7 @@ public class ShellController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ShellEvent.LogOut>() {
+		this.register(new ApplicationEventListener<ShellEvent.LogOut>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -80,7 +76,7 @@ public class ShellController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoForgotPasswordPage>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoForgotPasswordPage>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe

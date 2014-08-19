@@ -19,6 +19,7 @@ package com.esofthead.mycollab.vaadin.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.security.PermissionChecker;
 import com.esofthead.mycollab.security.PermissionMap;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -27,8 +28,10 @@ import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.mvp.ViewPermission;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
 import com.vaadin.ui.ComponentContainer;
 
@@ -46,19 +49,45 @@ public abstract class AbstractPresenter<V extends PageView> implements
 			.getLogger(AbstractPresenter.class);
 
 	protected Class<V> viewClass;
+	protected Class<V> implClass;
+
 	protected V view;
 
 	public AbstractPresenter(Class<V> viewClass) {
 		this.viewClass = viewClass;
+		implClass = (Class<V>) ViewManager.getViewImplCls(viewClass);
+		if (implClass == null) {
+			throw new MyCollabException(
+					"Can not find the implementation for view " + viewClass);
+		}
 	}
 
 	@Override
-	public V initView() {
-		if (view == null) {
-			view = ViewManager.getView(viewClass);
-			postInitView();
-		}
+	public V getView() {
+		initView();
 		return view;
+	}
+
+	private void initView() {
+		ViewComponent annotation = implClass.getAnnotation(ViewComponent.class);
+		ViewScope scope = annotation.scope();
+		if (scope == ViewScope.PROTOTYPE) {
+			constructView();
+		} else {
+			if (view == null) {
+				constructView();
+			}
+		}
+	}
+
+	private void constructView() {
+		try {
+			view = implClass.newInstance();
+			postInitView();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new MyCollabException("Can not init view " + implClass, e);
+		}
+
 	}
 
 	protected void postInitView() {
@@ -86,8 +115,6 @@ public abstract class AbstractPresenter<V extends PageView> implements
 				log.debug(str.toString());
 			}
 			HistoryViewManager.addHistory(state);
-		} else {
-			log.debug("Disable history track for " + this);
 		}
 
 		if (checkPermissionAccessIfAny()) {

@@ -59,6 +59,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory;
@@ -98,7 +99,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		implements BugReadView, IBugCallbackStatusComp {
 

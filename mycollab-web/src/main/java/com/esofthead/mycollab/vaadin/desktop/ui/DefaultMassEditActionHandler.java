@@ -82,7 +82,7 @@ public abstract class DefaultMassEditActionHandler implements
 		StreamResource res = null;
 		if (MassItemActionHandler.EXPORT_CSV_ACTION.equals(id)) {
 			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.initView()).getPagedBeanTable();
+					.getView()).getPagedBeanTable();
 			if (presenter.isSelectAll) {
 				res = new StreamResource(
 						new SimpleGridExportItemsStreamResource.AllItems("",
@@ -103,7 +103,7 @@ public abstract class DefaultMassEditActionHandler implements
 			}
 		} else if (MassItemActionHandler.EXPORT_PDF_ACTION.equals(id)) {
 			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.initView()).getPagedBeanTable();
+					.getView()).getPagedBeanTable();
 			if (presenter.isSelectAll) {
 				res = new StreamResource(
 						new SimpleGridExportItemsStreamResource.AllItems(
@@ -124,7 +124,7 @@ public abstract class DefaultMassEditActionHandler implements
 			}
 		} else if (MassItemActionHandler.EXPORT_EXCEL_ACTION.equals(id)) {
 			AbstractPagedBeanTable pagedBeanTable = ((ListView) presenter
-					.initView()).getPagedBeanTable();
+					.getView()).getPagedBeanTable();
 			if (presenter.isSelectAll) {
 				res = new StreamResource(
 						new SimpleGridExportItemsStreamResource.AllItems(

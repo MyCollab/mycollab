@@ -95,7 +95,7 @@ public class MilestoneAddPresenter extends AbstractPresenter<MilestoneAddView> {
 			view.editItem(milestone);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (milestone.getId() == null) {
 				breadcrumb.gotoMilestoneAdd();
 			} else {

@@ -49,7 +49,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 			view.displayPages(resources);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoPageList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

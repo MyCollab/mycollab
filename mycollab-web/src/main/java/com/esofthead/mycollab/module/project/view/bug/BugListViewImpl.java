@@ -40,6 +40,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectableItemHandlers;
 import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resource.StreamResourceFactory;
 import com.esofthead.mycollab.vaadin.resource.StreamWrapperFileDownloader;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -63,7 +64,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 	private static final long serialVersionUID = 1L;

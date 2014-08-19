@@ -92,7 +92,7 @@ public class MilestoneListPresenter
 			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoMilestoneList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

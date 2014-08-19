@@ -107,7 +107,7 @@ public class VersionListPresenter
 			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoVersionList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

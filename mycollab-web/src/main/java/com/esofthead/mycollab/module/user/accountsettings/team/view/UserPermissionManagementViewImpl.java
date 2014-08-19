@@ -51,10 +51,10 @@ public class UserPermissionManagementViewImpl extends AbstractPageView
 
 	private void buildComponents() {
 		userPresenter = PresenterResolver.getPresenter(UserPresenter.class);
-		groupTab.addTab(userPresenter.initView(), "Users");
+		groupTab.addTab(userPresenter.getView(), "Users");
 
 		rolePresenter = PresenterResolver.getPresenter(RolePresenter.class);
-		groupTab.addTab(rolePresenter.initView(), "Roles");
+		groupTab.addTab(rolePresenter.getView(), "Roles");
 
 		groupTab.addSelectedTabChangeListener(new SelectedTabChangeListener() {
 			private static final long serialVersionUID = 1L;

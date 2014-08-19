@@ -101,7 +101,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 			view.editItem(bug);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (bug.getId() == null) {
 				breadcrumb.gotoBugAdd();
 			} else {

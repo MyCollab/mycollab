@@ -67,7 +67,7 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 
 		if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
 			opportunityChartDashlet = ViewManager
-					.getView(IOpportunityPipelineFunnelChartDashlet.class);
+					.getCacheComponent(IOpportunityPipelineFunnelChartDashlet.class);
 			myAssignmentsLayout.addComponent(opportunityChartDashlet);
 		}
 

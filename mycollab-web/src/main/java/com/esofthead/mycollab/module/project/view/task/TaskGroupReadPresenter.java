@@ -99,9 +99,8 @@ public class TaskGroupReadPresenter extends
 					@Override
 					public void onCancel() {
 						EventBusFactory.getInstance()
-								.post(
-										new TaskListEvent.GotoTaskListScreen(
-												this, null));
+								.post(new TaskListEvent.GotoTaskListScreen(
+										this, null));
 					}
 
 					@Override
@@ -166,7 +165,7 @@ public class TaskGroupReadPresenter extends
 				view.previewItem(taskgroup);
 
 				ProjectBreadcrumb breadCrumb = ViewManager
-						.getView(ProjectBreadcrumb.class);
+						.getCacheComponent(ProjectBreadcrumb.class);
 				breadCrumb.gotoTaskGroupRead(taskgroup);
 			}
 		} else {

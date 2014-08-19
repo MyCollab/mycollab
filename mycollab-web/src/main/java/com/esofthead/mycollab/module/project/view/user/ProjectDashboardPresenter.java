@@ -55,7 +55,7 @@ public class ProjectDashboardPresenter extends
 		view.removeAllComponents();
 
 		ProjectBreadcrumb breadcrumb = ViewManager
-				.getView(ProjectBreadcrumb.class);
+				.getCacheComponent(ProjectBreadcrumb.class);
 
 		if (data instanceof ProjectScreenData.Edit) {
 			if (CurrentProjectVariables

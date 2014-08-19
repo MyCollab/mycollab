@@ -89,8 +89,10 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CALL)) {
-			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			CrmToolbar toolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			CallWithBLOBs call = null;
 
@@ -114,15 +116,14 @@ public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
 			view.editItem(call);
 
 			if (call.getId() == null) {
-				AppContext.addFragment("crm/activity/call/add/",
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Call"));
+				AppContext.addFragment("crm/activity/call/add/", AppContext
+						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+								"Call"));
 			} else {
 				AppContext.addFragment("crm/activity/call/edit/"
-						+ UrlEncodeDecoder.encode(call.getId()),
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE, "Call",
-								call.getSubject()));
+						+ UrlEncodeDecoder.encode(call.getId()), AppContext
+						.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+								"Call", call.getSubject()));
 			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

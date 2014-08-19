@@ -119,14 +119,14 @@ public class ActivityRootView extends AbstractPageView {
 		calendarPresenter = PresenterResolver
 				.getPresenter(ActivityCalendarPresenter.class);
 		ActivityCalendarView activityCalendarView = calendarPresenter
-				.initView();
+				.getView();
 		return activityCalendarView;
 	}
 
 	private ComponentContainer constructActivityListView() {
 		eventPresenter = PresenterResolver
 				.getPresenter(ActivityPresenter.class);
-		return eventPresenter.initView();
+		return eventPresenter.getView();
 	}
 
 	public void gotoCalendar() {

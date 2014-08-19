@@ -112,7 +112,7 @@ public class ProjectRoleAddPresenter extends
 
 		view.editItem(role);
 		ProjectBreadcrumb breadcrumb = ViewManager
-				.getView(ProjectBreadcrumb.class);
+				.getCacheComponent(ProjectBreadcrumb.class);
 		if (role.getId() == null) {
 			breadcrumb.gotoRoleAdd();
 		} else {

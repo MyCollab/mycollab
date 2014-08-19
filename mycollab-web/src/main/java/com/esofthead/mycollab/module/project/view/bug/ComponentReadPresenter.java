@@ -155,7 +155,7 @@ public class ComponentReadPresenter extends
 					view.previewItem(component);
 
 					ProjectBreadcrumb breadcrumb = ViewManager
-							.getView(ProjectBreadcrumb.class);
+							.getCacheComponent(ProjectBreadcrumb.class);
 					breadcrumb.gotoComponentRead(component);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

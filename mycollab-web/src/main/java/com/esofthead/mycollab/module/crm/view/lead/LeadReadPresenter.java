@@ -251,7 +251,8 @@ public class LeadReadPresenter extends CrmGenericPresenter<LeadReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 

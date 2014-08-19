@@ -150,7 +150,7 @@ public class VersionReadPresenter extends AbstractPresenter<VersionReadView> {
 					view.previewItem(version);
 
 					ProjectBreadcrumb breadcrumb = ViewManager
-							.getView(ProjectBreadcrumb.class);
+							.getCacheComponent(ProjectBreadcrumb.class);
 					breadcrumb.gotoVersionRead(version);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

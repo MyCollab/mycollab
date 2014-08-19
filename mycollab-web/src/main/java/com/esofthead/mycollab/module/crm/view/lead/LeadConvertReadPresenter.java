@@ -103,18 +103,19 @@ public class LeadConvertReadPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_LEAD)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 			if (data.getParams() instanceof SimpleLead) {
-			SimpleLead lead = (SimpleLead) data.getParams();
-			super.onGo(container, data);
-			view.previewItem(lead);
+				SimpleLead lead = (SimpleLead) data.getParams();
+				super.onGo(container, data);
+				view.previewItem(lead);
 
-			AppContext.addFragment(CrmLinkGenerator
-					.generateLeadPreviewLink(lead.getId()), AppContext
-					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
-							"Lead", lead.getLeadName()));
+				AppContext.addFragment(CrmLinkGenerator
+						.generateLeadPreviewLink(lead.getId()), AppContext
+						.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,
+								"Lead", lead.getLeadName()));
 			}
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

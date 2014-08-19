@@ -113,7 +113,7 @@ public class UserAddPresenter extends AbstractPresenter<UserAddView> {
 		view.editItem(user);
 
 		AccountSettingBreadcrumb breadcrumb = ViewManager
-				.getView(AccountSettingBreadcrumb.class);
+				.getCacheComponent(AccountSettingBreadcrumb.class);
 
 		if (user.getUsername() == null) {
 			breadcrumb.gotoUserAdd();

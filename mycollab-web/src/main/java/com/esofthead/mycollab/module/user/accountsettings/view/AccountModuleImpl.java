@@ -74,7 +74,8 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 		topPanel.setMargin(true);
 		topPanel.setStyleName("top-panel");
 
-		this.breadcrumb = ViewManager.getView(AccountSettingBreadcrumb.class);
+		this.breadcrumb = ViewManager
+				.getCacheComponent(AccountSettingBreadcrumb.class);
 
 		topPanel.addComponent(this.breadcrumb);
 
@@ -152,25 +153,25 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 	private ComponentContainer constructAccountSettingsComponent() {
 		this.billingPresenter = PresenterResolver
 				.getPresenter(IBillingPresenter.class);
-		return this.billingPresenter.initView();
+		return this.billingPresenter.getView();
 	}
 
 	private ComponentContainer constructUserInformationComponent() {
 		this.profilePresenter = PresenterResolver
 				.getPresenter(ProfilePresenter.class);
-		return this.profilePresenter.initView();
+		return this.profilePresenter.getView();
 	}
 
 	private ComponentContainer constructUserRoleComponent() {
 		this.userPermissionPresenter = PresenterResolver
 				.getPresenter(UserPermissionManagementPresenter.class);
-		return this.userPermissionPresenter.initView();
+		return this.userPermissionPresenter.getView();
 	}
 
 	private ComponentContainer constructThemeComponent() {
 		this.customizePresenter = PresenterResolver
 				.getPresenter(ICustomizePresenter.class);
-		return this.customizePresenter.initView();
+		return this.customizePresenter.getView();
 	}
 
 	@Override

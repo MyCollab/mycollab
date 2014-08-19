@@ -189,11 +189,10 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.CONTACT);
 							meeting.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingEdit(
-													ContactReadPresenter.this,
-													meeting));
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.MeetingEdit(
+											ContactReadPresenter.this, meeting));
 						} else if (itemId.equals("call")) {
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.CONTACT);
@@ -212,9 +211,8 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 						SimpleOpportunity opportunity = new SimpleOpportunity();
 						opportunity.setExtraData(view.getItem());
 						EventBusFactory.getInstance()
-								.post(
-										new OpportunityEvent.GotoEdit(this,
-												opportunity));
+								.post(new OpportunityEvent.GotoEdit(this,
+										opportunity));
 					}
 
 					@Override
@@ -249,7 +247,8 @@ public class ContactReadPresenter extends CrmGenericPresenter<ContactReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CONTACT)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 

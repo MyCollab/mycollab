@@ -108,7 +108,7 @@ public class ComponentListPresenter
 			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoComponentList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

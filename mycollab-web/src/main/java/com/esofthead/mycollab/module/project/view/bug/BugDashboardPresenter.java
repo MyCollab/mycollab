@@ -41,7 +41,7 @@ public class BugDashboardPresenter extends AbstractPresenter<BugDashboardView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectBreadcrumb breadcrumb = ViewManager
-				.getView(ProjectBreadcrumb.class);
+				.getCacheComponent(ProjectBreadcrumb.class);
 		breadcrumb.gotoBugDashboard();
 
 		TrackerContainer trackerContainer = (TrackerContainer) container;

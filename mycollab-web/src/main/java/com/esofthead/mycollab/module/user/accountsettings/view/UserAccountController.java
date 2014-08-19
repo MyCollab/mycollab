@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
@@ -41,9 +40,8 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
 import com.esofthead.mycollab.module.user.events.RoleEvent;
 import com.esofthead.mycollab.module.user.events.UserEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.IController;
+import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 /**
@@ -52,16 +50,13 @@ import com.google.common.eventbus.Subscribe;
  * @since 1.0
  *
  */
-public class UserAccountController implements IController {
+public class UserAccountController extends AbstractController {
 	private static final long serialVersionUID = 1L;
 
 	private AccountModule container;
-	private EventBus eventBus;
 
 	public UserAccountController(AccountModule container) {
 		this.container = container;
-
-		this.eventBus = EventBusFactory.getInstance();
 
 		bindProfileEvents();
 		bindBillingEvents();
@@ -71,7 +66,7 @@ public class UserAccountController implements IController {
 	}
 
 	private void bindBillingEvents() {
-		eventBus.register(new ApplicationEventListener<AccountBillingEvent.CancelAccount>() {
+		this.register(new ApplicationEventListener<AccountBillingEvent.CancelAccount>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -83,7 +78,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<AccountBillingEvent.GotoSummary>() {
+		this.register(new ApplicationEventListener<AccountBillingEvent.GotoSummary>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -97,7 +92,7 @@ public class UserAccountController implements IController {
 	}
 
 	private void bindProfileEvents() {
-		eventBus.register(new ApplicationEventListener<ProfileEvent.GotoUploadPhoto>() {
+		this.register(new ApplicationEventListener<ProfileEvent.GotoUploadPhoto>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -110,7 +105,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ProfileEvent.GotoProfileView>() {
+		this.register(new ApplicationEventListener<ProfileEvent.GotoProfileView>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -124,7 +119,7 @@ public class UserAccountController implements IController {
 	}
 
 	private void bindUserEvents() {
-		eventBus.register(new ApplicationEventListener<UserEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<UserEvent.GotoAdd>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -137,7 +132,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<UserEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<UserEvent.GotoEdit>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -151,7 +146,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<UserEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<UserEvent.GotoRead>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -164,7 +159,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<UserEvent.GotoList>() {
+		this.register(new ApplicationEventListener<UserEvent.GotoList>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -189,7 +184,7 @@ public class UserAccountController implements IController {
 	}
 
 	private void bindRoleEvents() {
-		eventBus.register(new ApplicationEventListener<RoleEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<RoleEvent.GotoAdd>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -201,7 +196,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<RoleEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<RoleEvent.GotoEdit>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -215,7 +210,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<RoleEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<RoleEvent.GotoRead>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -228,7 +223,7 @@ public class UserAccountController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<RoleEvent.GotoList>() {
+		this.register(new ApplicationEventListener<RoleEvent.GotoList>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -246,7 +241,7 @@ public class UserAccountController implements IController {
 	}
 
 	private void bindCustomizeEvents() {
-		eventBus.register(new ApplicationEventListener<AccountCustomizeEvent.GotoCustomize>() {
+		this.register(new ApplicationEventListener<AccountCustomizeEvent.GotoCustomize>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe

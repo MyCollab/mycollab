@@ -100,10 +100,10 @@ public class MilestoneReadPresenter extends
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBusFactory.getInstance()
-													.post(
-															new MilestoneEvent.GotoList(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new MilestoneEvent.GotoList(
+															this, null));
 										}
 									}
 								});
@@ -185,7 +185,7 @@ public class MilestoneReadPresenter extends
 					view.previewItem(milestone);
 
 					ProjectBreadcrumb breadcrumb = ViewManager
-							.getView(ProjectBreadcrumb.class);
+							.getCacheComponent(ProjectBreadcrumb.class);
 					breadcrumb.gotoMilestoneRead(milestone);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

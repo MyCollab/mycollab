@@ -23,6 +23,7 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
@@ -43,7 +44,7 @@ import com.vaadin.ui.TextField;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class VersionAddViewImpl extends AbstractEditItemComp<Version> implements
 		VersionAddView {
 	private static final long serialVersionUID = 1L;

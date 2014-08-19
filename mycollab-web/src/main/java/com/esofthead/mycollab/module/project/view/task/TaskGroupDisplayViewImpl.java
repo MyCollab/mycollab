@@ -47,6 +47,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -70,7 +71,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		TaskGroupDisplayView {
 	private static final long serialVersionUID = 1L;

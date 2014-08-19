@@ -96,7 +96,7 @@ public class TaskGroupAddPresenter extends AbstractPresenter<TaskGroupAddView> {
 			view.editItem(taskList);
 
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (taskList.getId() == null) {
 				breadCrumb.gotoTaskGroupAdd();
 			} else {

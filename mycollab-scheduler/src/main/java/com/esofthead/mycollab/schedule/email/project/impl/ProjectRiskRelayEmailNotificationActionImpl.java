@@ -182,7 +182,7 @@ public class ProjectRiskRelayEmailNotificationActionImpl extends
 			put("riskname", RiskI18nEnum.FORM_NAME, true);
 			put("description", GenericI18Enum.FORM_DESCRIPTION, true);
 
-			put("probability", RiskI18nEnum.FORM_PROBABILITY);
+			put("probalitity", RiskI18nEnum.FORM_PROBABILITY);
 			put("consequence", RiskI18nEnum.FORM_CONSEQUENCE);
 
 			put("datedue", new DateFieldFormat("datedue",

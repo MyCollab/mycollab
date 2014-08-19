@@ -129,7 +129,7 @@ public class UserReadPresenter extends AbstractPresenter<UserReadView> {
 				view.previewItem(user);
 
 				AccountSettingBreadcrumb breadcrumb = ViewManager
-						.getView(AccountSettingBreadcrumb.class);
+						.getCacheComponent(AccountSettingBreadcrumb.class);
 				breadcrumb.gotoUserRead(user);
 			} else {
 				NotificationUtil.showErrorNotification("There is no user "

@@ -20,7 +20,6 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.data.CustomViewScreenData;
 import com.esofthead.mycollab.module.crm.data.NotificationSettingScreenData;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -40,19 +39,19 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.module.crm.events.AccountEvent.GotoRead;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoCalendar;
+import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoTodoList;
 import com.esofthead.mycollab.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.events.ContactEvent;
+import com.esofthead.mycollab.module.crm.events.CrmEvent.GotoHome;
 import com.esofthead.mycollab.module.crm.events.CrmSettingEvent;
+import com.esofthead.mycollab.module.crm.events.CrmSettingEvent.GotoNotificationSetting;
 import com.esofthead.mycollab.module.crm.events.DocumentEvent;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
-import com.esofthead.mycollab.module.crm.events.AccountEvent.GotoRead;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoCalendar;
-import com.esofthead.mycollab.module.crm.events.ActivityEvent.GotoTodoList;
-import com.esofthead.mycollab.module.crm.events.CrmEvent.GotoHome;
-import com.esofthead.mycollab.module.crm.events.CrmSettingEvent.GotoNotificationSetting;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.view.account.AccountAddPresenter;
 import com.esofthead.mycollab.module.crm.view.account.AccountListPresenter;
@@ -92,10 +91,9 @@ import com.esofthead.mycollab.module.crm.view.setting.CrmSettingPresenter;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.IController;
+import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 /**
@@ -104,15 +102,13 @@ import com.google.common.eventbus.Subscribe;
  * @since 1.0
  * 
  */
-public class CrmController implements IController {
+public class CrmController extends AbstractController {
 	private static final long serialVersionUID = 1L;
 
 	private CrmModule container;
-	private EventBus eventBus;
 
 	public CrmController(CrmModule container) {
 		this.container = container;
-		this.eventBus = EventBusFactory.getInstance();
 
 		bindCrmEvents();
 		bindAccountEvents();
@@ -128,7 +124,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindCrmEvents() {
-		eventBus.register(new ApplicationEventListener<GotoHome>() {
+		this.register(new ApplicationEventListener<GotoHome>() {
 
 			@Subscribe
 			@Override
@@ -142,7 +138,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindAccountEvents() {
-		eventBus.register(new ApplicationEventListener<AccountEvent.GotoList>() {
+		this.register(new ApplicationEventListener<AccountEvent.GotoList>() {
 
 			@Subscribe
 			@Override
@@ -158,7 +154,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<AccountEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<AccountEvent.GotoAdd>() {
 
 			@Subscribe
 			@Override
@@ -170,7 +166,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<AccountEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<AccountEvent.GotoEdit>() {
 
 			@Subscribe
 			@Override
@@ -182,7 +178,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<AccountEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<AccountEvent.GotoRead>() {
 
 			@Subscribe
 			@Override
@@ -195,7 +191,7 @@ public class CrmController implements IController {
 	}
 
 	private void bindActivityEvents() {
-		eventBus.register(new ApplicationEventListener<ActivityEvent.GotoCalendar>() {
+		this.register(new ApplicationEventListener<ActivityEvent.GotoCalendar>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -207,7 +203,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.GotoTodoList>() {
+		this.register(new ApplicationEventListener<ActivityEvent.GotoTodoList>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -224,7 +220,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskAdd>() {
+		this.register(new ApplicationEventListener<ActivityEvent.TaskAdd>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -237,7 +233,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskEdit>() {
+		this.register(new ApplicationEventListener<ActivityEvent.TaskEdit>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -250,7 +246,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.TaskRead>() {
+		this.register(new ApplicationEventListener<ActivityEvent.TaskRead>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -264,7 +260,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
+		this.register(new ApplicationEventListener<ActivityEvent.MeetingAdd>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -277,7 +273,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
+		this.register(new ApplicationEventListener<ActivityEvent.MeetingEdit>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -291,7 +287,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.MeetingRead>() {
+		this.register(new ApplicationEventListener<ActivityEvent.MeetingRead>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -305,7 +301,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.CallAdd>() {
+		this.register(new ApplicationEventListener<ActivityEvent.CallAdd>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -318,7 +314,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.CallEdit>() {
+		this.register(new ApplicationEventListener<ActivityEvent.CallEdit>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -332,7 +328,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ActivityEvent.CallRead>() {
+		this.register(new ApplicationEventListener<ActivityEvent.CallRead>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -350,7 +346,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindCampaignEvents() {
-		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoList>() {
+		this.register(new ApplicationEventListener<CampaignEvent.GotoList>() {
 			@Subscribe
 			@Override
 			public void handle(CampaignEvent.GotoList event) {
@@ -366,7 +362,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<CampaignEvent.GotoAdd>() {
 			@Subscribe
 			@Override
 			public void handle(CampaignEvent.GotoAdd event) {
@@ -377,7 +373,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<CampaignEvent.GotoEdit>() {
 			@Subscribe
 			@Override
 			public void handle(CampaignEvent.GotoEdit event) {
@@ -388,7 +384,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CampaignEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<CampaignEvent.GotoRead>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -402,7 +398,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindContactEvents() {
-		eventBus.register(new ApplicationEventListener<ContactEvent.GotoList>() {
+		this.register(new ApplicationEventListener<ContactEvent.GotoList>() {
 			@Subscribe
 			@Override
 			public void handle(ContactEvent.GotoList event) {
@@ -418,7 +414,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ContactEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<ContactEvent.GotoAdd>() {
 			@Subscribe
 			@Override
 			public void handle(ContactEvent.GotoAdd event) {
@@ -429,7 +425,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ContactEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<ContactEvent.GotoEdit>() {
 			@Subscribe
 			@Override
 			public void handle(ContactEvent.GotoEdit event) {
@@ -440,7 +436,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<ContactEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<ContactEvent.GotoRead>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -453,7 +449,7 @@ public class CrmController implements IController {
 	}
 
 	private void bindDocumentEvents() {
-		eventBus.register(new ApplicationEventListener<DocumentEvent.GotoDashboard>() {
+		this.register(new ApplicationEventListener<DocumentEvent.GotoDashboard>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -465,7 +461,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<DocumentEvent.Search>() {
+		this.register(new ApplicationEventListener<DocumentEvent.Search>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -480,7 +476,7 @@ public class CrmController implements IController {
 	}
 
 	private void bindSettingEvents() {
-		eventBus.register(new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
+		this.register(new ApplicationEventListener<CrmSettingEvent.GotoNotificationSetting>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -493,7 +489,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
+		this.register(new ApplicationEventListener<CrmSettingEvent.GotoCustomViewSetting>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -508,7 +504,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindLeadEvents() {
-		eventBus.register(new ApplicationEventListener<LeadEvent.GotoList>() {
+		this.register(new ApplicationEventListener<LeadEvent.GotoList>() {
 
 			@Subscribe
 			@Override
@@ -524,7 +520,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<LeadEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<LeadEvent.GotoAdd>() {
 			@Subscribe
 			@Override
 			public void handle(LeadEvent.GotoAdd event) {
@@ -535,7 +531,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<LeadEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<LeadEvent.GotoEdit>() {
 			@Subscribe
 			@Override
 			public void handle(LeadEvent.GotoEdit event) {
@@ -546,7 +542,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<LeadEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<LeadEvent.GotoRead>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -581,7 +577,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindOpportunityEvents() {
-		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoList>() {
+		this.register(new ApplicationEventListener<OpportunityEvent.GotoList>() {
 			@Subscribe
 			@Override
 			public void handle(OpportunityEvent.GotoList event) {
@@ -603,7 +599,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<OpportunityEvent.GotoAdd>() {
 			@Subscribe
 			@Override
 			public void handle(OpportunityEvent.GotoAdd event) {
@@ -614,7 +610,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<OpportunityEvent.GotoEdit>() {
 			@Subscribe
 			@Override
 			public void handle(OpportunityEvent.GotoEdit event) {
@@ -625,7 +621,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<OpportunityEvent.GotoRead>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -636,7 +632,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
+		this.register(new ApplicationEventListener<OpportunityEvent.GotoContactRoleEdit>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
@@ -650,7 +646,7 @@ public class CrmController implements IController {
 
 	@SuppressWarnings("serial")
 	private void bindCasesEvents() {
-		eventBus.register(new ApplicationEventListener<CaseEvent.GotoList>() {
+		this.register(new ApplicationEventListener<CaseEvent.GotoList>() {
 			@Subscribe
 			@Override
 			public void handle(CaseEvent.GotoList event) {
@@ -666,7 +662,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CaseEvent.GotoAdd>() {
+		this.register(new ApplicationEventListener<CaseEvent.GotoAdd>() {
 			@Subscribe
 			@Override
 			public void handle(CaseEvent.GotoAdd event) {
@@ -677,7 +673,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CaseEvent.GotoEdit>() {
+		this.register(new ApplicationEventListener<CaseEvent.GotoEdit>() {
 			@Subscribe
 			@Override
 			public void handle(CaseEvent.GotoEdit event) {
@@ -688,7 +684,7 @@ public class CrmController implements IController {
 			}
 		});
 
-		eventBus.register(new ApplicationEventListener<CaseEvent.GotoRead>() {
+		this.register(new ApplicationEventListener<CaseEvent.GotoRead>() {
 			@Subscribe
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override

@@ -98,10 +98,10 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 													data.getId(),
 													AppContext.getUsername(),
 													AppContext.getAccountId());
-											EventBusFactory.getInstance()
-													.post(
-															new ActivityEvent.GotoTodoList(
-																	this, null));
+											EventBusFactory
+													.getInstance()
+													.post(new ActivityEvent.GotoTodoList(
+															this, null));
 										}
 									}
 								});
@@ -164,7 +164,8 @@ public class CallReadPresenter extends CrmGenericPresenter<CallReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
-			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar toolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			toolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 

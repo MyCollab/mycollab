@@ -77,7 +77,7 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 			view.editItem(page);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (page.getPath().equals("")) {
 				breadcrumb.gotoPageAdd();
 			} else {

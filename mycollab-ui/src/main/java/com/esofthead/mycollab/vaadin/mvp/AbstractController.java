@@ -17,12 +17,32 @@
 package com.esofthead.mycollab.vaadin.mvp;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.google.common.eventbus.EventBus;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.4.0
  */
-public interface IController extends Serializable {
+public abstract class AbstractController implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private EventBus eventBus = EventBusFactory.getInstance();
+	private List<Object> subscribers = new ArrayList<Object>();
+
+	public void register(Object subscriber) {
+		eventBus.register(subscriber);
+		subscribers.add(subscriber);
+	}
+
+	public void unregisterAll() {
+		for (Object subscriber : subscribers) {
+			eventBus.unregister(subscriber);
+		}
+	}
 
 }

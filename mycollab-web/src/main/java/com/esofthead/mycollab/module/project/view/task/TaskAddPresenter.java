@@ -97,7 +97,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 			view.editItem(task);
 
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (task.getId() == null) {
 				breadCrumb.gotoTaskAdd();
 			} else {

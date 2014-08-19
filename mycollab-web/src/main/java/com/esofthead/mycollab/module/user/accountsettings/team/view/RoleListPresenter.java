@@ -124,12 +124,11 @@ public class RoleListPresenter extends
 			RoleContainer roleContainer = (RoleContainer) container;
 			roleContainer.removeAllComponents();
 			roleContainer.addComponent(view.getWidget());
-			searchCriteria = (RoleSearchCriteria) data
-					.getParams();
+			searchCriteria = (RoleSearchCriteria) data.getParams();
 			doSearch(searchCriteria);
 
 			AccountSettingBreadcrumb breadcrumb = ViewManager
-					.getView(AccountSettingBreadcrumb.class);
+					.getCacheComponent(AccountSettingBreadcrumb.class);
 			breadcrumb.gotoRoleList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

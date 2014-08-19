@@ -207,7 +207,7 @@ public class ProjectMemberReadPresenter extends
 				userGroupContainer.addComponent(view.getWidget());
 				view.previewItem(prjMember);
 				ProjectBreadcrumb breadCrumb = ViewManager
-						.getView(ProjectBreadcrumb.class);
+						.getCacheComponent(ProjectBreadcrumb.class);
 				breadCrumb.gotoUserRead(prjMember);
 			} else {
 				NotificationUtil.showRecordNotExistNotification();

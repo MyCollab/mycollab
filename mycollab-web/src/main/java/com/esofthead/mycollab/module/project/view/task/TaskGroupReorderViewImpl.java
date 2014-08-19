@@ -33,6 +33,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -57,7 +58,7 @@ import fi.jasoft.dragdroplayouts.events.VerticalLocationIs;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		TaskGroupReorderView {
 	private static final long serialVersionUID = 1L;

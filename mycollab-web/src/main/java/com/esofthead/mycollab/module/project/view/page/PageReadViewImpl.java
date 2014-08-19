@@ -19,6 +19,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormViewField;
@@ -44,7 +45,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.4.0
  *
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		PageReadView {
 	private static final long serialVersionUID = 1L;

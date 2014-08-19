@@ -46,7 +46,7 @@ public class CrmNotifcationSettingPresenter extends
 		CrmSettingContainer settingContainer = (CrmSettingContainer) container;
 		settingContainer.gotoSubView("notification");
 
-		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+		CrmToolbar crmToolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_CRMNOTIFICATION_HEADER));
 

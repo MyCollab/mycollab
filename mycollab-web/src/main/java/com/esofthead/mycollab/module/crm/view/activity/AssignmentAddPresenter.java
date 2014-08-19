@@ -44,7 +44,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class AssignmentAddPresenter extends
-CrmGenericPresenter<AssignmentAddView> {
+		CrmGenericPresenter<AssignmentAddView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -88,8 +88,10 @@ CrmGenericPresenter<AssignmentAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_TASK)) {
-			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			CrmToolbar toolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			Task task = null;
 			if (data.getParams() instanceof Task) {

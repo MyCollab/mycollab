@@ -216,9 +216,8 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 						SimpleOpportunity opportunity = new SimpleOpportunity();
 						opportunity.setAccountid(view.getItem().getId());
 						EventBusFactory.getInstance()
-								.post(
-										new OpportunityEvent.GotoEdit(this,
-												opportunity));
+								.post(new OpportunityEvent.GotoEdit(this,
+										opportunity));
 					}
 				});
 
@@ -282,11 +281,10 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 							final SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.ACCOUNT);
 							meeting.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingEdit(
-													AccountReadPresenter.this,
-													meeting));
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.MeetingEdit(
+											AccountReadPresenter.this, meeting));
 						} else if (itemId.equals("call")) {
 							final SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.ACCOUNT);
@@ -303,7 +301,8 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 
 		if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER));
 

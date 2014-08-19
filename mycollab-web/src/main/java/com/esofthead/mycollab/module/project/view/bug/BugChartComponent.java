@@ -47,8 +47,8 @@ public class BugChartComponent extends Depot {
 
 	public BugChartComponent(final BugSearchCriteria baseSearchCriteria,
 			final int headerWidth, final int titleWidth) {
-		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHARTS_TITLE),
-				null, new CssLayout(), headerWidth + "px", titleWidth + "px");
+		super(AppContext.getMessage(BugI18nEnum.WIDGET_CHARTS_TITLE), null,
+				new CssLayout(), headerWidth + "px", titleWidth + "px");
 		this.setSizeFull();
 		this.baseSearchCriteria = baseSearchCriteria;
 		this.setContentBorder(true);
@@ -63,32 +63,35 @@ public class BugChartComponent extends Depot {
 		bodyContent.removeAllComponents();
 
 		if ("BugsByPriority".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE));
+			this.setTitle(AppContext
+					.getMessage(BugI18nEnum.WIDGET_CHART_PRIORIY_TITLE));
 			IPrioritySummaryChartWidget prioritySummaryChartWidget = ViewManager
-					.getView(IPrioritySummaryChartWidget.class);
+					.getCacheComponent(IPrioritySummaryChartWidget.class);
 			bodyContent.addComponent(prioritySummaryChartWidget);
 
 			final BugSearchCriteria prioritySearchCriteria = new Cloner()
-			.deepClone(baseSearchCriteria);
+					.deepClone(baseSearchCriteria);
 			prioritySummaryChartWidget
-			.setSearchCriteria(prioritySearchCriteria);
+					.setSearchCriteria(prioritySearchCriteria);
 		} else if ("BugsByStatus".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE));
+			this.setTitle(AppContext
+					.getMessage(BugI18nEnum.WIDGET_CHART_STATUS_TITLE));
 			IStatusSummaryChartWidget statusSummaryChartWidget = ViewManager
-					.getView(IStatusSummaryChartWidget.class);
+					.getCacheComponent(IStatusSummaryChartWidget.class);
 			bodyContent.addComponent(statusSummaryChartWidget);
 
 			final BugSearchCriteria statusSearchCriteria = new Cloner()
-			.deepClone(baseSearchCriteria);
+					.deepClone(baseSearchCriteria);
 			statusSummaryChartWidget.setSearchCriteria(statusSearchCriteria);
 		} else if ("BugByResolution".equals(reportName)) {
-			this.setTitle(AppContext.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE));
+			this.setTitle(AppContext
+					.getMessage(BugI18nEnum.WIDGET_CHART_RESOLUTION_TITLE));
 			IBugResolutionSummaryChartWidget resolutionSummaryWdiget = ViewManager
-					.getView(IBugResolutionSummaryChartWidget.class);
+					.getCacheComponent(IBugResolutionSummaryChartWidget.class);
 			bodyContent.addComponent(resolutionSummaryWdiget);
 
 			final BugSearchCriteria statusSearchCriteria = new Cloner()
-			.deepClone(baseSearchCriteria);
+					.deepClone(baseSearchCriteria);
 			resolutionSummaryWdiget.setSearchCriteria(statusSearchCriteria);
 		}
 	}
@@ -97,7 +100,8 @@ public class BugChartComponent extends Depot {
 
 		final PopupButton bugChartPopup = new PopupButton("");
 		bugChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
-		bugChartPopup.setIcon(MyCollabResource.newResource("icons/12/project/task_filter.png"));
+		bugChartPopup.setIcon(MyCollabResource
+				.newResource("icons/12/project/task_filter.png"));
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);
@@ -106,43 +110,43 @@ public class BugChartComponent extends Depot {
 
 		final Button btnBugByPriority = new Button("Bugs By Priority",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				bugChartPopup.setPopupVisible(false);
-				currentReportIndex = 0;
-				displayReport();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						bugChartPopup.setPopupVisible(false);
+						currentReportIndex = 0;
+						displayReport();
+					}
+				});
 		btnBugByPriority.setStyleName("link");
 		filterBtnLayout.addComponent(btnBugByPriority);
 
 		final Button btnBugByStatus = new Button("Bugs By Status",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				bugChartPopup.setPopupVisible(false);
-				currentReportIndex = 1;
-				displayReport();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						bugChartPopup.setPopupVisible(false);
+						currentReportIndex = 1;
+						displayReport();
+					}
+				});
 		btnBugByStatus.setStyleName("link");
 		filterBtnLayout.addComponent(btnBugByStatus);
 
 		final Button btnBugByResolution = new Button("Bugs By Resolution",
 				new Button.ClickListener() {
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(final ClickEvent event) {
-				bugChartPopup.setPopupVisible(false);
-				currentReportIndex = 2;
-				displayReport();
-			}
-		});
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						bugChartPopup.setPopupVisible(false);
+						currentReportIndex = 2;
+						displayReport();
+					}
+				});
 		btnBugByResolution.setStyleName("link");
 		filterBtnLayout.addComponent(btnBugByResolution);
 

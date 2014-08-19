@@ -47,6 +47,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -73,7 +74,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class ComponentReadViewImpl extends
 		AbstractPreviewItemComp2<SimpleComponent> implements ComponentReadView {
 

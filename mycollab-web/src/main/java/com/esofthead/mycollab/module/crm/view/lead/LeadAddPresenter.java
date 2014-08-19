@@ -97,7 +97,8 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_LEAD)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER));
 
@@ -120,9 +121,8 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 			view.editItem(lead);
 
 			if (lead.getId() == null) {
-				AppContext.addFragment("crm/lead/add", AppContext
-						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
-								"Lead"));
+				AppContext.addFragment("crm/lead/add", AppContext.getMessage(
+						GenericI18Enum.BROWSER_ADD_ITEM_TITLE, "Lead"));
 			} else {
 				AppContext.addFragment(
 						"crm/lead/edit/"

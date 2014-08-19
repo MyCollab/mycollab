@@ -101,7 +101,8 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_CONTACT)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER));
 
@@ -168,7 +169,7 @@ public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
 						.getExtraData()).getId());
 				associateContact.setCreatedtime(new GregorianCalendar()
 						.getTime());
-				
+
 				contactService.saveContactOpportunityRelationship(
 						Arrays.asList(associateContact),
 						AppContext.getAccountId());

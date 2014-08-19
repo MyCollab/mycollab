@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.vaadin.mvp;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.esofthead.mycollab.common.MyCollabSession.CONTROLLER_REGISTRY;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import com.esofthead.mycollab.common.MyCollabSession;
-
-import static com.esofthead.mycollab.common.MyCollabSession.CONTROLLER_REGISTRY;
 
 /**
  * 
@@ -31,14 +31,19 @@ import static com.esofthead.mycollab.common.MyCollabSession.CONTROLLER_REGISTRY;
  */
 public class ControllerRegistry {
 
-	public static void addController(IController controler) {
-		List<IController> controllerList = ((List<IController>) MyCollabSession
+	public static void addController(AbstractController controller) {
+		Map<Class, AbstractController> controllerList = ((Map<Class, AbstractController>) MyCollabSession
 				.getVariable(CONTROLLER_REGISTRY));
 		if (controllerList == null) {
-			controllerList = new ArrayList<IController>();
+			controllerList = new HashMap<Class, AbstractController>();
 			MyCollabSession.putVariable(CONTROLLER_REGISTRY, controllerList);
 		}
-		controllerList.add(controler);
+		AbstractController existingController = controllerList.get(controller
+				.getClass());
+		if (existingController != null) {
+			existingController.unregisterAll();
+		}
+		controllerList.put(controller.getClass(), controller);
 	}
 
 	public static void reset() {

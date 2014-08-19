@@ -62,7 +62,7 @@ public class SalesDashboardView extends Depot {
 		if ("OpportunitySalesStage".equals(reportName)) {
 			this.setTitle("Opportunity Sales Stage");
 			final IOpportunitySalesStageDashboard salesStageDashboard = ViewManager
-					.getView(IOpportunitySalesStageDashboard.class);
+					.getCacheComponent(IOpportunitySalesStageDashboard.class);
 			bodyContent.addComponent(salesStageDashboard);
 
 			final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
@@ -72,7 +72,7 @@ public class SalesDashboardView extends Depot {
 		} else if ("OpportunityLeadSource".equals(reportName)) {
 			this.setTitle("Opportunity Lead Source");
 			final IOpportunityLeadSourceDashboard leadSourceDashboard = ViewManager
-					.getView(IOpportunityLeadSourceDashboard.class);
+					.getCacheComponent(IOpportunityLeadSourceDashboard.class);
 			bodyContent.addComponent(leadSourceDashboard);
 
 			final OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();

@@ -31,7 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class ActivityCalendarPresenter extends
-CrmGenericPresenter<ActivityCalendarView> {
+		CrmGenericPresenter<ActivityCalendarView> {
 	private static final long serialVersionUID = 1L;
 
 	public ActivityCalendarPresenter() {
@@ -42,11 +42,11 @@ CrmGenericPresenter<ActivityCalendarView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		super.onGo(container, data);
 
-		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+		CrmToolbar crmToolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
-		AppContext.addFragment("crm/activity/calendar", "Activity Calendar");
+		AppContext.addFragment("crm/activity/calendar", "Calendar");
 	}
 
 }

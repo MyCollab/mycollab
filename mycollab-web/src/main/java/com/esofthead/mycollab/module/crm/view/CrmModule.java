@@ -50,7 +50,7 @@ public class CrmModule extends AbstractPageView implements IModule {
 		container.setWidth("100%");
 		container.setStyleName("crmContainer");
 
-		toolbar = ViewManager.getView(CrmToolbar.class);
+		toolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		container.addComponent(toolbar);
 
 		this.addComponent(container);

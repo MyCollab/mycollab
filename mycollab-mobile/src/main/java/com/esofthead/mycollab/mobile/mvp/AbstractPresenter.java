@@ -53,9 +53,9 @@ public abstract class AbstractPresenter<V extends PageView> implements
 	}
 
 	@Override
-	public V initView() {
+	public V getView() {
 		if (view == null) {
-			view = ViewManager.getView(viewClass);
+			view = ViewManager.getCacheComponent(viewClass);
 			postInitView();
 		}
 		return view;
@@ -72,7 +72,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 	@Override
 	public void go(ComponentContainer container, ScreenData<?> data,
 			boolean isHistoryTrack) {
-		initView();
+		getView();
 		log.debug("Go to view: " + view);
 		if (isHistoryTrack) {
 			ViewState state = new ViewState(container, this, data);

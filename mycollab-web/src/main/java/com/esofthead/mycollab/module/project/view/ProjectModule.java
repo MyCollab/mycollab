@@ -35,7 +35,7 @@ public class ProjectModule extends AbstractPageView implements IModule {
 	public ProjectModule() {
 		setStyleName("project-module");
 		ControllerRegistry.addController(
-				new ProjectController(this));
+				new ProjectModuleController(this));
 	}
 
 	public void gotoProjectPage() {

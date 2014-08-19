@@ -37,7 +37,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  */
 public class ProjectMemberListPresenter extends
-AbstractPresenter<ProjectMemberListView> {
+		AbstractPresenter<ProjectMemberListView> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,7 @@ AbstractPresenter<ProjectMemberListView> {
 			view.setSearchCriteria(criteria);
 
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoUserList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

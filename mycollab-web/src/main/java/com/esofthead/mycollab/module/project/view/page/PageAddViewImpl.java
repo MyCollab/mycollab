@@ -5,6 +5,7 @@ import com.esofthead.mycollab.module.project.ui.components.AbstractEditItemComp;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.EditFormControlsGenerator;
@@ -20,7 +21,7 @@ import com.vaadin.ui.Layout;
  * @since 4.4.0
  *
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class PageAddViewImpl extends AbstractEditItemComp<Page> implements
 		PageAddView {
 	private static final long serialVersionUID = 1L;

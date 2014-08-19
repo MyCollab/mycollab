@@ -106,7 +106,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 			view.editItem(version);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (version.getId() == null) {
 				breadcrumb.gotoVersionAdd();
 			} else {

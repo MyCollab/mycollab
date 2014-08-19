@@ -80,7 +80,7 @@ public class MessageListPresenter extends AbstractPresenter<MessageListView>
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MESSAGES)) {
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoMessageList();
 
 			MessageContainer messageContainer = (MessageContainer) container;

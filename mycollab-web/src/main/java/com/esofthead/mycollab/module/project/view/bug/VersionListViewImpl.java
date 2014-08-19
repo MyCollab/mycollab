@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.events.HasSelectionOptionHandlers;
 import com.esofthead.mycollab.vaadin.events.MassItemActionHandler;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.CheckBoxDecor;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
@@ -67,7 +68,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class VersionListViewImpl extends AbstractPageView implements
 		VersionListView {
 

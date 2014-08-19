@@ -44,6 +44,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
+import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.RiskEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
@@ -77,6 +78,8 @@ import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractCssPageView;
+import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
+import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -90,6 +93,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -338,81 +342,82 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private Component constructProjectDashboardComponent() {
 		dashboardPresenter = PresenterResolver
 				.getPresenter(ProjectDashboardPresenter.class);
-		return dashboardPresenter.initView();
+		return dashboardPresenter.getView();
 	}
 
 	private Component constructProjectUsers() {
 		userPresenter = PresenterResolver
 				.getPresenter(UserSettingPresenter.class);
-		return userPresenter.initView();
+		return userPresenter.getView();
 	}
 
 	private Component constructProjectMessageComponent() {
 		messagePresenter = PresenterResolver
 				.getPresenter(MessagePresenter.class);
-		return messagePresenter.initView();
+		return messagePresenter.getView();
 	}
 
 	private Component constructProjectPageComponent() {
 		pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
-		return pagePresenter.initView();
+		return pagePresenter.getView();
 	}
 
 	private Component constructProjectMilestoneComponent() {
 		milestonesPresenter = PresenterResolver
 				.getPresenter(MilestonePresenter.class);
-		return milestonesPresenter.initView();
+		return milestonesPresenter.getView();
 	}
 
 	private Component constructProjectRiskComponent() {
 		riskPresenter = PresenterResolver.getPresenter(IRiskPresenter.class);
-		return riskPresenter.initView();
+		return riskPresenter.getView();
 	}
 
 	private Component constructProjectProblemComponent() {
 		problemPresenter = PresenterResolver
 				.getPresenter(IProblemPresenter.class);
-		return problemPresenter.initView();
+		return problemPresenter.getView();
 	}
 
 	private Component constructTimeTrackingComponent() {
 		timePresenter = PresenterResolver
 				.getPresenter(ITimeTrackingPresenter.class);
-		return timePresenter.initView();
+		return timePresenter.getView();
 	}
 
 	private Component constructProjectStandupMeeting() {
 		standupPresenter = PresenterResolver
 				.getPresenter(IStandupPresenter.class);
-		return standupPresenter.initView();
+		return standupPresenter.getView();
 	}
 
 	private Component constructTaskDashboardComponent() {
 		taskPresenter = PresenterResolver.getPresenter(TaskPresenter.class);
-		return taskPresenter.initView();
+		return taskPresenter.getView();
 	}
 
 	private Component constructProjectBugComponent() {
 		trackerPresenter = PresenterResolver
 				.getPresenter(TrackerPresenter.class);
-		return trackerPresenter.initView();
+		return trackerPresenter.getView();
 	}
 
 	private Component constructProjectFileComponent() {
 		filePresenter = PresenterResolver.getPresenter(IFilePresenter.class);
-		return filePresenter.initView();
+		return filePresenter.getView();
 	}
 
 	@Override
 	public void initView(final SimpleProject project) {
 		this.removeAllComponents();
+		ControllerRegistry.addController(new ProjectController(this));
 		this.setWidth("100%");
 
 		this.addStyleName("main-content-wrapper");
 		this.addStyleName("projectDashboardView");
 		this.setVerticalTabsheetFix(true);
 
-		breadCrumb = ViewManager.getView(ProjectBreadcrumb.class);
+		breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
 		topPanel = new HorizontalLayout();
 		topPanel.setWidth("100%");
@@ -447,7 +452,27 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		if (project.isProjectArchived()) {
 			Button activeProjectBtn = new Button(
 					AppContext
-							.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT));
+							.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECT),
+					new ClickListener() {
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							ProjectService projectService = ApplicationContextUtil
+									.getSpringBean(ProjectService.class);
+							project.setProjectstatus(StatusI18nEnum.Open.name());
+							projectService.updateWithSessionWithSelective(
+									project, AppContext.getUsername());
+
+							PageActionChain chain = new PageActionChain(
+									new ProjectScreenData.Goto(
+											CurrentProjectVariables
+													.getProjectId()));
+							EventBusFactory.getInstance()
+									.post(new ProjectEvent.GotoMyProject(this,
+											chain));
+
+						}
+					});
 			activeProjectBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			topPanel.addComponent(activeProjectBtn);
 			topPanel.setComponentAlignment(activeProjectBtn,
@@ -586,10 +611,14 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 																AppContext
 																		.getUsername());
 
+												PageActionChain chain = new PageActionChain(
+														new ProjectScreenData.Goto(
+																CurrentProjectVariables
+																		.getProjectId()));
 												EventBusFactory
 														.getInstance()
-														.post(new ShellEvent.GotoProjectModule(
-																this, null));
+														.post(new ProjectEvent.GotoMyProject(
+																this, chain));
 											}
 										}
 									});

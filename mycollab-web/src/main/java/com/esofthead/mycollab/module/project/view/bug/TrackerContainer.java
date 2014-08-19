@@ -70,21 +70,21 @@ public class TrackerContainer extends AbstractPageView {
 		dashboardPresenter = PresenterResolver
 				.getPresenter(BugDashboardPresenter.class);
 
-		this.myProjectTab.addTab(this.dashboardPresenter.initView(),
+		this.myProjectTab.addTab(this.dashboardPresenter.getView(),
 				AppContext.getMessage(BugI18nEnum.TAB_DASHBOARD));
 
 		bugPresenter = PresenterResolver.getPresenter(BugPresenter.class);
-		this.myProjectTab.addTab(bugPresenter.initView(),
+		this.myProjectTab.addTab(bugPresenter.getView(),
 				AppContext.getMessage(BugI18nEnum.TAB_BUG));
 
 		componentPresenter = PresenterResolver
 				.getPresenter(ComponentPresenter.class);
-		this.myProjectTab.addTab(componentPresenter.initView(),
+		this.myProjectTab.addTab(componentPresenter.getView(),
 				AppContext.getMessage(BugI18nEnum.TAB_COMPONENT));
 
 		versionPresenter = PresenterResolver
 				.getPresenter(VersionPresenter.class);
-		this.myProjectTab.addTab(versionPresenter.initView(),
+		this.myProjectTab.addTab(versionPresenter.getView(),
 				AppContext.getMessage(BugI18nEnum.TAB_VERSION));
 
 		this.myProjectTab

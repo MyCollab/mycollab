@@ -213,6 +213,13 @@ public abstract class GenericServerRunner {
 
 		ShutdownMonitor.getInstance().start();
 
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				log.error("There is uncatch exception", e);
+			}
+		});
+
 		server.join();
 
 	}

@@ -89,7 +89,7 @@ public class ProjectMemberInvitePresenter extends
 			view.display();
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 
 			breadcrumb.gotoUserAdd();
 		} else {

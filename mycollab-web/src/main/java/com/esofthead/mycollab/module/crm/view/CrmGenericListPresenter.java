@@ -53,8 +53,8 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 	}
 
 	@Override
-	public V initView() {
-		super.initView();
+	public V getView() {
+		super.getView();
 		this.candidateView = view;
 		return view;
 	}
@@ -66,7 +66,8 @@ public abstract class CrmGenericListPresenter<V extends ListView<S, B>, S extend
 
 	public void displayNoExistItems(ComponentContainer container,
 			ScreenData<?> data) {
-		this.candidateView = ViewManager.getView(noItemFallbackViewClass);
+		this.candidateView = ViewManager
+				.getCacheComponent(noItemFallbackViewClass);
 		displayView(container, data);
 	}
 

@@ -96,7 +96,8 @@ public class OpportunityAddPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_OPPORTUNITY)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER));
 
@@ -117,9 +118,8 @@ public class OpportunityAddPresenter extends
 			view.editItem(opportunity);
 
 			if (opportunity.getId() == null) {
-				AppContext.addFragment("crm/opportunity/add",
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+				AppContext.addFragment("crm/opportunity/add", AppContext
+						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Opportunity"));
 			} else {
 				AppContext

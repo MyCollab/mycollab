@@ -100,9 +100,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 													AppContext.getAccountId());
 											EventBusFactory
 													.getInstance()
-													.post(
-															new ActivityEvent.GotoTodoList(
-																	this, null));
+													.post(new ActivityEvent.GotoTodoList(
+															this, null));
 										}
 									}
 								});
@@ -136,9 +135,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getNextItemKey(criteria);
 						if (nextId != null) {
 							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingRead(this,
-													nextId));
+									.post(new ActivityEvent.MeetingRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -170,7 +168,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_MEETING)) {
-			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar toolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			toolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 

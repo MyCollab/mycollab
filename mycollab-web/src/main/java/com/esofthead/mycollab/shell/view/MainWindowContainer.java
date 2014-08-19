@@ -18,6 +18,9 @@ package com.esofthead.mycollab.shell.view;
 
 import javax.servlet.http.Cookie;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
@@ -40,6 +43,8 @@ import com.vaadin.ui.CssLayout;
 public class MainWindowContainer extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
+	private static Logger log = LoggerFactory
+			.getLogger(MainWindowContainer.class);
 
 	private boolean isAutoLogin;
 
@@ -62,7 +67,7 @@ public class MainWindowContainer extends CssLayout {
 	private final void setDefaultView() {
 		final LoginPresenter presenter = PresenterResolver
 				.getPresenter(LoginPresenter.class);
-		LoginView loginView = presenter.initView();
+		LoginView loginView = presenter.getView();
 		this.setStyleName("loginView");
 		this.setSizeFull();
 		this.setContent(loginView.getWidget());
@@ -84,7 +89,7 @@ public class MainWindowContainer extends CssLayout {
 													.decryptText(loginParams[1]),
 											false);
 						} catch (Exception e) {
-							e.printStackTrace();
+							log.error("Login error", e);
 						}
 					}
 				}

@@ -55,7 +55,7 @@ public class ActivityRootPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		super.onGo(container, data);
 
-		CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+		CrmToolbar crmToolbar = ViewManager.getCacheComponent(CrmToolbar.class);
 		crmToolbar.gotoItem(AppContext
 				.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 

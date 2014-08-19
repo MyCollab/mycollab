@@ -197,7 +197,7 @@ public class TaskReadPresenter extends AbstractPresenter<TaskReadView> {
 					this.view.previewItem(task);
 
 					final ProjectBreadcrumb breadCrumb = ViewManager
-							.getView(ProjectBreadcrumb.class);
+							.getCacheComponent(ProjectBreadcrumb.class);
 					breadCrumb.gotoTaskRead(task);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

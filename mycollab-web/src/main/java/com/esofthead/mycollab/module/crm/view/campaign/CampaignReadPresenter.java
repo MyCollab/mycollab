@@ -86,7 +86,7 @@ public class CampaignReadPresenter extends
 						EventBusFactory.getInstance().post(
 								new CampaignEvent.GotoEdit(this, data));
 					}
-					
+
 					@Override
 					public void onAdd(SimpleCampaign data) {
 						EventBusFactory.getInstance().post(
@@ -195,11 +195,10 @@ public class CampaignReadPresenter extends
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.CAMPAIGN);
 							meeting.setTypeid(view.getItem().getId());
-							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingEdit(
-													CampaignReadPresenter.this,
-													meeting));
+							EventBusFactory
+									.getInstance()
+									.post(new ActivityEvent.MeetingEdit(
+											CampaignReadPresenter.this, meeting));
 						} else if (itemId.equals("call")) {
 							SimpleCall call = new SimpleCall();
 							call.setType(CrmTypeConstants.CAMPAIGN);
@@ -328,7 +327,8 @@ public class CampaignReadPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_CAMPAIGN)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER));
 

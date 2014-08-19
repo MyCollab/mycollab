@@ -41,9 +41,8 @@ import com.esofthead.mycollab.module.user.service.UserPreferenceService;
 import com.esofthead.mycollab.module.user.service.UserService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.IController;
+import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
@@ -54,22 +53,20 @@ import com.vaadin.addon.touchkit.ui.NavigationManager;
  * @since 3.0
  * 
  */
-public class ShellController implements IController {
+public class ShellController extends AbstractController {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory.getLogger(ShellController.class);
 
 	final private NavigationManager mainNav;
-	private EventBus eventBus;
 
 	public ShellController(NavigationManager navigationManager) {
 		this.mainNav = navigationManager;
-		this.eventBus = EventBusFactory.getInstance();
 		bind();
 	}
 
 	private void bind() {
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoLoginView>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoLoginView>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -82,7 +79,7 @@ public class ShellController implements IController {
 
 		});
 
-		eventBus.register(new ApplicationEventListener<UserEvent.PlainLogin>() {
+		this.register(new ApplicationEventListener<UserEvent.PlainLogin>() {
 			private static final long serialVersionUID = -6601631757376496199L;
 
 			@Subscribe
@@ -97,7 +94,7 @@ public class ShellController implements IController {
 				}
 			}
 		});
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoMainPage>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -109,7 +106,7 @@ public class ShellController implements IController {
 			}
 
 		});
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoCrmModule>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe
@@ -120,7 +117,7 @@ public class ShellController implements IController {
 				presenter.go(mainNav, null);
 			}
 		});
-		eventBus.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
+		this.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
 			private static final long serialVersionUID = 1L;
 
 			@Subscribe

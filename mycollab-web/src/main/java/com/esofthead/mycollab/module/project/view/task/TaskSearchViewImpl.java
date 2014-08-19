@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasSearchHandlers;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
@@ -49,7 +50,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class TaskSearchViewImpl extends AbstractPageView implements
 		TaskSearchView {
 

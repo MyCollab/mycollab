@@ -86,7 +86,7 @@ public class BugListPresenter extends
 			}
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadcrumb.gotoBugList();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

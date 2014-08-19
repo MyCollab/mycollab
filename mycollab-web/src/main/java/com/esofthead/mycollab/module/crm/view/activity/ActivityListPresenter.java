@@ -49,8 +49,8 @@ import com.vaadin.ui.UI;
  * 
  */
 public class ActivityListPresenter
-extends
-CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
+		extends
+		CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity> {
 	private static final long serialVersionUID = 1L;
 	private EventService eventService;
 
@@ -91,7 +91,8 @@ CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity
 				|| AppContext.canRead(RolePermissionCollections.CRM_TASK)
 				|| AppContext.canRead(RolePermissionCollections.CRM_CALL)) {
 
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
@@ -104,7 +105,7 @@ CrmGenericListPresenter<ActivityListView, ActivitySearchCriteria, SimpleActivity
 				this.displayNoExistItems(container, data);
 			}
 
-			AppContext.addFragment("crm/activity/todo", "Activity To Do");
+			AppContext.addFragment("crm/activity/todo", "Assignments");
 		} else {
 			NotificationUtil.showMessagePermissionAlert();
 		}

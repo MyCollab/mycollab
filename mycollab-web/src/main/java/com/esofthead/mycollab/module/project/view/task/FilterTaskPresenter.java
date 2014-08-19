@@ -50,7 +50,7 @@ public class FilterTaskPresenter extends AbstractPresenter<FilterTaskView> {
 			view.filterTasks((TaskFilterParameter) data.getParams());
 
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoTaskFilter();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

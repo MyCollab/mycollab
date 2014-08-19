@@ -87,7 +87,7 @@ public class TaskGroupReorderPresenter extends
 			view.displayTaskLists();
 
 			ProjectBreadcrumb breadCrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			breadCrumb.gotoTaskListReorder();
 		} else {
 			NotificationUtil.showMessagePermissionAlert();

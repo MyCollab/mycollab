@@ -97,7 +97,7 @@ public class ProjectMemberEditPresenter extends
 			view.editItem(member);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 			if (member.getId() == null) {
 				breadcrumb.gotoUserAdd();
 			} else {

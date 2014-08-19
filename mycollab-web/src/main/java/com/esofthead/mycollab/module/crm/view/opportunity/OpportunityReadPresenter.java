@@ -193,10 +193,8 @@ public class OpportunityReadPresenter extends
 							task.setTypeid(view.getItem().getId());
 							EventBusFactory
 									.getInstance()
-									.post(
-											new ActivityEvent.TaskEdit(
-													OpportunityReadPresenter.this,
-													task));
+									.post(new ActivityEvent.TaskEdit(
+											OpportunityReadPresenter.this, task));
 						} else if (itemId.equals("meeting")) {
 							SimpleMeeting meeting = new SimpleMeeting();
 							meeting.setType(CrmTypeConstants.OPPORTUNITY);
@@ -211,10 +209,8 @@ public class OpportunityReadPresenter extends
 							call.setTypeid(view.getItem().getId());
 							EventBusFactory
 									.getInstance()
-									.post(
-											new ActivityEvent.CallEdit(
-													OpportunityReadPresenter.this,
-													call));
+									.post(new ActivityEvent.CallEdit(
+											OpportunityReadPresenter.this, call));
 						}
 					}
 				});
@@ -226,11 +222,10 @@ public class OpportunityReadPresenter extends
 					public void createNewRelatedItem(String itemId) {
 						SimpleContact contact = new SimpleContact();
 						contact.setExtraData(view.getItem());
-						EventBusFactory.getInstance()
-								.post(
-										new ContactEvent.GotoEdit(
-												OpportunityReadPresenter.this,
-												contact));
+						EventBusFactory
+								.getInstance()
+								.post(new ContactEvent.GotoEdit(
+										OpportunityReadPresenter.this, contact));
 					}
 
 					@Override
@@ -294,7 +289,8 @@ public class OpportunityReadPresenter extends
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canRead(RolePermissionCollections.CRM_OPPORTUNITY)) {
-			CrmToolbar crmToolbar = ViewManager.getView(CrmToolbar.class);
+			CrmToolbar crmToolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
 			crmToolbar.gotoItem(AppContext
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER));
 

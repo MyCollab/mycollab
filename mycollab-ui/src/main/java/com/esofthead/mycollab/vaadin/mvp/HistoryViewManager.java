@@ -51,7 +51,7 @@ public class HistoryViewManager {
 			history.remove(history.size() - 1);
 			history.remove(history.size() - 1);
 
-			if (viewState.getPresenter().initView() instanceof IModule) {
+			if (viewState.getPresenter().getView() instanceof IModule) {
 				return new NullViewState();
 			} else {
 				log.debug("Back to view: " + viewState.getPresenter());

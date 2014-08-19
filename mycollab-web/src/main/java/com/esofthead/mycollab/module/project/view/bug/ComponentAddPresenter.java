@@ -112,7 +112,7 @@ public class ComponentAddPresenter extends AbstractPresenter<ComponentAddView> {
 			view.editItem(component);
 
 			ProjectBreadcrumb breadcrumb = ViewManager
-					.getView(ProjectBreadcrumb.class);
+					.getCacheComponent(ProjectBreadcrumb.class);
 
 			if (component.getId() == null) {
 				breadcrumb.gotoComponentAdd();

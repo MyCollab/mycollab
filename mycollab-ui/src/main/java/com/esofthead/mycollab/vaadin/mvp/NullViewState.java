@@ -50,7 +50,7 @@ public class NullViewState extends ViewState {
 		}
 
 		@Override
-		public PageView initView() {
+		public PageView getView() {
 			// do nothing
 			return null;
 		}

@@ -128,7 +128,7 @@ public class RoleReadPresenter extends AbstractPresenter<RoleReadView> {
 				view.previewItem(role);
 
 				AccountSettingBreadcrumb breadcrumb = ViewManager
-						.getView(AccountSettingBreadcrumb.class);
+						.getCacheComponent(AccountSettingBreadcrumb.class);
 				breadcrumb.gotoRoleRead(role);
 			} else {
 				NotificationUtil.showRecordNotExistNotification();

@@ -18,6 +18,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -49,7 +50,7 @@ import com.vaadin.ui.Window;
  * @since 4.4.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class PageListViewImpl extends AbstractPageView implements PageListView {
 	private static final long serialVersionUID = 1L;
 

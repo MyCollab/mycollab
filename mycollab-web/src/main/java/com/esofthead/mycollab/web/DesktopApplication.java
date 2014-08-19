@@ -203,7 +203,7 @@ public class DesktopApplication extends MyCollabUI {
 				mainWindowContainer));
 		LoginPresenter presenter = PresenterResolver
 				.getPresenter(LoginPresenter.class);
-		LoginView loginView = presenter.initView();
+		LoginView loginView = presenter.getView();
 
 		mainWindowContainer.setStyleName("loginView");
 

@@ -195,40 +195,40 @@ public class CrmModule extends AbstractMobileTabPageView implements IModule {
 	private Component getActivityTab() {
 		activityPresenter = PresenterResolver
 				.getPresenter(ActivityListPresenter.class);
-		return activityPresenter.initView();
+		return activityPresenter.getView();
 	}
 
 	private Component getCaseTab() {
 		casePresenter = PresenterResolver.getPresenter(CaseListPresenter.class);
-		return casePresenter.initView();
+		return casePresenter.getView();
 	}
 
 	private Component getOpportunityTab() {
 		opportunityPresenter = PresenterResolver
 				.getPresenter(OpportunityListPresenter.class);
-		return opportunityPresenter.initView();
+		return opportunityPresenter.getView();
 	}
 
 	private Component getLeadTab() {
 		leadPresenter = PresenterResolver.getPresenter(LeadListPresenter.class);
-		return leadPresenter.initView();
+		return leadPresenter.getView();
 	}
 
 	private Component getCampaignTab() {
 		campaignPresenter = PresenterResolver
 				.getPresenter(CampaignListPresenter.class);
-		return campaignPresenter.initView();
+		return campaignPresenter.getView();
 	}
 
 	private Component getContactTab() {
 		contactPresenter = PresenterResolver
 				.getPresenter(ContactListPresenter.class);
-		return contactPresenter.initView();
+		return contactPresenter.getView();
 	}
 
 	private Component getAccountTab() {
 		accountPresenter = PresenterResolver
 				.getPresenter(AccountListPresenter.class);
-		return accountPresenter.initView();
+		return accountPresenter.getView();
 	}
 }

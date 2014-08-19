@@ -111,13 +111,13 @@ public class CrmSettingContainer extends AbstractCssPageView implements
 	private Component constructNotificationSettingView() {
 		notificationPresenter = PresenterResolver
 				.getPresenter(CrmNotifcationSettingPresenter.class);
-		return notificationPresenter.initView();
+		return notificationPresenter.getView();
 	}
 
 	private Component constructCustomLayoutView() {
 		customViewPresenter = PresenterResolver
 				.getPresenter(ICrmCustomViewPresenter.class);
-		return customViewPresenter.initView();
+		return customViewPresenter.getView();
 	}
 
 	public Component gotoSubView(String viewId) {

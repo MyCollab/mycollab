@@ -135,7 +135,7 @@ public class BugReadPresenter extends AbstractPresenter<BugReadView> {
 					view.previewItem(bug);
 
 					ProjectBreadcrumb breadcrumb = ViewManager
-							.getView(ProjectBreadcrumb.class);
+							.getCacheComponent(ProjectBreadcrumb.class);
 					breadcrumb.gotoBugRead(bug);
 				} else {
 					NotificationUtil.showRecordNotExistNotification();

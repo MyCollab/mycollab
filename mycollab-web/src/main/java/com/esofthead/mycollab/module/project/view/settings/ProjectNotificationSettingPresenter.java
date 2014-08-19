@@ -56,7 +56,7 @@ public class ProjectNotificationSettingPresenter extends
 						AppContext.getAccountId());
 
 		ProjectBreadcrumb breadCrumb = ViewManager
-				.getView(ProjectBreadcrumb.class);
+				.getCacheComponent(ProjectBreadcrumb.class);
 		breadCrumb.gotoNotificationSetting(notification);
 		view.showNotificationSettings(notification);
 	}

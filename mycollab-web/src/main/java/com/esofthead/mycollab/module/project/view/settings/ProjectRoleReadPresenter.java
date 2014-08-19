@@ -151,7 +151,7 @@ public class ProjectRoleReadPresenter extends
 				view.previewItem(role);
 
 				ProjectBreadcrumb breadCrumb = ViewManager
-						.getView(ProjectBreadcrumb.class);
+						.getCacheComponent(ProjectBreadcrumb.class);
 				breadCrumb.gotoRoleRead(role);
 			}
 		} else {

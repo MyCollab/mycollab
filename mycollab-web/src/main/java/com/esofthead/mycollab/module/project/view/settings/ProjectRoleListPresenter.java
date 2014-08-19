@@ -127,7 +127,7 @@ public class ProjectRoleListPresenter
 		doSearch(searchCriteria);
 
 		ProjectBreadcrumb breadCrumb = ViewManager
-				.getView(ProjectBreadcrumb.class);
+				.getCacheComponent(ProjectBreadcrumb.class);
 		breadCrumb.gotoRoleList();
 	}
 

@@ -88,8 +88,10 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (AppContext.canWrite(RolePermissionCollections.CRM_MEETING)) {
-			CrmToolbar toolbar = ViewManager.getView(CrmToolbar.class);
-			toolbar.gotoItem(AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
+			CrmToolbar toolbar = ViewManager
+					.getCacheComponent(CrmToolbar.class);
+			toolbar.gotoItem(AppContext
+					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			MeetingWithBLOBs meeting = null;
 			if (data.getParams() instanceof MeetingWithBLOBs) {
@@ -110,15 +112,13 @@ public class MeetingAddPresenter extends CrmGenericPresenter<MeetingAddView> {
 			view.editItem(meeting);
 
 			if (meeting.getId() == null) {
-				AppContext.addFragment("crm/activity/meeting/add/",
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
+				AppContext.addFragment("crm/activity/meeting/add/", AppContext
+						.getMessage(GenericI18Enum.BROWSER_ADD_ITEM_TITLE,
 								"Meeting"));
 			} else {
 				AppContext.addFragment("crm/activity/meeting/edit/"
-						+ UrlEncodeDecoder.encode(meeting.getId()),
-						AppContext.getMessage(
-								GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
+						+ UrlEncodeDecoder.encode(meeting.getId()), AppContext
+						.getMessage(GenericI18Enum.BROWSER_EDIT_ITEM_TITLE,
 								"Meeting", meeting.getSubject()));
 			}
 		} else {

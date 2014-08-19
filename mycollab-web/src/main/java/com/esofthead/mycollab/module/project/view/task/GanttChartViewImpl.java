@@ -38,6 +38,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
@@ -50,7 +51,7 @@ import com.vaadin.ui.TreeTable;
  * @since 4.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class GanttChartViewImpl extends AbstractPageView implements
 		GanttChartView {
 	private static final long serialVersionUID = 1L;

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.module.project.view.parameters.TaskFilterParameter
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
@@ -52,7 +53,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope=ViewScope.PROTOTYPE)
 public class FilterTaskViewImpl extends AbstractPageView implements
 		FilterTaskView {
 	private static final long serialVersionUID = 1L;
