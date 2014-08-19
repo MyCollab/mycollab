@@ -19,12 +19,23 @@ package com.esofthead.mycollab.module.common;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.esofthead.mycollab.common.SessionIdGenerator;
 import com.esofthead.mycollab.module.common.view.InvalidSomeView;
 import com.esofthead.mycollab.module.common.view.SomeView;
 import com.esofthead.mycollab.module.common.view.SomeViewImpl;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 
 public class ViewManagerTest {
+
+	static {
+		SessionIdGenerator.registerSessionIdGenerator(new SessionIdGenerator() {
+
+			@Override
+			public String getSessionIdApp() {
+				return "1";
+			}
+		});
+	}
 
 	@Test
 	public void testGetViewClassSuccess() {
