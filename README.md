@@ -1,5 +1,5 @@
 # MyCollab an open source Java CRM, Project and Document Management Platform
-[![Build Status](https://drone.io/github.com/esofthead/mycollab/status.png)](https://drone.io/github.com/esofthead/mycollab/latest)
+[![Build Status](https://drone.io/github.com/esofthead/mycollab/status.png)](https://drone.io/github.com/esofthead/mycollab/latest) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
 
 ## Introduction
 The MyCollab Platform offers developers the exact business application platform they’ve been looking for, by combining the tools they need. Built in Java and bundles of open source frameworks and libraries, it seamlessly integrates into MyCollab CRM, MyCollab-Project or Document Management. Developing custom business applications has never been so easy.
@@ -82,8 +82,11 @@ MyCollab provides the rich set features of Project Management, Customer Manageme
   * Issues Management
   * Tasks and its dependencies management
   * Milestones
+  * Risk/Problem Management
   * People and Permission management
   * Support English and Japanese, more languages will be added in future
+
+We use MyCollab in our daily jobs to manage our customers information, projects. It is deployed in the production environment of our premium users, and we also support several organization to deploy this community version on their servers. We take care of our open source edition similar than we do for our premium product, in fact both of them use the same code base structure. So feel free to use it in your business jobs, and we hope you will find it useful!
 
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
@@ -92,10 +95,10 @@ Please take a look at MyCollab requirements:
     http://wiki.mycollab.com/Installation_Guideline#System_Requirements
 
 ## Installation
-1. Download MyCollab - https://sourceforge.net/projects/mycollab/files/MyCollab_4.4.0/
+1. Download MyCollab binary - https://sourceforge.net/projects/mycollab/files/MyCollab_4.4.0/
 2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
 
-If you need to understand more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
+If you need to understand the more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
 
 ## Document
 MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
