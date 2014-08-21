@@ -1,3 +1,19 @@
+/**
+ * This file is part of mycollab-web.
+ *
+ * mycollab-web is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * mycollab-web is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.esofthead.mycollab.module.project.view;
 
 import java.util.GregorianCalendar;
@@ -34,6 +50,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.StandupReportSearch
 import com.esofthead.mycollab.module.project.events.BugComponentEvent;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.events.BugVersionEvent;
+import com.esofthead.mycollab.module.project.events.CustomizeUIEvent;
 import com.esofthead.mycollab.module.project.events.MessageEvent;
 import com.esofthead.mycollab.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.module.project.events.PageEvent;
@@ -622,18 +639,6 @@ public class ProjectController extends AbstractController {
 			}
 		});
 
-		this.register(new ApplicationEventListener<StandUpEvent.GotoRead>() {
-			private static final long serialVersionUID = 1L;
-
-			@Subscribe
-			@Override
-			public void handle(StandUpEvent.GotoRead event) {
-				StandupScreenData.Read data = new StandupScreenData.Read(
-						(Integer) event.getData());
-				projectView.gotoStandupReportView(data);
-			}
-		});
-
 		this.register(new ApplicationEventListener<StandUpEvent.GotoList>() {
 			private static final long serialVersionUID = 1L;
 
@@ -755,6 +760,16 @@ public class ProjectController extends AbstractController {
 				ProjectMemberScreenData.Add data = new ProjectMemberScreenData.Add(
 						(ProjectMember) event.getData());
 				projectView.gotoUsersAndGroup(data);
+			}
+		});
+
+		this.register(new ApplicationEventListener<CustomizeUIEvent.UpdateFeaturesList>() {
+			private static final long serialVersionUID = 1L;
+
+			@Subscribe
+			@Override
+			public void handle(CustomizeUIEvent.UpdateFeaturesList event) {
+				projectView.updateProjectFeatures();
 			}
 		});
 	}

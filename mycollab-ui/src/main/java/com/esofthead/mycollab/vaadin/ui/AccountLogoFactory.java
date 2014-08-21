@@ -38,11 +38,6 @@ public class AccountLogoFactory {
 
 	}
 
-	public static String getLogoLink(String logoId, int size) {
-		return SiteConfiguration.getStorageConfiguration().getAvatarPath(
-				logoId, size);
-	}
-
 	public static Resource createLogoResource(String logoId, int size) {
 		Resource logoRes = null;
 

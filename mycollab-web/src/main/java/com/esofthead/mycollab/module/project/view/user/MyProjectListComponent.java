@@ -342,15 +342,20 @@ public class MyProjectListComponent extends Depot {
 			bugStatus.setComponentAlignment(bugProgressBar, Alignment.TOP_LEFT);
 			projectStatusLayout.addComponent(bugStatus);
 
-			HorizontalLayout phaseStatus = new HorizontalLayout();
-			phaseStatus.setWidth("100%");
-			phaseStatus.setSpacing(true);
-			phaseStatus.setStyleName("phase-status-layout");
-			phaseStatus.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+			VerticalLayout phaseStatusLayout = new VerticalLayout();
+			phaseStatusLayout.setWidth("100%");
+			phaseStatusLayout.setSpacing(true);
+			phaseStatusLayout.setStyleName("phase-status-layout");
+
 			Label phaseLbl = new Label("Phases");
 			phaseLbl.setStyleName("status-lbl");
-			phaseStatus.addComponent(phaseLbl);
-			phaseStatus.setComponentAlignment(phaseLbl, Alignment.TOP_LEFT);
+			phaseLbl.addStyleName("phase-status-lbl");
+			phaseLbl.setSizeUndefined();
+			phaseStatusLayout.addComponent(phaseLbl);
+
+			HorizontalLayout phaseStatus = new HorizontalLayout();
+			phaseStatus.setWidth("100%");
+			phaseStatus.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 			Button.ClickListener goToPhaseListener = new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -372,19 +377,22 @@ public class MyProjectListComponent extends Depot {
 			closePhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(closePhaseBtn);
 
-			Button inProgressPhaseBtn = new Button(project.getNumClosedPhase()
-					+ "<small>In Progress</small>", goToPhaseListener);
+			Button inProgressPhaseBtn = new Button(
+					project.getNumInProgressPhase()
+							+ "<small>In Progress</small>", goToPhaseListener);
 			inProgressPhaseBtn.setHtmlContentAllowed(true);
 			inProgressPhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(inProgressPhaseBtn);
 
-			Button futurePhaseBtn = new Button(project.getNumClosedPhase()
+			Button futurePhaseBtn = new Button(project.getNumFuturePhase()
 					+ "<small>Future</small>", goToPhaseListener);
 			futurePhaseBtn.setHtmlContentAllowed(true);
 			futurePhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(futurePhaseBtn);
 
-			linkIconFix.addComponent(phaseStatus);
+			phaseStatusLayout.addComponent(phaseStatus);
+
+			linkIconFix.addComponent(phaseStatusLayout);
 
 			projectLayout.addComponent(projectStatusLayout);
 

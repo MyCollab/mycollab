@@ -128,97 +128,30 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 	private UserSettingPresenter userPresenter;
 	private IStandupPresenter standupPresenter;
 	private ProjectBreadcrumb breadCrumb;
-	private ProjectListComponent prjList;
 
-	private void buildComponents() {
-		Integer prjId = CurrentProjectVariables.getProjectId();
+	@Override
+	public void initView(final SimpleProject project) {
+		this.removeAllComponents();
+		ControllerRegistry.addController(new ProjectController(this));
+		this.setWidth("100%");
 
-		myProjectTab.addTab(
-				constructProjectDashboardComponent(),
-				"dashboard",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateProjectLink(prjId));
+		this.addStyleName("main-content-wrapper");
+		this.addStyleName("projectDashboardView");
+		this.setVerticalTabsheetFix(true);
 
-		myProjectTab.addTab(
-				constructProjectMessageComponent(),
-				"message",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateMessagesLink(prjId));
+		breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
 
-		myProjectTab.addTab(
-				constructProjectMilestoneComponent(),
-				"milestone",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateMilestonesLink(prjId));
+		topPanel = new HorizontalLayout();
+		topPanel.setWidth("100%");
+		topPanel.setMargin(true);
+		topPanel.setStyleName("top-panel");
 
-		myProjectTab
-				.addTab(constructTaskDashboardComponent(),
-						"task",
-						AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
-						GenericLinkUtils.URL_PREFIX_PARAM
-								+ ProjectLinkGenerator
-										.generateTaskDashboardLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectBugComponent(),
-				"bug",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateProjectLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectPageComponent(),
-				"page",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateProjectLink(prjId));
-
-		myProjectTab
-				.addTab(constructProjectFileComponent(),
-						"file",
-						AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
-						GenericLinkUtils.URL_PREFIX_PARAM
-								+ ProjectLinkGenerator
-										.generateFileDashboardLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectRiskComponent(),
-				"risk",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateRisksLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectProblemComponent(),
-				"problem",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateProblemsLink(prjId));
-
-		myProjectTab.addTab(
-				constructTimeTrackingComponent(),
-				"time",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateTimeReportLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectStandupMeeting(),
-				"standup",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator
-								.generateStandupDashboardLink(prjId));
-
-		myProjectTab.addTab(
-				constructProjectUsers(),
-				"member",
-				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
-				GenericLinkUtils.URL_PREFIX_PARAM
-						+ ProjectLinkGenerator.generateUsersLink(prjId));
+		myProjectTab = new ProjectVerticalTabsheet();
+		myProjectTab.setSizeFull();
+		myProjectTab.setNavigatorWidth("100%");
+		myProjectTab.setNavigatorStyleName("sidebar-menu");
+		myProjectTab.setContainerStyleName("tab-content");
+		myProjectTab.setHeight(null);
 
 		myProjectTab
 				.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -297,145 +230,12 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 
 					}
 				});
-	}
-
-	@Override
-	public void gotoUsersAndGroup(ScreenData<?> data) {
-		userPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoTaskList(ScreenData<?> data) {
-		taskPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoPageView(ScreenData<?> data) {
-		pagePresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoRiskView(ScreenData<?> data) {
-		riskPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoTimeTrackingView(ScreenData<?> data) {
-		timePresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoBugView(ScreenData<?> data) {
-		trackerPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoMilestoneView(ScreenData<?> data) {
-		milestonesPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	@Override
-	public void gotoStandupReportView(ScreenData<?> data) {
-		standupPresenter.go(ProjectViewImpl.this, data);
-	}
-
-	private Component constructProjectDashboardComponent() {
-		dashboardPresenter = PresenterResolver
-				.getPresenter(ProjectDashboardPresenter.class);
-		return dashboardPresenter.getView();
-	}
-
-	private Component constructProjectUsers() {
-		userPresenter = PresenterResolver
-				.getPresenter(UserSettingPresenter.class);
-		return userPresenter.getView();
-	}
-
-	private Component constructProjectMessageComponent() {
-		messagePresenter = PresenterResolver
-				.getPresenter(MessagePresenter.class);
-		return messagePresenter.getView();
-	}
-
-	private Component constructProjectPageComponent() {
-		pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
-		return pagePresenter.getView();
-	}
-
-	private Component constructProjectMilestoneComponent() {
-		milestonesPresenter = PresenterResolver
-				.getPresenter(MilestonePresenter.class);
-		return milestonesPresenter.getView();
-	}
-
-	private Component constructProjectRiskComponent() {
-		riskPresenter = PresenterResolver.getPresenter(IRiskPresenter.class);
-		return riskPresenter.getView();
-	}
-
-	private Component constructProjectProblemComponent() {
-		problemPresenter = PresenterResolver
-				.getPresenter(IProblemPresenter.class);
-		return problemPresenter.getView();
-	}
-
-	private Component constructTimeTrackingComponent() {
-		timePresenter = PresenterResolver
-				.getPresenter(ITimeTrackingPresenter.class);
-		return timePresenter.getView();
-	}
-
-	private Component constructProjectStandupMeeting() {
-		standupPresenter = PresenterResolver
-				.getPresenter(IStandupPresenter.class);
-		return standupPresenter.getView();
-	}
-
-	private Component constructTaskDashboardComponent() {
-		taskPresenter = PresenterResolver.getPresenter(TaskPresenter.class);
-		return taskPresenter.getView();
-	}
-
-	private Component constructProjectBugComponent() {
-		trackerPresenter = PresenterResolver
-				.getPresenter(TrackerPresenter.class);
-		return trackerPresenter.getView();
-	}
-
-	private Component constructProjectFileComponent() {
-		filePresenter = PresenterResolver.getPresenter(IFilePresenter.class);
-		return filePresenter.getView();
-	}
-
-	@Override
-	public void initView(final SimpleProject project) {
-		this.removeAllComponents();
-		ControllerRegistry.addController(new ProjectController(this));
-		this.setWidth("100%");
-
-		this.addStyleName("main-content-wrapper");
-		this.addStyleName("projectDashboardView");
-		this.setVerticalTabsheetFix(true);
-
-		breadCrumb = ViewManager.getCacheComponent(ProjectBreadcrumb.class);
-
-		topPanel = new HorizontalLayout();
-		topPanel.setWidth("100%");
-		topPanel.setMargin(true);
-		topPanel.setStyleName("top-panel");
-
-		myProjectTab = new ProjectVerticalTabsheet();
-		myProjectTab.setSizeFull();
-		myProjectTab.setNavigatorWidth("100%");
-		myProjectTab.setNavigatorStyleName("sidebar-menu");
-		myProjectTab.setContainerStyleName("tab-content");
-		myProjectTab.setHeight(null);
 
 		VerticalLayout contentWrapper = myProjectTab.getContentWrapper();
 		contentWrapper.addStyleName("main-content");
 		contentWrapper.addComponentAsFirst(topPanel);
 
-		prjList = new ProjectListComponent();
+		ProjectListComponent prjList = new ProjectListComponent();
 		CssLayout navigatorWrapper = myProjectTab.getNavigatorWrapper();
 		navigatorWrapper.addComponentAsFirst(prjList);
 		navigatorWrapper.setWidth("250px");
@@ -702,4 +502,263 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 		return component;
 	}
 
+	private void buildComponents() {
+		Integer prjId = CurrentProjectVariables.getProjectId();
+
+		myProjectTab.addTab(
+				constructProjectDashboardComponent(),
+				"dashboard",
+				1,
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateProjectLink(prjId));
+
+		if (CurrentProjectVariables.hasMessageFeature()) {
+			myProjectTab.addTab(
+					constructProjectMessageComponent(),
+					"message",
+					2,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator.generateMessagesLink(prjId));
+		} else {
+			myProjectTab.removeTab("message");
+		}
+
+		if (CurrentProjectVariables.hasPhaseFeature()) {
+			myProjectTab
+					.addTab(constructProjectMilestoneComponent(),
+							"milestone",
+							3,
+							AppContext
+									.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
+							GenericLinkUtils.URL_PREFIX_PARAM
+									+ ProjectLinkGenerator
+											.generateMilestonesLink(prjId));
+		} else {
+			myProjectTab.removeTab("milestone");
+		}
+
+		if (CurrentProjectVariables.hasTaskFeature()) {
+			myProjectTab.addTab(
+					constructTaskDashboardComponent(),
+					"task",
+					4,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator
+									.generateTaskDashboardLink(prjId));
+		} else {
+			myProjectTab.removeTab("task");
+		}
+
+		if (CurrentProjectVariables.hasBugFeature()) {
+			myProjectTab.addTab(
+					constructProjectBugComponent(),
+					"bug",
+					5,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator.generateProjectLink(prjId));
+		} else {
+			myProjectTab.removeTab("bug");
+		}
+
+		if (CurrentProjectVariables.hasPageFeature()) {
+			myProjectTab.addTab(
+					constructProjectPageComponent(),
+					"page",
+					6,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PAGE),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator.generateProjectLink(prjId));
+		} else {
+			myProjectTab.removeTab("page");
+		}
+
+		if (CurrentProjectVariables.hasFileFeature()) {
+			myProjectTab.addTab(
+					constructProjectFileComponent(),
+					"file",
+					7,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator
+									.generateFileDashboardLink(prjId));
+		} else {
+			myProjectTab.removeTab("file");
+		}
+
+		if (CurrentProjectVariables.hasRiskFeature()) {
+			myProjectTab.addTab(
+					constructProjectRiskComponent(),
+					"risk",
+					8,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator.generateRisksLink(prjId));
+		} else {
+			myProjectTab.removeTab("risk");
+		}
+
+		if (CurrentProjectVariables.hasProblemFeature()) {
+			myProjectTab.addTab(
+					constructProjectProblemComponent(),
+					"problem",
+					9,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator.generateProblemsLink(prjId));
+		} else {
+			myProjectTab.removeTab("problem");
+		}
+
+		if (CurrentProjectVariables.hasTimeFeature()) {
+			myProjectTab.addTab(
+					constructTimeTrackingComponent(),
+					"time",
+					10,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator
+									.generateTimeReportLink(prjId));
+		} else {
+			myProjectTab.removeTab("time");
+		}
+
+		if (CurrentProjectVariables.hasStandupFeature()) {
+			myProjectTab.addTab(
+					constructProjectStandupMeeting(),
+					"standup",
+					11,
+					AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
+					GenericLinkUtils.URL_PREFIX_PARAM
+							+ ProjectLinkGenerator
+									.generateStandupDashboardLink(prjId));
+		} else {
+			myProjectTab.removeTab("standup");
+		}
+
+		myProjectTab.addTab(
+				constructProjectUsers(),
+				"member",
+				12,
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MEMBER),
+				GenericLinkUtils.URL_PREFIX_PARAM
+						+ ProjectLinkGenerator.generateUsersLink(prjId));
+	}
+
+	@Override
+	public void gotoUsersAndGroup(ScreenData<?> data) {
+		userPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoTaskList(ScreenData<?> data) {
+		taskPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoPageView(ScreenData<?> data) {
+		pagePresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoRiskView(ScreenData<?> data) {
+		riskPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoTimeTrackingView(ScreenData<?> data) {
+		timePresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoBugView(ScreenData<?> data) {
+		trackerPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoMilestoneView(ScreenData<?> data) {
+		milestonesPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	@Override
+	public void gotoStandupReportView(ScreenData<?> data) {
+		standupPresenter.go(ProjectViewImpl.this, data);
+	}
+
+	private Component constructProjectDashboardComponent() {
+		dashboardPresenter = PresenterResolver
+				.getPresenter(ProjectDashboardPresenter.class);
+		return dashboardPresenter.getView();
+	}
+
+	private Component constructProjectUsers() {
+		userPresenter = PresenterResolver
+				.getPresenter(UserSettingPresenter.class);
+		return userPresenter.getView();
+	}
+
+	private Component constructProjectMessageComponent() {
+		messagePresenter = PresenterResolver
+				.getPresenter(MessagePresenter.class);
+		return messagePresenter.getView();
+	}
+
+	private Component constructProjectPageComponent() {
+		pagePresenter = PresenterResolver.getPresenter(PagePresenter.class);
+		return pagePresenter.getView();
+	}
+
+	private Component constructProjectMilestoneComponent() {
+		milestonesPresenter = PresenterResolver
+				.getPresenter(MilestonePresenter.class);
+		return milestonesPresenter.getView();
+	}
+
+	private Component constructProjectRiskComponent() {
+		riskPresenter = PresenterResolver.getPresenter(IRiskPresenter.class);
+		return riskPresenter.getView();
+	}
+
+	private Component constructProjectProblemComponent() {
+		problemPresenter = PresenterResolver
+				.getPresenter(IProblemPresenter.class);
+		return problemPresenter.getView();
+	}
+
+	private Component constructTimeTrackingComponent() {
+		timePresenter = PresenterResolver
+				.getPresenter(ITimeTrackingPresenter.class);
+		return timePresenter.getView();
+	}
+
+	private Component constructProjectStandupMeeting() {
+		standupPresenter = PresenterResolver
+				.getPresenter(IStandupPresenter.class);
+		return standupPresenter.getView();
+	}
+
+	private Component constructTaskDashboardComponent() {
+		taskPresenter = PresenterResolver.getPresenter(TaskPresenter.class);
+		return taskPresenter.getView();
+	}
+
+	private Component constructProjectBugComponent() {
+		trackerPresenter = PresenterResolver
+				.getPresenter(TrackerPresenter.class);
+		return trackerPresenter.getView();
+	}
+
+	private Component constructProjectFileComponent() {
+		filePresenter = PresenterResolver.getPresenter(IFilePresenter.class);
+		return filePresenter.getView();
+	}
+
+	@Override
+	public void updateProjectFeatures() {
+		buildComponents();
+
+	}
 }

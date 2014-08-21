@@ -25,9 +25,9 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  *
  */
 public class ProjectSettingScreenData {
-	public static class ViewNotification extends ScreenData {
+	public static class ViewSettings extends ScreenData {
 
-		public ViewNotification() {
+		public ViewSettings() {
 			super(null);
 		}
 	}

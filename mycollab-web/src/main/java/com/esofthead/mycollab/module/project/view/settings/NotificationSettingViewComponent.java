@@ -26,8 +26,9 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.i18n.NotificationSettingI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.ProjectSettingI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.ui.BlockWidget;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -39,9 +40,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
@@ -55,61 +54,37 @@ import com.vaadin.ui.VerticalLayout;
  * @param <S>
  */
 public abstract class NotificationSettingViewComponent<B extends ValuedBean, S extends ICrudService>
-		extends VerticalLayout {
+		extends BlockWidget {
 	private static final long serialVersionUID = 1L;
 
 	private Map<String, String> levels = new LinkedHashMap<String, String>();
 
 	protected B bean;
 	protected S service;
-	protected CssLayout mainLayout;
 	protected String level;
 
 	public NotificationSettingViewComponent(B bean, S service) {
+		super(AppContext.getMessage(ProjectSettingI18nEnum.VIEW_TITLE));
 		this.bean = bean;
 		this.service = service;
 
 		levels.put("Default", AppContext
-				.getMessage(NotificationSettingI18nEnum.OPT_DEFAULT_SETTING));
+				.getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
 		levels.put("None", AppContext
-				.getMessage(NotificationSettingI18nEnum.OPT_NONE_SETTING));
+				.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 		levels.put("Minimal", AppContext
-				.getMessage(NotificationSettingI18nEnum.OPT_MINIMUM_SETTING));
+				.getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 		levels.put("Full", AppContext
-				.getMessage(NotificationSettingI18nEnum.OPT_MAXIMUM_SETTING));
+				.getMessage(ProjectSettingI18nEnum.OPT_MAXIMUM_SETTING));
 
 		constructBody();
 	}
 
 	private void constructBody() {
-		this.setWidth("100%");
-		this.setSpacing(true);
-		this.addStyleName("readview-layout");
-		this.setMargin(new MarginInfo(true, true, false, true));
-
-		HorizontalLayout header = new HorizontalLayout();
-		header.setWidth("100%");
-		header.setSpacing(true);
-		header.setMargin(new MarginInfo(true, false, true, false));
-		header.setStyleName(UIConstants.HEADER_VIEW);
-
-		final Image titleIcon = new Image(null,
-				MyCollabResource.newResource("icons/22/crm/notification.png"));
-		header.addComponent(titleIcon);
-		header.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
-
-		final Label searchtitle = new Label(
-				AppContext.getMessage(NotificationSettingI18nEnum.VIEW_TITLE));
-		searchtitle.setStyleName(UIConstants.HEADER_TEXT);
-		header.addComponent(searchtitle);
-		header.setExpandRatio(searchtitle, 1.0f);
-		header.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
-
-		this.addComponent(header);
 
 		VerticalLayout bodyWrapper = new VerticalLayout();
 		bodyWrapper.setSpacing(true);
-		bodyWrapper.setMargin(new MarginInfo(true, false, false, false));
+		bodyWrapper.setMargin(true);
 		bodyWrapper.setSizeFull();
 
 		HorizontalLayout notificationLabelWrapper = new HorizontalLayout();
@@ -119,7 +94,7 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 		notificationLabelWrapper.setStyleName("notification-label");
 
 		Label notificationLabel = new Label(
-				AppContext.getMessage(NotificationSettingI18nEnum.EXT_LEVEL));
+				AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
 		notificationLabel.addStyleName("h2");
 
 		notificationLabel.setHeight(Sizeable.SIZE_UNDEFINED,
@@ -164,11 +139,12 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 				}
 			});
 
-			Button upgradeBtn = new Button(
+			Button updateBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_UPDATE_LABEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
+						@SuppressWarnings("unchecked")
 						@Override
 						public void buttonClick(ClickEvent event) {
 							try {
@@ -194,17 +170,17 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 													AppContext.getUsername());
 								}
 								NotificationUtil.showNotification(AppContext
-										.getMessage(NotificationSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
+										.getMessage(ProjectSettingI18nEnum.DIALOG_UPDATE_SUCCESS));
 							} catch (Exception e) {
 								throw new MyCollabException(e);
 							}
 						}
 					});
-			upgradeBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-			upgradeBtn.setIcon(MyCollabResource
+			updateBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+			updateBtn.setIcon(MyCollabResource
 					.newResource("icons/16/crm/refresh.png"));
-			body.addComponent(upgradeBtn);
-			body.setComponentAlignment(upgradeBtn, Alignment.BOTTOM_CENTER);
+			body.addComponent(updateBtn);
+			body.setComponentAlignment(updateBtn, Alignment.BOTTOM_LEFT);
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}

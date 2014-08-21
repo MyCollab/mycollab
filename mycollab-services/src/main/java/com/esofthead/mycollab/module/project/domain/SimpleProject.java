@@ -54,6 +54,9 @@ public class SimpleProject extends Project {
 	private double totalBillableHours;
 
 	private double totalNonBillableHours;
+	
+	@NotBindable
+	private ProjectCustomizeView customizeView;
 
 	@NotBindable
 	private Currency currency;
@@ -196,5 +199,13 @@ public class SimpleProject extends Project {
 
 	public boolean isProjectArchived() {
 		return StatusI18nEnum.Archived.name().equals(this.getProjectstatus());
+	}
+
+	public ProjectCustomizeView getCustomizeView() {
+		return customizeView;
+	}
+
+	public void setCustomizeView(ProjectCustomizeView customizeView) {
+		this.customizeView = customizeView;
 	}
 }

@@ -31,21 +31,14 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
  * 
  */
 public class SettingUrlResolver extends ProjectUrlResolver {
-	public SettingUrlResolver() {
-		this.addSubResolver("notification", new ViewUrlResolver());
-	}
 
-	private static class ViewUrlResolver extends ProjectUrlResolver {
-		@Override
-		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+	protected void handlePage(String... params) {
+		String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+		int projectId = Integer.parseInt(decodeUrl);
 
-			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
-					new ProjectSettingScreenData.ViewNotification());
-			EventBusFactory.getInstance().post(
-					new ProjectEvent.GotoMyProject(this, chain));
-		}
+		PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(
+				projectId), new ProjectSettingScreenData.ViewSettings());
+		EventBusFactory.getInstance().post(
+				new ProjectEvent.GotoMyProject(this, chain));
 	}
 }

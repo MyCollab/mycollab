@@ -5108,7 +5108,7 @@ div.v-ratingstars-bar {
 .myprojectlist .stream-content .projectlink-wrapper {
     border-right: 1px solid #CFCFCF;
     background-color: #F7F7F7;
-    padding: 10px 15px 15px;
+    padding: 10px 15px 8px;
 }
 
 .myprojectlist .stream-content .projectlink-wrapper .project-name .v-button-wrap,
@@ -5145,6 +5145,24 @@ div.v-ratingstars-bar {
 
 .project-status .status-lbl {
     color: #888;
+}
+
+.project-status .v-slot-phase-status-lbl:after {
+	border-top: 3px double rgb(207, 207, 207);
+    display: block;
+    height: 1px;
+    content: " ";
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 1.1em;
+    z-index: 0;
+}
+.project-status .phase-status-lbl {
+	position: relative;
+	z-index: 1;
+	background-color: rgb(247, 247, 247);
+	padding-right: 5px;
 }
 
 .project-status .phase-status-layout {
@@ -7160,4 +7178,28 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 }
 .v-buttongroup.toggle-btn-group .v-button.sort-btn.active.asc:after {
 	background-position: left top;
+}
+
+/* Feature Select Box */
+.feature-select-box {
+	background-color: #EEE;
+}
+
+/* Block Widget */
+.block-widget .block-header {
+	padding: 7px 10px;
+	background-color: rgb(241, 241, 241);
+	font-size: 14px;
+	color: rgb(49, 49, 49);
+	border: 1px solid rgb(207, 207, 207);
+}
+.block-widget .block-body {
+	border-width: 0px 1px 1px;
+	border-color: rgb(207, 207, 207);
+	border-style: solid;
+}
+
+/* Medium Spacing Layouts */
+.v-horizontal.medium-spacing > .v-expand > .v-spacing {
+	width: 15px;
 }

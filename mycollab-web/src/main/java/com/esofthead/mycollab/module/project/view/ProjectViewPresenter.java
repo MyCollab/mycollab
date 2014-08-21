@@ -57,7 +57,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -78,17 +77,16 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 	public void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
-		prjContainer.addComponent((Component) view);
-		prjContainer.setComponentAlignment((Component) view,
-				Alignment.TOP_CENTER);
+		prjContainer.addComponent(view);
+		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
 
 		if (data == null) {
 			// do nothing
 		}
 		if (data.getParams() instanceof Integer) {
-			ProjectService projectService = (ProjectService) ApplicationContextUtil
+			ProjectService projectService = ApplicationContextUtil
 					.getSpringBean(ProjectService.class);
-			SimpleProject project = (SimpleProject) projectService.findById(
+			SimpleProject project = projectService.findById(
 					(Integer) data.getParams(), AppContext.getAccountId());
 
 			if (project == null) {
@@ -159,7 +157,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				ProjectRoleScreenData.Search.class,
 				ProjectRoleScreenData.Add.class,
 				ProjectRoleScreenData.Read.class,
-				ProjectSettingScreenData.ViewNotification.class)) {
+				ProjectSettingScreenData.ViewSettings.class)) {
 			presenter = PresenterResolver
 					.getPresenter(UserSettingPresenter.class);
 		} else if (ClassUtils.instanceOf(pageAction,

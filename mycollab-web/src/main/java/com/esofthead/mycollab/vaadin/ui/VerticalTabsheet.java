@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class VerticalTabsheet extends CustomComponent {
 	private VerticalLayout contentWrapper;
 	private CssLayout navigatorWrapper;
 
-	private Map<Component, Tab> compMap = new HashMap<Component, Tab>();
+	private Map<String, Tab> compMap = new HashMap<String, Tab>();
 
 	private Component selectedButton = null;
 	private Tab selectedComp = null;
@@ -96,59 +95,100 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public void addTab(Component component, String id, String caption) {
-		addTab(component, id, caption, null, null);
+		addTab(component, id, 0, caption, null, null);
 	}
 
-	public void addTab(Component component, String id, String caption,
-			String link) {
-		addTab(component, id, caption, link, null);
+	public void addTab(Component component, String id, int level,
+			String caption, String link) {
+		addTab(component, id, level, caption, link, null);
 	}
 
 	public void addTab(Component component, String id, String caption,
 			Resource resource) {
-		addTab(component, id, caption, null, resource);
+		addTab(component, id, 0, caption, null, resource);
 	}
 
-	public void addTab(Component component, String id, String caption,
-			String link, Resource resource) {
-		final ButtonTabImpl button = new ButtonTabImpl(id, caption, link);
+	public void addTab(Component component, String id, int level,
+			String caption, String link, Resource resource) {
+		if (!hasTab(id)) {
+			final ButtonTabImpl button = new ButtonTabImpl(id, level, caption,
+					link);
 
-		button.addClickListener(new ClickListener() {
-			private static final long serialVersionUID = 1L;
+			button.addClickListener(new ClickListener() {
+				private static final long serialVersionUID = 1L;
 
-			@Override
-			public void buttonClick(ClickEvent event) {
-				if (!event.isCtrlKey() && !event.isMetaKey()) {
-					if (selectedButton != button) {
-						clearTabSelection(true);
-						selectedButton = button;
-						selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-						selectedComp = compMap.get(selectedButton);
+				@Override
+				public void buttonClick(ClickEvent event) {
+					if (!event.isCtrlKey() && !event.isMetaKey()) {
+						if (selectedButton != button) {
+							clearTabSelection(true);
+							selectedButton = button;
+							selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+							selectedComp = compMap.get(button.getTabId());
+						}
+						fireTabChangeEvent(new SelectedTabChangeEvent(
+								VerticalTabsheet.this));
+					} else {
+						Page.getCurrent().open(button.link, "_blank", false);
 					}
-					fireTabChangeEvent(new SelectedTabChangeEvent(
-							VerticalTabsheet.this));
-				} else {
-					Page.getCurrent().open(button.link, "_blank", false);
+
 				}
+			});
 
+			if (resource == null) {
+				setDefaulButtonIcon(button, false);
+			} else {
+				button.setIcon(resource);
 			}
-		});
+			button.setStyleName(TAB_STYLENAME);
+			button.setWidth("100%");
 
-		if (resource == null) {
-			setDefaulButtonIcon(button, false);
-		} else {
-			button.setIcon(resource);
+			if (button.getLevel() > 0) {
+				int insertIndex = 0;
+				for (int i = 0; i < tabNavigator.getComponentCount(); i++) {
+					ButtonTabImpl buttonTmp = (ButtonTabImpl) tabNavigator
+							.getComponent(i);
+					if (buttonTmp.getLevel() > level) {
+						break;
+					} else {
+						insertIndex++;
+					}
+				}
+				tabNavigator.addComponent(button, insertIndex);
+			} else {
+				tabNavigator.addComponent(button);
+			}
+
+			TabImpl tabImpl = new TabImpl(id, caption, component);
+			compMap.put(id, tabImpl);
 		}
-		button.setStyleName(TAB_STYLENAME);
-		button.setWidth("100%");
 
-		tabNavigator.addComponent(button);
+	}
 
-		tabContainer.removeAllComponents();
-		tabContainer.addComponent(component);
+	public boolean hasTab(String viewId) {
+		return compMap.containsKey(viewId);
+	}
 
-		TabImpl tabImpl = new TabImpl(id, caption, component);
-		compMap.put(button, tabImpl);
+	public void removeTab(String viewId) {
+		Tab tabImpl = compMap.get(viewId);
+		if (tabImpl != null) {
+			ButtonTabImpl button = getButtonById(viewId);
+			if (button != null) {
+				tabNavigator.removeComponent(button);
+				compMap.remove(viewId);
+			}
+		}
+	}
+
+	private ButtonTabImpl getButtonById(String viewId) {
+		for (int i = 0; i < tabNavigator.getComponentCount(); i++) {
+			ButtonTabImpl button = (ButtonTabImpl) tabNavigator.getComponent(i);
+			if (viewId.equals(button.getTabId())) {
+				return button;
+			}
+		}
+
+		return null;
 	}
 
 	private void fireTabChangeEvent(SelectedTabChangeEvent event) {
@@ -176,21 +216,20 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	public Component selectTab(String viewId) {
-		Collection<Component> tabs = compMap.keySet();
-		for (Component btn : tabs) {
-			TabImpl tab = (TabImpl) compMap.get(btn);
-			if (tab.getTabId().equals(viewId)) {
-				selectedButton = btn;
-				clearTabSelection(true);
-				selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
-				setDefaulButtonIcon(selectedButton, true);
-				selectedComp = tab;
-				tabContainer.removeAllComponents();
-				tabContainer.addComponent(tab.getComponent());
-				return tab.getComponent();
-			}
+		Tab tab = compMap.get(viewId);
+		Button btn = getButtonById(viewId);
+		if (btn != null) {
+			selectedButton = btn;
+			clearTabSelection(true);
+			selectedButton.addStyleName(TAB_SELECTED_STYLENAME);
+			setDefaulButtonIcon(selectedButton, true);
+			selectedComp = tab;
+			tabContainer.removeAllComponents();
+			tabContainer.addComponent(tab.getComponent());
+			return tab.getComponent();
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 	public Tab getSelectedTab() {
@@ -235,22 +274,23 @@ public class VerticalTabsheet extends CustomComponent {
 	}
 
 	private void clearTabSelection(boolean setDefaultIcon) {
-		Collection<Component> tabs = compMap.keySet();
+		Iterator<Component> iterator = tabNavigator.iterator();
 		if (setDefaultIcon == true) {
-			for (Component btn : tabs) {
+			while (iterator.hasNext()) {
+				Component btn = iterator.next();
 				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
 					btn.removeStyleName(TAB_SELECTED_STYLENAME);
 					setDefaulButtonIcon(btn, false);
 				}
 			}
 		} else {
-			for (Component btn : tabs) {
+			while (iterator.hasNext()) {
+				Component btn = iterator.next();
 				if (btn.getStyleName().contains(TAB_SELECTED_STYLENAME)) {
 					btn.removeStyleName(TAB_SELECTED_STYLENAME);
 				}
 			}
 		}
-
 	}
 
 	public VerticalLayout getContentWrapper() {
@@ -286,20 +326,22 @@ public class VerticalTabsheet extends CustomComponent {
 		private static final long serialVersionUID = 1L;
 
 		private String tabId;
+		private int level;
 		String link;
 
-		public ButtonTabImpl(String id, String caption, String link) {
+		public ButtonTabImpl(String id, int level, String caption, String link) {
 			super(caption);
 			this.tabId = id;
 			this.link = link;
+			this.level = level;
 		}
 
 		public String getTabId() {
 			return tabId;
 		}
 
-		public void setTabId(String tabId) {
-			this.tabId = tabId;
+		public int getLevel() {
+			return level;
 		}
 	}
 

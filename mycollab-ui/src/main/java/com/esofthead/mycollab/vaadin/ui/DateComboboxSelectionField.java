@@ -56,9 +56,9 @@ import com.vaadin.ui.HorizontalLayout;
 public class DateComboboxSelectionField extends CustomField<Date> {
 	private static final long serialVersionUID = 1L;
 
-	protected ComboBox cboYear;
-	protected ComboBox cboMonth;
-	protected ComboBox cboDate;
+	private ComboBox cboYear;
+	private ComboBox cboMonth;
+	private ComboBox cboDate;
 
 	private Map<String, Integer> mapNumberMonth = new HashMap<String, Integer>();
 

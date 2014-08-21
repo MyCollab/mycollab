@@ -990,14 +990,14 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 						role.getRolename()));
 	}
 
-	public void gotoNotificationSetting(ProjectNotificationSetting notify) {
+	public void gotoProjectSetting() {
 		this.select(0);
 		this.addLink(new Button(AppContext
-				.getMessage(BreadcrumbI18nEnum.FRA_NOTIFICATION_SETTING),
+				.getMessage(BreadcrumbI18nEnum.FRA_SETTING),
 				new GotoNotificationSetttingListener()));
-		AppContext.addFragment("project/setting/notification/"
+		AppContext.addFragment("project/setting/"
 				+ UrlEncodeDecoder.encode(project.getId()), AppContext
-				.getMessage(BreadcrumbI18nEnum.FRA_NOTIFICATION_SETTING));
+				.getMessage(BreadcrumbI18nEnum.FRA_SETTING));
 	}
 
 	public void gotoRoleAdd() {

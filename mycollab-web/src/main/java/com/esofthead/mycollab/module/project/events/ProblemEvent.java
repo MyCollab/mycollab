@@ -26,22 +26,6 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class ProblemEvent {
 
-    public static class Save extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
-
-		public Save(Object source, Object data) {
-            super(source, data);
-        }
-    }
-
-    public static class Search extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
-
-		public Search(Object source, Object data) {
-            super(source, data);
-        }
-    }
-
     public static class GotoList extends ApplicationEvent {
 		private static final long serialVersionUID = 1L;
 

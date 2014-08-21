@@ -73,6 +73,9 @@
 
         <table domainObjectName="ProjectMember" schema="mycollab"
             tableName="m_prj_member" />
+
+        <table domainObjectName="ProjectCustomizeView" schema="mycollab"
+            tableName="m_prj_customize_view" />
     </context>
 
 </generatorConfiguration>

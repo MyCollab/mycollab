@@ -20,6 +20,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.billing.view.IBillingPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.customize.view.ICustomizePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
+import com.esofthead.mycollab.module.user.accountsettings.localization.SettingCommonI18nEnum;
 import com.esofthead.mycollab.module.user.accountsettings.profile.view.ProfilePresenter;
 import com.esofthead.mycollab.module.user.accountsettings.team.view.UserPermissionManagementPresenter;
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
@@ -108,7 +109,7 @@ public class AccountModuleImpl extends AbstractCssPageView implements
 
 	private Label generateIntroText() {
 		return new Label(
-				"Update your personal and account settings. Please note that all actions can not be undone");
+				AppContext.getMessage(SettingCommonI18nEnum.OPT_ADVER_INFO));
 	}
 
 	private void buildComponents() {

@@ -160,5 +160,11 @@
         <property name="mapperInterface"
             value="com.esofthead.mycollab.module.project.dao.TaskListMapperExt" />
     </bean>
+    
+    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="projectCustomizeViewMapper">
+        <property name="sqlSessionTemplate" ref="sqlMapClient" />
+        <property name="mapperInterface"
+            value="com.esofthead.mycollab.module.project.dao.ProjectCustomizeViewMapper" />
+    </bean>
 
 </beans>

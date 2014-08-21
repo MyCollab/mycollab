@@ -31,7 +31,7 @@ public class GenericBeanForm<B> extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
 
-	protected IFormLayoutFactory layoutFactory;
+	private IFormLayoutFactory layoutFactory;
 	protected IBeanFieldGroupFieldFactory<B> fieldFactory;
 
 	private boolean isValid;

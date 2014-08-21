@@ -24,6 +24,8 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
 public enum SettingCommonI18nEnum {
 
+	OPT_ADVER_INFO,
+	
 	BUTTON_CHANGE_LOGO,
 	BUTTON_RESET_DEFAULT,
 	

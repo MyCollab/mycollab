@@ -34,19 +34,19 @@ import com.vaadin.ui.ComponentContainer;
  * @since 2.0
  * 
  */
-public class ProjectNotificationSettingPresenter extends
-		AbstractPresenter<ProjectNotificationSettingView> {
+public class ProjectSettingPresenter extends
+		AbstractPresenter<ProjectSettingView> {
 	private static final long serialVersionUID = 1L;
 
-	public ProjectNotificationSettingPresenter() {
-		super(ProjectNotificationSettingView.class);
+	public ProjectSettingPresenter() {
+		super(ProjectSettingView.class);
 	}
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		UserSettingView userSettingView = (UserSettingView) container;
 		userSettingView.gotoSubView(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_NOTIFICATION_SETTINGS));
+				.getMessage(ProjectCommonI18nEnum.VIEW_SETTINGS));
 
 		ProjectNotificationSettingService projectNotificationSettingService = ApplicationContextUtil
 				.getSpringBean(ProjectNotificationSettingService.class);
@@ -57,7 +57,7 @@ public class ProjectNotificationSettingPresenter extends
 
 		ProjectBreadcrumb breadCrumb = ViewManager
 				.getCacheComponent(ProjectBreadcrumb.class);
-		breadCrumb.gotoNotificationSetting(notification);
+		breadCrumb.gotoProjectSetting();
 		view.showNotificationSettings(notification);
 	}
 }

@@ -38,21 +38,21 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
         <img src="https://farm6.staticflickr.com/5491/10020715166_a018202e3f_m.jpg" alt=“Document Management“>
       </a>
       <br />
-      <em>Document View</em>
+      <em>Document Dashboard</em>
     </td>
     <td align="center">
       <a href="https://farm8.staticflickr.com/7396/10020730193_785b530483_o.png" target="_blank" title=“Crm Dashboard”>
         <img src="https://farm8.staticflickr.com/7396/10020730193_37a2e2fa7d_m.jpg" alt=“Crm Dashboard“>
       </a>
       <br />
-      <em>Crm Dashboard</em>
+      <em>CRM Dashboard</em>
     </td>
     <td align="center">
       <a href="https://farm4.staticflickr.com/3828/9407988736_c9b5758838_o.png" target="_blank" title=“View Account”>
         <img src="https://farm4.staticflickr.com/3828/9407988736_49cbba6dcf_m.jpg" alt=“View Account“>
       </a>
       <br />
-      <em>View Account</em>
+      <em>View Detail Account</em>
     </td>
   </tr>
 </table>
@@ -70,6 +70,21 @@ We started development MyCollab since November 2011. MyCollab is developed mainl
 
 You can try MyCollab on-demand edition on site http://www.mycollab.com
 
+## Features
+MyCollab provides the rich set features of Project Management, Customer Management module and online collaboration methods.
+  * CRM
+  * Document Management
+  * Project Management
+  * Online Document Editor
+  * Activity stream and audit logging
+  * Time Tracking
+  * Gantt chart
+  * Issues Management
+  * Tasks and its dependencies management
+  * Milestones
+  * People and Permission management
+  * Support English and Japanese, more languages will be added in future
+
 ## System Requirements
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
@@ -77,7 +92,7 @@ Please take a look at MyCollab requirements:
     http://wiki.mycollab.com/Installation_Guideline#System_Requirements
 
 ## Installation
-1. Download MyCollab - http://www.mycollab.com/pricing/download/
+1. Download MyCollab - https://sourceforge.net/projects/mycollab/files/MyCollab_4.4.0/
 2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
 
 If you need to understand more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
@@ -94,7 +109,7 @@ If you want to customize MyCollab, following links are useful to you:
 ## Contact
 Contact the MyCollab team at:
 * Our email support@mycollab.com
-* Our web form http://www.mycollab.com/contact-us
+* Our web form https://www.mycollab.com/support/
 
 ## License & Author
 
