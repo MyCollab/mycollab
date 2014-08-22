@@ -4,9 +4,6 @@
 		font-size: 10px;
 	}
 
-    .v-app {
-        font: 1.3rem "Open Sans",Verdana,Helvetica,sans-serif;
-    }
     .v-app,
     .v-window,
     .v-popupview-popup,
@@ -30,7 +27,7 @@
     .v-drag-element,
     .v-label,
     div.v-widget {
-        font-size: 1.3rem;
+        font: 1.3rem "Open Sans",Verdana,Helvetica,sans-serif;
     }
     
     :focus {outline:none;}

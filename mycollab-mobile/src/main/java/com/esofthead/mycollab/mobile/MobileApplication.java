@@ -18,17 +18,24 @@ package com.esofthead.mycollab.mobile;
 
 import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_APP;
 
+import java.util.Collection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
+import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
+import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
@@ -38,9 +45,12 @@ import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
 import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 
 /**
  * 
@@ -61,6 +71,68 @@ public class MobileApplication extends MyCollabUI {
 	@Override
 	protected void init(VaadinRequest request) {
 		log.debug("Init mycollab mobile application {}", this.toString());
+
+		VaadinSession.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void error(com.vaadin.server.ErrorEvent event) {
+				Throwable e = event.getThrowable();
+				UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
+						e, UserInvalidInputException.class);
+				if (invalidException != null) {
+					NotificationUtil.showWarningNotification(AppContext
+							.getMessage(
+									GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
+									invalidException.getMessage()));
+				} else {
+
+					UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
+							e, UsageExceedBillingPlanException.class);
+					if (usageBillingException != null) {
+						if (AppContext.isAdmin()) {
+							ConfirmDialog.show(
+									UI.getCurrent(),
+									AppContext
+											.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									AppContext
+											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									new ConfirmDialog.CloseListener() {
+										private static final long serialVersionUID = 1L;
+
+										@Override
+										public void onClose(ConfirmDialog dialog) {
+											if (dialog.isConfirmed()) {
+												Collection<Window> windowsList = UI
+														.getCurrent()
+														.getWindows();
+												for (Window window : windowsList) {
+													window.close();
+												}
+												EventBusFactory
+														.getInstance()
+														.post(new ShellEvent.GotoUserAccountModule(
+																this,
+																new String[] { "billing" }));
+											}
+										}
+									});
+
+						} else {
+							NotificationUtil.showErrorNotification(AppContext
+									.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
+						}
+					} else {
+						log.error("Error", e);
+						NotificationUtil.showErrorNotification(AppContext
+								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+					}
+				}
+
+			}
+		});
 
 		initialUrl = this.getPage().getUriFragment();
 		VaadinSession.getCurrent().setAttribute(CURRENT_APP, this);
@@ -130,5 +202,16 @@ public class MobileApplication extends MyCollabUI {
 
 	private void registerControllers(NavigationManager manager) {
 		ControllerRegistry.addController(new ShellController(manager));
+	}
+
+	private static Throwable getExceptionType(Throwable e,
+			Class<? extends Throwable> exceptionType) {
+		if (exceptionType.isAssignableFrom(e.getClass())) {
+			return e;
+		} else if (e.getCause() != null) {
+			return getExceptionType(e.getCause(), exceptionType);
+		} else {
+			return null;
+		}
 	}
 }

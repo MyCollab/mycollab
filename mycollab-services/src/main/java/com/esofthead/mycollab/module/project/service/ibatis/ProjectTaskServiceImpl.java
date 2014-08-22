@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.GroupItem;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.common.interceptor.aspect.Watchable;
@@ -38,6 +39,7 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
 import com.esofthead.mycollab.module.project.service.ProjectGenericTaskService;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
@@ -85,9 +87,9 @@ public class ProjectTaskServiceImpl extends
 	public int saveWithSession(Task record, String username) {
 		if ((record.getPercentagecomplete() != null)
 				&& (record.getPercentagecomplete() == 100)) {
-			record.setStatus("Closed");
+			record.setStatus(StatusI18nEnum.Closed.name());
 		} else {
-			record.setStatus("Open");
+			record.setStatus(StatusI18nEnum.Open.name());
 		}
 		record.setLogby(username);
 
@@ -96,7 +98,8 @@ public class ProjectTaskServiceImpl extends
 
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class, ProjectTaskListService.class,
-				ProjectActivityStreamService.class, ProjectMemberService.class);
+				ProjectActivityStreamService.class, ProjectMemberService.class,
+				MilestoneService.class);
 
 		return super.saveWithSession(record, username);
 	}
@@ -105,14 +108,15 @@ public class ProjectTaskServiceImpl extends
 	public int updateWithSession(Task record, String username) {
 		if ((record.getPercentagecomplete() != null)
 				&& (record.getPercentagecomplete() == 100)) {
-			record.setStatus("Closed");
+			record.setStatus(StatusI18nEnum.Closed.name());
 		} else if (record.getStatus() == null) {
-			record.setStatus("Open");
+			record.setStatus(StatusI18nEnum.Open.name());
 		}
 
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class, ProjectTaskListService.class,
-				ProjectActivityStreamService.class, ProjectMemberService.class);
+				ProjectActivityStreamService.class, ProjectMemberService.class,
+				MilestoneService.class, ItemTimeLoggingService.class);
 
 		return super.updateWithSession(record, username);
 	}
@@ -123,7 +127,7 @@ public class ProjectTaskServiceImpl extends
 		int result = super.removeWithSession(primaryKey, username, accountId);
 		CacheUtils.cleanCaches(accountId, ProjectTaskListService.class,
 				ProjectService.class, ProjectGenericTaskService.class,
-				ProjectActivityStreamService.class,
+				ProjectActivityStreamService.class, MilestoneService.class,
 				ItemTimeLoggingService.class);
 
 		return result;

@@ -41,10 +41,11 @@ public interface WikiService {
 	/**
 	 * 
 	 * @param path
+	 * @param requestedUser
 	 * @return
 	 */
-	Page getPage(String path);
-	
+	Page getPage(String path, String requestedUser);
+
 	/**
 	 * 
 	 * @param path
@@ -59,6 +60,12 @@ public interface WikiService {
 	 */
 	List<Version> getPageVersions(String path);
 
+	/**
+	 * 
+	 * @param path
+	 * @param versionName
+	 * @return
+	 */
 	Page getPageByVersion(String path, String versionName);
 
 	/**
@@ -73,9 +80,15 @@ public interface WikiService {
 	 * @param path
 	 * @return
 	 */
-	List<Page> getPages(String path);
+	List<Page> getPages(String path, String requestedUser);
 
-	List<WikiResource> getResources(String path);
+	/**
+	 * 
+	 * @param path
+	 * @param requestedUser
+	 * @return
+	 */
+	List<WikiResource> getResources(String path, String requestedUser);
 
 	/**
 	 * 

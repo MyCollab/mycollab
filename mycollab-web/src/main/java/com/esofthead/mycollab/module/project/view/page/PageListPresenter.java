@@ -24,6 +24,7 @@ import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
 import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
@@ -61,7 +62,8 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 			} else {
 				CurrentProjectVariables.setCurrentPagePath(path);
 			}
-			List<WikiResource> resources = wikiService.getResources(path);
+			List<WikiResource> resources = wikiService.getResources(path,
+					AppContext.getUsername());
 			view.displayDefaultPages(resources);
 
 			ProjectBreadcrumb breadcrumb = ViewManager

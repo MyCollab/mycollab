@@ -51,10 +51,6 @@ html {
   font-size: 10px;
 }
 
-.v-app {
-  font: 1.3rem "Open Sans",Verdana,Helvetica,sans-serif;
-}
-
 .v-app,
 .v-window,
 .v-popupview-popup,
@@ -78,7 +74,7 @@ html {
 .v-drag-element,
 .v-label,
 div.v-widget {
-  font-size: 1.3rem;
+  font: 1.3rem "Open Sans",Verdana,Helvetica,sans-serif;
 }
 
 :focus {
@@ -485,7 +481,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   margin: 0px;
 }
 .mycollab-mobile .data-list-view .v-button .v-button-wrap {
-  padding: 10px 27px 10px 14px;
+  padding: 1rem 2.7rem 1rem 1.4rem;
   word-wrap: break-word;
   white-space: normal;
   border-bottom: 1px solid #DDDDDD;
@@ -509,17 +505,17 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-family: "icomoon";
   color: #49A3E1;
   position: absolute;
-  right: 20px;
+  right: 2rem;
   display: inline-block;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 1.6rem;
+  line-height: 1.6rem;
 }
 .mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
   background-color: #F3F1F0;
 }
 .mycollab-mobile .readview-layout .v-label, .mycollab-mobile .editview-layout .v-label {
-  font-size: 1.3rem;
-  line-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .mycollab-mobile .readview-layout .v-label.h2, .mycollab-mobile .editview-layout .v-label.h2 {
   font-size: 1.2rem;
@@ -535,13 +531,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border-bottom: .1rem solid #dddddd;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top {
-  padding-top: 13px;
+  padding-top: 1.3rem;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-bottom, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-bottom {
-  padding-bottom: 13px;
+  padding-bottom: 1.3rem;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-left, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-left, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-left, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-left {
-  padding-left: 0px;
+  padding-left: 0rem;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption .v-label.v-widget, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption .v-label.v-widget {
   text-align: right;
@@ -550,8 +546,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #8C8C8C;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label {
-  line-height: 1.8rem;
-  font-size: 1.4rem;
+  line-height: 2rem;
+  font-size: 1.5rem;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-field .v-label:after, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field .v-label:after {
   content: "";
@@ -568,25 +564,26 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .readview-layout .gridform-field .v-button-wrap .v-button-caption {
   vertical-align: middle;
   padding-left: 3px;
-  font-size: 1.4rem;
-  line-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .mycollab-mobile .editview-layout .v-caption {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 .mycollab-mobile .editview-layout .v-caption .v-required-field-indicator {
   font-size: 1.3rem;
-  line-height: 1.8rem;
+  line-height: 2rem;
 }
 .mycollab-mobile .editview-layout input.v-textfield, .mycollab-mobile .editview-layout .v-filterselect, .mycollab-mobile .editview-layout .v-textarea {
-  font-size: 1.4rem;
-  line-height: 1.8rem;
-  min-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  min-height: 2rem;
   color: #8C8C8C;
   border: none;
   border-radius: 0px;
   padding: 0px 1px;
   vertical-align: top;
+  margin: 0px;
 }
 .mycollab-mobile .editview-layout .v-filterselect-button {
   font-family: 'icomoon';
@@ -609,11 +606,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-box-sizing: border-box;
 }
 .mycollab-mobile .editview-layout .v-select select.v-select-select {
-  font-size: 1.4rem;
-  line-height: 1.8rem;
-  min-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  min-height: 2rem;
   color: #8C8C8C;
-  min-height: 1.8rem;
+  min-height: 2rem;
 }
 .mycollab-mobile .editview-layout .v-select select.v-select-select option {
   padding: 0px;
@@ -625,7 +622,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #8C8C8C;
 }
 .mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 .mycollab-mobile .editview-layout .v-datefield.v-datefield-popupcalendar input.v-textfield.v-datefield-textfield {
   border: none;
@@ -634,16 +631,16 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   line-height: normal;
 }
 .mycollab-mobile .editview-layout .v-touchkit-datepicker .v-select-select {
-  font-size: 1.4rem;
-  line-height: 1.8rem;
-  min-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  min-height: 2rem;
   color: #8C8C8C;
-  min-height: 1.8rem;
+  min-height: 2rem;
 }
 .mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box {
-  font-size: 1.4rem;
-  line-height: 1.8rem;
-  min-height: 1.8rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  min-height: 2rem;
   color: #8C8C8C;
 }
 .mycollab-mobile .editview-layout .v-touchkit-navbutton.combo-box:before {
@@ -661,15 +658,15 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-filterselect {
   overflow: hidden;
-  padding-right: 16px;
+  padding-right: 1.6rem;
 }
 .mycollab-mobile .v-filterselect .v-icon {
-  height: 16px;
+  height: 1.6rem;
   position: relative;
   vertical-align: middle;
 }
 .mycollab-mobile .v-filterselect .v-filterselect-input {
-  height: 16px;
+  height: 1.6rem;
   vertical-align: middle;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -677,13 +674,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   position: relative;
 }
 .mycollab-mobile .v-filterselect .v-icon + .v-filterselect-input {
-  padding-left: 18px;
-  margin-left: -16px;
+  padding-left: 1.8rem;
+  margin-left: -1.6rem;
 }
 .mycollab-mobile .v-filterselect .v-filterselect-button {
-  height: 16px;
-  width: 16px;
-  margin-right: -16px;
+  height: 1.6rem;
+  width: 1.6rem;
+  margin-right: -1.6rem;
   position: relative;
   display: inline-block;
   vertical-align: middle;
@@ -713,13 +710,13 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   cursor: pointer;
 }
 .mycollab-mobile .v-button.big-btn {
-  font-size: 15px;
+  font-size: 1.5rem;
 }
 .mycollab-mobile .v-button.big-btn .v-button-wrap {
-  padding: 10px 0px;
+  padding: 1rem 0rem;
 }
 .mycollab-mobile .v-button.big-btn .v-button-wrap .v-button-caption {
-  font-size: 15px;
+  font-size: 1.5rem;
 }
 .mycollab-mobile .v-button.blue {
   background-color: #49a3e1;
@@ -748,9 +745,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border-radius: 4px;
   border: 1px solid #c7c7c7;
   outline: none;
-}
-.mycollab-mobile .v-textfield.v-textfield-focus {
-  box-shadow: 0px 0px 3px 1px #49a3e1;
 }
 .mycollab-mobile .confirm-dialog .v-window-outerheader {
   display: none;

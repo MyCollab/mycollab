@@ -20,10 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.Item;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
@@ -41,6 +39,7 @@ import org.springframework.extensions.jcr.JcrTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -150,7 +149,7 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public Page getPage(final String path) {
+	public Page getPage(final String path, final String requestedUser) {
 		return jcrTemplate.execute(new JcrCallback<Page>() {
 
 			@Override
@@ -160,7 +159,12 @@ public class WikiServiceImpl implements WikiService {
 				Node node = getNode(rootNode, path);
 				if (node != null) {
 					if (isNodePage(node)) {
-						return convertNodeToPage(node);
+						if (isAccessible(node, requestedUser)) {
+							return convertNodeToPage(node);
+						} else {
+							return null;
+						}
+
 					}
 				}
 
@@ -308,7 +312,7 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public List<Page> getPages(final String path) {
+	public List<Page> getPages(final String path, final String requestedUser) {
 		return jcrTemplate.execute(new JcrCallback<List<Page>>() {
 
 			@Override
@@ -323,8 +327,10 @@ public class WikiServiceImpl implements WikiService {
 						while (childNodes.hasNext()) {
 							Node childNode = childNodes.nextNode();
 							if (isNodePage(childNode)) {
-								Page page = convertNodeToPage(childNode);
-								pages.add(page);
+								if (isAccessible(childNode, requestedUser)) {
+									Page page = convertNodeToPage(childNode);
+									pages.add(page);
+								}
 							}
 						}
 
@@ -342,7 +348,8 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public List<WikiResource> getResources(final String path) {
+	public List<WikiResource> getResources(final String path,
+			final String requestedUser) {
 		return jcrTemplate.execute(new JcrCallback<List<WikiResource>>() {
 
 			@Override
@@ -360,8 +367,10 @@ public class WikiServiceImpl implements WikiService {
 								Folder subFolder = convertNodeToFolder(childNode);
 								resources.add(subFolder);
 							} else if (isNodePage(childNode)) {
-								Page page = convertNodeToPage(childNode);
-								resources.add(page);
+								if (isAccessible(childNode, requestedUser)) {
+									Page page = convertNodeToPage(childNode);
+									resources.add(page);
+								}
 							} else {
 								String errorString = "Node %s has type not mycollab:content or mycollab:folder";
 								log.error(String.format(errorString,
@@ -474,6 +483,16 @@ public class WikiServiceImpl implements WikiService {
 		} catch (Exception e) {
 			throw new MyCollabException(e);
 		}
+	}
+
+	private static boolean isAccessible(Node node, String requestedUser) {
+		String status = NodesUtil.getString(node, "wiki:status");
+		String createdUser = NodesUtil.getString(node, "wiki:createdUser");
+		if (WikiI18nEnum.status_private.name().equals(status)) {
+			return (requestedUser.equals(createdUser));
+		}
+
+		return true;
 	}
 
 	private Page convertNodeToPage(Node node) {

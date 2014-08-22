@@ -28,6 +28,7 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.wiki.domain.Page;
 import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
 /**
@@ -75,7 +76,8 @@ public class PageUrlResolver extends ProjectUrlResolver {
 
 				WikiService wikiService = ApplicationContextUtil
 						.getSpringBean(WikiService.class);
-				Page page = wikiService.getPage(pagePath);
+				Page page = wikiService.getPage(pagePath,
+						AppContext.getUsername());
 
 				if (page != null) {
 					PageActionChain chain = new PageActionChain(
@@ -106,7 +108,8 @@ public class PageUrlResolver extends ProjectUrlResolver {
 
 				WikiService wikiService = ApplicationContextUtil
 						.getSpringBean(WikiService.class);
-				Page page = wikiService.getPage(pagePath);
+				Page page = wikiService.getPage(pagePath,
+						AppContext.getUsername());
 
 				if (page != null) {
 					PageActionChain chain = new PageActionChain(

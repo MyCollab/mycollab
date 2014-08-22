@@ -55,7 +55,8 @@ public class WikiServiceTest extends ServiceTest {
 
 	@Test
 	public void testGetWikiPages() {
-		List<Page> pages = wikiService.getPages("1/page");
+		List<Page> pages = wikiService.getPages("1/page",
+				"hainguyen@esofthead.com");
 		Assert.assertEquals(1, pages.size());
 		Page page = pages.get(0);
 		Assert.assertEquals("abc", page.getCategory());
@@ -83,7 +84,8 @@ public class WikiServiceTest extends ServiceTest {
 		page.setContent("My name is <b>Bao Han</b>");
 
 		wikiService.savePage(page, "hainguyen@esofthead.com");
-		List<Page> pages = wikiService.getPages("1/page");
+		List<Page> pages = wikiService.getPages("1/page",
+				"hainguyen@esofthead.com");
 		Assert.assertEquals(1, pages.size());
 		page = pages.get(0);
 		Assert.assertEquals("Hello world 2", page.getSubject());

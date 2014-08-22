@@ -16,9 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.UIConstants;
-import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
+import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.EmailField;
@@ -102,13 +101,8 @@ public class LoginViewImpl extends AbstractMobileMainView implements LoginView {
 
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
-				EventBusFactory.getInstance().post(
-						new UserEvent.PlainLogin(LoginViewImpl.this,
-								new String[] {
-										emailField.getValue(),
-										pwdField.getValue(),
-										String.valueOf(rememberPassword
-												.getValue()) }));
+				ShellController.doLogin(emailField.getValue(),
+						pwdField.getValue(), rememberPassword.getValue());
 			}
 		});
 		contentLayout.addComponent(signInBtn);

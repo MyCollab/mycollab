@@ -45,7 +45,8 @@ public class ProjectPageRelayEmailNotificationActionImpl extends
 
 	@Override
 	protected Page getBeanInContext(MailContext<Page> context) {
-		return wikiService.getPage(context.getTypeid());
+		// return wikiService.getPage(context.getTypeid());
+		return null;
 	}
 
 	@Override

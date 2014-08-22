@@ -56,4 +56,13 @@ public class ShellEvent {
 			super(source, data);
 		}
 	}
+
+	public static class GotoUserAccountModule extends ApplicationEvent {
+
+		private static final long serialVersionUID = 3720872767078406641L;
+
+		public GotoUserAccountModule(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

@@ -46,6 +46,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.UI;
 
 /**
  * 
@@ -130,7 +131,7 @@ public class ShellController extends AbstractController {
 		});
 	}
 
-	public void doLogin(String username, String password,
+	public static void doLogin(String username, String password,
 			boolean isRememberPassword) throws MyCollabException {
 		UserService userService = ApplicationContextUtil
 				.getSpringBean(UserService.class);
@@ -165,6 +166,6 @@ public class ShellController extends AbstractController {
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
 		EventBusFactory.getInstance().post(
-				new ShellEvent.GotoMainPage(this, null));
+				new ShellEvent.GotoMainPage(UI.getCurrent(), null));
 	}
 }
