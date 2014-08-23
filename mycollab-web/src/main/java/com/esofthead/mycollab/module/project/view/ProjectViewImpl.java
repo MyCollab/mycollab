@@ -189,7 +189,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 									ProjectViewImpl.this,
 									new PageScreenData.Search(
 											CurrentProjectVariables
-													.getCurrentPagePath()));
+													.getBasePagePath()));
 						} else if ("problem".equals(caption)) {
 							ProblemSearchCriteria searchCriteria = new ProblemSearchCriteria();
 							searchCriteria.setProjectId(new NumberSearchField(

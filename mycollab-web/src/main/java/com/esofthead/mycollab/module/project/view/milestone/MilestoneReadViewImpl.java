@@ -80,7 +80,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class MilestoneReadViewImpl extends
 		AbstractPreviewItemComp2<SimpleMilestone> implements MilestoneReadView {
 
@@ -128,8 +128,7 @@ public class MilestoneReadViewImpl extends
 							displaySimpleView();
 						} else {
 							isSimpleView = false;
-							MilestoneReadViewImpl.this.previewLayout
-									.addBottomControls(createBottomPanel());
+							addBottomPanel(createBottomPanel());
 						}
 					}
 				});
@@ -195,7 +194,7 @@ public class MilestoneReadViewImpl extends
 		simpleViewBottom.addComponent(displayWidget);
 		displayWidget.setSearchCriteria(bugCriteria);
 
-		this.previewLayout.addBottomControls(simpleViewBottom);
+		addBottomPanel(simpleViewBottom);
 	}
 
 	@Override
