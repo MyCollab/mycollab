@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,7 @@ import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.CampaignLeadExample;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.schedule.email.crm.CampaignRelayEmailNotificationAction;
@@ -86,6 +89,23 @@ public class CampaignServiceImpl extends
 	@Override
 	public SimpleCampaign findById(int campaignId, int sAccountUd) {
 		return campaignMapperExt.findById(campaignId);
+	}
+
+	@Override
+	public int saveWithSession(CampaignWithBLOBs campaign, String username) {
+		int result = super.saveWithSession(campaign, username);
+		if (campaign.getExtraData() != null
+				&& campaign.getExtraData() instanceof SimpleLead) {
+			CampaignLead associateLead = new CampaignLead();
+			associateLead.setCampaignid(campaign.getId());
+			associateLead.setLeadid(((SimpleLead) campaign.getExtraData())
+					.getId());
+			associateLead.setCreatedtime(new GregorianCalendar().getTime());
+
+			this.saveCampaignLeadRelationship(Arrays.asList(associateLead),
+					campaign.getSaccountid());
+		}
+		return result;
 	}
 
 	@Override

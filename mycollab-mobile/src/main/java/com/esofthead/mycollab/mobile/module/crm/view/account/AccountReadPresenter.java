@@ -323,7 +323,6 @@ public class AccountReadPresenter extends CrmGenericPresenter<AccountReadView> {
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 
 		if (AppContext.canRead(RolePermissionCollections.CRM_ACCOUNT)) {
-
 			if (data.getParams() instanceof Integer) {
 				AccountService accountService = ApplicationContextUtil
 						.getSpringBean(AccountService.class);

@@ -141,20 +141,6 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 		account.setSaccountid(AppContext.getAccountId());
 		if (account.getId() == null) {
 			accountService.saveWithSession(account, AppContext.getUsername());
-
-			if (account.getExtraData() != null
-					&& account.getExtraData() instanceof SimpleCampaign) {
-				CampaignAccount assoAccount = new CampaignAccount();
-				assoAccount.setAccountid(account.getId());
-				assoAccount.setCampaignid(((SimpleCampaign) account
-						.getExtraData()).getId());
-				assoAccount.setCreatedtime(new GregorianCalendar().getTime());
-
-				CampaignService campaignService = ApplicationContextUtil
-						.getSpringBean(CampaignService.class);
-				campaignService.saveCampaignAccountRelationship(
-						Arrays.asList(assoAccount), AppContext.getAccountId());
-			}
 		} else {
 			accountService.updateWithSession(account, AppContext.getUsername());
 		}

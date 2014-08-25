@@ -16,23 +16,14 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.Lead;
-import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
-import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -137,43 +128,13 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 
 	}
 
-	public void saveLead(Lead lead) {
+	private void saveLead(Lead lead) {
 		LeadService leadService = ApplicationContextUtil
 				.getSpringBean(LeadService.class);
 
 		lead.setSaccountid(AppContext.getAccountId());
 		if (lead.getId() == null) {
 			leadService.saveWithSession(lead, AppContext.getUsername());
-
-			if (lead.getExtraData() != null
-					&& (lead.getExtraData() instanceof SimpleCampaign)) {
-				CampaignLead associateLead = new CampaignLead();
-				associateLead.setCampaignid(((SimpleCampaign) lead
-						.getExtraData()).getId());
-				associateLead.setLeadid(lead.getId());
-				associateLead.setCreatedtime(new GregorianCalendar().getTime());
-
-				CampaignService campaignService = ApplicationContextUtil
-						.getSpringBean(CampaignService.class);
-				campaignService
-						.saveCampaignLeadRelationship(
-								Arrays.asList(associateLead),
-								AppContext.getAccountId());
-			} else if (lead.getExtraData() != null
-					&& lead.getExtraData() instanceof SimpleOpportunity) {
-				OpportunityLead associateLead = new OpportunityLead();
-				associateLead.setOpportunityid(((SimpleOpportunity) lead
-						.getExtraData()).getId());
-				associateLead.setLeadid(lead.getId());
-				associateLead.setCreatedtime(new GregorianCalendar().getTime());
-
-				OpportunityService opportunityService = ApplicationContextUtil
-						.getSpringBean(OpportunityService.class);
-				opportunityService
-						.saveOpportunityLeadRelationship(
-								Arrays.asList(associateLead),
-								AppContext.getAccountId());
-			}
 		} else {
 			leadService.updateWithSession(lead, AppContext.getUsername());
 		}

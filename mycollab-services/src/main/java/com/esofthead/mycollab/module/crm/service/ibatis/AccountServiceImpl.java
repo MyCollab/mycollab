@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -38,11 +39,15 @@ import com.esofthead.mycollab.module.crm.dao.AccountMapperExt;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.AccountLead;
 import com.esofthead.mycollab.module.crm.domain.AccountLeadExample;
+import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -80,6 +85,26 @@ public class AccountServiceImpl extends
 	@Override
 	public SimpleAccount findById(int id, int accountId) {
 		return accountMapperExt.findById(id);
+	}
+
+	@Override
+	public int saveWithSession(Account record, String username) {
+		int result = super.saveWithSession(record, username);
+
+		if (record.getExtraData() != null
+				&& record.getExtraData() instanceof SimpleCampaign) {
+			CampaignAccount assoAccount = new CampaignAccount();
+			assoAccount.setAccountid(record.getId());
+			assoAccount.setCampaignid(((SimpleCampaign) record.getExtraData())
+					.getId());
+			assoAccount.setCreatedtime(new GregorianCalendar().getTime());
+
+			CampaignService campaignService = ApplicationContextUtil
+					.getSpringBean(CampaignService.class);
+			campaignService.saveCampaignAccountRelationship(
+					Arrays.asList(assoAccount), record.getSaccountid());
+		}
+		return result;
 	}
 
 	@Override

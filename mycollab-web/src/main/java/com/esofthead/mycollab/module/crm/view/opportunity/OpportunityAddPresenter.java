@@ -16,19 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
-import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
-import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
@@ -137,7 +131,7 @@ public class OpportunityAddPresenter extends
 		}
 	}
 
-	public void saveOpportunity(Opportunity opportunity) {
+	private void saveOpportunity(Opportunity opportunity) {
 		OpportunityService opportunityService = ApplicationContextUtil
 				.getSpringBean(OpportunityService.class);
 
@@ -145,21 +139,6 @@ public class OpportunityAddPresenter extends
 		if (opportunity.getId() == null) {
 			opportunityService.saveWithSession(opportunity,
 					AppContext.getUsername());
-
-			if ((opportunity.getExtraData() != null)
-					&& (opportunity.getExtraData() instanceof SimpleContact)) {
-				ContactOpportunity associateOpportunity = new ContactOpportunity();
-				associateOpportunity.setOpportunityid(opportunity.getId());
-				associateOpportunity.setContactid(((SimpleContact) opportunity
-						.getExtraData()).getId());
-				associateOpportunity.setCreatedtime(new GregorianCalendar()
-						.getTime());
-				ContactService contactService = ApplicationContextUtil
-						.getSpringBean(ContactService.class);
-				contactService.saveContactOpportunityRelationship(
-						Arrays.asList(associateOpportunity),
-						AppContext.getAccountId());
-			}
 		} else {
 			opportunityService.updateWithSession(opportunity,
 					AppContext.getUsername());

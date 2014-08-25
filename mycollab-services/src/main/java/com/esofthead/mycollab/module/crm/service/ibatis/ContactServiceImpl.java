@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import com.esofthead.mycollab.module.crm.dao.ContactLeadMapper;
 import com.esofthead.mycollab.module.crm.dao.ContactMapper;
 import com.esofthead.mycollab.module.crm.dao.ContactMapperExt;
 import com.esofthead.mycollab.module.crm.dao.ContactOpportunityMapper;
+import com.esofthead.mycollab.module.crm.domain.CampaignContact;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactCase;
 import com.esofthead.mycollab.module.crm.domain.ContactCaseExample;
@@ -45,11 +47,16 @@ import com.esofthead.mycollab.module.crm.domain.ContactLead;
 import com.esofthead.mycollab.module.crm.domain.ContactLeadExample;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunityExample;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
+import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
+import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.schedule.email.crm.ContactRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -166,5 +173,44 @@ public class ContactServiceImpl extends
 	public SimpleContact findContactAssoWithConvertedLead(int leadId,
 			@CacheKey int accountId) {
 		return contactMapperExt.findContactAssoWithConvertedLead(leadId);
+	}
+
+	@Override
+	public int saveWithSession(Contact contact, String username) {
+		int result = super.saveWithSession(contact, username);
+		if (contact.getExtraData() != null
+				&& contact.getExtraData() instanceof SimpleCampaign) {
+			CampaignContact associateContact = new CampaignContact();
+			associateContact.setCampaignid(((SimpleCampaign) contact
+					.getExtraData()).getId());
+			associateContact.setContactid(contact.getId());
+			associateContact.setCreatedtime(new GregorianCalendar().getTime());
+
+			CampaignService campaignService = ApplicationContextUtil
+					.getSpringBean(CampaignService.class);
+			campaignService.saveCampaignContactRelationship(
+					Arrays.asList(associateContact), contact.getSaccountid());
+		} else if (contact.getExtraData() != null
+				&& contact.getExtraData() instanceof SimpleOpportunity) {
+			ContactOpportunity associateContact = new ContactOpportunity();
+			associateContact.setContactid(contact.getId());
+			associateContact.setOpportunityid(((SimpleOpportunity) contact
+					.getExtraData()).getId());
+			associateContact.setCreatedtime(new GregorianCalendar().getTime());
+
+			this.saveContactOpportunityRelationship(
+					Arrays.asList(associateContact), contact.getSaccountid());
+		} else if (contact.getExtraData() != null
+				&& contact.getExtraData() instanceof SimpleCase) {
+			ContactCase associateCase = new ContactCase();
+			associateCase.setContactid(contact.getId());
+			associateCase.setCaseid(((SimpleCase) contact.getExtraData())
+					.getId());
+			associateCase.setCreatedtime(new GregorianCalendar().getTime());
+
+			this.saveContactCaseRelationship(Arrays.asList(associateCase),
+					contact.getSaccountid());
+		}
+		return result;
 	}
 }

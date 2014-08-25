@@ -38,15 +38,19 @@ import com.esofthead.mycollab.module.crm.dao.LeadMapper;
 import com.esofthead.mycollab.module.crm.dao.LeadMapperExt;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.AccountLead;
+import com.esofthead.mycollab.module.crm.domain.CampaignLead;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.ContactLead;
 import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
+import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
+import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
@@ -81,6 +85,37 @@ public class LeadServiceImpl extends
 	@Override
 	public SimpleLead findById(int leadId, int sAccountId) {
 		return leadMapperExt.findById(leadId);
+	}
+
+	@Override
+	public int saveWithSession(Lead lead, String username) {
+		int result = super.saveWithSession(lead, username);
+		if (lead.getExtraData() != null
+				&& (lead.getExtraData() instanceof SimpleCampaign)) {
+			CampaignLead associateLead = new CampaignLead();
+			associateLead.setCampaignid(((SimpleCampaign) lead.getExtraData())
+					.getId());
+			associateLead.setLeadid(lead.getId());
+			associateLead.setCreatedtime(new GregorianCalendar().getTime());
+
+			CampaignService campaignService = ApplicationContextUtil
+					.getSpringBean(CampaignService.class);
+			campaignService.saveCampaignLeadRelationship(
+					Arrays.asList(associateLead), lead.getSaccountid());
+		} else if (lead.getExtraData() != null
+				&& lead.getExtraData() instanceof SimpleOpportunity) {
+			OpportunityLead associateLead = new OpportunityLead();
+			associateLead.setOpportunityid(((SimpleOpportunity) lead
+					.getExtraData()).getId());
+			associateLead.setLeadid(lead.getId());
+			associateLead.setCreatedtime(new GregorianCalendar().getTime());
+
+			OpportunityService opportunityService = ApplicationContextUtil
+					.getSpringBean(OpportunityService.class);
+			opportunityService.saveOpportunityLeadRelationship(
+					Arrays.asList(associateLead), lead.getSaccountid());
+		}
+		return result;
 	}
 
 	@Override

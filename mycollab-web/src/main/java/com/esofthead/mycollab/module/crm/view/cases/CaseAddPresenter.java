@@ -126,7 +126,7 @@ public class CaseAddPresenter extends CrmGenericPresenter<CaseAddView> {
 		}
 	}
 
-	public void saveCase(CaseWithBLOBs cases) {
+	private void saveCase(CaseWithBLOBs cases) {
 		CaseService caseService = ApplicationContextUtil
 				.getSpringBean(CaseService.class);
 

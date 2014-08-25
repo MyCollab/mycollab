@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -26,11 +23,8 @@ import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.domain.Account;
-import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -123,20 +117,6 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 		account.setSaccountid(AppContext.getAccountId());
 		if (account.getId() == null) {
 			accountService.saveWithSession(account, AppContext.getUsername());
-
-			if (account.getExtraData() != null
-					&& account.getExtraData() instanceof SimpleCampaign) {
-				CampaignAccount assoAccount = new CampaignAccount();
-				assoAccount.setAccountid(account.getId());
-				assoAccount.setCampaignid(((SimpleCampaign) account
-						.getExtraData()).getId());
-				assoAccount.setCreatedtime(new GregorianCalendar().getTime());
-
-				CampaignService campaignService = ApplicationContextUtil
-						.getSpringBean(CampaignService.class);
-				campaignService.saveCampaignAccountRelationship(
-						Arrays.asList(assoAccount), AppContext.getAccountId());
-			}
 		} else {
 			accountService.updateWithSession(account, AppContext.getUsername());
 		}

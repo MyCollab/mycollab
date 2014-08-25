@@ -28,9 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
-import ch.qos.cal10n.util.AnnotationExtractorViaEnumClass;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
 
@@ -79,6 +77,7 @@ public class LocalizationHelper {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String getMessage(Locale locale, Class<? extends Enum> cls,
 			String option, Object... objects) {
 		try {
@@ -125,11 +124,5 @@ public class LocalizationHelper {
 		}
 
 		return reader;
-	}
-
-	public static void main(String[] args) {
-		AnnotationExtractorViaEnumClass annotationExtractor = new AnnotationExtractorViaEnumClass(
-				GenericI18Enum.class);
-		System.out.println(annotationExtractor.extractCharset(Locale.JAPAN));
 	}
 }

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.crm.service.ibatis;
 
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +37,17 @@ import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.dao.OpportunityLeadMapper;
 import com.esofthead.mycollab.module.crm.dao.OpportunityMapper;
 import com.esofthead.mycollab.module.crm.dao.OpportunityMapperExt;
+import com.esofthead.mycollab.module.crm.domain.ContactOpportunity;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.OpportunityLead;
 import com.esofthead.mycollab.module.crm.domain.OpportunityLeadExample;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.service.ContactService;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.schedule.email.crm.OpportunityRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 /**
  * 
@@ -78,6 +84,26 @@ public class OpportunityServiceImpl extends
 	@Override
 	public SimpleOpportunity findById(int opportunityId, int sAccountId) {
 		return opportunityMapperExt.findById(opportunityId);
+	}
+
+	@Override
+	public int saveWithSession(Opportunity opportunity, String username) {
+		int result = super.saveWithSession(opportunity, username);
+		if ((opportunity.getExtraData() != null)
+				&& (opportunity.getExtraData() instanceof SimpleContact)) {
+			ContactOpportunity associateOpportunity = new ContactOpportunity();
+			associateOpportunity.setOpportunityid(opportunity.getId());
+			associateOpportunity.setContactid(((SimpleContact) opportunity
+					.getExtraData()).getId());
+			associateOpportunity.setCreatedtime(new GregorianCalendar()
+					.getTime());
+			ContactService contactService = ApplicationContextUtil
+					.getSpringBean(ContactService.class);
+			contactService.saveContactOpportunityRelationship(
+					Arrays.asList(associateOpportunity),
+					opportunity.getSaccountid());
+		}
+		return result;
 	}
 
 	@Override
