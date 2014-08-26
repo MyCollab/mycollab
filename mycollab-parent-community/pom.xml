@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <properties>
         <springVersion>4.0.6.RELEASE</springVersion>
-        <aspectjVersion>1.7.4</aspectjVersion>
+        <aspectjVersion>1.8.2</aspectjVersion>
         <javaVersion>1.7</javaVersion>
         <slf4jVersion>1.7.7</slf4jVersion>
         <log4jVersion>1.2.17</log4jVersion>
@@ -27,7 +27,6 @@
             <artifactId>guava</artifactId>
             <version>18.0-rc1</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -54,7 +53,7 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
+            <version>1.9.2</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -65,13 +64,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.3.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.3.4</version>
+            <version>4.3.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-codec</groupId>
@@ -79,13 +78,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
             <version>4.3.2</version>
         </dependency>
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -144,7 +141,7 @@
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
-            <version>1.0</version>
+            <version>1.0.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -168,7 +165,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk</artifactId>
-            <version>1.7.5</version>
+            <version>1.8.9.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-codec</groupId>
@@ -191,17 +188,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.2.3</version>
+            <version>2.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.2.3</version>
+            <version>2.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.2.3</version>
+            <version>2.4.2</version>
         </dependency>
 
         <dependency>

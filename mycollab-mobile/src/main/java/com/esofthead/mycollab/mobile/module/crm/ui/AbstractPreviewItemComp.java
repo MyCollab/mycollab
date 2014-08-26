@@ -23,10 +23,8 @@ import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
-import com.vaadin.addon.touchkit.ui.Popover;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.server.Sizeable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -42,8 +40,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 	protected B beanItem;
 	protected AdvancedPreviewBeanForm<B> previewForm;
 
-	private Button editBtn;
-	private Popover controlBtns;
+	private NavigationBarQuickMenu editBtn;
 
 	public AbstractPreviewItemComp() {
 
@@ -51,24 +48,11 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		previewForm.setStyleName("readview-layout");
 		this.setContent(previewForm);
 
-		controlBtns = new Popover(createButtonControls());
-		controlBtns.setClosable(true);
-		controlBtns.setResizable(false);
-		controlBtns.setStyleName("controls-popover");
-		editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
-				new Button.ClickListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void buttonClick(ClickEvent evt) {
-						if (!controlBtns.isAttached())
-							controlBtns.showRelativeTo(editBtn);
-						else
-							controlBtns.close();
-					}
-				});
+		editBtn = new NavigationBarQuickMenu();
+		editBtn.setButtonCaption(AppContext
+				.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL));
 		editBtn.setStyleName("edit-btn");
+		editBtn.setContent(createButtonControls());
 		this.setRightComponent(editBtn);
 
 		initRelatedComponents();

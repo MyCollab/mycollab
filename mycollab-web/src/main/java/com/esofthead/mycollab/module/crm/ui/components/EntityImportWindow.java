@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,20 +33,10 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.iexporter.CSVImportEntityProcess;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.FieldMapperDef;
 import com.esofthead.mycollab.iexporter.CSVObjectEntityConverter.ImportFieldDef;
-import com.esofthead.mycollab.module.crm.domain.Contact;
-import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
-import com.esofthead.mycollab.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.module.crm.service.ContactService;
-import com.esofthead.mycollab.module.crm.view.contact.ContactListView;
-import com.esofthead.mycollab.module.crm.view.contact.iexport.ContactVCardObjectEntityConverter;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
@@ -73,9 +62,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import ezvcard.Ezvcard;
-import ezvcard.VCard;
-
 /**
  * 
  * @author MyCollab Ltd.
@@ -85,7 +71,7 @@ import ezvcard.VCard;
 public abstract class EntityImportWindow<E> extends Window {
 	private static final long serialVersionUID = 1L;
 
-	public static final String[] fileType = { "CSV", "VCard" };
+	private static final String[] fileType = { "CSV", "VCard" };
 
 	private FileConfigurationLayout fileConfigurationLayout;
 	private MappingCrmConfigurationLayout mappingCrmFieldLayout;
@@ -174,50 +160,9 @@ public abstract class EntityImportWindow<E> extends Window {
 										@Override
 										public void onClose(ConfirmDialog dialog) {
 											if (dialog.isConfirmed()) {
-												try {
-													ContactService contactService = ApplicationContextUtil
-															.getSpringBean(ContactService.class);
-													List<VCard> lstVcard = Ezvcard
-															.parse(contentStream)
-															.all();
-													for (VCard vcard : lstVcard) {
-														ContactVCardObjectEntityConverter converter = new ContactVCardObjectEntityConverter();
-														Contact add = converter
-																.convert(
-																		Contact.class,
-																		vcard);
-														add.setCreatedtime(new Date());
-														add.setSaccountid(AppContext
-																.getAccountId());
-														contactService
-																.saveWithSession(
-																		add,
-																		AppContext
-																				.getUsername());
-													}
 
-													NotificationUtil
-															.showNotification(AppContext
-																	.getMessage(FileI18nEnum.IMPORT_FILE_SUCCESS));
-													EntityImportWindow.this
-															.close();
-													ContactSearchCriteria contactSearchCriteria = new ContactSearchCriteria();
-													contactSearchCriteria
-															.setSaccountid(new NumberSearchField(
-																	AppContext
-																			.getAccountId()));
-													contactSearchCriteria
-															.setContactName(new StringSearchField(
-																	""));
-													EventBusFactory.getInstance()
-															.post(
-																	new ContactEvent.GotoList(
-																			ContactListView.class,
-																			new ContactSearchCriteria()));
-												} catch (IOException e) {
-													throw new MyCollabException(
-															e);
-												}
+												throw new MyCollabException(
+														"did not support this feature");
 											}
 										}
 									});

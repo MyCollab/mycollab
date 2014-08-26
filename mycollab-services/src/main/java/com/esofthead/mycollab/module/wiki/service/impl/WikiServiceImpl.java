@@ -47,6 +47,7 @@ import com.esofthead.mycollab.module.ecm.ContentException;
 import com.esofthead.mycollab.module.ecm.NodesUtil;
 import com.esofthead.mycollab.module.wiki.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.wiki.domain.PageVersion;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
 import com.esofthead.mycollab.module.wiki.service.WikiService;
 
@@ -239,23 +240,23 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public List<Version> getPageVersions(final String path) {
-		return jcrTemplate.execute(new JcrCallback<List<Version>>() {
+	public List<PageVersion> getPageVersions(final String path) {
+		return jcrTemplate.execute(new JcrCallback<List<PageVersion>>() {
 
 			@Override
-			public List<Version> doInJcr(Session session) throws IOException,
-					RepositoryException {
+			public List<PageVersion> doInJcr(Session session)
+					throws IOException, RepositoryException {
 				Node rootNode = session.getRootNode();
 				Node node = getNode(rootNode, path);
 				if (node != null) {
 					VersionManager vm = session.getWorkspace()
 							.getVersionManager();
 					VersionHistory history = vm.getVersionHistory("/" + path);
-					List<Version> versions = new ArrayList<Version>();
+					List<PageVersion> versions = new ArrayList<PageVersion>();
 					for (VersionIterator it = history.getAllVersions(); it
 							.hasNext();) {
 						Version version = (Version) it.next();
-						versions.add(version);
+						versions.add(convertNodeToPageVersion(version));
 					}
 					return versions;
 				} else {
@@ -263,6 +264,18 @@ public class WikiServiceImpl implements WikiService {
 				}
 			}
 		});
+	}
+
+	private PageVersion convertNodeToPageVersion(Version node) {
+		try {
+			PageVersion version = new PageVersion();
+			version.setName(node.getName());
+			version.setIndex(node.getIndex());
+			return version;
+		} catch (Exception e) {
+			log.error("Error while get detail node version");
+			throw new MyCollabException(e);
+		}
 	}
 
 	@Override
@@ -301,11 +314,24 @@ public class WikiServiceImpl implements WikiService {
 			public Object doInJcr(Session session) throws IOException,
 					RepositoryException {
 				Node rootNode = session.getRootNode();
-				Node node = getNode(rootNode, path);
-				if (node != null) {
-					node.remove();
+				if ("".equals(path) || "/".equals(path)) {
+					NodeIterator nodes = rootNode.getNodes();
+					while (nodes.hasNext()) {
+						Node node = nodes.nextNode();
+						if (isNodeFolder(node) || isNodePage(node)) {
+							node.remove();
+						}
+					}
 					session.save();
+				} else {
+					Node node = getNode(rootNode, path);
+					if (node != null
+							&& (isNodeFolder(node) || isNodePage(node))) {
+						node.remove();
+						session.save();
+					}
 				}
+
 				return null;
 			}
 		});

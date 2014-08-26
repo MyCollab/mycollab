@@ -196,6 +196,7 @@ public class AppContext implements Serializable {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String getMessage(Class<? extends Enum> enumCls,
 			String option, Object... objects) {
 		try {
@@ -467,8 +468,6 @@ public class AppContext implements Serializable {
 
 	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy");
-	private static SimpleDateFormat df = new SimpleDateFormat(
-			"EEE MMM dd, hh:mm aa");
 
 	private static TimeZone getTimezoneInContext() {
 		SimpleUser session = getInstance().session;
@@ -540,23 +539,6 @@ public class AppContext implements Serializable {
 
 	public static String getDateFormat() {
 		return "MM/dd/yyyy";
-	}
-
-	public static String getDateTimeFormat() {
-		return "MM/dd/yyyy hh:mm a";
-	}
-
-	/**
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static String formatDateToHumanRead(Date date) {
-		if (date == null) {
-			return "";
-		}
-		return df.format(date);
-
 	}
 
 	/**

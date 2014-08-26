@@ -45,6 +45,7 @@ public class Page extends WikiResource {
 
 	private String lastUpdatedUser;
 
+	@NotBindable
 	private Calendar lastUpdatedTime;
 
 	public Page() {

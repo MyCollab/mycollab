@@ -8,6 +8,8 @@
     <inherits name="com.vaadin.addon.touchkit.gwt.TouchKitWidgetSet" />
 
     <inherits name="com.esofthead.vaadin.mobilecomponent.WidgetSet" />
+    
+    <inherits name="com.esofthead.vaadin.navigationbarquickmenu.WidgetSet"/>
 
     <inherits name="com.vaadin.DefaultWidgetSet" />
 </module>

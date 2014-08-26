@@ -28,10 +28,8 @@ import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.Popover;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -63,9 +61,8 @@ public class ActivityListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		final Popover controlBtns = new Popover();
-		controlBtns.setClosable(true);
-		controlBtns.setStyleName("controls-popover");
+		final NavigationBarQuickMenu addActivity = new NavigationBarQuickMenu();
+		addActivity.setStyleName("add-btn");
 
 		addButtons = new VerticalLayout();
 		addButtons.setSpacing(true);
@@ -81,7 +78,6 @@ public class ActivityListViewImpl extends
 			@Override
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent event) {
-				controlBtns.close();
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.TaskAdd(this, null));
 			}
@@ -96,7 +92,6 @@ public class ActivityListViewImpl extends
 			@Override
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent event) {
-				controlBtns.close();
 				EventBusFactory.getInstance().post(
 						new ActivityEvent.CallAdd(this, null));
 			}
@@ -112,28 +107,14 @@ public class ActivityListViewImpl extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent event) {
-						controlBtns.close();
 						EventBusFactory.getInstance().post(
 								new ActivityEvent.MeetingAdd(this, null));
 					}
 				});
 		addButtons.addComponent(addMeeting);
 
-		controlBtns.setContent(addButtons);
+		addActivity.setContent(addButtons);
 
-		final Button addActivity = new Button();
-		addActivity.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1920289198458066344L;
-
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				if (!controlBtns.isAttached())
-					controlBtns.showRelativeTo(addActivity);
-				else
-					controlBtns.close();
-			}
-		});
-		addActivity.setStyleName("add-btn");
 		return addActivity;
 	}
 }

@@ -18,10 +18,9 @@ package com.esofthead.mycollab.module.wiki.service;
 
 import java.util.List;
 
-import javax.jcr.version.Version;
-
 import com.esofthead.mycollab.module.wiki.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.wiki.domain.PageVersion;
 import com.esofthead.mycollab.module.wiki.domain.WikiResource;
 
 /**
@@ -58,7 +57,7 @@ public interface WikiService {
 	 * @param path
 	 * @return
 	 */
-	List<Version> getPageVersions(String path);
+	List<PageVersion> getPageVersions(String path);
 
 	/**
 	 * 

@@ -252,7 +252,8 @@
 	    			.edit-btn, .save-btn {
 	    				border: 1px solid #2482c2; 
 		   				color: rgb(255, 255, 255);
-		   				padding-top: 0.5rem;
+		   				padding: 0.4rem 1.2rem 0rem;
+		   				border-radius: 0.3rem;
 		   				font-size: 1.3rem;
 		   				height: 2.8rem;
 		   				line-height: normal;
@@ -260,6 +261,9 @@
 		   				.v-button-wrap {
 		   					padding: 0 12px;
 		   				}
+	    			}
+	    			.save-btn {
+	    				padding: 0.5rem 0 0;
 	    			}
 	    			.add-btn {
 	    			
@@ -273,8 +277,9 @@
 	    					}
 	    				}
     					
-    					.v-button-caption {
+    					&.v-navbar-quickmenu-button {
 	    					@include icomoon;
+	    					padding: 0px 1.2rem;
 	    					
 	    					&:before {
 								content: "\e60e";
@@ -319,29 +324,26 @@
 	    }
 	}
 	
-	/* Controls Popover */
-	.controls-popover {
-		top: 4rem !important;
-		
-		.v-window-contents {
-			background-color: #252c34;
+	/* Controls QuickMenu */
+	.v-navbar-quickmenu-content {
+		width: 100%;
+		background-color: #252c34;
 			
-			.v-button {
-				background-color: #515a62;
-				color: #FFFFFF;
-				
-				.v-button-wrap {
-					padding: 5px 0px;
-				}
-			}
+		.v-button {
+			background-color: #515a62;
+			color: #FFFFFF;
 			
-			.v-touchkit-navbutton {
-				background-color: #515a62;
-				color: #FFFFFF;
+			.v-button-wrap {
 				padding: 5px 0px;
-				border-radius: 3px;
-				text-align: center;
 			}
+		}
+		
+		.v-touchkit-navbutton {
+			background-color: #515a62;
+			color: #FFFFFF;
+			padding: 5px 0px;
+			border-radius: 3px;
+			text-align: center;
 		}
 	}
 	

@@ -27,9 +27,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.Popover;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -74,9 +73,8 @@ public class LeadRelatedCampaignView extends
 
 	@Override
 	protected Component createRightComponent() {
-		final Popover controlBtns = new Popover();
-		controlBtns.setClosable(true);
-		controlBtns.setStyleName("controls-popover");
+		NavigationBarQuickMenu addCampaign = new NavigationBarQuickMenu();
+		addCampaign.setStyleName("add-btn");
 
 		VerticalLayout addBtns = new VerticalLayout();
 		addBtns.setStyleName("edit-btn-layout");
@@ -94,7 +92,6 @@ public class LeadRelatedCampaignView extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent arg0) {
-						controlBtns.close();
 						fireNewRelatedItem("");
 					}
 				});
@@ -110,7 +107,6 @@ public class LeadRelatedCampaignView extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent event) {
-						controlBtns.close();
 						final LeadCampaignSelectionView campaignSelectionView = new LeadCampaignSelectionView(
 								LeadRelatedCampaignView.this);
 						CampaignSearchCriteria criteria = new CampaignSearchCriteria();
@@ -125,22 +121,8 @@ public class LeadRelatedCampaignView extends
 				});
 		addBtns.addComponent(selectCampaign);
 
-		controlBtns.setContent(addBtns);
+		addCampaign.setContent(addBtns);
 
-		Button addCampaign = new Button();
-		addCampaign.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = -6450244648419009556L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				if (!controlBtns.isAttached())
-					controlBtns.showRelativeTo(event.getButton());
-				else
-					controlBtns.close();
-			}
-		});
-		addCampaign.setStyleName("add-btn");
 		return addCampaign;
 	}
 

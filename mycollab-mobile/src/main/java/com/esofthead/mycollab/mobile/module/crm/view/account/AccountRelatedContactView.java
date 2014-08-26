@@ -27,10 +27,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.Popover;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -71,9 +69,8 @@ public class AccountRelatedContactView extends
 
 	@Override
 	protected Component createRightComponent() {
-		final Popover controlBtns = new Popover();
-		controlBtns.setClosable(true);
-		controlBtns.setStyleName("controls-popover");
+		final NavigationBarQuickMenu addContact = new NavigationBarQuickMenu();
+		addContact.setStyleName("add-btn");
 
 		VerticalLayout addButtons = new VerticalLayout();
 		addButtons.setSpacing(true);
@@ -91,7 +88,6 @@ public class AccountRelatedContactView extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent arg0) {
-						controlBtns.close();
 						fireNewRelatedItem("");
 					}
 				});
@@ -106,7 +102,6 @@ public class AccountRelatedContactView extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent event) {
-						controlBtns.close();
 						AccountContactSelectionView contactSelectionView = new AccountContactSelectionView(
 								AccountRelatedContactView.this);
 						final ContactSearchCriteria criteria = new ContactSearchCriteria();
@@ -122,21 +117,8 @@ public class AccountRelatedContactView extends
 				});
 		addButtons.addComponent(selectContact);
 
-		controlBtns.setContent(addButtons);
+		addContact.setContent(addButtons);
 
-		final Button addContact = new Button();
-		addContact.addClickListener(new Button.ClickListener() {
-			private static final long serialVersionUID = 1920289198458066344L;
-
-			@Override
-			public void buttonClick(ClickEvent evt) {
-				if (!controlBtns.isAttached())
-					controlBtns.showRelativeTo(addContact);
-				else
-					controlBtns.close();
-			}
-		});
-		addContact.setStyleName("add-btn");
 		return addContact;
 	}
 

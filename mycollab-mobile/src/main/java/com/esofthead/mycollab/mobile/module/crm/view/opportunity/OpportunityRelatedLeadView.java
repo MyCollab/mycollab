@@ -27,9 +27,8 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
-import com.vaadin.addon.touchkit.ui.Popover;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -73,9 +72,8 @@ public class OpportunityRelatedLeadView extends
 
 	@Override
 	protected Component createRightComponent() {
-		final Popover controlBtns = new Popover();
-		controlBtns.setClosable(true);
-		controlBtns.setStyleName("controls-popover");
+		NavigationBarQuickMenu addLead = new NavigationBarQuickMenu();
+		addLead.setStyleName("add-btn");
 
 		VerticalLayout addBtns = new VerticalLayout();
 		addBtns.setStyleName("edit-btn-layout");
@@ -92,7 +90,6 @@ public class OpportunityRelatedLeadView extends
 			@Override
 			public void buttonClick(
 					NavigationButton.NavigationButtonClickEvent arg0) {
-				controlBtns.close();
 				fireNewRelatedItem("");
 			}
 		});
@@ -108,7 +105,6 @@ public class OpportunityRelatedLeadView extends
 					@Override
 					public void buttonClick(
 							NavigationButton.NavigationButtonClickEvent event) {
-						controlBtns.close();
 						final OpportunityLeadSelectionView leadSelectionView = new OpportunityLeadSelectionView(
 								OpportunityRelatedLeadView.this);
 						LeadSearchCriteria criteria = new LeadSearchCriteria();
@@ -123,22 +119,8 @@ public class OpportunityRelatedLeadView extends
 				});
 		addBtns.addComponent(selectLead);
 
-		controlBtns.setContent(addBtns);
+		addLead.setContent(addBtns);
 
-		Button addLead = new Button();
-		addLead.addClickListener(new Button.ClickListener() {
-
-			private static final long serialVersionUID = -6718052861481135654L;
-
-			@Override
-			public void buttonClick(Button.ClickEvent event) {
-				if (!controlBtns.isAttached())
-					controlBtns.showRelativeTo(event.getButton());
-				else
-					controlBtns.close();
-			}
-		});
-		addLead.setStyleName("add-btn");
 		return addLead;
 	}
 
