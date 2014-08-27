@@ -34,10 +34,10 @@ import com.vaadin.ui.Button;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class LeadCampaignSelectionWindow extends
-RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
+class LeadCampaignSelectionWindow extends
+		RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
-	public LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
+	LeadCampaignSelectionWindow(LeadCampaignListComp associateLeadList) {
 		super("Select Campaigns", associateLeadList);
 
 		this.setWidth("900px");
@@ -62,14 +62,14 @@ RelatedItemSelectionWindow<SimpleCampaign, CampaignSearchCriteria> {
 
 		CampaignSimpleSearchPanel campaignSimpleSearchPanel = new CampaignSimpleSearchPanel();
 		campaignSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
+				.addSearchHandler(new SearchHandler<CampaignSearchCriteria>() {
 
-			@Override
-			public void onSearch(CampaignSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
+					@Override
+					public void onSearch(CampaignSearchCriteria criteria) {
+						tableItem.setSearchCriteria(criteria);
+					}
 
-		});
+				});
 
 		this.bodyContent.addComponent(campaignSimpleSearchPanel);
 		this.bodyContent.addComponent(selectBtn);

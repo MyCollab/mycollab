@@ -41,4 +41,12 @@ public class DateTimeUtilsTest {
 				.convertTimeFromSystemTimezoneToUTC(value.getTime()));
 		Assert.assertEquals(value.getTime(), newDate3.getTime());
 	}
+
+	@Test
+	public void testConvertCurrentTimezoneToUTC() {
+		GregorianCalendar date = new GregorianCalendar(2014, 0, 30, 23, 0, 0);
+		Date dateUTC = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(date
+				.getTimeInMillis());
+		System.out.println(dateUTC);
+	}
 }

@@ -116,8 +116,9 @@ public class ProjectTaskOverdueComponent extends Depot {
 			body.setSpacing(true);
 
 			final Label dateLbl = new Label(AppContext.getMessage(
-					TaskI18nEnum.OPT_DUE_DATE,
-					DateTimeUtils.formatDate(genericTask.getDueDate())));
+					TaskI18nEnum.OPT_DUE_DATE, DateTimeUtils.formatDate(
+							genericTask.getDueDate(),
+							AppContext.getUserDateFormat())));
 			body.addComponent(dateLbl);
 
 			final Label assigneeLabel = new Label("&nbsp;&nbsp;&nbsp;&nbsp;"

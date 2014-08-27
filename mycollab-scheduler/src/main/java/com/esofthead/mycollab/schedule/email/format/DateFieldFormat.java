@@ -23,6 +23,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
@@ -51,7 +52,9 @@ public class DateFieldFormat extends FieldFormat {
 				return new Span().write();
 			} else {
 				return new Span().appendText(
-						DateTimeUtils.formatDate((Date) value, TimezoneMapper
+						DateTimeUtils.formatDate((Date) value, LocaleHelper
+								.getDateFormatAssociateToLocale(context
+										.getLocale()), TimezoneMapper
 								.getTimezone(context.getUser().getTimezone())
 								.getTimezone())).write();
 			}
@@ -68,7 +71,8 @@ public class DateFieldFormat extends FieldFormat {
 			return new Span().write();
 		}
 
-		return DateTimeUtils.converToStringWithUserTimeZone(value, context
+		return DateTimeUtils.converToStringWithUserTimeZone(value, LocaleHelper
+				.getDateFormatAssociateToLocale(context.getLocale()), context
 				.getUser().getTimezone());
 	}
 }

@@ -386,9 +386,11 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					.get(GregorianCalendar.YEAR)));
 
 			cal.set(java.util.Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
+			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime(),
+					AppContext.getUserDateFormat());
 			cal.add(java.util.Calendar.DATE, 6);
-			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
+			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime(),
+					AppContext.getUserDateFormat());
 			dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
 			break;
 		case DAY:
@@ -557,18 +559,21 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 						calendar.add(java.util.Calendar.DATE, 7);
 						calendar.set(java.util.Calendar.DAY_OF_WEEK,
 								calendar.getFirstDayOfWeek());
-						String firstDateOfWeek = DateTimeUtils
-								.formatDate(calendar.getTime());
+						String firstDateOfWeek = DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat());
 						calendar.add(java.util.Calendar.DATE, 6);
-						String endDateOfWeek = DateTimeUtils
-								.formatDate(calendar.getTime());
+						String endDateOfWeek = DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat());
 						dateHdr.setValue(firstDateOfWeek + " - "
 								+ endDateOfWeek);
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, 1);
-						dateHdr.setValue(DateTimeUtils.formatDate(calendar
-								.getTime()));
+						dateHdr.setValue(DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat()));
 						break;
 					case MONTH:
 						break;
@@ -588,18 +593,21 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 						calendar.add(java.util.Calendar.DATE, -7);
 						calendar.set(java.util.Calendar.DAY_OF_WEEK,
 								calendar.getFirstDayOfWeek());
-						String firstDateOfWeek = DateTimeUtils
-								.formatDate(calendar.getTime());
+						String firstDateOfWeek = DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat());
 						calendar.add(java.util.Calendar.DATE, 6);
-						String endDateOfWeek = DateTimeUtils
-								.formatDate(calendar.getTime());
+						String endDateOfWeek = DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat());
 						dateHdr.setValue(firstDateOfWeek + " - "
 								+ endDateOfWeek);
 						break;
 					case DAY:
 						calendar.add(java.util.Calendar.DATE, -1);
-						dateHdr.setValue(DateTimeUtils.formatDate(calendar
-								.getTime()));
+						dateHdr.setValue(DateTimeUtils.formatDate(
+								calendar.getTime(),
+								AppContext.getUserDateFormat()));
 						break;
 					case MONTH:
 						break;
@@ -728,9 +736,11 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					.get(GregorianCalendar.YEAR)));
 
 			cal.set(java.util.Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
+			String firstDateOfWeek = DateTimeUtils.formatDate(cal.getTime(),
+					AppContext.getUserDateFormat());
 			cal.add(java.util.Calendar.DATE, 6);
-			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime());
+			String endDateOfWeek = DateTimeUtils.formatDate(cal.getTime(),
+					AppContext.getUserDateFormat());
 			dateHdr.setValue(firstDateOfWeek + " - " + endDateOfWeek);
 		}
 

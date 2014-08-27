@@ -91,7 +91,7 @@ public class TraceableAspect {
 				traceableAnnotation.nameField());
 		String nameField = "";
 		if (nameObj instanceof Date) {
-			nameField = DateTimeUtils.formatDate((Date) nameObj);
+			nameField = DateTimeUtils.formatDate((Date) nameObj, "MM/dd/yyyy");
 		} else {
 			nameField = nameObj.toString();
 		}

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.standup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -47,6 +49,22 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("add", new PreviewUrlResolver());
 	}
 
+	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+			"MM/dd/yyyy");
+
+	/**
+	 * 
+	 * @param dateVal
+	 * @return
+	 */
+	private static Date parseDate(String dateVal) {
+		try {
+			return simpleDateFormat.parse(dateVal);
+		} catch (ParseException e) {
+			return new GregorianCalendar().getTime();
+		}
+	}
+
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
@@ -59,7 +77,7 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 					.setProjectId(new NumberSearchField(projectId));
 
 			if (tokens.length > 1) {
-				Date date = AppContext.parseDate(tokens[1]);
+				Date date = parseDate(tokens[1]);
 				standupSearchCriteria.setOnDate(new DateSearchField(
 						SearchField.AND, date));
 			} else {
@@ -82,7 +100,7 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 			String[] tokens = decodeUrl.split("/");
 
 			int projectId = Integer.parseInt(tokens[0]);
-			Date onDate = AppContext.parseDate(tokens[2]);
+			Date onDate = parseDate(tokens[2]);
 
 			StandupReportService reportService = ApplicationContextUtil
 					.getSpringBean(StandupReportService.class);

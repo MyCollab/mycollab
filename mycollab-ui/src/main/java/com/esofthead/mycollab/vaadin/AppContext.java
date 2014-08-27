@@ -16,13 +16,13 @@
  */
 package com.esofthead.mycollab.vaadin;
 
+import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_FORMAT;
+import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_TIME_DATE_FORMAT;
+import static com.esofthead.mycollab.common.MyCollabSession.USER_SHORT_DATE_FORMAT;
 import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -180,6 +180,12 @@ public class AppContext implements Serializable {
 		String language = session.getLanguage();
 		userLocale = LocaleHelper.toLocale(language);
 		messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
+		MyCollabSession.putVariable(USER_DATE_FORMAT,
+				LocaleHelper.getDateFormatAssociateToLocale(userLocale));
+		MyCollabSession.putVariable(USER_DATE_TIME_DATE_FORMAT,
+				LocaleHelper.getDateTimeFormatAssociateToLocale(userLocale));
+		MyCollabSession.putVariable(USER_SHORT_DATE_FORMAT,
+				LocaleHelper.getShortDateFormatAssociateToLocale(userLocale));
 	}
 
 	public static Locale getUserLocale() {
@@ -466,9 +472,6 @@ public class AppContext implements Serializable {
 		}
 	}
 
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-			"MM/dd/yyyy");
-
 	private static TimeZone getTimezoneInContext() {
 		SimpleUser session = getInstance().session;
 		TimeZone timezone = null;
@@ -490,13 +493,25 @@ public class AppContext implements Serializable {
 		return session.getTimezone();
 	}
 
+	public static String getUserShortDateFormat() {
+		return (String) MyCollabSession.getVariable(USER_SHORT_DATE_FORMAT);
+	}
+
+	public static String getUserDateFormat() {
+		return (String) MyCollabSession.getVariable(USER_DATE_FORMAT);
+	}
+
+	public static String getUserDateTimeFormat() {
+		return (String) MyCollabSession.getVariable(USER_DATE_TIME_DATE_FORMAT);
+	}
+
 	/**
 	 * 
 	 * @param date
 	 * @return
 	 */
 	public static String formatDateTime(Date date) {
-		return DateTimeUtils.formatDateTime(date,
+		return DateTimeUtils.formatDate(date, getUserDateTimeFormat(),
 				(TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
 	}
 
@@ -506,7 +521,7 @@ public class AppContext implements Serializable {
 	 * @return
 	 */
 	public static String formatDate(Date date) {
-		return DateTimeUtils.formatDate(date,
+		return DateTimeUtils.formatDate(date, getUserDateFormat(),
 				(TimeZone) MyCollabSession.getVariable(USER_TIMEZONE));
 	}
 
@@ -522,23 +537,6 @@ public class AppContext implements Serializable {
 		} else {
 			return formatDate(date);
 		}
-	}
-
-	/**
-	 * 
-	 * @param dateVal
-	 * @return
-	 */
-	public static Date parseDate(String dateVal) {
-		try {
-			return simpleDateFormat.parse(dateVal);
-		} catch (ParseException e) {
-			return new GregorianCalendar().getTime();
-		}
-	}
-
-	public static String getDateFormat() {
-		return "MM/dd/yyyy";
 	}
 
 	/**

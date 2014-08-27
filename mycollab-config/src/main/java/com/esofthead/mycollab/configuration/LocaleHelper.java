@@ -27,13 +27,8 @@ import java.util.Map;
  * 
  */
 public class LocaleHelper {
-	public static final String JAPANESE = "Japanese";
-	public static final String ENGLISH = "English";
-	public static final String SPANISH = "Spanish";
-	public static final String VIETNAMESE = "Vietnamese";
-
-	public static Locale spanish = new Locale("es", "ES");
-	public static Locale vietnamese = new Locale("vi", "VN");
+	private static final String JAPANESE = "Japanese";
+	private static final String ENGLISH = "English";
 
 	private static Map<String, Locale> languages = new HashMap<String, Locale>();
 
@@ -42,13 +37,9 @@ public class LocaleHelper {
 	static {
 		languages.put(JAPANESE, Locale.JAPAN);
 		languages.put(ENGLISH, Locale.US);
-		languages.put(SPANISH, spanish);
-		languages.put(VIETNAMESE, vietnamese);
 
 		languageBase.put(Locale.JAPAN.toString(), Locale.JAPAN);
 		languageBase.put(Locale.US.toString(), Locale.US);
-		languageBase.put(spanish.toString(), spanish);
-		languageBase.put(vietnamese.toString(), vietnamese);
 	}
 
 	static Map<String, Locale> getNativeLanguages() {
@@ -65,5 +56,29 @@ public class LocaleHelper {
 			locale = languageBase.get(language);
 		}
 		return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
+	}
+	
+	public static String getShortDateFormatAssociateToLocale(Locale locale) {
+		if (Locale.JAPAN.equals(locale)) {
+			return "yy/MM/dd";
+		} else {
+			return "MM/dd/yy";
+		}
+	}
+
+	public static String getDateFormatAssociateToLocale(Locale locale) {
+		if (Locale.JAPAN.equals(locale)) {
+			return "yyyy/MM/dd";
+		} else {
+			return "MM/dd/yyyy";
+		}
+	}
+
+	public static String getDateTimeFormatAssociateToLocale(Locale locale) {
+		if (Locale.JAPAN.equals(locale)) {
+			return "yyyy/MM/dd  hh:mm aa";
+		} else {
+			return "MM/dd/yyyy hh:mm aa";
+		}
 	}
 }

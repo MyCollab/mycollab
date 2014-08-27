@@ -132,7 +132,7 @@ public class CampaignSimpleSearchPanel extends
 
 	private void addDateFieldSearch() {
 		dateSearchField = new DateSelectionField();
-		dateSearchField.setDateFormat(AppContext.getDateFormat());
+		dateSearchField.setDateFormat(AppContext.getUserDateFormat());
 		layoutSearchPane.addComponent(dateSearchField, 0, 0);
 		layoutSearchPane.setComponentAlignment(dateSearchField,
 				Alignment.MIDDLE_CENTER);

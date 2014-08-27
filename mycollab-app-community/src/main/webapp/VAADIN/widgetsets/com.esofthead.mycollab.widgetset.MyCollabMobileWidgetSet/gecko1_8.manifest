@@ -1,23 +1,24 @@
 CACHE MANIFEST
-# Build timeFri Aug 01 22:46:05 ICT 2014
+# Build timeWed Aug 27 09:40:38 ICT 2014
 
 CACHE:
 ../../../VAADIN/themes/base/fonts/fontawesome-webfont.woff
 ../../../VAADIN/themes/touchkit/styles.css
 ../../../VAADIN/vaadinBootstrap.js
-F73CDD790FBF5068D3CC5B34ABD0D3CE.cache.js
+1216AF925D06AC6A71D6C87F4FD57112.cache.js
+NavigationBarQuickMenu/quickmenu.css
 clear.cache.gif
 com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet.devmode.js
 com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet.nocache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/1.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/2.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/3.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/4.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/5.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/6.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/7.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/8.cache.js
-deferredjs/F73CDD790FBF5068D3CC5B34ABD0D3CE/9.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/1.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/2.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/3.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/4.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/5.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/6.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/7.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/8.cache.js
+deferredjs/1216AF925D06AC6A71D6C87F4FD57112/9.cache.js
 mobilecomponent/fonts/mobiletoolbar.woff
 mobilecomponent/img/drawer_shadow.png
 mobilecomponent/img/header_shadow.png

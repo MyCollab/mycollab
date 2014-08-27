@@ -17,9 +17,11 @@
 package com.esofthead.mycollab.reporting.expression;
 
 import java.util.Date;
+import java.util.Locale;
 
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
+import com.esofthead.mycollab.configuration.LocaleHelper;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 
 /**
@@ -37,8 +39,10 @@ public class DateExpression extends AbstractFieldExpression implements MValue {
 
 	@Override
 	public String evaluate(ReportParameters reportParameters) {
+		Locale locale = reportParameters.getLocale();
 		Date date = reportParameters.getFieldValue(field);
-		return DateTimeUtils.formatDate(date);
+		return DateTimeUtils.formatDate(date,
+				LocaleHelper.getDateFormatAssociateToLocale(locale));
 	}
 
 }

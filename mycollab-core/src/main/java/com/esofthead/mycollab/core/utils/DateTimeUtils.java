@@ -22,7 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.joda.time.DateTime;
@@ -44,11 +46,7 @@ public class DateTimeUtils {
 
 	private static DateTimeZone utcZone = DateTimeZone.UTC;
 
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-			"MM/dd/yyyy");
-
-	private static SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
-			"MM/dd/yyyy hh:mm aa");
+	private static Map<String, SimpleDateFormat> dateFormats = new HashMap<String, SimpleDateFormat>();
 
 	/**
 	 * Trim hour-minute-second of date instance value to zero.
@@ -78,9 +76,9 @@ public class DateTimeUtils {
 	}
 
 	public static String converToStringWithUserTimeZone(String dateVal,
-			String userTimeZone) {
+			String dateFormat, String userTimeZone) {
 		Date date = convertDateByFormatW3C(dateVal);
-		return converToStringWithUserTimeZone(date, userTimeZone);
+		return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
 	}
 
 	/**
@@ -102,10 +100,10 @@ public class DateTimeUtils {
 	}
 
 	public static String converToStringWithUserTimeZone(Date date,
-			String userTimeZone) {
+			String dateFormat, String userTimeZone) {
 		if (date == null)
 			return "";
-		return DateTimeUtils.formatDate(date,
+		return formatDate(date, dateFormat,
 				TimezoneMapper.getTimezone(userTimeZone).getTimezone());
 	}
 
@@ -136,15 +134,17 @@ public class DateTimeUtils {
 		return dateExpect;
 	}
 
-	public static String formatDate(Date date) {
-		return formatDate(date, null);
+	public static String formatDate(Date date, String dateFormat) {
+		return formatDate(date, dateFormat, null);
 	}
 
-	public static String formatDate(Date date, TimeZone timezone) {
+	public static String formatDate(Date date, String dateFormat,
+			TimeZone timezone) {
 		if (date == null) {
 			return "";
 		}
 
+		SimpleDateFormat simpleDateFormat = getDateFormat(dateFormat);
 		if (timezone != null) {
 			simpleDateFormat.setTimeZone(timezone);
 		}
@@ -152,15 +152,15 @@ public class DateTimeUtils {
 		return simpleDateFormat.format(date);
 	}
 
-	public static String formatDateTime(Date date, TimeZone timezone) {
-		if (date == null) {
-			return "";
+	private static SimpleDateFormat getDateFormat(String format) {
+		SimpleDateFormat dateFormat = dateFormats.get(format);
+		if (dateFormat != null) {
+			return dateFormat;
+		} else {
+			dateFormat = new SimpleDateFormat(format);
+			dateFormats.put(format, dateFormat);
+			return dateFormat;
 		}
-
-		if (timezone != null) {
-			simpleDateTimeFormat.setTimeZone(timezone);
-		}
-		return simpleDateTimeFormat.format(date);
 	}
 
 	public static Date convertTimeFromSystemTimezoneToUTC(long timeInMillis) {

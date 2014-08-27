@@ -30,6 +30,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NotBindable;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.validator.constraints.DateComparision;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -37,6 +38,7 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.CustomField;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.RichTextArea;
 
@@ -106,6 +108,9 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 				((AbstractTextField) formField).setNullRepresentation("");
 			} else if (formField instanceof RichTextArea) {
 				((RichTextArea) formField).setNullRepresentation("");
+			} else if (formField instanceof DateField) {
+				((DateField) formField).setDateFormat(AppContext
+						.getUserShortDateFormat());
 			}
 
 			attachForm.attachField(field.getName(), formField);

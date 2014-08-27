@@ -56,24 +56,15 @@ div.v-cache-loading-indicator {
     z-index: 0;
     width: 80%;
 }
-.v-mobilecomponent .v-touchkit-navpanel-navigation:after {
-    content: "";
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    width: 0.9rem;
-    height: 100%;
-    background: url('img/drawer_shadow.png') repeat-y left top transparent;
-}
 .v-mobilecomponent .v-touchkit-navpanel {
-    transition: all 0.3s ease;
-    -webkit-transition: all 0.3s ease;
-    /* box-shadow: -3px 0px 5px 0px #444;
-    -webkit-box-shadow: -3px 0px 5px 0px #444;
-    -moz-box-shadow: -3px 0px 5px 0px #444; */
+	-webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;    
+    -moz-box-shadow: 0px 0px 15px 5px #444;
+    -webkit-box-shadow: 0px 0px 15px 5px #444;    
+    box-shadow: 0px 0px 15px 5px #444;    
     z-index: 1;
     outline: 0;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .mobilenavview {
     background-color: #F3F1F0;
@@ -110,8 +101,6 @@ div.v-cache-loading-indicator {
 }
 
 /* Toolbar's Styles */
-.v-mobileview-toolbar {
-}
 .v-mobileview-toolbar .v-mobileview-toolbar-wrap {
     overflow-x: auto;
 }
@@ -143,3 +132,4 @@ div.v-cache-loading-indicator {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 }
+

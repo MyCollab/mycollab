@@ -48,6 +48,7 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  * 
  */
 @MappedJdbcTypes(JdbcType.TIMESTAMP)

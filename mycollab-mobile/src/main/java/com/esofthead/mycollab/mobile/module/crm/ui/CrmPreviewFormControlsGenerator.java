@@ -19,7 +19,6 @@ package com.esofthead.mycollab.mobile.module.crm.ui;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -41,8 +40,8 @@ public class CrmPreviewFormControlsGenerator<T> {
 	public static int NEXT_BTN_PRESENTED = 64;
 	public static int HISTORY_BTN_PRESENTED = 128;
 
-	private Button backBtn, deleteBtn, previousItem, nextItemBtn, historyBtn;
-	private NavigationButton editBtn, cloneBtn;
+	private Button backBtn, deleteBtn, previousItem, nextItemBtn, historyBtn,
+			editBtn, cloneBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout editButtons;
@@ -98,14 +97,13 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
-			editBtn = new NavigationButton(
+			editBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL));
-			editBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			editBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void buttonClick(
-						final NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(final Button.ClickEvent event) {
 					final T item = previewForm.getBean();
 					previewForm.fireEditForm(item);
 				}
@@ -136,14 +134,13 @@ public class CrmPreviewFormControlsGenerator<T> {
 		}
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
-			cloneBtn = new NavigationButton(
+			cloneBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL));
-			cloneBtn.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			cloneBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void buttonClick(
-						final NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(final Button.ClickEvent event) {
 					final T item = previewForm.getBean();
 					previewForm.fireCloneForm(item);
 				}

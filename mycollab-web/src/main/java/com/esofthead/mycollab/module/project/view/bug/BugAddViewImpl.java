@@ -144,7 +144,7 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 				if (isValidateForm) {
 					tf.setNullRepresentation("");
 					tf.setRequired(true);
-					tf.setRequiredError("Please enter summary");
+					tf.setRequiredError("Bug summary must be not null");
 				}
 
 				return tf;

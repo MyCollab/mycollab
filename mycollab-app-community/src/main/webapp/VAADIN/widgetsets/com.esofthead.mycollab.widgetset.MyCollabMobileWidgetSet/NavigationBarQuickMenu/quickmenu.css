@@ -1,0 +1,18 @@
+.v-touchkit-navbar .v-navbar-quickmenu-button {
+	line-height: 30px;
+	display: inline-block;
+	color: #00A3E8;
+	position: relative;
+	font-size: 14px;
+}
+.v-navbar-quickmenu-content {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	-webkit-transition: -webkit-transform 0.2s ease;
+	-moz-transition: -moz-transform 0.2s ease;
+	-ms-transition: -ms-transform 0.2s ease;
+	-o-transition: -o-transform 0.2s ease;
+	transition: transform 0.2s ease;
+	z-index: 0;
+}

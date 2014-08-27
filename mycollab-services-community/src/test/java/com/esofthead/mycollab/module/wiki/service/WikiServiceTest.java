@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.wiki.service;
 import java.util.List;
 
 import javax.jcr.RepositoryException;
-import javax.jcr.version.Version;
 
 import org.junit.After;
 import org.junit.Assert;

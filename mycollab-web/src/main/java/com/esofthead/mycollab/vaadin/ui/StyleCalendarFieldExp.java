@@ -21,6 +21,7 @@ import java.util.Date;
 import org.vaadin.risto.stylecalendar.StyleCalendarField;
 
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -50,8 +51,11 @@ public class StyleCalendarFieldExp extends StyleCalendarField {
 			Date selectedDate = (Date) value;
 			Date[] bounceDateofWeek = DateTimeUtils
 					.getBounceDateofWeek(selectedDate);
-			return DateTimeUtils.formatDate(bounceDateofWeek[0]) + " - "
-					+ DateTimeUtils.formatDate(bounceDateofWeek[1]);
+			return DateTimeUtils.formatDate(bounceDateofWeek[0],
+					AppContext.getUserDateFormat())
+					+ " - "
+					+ DateTimeUtils.formatDate(bounceDateofWeek[1],
+							AppContext.getUserDateFormat());
 		}
 	}
 }
