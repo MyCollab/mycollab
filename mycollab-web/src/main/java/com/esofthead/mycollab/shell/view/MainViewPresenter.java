@@ -54,7 +54,7 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 			if (url.startsWith("/")) {
 				url = url.substring(1);
 			}
-			FragmentNavigator.navigateByFragement(url);
+			DesktopApplication.rootUrlResolver.navigateByFragement(url);
 		} else {
 			UserPreference pref = AppContext.getUserPreference();
 			if (pref.getLastmodulevisit() == null

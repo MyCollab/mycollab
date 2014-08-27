@@ -128,6 +128,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 				UIConstants.TABLE_X_LABEL_WIDTH);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void initReport() throws Exception {
 		SearchRequest<S> searchRequest = new SearchRequest<S>(searchCriteria,

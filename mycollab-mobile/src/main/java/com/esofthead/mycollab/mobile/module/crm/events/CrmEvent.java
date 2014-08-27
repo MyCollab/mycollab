@@ -24,10 +24,28 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  */
 public class CrmEvent {
 
-	public static class GotoHome extends ApplicationEvent {
-		private static final long serialVersionUID = -6550809291368983694L;
+	public static class GotoLogin extends ApplicationEvent {
 
-		public GotoHome(Object source, Object data) {
+		private static final long serialVersionUID = 5340896213086045388L;
+
+		public GotoLogin(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class PlainLogin extends ApplicationEvent {
+		private static final long serialVersionUID = -1722945220088633016L;
+
+		public PlainLogin(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class GotoDashboard extends ApplicationEvent {
+
+		private static final long serialVersionUID = 4746588959410782216L;
+
+		public GotoDashboard(Object source, Object data) {
 			super(source, data);
 		}
 	}

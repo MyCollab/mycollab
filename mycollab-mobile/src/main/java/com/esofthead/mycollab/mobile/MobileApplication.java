@@ -29,6 +29,7 @@ import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
+import com.esofthead.mycollab.mobile.shell.ShellUrlResolver;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
@@ -46,6 +47,8 @@ import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
+import com.vaadin.server.Page.UriFragmentChangedEvent;
+import com.vaadin.server.Page.UriFragmentChangedListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Component;
@@ -67,6 +70,8 @@ public class MobileApplication extends MyCollabUI {
 
 	private static Logger log = LoggerFactory
 			.getLogger(MobileApplication.class);
+
+	public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -168,7 +173,22 @@ public class MobileApplication extends MyCollabUI {
 		setContent(manager);
 
 		registerControllers(manager);
-		checkLocalData();
+		// checkLocalData();
+		getPage().addUriFragmentChangedListener(
+				new UriFragmentChangedListener() {
+
+					private static final long serialVersionUID = -6410955178515535406L;
+
+					@Override
+					public void uriFragmentChanged(UriFragmentChangedEvent event) {
+						enter(event.getUriFragment());
+					}
+				});
+		enter(initialUrl);
+	}
+
+	private void enter(String uriFragement) {
+		rootUrlResolver.navigateByFragement(uriFragement);
 	}
 
 	private void checkLocalData() {

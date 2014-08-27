@@ -14,28 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.view;
+package com.esofthead.mycollab.mobile.module.crm;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
-import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.IModule;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.UI;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.2
- * 
+ *
+ * @since 4.4.0
+ *
  */
-
-@ViewComponent
-public class CrmModule extends AbstractMobileMainView implements IModule {
-	private static final long serialVersionUID = 1741055981807436733L;
-
-	public CrmModule() {
-		ControllerRegistry.addController(new CrmModuleController(
-				(NavigationManager) UI.getCurrent().getContent()));
+public class CrmModuleScreenData {
+	public static class GotoModule extends ScreenData<String[]> {
+		public GotoModule(String... params) {
+			super(params);
+		}
 	}
 }

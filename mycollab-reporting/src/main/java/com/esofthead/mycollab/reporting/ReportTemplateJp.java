@@ -39,10 +39,8 @@ import net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory;
  * 
  */
 class ReportTemplateJp extends AbstractReportTemplate {
-	
 
 	ReportTemplateJp() {
-		SimpleFontExtensionsRegistryFactory a;
 		rootStyle = stl.style().setPadding(2).setFontName("Takao");
 		boldStyle = stl.style(rootStyle).bold();
 		italicStyle = stl.style(rootStyle).italic();

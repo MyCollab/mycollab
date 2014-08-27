@@ -20,7 +20,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
-import com.esofthead.mycollab.vaadin.desktop.ui.UrlResolver;
+import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
  * 

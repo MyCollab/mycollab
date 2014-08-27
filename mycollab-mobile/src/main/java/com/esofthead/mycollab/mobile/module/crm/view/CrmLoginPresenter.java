@@ -16,26 +16,31 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
-import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
-import com.esofthead.mycollab.vaadin.mvp.IModule;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.ComponentContainer;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.2
- * 
+ *
+ * @since 4.4.0
+ *
  */
+public class CrmLoginPresenter extends AbstractPresenter<CrmLoginView> {
 
-@ViewComponent
-public class CrmModule extends AbstractMobileMainView implements IModule {
-	private static final long serialVersionUID = 1741055981807436733L;
+	private static final long serialVersionUID = -750325026975907368L;
 
-	public CrmModule() {
-		ControllerRegistry.addController(new CrmModuleController(
-				(NavigationManager) UI.getCurrent().getContent()));
+	public CrmLoginPresenter() {
+		super(CrmLoginView.class);
 	}
+
+	@Override
+	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
+		((NavigationManager) navigationManager).navigateTo(view.getWidget());
+
+		AppContext.addFragment("crm/login", "CRM Login Page");
+	}
+
 }

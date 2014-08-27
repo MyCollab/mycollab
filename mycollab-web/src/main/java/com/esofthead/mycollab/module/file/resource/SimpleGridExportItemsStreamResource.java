@@ -55,8 +55,8 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 	private static Logger log = LoggerFactory
 			.getLogger(SimpleGridExportItemsStreamResource.class);
 
-	protected Class<T> classType;
-	protected RpParameterBuilder parameters;
+	private Class<T> classType;
+	private RpParameterBuilder parameters;
 
 	public SimpleGridExportItemsStreamResource(String reportTitle,
 			RpParameterBuilder paramters, ReportExportType outputForm,

@@ -20,6 +20,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -71,7 +72,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		TaskGroupDisplayView {
 	private static final long serialVersionUID = 1L;
@@ -553,7 +554,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		searchCriteria.setProjectid(new NumberSearchField(
 				CurrentProjectVariables.getProjectId()));
 		searchCriteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Open" }));
+				new String[] { StatusI18nEnum.Open.name() }));
 
 		unresolvedTaskByAssigneeWidget.setSearchCriteria(searchCriteria);
 

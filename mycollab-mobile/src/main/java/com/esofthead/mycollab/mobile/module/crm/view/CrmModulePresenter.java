@@ -16,10 +16,14 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view;
 
+import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
+import com.esofthead.mycollab.mobile.MobileApplication;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.vaadin.addon.touchkit.extensions.LocalStorage;
+import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -37,11 +41,40 @@ public class CrmModulePresenter extends CrmGenericPresenter<CrmModule> {
 
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		super.onGo(navigator, data);
-		if (data == null) {
-			EventBusFactory.getInstance().post(
-					new AccountEvent.GotoList(navigator, null));
-		}
+		checkLocalData();
+	}
+
+	private void checkLocalData() {
+		LocalStorage.detectValue(MobileApplication.LOGIN_DATA,
+				new LocalStorageCallback() {
+					private static final long serialVersionUID = 3217947479690600476L;
+
+					@Override
+					public void onSuccess(String value) {
+						if (value != null) {
+							String[] loginParams = value.split("\\$");
+							EventBusFactory
+									.getInstance()
+									.post(new CrmEvent.PlainLogin(
+											this,
+											new String[] {
+													loginParams[0],
+													PasswordEncryptHelper
+															.decryptText(loginParams[1]),
+													String.valueOf(false) }));
+
+						} else {
+							EventBusFactory.getInstance().post(
+									new CrmEvent.GotoLogin(this, null));
+						}
+					}
+
+					@Override
+					public void onFailure(FailureEvent error) {
+						EventBusFactory.getInstance().post(
+								new CrmEvent.GotoLogin(this, null));
+					}
+				});
 	}
 
 }

@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.view.opportunity.OpportunityUrlResolver
 import com.esofthead.mycollab.module.crm.view.setting.CrmSettingUrlResolver;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
-import com.esofthead.mycollab.vaadin.desktop.ui.UrlResolver;
+import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
  * 
@@ -73,7 +73,8 @@ public class CrmUrlResolver extends UrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			EventBusFactory.getInstance().post(new CrmEvent.GotoHome(this, null));
+			EventBusFactory.getInstance().post(
+					new CrmEvent.GotoHome(this, null));
 		}
 	}
 }

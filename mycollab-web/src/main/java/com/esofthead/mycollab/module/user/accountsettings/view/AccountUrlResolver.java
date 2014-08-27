@@ -24,7 +24,7 @@ import com.esofthead.mycollab.module.user.accountsettings.view.events.AccountCus
 import com.esofthead.mycollab.module.user.accountsettings.view.events.ProfileEvent;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.desktop.ui.ModuleHelper;
-import com.esofthead.mycollab.vaadin.desktop.ui.UrlResolver;
+import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
  * 

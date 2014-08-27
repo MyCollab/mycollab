@@ -39,9 +39,9 @@ import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
 import com.esofthead.mycollab.shell.events.ShellEvent;
-import com.esofthead.mycollab.shell.view.FragmentNavigator;
 import com.esofthead.mycollab.shell.view.MainWindowContainer;
 import com.esofthead.mycollab.shell.view.NoSubDomainExistedWindow;
+import com.esofthead.mycollab.shell.view.ShellUrlResolver;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
@@ -78,6 +78,8 @@ public class DesktopApplication extends MyCollabUI {
 	private MainWindowContainer mainWindowContainer;
 
 	public static final String NAME_COOKIE = "mycollab";
+
+	public static ShellUrlResolver rootUrlResolver = new ShellUrlResolver();
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -178,7 +180,7 @@ public class DesktopApplication extends MyCollabUI {
 	}
 
 	private void enter(String uriFragement) {
-		FragmentNavigator.navigateByFragement(uriFragement);
+		rootUrlResolver.navigateByFragement(uriFragement);
 	}
 
 	private void clearSession() {

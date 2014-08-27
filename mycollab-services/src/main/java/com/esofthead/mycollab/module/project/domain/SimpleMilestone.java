@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.domain;
 
+import com.esofthead.mycollab.core.utils.StringUtils;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -26,7 +28,7 @@ public class SimpleMilestone extends Milestone {
 
 	private String ownerAvatarId;
 	private String ownerFullName;
-	
+
 	private String createdUserAvatarId;
 	private String createdUserFullName;
 
@@ -48,11 +50,7 @@ public class SimpleMilestone extends Milestone {
 
 	public String getOwnerFullName() {
 		if (ownerFullName == null || ownerFullName.trim().equals("")) {
-			String displayName = getOwner();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return StringUtils.extractNameFromEmail(getOwner());
 		}
 		return ownerFullName;
 	}
@@ -110,6 +108,10 @@ public class SimpleMilestone extends Milestone {
 	}
 
 	public String getCreatedUserFullName() {
+		if (createdUserFullName == null
+				|| createdUserFullName.trim().equals("")) {
+			return StringUtils.extractNameFromEmail(getCreateduser());
+		}
 		return createdUserFullName;
 	}
 

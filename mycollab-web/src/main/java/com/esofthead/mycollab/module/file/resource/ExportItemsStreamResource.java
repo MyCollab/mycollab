@@ -61,14 +61,17 @@ public abstract class ExportItemsStreamResource<T> implements
 
 	protected AbstractReportTemplate reportTemplate;
 
-	protected String reportTitle;
+	private String reportTitle;
 
-	protected ReportExportType outputForm;
+	private ReportExportType outputForm;
 
 	protected JasperReportBuilder reportBuilder;
 
+	private Locale language;
+
 	public ExportItemsStreamResource(Locale languageSupport,
 			String reportTitle, ReportExportType outputForm) {
+		this.language = languageSupport;
 		this.reportTemplate = ReportTemplateFactory
 				.getTemplate(languageSupport);
 		this.reportTitle = reportTitle;
@@ -161,7 +164,8 @@ public abstract class ExportItemsStreamResource<T> implements
 					.highlightDetailEvenRows()
 					.pageFooter(
 							cmp.pageXofY().setStyle(
-									reportTemplate.getBoldCenteredStyle()));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+									reportTemplate.getBoldCenteredStyle()))
+					.setLocale(language);
 
 		} else if (outputForm == ReportExportType.CSV) {
 			reportBuilder.setIgnorePagination(true);

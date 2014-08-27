@@ -48,9 +48,12 @@ Version 4.4.0
 * Upgrade libraries versions
 * Revise project time tracking view
 * Support version management in project page
+* Support date format associate to user's locale
 
 **Bug Fixes**
 
+* Page path is cached across projects
+* Milestone simple view display wrongly
 * Display date time field correctly with user custom timezone
 
 Version 4.4.0
