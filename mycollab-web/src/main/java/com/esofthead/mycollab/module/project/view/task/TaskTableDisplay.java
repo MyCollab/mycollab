@@ -95,7 +95,7 @@ public class TaskTableDisplay extends
 								task.getId()));
 				b.setDescription(ProjectTooltipGenerator.generateToolTipTask(
 						AppContext.getUserLocale(), task,
-						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
+						AppContext.getSiteUrl(), AppContext.getTimezone()));
 
 				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
 					b.setIconLink(ProjectResources

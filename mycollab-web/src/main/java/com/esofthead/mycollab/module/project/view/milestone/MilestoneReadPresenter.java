@@ -174,9 +174,9 @@ public class MilestoneReadPresenter extends
 		if (CurrentProjectVariables
 				.canRead(ProjectRolePermissionCollections.MILESTONES)) {
 			if (data.getParams() instanceof Integer) {
-				MilestoneService riskService = ApplicationContextUtil
+				MilestoneService milestoneService = ApplicationContextUtil
 						.getSpringBean(MilestoneService.class);
-				SimpleMilestone milestone = riskService.findById(
+				SimpleMilestone milestone = milestoneService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (milestone != null) {
 					MilestoneContainer milestoneContainer = (MilestoneContainer) container;

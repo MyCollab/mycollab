@@ -282,13 +282,13 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 				UserAddViewImpl.this.cboTimezone = new TimeZoneSelectionField();
 				if (UserAddViewImpl.this.user.getTimezone() != null) {
 					UserAddViewImpl.this.cboTimezone.setTimeZone(TimezoneMapper
-							.getTimezone(UserAddViewImpl.this.user
+							.getTimezoneExt(UserAddViewImpl.this.user
 									.getTimezone()));
 				} else {
 					if (AppContext.getSession().getTimezone() != null) {
 						UserAddViewImpl.this.cboTimezone
 								.setTimeZone(TimezoneMapper
-										.getTimezone(AppContext.getSession()
+										.getTimezoneExt(AppContext.getSession()
 												.getTimezone()));
 					}
 				}

@@ -103,7 +103,7 @@ public class CampaignTableDisplay
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateTooltipCampaign(
 						AppContext.getUserLocale(), campaign,
-						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
+						AppContext.getSiteUrl(), AppContext.getTimezone()));
 				b.setStyleName("link");
 
 				if ("Complete".equals(campaign.getStatus())) {

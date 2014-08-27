@@ -98,7 +98,7 @@ public class BasicInfoChangeWindow extends Window {
 		this.timeZoneField = (TimeZoneSelectionField) passInfo.addComponent(
 				new TimeZoneSelectionField(),
 				AppContext.getMessage(UserI18nEnum.FORM_TIMEZONE), 0, 4);
-		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezone(this.user
+		this.timeZoneField.setTimeZone(TimezoneMapper.getTimezoneExt(this.user
 				.getTimezone()));
 
 		this.languageBox = (LanguageComboBox) passInfo.addComponent(

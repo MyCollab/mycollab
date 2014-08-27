@@ -55,8 +55,8 @@ public class DateFieldFormat extends FieldFormat {
 						DateTimeUtils.formatDate((Date) value, LocaleHelper
 								.getDateFormatAssociateToLocale(context
 										.getLocale()), TimezoneMapper
-								.getTimezone(context.getUser().getTimezone())
-								.getTimezone())).write();
+								.getTimezone(context.getUser().getTimezone())))
+						.write();
 			}
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
@@ -73,6 +73,6 @@ public class DateFieldFormat extends FieldFormat {
 
 		return DateTimeUtils.converToStringWithUserTimeZone(value, LocaleHelper
 				.getDateFormatAssociateToLocale(context.getLocale()), context
-				.getUser().getTimezone());
+				.getTimeZone());
 	}
 }

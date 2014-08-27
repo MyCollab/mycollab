@@ -22,6 +22,7 @@ import static com.esofthead.mycollab.common.TooltipBuilder.TdUtil.buildCellValue
 import static com.esofthead.mycollab.core.utils.StringUtils.trimHtmlTags;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,7 +165,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateToolTipContact(Locale locale,
-			SimpleContact contact, String siteURL, String userTimeZone) {
+			SimpleContact contact, String siteURL, TimeZone userTimeZone) {
 		if (contact == null) {
 			return generateTolltipNull(locale);
 		}
@@ -253,7 +254,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateTooltipCampaign(Locale locale,
-			SimpleCampaign campaign, String siteURl, String userTimeZone) {
+			SimpleCampaign campaign, String siteURl, TimeZone userTimeZone) {
 		if (campaign == null)
 			return generateTolltipNull(locale);
 
@@ -343,7 +344,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateTooltipLead(Locale locale, SimpleLead lead,
-			String siteURl, String userTimeZone) {
+			String siteURl, TimeZone userTimeZone) {
 		if (lead == null)
 			return generateTolltipNull(locale);
 
@@ -457,7 +458,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateTooltipOpportunity(Locale locale,
-			SimpleOpportunity opportunity, String siteURl, String userTimeZone) {
+			SimpleOpportunity opportunity, String siteURl, TimeZone userTimeZone) {
 		if (opportunity == null)
 			return generateTolltipNull(locale);
 
@@ -554,7 +555,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateTooltipCases(Locale locale, SimpleCase cases,
-			String siteURL, String userTimeZone) {
+			String siteURL, TimeZone userTimeZone) {
 		if (cases == null)
 			return generateTolltipNull(locale);
 
@@ -637,7 +638,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateToolTipMeeting(Locale locale,
-			SimpleMeeting meeting, String siteURl, String userTimeZone) {
+			SimpleMeeting meeting, String siteURl, TimeZone userTimeZone) {
 		if (meeting == null)
 			return generateTolltipNull(locale);
 		try {
@@ -690,7 +691,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateToolTipCall(Locale locale, SimpleCall call,
-			String siteURL, String userTimeZone) {
+			String siteURL, TimeZone userTimeZone) {
 		if (call == null)
 			return generateTolltipNull(locale);
 		try {
@@ -747,7 +748,7 @@ public class CrmTooltipGenerator {
 	}
 
 	public static String generateToolTipCrmTask(Locale locale, SimpleTask task,
-			String siteURL, String userTimeZone) {
+			String siteURL, TimeZone userTimeZone) {
 		if (task == null)
 			return generateTolltipNull(locale);
 

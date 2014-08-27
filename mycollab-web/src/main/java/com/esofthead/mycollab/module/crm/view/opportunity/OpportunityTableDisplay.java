@@ -116,7 +116,7 @@ public class OpportunityTableDisplay
 				b.setDescription(CrmTooltipGenerator
 						.generateTooltipOpportunity(AppContext.getUserLocale(),
 								opportunity, AppContext.getSiteUrl(),
-								AppContext.getTimezoneId()));
+								AppContext.getTimezone()));
 
 				return b;
 			}

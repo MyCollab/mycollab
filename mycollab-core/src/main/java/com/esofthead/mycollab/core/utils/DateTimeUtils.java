@@ -76,7 +76,7 @@ public class DateTimeUtils {
 	}
 
 	public static String converToStringWithUserTimeZone(String dateVal,
-			String dateFormat, String userTimeZone) {
+			String dateFormat, TimeZone userTimeZone) {
 		Date date = convertDateByFormatW3C(dateVal);
 		return converToStringWithUserTimeZone(date, dateFormat, userTimeZone);
 	}
@@ -100,11 +100,10 @@ public class DateTimeUtils {
 	}
 
 	public static String converToStringWithUserTimeZone(Date date,
-			String dateFormat, String userTimeZone) {
+			String dateFormat, TimeZone userTimeZone) {
 		if (date == null)
 			return "";
-		return formatDate(date, dateFormat,
-				TimezoneMapper.getTimezone(userTimeZone).getTimezone());
+		return formatDate(date, dateFormat, userTimeZone);
 	}
 
 	public static String getStringDateFromNow(Date dateTime, Locale locale) {

@@ -161,13 +161,7 @@ public class AppContext implements Serializable {
 		session = userSession;
 		userPreference = userPref;
 		billingAccount = billingAc;
-
-		VaadinSession.getCurrent().setLocale(Locale.ENGLISH);
-
-		setLanguage();
-
-		TimeZone timezone = getTimezoneInContext();
-		MyCollabSession.putVariable(USER_TIMEZONE, timezone);
+		setUserVariables();
 	}
 
 	public void clearSession() {
@@ -176,9 +170,10 @@ public class AppContext implements Serializable {
 		billingAccount = null;
 	}
 
-	private void setLanguage() {
+	private void setUserVariables() {
 		String language = session.getLanguage();
 		userLocale = LocaleHelper.toLocale(language);
+		VaadinSession.getCurrent().setLocale(userLocale);
 		messageHelper = LocalizationHelper.getMessageConveyor(userLocale);
 		MyCollabSession.putVariable(USER_DATE_FORMAT,
 				LocaleHelper.getDateFormatAssociateToLocale(userLocale));
@@ -186,6 +181,14 @@ public class AppContext implements Serializable {
 				LocaleHelper.getDateTimeFormatAssociateToLocale(userLocale));
 		MyCollabSession.putVariable(USER_SHORT_DATE_FORMAT,
 				LocaleHelper.getShortDateFormatAssociateToLocale(userLocale));
+
+		TimeZone timezone = null;
+		if (session.getTimezone() == null) {
+			timezone = TimeZone.getDefault();
+		} else {
+			timezone = TimezoneMapper.getTimezone(session.getTimezone());
+		}
+		MyCollabSession.putVariable(USER_TIMEZONE, timezone);
 	}
 
 	public static Locale getUserLocale() {
@@ -472,25 +475,12 @@ public class AppContext implements Serializable {
 		}
 	}
 
-	private static TimeZone getTimezoneInContext() {
-		SimpleUser session = getInstance().session;
-		TimeZone timezone = null;
-		if (session == null) {
-			timezone = TimeZone.getDefault();
-		} else {
-			if (session.getTimezone() == null) {
-				timezone = TimeZone.getDefault();
-			} else {
-				timezone = TimezoneMapper.getTimezone(session.getTimezone())
-						.getTimezone();
-			}
+	public static TimeZone getTimezone() {
+		try {
+			return (TimeZone) MyCollabSession.getVariable(USER_TIMEZONE);
+		} catch (Exception e) {
+			return TimeZone.getDefault();
 		}
-		return timezone;
-	}
-
-	public static String getTimezoneId() {
-		SimpleUser session = getInstance().session;
-		return session.getTimezone();
 	}
 
 	public static String getUserShortDateFormat() {

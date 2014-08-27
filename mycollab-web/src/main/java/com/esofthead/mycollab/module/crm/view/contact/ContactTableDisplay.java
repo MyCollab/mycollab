@@ -104,7 +104,7 @@ public class ContactTableDisplay
 								.getId()));
 				b.setDescription(CrmTooltipGenerator.generateToolTipContact(
 						AppContext.getUserLocale(), contact,
-						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
+						AppContext.getSiteUrl(), AppContext.getTimezone()));
 				return b;
 			}
 		});

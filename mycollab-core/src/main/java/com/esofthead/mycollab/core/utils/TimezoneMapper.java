@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import com.esofthead.mycollab.core.MyCollabException;
+
 /**
  * Class keep all timezones of system
  * 
@@ -995,11 +997,27 @@ public class TimezoneMapper {
 				"Pacific", "Pacific/Kiritimati"));
 	}
 
-	public static TimezoneExt getTimezone(String mycollabId) {
+	public static TimezoneExt getTimezoneExt(String mycollabId) {
 		if (mycollabId == null || mycollabId.equals("")) {
 			return timeMap.get("3");
 		}
 		return timeMap.get(mycollabId);
+	}
+
+	public static TimeZone getTimezone(String mycollabId) {
+		TimezoneExt timeZoneExt = null;
+		if (mycollabId == null || mycollabId.equals("")) {
+			timeZoneExt = timeMap.get("3");
+		} else {
+			timeZoneExt = timeMap.get(mycollabId);
+		}
+
+		if (timeZoneExt == null) {
+			throw new MyCollabException("Can not find the timezone with id "
+					+ mycollabId);
+		}
+
+		return timeZoneExt.getTimezone();
 	}
 
 	public static String getTimezoneDbId(TimeZone timeZone) {
@@ -1019,7 +1037,7 @@ public class TimezoneMapper {
 		private final TimeZone timezone;
 		private final String area;
 
-		public TimezoneExt(String id, String displayName, String area,
+		TimezoneExt(String id, String displayName, String area,
 				String javaTimeZoneId) {
 			this.id = id;
 			this.displayName = displayName;

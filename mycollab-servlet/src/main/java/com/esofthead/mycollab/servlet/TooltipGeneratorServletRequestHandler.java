@@ -19,6 +19,7 @@ package com.esofthead.mycollab.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.LocaleHelper;
+import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.module.crm.CrmTooltipGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCall;
@@ -99,7 +101,8 @@ public class TooltipGeneratorServletRequestHandler extends
 			Integer sAccountId = (request.getParameter("sAccountId") != null) ? Integer
 					.parseInt(request.getParameter("sAccountId")) : 0;
 			String siteURL = request.getParameter("siteURL");
-			String timeZone = request.getParameter("timeZone");
+			String timeZoneId = request.getParameter("timeZone");
+			TimeZone timeZone = TimezoneMapper.getTimezone(timeZoneId);
 			String username = request.getParameter("username");
 			String localeParam = request.getParameter("locale");
 			Locale locale = LocaleHelper.toLocale(localeParam);

@@ -104,7 +104,7 @@ public class CaseTableDisplay extends
 				}
 				b.setDescription(CrmTooltipGenerator.generateTooltipCases(
 						AppContext.getUserLocale(), cases,
-						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
+						AppContext.getSiteUrl(), AppContext.getTimezone()));
 				return b;
 			}
 		});

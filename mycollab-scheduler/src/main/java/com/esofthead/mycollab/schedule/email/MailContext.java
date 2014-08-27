@@ -17,9 +17,11 @@
 package com.esofthead.mycollab.schedule.email;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.configuration.LocaleHelper;
+import com.esofthead.mycollab.core.utils.TimezoneMapper;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 
@@ -35,12 +37,14 @@ public class MailContext<B> {
 	private B wrappedBean;
 	private String siteUrl;
 	private Locale locale;
+	private TimeZone timeZone;
 
 	public MailContext(SimpleRelayEmailNotification emailNotification,
 			SimpleUser user, String siteUrl) {
 		this.emailNotification = emailNotification;
 		this.user = user;
 		this.locale = LocaleHelper.toLocale(user.getLanguage());
+		this.timeZone = TimezoneMapper.getTimezone(user.getTimezone());
 		this.siteUrl = siteUrl;
 	}
 
@@ -90,5 +94,9 @@ public class MailContext<B> {
 
 	public String templatePath(String resourcePath) {
 		return LocalizationHelper.templatePath(resourcePath, locale);
+	}
+
+	public TimeZone getTimeZone() {
+		return timeZone;
 	}
 }

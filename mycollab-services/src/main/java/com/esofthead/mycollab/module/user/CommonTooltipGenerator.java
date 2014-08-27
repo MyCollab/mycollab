@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.user;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ public class CommonTooltipGenerator {
 			.getLogger(CommonTooltipGenerator.class);
 
 	public static String generateTooltipUser(Locale locale, SimpleUser user,
-			String siteURL, String timeZone) {
+			String siteURL, TimeZone timeZone) {
 		try {
 			if (user == null) {
 				return generateTolltipNull(locale);

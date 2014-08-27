@@ -22,6 +22,7 @@ import static com.esofthead.mycollab.common.TooltipBuilder.TdUtil.buildCellValue
 import static com.esofthead.mycollab.core.utils.StringUtils.trimHtmlTags;
 
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -97,7 +98,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipTask(Locale locale, SimpleTask task,
-			String siteURL, String timeZone) {
+			String siteURL, TimeZone timeZone) {
 		if (task == null) {
 			return generateTolltipNull(locale);
 		}
@@ -195,7 +196,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipBug(Locale locale, SimpleBug bug,
-			String siteURL, String timeZone) {
+			String siteURL, TimeZone timeZone) {
 		if (bug == null) {
 			return generateTolltipNull(locale);
 		}
@@ -305,7 +306,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipRisk(Locale locale, SimpleRisk risk,
-			String siteURL, String timeZone) {
+			String siteURL, TimeZone timeZone) {
 		if (risk == null)
 			return generateTolltipNull(locale);
 		try {
@@ -392,7 +393,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipProblem(Locale locale,
-			SimpleProblem problem, String siteURL, String timeZone) {
+			SimpleProblem problem, String siteURL, TimeZone timeZone) {
 		if (problem == null)
 			return generateTolltipNull(locale);
 		try {
@@ -480,7 +481,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipVersion(Locale locale, Version version,
-			String siteURL, String timeZone) {
+			String siteURL, TimeZone timeZone) {
 		if (version == null)
 			return generateTolltipNull(locale);
 		try {
@@ -519,7 +520,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipComponent(Locale locale,
-			SimpleComponent component, String siteURL, String timeZone) {
+			SimpleComponent component, String siteURL, TimeZone timeZone) {
 		if (component == null)
 			return generateTolltipNull(locale);
 
@@ -556,7 +557,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipTaskList(Locale locale,
-			SimpleTaskList taskList, String siteURL, String timeZone) {
+			SimpleTaskList taskList, String siteURL, TimeZone timeZone) {
 
 		if (taskList == null)
 			return generateTolltipNull(locale);
@@ -601,7 +602,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipProject(Locale locale,
-			SimpleProject project, String siteURL, String timeZone) {
+			SimpleProject project, String siteURL, TimeZone timeZone) {
 		if (project == null)
 			return generateTolltipNull(locale);
 
@@ -695,7 +696,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipMilestone(Locale locale,
-			SimpleMilestone milestone, String siteURL, String timeZone) {
+			SimpleMilestone milestone, String siteURL, TimeZone timeZone) {
 		if (milestone == null)
 			return generateTolltipNull(locale);
 
@@ -765,7 +766,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipStandUp(Locale locale,
-			SimpleStandupReport standup, String siteURL, String timeZone) {
+			SimpleStandupReport standup, String siteURL, TimeZone timeZone) {
 		if (standup == null)
 			return generateTolltipNull(locale);
 
@@ -836,7 +837,7 @@ public class ProjectTooltipGenerator {
 	}
 
 	public static String generateToolTipMessage(Locale locale,
-			SimpleMessage message, String siteURL, String timeZone) {
+			SimpleMessage message, String siteURL, TimeZone timeZone) {
 		if (message == null)
 			return generateTolltipNull(locale);
 

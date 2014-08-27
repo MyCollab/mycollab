@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -109,6 +110,7 @@ public abstract class AbstractBeanFieldGroupEditFieldFactory<B> implements
 			} else if (formField instanceof RichTextArea) {
 				((RichTextArea) formField).setNullRepresentation("");
 			} else if (formField instanceof DateField) {
+				((DateField) formField).setTimeZone(AppContext.getTimezone());
 				((DateField) formField).setDateFormat(AppContext
 						.getUserShortDateFormat());
 			}

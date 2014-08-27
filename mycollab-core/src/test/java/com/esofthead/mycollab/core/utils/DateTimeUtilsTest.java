@@ -48,5 +48,9 @@ public class DateTimeUtilsTest {
 		Date dateUTC = DateTimeUtils.convertTimeFromSystemTimezoneToUTC(date
 				.getTimeInMillis());
 		System.out.println(dateUTC);
+
+		Date currentTime = DateTimeUtils
+				.convertTimeFromUTCToSystemTimezone(dateUTC.getTime());
+		System.out.println(currentTime);
 	}
 }

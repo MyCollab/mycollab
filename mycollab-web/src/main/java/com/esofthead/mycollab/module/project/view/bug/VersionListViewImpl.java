@@ -163,7 +163,7 @@ public class VersionListViewImpl extends AbstractPageView implements
 								.generateToolTipVersion(
 										AppContext.getUserLocale(), bugVersion,
 										AppContext.getSiteUrl(),
-										AppContext.getTimezoneId()));
+										AppContext.getTimezone()));
 						return b;
 
 					}

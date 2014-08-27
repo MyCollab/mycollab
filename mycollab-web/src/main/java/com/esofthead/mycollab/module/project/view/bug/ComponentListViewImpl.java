@@ -158,7 +158,7 @@ public class ComponentListViewImpl extends AbstractPageView implements
 								.generateToolTipComponent(
 										AppContext.getUserLocale(),
 										bugComponent, AppContext.getSiteUrl(),
-										AppContext.getTimezoneId()));
+										AppContext.getTimezone()));
 						return b;
 
 					}

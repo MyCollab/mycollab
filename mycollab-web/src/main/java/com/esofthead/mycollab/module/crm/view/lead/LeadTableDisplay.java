@@ -106,7 +106,7 @@ public class LeadTableDisplay extends
 				}
 				b.setDescription(CrmTooltipGenerator.generateTooltipLead(
 						AppContext.getUserLocale(), lead,
-						AppContext.getSiteUrl(), AppContext.getTimezoneId()));
+						AppContext.getSiteUrl(), AppContext.getTimezone()));
 				return b;
 			}
 		});
