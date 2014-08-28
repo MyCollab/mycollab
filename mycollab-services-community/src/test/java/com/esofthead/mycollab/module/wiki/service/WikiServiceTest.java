@@ -119,7 +119,7 @@ public class WikiServiceTest extends ServiceTest {
 
 		List<PageVersion> versions = wikiService
 				.getPageVersions("1/page/document_1");
-		Assert.assertEquals(3, versions.size());
+		Assert.assertEquals(2, versions.size());
 
 		page = wikiService.getPageByVersion("1/page/document_1", "1.0");
 		Assert.assertEquals("Hello world 2", page.getSubject());
