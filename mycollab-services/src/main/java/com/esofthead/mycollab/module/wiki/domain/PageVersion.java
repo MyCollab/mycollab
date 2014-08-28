@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.wiki.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class PageVersion implements Serializable {
 	
 	private int index;
 	
-	private Page frozenPage;
+	private Calendar createdTime;
 
 	public String getName() {
 		return name;
@@ -49,11 +50,11 @@ public class PageVersion implements Serializable {
 		this.index = index;
 	}
 
-	public Page getFrozenPage() {
-		return frozenPage;
+	public Calendar getCreatedTime() {
+		return createdTime;
 	}
 
-	public void setFrozenPage(Page frozenPage) {
-		this.frozenPage = frozenPage;
+	public void setCreatedTime(Calendar createdTime) {
+		this.createdTime = createdTime;
 	}
 }

@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.CountryComboBox;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -43,7 +44,7 @@ import com.vaadin.ui.Window;
  * 
  */
 @SuppressWarnings("serial")
-public class AdvancedInfoChangeWindow extends Window {
+class AdvancedInfoChangeWindow extends Window {
 
 	private TextField txtWebsite;
 	private TextField txtCompany;
@@ -51,7 +52,7 @@ public class AdvancedInfoChangeWindow extends Window {
 
 	private final User user;
 
-	public AdvancedInfoChangeWindow(final User user) {
+	AdvancedInfoChangeWindow(final User user) {
 		this.user = user;
 		this.setWidth("450px");
 		this.setResizable(false);
@@ -112,19 +113,19 @@ public class AdvancedInfoChangeWindow extends Window {
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button sendBtn = new Button(
+		final Button saveBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						AdvancedInfoChangeWindow.this.changePassword();
+						changeInfo();
 					}
 				});
-		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		hlayoutControls.addComponent(sendBtn);
-		hlayoutControls.setComponentAlignment(sendBtn, Alignment.MIDDLE_CENTER);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		hlayoutControls.addComponent(saveBtn);
+		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 
 		mainLayout.addComponent(hlayoutControls);
 		mainLayout.setComponentAlignment(hlayoutControls,
@@ -134,7 +135,7 @@ public class AdvancedInfoChangeWindow extends Window {
 		this.setContent(mainLayout);
 	}
 
-	private void changePassword() {
+	private void changeInfo() {
 		this.user.setWebsite(this.txtWebsite.getValue());
 		this.user.setCompany(this.txtCompany.getValue());
 		this.user.setCountry((String) this.cboCountry.getValue());
@@ -147,5 +148,7 @@ public class AdvancedInfoChangeWindow extends Window {
 				new ProfileEvent.GotoProfileView(AdvancedInfoChangeWindow.this,
 						null));
 		AdvancedInfoChangeWindow.this.close();
+
+		Page.getCurrent().getJavaScript().execute("window.location.reload();");
 	}
 }

@@ -205,4 +205,10 @@ public class DateTimeUtils {
 		return new Date[] { begin, end };
 	}
 
+	public static int compareByDate(Date date1, Date date2) {
+		Date newDate1 = trimHMSOfDate(date1);
+		Date newDate2 = trimHMSOfDate(date2);
+		return newDate1.compareTo(newDate2);
+	}
+
 }

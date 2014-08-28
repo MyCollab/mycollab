@@ -152,6 +152,6 @@ public abstract class AbstractReportTemplate {
 	}
 
 	private ComponentBuilder buildText(DRIExpression<String> expr) {
-		return cmp.text(expr);
+		return cmp.text(expr).setStyle(rootStyle);
 	}
 }

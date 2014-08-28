@@ -143,6 +143,7 @@ public class ItemTimeLoggingServiceImpl extends
 								return timeLoggings.size();
 							}
 						});
+		CacheUtils.cleanCaches(sAccountId, ItemTimeLoggingService.class);
 	}
 
 }

@@ -42,10 +42,6 @@ public class GenericBeanForm<B> extends CssLayout {
 		super();
 	}
 
-	public GenericBeanForm(IFormLayoutFactory layoutFactory) {
-		setFormLayoutFactory(layoutFactory);
-	}
-
 	public void setFormLayoutFactory(IFormLayoutFactory layoutFactory) {
 		this.layoutFactory = layoutFactory;
 	}
@@ -72,7 +68,7 @@ public class GenericBeanForm<B> extends CssLayout {
 		fieldFactory.setBean(bean);
 	}
 
-	public void commit() {
+	void commit() {
 		fieldFactory.commit();
 	}
 

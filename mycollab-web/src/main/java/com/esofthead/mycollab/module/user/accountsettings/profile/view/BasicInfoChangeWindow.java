@@ -35,6 +35,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.TimeZoneSelectionField;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -51,7 +52,7 @@ import com.vaadin.ui.Window;
  * 
  */
 @SuppressWarnings("serial")
-public class BasicInfoChangeWindow extends Window {
+class BasicInfoChangeWindow extends Window {
 
 	private TextField txtFirstName;
 	private TextField txtLastName;
@@ -147,7 +148,7 @@ public class BasicInfoChangeWindow extends Window {
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						BasicInfoChangeWindow.this.changeUserInfo();
+						changeUserInfo();
 					}
 				});
 		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -201,5 +202,7 @@ public class BasicInfoChangeWindow extends Window {
 				new ProfileEvent.GotoProfileView(BasicInfoChangeWindow.this,
 						null));
 		BasicInfoChangeWindow.this.close();
+		Page.getCurrent().getJavaScript().execute("window.location.reload();");
+
 	}
 }

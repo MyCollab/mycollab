@@ -211,6 +211,12 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		return currentListData;
 	}
 
+	public void setCurrentDataList(List<B> list) {
+		this.currentListData = list;
+		this.currentViewCount = list.size();
+		createTable();
+	}
+
 	@Override
 	public void addTableListener(TableClickListener listener) {
 		addListener(TableClickEvent.TABLE_CLICK_IDENTIFIER,
@@ -428,6 +434,10 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 		this.currentListData = this.queryCurrentData();
 		this.currentViewCount = this.currentListData.size();
 
+		createTable();
+	}
+
+	private void createTable() {
 		this.tableItem = new Table();
 		this.tableItem.setWidth("100%");
 		this.tableItem.addStyleName("striped");

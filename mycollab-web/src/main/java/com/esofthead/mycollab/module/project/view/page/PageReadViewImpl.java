@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import java.util.Calendar;
+import java.util.List;
+
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
@@ -30,6 +33,8 @@ import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.wiki.domain.PageVersion;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -45,12 +50,16 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
@@ -61,7 +70,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.4.0
  *
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		PageReadView {
 	private static final long serialVersionUID = 1L;
@@ -70,10 +79,33 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	private PageInfoComp pageInfoComp;
 
+	private PageVersionSelectionBox pageVersionsSelection;
+
+	private WikiService wikiService;
+
 	public PageReadViewImpl() {
 		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE),
 				MyCollabResource
 						.newResource("icons/22/project/page_selected.png"));
+		wikiService = ApplicationContextUtil.getSpringBean(WikiService.class);
+	}
+
+	@Override
+	protected ComponentContainer constructHeader(String headerText) {
+		header = new HorizontalLayout();
+		pageVersionsSelection = new PageVersionSelectionBox();
+
+		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		UiUtils.addComponent(header, pageVersionsSelection,
+				Alignment.MIDDLE_LEFT);
+		header.setExpandRatio(pageVersionsSelection, 1.0f);
+
+		header.setStyleName("hdr-view");
+		header.setWidth("100%");
+		header.setSpacing(true);
+		header.setMargin(true);
+
+		return header;
 	}
 
 	@Override
@@ -98,6 +130,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 	protected void onPreviewItem() {
 		commentListComp.loadComments(beanItem.getId());
 		pageInfoComp.displayEntryInfo();
+		pageVersionsSelection.displayVersions(beanItem.getPath());
 	}
 
 	@Override
@@ -258,6 +291,57 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 			}
 
 			return createdUser;
+		}
+	}
+
+	private class PageVersionSelectionBox extends ComboBox {
+		private static final long serialVersionUID = 1L;
+
+		PageVersionSelectionBox() {
+			super();
+			this.setNullSelectionAllowed(false);
+
+			this.addValueChangeListener(new ValueChangeListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void valueChange(
+						com.vaadin.data.Property.ValueChangeEvent event) {
+					PageVersion version = (PageVersion) PageVersionSelectionBox.this
+							.getValue();
+					if (version != null) {
+						Page page = wikiService.getPageByVersion(
+								beanItem.getPath(), version.getName());
+						page.setPath(beanItem.getPath());
+						previewForm.setBean(page);
+						previewLayout.setTitle(page.getSubject());
+						pageInfoComp.displayEntryInfo();
+					}
+				}
+			});
+		}
+
+		void displayVersions(String path) {
+			List<PageVersion> pageVersions = wikiService.getPageVersions(path);
+			this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+			this.setNullSelectionAllowed(false);
+
+			for (int i = 0; i < pageVersions.size(); i++) {
+				PageVersion version = pageVersions.get(i);
+				this.addItem(version);
+				this.setItemCaption(version, getVersionDisplay(version, i));
+			}
+
+			if (pageVersions.size() > 0) {
+				this.setValue(pageVersions.get(pageVersions.size() - 1));
+			}
+		}
+
+		String getVersionDisplay(PageVersion version, int index) {
+			String vFormat = "%s (%s)";
+			Calendar createdTime = version.getCreatedTime();
+			String date = AppContext.formatDateTime(createdTime.getTime());
+			return String.format(vFormat, "V" + (index + 1), date);
 		}
 	}
 }

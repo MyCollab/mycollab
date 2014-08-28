@@ -46,22 +46,19 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	protected B beanItem;
 	protected AdvancedPreviewBeanForm<B> previewForm;
 	protected ReadViewLayout previewLayout;
-	private Label headerText;
-	private HorizontalLayout header;
+	protected HorizontalLayout header;
 	private HorizontalLayout bodyContainer;
 
 	private VerticalLayout sidebarContent;
 	private VerticalLayout bodyContent;
 
-	private Image titleIcon;
+	protected Image titleIcon;
 
 	abstract protected void initRelatedComponents();
 
 	public AbstractPreviewItemComp2(String headerText, Resource iconResource) {
 		this.titleIcon = new Image(null, iconResource);
-		this.headerText = new Label(headerText);
-		this.headerText.setSizeUndefined();
-		this.addComponent(constructHeader());
+		this.addComponent(constructHeader(headerText));
 
 		previewForm = initPreviewForm();
 		ComponentContainer actionControls = createButtonControls();
@@ -132,13 +129,15 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		}
 	}
 
-	private ComponentContainer constructHeader() {
+	protected ComponentContainer constructHeader(String headerText) {
+		Label headerLbl = new Label(headerText);
+		headerLbl.setSizeUndefined();
 		header = new HorizontalLayout();
-		this.headerText.setStyleName("hdr-text");
+		headerLbl.setStyleName("hdr-text");
 
 		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
-		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);
-		header.setExpandRatio(headerText, 1.0f);
+		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
+		header.setExpandRatio(headerLbl, 1.0f);
 
 		header.setStyleName("hdr-view");
 		header.setWidth("100%");

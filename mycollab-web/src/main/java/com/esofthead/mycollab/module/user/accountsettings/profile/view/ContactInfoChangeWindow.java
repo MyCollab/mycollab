@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.vaadin.server.Page;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -50,7 +51,7 @@ import com.vaadin.ui.Window;
  * 
  */
 @SuppressWarnings("serial")
-public class ContactInfoChangeWindow extends Window {
+class ContactInfoChangeWindow extends Window {
 
 	private TextField txtWorkPhone;
 	private TextField txtHomePhone;
@@ -132,19 +133,19 @@ public class ContactInfoChangeWindow extends Window {
 		hlayoutControls.setComponentAlignment(cancelBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button sendBtn = new Button(
+		final Button saveBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						ContactInfoChangeWindow.this.changeUserInfo();
+						changeUserInfo();
 					}
 				});
-		sendBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
-		hlayoutControls.addComponent(sendBtn);
-		hlayoutControls.setComponentAlignment(sendBtn, Alignment.MIDDLE_CENTER);
+		saveBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+		hlayoutControls.addComponent(saveBtn);
+		hlayoutControls.setComponentAlignment(saveBtn, Alignment.MIDDLE_CENTER);
 
 		mainLayout.addComponent(hlayoutControls);
 		mainLayout.setComponentAlignment(hlayoutControls,
@@ -208,6 +209,8 @@ public class ContactInfoChangeWindow extends Window {
 					new ProfileEvent.GotoProfileView(
 							ContactInfoChangeWindow.this, null));
 			ContactInfoChangeWindow.this.close();
+			Page.getCurrent().getJavaScript()
+					.execute("window.location.reload();");
 		}
 
 	}

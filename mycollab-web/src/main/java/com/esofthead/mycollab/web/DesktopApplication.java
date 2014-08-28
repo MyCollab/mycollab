@@ -93,21 +93,50 @@ public class DesktopApplication extends MyCollabUI {
 			@Override
 			public void error(com.vaadin.server.ErrorEvent event) {
 				Throwable e = event.getThrowable();
-				UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
-						e, UserInvalidInputException.class);
-				if (invalidException != null) {
-					NotificationUtil.showWarningNotification(AppContext
-							.getMessage(
-									GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
-									invalidException.getMessage()));
-				} else {
+				handleException(e);
+			}
+		});
 
-					UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
-							e, UsageExceedBillingPlanException.class);
-					if (usageBillingException != null) {
-						if (AppContext.isAdmin()) {
-							ConfirmDialogExt.show(
-									UI.getCurrent(),
+		initialUrl = this.getPage().getUriFragment();
+		MyCollabSession.putVariable(CURRENT_APP, this);
+		currentContext = new AppContext(this);
+		postSetupApp(request);
+		try {
+			currentContext.initDomain(initialSubDomain);
+		} catch (SubDomainNotExistException e) {
+			this.setContent(new NoSubDomainExistedWindow(initialSubDomain));
+			return;
+		}
+
+		mainWindowContainer = new MainWindowContainer();
+		this.setContent(mainWindowContainer);
+
+		getPage().addUriFragmentChangedListener(
+				new UriFragmentChangedListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void uriFragmentChanged(UriFragmentChangedEvent event) {
+						enter(event.getUriFragment());
+					}
+				});
+	}
+
+	public static void handleException(Throwable e) {
+		UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
+				e, UserInvalidInputException.class);
+		if (invalidException != null) {
+			NotificationUtil.showWarningNotification(AppContext.getMessage(
+					GenericI18Enum.ERROR_USER_INPUT_MESSAGE,
+					invalidException.getMessage()));
+		} else {
+
+			UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(
+					e, UsageExceedBillingPlanException.class);
+			if (usageBillingException != null) {
+				if (AppContext.isAdmin()) {
+					ConfirmDialogExt
+							.show(UI.getCurrent(),
 									AppContext
 											.getMessage(
 													GenericI18Enum.WINDOW_ATTENTION_TITLE,
@@ -140,43 +169,18 @@ public class DesktopApplication extends MyCollabUI {
 										}
 									});
 
-						} else {
-							NotificationUtil.showErrorNotification(AppContext
+				} else {
+					NotificationUtil
+							.showErrorNotification(AppContext
 									.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_USER));
-						}
-					} else {
-						log.error("Error", e);
-						NotificationUtil.showErrorNotification(AppContext
-								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
-					}
 				}
-
+			} else {
+				log.error("Error", e);
+				NotificationUtil
+						.showErrorNotification(AppContext
+								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
 			}
-		});
-
-		initialUrl = this.getPage().getUriFragment();
-		MyCollabSession.putVariable(CURRENT_APP, this);
-		currentContext = new AppContext(this);
-		postSetupApp(request);
-		try {
-			currentContext.initDomain(initialSubDomain);
-		} catch (SubDomainNotExistException e) {
-			this.setContent(new NoSubDomainExistedWindow(initialSubDomain));
-			return;
 		}
-
-		mainWindowContainer = new MainWindowContainer();
-		this.setContent(mainWindowContainer);
-
-		getPage().addUriFragmentChangedListener(
-				new UriFragmentChangedListener() {
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public void uriFragmentChanged(UriFragmentChangedEvent event) {
-						enter(event.getUriFragment());
-					}
-				});
 	}
 
 	private void enter(String uriFragement) {

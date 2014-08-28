@@ -22,7 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.web.DesktopApplication;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.SubscriberExceptionContext;
+import com.google.common.eventbus.SubscriberExceptionHandler;
 
 /**
  * 
@@ -40,10 +43,21 @@ class EventBusFactoryImpl extends EventBusFactory {
 				.getVariable(EVENT_BUS_VAL);
 		log.debug("Event bus {}", eventBus);
 		if (eventBus == null) {
-			eventBus = new EventBus();
+			eventBus = new EventBus(new SubscriberEventBusExceptionHandler());
 			MyCollabSession.putVariable(EVENT_BUS_VAL, eventBus);
 			log.debug("Create new event bus {}", eventBus);
 		}
 		return eventBus;
+	}
+
+	private static class SubscriberEventBusExceptionHandler implements
+			SubscriberExceptionHandler {
+
+		@Override
+		public void handleException(Throwable exception,
+				SubscriberExceptionContext context) {
+			DesktopApplication.handleException(exception);
+		}
+
 	}
 }

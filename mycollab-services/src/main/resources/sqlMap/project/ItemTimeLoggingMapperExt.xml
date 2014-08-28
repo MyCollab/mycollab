@@ -146,7 +146,7 @@
         #ifnotnull($_parameter.searchCriteria.orderByField)
             ${searchCriteria.orderByField} ${searchCriteria.sortDirection},
         #end
-        logForDay DESC , createdTime DESC
+        logForDay ASC , createdTime ASC
     </sql>
 
     <select id="getTotalCount" parameterType="ItemTimeLoggingSearchCriteria"

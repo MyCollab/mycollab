@@ -49,12 +49,17 @@ Version 4.4.0
 * Revise project time tracking view
 * Support version management in project page
 * Support date format associate to user's locale
+* Break mobile app into 2 sub apps: CRM and Project Management
+* Reload site after user change information to make this change is applied immediately
+* Improve error handling in event bus implementation
+* The project time tracking views support multiple views
 
 **Bug Fixes**
 
 * Page path is cached across projects
 * Milestone simple view display wrongly
 * Display date time field correctly with user custom timezone
+* Can not display username in phase detail view if display name is empty
 
 Version 4.4.0
 -----------------------------

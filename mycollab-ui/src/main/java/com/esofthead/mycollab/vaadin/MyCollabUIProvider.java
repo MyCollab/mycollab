@@ -49,7 +49,7 @@ public class MyCollabUIProvider extends UIProvider {
 				|| SiteConfiguration.getDeploymentMode() == DeploymentMode.STANDALONE) {
 			uiClass = "com.esofthead.mycollab.web.DesktopApplication";
 		} else {
-			if (userAgent.contains("mobile") || userAgent.contains("firefox")) {
+			if (userAgent.contains("mobile")) {
 				uiClass = "com.esofthead.mycollab.mobile.MobileApplication";
 			} else {
 				uiClass = "com.esofthead.mycollab.web.DesktopApplication";
