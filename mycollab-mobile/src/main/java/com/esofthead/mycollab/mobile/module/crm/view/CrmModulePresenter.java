@@ -21,6 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
@@ -41,6 +42,7 @@ public class CrmModulePresenter extends CrmGenericPresenter<CrmModule> {
 
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
+		ModuleHelper.setCurrentModule(view);
 		checkLocalData();
 	}
 

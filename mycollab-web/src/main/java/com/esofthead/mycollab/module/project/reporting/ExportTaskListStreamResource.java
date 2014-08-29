@@ -50,28 +50,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.persistence.service.ISearchableService;
 import com.esofthead.mycollab.core.utils.ClassUtils;
-import com.esofthead.mycollab.module.file.resource.ExportItemsStreamResource;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.Task;
-import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.view.task.TaskTableFieldDef;
 import com.esofthead.mycollab.module.user.AccountLinkBuilder;
 import com.esofthead.mycollab.reporting.AbstractReportTemplate;
 import com.esofthead.mycollab.reporting.BeanDataSource;
 import com.esofthead.mycollab.reporting.ColumnBuilderClassMapper;
+import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
 import com.esofthead.mycollab.reporting.TableViewFieldDecorator;
 import com.esofthead.mycollab.reporting.expression.MValue;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.UIConstants;
 
 /**
  * 
@@ -86,46 +84,22 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 	private static Logger log = LoggerFactory
 			.getLogger(ExportTaskListStreamResource.class);
 
-	private ISearchableService searchService;
+	private ISearchableService<S> searchService;
 	private S searchCriteria;
 
 	protected RpParameterBuilder parameters;
 
 	public ExportTaskListStreamResource(String reportTitle,
-			ReportExportType outputForm, ISearchableService searchService,
+			ReportExportType outputForm, ISearchableService<S> searchService,
 			S searchCriteria, RpParameterBuilder parameters) {
 		super(AppContext.getUserLocale(), reportTitle, outputForm);
 		this.searchCriteria = searchCriteria;
 		this.searchService = searchService;
 		List<TableViewField> fields = Arrays.asList(TaskTableFieldDef.taskname,
-				TaskTableFieldDef.startdate, TaskTableFieldDef.dueDate,
-				TaskTableFieldDef.complete, TaskTableFieldDef.assignUser);
+				TaskTableFieldDef.startdate, TaskTableFieldDef.duedate,
+				TaskTableFieldDef.percentagecomplete,
+				TaskTableFieldDef.assignee);
 		this.parameters = new RpParameterBuilder(fields);
-	}
-
-	public interface TaskTableFieldDef {
-		public static TableViewField selected = new TableViewField(null,
-				"selected", UIConstants.TABLE_CONTROL_WIDTH);
-
-		public static TableViewField taskname = new TableViewField(
-				TaskI18nEnum.FORM_TASK_NAME, "taskname",
-				UIConstants.TABLE_X_LABEL_WIDTH);
-
-		public static TableViewField startdate = new TableViewField(
-				TaskI18nEnum.FORM_START_DATE, "startdate",
-				UIConstants.TABLE_DATE_WIDTH);
-
-		public static TableViewField dueDate = new TableViewField(
-				TaskI18nEnum.FORM_DEADLINE, "deadline",
-				UIConstants.TABLE_DATE_WIDTH);
-
-		public static TableViewField complete = new TableViewField(
-				TaskI18nEnum.FORM_PERCENTAGE_COMPLETE, "percentagecomplete",
-				UIConstants.TABLE_S_LABEL_WIDTH);
-
-		public static TableViewField assignUser = new TableViewField(
-				GenericI18Enum.FORM_ASSIGNEE, "assignuser",
-				UIConstants.TABLE_X_LABEL_WIDTH);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -251,9 +225,11 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 
 	private static class SimpleTaskJasperReportBuilder {
 		private AbstractReportTemplate reportTemplate;
+		@SuppressWarnings("rawtypes")
 		private BeanDataSource dataSource;
 		private RpParameterBuilder parameters;
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public SimpleTaskJasperReportBuilder(
 				AbstractReportTemplate reportTemplate, List data,
 				RpParameterBuilder parameters) {
@@ -262,6 +238,7 @@ public class ExportTaskListStreamResource<T, S extends SearchCriteria> extends
 			this.reportTemplate = reportTemplate;
 		}
 
+		@SuppressWarnings("rawtypes")
 		public ComponentBuilder getSubreportBuilder() {
 			HorizontalListBuilder horizontalBuilder = cmp.horizontalList();
 			horizontalBuilder.setStyle(stl.style(

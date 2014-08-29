@@ -41,11 +41,11 @@ public class CrmEvent {
 		}
 	}
 
-	public static class GotoDashboard extends ApplicationEvent {
+	public static class GotoContainer extends ApplicationEvent {
 
 		private static final long serialVersionUID = 4746588959410782216L;
 
-		public GotoDashboard(Object source, Object data) {
+		public GotoContainer(Object source, Object data) {
 			super(source, data);
 		}
 	}

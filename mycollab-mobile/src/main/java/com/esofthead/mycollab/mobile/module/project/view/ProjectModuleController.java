@@ -16,12 +16,29 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
+import com.esofthead.mycollab.module.user.domain.UserPreference;
+import com.esofthead.mycollab.module.user.service.BillingAccountService;
+import com.esofthead.mycollab.module.user.service.UserPreferenceService;
+import com.esofthead.mycollab.module.user.service.UserService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -29,6 +46,8 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.addon.touchkit.extensions.LocalStorage;
+import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Inc.
@@ -41,6 +60,9 @@ public class ProjectModuleController extends AbstractController {
 
 	private final MobileNavigationManager navManager;
 
+	private static Logger log = LoggerFactory
+			.getLogger(ProjectModuleController.class);
+
 	public ProjectModuleController(MobileNavigationManager navigationManager) {
 		this.navManager = navigationManager;
 
@@ -48,6 +70,36 @@ public class ProjectModuleController extends AbstractController {
 	}
 
 	private void bindProjectEvents() {
+		this.register(new ApplicationEventListener<ProjectEvent.GotoLogin>() {
+
+			private static final long serialVersionUID = -3978301997191156254L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectEvent.GotoLogin event) {
+				ProjectLoginPresenter presenter = PresenterResolver
+						.getPresenter(ProjectLoginPresenter.class);
+				presenter.go(navManager, null);
+			}
+		});
+
+		this.register(new ApplicationEventListener<ProjectEvent.PlainLogin>() {
+
+			private static final long serialVersionUID = 7930156079489701720L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectEvent.PlainLogin event) {
+				String[] data = (String[]) event.getData();
+				try {
+					doLogin(data[0], data[1], Boolean.valueOf(data[2]));
+				} catch (MyCollabException exception) {
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.GotoLogin(this, null));
+				}
+			}
+		});
+
 		this.register(new ApplicationEventListener<ProjectEvent.GotoProjectList>() {
 
 			private static final long serialVersionUID = -9006615798118115613L;
@@ -78,6 +130,44 @@ public class ProjectModuleController extends AbstractController {
 						(PageActionChain) event.getData());
 			}
 		});
+	}
+
+	public static void doLogin(String username, String password,
+			boolean isRememberPassword) throws MyCollabException {
+		UserService userService = ApplicationContextUtil
+				.getSpringBean(UserService.class);
+		SimpleUser user = userService.authentication(username, password,
+				AppContext.getSubDomain(), false);
+
+		BillingAccountService billingAccountService = ApplicationContextUtil
+				.getSpringBean(BillingAccountService.class);
+
+		SimpleBillingAccount billingAccount = billingAccountService
+				.getBillingAccountById(AppContext.getAccountId());
+
+		log.debug("Get billing account successfully: "
+				+ BeanUtility.printBeanObj(billingAccount));
+
+		UserPreferenceService preferenceService = ApplicationContextUtil
+				.getSpringBean(UserPreferenceService.class);
+		UserPreference pref = preferenceService.getPreferenceOfUser(username,
+				AppContext.getAccountId());
+
+		log.debug("Login to system successfully. Save user and preference "
+				+ pref + " to session");
+
+		if (isRememberPassword) {
+			LocalStorage storage = LocalStorage.get();
+			String storeVal = username + "$"
+					+ PasswordEncryptHelper.encyptText(password);
+			storage.put(MobileApplication.LOGIN_DATA, storeVal);
+		}
+
+		AppContext.getInstance().setSession(user, pref, billingAccount);
+		pref.setLastaccessedtime(new Date());
+		preferenceService.updateWithSession(pref, AppContext.getUsername());
+		EventBusFactory.getInstance().post(
+				new ProjectEvent.GotoProjectList(UI.getCurrent(), null));
 	}
 
 }

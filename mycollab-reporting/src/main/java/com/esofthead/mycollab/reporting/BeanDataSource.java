@@ -45,12 +45,6 @@ public class BeanDataSource<T> implements JRDataSource {
 		this.data = data;
 	}
 
-	public void add(T... values) {
-		for (T value : values) {
-			data.add(value);
-		}
-	}
-
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
 		try {

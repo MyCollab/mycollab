@@ -48,7 +48,7 @@ public class GroupIteratorDataSource<SearchService extends ISearchableService<S>
 	private SearchService searchService;
 	private S searchCriteria;
 
-	private List currentData;
+	private List<?> currentData;
 	private Object currentItem;
 
 	private int totalItems;

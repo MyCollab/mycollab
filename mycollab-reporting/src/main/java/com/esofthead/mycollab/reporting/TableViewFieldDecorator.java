@@ -28,12 +28,14 @@ import com.esofthead.mycollab.reporting.expression.StringExpression;
  * @since 1.0
  * 
  */
+@SuppressWarnings("serial")
 public class TableViewFieldDecorator extends TableViewField {
 	private TableViewField tableField;
 
+	@SuppressWarnings("rawtypes")
 	private ComponentBuilder componentBuilder;
 
-	public TableViewFieldDecorator(TableViewField tableField) {
+	TableViewFieldDecorator(TableViewField tableField) {
 		this.tableField = tableField;
 	}
 
@@ -65,6 +67,7 @@ public class TableViewFieldDecorator extends TableViewField {
 		tableField.setDefaultWidth(defaultWidth);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public ComponentBuilder getComponentBuilder() {
 		if (componentBuilder == null) {
 			componentBuilder = cmp.text(
@@ -74,6 +77,7 @@ public class TableViewFieldDecorator extends TableViewField {
 		return componentBuilder;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setComponentBuilder(ComponentBuilder componentBuilder) {
 		this.componentBuilder = componentBuilder;
 	}

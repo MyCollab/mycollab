@@ -24,6 +24,7 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
  * @since 4.3.1
  *
  */
+@SuppressWarnings("rawtypes")
 public class CompBuilderValue implements MValue {
 
 	private ComponentBuilder compBuilder;

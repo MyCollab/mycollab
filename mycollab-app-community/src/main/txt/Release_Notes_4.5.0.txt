@@ -15,7 +15,7 @@ For further information, please visit:
 Contact the MyCollab team at:
 
 * Our email [support@mycollab.com](support@mycollab.com)
-* Our web form [https://www.mycollab.com/contact-us/](https://www.mycollab.com/contact-us/)
+* Our web form [https://www.mycollab.com/support/](https://www.mycollab.com/support/)
 
 System requirements
 ===================
@@ -41,7 +41,7 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
-Version 4.4.0
+Version 4.5.0
 -----------------------------
 **Improvements**
 
@@ -53,13 +53,14 @@ Version 4.4.0
 * Reload site after user change information to make this change is applied immediately
 * Improve error handling in event bus implementation
 * The project time tracking views support multiple views
+* Create the default task group when user create the new project
 
 **Bug Fixes**
 
 * Page path is cached across projects
 * Milestone simple view display wrongly
 * Display date time field correctly with user custom timezone
-* Can not display username in phase detail view if display name is empty
+* Can not display username in phase detail view if the display name is empty
 
 Version 4.4.0
 -----------------------------

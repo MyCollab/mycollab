@@ -33,13 +33,13 @@ import com.vaadin.server.FileResource;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-public class StreamDownloadResource extends FileResource {
+class FileStreamDownloadResource extends FileResource {
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory
-			.getLogger(StreamDownloadResource.class);
+			.getLogger(FileStreamDownloadResource.class);
 
-	public StreamDownloadResource(String documentPath) {
+	FileStreamDownloadResource(String documentPath) {
 		super(
 				new File(FileStorageConfiguration.baseContentFolder,
 						documentPath));

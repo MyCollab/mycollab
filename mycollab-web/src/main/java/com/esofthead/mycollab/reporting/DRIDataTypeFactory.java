@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.resource;
+package com.esofthead.mycollab.reporting;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.type;
 
@@ -33,11 +33,11 @@ import com.esofthead.mycollab.core.reporting.NotInReport;
  * @since 1.0
  * 
  */
-public class DRIDataTypeFactory {
+class DRIDataTypeFactory {
 	private static final CurrencyType currencyType = new CurrencyType();
 
 	@SuppressWarnings("unchecked")
-	public static <T extends DRIDataType<?, ?>> T detectType(Field field)
+	static <T extends DRIDataType<?, ?>> T detectType(Field field)
 			throws DRException {
 		if (field.getAnnotation(NotInReport.class) != null) {
 			return null;
@@ -54,8 +54,7 @@ public class DRIDataTypeFactory {
 		}
 	}
 
-	public static class CurrencyType extends
-			AbstractDataType<Currency, Currency> {
+	static class CurrencyType extends AbstractDataType<Currency, Currency> {
 		private static final long serialVersionUID = 1L;
 	}
 }

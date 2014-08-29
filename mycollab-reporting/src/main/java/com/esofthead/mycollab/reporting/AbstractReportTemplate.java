@@ -121,6 +121,7 @@ public abstract class AbstractReportTemplate {
 		return reportTemplateBuilder;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public ComponentBuilder buildCompBuilder(MValue value) {
 		if (value instanceof HyperlinkValue) {
 			return buildHyperLink((HyperlinkValue) value);
@@ -137,6 +138,7 @@ public abstract class AbstractReportTemplate {
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ComponentBuilder buildHyperLink(HyperlinkValue hyperlink) {
 		ComponentBuilder compBuilder = cmp.text(hyperlink.getTitle())
 				.setHyperLink(hyperLink(hyperlink.getHref()))
@@ -147,10 +149,12 @@ public abstract class AbstractReportTemplate {
 		return compBuilder;
 	}
 
+	@SuppressWarnings("rawtypes")
 	private ComponentBuilder buildComp(CompBuilderValue compBuilder) {
 		return compBuilder.getCompBuilder();
 	}
 
+	@SuppressWarnings("rawtypes")
 	private ComponentBuilder buildText(DRIExpression<String> expr) {
 		return cmp.text(expr).setStyle(rootStyle);
 	}

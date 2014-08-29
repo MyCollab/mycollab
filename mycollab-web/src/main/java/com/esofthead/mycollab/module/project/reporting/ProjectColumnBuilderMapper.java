@@ -60,6 +60,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
  * 
  */
 @Component
+@SuppressWarnings("ucd")
 public class ProjectColumnBuilderMapper implements InitializingBean {
 
 	private static Logger log = LoggerFactory

@@ -30,7 +30,6 @@ import net.sf.dynamicreports.report.builder.style.PaddingBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
-import net.sf.jasperreports.engine.fonts.SimpleFontExtensionsRegistryFactory;
 
 /**
  * 

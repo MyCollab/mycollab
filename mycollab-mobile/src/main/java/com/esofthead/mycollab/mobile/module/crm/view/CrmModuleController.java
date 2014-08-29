@@ -153,15 +153,15 @@ public class CrmModuleController extends AbstractController {
 			}
 		});
 
-		this.register(new ApplicationEventListener<CrmEvent.GotoDashboard>() {
+		this.register(new ApplicationEventListener<CrmEvent.GotoContainer>() {
 
 			private static final long serialVersionUID = -3626315180394209108L;
 
 			@Subscribe
 			@Override
-			public void handle(CrmEvent.GotoDashboard event) {
-				CrmDashboardPresenter presenter = PresenterResolver
-						.getPresenter(CrmDashboardPresenter.class);
+			public void handle(CrmEvent.GotoContainer event) {
+				CrmContainerPresenter presenter = PresenterResolver
+						.getPresenter(CrmContainerPresenter.class);
 				presenter.go(crmViewNavigation, null);
 			}
 		});
@@ -820,6 +820,6 @@ public class CrmModuleController extends AbstractController {
 		pref.setLastaccessedtime(new Date());
 		preferenceService.updateWithSession(pref, AppContext.getUsername());
 		EventBusFactory.getInstance().post(
-				new CrmEvent.GotoDashboard(UI.getCurrent(), null));
+				new CrmEvent.GotoContainer(UI.getCurrent(), null));
 	}
 }

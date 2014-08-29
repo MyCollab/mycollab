@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view;
 
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
@@ -39,8 +38,6 @@ public class CrmLoginPresenter extends AbstractPresenter<CrmLoginView> {
 	@Override
 	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
 		((NavigationManager) navigationManager).navigateTo(view.getWidget());
-
-		AppContext.addFragment("crm/login", "CRM Login Page");
 	}
 
 }

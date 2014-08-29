@@ -40,7 +40,7 @@ public class StreamDownloadResourceUtil {
 
 	public static Resource getStreamResource(String documentPath) {
 		if (SiteConfiguration.isSupportFileStorage()) {
-			return new StreamDownloadResource(documentPath);
+			return new FileStreamDownloadResource(documentPath);
 		} else if (SiteConfiguration.isSupportS3Storage()) {
 			return new S3StreamDownloadResource(documentPath);
 		} else {

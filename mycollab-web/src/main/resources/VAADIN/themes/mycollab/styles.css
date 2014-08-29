@@ -7203,3 +7203,21 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 .v-horizontal.medium-spacing > .v-expand > .v-spacing {
 	width: 15px;
 }
+
+/* Time Tracking */
+.layout_log {
+	margin-top: 50px;
+}
+
+.text_log_hours {
+	text-align: right;
+}
+
+.text_log_hours_total {
+	text-align: right;
+	font-weight: bold;
+}
+
+.text_log_date {
+	font-weight: bold;
+}

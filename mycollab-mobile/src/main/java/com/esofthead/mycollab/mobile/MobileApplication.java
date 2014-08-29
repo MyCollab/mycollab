@@ -23,11 +23,10 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.shell.ShellUrlResolver;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -38,8 +37,6 @@ import com.esofthead.mycollab.vaadin.MyCollabUI;
 import com.esofthead.mycollab.vaadin.mvp.ControllerRegistry;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
-import com.vaadin.addon.touchkit.extensions.LocalStorage;
-import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent;
 import com.vaadin.addon.touchkit.ui.NavigationManager.NavigationEvent.Direction;
@@ -140,7 +137,7 @@ public class MobileApplication extends MyCollabUI {
 		});
 
 		initialUrl = this.getPage().getUriFragment();
-		VaadinSession.getCurrent().setAttribute(CURRENT_APP, this);
+		MyCollabSession.putVariable(CURRENT_APP, this);
 		currentContext = new AppContext(this);
 		postSetupApp(request);
 		try {
@@ -189,35 +186,6 @@ public class MobileApplication extends MyCollabUI {
 
 	private void enter(String uriFragement) {
 		rootUrlResolver.navigateByFragement(uriFragement);
-	}
-
-	private void checkLocalData() {
-		LocalStorage.detectValue(LOGIN_DATA, new LocalStorageCallback() {
-			private static final long serialVersionUID = 3217947479690600476L;
-
-			@Override
-			public void onSuccess(String value) {
-				if (value != null) {
-					String[] loginParams = value.split("\\$");
-					EventBusFactory.getInstance().post(
-							new UserEvent.PlainLogin(this, new String[] {
-									loginParams[0],
-									PasswordEncryptHelper
-											.decryptText(loginParams[1]),
-									String.valueOf(false) }));
-
-				} else {
-					EventBusFactory.getInstance().post(
-							new ShellEvent.GotoLoginView(this, null));
-				}
-			}
-
-			@Override
-			public void onFailure(FailureEvent error) {
-				EventBusFactory.getInstance().post(
-						new ShellEvent.GotoLoginView(this, null));
-			}
-		});
 	}
 
 	private void registerControllers(NavigationManager manager) {

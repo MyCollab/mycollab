@@ -34,12 +34,32 @@ public class ProjectEvent {
 
 	}
 
-    public static class GotoMyProject extends ApplicationEvent {
+	public static class GotoLogin extends ApplicationEvent {
 
-        private static final long serialVersionUID = -4439780369902098133L;
+		private static final long serialVersionUID = -295885940569206839L;
 
-        public GotoMyProject(Object source, Object data) {
-            super(source, data);
-        }
-    }
+		public GotoLogin(Object source, Object data) {
+			super(source, data);
+		}
+
+	}
+
+	public static class PlainLogin extends ApplicationEvent {
+
+		private static final long serialVersionUID = -4428146398305430922L;
+
+		public PlainLogin(Object source, Object data) {
+			super(source, data);
+		}
+
+	}
+
+	public static class GotoMyProject extends ApplicationEvent {
+
+		private static final long serialVersionUID = -4439780369902098133L;
+
+		public GotoMyProject(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

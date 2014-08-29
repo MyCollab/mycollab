@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.crm;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.view.account.AccountUrlResolver;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 public class CrmUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
+		this.addSubResolver("account", new AccountUrlResolver());
 		return this;
 	}
 

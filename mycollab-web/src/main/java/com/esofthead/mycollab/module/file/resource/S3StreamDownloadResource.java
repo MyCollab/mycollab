@@ -34,13 +34,13 @@ import com.vaadin.util.FileTypeResolver;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class S3StreamDownloadResource extends StreamResource {
+class S3StreamDownloadResource extends StreamResource {
 
 	private static final long serialVersionUID = 1L;
 
 	private String documentPath;
 
-	public S3StreamDownloadResource(String documentPath) {
+	S3StreamDownloadResource(String documentPath) {
 		super(new S3StreamSource(documentPath), getFilename(documentPath));
 		this.documentPath = documentPath;
 		this.setMIMEType(FileTypeResolver

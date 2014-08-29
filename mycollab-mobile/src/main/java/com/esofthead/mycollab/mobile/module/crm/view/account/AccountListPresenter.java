@@ -19,6 +19,10 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 import com.esofthead.mycollab.mobile.ui.ListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.vaadin.ui.ComponentContainer;
 
 /**
  * 
@@ -32,6 +36,13 @@ public class AccountListPresenter extends
 
 	public AccountListPresenter() {
 		super(AccountListView.class);
+	}
+
+	@Override
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		super.onGo(container, data);
+		AppContext.addFragment("crm/account/list",
+				AppContext.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 	}
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.resource;
+package com.esofthead.mycollab.reporting;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 
@@ -58,7 +58,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 	private Class<T> classType;
 	private RpParameterBuilder parameters;
 
-	public SimpleGridExportItemsStreamResource(String reportTitle,
+	SimpleGridExportItemsStreamResource(String reportTitle,
 			RpParameterBuilder paramters, ReportExportType outputForm,
 			Class<T> classType) {
 		super(AppContext.getUserLocale(), reportTitle, outputForm);
@@ -118,13 +118,15 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 		private S searchCriteria;
 
 		public AllItems(String reportTitle, RpParameterBuilder parameters,
-				ReportExportType outputForm, ISearchableService searchService,
-				S searchCriteria, Class<T> classType) {
+				ReportExportType outputForm,
+				ISearchableService<S> searchService, S searchCriteria,
+				Class<T> classType) {
 			super(reportTitle, parameters, outputForm, classType);
 			this.searchService = searchService;
 			this.searchCriteria = searchCriteria;
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		protected void fillReport() {
 			reportBuilder.setDataSource(new GroupIteratorDataSource(
@@ -144,6 +146,7 @@ public abstract class SimpleGridExportItemsStreamResource<T> extends
 			this.data = data;
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		protected void fillReport() {
 			BeanDataSource ds = new BeanDataSource(data);

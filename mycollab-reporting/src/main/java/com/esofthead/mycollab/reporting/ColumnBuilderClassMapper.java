@@ -29,16 +29,19 @@ import com.esofthead.mycollab.reporting.expression.MValue;
  * 
  */
 public class ColumnBuilderClassMapper {
+	@SuppressWarnings("rawtypes")
 	private static Map<Class, Map<String, MValue>> mapInjection = new HashMap<Class, Map<String, MValue>>();
 
 	static {
 		ReportTemplateFactory.getTemplate(SiteConfiguration.getDefaultLocale());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static void put(Class cls, Map<String, MValue> columns) {
 		mapInjection.put(cls, columns);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static Map<String, MValue> getListFieldBuilder(Class cls) {
 		return mapInjection.get(cls);
 	}

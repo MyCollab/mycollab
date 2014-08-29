@@ -50,11 +50,13 @@ public abstract class ListPresenter<V extends IListView<S, B>, S extends SearchC
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (!view.isAttached()) {
+		if (view.getParent() == null) {
 			if (container instanceof NavigationManager) {
 				((NavigationManager) container).navigateTo(view.getWidget());
-			} else {
-
+			}
+		} else {
+			if (container instanceof NavigationManager) {
+				((NavigationManager) container).navigateTo(view.getParent());
 			}
 		}
 		doSearch((S) data.getParams());
