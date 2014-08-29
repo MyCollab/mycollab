@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.shell.ui;
 
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -34,6 +34,8 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 
 	@Override
 	protected void onGo(ComponentContainer navigationManager, ScreenData<?> data) {
-		((NavigationManager) navigationManager).navigateTo(view.getWidget());
+		((MobileNavigationManager) navigationManager).setNavigationMenu(null);
+		((MobileNavigationManager) navigationManager).navigateTo(view
+				.getWidget());
 	}
 }

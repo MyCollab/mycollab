@@ -59,8 +59,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 			userAvatarIcon = MyCollabResource
 					.newResource("icons/24/project/user.png");
 		}
-		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title,
-				userAvatarIcon);
+		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title);
 
 		this.userInformationLayout = new UserInformationLayout();
 		this.userInformationLayout.getLayout().setWidth("100%");

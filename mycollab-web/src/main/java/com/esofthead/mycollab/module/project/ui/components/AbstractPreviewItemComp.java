@@ -70,7 +70,7 @@ public abstract class AbstractPreviewItemComp<B> extends VerticalLayout
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
 
-		previewLayout = new ReadViewLayout("", iconResource);
+		previewLayout = new ReadViewLayout("");
 
 		contentWrapper.addComponent(previewLayout);
 

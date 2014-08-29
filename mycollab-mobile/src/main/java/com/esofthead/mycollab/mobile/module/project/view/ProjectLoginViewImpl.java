@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.UIConstants;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.EmailField;
@@ -72,7 +72,6 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements
 		CssLayout welcomeTextWrapper = new CssLayout();
 		welcomeTextWrapper.setStyleName("welcometext-wrapper");
 		welcomeTextWrapper.setWidth("100%");
-		welcomeTextWrapper.setHeight("15px");
 		Label welcomeText = new Label("Login to Projects");
 		welcomeText.setWidth("150px");
 		welcomeTextWrapper.addComponent(welcomeText);
@@ -106,7 +105,7 @@ public class ProjectLoginViewImpl extends AbstractMobileMainView implements
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				EventBusFactory.getInstance().post(
-						new CrmEvent.PlainLogin(this, new String[] {
+						new ProjectEvent.PlainLogin(this, new String[] {
 								emailField.getValue(), pwdField.getValue(),
 								String.valueOf(rememberPassword.getValue()) }));
 			}

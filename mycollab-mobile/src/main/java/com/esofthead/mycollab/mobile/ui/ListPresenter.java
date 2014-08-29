@@ -51,12 +51,14 @@ public abstract class ListPresenter<V extends IListView<S, B>, S extends SearchC
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		if (view.getParent() == null) {
-			if (container instanceof NavigationManager) {
-				((NavigationManager) container).navigateTo(view.getWidget());
-			}
+			((NavigationManager) container).navigateTo(view.getWidget());
 		} else {
-			if (container instanceof NavigationManager) {
+			if (view.getParent() instanceof AbstractMobileTabPageView) {
 				((NavigationManager) container).navigateTo(view.getParent());
+				((AbstractMobileTabPageView) view.getParent())
+						.setSelectedTab(view.getWidget());
+			} else {
+				((NavigationManager) container).navigateTo(view.getWidget());
 			}
 		}
 		doSearch((S) data.getParams());

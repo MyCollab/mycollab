@@ -16,12 +16,12 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.IModule;
 
 /**
  * @author MyCollab Ltd.
  * @since 4.4.0
  */
-public interface ProjectDashboardView extends PageView {
-    void displayDashboard();
+public interface ProjectDashboardView extends IModule {
+	void displayDashboard();
 }

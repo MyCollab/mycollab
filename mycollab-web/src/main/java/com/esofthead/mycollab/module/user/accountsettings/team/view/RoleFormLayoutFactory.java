@@ -22,7 +22,6 @@ import com.esofthead.mycollab.module.user.accountsettings.localization.RoleI18nE
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
@@ -47,8 +46,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 
 	@Override
 	public Layout getLayout() {
-		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title,
-				MyCollabResource.newResource("icons/24/project/user.png"));
+		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title);
 
 		this.userInformationLayout = new RoleInformationLayout();
 		this.userInformationLayout.getLayout().setWidth("100%");

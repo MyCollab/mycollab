@@ -27,9 +27,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.view.CrmModulePresenter;
-import com.esofthead.mycollab.mobile.module.project.ProjectModuleScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.ProjectModulePresenter;
 import com.esofthead.mycollab.mobile.module.user.events.UserEvent;
 import com.esofthead.mycollab.mobile.module.user.view.LoginPresenter;
@@ -117,9 +115,7 @@ public class ShellController extends AbstractController {
 			public void handle(ShellEvent.GotoCrmModule event) {
 				CrmModulePresenter presenter = PresenterResolver
 						.getPresenter(CrmModulePresenter.class);
-				CrmModuleScreenData.GotoModule screenData = new CrmModuleScreenData.GotoModule(
-						(String[]) event.getData());
-				presenter.go(mainNav, screenData);
+				presenter.go(mainNav, null);
 			}
 		});
 		this.register(new ApplicationEventListener<ShellEvent.GotoProjectModule>() {
@@ -130,9 +126,7 @@ public class ShellController extends AbstractController {
 			public void handle(ShellEvent.GotoProjectModule event) {
 				ProjectModulePresenter presenter = PresenterResolver
 						.getPresenter(ProjectModulePresenter.class);
-				ProjectModuleScreenData.GotoModule screenData = new ProjectModuleScreenData.GotoModule(
-						(String[]) event.getData());
-				presenter.go(mainNav, screenData);
+				presenter.go(mainNav, null);
 			}
 		});
 	}

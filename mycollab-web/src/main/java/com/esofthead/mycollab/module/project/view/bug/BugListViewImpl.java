@@ -21,6 +21,7 @@ import java.util.Arrays;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.FileI18nEnum;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -64,7 +65,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugListViewImpl extends AbstractPageView implements BugListView {
 
 	private static final long serialVersionUID = 1L;

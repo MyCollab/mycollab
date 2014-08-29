@@ -72,7 +72,6 @@ public class CrmLoginViewImpl extends AbstractMobileMainView implements
 		CssLayout welcomeTextWrapper = new CssLayout();
 		welcomeTextWrapper.setStyleName("welcometext-wrapper");
 		welcomeTextWrapper.setWidth("100%");
-		welcomeTextWrapper.setHeight("15px");
 		Label welcomeText = new Label("Login to CRM");
 		welcomeText.setWidth("150px");
 		welcomeTextWrapper.addComponent(welcomeText);

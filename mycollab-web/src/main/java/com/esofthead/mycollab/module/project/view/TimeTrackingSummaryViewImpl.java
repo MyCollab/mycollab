@@ -27,6 +27,7 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
@@ -37,6 +38,7 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
@@ -65,6 +67,7 @@ import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -117,7 +120,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		header.setSpacing(true);
 
 		HorizontalLayout controlsPanel = new HorizontalLayout();
-
+		HorizontalLayout loggingPanel = new HorizontalLayout();
 		HorizontalLayout controlBtns = new HorizontalLayout();
 
 		final Embedded timeIcon = new Embedded();
@@ -133,12 +136,13 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		final CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setWidth("100%");
-		contentWrapper.addStyleName("content-wrapper");
+		contentWrapper.addStyleName(UIConstants.CONTENT_WRAPPER);
 
 		headerWrapper.addComponent(header);
 		this.addComponent(headerWrapper);
 		contentWrapper.addComponent(controlBtns);
 		contentWrapper.addComponent(controlsPanel);
+		contentWrapper.addComponent(loggingPanel);
 		this.addComponent(contentWrapper);
 
 		final Button backBtn = new Button("Back to Workboard");
@@ -197,10 +201,18 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
 		controlsPanel.setSpacing(true);
-		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs");
-		controlsPanel.addComponent(totalHoursLoggingLabel);
-		controlsPanel.setExpandRatio(totalHoursLoggingLabel, 1.0f);
-		controlsPanel.setComponentAlignment(totalHoursLoggingLabel,
+		
+		loggingPanel.setWidth("100%");
+		loggingPanel.setHeight("30px");
+		loggingPanel.setSpacing(true);
+		
+		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs",
+				ContentMode.HTML);
+		totalHoursLoggingLabel.addStyleName(UIConstants.LAYOUT_LOG);
+		totalHoursLoggingLabel.addStyleName(UIConstants.TEXT_LOG_DATE_FULL);
+		loggingPanel.addComponent(totalHoursLoggingLabel);
+		loggingPanel.setExpandRatio(totalHoursLoggingLabel, 1.0f);
+		loggingPanel.setComponentAlignment(totalHoursLoggingLabel,
 				Alignment.MIDDLE_LEFT);
 
 		Button exportBtn = new Button("Export", new Button.ClickListener() {
@@ -247,7 +259,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlBtns.setSizeFull();
 		
 		this.layoutItem = new VerticalLayout();
-		this.layoutItem.addStyleName("layout_log");
+		this.layoutItem.addStyleName(UIConstants.LAYOUT_LOG);
 		this.layoutItem.setWidth("100%");
 		contentWrapper.addComponent(this.layoutItem);
 	}
@@ -294,13 +306,34 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		itemTimeLoggingService = ApplicationContextUtil
 				.getSpringBean(ItemTimeLoggingService.class);
-		Double totalHoursLogging = itemTimeLoggingService
+
+		final String fromDate = AppContext.formatDate(from);
+		final String toDate = AppContext.formatDate(to);
+
+		searchCriteria.setIsBillable(new BooleanSearchField(true));
+		Double billableHour = this.itemTimeLoggingService
 				.getTotalHoursByCriteria(searchCriteria);
-		if (totalHoursLogging == null) {
+		if (billableHour == null || billableHour < 0) {
+			billableHour = 0d;
+		}
+
+		searchCriteria.setIsBillable(new BooleanSearchField(false));
+		Double nonbillableHour = this.itemTimeLoggingService
+				.getTotalHoursByCriteria(searchCriteria);
+		if (nonbillableHour == null || nonbillableHour < 0) {
+			nonbillableHour = 0d;
+		}
+
+		searchCriteria.setIsBillable(null);
+		final Double totalHour = this.itemTimeLoggingService
+				.getTotalHoursByCriteria(searchCriteria);
+
+		if (totalHour == null || totalHour < 0) {
 			totalHoursLoggingLabel.setValue("Total hours logging: 0 Hrs");
 		} else {
-			totalHoursLoggingLabel.setValue("Total hours logging: "
-					+ totalHoursLogging + " Hrs");
+			totalHoursLoggingLabel.setValue(AppContext.getMessage(
+					TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
+					fromDate, toDate, totalHour, billableHour, nonbillableHour));
 		}
 
 		// TODO
@@ -337,27 +370,27 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			Double billable, Double nonbillable) {
 		if (list.size() > 0) {
 			Label logForDay = new Label(DATE_FORMAT.format(date));
-			logForDay.addStyleName("text_log_date");
+			logForDay.addStyleName(UIConstants.TEXT_LOG_DATE);
 			this.layoutItem.addComponent(logForDay);
 
 			TimeTrackingTableDisplay table = new TimeTrackingTableDisplay(
 					FIELDS);
-			table.addStyleName("full-border-table");
+			table.addStyleName(UIConstants.FULL_BORDER_TABLE);
 			table.addTableListener(this.tableClickListener);
 			table.setMargin(marginInfo);
 			table.setCurrentDataList(list);
 			this.layoutItem.addComponent(table);
 
 			Label labelTotalHours = new Label(("Total Hours: " + (billable + nonbillable)));
-			labelTotalHours.addStyleName("text_log_hours_total");
+			labelTotalHours.addStyleName(UIConstants.TEXT_LOG_HOURS_TOTAL);
 			this.layoutItem.addComponent(labelTotalHours);
 
 			Label labelBillableHours = new Label(("Billable Hours: " + billable));
-			labelBillableHours.setStyleName("text_log_hours");
+			labelBillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
 			this.layoutItem.addComponent(labelBillableHours);
 
 			Label labelNonbillableHours = new Label(("Non Billable Hours: " + nonbillable));
-			labelNonbillableHours.setStyleName("text_log_hours");
+			labelNonbillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
 			this.layoutItem.addComponent(labelNonbillableHours);
 		}
 	}

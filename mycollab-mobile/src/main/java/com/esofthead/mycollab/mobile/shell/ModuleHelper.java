@@ -19,8 +19,8 @@ package com.esofthead.mycollab.mobile.shell;
 import static com.esofthead.mycollab.common.MyCollabSession.CURRENT_MODULE;
 
 import com.esofthead.mycollab.common.MyCollabSession;
-import com.esofthead.mycollab.mobile.module.crm.view.CrmModule;
-import com.esofthead.mycollab.mobile.module.project.view.ProjectModule;
+import com.esofthead.mycollab.mobile.module.crm.view.CrmContainerView;
+import com.esofthead.mycollab.mobile.module.project.view.ProjectListView;
 import com.esofthead.mycollab.vaadin.mvp.IModule;
 
 /**
@@ -41,11 +41,11 @@ public class ModuleHelper {
 
 	public static boolean isCurrentProjectModule() {
 		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof ProjectModule);
+		return (module != null) && (module instanceof ProjectListView);
 	}
 
 	public static boolean isCurrentCrmModule() {
 		IModule module = getCurrentModule();
-		return (module != null) && (module instanceof CrmModule);
+		return (module != null) && (module instanceof CrmContainerView);
 	}
 }

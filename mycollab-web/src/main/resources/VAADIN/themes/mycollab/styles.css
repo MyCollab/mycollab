@@ -553,10 +553,6 @@ div.v-button-nonPopupIndicator div.v-popup-indicator {
     padding: 0px;
 }
 
-.table-actionctls {
-    padding:7px;
-}
-
 .hdr-view .table-actionctls {
     padding:0;
     border:0;
@@ -5229,6 +5225,7 @@ div.v-ratingstars-bar {
 
 /*Table Action Controls */
 .table-actionctls {
+    padding:7px;
     border-width: 0 1px 1px 1px;
     border-style: solid;
     border-color: rgb(204, 203, 203);
@@ -7075,7 +7072,7 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	color: #FFFFFF;
 	margin-right: 5px;
 	text-align: center;
-	line-height: 20px;
+	line-height: 22px;
 	font-size: 16px;
 	font-weight: bold;
 	vertical-align: top;
@@ -7204,20 +7201,61 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	width: 15px;
 }
 
+/* Version Selection Box */
+.version-selection-box {
+	border: none;
+	padding-left: 0px;
+}
+
+.version-selection-box:before {
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+	line-height: 100%;
+}
+.version-selection-box input.v-filterselect-input[type="text"] {
+	vertical-align: middle;
+	float: none;
+	line-height: 1.4em !important;
+	font-size: 14px !important;
+	font-weight: bold !important;
+	color: #525252;
+	height: auto;
+}
+.version-selection-box input:focus {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.version-selection-box .v-filterselect-button {
+	vertical-align: middle;
+}
+
 /* Time Tracking */
-.layout_log {
-	margin-top: 50px;
+.layout-log {
+	margin-top: 30px;
 }
 
-.text_log_hours {
+.text-log-hours {
 	text-align: right;
+	color: gray;
 }
 
-.text_log_hours_total {
+.text-log-hours-total {
+	margin-top: 10px;
 	text-align: right;
 	font-weight: bold;
+	color: gray;
 }
 
-.text_log_date {
+.text-log-date {
+	font-size: 15px;
+	font-weight: bold;
+	color: gray;
+}
+
+.text-log-date-full {
+	font-size: 14px;
 	font-weight: bold;
 }

@@ -40,9 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.MyCollabThread;
-import com.esofthead.mycollab.reporting.AbstractReportTemplate;
-import com.esofthead.mycollab.reporting.ReportExportType;
-import com.esofthead.mycollab.reporting.ReportTemplateFactory;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.vaadin.server.StreamResource;
 
 /**
@@ -133,8 +132,9 @@ public abstract class ExportItemsStreamResource<T> implements
 					}
 
 				} catch (Exception e) {
-					log.error("Exception while generating report ", e);
-					throw new MyCollabException(e);
+					EventBusFactory.getInstance().post(
+							new ShellEvent.NotifyErrorEvent(
+									ExportItemsStreamResource.this, e));
 				} finally {
 					try {
 						outStream.close();

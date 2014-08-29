@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view;
 
-import com.esofthead.mycollab.vaadin.mvp.PageView;
+import com.esofthead.mycollab.vaadin.mvp.IModule;
 
 /**
  * @author MyCollab Ltd.
@@ -24,6 +24,6 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * @since 4.4.0
  *
  */
-public interface CrmContainerView extends PageView {
+public interface CrmContainerView extends IModule {
 
 }

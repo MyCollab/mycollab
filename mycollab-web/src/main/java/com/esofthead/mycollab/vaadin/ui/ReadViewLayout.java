@@ -36,7 +36,7 @@ public class ReadViewLayout extends CustomLayoutExt {
 	private final Image icon;
 	private final HorizontalLayout header;
 
-	public ReadViewLayout(final String title, final Resource icon) {
+	public ReadViewLayout(final String title) {
 		super("readView");
 
 		this.header = new HorizontalLayout();
@@ -44,7 +44,6 @@ public class ReadViewLayout extends CustomLayoutExt {
 		this.header.setSpacing(true);
 
 		this.icon = new Image();
-		this.setTitleIcon(icon);
 		this.titleLbl = new Label();
 		this.titleLbl.setStyleName("headerName");
 		this.titleLbl.setImmediate(true);
@@ -98,6 +97,10 @@ public class ReadViewLayout extends CustomLayoutExt {
 	public void setTitleIcon(final Resource resource) {
 		if (resource != null) {
 			this.icon.setSource(resource);
+			if (!this.icon.isAttached())
+				this.header.addComponentAsFirst(icon);
+		} else if (this.icon.isAttached()) {
+			this.header.removeComponent(icon);
 		}
 	}
 }

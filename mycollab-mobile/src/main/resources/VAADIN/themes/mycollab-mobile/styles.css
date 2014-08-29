@@ -120,7 +120,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   text-align: center;
 }
 .mycollab-mobile .content-wrapper .welcometext-wrapper {
-  background: url("icons/welcometext_bg.png") repeat-x left bottom whitesmoke;
+  background: url("icons/welcometext_bg.png") repeat-x left center whitesmoke;
 }
 .mycollab-mobile .content-wrapper .welcometext-wrapper .v-label {
   display: block;
@@ -150,6 +150,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .main-view {
   overflow: auto;
+  background: none repeat scroll 0% 0% #f5f5f2;
 }
 .mycollab-mobile .main-view .module-button {
   border: 1px solid #bdbdbd;

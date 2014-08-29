@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.MyCollabSession;
-import com.esofthead.mycollab.web.DesktopApplication;
+import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
@@ -56,7 +56,10 @@ class EventBusFactoryImpl extends EventBusFactory {
 		@Override
 		public void handleException(Throwable exception,
 				SubscriberExceptionContext context) {
-			DesktopApplication.handleException(exception);
+			EventBusFactory
+					.getInstance()
+					.post(new ShellEvent.NotifyErrorEvent(
+							SubscriberEventBusExceptionHandler.this, exception));
 		}
 
 	}

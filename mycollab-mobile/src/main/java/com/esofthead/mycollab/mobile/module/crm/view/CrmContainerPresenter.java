@@ -17,10 +17,9 @@
 package com.esofthead.mycollab.mobile.module.crm.view;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
-import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -42,10 +41,10 @@ public class CrmContainerPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-
+		ModuleHelper.setCurrentModule(view);
 		super.onGo(navigator, data);
-		EventBusFactory.getInstance().post(
-				new AccountEvent.GotoList(navigator, data));
+		// EventBusFactory.getInstance().post(
+		// new AccountEvent.GotoList(navigator, data));
 		String url = MobileApplication.getInstance().getInitialUrl();
 		if (url != null && !url.equals("")) {
 			if (url.startsWith("/")) {

@@ -27,6 +27,13 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 @SuppressWarnings("serial")
 public class ShellEvent {
 
+	public static class NotifyErrorEvent extends ApplicationEvent {
+
+		public NotifyErrorEvent(Object source, Throwable data) {
+			super(source, data);
+		}
+	}
+
 	public static class GotoMainPage extends ApplicationEvent {
 
 		public GotoMainPage(Object source, Object data) {

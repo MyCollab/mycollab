@@ -38,8 +38,6 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewState;
-import com.esofthead.mycollab.vaadin.mvp.PageView.ViewEvent;
-import com.esofthead.mycollab.vaadin.mvp.PageView.ViewListener;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 

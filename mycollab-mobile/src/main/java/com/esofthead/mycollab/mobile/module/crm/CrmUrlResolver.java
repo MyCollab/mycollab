@@ -32,6 +32,12 @@ public class CrmUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
 		this.addSubResolver("account", new AccountUrlResolver());
+		// this.addSubResolver("contact", new ContactUrlResolver());
+		// this.addSubResolver("campaign", new CampaignUrlResolver());
+		// this.addSubResolver("lead", new LeadUrlResolver());
+		// this.addSubResolver("opportunity", new OpportunityUrlResolver());
+		// this.addSubResolver("cases", new CaseUrlResolver());
+		// this.addSubResolver("activity", new ActivityUrlResolver());
 		return this;
 	}
 

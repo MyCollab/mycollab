@@ -97,5 +97,12 @@ public class UIConstants {
 	public static final String H2_NO_PADDING = "h2-no-padding";
 	public static final String BTN_ACTIVE = "active";
 	public static final String BTN_BORDER = "hasborder";
+	public static final String TEXT_LOG_DATE = "text-log-date";
+	public static final String TEXT_LOG_DATE_FULL = "text-log-date-full";
+	public static final String TEXT_LOG_HOURS = "text-log-hours";
+	public static final String TEXT_LOG_HOURS_TOTAL = "text-log-hours-total";
+	public static final String FULL_BORDER_TABLE = "full-border-table";
+	public static final String LAYOUT_LOG = "layout-log";
+	public static final String CONTENT_WRAPPER = "content-wrapper";
 
 }

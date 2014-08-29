@@ -16,6 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.shell.ModuleHelper;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
@@ -31,9 +35,26 @@ public class ProjectUrlResolver extends UrlResolver {
 	}
 
 	@Override
-	protected void defaultPageErrorHandler() {
-		// TODO Auto-generated method stub
+	public void handle(String... params) {
+		if (!ModuleHelper.isCurrentProjectModule()) {
+			EventBusFactory.getInstance().post(
+					new ShellEvent.GotoProjectModule(this, null));
+		} else {
+			super.handle(params);
+		}
+	}
 
+	@Override
+	protected void defaultPageErrorHandler() {
+		EventBusFactory.getInstance().post(
+				new ShellEvent.GotoProjectModule(this, null));
+	}
+
+	@Override
+	protected void handlePage(String... params) {
+		super.handlePage(params);
+		EventBusFactory.getInstance().post(
+				new ProjectEvent.GotoProjectList(this, null));
 	}
 
 }

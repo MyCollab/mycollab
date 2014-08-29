@@ -57,7 +57,8 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 	abstract protected void initRelatedComponents();
 
 	public AbstractPreviewItemComp2(String headerText, Resource iconResource) {
-		this.titleIcon = new Image(null, iconResource);
+		if (iconResource != null)
+			this.titleIcon = new Image(null, iconResource);
 		this.addComponent(constructHeader(headerText));
 
 		previewForm = initPreviewForm();
@@ -70,7 +71,7 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		CssLayout contentWrapper = new CssLayout();
 		contentWrapper.setStyleName("content-wrapper");
 
-		previewLayout = new ReadViewLayout("", iconResource);
+		previewLayout = new ReadViewLayout("");
 
 		contentWrapper.addComponent(previewLayout);
 
@@ -135,7 +136,9 @@ public abstract class AbstractPreviewItemComp2<B> extends VerticalLayout
 		header = new HorizontalLayout();
 		headerLbl.setStyleName("hdr-text");
 
-		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		if (titleIcon != null)
+			UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+
 		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(headerLbl, 1.0f);
 

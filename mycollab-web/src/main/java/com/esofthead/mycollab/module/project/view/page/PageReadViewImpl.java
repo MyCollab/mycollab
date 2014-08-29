@@ -50,9 +50,11 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
+import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -84,10 +86,10 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 	private WikiService wikiService;
 
 	public PageReadViewImpl() {
-		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE),
-				MyCollabResource
-						.newResource("icons/22/project/page_selected.png"));
+		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE), null);
 		wikiService = ApplicationContextUtil.getSpringBean(WikiService.class);
+		this.previewLayout.setTitleIcon(MyCollabResource
+				.newResource("icons/22/project/page_selected.png"));
 	}
 
 	@Override
@@ -95,7 +97,10 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		header = new HorizontalLayout();
 		pageVersionsSelection = new PageVersionSelectionBox();
 
-		UiUtils.addComponent(header, titleIcon, Alignment.MIDDLE_LEFT);
+		Label headerLbl = new Label(headerText);
+		headerLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		headerLbl.setStyleName(UIConstants.HEADER_TEXT);
+		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(header, pageVersionsSelection,
 				Alignment.MIDDLE_LEFT);
 		header.setExpandRatio(pageVersionsSelection, 1.0f);
@@ -300,6 +305,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		PageVersionSelectionBox() {
 			super();
 			this.setNullSelectionAllowed(false);
+			this.setStyleName("version-selection-box");
+			this.setTextInputAllowed(false);
 
 			this.addValueChangeListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;

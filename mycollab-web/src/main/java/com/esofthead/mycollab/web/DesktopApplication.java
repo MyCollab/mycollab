@@ -49,6 +49,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.DefaultErrorHandler;
@@ -120,9 +121,11 @@ public class DesktopApplication extends MyCollabUI {
 						enter(event.getUriFragment());
 					}
 				});
+
+		EventBusFactory.getInstance().register(new ShellErrorHandler());
 	}
 
-	public static void handleException(Throwable e) {
+	private void handleException(Throwable e) {
 		UserInvalidInputException invalidException = (UserInvalidInputException) getExceptionType(
 				e, UserInvalidInputException.class);
 		if (invalidException != null) {
@@ -179,6 +182,7 @@ public class DesktopApplication extends MyCollabUI {
 				NotificationUtil
 						.showErrorNotification(AppContext
 								.getMessage(GenericI18Enum.ERROR_USER_NOTICE_INFORMATION_MESSAGE));
+
 			}
 		}
 	}
@@ -272,6 +276,14 @@ public class DesktopApplication extends MyCollabUI {
 			return getExceptionType(e.getCause(), exceptionType);
 		} else {
 			return null;
+		}
+	}
+
+	private class ShellErrorHandler {
+		@Subscribe
+		public void handle(ShellEvent.NotifyErrorEvent event) {
+			Throwable e = (Throwable) event.getData();
+			log.error("Error", e);
 		}
 	}
 }
