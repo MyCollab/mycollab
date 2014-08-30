@@ -52,6 +52,7 @@ public class RiskServiceTest extends ServiceTest {
 	public void testSearchRisksByName() {
 		RiskSearchCriteria criteria = new RiskSearchCriteria();
 		criteria.setRiskname(new StringSearchField(SearchField.AND, "a"));
+		criteria.setSaccountid(null);
 		List risks = riskService
 				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));

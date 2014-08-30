@@ -52,6 +52,7 @@ public class ProblemServiceTest extends ServiceTest {
 		ProblemSearchCriteria criteria = new ProblemSearchCriteria();
 		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
 				"a"));
+		criteria.setSaccountid(null);
 		List<SimpleProblem> problems = problemService
 				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
@@ -68,6 +69,7 @@ public class ProblemServiceTest extends ServiceTest {
 	@Test
 	public void testgetTotalCount() {
 		ProblemSearchCriteria criteria = new ProblemSearchCriteria();
+		criteria.setSaccountid(null);
 		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
 				"a"));
 		Assert.assertEquals(1, problemService.getTotalCount(criteria));
