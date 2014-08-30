@@ -51,6 +51,7 @@ public class StandupReportServiceTest extends ServiceTest {
 		criteria.setLogBy(new StringSearchField(SearchField.AND, "hainguyen"));
 		Date d = new GregorianCalendar(2013, 2, 13).getTime();
 		criteria.setOnDate(new DateSearchField(SearchField.AND, d));
+		criteria.setSaccountid(new NumberSearchField(1));
 		List reports = reportService
 				.findPagableListByCriteria(new SearchRequest<StandupReportSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
@@ -62,6 +63,7 @@ public class StandupReportServiceTest extends ServiceTest {
 	public void testGetListCount() {
 		StandupReportSearchCriteria criteria = new StandupReportSearchCriteria();
 		criteria.setProjectId(new NumberSearchField(1));
+		criteria.setSaccountid(new NumberSearchField(1));
 		Date from = new GregorianCalendar(2013, 2, 1).getTime();
 		Date to = new GregorianCalendar(2013, 2, 31).getTime();
 		criteria.setReportDateRange(new RangeDateSearchField(from, to));

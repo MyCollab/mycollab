@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.SimpleProblem;
@@ -52,7 +53,7 @@ public class ProblemServiceTest extends ServiceTest {
 		ProblemSearchCriteria criteria = new ProblemSearchCriteria();
 		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
 				"a"));
-		criteria.setSaccountid(null);
+		criteria.setSaccountid(new NumberSearchField(1));
 		List<SimpleProblem> problems = problemService
 				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));

@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -52,7 +53,7 @@ public class RiskServiceTest extends ServiceTest {
 	public void testSearchRisksByName() {
 		RiskSearchCriteria criteria = new RiskSearchCriteria();
 		criteria.setRiskname(new StringSearchField(SearchField.AND, "a"));
-		criteria.setSaccountid(null);
+		criteria.setSaccountid(new NumberSearchField(1));
 		List risks = riskService
 				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
