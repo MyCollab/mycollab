@@ -56,6 +56,10 @@
             ${searchCriteria.status.operation} m_prj_task_list.status = @{searchCriteria.status.value}
         #end
         
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_task_list.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
         #ifnotnull($searchCriteria.milestoneIds)
             ${searchCriteria.milestoneIds.operation}
             m_prj_task_list.milestoneId IN

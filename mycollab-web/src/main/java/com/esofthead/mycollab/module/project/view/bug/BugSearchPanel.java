@@ -60,8 +60,8 @@ public class BugSearchPanel extends
 	private static final long serialVersionUID = 1L;
 
 	private final SimpleProject project;
-	protected BugSearchCriteria searchCriteria;
-	protected Label bugtitle;
+	private BugSearchCriteria searchCriteria;
+	private Label bugtitle;
 	private ComponentContainer rightComponent;
 
 	private static Param[] paramFields = new Param[] {
@@ -72,12 +72,8 @@ public class BugSearchPanel extends
 			BugSearchCriteria.p_lastupdatedtime };
 
 	public BugSearchPanel() {
-		this("Bugs");
-	}
-
-	public BugSearchPanel(final String title) {
 		this.project = CurrentProjectVariables.getProject();
-		this.bugtitle = new Label(title);
+		this.bugtitle = new Label("Bugs");
 	}
 
 	public void setBugTitle(final String title) {
@@ -216,21 +212,18 @@ public class BugSearchPanel extends
 
 		@Override
 		protected BugSearchCriteria fillupSearchCriteria() {
-			BugSearchPanel.this.searchCriteria = new BugSearchCriteria();
-			BugSearchPanel.this.searchCriteria
-					.setProjectId(new NumberSearchField(SearchField.AND,
-							BugSearchPanel.this.project.getId()));
-			BugSearchPanel.this.searchCriteria
-					.setSummary(new StringSearchField(this.nameField.getValue()
-							.toString().trim()));
+			searchCriteria = new BugSearchCriteria();
+			searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
+					project.getId()));
+			searchCriteria.setSummary(new StringSearchField(this.nameField
+					.getValue().toString().trim()));
 			if (this.myItemCheckbox.getValue()) {
-				BugSearchPanel.this.searchCriteria
-						.setAssignuser(new StringSearchField(SearchField.AND,
-								AppContext.getUsername()));
+				searchCriteria.setAssignuser(new StringSearchField(
+						SearchField.AND, AppContext.getUsername()));
 			} else {
-				BugSearchPanel.this.searchCriteria.setAssignuser(null);
+				searchCriteria.setAssignuser(null);
 			}
-			return BugSearchPanel.this.searchCriteria;
+			return searchCriteria;
 		}
 
 		@Override
@@ -268,6 +261,14 @@ public class BugSearchPanel extends
 				return new ProjectMemberListSelect(false);
 			}
 			return null;
+		}
+
+		@Override
+		protected BugSearchCriteria fillupSearchCriteria() {
+			searchCriteria = super.fillupSearchCriteria();
+			searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
+					project.getId()));
+			return searchCriteria;
 		}
 	}
 }

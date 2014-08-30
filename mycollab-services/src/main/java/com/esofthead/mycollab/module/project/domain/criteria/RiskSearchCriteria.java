@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.domain.criteria;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -51,7 +52,7 @@ public class RiskSearchCriteria extends SearchCriteria {
 
 	public static Param p_status = new StringListParam("risk-status",
 			RiskI18nEnum.FORM_STATUS, "m_prj_risk", "status", Arrays.asList(
-					"Open", "Closed"));
+					StatusI18nEnum.Open.name(), StatusI18nEnum.Closed.name()));
 
 	public static Param p_probalitity = new StringListParam("risk-probalitity",
 			RiskI18nEnum.FORM_PROBABILITY, "m_prj_risk", "probalitity",

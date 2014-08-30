@@ -18,33 +18,33 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.id != null">
-            ${searchCriteria.id.operation} m_prj_message.id =
-            #{searchCriteria.id.value,jdbcType=NUMERIC}
-        </if>
-        <if test="searchCriteria.projectids != null">
-            ${searchCriteria.projectids.operation}
-            m_prj_message.projectid IN
-            <foreach close=")" collection="searchCriteria.projectids.values"
-                item="projectid" open="(" separator="OR">
-                #{projectid.value,jdbcType=NUMERIC}
-            </foreach>
-        </if>
-        <if test="searchCriteria.category != null">
-            ${searchCriteria.category.operation}
-            m_prj_message.category =
-            #{searchCriteria.category.value,javaType=VARCHAR}
-        </if>
-        <if test="searchCriteria.title != null">
-          <![CDATA[
-            ${searchCriteria.title.operation} m_prj_message.title like '%${searchCriteria.title.value}%'
-            ]]>
-        </if>
-        <if test="searchCriteria.message != null">
-          <![CDATA[
-            ${searchCriteria.message.operation} m_prj_message.message like '%${searchCriteria.message.value}%' OR m_prj_message.title like '%${searchCriteria.message.value}%'
-            ]]>
-        </if>
+        <![CDATA[
+            #set($searchCriteria = $_parameter.searchCriteria)
+            
+            #ifnotnull($searchCriteria.id)
+               ${searchCriteria.id.operation}  m_prj_message.id = @{searchCriteria.id.value,jdbcType=NUMERIC}
+            #end
+            
+            #ifnotnull($searchCriteria.projectids)
+                ${searchCriteria.projectids.operation}
+                m_prj_message.projectid IN 
+                #repeat(${searchCriteria.projectids.values} $projectid "," "(" ")")
+                    @{projectid,jdbcType=NUMERIC}
+                #end
+            #end
+            
+            #ifnotnull($searchCriteria.category)
+                ${searchCriteria.category.operation} m_prj_message.category = @{searchCriteria.category.value,jdbcType=VARCHAR}
+            #end
+            
+            #ifnotnull($searchCriteria.title)
+                ${searchCriteria.title.operation} m_prj_message.title like '%${searchCriteria.title.value}%'
+            #end
+            
+            #ifnotnull($searchCriteria.message)
+                ${searchCriteria.message.operation} m_prj_message.message like '%${searchCriteria.message.value}%' OR m_prj_message.title like '%${searchCriteria.message.value}%'
+            #end
+        ]]>
     </sql>
 
     <sql id="selectMessage">
@@ -63,38 +63,33 @@
         ]]>
     </sql>
 
-    <select id="getTotalCount" resultType="int" parameterType="MessageSearchCriteria">
+    <select id="getTotalCount" resultType="int" parameterType="MessageSearchCriteria" lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_message
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 
     <select id="findPagableListByCriteria" resultMap="MessageResult"
-        parameterType="MessageSearchCriteria">
-        <include
-            refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.selectMessage" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        parameterType="MessageSearchCriteria" lang="velocity">
+        <include refid="selectMessage" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
 
         ORDER BY m_prj_message.isStick DESC, m_prj_message.posteddate
         DESC
     </select>
 
     <select id="findMessageById" parameterType="java.lang.Integer"
-        resultMap="MessageResult">
+        resultMap="MessageResult" lang="velocity">
         <include
-            refid="com.esofthead.mycollab.module.project.dao.MessageMapperExt.selectMessage" />
+            refid="selectMessage" />
 
-        WHERE m_prj_message.id=#{messageId, jdbcType=NUMERIC}
+        WHERE m_prj_message.id=@{messageId, jdbcType=NUMERIC}
     </select>
 </mapper>

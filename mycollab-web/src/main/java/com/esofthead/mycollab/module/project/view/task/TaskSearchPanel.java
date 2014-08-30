@@ -170,21 +170,18 @@ public class TaskSearchPanel extends
 
 		@Override
 		protected TaskSearchCriteria fillupSearchCriteria() {
-			TaskSearchPanel.this.searchCriteria = new TaskSearchCriteria();
-			TaskSearchPanel.this.searchCriteria
-					.setProjectid(new NumberSearchField(CurrentProjectVariables
-							.getProjectId()));
-			TaskSearchPanel.this.searchCriteria
-					.setTaskName(new StringSearchField(this.nameField
-							.getValue().toString().trim()));
+			searchCriteria = new TaskSearchCriteria();
+			searchCriteria.setProjectid(new NumberSearchField(
+					CurrentProjectVariables.getProjectId()));
+			searchCriteria.setTaskName(new StringSearchField(this.nameField
+					.getValue().toString().trim()));
 			if (this.myItemCheckbox.getValue()) {
-				TaskSearchPanel.this.searchCriteria
-						.setAssignUser(new StringSearchField(SearchField.AND,
-								AppContext.getUsername()));
+				searchCriteria.setAssignUser(new StringSearchField(
+						SearchField.AND, AppContext.getUsername()));
 			} else {
-				TaskSearchPanel.this.searchCriteria.setAssignUser(null);
+				searchCriteria.setAssignUser(null);
 			}
-			return TaskSearchPanel.this.searchCriteria;
+			return searchCriteria;
 		}
 
 		@Override
@@ -223,6 +220,14 @@ public class TaskSearchPanel extends
 				return new ProjectMemberListSelect(false);
 			}
 			return null;
+		}
+
+		@Override
+		protected TaskSearchCriteria fillupSearchCriteria() {
+			searchCriteria = super.fillupSearchCriteria();
+			searchCriteria.setProjectid(new NumberSearchField(
+					CurrentProjectVariables.getProjectId()));
+			return searchCriteria;
 		}
 	}
 

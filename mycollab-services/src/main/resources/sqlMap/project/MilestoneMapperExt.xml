@@ -45,6 +45,10 @@
                 ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
             #end
             
+            #ifnotnull($searchCriteria.saccountid)
+                ${searchCriteria.saccountid.operation} m_prj_milestone.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+            #end
+            
             #totalCountExpr($searchCriteria.extraFields)
         ]]>
     </sql>
@@ -71,6 +75,10 @@
             
             #ifnotnull($searchCriteria.milestoneName)
                 ${searchCriteria.milestoneName.operation} m_prj_milestone.name like '%${searchCriteria.milestoneName.value}%'
+            #end
+            
+            #ifnotnull($searchCriteria.saccountid)
+                ${searchCriteria.saccountid.operation} m_prj_milestone.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
             #end
             
             #selectExpr($searchCriteria.extraFields)

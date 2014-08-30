@@ -51,11 +51,13 @@ import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectCommand;
 import com.esofthead.mycollab.module.project.esb.ProjectEndPoints;
 import com.esofthead.mycollab.module.project.service.ProjectRoleService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.security.AccessPermissionFlag;
 import com.esofthead.mycollab.security.PermissionMap;
 
@@ -86,6 +88,9 @@ public class ProjectServiceImpl extends
 
 	@Autowired
 	private ProjectRoleService projectRoleService;
+
+	@Autowired
+	private ProjectTaskListService taskListService;
 
 	@Autowired
 	private BillingPlanCheckerService billingPlanCheckerService;
@@ -195,7 +200,13 @@ public class ProjectServiceImpl extends
 		projectRoleService.savePermission(projectid, adminRoleId,
 				permissionMapAdmin, record.getSaccountid());
 
-		// set default permission
+		log.debug("Create default task group");
+		TaskList taskList = new TaskList();
+		taskList.setProjectid(projectid);
+		taskList.setSaccountid(record.getSaccountid());
+		taskList.setStatus(StatusI18nEnum.Open.name());
+		taskList.setName("General Assignments");
+		taskListService.saveWithSession(taskList, username);
 
 		return projectid;
 	}

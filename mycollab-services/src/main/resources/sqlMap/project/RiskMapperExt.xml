@@ -49,6 +49,10 @@
             ${searchCriteria.assignToUser.operation} m_prj_risk.assigntouser = @{searchCriteria.assignToUser.value}
         #end
         
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_risk.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
         #selectExpr($searchCriteria.extraFields)
         ]]>
     </sql>
@@ -75,6 +79,10 @@
         
         #ifnotnull($searchCriteria.assignToUser)
             ${searchCriteria.assignToUser.operation} m_prj_risk.assigntouser = @{searchCriteria.assignToUser.value}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_risk.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
         
         #totalCountExpr($searchCriteria.extraFields)

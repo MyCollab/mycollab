@@ -33,6 +33,10 @@
             ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= @{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= @{searchCriteria.reportDateRange.to}
         #end
         
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_standup.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        
         #selectExpr($searchCriteria.extraFields)
         ]]>
     </sql>
@@ -55,6 +59,10 @@
         
         #ifnotnull($searchCriteria.reportDateRange)
             ${searchCriteria.reportDateRange.operation} CAST(m_prj_standup.forday AS DATE) >= @{searchCriteria.reportDateRange.from} AND CAST(m_prj_standup.forday AS DATE) <= @{searchCriteria.reportDateRange.to}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_prj_standup.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
         
         #totalCountExpr($searchCriteria.extraFields)
