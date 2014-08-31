@@ -40,6 +40,9 @@ public interface ProjectMemberService extends
 	SimpleProjectMember findById(int memberId, @CacheKey int sAccountId);
 
 	@Cacheable
+	boolean isUserBelongToProject(String username, int projectId, @CacheKey int sAccountId);
+
+	@Cacheable
 	SimpleProjectMember findMemberByUsername(String username, int projectId,
 			@CacheKey Integer sAccountId);
 

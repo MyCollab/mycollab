@@ -19,7 +19,7 @@ package com.esofthead.mycollab.module.crm.view.activity;
 import com.esofthead.mycollab.module.crm.domain.SimpleMeeting;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.DateFieldWithUserTimeZone;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.vaadin.ui.Field;
 
@@ -44,13 +44,13 @@ class MeetingReadFormFieldFactory extends
 		} else if (propertyId.equals("startdate")) {
 			if (attachForm.getBean().getStartdate() == null)
 				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getStartdate(), "DATETIME_FIELD");
+			return new FormDateTimeViewField(attachForm.getBean()
+					.getStartdate());
 		} else if (propertyId.equals("enddate")) {
 			if (attachForm.getBean().getEnddate() == null)
 				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getEnddate(), "DATETIME_FIELD");
+			return new FormDateTimeViewField(attachForm.getBean()
+					.getEnddate());
 		} else if (propertyId.equals("isrecurrence")) {
 			return null;
 		}

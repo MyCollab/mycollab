@@ -20,7 +20,7 @@ import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.DateFieldWithUserTimeZone;
+import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormDateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.FormLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.DefaultFormViewFieldFactory.UserLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -50,13 +50,13 @@ class AssignmentReadFormFieldFactory extends
 		} else if (propertyId.equals("startdate")) {
 			if (attachForm.getBean().getStartdate() == null)
 				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getStartdate(), "DATETIME_FIELD");
+			return new FormDateTimeViewField(attachForm.getBean()
+					.getStartdate());
 		} else if (propertyId.equals("duedate")) {
 			if (attachForm.getBean().getDuedate() == null)
 				return null;
-			return new DateFieldWithUserTimeZone(attachForm.getBean()
-					.getDuedate(), "DATETIME_FIELD");
+			return new FormDateTimeViewField(attachForm.getBean()
+					.getDuedate());
 		} else if (propertyId.equals("contactid")) {
 			return new FormLinkViewField(attachForm.getBean().getContactName(),
 					CrmLinkBuilder.generateContactPreviewLinkFull(attachForm

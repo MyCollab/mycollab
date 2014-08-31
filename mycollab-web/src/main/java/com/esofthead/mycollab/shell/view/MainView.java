@@ -21,6 +21,7 @@ import java.util.Date;
 
 import org.vaadin.hene.popupbutton.PopupButton;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.ui.components.TimezoneNotification;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.module.billing.service.BillingService;
 import com.esofthead.mycollab.module.user.accountsettings.localization.AdminI18nEnum;
 import com.esofthead.mycollab.module.user.domain.BillingPlan;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
+import com.esofthead.mycollab.module.user.domain.UserPreference;
 import com.esofthead.mycollab.shell.events.ShellEvent;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -51,6 +53,7 @@ import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -172,9 +175,38 @@ public final class MainView extends AbstractPageView {
 		layout.setStyleName("topNavigation");
 		layout.setHeight("40px");
 		layout.setWidth("100%");
-		layout.addComponent(AccountLogoFactory.createAccountLogoImageComponent(
-				ThemeManager.loadLogoPath(AppContext.getAccountId()), 150),
-				"mainLogo");
+
+		Image accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
+				ThemeManager.loadLogoPath(AppContext.getAccountId()), 150);
+
+		accountLogo.addClickListener(new MouseEvents.ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
+				UserPreference pref = AppContext.getUserPreference();
+				if (pref.getLastmodulevisit() == null
+						|| ModuleNameConstants.PRJ.equals(pref
+								.getLastmodulevisit())) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoProjectModule(this, null));
+				} else if (ModuleNameConstants.CRM.equals(pref
+						.getLastmodulevisit())) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoCrmModule(this, null));
+				} else if (ModuleNameConstants.ACCOUNT.equals(pref
+						.getLastmodulevisit())) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoUserAccountModule(this, null));
+				} else if (ModuleNameConstants.FILE.equals(pref
+						.getLastmodulevisit())) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoFileModule(this, null));
+				}
+			}
+		});
+		layout.addComponent(accountLogo, "mainLogo");
+
 		serviceMenu = new ServiceMenu();
 		serviceMenu.addStyleName("topNavPopup");
 

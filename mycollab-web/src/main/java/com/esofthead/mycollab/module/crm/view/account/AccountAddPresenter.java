@@ -16,20 +16,14 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
-import com.esofthead.mycollab.module.crm.domain.CampaignAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.module.crm.service.AccountService;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
 import com.esofthead.mycollab.module.crm.view.CrmGenericPresenter;
 import com.esofthead.mycollab.module.crm.view.CrmToolbar;
 import com.esofthead.mycollab.security.RolePermissionCollections;

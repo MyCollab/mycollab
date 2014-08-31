@@ -43,6 +43,10 @@
             ${searchCriteria.saccountid.operation} s_user_account.accountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
         #end
         
+        #ifnotnull($searchCriteria.involvedMember)
+            ${searchCriteria.involvedMember.operation} m_prj_member.username = @{searchCriteria.involvedMember.value}
+        #end
+        
         #selectExpr($searchCriteria.extraFields)
         ]]>
     </sql>
@@ -67,6 +71,10 @@
             ${searchCriteria.saccountid.operation}
                 (SELECT COUNT(*) FROM m_prj_project
                 WHERE m_prj_project.sAccountId=@{searchCriteria.saccountid.value,jdbcType=NUMERIC} AND m_prj_member.projectId=m_prj_project.id ) > 0
+        #end
+        
+        #ifnotnull($searchCriteria.involvedMember)
+            ${searchCriteria.involvedMember.operation} m_prj_member.username = @{searchCriteria.involvedMember.value}
         #end
         
         #totalCountExpr($searchCriteria.extraFields)

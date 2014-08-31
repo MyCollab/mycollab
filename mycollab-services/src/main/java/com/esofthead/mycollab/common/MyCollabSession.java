@@ -41,6 +41,8 @@ public class MyCollabSession {
 	public static final String USER_DATE_FORMAT = "USER_DATE_FORMAT";
 	
 	public static final String USER_DATE_TIME_DATE_FORMAT = "USER_DATE_TIME_DATE_FORMAT";
+	
+	public static final String USER_DAY_MONTH_FORMAT = "USER_DATE_TIME_DATE_FORMAT";
 
 	public static final String CURRENT_MODULE = "currentModule";
 

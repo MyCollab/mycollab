@@ -34,6 +34,8 @@ public class ProjectMemberSearchCriteria extends SearchCriteria {
 	private NumberSearchField id;
 
 	private StringSearchField status;
+	
+	private StringSearchField involvedMember;
 
 	public NumberSearchField getId() {
 		return id;
@@ -57,5 +59,13 @@ public class ProjectMemberSearchCriteria extends SearchCriteria {
 
 	public StringSearchField getStatus() {
 		return status;
+	}
+
+	public StringSearchField getInvolvedMember() {
+		return involvedMember;
+	}
+
+	public void setInvolvedMember(StringSearchField involvedMember) {
+		this.involvedMember = involvedMember;
 	}
 }

@@ -20,6 +20,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.esofthead.mycollab.core.format.DefaultDateFormat;
+import com.esofthead.mycollab.core.format.IDateFormat;
+import com.esofthead.mycollab.core.format.JpDateFormat;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -34,12 +38,17 @@ public class LocaleHelper {
 
 	private static Map<String, Locale> languageBase = new HashMap<String, Locale>();
 
+	private static Map<Locale, IDateFormat> dateFormats = new HashMap<Locale, IDateFormat>();
+
 	static {
 		languages.put(JAPANESE, Locale.JAPAN);
 		languages.put(ENGLISH, Locale.US);
 
 		languageBase.put(Locale.JAPAN.toString(), Locale.JAPAN);
 		languageBase.put(Locale.US.toString(), Locale.US);
+
+		dateFormats.put(Locale.JAPAN, new JpDateFormat());
+		dateFormats.put(Locale.US, new DefaultDateFormat());
 	}
 
 	static Map<String, Locale> getNativeLanguages() {
@@ -57,28 +66,20 @@ public class LocaleHelper {
 		}
 		return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
 	}
-	
+
 	public static String getShortDateFormatAssociateToLocale(Locale locale) {
-		if (Locale.JAPAN.equals(locale)) {
-			return "yy/MM/dd";
-		} else {
-			return "MM/dd/yy";
-		}
+		return dateFormats.get(locale).getShortDateFormat();
 	}
 
 	public static String getDateFormatAssociateToLocale(Locale locale) {
-		if (Locale.JAPAN.equals(locale)) {
-			return "yyyy/MM/dd";
-		} else {
-			return "MM/dd/yyyy";
-		}
+		return dateFormats.get(locale).getDateFormat();
 	}
 
 	public static String getDateTimeFormatAssociateToLocale(Locale locale) {
-		if (Locale.JAPAN.equals(locale)) {
-			return "yyyy/MM/dd  hh:mm aa";
-		} else {
-			return "MM/dd/yyyy hh:mm aa";
-		}
+		return dateFormats.get(locale).getDateTimeFormat();
+	}
+
+	public static String getDayMonthFormatAssociateToLocale(Locale locale) {
+		return dateFormats.get(locale).getDayMonthFormat();
 	}
 }

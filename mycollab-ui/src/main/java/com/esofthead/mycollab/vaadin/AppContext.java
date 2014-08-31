@@ -18,6 +18,7 @@ package com.esofthead.mycollab.vaadin;
 
 import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_FORMAT;
 import static com.esofthead.mycollab.common.MyCollabSession.USER_DATE_TIME_DATE_FORMAT;
+import static com.esofthead.mycollab.common.MyCollabSession.USER_DAY_MONTH_FORMAT;
 import static com.esofthead.mycollab.common.MyCollabSession.USER_SHORT_DATE_FORMAT;
 import static com.esofthead.mycollab.common.MyCollabSession.USER_TIMEZONE;
 
@@ -181,6 +182,8 @@ public class AppContext implements Serializable {
 				LocaleHelper.getDateTimeFormatAssociateToLocale(userLocale));
 		MyCollabSession.putVariable(USER_SHORT_DATE_FORMAT,
 				LocaleHelper.getShortDateFormatAssociateToLocale(userLocale));
+		MyCollabSession.putVariable(USER_DAY_MONTH_FORMAT,
+				LocaleHelper.getDayMonthFormatAssociateToLocale(userLocale));
 
 		TimeZone timezone = null;
 		if (session.getTimezone() == null) {
@@ -493,6 +496,10 @@ public class AppContext implements Serializable {
 
 	public static String getUserDateTimeFormat() {
 		return (String) MyCollabSession.getVariable(USER_DATE_TIME_DATE_FORMAT);
+	}
+
+	public static String getUserDayMonthFormat() {
+		return (String) MyCollabSession.getVariable(USER_DAY_MONTH_FORMAT);
 	}
 
 	/**

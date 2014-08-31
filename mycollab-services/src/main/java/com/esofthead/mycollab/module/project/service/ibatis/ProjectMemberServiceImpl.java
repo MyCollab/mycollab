@@ -29,6 +29,8 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
@@ -214,5 +216,15 @@ public class ProjectMemberServiceImpl extends
 
 		saveWithSession(member, "");
 		CacheUtils.cleanCache(sAccountId, ProjectMemberService.class.getName());
+	}
+
+	@Override
+	public boolean isUserBelongToProject(String username, int projectId,
+			int sAccountId) {
+		ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+		criteria.setProjectId(new NumberSearchField(projectId));
+		criteria.setSaccountid(new NumberSearchField(sAccountId));
+		criteria.setInvolvedMember(new StringSearchField(username));
+		return (getTotalCount(criteria) > 0);
 	}
 }

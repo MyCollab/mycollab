@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -156,9 +154,7 @@ public class FieldGroupFomatter {
 		public String toString(String value) {
 			if (value != null && !value.trim().equals("")) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-				SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
-						"MM/dd/yyyy");
-				return simpleDateTimeFormat.format(formatDate);
+				return AppContext.formatDate(formatDate);
 			} else {
 				return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 			}
@@ -172,18 +168,7 @@ public class FieldGroupFomatter {
 		public Component toVaadinComponent(String value) {
 			if (value != null && !value.trim().equals("")) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-				SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
-						"MM/dd/yyyy HH:mm");
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(formatDate);
-				int timeFormat = calendar.get(Calendar.AM_PM);
-				if (timeFormat == 1) {
-					calendar.add(Calendar.HOUR_OF_DAY, -12);
-				}
-				String dateStr = simpleDateTimeFormat
-						.format(calendar.getTime())
-						+ ((timeFormat == 0) ? " AM" : " PM");
-				return new Label(dateStr);
+				return new Label(AppContext.formatDateTime(formatDate));
 			} else {
 				return new Label();
 			}
@@ -193,18 +178,7 @@ public class FieldGroupFomatter {
 		public String toString(String value) {
 			if (value != null && !value.trim().equals("")) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(formatDate);
-				int timeFormat = calendar.get(Calendar.AM_PM);
-				if (timeFormat == 1) {
-					calendar.add(Calendar.HOUR_OF_DAY, -12);
-				}
-				SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
-						"MM/dd/yyyy HH:mm");
-				String dateStr = simpleDateTimeFormat
-						.format(calendar.getTime())
-						+ ((timeFormat == 0) ? " AM" : " PM");
-				return dateStr;
+				return AppContext.formatDateTime(formatDate);
 			} else {
 				return AppContext.getMessage(GenericI18Enum.FORM_EMPTY);
 			}

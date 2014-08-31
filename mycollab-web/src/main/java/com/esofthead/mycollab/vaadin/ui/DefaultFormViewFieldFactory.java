@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -136,54 +134,6 @@ public class DefaultFormViewFieldFactory {
 		}
 	}
 
-	public static class DateFieldWithUserTimeZone extends CustomField<String> {
-		private static final long serialVersionUID = 1L;
-
-		private static String DATE_FORMAT = "MM/dd/yyyy";
-		private static String DATETIME_FORMAT = "MM/dd/yyyy HH:mm";
-		private SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
-				DATE_FORMAT);
-		private Calendar calendar = Calendar.getInstance();
-
-		private Date date;
-		private String dateformat;
-
-		public DateFieldWithUserTimeZone(final Date date, String dateformat) {
-			this.date = date;
-			this.dateformat = dateformat;
-		}
-
-		@Override
-		public Class<String> getType() {
-			return String.class;
-		}
-
-		@Override
-		protected Component initContent() {
-			if (date == null) {
-				return new Label();
-			} else {
-				if (dateformat.equals("DATETIME_FIELD")) {
-					simpleDateTimeFormat = new SimpleDateFormat(DATETIME_FORMAT);
-				}
-				calendar.setTime(date);
-				int timeFormat = calendar.get(Calendar.AM_PM);
-				if (timeFormat == 1) {
-					calendar.add(Calendar.HOUR_OF_DAY, -12);
-				}
-				String timeStr = simpleDateTimeFormat
-						.format(calendar.getTime())
-						+ " "
-						+ ((timeFormat == 0) ? "AM" : "PM");
-				Label label = new Label();
-				label.setValue(timeStr);
-				HorizontalLayout layout = new HorizontalLayout();
-				layout.addComponent(label);
-				return layout;
-			}
-		}
-	}
-
 	public static class FormContainerViewField extends CustomField<Object> {
 		private static final long serialVersionUID = 1L;
 		private CssLayout layout;
@@ -232,6 +182,34 @@ public class DefaultFormViewFieldFactory {
 				l.setContentMode(ContentMode.HTML);
 			} else {
 				l.setValue(AppContext.formatDate(date));
+			}
+			return l;
+		}
+	}
+
+	public static class FormDateTimeViewField extends CustomField<String> {
+		private static final long serialVersionUID = 1L;
+
+		private Date date;
+
+		public FormDateTimeViewField(final Date date) {
+			this.date = date;
+		}
+
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
+
+		@Override
+		protected Component initContent() {
+			final Label l = new Label();
+			l.setWidth("100%");
+			if (date == null) {
+				l.setValue("&nbsp;");
+				l.setContentMode(ContentMode.HTML);
+			} else {
+				l.setValue(AppContext.formatDateTime(date));
 			}
 			return l;
 		}

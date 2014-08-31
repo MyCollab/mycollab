@@ -275,7 +275,8 @@ public class ProjectActivityStreamPagedList
 		} else {
 			blockWrapper.setMargin(new MarginInfo(true, false, false, false));
 		}
-		Label dateLbl = new Label(DateFormatUtils.format(nextDate, "dd/MM"));
+		Label dateLbl = new Label(DateFormatUtils.format(nextDate,
+				AppContext.getUserDayMonthFormat()));
 		dateLbl.setSizeUndefined();
 		dateLbl.setStyleName("date-lbl");
 		blockWrapper.addComponent(dateLbl);

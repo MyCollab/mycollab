@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view;
 import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
+import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.bug.TrackerPresenter;
 import com.esofthead.mycollab.module.project.view.file.IFilePresenter;
@@ -92,8 +93,17 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 			if (project == null) {
 				NotificationUtil.showRecordNotExistNotification();
 			} else {
-				CurrentProjectVariables.setProject(project);
-				view.initView(project);
+				ProjectMemberService projectMemberService = ApplicationContextUtil
+						.getSpringBean(ProjectMemberService.class);
+				boolean userBelongToProject = projectMemberService
+						.isUserBelongToProject(AppContext.getUsername(),
+								project.getId(), AppContext.getAccountId());
+				if (userBelongToProject) {
+					CurrentProjectVariables.setProject(project);
+					view.initView(project);
+				} else {
+					NotificationUtil.showMessagePermissionAlert();
+				}
 			}
 		}
 	}

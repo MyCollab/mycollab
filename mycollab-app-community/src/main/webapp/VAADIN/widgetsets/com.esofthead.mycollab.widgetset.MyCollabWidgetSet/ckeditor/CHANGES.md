@@ -1,6 +1,37 @@
 CKEditor 4 Changelog
 ====================
 
+## CKEditor 4.4.4
+
+Fixed Issues:
+
+* [#12268](http://dev.ckeditor.com/ticket/12268): Cleanup of [UI Color](http://ckeditor.com/addon/uicolor) YUI styles. Thanks to [CasherWest](https://github.com/CasherWest)!
+* [#12263](http://dev.ckeditor.com/ticket/12263): Fixed: [Paste from Word]((http://ckeditor.com/addon/pastefromword)) filter does not properly normalize semicolons style text. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
+* [#12243](http://dev.ckeditor.com/ticket/12243): Fixed: Text formatting lost when pasting from Word. Thanks to [Alin Purcaru](https://github.com/mesmerizero)!
+* [#111739](http://dev.ckeditor.com/ticket/11739): Fixed: `keypress` listeners should not be used in the undo manager. A complete rewrite of keyboard handling in the undo manager was made. Numerous smaller issues were fixed, among others:
+  * [#10926](http://dev.ckeditor.com/ticket/10926): [Chrome@Android] Fixed: Typing does not record snapshots and does not fire the [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
+  * [#11611](http://dev.ckeditor.com/ticket/11611): [Firefox] Fixed: The [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event is fired when pressing Arrow keys.
+  * [#12219](http://dev.ckeditor.com/ticket/12219): [Safari] Fixed: Some modifications of the [`UndoManager.locked`](http://docs.ckeditor.com/#!/api/CKEDITOR.plugins.undo.UndoManager-property-locked) property violate strict mode in the [Undo](http://ckeditor.com/addon/undo) plugin.
+* [#10916](http://dev.ckeditor.com/ticket/10916): Fixed: [Magic Line](http://ckeditor.com/addon/magicline) icon in Right-To-Left environments.
+* [#11970](http://dev.ckeditor.com/ticket/11970): [IE] Fixed: CKEditor `paste` event is not fired when pasting with *Shift+Ins*.
+* [#12111](http://dev.ckeditor.com/ticket/12111): Fixed: Linked image attributes are not read when opening the image dialog window by doubleclicking.
+* [#10030](http://dev.ckeditor.com/ticket/10030): [IE] Fixed: Prevented "Unspecified Error" thrown in various cases when IE8-9 does not allow access to `document.activeElement`.
+* [#12273](http://dev.ckeditor.com/ticket/12273): Fixed: Applying block style in a description list breaks it.
+* [#12218](http://dev.ckeditor.com/ticket/12218): Fixed: Minor syntax issue in CSS files.
+* [#12178](http://dev.ckeditor.com/ticket/12178): [Blink/WebKit] Fixed: Iterator does not return the block if the selection is located at the end of it.
+* [#12185](http://dev.ckeditor.com/ticket/12185): [IE9QM] Fixed: Error thrown when moving the mouse over focused editor's scrollbar.
+* [#12215](http://dev.ckeditor.com/ticket/12215): Fixed: Basepath resolution does not recognize semicolon as a query separator.
+* [#12135](http://dev.ckeditor.com/ticket/12135): Fixed: [Remove Format](http://ckeditor.com/addon/removeformat) does not work on widgets.
+* [#12298](http://dev.ckeditor.com/ticket/12298): [IE11] Fixed: Clicking below `<body>` in Compatibility Mode will no longer reset selection to the first line.
+* [#12204](http://dev.ckeditor.com/ticket/12204): Fixed: Editor's voice label is not affected by [`config.title`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title).
+* [#11915](http://dev.ckeditor.com/ticket/11915): Fixed: With [SCAYT](http://ckeditor.com/addon/scayt) enabled, cursor moves to the beginning of the first highlighted, misspelled word after typing or pasting into the editor.
+* [SCAYT](https://github.com/WebSpellChecker/ckeditor-plugin-scayt/issues/69): Fixed: Error thrown in the console after enabling [SCAYT](http://ckeditor.com/addon/scayt) and trying to add a new image.
+
+
+Other Changes:
+
+* [#12296](http://dev.ckeditor.com/ticket/12296): Merged `benderjs-ckeditor` into the main CKEditor repository.
+
 ## CKEditor 4.4.3
 
 **Security Updates:**
@@ -413,7 +444,7 @@ New Features:
 * [#8244](http://dev.ckeditor.com/ticket/8244): Use *(Shift+)Tab* to indent and outdent lists.
 * [#10281](http://dev.ckeditor.com/ticket/10281): The [jQuery Adapter](http://docs.ckeditor.com/#!/guide/dev_jquery) is now available. Several jQuery-related issues fixed: [#8261](http://dev.ckeditor.com/ticket/8261), [#9077](http://dev.ckeditor.com/ticket/9077), [#8710](http://dev.ckeditor.com/ticket/8710), [#8530](http://dev.ckeditor.com/ticket/8530), [#9019](http://dev.ckeditor.com/ticket/9019), [#6181](http://dev.ckeditor.com/ticket/6181), [#7876](http://dev.ckeditor.com/ticket/7876), [#6906](http://dev.ckeditor.com/ticket/6906).
 * [#10042](http://dev.ckeditor.com/ticket/10042): Introduced [`config.title`](http://docs.ckeditor.com/#!/api/CKEDITOR.config-cfg-title) setting to change the human-readable title of the editor.
-* [#9794](http://dev.ckeditor.com/ticket/9794): Added [`editor.onChange`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
+* [#9794](http://dev.ckeditor.com/ticket/9794): Added [`editor.change`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-change) event.
 * [#9923](http://dev.ckeditor.com/ticket/9923): HiDPI support in the editor UI. HiDPI icons for [Moono skin](http://ckeditor.com/addon/moono) added.
 * [#8031](http://dev.ckeditor.com/ticket/8031): Handle `required` attributes on `<textarea>` elements &mdash; introduced [`editor.required`](http://docs.ckeditor.com/#!/api/CKEDITOR.editor-event-required) event.
 * [#10280](http://dev.ckeditor.com/ticket/10280): Ability to replace `<textarea>` elements with the inline editor.
