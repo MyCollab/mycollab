@@ -4,4 +4,5 @@ jdk:
   - oraclejdk7
   - openjdk7
 before_script:
-  - mysql -e 'create database mycollab_test;'  
+  - mysql -e 'create database mycollab_test;'
+  - cd mycollab-deployer-community
