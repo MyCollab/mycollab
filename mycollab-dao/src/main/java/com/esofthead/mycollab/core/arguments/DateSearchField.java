@@ -36,8 +36,8 @@ public class DateSearchField extends SearchField {
 	public static String EQUAL = "=";
 	public static String NOTEQUAL = "<>";
 
-	protected Date value;
-	protected String comparision;
+	private Date value;
+	private String comparision;
 
 	public DateSearchField() {
 		this(AND, null, null);

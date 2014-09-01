@@ -29,8 +29,8 @@ import com.esofthead.mycollab.core.arguments.SearchField;
  *
  */
 public class I18nStringListParam extends ColumnParam {
-	public static final String IN = "in";
-	public static final String NOT_IN = "not in";
+	static final String IN = "in";
+	static final String NOT_IN = "not in";
 
 	private static String IN_EXPR = "%s.%s in ";
 	private static String NOT_IN_EXPR = "%s.%s not in ";

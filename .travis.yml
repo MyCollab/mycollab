@@ -6,3 +6,6 @@ jdk:
 before_script:
   - mysql -e 'create database mycollab_test;'
   - cd mycollab-deployer-community
+notifications:
+  email:
+    - hainguyen@esofthead.com

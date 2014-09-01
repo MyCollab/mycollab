@@ -58,7 +58,7 @@ import com.vaadin.ui.TextField;
  * @since 1.0
  * 
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 		BugAddView {
 
@@ -118,13 +118,13 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 			} else if (propertyId.equals("assignuser")) {
 				return new ProjectMemberSelectionField();
 			} else if (propertyId.equals("id")) {
-				BugAddViewImpl.this.attachmentUploadField = new ProjectFormAttachmentUploadField();
+				attachmentUploadField = new ProjectFormAttachmentUploadField();
 				if (beanItem.getId() != null) {
-					BugAddViewImpl.this.attachmentUploadField.getAttachments(
+					attachmentUploadField.getAttachments(
 							beanItem.getProjectid(),
 							AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
 				}
-				return BugAddViewImpl.this.attachmentUploadField;
+				return attachmentUploadField;
 			} else if (propertyId.equals("severity")) {
 				if (beanItem.getSeverity() == null) {
 					beanItem.setSeverity(BugSeverity.Major.name());

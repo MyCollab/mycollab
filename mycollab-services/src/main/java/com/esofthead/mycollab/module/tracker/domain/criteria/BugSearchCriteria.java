@@ -17,15 +17,20 @@
 package com.esofthead.mycollab.module.tracker.domain.criteria;
 
 import java.util.Arrays;
+import java.util.Collection;
+
+import org.apache.ibatis.jdbc.SQL;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
+import com.esofthead.mycollab.core.arguments.NoValueSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
+import com.esofthead.mycollab.core.db.query.CustomSqlParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.Param;
 import com.esofthead.mycollab.core.db.query.PropertyListParam;
@@ -79,8 +84,104 @@ public class BugSearchCriteria extends SearchCriteria {
 					BugStatus.Open.name(), BugStatus.ReOpened.name(),
 					BugStatus.Resolved.name()));
 
+	public static Param p_affectedVersions = new BugTypeCustomSql(
+			"bug_affected_versions", BugI18nEnum.FORM_AFFECTED_VERSIONS,
+			"AffVersion");
+
+	public static Param p_fixedVersions = new BugTypeCustomSql(
+			"bug_fixed_versions", BugI18nEnum.FORM_FIXED_VERSIONS, "FixVersion");
+
+	public static Param p_components = new BugTypeCustomSql("bug_components",
+			BugI18nEnum.FORM_COMPONENTS, "Component");
+
 	public static Param p_assignee = new PropertyListParam("bug-assignuser",
 			GenericI18Enum.FORM_ASSIGNEE, "m_tracker_bug", "assignuser");
+
+	private static class BugTypeCustomSql extends CustomSqlParam {
+
+		private String type;
+
+		public BugTypeCustomSql(String id, Enum displayName, String type) {
+			super(id, displayName);
+			this.type = type;
+		}
+
+		@Override
+		public NoValueSearchField buildPropertyParamInList(String oper,
+				Collection<?> values) {
+			if (values == null || values.size() == 0) {
+				return null;
+			}
+			StringBuffer sqlResult = new StringBuffer();
+			Object[] array = values.toArray();
+			for (int i = 0; i < array.length; i++) {
+				final Object affectedversion = array[i];
+				String result = new SQL() {
+					{
+						SELECT("COUNT(*)");
+						FROM("m_tracker_bug_related_item");
+						WHERE(String.format(
+								"m_tracker_bug_related_item.type='%s'", type));
+						AND();
+						WHERE(String.format(
+								"m_tracker_bug_related_item.typeid=%d",
+								affectedversion));
+						AND();
+						WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id");
+					}
+				}.toString();
+				sqlResult.append("(").append(result).append(") > 0");
+				if (i < array.length - 1) {
+					sqlResult.append(" OR ");
+				}
+			}
+			
+			if (array.length >1) {
+				sqlResult.insert(0, '(');
+				sqlResult.append(')');
+			}
+
+			return new NoValueSearchField(oper, sqlResult.toString());
+		}
+
+		@Override
+		public NoValueSearchField buildPropertyParamNotInList(String oper,
+				Collection<?> values) {
+			if (values == null || values.size() == 0) {
+				return null;
+			}
+			StringBuffer sqlResult = new StringBuffer();
+			Object[] array = values.toArray();
+			for (int i = 0; i < array.length; i++) {
+				final Object affectedversion = array[i];
+				String result = new SQL() {
+					{
+						SELECT("COUNT(*)");
+						FROM("m_tracker_bug_related_item");
+						WHERE(String.format(
+								"m_tracker_bug_related_item.type='%s'", type));
+						AND();
+						WHERE(String.format(
+								"m_tracker_bug_related_item.typeid=%d",
+								affectedversion));
+						AND();
+						WHERE("m_tracker_bug_related_item.bugid=m_tracker_bug.id");
+					}
+				}.toString();
+				sqlResult.append("(").append(result).append(") = 0");
+				if (i < array.length - 1) {
+					sqlResult.append(" AND ");
+				}
+			}
+			
+			if (array.length >1) {
+				sqlResult.insert(0, '(');
+				sqlResult.append(')');
+			}
+			return new NoValueSearchField(oper, sqlResult.toString());
+		}
+
+	}
 
 	private StringSearchField assignuser;
 

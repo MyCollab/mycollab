@@ -28,6 +28,8 @@ import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.events.BugEvent;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.view.bug.components.ComponentListSelect;
+import com.esofthead.mycollab.module.project.view.bug.components.VersionListSelect;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectMemberListSelect;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -67,6 +69,8 @@ public class BugSearchPanel extends
 	private static Param[] paramFields = new Param[] {
 			BugSearchCriteria.p_textDesc, BugSearchCriteria.p_priority,
 			BugSearchCriteria.p_severity, BugSearchCriteria.p_status,
+			BugSearchCriteria.p_affectedVersions,
+			BugSearchCriteria.p_fixedVersions, BugSearchCriteria.p_components,
 			BugSearchCriteria.p_assignee, BugSearchCriteria.p_resolveddate,
 			BugSearchCriteria.p_duedate, BugSearchCriteria.p_createdtime,
 			BugSearchCriteria.p_lastupdatedtime };
@@ -80,7 +84,7 @@ public class BugSearchPanel extends
 		this.bugtitle.setValue(title);
 	}
 
-	public void addRightComponent(ComponentContainer c) {
+	void addRightComponent(ComponentContainer c) {
 		rightComponent.addComponent(c);
 	}
 
@@ -259,6 +263,12 @@ public class BugSearchPanel extends
 		protected Component buildSelectionComp(String fieldId) {
 			if ("bug-assignuser".equals(fieldId)) {
 				return new ProjectMemberListSelect(false);
+			} else if ("bug_affected_versions".equals(fieldId)) {
+				return new VersionListSelect();
+			} else if ("bug_fixed_versions".equals(fieldId)) {
+				return new VersionListSelect();
+			} else if ("bug_components".equals(fieldId)) {
+				return new ComponentListSelect();
 			}
 			return null;
 		}

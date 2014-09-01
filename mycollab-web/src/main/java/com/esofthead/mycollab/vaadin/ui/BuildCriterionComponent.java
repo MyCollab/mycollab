@@ -35,6 +35,7 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.db.query.CompositionStringParam;
 import com.esofthead.mycollab.core.db.query.ConcatStringParam;
+import com.esofthead.mycollab.core.db.query.CustomSqlParam;
 import com.esofthead.mycollab.core.db.query.DateParam;
 import com.esofthead.mycollab.core.db.query.I18nStringListParam;
 import com.esofthead.mycollab.core.db.query.NumberParam;
@@ -394,7 +395,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					valueBox.addComponent(field);
 				}
 			} else if (param instanceof PropertyParam
-					|| param instanceof PropertyListParam) {
+					|| param instanceof PropertyListParam
+					|| param instanceof CustomSqlParam) {
 				Component comp = buildPropertySearchComp(param.getId());
 				if (comp != null) {
 					if (comp instanceof CustomField<?>
@@ -462,7 +464,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 							compareSelectionBox.loadData(DateParam.OPTIONS);
 						} else if (field instanceof PropertyParam) {
 							compareSelectionBox.loadData(PropertyParam.OPTIONS);
-						} else if (field instanceof PropertyListParam) {
+						} else if (field instanceof PropertyListParam
+								|| field instanceof CustomSqlParam) {
 							compareSelectionBox
 									.loadData(PropertyListParam.OPTIONS);
 						} else if (field instanceof StringListParam) {
@@ -528,7 +531,8 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					valueBox.addComponent(tempDateField);
 				}
 			} else if (field instanceof PropertyParam
-					|| field instanceof PropertyListParam) {
+					|| field instanceof PropertyListParam
+					|| field instanceof CustomSqlParam) {
 				Component comp = buildPropertySearchComp(field.getId());
 				if (comp != null) {
 					comp.setWidth(width);
@@ -676,7 +680,29 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					default:
 						throw new MyCollabException("Not support yet");
 					}
-				} else if (param instanceof PropertyParam) {
+				} else if (param instanceof CustomSqlParam) {
+					if (valueBox.getComponentCount() != 1) {
+						return null;
+					}
+
+					ListSelect field = (ListSelect) valueBox.getComponent(0);
+					Collection<?> value = (Collection<?>) field.getValue();
+					if (value.size() == 0) {
+						return null;
+					}
+					CustomSqlParam wrapParam = (CustomSqlParam) param;
+					switch (compareOper) {
+					case PropertyListParam.BELONG_TO:
+						return wrapParam.buildPropertyParamInList(
+								prefixOperation, value);
+					case PropertyListParam.NOT_BELONG_TO:
+						return wrapParam.buildPropertyParamNotInList(
+								prefixOperation, value);
+					default:
+						throw new MyCollabException("Not support yet");
+					}
+				}
+				else if (param instanceof PropertyParam) {
 					if (valueBox.getComponentCount() != 1) {
 						return null;
 					}

@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 
 /**
  * 
@@ -39,6 +38,7 @@ public class StringListParam extends ColumnParam {
 
 	private List<String> lstValues;
 
+	@SuppressWarnings("rawtypes")
 	public StringListParam(String id, Enum displayName, String table,
 			String column, List<String> values) {
 		super(id, displayName, table, column);
@@ -59,25 +59,9 @@ public class StringListParam extends ColumnParam {
 				this.getTable(), this.getColumn()), value);
 	}
 
-	public CollectionValueSearchField andStringParamInList(Collection<?> value) {
-		return buildStringParamInList(SearchField.AND, value);
-	}
-
-	public CollectionValueSearchField orStringParamInList(Collection<?> value) {
-		return buildStringParamInList(SearchField.OR, value);
-	}
-
 	public CollectionValueSearchField buildStringParamNotInList(String oper,
 			Collection<?> value) {
 		return new CollectionValueSearchField(oper, String.format(NOT_IN_EXPR,
 				this.getTable(), this.getColumn()), value);
-	}
-
-	public CollectionValueSearchField andStringParamNotInList(List<?> value) {
-		return buildStringParamNotInList(SearchField.AND, value);
-	}
-
-	public CollectionValueSearchField orStringParamNotInList(List<?> value) {
-		return buildStringParamNotInList(SearchField.OR, value);
 	}
 }

@@ -28,14 +28,14 @@ import com.esofthead.mycollab.core.arguments.SearchField;
  * 
  */
 public class NumberParam extends ColumnParam {
-	public static final String EQUAL = "=";
-	public static final String NOT_EQUAL = "<>";
-	public static final String LESS_THAN = "<";
-	public static final String LESS_THAN_EQUAL = "<=";
-	public static final String GREATER_THAN = ">";
-	public static final String GREATER_THAN_EQUAL = "=>";
-	public static final String IS_EMPTY = "is empty";
-	public static final String IS_NOT_EMPTY = "is not empty";
+	static final String EQUAL = "=";
+	static final String NOT_EQUAL = "<>";
+	static final String LESS_THAN = "<";
+	static final String LESS_THAN_EQUAL = "<=";
+	static final String GREATER_THAN = ">";
+	static final String GREATER_THAN_EQUAL = "=>";
+	static final String IS_EMPTY = "is empty";
+	static final String IS_NOT_EMPTY = "is not empty";
 
 	public static String[] OPTIONS = { EQUAL, NOT_EQUAL, LESS_THAN,
 			LESS_THAN_EQUAL, GREATER_THAN, GREATER_THAN_EQUAL, IS_EMPTY,

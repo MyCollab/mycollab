@@ -36,7 +36,7 @@ public class JpDateFormat implements IDateFormat {
 
 	@Override
 	public String getDateTimeFormat() {
-		return "yyyy/MM/dd  hh:mm a";
+		return "yyyy/MM/dd hh:mm a";
 	}
 
 	@Override

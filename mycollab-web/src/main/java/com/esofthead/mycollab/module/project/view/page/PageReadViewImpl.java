@@ -54,12 +54,15 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -299,49 +302,60 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		}
 	}
 
-	private class PageVersionSelectionBox extends ComboBox {
+	private class PageVersionSelectionBox extends CustomComponent {
 		private static final long serialVersionUID = 1L;
 
-		PageVersionSelectionBox() {
-			super();
-			this.setNullSelectionAllowed(false);
-			this.setStyleName("version-selection-box");
-			this.setTextInputAllowed(false);
+		private HorizontalLayout content;
 
-			this.addValueChangeListener(new ValueChangeListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void valueChange(
-						com.vaadin.data.Property.ValueChangeEvent event) {
-					PageVersion version = (PageVersion) PageVersionSelectionBox.this
-							.getValue();
-					if (version != null) {
-						Page page = wikiService.getPageByVersion(
-								beanItem.getPath(), version.getName());
-						page.setPath(beanItem.getPath());
-						previewForm.setBean(page);
-						previewLayout.setTitle(page.getSubject());
-						pageInfoComp.displayEntryInfo();
-					}
-				}
-			});
+		public PageVersionSelectionBox() {
+			content = new HorizontalLayout();
+			this.setCompositionRoot(content);
 		}
 
 		void displayVersions(String path) {
 			List<PageVersion> pageVersions = wikiService.getPageVersions(path);
-			this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-			this.setNullSelectionAllowed(false);
-
-			for (int i = 0; i < pageVersions.size(); i++) {
-				PageVersion version = pageVersions.get(i);
-				this.addItem(version);
-				this.setItemCaption(version, getVersionDisplay(version, i));
-			}
-
 			if (pageVersions.size() > 0) {
-				this.setValue(pageVersions.get(pageVersions.size() - 1));
+				final ComboBox pageSelection = new ComboBox();
+				content.addComponent(pageSelection);
+				pageSelection.setNullSelectionAllowed(false);
+				pageSelection.setStyleName("version-selection-box");
+				pageSelection.setTextInputAllowed(false);
+
+				pageSelection.addValueChangeListener(new ValueChangeListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void valueChange(
+							com.vaadin.data.Property.ValueChangeEvent event) {
+						PageVersion version = (PageVersion) pageSelection
+								.getValue();
+						if (version != null) {
+							Page page = wikiService.getPageByVersion(
+									beanItem.getPath(), version.getName());
+							page.setPath(beanItem.getPath());
+							previewForm.setBean(page);
+							previewLayout.setTitle(page.getSubject());
+							pageInfoComp.displayEntryInfo();
+						}
+					}
+				});
+
+				pageSelection.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+				pageSelection.setNullSelectionAllowed(false);
+
+				for (int i = 0; i < pageVersions.size(); i++) {
+					PageVersion version = pageVersions.get(i);
+					pageSelection.addItem(version);
+					pageSelection.setItemCaption(version,
+							getVersionDisplay(version, i));
+				}
+
+				if (pageVersions.size() > 0) {
+					pageSelection
+							.setValue(pageVersions.get(pageVersions.size() - 1));
+				}
 			}
+
 		}
 
 		String getVersionDisplay(PageVersion version, int index) {

@@ -108,8 +108,8 @@ public class BugServiceTest extends ServiceTest {
 	@Test
 	public void testSearchByVersions() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
-		criteria.setFixedversionids(new SetSearchField<Integer>(1, 2));
-		criteria.setAffectedversionids(new SetSearchField<Integer>(1, 2));
+		criteria.setFixedversionids(new SetSearchField<Integer>(1, 2, 3));
+		criteria.setAffectedversionids(new SetSearchField<Integer>(1, 2, 3));
 
 		Assert.assertEquals(1, bugService.getTotalCount(criteria));
 		Assert.assertEquals(
@@ -119,7 +119,6 @@ public class BugServiceTest extends ServiceTest {
 								Integer.MAX_VALUE)).size());
 	}
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByVersions2() {

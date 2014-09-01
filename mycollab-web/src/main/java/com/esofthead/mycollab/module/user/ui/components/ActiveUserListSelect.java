@@ -42,6 +42,7 @@ public class ActiveUserListSelect extends ListSelect {
 
 	private List<SimpleUser> userList;
 
+	@SuppressWarnings("unchecked")
 	public ActiveUserListSelect() {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		this.setMultiSelect(true);

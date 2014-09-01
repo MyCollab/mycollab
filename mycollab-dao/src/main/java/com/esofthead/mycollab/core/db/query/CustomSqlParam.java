@@ -14,40 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-dao.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.core.arguments;
+package com.esofthead.mycollab.core.db.query;
+
+import java.util.Collection;
+
+import com.esofthead.mycollab.core.arguments.NoValueSearchField;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 4.0
- * 
+ * @since 4.5.0
+ *
  */
-public class NoValueSearchField extends SearchField {
-	private static final long serialVersionUID = 1L;
-
-	private String queryCount;
-
-	private String querySelect;
-
-	public NoValueSearchField(String oper, String expression) {
-		this.operation = oper;
-		this.queryCount = expression;
-		this.querySelect = expression;
+public abstract class CustomSqlParam extends Param {
+	@SuppressWarnings("rawtypes")
+	public CustomSqlParam(String id, Enum displayName) {
+		super(id, displayName);
 	}
 
-	public String getQueryCount() {
-		return queryCount;
-	}
+	public abstract NoValueSearchField buildPropertyParamInList(String oper,
+			Collection<?> value);
 
-	public void setQueryCount(String queryCount) {
-		this.queryCount = queryCount;
-	}
-
-	public String getQuerySelect() {
-		return querySelect;
-	}
-
-	public void setQuerySelect(String querySelect) {
-		this.querySelect = querySelect;
-	}
+	public abstract NoValueSearchField buildPropertyParamNotInList(String oper,
+			Collection<?> value);
 }
