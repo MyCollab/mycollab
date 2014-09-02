@@ -28,6 +28,7 @@ import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -211,8 +212,10 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 									criteria));
 						} else if ("time".equals(caption)) {
 							ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-							searchCriteria.setProjectId(new NumberSearchField(
-									CurrentProjectVariables.getProjectId()));
+							searchCriteria
+									.setProjectIds(new SetSearchField<Integer>(
+											CurrentProjectVariables
+													.getProjectId()));
 							searchCriteria.setRangeDate(ItemTimeLoggingSearchCriteria
 									.getCurrentRangeDateOfWeekSearchField());
 							gotoTimeTrackingView(new TimeTrackingScreenData.Search(

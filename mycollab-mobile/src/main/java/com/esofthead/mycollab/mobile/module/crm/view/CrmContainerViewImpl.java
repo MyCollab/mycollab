@@ -34,7 +34,14 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
+import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ActivityI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.CaseI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
+import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -136,42 +143,56 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements
 							SearchField.AND, AppContext.getAccountId()));
 					accountPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/account/list", AppContext
+							.getMessage(AccountI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getContactTab()) {
 					ContactSearchCriteria criteria = new ContactSearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					contactPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/contact/list", AppContext
+							.getMessage(ContactI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getCampaignTab()) {
 					CampaignSearchCriteria criteria = new CampaignSearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					campaignPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/campaign/list", AppContext
+							.getMessage(CampaignI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getLeadTab()) {
 					LeadSearchCriteria criteria = new LeadSearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					leadPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/lead/list",
+							AppContext.getMessage(LeadI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getOpportunityTab()) {
 					OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					opportunityPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/opportunity/list", AppContext
+							.getMessage(OpportunityI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getCaseTab()) {
 					CaseSearchCriteria criteria = new CaseSearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					casePresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/cases/list",
+							AppContext.getMessage(CaseI18nEnum.VIEW_LIST_TITLE));
 				} else if (currentComponent == getActivityTab()) {
 					ActivitySearchCriteria criteria = new ActivitySearchCriteria();
 					criteria.setSaccountid(new NumberSearchField(
 							SearchField.AND, AppContext.getAccountId()));
 					activityPresenter.getView().getPagedBeanTable()
 							.setSearchCriteria(criteria);
+					AppContext.addFragment("crm/activity/list", AppContext
+							.getMessage(ActivityI18nEnum.M_VIEW_LIST_TITLE));
 				}
 			}
 		});
@@ -216,6 +237,41 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements
 		accountPresenter = PresenterResolver
 				.getPresenter(AccountListPresenter.class);
 		return accountPresenter.getView();
+	}
+
+	@Override
+	public void goToAccounts() {
+		this.setSelectedTab(getAccountTab());
+	}
+
+	@Override
+	public void goToContacts() {
+		this.setSelectedTab(getContactTab());
+	}
+
+	@Override
+	public void goToCampaigns() {
+		this.setSelectedTab(getCampaignTab());
+	}
+
+	@Override
+	public void goToCases() {
+		this.setSelectedTab(getCaseTab());
+	}
+
+	@Override
+	public void goToLeads() {
+		this.setSelectedTab(getLeadTab());
+	}
+
+	@Override
+	public void goToActivities() {
+		this.setSelectedTab(getActivityTab());
+	}
+
+	@Override
+	public void goToOpportunities() {
+		this.setSelectedTab(getOpportunityTab());
 	}
 
 }

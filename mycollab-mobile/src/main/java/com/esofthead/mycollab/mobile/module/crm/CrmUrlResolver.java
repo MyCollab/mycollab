@@ -17,9 +17,18 @@
 package com.esofthead.mycollab.mobile.module.crm;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.activity.ActivityUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.campaign.CampaignUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.cases.CaseUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadUrlResolver;
+import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityUrlResolver;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
@@ -32,12 +41,12 @@ public class CrmUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
 		this.addSubResolver("account", new AccountUrlResolver());
-		// this.addSubResolver("contact", new ContactUrlResolver());
-		// this.addSubResolver("campaign", new CampaignUrlResolver());
-		// this.addSubResolver("lead", new LeadUrlResolver());
-		// this.addSubResolver("opportunity", new OpportunityUrlResolver());
-		// this.addSubResolver("cases", new CaseUrlResolver());
-		// this.addSubResolver("activity", new ActivityUrlResolver());
+		this.addSubResolver("contact", new ContactUrlResolver());
+		this.addSubResolver("campaign", new CampaignUrlResolver());
+		this.addSubResolver("lead", new LeadUrlResolver());
+		this.addSubResolver("opportunity", new OpportunityUrlResolver());
+		this.addSubResolver("cases", new CaseUrlResolver());
+		this.addSubResolver("activity", new ActivityUrlResolver());
 		return this;
 	}
 
@@ -49,6 +58,18 @@ public class CrmUrlResolver extends UrlResolver {
 		} else {
 			super.handle(params);
 		}
+	}
+
+	@Override
+	protected void handlePage(String... params) {
+		super.handlePage(params);
+		EventBusFactory
+				.getInstance()
+				.post(new CrmEvent.GotoContainer(
+						this,
+						new CrmModuleScreenData.GotoModule(
+								AppContext
+										.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER))));
 	}
 
 	@Override

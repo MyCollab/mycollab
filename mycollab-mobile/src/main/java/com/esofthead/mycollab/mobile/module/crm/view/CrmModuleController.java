@@ -29,6 +29,7 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
+import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent.CallEdit;
@@ -162,7 +163,8 @@ public class CrmModuleController extends AbstractController {
 			public void handle(CrmEvent.GotoContainer event) {
 				CrmContainerPresenter presenter = PresenterResolver
 						.getPresenter(CrmContainerPresenter.class);
-				presenter.go(crmViewNavigation, null);
+				presenter.go(crmViewNavigation,
+						(CrmModuleScreenData.GotoModule) event.getData());
 			}
 		});
 

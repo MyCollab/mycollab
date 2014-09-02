@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -55,6 +56,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.resource.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
@@ -84,9 +86,9 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
-			TimeTrackingSummaryView {
+		TimeTrackingSummaryView {
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"EEEE, dd MMMM yyyy");
 	private static final List<TableViewField> FIELDS = Arrays.asList(
@@ -103,13 +105,16 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	private SplitButton exportButtonControl;
 
 	private ItemTimeLoggingSearchCriteria searchCriteria;
+	private Date fromDate, toDate;
 	private ItemTimeLoggingService itemTimeLoggingService;
 
 	private VerticalLayout layoutItem;
-	private MarginInfo marginInfo = new MarginInfo(true, false, false, false);
 
 	public TimeTrackingSummaryViewImpl() {
 		this.setWidth("100%");
+
+		itemTimeLoggingService = ApplicationContextUtil
+				.getSpringBean(ItemTimeLoggingService.class);
 
 		final CssLayout headerWrapper = new CssLayout();
 		headerWrapper.setWidth("100%");
@@ -189,9 +194,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 					@Override
 					public void buttonClick(final ClickEvent event) {
-						Date from = fromDateField.getValue();
-						Date to = toDateField.getValue();
-						searchTimeReporting(from, to);
+						fromDate = fromDateField.getValue();
+						toDate = toDateField.getValue();
+						searchCriteria.setRangeDate(new RangeDateSearchField(
+								fromDate, toDate));
+						searchTimeReporting();
 					}
 				});
 		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -201,11 +208,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
 		controlsPanel.setSpacing(true);
-		
+
 		loggingPanel.setWidth("100%");
 		loggingPanel.setHeight("30px");
 		loggingPanel.setSpacing(true);
-		
+
 		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs",
 				ContentMode.HTML);
 		totalHoursLoggingLabel.addStyleName(UIConstants.LAYOUT_LOG);
@@ -257,7 +264,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 				Alignment.TOP_RIGHT);
 		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
 		controlBtns.setSizeFull();
-		
+
 		this.layoutItem = new VerticalLayout();
 		this.layoutItem.addStyleName(UIConstants.LAYOUT_LOG);
 		this.layoutItem.setWidth("100%");
@@ -273,10 +280,8 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			protected StreamSource buildStreamSource() {
 				return new SimpleGridExportItemsStreamResource.AllItems<ItemTimeLoggingSearchCriteria, SimpleItemTimeLogging>(
 						"Time Tracking Report", new RpParameterBuilder(FIELDS),
-						exportType,
-						ApplicationContextUtil
-								.getSpringBean(ItemTimeLoggingService.class),
-						searchCriteria, SimpleItemTimeLogging.class);
+						exportType, itemTimeLoggingService, searchCriteria,
+						SimpleItemTimeLogging.class);
 			}
 		};
 		StreamResource res = new StreamResource(streamSource,
@@ -285,30 +290,28 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	}
 
 	@Override
-	public void display() {
+	public void display(Collection<Integer> projectIds) {
 		Calendar date = new GregorianCalendar();
-		date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		date.set(Calendar.DAY_OF_MONTH, 1);
 
-		Date from = date.getTime();
-		date.add(Calendar.DATE, 6);
-		Date to = date.getTime();
+		fromDate = date.getTime();
+		date.add(Calendar.DAY_OF_MONTH,
+				date.getActualMaximum(Calendar.DAY_OF_MONTH));
+		toDate = date.getTime();
 
-		fromDateField.setValue(from);
-		toDateField.setValue(to);
-		this.searchTimeReporting(from, to);
-	}
+		fromDateField.setValue(fromDate);
+		toDateField.setValue(toDate);
 
-	private void searchTimeReporting(Date from, Date to) {
 		searchCriteria = new ItemTimeLoggingSearchCriteria();
 		searchCriteria.setLogUsers(new SetSearchField<String>(SearchField.AND,
-				new String[]{AppContext.getUsername()}));
-		searchCriteria.setRangeDate(new RangeDateSearchField(from, to));
+				new String[] { AppContext.getUsername() }));
+		searchCriteria.setProjectIds(new SetSearchField<Integer>(
+				((Integer[]) projectIds.toArray(new Integer[0]))));
+		searchCriteria.setRangeDate(new RangeDateSearchField(fromDate, toDate));
+	}
 
-		itemTimeLoggingService = ApplicationContextUtil
-				.getSpringBean(ItemTimeLoggingService.class);
-
-		final String fromDate = AppContext.formatDate(from);
-		final String toDate = AppContext.formatDate(to);
+	private void searchTimeReporting() {
+		this.layoutItem.removeAllComponents();
 
 		searchCriteria.setIsBillable(new BooleanSearchField(true));
 		Double billableHour = this.itemTimeLoggingService
@@ -331,14 +334,14 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		if (totalHour == null || totalHour < 0) {
 			totalHoursLoggingLabel.setValue("Total hours logging: 0 Hrs");
 		} else {
-			totalHoursLoggingLabel.setValue(AppContext.getMessage(
-					TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
-					fromDate, toDate, totalHour, billableHour, nonbillableHour));
+			totalHoursLoggingLabel
+					.setValue(AppContext
+							.getMessage(
+									TimeTrackingI18nEnum.TASK_LIST_RANGE_WITH_TOTAL_HOUR,
+									fromDate, toDate, totalHour, billableHour,
+									nonbillableHour));
 		}
 
-		// TODO
-		this.layoutItem.removeAllComponents();
-		
 		@SuppressWarnings("unchecked")
 		List<SimpleItemTimeLogging> itemTimeLoggingList = itemTimeLoggingService
 				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
@@ -363,7 +366,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			nonbillable += !itemTimeLogging.getIsbillable() ? itemTimeLogging
 					.getLogvalue() : 0;
 		}
-        showRecord(current, list, billable, nonbillable);
+		showRecord(current, list, billable, nonbillable);
 	}
 
 	private void showRecord(Date date, List<SimpleItemTimeLogging> list,
@@ -377,19 +380,22 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 					FIELDS);
 			table.addStyleName(UIConstants.FULL_BORDER_TABLE);
 			table.addTableListener(this.tableClickListener);
-			table.setMargin(marginInfo);
+			table.setMargin(new MarginInfo(true, false, false, false));
 			table.setCurrentDataList(list);
 			this.layoutItem.addComponent(table);
 
-			Label labelTotalHours = new Label(("Total Hours: " + (billable + nonbillable)));
+			Label labelTotalHours = new Label(
+					("Total Hours: " + (billable + nonbillable)));
 			labelTotalHours.addStyleName(UIConstants.TEXT_LOG_HOURS_TOTAL);
 			this.layoutItem.addComponent(labelTotalHours);
 
-			Label labelBillableHours = new Label(("Billable Hours: " + billable));
+			Label labelBillableHours = new Label(
+					("Billable Hours: " + billable));
 			labelBillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
 			this.layoutItem.addComponent(labelBillableHours);
 
-			Label labelNonbillableHours = new Label(("Non Billable Hours: " + nonbillable));
+			Label labelNonbillableHours = new Label(
+					("Non Billable Hours: " + nonbillable));
 			labelNonbillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
 			this.layoutItem.addComponent(labelNonbillableHours);
 		}

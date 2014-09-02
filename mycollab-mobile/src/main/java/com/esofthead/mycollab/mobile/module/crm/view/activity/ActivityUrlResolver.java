@@ -17,8 +17,11 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.CrmUrlResolver;
-import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * 
@@ -37,8 +40,13 @@ public class ActivityUrlResolver extends CrmUrlResolver {
 	public static class ActivityListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBusFactory.getInstance().post(
-					new ActivityEvent.GotoList(this, null));
+			EventBusFactory
+					.getInstance()
+					.post(new CrmEvent.GotoContainer(
+							this,
+							new CrmModuleScreenData.GotoModule(
+									AppContext
+											.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER))));
 		}
 	}
 }

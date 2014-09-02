@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.view.parameters.FollowingTicketsScr
 import com.esofthead.mycollab.vaadin.mvp.AbstractController;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.google.common.eventbus.Subscribe;
 
 /**
@@ -86,7 +87,7 @@ public class ProjectModuleController extends AbstractController {
 			public void handle(TimeTrackingEvent.GotoTimeTrackingView event) {
 				TimeTrackingSummaryPresenter presenter = PresenterResolver
 						.getPresenter(TimeTrackingSummaryPresenter.class);
-				presenter.go(container, null);
+				presenter.go(container, new ScreenData(event.getData()));
 			}
 		});
 	}

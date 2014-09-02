@@ -25,5 +25,17 @@ import com.esofthead.mycollab.vaadin.mvp.IModule;
  *
  */
 public interface CrmContainerView extends IModule {
+	public void goToAccounts();
 
+	public void goToContacts();
+
+	public void goToCampaigns();
+
+	public void goToCases();
+
+	public void goToLeads();
+
+	public void goToActivities();
+
+	public void goToOpportunities();
 }

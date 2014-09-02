@@ -54,6 +54,7 @@ Version 4.5.0
 * Improve error handling in event bus implementation
 * The project time tracking views support multiple views
 * Create the default task group when user create the new project
+* Support more search criteria for bug
 
 **Bug Fixes**
 

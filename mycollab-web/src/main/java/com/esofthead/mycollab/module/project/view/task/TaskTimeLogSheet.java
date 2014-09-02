@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -45,8 +46,8 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<Integer>(
+				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(true));
@@ -56,8 +57,8 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 	@Override
 	protected Double getTotalNonBillableHours(SimpleTask bean) {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
-		criteria.setProjectId(new NumberSearchField(CurrentProjectVariables
-				.getProjectId()));
+		criteria.setProjectIds(new SetSearchField<Integer>(
+				CurrentProjectVariables.getProjectId()));
 		criteria.setType(new StringSearchField(ProjectTypeConstants.TASK));
 		criteria.setTypeId(new NumberSearchField(bean.getId()));
 		criteria.setIsBillable(new BooleanSearchField(false));
@@ -130,7 +131,7 @@ public class TaskTimeLogSheet extends TimeLogComp<SimpleTask> {
 		@Override
 		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
 			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
-			searchCriteria.setProjectId(new NumberSearchField(
+			searchCriteria.setProjectIds(new SetSearchField<Integer>(
 					CurrentProjectVariables.getProjectId()));
 			searchCriteria.setType(new StringSearchField(
 					ProjectTypeConstants.TASK));

@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import java.util.Collection;
+
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
@@ -25,5 +27,5 @@ import com.esofthead.mycollab.vaadin.mvp.PageView;
  * 
  */
 public interface TimeTrackingSummaryView extends PageView {
-	void display();
+	void display(Collection<Integer> projectIds);
 }

@@ -49,7 +49,7 @@ public class ContactUrlResolver extends CrmUrlResolver {
 							this,
 							new CrmModuleScreenData.GotoModule(
 									AppContext
-											.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER))));
+											.getMessage(CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER))));
 		}
 	}
 

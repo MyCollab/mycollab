@@ -19,47 +19,54 @@ package com.esofthead.mycollab.vaadin.mvp;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ * @param <P>
+ */
 public class ScreenData<P> {
 
-    protected P params;
+	private P params;
 
-    public ScreenData(P params) {
-        this.params = params;
-    }
+	public ScreenData(P params) {
+		this.params = params;
+	}
 
-    public P getParams() {
-        return params;
-    }
+	public P getParams() {
+		return params;
+	}
 
-    public void setParams(P params) {
-        this.params = params;
-    }
+	public void setParams(P params) {
+		this.params = params;
+	}
 
-    public static class Add<P> extends ScreenData<P> {
+	public static class Add<P> extends ScreenData<P> {
 
-        public Add(P params) {
-            super(params);
-        }
-    }
+		public Add(P params) {
+			super(params);
+		}
+	}
 
-    public static class Edit<P> extends ScreenData<P> {
+	public static class Edit<P> extends ScreenData<P> {
 
-        public Edit(P params) {
-            super(params);
-        }
-    }
+		public Edit(P params) {
+			super(params);
+		}
+	}
 
-    public static class Preview<P> extends ScreenData<P> {
+	public static class Preview<P> extends ScreenData<P> {
 
-        public Preview(P params) {
-            super(params);
-        }
-    }
+		public Preview(P params) {
+			super(params);
+		}
+	}
 
-    public static class Search<S extends SearchCriteria> extends ScreenData<S> {
+	public static class Search<S extends SearchCriteria> extends ScreenData<S> {
 
-        public Search(S params) {
-            super(params);
-        }
-    }
+		public Search(S params) {
+			super(params);
+		}
+	}
 }

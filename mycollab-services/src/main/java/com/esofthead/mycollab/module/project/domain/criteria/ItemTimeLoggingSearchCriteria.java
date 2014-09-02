@@ -36,35 +36,34 @@ import com.esofthead.mycollab.core.utils.DateTimeUtils;
 public class ItemTimeLoggingSearchCriteria extends SearchCriteria {
 	private static final long serialVersionUID = 1L;
 
-	private NumberSearchField projectId;
+	private SetSearchField<Integer> projectIds;
 
 	private SetSearchField<String> logUsers;
 
 	private RangeDateSearchField rangeDate;
-	
+
 	private StringSearchField type;
-	
+
 	private NumberSearchField typeId;
-	
+
 	private BooleanSearchField isBillable;
-	
-	
+
 	public static RangeDateSearchField getCurrentRangeDateOfWeekSearchField() {
-		
+
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		
+
 		Date fDate = c.getTime();
 		Date tDate = DateTimeUtils.subtractOrAddDayDuration(fDate, 7);
 		return new RangeDateSearchField(fDate, tDate);
 	}
 
-	public NumberSearchField getProjectId() {
-		return projectId;
+	public SetSearchField<Integer> getProjectIds() {
+		return projectIds;
 	}
 
-	public void setProjectId(NumberSearchField projectId) {
-		this.projectId = projectId;
+	public void setProjectIds(SetSearchField<Integer> projectIds) {
+		this.projectIds = projectIds;
 	}
 
 	public SetSearchField<String> getLogUsers() {

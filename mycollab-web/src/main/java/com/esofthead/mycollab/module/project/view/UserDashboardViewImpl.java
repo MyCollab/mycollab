@@ -163,7 +163,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 			public void buttonClick(ClickEvent event) {
 				EventBusFactory.getInstance().post(
 						new TimeTrackingEvent.GotoTimeTrackingView(
-								UserDashboardViewImpl.this, null));
+								UserDashboardViewImpl.this, prjKeys));
 			}
 		});
 		timeTrackingLink.setIcon(MyCollabResource

@@ -26,10 +26,6 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
-        #ifnotnull($searchCriteria.projectId)
-            ${searchCriteria.projectId.operation} m_prj_time_logging.projectId = @{searchCriteria.projectId.value,jdbcType=NUMERIC}
-        #end
-        
         #ifnotnull($searchCriteria.type)
             ${searchCriteria.type.operation} m_prj_time_logging.type = @{searchCriteria.type.value}
         #end
@@ -40,6 +36,14 @@
         
         #ifnotnull($searchCriteria.isBillable)
             ${searchCriteria.isBillable.operation} m_prj_time_logging.isBillable = @{searchCriteria.isBillable.value,jdbcType=BOOLEAN}
+        #end
+        
+        #ifnotnull($searchCriteria.projectIds)
+            ${searchCriteria.projectIds.operation} 
+            m_prj_time_logging.projectId IN
+            #repeat(${searchCriteria.projectIds.values} $projectId "," "(" ")")
+                @{projectId}
+            #end
         #end
         
         #ifnotnull($searchCriteria.rangeDate)

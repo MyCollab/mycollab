@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import java.util.Collection;
+
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.Alignment;
@@ -28,7 +30,8 @@ import com.vaadin.ui.ComponentContainer;
  * @since 1.0
  * 
  */
-public class TimeTrackingSummaryPresenter extends AbstractPresenter<TimeTrackingSummaryView> {
+public class TimeTrackingSummaryPresenter extends
+		AbstractPresenter<TimeTrackingSummaryView> {
 	private static final long serialVersionUID = 1L;
 
 	public TimeTrackingSummaryPresenter() {
@@ -41,6 +44,6 @@ public class TimeTrackingSummaryPresenter extends AbstractPresenter<TimeTracking
 		prjContainer.removeAllComponents();
 		prjContainer.addComponent((Component) view);
 		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
-		view.display();
+		view.display((Collection<Integer>) data.getParams());
 	}
 }

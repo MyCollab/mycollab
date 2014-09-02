@@ -16,10 +16,14 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view;
 
+import java.util.Arrays;
+
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.mobile.MobileApplication;
+import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.ui.ComponentContainer;
@@ -43,17 +47,48 @@ public class CrmContainerPresenter extends
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
 		ModuleHelper.setCurrentModule(view);
 		super.onGo(navigator, data);
-		// EventBusFactory.getInstance().post(
-		// new AccountEvent.GotoList(navigator, data));
-		String url = MobileApplication.getInstance().getInitialUrl();
-		if (url != null && !url.equals("")) {
-			if (url.startsWith("/")) {
-				url = url.substring(1);
+		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+		if (data == null) {
+			view.goToAccounts();
+			String url = MobileApplication.getInstance().getInitialUrl();
+			if (url != null && !url.equals("")) {
+				String[] tokens = url.split("/");
+				if (tokens.length > 1) {
+					String[] fragments = Arrays.copyOfRange(tokens, 1,
+							tokens.length);
+					MobileApplication.rootUrlResolver.getSubResolver("crm")
+							.handle(fragments);
+				}
 			}
-			MobileApplication.rootUrlResolver.navigateByFragement(url);
+			return;
 		}
 
-		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+		String submodule = ((CrmModuleScreenData.GotoModule) data).getParams();
+		if (AppContext.getMessage(CrmCommonI18nEnum.TOOLBAR_ACCOUNTS_HEADER)
+				.equals(submodule)) {
+			view.goToAccounts();
+		} else if (AppContext.getMessage(
+				CrmCommonI18nEnum.TOOLBAR_CONTACTS_HEADER).equals(submodule)) {
+			view.goToContacts();
+		} else if (AppContext
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER).equals(
+						submodule)) {
+			view.goToCases();
+		} else if (AppContext.getMessage(
+				CrmCommonI18nEnum.TOOLBAR_CAMPAIGNS_HEADER).equals(submodule)) {
+			view.goToCampaigns();
+		} else if (AppContext
+				.getMessage(CrmCommonI18nEnum.TOOLBAR_LEADS_HEADER).equals(
+						submodule)) {
+			view.goToLeads();
+		} else if (AppContext.getMessage(
+				CrmCommonI18nEnum.TOOLBAR_OPPORTUNTIES_HEADER)
+				.equals(submodule)) {
+			view.goToOpportunities();
+		} else if (AppContext.getMessage(
+				CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER).equals(submodule)) {
+			view.goToActivities();
+		}
 	}
 
 }

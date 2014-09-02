@@ -18,9 +18,13 @@ package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.CrmUrlResolver;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
+import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
+import com.esofthead.mycollab.module.crm.i18n.CrmCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -39,8 +43,13 @@ public class CaseUrlResolver extends CrmUrlResolver {
 	public static class CaseListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBusFactory.getInstance().post(
-					new CaseEvent.GotoList(this, null));
+			EventBusFactory
+					.getInstance()
+					.post(new CrmEvent.GotoContainer(
+							this,
+							new CrmModuleScreenData.GotoModule(
+									AppContext
+											.getMessage(CrmCommonI18nEnum.TOOLBAR_CASES_HEADER))));
 		}
 	}
 
