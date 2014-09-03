@@ -66,7 +66,7 @@ public class BugSimpleDisplayWidget extends
 						}
 					});
 			bugLink.setStyleName("link");
-			bugLink.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			bugLink.setWidthUndefined();
 			if (bug.isCompleted()) {
 				bugLink.addStyleName(UIConstants.LINK_COMPLETED);
 			} else if (bug.isOverdue()) {

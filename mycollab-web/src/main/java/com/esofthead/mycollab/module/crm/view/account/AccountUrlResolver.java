@@ -36,7 +36,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 		this.addSubResolver("edit", new AccountEditUrlResolver());
 	}
 
-	public static class AccountListUrlResolver extends CrmUrlResolver {
+	private static class AccountListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			EventBusFactory.getInstance().post(
@@ -44,7 +44,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 		}
 	}
 
-	public static class AccountAddUrlResolver extends CrmUrlResolver {
+	private static class AccountAddUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			EventBusFactory.getInstance().post(
@@ -52,7 +52,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 		}
 	}
 
-	public static class AccountEditUrlResolver extends CrmUrlResolver {
+	private static class AccountEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
@@ -62,7 +62,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 		}
 	}
 
-	public static class AccountPreviewUrlResolver extends CrmUrlResolver {
+	private static class AccountPreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);

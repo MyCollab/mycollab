@@ -75,7 +75,7 @@ public class AuditLogAspect {
 	@Autowired
 	private RelayEmailNotificationService relayEmailNotificationService;
 
-	@Before("execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) && args(bean, username)")
+	@Before("(execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) || (execution(public * com.esofthead.mycollab..service..*.updateSelectiveWithSession(..)))) && args(bean, username)")
 	public void traceBeforeUpdateActivity(JoinPoint joinPoint, Object bean,
 			String username) {
 
@@ -113,7 +113,7 @@ public class AuditLogAspect {
 		}
 	}
 
-	@AfterReturning("execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) && args(bean, username)")
+	@AfterReturning("(execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) || (execution(public * com.esofthead.mycollab..service..*.updateSelectiveWithSession(..))))  && args(bean, username)")
 	public void traceAfterUpdateActivity(JoinPoint joinPoint, Object bean,
 			String username) {
 

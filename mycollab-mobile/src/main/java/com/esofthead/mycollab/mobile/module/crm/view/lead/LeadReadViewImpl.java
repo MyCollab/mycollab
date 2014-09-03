@@ -74,7 +74,7 @@ public class LeadReadViewImpl extends AbstractPreviewItemComp<SimpleLead>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateCampaigns.displayCampaign(beanItem);
 		associateNotes.showNotes(CrmTypeConstants.LEAD, beanItem.getId());
 		associateActivities.displayActivity(beanItem.getId());

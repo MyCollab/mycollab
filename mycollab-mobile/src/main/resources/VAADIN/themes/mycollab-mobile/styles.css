@@ -108,6 +108,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Filterselect */
   /* Message Row */
   /* Confirm Dialog */
+  /* Project Dashboard */
 }
 .mycollab-mobile .v-table-body {
   border: none;
@@ -772,4 +773,48 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   display: inline-block;
   vertical-align: middle;
   height: 100%;
+}
+.mycollab-mobile .project-dashboard {
+  background-color: white;
+}
+.mycollab-mobile .project-dashboard .project-info-layout {
+  padding: 1.2rem 0rem;
+  background-color: #14171a;
+  color: white;
+}
+.mycollab-mobile .project-dashboard .project-info-layout .project-icon {
+  font-size: 5rem;
+  line-height: 5rem;
+  border: 0.3rem solid white;
+  border-radius: 4rem;
+  padding: 1rem;
+}
+.mycollab-mobile .project-dashboard .project-info-layout .project-name {
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding-top: 0.6rem;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout {
+  display: block;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-gridlayout-spacing-on {
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-button {
+  background-color: transparent;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap {
+  padding-top: 0.3rem;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption span {
+  font-size: 3.8rem;
+  line-height: 4rem;
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption div {
+  color: #525252;
+  font-size: 1.1rem;
+  text-transform: uppercase;
 }

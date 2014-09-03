@@ -122,7 +122,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		layout.setMargin(true);
 
 		HorizontalLayout buttonWrapper = new HorizontalLayout();
-		buttonWrapper.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		buttonWrapper.setWidthUndefined();
 		buttonWrapper.setSpacing(true);
 
 		Button updateBtn = new Button("Update", new Button.ClickListener() {

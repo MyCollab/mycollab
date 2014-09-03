@@ -45,7 +45,9 @@ import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.vaadin.mobilecomponent.MobileNavigationManager;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
 
 /**
  * @author MyCollab Ltd.
@@ -69,6 +71,8 @@ public class CrmContainerViewImpl extends AbstractMobileTabPageView implements
 	private CaseListPresenter casePresenter;
 
 	public CrmContainerViewImpl() {
+		((MobileNavigationManager) UI.getCurrent().getContent())
+				.setNavigationMenu(null);
 		buildComponents();
 	}
 

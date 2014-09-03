@@ -65,7 +65,7 @@ public class MeetingReadViewImpl extends AbstractPreviewItemComp<SimpleMeeting>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.MEETING, beanItem.getId());
 	}
 

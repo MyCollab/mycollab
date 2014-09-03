@@ -134,7 +134,7 @@ public class MilestoneReadViewImpl extends
 				});
 		toggleViewBtn.setIcon(MyCollabResource
 				.newResource("icons/16/switch-view.png"));
-		controlsGenerator.addOption(toggleViewBtn);
+		controlsGenerator.addOptionButton(toggleViewBtn);
 		return controlsGenerator
 				.createButtonControls(ProjectRolePermissionCollections.MILESTONES);
 	}

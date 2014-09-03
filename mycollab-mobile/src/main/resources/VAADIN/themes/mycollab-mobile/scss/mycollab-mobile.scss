@@ -717,4 +717,57 @@
 	    	}
 		}
     }
+    
+    /* Project Dashboard */
+    .project-dashboard {
+    	background-color: rgb(255, 255, 255);
+    	
+	    .project-info-layout {
+		    padding: 1.2rem 0rem;
+			background-color: rgb(20, 23, 26);
+			color: rgb(255, 255, 255);
+	    	.project-icon {
+	    		font-size: 5rem;
+				line-height: 5rem;
+				border: 0.3rem solid rgb(255, 255, 255);
+				border-radius: 4rem;
+				padding: 1rem;
+	    	}
+	    	.project-name {
+				font-weight: bold;
+				font-size: 1.4rem;
+				padding-top: 0.6rem;
+			}
+	    }
+	    
+	    .project-modules-layout {
+	    	display: block;
+	    	margin: 0 auto;
+	    	padding-top: 2rem;
+	    	
+	    	.v-gridlayout-spacing-on {
+	    		padding-top: 1rem;
+	    		padding-left: 1rem;
+	    	}
+	    	
+		    .v-button {
+				background-color: transparent;
+				.v-button-wrap {
+					padding-top: 0.3rem;
+					.v-button-caption {
+						span {
+							font-size: 3.8rem;
+							line-height: 4rem;
+						}
+						div {
+							color: rgb(82, 82, 82);
+							font-size: 1.1rem;
+							text-transform: uppercase;
+						}
+					}
+				}				
+			}
+	    }
+    }
+    
 }

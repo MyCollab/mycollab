@@ -58,7 +58,7 @@ public interface ICrudService<K extends Serializable, T> extends IService {
 	 * @return
 	 */
 	@CacheEvict
-	int updateWithSessionWithSelective(@CacheKey T record, String username);
+	int updateSelectiveWithSession(@CacheKey T record, String username);
 
 	/**
 	 * 

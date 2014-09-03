@@ -28,7 +28,6 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.Message;
 import com.esofthead.mycollab.module.project.domain.Milestone;
 import com.esofthead.mycollab.module.project.domain.Problem;
-import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
@@ -66,8 +65,8 @@ import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.wiki.domain.Folder;
 import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -617,7 +616,7 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 						task.getTaskname()));
 	}
 
-	public class GotoTaskAssignmentDashboard implements Button.ClickListener {
+	private static class GotoTaskAssignmentDashboard implements Button.ClickListener {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -629,7 +628,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoBugDashboard() {
 		this.select(0);
-		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS)));
+		this.addLink(new Button(AppContext
+				.getMessage(BreadcrumbI18nEnum.BUGS_DASHBOARD)));
 		AppContext.addFragment(
 				ProjectLinkGenerator.generateBugDashboardLink(project.getId()),
 				AppContext.getMessage(BreadcrumbI18nEnum.FRA_BUG_DASHBOARD));
@@ -637,7 +637,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoBugList() {
 		this.select(0);
-		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+		this.addLink(new Button(AppContext
+				.getMessage(BreadcrumbI18nEnum.BUGS_DASHBOARD),
 				new GotoBugDashboardListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
@@ -649,9 +650,15 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoBugAdd() {
 		this.select(0);
-		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+		this.addLink(new Button(AppContext
+				.getMessage(BreadcrumbI18nEnum.BUGS_DASHBOARD),
 				new GotoBugDashboardListener()));
 		this.setLinkEnabled(true, 1);
+
+		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+				new GotoBugListListener()));
+		this.setLinkEnabled(true, 2);
+
 		this.addLink(new Button(AppContext
 				.getMessage(BreadcrumbI18nEnum.FRA_BUG_NEW)));
 		AppContext.addFragment(
@@ -661,9 +668,15 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoBugEdit(final BugWithBLOBs bug) {
 		this.select(0);
-		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+		this.addLink(new Button(AppContext
+				.getMessage(BreadcrumbI18nEnum.BUGS_DASHBOARD),
 				new GotoBugDashboardListener()));
 		this.setLinkEnabled(true, 1);
+
+		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+				new GotoBugListListener()));
+		this.setLinkEnabled(true, 2);
+
 		this.addLink(generateBreadcrumbLink(bug.getSummary(),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -686,9 +699,15 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 
 	public void gotoBugRead(BugWithBLOBs bug) {
 		this.select(0);
-		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+		this.addLink(new Button(AppContext
+				.getMessage(BreadcrumbI18nEnum.BUGS_DASHBOARD),
 				new GotoBugDashboardListener()));
 		this.setLinkEnabled(true, 1);
+
+		this.addLink(new Button(AppContext.getMessage(BreadcrumbI18nEnum.BUGS),
+				new GotoBugListListener()));
+		this.setLinkEnabled(true, 2);
+
 		this.addLink(generateBreadcrumbLink(bug.getSummary()));
 		AppContext.addFragment(ProjectLinkGenerator.generateBugPreviewLink(
 				bug.getProjectid(), bug.getId()), AppContext.getMessage(
@@ -995,9 +1014,9 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		this.addLink(new Button(AppContext
 				.getMessage(BreadcrumbI18nEnum.FRA_SETTING),
 				new GotoNotificationSetttingListener()));
-		AppContext.addFragment("project/setting/"
-				+ UrlEncodeDecoder.encode(project.getId()), AppContext
-				.getMessage(BreadcrumbI18nEnum.FRA_SETTING));
+		AppContext.addFragment(
+				"project/setting/" + UrlEncodeDecoder.encode(project.getId()),
+				AppContext.getMessage(BreadcrumbI18nEnum.FRA_SETTING));
 	}
 
 	public void gotoRoleAdd() {
@@ -1087,6 +1106,16 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 		public void buttonClick(ClickEvent event) {
 			EventBusFactory.getInstance().post(
 					new BugEvent.GotoDashboard(this, null));
+		}
+	}
+
+	private static class GotoBugListListener implements Button.ClickListener {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void buttonClick(ClickEvent event) {
+			EventBusFactory.getInstance().post(
+					new BugEvent.GotoList(this, null));
 		}
 	}
 

@@ -82,7 +82,7 @@ public class OpportunityReadViewImpl extends
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateActivities.displayActivity(beanItem.getId());
 		associateNotes
 				.showNotes(CrmTypeConstants.OPPORTUNITY, beanItem.getId());

@@ -123,7 +123,7 @@ public class NotesList extends AbstractMobilePageView {
 		Button postBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL));
 		postBtn.setStyleName("submit-btn");
-		postBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		postBtn.setWidthUndefined();
 		postBtn.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -5095455325725786794L;
 

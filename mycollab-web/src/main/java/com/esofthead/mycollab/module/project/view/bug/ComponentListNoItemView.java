@@ -62,12 +62,12 @@ public class ComponentListNoItemView extends AbstractPageView {
 		Label title = new Label(
 				AppContext.getMessage(ComponentI18nEnum.VIEW_NO_ITEM_TITLE));
 		title.addStyleName("h2");
-		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		title.setWidthUndefined();
 		layout.addComponent(title);
 
 		Label body = new Label(
 				AppContext.getMessage(ComponentI18nEnum.VIEW_NO_ITEM_HINT));
-		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		body.setWidthUndefined();
 		layout.addComponent(body);
 
 		Button createComponentBtn = new Button(

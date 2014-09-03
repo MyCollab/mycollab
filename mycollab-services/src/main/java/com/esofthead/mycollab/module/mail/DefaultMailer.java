@@ -43,14 +43,12 @@ public class DefaultMailer implements IMailer {
 	private String username = null;
 	private String password = null;
 	private boolean isTLS = false;
-	private int port;
 
 	public DefaultMailer(EmailConfiguration emailConf) {
 		this.host = emailConf.getHost();
 		this.username = emailConf.getUser();
 		this.password = emailConf.getPassword();
 		this.isTLS = emailConf.isTls();
-		this.port = emailConf.getPort();
 	}
 
 	private HtmlEmail getBasicEmail(String fromEmail, String fromName,
@@ -125,9 +123,9 @@ public class DefaultMailer implements IMailer {
 			HtmlEmail email = getBasicEmail(fromEmail, fromName, toEmail,
 					ccEmail, bccEmail, subject, html);
 
-			if (log.isDebugEnabled()) {
-				email.setDebug(true);
-			}
+			// if (log.isDebugEnabled()) {
+			// email.setDebug(true);
+			// }
 			email.send();
 		} catch (EmailException e) {
 			throw new MyCollabException(e);
@@ -151,9 +149,9 @@ public class DefaultMailer implements IMailer {
 					email.attach(attachment.getAttachmentObj());
 				}
 
-				if (log.isDebugEnabled()) {
-					email.setDebug(true);
-				}
+				// if (log.isDebugEnabled()) {
+				// email.setDebug(true);
+				// }
 
 				email.send();
 			}

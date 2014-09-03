@@ -67,7 +67,7 @@ public class AccountReadViewImpl extends AbstractPreviewItemComp<SimpleAccount>
 	protected AccountRelatedOpportunityView associateOpportunities;
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.ACCOUNT, beanItem.getId());
 		associateContacts.displayContacts(beanItem);
 		associateCases.displayCases(beanItem);

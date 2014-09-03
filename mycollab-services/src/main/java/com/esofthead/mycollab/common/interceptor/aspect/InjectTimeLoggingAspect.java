@@ -53,7 +53,7 @@ public class InjectTimeLoggingAspect {
 		}
 	}
 
-	@Before("execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) && args(bean, username)")
+	@Before("(execution(public * com.esofthead.mycollab..service..*.updateWithSession(..)) || (execution(public * com.esofthead.mycollab..service..*.updateSelectiveWithSession(..))))  && args(bean, username)")
 	public void injectDateForUpdateMethod(JoinPoint joinPoint, Object bean,
 			String username) {
 

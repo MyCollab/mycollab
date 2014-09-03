@@ -23,7 +23,6 @@ import org.vaadin.peter.buttongroup.ButtonGroup;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -99,7 +98,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 				});
 
 		optionBtn = new SplitButton(optionParentBtn);
-		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		optionBtn.setWidthUndefined();
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
 		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
@@ -279,17 +278,17 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		return layout;
 	}
 
-	public void insertToControlBlock(Component button) {
-		editButtons.addComponent(button, 0);
+	public void insertToControlBlock(Component comp) {
+		editButtons.addComponent(comp, 0);
 	}
 
-	public void addOption(Button button) {
+	public void addOptionButton(Button button) {
 		button.setStyleName(UIConstants.THEME_LINK);
 		button.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 2710916670115028630L;
 
 			@Override
-			public void buttonClick(ClickEvent arg0) {
+			public void buttonClick(ClickEvent event) {
 				optionBtn.setPopupVisible(false);
 			}
 		});

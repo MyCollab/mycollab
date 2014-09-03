@@ -63,7 +63,7 @@ public class LoginPresenter extends AbstractPresenter<LoginView> {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void initView(ViewEvent<PlainLogin> event) {
+			public void receiveEvent(ViewEvent<PlainLogin> event) {
 				PlainLogin data = (PlainLogin) event.getData();
 				doLogin(data.getUsername(), data.getPassword(),
 						data.isRememberMe());

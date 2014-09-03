@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
+import com.esofthead.mycollab.core.utils.StringUtils;
 
 /**
  * 
@@ -55,11 +56,7 @@ public class SimpleTaskList extends TaskList {
 
 	public String getOwnerFullName() {
 		if (ownerFullName == null || ownerFullName.trim().equals("")) {
-			String displayName = getOwner();
-			int index = (displayName != null) ? displayName.indexOf("@") : 0;
-			if (index > 0) {
-				return displayName.substring(0, index);
-			}
+			return StringUtils.extractNameFromEmail(getOwner());
 		}
 		return ownerFullName;
 	}
@@ -204,6 +201,5 @@ public class SimpleTaskList extends TaskList {
 	public void setCreatedUserFullName(String createdUserFullName) {
 		this.createdUserFullName = createdUserFullName;
 	}
-	
-	
+
 }

@@ -55,7 +55,7 @@ public class ProjectMemberInvitePresenter extends
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void initView(ViewEvent<InviteProjectMembers> event) {
+			public void receiveEvent(ViewEvent<InviteProjectMembers> event) {
 				InviteProjectMembers inviteMembers = (InviteProjectMembers) event
 						.getData();
 				ProjectMemberService projectMemberService = ApplicationContextUtil

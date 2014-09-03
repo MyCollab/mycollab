@@ -25,6 +25,7 @@ import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -47,7 +48,6 @@ import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.BeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
@@ -108,7 +108,7 @@ public class TaskTableDisplay extends
 						&& 100d == task.getPercentagecomplete()) {
 					b.addStyleName(UIConstants.LINK_COMPLETED);
 				} else {
-					if ("Pending".equals(task.getStatus())) {
+					if (StatusI18nEnum.Pending.name().equals(task.getStatus())) {
 						b.addStyleName(UIConstants.LINK_PENDING);
 					} else if ((task.getEnddate() != null && (task.getEnddate()
 							.before(new GregorianCalendar().getTime())))
@@ -124,7 +124,7 @@ public class TaskTableDisplay extends
 
 				taskName.addComponent(b);
 				taskName.setWidth("100%");
-				taskName.setHeight(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+				taskName.setHeightUndefined();
 				return taskName;
 
 			}
@@ -215,13 +215,14 @@ public class TaskTableDisplay extends
 
 								@Override
 								public void buttonClick(Button.ClickEvent event) {
-									task.setStatus("Closed");
+									task.setStatus(StatusI18nEnum.Closed.name());
 									task.setPercentagecomplete(100d);
 
 									ProjectTaskService projectTaskService = ApplicationContextUtil
 											.getSpringBean(ProjectTaskService.class);
-									projectTaskService.updateWithSession(task,
-											AppContext.getUsername());
+									projectTaskService
+											.updateSelectiveWithSession(task,
+													AppContext.getUsername());
 
 									fireTableEvent(new TableClickEvent(
 											TaskTableDisplay.this, task,
@@ -239,13 +240,14 @@ public class TaskTableDisplay extends
 
 								@Override
 								public void buttonClick(Button.ClickEvent event) {
-									task.setStatus("Open");
+									task.setStatus(StatusI18nEnum.Open.name());
 									task.setPercentagecomplete(0d);
 
 									ProjectTaskService projectTaskService = ApplicationContextUtil
 											.getSpringBean(ProjectTaskService.class);
-									projectTaskService.updateWithSession(task,
-											AppContext.getUsername());
+									projectTaskService
+											.updateSelectiveWithSession(task,
+													AppContext.getUsername());
 									fireTableEvent(new TableClickEvent(
 											TaskTableDisplay.this, task,
 											"reopenTask"));
@@ -270,8 +272,10 @@ public class TaskTableDisplay extends
 
 										ProjectTaskService projectTaskService = ApplicationContextUtil
 												.getSpringBean(ProjectTaskService.class);
-										projectTaskService.updateWithSession(
-												task, AppContext.getUsername());
+										projectTaskService
+												.updateSelectiveWithSession(
+														task, AppContext
+																.getUsername());
 										fireTableEvent(new TableClickEvent(
 												TaskTableDisplay.this, task,
 												"pendingTask"));
@@ -294,8 +298,9 @@ public class TaskTableDisplay extends
 
 									ProjectTaskService projectTaskService = ApplicationContextUtil
 											.getSpringBean(ProjectTaskService.class);
-									projectTaskService.updateWithSession(task,
-											AppContext.getUsername());
+									projectTaskService
+											.updateSelectiveWithSession(task,
+													AppContext.getUsername());
 
 									fireTableEvent(new TableClickEvent(
 											TaskTableDisplay.this, task,

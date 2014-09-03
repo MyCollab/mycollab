@@ -74,7 +74,7 @@ public class CaseReadViewImpl extends AbstractPreviewItemComp<SimpleCase>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.CASE, beanItem.getId());
 		associateActivities.displayActivity(beanItem.getId());
 		associateContacts.displayContacts(beanItem);

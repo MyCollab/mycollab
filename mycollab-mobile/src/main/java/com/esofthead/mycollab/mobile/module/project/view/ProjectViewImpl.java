@@ -28,8 +28,12 @@ import com.vaadin.ui.UI;
  */
 
 @ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements ProjectView {
-    public ProjectViewImpl() {
-        ((MobileNavigationManager) UI.getCurrent().getContent()).setNavigationMenu(new InsideProjectNavigationMenu());
-    }
+public class ProjectViewImpl extends AbstractMobilePageView implements
+		ProjectView {
+	private static final long serialVersionUID = -5411890906862175950L;
+
+	public ProjectViewImpl() {
+		((MobileNavigationManager) UI.getCurrent().getContent())
+				.setNavigationMenu(new InsideProjectNavigationMenu());
+	}
 }

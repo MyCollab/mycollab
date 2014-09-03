@@ -123,6 +123,11 @@ public class WikiServiceTest extends ServiceTest {
 
 		page = wikiService.getPageByVersion("1/page/document_1", "1.0");
 		Assert.assertEquals("Hello world 2", page.getSubject());
-	}
 
+		Page restorePage = wikiService.restorePage("1/page/document_1", "1.0");
+		Assert.assertEquals("Hello world 2", restorePage.getSubject());
+		Page page2 = wikiService.getPage("1/page/document_1",
+				"hainguyen@esofthead.com");
+		Assert.assertEquals("Hello world 2", page2.getSubject());
+	}
 }

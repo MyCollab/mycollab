@@ -40,7 +40,7 @@ public abstract class AbstractCssPageView extends CssLayout implements
 		this.setStyleName("page-view");
 	}
 
-	protected void updateVerticalTabsheetFixStatus() {
+	private void updateVerticalTabsheetFixStatus() {
 		if (showTabsheetFix) {
 			if (vTabsheetFix == null) {
 				vTabsheetFix = new CssLayout();

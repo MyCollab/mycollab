@@ -492,7 +492,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			titleLayout.setSpacing(true);
 			final Label titleLbl = new Label(
 					AppContext.getMessage(MessageI18nEnum.FORM_TITLE));
-			titleLbl.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			titleLbl.setWidthUndefined();
 
 			titleField.setWidth("100%");
 			titleField.setNullRepresentation("");
@@ -648,12 +648,12 @@ public class MessageListViewImpl extends AbstractPageView implements
 			Label title = new Label(
 					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_TITLE));
 			title.addStyleName("h2");
-			title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			title.setWidthUndefined();
 			layout.addComponent(title);
 
 			Label body = new Label(
 					AppContext.getMessage(MessageI18nEnum.VIEW_NO_ITEM_HINT));
-			body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			body.setWidthUndefined();
 			layout.addComponent(body);
 
 			Button createMessageBtn = new Button(

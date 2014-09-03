@@ -31,10 +31,11 @@ import com.vaadin.ui.Button;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
 @SuppressWarnings("serial")
 public class OpportunityContactSelectionWindow extends
-RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
+		RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
 	public OpportunityContactSelectionWindow(
 			OpportunityContactListComp associateContactList) {
@@ -62,14 +63,14 @@ RelatedItemSelectionWindow<SimpleContact, ContactSearchCriteria> {
 
 		ContactSimpleSearchPanel contactSimpleSearchPanel = new ContactSimpleSearchPanel();
 		contactSimpleSearchPanel
-		.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
+				.addSearchHandler(new SearchHandler<ContactSearchCriteria>() {
 
-			@Override
-			public void onSearch(ContactSearchCriteria criteria) {
-				tableItem.setSearchCriteria(criteria);
-			}
+					@Override
+					public void onSearch(ContactSearchCriteria criteria) {
+						tableItem.setSearchCriteria(criteria);
+					}
 
-		});
+				});
 
 		this.bodyContent.addComponent(contactSimpleSearchPanel);
 		this.bodyContent.addComponent(selectBtn);

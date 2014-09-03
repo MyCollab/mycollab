@@ -60,6 +60,7 @@ public class ViewManager {
 		MyCollabSession.removeVariable(VIEW_MANAGER_VAL);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends CacheableComponent> T getCacheComponent(
 			final Class<T> viewClass) {
 		Map<Class<?>, Object> viewMap = (Map<Class<?>, Object>) MyCollabSession

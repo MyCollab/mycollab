@@ -20,6 +20,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -42,7 +43,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -87,10 +87,10 @@ public class TaskGroupDisplayWidget
 		private PopupButton taskListActionControl;
 		private TaskDisplayComponent taskDisplayComponent;
 
-		public TaskListDepot(final SimpleTaskList taskListParam) {
+		private TaskListDepot(final SimpleTaskList taskListParam) {
 			super(taskListParam.getName(), null, new TaskDisplayComponent(
 					taskListParam, true));
-			if ("Closed".equals(taskListParam.getStatus())) {
+			if (StatusI18nEnum.Closed.name().equals(taskListParam.getStatus())) {
 				this.headerLbl.addStyleName(UIConstants.LINK_COMPLETED);
 			}
 			this.taskList = taskListParam;
@@ -209,8 +209,7 @@ public class TaskGroupDisplayWidget
 					.addStyleName(UIConstants.THEME_BLANK_LINK);
 			this.taskListActionControl.setIcon(MyCollabResource
 					.newResource("icons/16/option.png"));
-			taskListActionControl.setWidth(Sizeable.SIZE_UNDEFINED,
-					Sizeable.Unit.PIXELS);
+			taskListActionControl.setWidthUndefined();
 			UiUtils.addComponent(headerElement, this.taskListActionControl,
 					Alignment.MIDDLE_CENTER);
 			this.addHeaderElement(headerElement);
@@ -269,7 +268,8 @@ public class TaskGroupDisplayWidget
 						public void buttonClick(final ClickEvent event) {
 							TaskListDepot.this.taskListActionControl
 									.setPopupVisible(false);
-							TaskListDepot.this.taskList.setStatus("Closed");
+							TaskListDepot.this.taskList
+									.setStatus(StatusI18nEnum.Closed.name());
 							final ProjectTaskListService taskListService = ApplicationContextUtil
 									.getSpringBean(ProjectTaskListService.class);
 							taskListService.updateWithSession(

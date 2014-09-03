@@ -106,19 +106,29 @@ public class ProjectTaskServiceImpl extends
 
 	@Override
 	public int updateWithSession(Task record, String username) {
+		beforeUpdate(record);
+
+		return super.updateWithSession(record, username);
+	}
+	
+	private void beforeUpdate(Task record) {
 		if ((record.getPercentagecomplete() != null)
 				&& (record.getPercentagecomplete() == 100)) {
 			record.setStatus(StatusI18nEnum.Closed.name());
 		} else if (record.getStatus() == null) {
 			record.setStatus(StatusI18nEnum.Open.name());
 		}
-
+		
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class, ProjectTaskListService.class,
 				ProjectActivityStreamService.class, ProjectMemberService.class,
 				MilestoneService.class, ItemTimeLoggingService.class);
+	}
 
-		return super.updateWithSession(record, username);
+	@Override
+	public int updateSelectiveWithSession(Task record, String username) {
+		beforeUpdate(record);
+		return super.updateSelectiveWithSession(record, username);
 	}
 
 	@Override

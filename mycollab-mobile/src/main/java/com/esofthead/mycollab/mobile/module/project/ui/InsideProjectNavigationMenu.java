@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
-import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
@@ -41,46 +40,65 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 		// userPanel.setWidth("100%");
 		// addComponent(userPanel);
 
-        final MenuButton prjListBtn = new MenuButton(
-                AppContext
-                        .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
-                "&#xe614;");
-        addMenu(prjListBtn);
+		final MenuButton prjListBtn = new MenuButton(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
+				"&#xe614;");
+		addMenu(prjListBtn);
 
-        final MenuButton activityBtn = new MenuButton(
-                AppContext
-                        .getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
-                "&#xe610;");
-        addMenu(activityBtn);
+		final MenuButton activityBtn = new MenuButton(
+				AppContext
+						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
+				"&#xe610;");
+		addMenu(activityBtn);
 
-		final MenuButton messageBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE), "&#xf04f;");
+		final MenuButton messageBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE),
+				"&#xf04f;");
 		addMenu(messageBtn);
 
-		final MenuButton phaseBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE), "&#xf075;");
+		final MenuButton phaseBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MILESTONE),
+				"&#xf075;");
 		addMenu(phaseBtn);
 
-		final MenuButton taskBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK), "&#xe60f;");
+		final MenuButton taskBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK),
+				"&#xe60f;");
 		addMenu(taskBtn);
 
-		final MenuButton bugBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG), "&#xf188;");
+		final MenuButton bugBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG),
+				"&#xf188;");
 		addMenu(bugBtn);
 
-		final MenuButton fileBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;");
+		final MenuButton fileBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_FILE),
+				"&#xf017;");
 		addMenu(fileBtn);
 
-		final MenuButton riskBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;");
+		final MenuButton riskBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_RISK),
+				"&#xf02d;");
 		addMenu(riskBtn);
 
-		final MenuButton problemBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;");
+		final MenuButton problemBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM),
+				"&#xf0d2;");
 		addMenu(problemBtn);
 
-		final MenuButton timeBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;");
+		final MenuButton timeBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TIME),
+				"&#xe612;");
 		addMenu(timeBtn);
 
-		final MenuButton standupBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;");
+		final MenuButton standupBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP),
+				"&#xf0c0;");
 		addMenu(standupBtn);
 
-		final MenuButton userBtn = new MenuButton(AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS),
+		final MenuButton userBtn = new MenuButton(
+				AppContext.getMessage(ProjectCommonI18nEnum.VIEW_USERS),
 				"&#xe601;");
 		addMenu(userBtn);
 	}

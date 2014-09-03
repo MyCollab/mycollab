@@ -37,11 +37,9 @@ import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -127,7 +125,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				.newResource("icons/16/addRecord.png"));
 		final SplitButton controlsBtn = new SplitButton(createBugBtn);
 		controlsBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		controlsBtn.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		controlsBtn.setWidthUndefined();
 
 		final VerticalLayout btnControlsLayout = new VerticalLayout();
 		final Button createComponentBtn = new Button(

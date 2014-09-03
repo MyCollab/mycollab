@@ -104,7 +104,7 @@ public abstract class MultiSelectComp<T> extends CustomField<T> {
 		this.componentPopupSelection.setPopupPositionComponent(content);
 
 		CssLayout btnWrapper = new CssLayout();
-		btnWrapper.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		btnWrapper.setWidthUndefined();
 		btnWrapper.addStyleName(UIConstants.SELECT_BG);
 		btnWrapper.addComponent(componentPopupSelection);
 

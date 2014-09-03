@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
@@ -82,7 +83,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 2.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 		implements TaskReadView {
 
@@ -175,7 +176,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 			}
 		}
 
-		if (beanItem.getStatus() == null || beanItem.getStatus().equals("Open")) {
+		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
 			quickActionStatusBtn.setIcon(MyCollabResource
@@ -237,8 +238,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 			@Override
 			public void buttonClick(ClickEvent event) {
 				if (beanItem.getStatus() != null
-						&& beanItem.getStatus().equals("Closed")) {
-					beanItem.setStatus("Open");
+						&& beanItem.getStatus().equals(
+								StatusI18nEnum.Closed.name())) {
+					beanItem.setStatus(StatusI18nEnum.Open.name());
 					beanItem.setPercentagecomplete(0d);
 					TaskReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -247,7 +249,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
 				} else {
-					beanItem.setStatus("Closed");
+					beanItem.setStatus(StatusI18nEnum.Closed.name());
 					beanItem.setPercentagecomplete(100d);
 					TaskReadViewImpl.this
 							.addLayoutStyleName(UIConstants.LINK_COMPLETED);

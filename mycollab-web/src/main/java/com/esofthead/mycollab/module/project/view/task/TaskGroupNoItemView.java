@@ -62,12 +62,12 @@ public class TaskGroupNoItemView extends AbstractPageView {
 		Label title = new Label(
 				AppContext.getMessage(TaskGroupI18nEnum.NO_ITEM_VIEW_TITLE));
 		title.addStyleName("h2");
-		title.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		title.setWidthUndefined();
 		layout.addComponent(title);
 
 		Label body = new Label(
 				AppContext.getMessage(TaskGroupI18nEnum.NO_ITEM_VIEW_HINT));
-		body.setWidth(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		body.setWidthUndefined();
 		layout.addComponent(body);
 
 		Button createTaskGroupBtn = new Button(

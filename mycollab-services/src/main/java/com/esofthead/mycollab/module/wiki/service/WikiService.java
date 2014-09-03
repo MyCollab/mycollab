@@ -66,6 +66,14 @@ public interface WikiService {
 	 * @return
 	 */
 	Page getPageByVersion(String path, String versionName);
+	
+	/**
+	 * 
+	 * @param path
+	 * @param versionName
+	 * @return the restore page
+	 */
+	Page restorePage(String path, String versionName);
 
 	/**
 	 * 

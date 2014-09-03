@@ -109,7 +109,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 		}
 	}
 
-	public int updateWithSessionWithSelective(@CacheKey T record,
+	public int updateSelectiveWithSession(@CacheKey T record,
 			String username) {
 		try {
 			PropertyUtils.setProperty(record, "lastupdatedtime",

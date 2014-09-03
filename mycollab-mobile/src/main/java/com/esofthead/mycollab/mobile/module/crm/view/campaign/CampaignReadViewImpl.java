@@ -81,7 +81,7 @@ public class CampaignReadViewImpl extends
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.CAMPAIGN, beanItem.getId());
 		associateActivities.displayActivity(beanItem.getId());
 		associateAccounts.displayAccounts(beanItem);

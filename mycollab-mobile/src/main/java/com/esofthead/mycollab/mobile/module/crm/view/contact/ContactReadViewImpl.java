@@ -178,7 +178,7 @@ public class ContactReadViewImpl extends AbstractPreviewItemComp<SimpleContact>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateActivityList.displayActivity(beanItem.getId());
 		associateOpportunityList.displayOpportunities(beanItem);
 		noteListItems.showNotes(CrmTypeConstants.CONTACT, beanItem.getId());

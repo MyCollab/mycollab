@@ -69,7 +69,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Autowired
 	private RelayEmailNotificationService relayEmailNotificationService;
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void savePage(final Page page, final String createdUser) {
@@ -239,6 +239,34 @@ public class WikiServiceImpl implements WikiService {
 				}
 			}
 		});
+	}
+
+	@Override
+	public Page restorePage(final String path, final String versionName) {
+		return jcrTemplate.execute(new JcrCallback<Page>() {
+
+			@Override
+			public Page doInJcr(Session session) throws IOException,
+					RepositoryException {
+				Node rootNode = session.getRootNode();
+				Node node = JcrUtils.getNodeIfExists(rootNode, path);
+				if (node != null) {
+					VersionManager vm = session.getWorkspace()
+							.getVersionManager();
+					try {
+						vm.restore("/" + path, versionName, true);
+						node = JcrUtils.getNodeIfExists(rootNode, path);
+						return convertNodeToPage(node);
+					} catch (Exception e) {
+						log.error(
+								"Error when restore document {} to version {}",
+								new Object[] { path, versionName, e });
+					}
+				}
+				return null;
+			}
+		});
+
 	}
 
 	private PageVersion convertNodeToPageVersion(Version node) {

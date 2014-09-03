@@ -58,7 +58,7 @@ public class AssignmentReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.TASK, beanItem.getId());
 	}
 

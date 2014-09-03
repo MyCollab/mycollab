@@ -7259,3 +7259,8 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 	font-size: 14px;
 	font-weight: bold;
 }
+
+/* Lazy Page */
+.v-window.lazyload-progress {
+	box-shadow: none;
+}

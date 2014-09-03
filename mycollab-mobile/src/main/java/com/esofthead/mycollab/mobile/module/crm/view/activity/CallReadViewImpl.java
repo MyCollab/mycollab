@@ -65,7 +65,7 @@ public class CallReadViewImpl extends AbstractPreviewItemComp<SimpleCall>
 	}
 
 	@Override
-	protected void onPreviewItem() {
+	protected void afterPreviewItem() {
 		associateNotes.showNotes(CrmTypeConstants.CALL, beanItem.getId());
 	}
 

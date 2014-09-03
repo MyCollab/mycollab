@@ -66,7 +66,7 @@ public class PreviewFormControlsGenerator<B> {
 		});
 
 		optionBtn = new SplitButton(optionParentBtn);
-		optionBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		optionBtn.setWidthUndefined();
 		optionBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
 		popupButtonsControl = new VerticalLayout();

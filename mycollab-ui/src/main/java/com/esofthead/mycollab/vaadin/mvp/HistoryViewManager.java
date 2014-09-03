@@ -44,6 +44,7 @@ public class HistoryViewManager {
 		history.add(viewState);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ViewState back() {
 		List<ViewState> history = getViewState();
 		if (history.size() >= 2) {
@@ -66,6 +67,7 @@ public class HistoryViewManager {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static List<ViewState> getViewState() {
 		List<ViewState> history = (List<ViewState>) MyCollabSession
 				.getVariable(HISTORY_VAL);

@@ -55,7 +55,6 @@ import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -86,6 +85,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	private PageVersionSelectionBox pageVersionsSelection;
 
+	private PageVersion selectedVersion;
+
 	private WikiService wikiService;
 
 	public PageReadViewImpl() {
@@ -101,7 +102,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		pageVersionsSelection = new PageVersionSelectionBox();
 
 		Label headerLbl = new Label(headerText);
-		headerLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		headerLbl.setWidthUndefined();
 		headerLbl.setStyleName(UIConstants.HEADER_TEXT);
 		UiUtils.addComponent(header, headerLbl, Alignment.MIDDLE_LEFT);
 		UiUtils.addComponent(header, pageVersionsSelection,
@@ -327,11 +328,12 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 					@Override
 					public void valueChange(
 							com.vaadin.data.Property.ValueChangeEvent event) {
-						PageVersion version = (PageVersion) pageSelection
+						selectedVersion = (PageVersion) pageSelection
 								.getValue();
-						if (version != null) {
+						if (selectedVersion != null) {
 							Page page = wikiService.getPageByVersion(
-									beanItem.getPath(), version.getName());
+									beanItem.getPath(),
+									selectedVersion.getName());
 							page.setPath(beanItem.getPath());
 							previewForm.setBean(page);
 							previewLayout.setTitle(page.getSubject());

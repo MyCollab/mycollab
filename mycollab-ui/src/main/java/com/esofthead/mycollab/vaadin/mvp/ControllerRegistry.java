@@ -31,6 +31,7 @@ import com.esofthead.mycollab.common.MyCollabSession;
  */
 public class ControllerRegistry {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void addController(AbstractController controller) {
 		Map<Class, AbstractController> controllerList = ((Map<Class, AbstractController>) MyCollabSession
 				.getVariable(CONTROLLER_REGISTRY));

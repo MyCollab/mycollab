@@ -357,7 +357,7 @@ public class ActivityStreamPanel extends CssLayout {
 				int currentYear = cal2.get(Calendar.YEAR);
 				Label yearLbl = new Label(String.valueOf(currentYear));
 				yearLbl.setStyleName("year-lbl");
-				yearLbl.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+				yearLbl.setWidthUndefined();
 				yearLbl.setHeight("49px");
 				this.listContainer.addComponent(yearLbl);
 			} else {

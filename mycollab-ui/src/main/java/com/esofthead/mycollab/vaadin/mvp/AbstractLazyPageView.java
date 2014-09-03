@@ -48,7 +48,7 @@ public abstract class AbstractLazyPageView extends AbstractPageView implements
 
 	abstract protected void displayView();
 
-	class InitializerThread extends Thread {
+	private class InitializerThread extends Thread {
 		@Override
 		public void run() {
 			UI.getCurrent().access(new Runnable() {

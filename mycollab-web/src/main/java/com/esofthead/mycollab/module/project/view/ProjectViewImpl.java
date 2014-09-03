@@ -263,7 +263,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 							ProjectService projectService = ApplicationContextUtil
 									.getSpringBean(ProjectService.class);
 							project.setProjectstatus(StatusI18nEnum.Open.name());
-							projectService.updateWithSessionWithSelective(
+							projectService.updateSelectiveWithSession(
 									project, AppContext.getUsername());
 
 							PageActionChain chain = new PageActionChain(
@@ -409,7 +409,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 												project.setProjectstatus(StatusI18nEnum.Archived
 														.name());
 												projectService
-														.updateWithSessionWithSelective(
+														.updateSelectiveWithSession(
 																project,
 																AppContext
 																		.getUsername());
@@ -490,7 +490,7 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 			}
 
 			controlsBtn.setContent(popupButtonsControl);
-			controlsBtn.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+			controlsBtn.setWidthUndefined();
 
 			topPanel.addComponent(controlsBtn);
 			topPanel.setComponentAlignment(controlsBtn, Alignment.MIDDLE_RIGHT);

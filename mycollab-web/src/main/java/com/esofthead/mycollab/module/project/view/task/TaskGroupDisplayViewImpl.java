@@ -55,7 +55,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -320,7 +319,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 		VerticalLayout popupButtonsControl = new VerticalLayout();
 		exportButtonControl.setContent(popupButtonsControl);
-		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
+		exportButtonControl.setWidthUndefined();
 
 		Button exportPdfBtn = new Button(
 				AppContext.getMessage(FileI18nEnum.PDF));
@@ -612,13 +611,13 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 
 	private void displayActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
-		criteria.setStatus(new StringSearchField("Open"));
+		criteria.setStatus(new StringSearchField(StatusI18nEnum.Open.name()));
 		this.taskLists.setSearchCriteria(criteria);
 	}
 
 	private void displayInActiveTaskGroups() {
 		final TaskListSearchCriteria criteria = this.createBaseSearchCriteria();
-		criteria.setStatus(new StringSearchField("Closed"));
+		criteria.setStatus(new StringSearchField(StatusI18nEnum.Closed.name()));
 		this.taskLists.setSearchCriteria(criteria);
 	}
 
@@ -642,14 +641,14 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	private void displayActiveTasksOnly() {
 		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
 		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Open" }));
+				new String[] { StatusI18nEnum.Open.name() }));
 		this.doSearch(criteria);
 	}
 
 	private void displayPendingTasksOnly() {
 		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
 		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Pending" }));
+				new String[] { StatusI18nEnum.Pending.name() }));
 		this.doSearch(criteria);
 	}
 
@@ -661,7 +660,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 	private void displayInActiveTasks() {
 		final TaskSearchCriteria criteria = this.createTaskBaseSearchCriteria();
 		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Closed" }));
+				new String[] { StatusI18nEnum.Closed.name() }));
 		this.doSearch(criteria);
 	}
 

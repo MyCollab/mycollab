@@ -96,7 +96,7 @@ public class ProjectAddViewImpl extends AbstractPageView implements
 			controlButtons.setSizeUndefined();
 			controlPanel.addComponent(controlButtons);
 			controlPanel
-					.setWidth(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+					.setWidthUndefined();
 			controlPanel.setComponentAlignment(controlButtons,
 					Alignment.MIDDLE_CENTER);
 

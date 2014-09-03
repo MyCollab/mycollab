@@ -24,7 +24,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -61,7 +60,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		if (toolbarContent != null) {
 			toolbarContent.setStyleName("related-items");
 			toolbarContent.setHeight("100%");
-			toolbarContent.setWidth(Sizeable.SIZE_UNDEFINED, Unit.PIXELS);
+			toolbarContent.setWidthUndefined();
 
 			MobileViewToolbar toolbar = new MobileViewToolbar();
 			toolbar.setComponent(toolbarContent);
@@ -77,7 +76,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		previewForm.setBeanFormFieldFactory(initBeanFormFieldFactory());
 		previewForm.setBean(item);
 
-		onPreviewItem();
+		afterPreviewItem();
 	}
 
 	public B getItem() {
@@ -88,7 +87,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 		return previewForm;
 	}
 
-	abstract protected void onPreviewItem();
+	abstract protected void afterPreviewItem();
 
 	abstract protected String initFormTitle();
 
