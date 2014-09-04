@@ -35,6 +35,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
+@SuppressWarnings("ucd")
 public class DefaultProjectFormViewFieldFactory {
 
 	public static class ProjectFormAttachmentDisplayField extends CustomField {

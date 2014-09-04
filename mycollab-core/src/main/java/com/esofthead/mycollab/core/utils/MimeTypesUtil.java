@@ -83,4 +83,8 @@ public class MimeTypesUtil {
 	public static String detectMimeType(String contentName) {
 		return tika.detect(contentName);
 	}
+
+	public static boolean isImage(String contentName) {
+		return tika.detect(contentName).startsWith("image/");
+	}
 }

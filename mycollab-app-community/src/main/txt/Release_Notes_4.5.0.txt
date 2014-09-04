@@ -55,6 +55,7 @@ Version 4.5.0
 * The project time tracking views support multiple views
 * Create the default task group when user create the new project
 * Support more search criteria for bug
+* Support display inline more image file types different than jpg/png
 
 **Bug Fixes**
 
@@ -62,6 +63,8 @@ Version 4.5.0
 * Milestone simple view display wrongly
 * Display date time field correctly with user custom timezone
 * Can not display username in phase detail view if the display name is empty
+* Log user is removed when user update task status
+* Can not trace activity when user update several kinds of items
 
 Version 4.4.0
 -----------------------------

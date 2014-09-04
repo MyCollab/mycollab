@@ -23,6 +23,7 @@ import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
@@ -73,20 +74,12 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 				UiUtils.getFileIconResource(docName));
 		attachmentLayout.addComponent(fileTypeIcon);
 
-		String fileExt = "";
-		int index = docName.lastIndexOf(".");
-		if (index > 0) {
-			fileExt = docName.substring(index + 1, docName.length());
-			docName = docName.substring(0, index);
-		}
-		docName = StringUtils.trim(docName, 60, true);
-
-		Label attachmentLink = new Label(docName);
+		Label attachmentLink = new Label(StringUtils.trim(docName, 60, true));
 		attachmentLayout.addComponent(attachmentLink);
 		attachmentLayout.setComponentAlignment(attachmentLink,
 				Alignment.MIDDLE_CENTER);
 
-		if ("jpg".equalsIgnoreCase(fileExt) || "png".equalsIgnoreCase(fileExt)) {
+		if (MimeTypesUtil.isImage(docName)) {
 
 			Button previewBtn = new Button(null, new Button.ClickListener() {
 
@@ -112,17 +105,12 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 			@Override
 			public void buttonClick(ClickEvent event) {
 
-				ConfirmDialogExt.show(
-						UI.getCurrent(),
-						AppContext.getMessage(
-								GenericI18Enum.DIALOG_DELETE_TITLE,
-								SiteConfiguration.getSiteName()),
-						AppContext
-								.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						AppContext
-								.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+				ConfirmDialogExt.show(UI.getCurrent(), AppContext.getMessage(
+						GenericI18Enum.DIALOG_DELETE_TITLE,
+						SiteConfiguration.getSiteName()), AppContext
+						.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 

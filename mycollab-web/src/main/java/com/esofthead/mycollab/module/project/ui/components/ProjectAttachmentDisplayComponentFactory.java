@@ -28,6 +28,12 @@ import com.esofthead.mycollab.vaadin.ui.AttachmentDisplayComponent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ProjectAttachmentDisplayComponentFactory {
 	public static Component getAttachmentDisplayComponent(int projectid,
 			AttachmentType type, int typeid) {
