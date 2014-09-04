@@ -41,6 +41,8 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
+import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -48,6 +50,31 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 public class ProjectMessageListComponent extends Depot {
+	private static final long serialVersionUID = 1L;
+
+	private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
+
+	public ProjectMessageListComponent() {
+		super(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS),
+				new VerticalLayout());
+
+		messageList = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
+				ApplicationContextUtil.getSpringBean(MessageService.class),
+				new MessageRowDisplayHandler(), 5);
+		addStyleName("activity-panel");
+		((VerticalLayout) bodyContent).setMargin(false);
+	}
+
+	public void showLatestMessages() {
+		bodyContent.removeAllComponents();
+		bodyContent.addComponent(messageList);
+		final MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
+		searchCriteria.setProjectids(new SetSearchField<Integer>(
+				CurrentProjectVariables.getProjectId()));
+
+		messageList.setSearchCriteria(searchCriteria);
+	}
+	
 	public static class MessageRowDisplayHandler implements
 			DefaultBeanPagedList.RowDisplayHandler<SimpleMessage> {
 
@@ -95,7 +122,7 @@ public class ProjectMessageListComponent extends Depot {
 					.generateProjectMemberFullLink(message.getProjectid(),
 							message.getPosteduser()));
 			assigneeLink.appendText(message.getFullPostedUserName());
-			div.appendChild(avatar, assigneeLink);
+			div.appendChild(avatar, EMPTY_SPACE, assigneeLink);
 			return div.write();
 		}
 
@@ -109,33 +136,8 @@ public class ProjectMessageListComponent extends Depot {
 					message.getProjectid(), message.getId(),
 					GenericLinkUtils.URL_PREFIX_PARAM));
 			msgLink.appendText(message.getTitle());
-			div.appendChild(messageIcon, msgLink);
+			div.appendChild(messageIcon, EMPTY_SPACE, msgLink);
 			return div.write();
 		}
-	}
-
-	private static final long serialVersionUID = 1L;
-
-	private final DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage> messageList;
-
-	public ProjectMessageListComponent() {
-		super(AppContext.getMessage(MessageI18nEnum.WIDGET_LASTEST_NEWS),
-				new VerticalLayout());
-
-		messageList = new DefaultBeanPagedList<MessageService, MessageSearchCriteria, SimpleMessage>(
-				ApplicationContextUtil.getSpringBean(MessageService.class),
-				new MessageRowDisplayHandler(), 5);
-		addStyleName("activity-panel");
-		((VerticalLayout) bodyContent).setMargin(false);
-	}
-
-	public void showLatestMessages() {
-		bodyContent.removeAllComponents();
-		bodyContent.addComponent(messageList);
-		final MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
-		searchCriteria.setProjectids(new SetSearchField<Integer>(
-				CurrentProjectVariables.getProjectId()));
-
-		messageList.setSearchCriteria(searchCriteria);
 	}
 }

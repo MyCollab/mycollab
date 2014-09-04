@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.crm.view;
 
+import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -38,6 +40,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
+import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -48,11 +51,9 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanPagedList;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Img;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -61,6 +62,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+
+;
 
 /**
  * 
@@ -237,7 +240,7 @@ public class ActivityStreamPanel extends CssLayout {
 
 		private String buildAssigneeValue(SimpleActivityStream activityStream,
 				String uid) {
-			Div div = new Div();
+			DivLessFormatter div = new DivLessFormatter();
 			Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
@@ -276,14 +279,15 @@ public class ActivityStreamPanel extends CssLayout {
 			div14.setId("crmuserserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(userAvatar, userLink, div1);
+			div.appendChild(userAvatar, EMPTY_SPACE, userLink, EMPTY_SPACE,
+					div1);
 
-			return write(div);
+			return div.write();
 		}
 
 		private String buildItemValue(SimpleActivityStream activityStream,
 				String uid) {
-			Div div = new Div();
+			DivLessFormatter div = new DivLessFormatter();
 			Img itemImg = new Img("",
 					CrmResources.getResourceLink(activityStream.getType()));
 			A itemLink = new A();
@@ -299,10 +303,9 @@ public class ActivityStreamPanel extends CssLayout {
 			String arg22 = "'" + AppContext.getSiteUrl() + "'";
 			String arg23 = AppContext.getSession().getTimezone();
 			String arg24 = "'" + AppContext.getUserLocale().toString() + "'";
-			String onMouseOverFunc = String
-					.format("return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
-							arg17, arg18, arg19, arg20, arg21, arg22, arg23,
-							arg24);
+			String onMouseOverFunc = String.format(
+					"return crmActivityOverIt(%s,%s,%s,%s,%s,%s,%s,%s);",
+					arg17, arg18, arg19, arg20, arg21, arg22, arg23, arg24);
 			itemLink.setAttribute("onmouseover", onMouseOverFunc);
 			itemLink.appendText(activityStream.getNamefield());
 
@@ -324,22 +327,12 @@ public class ActivityStreamPanel extends CssLayout {
 			div14.setId("crmActivityserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(itemImg, itemLink, div1);
+			div.appendChild(itemImg, EMPTY_SPACE, itemLink, EMPTY_SPACE, div1);
 
-			return write(div);
+			return div.write();
 		}
 
-		private static String write(Div div) {
-			StringBuffer b = new StringBuffer();
-			if ((div.children != null) && (div.children.size() > 0)) {
-				for (Node child : div.children) {
-					b.append(child.write());
-				}
-			}
-			return b.toString();
-		}
-
-		protected void feedBlocksPut(Date currentDate, Date nextDate,
+		private void feedBlocksPut(Date currentDate, Date nextDate,
 				CssLayout currentBlock) {
 			HorizontalLayout blockWrapper = new HorizontalLayout();
 			blockWrapper.setStyleName("feed-block-wrap");

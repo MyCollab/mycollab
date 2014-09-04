@@ -20,7 +20,10 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
@@ -48,6 +51,10 @@ public class ProjectDashboardPresenter extends
 					.canRead(ProjectRolePermissionCollections.PROJECT)) {
 				super.onGo(container, data);
 				view.displayDashboard();
+				AppContext.addFragment(ProjectLinkGenerator
+						.generateProjectLink(CurrentProjectVariables
+								.getProject().getId()), AppContext
+						.getMessage(ProjectCommonI18nEnum.VIEW_DASHBOARD));
 			} else {
 				NotificationUtil.showMessagePermissionAlert();
 			}

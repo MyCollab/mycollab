@@ -16,7 +16,12 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import java.util.Arrays;
+
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
+import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.ui.ListPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -44,7 +49,10 @@ public class ProjectListPresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		ModuleHelper.setCurrentModule(view);
 		super.onGo(container, data);
+		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
+
 		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();
 		projectModuleMenu.selectButton(AppContext
 				.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST));
@@ -52,6 +60,18 @@ public class ProjectListPresenter extends
 		MobileNavigationManager currentNavigationManager = (MobileNavigationManager) UI
 				.getCurrent().getContent();
 		currentNavigationManager.setNavigationMenu(projectModuleMenu);
+
+		String url = MobileApplication.getInstance().getInitialUrl();
+		if (url != null && !url.equals("")) {
+			String[] tokens = url.split("/");
+			if (tokens.length > 1) {
+				String[] fragments = Arrays.copyOfRange(tokens, 1,
+						tokens.length);
+				MobileApplication.rootUrlResolver.getSubResolver("project")
+						.handle(fragments);
+			}
+		}
+
 	}
 
 }

@@ -54,6 +54,7 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 
 	@Override
 	public void displayDashboard() {
+		mainLayout.removeAllComponents();
 		SimpleProject currentProject = CurrentProjectVariables.getProject();
 		VerticalLayout projectInfo = new VerticalLayout();
 		projectInfo.setStyleName("project-info-layout");

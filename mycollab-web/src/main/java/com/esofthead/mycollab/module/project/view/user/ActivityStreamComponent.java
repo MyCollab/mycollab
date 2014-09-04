@@ -17,6 +17,8 @@
 
 package com.esofthead.mycollab.module.project.view.user;
 
+import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -232,7 +234,8 @@ public class ActivityStreamComponent extends CssLayout {
 			div13.setId("projectuserserverdata" + uid);
 			div12.appendChild(div13);
 
-			div.appendChild(userAvatar, userLink, div1);
+			div.appendChild(userAvatar, EMPTY_SPACE, userLink, EMPTY_SPACE,
+					div1);
 			return div.write();
 		}
 
@@ -262,7 +265,7 @@ public class ActivityStreamComponent extends CssLayout {
 			itemLink.setAttribute("onmouseover", mouseOverFunc);
 			itemLink.appendText(activityStream.getNamefield());
 
-			div.appendChild(itemImg, itemLink);
+			div.appendChild(itemImg, EMPTY_SPACE, itemLink);
 			return div.write();
 		}
 
@@ -295,7 +298,7 @@ public class ActivityStreamComponent extends CssLayout {
 			div14.setId("projectOverViewserverdata" + uid);
 			div13.appendChild(div14);
 
-			div.appendChild(prjImg, prjLink, div1);
+			div.appendChild(prjImg, EMPTY_SPACE, prjLink, EMPTY_SPACE, div1);
 
 			return div.write();
 		}

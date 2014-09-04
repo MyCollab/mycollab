@@ -18,6 +18,7 @@ package com.esofthead.mycollab.html;
 
 import com.hp.gagawa.java.Node;
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.Text;
 
 /**
  * 
@@ -26,6 +27,7 @@ import com.hp.gagawa.java.elements.Div;
  *
  */
 public class DivLessFormatter extends Div {
+	public static Text EMPTY_SPACE = new Text(" ");
 
 	@Override
 	public String write() {

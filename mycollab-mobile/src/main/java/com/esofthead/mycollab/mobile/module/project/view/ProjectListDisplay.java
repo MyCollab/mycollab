@@ -50,13 +50,18 @@ public class ProjectListDisplay
 		@Override
 		public Component generateRow(final SimpleProject obj, int rowIndex) {
 			final Button b = new Button(obj.getName());
-            b.addClickListener(new Button.ClickListener() {
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    PageActionChain chain = new PageActionChain(new ProjectScreenData.Goto(obj.getId()));
-                    EventBusFactory.getInstance().post(new ProjectEvent.GotoMyProject(ProjectRowDisplayHandler.this, chain));
-                }
-            });
+			b.addClickListener(new Button.ClickListener() {
+				private static final long serialVersionUID = 6404941057797908742L;
+
+				@Override
+				public void buttonClick(Button.ClickEvent event) {
+					PageActionChain chain = new PageActionChain(
+							new ProjectScreenData.Goto(obj.getId()));
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.GotoMyProject(
+									ProjectRowDisplayHandler.this, chain));
+				}
+			});
 			b.setWidth("100%");
 			return b;
 		}

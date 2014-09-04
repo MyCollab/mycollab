@@ -7217,7 +7217,7 @@ div.v-csslayout.bean-block.olive-block, .list-note-block .note-label.olive-block
 .version-selection-box input.v-filterselect-input[type="text"] {
 	vertical-align: middle;
 	float: none;
-	line-height: 1.4em !important;
+	line-height: 21px !important;
 	font-size: 14px !important;
 	font-weight: bold !important;
 	color: #525252;

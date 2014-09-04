@@ -16,10 +16,13 @@
  */
 package com.esofthead.mycollab.mobile.module.project;
 
+import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 
 /**
@@ -31,6 +34,7 @@ import com.esofthead.mycollab.vaadin.mvp.UrlResolver;
 public class ProjectUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
+		this.addSubResolver("dashboard", new DashboardUrlResolver());
 		return this;
 	}
 
@@ -55,6 +59,24 @@ public class ProjectUrlResolver extends UrlResolver {
 		super.handlePage(params);
 		EventBusFactory.getInstance().post(
 				new ProjectEvent.GotoProjectList(this, null));
+	}
+
+	public static class DashboardUrlResolver extends ProjectUrlResolver {
+
+		@Override
+		protected void handlePage(String... params) {
+			if (params == null || params.length == 0) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.GotoProjectModule(this, null));
+			} else {
+				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+				int projectId = Integer.parseInt(decodeUrl);
+				PageActionChain chain = new PageActionChain(
+						new ProjectScreenData.Goto(projectId));
+				EventBusFactory.getInstance().post(
+						new ProjectEvent.GotoMyProject(this, chain));
+			}
+		}
 	}
 
 }
