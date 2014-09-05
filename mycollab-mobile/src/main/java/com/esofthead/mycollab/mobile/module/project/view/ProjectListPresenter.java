@@ -69,6 +69,7 @@ public class ProjectListPresenter extends
 						tokens.length);
 				MobileApplication.rootUrlResolver.getSubResolver("project")
 						.handle(fragments);
+				MobileApplication.getInstance().setInitialUrl("");
 			}
 		}
 

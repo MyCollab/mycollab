@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.view.message.MessageUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -35,6 +36,7 @@ public class ProjectUrlResolver extends UrlResolver {
 
 	public UrlResolver build() {
 		this.addSubResolver("dashboard", new DashboardUrlResolver());
+		this.addSubResolver("message", new MessageUrlResolver());
 		return this;
 	}
 

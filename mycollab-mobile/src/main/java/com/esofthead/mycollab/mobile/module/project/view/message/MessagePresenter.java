@@ -57,9 +57,9 @@ public class MessagePresenter extends AbstractPresenter<MessageContainer> {
 					.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE));
 
 			if (data instanceof MessageScreenData.Read) {
-				// MessageReadPresenter presenter = PresenterResolver
-				// .getPresenter(MessageReadPresenter.class);
-				// presenter.go(view, data);
+				MessageReadPresenter presenter = PresenterResolver
+						.getPresenter(MessageReadPresenter.class);
+				presenter.go(container, data);
 			} else if (data instanceof MessageScreenData.Search) {
 				MessageListPresenter presenter = PresenterResolver
 						.getPresenter(MessageListPresenter.class);

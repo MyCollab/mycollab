@@ -1,40 +1,49 @@
 /**
- * This file is part of mycollab-web.
+ * This file is part of mycollab-mobile.
  *
- * mycollab-web is free software: you can redistribute it and/or modify
+ * mycollab-mobile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * mycollab-web is distributed in the hope that it will be useful,
+ * mycollab-mobile is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
+ * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.ui.components;
+package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.SimpleComment;
 import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
-import com.esofthead.mycollab.common.ui.components.CommentRowDisplayHandler;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
+import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 1.0
- * 
+ *
+ * @since 4.4.0
+ *
  */
-public class CommentDisplay extends VerticalLayout implements
+public class ProjectCommentListDisplay extends VerticalLayout implements
 		ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
@@ -44,19 +53,18 @@ public class CommentDisplay extends VerticalLayout implements
 	private Integer numComments;
 	private ProjectCommentInput commentBox;
 
-	public CommentDisplay(
+	public ProjectCommentListDisplay(
 			final CommentType type,
 			final Integer extraTypeId,
 			final boolean isDisplayCommentInput,
 			final boolean isSendingRelayEmail,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		setSpacing(true);
+		this.setMargin(new MarginInfo(true, false, false, false));
+		this.setStyleName("comment-list");
 		this.type = type;
-		this.setStyleName("comment-display");
 		if (isDisplayCommentInput) {
 			commentBox = new ProjectCommentInput(this, type, extraTypeId,
 					false, isSendingRelayEmail, emailHandler);
-			this.addComponent(commentBox);
 		}
 
 		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
@@ -99,5 +107,58 @@ public class CommentDisplay extends VerticalLayout implements
 	@Override
 	public void reload() {
 		displayCommentList();
+	}
+
+	public static class CommentRowDisplayHandler extends
+			BeanList.RowDisplayHandler<SimpleComment> {
+
+		private static final long serialVersionUID = 7604097872938029830L;
+
+		@Override
+		public Component generateRow(SimpleComment comment, int rowIndex) {
+			HorizontalLayout commentBlock = new HorizontalLayout();
+			commentBlock.setStyleName("comment-block");
+			Image userAvatarImg = UserAvatarControlFactory
+					.createUserAvatarEmbeddedComponent(
+							comment.getOwnerAvatarId(), 32);
+			userAvatarImg.setStyleName("user-avatar");
+			commentBlock.addComponent(userAvatarImg);
+
+			CssLayout rightCol = new CssLayout();
+			rightCol.setWidth("100%");
+			rightCol.setStyleName("right-col");
+
+			HorizontalLayout metadataRow = new HorizontalLayout();
+			metadataRow.setWidth("100%");
+			metadataRow.setStyleName("metadata-row");
+			Label userNameLbl = new Label(comment.getOwnerFullName());
+			userNameLbl.setStyleName("user-name");
+			metadataRow.addComponent(userNameLbl);
+			metadataRow.setExpandRatio(userNameLbl, 1.0f);
+
+			Label commentTimePost = new Label(
+					DateTimeUtils.getStringDateFromNow(
+							comment.getCreatedtime(),
+							AppContext.getUserLocale()));
+			commentTimePost.setStyleName("time-post");
+			commentTimePost.setWidthUndefined();
+			metadataRow.addComponent(commentTimePost);
+			rightCol.addComponent(metadataRow);
+
+			Label commentContent = new Label(StringUtils.trim(
+					StringUtils.trimHtmlTags(comment.getComment()), 150, true));
+			commentContent.setStyleName("comment-content");
+			rightCol.addComponent(commentContent);
+
+			commentBlock.addComponent(rightCol);
+			commentBlock.setExpandRatio(rightCol, 1.0f);
+			commentBlock.setWidth("100%");
+			return commentBlock;
+		}
+
+	}
+
+	public ProjectCommentInput getCommentBox() {
+		return this.commentBox;
 	}
 }

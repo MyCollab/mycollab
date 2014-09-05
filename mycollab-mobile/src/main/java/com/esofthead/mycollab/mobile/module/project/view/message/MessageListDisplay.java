@@ -19,18 +19,15 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
+import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MessageService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.event.LayoutEvents;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -91,10 +88,8 @@ public class MessageListDisplay
 			HorizontalLayout titleRow = new HorizontalLayout();
 			titleRow.setWidth("100%");
 			titleRow.setStyleName("title-row");
-			titleRow.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 			Label messageTitle = new Label(message.getTitle());
 			messageTitle.setStyleName("message-title");
-			messageTitle.setContentMode(ContentMode.HTML);
 			titleRow.addComponent(messageTitle);
 			titleRow.setExpandRatio(messageTitle, 1.0f);
 
@@ -104,6 +99,9 @@ public class MessageListDisplay
 				msgCommentCount.setStyleName("comment-count");
 				msgCommentCount.setWidthUndefined();
 				titleRow.addComponent(msgCommentCount);
+				titleRow.addStyleName("has-comment");
+				titleRow.setComponentAlignment(messageTitle,
+						Alignment.MIDDLE_LEFT);
 			}
 			rightCol.addComponent(titleRow);
 
@@ -122,12 +120,10 @@ public class MessageListDisplay
 						@Override
 						public void layoutClick(
 								LayoutEvents.LayoutClickEvent arg0) {
-							PageActionChain chain = new PageActionChain(
-									new MessageScreenData.Read(message.getId()));
 							EventBusFactory.getInstance().post(
-									new ProjectEvent.GotoMyProject(
+									new MessageEvent.GotoRead(
 											MessageRowDisplayHandler.this,
-											chain));
+											message.getId()));
 						}
 					});
 			mainLayout.setWidth("100%");

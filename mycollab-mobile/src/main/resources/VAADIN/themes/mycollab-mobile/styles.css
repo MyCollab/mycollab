@@ -105,6 +105,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Data List View */
   /* Read View Layout */
   /* Edit View Layout */
+  /* Note List */
   /* Filterselect */
   /* Message Row */
   /* Confirm Dialog */
@@ -241,7 +242,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   overflow-x: auto;
   overflow-y: hidden;
   box-shadow: none;
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #dddddd;
   background-color: #F7F7F7;
   position: absolute;
   bottom: 0px;
@@ -305,9 +306,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   overflow: visible;
   height: 2.8rem;
   margin-top: 0.6rem;
-  padding: 0.4rem 0.8rem 0rem 0.5rem;
+  padding: 0rem 0.8rem 0rem 0.5rem;
   font-size: 1.3rem;
   margin-left: 2rem;
+  line-height: 2.8rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left .v-touchkit-navbutton-back:after {
   right: 100%;
@@ -404,7 +406,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   overflow-x: auto;
   overflow-y: hidden;
   box-shadow: none;
-  border-top: 1px solid #DDDDDD;
+  border-top: 1px solid #dddddd;
   background-color: #F7F7F7;
   position: absolute;
   bottom: 0px;
@@ -432,20 +434,28 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   background-color: rgba(187, 187, 187, 0.6);
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box {
-  padding: 6px;
+  padding: 0.6rem 0rem 0.6rem 0.6rem;
+  background-color: white;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-textarea {
-  padding: 6px;
-  border: 1px solid #E6E6E6;
-  font-size: 16px;
-  line-height: 22px;
+  padding: 0.6rem;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button {
-  color: #636363;
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-textarea.v-textarea-prompt {
+  font-style: normal;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button.submit-btn {
+  color: #49a3e1;
   font-weight: bold;
+  background-color: transparent;
+  border-left: 1px solid #dddddd;
+  border-radius: 0px;
 }
-.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button .v-button-wrap {
-  font-size: 16px;
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button.submit-btn .v-button-wrap {
+  font-size: 1.4rem;
+  padding: 1.1rem;
 }
 .mycollab-mobile .v-navbar-quickmenu-content {
   width: 100%;
@@ -662,6 +672,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   right: 0px;
   top: 0px;
 }
+.mycollab-mobile .noteList {
+  background-color: white;
+}
 .mycollab-mobile .v-filterselect {
   overflow: hidden;
   padding-right: 1.6rem;
@@ -819,30 +832,76 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.1rem;
   text-transform: uppercase;
 }
-.mycollab-mobile .message-list-view .message-block {
+.mycollab-mobile .message-list-view .message-block, .mycollab-mobile .message-read-view .message-block {
   padding: 1.2rem 0.8rem;
   border-bottom: 1px solid #cbcbcb;
+  background-color: white;
 }
-.mycollab-mobile .message-list-view .message-block .user-avatar {
+.mycollab-mobile .message-list-view .message-block .user-avatar, .mycollab-mobile .message-read-view .message-block .user-avatar {
   padding-right: 0.8rem;
 }
-.mycollab-mobile .message-list-view .message-block .user-name {
-  color: #e2913f;
+.mycollab-mobile .message-list-view .message-block .user-name, .mycollab-mobile .message-read-view .message-block .user-name {
+  color: #e39241;
 }
-.mycollab-mobile .message-list-view .message-block .time-post {
+.mycollab-mobile .message-list-view .message-block .time-post, .mycollab-mobile .message-read-view .message-block .time-post {
   font-size: 1.1rem;
-  color: #d4d4d4;
+  color: #bfbfbf;
 }
-.mycollab-mobile .message-list-view .message-block .title-row {
-  padding: 0.3rem 0rem;
-}
-.mycollab-mobile .message-list-view .message-block .title-row .comment-count {
+.mycollab-mobile .message-list-view .message-block .title-row .comment-count, .mycollab-mobile .message-read-view .message-block .title-row .comment-count {
   font-size: 1.1rem;
   color: white;
   background-color: #7c7c7c;
-  padding: 0.3rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 0.3rem;
 }
-.mycollab-mobile .message-list-view .message-block .message-content {
+.mycollab-mobile .message-list-view .message-block .title-row.has-comment, .mycollab-mobile .message-read-view .message-block .title-row.has-comment {
+  padding: 0.3rem 0rem;
+}
+.mycollab-mobile .message-list-view .message-block .message-content, .mycollab-mobile .message-read-view .message-block .message-content {
+  color: #959595;
+}
+.mycollab-mobile .comment-list .comment-block {
+  padding: 0.8rem;
+}
+.mycollab-mobile .comment-list .comment-block .user-avatar {
+  padding-right: 0.8rem;
+}
+.mycollab-mobile .comment-list .comment-block .right-col {
+  border: 1px solid #cbcbcb;
+  background-color: white;
+  padding: 0.5rem 0.7rem;
+}
+.mycollab-mobile .comment-list .comment-block .right-col:before {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  display: block;
+  width: 0;
+  top: 9px;
+  left: -7px;
+  border-width: 7px 7px 7px 0;
+  border-color: transparent #adadad;
+  border-radius: 0px;
+}
+.mycollab-mobile .comment-list .comment-block .right-col:after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  display: block;
+  width: 0;
+  top: 9px;
+  left: -6px;
+  border-width: 7px 7px 7px 0;
+  border-color: transparent white;
+  border-radius: 0px;
+}
+.mycollab-mobile .comment-list .comment-block .right-col .user-name {
+  color: #e39241;
+}
+.mycollab-mobile .comment-list .comment-block .right-col .time-post {
+  font-size: 1.1rem;
+  color: #bfbfbf;
+}
+.mycollab-mobile .comment-list .comment-block .right-col .comment-content {
   color: #aaaaaa;
 }

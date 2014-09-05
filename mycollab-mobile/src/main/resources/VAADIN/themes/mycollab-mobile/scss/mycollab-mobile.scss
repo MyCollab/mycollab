@@ -2,6 +2,7 @@
 /* If somebody wants to extend the theme she will include this mixin. */
 @import "mixins.scss";
 @import "fonts.scss";
+@import "colors.scss";
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
@@ -208,21 +209,22 @@
 	    		.v-touchkit-navbar-left {		    		
 		   			.v-touchkit-navbutton-back {
 		   				position: relative;
-		   				background: #49a3e1; 
-		   				border: 1px solid #2482c2; 
+		   				background: $primary-blue; 
+		   				border: 1px solid $blue-border; 
 		   				color: rgb(255, 255, 255);
 		   				overflow: visible;
 		   				height: 2.8rem;
 		   				margin-top: 0.6rem;
-		   				padding: 0.4rem 0.8rem 0rem 0.5rem;
+		   				padding: 0rem 0.8rem 0rem 0.5rem;
 		   				font-size: 1.3rem;
 		   				margin-left: 2rem;
+		   				line-height: 2.8rem;
 		   				
 		   				&:after {
 		   					@include backbtn;
 		   					
 			   				border-color: rgba(73, 163, 225, 0); 
-			   				border-right-color: #49a3e1; 
+			   				border-right-color: $primary-blue; 
 			   				border-width: 13px; 
 			   				margin-top: -13px;
 			   				left: auto;
@@ -232,7 +234,7 @@
 			   				@include backbtn;
 			   				
 			   				border-color: rgba(36, 130, 194, 0);
-			   				border-right-color: #2482c2; 
+			   				border-right-color: $blue-border; 
 			   				border-width: 14px; 
 			   				margin-top: -14px; 
 			   			}
@@ -251,7 +253,7 @@
 	    		
 	    		.v-touchkit-navbar-right {
 	    			.edit-btn, .save-btn {
-	    				border: 1px solid #2482c2; 
+	    				border: 1px solid $blue-border; 
 		   				color: rgb(255, 255, 255);
 		   				padding: 0.4rem 1.2rem 0rem;
 		   				border-radius: 0.3rem;
@@ -306,18 +308,26 @@
 	    			}
 		    	}
 		    	.comment-box {
-    				padding: 6px;
+    				padding: 0.6rem 0rem 0.6rem 0.6rem;
+    				background-color: rgb(255, 255, 255);
     				.v-textarea {
-    					padding: 6px;
-    					border: 1px solid #E6E6E6;
-    					font-size: 16px;
-    					line-height: 22px;
+    					padding: 0.6rem;
+						border: none;
+    					font-size: 1.4rem;
+    					line-height: 2.2rem;
+    					&.v-textarea-prompt {
+    						font-style: normal;
+    					}
     				}
-    				.v-button {
-    					color: #636363;
+    				.v-button.submit-btn {
+    					color: $primary-blue;
     					font-weight: bold;
+    					background-color: transparent;
+    					border-left: 1px solid $light-gray-border;
+    					border-radius: 0px;
     					.v-button-wrap {
-    						font-size: 16px;
+    						font-size: 1.4rem;
+    						padding: 1.1rem;
     					}
     				}
     			}
@@ -566,6 +576,11 @@
 		}
 	}
 	
+	/* Note List */
+	.noteList {
+		background-color: rgb(255, 255, 255);
+	}
+	
 	/* Filterselect */
 	.v-filterselect {
 		overflow: hidden;
@@ -771,35 +786,91 @@
     }
     
     /* Project Messages */
-    .message-list-view {
+    .message-list-view, .message-read-view {
     	.message-block {
     		padding: 1.2rem 0.8rem;
-    		border-bottom: 1px solid rgb(203, 203, 203);
+    		border-bottom: 1px solid $gray-border;
+    		background-color: rgb(255, 255, 255);
     		
     		.user-avatar {
     			padding-right: 0.8rem;
     		}
     		.user-name {
-    			color: rgb(226, 145, 63);
+    			color: $primary-orange;
     		}
     		.time-post {
     			font-size: 1.1rem;
-    			color: rgb(212, 212, 212);
+    			color: $light-gray-text;
     		}
     		.title-row {
     			.comment-count {
 	    			font-size: 1.1rem;
 					color: white;
 					background-color: rgb(124, 124, 124);
-					padding: 0.3rem 0.5rem;
+					padding: 0.2rem 0.5rem;
 					border-radius: 0.3rem;
 	    		}
-	    		padding: 0.3rem 0rem;
+	    		&.has-comment {
+	    			padding: 0.3rem 0rem;
+	    		}
     		}
     		
     		.message-content {
-    			color: rgb(170, 170, 170);
+    			color: $gray-text;
     		}
+    	}
+    }
+    
+    .comment-list {
+    	.comment-block {
+    		padding: 0.8rem;
+    		
+    		.user-avatar {
+    			padding-right: 0.8rem;
+    		}
+    		.right-col {
+    			border: 1px solid $gray-border;
+    			background-color: rgb(255, 255, 255);
+    			padding: 0.5rem 0.7rem;
+    			
+    			&:before {
+    				content: "";
+					position: absolute;
+					border-style: solid;
+					display: block;
+					width: 0;
+					top: 9px;
+					left: -7px;
+					border-width: 7px 7px 7px 0;
+					border-color: transparent rgb(173, 173, 173);
+					border-radius: 0px;
+    			}
+    			
+    			&:after {
+    				content: "";
+					position: absolute;
+					border-style: solid;
+					display: block;
+					width: 0;
+					top: 9px;
+					left: -6px;
+					border-width: 7px 7px 7px 0;
+					border-color: transparent rgb(255, 255, 255);
+					border-radius: 0px;
+    			}
+    			
+	    		.user-name {
+	    			color: $primary-orange;
+	    		}
+	    		.time-post {
+	    			font-size: 1.1rem;
+	    			color: $light-gray-text;
+	    		}	    		
+	    		.comment-content {
+	    			color: rgb(170, 170, 170);
+	    		}
+    		}
+    		
     	}
     }
     

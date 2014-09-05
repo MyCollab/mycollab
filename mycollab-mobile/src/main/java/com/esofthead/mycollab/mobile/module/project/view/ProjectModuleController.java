@@ -156,6 +156,21 @@ public class ProjectModuleController extends AbstractController {
 				presenter.go(navManager, data);
 			}
 		});
+
+		this.register(new ApplicationEventListener<MessageEvent.GotoRead>() {
+
+			private static final long serialVersionUID = 252671591979715270L;
+
+			@Subscribe
+			@Override
+			public void handle(MessageEvent.GotoRead event) {
+				MessageScreenData.Read data = new MessageScreenData.Read(
+						(Integer) event.getData());
+				MessagePresenter presenter = PresenterResolver
+						.getPresenter(MessagePresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
 	}
 
 	public static void doLogin(String username, String password,

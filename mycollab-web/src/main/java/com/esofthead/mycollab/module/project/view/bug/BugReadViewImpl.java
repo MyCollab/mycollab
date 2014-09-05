@@ -708,7 +708,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 	private class PeopleInfoComp extends VerticalLayout {
 		private static final long serialVersionUID = 1L;
 
-		public void displayEntryPeople(ValuedBean bean) {
+		private void displayEntryPeople(ValuedBean bean) {
 			this.removeAllComponents();
 			this.setSpacing(true);
 			this.setMargin(new MarginInfo(false, false, false, true));

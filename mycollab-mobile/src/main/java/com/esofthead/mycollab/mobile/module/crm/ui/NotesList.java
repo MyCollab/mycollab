@@ -47,7 +47,6 @@ import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.BeanList.RowDisplayHandler;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -121,7 +120,7 @@ public class NotesList extends AbstractMobilePageView {
 		commentBox.setExpandRatio(noteInput, 1.0f);
 
 		Button postBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL));
+				AppContext.getMessage(GenericI18Enum.M_BUTTON_SEND));
 		postBtn.setStyleName("submit-btn");
 		postBtn.setWidthUndefined();
 		postBtn.addClickListener(new Button.ClickListener() {

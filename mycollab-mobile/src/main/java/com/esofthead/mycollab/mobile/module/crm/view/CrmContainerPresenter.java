@@ -58,6 +58,7 @@ public class CrmContainerPresenter extends
 							tokens.length);
 					MobileApplication.rootUrlResolver.getSubResolver("crm")
 							.handle(fragments);
+					MobileApplication.getInstance().setInitialUrl("");
 				}
 			}
 			return;

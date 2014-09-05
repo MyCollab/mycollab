@@ -19,6 +19,7 @@ package com.esofthead.mycollab.core.utils;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+import org.apache.commons.validator.EmailValidator;
 import org.jsoup.Jsoup;
 
 /**
@@ -115,6 +116,12 @@ public class StringUtils {
 		} else {
 			return value;
 		}
+	}
+
+	private static EmailValidator emailValidator = EmailValidator.getInstance();
+
+	public static boolean isValidEmail(String value) {
+		return emailValidator.isValid(value);
 	}
 
 	public static boolean isValidPhoneNumber(String value) {

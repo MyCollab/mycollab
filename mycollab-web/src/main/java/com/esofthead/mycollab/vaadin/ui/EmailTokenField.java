@@ -19,11 +19,11 @@ package com.esofthead.mycollab.vaadin.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.vaadin.tokenfield.TokenField;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.utils.ParsingUtils;
 import com.esofthead.mycollab.utils.ParsingUtils.InvalidEmailException;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -36,8 +36,6 @@ import com.esofthead.mycollab.vaadin.AppContext;
  */
 @SuppressWarnings("serial")
 public class EmailTokenField extends TokenField {
-
-	private final EmailValidator emailValidate = EmailValidator.getInstance();
 
 	private final List<MailRecipientField> lstMailToken = new ArrayList<MailRecipientField>();
 
@@ -91,7 +89,7 @@ public class EmailTokenField extends TokenField {
 		for (int i = 0; i < tokens.length; i++) {
 			String token = tokens[i].trim();
 			if (token.length() > 0) {
-				if (emailValidate.isValid(token)) {
+				if (StringUtils.isValidEmail(token)) {
 					super.onTokenInput(token);
 				} else {
 					NotificationUtil

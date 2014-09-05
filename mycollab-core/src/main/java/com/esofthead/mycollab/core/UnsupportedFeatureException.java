@@ -19,11 +19,14 @@ package com.esofthead.mycollab.core;
 /**
  * 
  * @author MyCollab Ltd.
- * @since 4.4.0
+ * @since 4.5.1
  *
  */
-public class MyCollabVersion {
-	public static String getVersion() {
-		return "4.5.0";
+public class UnsupportedFeatureException extends MyCollabException {
+	private static final long serialVersionUID = 1L;
+
+	public UnsupportedFeatureException(String message) {
+		super(message);
 	}
+
 }

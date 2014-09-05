@@ -16,13 +16,17 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.core.utils.ClassUtils;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
+import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -36,6 +40,8 @@ import com.vaadin.ui.UI;
  * @since 4.4.0
  */
 public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
+
+	private static final long serialVersionUID = -2509768926569804614L;
 
 	public ProjectViewPresenter() {
 		super(ProjectView.class);
@@ -73,6 +79,18 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 	@Override
 	protected void onHandleChain(ComponentContainer container,
 			PageActionChain pageActionChain) {
-		// TODO: handle Project's submodules here
+		ScreenData<?> pageAction = pageActionChain.peek();
+
+		IPresenter<?> presenter = null;
+
+		if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class,
+				MessageScreenData.Search.class)) {
+			presenter = PresenterResolver.getPresenter(MessagePresenter.class);
+		} else {
+			throw new UnsupportedOperationException(
+					"Not support page action chain " + pageAction);
+		}
+
+		presenter.handleChain(container, pageActionChain);
 	}
 }

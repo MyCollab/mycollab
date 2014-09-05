@@ -1,8 +1,10 @@
+@import "colors.scss";
+
 @mixin toolbar {
 	overflow-x: auto;
 	overflow-y: hidden;
 	box-shadow: none;
-	border-top: 1px solid #DDDDDD;
+	border-top: 1px solid $light-gray-border;
 	background-color: #F7F7F7;
 	position: absolute;
 	bottom: 0px;

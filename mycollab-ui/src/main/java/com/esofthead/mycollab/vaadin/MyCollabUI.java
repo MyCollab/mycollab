@@ -75,6 +75,10 @@ public abstract class MyCollabUI extends UI {
 		return initialUrl;
 	}
 
+	public void setInitialUrl(String value) {
+		this.initialUrl = value;
+	}
+
 	protected void postSetupApp(VaadinRequest request) {
 		VaadinServletRequest servletRequest = (VaadinServletRequest) request;
 		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
