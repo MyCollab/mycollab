@@ -770,4 +770,37 @@
 	    }
     }
     
+    /* Project Messages */
+    .message-list-view {
+    	.message-block {
+    		padding: 1.2rem 0.8rem;
+    		border-bottom: 1px solid rgb(203, 203, 203);
+    		
+    		.user-avatar {
+    			padding-right: 0.8rem;
+    		}
+    		.user-name {
+    			color: rgb(226, 145, 63);
+    		}
+    		.time-post {
+    			font-size: 1.1rem;
+    			color: rgb(212, 212, 212);
+    		}
+    		.title-row {
+    			.comment-count {
+	    			font-size: 1.1rem;
+					color: white;
+					background-color: rgb(124, 124, 124);
+					padding: 0.3rem 0.5rem;
+					border-radius: 0.3rem;
+	    		}
+	    		padding: 0.3rem 0rem;
+    		}
+    		
+    		.message-content {
+    			color: rgb(170, 170, 170);
+    		}
+    	}
+    }
+    
 }

@@ -52,13 +52,13 @@ import com.vaadin.ui.Window;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ApproveInputWindow extends Window {
+class ApproveInputWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	private final SimpleBug bug;
 	private final EditForm editForm;
 	private final IBugCallbackStatusComp callbackForm;
 
-	public ApproveInputWindow(final IBugCallbackStatusComp callbackForm,
+	ApproveInputWindow(final IBugCallbackStatusComp callbackForm,
 			final SimpleBug bug) {
 		super("Approve bug '" + bug.getSummary() + "'");
 		this.setResizable(false);
@@ -143,7 +143,7 @@ public class ApproveInputWindow extends Window {
 
 									final BugService bugService = ApplicationContextUtil
 											.getSpringBean(BugService.class);
-									bugService.updateWithSession(
+									bugService.updateSelectiveWithSession(
 											ApproveInputWindow.this.bug,
 											AppContext.getUsername());
 

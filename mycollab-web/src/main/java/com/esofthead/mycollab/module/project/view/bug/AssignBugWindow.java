@@ -51,13 +51,13 @@ import com.vaadin.ui.Window;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class AssignBugWindow extends Window {
+class AssignBugWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	private final SimpleBug bug;
 	private final EditForm editForm;
 	private final IBugCallbackStatusComp callbackForm;
 
-	public AssignBugWindow(final IBugCallbackStatusComp callbackForm,
+	AssignBugWindow(final IBugCallbackStatusComp callbackForm,
 			final SimpleBug bug) {
 		super("Assign bug '" + bug.getSummary() + "'");
 		this.bug = bug;
@@ -141,7 +141,7 @@ public class AssignBugWindow extends Window {
 									// Save bug status and assignee
 									final BugService bugService = ApplicationContextUtil
 											.getSpringBean(BugService.class);
-									bugService.updateWithSession(
+									bugService.updateSelectiveWithSession(
 											AssignBugWindow.this.bug,
 											AppContext.getUsername());
 
@@ -199,8 +199,8 @@ public class AssignBugWindow extends Window {
 									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
 									0, 0);
 				} else if (propertyId.equals("comment")) {
-					this.informationLayout.addComponent(field, "Comment", 0,
-							1, 2, "100%", Alignment.MIDDLE_LEFT);
+					this.informationLayout.addComponent(field, "Comment", 0, 1,
+							2, "100%", Alignment.MIDDLE_LEFT);
 				}
 			}
 		}

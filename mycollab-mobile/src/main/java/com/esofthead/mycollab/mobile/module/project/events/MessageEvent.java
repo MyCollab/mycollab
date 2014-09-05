@@ -14,22 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view;
+package com.esofthead.mycollab.mobile.module.project.events;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.eventmanager.ApplicationEvent;
 
 /**
  * @author MyCollab Ltd.
+ *
  * @since 4.4.0
+ *
  */
+public class MessageEvent {
+	public static class GotoList extends ApplicationEvent {
 
-@ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements
-		ProjectView {
-	private static final long serialVersionUID = -5411890906862175950L;
+		private static final long serialVersionUID = -834543150969461602L;
 
-	public ProjectViewImpl() {
+		public GotoList(Object source, Object data) {
+			super(source, data);
+		}
+	}
 
+	public static class GotoRead extends ApplicationEvent {
+
+		private static final long serialVersionUID = 134479710975293923L;
+
+		public GotoRead(Object source, Object data) {
+			super(source, data);
+		}
 	}
 }

@@ -30,7 +30,12 @@ import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
+import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
+import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -67,6 +72,7 @@ public class ProjectModuleController extends AbstractController {
 		this.navManager = navigationManager;
 
 		bindProjectEvents();
+		bindMessageEvents();
 	}
 
 	private void bindProjectEvents() {
@@ -128,6 +134,26 @@ public class ProjectModuleController extends AbstractController {
 						.getPresenter(ProjectViewPresenter.class);
 				presenter.handleChain(navManager,
 						(PageActionChain) event.getData());
+			}
+		});
+	}
+
+	private void bindMessageEvents() {
+		this.register(new ApplicationEventListener<MessageEvent.GotoList>() {
+
+			private static final long serialVersionUID = -5988814292947013329L;
+
+			@Subscribe
+			@Override
+			public void handle(MessageEvent.GotoList event) {
+				MessageSearchCriteria searchCriteria = new MessageSearchCriteria();
+				searchCriteria.setProjectids(new SetSearchField<Integer>(
+						CurrentProjectVariables.getProjectId()));
+				MessageScreenData.Search data = new MessageScreenData.Search(
+						searchCriteria);
+				MessagePresenter presenter = PresenterResolver
+						.getPresenter(MessagePresenter.class);
+				presenter.go(navManager, data);
 			}
 		});
 	}

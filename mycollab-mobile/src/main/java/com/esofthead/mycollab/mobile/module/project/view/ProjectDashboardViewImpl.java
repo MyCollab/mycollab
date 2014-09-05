@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -125,6 +127,22 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 					+ "</div>");
 			this.buttonId = id;
 			this.setHtmlContentAllowed(true);
+			this.addClickListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = -6012218269990812630L;
+
+				@Override
+				public void buttonClick(Button.ClickEvent evt) {
+					final String buttonId = ((ProjectModuleButton) evt
+							.getButton()).getButtonId();
+					if (AppContext.getMessage(
+							ProjectCommonI18nEnum.VIEW_MESSAGE)
+							.equals(buttonId)) {
+						EventBusFactory.getInstance().post(
+								new MessageEvent.GotoList(this, null));
+					}
+				}
+			});
 		}
 
 		public String getButtonId() {

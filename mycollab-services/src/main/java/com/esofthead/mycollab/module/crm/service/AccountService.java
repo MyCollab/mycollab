@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.service;
 
 import java.util.List;
 
+import com.esofthead.mycollab.core.cache.CacheArgs;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -39,11 +40,13 @@ public interface AccountService extends
 	@Cacheable
 	SimpleAccount findById(int id, @CacheKey int accountId);
 
-	@CacheEvict(serviceMap = { LeadService.class })
+	@CacheEvict
+	@CacheArgs(values={LeadService.class})
 	void saveAccountLeadRelationship(List<AccountLead> associateLeads,
 			@CacheKey Integer accountId);
 
-	@CacheEvict(serviceMap = { LeadService.class })
+	@CacheEvict
+	@CacheArgs(values={LeadService.class})
 	void removeAccountLeadRelationship(AccountLead associateLead,
 			@CacheKey Integer accountId);
 

@@ -43,10 +43,6 @@ public interface BugService extends
 	List<GroupItem> getStatusSummary(@CacheKey BugSearchCriteria criteria);
 
 	@Cacheable
-	List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
-			@CacheKey BugSearchCriteria criteria);
-
-	@Cacheable
 	List<GroupItem> getPrioritySummary(@CacheKey BugSearchCriteria criteria);
 
 	@Cacheable
@@ -55,6 +51,10 @@ public interface BugService extends
 
 	@Cacheable
 	List<GroupItem> getResolutionDefectsSummary(
+			@CacheKey BugSearchCriteria criteria);
+
+	@Cacheable
+	List<BugStatusGroupItem> getBugStatusGroupItemBaseComponent(
 			@CacheKey BugSearchCriteria criteria);
 
 	@Cacheable

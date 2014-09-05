@@ -154,7 +154,7 @@ public class ContactServiceImpl extends
 		contactCaseMapper.deleteByExample(ex);
 	}
 
-	@CacheEvict(serviceMap = LeadService.class)
+	@Override
 	public void saveContactLeadRelationship(List<ContactLead> associateLeads,
 			@CacheKey Integer accountId) {
 		for (ContactLead associateLead : associateLeads) {

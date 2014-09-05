@@ -14,31 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-core.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.validator.constraints;
+package com.esofthead.mycollab.core.cache;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
+ * @since 4.5.0
  *
  */
-@SuppressWarnings("ucd")
-public class URLValidator implements ConstraintValidator<URL, String> {
-
-	@Override
-	public void initialize(URL constraintAnnotation) {
-	}
-
-	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (value != null && !value.trim().equals("")) {
-			return value
-					.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
-		} else {
-			return true;
-		}
-	}
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value = { ElementType.METHOD })
+public @interface CacheArgs {
+	Class<?>[] values();
 }

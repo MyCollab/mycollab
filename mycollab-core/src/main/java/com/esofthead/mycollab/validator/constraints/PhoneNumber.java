@@ -31,18 +31,19 @@ import javax.validation.Payload;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  *
  */
-@Target({METHOD, FIELD, ANNOTATION_TYPE})
+@Target({ METHOD, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = PhoneNumberValidator.class)
 @Documented
 @SuppressWarnings("ucd")
 public @interface PhoneNumber {
 
-    String message() default "{com.esofthead.mycollab.validator.constraints.PhoneNumber}";
+	String message() default "{com.esofthead.mycollab.validator.constraints.PhoneNumber}";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

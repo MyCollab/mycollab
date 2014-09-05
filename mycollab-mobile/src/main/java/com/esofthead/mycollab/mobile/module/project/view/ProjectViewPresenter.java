@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -36,37 +37,42 @@ import com.vaadin.ui.UI;
  */
 public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 
-    public ProjectViewPresenter() {
-        super(ProjectView.class);
-    }
+	public ProjectViewPresenter() {
+		super(ProjectView.class);
+	}
 
-    @Override
-    protected void onGo(ComponentContainer container, ScreenData<?> data) {
-        if (data == null) {
-            // do nothing
-        }
-        if (data.getParams() instanceof Integer) {
-            ProjectService projectService = (ProjectService) ApplicationContextUtil
-                    .getSpringBean(ProjectService.class);
-            SimpleProject project = (SimpleProject) projectService.findById(
-                    (Integer) data.getParams(), AppContext.getAccountId());
+	@Override
+	protected void onGo(ComponentContainer container, ScreenData<?> data) {
+		if (data == null) {
+			// do nothing
+		}
+		if (data.getParams() instanceof Integer) {
+			ProjectService projectService = ApplicationContextUtil
+					.getSpringBean(ProjectService.class);
+			SimpleProject project = projectService.findById(
+					(Integer) data.getParams(), AppContext.getAccountId());
 
-            if (project == null) {
-                NotificationUtil.showRecordNotExistNotification();
-            } else {
-                CurrentProjectVariables.setProject(project);
-            }
-        }
-    }
+			if (project == null) {
+				NotificationUtil.showRecordNotExistNotification();
+			} else {
+				CurrentProjectVariables.setProject(project);
+				((MobileNavigationManager) UI.getCurrent().getContent())
+						.setNavigationMenu(new InsideProjectNavigationMenu());
+			}
+		}
+	}
 
-    @Override
-    protected void onDefaultStopChain() {
-        ProjectDashboardPresenter presenter = PresenterResolver.getPresenter(ProjectDashboardPresenter.class);
-        presenter.go( (MobileNavigationManager) UI.getCurrent().getContent(), null);
-    }
+	@Override
+	protected void onDefaultStopChain() {
+		ProjectDashboardPresenter presenter = PresenterResolver
+				.getPresenter(ProjectDashboardPresenter.class);
+		presenter.go((MobileNavigationManager) UI.getCurrent().getContent(),
+				null);
+	}
 
-    @Override
-    protected void onHandleChain(ComponentContainer container, PageActionChain pageActionChain) {
-        // TODO: handle Project's submodules here
-    }
+	@Override
+	protected void onHandleChain(ComponentContainer container,
+			PageActionChain pageActionChain) {
+		// TODO: handle Project's submodules here
+	}
 }

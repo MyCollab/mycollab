@@ -33,6 +33,7 @@ Installation
 
 1. Download MyCollab Binary File mycollab-x.xxx-dist
 2. Follow installation guideline at [http://wiki.mycollab.com/Installation_Guideline](http://wiki.mycollab.com/Installation_Guideline)
+3. If you already installed MyCollab and you want to upgrade to MyCollab latest version, this link [http://wiki.mycollab.com/Upgrade_MyCollab](http://wiki.mycollab.com/Upgrade_MyCollab) will instruct steps to make your task easily
 
 
  

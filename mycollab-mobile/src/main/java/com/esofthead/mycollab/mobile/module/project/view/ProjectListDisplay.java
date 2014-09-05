@@ -25,7 +25,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
-import com.vaadin.ui.Button;
+import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Component;
 
 /**
@@ -49,12 +49,13 @@ public class ProjectListDisplay
 
 		@Override
 		public Component generateRow(final SimpleProject obj, int rowIndex) {
-			final Button b = new Button(obj.getName());
-			b.addClickListener(new Button.ClickListener() {
+			final NavigationButton b = new NavigationButton(obj.getName());
+			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 				private static final long serialVersionUID = 6404941057797908742L;
 
 				@Override
-				public void buttonClick(Button.ClickEvent event) {
+				public void buttonClick(
+						NavigationButton.NavigationButtonClickEvent event) {
 					PageActionChain chain = new PageActionChain(
 							new ProjectScreenData.Goto(obj.getId()));
 					EventBusFactory.getInstance().post(

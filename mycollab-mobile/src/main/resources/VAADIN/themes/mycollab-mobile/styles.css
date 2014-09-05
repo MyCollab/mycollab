@@ -109,6 +109,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Message Row */
   /* Confirm Dialog */
   /* Project Dashboard */
+  /* Project Messages */
 }
 .mycollab-mobile .v-table-body {
   border: none;
@@ -817,4 +818,31 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #525252;
   font-size: 1.1rem;
   text-transform: uppercase;
+}
+.mycollab-mobile .message-list-view .message-block {
+  padding: 1.2rem 0.8rem;
+  border-bottom: 1px solid #cbcbcb;
+}
+.mycollab-mobile .message-list-view .message-block .user-avatar {
+  padding-right: 0.8rem;
+}
+.mycollab-mobile .message-list-view .message-block .user-name {
+  color: #e2913f;
+}
+.mycollab-mobile .message-list-view .message-block .time-post {
+  font-size: 1.1rem;
+  color: #d4d4d4;
+}
+.mycollab-mobile .message-list-view .message-block .title-row {
+  padding: 0.3rem 0rem;
+}
+.mycollab-mobile .message-list-view .message-block .title-row .comment-count {
+  font-size: 1.1rem;
+  color: white;
+  background-color: #7c7c7c;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.3rem;
+}
+.mycollab-mobile .message-list-view .message-block .message-content {
+  color: #aaaaaa;
 }

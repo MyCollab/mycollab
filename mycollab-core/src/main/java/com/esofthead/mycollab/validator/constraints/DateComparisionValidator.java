@@ -23,6 +23,8 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -48,12 +50,8 @@ public class DateComparisionValidator implements
 			Date lastDate = (Date) PropertyUtils.getProperty(value,
 					lastDateField);
 
-			if (firstDate == null || lastDate == null) {
-				return true;
-			} else {
-
-				return (firstDate.compareTo(lastDate) == 1) ? false : true;
-			}
+			return (DateTimeUtils.compareByDate(firstDate, lastDate) > 0) ? false
+					: true;
 		} catch (Exception ex) {
 			return true;
 		}

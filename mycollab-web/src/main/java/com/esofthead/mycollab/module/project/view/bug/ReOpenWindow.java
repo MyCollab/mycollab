@@ -57,14 +57,13 @@ import com.vaadin.ui.Window;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class ReOpenWindow extends Window {
+class ReOpenWindow extends Window {
 	private final SimpleBug bug;
 	private final EditForm editForm;
 	private VersionMultiSelectField fixedVersionSelect;
 	private final IBugCallbackStatusComp callbackForm;
 
-	public ReOpenWindow(final IBugCallbackStatusComp callbackForm,
-			final SimpleBug bug) {
+	ReOpenWindow(final IBugCallbackStatusComp callbackForm, final SimpleBug bug) {
 		super("Reopen bug '" + bug.getSummary() + "'");
 		this.setResizable(false);
 		this.setModal(true);
@@ -156,7 +155,7 @@ public class ReOpenWindow extends Window {
 									// Save bug status and assignee
 									final BugService bugService = ApplicationContextUtil
 											.getSpringBean(BugService.class);
-									bugService.updateWithSession(
+									bugService.updateSelectiveWithSession(
 											ReOpenWindow.this.bug,
 											AppContext.getUsername());
 

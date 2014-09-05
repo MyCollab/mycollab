@@ -22,6 +22,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  *
  */
 @SuppressWarnings("ucd")
@@ -30,16 +31,16 @@ public class StringLimitLengthValidator implements
 
 	@Override
 	public void initialize(StringLimitLength constraintAnnotation) {
-		
+
 	}
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		if (value != null) {
-            return (value.length() <= 3);
-        } else {
-            return false;
-        }
+			return (value.length() <= 3);
+		} else {
+			return false;
+		}
 	}
 
 }

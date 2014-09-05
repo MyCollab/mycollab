@@ -57,7 +57,7 @@ import com.vaadin.ui.Window;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class ResolvedInputWindow extends Window {
+class ResolvedInputWindow extends Window {
 	private static final long serialVersionUID = 1L;
 
 	private final SimpleBug bug;
@@ -65,7 +65,7 @@ public class ResolvedInputWindow extends Window {
 	private VersionMultiSelectField fixedVersionSelect;
 	private final IBugCallbackStatusComp callbackForm;
 
-	public ResolvedInputWindow(final IBugCallbackStatusComp callbackForm,
+	ResolvedInputWindow(final IBugCallbackStatusComp callbackForm,
 			final SimpleBug bug) {
 		super("Resolve bug '" + bug.getSummary() + "'");
 		this.bug = bug;
@@ -159,7 +159,7 @@ public class ResolvedInputWindow extends Window {
 									// Save bug status and assignee
 									final BugService bugService = ApplicationContextUtil
 											.getSpringBean(BugService.class);
-									bugService.updateWithSession(
+									bugService.updateSelectiveWithSession(
 											ResolvedInputWindow.this.bug,
 											AppContext.getUsername());
 

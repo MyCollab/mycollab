@@ -170,7 +170,7 @@ public class MobileApplication extends MyCollabUI {
 		setContent(manager);
 
 		registerControllers(manager);
-		// checkLocalData();
+
 		getPage().addUriFragmentChangedListener(
 				new UriFragmentChangedListener() {
 

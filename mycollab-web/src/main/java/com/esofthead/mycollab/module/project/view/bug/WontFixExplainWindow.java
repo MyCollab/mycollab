@@ -59,14 +59,14 @@ import com.vaadin.ui.Window;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class WontFixExplainWindow extends Window {
+class WontFixExplainWindow extends Window {
 
 	private final SimpleBug bug;
 	private final EditForm editForm;
 	private VersionMultiSelectField fixedVersionSelect;
 	private final IBugCallbackStatusComp callbackForm;
 
-	public WontFixExplainWindow(final IBugCallbackStatusComp callbackForm,
+	WontFixExplainWindow(final IBugCallbackStatusComp callbackForm,
 			final SimpleBug bug) {
 		super("Won't fix bug '" + bug.getSummary() + "'");
 		this.bug = bug;
@@ -159,7 +159,7 @@ public class WontFixExplainWindow extends Window {
 										// Save bug status and assignee
 										final BugService bugService = ApplicationContextUtil
 												.getSpringBean(BugService.class);
-										bugService.updateWithSession(
+										bugService.updateSelectiveWithSession(
 												WontFixExplainWindow.this.bug,
 												AppContext.getUsername());
 

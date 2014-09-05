@@ -16,29 +16,20 @@
  */
 package com.esofthead.mycollab.validator.constraints;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * 
- * @author MyCollab Ltd.
- * @since 1.0
- *
- */
-@SuppressWarnings("ucd")
-public class URLValidator implements ConstraintValidator<URL, String> {
+import com.esofthead.mycollab.core.utils.StringUtils;
 
-	@Override
-	public void initialize(URL constraintAnnotation) {
-	}
+public class PhoneNumberValidatorTest {
 
-	@Override
-	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (value != null && !value.trim().equals("")) {
-			return value
-					.matches("[-a-zA-Z0-9@:%_\\+.~#?&//=]{2,256}\\.[a-z]{2,4}\\b(\\/[-a-zA-Z0-9@:%_\\+.~#?&//=]*)?");
-		} else {
-			return true;
-		}
+	@Test
+	public void testPhoneNumber() {
+		Assert.assertEquals(true, StringUtils.isValidPhoneNumber("0918734068"));
+		Assert.assertEquals(false, StringUtils.isValidPhoneNumber("a"));
+		Assert.assertEquals(false, StringUtils.isValidPhoneNumber("091a"));
+		Assert.assertEquals(true, StringUtils.isValidPhoneNumber("1111111111"));
+		Assert.assertEquals(false, StringUtils.isValidPhoneNumber("1111"));
+		Assert.assertEquals(true, StringUtils.isValidPhoneNumber("(111)-111-1111"));
 	}
 }

@@ -97,6 +97,14 @@ public class BugServiceImpl extends
 	}
 
 	@Override
+	public int updateSelectiveWithSession(BugWithBLOBs record, String username) {
+		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
+				ProjectActivityStreamService.class,
+				ItemTimeLoggingService.class);
+		return super.updateSelectiveWithSession(record, username);
+	}
+
+	@Override
 	public int removeWithSession(Integer primaryKey, String username,
 			int accountId) {
 		CacheUtils.cleanCaches(accountId, ProjectService.class,

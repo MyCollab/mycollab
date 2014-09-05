@@ -14,22 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view;
+package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 
 /**
  * @author MyCollab Ltd.
+ *
  * @since 4.4.0
+ *
  */
-
 @ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements
-		ProjectView {
-	private static final long serialVersionUID = -5411890906862175950L;
+public class MessageContainer extends AbstractMobileMainView {
 
-	public ProjectViewImpl() {
-
-	}
+	private static final long serialVersionUID = 2543406663265055057L;
 }

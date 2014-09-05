@@ -45,6 +45,7 @@ public class ClassUtils {
 		return false;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Class<?> getInterfaceInstanceOf(Class cls, Class superCls) {
 		Class[] interfaces = cls.getInterfaces();
 		for (Class inter : interfaces) {

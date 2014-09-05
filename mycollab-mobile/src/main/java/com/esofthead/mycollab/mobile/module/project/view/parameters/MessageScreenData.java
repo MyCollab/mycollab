@@ -14,22 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view;
+package com.esofthead.mycollab.mobile.module.project.view.parameters;
 
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
  * @author MyCollab Ltd.
+ *
  * @since 4.4.0
+ *
  */
+public class MessageScreenData {
+	public static class Read extends ScreenData<Integer> {
 
-@ViewComponent
-public class ProjectViewImpl extends AbstractMobilePageView implements
-		ProjectView {
-	private static final long serialVersionUID = -5411890906862175950L;
+		public Read(Integer params) {
+			super(params);
+		}
+	}
 
-	public ProjectViewImpl() {
+	public static class Search extends ScreenData<MessageSearchCriteria> {
 
+		public Search(MessageSearchCriteria params) {
+			super(params);
+		}
 	}
 }

@@ -99,7 +99,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		implements BugReadView, IBugCallbackStatusComp {
 
@@ -145,7 +145,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 							beanItem.setStatus(BugStatus.InProgress.name());
 							final BugService bugService = ApplicationContextUtil
 									.getSpringBean(BugService.class);
-							bugService.updateWithSession(beanItem,
+							bugService.updateSelectiveWithSession(beanItem,
 									AppContext.getUsername());
 							displayWorkflowControl();
 						}
@@ -197,7 +197,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 							beanItem.setStatus(BugStatus.Open.name());
 							final BugService bugService = ApplicationContextUtil
 									.getSpringBean(BugService.class);
-							bugService.updateWithSession(beanItem,
+							bugService.updateSelectiveWithSession(beanItem,
 									AppContext.getUsername());
 							displayWorkflowControl();
 						}

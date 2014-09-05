@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.esofthead.mycollab.cache.CacheUtils;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.interceptor.aspect.Auditable;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
@@ -45,7 +44,6 @@ import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.AccountService;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
-import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.schedule.email.crm.AccountRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
@@ -120,8 +118,6 @@ public class AccountServiceImpl extends
 				accountLeadMapper.insert(associateLead);
 			}
 		}
-
-		cleanAccountLeadCaches(accountId);
 	}
 
 	@Override
@@ -131,14 +127,6 @@ public class AccountServiceImpl extends
 		ex.createCriteria().andAccountidEqualTo(associateLead.getAccountid())
 				.andLeadidEqualTo(associateLead.getLeadid());
 		accountLeadMapper.deleteByExample(ex);
-
-		cleanAccountLeadCaches(accountId);
-	}
-
-	private void cleanAccountLeadCaches(Integer accountId) {
-		// Clean cache relate to account and lead
-		CacheUtils.cleanCaches(accountId, LeadService.class,
-				AccountService.class);
 	}
 
 	@Override
