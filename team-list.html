@@ -8,21 +8,21 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title> | MyCollab</title>
+		<title>Team list | MyCollab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta http-equiv="content-language" content="en" />
  
 		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/docs.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/reflow-skin.css" rel="stylesheet" />
+		<link href=".//css/docs.css" rel="stylesheet" />
+		<link href=".//css/reflow-skin.css" rel="stylesheet" />
 
 		<link href="http://yandex.st/highlightjs/7.5/styles/github.min.css" rel="stylesheet" />
 
-		<link href="http://esofthead.github.io/mycollab/css/lightbox.css" rel="stylesheet" />
+		<link href=".//css/lightbox.css" rel="stylesheet" />
 
-		<link href="http://esofthead.github.io/mycollab/css/site.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/print.css" rel="stylesheet" media="print" />
+		<link href=".//css/site.css" rel="stylesheet" />
+		<link href=".//css/print.css" rel="stylesheet" media="print" />
 
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -48,7 +48,7 @@
 		</script>
 		</head>
 
-	<body class="page-index project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
+	<body class="page-team-list project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -58,7 +58,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="http://esofthead.github.io/mycollab"><span class="color-highlight">MyCollab</span> Community</a>
+					<a class="brand" href="./"><span class="color-highlight">MyCollab</span> Community</a>
 					<div class="nav-collapse collapse" id="top-nav-collapse">
 						<ul class="nav pull-right">
 							<li ><a href="https://sourceforge.net/projects/mycollab/files/latest" title="Download" class="externalLink">Download</a></li>
@@ -81,7 +81,7 @@
 		<div class="row" id="banner">
 			<div class="span12">
 				<div class="pull-left">
-					<a href="http://esofthead.github.io/mycollab" id="bannerLeft"><h1><span class="color-highlight">MyCollab</span> Open Source</h1></a>
+					<a href="./" id="bannerLeft"><h1><span class="color-highlight">MyCollab</span> Open Source</h1></a>
 					<p class="lead">Responsive Apache Maven skin to reflow the standard
                 Maven site with a modern feel ddd</p>
 				</div>
@@ -94,7 +94,7 @@
 			<ul class="breadcrumb">
 				<li><a href="./" title="MyCollab">MyCollab</a></li>
 				<li class="divider">/</li>
-				<li></li>
+				<li>Team list</li>
 			</ul>
 		</div>
 		<hr class="toc-separator" />
@@ -108,6 +108,9 @@
 					</a>
 					<div class="nav-collapse collapse" id="toc-nav-collapse">
 						<ul id="toc" class="nav">
+						<li class="toplevel"><a href="#The_Team" title="The Team">The Team</a></li>
+						<li class="toplevel"><a href="#Members" title="Members">Members</a></li>
+						<li class="toplevel"><a href="#Contributors" title="Contributors">Contributors</a></li>
 						</ul>
 					</div>
 				</div>
@@ -119,7 +122,40 @@
 	<div class="row">
 		<div class="span12">
 			<div class="body-content">
-<p>Hello world</p>
+<div class="section"> 
+ <div class="page-header">
+  <h2 id="The_Team">The Team</h2>
+ </div> 
+ <a name="The_Team"></a> 
+ <p>A successful project requires many people to play many roles. Some members write code or documentation, while others are valuable as testers, submitting patches and suggestions.</p> 
+ <p>The team is comprised of Members and Contributors. Members have direct access to the source of a project and actively evolve the code-base. Contributors improve the project through submission of patches and suggestions to the Members. The number of Contributors to the project is unbounded. Get involved today. All contributions to the project are greatly appreciated.</p> 
+ <div class="section"> 
+  <h3 id="Members">Members</h3> 
+  <a name="Members"></a> 
+  <p>There are no developers working on this project.</p> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Contributors">Contributors</h3> 
+  <a name="Contributors"></a> 
+  <p>There are no contributors listed for this project. Please check back again later.</p> 
+  <script type="text/javascript">
+function offsetDate(id, offset) {
+    var now = new Date();
+    var nowTime = now.getTime();
+    var localOffset = now.getTimezoneOffset();
+    var developerTime = nowTime + ( offset * 60 * 60 * 1000 )+ ( localOffset * 60 * 1000 );
+    var developerDate = new Date(developerTime);
+
+    document.getElementById(id).innerHTML = developerDate;
+}
+
+function init(){
+}
+
+window.onLoad = init();
+</script> 
+ </div> 
+</div>
 			</div>
 		</div>
 	</div>
@@ -135,8 +171,8 @@
 				<div class="span3 bottom-nav">
 					<ul class="nav nav-list">
 						<li class="nav-header">Main</li>
-						<li class="active">
-							<a href="#" title="Home">Home</a>
+						<li >
+							<a href="./" title="Home">Home</a>
 						</li>
 						<li >
 							<a href="https://github.com/esofthead/mycollab" title="GitHub project" class="externalLink">GitHub project</a>
@@ -198,11 +234,11 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script src="http://esofthead.github.io/mycollab/js/lightbox.min.js"></script>
-	<script src="http://esofthead.github.io/mycollab/js/reflow-scroll.js"></script>
+	<script src=".//js/lightbox.min.js"></script>
+	<script src=".//js/reflow-scroll.js"></script>
 	<script src="http://yandex.st/highlightjs/7.5/highlight.min.js"></script>
 
-	<script src="http://esofthead.github.io/mycollab/js/reflow-skin.js"></script>
+	<script src=".//js/reflow-skin.js"></script>
 
 	</body>
 </html>

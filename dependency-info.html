@@ -8,21 +8,21 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title> | MyCollab</title>
+		<title>Dependency Information | MyCollab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta http-equiv="content-language" content="en" />
  
 		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/docs.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/reflow-skin.css" rel="stylesheet" />
+		<link href=".//css/docs.css" rel="stylesheet" />
+		<link href=".//css/reflow-skin.css" rel="stylesheet" />
 
 		<link href="http://yandex.st/highlightjs/7.5/styles/github.min.css" rel="stylesheet" />
 
-		<link href="http://esofthead.github.io/mycollab/css/lightbox.css" rel="stylesheet" />
+		<link href=".//css/lightbox.css" rel="stylesheet" />
 
-		<link href="http://esofthead.github.io/mycollab/css/site.css" rel="stylesheet" />
-		<link href="http://esofthead.github.io/mycollab/css/print.css" rel="stylesheet" media="print" />
+		<link href=".//css/site.css" rel="stylesheet" />
+		<link href=".//css/print.css" rel="stylesheet" media="print" />
 
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -48,7 +48,7 @@
 		</script>
 		</head>
 
-	<body class="page-index project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
+	<body class="page-dependency-info project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -58,7 +58,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="http://esofthead.github.io/mycollab"><span class="color-highlight">MyCollab</span> Community</a>
+					<a class="brand" href="./"><span class="color-highlight">MyCollab</span> Community</a>
 					<div class="nav-collapse collapse" id="top-nav-collapse">
 						<ul class="nav pull-right">
 							<li ><a href="https://sourceforge.net/projects/mycollab/files/latest" title="Download" class="externalLink">Download</a></li>
@@ -81,7 +81,7 @@
 		<div class="row" id="banner">
 			<div class="span12">
 				<div class="pull-left">
-					<a href="http://esofthead.github.io/mycollab" id="bannerLeft"><h1><span class="color-highlight">MyCollab</span> Open Source</h1></a>
+					<a href="./" id="bannerLeft"><h1><span class="color-highlight">MyCollab</span> Open Source</h1></a>
 					<p class="lead">Responsive Apache Maven skin to reflow the standard
                 Maven site with a modern feel ddd</p>
 				</div>
@@ -94,7 +94,7 @@
 			<ul class="breadcrumb">
 				<li><a href="./" title="MyCollab">MyCollab</a></li>
 				<li class="divider">/</li>
-				<li></li>
+				<li>Dependency Information</li>
 			</ul>
 		</div>
 		<hr class="toc-separator" />
@@ -108,6 +108,21 @@
 					</a>
 					<div class="nav-collapse collapse" id="toc-nav-collapse">
 						<ul id="toc" class="nav">
+						<li class="toplevel"><a href="#Dependency_Information" title="Dependency Information">Dependency Information</a></li>
+						<li class="toplevel"><a href="#Apache_Maven" title="Apache Maven">Apache Maven</a></li>
+						<li class="toplevel"><a href="#Apache_Buildr" title="Apache Buildr">Apache Buildr</a></li>
+						<li class="toplevel"><a href="#Apache_Ant" title="Apache Ant">Apache Ant</a></li>
+						<li class="toplevel"><a href="#Groovy_Grape" title="Groovy Grape">Groovy Grape</a></li>
+						<li class="toplevel"><a href="#Grails" title="Grails">Grails</a></li>
+		<li class="divider-vertical"></li>
+		<li class="dropdown">
+			<a href="#" title="More&hellip;" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#">&hellip; <b class="caret"></b></a>
+			<ul class="dropdown-menu" role="menu">
+								<li><a href="#Leiningen" title="Leiningen">Leiningen</a></li>
+								<li><a href="#SBT" title="SBT">SBT</a></li>
+
+			</ul>
+		</li>
 						</ul>
 					</div>
 				</div>
@@ -119,7 +134,70 @@
 	<div class="row">
 		<div class="span12">
 			<div class="body-content">
-<p>Hello world</p>
+<div class="section"> 
+ <div class="page-header">
+  <h2 id="Dependency_Information">Dependency Information</h2>
+ </div> 
+ <a name="Dependency_Information"></a> 
+ <div class="section"> 
+  <h3 id="Apache_Maven">Apache Maven</h3> 
+  <a name="Apache_Maven"></a> 
+  <div class="source"> 
+   <pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.esofthead.mycollab&lt;/groupId&gt;
+  &lt;artifactId&gt;mycollab-doc&lt;/artifactId&gt;
+  &lt;version&gt;4.5.0&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Apache_Buildr">Apache Buildr</h3> 
+  <a name="Apache_Buildr"></a> 
+  <div class="source"> 
+   <pre>'com.esofthead.mycollab:mycollab-doc:pom:4.5.0'</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Apache_Ant">Apache Ant</h3> 
+  <a name="Apache_Ant"></a> 
+  <div class="source"> 
+   <pre>&lt;dependency org=&quot;com.esofthead.mycollab&quot; name=&quot;mycollab-doc&quot; rev=&quot;4.5.0&quot;&gt;
+  &lt;artifact name=&quot;mycollab-doc&quot; type=&quot;pom&quot; /&gt;
+&lt;/dependency&gt;</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Groovy_Grape">Groovy Grape</h3> 
+  <a name="Groovy_Grape"></a> 
+  <div class="source"> 
+   <pre>@Grapes(
+@Grab(group='com.esofthead.mycollab', module='mycollab-doc', version='4.5.0')
+)</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Grails">Grails</h3> 
+  <a name="Grails"></a> 
+  <div class="source"> 
+   <pre>compile 'com.esofthead.mycollab:mycollab-doc:4.5.0'</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Leiningen">Leiningen</h3> 
+  <a name="Leiningen"></a> 
+  <div class="source"> 
+   <pre>[com.esofthead.mycollab/mycollab-doc &quot;4.5.0&quot;]</pre> 
+  </div> 
+ </div> 
+ <div class="section"> 
+  <h3 id="SBT">SBT</h3> 
+  <a name="SBT"></a> 
+  <div class="source"> 
+   <pre>libraryDependencies += &quot;com.esofthead.mycollab&quot; %% &quot;mycollab-doc&quot; % &quot;4.5.0&quot;</pre> 
+  </div> 
+ </div> 
+</div>
 			</div>
 		</div>
 	</div>
@@ -135,8 +213,8 @@
 				<div class="span3 bottom-nav">
 					<ul class="nav nav-list">
 						<li class="nav-header">Main</li>
-						<li class="active">
-							<a href="#" title="Home">Home</a>
+						<li >
+							<a href="./" title="Home">Home</a>
 						</li>
 						<li >
 							<a href="https://github.com/esofthead/mycollab" title="GitHub project" class="externalLink">GitHub project</a>
@@ -198,11 +276,11 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script src="http://esofthead.github.io/mycollab/js/lightbox.min.js"></script>
-	<script src="http://esofthead.github.io/mycollab/js/reflow-scroll.js"></script>
+	<script src=".//js/lightbox.min.js"></script>
+	<script src=".//js/reflow-scroll.js"></script>
 	<script src="http://yandex.st/highlightjs/7.5/highlight.min.js"></script>
 
-	<script src="http://esofthead.github.io/mycollab/js/reflow-skin.js"></script>
+	<script src=".//js/reflow-skin.js"></script>
 
 	</body>
 </html>
