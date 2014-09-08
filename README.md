@@ -11,22 +11,22 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
 <table>
   <tr>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5441/9407986524_9866299746_o.png" target="_blank" title=“Project Dashboard”>
-        <img src="https://farm6.staticflickr.com/5441/9407986524_a594109ce4_m.jpg" alt=“Project Dashboard”>
+      <a href="https://farm4.staticflickr.com/3837/14952300710_dd5b36cf87_o.png" target="_blank" title="Project Dashboard">
+        <img src="https://farm4.staticflickr.com/3837/14952300710_af0a265c03_m.jpg" alt="Project Dashboard">
       </a>
       <br />
       <em>Project Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3723/10020843993_16d1bca76e_o.png" target="_blank" title=“Bug Dashboard”>
-        <img src="https://farm4.staticflickr.com/3723/10020843993_c653a0067b_m.jpg" alt=“Bug Dashboard>
+      <a href="https://farm4.staticflickr.com/3837/14952463917_591a14217a_o.png" target="_blank" title="Bug Dashboard">
+        <img src="https://farm4.staticflickr.com/3837/14952463917_a837822673_m.jpg" alt="Bug Dashboard">
       </a>
       <br />
       <em>Bug Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm8.staticflickr.com/7305/9405229619_b4986ea702_o.png" target="_blank" title=“Task Dashboard”>
-        <img src="https://farm8.staticflickr.com/7305/9405229619_38a94156f1_m.jpg" alt=“Task Dashboard>
+      <a href="https://farm4.staticflickr.com/3857/15138957105_30c1ca1212_o.png" target="_blank" title="Task Dashboard">
+        <img src="https://farm4.staticflickr.com/3857/15138957105_8803049194_m.jpg" alt="Task Dashboard">
       </a>
       <br />
       <em>Task Dashboard</em>
@@ -34,30 +34,30 @@ MyCollab has bundle three existing modules: Project Management, CRM and Document
   </tr>
   <tr>
     <td align="center">
-      <a href="https://farm6.staticflickr.com/5491/10020715166_cff0668e13_o.png" target="_blank" title=“Document Management”>
-        <img src="https://farm6.staticflickr.com/5491/10020715166_a018202e3f_m.jpg" alt=“Document Management“>
+      <a href="https://farm4.staticflickr.com/3919/14952575038_f6b2275750_o.png" target="_blank" title="Page Editor">
+        <img src="https://farm4.staticflickr.com/3919/14952575038_ee1de254df_m.jpg" alt="Page Editor">
       </a>
       <br />
-      <em>Document Dashboard</em>
+      <em>Page Editor</em>
     </td>
     <td align="center">
-      <a href="https://farm8.staticflickr.com/7396/10020730193_785b530483_o.png" target="_blank" title=“Crm Dashboard”>
-        <img src="https://farm8.staticflickr.com/7396/10020730193_37a2e2fa7d_m.jpg" alt=“Crm Dashboard“>
+      <a href="https://farm4.staticflickr.com/3879/14967195719_502c90f617_o.png" target="_blank" title="Crm Dashboard">
+        <img src="https://farm4.staticflickr.com/3879/14967195719_04118a461b_m.jpg" alt="Crm Dashboard">
       </a>
       <br />
       <em>CRM Dashboard</em>
     </td>
     <td align="center">
-      <a href="https://farm4.staticflickr.com/3828/9407988736_c9b5758838_o.png" target="_blank" title=“View Account”>
-        <img src="https://farm4.staticflickr.com/3828/9407988736_49cbba6dcf_m.jpg" alt=“View Account“>
+      <a href="https://farm6.staticflickr.com/5590/14952153828_ccde9dd6ba_o.png" target="_blank" title="View Account">
+        <img src="https://farm6.staticflickr.com/5590/14952153828_11ba7e64f0_m.jpg" alt="View Account">
       </a>
       <br />
-      <em>View Detail Account</em>
+      <em>Detail Account</em>
     </td>
   </tr>
 </table>
 
-More MyCollab’s screenshots could be viewed at http://www.flickr.com/photos/34441795@N06/sets/72157634867411915/
+More MyCollab’s screenshots could be viewed at http://community.mycollab.com/screenshots.html
 
 New features, enhancements, and updates appear on a regular basis.
 
@@ -98,12 +98,12 @@ Please take a look at MyCollab requirements:
 1. Download MyCollab binary - [https://sourceforge.net/projects/mycollab/files/latest/download](https://sourceforge.net/projects/mycollab/files/latest/download)
 2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
 
-If you need to understand the more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
+If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/admin/configuration.html. You will finish reading and understanding in a matter of minutes.
 
 ## Document
 MyCollab is documented at http://community.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
 * Installation http://community.mycollab.com/installation.html
-* Configuration http://wiki.mycollab.com/Configuration
+* Configuration http://community.mycollab.com/configuration.html
 
 If you want to customize MyCollab, following links are useful to you:
 * Setup MyCollab in Eclipse workspace http://community.mycollab.com/dev/eclipse.html
