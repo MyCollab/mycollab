@@ -92,22 +92,22 @@ We use MyCollab in our daily jobs to manage our customers information, projects.
 MyCollab requires a running Java Runtime Environment (7 or greater), Java command should be presented in PATH environment and MySQL (InnoDB support recommended).
 
 Please take a look at MyCollab requirements:
-    http://wiki.mycollab.com/Installation_Guideline#System_Requirements
+    [http://community.mycollab.com/installation.html#System_Requirements](http://community.mycollab.com/installation.html#System_Requirements)
 
 ## Installation
-1. Download MyCollab binary - https://sourceforge.net/projects/mycollab/files/MyCollab_4.4.0/
-2. Follow installation guideline at http://wiki.mycollab.com/Installation_Guideline
+1. Download MyCollab binary - [https://sourceforge.net/projects/mycollab/files/latest/download](https://sourceforge.net/projects/mycollab/files/latest/download)
+2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
 
 If you need to understand the more MyCollab advanced configuration settings, please visit the link http://wiki.mycollab.com/Configuration. You will finish reading and understanding in a matter of minutes.
 
 ## Document
-MyCollab is documented at http://wiki.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
-* Installation http://wiki.mycollab.com/Installation_Guideline
+MyCollab is documented at http://community.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
+* Installation http://community.mycollab.com/installation.html
 * Configuration http://wiki.mycollab.com/Configuration
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab in Eclipse workspace http://wiki.mycollab.com/Set_up_Eclipse_workspace
-* Start customize MyCollab http://wiki.mycollab.com/How_to_customize_MyCollab
+* Setup MyCollab in Eclipse workspace http://community.mycollab.com/dev/eclipse.html
+* Start customize MyCollab http://community.mycollab.com/dev/customize.html
 
 ## Contact
 Contact the MyCollab team at:
