@@ -8,7 +8,7 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title>Project Plugin Management | MyCollab</title>
+		<title>Upgrade MyCollab | MyCollab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta http-equiv="content-language" content="en" />
@@ -49,7 +49,7 @@
 		</script>
 		</head>
 
-	<body class="page-plugin-management project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
+	<body class="page-upgrade project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -101,7 +101,7 @@
 			<ul class="breadcrumb">
 				<li><a href="./" title="Home">Home</a></li>
 				<li class="divider">/</li>
-				<li>Project Plugin Management</li>
+				<li>Upgrade MyCollab</li>
 			</ul>
 		</div>
 		<hr class="toc-separator" />
@@ -115,7 +115,21 @@
 					</a>
 					<div class="nav-collapse collapse" id="toc-nav-collapse">
 						<ul id="toc" class="nav">
-						<li class="toplevel"><a href="#Project_Plugin_Management" title="Project Plugin Management">Project Plugin Management</a></li>
+						<li class="toplevel"><a href="#Upgrade_MyCollab" title="Upgrade MyCollab">Upgrade MyCollab</a></li>
+						<li class="toplevel"><a href="#System_Requirements" title="System Requirements">System Requirements</a></li>
+						<li class="dropdown">
+							<a href="#Steps_to_installation" title="Steps to installation" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#">Steps to installation <b class="caret"></b></a>
+							<ul class="dropdown-menu" role="menu">
+								<!-- Repeat the item, otherwise it is not clickable as the dropdown root -->
+								<li><a href="#Steps_to_installation" title="Steps to installation">Steps to installation</a></li>
+								<li class="divider"></li>
+								<li><a href="#Backup_MyCollab_database" title="Backup MyCollab database">Backup MyCollab database</a></li>
+								<li><a href="#Unzip_binary_files" title="Unzip binary files">Unzip binary files</a></li>
+								<li><a href="#Configure_MyCollab_settings" title="Configure MyCollab settings">Configure MyCollab settings</a></li>
+								<li><a href="#Run_MyCollab" title="Run MyCollab">Run MyCollab</a></li>
+
+							</ul>
+						</li>
 						</ul>
 					</div>
 				</div>
@@ -129,40 +143,37 @@
 			<div class="body-content">
 <div class="section"> 
  <div class="page-header">
-  <h2 id="Project_Plugin_Management">Project Plugin Management</h2>
+  <h2 id="Upgrade_MyCollab">Upgrade MyCollab</h2>
  </div> 
- <a name="Project_Plugin_Management"></a> 
- <table border="0" class="bodyTable table table-striped table-hover"> 
-  <thead> 
-   <tr class="a"> 
-    <th>GroupId</th> 
-    <th>ArtifactId</th> 
-    <th>Version</th> 
-   </tr> 
-  </thead> 
-  <tbody> 
-   <tr class="b"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-antrun-plugin/">maven-antrun-plugin</a></td> 
-    <td>1.3</td> 
-   </tr> 
-   <tr class="a"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-assembly-plugin/">maven-assembly-plugin</a></td> 
-    <td>2.2-beta-5</td> 
-   </tr> 
-   <tr class="b"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-dependency-plugin/">maven-dependency-plugin</a></td> 
-    <td>2.8</td> 
-   </tr> 
-   <tr class="a"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-release-plugin/">maven-release-plugin</a></td> 
-    <td>2.3.2</td> 
-   </tr> 
-  </tbody> 
- </table> 
+ <p>The upgrade process is pretty similar than installation procedure. f you need any help during upgrade process, please send us a request via our form <a class="externalLink" href="https://www.mycollab.com/support/">https://www.mycollab.com/support/</a>, we will try response to you as soon as possible. If there is any missing in our guidelines, we will update this page per your feedback to help our instruction precise and easy for all cases.</p> 
+ <div class="section"> 
+  <h3 id="System_Requirements">System Requirements</h3> 
+  <ul> 
+   <li><b>Java Runtime Environment 7+</b>: If you do not have installed java, you can get it here <a class="externalLink" href="http://java.com/en/download/index.jsp">http://java.com/en/download/index.jsp</a>, you should use the latest java version.</li> 
+   <li><b>MySQL database, version 5.5+</b>: If you do not have installed MySQL instance, you can get it here <a class="externalLink" href="http://www.mysql.com/">http://www.mysql.com/</a>, MyCollab is tested against MySQL 5.5, 5.6 and any higher version of MySQL in market.</li> 
+   <li><b>RAM</b>: you must have at least 2 GB RAM available</li> 
+  </ul> 
+ </div> 
+ <div class="section"> 
+  <h3 id="Steps_to_installation">Steps to installation</h3> 
+  <div class="section"> 
+   <h4 id="Backup_MyCollab_database">Backup MyCollab database</h4> 
+   <p>You should backup database. Although MyCollab development must test the migration process automatically in their daily jobs. However, it is similar than any OS/Commercial products to require you should backup database before doing any upgrade procedure.</p> 
+  </div> 
+  <div class="section"> 
+   <h4 id="Unzip_binary_files">Unzip binary files</h4> 
+   <p>Go to MyCollab SourceForge site <a class="externalLink" href="https://sourceforge.net/projects/mycollab/files/?source=navbar">https://sourceforge.net/projects/mycollab/files/?source=navbar</a> and select the latest version of MyCollab distribution of binary file. Download MyCollab binary to your computer and unzip it under your favorite folder. Here is screenshot we download MyCollab binary and unzip in a Window folder</p> 
+   <p><img src="http://mycollab_assets.s3.amazonaws.com/wiki/installation/mycollab_binary_folder.png" alt="“MyCollab Installation Folder”" /></p> 
+  </div> 
+  <div class="section"> 
+   <h4 id="Configure_MyCollab_settings">Configure MyCollab settings</h4> 
+   <p>You should re-configure MyCollab settings. The easiest approach is copying the old MyCollab configuration file mycollab.properties from <tt>%MYCOLLAB_HOME%/conf</tt> to the new MyCollab installation folder <tt>%MYCOLLAB_NEW_FOLDER%/conf</tt>.</p> 
+  </div> 
+  <div class="section"> 
+   <h4 id="Run_MyCollab">Run MyCollab</h4> 
+   <p>You start MyCollab script in the new installation folder, then MyCollab should run well while our upgrade procedure will do all migration jobs silently.</p> 
+  </div> 
+ </div> 
 </div>
 			</div>
 		</div>

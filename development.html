@@ -8,7 +8,7 @@
 
 	<head>
 		<meta charset="UTF-8" />
-		<title>Project Plugin Management | MyCollab</title>
+		<title>Development Guideline | MyCollab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="" />
 		<meta http-equiv="content-language" content="en" />
@@ -49,7 +49,7 @@
 		</script>
 		</head>
 
-	<body class="page-plugin-management project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
+	<body class="page-development project-mycollab-doc" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -64,12 +64,12 @@
 						<ul class="nav pull-right">
 							<li ><a href="screenshots.html" title="Screenshots">Screenshots</a></li>
 							<li ><a href="download.html" title="Download">Download</a></li>
-							<li class="dropdown">
+							<li class="dropdown active">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li ><a href="installation.html" title="Installation">Installation</a></li>
 									<li ><a href="administrator.html" title="Administrator Guideline">Administrator Guideline</a></li>
-									<li ><a href="development.html" title="Development Guideline">Development Guideline</a></li>
+									<li class="active"><a href="" title="Development Guideline">Development Guideline</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -101,7 +101,7 @@
 			<ul class="breadcrumb">
 				<li><a href="./" title="Home">Home</a></li>
 				<li class="divider">/</li>
-				<li>Project Plugin Management</li>
+				<li>Development Guideline</li>
 			</ul>
 		</div>
 		<hr class="toc-separator" />
@@ -115,7 +115,7 @@
 					</a>
 					<div class="nav-collapse collapse" id="toc-nav-collapse">
 						<ul id="toc" class="nav">
-						<li class="toplevel"><a href="#Project_Plugin_Management" title="Project Plugin Management">Project Plugin Management</a></li>
+						<li class="toplevel"><a href="#Development_Guideline" title="Development Guideline">Development Guideline</a></li>
 						</ul>
 					</div>
 				</div>
@@ -129,40 +129,14 @@
 			<div class="body-content">
 <div class="section"> 
  <div class="page-header">
-  <h2 id="Project_Plugin_Management">Project Plugin Management</h2>
+  <h2 id="Development_Guideline">Development Guideline</h2>
  </div> 
- <a name="Project_Plugin_Management"></a> 
- <table border="0" class="bodyTable table table-striped table-hover"> 
-  <thead> 
-   <tr class="a"> 
-    <th>GroupId</th> 
-    <th>ArtifactId</th> 
-    <th>Version</th> 
-   </tr> 
-  </thead> 
-  <tbody> 
-   <tr class="b"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-antrun-plugin/">maven-antrun-plugin</a></td> 
-    <td>1.3</td> 
-   </tr> 
-   <tr class="a"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-assembly-plugin/">maven-assembly-plugin</a></td> 
-    <td>2.2-beta-5</td> 
-   </tr> 
-   <tr class="b"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-dependency-plugin/">maven-dependency-plugin</a></td> 
-    <td>2.8</td> 
-   </tr> 
-   <tr class="a"> 
-    <td>org.apache.maven.plugins</td> 
-    <td><a class="externalLink" href="http://maven.apache.org/plugins/maven-release-plugin/">maven-release-plugin</a></td> 
-    <td>2.3.2</td> 
-   </tr> 
-  </tbody> 
- </table> 
+ <p>MyCollab is written by Java language. We use a lot of open source libraries, and in some parts of MyCollab source codes, you need to be familiar with using the associate libraries to customize MyCollab meet to your needs.</p> 
+ <ul> 
+  <li><a href="dev/eclipse.html">Set up Eclipse workspace</a></li> 
+  <li><a href="dev/customize.html">How to customize MyCollab</a></li> 
+  <li><a href="dev/i18n.html">Internalization and localization MyCollab</a></li> 
+ </ul> 
 </div>
 			</div>
 		</div>
@@ -213,8 +187,8 @@
 						<li >
 							<a href="administrator.html" title="Administrator Guideline">Administrator Guideline</a>
 						</li>
-						<li >
-							<a href="development.html" title="Development Guideline">Development Guideline</a>
+						<li class="active">
+							<a href="#" title="Development Guideline">Development Guideline</a>
 						</li>
 					</ul>
 				</div>
