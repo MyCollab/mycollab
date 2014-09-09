@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.service.AccountService;
@@ -56,7 +56,7 @@ public class AccountAddPresenter extends CrmGenericPresenter<AccountAddView> {
 					public void onSave(final SimpleAccount account) {
 						saveAccount(account);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.NavigateBack(this, null));
+								new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override

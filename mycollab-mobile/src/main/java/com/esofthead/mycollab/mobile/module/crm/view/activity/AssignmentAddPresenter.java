@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -55,21 +55,11 @@ public class AssignmentAddPresenter extends
 			public void onSave(final Task item) {
 				save(item);
 				EventBusFactory.getInstance().post(
-						new CrmEvent.NavigateBack(this, null));
-				// ViewState viewState = HistoryViewManager.back();
-				// if (viewState instanceof NullViewState) {
-				// EventBusFactory.getInstance().post(
-				// new ActivityEvent.GotoList(this, null));
-				// }
+						new ShellEvent.NavigateBack(this, null));
 			}
 
 			@Override
 			public void onCancel() {
-				// ViewState viewState = HistoryViewManager.back();
-				// if (viewState instanceof NullViewState) {
-				// EventBusFactory.getInstance().post(
-				// new ActivityEvent.GotoList(this, null));
-				// }
 			}
 
 			@Override

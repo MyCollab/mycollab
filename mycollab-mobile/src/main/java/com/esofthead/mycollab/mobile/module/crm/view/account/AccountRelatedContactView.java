@@ -19,9 +19,9 @@ package com.esofthead.mycollab.mobile.module.crm.view.account;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.contact.ContactListDisplay;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
@@ -109,7 +109,7 @@ public class AccountRelatedContactView extends
 								.getAccountId()));
 						contactSelectionView.setSearchCriteria(criteria);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.PushView(
+								new ShellEvent.PushView(
 										AccountRelatedContactView.this,
 										contactSelectionView));
 

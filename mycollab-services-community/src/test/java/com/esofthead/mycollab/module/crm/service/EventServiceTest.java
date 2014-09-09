@@ -41,6 +41,7 @@ public class EventServiceTest extends ServiceTest {
 	@Autowired
 	protected EventService eventService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() throws ParseException {

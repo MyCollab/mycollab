@@ -376,7 +376,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  padding: 5px 10px;
+  padding: 0rem 1rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-right .add-btn.v-touchkit-navbutton:before {
   content: "\e60e";
@@ -904,4 +904,41 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .comment-list .comment-block .right-col .comment-content {
   color: #aaaaaa;
+}
+.mycollab-mobile .message-add-view .content-layout {
+  padding-top: 1.2rem;
+  background-color: #252c34;
+}
+.mycollab-mobile .message-add-view .content-layout .addform-layout {
+  display: block;
+  margin: 0 auto;
+  border-radius: 0.4rem;
+  background-color: white;
+}
+.mycollab-mobile .message-add-view .content-layout .addform-layout .title-field {
+  border-color: #dddddd;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  padding: 0.8rem;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .message-add-view .content-layout .addform-layout .title-field.v-textfield-prompt {
+  font-style: normal;
+}
+.mycollab-mobile .message-add-view .content-layout .addform-layout .content-field {
+  font-size: 1.4rem;
+  padding: 0.8rem;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+}
+.mycollab-mobile .message-add-view .content-layout .addform-layout .content-field.v-textarea-prompt {
+  font-style: normal;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row {
+  margin: 1.2rem auto 0rem;
+  border-radius: 0.4rem;
+  box-shadow: none;
+}
+.mycollab-mobile .message-add-view .content-layout .bottom-row .v-caption {
+  font-size: 1.4rem;
 }

@@ -25,9 +25,9 @@ import com.esofthead.mycollab.test.MyCollabTestModule;
  * 
  */
 public abstract class AbstractMyCollabTestModule implements MyCollabTestModule {
-	protected Class host;
+	protected Class<?> host;
 
-	public void setHost(Class host) {
+	public void setHost(Class<?> host) {
 		this.host = host;
 	}
 }

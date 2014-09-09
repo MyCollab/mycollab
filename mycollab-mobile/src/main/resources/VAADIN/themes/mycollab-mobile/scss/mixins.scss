@@ -61,3 +61,8 @@
 	min-height: 2rem;
 	color: #8C8C8C;
 }
+@mixin box-shadow ($s) {
+	-webkit-box-shadow: $s;
+	-moz-box-shadow: $s;
+	box-shadow: $s;
+}

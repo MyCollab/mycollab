@@ -51,6 +51,7 @@ public class ProjectServiceTest extends ServiceTest {
 		Assert.assertEquals(true, (projectId > 0));
 	}
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListProjects() {
@@ -60,6 +61,7 @@ public class ProjectServiceTest extends ServiceTest {
 		Assert.assertEquals(4, projects.size());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListProjectsByCriteria() {
@@ -72,6 +74,7 @@ public class ProjectServiceTest extends ServiceTest {
 		Assert.assertEquals(4, projects.size());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListProjectsByUsername() {

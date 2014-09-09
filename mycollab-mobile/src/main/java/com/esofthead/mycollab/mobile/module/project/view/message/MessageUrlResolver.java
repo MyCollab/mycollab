@@ -52,13 +52,16 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 	public MessageUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
 		this.addSubResolver("preview", new PreviewUrlResolver());
+		this.addSubResolver("add", new AddUrlResolver());
 	}
 
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
 
 			MessageSearchCriteria messageSearchCriteria = new MessageSearchCriteria();
 			messageSearchCriteria.setProjectids(new SetSearchField<Integer>(
@@ -83,6 +86,21 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new MessageScreenData.Read(messageId));
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
+	}
+
+	private static class AddUrlResolver extends ProjectUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new MessageScreenData.Add());
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

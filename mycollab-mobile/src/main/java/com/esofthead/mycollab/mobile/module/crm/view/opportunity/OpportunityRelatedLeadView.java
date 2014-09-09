@@ -19,9 +19,9 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.lead.LeadListDisplay;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
@@ -112,7 +112,7 @@ public class OpportunityRelatedLeadView extends
 								.getAccountId()));
 						leadSelectionView.setSearchCriteria(criteria);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.PushView(
+								new ShellEvent.PushView(
 										OpportunityRelatedLeadView.this,
 										leadSelectionView));
 					}

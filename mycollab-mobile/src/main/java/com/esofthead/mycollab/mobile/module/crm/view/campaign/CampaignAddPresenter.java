@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.service.CampaignService;
@@ -56,7 +56,7 @@ public class CampaignAddPresenter extends CrmGenericPresenter<CampaignAddview> {
 					public void onSave(final SimpleCampaign campaign) {
 						saveCampaign(campaign);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.NavigateBack(this, null));
+								new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override

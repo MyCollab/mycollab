@@ -14,35 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.parameters;
+package com.esofthead.mycollab.mobile.module.project.view.message;
 
-import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.module.project.domain.SimpleMessage;
+import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
+import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
  * @author MyCollab Ltd.
  *
- * @since 4.4.0
+ * @since 4.5.0
  *
  */
-public class MessageScreenData {
-	public static class Add extends ScreenData<Integer> {
-		public Add() {
-			super(null);
-		}
-	}
+public interface MessageAddView extends PageView {
+	public HasEditFormHandlers<SimpleMessage> getEditFormHandlers();
 
-	public static class Read extends ScreenData<Integer> {
-
-		public Read(Integer params) {
-			super(params);
-		}
-	}
-
-	public static class Search extends ScreenData<MessageSearchCriteria> {
-
-		public Search(MessageSearchCriteria params) {
-			super(params);
-		}
-	}
+	public void initView();
 }

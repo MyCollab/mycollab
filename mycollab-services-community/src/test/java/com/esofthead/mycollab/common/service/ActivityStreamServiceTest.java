@@ -39,6 +39,7 @@ public class ActivityStreamServiceTest extends ServiceTest {
 	@Autowired
 	protected ActivityStreamService activityStreamService;
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchActivityStreams() {
@@ -53,6 +54,7 @@ public class ActivityStreamServiceTest extends ServiceTest {
 		Assert.assertEquals(3, activities.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testQueryActivityWithComments() {

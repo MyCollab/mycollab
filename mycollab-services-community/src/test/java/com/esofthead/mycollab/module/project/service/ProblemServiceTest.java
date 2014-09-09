@@ -38,6 +38,7 @@ public class ProblemServiceTest extends ServiceTest {
 	@Autowired
 	protected ProblemService problemService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListIssues() {
@@ -47,6 +48,7 @@ public class ProblemServiceTest extends ServiceTest {
 		Assert.assertEquals(3, issues.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchIssuesByName() {

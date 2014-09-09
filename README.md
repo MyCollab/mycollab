@@ -95,15 +95,15 @@ Please take a look at MyCollab requirements:
     [http://community.mycollab.com/installation.html#System_Requirements](http://community.mycollab.com/installation.html#System_Requirements)
 
 ## Installation
-1. Download MyCollab binary - [https://sourceforge.net/projects/mycollab/files/latest/download](https://sourceforge.net/projects/mycollab/files/latest/download)
-2. Follow installation guideline at [http://community.mycollab.com/installation.html](http://community.mycollab.com/installation.html)
+1. Download MyCollab binary - http://community.mycollab.com/download.html
+2. Follow installation guideline at http://community.mycollab.com/installation.html
 
 If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/admin/configuration.html. You will finish reading and understanding in a matter of minutes.
 
 ## Document
 MyCollab is documented at http://community.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
 * Installation http://community.mycollab.com/installation.html
-* Configuration http://community.mycollab.com/configuration.html
+* Configuration http://community.mycollab.com/admin/configuration.html
 
 If you want to customize MyCollab, following links are useful to you:
 * Setup MyCollab in Eclipse workspace http://community.mycollab.com/dev/eclipse.html
@@ -116,6 +116,6 @@ Contact the MyCollab team at:
 
 ## License & Author
 
-* MyCollab community is licensed with Affero GPL v3. For license terms, see http://www.gnu.org/licenses/agpl-3.0.html
+* MyCollab community is licensed with Affero GPL v3. For license terms, see http://community.mycollab.com/license.html
 
 * MyCollab is powered by eSoftHead http://esofthead.com, which is a software outsourcing and offshoring service company based in Vietnam.

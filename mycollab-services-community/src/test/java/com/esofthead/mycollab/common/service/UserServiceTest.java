@@ -42,6 +42,7 @@ public class UserServiceTest extends ServiceTest {
 	@Autowired
 	protected UserService userService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListUser() {
@@ -68,6 +69,7 @@ public class UserServiceTest extends ServiceTest {
 		Assert.assertNotNull(anotherUser);
 	}
 
+	@SuppressWarnings({ "unchecked", "unused" })
 	@DataSet
 	@Test
 	public void testGetLoginByDate() throws ParseException {

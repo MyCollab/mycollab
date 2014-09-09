@@ -354,17 +354,15 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 								NotificationUtil
 										.showWarningNotification("You must enter a positive number value");
 							}
-							if (d > 0) {
-								TimeLogEditWindow.this.updateTimeRemain();
-								TimeLogEditWindow.this.remainTimeLbl
+							if (d >= 0) {
+								updateTimeRemain();
+								remainTimeLbl
 										.setValue(TimeLogEditWindow.this.remainTimeInputField
 												.getValue());
-								TimeLogEditWindow.this.remainTimeInputField
-										.setValue("0.0");
+								remainTimeInputField.setValue("0.0");
 							}
 						} catch (final Exception e) {
-							TimeLogEditWindow.this.remainTimeInputField
-									.setValue("0.0");
+							remainTimeInputField.setValue("0.0");
 						}
 					}
 

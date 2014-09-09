@@ -19,9 +19,9 @@ package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.OpportunityEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Opportunity;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
@@ -57,7 +57,7 @@ public class OpportunityAddPresenter extends
 					public void onSave(final SimpleOpportunity item) {
 						saveOpportunity(item);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.NavigateBack(this, null));
+								new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override

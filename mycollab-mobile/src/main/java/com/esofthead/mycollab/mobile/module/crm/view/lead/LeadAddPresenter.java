@@ -19,9 +19,9 @@ package com.esofthead.mycollab.mobile.module.crm.view.lead;
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.service.LeadService;
@@ -56,7 +56,7 @@ public class LeadAddPresenter extends CrmGenericPresenter<LeadAddView> {
 					public void onSave(final SimpleLead lead) {
 						saveLead(lead);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.NavigateBack(this, null));
+								new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override

@@ -59,6 +59,7 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 	@Mock
 	private ProjectService projectService;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testCannotFindProject() throws ServletException, IOException {
 		String pathInfo = ProjectLinkGenerator.generateDenyInvitationParams(
@@ -85,6 +86,7 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 				strArgument.getValue());
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testDenyWithProjectMember() throws ServletException,
 			IOException {
@@ -118,6 +120,7 @@ public class DenyProjectInvitationHandlerTest extends GenericServletTest {
 				strArgument.getValue());
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testDenyNotFoundProjectMember() throws ServletException,
 			IOException {

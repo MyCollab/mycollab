@@ -65,4 +65,22 @@ public class ShellEvent {
 			super(source, data);
 		}
 	}
+
+	public static class PushView extends ApplicationEvent {
+
+		private static final long serialVersionUID = 1533398869496667675L;
+
+		public PushView(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
+	public static class NavigateBack extends ApplicationEvent {
+
+		private static final long serialVersionUID = 7471910593826509492L;
+
+		public NavigateBack(Object source, Object data) {
+			super(source, data);
+		}
+	}
 }

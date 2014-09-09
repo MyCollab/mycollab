@@ -49,20 +49,4 @@ public class CrmEvent {
 			super(source, data);
 		}
 	}
-
-	public static class PushView extends ApplicationEvent {
-		private static final long serialVersionUID = -7423399367234620364L;
-
-		public PushView(Object source, Object data) {
-			super(source, data);
-		}
-	}
-
-	public static class NavigateBack extends ApplicationEvent {
-		private static final long serialVersionUID = 2564051233745790618L;
-
-		public NavigateBack(Object source, Object data) {
-			super(source, data);
-		}
-	}
 }

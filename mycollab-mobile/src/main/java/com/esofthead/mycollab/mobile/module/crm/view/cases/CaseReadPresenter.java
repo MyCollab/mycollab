@@ -27,8 +27,8 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -186,7 +186,7 @@ public class CaseReadPresenter extends CrmGenericPresenter<CaseReadView> {
 						contactService.saveContactCaseRelationship(
 								associateContacts, AppContext.getAccountId());
 						EventBusFactory.getInstance().post(
-								new CrmEvent.NavigateBack(this, null));
+								new ShellEvent.NavigateBack(this, null));
 					}
 
 					@Override

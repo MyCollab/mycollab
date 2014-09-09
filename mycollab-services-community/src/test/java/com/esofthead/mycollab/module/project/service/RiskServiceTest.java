@@ -39,6 +39,7 @@ public class RiskServiceTest extends ServiceTest {
 	@Autowired
 	protected RiskService riskService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListRisks() {
@@ -48,6 +49,7 @@ public class RiskServiceTest extends ServiceTest {
 		Assert.assertEquals(3, risks.size());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testSearchRisksByName() {

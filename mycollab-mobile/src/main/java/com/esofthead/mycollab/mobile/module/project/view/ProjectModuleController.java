@@ -139,6 +139,20 @@ public class ProjectModuleController extends AbstractController {
 	}
 
 	private void bindMessageEvents() {
+		this.register(new ApplicationEventListener<MessageEvent.GotoAdd>() {
+
+			private static final long serialVersionUID = -1424602419540601233L;
+
+			@Subscribe
+			@Override
+			public void handle(MessageEvent.GotoAdd event) {
+				MessageScreenData.Add data = new MessageScreenData.Add();
+				MessagePresenter presenter = PresenterResolver
+						.getPresenter(MessagePresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
 		this.register(new ApplicationEventListener<MessageEvent.GotoList>() {
 
 			private static final long serialVersionUID = -5988814292947013329L;

@@ -74,6 +74,7 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 		verifyPrjMemberHandler.onHandleRequest(request, response);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testExpireInvitation() throws ServletException, IOException {
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -123,6 +124,7 @@ public class AcceptProjectInvitationHandlerTest extends GenericServletTest {
 		verifyPrjMemberHandler.onHandleRequest(request, response);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testInviteMemberNotBelongToSystem() throws IOException,
 			ServletException {

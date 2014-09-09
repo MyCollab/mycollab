@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -31,9 +28,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
-import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
-import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
@@ -41,11 +36,11 @@ import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSear
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
+import com.esofthead.mycollab.module.project.ui.components.TimeTrackingDateOrderComponent;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
-import com.esofthead.mycollab.module.project.view.time.TimeTrackingTableDisplay;
 import com.esofthead.mycollab.reporting.ExportItemsStreamResource;
 import com.esofthead.mycollab.reporting.ReportExportType;
 import com.esofthead.mycollab.reporting.RpParameterBuilder;
@@ -64,7 +59,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -89,8 +83,6 @@ import com.vaadin.ui.VerticalLayout;
 @ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		TimeTrackingSummaryView {
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
-			"EEEE, dd MMMM yyyy");
 	private static final List<TableViewField> FIELDS = Arrays.asList(
 			TimeTableFieldDef.summary, TimeTableFieldDef.logUser,
 			TimeTableFieldDef.project, TimeTableFieldDef.logValue,
@@ -108,7 +100,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	private Date fromDate, toDate;
 	private ItemTimeLoggingService itemTimeLoggingService;
 
-	private VerticalLayout layoutItem;
+	private TimeTrackingDateOrderComponent layoutItem;
 
 	public TimeTrackingSummaryViewImpl() {
 		this.setWidth("100%");
@@ -232,8 +224,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			}
 		});
 		exportButtonControl = new SplitButton(exportBtn);
-		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED,
-				Sizeable.Unit.PIXELS);
+		exportButtonControl.setWidthUndefined();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));
@@ -265,8 +256,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
 		controlBtns.setSizeFull();
 
-		this.layoutItem = new VerticalLayout();
-		this.layoutItem.addStyleName(UIConstants.LAYOUT_LOG);
+		this.layoutItem = new TimeTrackingDateOrderComponent(FIELDS, tableClickListener);
 		this.layoutItem.setWidth("100%");
 		contentWrapper.addComponent(this.layoutItem);
 	}
@@ -311,8 +301,6 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	}
 
 	private void searchTimeReporting() {
-		this.layoutItem.removeAllComponents();
-
 		searchCriteria.setIsBillable(new BooleanSearchField(true));
 		Double billableHour = this.itemTimeLoggingService
 				.getTotalHoursByCriteria(searchCriteria);
@@ -342,63 +330,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 									nonbillableHour));
 		}
 
-		@SuppressWarnings("unchecked")
-		List<SimpleItemTimeLogging> itemTimeLoggingList = itemTimeLoggingService
-				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
-						searchCriteria));
-		Date current = new Date(0);
-		double billable = 0, nonbillable = 0;
-		List<SimpleItemTimeLogging> list = new ArrayList<SimpleItemTimeLogging>();
-
-		for (SimpleItemTimeLogging itemTimeLogging : itemTimeLoggingList) {
-			if (DateTimeUtils.compareByDate(itemTimeLogging.getLogforday(),
-					current) > 0) {
-				showRecord(current, list, billable, nonbillable);
-
-				current = itemTimeLogging.getLogforday();
-				list.clear();
-				billable = nonbillable = 0;
-			}
-
-			list.add(itemTimeLogging);
-			billable += itemTimeLogging.getIsbillable() ? itemTimeLogging
-					.getLogvalue() : 0;
-			nonbillable += !itemTimeLogging.getIsbillable() ? itemTimeLogging
-					.getLogvalue() : 0;
-		}
-		showRecord(current, list, billable, nonbillable);
-	}
-
-	private void showRecord(Date date, List<SimpleItemTimeLogging> list,
-			Double billable, Double nonbillable) {
-		if (list.size() > 0) {
-			Label logForDay = new Label(DATE_FORMAT.format(date));
-			logForDay.addStyleName(UIConstants.TEXT_LOG_DATE);
-			this.layoutItem.addComponent(logForDay);
-
-			TimeTrackingTableDisplay table = new TimeTrackingTableDisplay(
-					FIELDS);
-			table.addStyleName(UIConstants.FULL_BORDER_TABLE);
-			table.addTableListener(this.tableClickListener);
-			table.setMargin(new MarginInfo(true, false, false, false));
-			table.setCurrentDataList(list);
-			this.layoutItem.addComponent(table);
-
-			Label labelTotalHours = new Label(
-					("Total Hours: " + (billable + nonbillable)));
-			labelTotalHours.addStyleName(UIConstants.TEXT_LOG_HOURS_TOTAL);
-			this.layoutItem.addComponent(labelTotalHours);
-
-			Label labelBillableHours = new Label(
-					("Billable Hours: " + billable));
-			labelBillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
-			this.layoutItem.addComponent(labelBillableHours);
-
-			Label labelNonbillableHours = new Label(
-					("Non Billable Hours: " + nonbillable));
-			labelNonbillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
-			this.layoutItem.addComponent(labelNonbillableHours);
-		}
+		this.layoutItem.show(searchCriteria);
 	}
 
 	private TableClickListener tableClickListener = new TableClickListener() {

@@ -43,6 +43,7 @@ public class StandupReportServiceTest extends ServiceTest {
 	@Autowired
 	protected StandupReportService reportService;
 
+	@SuppressWarnings("rawtypes")
 	@Test
 	@DataSet
 	public void gatherStandupList() {

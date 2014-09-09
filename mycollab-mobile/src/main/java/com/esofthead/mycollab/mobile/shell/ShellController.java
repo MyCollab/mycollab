@@ -46,6 +46,7 @@ import com.esofthead.mycollab.vaadin.mvp.PresenterResolver;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.UI;
 
 /**
@@ -127,6 +128,30 @@ public class ShellController extends AbstractController {
 				ProjectModulePresenter presenter = PresenterResolver
 						.getPresenter(ProjectModulePresenter.class);
 				presenter.go(mainNav, null);
+			}
+		});
+
+		this.register(new ApplicationEventListener<ShellEvent.PushView>() {
+
+			private static final long serialVersionUID = 1305847008958371404L;
+
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.PushView event) {
+				if (event.getData() instanceof NavigationView) {
+					mainNav.navigateTo((NavigationView) event.getData());
+				}
+			}
+		});
+
+		this.register(new ApplicationEventListener<ShellEvent.NavigateBack>() {
+
+			private static final long serialVersionUID = -6304448506502272165L;
+
+			@Subscribe
+			@Override
+			public void handle(ShellEvent.NavigateBack event) {
+				mainNav.navigateBack();
 			}
 		});
 	}

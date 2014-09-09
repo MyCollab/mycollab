@@ -64,16 +64,17 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				CurrentProjectVariables.setProject(project);
 				((MobileNavigationManager) UI.getCurrent().getContent())
 						.setNavigationMenu(new InsideProjectNavigationMenu());
+				ProjectDashboardPresenter presenter = PresenterResolver
+						.getPresenter(ProjectDashboardPresenter.class);
+				presenter.go((MobileNavigationManager) UI.getCurrent()
+						.getContent(), null);
 			}
 		}
 	}
 
 	@Override
 	protected void onDefaultStopChain() {
-		ProjectDashboardPresenter presenter = PresenterResolver
-				.getPresenter(ProjectDashboardPresenter.class);
-		presenter.go((MobileNavigationManager) UI.getCurrent().getContent(),
-				null);
+
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 		IPresenter<?> presenter = null;
 
 		if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class,
-				MessageScreenData.Search.class)) {
+				MessageScreenData.Search.class, MessageScreenData.Add.class)) {
 			presenter = PresenterResolver.getPresenter(MessagePresenter.class);
 		} else {
 			throw new UnsupportedOperationException(

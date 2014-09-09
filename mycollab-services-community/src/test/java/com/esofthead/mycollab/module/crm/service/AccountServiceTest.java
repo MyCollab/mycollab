@@ -216,6 +216,7 @@ public class AccountServiceTest extends ServiceTest {
 								Integer.MAX_VALUE)).size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testMassUpdate() {

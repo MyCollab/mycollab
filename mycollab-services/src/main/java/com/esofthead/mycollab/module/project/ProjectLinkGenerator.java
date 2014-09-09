@@ -167,6 +167,10 @@ public class ProjectLinkGenerator {
 		return "project/risk/add/" + UrlEncodeDecoder.encode(projectId);
 	}
 
+	public static String generateMessageAddLink(Integer projectId) {
+		return "project/message/add/" + UrlEncodeDecoder.encode(projectId);
+	}
+
 	public static String generateMessagesLink(Integer projectId) {
 		return "project/message/list/" + UrlEncodeDecoder.encode(projectId);
 	}

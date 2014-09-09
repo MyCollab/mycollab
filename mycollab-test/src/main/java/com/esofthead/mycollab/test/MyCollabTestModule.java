@@ -48,7 +48,7 @@ public interface MyCollabTestModule {
 	 * @param host
 	 *            The test class attach to this module
 	 */
-	void setHost(Class host);
+	void setHost(Class<?> host);
 
 	/**
 	 * Init the module. Note that this method is invoked after the test host

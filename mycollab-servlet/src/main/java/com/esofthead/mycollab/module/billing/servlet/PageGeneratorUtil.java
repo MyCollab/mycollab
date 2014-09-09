@@ -39,9 +39,9 @@ import com.esofthead.mycollab.template.velocity.TemplateContext;
  * @since 4.0
  * 
  */
-public class PageGeneratorUtil {
+class PageGeneratorUtil {
 
-	public static void responeUserNotExistPage(HttpServletResponse response,
+	static void responeUserNotExistPage(HttpServletResponse response,
 			String username, String loginURL) throws IOException {
 		String pageNotFoundTemplate = "templates/page/UserNotExistPage.mt";
 		TemplateContext context = new TemplateContext();

@@ -42,6 +42,7 @@ public class GenericTaskServiceTest extends ServiceTest {
 	@Autowired
 	protected ProjectGenericTaskService genericTaskService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGenericTaskListFindPageable() {
@@ -64,6 +65,7 @@ public class GenericTaskServiceTest extends ServiceTest {
 			Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testListTaskOverDue() throws ParseException {

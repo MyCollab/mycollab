@@ -19,9 +19,9 @@ package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.account.AccountListDisplay;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
@@ -114,7 +114,7 @@ public class CampaignRelatedAccountView extends
 								.getAccountId()));
 						accountSelectionView.setSearchCriteria(criteria);
 						EventBusFactory.getInstance().post(
-								new CrmEvent.PushView(
+								new ShellEvent.PushView(
 										CampaignRelatedAccountView.this,
 										accountSelectionView));
 					}

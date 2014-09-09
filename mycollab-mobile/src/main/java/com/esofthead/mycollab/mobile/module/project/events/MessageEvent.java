@@ -25,6 +25,14 @@ import com.esofthead.mycollab.eventmanager.ApplicationEvent;
  *
  */
 public class MessageEvent {
+	public static class GotoAdd extends ApplicationEvent {
+		private static final long serialVersionUID = -6704245340724816519L;
+
+		public GotoAdd(Object source, Object data) {
+			super(source, data);
+		}
+	}
+
 	public static class GotoList extends ApplicationEvent {
 
 		private static final long serialVersionUID = -834543150969461602L;

@@ -95,7 +95,6 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
-import com.vaadin.addon.touchkit.ui.NavigationView;
 import com.vaadin.ui.UI;
 
 /**
@@ -165,29 +164,6 @@ public class CrmModuleController extends AbstractController {
 						.getPresenter(CrmContainerPresenter.class);
 				presenter.go(crmViewNavigation,
 						(CrmModuleScreenData.GotoModule) event.getData());
-			}
-		});
-
-		this.register(new ApplicationEventListener<CrmEvent.PushView>() {
-			private static final long serialVersionUID = -7516440510015076475L;
-
-			@Subscribe
-			@Override
-			public void handle(CrmEvent.PushView event) {
-				if (event.getData() instanceof NavigationView) {
-					crmViewNavigation.navigateTo((NavigationView) event
-							.getData());
-				}
-			}
-		});
-
-		this.register(new ApplicationEventListener<CrmEvent.NavigateBack>() {
-			private static final long serialVersionUID = -8816255344013825447L;
-
-			@Subscribe
-			@Override
-			public void handle(CrmEvent.NavigateBack event) {
-				crmViewNavigation.navigateBack();
 			}
 		});
 	}
