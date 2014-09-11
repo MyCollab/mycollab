@@ -38,7 +38,7 @@ import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
-import com.esofthead.mycollab.esb.BeanProxyBuilder;
+import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -252,7 +252,7 @@ public class ProjectServiceImpl extends
 		try {
 			Project project = findByPrimaryKey(projectId, accountId);
 
-			DeleteProjectCommand projectDeleteListener = new BeanProxyBuilder()
+			DeleteProjectCommand projectDeleteListener = CamelProxyBuilderUtil
 					.build(ProjectEndPoints.PROJECT_REMOVE_ENDPOINT,
 							DeleteProjectCommand.class);
 			projectDeleteListener.projectRemoved(project.getSaccountid(),

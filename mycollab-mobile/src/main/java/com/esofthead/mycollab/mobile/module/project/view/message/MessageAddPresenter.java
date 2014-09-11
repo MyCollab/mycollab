@@ -82,7 +82,6 @@ public class MessageAddPresenter extends
 		if (CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.MESSAGES)) {
 			super.onGo(navigator, data);
-			view.initView();
 			AppContext.addFragment(ProjectLinkGenerator
 					.generateMessageAddLink(CurrentProjectVariables
 							.getProjectId()), AppContext

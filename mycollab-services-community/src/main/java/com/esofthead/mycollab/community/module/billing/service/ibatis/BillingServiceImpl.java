@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.module.billing.service.BillingService;
@@ -87,7 +88,8 @@ public class BillingServiceImpl implements BillingService {
 	}
 
 	@Override
-	public void cancelAccount(Integer accountid) {
+	public void cancelAccount(Integer accountid,
+			CustomerFeedbackWithBLOBs feedback) {
 		throw new MyCollabException(
 				"This feature is not supported except onsite mode");
 	}

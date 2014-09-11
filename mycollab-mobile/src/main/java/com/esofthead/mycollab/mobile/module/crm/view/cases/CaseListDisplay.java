@@ -55,9 +55,8 @@ public class CaseListDisplay extends
 						@Override
 						public void buttonClick(ClickEvent event) {
 							EventBusFactory.getInstance()
-									.post(
-											new CaseEvent.GotoRead(this, cases
-													.getId()));
+									.post(new CaseEvent.GotoRead(this, cases
+											.getId()));
 						}
 					});
 
@@ -66,6 +65,7 @@ public class CaseListDisplay extends
 				b.addStyleName(UIConstants.LINK_COMPLETED);
 			}
 			b.setWidth("100%");
+			b.addStyleName("list-item");
 			return b;
 		}
 

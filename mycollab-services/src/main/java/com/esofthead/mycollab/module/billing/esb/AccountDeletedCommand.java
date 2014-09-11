@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.billing.esb;
 
+import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -23,5 +25,5 @@ package com.esofthead.mycollab.module.billing.esb;
  * 
  */
 public interface AccountDeletedCommand {
-	void accountDeleted(int accountid);
+	void accountDeleted(int accountid, CustomerFeedbackWithBLOBs feedback);
 }

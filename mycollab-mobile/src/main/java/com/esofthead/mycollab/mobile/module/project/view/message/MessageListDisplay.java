@@ -50,7 +50,6 @@ public class MessageListDisplay
 	public MessageListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(MessageService.class),
 				new MessageRowDisplayHandler());
-		// TODO Auto-generated constructor stub
 	}
 
 	public static class MessageRowDisplayHandler implements
@@ -127,6 +126,7 @@ public class MessageListDisplay
 						}
 					});
 			mainLayout.setWidth("100%");
+			mainLayout.addStyleName("list-item");
 			return mainLayout;
 		}
 	}

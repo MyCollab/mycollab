@@ -33,6 +33,7 @@ import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -73,6 +74,7 @@ public class ProjectModuleController extends AbstractController {
 
 		bindProjectEvents();
 		bindMessageEvents();
+		bindTaskEvents();
 	}
 
 	private void bindProjectEvents() {
@@ -184,6 +186,20 @@ public class ProjectModuleController extends AbstractController {
 						.getPresenter(MessagePresenter.class);
 				presenter.go(navManager, data);
 			}
+		});
+	}
+
+	private void bindTaskEvents() {
+		this.register(new ApplicationEventListener<TaskEvent.GotoList>() {
+
+			private static final long serialVersionUID = -4009103684129154556L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoList event) {
+
+			}
+
 		});
 	}
 

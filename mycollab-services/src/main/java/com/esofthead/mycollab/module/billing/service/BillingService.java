@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.billing.service;
 
 import java.util.List;
 
+import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -37,8 +38,7 @@ public interface BillingService extends IService {
 			String password, String email, String timezoneId,
 			boolean isEmailVerified);
 
-	@CacheEvict
-	void cancelAccount(@CacheKey Integer accountid);
+	void cancelAccount(Integer accountid, CustomerFeedbackWithBLOBs feedback);
 
 	@Cacheable
 	BillingPlan findBillingPlan(@CacheKey Integer sAccountId);

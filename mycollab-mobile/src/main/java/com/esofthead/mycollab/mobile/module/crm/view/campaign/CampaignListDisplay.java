@@ -61,6 +61,7 @@ public class CampaignListDisplay
 				}
 			});
 			b.setWidth("100%");
+			b.addStyleName("list-item");
 			return b;
 		}
 

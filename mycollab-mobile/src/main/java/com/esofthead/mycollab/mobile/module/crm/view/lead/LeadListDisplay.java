@@ -58,6 +58,7 @@ public class LeadListDisplay extends
 				}
 			});
 			b.setWidth("100%");
+			b.addStyleName("list-item");
 			return b;
 		}
 

@@ -152,8 +152,15 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 
 	@Override
 	public void initView() {
-		subjectField.setData(null);
-		contentField.setData(null);
+		subjectField.setValue("");
+		contentField.setValue("");
+		isStickField.setValue(false);
+	}
+
+	@Override
+	protected void onBecomingVisible() {
+		super.onBecomingVisible();
+		initView();
 	}
 
 }

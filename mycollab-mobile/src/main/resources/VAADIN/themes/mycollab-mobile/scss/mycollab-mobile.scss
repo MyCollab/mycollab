@@ -3,9 +3,12 @@
 @import "mixins.scss";
 @import "fonts.scss";
 @import "colors.scss";
+@import "components.scss";
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
+    
+    @include components;
     
     .v-table-body {
     	border: none;
@@ -361,60 +364,63 @@
 	/* Data List View */
 	.data-list-view {
 		background-color: rgb(255, 255, 255);
-		.v-touchkit-navbutton {
-			padding: 10px 27px 10px 14px;
-			border-bottom: 1px solid #DDDDDD;
-			color: #8C8C8C;
-			font-size: 1.3rem;
-			
-			&:after {
-				content: "\e60a";
-				font-family: "icomoon";
-				line-height: 1.8rem;
-				padding: 10px 0px;
-				color: #8c8c8c;
-				font-size: 1.1rem;
-			}
-		}
-		.v-button {
-			text-align: left;
-			margin: 0px;
-			
-			.v-button-wrap {
-				padding: 1rem 2.7rem 1rem 1.4rem;
-				word-wrap: break-word;
-				white-space: normal;
+		.list-item {
+			&.v-touchkit-navbutton {
+				padding: 10px 27px 10px 14px;
 				border-bottom: 1px solid #DDDDDD;
+				color: #8C8C8C;
+				font-size: 1.3rem;
 				
-				.v-button-caption {
-					color: #8C8C8C;
-					font-size: 1.3rem;
-				}
-				&:before {
-					content: "";
-					display: inline-block;
-					height: 100%;
-					vertical-align: middle;
-					width: 0px;
+				&:after {
+					content: "\e60a";
+					font-family: "icomoon";
+					line-height: 1.8rem;
+					padding: 10px 0px;
+					color: #8c8c8c;
+					font-size: 1.1rem;
 				}
 			}
-			&.selectable-button.selected {
+			&.v-button {
+				text-align: left;
+				margin: 0px;
+				
 				.v-button-wrap {
-					position: relative;
+					padding: 1rem 2.7rem 1rem 1.4rem;
+					word-wrap: break-word;
+					white-space: normal;
+					border-bottom: 1px solid #DDDDDD;
 					
-					&:after {
-						content: "\e042";
-						font-family: "icomoon";
-						color: #49A3E1;
-						position: absolute;
-						right: 2rem;
+					.v-button-caption {
+						color: #8C8C8C;
+						font-size: 1.3rem;
+					}
+					&:before {
+						content: "";
 						display: inline-block;
-						font-size: 1.6rem;
-						line-height: 1.6rem;
+						height: 100%;
+						vertical-align: middle;
+						width: 0px;
 					}
 				}
-			}			
+				&.selectable-button.selected {
+					.v-button-wrap {
+						position: relative;
+						
+						&:after {
+							content: "\e042";
+							font-family: "icomoon";
+							color: #49A3E1;
+							position: absolute;
+							right: 2rem;
+							display: inline-block;
+							font-size: 1.6rem;
+							line-height: 1.6rem;
+						}
+					}
+				}			
+			}
 		}
+		
 	}
 	
 	/* Read View Layout */

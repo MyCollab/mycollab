@@ -35,7 +35,7 @@ import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.ISearchableDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultService;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.esb.BeanProxyBuilder;
+import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
@@ -128,7 +128,7 @@ public class ProjectMemberServiceImpl extends
 			try {
 				Project project = projectMapper
 						.selectByPrimaryKey(projectMember.getProjectid());
-				DeleteProjectMemberCommand projectMemberDeleteListener = new BeanProxyBuilder()
+				DeleteProjectMemberCommand projectMemberDeleteListener = CamelProxyBuilderUtil
 						.build(ProjectEndPoints.PROJECT_MEMBER_DELETE_ENDPOINT,
 								DeleteProjectMemberCommand.class);
 				projectMemberDeleteListener.projectMemberRemoved(username,
@@ -156,7 +156,7 @@ public class ProjectMemberServiceImpl extends
 	public void inviteProjectMembers(String[] email, int projectId,
 			int projectRoleId, String inviteUser, String inviteMessage,
 			int sAccountId) {
-		InviteProjectMembersCommand listener = new BeanProxyBuilder().build(
+		InviteProjectMembersCommand listener = CamelProxyBuilderUtil.build(
 				ProjectEndPoints.PROJECT_SEND_INVITATION_USER,
 				InviteProjectMembersCommand.class);
 		listener.inviteUsers(email, projectId, projectRoleId, inviteUser,

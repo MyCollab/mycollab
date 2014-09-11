@@ -23,5 +23,12 @@ package com.esofthead.mycollab.module.project.esb;
  * 
  */
 public interface DeleteProjectBugCommand {
+	/**
+	 * 
+	 * @param username
+	 * @param accountId
+	 * @param projectId
+	 * @param bugId
+	 */
 	void bugRemoved(String username, int accountId, int projectId, int bugId);
 }

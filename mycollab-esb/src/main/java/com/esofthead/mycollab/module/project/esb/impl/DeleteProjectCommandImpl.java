@@ -27,6 +27,7 @@ import com.esofthead.mycollab.common.domain.ActivityStreamExample;
 import com.esofthead.mycollab.common.domain.CommentExample;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectCommand;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 @Component
@@ -42,6 +43,7 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 		deleteProjectActivityStream(projectId);
 		deleteRelatedComments(projectId);
 		deleteProjectFiles(accountId, projectId);
+		deleteProjectPages(accountId, projectId);
 	}
 
 	private void deleteProjectActivityStream(int projectId) {
@@ -74,6 +76,15 @@ public class DeleteProjectCommandImpl implements DeleteProjectCommand {
 
 		String rootPath = String.format("%d/project/%d", accountid, projectId);
 		resourceService.removeResource(rootPath, "", accountid);
+	}
+
+	private void deleteProjectPages(int accountid, int projectId) {
+		log.debug("Delete pages of project");
+		WikiService wikiService = ApplicationContextUtil
+				.getSpringBean(WikiService.class);
+		String rootPath = String.format("%d/project/%d/.page", accountid,
+				projectId);
+		wikiService.removeResource(rootPath);
 	}
 
 }

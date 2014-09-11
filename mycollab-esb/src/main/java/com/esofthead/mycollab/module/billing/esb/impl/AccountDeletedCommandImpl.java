@@ -21,8 +21,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
 import com.esofthead.mycollab.module.billing.esb.AccountDeletedCommand;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
+import com.esofthead.mycollab.module.wiki.service.WikiService;
 
 /**
  * 
@@ -39,8 +41,11 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 	@Autowired
 	private ResourceService resourceService;
 
+	@Autowired
+	private WikiService wikiService;
+
 	@Override
-	public void accountDeleted(int accountid) {
+	public void accountDeleted(int accountid, CustomerFeedbackWithBLOBs feedback) {
 		deleteAccountFiles(accountid);
 	}
 
@@ -49,6 +54,8 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 
 		String rootPath = accountId + "";
 		resourceService.removeResource(rootPath, "", accountId);
+
+		wikiService.removeResource(rootPath);
 	}
 
 }

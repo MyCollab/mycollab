@@ -62,6 +62,7 @@ public class OpportunityListDisplay
 				}
 			});
 			b.setWidth("100%");
+			b.addStyleName("list-item");
 			return b;
 		}
 

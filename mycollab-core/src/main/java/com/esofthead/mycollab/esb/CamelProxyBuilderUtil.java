@@ -29,9 +29,11 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-public class BeanProxyBuilder {
+public class CamelProxyBuilderUtil {
+	private CamelProxyBuilderUtil() {
+	}
 
-	public <S> S build(String endpoint, Class<S> buildCls) {
+	public static <S> S build(String endpoint, Class<S> buildCls) {
 		try {
 			CamelContext camelContext = ApplicationContextUtil
 					.getSpringBean(CamelContext.class);

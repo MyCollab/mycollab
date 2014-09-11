@@ -39,7 +39,7 @@ public class BillingRootBuilder extends SpringRouteBuilder {
 				.threads()
 				.bean(ApplicationContextUtil
 						.getSpringBean(AccountDeletedCommand.class),
-						"accountDeleted(int)");
+						"accountDeleted(int, com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs)");
 
 	}
 

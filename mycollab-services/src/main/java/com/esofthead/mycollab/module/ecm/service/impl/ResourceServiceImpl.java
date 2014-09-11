@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.MimeTypesUtil;
-import com.esofthead.mycollab.esb.BeanProxyBuilder;
+import com.esofthead.mycollab.esb.CamelProxyBuilderUtil;
 import com.esofthead.mycollab.module.billing.service.BillingPlanCheckerService;
 import com.esofthead.mycollab.module.ecm.dao.ContentJcrDao;
 import com.esofthead.mycollab.module.ecm.domain.Content;
@@ -133,7 +133,7 @@ public class ResourceServiceImpl implements ResourceService {
 		activityLog.setBasefolderpath(contentPath);
 		contentActivityLogService.saveWithSession(activityLog, "");
 
-		SaveContentCommand saveContentCommand = new BeanProxyBuilder().build(
+		SaveContentCommand saveContentCommand = CamelProxyBuilderUtil.build(
 				EcmEndPoints.SAVE_CONTENT_ENDPOINT, SaveContentCommand.class);
 		saveContentCommand.saveContent(content, createdUser, sAccountId);
 	}
@@ -158,7 +158,7 @@ public class ResourceServiceImpl implements ResourceService {
 		activityLog.setBasefolderpath(path);
 		contentActivityLogService.saveWithSession(activityLog, "");
 
-		DeleteResourcesCommand deleteResourcesCommand = new BeanProxyBuilder()
+		DeleteResourcesCommand deleteResourcesCommand = CamelProxyBuilderUtil
 				.build(EcmEndPoints.DELETE_RESOURCES_ENDPOINT,
 						DeleteResourcesCommand.class);
 		deleteResourcesCommand.removeResource(path, deleteUser, sAccountId);
