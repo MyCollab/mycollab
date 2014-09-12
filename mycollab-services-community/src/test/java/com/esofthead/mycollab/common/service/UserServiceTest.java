@@ -26,9 +26,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
@@ -77,12 +75,10 @@ public class UserServiceTest extends ServiceTest {
 		Date date = fmt.parse("2014-02-19");
 		UserSearchCriteria searchCriteria = new UserSearchCriteria();
 		searchCriteria.setSaccountid(null);
-		searchCriteria.setLastAccessedTime(new DateSearchField(SearchField.AND,
-				date));
 		List<SimpleUser> lstSimpleUsers = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		// Assert.assertEquals(2, lstSimpleUsers.size());
+		Assert.assertEquals(2, lstSimpleUsers.size());
 		Assert.assertEquals(2, userService.getTotalCount(searchCriteria));
 	}
 

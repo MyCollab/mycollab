@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.task;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -113,13 +114,14 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 				.getSpringBean(ProjectTaskService.class);
 
 		item.setSaccountid(AppContext.getAccountId());
+		item.setProjectid(CurrentProjectVariables.getProjectId());
 		if (item.getPercentagecomplete() == null) {
 			item.setPercentagecomplete(new Double(0));
-			item.setStatus("Open");
+			item.setStatus(StatusI18nEnum.Open.name());
 		} else if (item.getPercentagecomplete().doubleValue() == 100d) {
-			item.setStatus("Closed");
+			item.setStatus(StatusI18nEnum.Closed.name());
 		} else {
-			item.setStatus("Open");
+			item.setStatus(StatusI18nEnum.Open.name());
 		}
 
 		if (item.getId() == null) {

@@ -101,6 +101,7 @@ public class BugSearchCriteria extends SearchCriteria {
 
 		private String type;
 
+		@SuppressWarnings("rawtypes")
 		public BugTypeCustomSql(String id, Enum displayName, String type) {
 			super(id, displayName);
 			this.type = type;

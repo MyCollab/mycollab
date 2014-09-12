@@ -278,6 +278,10 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 		return layout;
 	}
 
+	/**
+	 * 
+	 * @param comp
+	 */
 	public void insertToControlBlock(Component comp) {
 		editButtons.addComponent(comp, 0);
 	}

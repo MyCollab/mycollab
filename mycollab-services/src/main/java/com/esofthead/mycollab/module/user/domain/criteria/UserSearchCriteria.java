@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.module.user.domain.criteria;
 
-import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -34,9 +33,10 @@ public class UserSearchCriteria extends SearchCriteria {
 	private StringSearchField username;
 	private SetSearchField<String> registerStatuses;
 	private StringSearchField subdomain;
-	private SetSearchField<String> status;
-	private DateSearchField lastAccessedTime;
-
+	private SetSearchField<String> statuses;
+	
+	
+	
 	public StringSearchField getDisplayName() {
 		return displayName;
 	}
@@ -69,19 +69,11 @@ public class UserSearchCriteria extends SearchCriteria {
 		this.subdomain = subdomain;
 	}
 
-	public SetSearchField<String> getStatus() {
-		return status;
+	public SetSearchField<String> getStatuses() {
+		return statuses;
 	}
 
-	public void setStatus(SetSearchField<String> status) {
-		this.status = status;
-	}
-
-	public DateSearchField getLastAccessedTime() {
-		return lastAccessedTime;
-	}
-
-	public void setLastAccessedTime(DateSearchField lastAccessedTime) {
-		this.lastAccessedTime = lastAccessedTime;
+	public void setStatuses(SetSearchField<String> statuses) {
+		this.statuses = statuses;
 	}
 }

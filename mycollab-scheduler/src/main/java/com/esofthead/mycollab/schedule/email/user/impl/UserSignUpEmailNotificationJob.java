@@ -72,7 +72,7 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 	protected void executeJob(JobExecutionContext context)
 			throws JobExecutionException {
 		UserSearchCriteria criteria = new UserSearchCriteria();
-		criteria.setStatus(new SetSearchField<String>(new String[] { null,
+		criteria.setStatuses(new SetSearchField<String>(new String[] { null,
 				UserStatusConstants.EMAIL_NOT_VERIFIED }));
 		criteria.setSaccountid(null);
 		List<SimpleUser> lstSimpleUsers = userService
@@ -106,11 +106,12 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 													SiteConfiguration
 															.getDefaultLocale(),
 													UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-									contentGenerator.generateBodyContent(LocalizationHelper
-											.templatePath(
-													CONFIRM_EMAIL_TEMPLATE,
-													SiteConfiguration
-															.getDefaultLocale())),
+									contentGenerator
+											.generateBodyContent(LocalizationHelper
+													.templatePath(
+															CONFIRM_EMAIL_TEMPLATE,
+															SiteConfiguration
+																	.getDefaultLocale())),
 									null);
 
 					user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);

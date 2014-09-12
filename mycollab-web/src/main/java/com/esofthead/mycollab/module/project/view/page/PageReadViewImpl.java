@@ -16,10 +16,22 @@
  */
 package com.esofthead.mycollab.module.project.view.page;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
 import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -54,11 +66,16 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Img;
+import com.lowagie.text.DocumentException;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomComponent;
@@ -75,9 +92,15 @@ import com.vaadin.ui.VerticalLayout;
  *
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
+public class PageReadViewImpl extends AbstractPreviewItemComp2<Page>
+	implements
 		PageReadView {
 	private static final long serialVersionUID = 1L;
+	private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+			+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
+			+ "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>%s</title></head><body>%s</body></html>";
+
+	private static Logger log = LoggerFactory.getLogger(PageReadViewImpl.class);
 
 	private CommentDisplay commentListComp;
 
@@ -88,6 +111,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 	private PageVersion selectedVersion;
 
 	private WikiService wikiService;
+
+	private Button exportPdfBtn;
 
 	public PageReadViewImpl() {
 		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE), null);
@@ -169,12 +194,56 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<Page>(previewForm)
+		ProjectPreviewFormControlsGenerator<Page> pagesPreviewForm = new ProjectPreviewFormControlsGenerator<Page>(
+				previewForm);
+		final HorizontalLayout topPanel = pagesPreviewForm
 				.createButtonControls(
 						ProjectPreviewFormControlsGenerator.ADD_BTN_PRESENTED
 								| ProjectPreviewFormControlsGenerator.EDIT_BTN_PRESENTED
 								| ProjectPreviewFormControlsGenerator.DELETE_BTN_PRESENTED,
 						ProjectRolePermissionCollections.PAGES);
+
+		exportPdfBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF),
+				MyCollabResource.newResource("icons/16/export.png"));
+		exportPdfBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
+
+		FileDownloader fileDownloader = new FileDownloader(getPDFStream());
+		fileDownloader.extend(exportPdfBtn);
+
+		pagesPreviewForm.insertToControlBlock(exportPdfBtn);
+
+		return topPanel;
+	}
+
+	private StreamResource getPDFStream() {
+		return new StreamResource(new StreamSource() {
+			private static final long serialVersionUID = 1L;
+
+			public InputStream getStream() {
+				try {
+					return new FileInputStream(writePdf());
+				} catch (Exception e) {
+					log.error("Error while export PDF", e);
+					return null;
+				}
+			}
+		}, "Document.pdf");
+	}
+
+	private File writePdf() throws FileNotFoundException, IOException,
+			DocumentException {
+		ITextRenderer renderer = new ITextRenderer();
+		renderer.setDocumentFromString(String.format(XHTML_PAGE,
+				beanItem.getSubject(), beanItem.getContent()));
+		renderer.layout();
+
+		File file = new File(beanItem.getSubject() + ".pdf");
+		file.deleteOnExit();
+		OutputStream os = new FileOutputStream(file);
+		renderer.createPDF(os);
+		os.close();
+		return file;
 	}
 
 	@Override
@@ -357,7 +426,6 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 							.setValue(pageVersions.get(pageVersions.size() - 1));
 				}
 			}
-
 		}
 
 		String getVersionDisplay(PageVersion version, int index) {

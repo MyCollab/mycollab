@@ -98,6 +98,7 @@ public class UserServiceDBImpl extends
 	@Autowired
 	private BillingPlanCheckerService billingPlanCheckerService;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public ICrudGenericDAO getCrudMapper() {
 		return userMapper;
@@ -295,6 +296,7 @@ public class UserServiceDBImpl extends
 		userMapperExt.removeKeysWithSession(primaryKeys);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public SimpleUser authentication(String username, String password,
 			String subdomain, boolean isPasswordEncrypt) {

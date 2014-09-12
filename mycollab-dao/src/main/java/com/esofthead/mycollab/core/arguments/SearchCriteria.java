@@ -49,13 +49,13 @@ public abstract class SearchCriteria implements Serializable {
 
 	public static String DESC = "DESC";
 
-	protected String orderByField;
+	private String orderByField;
 
-	protected String sortDirection;
+	private String sortDirection;
 
-	protected NumberSearchField saccountid;
+	private NumberSearchField saccountid;
 
-	protected List<SearchField> extraFields;
+	private List<SearchField> extraFields;
 
 	public SearchCriteria() {
 		saccountid = new NumberSearchField(GroupIdProvider.getAccountId());
