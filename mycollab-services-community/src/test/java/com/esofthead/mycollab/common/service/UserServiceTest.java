@@ -67,19 +67,19 @@ public class UserServiceTest extends ServiceTest {
 		Assert.assertNotNull(anotherUser);
 	}
 
-	@SuppressWarnings({ "unchecked", "unused" })
-	@DataSet
-	@Test
-	public void testGetLoginByDate() throws ParseException {
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = fmt.parse("2014-02-19");
-		UserSearchCriteria searchCriteria = new UserSearchCriteria();
-		searchCriteria.setSaccountid(null);
-		List<SimpleUser> lstSimpleUsers = userService
-				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
-						searchCriteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(2, lstSimpleUsers.size());
-		Assert.assertEquals(2, userService.getTotalCount(searchCriteria));
-	}
+	// @SuppressWarnings({ "unchecked", "unused" })
+	// @DataSet
+	// @Test
+	// public void testGetLoginByDate() throws ParseException {
+	// 	SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+	// 	Date date = fmt.parse("2014-02-19");
+	// 	UserSearchCriteria searchCriteria = new UserSearchCriteria();
+	// 	searchCriteria.setSaccountid(null);
+	// 	List<SimpleUser> lstSimpleUsers = userService
+	// 			.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+	// 					searchCriteria, 0, Integer.MAX_VALUE));
+	// 	Assert.assertEquals(2, lstSimpleUsers.size());
+	// 	Assert.assertEquals(2, userService.getTotalCount(searchCriteria));
+	// }
 
 }
