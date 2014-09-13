@@ -516,8 +516,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   background-color: white;
 }
 .mycollab-mobile .data-list-view .list-item.v-touchkit-navbutton {
-  padding: 10px 27px 10px 14px;
-  border-bottom: 1px solid #DDDDDD;
+  padding: 1rem 2.7rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
   color: #8C8C8C;
   font-size: 1.3rem;
 }
@@ -562,6 +562,24 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   display: inline-block;
   font-size: 1.6rem;
   line-height: 1.6rem;
+}
+.mycollab-mobile .data-list-view .list-item.task-list-layout {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
+  color: #8C8C8C;
+}
+.mycollab-mobile .data-list-view .list-item.task-list-layout .task-list-name {
+  font-size: 1.4rem;
+}
+.mycollab-mobile .data-list-view .list-item.task-list-layout .last-updated-time {
+  font-size: 1.1rem;
+}
+.mycollab-mobile .data-list-view .list-item.task-list-layout .active-task-num {
+  font-size: 1.1rem;
+  color: white;
+  background-color: #7c7c7c;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
 }
 .mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
   background-color: #F3F1F0;

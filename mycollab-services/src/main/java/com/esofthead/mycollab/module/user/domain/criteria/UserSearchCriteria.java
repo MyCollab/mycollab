@@ -16,9 +16,14 @@
  */
 package com.esofthead.mycollab.module.user.domain.criteria;
 
+import java.util.Date;
+
+import com.esofthead.mycollab.core.arguments.NoValueSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 
 /**
  * 
@@ -34,9 +39,7 @@ public class UserSearchCriteria extends SearchCriteria {
 	private SetSearchField<String> registerStatuses;
 	private StringSearchField subdomain;
 	private SetSearchField<String> statuses;
-	
-	
-	
+
 	public StringSearchField getDisplayName() {
 		return displayName;
 	}
@@ -75,5 +78,16 @@ public class UserSearchCriteria extends SearchCriteria {
 
 	public void setStatuses(SetSearchField<String> statuses) {
 		this.statuses = statuses;
+	}
+
+	// @NOTE: Only works with method find... not getTotalCount(...)
+	public void setLastAccessTimeRange(Date from, Date to) {
+		String expr = String
+				.format("s_user_preference.lastAccessedTime >= '%s' AND s_user_preference.lastAccessedTime <='%s'",
+						DateTimeUtils.formatDate(from, "yyyy-MM-dd"),
+						DateTimeUtils.formatDate(to, "yyyy-MM-dd"));
+		NoValueSearchField searchField = new NoValueSearchField(
+				SearchField.AND, expr);
+		this.addExtraField(searchField);
 	}
 }

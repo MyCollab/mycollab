@@ -16,13 +16,11 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view;
 
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
-import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
@@ -44,8 +42,6 @@ public class ProjectModulePresenter extends
 
 	@Override
 	protected void onGo(ComponentContainer navigator, ScreenData<?> data) {
-		AppContext.addFragment("project/",
-				AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
 		checkLocalData();
 	}
 

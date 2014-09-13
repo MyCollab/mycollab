@@ -21,7 +21,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
 /**
@@ -30,14 +30,12 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
  * @since 4.5.0
  *
  */
-public class TaskUrlResolver extends ProjectUrlResolver {
-
-	public TaskUrlResolver() {
-		this.addSubResolver("group", new TaskGroupUrlResolver());
+public class TaskGroupUrlResolver extends ProjectUrlResolver {
+	public TaskGroupUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
 	}
 
-	private class ListUrlResolver extends ProjectUrlResolver {
+	private static class ListUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
@@ -45,12 +43,13 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			String[] tokens = decodeUrl.split("/");
 
 			int projectId = Integer.parseInt(tokens[0]);
-			int listId = Integer.parseInt(tokens[1]);
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new TaskScreenData.List(listId));
+					new TaskGroupScreenData.List());
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
+
 	}
 }

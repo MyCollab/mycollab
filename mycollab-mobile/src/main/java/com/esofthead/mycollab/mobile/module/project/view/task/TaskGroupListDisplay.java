@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -56,10 +57,12 @@ public class TaskGroupListDisplay
 		public Component generateRow(final SimpleTaskList taskList, int rowIndex) {
 			HorizontalLayout taskListLayout = new HorizontalLayout();
 			taskListLayout.setStyleName("task-list-layout");
+			taskListLayout.setWidth("100%");
 
 			VerticalLayout taskListInfo = new VerticalLayout();
 			taskListInfo.setStyleName("task-list-info");
 			NavigationButton b = new NavigationButton(taskList.getName());
+			b.setTargetViewCaption(taskList.getName());
 			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
 
 				private static final long serialVersionUID = -2481787976727400924L;
@@ -81,12 +84,17 @@ public class TaskGroupListDisplay
 			taskListUpdateTime.setWidthUndefined();
 			taskListUpdateTime.setStyleName("last-updated-time");
 			taskListInfo.addComponent(taskListUpdateTime);
+			taskListLayout.addComponent(taskListInfo);
 
-			Label activeTasksNum = new Label(taskList.getNumOpenTasks() + "");
-			activeTasksNum.setWidthUndefined();
-			activeTasksNum.setStyleName("active-task-num");
-
-			taskListLayout.addComponent(activeTasksNum);
+			if (taskList.getNumOpenTasks() > 0) {
+				Label activeTasksNum = new Label(taskList.getNumOpenTasks()
+						+ "");
+				activeTasksNum.setWidthUndefined();
+				activeTasksNum.setStyleName("active-task-num");
+				taskListLayout.addComponent(activeTasksNum);
+				taskListLayout.setComponentAlignment(activeTasksNum,
+						Alignment.MIDDLE_LEFT);
+			}
 			taskListLayout.setExpandRatio(taskListInfo, 1.0f);
 			taskListLayout.addStyleName("list-item");
 

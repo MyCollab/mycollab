@@ -366,8 +366,8 @@
 		background-color: rgb(255, 255, 255);
 		.list-item {
 			&.v-touchkit-navbutton {
-				padding: 10px 27px 10px 14px;
-				border-bottom: 1px solid #DDDDDD;
+				padding: 1rem 2.7rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
 				color: #8C8C8C;
 				font-size: 1.3rem;
 				
@@ -419,6 +419,25 @@
 					}
 				}			
 			}
+			&.task-list-layout {
+				padding: 1rem 2.5rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
+				color: #8C8C8C;
+				.task-list-name {
+					font-size: 1.4rem;
+				}
+				.last-updated-time {
+					font-size: 1.1rem;
+				}
+				.active-task-num {
+					font-size: 1.1rem;
+					color: white;
+					background-color: rgb(124, 124, 124);
+					padding: 0.2rem 0.5rem;
+					border-radius: 0.3rem;
+				}
+			}
+			
 		}
 		
 	}

@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.parameters;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**
@@ -27,8 +28,19 @@ import com.esofthead.mycollab.vaadin.mvp.ScreenData;
  */
 public class TaskGroupScreenData {
 
-	public static class List extends ScreenData<Object> {
+	public static class List extends ScreenData<TaskListSearchCriteria> {
 		public List() {
+			super(null);
+		}
+
+		public List(TaskListSearchCriteria param) {
+			super(param);
+		}
+
+	}
+
+	public static class Add extends ScreenData<Integer> {
+		public Add() {
 			super(null);
 		}
 	}

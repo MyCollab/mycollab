@@ -18,7 +18,9 @@ package com.esofthead.mycollab.common.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -67,19 +69,23 @@ public class UserServiceTest extends ServiceTest {
 		Assert.assertNotNull(anotherUser);
 	}
 
-	// @SuppressWarnings({ "unchecked", "unused" })
-	// @DataSet
-	// @Test
-	// public void testGetLoginByDate() throws ParseException {
-	// 	SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
-	// 	Date date = fmt.parse("2014-02-19");
-	// 	UserSearchCriteria searchCriteria = new UserSearchCriteria();
-	// 	searchCriteria.setSaccountid(null);
-	// 	List<SimpleUser> lstSimpleUsers = userService
-	// 			.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
-	// 					searchCriteria, 0, Integer.MAX_VALUE));
-	// 	Assert.assertEquals(2, lstSimpleUsers.size());
-	// 	Assert.assertEquals(2, userService.getTotalCount(searchCriteria));
-	// }
+	@SuppressWarnings({ "unchecked" })
+	@DataSet
+	@Test
+	public void testGetLoginByDate() throws ParseException {
+
+		GregorianCalendar calendar = new GregorianCalendar(2014, 1, 20);
+
+		Date to = calendar.getTime();
+		calendar.add(Calendar.DAY_OF_YEAR, -1);
+		Date from = calendar.getTime();
+		UserSearchCriteria searchCriteria = new UserSearchCriteria();
+		searchCriteria.setLastAccessTimeRange(from, to);
+		searchCriteria.setSaccountid(null);
+		List<SimpleUser> lstSimpleUsers = userService
+				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
+						searchCriteria, 0, Integer.MAX_VALUE));
+		Assert.assertEquals(2, lstSimpleUsers.size());
+	}
 
 }

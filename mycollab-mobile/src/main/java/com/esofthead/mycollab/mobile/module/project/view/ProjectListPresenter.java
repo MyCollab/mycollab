@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 import java.util.Arrays;
 
 import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
@@ -69,9 +70,12 @@ public class ProjectListPresenter extends
 						tokens.length);
 				MobileApplication.rootUrlResolver.getSubResolver("project")
 						.handle(fragments);
-				MobileApplication.getInstance().setInitialUrl("");
 			}
+		} else {
+			AppContext.addFragment("project/",
+					AppContext.getMessage(GenericI18Enum.MODULE_PROJECT));
 		}
+		MobileApplication.getInstance().setInitialUrl("");
 
 	}
 

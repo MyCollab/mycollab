@@ -178,6 +178,7 @@ public class MobileApplication extends MyCollabUI {
 
 					@Override
 					public void uriFragmentChanged(UriFragmentChangedEvent event) {
+						setInitialUrl(event.getUriFragment());
 						enter(event.getUriFragment());
 					}
 				});

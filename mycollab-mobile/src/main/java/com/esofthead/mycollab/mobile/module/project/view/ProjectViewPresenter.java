@@ -21,6 +21,9 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.InsideProjectNavigationMenu;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.service.ProjectService;
@@ -87,6 +90,11 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 		if (ClassUtils.instanceOf(pageAction, MessageScreenData.Read.class,
 				MessageScreenData.Search.class, MessageScreenData.Add.class)) {
 			presenter = PresenterResolver.getPresenter(MessagePresenter.class);
+		} else if (ClassUtils.instanceOf(pageAction, TaskScreenData.List.class,
+				TaskScreenData.Read.class, TaskScreenData.Edit.class,
+				TaskGroupScreenData.List.class, TaskGroupScreenData.Read.class,
+				TaskGroupScreenData.Edit.class)) {
+			presenter = PresenterResolver.getPresenter(TaskPresenter.class);
 		} else {
 			throw new UnsupportedOperationException(
 					"Not support page action chain " + pageAction);

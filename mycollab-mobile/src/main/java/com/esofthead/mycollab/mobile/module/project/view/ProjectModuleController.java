@@ -34,9 +34,11 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
+import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
@@ -200,6 +202,21 @@ public class ProjectModuleController extends AbstractController {
 			@Override
 			public void handle(TaskEvent.GotoList event) {
 				TaskGroupScreenData.List data = new TaskGroupScreenData.List();
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GoInsideList>() {
+
+			private static final long serialVersionUID = 5272374413178583391L;
+
+			@Subscribe
+			@Override
+			public void handle(GoInsideList event) {
+				TaskScreenData.List data = new TaskScreenData.List(
+						(Integer) event.getData());
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);

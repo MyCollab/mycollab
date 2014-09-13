@@ -32,6 +32,12 @@ public class TaskScreenData {
 		}
 	}
 
+	public static class Add extends ScreenData<Integer> {
+		public Add() {
+			super(null);
+		}
+	}
+
 	public static class Read extends ScreenData<Integer> {
 		public Read(Integer param) {
 			super(param);
