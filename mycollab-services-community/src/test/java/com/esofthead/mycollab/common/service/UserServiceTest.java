@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.common.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -51,7 +50,7 @@ public class UserServiceTest extends ServiceTest {
 		List lstUser = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(2, lstUser.size());
+		Assert.assertEquals(3, lstUser.size());
 	}
 
 	@DataSet
