@@ -9,7 +9,7 @@
         p:configuration="classpath:/wiki-repo-test.xml" p:homeDir="file:repo-test">
     </bean>
     <bean id="pageJcrSessionFactory" name="pageSessionFactory"
-        class="com.esofthead.mycollab.module.wiki.WikiSessionFactory">
+        class="com.esofthead.mycollab.module.page.PageSessionFactory">
         <property name="repository" ref="repository" />
         <property name="credentials">
             <bean class="javax.jcr.SimpleCredentials">
