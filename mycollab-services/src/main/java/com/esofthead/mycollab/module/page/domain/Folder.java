@@ -14,10 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki.domain;
-
-import java.io.Serializable;
-import java.util.Calendar;
+package com.esofthead.mycollab.module.page.domain;
 
 /**
  * 
@@ -25,14 +22,11 @@ import java.util.Calendar;
  * @since 4.4.0
  *
  */
-public class PageVersion implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Folder extends PageResource {
+	
 	private String name;
 	
-	private int index;
-	
-	private Calendar createdTime;
+	private String description;
 
 	public String getName() {
 		return name;
@@ -42,19 +36,11 @@ public class PageVersion implements Serializable {
 		this.name = name;
 	}
 
-	public int getIndex() {
-		return index;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public Calendar getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Calendar createdTime) {
-		this.createdTime = createdTime;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

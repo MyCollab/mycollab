@@ -120,6 +120,17 @@ public class SimpleComment extends Comment {
 					commentPath = AttachmentUtils
 							.getCrmNoteCommentAttachmentPath(getSaccountid(),
 									Integer.parseInt(getTypeid()), getId());
+				} else if (CommentType.PRJ_COMPONENT.toString().equals(
+						getType())) {
+					commentPath = AttachmentUtils
+							.getProjectComponentCommentAttachmentPath(
+									getSaccountid(), getExtratypeid(),
+									Integer.parseInt(getTypeid()), getId());
+				} else if (CommentType.PRJ_VERSION.toString().equals(getType())) {
+					commentPath = AttachmentUtils
+							.getProjectVersionCommentAttachmentPath(
+									getSaccountid(), getExtratypeid(),
+									Integer.parseInt(getTypeid()), getId());
 				} else {
 					throw new MyCollabException("Do not support comment type "
 							+ getType());

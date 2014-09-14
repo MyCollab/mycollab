@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.domain.CustomerFeedbackWithBLOBs;
 import com.esofthead.mycollab.module.billing.esb.AccountDeletedCommand;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.module.page.service.PageService;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class AccountDeletedCommandImpl implements AccountDeletedCommand {
 	private ResourceService resourceService;
 
 	@Autowired
-	private WikiService wikiService;
+	private PageService wikiService;
 
 	@Override
 	public void accountDeleted(int accountid, CustomerFeedbackWithBLOBs feedback) {

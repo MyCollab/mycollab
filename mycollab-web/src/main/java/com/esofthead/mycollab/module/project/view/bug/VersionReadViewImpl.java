@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -31,10 +32,12 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.VersionI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.VersionService;
+import com.esofthead.mycollab.schedule.email.project.VersionRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -64,11 +67,12 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 		implements VersionReadView {
 	private static final long serialVersionUID = 1L;
 
+	private CommentDisplay commentDisplay;
 	private VersionHistoryLogList historyLogList;
 	private RelatedBugComp relatedBugComp;
 
@@ -88,6 +92,12 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	@Override
 	protected void initRelatedComponents() {
+		commentDisplay = new CommentDisplay(CommentType.PRJ_VERSION,
+				CurrentProjectVariables.getProjectId(), true, true,
+				VersionRelayEmailNotificationAction.class);
+		commentDisplay.setWidth("100%");
+		commentDisplay.setMargin(true);
+
 		historyLogList = new VersionHistoryLogList(ModuleNameConstants.PRJ,
 				ProjectTypeConstants.BUG_VERSION);
 		relatedBugComp = new RelatedBugComp();
@@ -98,6 +108,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	@Override
 	protected void onPreviewItem() {
+		commentDisplay.loadComments("" + beanItem.getId());
 		relatedBugComp.displayBugReports();
 		historyLogList.loadHistory(beanItem.getId());
 		dateInfoComp.displayEntryDateTime(beanItem);
@@ -206,6 +217,11 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 	protected ComponentContainer createBottomPanel() {
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
+
+		tabContainer.addTab(commentDisplay, AppContext
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
 		tabContainer.addTab(relatedBugComp,
 				AppContext.getMessage(VersionI18nEnum.TAB_RELATED_BUGS),

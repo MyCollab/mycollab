@@ -17,12 +17,12 @@
 package com.esofthead.mycollab.module.project.view.page;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.EditFormHandler;
@@ -106,8 +106,8 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 	}
 
 	private void savePage(Page page) {
-		WikiService wikiService = ApplicationContextUtil
-				.getSpringBean(WikiService.class);
+		PageService wikiService = ApplicationContextUtil
+				.getSpringBean(PageService.class);
 
 		wikiService.savePage(page, AppContext.getUsername());
 	}

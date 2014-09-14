@@ -20,8 +20,7 @@ import org.vaadin.openesignforms.ckeditor.CKEditorConfig;
 import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
@@ -56,16 +55,15 @@ class PageEditFormFieldFactory extends
 			config.setToolbarCanCollapse(true);
 			config.setWidth("100%");
 
-			String appUrl = SiteConfiguration.getAppUrl();
+			String appUrl = AppContext.getSiteUrl();
 			String params = String.format(
 					"path=%s&createdUser=%s&sAccountId=%d", page.getPath(),
 					AppContext.getUsername(), AppContext.getAccountId());
 			if (appUrl.endsWith("/")) {
-				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
-						+ "page/upload?" + params);
+				config.setFilebrowserUploadUrl(appUrl + "page/upload?" + params);
 			} else {
-				config.setFilebrowserUploadUrl(SiteConfiguration.getAppUrl()
-						+ "/page/upload?" + params);
+				config.setFilebrowserUploadUrl(appUrl + "/page/upload?"
+						+ params);
 			}
 
 			final CKEditorTextField ckEditorTextField = new CKEditorTextField(

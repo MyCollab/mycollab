@@ -21,6 +21,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
@@ -38,11 +39,13 @@ import com.esofthead.mycollab.module.project.i18n.ComponentI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
+import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleComponent;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.ComponentService;
+import com.esofthead.mycollab.schedule.email.project.ComponentRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -50,7 +53,6 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
@@ -74,7 +76,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class ComponentReadViewImpl extends
 		AbstractPreviewItemComp2<SimpleComponent> implements ComponentReadView {
 
@@ -84,6 +86,7 @@ public class ComponentReadViewImpl extends
 			.getLogger(ComponentReadViewImpl.class);
 
 	private RelatedBugComp relatedBugComp;
+	private CommentDisplay commentDisplay;
 	private ComponentHistoryLogList historyLogList;
 	private Button quickActionStatusBtn;
 	private ProjectPreviewFormControlsGenerator<SimpleComponent> componentPreviewForm;
@@ -120,6 +123,12 @@ public class ComponentReadViewImpl extends
 	protected void initRelatedComponents() {
 		relatedBugComp = new RelatedBugComp();
 
+		commentDisplay = new CommentDisplay(CommentType.PRJ_COMPONENT,
+				CurrentProjectVariables.getProjectId(), true, true,
+				ComponentRelayEmailNotificationAction.class);
+		commentDisplay.setWidth("100%");
+		commentDisplay.setMargin(true);
+
 		historyLogList = new ComponentHistoryLogList(ModuleNameConstants.PRJ,
 				ProjectTypeConstants.BUG_COMPONENT);
 
@@ -134,6 +143,7 @@ public class ComponentReadViewImpl extends
 	protected void onPreviewItem() {
 		relatedBugComp.displayBugReports();
 
+		commentDisplay.loadComments("" + beanItem.getId());
 		historyLogList.loadHistory(beanItem.getId());
 
 		dateInfoComp.displayEntryDateTime(beanItem);
@@ -233,6 +243,11 @@ public class ComponentReadViewImpl extends
 	protected ComponentContainer createBottomPanel() {
 		final TabsheetLazyLoadComp tabContainer = new TabsheetLazyLoadComp();
 		tabContainer.setWidth("100%");
+
+		tabContainer.addTab(commentDisplay, AppContext
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT),
+				MyCollabResource
+						.newResource("icons/16/project/gray/comment.png"));
 
 		tabContainer.addTab(relatedBugComp,
 				AppContext.getMessage(BugI18nEnum.TAB_RELATED_BUGS),
@@ -418,26 +433,6 @@ public class ComponentReadViewImpl extends
 			this.bottomLayout.addComponent(bugListWidget);
 		}
 
-	}
-
-	protected class ComponentFormFieldLayout extends
-			AbstractBeanFieldGroupViewFieldFactory<SimpleComponent> {
-
-		private static final long serialVersionUID = 1L;
-
-		public ComponentFormFieldLayout(GenericBeanForm<SimpleComponent> form) {
-			super(form);
-		}
-
-		@Override
-		protected Field<?> onCreateField(final Object propertyId) {
-			if (propertyId.equals("userlead")) {
-				return new ProjectUserFormLinkField(beanItem.getUserlead(),
-						beanItem.getUserLeadAvatarId(),
-						beanItem.getUserLeadFullName());
-			}
-			return null;
-		}
 	}
 
 	@Override

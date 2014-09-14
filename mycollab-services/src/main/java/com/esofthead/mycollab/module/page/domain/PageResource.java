@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki.domain;
+package com.esofthead.mycollab.module.page.domain;
 
 import java.util.Calendar;
 
@@ -26,7 +26,7 @@ import com.esofthead.mycollab.core.arguments.NotBindable;
  * @since 4.4.0
  *
  */
-public class WikiResource {
+public class PageResource {
 	@NotBindable
 	private Calendar createdTime;
 

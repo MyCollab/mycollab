@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki;
+package com.esofthead.mycollab.module.page;
 
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
@@ -36,9 +36,9 @@ import com.esofthead.mycollab.module.ecm.ContentException;
  * @since 4.4.0
  *
  */
-public class WikiSessionFactory extends JcrSessionFactory {
+public class PageSessionFactory extends JcrSessionFactory {
 	private static Logger log = LoggerFactory
-			.getLogger(WikiSessionFactory.class);
+			.getLogger(PageSessionFactory.class);
 
 	@Override
 	protected void registerNodeTypes() throws Exception {

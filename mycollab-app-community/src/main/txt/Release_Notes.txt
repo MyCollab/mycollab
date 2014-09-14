@@ -42,6 +42,21 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 4.5.1
+-----------------------------
+**Improvements**
+
+* Upgrade Spring framework to 4.1.0.RELEASE
+* Adding scheduler unit tests
+* Project page could be exported into pdf format
+* Project time logging is displayed in multiple layouts
+* User can add comment to project component and project version
+
+**Bug Fixes**
+
+* Save task in task read view throws exception
+* Inconsistent time logging permission
+
 Version 4.5.0
 -----------------------------
 **Improvements**

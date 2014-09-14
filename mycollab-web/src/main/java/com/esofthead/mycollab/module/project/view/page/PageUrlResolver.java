@@ -21,12 +21,12 @@ import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
 import com.esofthead.mycollab.module.project.view.parameters.PageScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
@@ -74,8 +74,8 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				int projectId = tokenizer.getInt();
 				String pagePath = tokenizer.getRemainValue();
 
-				WikiService wikiService = ApplicationContextUtil
-						.getSpringBean(WikiService.class);
+				PageService wikiService = ApplicationContextUtil
+						.getSpringBean(PageService.class);
 				Page page = wikiService.getPage(pagePath,
 						AppContext.getUsername());
 
@@ -106,8 +106,8 @@ public class PageUrlResolver extends ProjectUrlResolver {
 				int projectId = tokenizer.getInt();
 				String pagePath = tokenizer.getRemainValue();
 
-				WikiService wikiService = ApplicationContextUtil
-						.getSpringBean(WikiService.class);
+				PageService wikiService = ApplicationContextUtil
+						.getSpringBean(PageService.class);
 				Page page = wikiService.getPage(pagePath,
 						AppContext.getUsername());
 

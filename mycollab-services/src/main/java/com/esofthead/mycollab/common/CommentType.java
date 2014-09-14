@@ -23,10 +23,17 @@ package com.esofthead.mycollab.common;
  * 
  */
 public enum CommentType {
-	PRJ_TASK_LIST("Project-TaskList"), PRJ_TASK("Project-Task"), PRJ_BUG(
-			"Project-Bug"), PRJ_MESSAGE("Project-Message"), PRJ_MILESTONE(
-			"Project-Milestone"), PRJ_RISK("Project-Risk"), PRJ_PROBLEM(
-			"Project-Problem"), PRJ_PAGE("Project-Page"), CRM_NOTE("Crm-Note");
+	PRJ_TASK_LIST("Project-TaskList"),
+	PRJ_TASK("Project-Task"),
+	PRJ_VERSION("Project-Version"),
+	PRJ_BUG("Project-Bug"),
+	PRJ_MESSAGE("Project-Message"),
+	PRJ_MILESTONE("Project-Milestone"),
+	PRJ_COMPONENT("Project-Component"),
+	PRJ_RISK("Project-Risk"),
+	PRJ_PROBLEM("Project-Problem"),
+	PRJ_PAGE("Project-Page"),
+	CRM_NOTE("Crm-Note");
 
 	private String type;
 

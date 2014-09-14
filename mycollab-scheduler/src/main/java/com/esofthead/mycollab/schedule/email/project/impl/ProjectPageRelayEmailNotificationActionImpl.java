@@ -22,8 +22,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.core.utils.StringUtils;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.schedule.email.ItemFieldMapper;
 import com.esofthead.mycollab.schedule.email.MailContext;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
@@ -41,7 +41,7 @@ public class ProjectPageRelayEmailNotificationActionImpl extends
 		ProjectPageRelayEmailNotificationAction {
 
 	@Autowired
-	private WikiService wikiService;
+	private PageService wikiService;
 
 	@Override
 	protected Page getBeanInContext(MailContext<Page> context) {

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.parameters;
 
-import com.esofthead.mycollab.module.wiki.domain.Page;
+import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
 /**

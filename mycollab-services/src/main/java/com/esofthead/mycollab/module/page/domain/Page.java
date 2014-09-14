@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki.domain;
+package com.esofthead.mycollab.module.page.domain;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.core.arguments.NotBindable;
 
@@ -27,14 +26,14 @@ import com.esofthead.mycollab.core.arguments.NotBindable;
  * @since 4.4.0
  *
  */
-public class Page extends WikiResource {
+public class Page extends PageResource {
 
 	private String subject;
 
 	private String content;
 
 	@NotBindable
-	private boolean isLock;
+	private boolean isLock = false;
 
 	@NotBindable
 	private boolean isNew = true;

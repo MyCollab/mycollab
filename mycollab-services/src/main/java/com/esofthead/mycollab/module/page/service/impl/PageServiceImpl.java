@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki.service.impl;
+package com.esofthead.mycollab.module.page.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,11 +46,11 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.ContentException;
 import com.esofthead.mycollab.module.ecm.NodesUtil;
-import com.esofthead.mycollab.module.wiki.domain.Folder;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.domain.PageVersion;
-import com.esofthead.mycollab.module.wiki.domain.WikiResource;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
+import com.esofthead.mycollab.module.page.domain.Folder;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.domain.PageVersion;
+import com.esofthead.mycollab.module.page.domain.PageResource;
+import com.esofthead.mycollab.module.page.service.PageService;
 
 /**
  * 
@@ -60,8 +60,8 @@ import com.esofthead.mycollab.module.wiki.service.WikiService;
  */
 @Repository
 @Transactional
-public class WikiServiceImpl implements WikiService {
-	private static Logger log = LoggerFactory.getLogger(WikiServiceImpl.class);
+public class PageServiceImpl implements PageService {
+	private static Logger log = LoggerFactory.getLogger(PageServiceImpl.class);
 
 	@Qualifier("pageJcrTemplate")
 	@Autowired
@@ -378,18 +378,18 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public List<WikiResource> getResources(final String path,
+	public List<PageResource> getResources(final String path,
 			final String requestedUser) {
-		return jcrTemplate.execute(new JcrCallback<List<WikiResource>>() {
+		return jcrTemplate.execute(new JcrCallback<List<PageResource>>() {
 
 			@Override
-			public List<WikiResource> doInJcr(Session session)
+			public List<PageResource> doInJcr(Session session)
 					throws IOException, RepositoryException {
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, path);
 				if (node != null) {
 					if (isNodeFolder(node)) {
-						List<WikiResource> resources = new ArrayList<WikiResource>();
+						List<PageResource> resources = new ArrayList<PageResource>();
 						NodeIterator childNodes = node.getNodes();
 						while (childNodes.hasNext()) {
 							Node childNode = childNodes.nextNode();
@@ -417,7 +417,7 @@ public class WikiServiceImpl implements WikiService {
 				}
 
 				log.debug("There is no resource in path {}", path);
-				return new ArrayList<WikiResource>();
+				return new ArrayList<PageResource>();
 			}
 		});
 	}

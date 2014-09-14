@@ -24,11 +24,9 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.dao.CommentMapper;
 import com.esofthead.mycollab.common.domain.CommentExample;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.esb.DeleteProjectBugCommand;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
 
 @Component
 public class DeleteProjectBugCommandImpl implements DeleteProjectBugCommand {

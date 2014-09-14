@@ -35,6 +35,9 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.html.DivLessFormatter;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.domain.PageVersion;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -44,9 +47,6 @@ import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.domain.PageVersion;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.schedule.email.project.ProjectPageRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -92,8 +92,7 @@ import com.vaadin.ui.VerticalLayout;
  *
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class PageReadViewImpl extends AbstractPreviewItemComp2<Page>
-	implements
+public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		PageReadView {
 	private static final long serialVersionUID = 1L;
 	private static final String XHTML_PAGE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -110,13 +109,13 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page>
 
 	private PageVersion selectedVersion;
 
-	private WikiService wikiService;
+	private PageService pageService;
 
 	private Button exportPdfBtn;
 
 	public PageReadViewImpl() {
 		super(AppContext.getMessage(Page18InEnum.VIEW_READ_TITLE), null);
-		wikiService = ApplicationContextUtil.getSpringBean(WikiService.class);
+		pageService = ApplicationContextUtil.getSpringBean(PageService.class);
 		this.previewLayout.setTitleIcon(MyCollabResource
 				.newResource("icons/22/project/page_selected.png"));
 	}
@@ -383,7 +382,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page>
 		}
 
 		void displayVersions(String path) {
-			List<PageVersion> pageVersions = wikiService.getPageVersions(path);
+			List<PageVersion> pageVersions = pageService.getPageVersions(path);
 			if (pageVersions.size() > 0) {
 				final ComboBox pageSelection = new ComboBox();
 				content.addComponent(pageSelection);
@@ -400,7 +399,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page>
 						selectedVersion = (PageVersion) pageSelection
 								.getValue();
 						if (selectedVersion != null) {
-							Page page = wikiService.getPageByVersion(
+							Page page = pageService.getPageByVersion(
 									beanItem.getPath(),
 									selectedVersion.getName());
 							page.setPath(beanItem.getPath());

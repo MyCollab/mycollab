@@ -52,37 +52,37 @@
 
     <!-- Trigger -->
     <bean id="sendingRelayEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="sendRelayEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="projectSendRelayNotificationEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="projectSendRelayNotificationEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="crmSendRelayNotificationEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="crmSendRelayNotificationEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="userSignUpNotificationEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="userSignUpNotificationEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="sendErrorReportEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="sendErrorReportEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>
 
     <bean id="sendInviteUserEmailTrigger"
-        class="com.esofthead.mycollab.schedule.PersistableCronTriggerFactoryBean">
+        class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="sendInviteUserEmailJob" />
         <property name="cronExpression" value="0 * * * * ?" />
     </bean>

@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.wiki.service;
+package com.esofthead.mycollab.module.page.service;
 
 import java.util.List;
 
-import com.esofthead.mycollab.module.wiki.domain.Folder;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.domain.PageVersion;
-import com.esofthead.mycollab.module.wiki.domain.WikiResource;
+import com.esofthead.mycollab.module.page.domain.Folder;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.domain.PageVersion;
+import com.esofthead.mycollab.module.page.domain.PageResource;
 
 /**
  * 
@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.wiki.domain.WikiResource;
  * @since 4.4.0
  *
  */
-public interface WikiService {
+public interface PageService {
 	/**
 	 * 
 	 * @param page
@@ -95,7 +95,7 @@ public interface WikiService {
 	 * @param requestedUser
 	 * @return
 	 */
-	List<WikiResource> getResources(String path, String requestedUser);
+	List<PageResource> getResources(String path, String requestedUser);
 
 	/**
 	 * 

@@ -20,6 +20,8 @@ public enum AttachmentType {
 	CRM_NOTE_TYPE("crm-note"),
 	PROJECT_MESSAGE("project-message"),
 	PROJECT_BUG_TYPE("project-bug"),
+	PROJECT_COMPONENT("project-component"),
+	PROJECT_VERSION("project-version"),
 	PROJECT_MILESTONE("project-milestone"),
 	PROJECT_RISK("project-risk"),
 	PROJECT_PROBLEM("project-problem"),

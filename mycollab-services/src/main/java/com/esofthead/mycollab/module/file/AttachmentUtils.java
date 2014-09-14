@@ -93,7 +93,21 @@ public class AttachmentUtils {
 				accountId, projectId, AttachmentType.PROJECT_TASKLIST,
 				tasklistId, AttachmentType.COMMON_COMMENT, commentId);
 	}
-	
+
+	public static String getProjectComponentCommentAttachmentPath(
+			int accountId, int projectId, int componentId, int commentId) {
+		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
+				accountId, projectId, AttachmentType.PROJECT_COMPONENT,
+				componentId, AttachmentType.COMMON_COMMENT, commentId);
+	}
+
+	public static String getProjectVersionCommentAttachmentPath(int accountId,
+			int projectId, int versionId, int commentId) {
+		return String.format("%d/project/%d/.attachments/%s/%d/%s/%d",
+				accountId, projectId, AttachmentType.PROJECT_VERSION,
+				versionId, AttachmentType.COMMON_COMMENT, commentId);
+	}
+
 	public static String getProjectPageAttachmentPath(int accountId,
 			int projectId, String taskId) {
 		return String.format("%d/project/%d/.attachments/%s/%s", accountId,
@@ -171,6 +185,14 @@ public class AttachmentUtils {
 			attachmentPath = AttachmentUtils
 					.getProjectPageCommentAttachmentPath(accountId, projectId,
 							typeid, commentId);
+		} else if (CommentType.PRJ_COMPONENT.equals(type)) {
+			attachmentPath = AttachmentUtils
+					.getProjectComponentCommentAttachmentPath(accountId,
+							projectId, Integer.parseInt(typeid), commentId);
+		} else if (CommentType.PRJ_VERSION.equals(type)) {
+			attachmentPath = AttachmentUtils
+					.getProjectVersionCommentAttachmentPath(accountId,
+							projectId, Integer.parseInt(typeid), commentId);
 		} else {
 			log.error("Do not support comment attachment path " + type);
 		}

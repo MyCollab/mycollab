@@ -18,11 +18,11 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import java.util.List;
 
+import com.esofthead.mycollab.module.page.domain.PageResource;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.view.ProjectBreadcrumb;
-import com.esofthead.mycollab.module.wiki.domain.WikiResource;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -40,12 +40,12 @@ import com.vaadin.ui.ComponentContainer;
 public class PageListPresenter extends AbstractPresenter<PageListView> {
 	private static final long serialVersionUID = 1L;
 
-	private WikiService wikiService;
+	private PageService pageService;
 
 	public PageListPresenter() {
 		super(PageListView.class);
 
-		wikiService = ApplicationContextUtil.getSpringBean(WikiService.class);
+		pageService = ApplicationContextUtil.getSpringBean(PageService.class);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class PageListPresenter extends AbstractPresenter<PageListView> {
 			} else {
 				CurrentProjectVariables.setCurrentPagePath(path);
 			}
-			List<WikiResource> resources = wikiService.getResources(path,
+			List<PageResource> resources = pageService.getResources(path,
 					AppContext.getUsername());
 			view.displayDefaultPages(resources);
 

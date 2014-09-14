@@ -27,15 +27,15 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.page.domain.Folder;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.domain.PageResource;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.i18n.Page18InEnum;
-import com.esofthead.mycollab.module.wiki.domain.Folder;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.domain.WikiResource;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -82,20 +82,20 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 	private VerticalLayout pagesLayout;
 
-	private List<WikiResource> resources;
+	private List<PageResource> resources;
 
-	private static Comparator<WikiResource> dateSort = new Comparator<WikiResource>() {
+	private static Comparator<PageResource> dateSort = new Comparator<PageResource>() {
 
 		@Override
-		public int compare(WikiResource o1, WikiResource o2) {
+		public int compare(PageResource o1, PageResource o2) {
 			return o1.getCreatedTime().compareTo(o2.getCreatedTime());
 		}
 	};
 
-	private static Comparator<WikiResource> kindSort = new Comparator<WikiResource>() {
+	private static Comparator<PageResource> kindSort = new Comparator<PageResource>() {
 
 		@Override
-		public int compare(WikiResource o1, WikiResource o2) {
+		public int compare(PageResource o1, PageResource o2) {
 			if (o1.getClass() == o2.getClass()) {
 				return 0;
 			} else {
@@ -108,10 +108,10 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		}
 	};
 
-	private static Comparator<WikiResource> nameSort = new Comparator<WikiResource>() {
+	private static Comparator<PageResource> nameSort = new Comparator<PageResource>() {
 
 		@Override
-		public int compare(WikiResource o1, WikiResource o2) {
+		public int compare(PageResource o1, PageResource o2) {
 			String name1 = (o1 instanceof Folder) ? ((Folder) o1).getName()
 					: ((Page) o1).getSubject();
 			String name2 = (o2 instanceof Folder) ? ((Folder) o2).getName()
@@ -263,16 +263,16 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 		headerLayout.setStyleName(UIConstants.HEADER_VIEW);
 		headerLayout.setWidth("100%");
-		headerLayout.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		headerLayout.setHeightUndefined();
 		headerLayout.setSpacing(true);
 		headerLayout.setMargin(new MarginInfo(true, false, true, false));
 	}
 
-	private void displayPages(List<WikiResource> resources) {
+	private void displayPages(List<PageResource> resources) {
 		this.resources = resources;
 		pagesLayout.removeAllComponents();
 		if (resources != null) {
-			for (WikiResource resource : resources) {
+			for (PageResource resource : resources) {
 				Layout resourceBlock = resource instanceof Page ? displayPageBlock((Page) resource)
 						: displayFolderBlock((Folder) resource);
 				pagesLayout.addComponent(resourceBlock);
@@ -281,7 +281,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 	}
 
 	@Override
-	public void displayDefaultPages(List<WikiResource> resources) {
+	public void displayDefaultPages(List<PageResource> resources) {
 		Collections.sort(resources, Ordering.from(dateSort));
 		displayPages(resources);
 	}
@@ -375,8 +375,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 									@Override
 									public void onClose(ConfirmDialog dialog) {
 										if (dialog.isConfirmed()) {
-											WikiService wikiService = ApplicationContextUtil
-													.getSpringBean(WikiService.class);
+											PageService wikiService = ApplicationContextUtil
+													.getSpringBean(PageService.class);
 											wikiService.removeResource(resource
 													.getPath());
 											resources.remove(resource);
@@ -497,8 +497,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 									@Override
 									public void onClose(ConfirmDialog dialog) {
 										if (dialog.isConfirmed()) {
-											WikiService wikiService = ApplicationContextUtil
-													.getSpringBean(WikiService.class);
+											PageService wikiService = ApplicationContextUtil
+													.getSpringBean(PageService.class);
 											wikiService.removeResource(resource
 													.getPath());
 											resources.remove(resource);
@@ -628,8 +628,8 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 										final Button.ClickEvent event) {
 									if (EditForm.this.validateForm()) {
 
-										WikiService wikiService = ApplicationContextUtil
-												.getSpringBean(WikiService.class);
+										PageService wikiService = ApplicationContextUtil
+												.getSpringBean(PageService.class);
 										wikiService.createFolder(folder,
 												AppContext.getUsername());
 										folder.setCreatedTime(new GregorianCalendar());

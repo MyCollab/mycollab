@@ -18,7 +18,7 @@ package com.esofthead.mycollab.module.project.view.page;
 
 import java.util.List;
 
-import com.esofthead.mycollab.module.wiki.domain.WikiResource;
+import com.esofthead.mycollab.module.page.domain.PageResource;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
 /**
@@ -32,5 +32,5 @@ public interface PageListView extends PageView {
 	 * 
 	 * @param resources
 	 */
-	void displayDefaultPages(List<WikiResource> resources);
+	void displayDefaultPages(List<PageResource> resources);
 }

@@ -23,6 +23,9 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.page.domain.Folder;
+import com.esofthead.mycollab.module.page.domain.Page;
+import com.esofthead.mycollab.module.page.service.PageService;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.Message;
@@ -63,9 +66,6 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
-import com.esofthead.mycollab.module.wiki.domain.Folder;
-import com.esofthead.mycollab.module.wiki.domain.Page;
-import com.esofthead.mycollab.module.wiki.service.WikiService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.CacheableComponent;
@@ -323,8 +323,8 @@ public class ProjectBreadcrumb extends Breadcrumb implements CacheableComponent 
 			extraPath = extraPath.substring(1);
 		}
 		if (!extraPath.equals("")) {
-			WikiService wikiService = ApplicationContextUtil
-					.getSpringBean(WikiService.class);
+			PageService wikiService = ApplicationContextUtil
+					.getSpringBean(PageService.class);
 
 			String[] subPath = extraPath.split("/");
 			StringBuffer tempPath = new StringBuffer();
