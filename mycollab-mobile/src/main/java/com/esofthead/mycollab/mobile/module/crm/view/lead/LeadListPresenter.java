@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 
@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
  * 
  */
 public class LeadListPresenter extends
-		ListPresenter<LeadListView, LeadSearchCriteria, SimpleLead> {
+		CrmListPresenter<LeadListView, LeadSearchCriteria, SimpleLead> {
 	private static final long serialVersionUID = 606706094457852518L;
 
 	public LeadListPresenter() {

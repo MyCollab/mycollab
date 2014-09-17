@@ -32,6 +32,7 @@ import com.vaadin.ui.UI;
 public class MyCollabUIProvider extends UIProvider {
 	private static final long serialVersionUID = 1L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
 		String userAgent = "";

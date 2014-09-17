@@ -32,16 +32,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class CrmPreviewFormControlsGenerator<T> {
 
-	public static int BACK_BTN_PRESENTED = 2;
-	public static int EDIT_BTN_PRESENTED = 4;
-	public static int DELETE_BTN_PRESENTED = 8;
-	public static int CLONE_BTN_PRESENTED = 16;
-	public static int PREVIOUS_BTN_PRESENTED = 32;
-	public static int NEXT_BTN_PRESENTED = 64;
-	public static int HISTORY_BTN_PRESENTED = 128;
+	public static int EDIT_BTN_PRESENTED = 2;
+	public static int DELETE_BTN_PRESENTED = 4;
+	public static int CLONE_BTN_PRESENTED = 8;
 
-	private Button backBtn, deleteBtn, previousItem, nextItemBtn, historyBtn,
-			editBtn, cloneBtn;
+	private Button deleteBtn, editBtn, cloneBtn;
 	private AdvancedPreviewBeanForm<T> previewForm;
 
 	private VerticalLayout editButtons;
@@ -76,24 +71,6 @@ public class CrmPreviewFormControlsGenerator<T> {
 			canRead = AppContext.canRead(permissionItem);
 			canWrite = AppContext.canWrite(permissionItem);
 			canAccess = AppContext.canAccess(permissionItem);
-		}
-
-		if ((buttonEnableFlags & BACK_BTN_PRESENTED) == BACK_BTN_PRESENTED) {
-			backBtn = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-
-					final T item = previewForm.getBean();
-					previewForm.fireCancelForm(item);
-				}
-			});
-			backBtn.setDescription("Back to list");
-			backBtn.setStyleName("link");
-			editButtons.addComponent(backBtn);
-			editButtons.setComponentAlignment(backBtn, Alignment.MIDDLE_LEFT);
-			backBtn.setEnabled(canRead);
 		}
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
@@ -150,62 +127,6 @@ public class CrmPreviewFormControlsGenerator<T> {
 			editButtons
 					.setComponentAlignment(cloneBtn, Alignment.MIDDLE_CENTER);
 			cloneBtn.setEnabled(canWrite);
-		}
-
-		if ((buttonEnableFlags & PREVIOUS_BTN_PRESENTED) == PREVIOUS_BTN_PRESENTED) {
-			previousItem = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireGotoPrevious(item);
-				}
-			});
-
-			previousItem.setStyleName("link");
-			previousItem.setDescription("Read previous item");
-			editButtons.addComponent(previousItem);
-			editButtons.setComponentAlignment(previousItem,
-					Alignment.MIDDLE_RIGHT);
-			previousItem.setEnabled(canRead);
-		}
-
-		if ((buttonEnableFlags & NEXT_BTN_PRESENTED) == NEXT_BTN_PRESENTED) {
-			nextItemBtn = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					final T item = previewForm.getBean();
-					previewForm.fireGotoNextItem(item);
-				}
-			});
-
-			nextItemBtn.setStyleName("link");
-			nextItemBtn.setDescription("Read next item");
-			editButtons.addComponent(nextItemBtn);
-			editButtons.setComponentAlignment(nextItemBtn,
-					Alignment.MIDDLE_RIGHT);
-			nextItemBtn.setEnabled(canRead);
-		}
-
-		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
-			historyBtn = new Button(null, new Button.ClickListener() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void buttonClick(final ClickEvent event) {
-					previewForm.showHistory();
-				}
-			});
-
-			historyBtn.setStyleName("link");
-			historyBtn.setDescription("Show history log");
-			editButtons.addComponent(historyBtn);
-			editButtons.setComponentAlignment(historyBtn,
-					Alignment.MIDDLE_RIGHT);
-			historyBtn.setEnabled(canRead);
 		}
 
 		return editButtons;

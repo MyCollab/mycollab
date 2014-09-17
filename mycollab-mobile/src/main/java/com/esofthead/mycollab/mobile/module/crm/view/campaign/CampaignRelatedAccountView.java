@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -82,43 +82,38 @@ public class CampaignRelatedAccountView extends
 		addButtons.setMargin(true);
 		addButtons.addStyleName("edit-btn-layout");
 
-		NavigationButton newAccount = new NavigationButton();
-		newAccount.setTargetViewCaption(AppContext
-				.getMessage(AccountI18nEnum.VIEW_NEW_TITLE));
-		newAccount
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		Button newAccount = new Button(
+				AppContext.getMessage(AccountI18nEnum.VIEW_NEW_TITLE));
+		newAccount.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent arg0) {
-						fireNewRelatedItem("");
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent arg0) {
+				fireNewRelatedItem("");
+			}
+		});
 		addButtons.addComponent(newAccount);
 
-		NavigationButton selectAccount = new NavigationButton();
-		selectAccount.setTargetViewCaption("Select Accounts");
-		selectAccount
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		Button selectAccount = new Button(
+				AppContext.getMessage(AccountI18nEnum.M_TITLE_SELECT_ACCOUNTS));
+		selectAccount.addClickListener(new Button.ClickListener() {
 
-					private static final long serialVersionUID = 270503987054356318L;
+			private static final long serialVersionUID = 270503987054356318L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						CampaignAccountSelectionView accountSelectionView = new CampaignAccountSelectionView(
-								CampaignRelatedAccountView.this);
-						AccountSearchCriteria criteria = new AccountSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						accountSelectionView.setSearchCriteria(criteria);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.PushView(
-										CampaignRelatedAccountView.this,
-										accountSelectionView));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				CampaignAccountSelectionView accountSelectionView = new CampaignAccountSelectionView(
+						CampaignRelatedAccountView.this);
+				AccountSearchCriteria criteria = new AccountSearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(AppContext
+						.getAccountId()));
+				accountSelectionView.setSearchCriteria(criteria);
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(
+								CampaignRelatedAccountView.this,
+								accountSelectionView));
+			}
+		});
 		addButtons.addComponent(selectAccount);
 
 		addAccount.setContent(addButtons);

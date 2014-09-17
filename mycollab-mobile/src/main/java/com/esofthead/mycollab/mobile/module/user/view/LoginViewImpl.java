@@ -16,9 +16,9 @@
  */
 package com.esofthead.mycollab.mobile.module.user.view;
 
-import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.shell.ShellController;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;

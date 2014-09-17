@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.service.LeadService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -46,13 +46,12 @@ public class LeadListDisplay extends
 
 		@Override
 		public Component generateRow(final SimpleLead lead, int rowIndex) {
-			final NavigationButton b = new NavigationButton(lead.getLeadName());
-			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			final Button b = new Button(lead.getLeadName());
+			b.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void buttonClick(
-						final NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(final Button.ClickEvent event) {
 					EventBusFactory.getInstance().post(
 							new LeadEvent.GotoRead(this, lead.getId()));
 				}

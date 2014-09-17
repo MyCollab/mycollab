@@ -19,15 +19,15 @@ package com.esofthead.mycollab.mobile.module.crm.view.activity;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.EventService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 public class ActivityListDisplay
@@ -46,13 +46,12 @@ public class ActivityListDisplay
 		@Override
 		public Component generateRow(final SimpleActivity simpleEvent,
 				int rowIndex) {
-			NavigationButton b = new NavigationButton(simpleEvent.getSubject());
-			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			Button b = new Button(simpleEvent.getSubject());
+			b.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void buttonClick(
-						NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(Button.ClickEvent event) {
 					if (simpleEvent.getEventType()
 							.equals(CrmTypeConstants.TASK)) {
 						EventBusFactory.getInstance().post(

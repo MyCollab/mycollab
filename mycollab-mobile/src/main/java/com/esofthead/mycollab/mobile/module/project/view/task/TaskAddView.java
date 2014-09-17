@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile;
+package com.esofthead.mycollab.mobile.module.project.view.task;
+
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
+import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
  * @author MyCollab Ltd.
- * @since 3.0
+ * 
+ * @since 4.5.0
  */
-public class UIConstants {
-
-	public static final String BUTTON_BIG = "big-btn";
-	public static final String COLOR_GRAY = "gray";
-	public static final String COLOR_BLUE = "blue";
-	public static final String LINK_COMPLETED = "completed";
-	public static final String LINK_OVERDUE = "overdue";
+public interface TaskAddView extends IFormAddView<SimpleTask> {
+	HasEditFormHandlers<SimpleTask> getEditFormHandlers();
 }

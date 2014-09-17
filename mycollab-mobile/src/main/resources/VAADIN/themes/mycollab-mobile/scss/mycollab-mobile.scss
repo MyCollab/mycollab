@@ -207,7 +207,12 @@
 			}
 		}
 				
-	    .mobilenavview {	    	
+	    .mobilenavview {
+	    	&.disabled {
+	    		.v-touchkit-navbar {
+	    			background-color: $low-priority;
+	    		}
+	    	}	
 	    	.v-touchkit-navbar {
 	    		.v-touchkit-navbar-left {		    		
 		   			.v-touchkit-navbutton-back {
@@ -263,6 +268,7 @@
 		   				font-size: 1.3rem;
 		   				height: 2.8rem;
 		   				line-height: normal;
+		   				background: $primary-blue;
 		   				
 		   				.v-button-wrap {
 		   					padding: 0 12px;
@@ -272,12 +278,11 @@
 	    				padding: 0.5rem 0 0;
 	    			}
 	    			.add-btn {
-	    			
-	    				&.v-touchkit-navbutton {
-	    					@include icomoon;
+	    				.v-button-wrap {
 	    					padding: 0rem 1rem;
 	    					
-	    					&:before {
+	    					.v-button-caption:before {
+	    						@include icomoon;
 								content: "\e60e";
 								font-size: 2rem;
 	    					}
@@ -285,7 +290,7 @@
     					
     					&.v-navbar-quickmenu-button {
 	    					@include icomoon;
-	    					padding: 0px 1.2rem;
+	    					padding: 0rem 1.2rem;
 	    					
 	    					&:before {
 								content: "\e60e";
@@ -419,12 +424,24 @@
 					}
 				}			
 			}
+			.v-button {
+				text-align: left;
+				margin: 0rem;
+				.v-button-wrap {
+					padding: 0rem;
+					.v-button-caption {
+						font-size: 1.3rem;
+					}
+				}				
+			}
 			&.task-list-layout {
 				padding: 1rem 2.5rem 1rem 1.4rem;
 				border-bottom: 0.1rem solid #DDDDDD;
 				color: #8C8C8C;
 				.task-list-name {
-					font-size: 1.4rem;
+					.v-button-caption {
+						font-size: 1.4rem;
+					}
 				}
 				.last-updated-time {
 					font-size: 1.1rem;
@@ -437,7 +454,34 @@
 					border-radius: 0.3rem;
 				}
 			}
-			
+			&.task-layout {
+				padding: 1rem 2.5rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
+				color: #8C8C8C;
+				.priority-lbl {
+					padding: 0.2rem 0.4rem;
+					font-size: 0.9rem;
+					color: rgb(255, 255, 255);
+					text-transform: uppercase;
+					&.low-lbl {
+						background-color: $low-priority;
+					}
+					&.medium-lbl {
+						background-color: $medium-priority;
+					}
+					&.high-lbl {
+						background-color: $high-priority;
+					}
+					&.urgent-lbl {
+						background-color: $urgent-priority;
+					}
+				}
+				.task-name {
+					padding-top: 0.3rem;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
 		}
 		
 	}

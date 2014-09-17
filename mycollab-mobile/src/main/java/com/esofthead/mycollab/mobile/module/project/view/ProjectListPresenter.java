@@ -23,7 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectModuleNavigationMenu;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -39,8 +39,9 @@ import com.vaadin.ui.UI;
  * @since 4.4.0
  *
  */
-public class ProjectListPresenter extends
-		ListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
+public class ProjectListPresenter
+		extends
+		AbstractListPresenter<ProjectListView, ProjectSearchCriteria, SimpleProject> {
 
 	private static final long serialVersionUID = 35574182873793474L;
 
@@ -52,6 +53,7 @@ public class ProjectListPresenter extends
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ModuleHelper.setCurrentModule(view);
 		super.onGo(container, data);
+		doSearch((ProjectSearchCriteria) data.getParams());
 		AppContext.getInstance().updateLastModuleVisit(ModuleNameConstants.CRM);
 
 		ProjectModuleNavigationMenu projectModuleMenu = new ProjectModuleNavigationMenu();

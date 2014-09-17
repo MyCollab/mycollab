@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.MeetingWithBLOBs;
@@ -43,7 +43,8 @@ import com.vaadin.ui.UI;
  * @since 4.1
  * 
  */
-public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
+public class MeetingReadPresenter extends
+		AbstractMobilePresenter<MeetingReadView> {
 	private static final long serialVersionUID = 464611840929906889L;
 
 	public MeetingReadPresenter() {
@@ -118,9 +119,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getNextItemKey(criteria);
 						if (nextId != null) {
 							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingRead(this,
-													nextId));
+									.post(new ActivityEvent.MeetingRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoLastRecordNotification();
 						}
@@ -140,9 +140,8 @@ public class MeetingReadPresenter extends CrmGenericPresenter<MeetingReadView> {
 								.getPreviousItemKey(criteria);
 						if (nextId != null) {
 							EventBusFactory.getInstance()
-									.post(
-											new ActivityEvent.MeetingRead(this,
-													nextId));
+									.post(new ActivityEvent.MeetingRead(this,
+											nextId));
 						} else {
 							NotificationUtil.showGotoFirstRecordNotification();
 						}

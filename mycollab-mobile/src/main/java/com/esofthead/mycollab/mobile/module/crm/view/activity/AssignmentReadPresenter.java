@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.domain.SimpleTask;
@@ -44,7 +44,7 @@ import com.vaadin.ui.UI;
  * 
  */
 public class AssignmentReadPresenter extends
-		CrmGenericPresenter<AssignmentReadView> {
+		AbstractMobilePresenter<AssignmentReadView> {
 	private static final long serialVersionUID = -5145707856679650546L;
 
 	public AssignmentReadPresenter() {

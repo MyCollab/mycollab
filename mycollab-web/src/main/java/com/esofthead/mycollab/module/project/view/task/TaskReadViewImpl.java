@@ -42,9 +42,9 @@ import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
+import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -182,7 +182,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 			quickActionStatusBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/closeTask.png"));
 		} else {
-			quickActionStatusBtn.setCaption("ReOpen");
+			quickActionStatusBtn.setCaption(AppContext
+					.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
 			quickActionStatusBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/reopenTask.png"));
 

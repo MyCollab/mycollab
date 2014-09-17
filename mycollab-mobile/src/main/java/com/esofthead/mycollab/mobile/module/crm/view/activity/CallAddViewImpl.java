@@ -17,8 +17,8 @@
 package com.esofthead.mycollab.mobile.module.crm.view.activity;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
-import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.module.user.ui.components.ActiveUserComboBox;
+import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;

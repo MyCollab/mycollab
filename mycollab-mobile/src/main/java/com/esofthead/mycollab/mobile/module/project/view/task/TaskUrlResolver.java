@@ -35,6 +35,7 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 	public TaskUrlResolver() {
 		this.addSubResolver("group", new TaskGroupUrlResolver());
 		this.addSubResolver("list", new ListUrlResolver());
+		this.addSubResolver("preview", new ReadUrlResolver());
 	}
 
 	private class ListUrlResolver extends ProjectUrlResolver {
@@ -52,5 +53,23 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
+	}
+
+	private class ReadUrlResolver extends ProjectUrlResolver {
+
+		@Override
+		protected void handlePage(String... params) {
+			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
+			int taskId = Integer.parseInt(tokens[1]);
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new TaskScreenData.Read(taskId));
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
+
 	}
 }

@@ -20,13 +20,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.AccountEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -57,20 +56,16 @@ public class AccountListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		MobileNavigationButton addAccount = new MobileNavigationButton();
-		addAccount.setTargetViewCaption(AppContext
-				.getMessage(AccountI18nEnum.VIEW_NEW_TITLE));
-		addAccount
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		Button addAccount = new Button();
+		addAccount.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent arg0) {
-						EventBusFactory.getInstance().post(
-								new AccountEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new AccountEvent.GotoAdd(this, null));
+			}
+		});
 		addAccount.setStyleName("add-btn");
 		return addAccount;
 	}

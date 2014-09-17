@@ -25,8 +25,8 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
 import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -61,15 +61,14 @@ public class TaskGroupListDisplay
 
 			VerticalLayout taskListInfo = new VerticalLayout();
 			taskListInfo.setStyleName("task-list-info");
-			NavigationButton b = new NavigationButton(taskList.getName());
-			b.setTargetViewCaption(taskList.getName());
-			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			Button b = new Button(taskList.getName());
+			// b.setTargetViewCaption(taskList.getName());
+			b.addClickListener(new Button.ClickListener() {
 
 				private static final long serialVersionUID = -2481787976727400924L;
 
 				@Override
-				public void buttonClick(
-						NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(Button.ClickEvent event) {
 					EventBusFactory.getInstance().post(
 							new TaskEvent.GoInsideList(this, taskList.getId()));
 				}

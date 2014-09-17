@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.mobile.module.project.view;
 
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.shell.ModuleHelper;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -33,7 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.4.0
  */
 public class ProjectDashboardPresenter extends
-		ProjectGenericPresenter<ProjectDashboardView> {
+		AbstractMobilePresenter<ProjectDashboardView> {
 
 	private static final long serialVersionUID = -2645763046888609751L;
 

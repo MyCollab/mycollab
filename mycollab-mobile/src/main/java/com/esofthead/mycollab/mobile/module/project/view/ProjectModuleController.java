@@ -223,6 +223,21 @@ public class ProjectModuleController extends AbstractController {
 			}
 
 		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoRead>() {
+
+			private static final long serialVersionUID = -5438389231124986497L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoRead event) {
+				TaskScreenData.Read data = new TaskScreenData.Read(
+						(Integer) event.getData());
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
 	}
 
 	public static void doLogin(String username, String password,

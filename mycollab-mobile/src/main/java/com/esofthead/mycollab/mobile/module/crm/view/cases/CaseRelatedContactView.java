@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -80,43 +80,37 @@ public class CaseRelatedContactView extends
 		addBtns.setMargin(true);
 		addBtns.setStyleName("edit-btn-layout");
 
-		NavigationButton newContact = new NavigationButton();
-		newContact.setTargetViewCaption(AppContext
-				.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
-		newContact
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		Button newContact = new Button(
+				AppContext.getMessage(ContactI18nEnum.VIEW_NEW_TITLE));
+		newContact.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent arg0) {
-						fireNewRelatedItem("");
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent arg0) {
+				fireNewRelatedItem("");
+			}
+		});
 		addBtns.addComponent(newContact);
 
-		NavigationButton selectContact = new NavigationButton();
-		selectContact.setTargetViewCaption("Select Contacts");
-		selectContact
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		Button selectContact = new Button(
+				AppContext.getMessage(ContactI18nEnum.M_TITLE_SELECT_CONTACTS));
+		selectContact.addClickListener(new Button.ClickListener() {
 
-					private static final long serialVersionUID = 5491307760254926146L;
+			private static final long serialVersionUID = 5491307760254926146L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(
-								CaseRelatedContactView.this);
-						ContactSearchCriteria criteria = new ContactSearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						contactSelectionView.setSearchCriteria(criteria);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.PushView(
-										CaseRelatedContactView.this,
-										contactSelectionView));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				CaseContactSelectionView contactSelectionView = new CaseContactSelectionView(
+						CaseRelatedContactView.this);
+				ContactSearchCriteria criteria = new ContactSearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(AppContext
+						.getAccountId()));
+				contactSelectionView.setSearchCriteria(criteria);
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(CaseRelatedContactView.this,
+								contactSelectionView));
+			}
+		});
 		addBtns.addComponent(selectContact);
 
 		addContact.setContent(addBtns);

@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.crm.domain.Task;
 import com.esofthead.mycollab.module.crm.service.TaskService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -39,7 +39,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class AssignmentAddPresenter extends
-		CrmGenericPresenter<AssignmentAddView> {
+		AbstractMobilePresenter<AssignmentAddView> {
 	private static final long serialVersionUID = -8546619959063314947L;
 
 	public AssignmentAddPresenter() {

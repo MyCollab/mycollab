@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.esofthead.vaadin.mobilecomponent.NavigationMenuButton;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 
@@ -58,6 +59,7 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 			setHtmlContentAllowed(true);
 			setWidth("100%");
 			btnId = caption;
+			NavigationMenuButton.extend(this);
 		}
 
 		public String getBtnId() {

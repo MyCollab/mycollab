@@ -84,9 +84,9 @@ import com.vaadin.ui.VerticalLayout;
 public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		TimeTrackingSummaryView {
 	private static final List<TableViewField> FIELDS = Arrays.asList(
-			TimeTableFieldDef.summary, TimeTableFieldDef.logUser,
-			TimeTableFieldDef.project, TimeTableFieldDef.logValue,
-			TimeTableFieldDef.billable);
+			TimeTableFieldDef.summary, TimeTableFieldDef.logForDate,
+			TimeTableFieldDef.logUser, TimeTableFieldDef.project,
+			TimeTableFieldDef.logValue, TimeTableFieldDef.billable);
 
 	private static final long serialVersionUID = 1L;
 
@@ -329,8 +329,8 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 									fromDate, toDate, totalHour, billableHour,
 									nonbillableHour));
 		}
-
-		this.layoutItem.show(searchCriteria);
+		// TODO:
+		this.layoutItem.show(searchCriteria, "Ascending");
 	}
 
 	private TableClickListener tableClickListener = new TableClickListener() {

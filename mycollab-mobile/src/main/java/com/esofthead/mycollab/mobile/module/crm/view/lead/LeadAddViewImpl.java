@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.crm.view.lead;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
-import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;

@@ -20,7 +20,7 @@ import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
 import com.vaadin.addon.touchkit.extensions.LocalStorageCallback;
@@ -32,7 +32,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.3.1
  */
 public class ProjectModulePresenter extends
-		ProjectGenericPresenter<ProjectModule> {
+		AbstractMobilePresenter<ProjectModule> {
 
 	private static final long serialVersionUID = 6940806138148601147L;
 

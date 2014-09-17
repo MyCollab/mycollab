@@ -35,6 +35,7 @@ import com.vaadin.ui.Label;
  * @since 2.0
  * 
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class DateRangeField extends CustomField {
 
 	private static final long serialVersionUID = 1L;
@@ -49,9 +50,9 @@ public class DateRangeField extends CustomField {
 		Label dateStartLb = new Label("From:");
 		Label dateEndLb = new Label("To:");
 
-		UiUtils.addComponent(container,dateStartLb, Alignment.MIDDLE_CENTER);
+		UiUtils.addComponent(container, dateStartLb, Alignment.MIDDLE_CENTER);
 		container.addComponent(dateStart);
-		UiUtils.addComponent(container,dateEndLb, Alignment.MIDDLE_CENTER);
+		UiUtils.addComponent(container, dateEndLb, Alignment.MIDDLE_CENTER);
 		container.addComponent(dateEnd);
 
 		setDateWidth(120);

@@ -21,7 +21,7 @@ import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.extensions.LocalStorage;
@@ -34,7 +34,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.2
  * 
  */
-public class CrmModulePresenter extends CrmGenericPresenter<CrmModule> {
+public class CrmModulePresenter extends AbstractMobilePresenter<CrmModule> {
 	private static final long serialVersionUID = -3370467477599009160L;
 
 	public CrmModulePresenter() {

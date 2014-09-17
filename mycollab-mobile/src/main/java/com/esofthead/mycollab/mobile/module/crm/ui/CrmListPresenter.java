@@ -14,13 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.ui;
+package com.esofthead.mycollab.mobile.module.crm.ui;
 
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
-import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobileTabPageView;
+import com.esofthead.mycollab.mobile.ui.IListView;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.vaadin.addon.touchkit.ui.NavigationManager;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -32,35 +35,31 @@ import com.vaadin.ui.ComponentContainer;
  * @param <S>
  * @param <B>
  */
-public abstract class ListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
-		extends AbstractPresenter<V> {
-	private static final long serialVersionUID = -8152581262119621387L;
+public abstract class CrmListPresenter<V extends IListView<S, B>, S extends SearchCriteria, B extends ValuedBean>
+		extends AbstractListPresenter<V, S, B> {
+	private static final long serialVersionUID = -8215491621059981765L;
 
-	protected S searchCriteria;
-
-	public ListPresenter(Class<V> viewClass) {
+	public CrmListPresenter(Class<V> viewClass) {
 		super(viewClass);
-	}
-
-	public void doSearch(S searchCriteria) {
-		this.searchCriteria = searchCriteria;
-		view.getPagedBeanTable().setSearchCriteria(searchCriteria);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
-		if (view.getParent() == null) {
-			((NavigationManager) container).navigateTo(view.getWidget());
+		Component targetView;
+		NavigationManager currentNav = (NavigationManager) container;
+
+		if (view.getParent() != null
+				&& view.getParent() instanceof AbstractMobileTabPageView) {
+			targetView = view.getParent();
+			((AbstractMobileTabPageView) view.getParent()).setSelectedTab(view
+					.getWidget());
 		} else {
-			if (view.getParent() instanceof AbstractMobileTabPageView) {
-				((NavigationManager) container).navigateTo(view.getParent());
-				((AbstractMobileTabPageView) view.getParent())
-						.setSelectedTab(view.getWidget());
-			} else {
-				((NavigationManager) container).navigateTo(view.getWidget());
-			}
+			targetView = view;
 		}
+
+		currentNav.navigateTo(targetView);
+
 		doSearch((S) data.getParams());
 	}
 

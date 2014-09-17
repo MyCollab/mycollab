@@ -21,8 +21,8 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.service.CallService;
 import com.esofthead.mycollab.security.RolePermissionCollections;
@@ -39,7 +39,7 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.1
  * 
  */
-public class CallAddPresenter extends CrmGenericPresenter<CallAddView> {
+public class CallAddPresenter extends AbstractMobilePresenter<CallAddView> {
 	private static final long serialVersionUID = 579102306602918760L;
 
 	public CallAddPresenter() {

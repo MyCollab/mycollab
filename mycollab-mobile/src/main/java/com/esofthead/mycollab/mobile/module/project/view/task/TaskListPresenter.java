@@ -21,7 +21,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -32,7 +32,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -42,7 +41,7 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 public class TaskListPresenter extends
-		ListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
+		AbstractListPresenter<TaskListView, TaskSearchCriteria, SimpleTask> {
 
 	private static final long serialVersionUID = -2899902106379842031L;
 
@@ -68,7 +67,7 @@ public class TaskListPresenter extends
 				criteria.setStatuses(new SetSearchField<String>(
 						SearchField.AND, new String[] { "Open" }));
 
-				((NavigationManager) container).navigateTo(view.getWidget());
+				super.onGo(container, data);
 				doSearch(criteria);
 
 				AppContext.addFragment(

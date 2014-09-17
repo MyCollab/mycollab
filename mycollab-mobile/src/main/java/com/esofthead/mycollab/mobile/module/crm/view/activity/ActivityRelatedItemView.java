@@ -29,7 +29,7 @@ import com.esofthead.mycollab.module.crm.i18n.MeetingI18nEnum;
 import com.esofthead.mycollab.module.crm.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -81,44 +81,40 @@ public class ActivityRelatedItemView extends
 		addButtons.setMargin(true);
 		addButtons.addStyleName("edit-btn-layout");
 
-		NavigationButton addTask = new NavigationButton(
+		Button addTask = new Button(
 				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK));
-		addTask.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		addTask.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1920289198458066344L;
 
 			@Override
-			public void buttonClick(
-					NavigationButton.NavigationButtonClickEvent event) {
+			public void buttonClick(Button.ClickEvent event) {
 				fireNewRelatedItem(CrmTypeConstants.TASK);
 			}
 		});
 		addButtons.addComponent(addTask);
 
-		NavigationButton addCall = new NavigationButton(
+		Button addCall = new Button(
 				AppContext.getMessage(CallI18nEnum.BUTTON_NEW_CALL));
-		addCall.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		addCall.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -279151189261011902L;
 
 			@Override
-			public void buttonClick(
-					NavigationButton.NavigationButtonClickEvent event) {
+			public void buttonClick(Button.ClickEvent event) {
 				fireNewRelatedItem(CrmTypeConstants.CALL);
 			}
 		});
 		addButtons.addComponent(addCall);
 
-		NavigationButton addMeeting = new NavigationButton(
+		Button addMeeting = new Button(
 				AppContext.getMessage(MeetingI18nEnum.BUTTON_NEW_MEETING));
-		addMeeting
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 4770664404728700960L;
+		addMeeting.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 4770664404728700960L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						fireNewRelatedItem(CrmTypeConstants.MEETING);
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				fireNewRelatedItem(CrmTypeConstants.MEETING);
+			}
+		});
 		addButtons.addComponent(addMeeting);
 
 		addActivity.setContent(addButtons);

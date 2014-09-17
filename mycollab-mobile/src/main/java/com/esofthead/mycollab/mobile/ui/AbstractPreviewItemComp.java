@@ -14,12 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.ui;
+package com.esofthead.mycollab.mobile.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
-import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.vaadin.mobilecomponent.MobileViewToolbar;

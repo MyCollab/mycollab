@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -84,43 +84,39 @@ public class ContactRelatedOpportunityView extends
 		addBtns.setSpacing(true);
 		addBtns.setMargin(true);
 
-		NavigationButton newOpportunity = new NavigationButton();
-		newOpportunity.setTargetViewCaption(AppContext
-				.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
-		newOpportunity
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 7172838996944732255L;
+		Button newOpportunity = new Button(
+				AppContext.getMessage(OpportunityI18nEnum.VIEW_NEW_TITLE));
+		newOpportunity.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 7172838996944732255L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						fireNewRelatedItem("");
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				fireNewRelatedItem("");
+			}
+		});
 		addBtns.addComponent(newOpportunity);
 
-		NavigationButton selectOpportunity = new NavigationButton();
-		selectOpportunity.setTargetViewCaption("Select Opportunities");
-		selectOpportunity
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		Button selectOpportunity = new Button(
+				AppContext
+						.getMessage(OpportunityI18nEnum.M_TITLE_SELECT_OPPORTUNITIES));
+		selectOpportunity.addClickListener(new Button.ClickListener() {
 
-					private static final long serialVersionUID = -8732749124902402042L;
+			private static final long serialVersionUID = -8732749124902402042L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(
-								ContactRelatedOpportunityView.this);
-						OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
-						criteria.setSaccountid(new NumberSearchField(AppContext
-								.getAccountId()));
-						opportunitySelectionView.setSearchCriteria(criteria);
-						EventBusFactory.getInstance().post(
-								new ShellEvent.PushView(
-										ContactRelatedOpportunityView.this,
-										opportunitySelectionView));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				ContactOpportunitySelectionView opportunitySelectionView = new ContactOpportunitySelectionView(
+						ContactRelatedOpportunityView.this);
+				OpportunitySearchCriteria criteria = new OpportunitySearchCriteria();
+				criteria.setSaccountid(new NumberSearchField(AppContext
+						.getAccountId()));
+				opportunitySelectionView.setSearchCriteria(criteria);
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(
+								ContactRelatedOpportunityView.this,
+								opportunitySelectionView));
+			}
+		});
 		addBtns.addComponent(selectOpportunity);
 
 		addOpportunity.setContent(addBtns);

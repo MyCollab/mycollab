@@ -21,7 +21,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractListPresenter;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
@@ -29,7 +29,6 @@ import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
-import com.vaadin.addon.touchkit.ui.NavigationManager;
 import com.vaadin.ui.ComponentContainer;
 
 /**
@@ -40,7 +39,7 @@ import com.vaadin.ui.ComponentContainer;
  */
 public class TaskGroupListPresenter
 		extends
-		ListPresenter<TaskGroupListView, TaskListSearchCriteria, SimpleTaskList> {
+		AbstractListPresenter<TaskGroupListView, TaskListSearchCriteria, SimpleTaskList> {
 
 	private static final long serialVersionUID = -8290099378507557230L;
 
@@ -63,7 +62,7 @@ public class TaskGroupListPresenter
 			} else {
 				criteria = (TaskListSearchCriteria) data.getParams();
 			}
-			((NavigationManager) container).navigateTo(view.getWidget());
+			super.onGo(container, data);
 			doSearch(criteria);
 			AppContext
 					.addFragment(

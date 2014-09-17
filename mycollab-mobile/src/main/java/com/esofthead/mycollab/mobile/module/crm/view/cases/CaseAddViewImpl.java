@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.mobile.form.view.DynaFormLayout;
-import com.esofthead.mycollab.mobile.module.crm.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;

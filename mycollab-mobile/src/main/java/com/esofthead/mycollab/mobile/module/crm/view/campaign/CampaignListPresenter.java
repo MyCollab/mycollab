@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 
@@ -27,7 +27,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
  * 
  */
 public class CampaignListPresenter extends
-		ListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign> {
+		CrmListPresenter<CampaignListView, CampaignSearchCriteria, SimpleCampaign> {
 
 	private static final long serialVersionUID = 1327621011652399974L;
 

@@ -23,7 +23,7 @@ import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.service.OpportunityService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -48,14 +48,12 @@ public class OpportunityListDisplay
 		@Override
 		public Component generateRow(final SimpleOpportunity opportunity,
 				int rowIndex) {
-			final NavigationButton b = new NavigationButton(
-					opportunity.getOpportunityname());
-			b.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+			final Button b = new Button(opportunity.getOpportunityname());
+			b.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void buttonClick(
-						final NavigationButton.NavigationButtonClickEvent event) {
+				public void buttonClick(final Button.ClickEvent event) {
 					EventBusFactory.getInstance().post(
 							new OpportunityEvent.GotoRead(this, opportunity
 									.getId()));

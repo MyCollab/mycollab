@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.account;
 
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
@@ -31,7 +31,7 @@ import com.vaadin.ui.ComponentContainer;
  * 
  */
 public class AccountListPresenter extends
-		ListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount> {
+		CrmListPresenter<AccountListView, AccountSearchCriteria, SimpleAccount> {
 	private static final long serialVersionUID = -3014478937143932048L;
 
 	public AccountListPresenter() {

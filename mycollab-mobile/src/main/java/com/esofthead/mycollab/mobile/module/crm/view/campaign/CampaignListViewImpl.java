@@ -20,13 +20,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -56,20 +55,16 @@ public class CampaignListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		MobileNavigationButton addCampaign = new MobileNavigationButton();
-		addCampaign.setTargetViewCaption(AppContext
-				.getMessage(CampaignI18nEnum.VIEW_NEW_TITLE));
-		addCampaign
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
-					private static final long serialVersionUID = 1L;
+		Button addCampaign = new Button();
+		addCampaign.addClickListener(new Button.ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent arg0) {
-						EventBusFactory.getInstance().post(
-								new CampaignEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new CampaignEvent.GotoAdd(this, null));
+			}
+		});
 		addCampaign.setStyleName("add-btn");
 		return addCampaign;
 	}

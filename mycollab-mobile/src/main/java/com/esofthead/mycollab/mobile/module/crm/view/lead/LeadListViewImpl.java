@@ -20,13 +20,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
 import com.esofthead.mycollab.module.crm.domain.criteria.LeadSearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -56,15 +55,12 @@ public class LeadListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		MobileNavigationButton addLead = new MobileNavigationButton();
-		addLead.setTargetViewCaption(AppContext
-				.getMessage(LeadI18nEnum.VIEW_NEW_TITLE));
-		addLead.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		Button addLead = new Button();
+		addLead.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = -6024437571619598638L;
 
 			@Override
-			public void buttonClick(
-					NavigationButton.NavigationButtonClickEvent event) {
+			public void buttonClick(Button.ClickEvent event) {
 				EventBusFactory.getInstance().post(
 						new LeadEvent.GotoAdd(this, null));
 			}

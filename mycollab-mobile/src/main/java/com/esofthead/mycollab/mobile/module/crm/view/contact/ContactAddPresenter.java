@@ -20,8 +20,8 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.crm.domain.Contact;
 import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.service.ContactService;
@@ -39,7 +39,8 @@ import com.vaadin.ui.ComponentContainer;
  * @since 4.0
  * 
  */
-public class ContactAddPresenter extends CrmGenericPresenter<ContactAddView> {
+public class ContactAddPresenter extends
+		AbstractMobilePresenter<ContactAddView> {
 	private static final long serialVersionUID = -2859144864540984138L;
 
 	public ContactAddPresenter() {

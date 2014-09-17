@@ -29,8 +29,8 @@ import com.esofthead.mycollab.mobile.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.CampaignEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.ContactEvent;
 import com.esofthead.mycollab.mobile.module.crm.events.LeadEvent;
-import com.esofthead.mycollab.mobile.module.crm.ui.CrmGenericPresenter;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.mobile.ui.ConfirmDialog;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmTypeConstants;
@@ -64,7 +64,7 @@ import com.vaadin.ui.UI;
  * 
  */
 public class CampaignReadPresenter extends
-		CrmGenericPresenter<CampaignReadView> {
+		AbstractMobilePresenter<CampaignReadView> {
 	private static final long serialVersionUID = 724501700304510910L;
 
 	public CampaignReadPresenter() {

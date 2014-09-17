@@ -18,7 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectGenericPresenter;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
@@ -37,7 +37,7 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 public class MessageReadPresenter extends
-		ProjectGenericPresenter<MessageReadView> {
+		AbstractMobilePresenter<MessageReadView> {
 
 	private static final long serialVersionUID = 334720221360960772L;
 

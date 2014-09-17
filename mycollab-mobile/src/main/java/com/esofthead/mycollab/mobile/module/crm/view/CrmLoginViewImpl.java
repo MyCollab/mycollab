@@ -17,9 +17,9 @@
 package com.esofthead.mycollab.mobile.module.crm.view;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.UIConstants;
 import com.esofthead.mycollab.mobile.module.crm.events.CrmEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileMainView;
+import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.vaadin.addon.touchkit.ui.EmailField;
 import com.vaadin.server.ThemeResource;

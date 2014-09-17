@@ -80,7 +80,7 @@ public abstract class AbstractRelatedItemSelectionView<T, S extends SearchCriter
 
 		public SelectableButton(String caption) {
 			super(caption);
-			setStyleName("selectable-button");
+			setStyleName("list-item selectable-button");
 			addClickListener(new Button.ClickListener() {
 
 				private static final long serialVersionUID = 6187441057387703570L;

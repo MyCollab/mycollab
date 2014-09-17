@@ -16,8 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.message;
 
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -33,7 +33,7 @@ import com.vaadin.ui.ComponentContainer;
  *
  */
 public class MessageListPresenter extends
-		ListPresenter<MessageListView, MessageSearchCriteria, SimpleMessage> {
+		CrmListPresenter<MessageListView, MessageSearchCriteria, SimpleMessage> {
 
 	private static final long serialVersionUID = -4299885147378046501L;
 

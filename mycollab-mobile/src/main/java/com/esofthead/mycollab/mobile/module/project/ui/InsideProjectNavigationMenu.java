@@ -18,6 +18,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
@@ -117,8 +118,13 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 			public void buttonClick(final ClickEvent event) {
 				final String caption = ((MenuButton) event.getButton())
 						.getBtnId();
-				if (AppContext.getMessage(ProjectCommonI18nEnum.VIEW_MESSAGE)
-						.equals(caption)) {
+				if (AppContext.getMessage(
+						ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST).equals(
+						caption)) {
+					EventBusFactory.getInstance().post(
+							new ProjectEvent.GotoProjectList(this, null));
+				} else if (AppContext.getMessage(
+						ProjectCommonI18nEnum.VIEW_MESSAGE).equals(caption)) {
 					EventBusFactory.getInstance().post(
 							new MessageEvent.GotoList(this, null));
 				} else if (AppContext.getMessage(

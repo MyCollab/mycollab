@@ -76,7 +76,6 @@ public class DataSourceFactoryBean extends AbstractFactoryBean<DataSource> {
 			dataSource.close();
 			log.debug("Close connection");
 		}
-
 	}
 
 	@Override

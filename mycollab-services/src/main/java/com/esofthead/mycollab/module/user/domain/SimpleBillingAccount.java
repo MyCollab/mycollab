@@ -16,9 +16,15 @@
  */
 package com.esofthead.mycollab.module.user.domain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class SimpleBillingAccount extends BillingAccount {
 	private static final long serialVersionUID = 1L;
-	
+
 	private BillingPlan billingPlan;
 
 	public BillingPlan getBillingPlan() {

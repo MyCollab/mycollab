@@ -20,14 +20,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
-import com.esofthead.mycollab.mobile.ui.MobileNavigationButton;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
-import com.vaadin.addon.touchkit.ui.NavigationButton;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 @ViewComponent
@@ -52,21 +50,17 @@ public class MessageListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		MobileNavigationButton addMessage = new MobileNavigationButton();
-		addMessage.setTargetViewCaption(AppContext
-				.getMessage(MessageI18nEnum.M_VIEW_ADD_TITLE));
-		addMessage
-				.addClickListener(new NavigationButton.NavigationButtonClickListener() {
+		Button addMessage = new Button();
+		addMessage.addClickListener(new Button.ClickListener() {
 
-					private static final long serialVersionUID = 1556502569683651113L;
+			private static final long serialVersionUID = 1556502569683651113L;
 
-					@Override
-					public void buttonClick(
-							NavigationButton.NavigationButtonClickEvent event) {
-						EventBusFactory.getInstance().post(
-								new MessageEvent.GotoAdd(this, null));
-					}
-				});
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				EventBusFactory.getInstance().post(
+						new MessageEvent.GotoAdd(this, null));
+			}
+		});
 		addMessage.setStyleName("add-btn");
 		return addMessage;
 	}

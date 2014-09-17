@@ -141,7 +141,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 		this.currentViewCount += this.currentListData.size();
 
 		int i = currentViewCount + 1;
-		for (final B item : currentListData) {
+		for (final B item : currentData) {
 			final Component row = rowDisplayHandler.generateRow(item, i);
 			listContainer.addComponent(row);
 			i++;

@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
-import com.esofthead.mycollab.mobile.ui.ListPresenter;
+import com.esofthead.mycollab.mobile.module.crm.ui.CrmListPresenter;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 
@@ -28,7 +28,7 @@ import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriter
  */
 public class OpportunityListPresenter
 		extends
-		ListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity> {
+		CrmListPresenter<OpportunityListView, OpportunitySearchCriteria, SimpleOpportunity> {
 
 	private static final long serialVersionUID = 457053782202007112L;
 
