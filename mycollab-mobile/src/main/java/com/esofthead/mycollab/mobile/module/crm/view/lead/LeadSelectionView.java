@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.crm.i18n.LeadI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -49,20 +48,11 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 	}
 
 	public void createUI() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-
-		createLeadList();
-
-		layout.addComponent(itemList);
-		this.setContent(layout);
-	}
-
-	private void createLeadList() {
 		itemList = new LeadListDisplay();
 
 		itemList.setWidth("100%");
 		itemList.setRowDisplayHandler(rowHandler);
+		this.setContent(itemList);
 	}
 
 	@Override
@@ -94,6 +84,9 @@ public class LeadSelectionView extends AbstractSelectionView<SimpleLead> {
 									.navigateBack();
 						}
 					});
+			b.addStyleName("list-item");
+			if (lead.getId() == null)
+				b.addStyleName("blank-item");
 			return b;
 		}
 

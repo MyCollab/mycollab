@@ -14,68 +14,61 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.crm.view.campaign;
+package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.mobile.ui.AbstractSelectionCustomField;
-import com.esofthead.mycollab.module.crm.domain.CampaignWithBLOBs;
-import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.module.crm.service.CampaignService;
+import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.data.Property;
 
 /**
- * 
  * @author MyCollab Ltd.
- * @since 4.1
- * 
+ *
+ * @since 4.5.0
  */
-@SuppressWarnings("serial")
-public class CampaignSelectionField extends
-		AbstractSelectionCustomField<Integer, CampaignWithBLOBs> {
+public class TaskListSelectionField extends
+		AbstractSelectionCustomField<Integer, SimpleTaskList> {
 
-	public CampaignSelectionField() {
-		super(CampaignSelectionView.class);
+	private static final long serialVersionUID = -221268327412224730L;
+
+	public TaskListSelectionField() {
+		super(TaskListSelectionView.class);
 	}
 
 	@Override
 	public void setPropertyDataSource(Property newDataSource) {
 		Object value = newDataSource.getValue();
 		if (value instanceof Integer) {
-			setCampaignByVal((Integer) value);
+			setTaskListByVal((Integer) value);
 		}
 		super.setPropertyDataSource(newDataSource);
 	}
 
-	@Override
-	public void setValue(Integer value) {
-		this.setCampaignByVal(value);
-		super.setValue(value);
-	}
-
-	private void setCampaignByVal(Integer campaignId) {
-		CampaignService campaignService = ApplicationContextUtil
-				.getSpringBean(CampaignService.class);
-		SimpleCampaign campaign = campaignService.findById(campaignId,
+	private void setTaskListByVal(Integer value) {
+		ProjectTaskListService service = ApplicationContextUtil
+				.getSpringBean(ProjectTaskListService.class);
+		SimpleTaskList taskList = service.findById(value,
 				AppContext.getAccountId());
-		if (campaign != null) {
-			setInternalCampaign(campaign);
+		if (taskList != null) {
+			setInternalTaskList(taskList);
 		}
 	}
 
-	private void setInternalCampaign(CampaignWithBLOBs campaign) {
-		this.beanItem = campaign;
-		navButton.setCaption(beanItem.getCampaignname());
+	private void setInternalTaskList(SimpleTaskList taskList) {
+		this.beanItem = taskList;
+		this.navButton.setCaption(taskList.getName());
 	}
 
 	@Override
-	public void fireValueChange(CampaignWithBLOBs data) {
-		setInternalCampaign(data);
+	public void fireValueChange(SimpleTaskList data) {
+		setInternalTaskList(data);
 		setInternalValue(data.getId());
 	}
 
 	@Override
-	public Class<? extends Integer> getType() {
+	public Class<Integer> getType() {
 		return Integer.class;
 	}
 

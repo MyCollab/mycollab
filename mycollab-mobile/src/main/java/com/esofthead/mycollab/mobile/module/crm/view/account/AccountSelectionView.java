@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -51,21 +50,11 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 	}
 
 	private void createUI() {
-
-		VerticalLayout layout = new VerticalLayout();
-
-		createAccountList();
-
-		layout.addComponent(itemList);
-		this.setContent(layout);
-	}
-
-	private void createAccountList() {
 		itemList = new AccountListDisplay();
 
 		itemList.setWidth("100%");
 		itemList.setRowDisplayHandler(rowHandler);
-
+		this.setContent(itemList);
 	}
 
 	@Override
@@ -97,6 +86,9 @@ public class AccountSelectionView extends AbstractSelectionView<Account> {
 									.navigateBack();
 						}
 					});
+			b.addStyleName("list-item");
+			if (account.getId() == null)
+				b.addStyleName("blank-item");
 			return b;
 		}
 

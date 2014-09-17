@@ -1,0 +1,59 @@
+@mixin project-task {
+	/*Project Task*/
+	.task-group-list {
+		.list-item {
+			&.task-list-layout {
+				padding: 1rem 2.5rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
+				color: #8C8C8C;
+				.task-list-name {
+					.v-button-caption {
+						font-size: 1.4rem;
+					}
+				}
+				.last-updated-time {
+					font-size: 1.1rem;
+				}
+				.active-task-num {
+					font-size: 1.1rem;
+					color: white;
+					background-color: rgb(124, 124, 124);
+					padding: 0.2rem 0.5rem;
+					border-radius: 0.3rem;
+				}
+			}
+		}
+	}
+	.task-list {
+		.list-item {
+			&.task-layout {
+				padding: 1rem 2.5rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid $gray-border;
+				color: #8C8C8C;
+				.priority-lbl {
+					padding: 0.2rem 0.4rem;
+					font-size: 0.9rem;
+					color: rgb(255, 255, 255);
+					text-transform: uppercase;
+					&.low-lbl {
+						background-color: $low-priority;
+					}
+					&.medium-lbl {
+						background-color: $medium-priority;
+					}
+					&.high-lbl {
+						background-color: $high-priority;
+					}
+					&.urgent-lbl {
+						background-color: $urgent-priority;
+					}
+				}
+				.task-name {
+					padding-top: 0.3rem;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+		}
+	}
+}

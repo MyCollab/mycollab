@@ -17,16 +17,16 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.i18n.DayI18nEnum;
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
-import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList.RowDisplayHandler;
+import com.esofthead.mycollab.mobile.ui.AbstractSelectionView;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
-import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
-import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -36,46 +36,80 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  *
  * @since 4.5.0
- *
  */
-public class TaskGroupListDisplay
-		extends
-		DefaultPagedBeanList<ProjectTaskListService, TaskListSearchCriteria, SimpleTaskList> {
+public class TaskListSelectionView extends
+		AbstractSelectionView<SimpleTaskList> {
 
-	private static final long serialVersionUID = -9048439116024747065L;
+	private static final long serialVersionUID = 6643783263154617870L;
 
-	public TaskGroupListDisplay() {
-		super(ApplicationContextUtil
-				.getSpringBean(ProjectTaskListService.class),
-				new TaskGroupRowDisplayHandler());
-		this.addStyleName("task-group-list");
+	private TaskListSearchCriteria searchCriteria;
+	private TaskGroupListDisplay taskGroupList;
+
+	private TaskListRowDisplayHandler rowDisplayHandler = new TaskListRowDisplayHandler();
+
+	public TaskListSelectionView() {
+		super();
+		createUI();
+		this.setCaption(AppContext
+				.getMessage(TaskGroupI18nEnum.M_VIEW_TASKLIST_LOOKUP));
 	}
 
-	private static class TaskGroupRowDisplayHandler implements
+	@Override
+	public void load() {
+		this.searchCriteria = new TaskListSearchCriteria();
+		this.searchCriteria.setProjectId(new NumberSearchField(
+				CurrentProjectVariables.getProjectId()));
+		this.searchCriteria.setSaccountid(new NumberSearchField(AppContext
+				.getAccountId()));
+		this.taskGroupList.setSearchCriteria(searchCriteria);
+
+		SimpleTaskList blankTaskList = new SimpleTaskList();
+		this.taskGroupList.getListContainer().addComponentAsFirst(
+				rowDisplayHandler.generateRow(blankTaskList, 0));
+
+	}
+
+	private void createUI() {
+		this.taskGroupList = new TaskGroupListDisplay();
+		this.taskGroupList.setWidth("100%");
+		this.setContent(this.taskGroupList);
+		this.taskGroupList.setRowDisplayHandler(rowDisplayHandler);
+	}
+
+	private class TaskListRowDisplayHandler implements
 			RowDisplayHandler<SimpleTaskList> {
 
 		@Override
 		public Component generateRow(final SimpleTaskList taskList, int rowIndex) {
 			HorizontalLayout taskListLayout = new HorizontalLayout();
 			taskListLayout.setStyleName("task-list-layout");
+			taskListLayout.addStyleName("list-item");
 			taskListLayout.setWidth("100%");
+			taskListLayout
+					.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+
+						private static final long serialVersionUID = 6510342655212187338L;
+
+						@Override
+						public void layoutClick(
+								LayoutEvents.LayoutClickEvent event) {
+							selectionField.fireValueChange(taskList);
+							TaskListSelectionView.this.getNavigationManager()
+									.navigateBack();
+						}
+					});
+
+			if (taskList.getId() == null) {
+				taskListLayout.addStyleName("blank-item");
+				return taskListLayout;
+			}
 
 			VerticalLayout taskListInfo = new VerticalLayout();
 			taskListInfo.setStyleName("task-list-info");
-			Button b = new Button(taskList.getName());
-			// b.setTargetViewCaption(taskList.getName());
-			b.addClickListener(new Button.ClickListener() {
-
-				private static final long serialVersionUID = -2481787976727400924L;
-
-				@Override
-				public void buttonClick(Button.ClickEvent event) {
-					EventBusFactory.getInstance().post(
-							new TaskEvent.GoInsideList(this, taskList.getId()));
-				}
-			});
+			Label b = new Label(taskList.getName());
 			b.setWidth("100%");
 			b.setStyleName("task-list-name");
+			b.addStyleName("fake-button");
 			taskListInfo.addComponent(b);
 
 			Label taskListUpdateTime = new Label(AppContext.getMessage(
@@ -96,7 +130,6 @@ public class TaskGroupListDisplay
 						Alignment.MIDDLE_LEFT);
 			}
 			taskListLayout.setExpandRatio(taskListInfo, 1.0f);
-			taskListLayout.addStyleName("list-item");
 
 			return taskListLayout;
 		}

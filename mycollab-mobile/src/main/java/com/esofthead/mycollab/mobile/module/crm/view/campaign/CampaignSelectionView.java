@@ -27,7 +27,6 @@ import com.esofthead.mycollab.module.crm.i18n.CampaignI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -52,20 +51,11 @@ public class CampaignSelectionView extends
 	}
 
 	private void createUI() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-
-		createCampaignList();
-
-		layout.addComponent(itemList);
-		this.setContent(layout);
-	}
-
-	private void createCampaignList() {
 		itemList = new CampaignListDisplay();
 
 		itemList.setWidth("100%");
 		itemList.setRowDisplayHandler(rowHandler);
+		this.setContent(itemList);
 	}
 
 	@Override
@@ -97,6 +87,9 @@ public class CampaignSelectionView extends
 									.navigateBack();
 						}
 					});
+			b.addStyleName("list-item");
+			if (campaign.getId() == null)
+				b.addStyleName("blank-item");
 			return b;
 		}
 

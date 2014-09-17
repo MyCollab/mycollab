@@ -14,39 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.parameters;
+package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import java.util.List;
+
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
+ * 
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
+ * 
  */
-public class TaskScreenData {
-	public static class List extends ScreenData<Integer> {
-		public List(Integer param) {
-			super(param);
-		}
-	}
+public class I18nValueComboBox extends ValueComboBox {
 
-	public static class Add extends ScreenData<SimpleTask> {
-		public Add() {
-			super(new SimpleTask());
-		}
-	}
+	private static final long serialVersionUID = 7466956429723924052L;
 
-	public static class Read extends ScreenData<Integer> {
-		public Read(Integer param) {
-			super(param);
-		}
-	}
+	public final void loadData(List<? extends Enum<?>> values) {
+		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);
 
-	public static class Edit extends ScreenData<SimpleTask> {
-		public Edit(SimpleTask param) {
-			super(param);
+		for (Enum<?> entry : values) {
+			this.addItem(entry.name());
+			this.setItemCaption(entry.name(), AppContext.getMessage(entry));
+		}
+
+		if (!this.isNullSelectionAllowed()) {
+			this.select(this.getItemIds().iterator().next());
 		}
 	}
 }

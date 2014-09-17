@@ -1,5 +1,6 @@
 /* This contains all of your theme.*/
 /* If somebody wants to extend the theme she will include this mixin. */
+/* Import our component styles */
 @font-face {
   font-family: 'Open Sans';
   src: url("fonts/OpenSans-Light-webfont.eot");
@@ -99,6 +100,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 
 .mycollab-mobile {
   /* Include all the styles from the reindeer theme */
+  /* Confirm Dialog */
+  /* Filterselect */
   /* Navigation styles */
   /* Main Panel Styles */
   /* Controls QuickMenu */
@@ -106,11 +109,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   /* Read View Layout */
   /* Edit View Layout */
   /* Note List */
-  /* Filterselect */
   /* Message Row */
-  /* Confirm Dialog */
   /* Project Dashboard */
   /* Project Messages */
+  /*Project Task*/
+  /* Project Member */
 }
 .mycollab-mobile .v-touchkit-switch-widget {
   height: 2.4rem;
@@ -148,6 +151,64 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   box-shadow: none;
   background-color: white;
   margin: 0.2rem;
+}
+.mycollab-mobile .confirm-dialog .v-window-outerheader {
+  display: none;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-top {
+  padding-top: 20px;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-bottom {
+  padding-bottom: 20px;
+}
+.mycollab-mobile .confirm-dialog .message-wrapper .v-label {
+  text-align: center;
+}
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+.mycollab-mobile .confirm-dialog .v-button .v-button-wrap:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+.mycollab-mobile .v-filterselect {
+  overflow: hidden;
+  padding-right: 1.6rem;
+}
+.mycollab-mobile .v-filterselect .v-icon {
+  height: 1.6rem;
+  position: relative;
+  vertical-align: middle;
+}
+.mycollab-mobile .v-filterselect .v-filterselect-input {
+  height: 1.6rem;
+  vertical-align: middle;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: relative;
+}
+.mycollab-mobile .v-filterselect .v-icon + .v-filterselect-input {
+  padding-left: 1.8rem;
+  margin-left: -1.6rem;
+}
+.mycollab-mobile .v-filterselect .v-filterselect-button {
+  height: 1.6rem;
+  width: 1.6rem;
+  margin-right: -1.6rem;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+.mycollab-mobile .v-filterselect-suggestpopup {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #cfcfcf;
 }
 .mycollab-mobile .v-table-body {
   border: none;
@@ -533,6 +594,14 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #8c8c8c;
   font-size: 1.1rem;
 }
+.mycollab-mobile .data-list-view .list-item.blank-item:before {
+  content: "";
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  position: relative;
+}
 .mycollab-mobile .data-list-view .list-item.v-button {
   text-align: left;
   margin: 0px;
@@ -546,13 +615,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .data-list-view .list-item.v-button .v-button-wrap .v-button-caption {
   color: #8C8C8C;
   font-size: 1.3rem;
-}
-.mycollab-mobile .data-list-view .list-item.v-button .v-button-wrap:before {
-  content: "";
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  width: 0px;
 }
 .mycollab-mobile .data-list-view .list-item.v-button.selectable-button.selected .v-button-wrap {
   position: relative;
@@ -576,52 +638,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .data-list-view .list-item .v-button .v-button-wrap .v-button-caption {
   font-size: 1.3rem;
-}
-.mycollab-mobile .data-list-view .list-item.task-list-layout {
-  padding: 1rem 2.5rem 1rem 1.4rem;
-  border-bottom: 0.1rem solid #DDDDDD;
-  color: #8C8C8C;
-}
-.mycollab-mobile .data-list-view .list-item.task-list-layout .task-list-name .v-button-caption {
-  font-size: 1.4rem;
-}
-.mycollab-mobile .data-list-view .list-item.task-list-layout .last-updated-time {
-  font-size: 1.1rem;
-}
-.mycollab-mobile .data-list-view .list-item.task-list-layout .active-task-num {
-  font-size: 1.1rem;
-  color: white;
-  background-color: #7c7c7c;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.3rem;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout {
-  padding: 1rem 2.5rem 1rem 1.4rem;
-  border-bottom: 0.1rem solid #DDDDDD;
-  color: #8C8C8C;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .priority-lbl {
-  padding: 0.2rem 0.4rem;
-  font-size: 0.9rem;
-  color: white;
-  text-transform: uppercase;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .priority-lbl.low-lbl {
-  background-color: #777777;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .priority-lbl.medium-lbl {
-  background-color: #8cc152;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .priority-lbl.high-lbl {
-  background-color: #f6bb42;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .priority-lbl.urgent-lbl {
-  background-color: #da4453;
-}
-.mycollab-mobile .data-list-view .list-item.task-layout .task-name {
-  padding-top: 0.3rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .mycollab-mobile .readview-layout, .mycollab-mobile .editview-layout {
   background-color: #F3F1F0;
@@ -772,41 +788,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .noteList {
   background-color: white;
 }
-.mycollab-mobile .v-filterselect {
-  overflow: hidden;
-  padding-right: 1.6rem;
-}
-.mycollab-mobile .v-filterselect .v-icon {
-  height: 1.6rem;
-  position: relative;
-  vertical-align: middle;
-}
-.mycollab-mobile .v-filterselect .v-filterselect-input {
-  height: 1.6rem;
-  vertical-align: middle;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  position: relative;
-}
-.mycollab-mobile .v-filterselect .v-icon + .v-filterselect-input {
-  padding-left: 1.8rem;
-  margin-left: -1.6rem;
-}
-.mycollab-mobile .v-filterselect .v-filterselect-button {
-  height: 1.6rem;
-  width: 1.6rem;
-  margin-right: -1.6rem;
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-}
-.mycollab-mobile .v-filterselect-suggestpopup {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 1px solid #cfcfcf;
-}
 .mycollab-mobile .message {
   border-bottom: 1px solid #cbcbcb;
 }
@@ -861,29 +842,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border-radius: 4px;
   border: 1px solid #c7c7c7;
   outline: none;
-}
-.mycollab-mobile .confirm-dialog .v-window-outerheader {
-  display: none;
-}
-.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-top {
-  padding-top: 20px;
-}
-.mycollab-mobile .confirm-dialog .message-wrapper.v-margin-bottom {
-  padding-bottom: 20px;
-}
-.mycollab-mobile .confirm-dialog .message-wrapper .v-label {
-  text-align: center;
-}
-.mycollab-mobile .confirm-dialog .v-button .v-button-wrap {
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
-}
-.mycollab-mobile .confirm-dialog .v-button .v-button-wrap:before {
-  content: "";
-  display: inline-block;
-  vertical-align: middle;
-  height: 100%;
 }
 .mycollab-mobile .project-dashboard {
   background-color: white;
@@ -1038,4 +996,66 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .message-add-view .content-layout .bottom-row .v-caption {
   font-size: 1.4rem;
+}
+.mycollab-mobile .task-group-list .list-item.task-list-layout {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
+  color: #8C8C8C;
+}
+.mycollab-mobile .task-group-list .list-item.task-list-layout .task-list-name .v-button-caption {
+  font-size: 1.4rem;
+}
+.mycollab-mobile .task-group-list .list-item.task-list-layout .last-updated-time {
+  font-size: 1.1rem;
+}
+.mycollab-mobile .task-group-list .list-item.task-list-layout .active-task-num {
+  font-size: 1.1rem;
+  color: white;
+  background-color: #7c7c7c;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+}
+.mycollab-mobile .task-list .list-item.task-layout {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #cbcbcb;
+  color: #8C8C8C;
+}
+.mycollab-mobile .task-list .list-item.task-layout .priority-lbl {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.9rem;
+  color: white;
+  text-transform: uppercase;
+}
+.mycollab-mobile .task-list .list-item.task-layout .priority-lbl.low-lbl {
+  background-color: #777777;
+}
+.mycollab-mobile .task-list .list-item.task-layout .priority-lbl.medium-lbl {
+  background-color: #8cc152;
+}
+.mycollab-mobile .task-list .list-item.task-layout .priority-lbl.high-lbl {
+  background-color: #f6bb42;
+}
+.mycollab-mobile .task-list .list-item.task-layout .priority-lbl.urgent-lbl {
+  background-color: #da4453;
+}
+.mycollab-mobile .task-list .list-item.task-layout .task-name {
+  padding-top: 0.3rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mycollab-mobile .member-list .list-item.member-row {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
+  color: #8C8C8C;
+}
+.mycollab-mobile .member-list .list-item.member-row .member-info {
+  padding-left: 0.5rem;
+}
+.mycollab-mobile .member-list .list-item.member-row .member-info .display-name {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .member-list .list-item.member-row .member-info .user-name {
+  font-size: 1.2rem;
+  color: #bfbfbf;
 }

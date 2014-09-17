@@ -1,0 +1,24 @@
+@mixin project-member {
+	/* Project Member */
+	.member-list {
+		.list-item {
+			&.member-row {
+				padding: 1rem 2.5rem 1rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
+				color: #8C8C8C;
+				.member-info {
+					padding-left: 0.5rem;
+					.display-name {
+						font-weight: bold;
+						font-size: 1.4rem;
+						color: $primary-orange;
+					}
+					.user-name {
+						font-size: 1.2rem;
+						color: $gray-text;
+					}
+				}
+			}
+		}
+	}
+}

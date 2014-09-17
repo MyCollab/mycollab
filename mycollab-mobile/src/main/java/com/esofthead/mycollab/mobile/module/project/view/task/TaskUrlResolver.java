@@ -22,6 +22,10 @@ import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
 /**
@@ -36,6 +40,8 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 		this.addSubResolver("group", new TaskGroupUrlResolver());
 		this.addSubResolver("list", new ListUrlResolver());
 		this.addSubResolver("preview", new ReadUrlResolver());
+		this.addSubResolver("edit", new EditUrlResolver());
+		this.addSubResolver("add", new AddUrlResolver());
 	}
 
 	private class ListUrlResolver extends ProjectUrlResolver {
@@ -71,5 +77,42 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 
+	}
+
+	private class EditUrlResolver extends ProjectUrlResolver {
+
+		@Override
+		protected void handlePage(String... params) {
+			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
+			int taskId = Integer.parseInt(tokens[1]);
+			ProjectTaskService taskService = ApplicationContextUtil
+					.getSpringBean(ProjectTaskService.class);
+			SimpleTask task = taskService.findById(taskId,
+					AppContext.getAccountId());
+
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new TaskScreenData.Edit(task));
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
+	}
+
+	private class AddUrlResolver extends ProjectUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new TaskScreenData.Add());
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
 	}
 }

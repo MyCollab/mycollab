@@ -30,7 +30,7 @@ import com.vaadin.data.Property;
  * 
  */
 public class ContactSelectionField extends
-		AbstractSelectionCustomField<SimpleContact> {
+		AbstractSelectionCustomField<Integer, SimpleContact> {
 	private static final long serialVersionUID = 1L;
 
 	public ContactSelectionField() {
@@ -39,8 +39,7 @@ public class ContactSelectionField extends
 
 	@Override
 	public void fireValueChange(SimpleContact data) {
-		beanItem = data;
-		navButton.setCaption(beanItem.getContactName());
+		setInternalContact(data);
 		setInternalValue(beanItem.getId());
 	}
 
@@ -49,10 +48,8 @@ public class ContactSelectionField extends
 		final Object value = newDataSource.getValue();
 		if (value instanceof Integer) {
 			setContactByVal((Integer) value);
-			super.setPropertyDataSource(newDataSource);
-		} else {
-			super.setPropertyDataSource(newDataSource);
 		}
+		super.setPropertyDataSource(newDataSource);
 	}
 
 	@Override

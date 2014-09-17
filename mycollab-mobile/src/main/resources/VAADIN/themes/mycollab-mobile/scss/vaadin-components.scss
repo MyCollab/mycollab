@@ -1,0 +1,121 @@
+@import "mixins.scss";
+
+@mixin vaadin-components {
+	.v-touchkit-switch-widget {
+		height: 2.4rem;
+		.v-touchkit-switch-wrapper {
+			height: 2rem;
+			@include box-shadow(none);
+			background-color: $primary-blue;
+			border: 2px solid $primary-blue;
+			&.v-touchkit-switch-off {
+				background-color: rgb(255, 255, 255);
+				border: 2px solid $gray-border;
+				.v-touchkit-switch {
+					.v-touchkit-switch-slider {					
+						&:after {
+							background-color: $gray-border;
+						}
+					}
+				}
+			}
+			.v-touchkit-switch {
+				line-height: 1.8rem;
+				&:after {
+					color: $gray-border;
+					margin: 0rem;
+				}
+				&:before {
+					color: rgb(255, 255, 255);
+					margin: 0rem;
+				}
+				.v-touchkit-switch-slider {
+					
+					&:after {
+						content: "";
+						@include box-shadow(none);
+						background-color: rgb(255, 255, 255);
+						margin: 0.2rem;
+					}
+				}
+			}
+		}
+	}
+	
+	/* Confirm Dialog */
+    .confirm-dialog {
+    	.v-window-outerheader {
+    		display: none;
+    	}
+    	
+    	.message-wrapper.v-margin-top {
+    		padding-top: 20px;
+    	}
+    	
+    	.message-wrapper.v-margin-bottom {
+    		padding-bottom: 20px;
+    	}
+    	
+    	.message-wrapper {
+    		.v-label {
+	    		text-align: center;
+	    	}
+    	}   	
+    	
+    	.v-button {
+	    	
+	    	.v-button-wrap {
+	    		display: inline-block;
+	    		vertical-align: middle;
+	    		height: 100%;
+	    		
+	    		&:before {
+		    		content: "";
+		    		display:inline-block;
+		    		vertical-align: middle;
+		    		height: 100%;
+		    	}
+	    	}
+		}
+    }
+    
+    /* Filterselect */
+	.v-filterselect {
+		overflow: hidden;
+		padding-right: 1.6rem;
+		
+		.v-icon {
+			height: 1.6rem;
+			position: relative;
+			vertical-align: middle;
+		}
+		
+		.v-filterselect-input {
+			height: 1.6rem;
+			vertical-align: middle;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			position: relative;
+		}
+		.v-icon + .v-filterselect-input {
+			padding-left: 1.8rem;
+			margin-left: -1.6rem;
+		}
+		.v-filterselect-button {
+			height: 1.6rem;
+			width: 1.6rem;
+			margin-right: -1.6rem;
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		
+	}
+	.v-filterselect-suggestpopup {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		border: 1px solid #CFCFCF
+	}
+}

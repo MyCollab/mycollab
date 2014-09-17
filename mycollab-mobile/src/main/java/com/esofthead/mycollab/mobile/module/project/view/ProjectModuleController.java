@@ -40,6 +40,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScree
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
@@ -232,6 +233,33 @@ public class ProjectModuleController extends AbstractController {
 			public void handle(TaskEvent.GotoRead event) {
 				TaskScreenData.Read data = new TaskScreenData.Read(
 						(Integer) event.getData());
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoEdit>() {
+
+			private static final long serialVersionUID = 1585508595654062937L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoEdit event) {
+				TaskScreenData.Edit data = new TaskScreenData.Edit(
+						(SimpleTask) event.getData());
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoAdd>() {
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoAdd event) {
+				TaskScreenData.Add data = new TaskScreenData.Add();
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);

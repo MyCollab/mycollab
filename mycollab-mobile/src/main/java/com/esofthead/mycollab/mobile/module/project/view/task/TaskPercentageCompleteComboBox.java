@@ -14,39 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.parameters;
+package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.mobile.ui.ValueComboBox;
 
 /**
  * @author MyCollab Ltd.
  *
  * @since 4.5.0
- *
  */
-public class TaskScreenData {
-	public static class List extends ScreenData<Integer> {
-		public List(Integer param) {
-			super(param);
-		}
-	}
+public class TaskPercentageCompleteComboBox extends ValueComboBox {
+	private static final long serialVersionUID = 1L;
 
-	public static class Add extends ScreenData<SimpleTask> {
-		public Add() {
-			super(new SimpleTask());
-		}
-	}
-
-	public static class Read extends ScreenData<Integer> {
-		public Read(Integer param) {
-			super(param);
-		}
-	}
-
-	public static class Edit extends ScreenData<SimpleTask> {
-		public Edit(SimpleTask param) {
-			super(param);
-		}
+	public TaskPercentageCompleteComboBox() {
+		super(false, 0d, 10d, 20d, 30d, 40d, 50d, 60d, 70d, 80d, 90d, 100d);
 	}
 }

@@ -1,0 +1,132 @@
+@mixin project-message {
+	/* Project Messages */
+    .message-list-view, .message-read-view {
+    	.message-block {
+    		padding: 1.2rem 0.8rem;
+    		border-bottom: 1px solid $gray-border;
+    		background-color: rgb(255, 255, 255);
+    		
+    		.user-avatar {
+    			padding-right: 0.8rem;
+    		}
+    		.user-name {
+    			color: $primary-orange;
+    		}
+    		.time-post {
+    			font-size: 1.1rem;
+    			color: $light-gray-text;
+    		}
+    		.title-row {
+    			.comment-count {
+	    			font-size: 1.1rem;
+					color: white;
+					background-color: rgb(124, 124, 124);
+					padding: 0.2rem 0.5rem;
+					border-radius: 0.3rem;
+	    		}
+	    		&.has-comment {
+	    			padding: 0.3rem 0rem;
+	    		}
+    		}
+    		
+    		.message-content {
+    			color: $gray-text;
+    		}
+    	}
+    }
+    
+    .comment-list {
+    	.comment-block {
+    		padding: 0.8rem;
+    		
+    		.user-avatar {
+    			padding-right: 0.8rem;
+    		}
+    		.right-col {
+    			border: 1px solid $gray-border;
+    			background-color: rgb(255, 255, 255);
+    			padding: 0.5rem 0.7rem;
+    			
+    			&:before {
+    				content: "";
+					position: absolute;
+					border-style: solid;
+					display: block;
+					width: 0;
+					top: 9px;
+					left: -7px;
+					border-width: 7px 7px 7px 0;
+					border-color: transparent rgb(173, 173, 173);
+					border-radius: 0px;
+    			}
+    			
+    			&:after {
+    				content: "";
+					position: absolute;
+					border-style: solid;
+					display: block;
+					width: 0;
+					top: 9px;
+					left: -6px;
+					border-width: 7px 7px 7px 0;
+					border-color: transparent rgb(255, 255, 255);
+					border-radius: 0px;
+    			}
+    			
+	    		.user-name {
+	    			color: $primary-orange;
+	    		}
+	    		.time-post {
+	    			font-size: 1.1rem;
+	    			color: $light-gray-text;
+	    		}	    		
+	    		.comment-content {
+	    			color: rgb(170, 170, 170);
+	    		}
+    		}
+    		
+    	}
+    }
+    
+    .message-add-view {
+    	.content-layout{
+    		padding-top: 1.2rem;
+    		background-color: #252c34;
+	    	.addform-layout {
+	    		display: block;
+	    		margin: 0 auto;
+	    		border-radius: 0.4rem;
+	    		background-color: rgb(255, 255, 255);
+	    		
+	    		.title-field {
+	    			border-color: $light-gray-border;
+	    			border-width: 0px 0px 1px 0px;
+	    			border-style: solid;
+	    			border-radius: 0.5rem 0.5rem 0rem 0rem;
+	    			padding: 0.8rem;
+	    			font-size: 1.4rem;
+	    			&.v-textfield-prompt {
+	    				font-style: normal;
+	    			}
+	    		}
+	    		.content-field {
+	    			font-size: 1.4rem;
+	    			padding: 0.8rem;
+	    			border-radius: 0rem 0rem 0.5rem 0.5rem;
+	    			&.v-textarea-prompt {
+	    				font-style: normal;
+	    			}
+	    		}	    		
+	    	}
+	    	.bottom-row {
+	    		margin: 1.2rem auto 0rem;
+	    		border-radius: 0.4rem;
+	    		box-shadow: none;
+	    		.v-caption {
+	    			font-size: 1.4rem;
+	    		}
+	    	}
+    	}
+    	
+    }
+}

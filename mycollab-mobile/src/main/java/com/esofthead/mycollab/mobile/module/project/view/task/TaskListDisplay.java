@@ -26,6 +26,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
@@ -47,6 +48,7 @@ public class TaskListDisplay
 	public TaskListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(ProjectTaskService.class),
 				new TaskRowDisplayHandler());
+		this.addStyleName("task-list");
 	}
 
 	private static class TaskRowDisplayHandler implements
@@ -77,17 +79,20 @@ public class TaskListDisplay
 			topRow.addComponent(b);
 			topRow.setExpandRatio(b, 1.0f);
 
-			if (!task.getPriority().equals(TaskPriority.None.name())) {
+			if (!task.getPriority().equals(
+					AppContext.getMessage(TaskPriority.None))) {
 				Label priorityLbl = new Label(task.getPriority());
-				if (task.getPriority().equals(TaskPriority.High.name())) {
+				if (task.getPriority().equals(
+						AppContext.getMessage(TaskPriority.High))) {
 					priorityLbl.setStyleName(UIConstants.LBL_HIGH);
-				} else if (task.getPriority()
-						.equals(TaskPriority.Urgent.name())) {
+				} else if (task.getPriority().equals(
+						AppContext.getMessage(TaskPriority.Urgent))) {
 					priorityLbl.setStyleName(UIConstants.LBL_URGENT);
-				} else if (task.getPriority()
-						.equals(TaskPriority.Medium.name())) {
+				} else if (task.getPriority().equals(
+						AppContext.getMessage(TaskPriority.Medium))) {
 					priorityLbl.setStyleName(UIConstants.LBL_MEDIUM);
-				} else if (task.getPriority().equals(TaskPriority.Low.name())) {
+				} else if (task.getPriority().equals(
+						AppContext.getMessage(TaskPriority.Low))) {
 					priorityLbl.setStyleName(UIConstants.LBL_LOW);
 				}
 				priorityLbl.setWidthUndefined();

@@ -57,6 +57,9 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 			presenter = PresenterResolver.getPresenter(TaskListPresenter.class);
 		} else if (data instanceof TaskScreenData.Read) {
 			presenter = PresenterResolver.getPresenter(TaskReadPresenter.class);
+		} else if (data instanceof TaskScreenData.Add
+				|| data instanceof TaskScreenData.Edit) {
+			presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
 		}
 
 		presenter.go(container, data);

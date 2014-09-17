@@ -27,8 +27,8 @@ import com.vaadin.ui.CustomField;
  * @author MyCollab Ltd.
  * @since 4.3.1
  */
-public abstract class AbstractSelectionCustomField<B> extends
-		CustomField<Integer> implements FieldSelection<B> {
+public abstract class AbstractSelectionCustomField<T, B> extends CustomField<T>
+		implements FieldSelection<B> {
 	private static final long serialVersionUID = 1L;
 
 	private Class<? extends AbstractSelectionView<B>> targetSelectionViewCls;

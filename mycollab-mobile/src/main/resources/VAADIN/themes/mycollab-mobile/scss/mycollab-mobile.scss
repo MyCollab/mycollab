@@ -3,12 +3,18 @@
 @import "mixins.scss";
 @import "fonts.scss";
 @import "colors.scss";
-@import "components.scss";
+@import "vaadin-components.scss";
+
+/* Import our component styles */
+@import "components/project/dashboard.scss";
+@import "components/project/message.scss";
+@import "components/project/task.scss";
+@import "components/project/member.scss";
 
 @mixin mycollab-mobile {
     /* Include all the styles from the reindeer theme */
     
-    @include components;
+    @include vaadin-components;
     
     .v-table-body {
     	border: none;
@@ -385,6 +391,14 @@
 					font-size: 1.1rem;
 				}
 			}
+			&.blank-item:before {
+				content: "";
+				font-weight: bold;
+				display: inline-block;
+				width: 100%;
+				vertical-align: top;
+				position: relative;
+			}
 			&.v-button {
 				text-align: left;
 				margin: 0px;
@@ -398,13 +412,6 @@
 					.v-button-caption {
 						color: #8C8C8C;
 						font-size: 1.3rem;
-					}
-					&:before {
-						content: "";
-						display: inline-block;
-						height: 100%;
-						vertical-align: middle;
-						width: 0px;
 					}
 				}
 				&.selectable-button.selected {
@@ -433,54 +440,6 @@
 						font-size: 1.3rem;
 					}
 				}				
-			}
-			&.task-list-layout {
-				padding: 1rem 2.5rem 1rem 1.4rem;
-				border-bottom: 0.1rem solid #DDDDDD;
-				color: #8C8C8C;
-				.task-list-name {
-					.v-button-caption {
-						font-size: 1.4rem;
-					}
-				}
-				.last-updated-time {
-					font-size: 1.1rem;
-				}
-				.active-task-num {
-					font-size: 1.1rem;
-					color: white;
-					background-color: rgb(124, 124, 124);
-					padding: 0.2rem 0.5rem;
-					border-radius: 0.3rem;
-				}
-			}
-			&.task-layout {
-				padding: 1rem 2.5rem 1rem 1.4rem;
-				border-bottom: 0.1rem solid #DDDDDD;
-				color: #8C8C8C;
-				.priority-lbl {
-					padding: 0.2rem 0.4rem;
-					font-size: 0.9rem;
-					color: rgb(255, 255, 255);
-					text-transform: uppercase;
-					&.low-lbl {
-						background-color: $low-priority;
-					}
-					&.medium-lbl {
-						background-color: $medium-priority;
-					}
-					&.high-lbl {
-						background-color: $high-priority;
-					}
-					&.urgent-lbl {
-						background-color: $urgent-priority;
-					}
-				}
-				.task-name {
-					padding-top: 0.3rem;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
 			}
 		}
 		
@@ -650,46 +609,6 @@
 		background-color: rgb(255, 255, 255);
 	}
 	
-	/* Filterselect */
-	.v-filterselect {
-		overflow: hidden;
-		padding-right: 1.6rem;
-		
-		.v-icon {
-			height: 1.6rem;
-			position: relative;
-			vertical-align: middle;
-		}
-		
-		.v-filterselect-input {
-			height: 1.6rem;
-			vertical-align: middle;
-			box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			-webkit-box-sizing: border-box;
-			position: relative;
-		}
-		.v-icon + .v-filterselect-input {
-			padding-left: 1.8rem;
-			margin-left: -1.6rem;
-		}
-		.v-filterselect-button {
-			height: 1.6rem;
-			width: 1.6rem;
-			margin-right: -1.6rem;
-			position: relative;
-			display: inline-block;
-			vertical-align: middle;
-		}
-		
-	}
-	.v-filterselect-suggestpopup {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-		border: 1px solid #CFCFCF
-	}
-	
 	/* Message Row */
 	.message {
 		border-bottom: 1px solid rgb(203, 203, 203);
@@ -765,224 +684,9 @@
         outline: none;
     }
     
-    /* Confirm Dialog */
-    .confirm-dialog {
-    	.v-window-outerheader {
-    		display: none;
-    	}
-    	
-    	.message-wrapper.v-margin-top {
-    		padding-top: 20px;
-    	}
-    	
-    	.message-wrapper.v-margin-bottom {
-    		padding-bottom: 20px;
-    	}
-    	
-    	.message-wrapper {
-    		.v-label {
-	    		text-align: center;
-	    	}
-    	}   	
-    	
-    	.v-button {
-	    	
-	    	.v-button-wrap {
-	    		display: inline-block;
-	    		vertical-align: middle;
-	    		height: 100%;
-	    		
-	    		&:before {
-		    		content: "";
-		    		display:inline-block;
-		    		vertical-align: middle;
-		    		height: 100%;
-		    	}
-	    	}
-		}
-    }
-    
-    /* Project Dashboard */
-    .project-dashboard {
-    	background-color: rgb(255, 255, 255);
-    	
-	    .project-info-layout {
-		    padding: 1.2rem 0rem;
-			background-color: rgb(20, 23, 26);
-			color: rgb(255, 255, 255);
-	    	.project-icon {
-	    		font-size: 5rem;
-				line-height: 5rem;
-				border: 0.3rem solid rgb(255, 255, 255);
-				border-radius: 4rem;
-				padding: 1rem;
-	    	}
-	    	.project-name {
-				font-weight: bold;
-				font-size: 1.4rem;
-				padding-top: 0.6rem;
-			}
-	    }
-	    
-	    .project-modules-layout {
-	    	display: block;
-	    	margin: 0 auto;
-	    	padding-top: 2rem;
-	    	
-	    	.v-gridlayout-spacing-on {
-	    		padding-top: 1rem;
-	    		padding-left: 1rem;
-	    	}
-	    	
-		    .v-button {
-				background-color: transparent;
-				.v-button-wrap {
-					padding-top: 0.3rem;
-					.v-button-caption {
-						span {
-							font-size: 3.8rem;
-							line-height: 4rem;
-						}
-						div {
-							color: rgb(82, 82, 82);
-							font-size: 1.1rem;
-							text-transform: uppercase;
-						}
-					}
-				}				
-			}
-	    }
-    }
-    
-    /* Project Messages */
-    .message-list-view, .message-read-view {
-    	.message-block {
-    		padding: 1.2rem 0.8rem;
-    		border-bottom: 1px solid $gray-border;
-    		background-color: rgb(255, 255, 255);
-    		
-    		.user-avatar {
-    			padding-right: 0.8rem;
-    		}
-    		.user-name {
-    			color: $primary-orange;
-    		}
-    		.time-post {
-    			font-size: 1.1rem;
-    			color: $light-gray-text;
-    		}
-    		.title-row {
-    			.comment-count {
-	    			font-size: 1.1rem;
-					color: white;
-					background-color: rgb(124, 124, 124);
-					padding: 0.2rem 0.5rem;
-					border-radius: 0.3rem;
-	    		}
-	    		&.has-comment {
-	    			padding: 0.3rem 0rem;
-	    		}
-    		}
-    		
-    		.message-content {
-    			color: $gray-text;
-    		}
-    	}
-    }
-    
-    .comment-list {
-    	.comment-block {
-    		padding: 0.8rem;
-    		
-    		.user-avatar {
-    			padding-right: 0.8rem;
-    		}
-    		.right-col {
-    			border: 1px solid $gray-border;
-    			background-color: rgb(255, 255, 255);
-    			padding: 0.5rem 0.7rem;
-    			
-    			&:before {
-    				content: "";
-					position: absolute;
-					border-style: solid;
-					display: block;
-					width: 0;
-					top: 9px;
-					left: -7px;
-					border-width: 7px 7px 7px 0;
-					border-color: transparent rgb(173, 173, 173);
-					border-radius: 0px;
-    			}
-    			
-    			&:after {
-    				content: "";
-					position: absolute;
-					border-style: solid;
-					display: block;
-					width: 0;
-					top: 9px;
-					left: -6px;
-					border-width: 7px 7px 7px 0;
-					border-color: transparent rgb(255, 255, 255);
-					border-radius: 0px;
-    			}
-    			
-	    		.user-name {
-	    			color: $primary-orange;
-	    		}
-	    		.time-post {
-	    			font-size: 1.1rem;
-	    			color: $light-gray-text;
-	    		}	    		
-	    		.comment-content {
-	    			color: rgb(170, 170, 170);
-	    		}
-    		}
-    		
-    	}
-    }
-    
-    .message-add-view {
-    	.content-layout{
-    		padding-top: 1.2rem;
-    		background-color: #252c34;
-	    	.addform-layout {
-	    		display: block;
-	    		margin: 0 auto;
-	    		border-radius: 0.4rem;
-	    		background-color: rgb(255, 255, 255);
-	    		
-	    		.title-field {
-	    			border-color: $light-gray-border;
-	    			border-width: 0px 0px 1px 0px;
-	    			border-style: solid;
-	    			border-radius: 0.5rem 0.5rem 0rem 0rem;
-	    			padding: 0.8rem;
-	    			font-size: 1.4rem;
-	    			&.v-textfield-prompt {
-	    				font-style: normal;
-	    			}
-	    		}
-	    		.content-field {
-	    			font-size: 1.4rem;
-	    			padding: 0.8rem;
-	    			border-radius: 0rem 0rem 0.5rem 0.5rem;
-	    			&.v-textarea-prompt {
-	    				font-style: normal;
-	    			}
-	    		}	    		
-	    	}
-	    	.bottom-row {
-	    		margin: 1.2rem auto 0rem;
-	    		border-radius: 0.4rem;
-	    		box-shadow: none;
-	    		.v-caption {
-	    			font-size: 1.4rem;
-	    		}
-	    	}
-    	}
-    	
-    }
+    @include project-dashboard;
+    @include project-message;
+    @include project-task;
+    @include project-member;
     
 }

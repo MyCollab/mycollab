@@ -1,5 +1,5 @@
 # MyCollab an open source Java CRM, Project and Document Management Platform
-[![Build Status](https://travis-ci.org/esofthead/mycollab.svg?branch=master)](https://travis-ci.org/esofthead/mycollab) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
+[![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Build Status](https://travis-ci.org/esofthead/mycollab.svg?branch=master)](https://travis-ci.org/esofthead/mycollab) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
 
 ## Introduction
 The MyCollab Platform offers developers the exact business application platform they’ve been looking for, by combining the tools they need. Built in Java and bundles of open source frameworks and libraries, it seamlessly integrates into MyCollab CRM, MyCollab-Project or Document Management. Developing custom business applications has never been so easy.

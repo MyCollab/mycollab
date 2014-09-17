@@ -50,8 +50,7 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleTask> initBeanFormFieldFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new TaskEditFormFieldFactory(this.editForm);
 	}
 
 }

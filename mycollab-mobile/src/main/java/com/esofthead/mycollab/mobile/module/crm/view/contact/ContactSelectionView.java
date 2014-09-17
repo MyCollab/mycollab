@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.crm.i18n.ContactI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -49,20 +48,10 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 	}
 
 	public void createUI() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-
-		createContactList();
-
-		layout.addComponent(itemList);
-		this.setContent(layout);
-	}
-
-	private void createContactList() {
 		itemList = new ContactListDisplay();
 		itemList.setWidth("100%");
 		itemList.setRowDisplayHandler(rowHandler);
-
+		this.setContent(itemList);
 	}
 
 	@Override
@@ -95,6 +84,9 @@ public class ContactSelectionView extends AbstractSelectionView<SimpleContact> {
 									.navigateBack();
 						}
 					});
+			b.addStyleName("list-item");
+			if (contact.getId() == null)
+				b.addStyleName("blank-item");
 			return b;
 		}
 

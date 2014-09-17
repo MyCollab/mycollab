@@ -26,7 +26,6 @@ import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * 
@@ -50,20 +49,11 @@ public class OpportunitySelectionView extends
 	}
 
 	public void createUI() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSpacing(true);
-
-		createOpportunityList();
-
-		layout.addComponent(itemList);
-		this.setContent(layout);
-	}
-
-	private void createOpportunityList() {
 		itemList = new OpportunityListDisplay();
 
 		itemList.setWidth("100%");
 		itemList.setRowDisplayHandler(rowHandler);
+		this.setContent(itemList);
 	}
 
 	@Override
@@ -96,6 +86,9 @@ public class OpportunitySelectionView extends
 									.getNavigationManager().navigateBack();
 						}
 					});
+			b.addStyleName("list-item");
+			if (opportunity.getId() == null)
+				b.addStyleName("blank-item");
 			return b;
 		}
 

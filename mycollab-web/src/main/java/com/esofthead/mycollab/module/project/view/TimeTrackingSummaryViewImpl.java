@@ -26,6 +26,7 @@ import java.util.List;
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
+import com.esofthead.mycollab.core.arguments.Order;
 import com.esofthead.mycollab.core.arguments.RangeDateSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -256,7 +257,8 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(backBtn, Alignment.TOP_LEFT);
 		controlBtns.setSizeFull();
 
-		this.layoutItem = new TimeTrackingDateOrderComponent(FIELDS, tableClickListener);
+		this.layoutItem = new TimeTrackingDateOrderComponent(FIELDS,
+				tableClickListener);
 		this.layoutItem.setWidth("100%");
 		contentWrapper.addComponent(this.layoutItem);
 	}
@@ -330,7 +332,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 									nonbillableHour));
 		}
 		// TODO:
-		this.layoutItem.show(searchCriteria, "Ascending");
+		this.layoutItem.queryData(searchCriteria, Order.ASCENDING);
 	}
 
 	private TableClickListener tableClickListener = new TableClickListener() {

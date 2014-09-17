@@ -18,19 +18,14 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
-import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
-import com.esofthead.mycollab.module.project.view.time.TimeTrackingTableDisplay;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
-import com.vaadin.shared.ui.MarginInfo;
+import com.google.common.collect.Ordering;
 import com.vaadin.ui.Label;
 
 /**
@@ -39,83 +34,59 @@ import com.vaadin.ui.Label;
  * @since 4.5.1
  * 
  */
-public class TimeTrackingDateOrderComponent extends TimeTrackingAbstractComponent {
+public class TimeTrackingDateOrderComponent
+		extends
+			AbstractTimeTrackingDisplayComp {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"EEEE, dd MMMM yyyy");
 
-	private Date current = new Date(0);
-
 	public TimeTrackingDateOrderComponent(List<TableViewField> fields,
 			TableClickListener tableClickListener) {
 		super(fields, tableClickListener);
+		this.setWidth("100%");
 	}
 
 	@Override
-	protected List<SimpleItemTimeLogging> getData(
-			ItemTimeLoggingSearchCriteria searchCriteria, String orderBy) {
-		List<SimpleItemTimeLogging> itemTimeLoggingList = super.getData(
-				searchCriteria, orderBy);
-
-		Collections.sort(itemTimeLoggingList,
-				new Comparator<SimpleItemTimeLogging>() {
-					@Override
-					public int compare(SimpleItemTimeLogging item1,
-							SimpleItemTimeLogging item2) {
-						return item1.getLogforday().compareTo(
-								item2.getLogforday());
-					}
-				});
-		return itemTimeLoggingList;
-	}
-
-	@Override
-	protected void addItem(SimpleItemTimeLogging itemTimeLogging) {
-		if (DateTimeUtils
-				.compareByDate(itemTimeLogging.getLogforday(), current) != 0) {
-			showRecord();
-			current = itemTimeLogging.getLogforday();
-			refreshData();
+	protected void addItem(SimpleItemTimeLogging itemTimeLogging,
+			List<SimpleItemTimeLogging> timeLoggingEntries) {
+		if (timeLoggingEntries.size() > 0
+				&& DateTimeUtils.compareByDate(itemTimeLogging.getLogforday(),
+						timeLoggingEntries.get(0).getLogforday()) != 0) {
+			displayGroupItems(timeLoggingEntries);
+			timeLoggingEntries.clear();
 		}
 
-		list.add(itemTimeLogging);
-		billable += itemTimeLogging.getIsbillable() ? itemTimeLogging
-				.getLogvalue() : 0;
-		nonbillable += !itemTimeLogging.getIsbillable() ? itemTimeLogging
-				.getLogvalue() : 0;
+		timeLoggingEntries.add(itemTimeLogging);
 	}
 
 	@Override
-	protected void showRecord() {
-		if (list.size() > 0) {
-			Label label = new Label(DATE_FORMAT.format(current));
+	protected void displayGroupItems(
+			List<SimpleItemTimeLogging> timeLoggingEntries) {
+		if (timeLoggingEntries.size() > 0) {
+			Label label = new Label(DATE_FORMAT.format(timeLoggingEntries
+					.get(0).getLogforday()));
 			label.addStyleName(UIConstants.TEXT_LOG_DATE);
 			addComponent(label);
 
-			TimeTrackingTableDisplay table = new TimeTrackingTableDisplay(
-					visibleFields);
-			table.addStyleName(UIConstants.FULL_BORDER_TABLE);
-			table.setMargin(new MarginInfo(true, false, false, false));
-			table.addTableListener(this.tableClickListener);
-			table.setCurrentDataList(list);
-			addComponent(table);
-
-			Label labelTotalHours = new Label(
-					("Total Hours: " + (billable + nonbillable)));
-			labelTotalHours.addStyleName(UIConstants.TEXT_LOG_HOURS_TOTAL);
-			addComponent(labelTotalHours);
-
-			Label labelBillableHours = new Label(
-					("Billable Hours: " + billable));
-			labelBillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
-			addComponent(labelBillableHours);
-
-			Label labelNonbillableHours = new Label(
-					("Non Billable Hours: " + nonbillable));
-			labelNonbillableHours.setStyleName(UIConstants.TEXT_LOG_HOURS);
-			addComponent(labelNonbillableHours);
+			addComponent(new TimeLoggingBockLayout(visibleFields,
+					tableClickListener, timeLoggingEntries));
 		}
+	}
+
+	@Override
+	protected Ordering<SimpleItemTimeLogging> sortEntries() {
+		return Ordering.from(new DateComparator())
+				.compound(new UserComparator())
+				.compound(new BillableComparator())
+				.compound(new ValueComparator())
+				.compound(new SummaryComparator());
+	}
+
+	@Override
+	String getGroupCriteria(SimpleItemTimeLogging timeEntry) {
+		return DateTimeUtils.formatDate(timeEntry.getLogforday(), "yyyy/MM/dd");
 	}
 }
