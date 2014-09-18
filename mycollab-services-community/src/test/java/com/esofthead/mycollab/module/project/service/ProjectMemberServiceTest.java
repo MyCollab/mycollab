@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
+import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
 import com.esofthead.mycollab.test.service.ServiceTest;
@@ -47,5 +51,32 @@ public class ProjectMemberServiceTest extends ServiceTest {
 		SimpleProjectMember member = projectMemberService.findMemberByUsername(
 				"baohan@esofthead.com", 1, 1);
 		Assert.assertEquals("baohan@esofthead.com", member.getUsername());
+	}
+
+	@DataSet
+	@Test
+	public void testGetActiveMembersInproject() {
+		List<SimpleUser> activeUsers = projectMemberService
+				.getActiveUsersInProject(1, 1);
+		Assert.assertEquals(1, activeUsers.size());
+
+		SimpleUser user = activeUsers.get(0);
+		Assert.assertEquals("user1", user.getUsername());
+	}
+
+	@DataSet
+	@Test
+	public void testGetMembersNotInProject() {
+		List<SimpleUser> users = projectMemberService
+				.getUsersNotInProject(1, 1);
+		Assert.assertEquals(2, users.size());
+	}
+
+	@DataSet
+	@Test
+	public void testGetProjectMembersInProjects() {
+		List<SimpleUser> users = projectMemberService.getActiveUsersInProjects(
+				Arrays.asList(1, 2), 1);
+		Assert.assertEquals(3, users.size());
 	}
 }

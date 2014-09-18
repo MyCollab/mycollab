@@ -23,6 +23,13 @@ package com.esofthead.mycollab.module.project.esb;
  * 
  */
 public interface DeleteProjectMilestoneCommand {
+	/**
+	 * 
+	 * @param username
+	 * @param accountId
+	 * @param projectId
+	 * @param bugId
+	 */
 	void milestoneRemoved(String username, int accountId, int projectId,
 			int bugId);
 }

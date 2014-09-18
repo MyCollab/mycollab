@@ -70,7 +70,10 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 				.findPagableListByCriteria(new SearchRequest<ItemTimeLoggingSearchCriteria>(
 						searchCriteria));
 
-		Ordering<SimpleItemTimeLogging> ordering = sortEntries();
+		Ordering<SimpleItemTimeLogging> ordering = sortEntries()
+				.compound(new BillableComparator())
+				.compound(new ValueComparator())
+				.compound(new SummaryComparator());
 		if (orderBy == Order.DESCENDING) {
 			Collections.sort(timeLoggingEntries, ordering.reverse());
 		} else if (orderBy == Order.ASCENDING) {
@@ -88,7 +91,7 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 				groupLogEntries.clear();
 				groupCriteria = itemCriteria;
 			}
-			
+
 			groupLogEntries.add(timeLoggingEntry);
 		}
 
@@ -106,35 +109,45 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 
 	protected abstract void displayGroupItems(List<SimpleItemTimeLogging> list);
 
-	protected static class UserComparator implements Comparator<SimpleItemTimeLogging> {
+	protected static class UserComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLoguser().compareTo(o2.getLoguser());
 		}
 	}
 
-	protected static class DateComparator implements Comparator<SimpleItemTimeLogging> {
+	protected static class DateComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLogforday().compareTo(o2.getLogforday());
 		}
 	}
 
-	protected static class BillableComparator implements Comparator<SimpleItemTimeLogging> {
+	protected static class BillableComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getIsbillable().compareTo(o2.getIsbillable());
 		}
 	}
 
-	protected static class ValueComparator implements Comparator<SimpleItemTimeLogging> {
+	protected static class ValueComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getLogvalue().compareTo(o2.getLogvalue());
 		}
 	}
 
-	protected static class SummaryComparator implements Comparator<SimpleItemTimeLogging> {
+	protected static class SummaryComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
 		@Override
 		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
 			return o1.getSummary().compareTo(o2.getSummary());

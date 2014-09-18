@@ -45,6 +45,7 @@ public class BugServiceTest extends ServiceTest {
 	@Autowired
 	protected BugService bugService;
 
+	@SuppressWarnings("rawtypes")
 	@DataSet
 	@Test
 	public void testGetListBugs() {

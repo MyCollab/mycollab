@@ -47,10 +47,12 @@ Version 4.5.1
 **Improvements**
 
 * Upgrade Spring framework to 4.1.0.RELEASE
+* Upgrade Vaadin libraries
 * Adding scheduler unit tests
 * Project page could be exported into pdf format
 * Project time logging is displayed in multiple layouts
 * User can add comment to project component and project version
+* Validate project shortname is unique in account
 
 **Bug Fixes**
 

@@ -228,7 +228,7 @@ public abstract class CrmDefaultSendingRelayEmailAction<B extends ValuedBean>
 		}
 	}
 
-	protected List<SimpleUser> getListNotififyUserWithFilter(
+	private List<SimpleUser> getListNotififyUserWithFilter(
 			SimpleRelayEmailNotification notification, String type) {
 		List<CrmNotificationSetting> notificationSettings = notificationService
 				.findNotifications(notification.getSaccountid());

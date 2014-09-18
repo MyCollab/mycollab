@@ -23,5 +23,12 @@ package com.esofthead.mycollab.module.project.esb;
  * 
  */
 public interface DeleteProjectVersionCommand {
+	/**
+	 * 
+	 * @param username
+	 * @param accountId
+	 * @param projectId
+	 * @param bugId
+	 */
 	void versionRemoved(String username, int accountId, int projectId, int bugId);
 }

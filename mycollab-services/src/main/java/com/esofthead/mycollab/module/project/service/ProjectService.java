@@ -36,7 +36,11 @@ public interface ProjectService extends
 		IDefaultService<Integer, Project, ProjectSearchCriteria> {
 
 	@Cacheable
-	List<Integer> getUserProjectKeys(String username,
+	List<Integer> getProjectKeysUserInvolved(String username,
+			@CacheKey Integer sAccountId);
+	
+	@Cacheable
+	List<SimpleProject> getProjectsUserInvolved(String username,
 			@CacheKey Integer sAccountId);
 
 	@Cacheable
@@ -44,9 +48,6 @@ public interface ProjectService extends
 
 	@Cacheable
 	Integer getTotalActiveProjectsInAccount(@CacheKey Integer sAccountId);
-
-	@Cacheable
-	List<SimpleProject> getActiveProjectsInAccount(@CacheKey Integer sAccountId);
 
 	String getSubdomainOfProject(int projectId);
 

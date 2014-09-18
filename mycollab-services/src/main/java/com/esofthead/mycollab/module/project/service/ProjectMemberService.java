@@ -40,7 +40,8 @@ public interface ProjectMemberService extends
 	SimpleProjectMember findById(int memberId, @CacheKey int sAccountId);
 
 	@Cacheable
-	boolean isUserBelongToProject(String username, int projectId, @CacheKey int sAccountId);
+	boolean isUserBelongToProject(String username, int projectId,
+			@CacheKey int sAccountId);
 
 	@Cacheable
 	SimpleProjectMember findMemberByUsername(String username, int projectId,
@@ -52,6 +53,10 @@ public interface ProjectMemberService extends
 
 	@Cacheable
 	List<SimpleUser> getActiveUsersInProject(int projectId,
+			@CacheKey Integer sAccountId);
+
+	@Cacheable
+	List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
 			@CacheKey Integer sAccountId);
 
 	void inviteProjectMembers(String[] email, int projectId, int projectRoleId,

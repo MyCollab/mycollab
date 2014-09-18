@@ -28,6 +28,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.Project;
+import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -85,6 +86,14 @@ public class ProjectServiceTest extends ServiceTest {
 		List projects = projectService
 				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
+		Assert.assertEquals(2, projects.size());
+	}
+
+	@DataSet
+	@Test
+	public void testGetProjectsUserInvolved() {
+		List<SimpleProject> projects = projectService.getProjectsUserInvolved(
+				"admin", 1);
 		Assert.assertEquals(2, projects.size());
 	}
 }

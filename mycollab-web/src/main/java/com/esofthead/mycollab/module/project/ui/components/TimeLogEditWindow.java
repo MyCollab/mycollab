@@ -385,6 +385,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		this.setUpdateTimeValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	private double getTotalInvest() {
 		double total = 0;
 		final ItemTimeLoggingSearchCriteria searchCriteria = TimeLogEditWindow.this

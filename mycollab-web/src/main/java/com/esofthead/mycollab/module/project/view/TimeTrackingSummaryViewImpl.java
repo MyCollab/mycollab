@@ -57,6 +57,7 @@ import com.esofthead.mycollab.vaadin.resource.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
@@ -68,10 +69,13 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -82,8 +86,9 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
-		TimeTrackingSummaryView {
+public class TimeTrackingSummaryViewImpl extends AbstractPageView
+		implements
+			TimeTrackingSummaryView {
 	private static final List<TableViewField> FIELDS = Arrays.asList(
 			TimeTableFieldDef.summary, TimeTableFieldDef.logForDate,
 			TimeTableFieldDef.logUser, TimeTableFieldDef.project,
@@ -91,8 +96,10 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 	private static final long serialVersionUID = 1L;
 
-	private PopupDateField fromDateField;
-	private PopupDateField toDateField;
+	private ListSelect userField;
+	private ListSelect projectField;
+	private PopupDateField fromDateField, toDateField;
+	private ComboBox groupField, orderField;
 
 	private Label totalHoursLoggingLabel;
 	private SplitButton exportButtonControl;
@@ -162,23 +169,43 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);
 
-		final HorizontalLayout dateSelectionLayout = new HorizontalLayout();
-		dateSelectionLayout.setSpacing(true);
-		dateSelectionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		dateSelectionLayout
-				.setMargin(new MarginInfo(false, false, true, false));
-		controlsPanel.addComponent(dateSelectionLayout);
+		final GridLayout selectionLayout = new GridLayout(9, 2);
+		selectionLayout.setSpacing(true);
+		selectionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		selectionLayout.setMargin(new MarginInfo(true, false, true, false));
+		controlsPanel.addComponent(selectionLayout);
 
-		dateSelectionLayout.addComponent(new Label("From:  "));
+		selectionLayout.addComponent(new Label("From:  "), 0, 0);
+		this.fromDateField = new PopupDateField();
+		this.fromDateField.setResolution(Resolution.DAY);
+		this.fromDateField.setWidth("120px");
+		selectionLayout.addComponent(this.fromDateField, 1, 0);
 
-		fromDateField = new PopupDateField();
-		fromDateField.setResolution(Resolution.DAY);
-		dateSelectionLayout.addComponent(fromDateField);
+		selectionLayout.addComponent(new Label("  To:  "), 2, 0);
+		this.toDateField = new PopupDateField();
+		this.toDateField.setResolution(Resolution.DAY);
+		this.toDateField.setWidth("120px");
+		selectionLayout.addComponent(this.toDateField, 3, 0);
 
-		dateSelectionLayout.addComponent(new Label("  To:  "));
-		toDateField = new PopupDateField();
-		toDateField.setResolution(Resolution.DAY);
-		dateSelectionLayout.addComponent(toDateField);
+		selectionLayout.addComponent(new Label("Group:  "), 0, 1);
+		this.groupField = new ValueComboBox(false, "Date", "User");
+		this.groupField.setWidth("120px");
+		selectionLayout.addComponent(this.groupField, 1, 1);
+
+		selectionLayout.addComponent(new Label("  Sort:  "), 2, 1);
+		this.orderField = new ItemOrderComboBox();
+		this.orderField.setWidth("120px");
+		selectionLayout.addComponent(this.orderField, 3, 1);
+
+		selectionLayout.addComponent(new Label("  Project:  "), 4, 0);
+		this.projectField = new ListSelect();
+		this.projectField.setWidth("300px");
+		selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
+
+		selectionLayout.addComponent(new Label("  User:  "), 6, 0);
+		this.userField = new ListSelect();
+		this.userField.setWidth("300px");
+		selectionLayout.addComponent(this.userField, 7, 0, 7, 1);
 
 		final Button queryBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT_LABEL),
@@ -196,7 +223,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 				});
 		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-		dateSelectionLayout.addComponent(queryBtn);
+		selectionLayout.addComponent(queryBtn, 8, 0);
 
 		controlsPanel.setWidth("100%");
 		controlsPanel.setHeight("30px");
@@ -296,7 +323,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 
 		searchCriteria = new ItemTimeLoggingSearchCriteria();
 		searchCriteria.setLogUsers(new SetSearchField<String>(SearchField.AND,
-				new String[] { AppContext.getUsername() }));
+				new String[]{AppContext.getUsername()}));
 		searchCriteria.setProjectIds(new SetSearchField<Integer>(
 				((Integer[]) projectIds.toArray(new Integer[0]))));
 		searchCriteria.setRangeDate(new RangeDateSearchField(fromDate, toDate));
@@ -368,4 +395,19 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			}
 		}
 	};
+
+	private class ItemOrderComboBox extends ComboBox {
+		private static final long serialVersionUID = 1L;
+
+		public ItemOrderComboBox() {
+			this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
+			this.setNullSelectionAllowed(false);
+			this.addItem(Order.ASCENDING);
+			this.setItemCaption(Order.ASCENDING, "Ascending");
+
+			this.addItem(Order.DESCENDING);
+			this.setItemCaption(Order.DESCENDING, "Descending");
+			this.select(Order.ASCENDING);
+		}
+	}
 }

@@ -24,7 +24,7 @@
             </constraint>
             <constraint
                 annotation="com.esofthead.mycollab.validator.constraints.StringLimitLength">
-                <message>Project short name must contain 3 characters</message>
+                <message>Short name must be less than 3 characters</message>
             </constraint>
         </field>
         <field name="projectstatus">

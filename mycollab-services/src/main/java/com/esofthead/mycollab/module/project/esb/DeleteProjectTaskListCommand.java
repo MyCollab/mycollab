@@ -23,6 +23,13 @@ package com.esofthead.mycollab.module.project.esb;
  * 
  */
 public interface DeleteProjectTaskListCommand {
+	/**
+	 * 
+	 * @param username
+	 * @param accountId
+	 * @param projectId
+	 * @param taskListId
+	 */
 	void taskListRemoved(String username, int accountId, int projectId,
 			int taskListId);
 }

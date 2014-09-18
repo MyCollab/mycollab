@@ -165,15 +165,22 @@
         #end
         #end
     </select>
+    
+    <select id="getProjectsUserInvolved" parameterType="map" resultMap="SimpleProjectResult" lang="velocity">
+        SELECT m_prj_project.id, m_prj_project.name
+        FROM m_prj_project
+        WHERE m_prj_project.sAccountId = @{_parameter.sAccountId} AND 
+            (SELECT COUNT(*) FROM m_prj_member WHERE m_prj_member.projectId = m_prj_project.id AND m_prj_member.username=@{_parameter.username}) > 0
+    </select>
 
     <select id="getUserProjectKeys" resultType="java.lang.Integer"
         lang="velocity">
         SELECT m_prj_project.id
         FROM m_prj_project
         #ifnotnull($_parameter.searchCriteria)
-        #trimext("WHERE" "AND|OR")
-        <include refid="querySearchCriteria" />
-        #end
+            #trimext("WHERE" "AND|OR")
+               <include refid="querySearchCriteria" />
+            #end
         #end
     </select>
 

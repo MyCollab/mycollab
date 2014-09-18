@@ -29,7 +29,6 @@ import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria;
 import com.esofthead.mycollab.common.service.RelayEmailNotificationService;
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -49,6 +48,7 @@ public class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 	private static Logger log = LoggerFactory
 			.getLogger(CrmSendingRelayEmailNotificationJob.class);
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void executeJob(JobExecutionContext context) {
 		RelayEmailNotificationService relayEmailService = (RelayEmailNotificationService) ApplicationContextUtil
@@ -76,37 +76,31 @@ public class CrmSendingRelayEmailNotificationJob extends GenericQuartzJobBean {
 									.getEmailhandlerbean()));
 
 					if (emailNotificationAction != null) {
-						try {
-							if (MonitorTypeConstants.CREATE_ACTION
-									.equals(notification.getAction())) {
-								emailNotificationAction
-										.sendNotificationForCreateAction(notification);
-							} else if (MonitorTypeConstants.UPDATE_ACTION
-									.equals(notification.getAction())) {
-								emailNotificationAction
-										.sendNotificationForUpdateAction(notification);
-							} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
-									.equals(notification.getAction())) {
-								emailNotificationAction
-										.sendNotificationForCommentAction(notification);
-							}
-
-							log.debug("Finish process notification {}",
-									BeanUtility.printBeanObj(notification));
-							relayEmailService.removeWithSession(
-									notification.getId(), "",
-									notification.getSaccountid());
-
-						} catch (Exception e) {
-							log.error("Error when sending notification email",
-									e);
+						if (MonitorTypeConstants.CREATE_ACTION
+								.equals(notification.getAction())) {
+							emailNotificationAction
+									.sendNotificationForCreateAction(notification);
+						} else if (MonitorTypeConstants.UPDATE_ACTION
+								.equals(notification.getAction())) {
+							emailNotificationAction
+									.sendNotificationForUpdateAction(notification);
+						} else if (MonitorTypeConstants.ADD_COMMENT_ACTION
+								.equals(notification.getAction())) {
+							emailNotificationAction
+									.sendNotificationForCommentAction(notification);
 						}
+
+						log.debug("Finish process notification {}",
+								BeanUtility.printBeanObj(notification));
+
 					}
 				}
 
-			} catch (ClassNotFoundException ex) {
-				throw new MyCollabException("no class found toget spring bean "
-						+ ex.getMessage());
+			} catch (Exception ex) {
+				log.error("Error while send the schedule command", ex);
+			} finally {
+				relayEmailService.removeWithSession(notification.getId(), "",
+						notification.getSaccountid());
 			}
 		}
 	}

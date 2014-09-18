@@ -30,7 +30,7 @@ import com.esofthead.mycollab.schedule.email.format.FieldFormat;
  * 
  */
 public class ItemFieldMapper {
-	protected Map<String, FieldFormat> fieldNameMap = new LinkedHashMap<String, FieldFormat>();
+	private Map<String, FieldFormat> fieldNameMap = new LinkedHashMap<String, FieldFormat>();
 
 	public void put(String fieldname, Enum<?> displayName) {
 		fieldNameMap.put(fieldname, new DefaultFieldFormat(fieldname,

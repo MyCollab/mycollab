@@ -97,6 +97,7 @@ public class TaskStatusComponent extends Depot {
 		taskTree.addExpandListener(new Tree.ExpandListener() {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void nodeExpand(ExpandEvent event) {
 				Object itemId = event.getItemId();

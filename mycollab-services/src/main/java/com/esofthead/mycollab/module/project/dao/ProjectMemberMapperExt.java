@@ -44,4 +44,8 @@ public interface ProjectMemberMapperExt extends
 	SimpleProjectMember findMemberByUsername(
 			@Param("username") String username,
 			@Param("projectId") int projectId);
+
+	List<SimpleUser> getActiveUsersInProjects(
+			@Param("projectIds") List<Integer> projectIds,
+			@Param("sAccountId") Integer sAccountId);
 }

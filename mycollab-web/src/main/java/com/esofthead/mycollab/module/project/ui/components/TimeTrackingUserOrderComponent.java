@@ -20,9 +20,6 @@ import java.util.List;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
-import com.esofthead.mycollab.module.project.ui.components.AbstractTimeTrackingDisplayComp.BillableComparator;
-import com.esofthead.mycollab.module.project.ui.components.AbstractTimeTrackingDisplayComp.SummaryComparator;
-import com.esofthead.mycollab.module.project.ui.components.AbstractTimeTrackingDisplayComp.ValueComparator;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.google.common.collect.Ordering;
@@ -75,10 +72,7 @@ public class TimeTrackingUserOrderComponent
 	@Override
 	protected Ordering<SimpleItemTimeLogging> sortEntries() {
 		return Ordering.from(new UserComparator())
-				.compound(new DateComparator())
-				.compound(new BillableComparator())
-				.compound(new ValueComparator())
-				.compound(new SummaryComparator());
+				.compound(new DateComparator());
 	}
 
 	@Override

@@ -36,11 +36,7 @@ public class StringLimitLengthValidator implements
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		if (value != null) {
-			return (value.length() <= 3);
-		} else {
-			return false;
-		}
+		return (value != null) && (value.length() <= 3);
 	}
 
 }

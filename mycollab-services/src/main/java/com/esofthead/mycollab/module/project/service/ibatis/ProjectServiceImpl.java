@@ -19,7 +19,6 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.common.interceptor.aspect.Traceable;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.DeploymentMode;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
@@ -47,6 +47,7 @@ import com.esofthead.mycollab.module.project.dao.ProjectMapper;
 import com.esofthead.mycollab.module.project.dao.ProjectMapperExt;
 import com.esofthead.mycollab.module.project.dao.ProjectMemberMapper;
 import com.esofthead.mycollab.module.project.domain.Project;
+import com.esofthead.mycollab.module.project.domain.ProjectExample;
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.ProjectRole;
@@ -106,9 +107,19 @@ public class ProjectServiceImpl extends
 	}
 
 	@Override
+	public int updateWithSession(Project record, String username) {
+		assertExistProjectShortnameInAccount(record.getShortname(),
+				record.getSaccountid());
+		return super.updateWithSession(record, username);
+	}
+
+	@Override
 	public int saveWithSession(Project record, String username) {
 		billingPlanCheckerService.validateAccountCanCreateMoreProject(record
 				.getSaccountid());
+
+		assertExistProjectShortnameInAccount(record.getShortname(),
+				record.getSaccountid());
 
 		int projectid = super.saveWithSession(record, username);
 
@@ -211,6 +222,18 @@ public class ProjectServiceImpl extends
 		return projectid;
 	}
 
+	private void assertExistProjectShortnameInAccount(String shortname,
+			int sAccountId) {
+		ProjectExample ex = new ProjectExample();
+		ex.createCriteria().andShortnameEqualTo(shortname)
+				.andSaccountidEqualTo(sAccountId);
+		if (projectMapper.countByExample(ex) > 0) {
+			throw new UserInvalidInputException(
+					"There is already project in the account has short name "
+							+ shortname);
+		}
+	}
+
 	private ProjectRole createProjectRole(int projectId, int sAccountId,
 			String roleName, String description) {
 		ProjectRole projectRole = new ProjectRole();
@@ -227,7 +250,8 @@ public class ProjectServiceImpl extends
 	}
 
 	@Override
-	public List<Integer> getUserProjectKeys(String username, Integer sAccountId) {
+	public List<Integer> getProjectKeysUserInvolved(String username,
+			Integer sAccountId) {
 		ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(username));
 		searchCriteria.setProjectStatuses(new SetSearchField<String>(
@@ -273,18 +297,13 @@ public class ProjectServiceImpl extends
 	}
 
 	@Override
-	public List<SimpleProject> getActiveProjectsInAccount(Integer sAccountId) {
-		ProjectSearchCriteria criteria = new ProjectSearchCriteria();
-		criteria.setSaccountid(new NumberSearchField(sAccountId));
-		criteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { StatusI18nEnum.Open.name() }));
-		return (List<SimpleProject>) projectMapperExt
-				.findPagableListByCriteria(criteria, new RowBounds(0,
-						Integer.MAX_VALUE));
+	public List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications() {
+		return projectMapperExt.findProjectRelayEmailNotifications();
 	}
 
 	@Override
-	public List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications() {
-		return projectMapperExt.findProjectRelayEmailNotifications();
+	public List<SimpleProject> getProjectsUserInvolved(String username,
+			Integer sAccountId) {
+		return projectMapperExt.getProjectsUserInvolved(username, sAccountId);
 	}
 }

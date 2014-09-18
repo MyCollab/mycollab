@@ -227,4 +227,11 @@ public class ProjectMemberServiceImpl extends
 		criteria.setInvolvedMember(new StringSearchField(username));
 		return (getTotalCount(criteria) > 0);
 	}
+
+	@Override
+	public List<SimpleUser> getActiveUsersInProjects(List<Integer> projectIds,
+			Integer sAccountId) {
+		return projectMemberMapperExt.getActiveUsersInProjects(projectIds,
+				sAccountId);
+	}
 }

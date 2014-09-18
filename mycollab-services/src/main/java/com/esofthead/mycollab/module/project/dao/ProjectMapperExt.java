@@ -42,6 +42,10 @@ public interface ProjectMapperExt extends ISearchableDAO<ProjectSearchCriteria> 
 	List<Integer> getUserProjectKeys(
 			@Param("searchCriteria") ProjectSearchCriteria criteria);
 
+	List<SimpleProject> getProjectsUserInvolved(
+			@Param("username") String username,
+			@Param("sAccountId") Integer sAccountId);
+
 	SimpleProject findProjectById(int projectId);
 
 	String getSubdomainOfProject(int projectId);
@@ -52,6 +56,6 @@ public interface ProjectMapperExt extends ISearchableDAO<ProjectSearchCriteria> 
 	List<FollowingTicket> getProjectFollowingTickets(
 			@Param("searchCriteria") MonitorSearchCriteria searchRequest,
 			RowBounds rowBounds);
-	
+
 	List<ProjectRelayEmailNotification> findProjectRelayEmailNotifications();
 }

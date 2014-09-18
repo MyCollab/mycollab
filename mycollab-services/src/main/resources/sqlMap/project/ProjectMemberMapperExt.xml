@@ -166,7 +166,16 @@
                             AND m_prj_member.status='Active' 
                             AND m_prj_member.projectId=@{projectId,jdbcType=NUMERIC}) = 0)
         ]]>
-
+    </select>
+    
+    <select id="getActiveUsersInProjects" parameterType="map" resultMap="com.esofthead.mycollab.module.user.dao.UserMapperExt.SimpleUserResult" lang="velocity">
+        SELECT DISTINCT s_user.username, s_user.firstname, s_user.lastname, s_user.email
+        FROM s_user, s_user_account, m_prj_member
+            WHERE s_user.username=s_user_account.username AND s_user_account.accountId=@{_parameter.sAccountId,jdbcType=NUMERIC}
+            AND m_prj_member.username=s_user.username AND m_prj_member.projectId IN
+            #repeat(${_parameter.projectIds} $m_projectId "," "(" ")")
+                @{m_projectId}
+            #end
     </select>
 
     <select id="getActiveUsersInProject" parameterType="java.lang.Integer"

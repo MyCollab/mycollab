@@ -15,18 +15,25 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-        <if test="searchCriteria.module != null">
-            <![CDATA[${searchCriteria.module.operation} m_audit_log.module=#{searchCriteria.module.value}]]>
-        </if>
-        <if test="searchCriteria.type != null">
-            <![CDATA[${searchCriteria.type.operation} m_audit_log.type=#{searchCriteria.type.value}]]>
-        </if>
-        <if test="searchCriteria.typeid != null">
-            <![CDATA[${searchCriteria.typeid.operation} m_audit_log.typeid=#{searchCriteria.typeid.value,jdbcType=NUMERIC}]]>
-        </if>
-        <if test="searchCriteria.saccountid != null">
-            <![CDATA[${searchCriteria.saccountid.operation} m_audit_log.sAccountId = #{searchCriteria.saccountid.value,jdbcType=NUMERIC}]]>
-        </if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.module)
+            ${searchCriteria.module.operation} m_audit_log.module = @{searchCriteria.module.value}
+        #end
+        
+        #ifnotnull($searchCriteria.type)
+            ${searchCriteria.type.operation} m_audit_log.type = @{searchCriteria.type.value}
+        #end
+        
+        #ifnotnull($searchCriteria.typeid)
+            ${searchCriteria.typeid.operation} m_audit_log.typeid = @{searchCriteria.typeid.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.saccountid)
+            ${searchCriteria.saccountid.operation} m_audit_log.sAccountId = @{searchCriteria.saccountid.value,jdbcType=NUMERIC}
+        #end
+        ]]>
     </sql>
 
     <sql id="selectSimpleAuditLog">
@@ -41,48 +48,44 @@
     </sql>
 
     <select id="findPagableListByCriteria" parameterType="AuditLogSearchCriteria"
-        resultMap="SimpleAuditLogResult">
+        resultMap="SimpleAuditLogResult"  lang="velocity">
         <include
             refid="selectSimpleAuditLog" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 
     <select id="findLatestLog" parameterType="java.lang.Integer"
-        resultMap="SimpleAuditLogResult">
+        resultMap="SimpleAuditLogResult" lang="velocity">
         <include
             refid="selectSimpleAuditLog" />
 
-        WHERE m_audit_log.typeid=#{auditLogId, jdbcType=NUMERIC}
+        WHERE m_audit_log.typeid=@{auditLogId, jdbcType=NUMERIC}
         ORDER BY m_audit_log.id DESC
         LIMIT 1
     </select>
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection},
-        </if>
-        <![CDATA[
-            m_audit_log.posteddate DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection}, 
+        #end
+        
+        m_audit_log.posteddate DESC
     </sql>
 
     <select id="getTotalCount" parameterType="AuditLogSearchCriteria"
-        resultType="java.lang.Integer">
+        resultType="java.lang.Integer" lang="velocity">
         SELECT count(*) as totalCount FROM s_activitystream
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 </mapper>    

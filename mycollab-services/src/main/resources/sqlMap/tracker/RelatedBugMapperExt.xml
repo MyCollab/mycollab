@@ -10,14 +10,17 @@
     </resultMap>
 
     <sql id="querySearchCriteria">
-
-        <if test="searchCriteria.bugId != null">
-            <![CDATA[${searchCriteria.bugId.operation} m_tracker_related_bug.bugid ${searchCriteria.bugId.compareOperator} #{searchCriteria.bugId.value,jdbcType=NUMERIC}]]>
-        </if>
-
-        <if test="searchCriteria.relatedId != null">
-            <![CDATA[${searchCriteria.relatedId.operation} m_tracker_related_bug.relatedid ${searchCriteria.relatedId.compareOperator} #{searchCriteria.relatedId.value,jdbcType=NUMERIC}]]>
-        </if>
+        <![CDATA[
+        #set($searchCriteria = $_parameter.searchCriteria)
+        
+        #ifnotnull($searchCriteria.bugId)
+            ${searchCriteria.bugId.operation} m_tracker_related_bug.bugid ${searchCriteria.bugId.compareOperator} @{searchCriteria.bugId.value,jdbcType=NUMERIC}
+        #end
+        
+        #ifnotnull($searchCriteria.relatedId)
+            ${searchCriteria.relatedId.operation} m_tracker_related_bug.relatedid ${searchCriteria.relatedId.compareOperator} @{searchCriteria.relatedId.value,jdbcType=NUMERIC}
+        #end
+        ]]>
     </sql>
 
     <sql id="selectItem">
@@ -30,52 +33,43 @@
     </sql>
 
     <select id="getTotalCount" parameterType="BugRelatedSearchCriteria"
-        resultType="int">
+        resultType="int"  lang="velocity">
         SELECT count(*) as totalCount FROM m_tracker_related_bug
 
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </select>
 
     <sql id="orderStatement">
         ORDER BY
-        <if test="searchCriteria.orderByField != null">${searchCriteria.orderByField}
-            ${searchCriteria.sortDirection}, </if>
-        <![CDATA[
-            m_tracker_related_bug.bugid DESC
-        ]]>
+        #ifnotnull($_parameter.searchCriteria.orderByField)
+            ${searchCriteria.orderByField}
+            ${searchCriteria.sortDirection}, 
+        #end    
+        m_tracker_related_bug.bugid DESC
     </sql>
 
-    <delete id="removeByCriteria" parameterType="BugRelatedSearchCriteria">
+    <delete id="removeByCriteria" parameterType="BugRelatedSearchCriteria" lang="velocity">
         DELETE FROM m_tracker_related_bug
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-                <include
-                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
-            </trim>
-        </if>
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end
     </delete>
 
     <select id="findPagableListByCriteria" parameterType="BugRelatedSearchCriteria"
-        resultMap="RelatedBugResult">
+        resultMap="RelatedBugResult" lang="velocity">
 
-        <include
-            refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.selectItem" />
-        <if test="searchCriteria != null">
-            <trim prefix="WHERE" prefixOverrides="AND | OR ">
-                1=1
-
-                <include
-                    refid="com.esofthead.mycollab.module.tracker.dao.RelatedBugMapperExt.querySearchCriteria" />
-            </trim>
-            <include refid="orderStatement" />
-        </if>
+        <include refid="selectItem" />
+        #ifnotnull($_parameter.searchCriteria)
+            #trimext("WHERE" "AND|OR")
+                <include refid="querySearchCriteria" />
+            #end
+        #end    
+        <include refid="orderStatement" />
     </select>
 </mapper>

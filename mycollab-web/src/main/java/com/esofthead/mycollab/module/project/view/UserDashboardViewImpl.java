@@ -211,7 +211,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		final ProjectService prjService = ApplicationContextUtil
 				.getSpringBean(ProjectService.class);
-		prjKeys = prjService.getUserProjectKeys(AppContext.getUsername(),
+		prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(),
 				AppContext.getAccountId());
 		if (prjKeys != null && !prjKeys.isEmpty()) {
 			this.activityStreamComponent.showFeeds(prjKeys);

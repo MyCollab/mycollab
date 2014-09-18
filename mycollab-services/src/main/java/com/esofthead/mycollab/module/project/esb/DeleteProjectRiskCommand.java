@@ -23,5 +23,12 @@ package com.esofthead.mycollab.module.project.esb;
  * 
  */
 public interface DeleteProjectRiskCommand {
+	/**
+	 * 
+	 * @param username
+	 * @param accountId
+	 * @param projectId
+	 * @param bugId
+	 */
 	void riskRemoved(String username, int accountId, int projectId, int bugId);
 }

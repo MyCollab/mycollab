@@ -16,7 +16,6 @@
  */
 package com.esofthead.mycollab.schedule.jobs;
 
-import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -37,7 +36,6 @@ public abstract class GenericQuartzJobBean extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
 		try {
-			JobDetail jobDetail = context.getJobDetail();
 			executeJob(context);
 		} catch (Exception e) {
 			log.error("Exception in running schedule", e);
