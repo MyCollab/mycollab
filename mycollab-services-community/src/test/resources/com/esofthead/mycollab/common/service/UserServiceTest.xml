@@ -6,10 +6,15 @@
 
     <s_user username="linhduong@esofthead.com" firstname="Duong"
         lastname="Linh" email="linhduong@esofthead.com" />
+
     <s_user username="huynguyen@esofthead.com" firstname="Nguyen"
         lastname="Huy" email="huynguyen@esofthead.com" />
 
+    <s_user username="test@esofthead.com" firstname="Nguyen"
+        lastname="Huy" email="huynguyen@esofthead.com" />
+
     <s_roles rolename="Dev" sAccountId="1" id="1" />
+
     <s_user_preference sAccountId="1" id="1"
         username="hainguyen@esofthead.com" lastAccessedTime="2014-02-20 10:17:06" />
     <s_user_preference sAccountId="1" id="2"
@@ -24,7 +29,12 @@
     <s_user_account id="2" username="linhduong@esofthead.com"
         accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
         registerStatus="Active" />
+
     <s_user_account id="3" isAccountOwner="1" roleId="1"
         registerStatus="Active" username="huynguyen@esofthead.com"
         accountId="1" registeredTime="2013-08-08 00:00:00" />
+
+    <s_user_account id="4" username="test@esofthead.com"
+        accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 20:00:00"
+        registerStatus="Pending" />
 </dataset>

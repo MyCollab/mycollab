@@ -43,6 +43,7 @@ public class ProjectMemberListSelect extends ListSelect {
 		this(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ProjectMemberListSelect(boolean listActiveMembersOnly) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		this.setNullSelectionAllowed(false);
@@ -65,7 +66,7 @@ public class ProjectMemberListSelect extends ListSelect {
 		loadUserList(memberList);
 	}
 
-	private void loadUserList(List<SimpleProjectMember> memberList) {
+	protected void loadUserList(List<SimpleProjectMember> memberList) {
 
 		for (SimpleProjectMember member : memberList) {
 			this.addItem(member.getUsername());

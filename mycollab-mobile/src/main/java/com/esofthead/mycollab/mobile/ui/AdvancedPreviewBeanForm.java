@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.esofthead.mycollab.core.MyCollabException;
-import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 
@@ -31,7 +30,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
  * @since 1.0
  */
 public class AdvancedPreviewBeanForm<B> extends GenericBeanForm<B> implements
-		HasPreviewFormHandlers<B> {
+		PreviewBeanForm<B> {
 
 	private static final long serialVersionUID = 1L;
 	private Set<PreviewFormHandler<B>> handlers;

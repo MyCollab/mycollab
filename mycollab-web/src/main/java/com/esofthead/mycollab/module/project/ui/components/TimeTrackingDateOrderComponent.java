@@ -79,6 +79,7 @@ public class TimeTrackingDateOrderComponent
 	@Override
 	protected Ordering<SimpleItemTimeLogging> sortEntries() {
 		return Ordering.from(new DateComparator())
+				.compound(new ProjectComparator())
 				.compound(new UserComparator());
 	}
 

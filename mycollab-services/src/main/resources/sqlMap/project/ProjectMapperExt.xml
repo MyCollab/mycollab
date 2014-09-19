@@ -50,14 +50,6 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
-        #ifnotnull($searchCriteria.username)
-            ${searchCriteria.username.operation}
-            (SELECT COUNT(*)
-            FROM s_user as user 
-            WHERE m_prj_project.owner = user.username 
-                AND user.username = @{searchCriteria.username.value} ) > 0
-        #end
-        
         #ifnotnull($searchCriteria.projectStatuses)
             ${searchCriteria.projectStatuses.operation}
             m_prj_project.projectStatus IN
@@ -84,13 +76,6 @@
         <![CDATA[
         #set($searchCriteria = $_parameter.searchCriteria)
         
-        #ifnotnull($searchCriteria.username)
-            ${searchCriteria.username.operation}
-            (SELECT COUNT(*) 
-             FROM s_user as user 
-             WHERE m_prj_project.owner = user.username 
-                 AND user.username = @{searchCriteria.username.value} ) > 0
-        #end
         #ifnotnull($searchCriteria.projectStatuses)
             ${searchCriteria.projectStatuses.operation}
             m_prj_project.projectStatus IN

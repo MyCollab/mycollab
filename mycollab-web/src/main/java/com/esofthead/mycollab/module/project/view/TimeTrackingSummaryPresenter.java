@@ -38,6 +38,7 @@ public class TimeTrackingSummaryPresenter extends
 		super(TimeTrackingSummaryView.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;

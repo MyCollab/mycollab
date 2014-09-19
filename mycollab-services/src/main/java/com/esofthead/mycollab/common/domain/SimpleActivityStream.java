@@ -16,24 +16,19 @@
  */
 package com.esofthead.mycollab.common.domain;
 
-import java.util.List;
-
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class SimpleActivityStream extends ActivityStream {
 
 	private static final long serialVersionUID = 1L;
 
 	private String createdUserAvatarId;
 	private String createdUserFullName;
-	private List<SimpleComment> comments;
 	private SimpleAuditLog assoAuditLog;
-
-	public List<SimpleComment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<SimpleComment> comments) {
-		this.comments = comments;
-	}
 
 	public String getCreatedUserAvatarId() {
 		return createdUserAvatarId;

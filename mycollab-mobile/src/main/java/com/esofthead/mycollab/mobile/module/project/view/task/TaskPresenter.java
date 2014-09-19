@@ -60,6 +60,9 @@ public class TaskPresenter extends AbstractPresenter<TaskContainer> {
 		} else if (data instanceof TaskScreenData.Add
 				|| data instanceof TaskScreenData.Edit) {
 			presenter = PresenterResolver.getPresenter(TaskAddPresenter.class);
+		} else if (data instanceof TaskGroupScreenData.Read) {
+			presenter = PresenterResolver
+					.getPresenter(TaskGroupReadPresenter.class);
 		}
 
 		presenter.go(container, data);

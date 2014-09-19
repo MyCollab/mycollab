@@ -16,13 +16,14 @@
  */
 package com.esofthead.mycollab.common.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +42,19 @@ public class UserServiceTest extends ServiceTest {
 	@Autowired
 	protected UserService userService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "unchecked" })
 	@DataSet
 	@Test
 	public void testGetListUser() {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
-		List lstUser = userService
+		List<SimpleUser> users = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, lstUser.size());
+		assertThat(users.size()).isEqualTo(4);
+		assertThat(users).extracting("username").contains(
+				"hainguyen@esofthead.com", "linhduong@esofthead.com",
+				"huynguyen@esofthead.com", "test@esofthead.com");
 	}
 
 	@DataSet
@@ -58,21 +62,21 @@ public class UserServiceTest extends ServiceTest {
 	public void updateUserEmail() {
 		SimpleUser user = userService.findUserByUserNameInAccount(
 				"hainguyen@esofthead.com", 1);
-		Assert.assertNotNull(user);
+		assertThat(user.getEmail()).isEqualTo("hainguyen@esofthead.com");
 
 		user.setEmail("hannguyen@esofthead.com");
 		userService.updateUserAccount(user, 1);
 
 		SimpleUser anotherUser = userService.findUserByUserNameInAccount(
 				"hannguyen@esofthead.com", 1);
-		Assert.assertNotNull(anotherUser);
+		assertThat(anotherUser.getEmail()).isEqualTo("hannguyen@esofthead.com");
+		assertThat(anotherUser.getLastname()).isEqualTo("Hai");
 	}
 
 	@SuppressWarnings({ "unchecked" })
 	@DataSet
 	@Test
 	public void testGetLoginByDate() throws ParseException {
-
 		GregorianCalendar calendar = new GregorianCalendar(2014, 1, 20);
 
 		Date to = calendar.getTime();
@@ -81,10 +85,20 @@ public class UserServiceTest extends ServiceTest {
 		UserSearchCriteria searchCriteria = new UserSearchCriteria();
 		searchCriteria.setLastAccessTimeRange(from, to);
 		searchCriteria.setSaccountid(null);
-		List<SimpleUser> lstSimpleUsers = userService
+		List<SimpleUser> users = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(2, lstSimpleUsers.size());
+		assertThat(users.size()).isEqualTo(2);
+		assertThat(users).extracting("email").contains(
+				"linhduong@esofthead.com", "huynguyen@esofthead.com");
+	}
+
+	@DataSet
+	@Test
+	public void testGetTotalActiveUsersInAccount() {
+		int totalActiveUsersInAccount = userService
+				.getTotalActiveUsersInAccount(1);
+		assertThat(totalActiveUsersInAccount).isEqualTo(3);
 	}
 
 }

@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.common.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,8 @@ public class ActivityStreamServiceTest extends ServiceTest {
 		List<SimpleActivityStream> activities = activityStreamService
 				.findPagableListByCriteria(new SearchRequest<ActivityStreamSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, activities.size());
+
+		assertThat(activities.size()).isEqualTo(3);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,9 +69,9 @@ public class ActivityStreamServiceTest extends ServiceTest {
 		List<SimpleActivityStream> activities = activityStreamService
 				.findPagableListByCriteria(new SearchRequest<ActivityStreamSearchCriteria>(
 						searchCriteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(1, activities.size());
 
-		SimpleActivityStream activity = activities.get(0);
-		Assert.assertEquals(2, activity.getComments().size());
+		assertThat(activities.size()).isEqualTo(1);
+		assertThat(activities).extracting("saccountid", "module", "action")
+				.contains(tuple(1, "bb", "update"));
 	}
 }

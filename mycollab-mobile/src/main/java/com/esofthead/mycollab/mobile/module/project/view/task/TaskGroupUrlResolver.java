@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 public class TaskGroupUrlResolver extends ProjectUrlResolver {
 	public TaskGroupUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
+		this.addSubResolver("preview", new ReadUrlResolver());
 	}
 
 	private static class ListUrlResolver extends ProjectUrlResolver {
@@ -51,5 +52,21 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 					new ProjectEvent.GotoMyProject(this, chain));
 		}
 
+	}
+
+	private static class ReadUrlResolver extends ProjectUrlResolver {
+		@Override
+		protected void handlePage(String... params) {
+			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+			String[] tokens = decodeUrl.split("/");
+
+			int projectId = Integer.parseInt(tokens[0]);
+			int taskListId = Integer.parseInt(tokens[1]);
+			PageActionChain chain = new PageActionChain(
+					new ProjectScreenData.Goto(projectId),
+					new TaskGroupScreenData.Read(taskListId));
+			EventBusFactory.getInstance().post(
+					new ProjectEvent.GotoMyProject(this, chain));
+		}
 	}
 }

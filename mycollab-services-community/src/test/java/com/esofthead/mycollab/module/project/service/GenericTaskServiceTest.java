@@ -54,40 +54,35 @@ public class GenericTaskServiceTest extends ServiceTest {
 	@DataSet
 	@Test
 	public void testCountTaskOverDue() throws ParseException {
-		
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date d = df.parse("2014-01-23 10:49:49");
-			ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-			criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
-			criteria.setProjectId(new NumberSearchField(1));
-			criteria.setSaccountid(new NumberSearchField(1));
-			Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
+
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date d = df.parse("2014-01-23 10:49:49");
+		ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
+		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+		criteria.setProjectId(new NumberSearchField(1));
+		criteria.setSaccountid(new NumberSearchField(1));
+		Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
 	}
 
 	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testListTaskOverDue() throws ParseException {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date d = df.parse("2014-01-23 10:49:49");
 
+		ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
+		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
+		criteria.setProjectId(new NumberSearchField(1));
+		criteria.setSaccountid(new NumberSearchField(1));
+		List<ProjectGenericTask> taskList = genericTaskService
+				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
 
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-			Date d = df.parse("2014-01-23 10:49:49");
-			
-			ProjectGenericTaskSearchCriteria criteria = new ProjectGenericTaskSearchCriteria();
-			criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
-			criteria.setProjectId(new NumberSearchField(1));
-			criteria.setSaccountid(new NumberSearchField(1));
-			List<ProjectGenericTask> taskList = genericTaskService
-					.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
-							criteria, 0, Integer.MAX_VALUE));
+		ProjectGenericTask task = taskList.get(0);
+		Assert.assertEquals(2, taskList.size());
 
-			ProjectGenericTask task = taskList.get(0);
-			Assert.assertEquals(2, taskList.size());
-			
-			
-			Date d2 = df.parse("2013-01-23 10:49:49");
-			Assert.assertEquals(d2, task.getDueDate());
-
-		
+		Date d2 = df.parse("2013-01-23 10:49:49");
+		Assert.assertEquals(d2, task.getDueDate());
 	}
 }

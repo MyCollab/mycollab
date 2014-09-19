@@ -109,6 +109,15 @@ public abstract class AbstractTimeTrackingDisplayComp extends VerticalLayout {
 
 	protected abstract void displayGroupItems(List<SimpleItemTimeLogging> list);
 
+	protected static class ProjectComparator
+			implements
+				Comparator<SimpleItemTimeLogging> {
+		@Override
+		public int compare(SimpleItemTimeLogging o1, SimpleItemTimeLogging o2) {
+			return o1.getProjectid().compareTo(o2.getProjectid());
+		}
+	}
+
 	protected static class UserComparator
 			implements
 				Comparator<SimpleItemTimeLogging> {

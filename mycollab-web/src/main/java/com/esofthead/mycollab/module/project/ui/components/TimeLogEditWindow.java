@@ -27,11 +27,9 @@ import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
-import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.module.project.i18n.TimeTrackingI18nEnum;
 import com.esofthead.mycollab.module.project.service.ItemTimeLoggingService;
-import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
 import com.esofthead.mycollab.module.project.view.time.TimeTableFieldDef;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
@@ -211,16 +209,9 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 						.newResource("icons/16/delete.png"));
 				itemTimeLogging.setExtraData(deleteBtn);
 
-				final ProjectMemberService memberService = ApplicationContextUtil
-						.getSpringBean(ProjectMemberService.class);
-				final SimpleProjectMember member = memberService
-						.findMemberByUsername(AppContext.getUsername(),
-								CurrentProjectVariables.getProjectId(),
-								AppContext.getAccountId());
-
-				if (member != null) {
-					deleteBtn.setEnabled(member.getIsadmin());
-				}
+				deleteBtn.setEnabled(CurrentProjectVariables.isAdmin()
+						|| AppContext.getUsername().equals(
+								itemTimeLogging.getLoguser()));
 				return deleteBtn;
 			}
 		});

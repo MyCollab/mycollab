@@ -17,7 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
+import com.esofthead.mycollab.mobile.ui.PreviewBeanForm;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -38,12 +38,11 @@ public class ProjectPreviewFormControlsGenerator<T> {
 	public static int ASSIGN_BTN_PRESENTED = 16;
 
 	private Button deleteBtn, editBtn, cloneBtn, assignBtn;
-	private AdvancedPreviewBeanForm<T> previewForm;
+	private PreviewBeanForm<T> previewForm;
 
 	private VerticalLayout editButtons;
 
-	public ProjectPreviewFormControlsGenerator(
-			final AdvancedPreviewBeanForm<T> editForm) {
+	public ProjectPreviewFormControlsGenerator(final PreviewBeanForm<T> editForm) {
 		this.previewForm = editForm;
 
 		editButtons = new VerticalLayout();

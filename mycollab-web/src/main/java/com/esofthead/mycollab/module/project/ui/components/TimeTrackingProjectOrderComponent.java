@@ -19,8 +19,10 @@ package com.esofthead.mycollab.module.project.ui.components;
 import java.util.List;
 
 import com.esofthead.mycollab.common.TableViewField;
+import com.esofthead.mycollab.module.project.LabelLink;
+import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.domain.SimpleItemTimeLogging;
-import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserLink;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.google.common.collect.Ordering;
 
@@ -30,13 +32,13 @@ import com.google.common.collect.Ordering;
  * @since 4.5.1
  * 
  */
-public class TimeTrackingUserOrderComponent
+public class TimeTrackingProjectOrderComponent
 		extends
 			AbstractTimeTrackingDisplayComp {
 
 	private static final long serialVersionUID = 1L;
 
-	public TimeTrackingUserOrderComponent(List<TableViewField> fields,
+	public TimeTrackingProjectOrderComponent(List<TableViewField> fields,
 			TableClickListener tableClickListener) {
 		super(fields, tableClickListener);
 		this.setWidth("100%");
@@ -46,8 +48,8 @@ public class TimeTrackingUserOrderComponent
 	protected void addItem(SimpleItemTimeLogging itemTimeLogging,
 			List<SimpleItemTimeLogging> timeLoggingEntries) {
 		if (timeLoggingEntries.size() > 0
-				&& !itemTimeLogging.getLoguser().equals(
-						timeLoggingEntries.get(0).getLoguser())) {
+				&& !itemTimeLogging.getProjectShortName().equals(
+						timeLoggingEntries.get(0).getProjectShortName())) {
 			displayGroupItems(timeLoggingEntries);
 			timeLoggingEntries.clear();
 		}
@@ -60,10 +62,14 @@ public class TimeTrackingUserOrderComponent
 			List<SimpleItemTimeLogging> timeLoggingEntries) {
 		if (timeLoggingEntries.size() > 0) {
 			SimpleItemTimeLogging firstItem = timeLoggingEntries.get(0);
-			addComponent(new ProjectUserLink(firstItem.getLoguser(),
-					firstItem.getLogUserAvatarId(),
-					firstItem.getLogUserFullName()));
 
+			LabelLink link = new LabelLink(firstItem.getProjectName(),
+					ProjectLinkBuilder.generateProjectFullLink(firstItem
+							.getProjectid()));
+			link.setIconLink(MyCollabResource
+					.newResourceLink("icons/16/project/project.png"));
+
+			addComponent(link);
 			addComponent(new TimeLoggingBockLayout(visibleFields,
 					tableClickListener, timeLoggingEntries));
 		}
@@ -71,13 +77,12 @@ public class TimeTrackingUserOrderComponent
 
 	@Override
 	protected Ordering<SimpleItemTimeLogging> sortEntries() {
-		return Ordering.from(new UserComparator())
-				.compound(new ProjectComparator())
-				.compound(new DateComparator());
+		return Ordering.from(new ProjectComparator())
+				.compound(new DateComparator()).compound(new UserComparator());
 	}
 
 	@Override
 	String getGroupCriteria(SimpleItemTimeLogging timeEntry) {
-		return timeEntry.getLoguser();
+		return timeEntry.getProjectShortName();
 	}
 }

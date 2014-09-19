@@ -14,22 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.task;
+package com.esofthead.mycollab.mobile.ui;
 
-import com.esofthead.mycollab.mobile.ui.IListView;
-import com.esofthead.mycollab.mobile.ui.PreviewBeanForm;
-import com.esofthead.mycollab.module.project.domain.SimpleTask;
-import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 
-/**
- * @author MyCollab Ltd.
- *
- * @since 4.5.0
- *
- */
-public interface TaskListView extends
-		IListView<TaskSearchCriteria, SimpleTask>,
-		PreviewBeanForm<SimpleTaskList> {
+public interface PreviewBeanForm<B> extends HasPreviewFormHandlers<B> {
 
+	public B getBean();
+
+	public void setBean(B bean);
+
+	public void fireAssignForm(B bean);
+
+	public void fireEditForm(B bean);
+
+	public void showHistory();
+
+	public void fireCancelForm(B bean);
+
+	public void fireDeleteForm(B bean);
+
+	public void fireCloneForm(B bean);
+
+	public void fireExtraAction(String action, B bean);
 }

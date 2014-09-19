@@ -256,10 +256,27 @@ public class ProjectModuleController extends AbstractController {
 		});
 		this.register(new ApplicationEventListener<TaskEvent.GotoAdd>() {
 
+			private static final long serialVersionUID = -2205879182939668100L;
+
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoAdd event) {
 				TaskScreenData.Add data = new TaskScreenData.Add();
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoListView>() {
+
+			private static final long serialVersionUID = 8482472427144553994L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoListView event) {
+				TaskGroupScreenData.Read data = new TaskGroupScreenData.Read(
+						(Integer) event.getData());
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);
