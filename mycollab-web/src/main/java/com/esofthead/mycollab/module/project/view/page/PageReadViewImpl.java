@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -344,7 +345,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		}
 
 		private String getMemberLink(String createdUser) {
-			if (createdUser != null && !createdUser.equals("")) {
+			if (StringUtils.isNotBlank(createdUser)) {
 				ProjectMemberService projectMemberService = ApplicationContextUtil
 						.getSpringBean(ProjectMemberService.class);
 				SimpleProjectMember member = projectMemberService

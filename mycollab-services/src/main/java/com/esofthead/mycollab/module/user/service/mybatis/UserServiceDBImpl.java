@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -335,7 +336,7 @@ public class UserServiceDBImpl extends
 					ex.createCriteria().andRoleidEqualTo(user.getRoleid());
 					List roles = rolePermissionMapper
 							.selectByExampleWithBLOBs(ex);
-					if (roles != null && roles.size() > 0) {
+					if (CollectionUtils.isNotEmpty(roles)) {
 						RolePermission rolePer = (RolePermission) roles.get(0);
 						PermissionMap permissionMap = PermissionMap
 								.fromJsonString(rolePer.getRoleval());

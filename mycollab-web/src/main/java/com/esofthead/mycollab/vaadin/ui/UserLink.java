@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.vaadin.ui;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +54,7 @@ public class UserLink extends Button {
 		super(displayName);
 		this.addStyleName("link");
 
-		if (username != null && !username.equals("")) {
+		if (StringUtils.isNotEmpty(username)) {
 			this.setIcon(UserAvatarControlFactory.createAvatarResource(
 					userAvatarId, 16));
 		}

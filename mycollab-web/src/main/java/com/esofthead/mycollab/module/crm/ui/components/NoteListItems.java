@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.crm.ui.components;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
@@ -351,7 +352,7 @@ public class NoteListItems extends VerticalLayout {
 			messageFooter.setWidth("100%");
 
 			final List<Content> attachments = note.getAttachments();
-			if (attachments != null && !attachments.isEmpty()) {
+			if (!CollectionUtils.isEmpty(attachments)) {
 				AttachmentDisplayComponent attachmentDisplayComponent = new AttachmentDisplayComponent(
 						attachments);
 				messageFooter.addComponent(attachmentDisplayComponent);

@@ -30,6 +30,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.easyuploads.MultiFileUploadExt;
@@ -118,7 +120,7 @@ public class AttachmentPanel extends VerticalLayout implements
 
 	public void getAttachments(String attachmentPath) {
 		List<Content> attachments = resourceService.getContents(attachmentPath);
-		if (attachments != null && !attachments.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(attachments)) {
 			for (final Content attachment : attachments) {
 				this.addComponent(AttachmentDisplayComponent
 						.constructAttachmentRow(attachment));
@@ -127,7 +129,7 @@ public class AttachmentPanel extends VerticalLayout implements
 	}
 
 	public void saveContentsToRepo(String attachmentPath) {
-		if (fileStores != null && !fileStores.isEmpty()) {
+		if (MapUtils.isNotEmpty(fileStores)) {
 			for (String fileName : fileStores.keySet()) {
 				try {
 					String fileExt = "";
@@ -201,7 +203,7 @@ public class AttachmentPanel extends VerticalLayout implements
 
 	public List<File> getListFile() {
 		List<File> listFile = null;
-		if (fileStores != null && fileStores.size() > 0) {
+		if (MapUtils.isNotEmpty(fileStores)) {
 			listFile = new ArrayList<File>();
 			for (String fileName : fileStores.keySet()) {
 				File oldFile = fileStores.get(fileName);

@@ -14,48 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.mobile.module.project.view.parameters;
+package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
-import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
-import com.esofthead.mycollab.vaadin.mvp.ScreenData;
+import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
+import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
+ * 
  * @author MyCollab Ltd.
- *
  * @since 4.5.0
- *
  */
-public class TaskGroupScreenData {
+public interface TaskGroupAddView extends IFormAddView<SimpleTaskList> {
 
-	public static class List extends ScreenData<TaskListSearchCriteria> {
-		public List() {
-			super(null);
-		}
+	HasEditFormHandlers<SimpleTaskList> getEditFormHandlers();
 
-		public List(TaskListSearchCriteria param) {
-			super(param);
-		}
-
-	}
-
-	public static class Add extends ScreenData<SimpleTaskList> {
-		public Add() {
-			super(new SimpleTaskList());
-		}
-	}
-
-	public static class Read extends ScreenData<Integer> {
-		public Read(Integer param) {
-			super(param);
-		}
-	}
-
-	public static class Edit extends ScreenData<SimpleTaskList> {
-
-		public Edit(SimpleTaskList params) {
-			super(params);
-		}
-
-	}
 }

@@ -70,7 +70,7 @@ public class ClassUtils {
 	}
 
 	private static void populateFields(Class<?> type, List<Field> fields) {
-		if (type != null && type != null) {
+		if (type != null) {
 			Field[] declaredFields = type.getDeclaredFields();
 			for (Field declaredField : declaredFields) {
 				if (!Modifier.isStatic(declaredField.getModifiers())) {

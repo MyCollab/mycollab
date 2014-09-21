@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.common.domain;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 
 /**
@@ -32,7 +34,7 @@ public class MailRecipientField extends ValuedBean {
 
 	public MailRecipientField(String email, String name) {
 		this.email = email;
-		if (name != null && name.length() > 0) {
+		if (!StringUtils.isBlank(name)) {
 			this.name = name;
 		} else {
 			this.name = email;

@@ -33,8 +33,9 @@ public class TaskScreenData {
 	}
 
 	public static class Add extends ScreenData<SimpleTask> {
-		public Add() {
+		public Add(Integer taskListId) {
 			super(new SimpleTask());
+			this.getParams().setTasklistid(taskListId);
 		}
 	}
 

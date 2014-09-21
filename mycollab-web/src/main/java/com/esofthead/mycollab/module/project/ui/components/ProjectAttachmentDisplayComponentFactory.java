@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.AttachmentType;
@@ -42,7 +44,7 @@ public class ProjectAttachmentDisplayComponentFactory {
 		List<Content> attachments = resourceService.getContents(AttachmentUtils
 				.getProjectEntityAttachmentPath(AppContext.getAccountId(),
 						projectid, type, typeid));
-		if (attachments != null && !attachments.isEmpty()) {
+		if (CollectionUtils.isNotEmpty(attachments)) {
 			return new AttachmentDisplayComponent(attachments);
 		} else {
 			return new VerticalLayout();

@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.service.mybatis;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class AccountSettingServiceImpl extends
 		ex.createCriteria().andSaccountidEqualTo(sAccountId);
 		List<AccountSettings> settings = accountSettingMapper
 				.selectByExample(ex);
-		if (settings != null && settings.size() > 0) {
+		if (CollectionUtils.isNotEmpty(settings)) {
 			return settings.get(0);
 		} else {
 			AccountSettings setting = new AccountSettings();

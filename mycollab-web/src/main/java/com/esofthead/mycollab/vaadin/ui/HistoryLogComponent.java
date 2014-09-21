@@ -19,6 +19,8 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.criteria.AuditLogSearchCriteria;
@@ -90,7 +92,7 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 		public Component generateRow(SimpleAuditLog log, int rowIndex) {
 
 			List<AuditChangeItem> changeItems = log.getChangeItems();
-			if (changeItems != null && changeItems.size() > 0) {
+			if (CollectionUtils.isNotEmpty(changeItems)) {
 				CssLayout layout = new CssLayout();
 				layout.setWidth("100%");
 				layout.setStyleName("activity-stream");

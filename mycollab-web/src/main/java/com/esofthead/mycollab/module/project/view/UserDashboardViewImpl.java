@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.view;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.common.service.MonitorItemService;
@@ -211,9 +213,9 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 		final ProjectService prjService = ApplicationContextUtil
 				.getSpringBean(ProjectService.class);
-		prjKeys = prjService.getProjectKeysUserInvolved(AppContext.getUsername(),
-				AppContext.getAccountId());
-		if (prjKeys != null && !prjKeys.isEmpty()) {
+		prjKeys = prjService.getProjectKeysUserInvolved(
+				AppContext.getUsername(), AppContext.getAccountId());
+		if (CollectionUtils.isNotEmpty(prjKeys)) {
 			this.activityStreamComponent.showFeeds(prjKeys);
 			this.myProjectListComponent.displayDefaultProjectsList();
 			displayFollowingTicketsCount();

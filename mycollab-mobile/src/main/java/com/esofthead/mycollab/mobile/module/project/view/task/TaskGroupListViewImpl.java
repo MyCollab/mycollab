@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
@@ -23,6 +25,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCrite
 import com.esofthead.mycollab.module.project.i18n.TaskGroupI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -53,8 +56,16 @@ public class TaskGroupListViewImpl extends
 
 	@Override
 	protected Component createRightComponent() {
-		// TODO Auto-generated method stub
-		return null;
+		Button addTaskList = new Button("", new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(Button.ClickEvent event) {
+				EventBusFactory.getInstance().post(
+						new TaskEvent.GotoListAdd(this, null));
+			}
+		});
+		addTaskList.setStyleName("add-btn");
+		return addTaskList;
 	}
 
 }

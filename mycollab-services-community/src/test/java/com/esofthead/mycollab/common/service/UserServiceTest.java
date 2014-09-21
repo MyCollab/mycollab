@@ -101,4 +101,14 @@ public class UserServiceTest extends ServiceTest {
 		assertThat(totalActiveUsersInAccount).isEqualTo(3);
 	}
 
+	@DataSet
+	@Test
+	public void testFindUserByUsernameInAccount() {
+		SimpleUser user = userService.findUserByUserNameInAccount(
+				"hainguyen@esofthead.com", 1);
+		assertThat(user.getUsername()).isEqualTo("hainguyen@esofthead.com");
+		assertThat(user.getAccountId()).isEqualTo(1);
+		assertThat(user.getFirstname()).isEqualTo("Nguyen");
+		assertThat(user.getLastname()).isEqualTo("Hai");
+	}
 }

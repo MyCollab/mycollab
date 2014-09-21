@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -67,6 +69,7 @@ import com.esofthead.mycollab.vaadin.resource.LazyStreamSource;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -97,9 +100,8 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class TimeTrackingSummaryViewImpl extends AbstractPageView
-		implements
-			TimeTrackingSummaryView {
+public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
+		TimeTrackingSummaryView {
 	private static final long serialVersionUID = 1L;
 
 	private static final String GROUPBY_PROJECT = "Project";
@@ -179,13 +181,24 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);
 
+		VerticalLayout selectionLayoutWrapper = new VerticalLayout();
+		selectionLayoutWrapper.setWidth("100%");
+		selectionLayoutWrapper
+				.addStyleName("time-tracking-summary-search-panel");
+		controlsPanel.addComponent(selectionLayoutWrapper);
+
 		final GridLayout selectionLayout = new GridLayout(9, 2);
 		selectionLayout.setSpacing(true);
-		selectionLayout.setDefaultComponentAlignment(Alignment.TOP_LEFT);
+		selectionLayout.setDefaultComponentAlignment(Alignment.TOP_RIGHT);
 		selectionLayout.setMargin(true);
-		controlsPanel.addComponent(selectionLayout);
+		selectionLayoutWrapper.addComponent(selectionLayout);
 
-		selectionLayout.addComponent(new Label("From:  "), 0, 0);
+		VerticalLayout fromLbWrapper = new VerticalLayout();
+		fromLbWrapper.setWidth("50px");
+		Label fromLb = new Label("From:");
+		fromLb.setWidthUndefined();
+		UiUtils.addComponent(fromLbWrapper, fromLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(fromLbWrapper, 0, 0);
 
 		this.fromDateField = new PopupDateField();
 		this.fromDateField.setResolution(Resolution.DAY);
@@ -193,30 +206,60 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 		this.fromDateField.setWidth("100px");
 		selectionLayout.addComponent(this.fromDateField, 1, 0);
 
-		selectionLayout.addComponent(new Label("  To:  "), 2, 0);
+		VerticalLayout toLbWrapper = new VerticalLayout();
+		toLbWrapper.setWidth("50px");
+		Label toLb = new Label("To:");
+		toLb.setWidthUndefined();
+		UiUtils.addComponent(toLbWrapper, toLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(toLbWrapper, 2, 0);
+
 		this.toDateField = new PopupDateField();
 		this.toDateField.setResolution(Resolution.DAY);
 		this.toDateField.setDateFormat(AppContext.getUserDateFormat());
 		this.toDateField.setWidth("100px");
 		selectionLayout.addComponent(this.toDateField, 3, 0);
 
-		selectionLayout.addComponent(new Label("Group:  "), 0, 1);
+		VerticalLayout groupLbWrapper = new VerticalLayout();
+		groupLbWrapper.setWidth("50px");
+		Label groupLb = new Label("Group:");
+		groupLb.setWidthUndefined();
+		UiUtils.addComponent(groupLbWrapper, groupLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(groupLbWrapper, 0, 1);
+
 		this.groupField = new ValueComboBox(false, GROUPBY_PROJECT,
 				GROUPBY_DATE, GROUPBY_USER);
 		this.groupField.setWidth("100px");
 		selectionLayout.addComponent(this.groupField, 1, 1);
 
-		selectionLayout.addComponent(new Label("  Sort:  "), 2, 1);
+		VerticalLayout sortLbWrapper = new VerticalLayout();
+		sortLbWrapper.setWidth("50px");
+		Label sortLb = new Label("Sort:");
+		sortLb.setWidthUndefined();
+		UiUtils.addComponent(sortLbWrapper, sortLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(sortLbWrapper, 2, 1);
+
 		this.orderField = new ItemOrderComboBox();
 		this.orderField.setWidth("100px");
 		selectionLayout.addComponent(this.orderField, 3, 1);
 
-		selectionLayout.addComponent(new Label("  Project:  "), 4, 0);
+		VerticalLayout projectLbWrapper = new VerticalLayout();
+		projectLbWrapper.setWidth("70px");
+		Label projectLb = new Label("Project:");
+		projectLb.setWidthUndefined();
+		UiUtils.addComponent(projectLbWrapper, projectLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(projectLbWrapper, 4, 0);
+
 		this.projectField = new UserInvolvedProjectsListSelect();
 		initListSelectStyle(this.projectField);
 		selectionLayout.addComponent(this.projectField, 5, 0, 5, 1);
 
-		selectionLayout.addComponent(new Label("  User:  "), 6, 0);
+		VerticalLayout userLbWrapper = new VerticalLayout();
+		userLbWrapper.setWidth("70px");
+		Label userLb = new Label("User:");
+		userLb.setWidthUndefined();
+		UiUtils.addComponent(userLbWrapper, userLb, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(userLbWrapper, 6, 0);
+
 		this.userField = new UserInvolvedProjectsMemberListSelect(
 				projectField.getProjectIds());
 		initListSelectStyle(this.userField);
@@ -238,14 +281,16 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 				});
 		queryBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 
-		selectionLayout.addComponent(queryBtn, 8, 0);
+		VerticalLayout queryBtnWrapper = new VerticalLayout();
+		queryBtnWrapper.setWidth("100px");
+		UiUtils.addComponent(queryBtnWrapper, queryBtn, Alignment.TOP_RIGHT);
+		selectionLayout.addComponent(queryBtnWrapper, 8, 0);
 
 		controlsPanel.setWidth("100%");
-		controlsPanel.setHeight("60px");
 		controlsPanel.setSpacing(true);
 
 		loggingPanel.setWidth("100%");
-		loggingPanel.setHeight("50px");
+		loggingPanel.setHeight("80px");
 		loggingPanel.setSpacing(true);
 
 		totalHoursLoggingLabel = new Label("Total Hours Logging: 0 Hrs",
@@ -303,7 +348,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 		this.timeTrackingWrapper.setWidth("100%");
 		contentWrapper.addComponent(this.timeTrackingWrapper);
 	}
-	
+
 	private void initListSelectStyle(ListSelect listSelect) {
 		listSelect.setWidth("300px");
 		listSelect.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
@@ -386,11 +431,11 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 		searchCriteria.setRangeDate(new RangeDateSearchField(fromDate, toDate));
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void searchTimeReporting() {
 		final Collection<String> selectedUsers = (Collection<String>) this.userField
 				.getValue();
-		if (selectedUsers != null && selectedUsers.size() > 0) {
+		if (CollectionUtils.isNotEmpty(selectedUsers)) {
 			searchCriteria.setLogUsers(new SetSearchField(SearchField.AND,
 					selectedUsers));
 		} else {
@@ -400,7 +445,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView
 
 		final Collection<Integer> selectedProjects = (Collection<Integer>) this.projectField
 				.getValue();
-		if (selectedProjects != null && selectedProjects.size() > 0) {
+		if (CollectionUtils.isNotEmpty(selectedProjects)) {
 			searchCriteria.setProjectIds(new SetSearchField(SearchField.AND,
 					selectedProjects));
 		} else {

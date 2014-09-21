@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
 
 /**
@@ -25,5 +26,5 @@ import com.esofthead.mycollab.vaadin.mvp.IPreviewView;
  * @since 4.5.0
  */
 public interface TaskGroupReadView extends IPreviewView<SimpleTaskList> {
-
+	public HasPreviewFormHandlers<SimpleTaskList> getPreviewFormHandlers();
 }

@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailConstants;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -71,7 +73,7 @@ public class DefaultMailer implements IMailer {
 				}
 			}
 
-			if (ccEmail != null && ccEmail.size() > 0) {
+			if (CollectionUtils.isNotEmpty(ccEmail)) {
 				for (int i = 0; i < ccEmail.size(); i++) {
 					if (isValidate(ccEmail.get(i).getEmail())
 							&& isValidate(ccEmail.get(i).getName())) {
@@ -85,7 +87,7 @@ public class DefaultMailer implements IMailer {
 				}
 			}
 
-			if (bccEmail != null && bccEmail.size() > 0) {
+			if (CollectionUtils.isNotEmpty(bccEmail)) {
 				for (int i = 0; i < bccEmail.size(); i++) {
 					if (isValidate(bccEmail.get(i).getEmail())
 							&& isValidate(bccEmail.get(i).getName())) {
@@ -105,7 +107,7 @@ public class DefaultMailer implements IMailer {
 			email.setStartTLSEnabled(isTLS);
 			email.setSubject(subject);
 
-			if (html != null && !html.equals("")) {
+			if (StringUtils.isNotBlank(html)) {
 				email.setHtmlMsg(html);
 			}
 

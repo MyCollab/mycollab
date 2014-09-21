@@ -55,7 +55,7 @@ class CallReadFormFieldFactory extends
 		} else if (propertyId.equals("durationinseconds")) {
 			final Integer duration = attachForm.getBean()
 					.getDurationinseconds();
-			if (duration != null && duration != 0) {
+			if (duration != null) {
 				final int hours = duration / 3600;
 				final int minutes = (duration % 3600) / 60;
 				final StringBuffer value = new StringBuffer();

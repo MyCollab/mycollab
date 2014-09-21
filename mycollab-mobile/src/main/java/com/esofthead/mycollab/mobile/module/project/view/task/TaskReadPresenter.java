@@ -61,12 +61,6 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
 					}
 
 					@Override
-					public void onAdd(SimpleTask data) {
-						EventBusFactory.getInstance().post(
-								new TaskEvent.GotoAdd(this, null));
-					}
-
-					@Override
 					public void onDelete(final SimpleTask data) {
 						ConfirmDialog.show(
 								UI.getCurrent(),

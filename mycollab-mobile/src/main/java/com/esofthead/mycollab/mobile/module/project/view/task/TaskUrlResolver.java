@@ -108,9 +108,10 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 			String[] tokens = decodeUrl.split("/");
 
 			int projectId = Integer.parseInt(tokens[0]);
+			int taskListId = Integer.parseInt(tokens[1]);
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new TaskScreenData.Add());
+					new TaskScreenData.Add(taskListId));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

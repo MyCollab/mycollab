@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.crm.service.ibatis;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +57,10 @@ public class CrmNotificationSettingServiceImpl extends
 		CrmNotificationSettingExample ex = new CrmNotificationSettingExample();
 		ex.createCriteria().andUsernameEqualTo(username)
 				.andSaccountidEqualTo(sAccountId);
-		List<CrmNotificationSetting> lst = crmNotificationSettingMapper
+		List<CrmNotificationSetting> notifications = crmNotificationSettingMapper
 				.selectByExample(ex);
-		if (lst != null && lst.size() > 0) {
-			return lst.get(0);
+		if (CollectionUtils.isNotEmpty(notifications)) {
+			return notifications.get(0);
 		} else {
 			return null;
 		}

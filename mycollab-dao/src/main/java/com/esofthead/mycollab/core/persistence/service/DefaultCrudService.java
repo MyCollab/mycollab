@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.cache.CacheKey;
@@ -52,7 +53,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 
 	@Override
 	public int saveWithSession(T record, String username) {
-		if (username != null && !username.trim().equals("")) {
+		if (!StringUtils.isBlank(username)) {
 			try {
 				PropertyUtils.setProperty(record, "createduser", username);
 			} catch (Exception e) {
@@ -109,8 +110,7 @@ public abstract class DefaultCrudService<K extends Serializable, T> implements
 		}
 	}
 
-	public int updateSelectiveWithSession(@CacheKey T record,
-			String username) {
+	public int updateSelectiveWithSession(@CacheKey T record, String username) {
 		try {
 			PropertyUtils.setProperty(record, "lastupdatedtime",
 					new GregorianCalendar().getTime());

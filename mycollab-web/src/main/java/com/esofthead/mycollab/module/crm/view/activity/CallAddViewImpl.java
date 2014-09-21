@@ -57,8 +57,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 
 	@Override
 	protected String initFormTitle() {
-		return (beanItem.getId() == null) ? "New Call" : beanItem
-				.getSubject();
+		return (beanItem.getId() == null) ? "New Call" : beanItem.getSubject();
 	}
 
 	@Override
@@ -245,7 +244,7 @@ public class CallAddViewImpl extends AbstractEditItemComp<CallWithBLOBs>
 			Object value = newDataSource.getValue();
 			if (value instanceof Integer) {
 				Integer duration = (Integer) value;
-				if (duration != null && duration != 0) {
+				if (duration != null) {
 					int hours = duration / 3600;
 					int minutes = (duration % 3600) / 60;
 					hourField.setValue("" + hours);

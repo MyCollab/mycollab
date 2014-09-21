@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.shell.view;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class MainViewPresenter extends AbstractPresenter<MainView> {
 		// url
 		view.initialize();
 		String url = DesktopApplication.getInstance().getInitialUrl();
-		if (url != null && !url.equals("")) {
+		if (!StringUtils.isBlank(url)) {
 			if (url.startsWith("/")) {
 				url = url.substring(1);
 			}

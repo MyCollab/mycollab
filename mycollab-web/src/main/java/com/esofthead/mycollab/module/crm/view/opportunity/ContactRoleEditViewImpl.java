@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -48,7 +50,6 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
@@ -197,6 +198,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 
 		private final CssLayout bodyWrapper;
 
+		@SuppressWarnings("unchecked")
 		public ContactOpportunityList() {
 			super();
 			this.setStyleName("contactopp-list");
@@ -237,7 +239,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 					.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
 							criteria));
 			boolean oddRow = true;
-			if (contactOppoRels != null && contactOppoRels.size() > 0) {
+			if (!CollectionUtils.isEmpty(contactOppoRels)) {
 				for (SimpleContactOpportunityRel contactOppoRel : contactOppoRels) {
 					ContactRoleRowComp rowComp = new ContactRoleRowComp(
 							contactOppoRel);

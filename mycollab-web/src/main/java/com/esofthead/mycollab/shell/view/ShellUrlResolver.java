@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.shell.view;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 import com.esofthead.mycollab.module.file.view.FileUrlResolver;
 import com.esofthead.mycollab.module.project.view.ProjectUrlResolver;
@@ -38,7 +40,7 @@ public class ShellUrlResolver extends UrlResolver {
 	}
 
 	public void navigateByFragement(String fragement) {
-		if (fragement != null && fragement.length() > 0) {
+		if (!StringUtils.isBlank(fragement)) {
 			String[] tokens = fragement.split("/");
 			this.handle(tokens);
 		}

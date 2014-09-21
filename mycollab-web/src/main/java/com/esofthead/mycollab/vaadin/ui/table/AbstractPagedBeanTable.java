@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -449,7 +450,7 @@ public abstract class AbstractPagedBeanTable<S extends SearchCriteria, B>
 					this.columnGenerators.get(propertyId));
 		}
 
-		if (this.sortColumnId != null && !this.sortColumnId.equals("")) {
+		if (StringUtils.isNotBlank((String) this.sortColumnId)) {
 			this.tableItem.setColumnIcon(
 					this.sortColumnId,
 					this.isAscending ? MyCollabResource

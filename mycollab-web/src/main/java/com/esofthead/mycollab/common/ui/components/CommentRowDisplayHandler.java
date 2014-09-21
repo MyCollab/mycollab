@@ -19,6 +19,7 @@ package com.esofthead.mycollab.common.ui.components;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.esofthead.mycollab.common.domain.SimpleComment;
@@ -170,7 +171,7 @@ public class CommentRowDisplayHandler extends
 		rowLayout.addComponent(messageContent);
 
 		List<Content> attachments = comment.getAttachments();
-		if (attachments != null && !attachments.isEmpty()) {
+		if (!CollectionUtils.isEmpty(attachments)) {
 			VerticalLayout messageFooter = new VerticalLayout();
 			messageFooter.setWidth("100%");
 			messageFooter.setStyleName("message-footer");

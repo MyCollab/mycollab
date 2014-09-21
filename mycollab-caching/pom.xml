@@ -43,11 +43,5 @@
             <version>6.0.2.Final</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jgroups</groupId>
-            <artifactId>jgroups</artifactId>
-            <version>3.5.0.Final</version>
-        </dependency>
-
     </dependencies>
 </project>

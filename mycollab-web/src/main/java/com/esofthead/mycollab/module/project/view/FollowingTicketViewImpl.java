@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.common.i18n.FollowerI18nEnum;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -206,7 +208,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 
 	@Override
 	public void displayFollowingTicket(final List<Integer> prjKeys) {
-		if (prjKeys != null && prjKeys.size() > 0) {
+		if (CollectionUtils.isNotEmpty(prjKeys)) {
 			searchCriteria = new MonitorSearchCriteria();
 			searchCriteria.setExtraTypeIds(new SetSearchField<Integer>(prjKeys
 					.toArray(new Integer[0])));

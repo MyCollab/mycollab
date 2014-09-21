@@ -939,7 +939,7 @@ input.v-textfield-pagedtable-pagefield {
     font-size: 13px;
 }
 
-.advSearch .advSearchBody {
+.time-tracking-summary-search-panel, .advSearch .advSearchBody {
     border: 1px solid #CFCFCF;
     background-color: #F7F7F7;
 }

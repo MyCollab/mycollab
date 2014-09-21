@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -157,7 +158,7 @@ public class MailFormWindow extends Window {
 
 		if (lstMail != null) {
 			for (String mail : lstMail) {
-				if (mail != null && !mail.equals("")) {
+				if (StringUtils.isNotBlank(mail)) {
 					if (mail.indexOf("<") > -1) {
 						String strMail = mail.substring(mail.indexOf("<") + 1,
 								mail.lastIndexOf(">"));

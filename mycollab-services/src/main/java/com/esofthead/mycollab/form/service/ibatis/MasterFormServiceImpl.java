@@ -18,6 +18,7 @@ package com.esofthead.mycollab.form.service.ibatis;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,7 @@ public class MasterFormServiceImpl implements MasterFormService {
 				dySection.setDeletedSection(section.getIsdeletesection());
 
 				List<FormSectionField> fields = section.getFields();
-				if (fields != null && fields.size() > 0) {
+				if (CollectionUtils.isNotEmpty(fields)) {
 					for (FormSectionField field : fields) {
 						String fieldtype = TYPE_PACKAGE + field.getFieldtype();
 						Class clsType;

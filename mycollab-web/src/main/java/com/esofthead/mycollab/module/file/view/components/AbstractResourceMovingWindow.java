@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
 import com.esofthead.mycollab.module.ecm.domain.ExternalFolder;
@@ -311,7 +313,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 					} finally {
 						AbstractResourceMovingWindow.this.close();
 					}
-				} else if (lstResEditting != null && lstResEditting.size() > 0) {
+				} else if (!CollectionUtils.isEmpty(lstResEditting)) {
 					boolean checkingFail = false;
 					for (Resource res : lstResEditting) {
 						try {

@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.user.service.mybatis;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,7 @@ public class UserPreferenceServiceImpl extends
 				.selectByExample(ex);
 		UserPreference pref = null;
 
-		if (userPreferences != null && userPreferences.size() > 0) {
+		if (CollectionUtils.isNotEmpty(userPreferences)) {
 			pref = userPreferences.get(0);
 		} else {
 			// create default user preference then save to database

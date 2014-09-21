@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.service.mybatis;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,7 +99,7 @@ public class RoleServiceDBImpl extends
 		ex.createCriteria().andRolenameEqualTo(systemRoleName)
 				.andIssystemroleEqualTo(Boolean.TRUE);
 		List<Role> roles = roleMapper.selectByExample(ex);
-		if (roles != null && roles.size() > 0) {
+		if (CollectionUtils.isNotEmpty(roles)) {
 			return roles.get(0).getId();
 		} else {
 			return null;

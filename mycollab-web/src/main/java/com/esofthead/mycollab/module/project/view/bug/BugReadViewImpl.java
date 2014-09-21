@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.peter.buttongroup.ButtonGroup;
@@ -555,7 +556,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 						AttachmentType.PROJECT_BUG_TYPE, beanItem.getId());
 			} else if (propertyId.equals("components")) {
 				final List<Component> components = beanItem.getComponents();
-				if (components != null && components.size() > 0) {
+				if (CollectionUtils.isNotEmpty(components)) {
 					final FormContainerViewField componentContainer = new FormContainerViewField();
 					for (final Component component : beanItem.getComponents()) {
 						final Button componentLink = new Button(
@@ -584,7 +585,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			} else if (propertyId.equals("affectedVersions")) {
 				final List<Version> affectedVersions = beanItem
 						.getAffectedVersions();
-				if (affectedVersions != null && affectedVersions.size() > 0) {
+				if (CollectionUtils.isNotEmpty(affectedVersions)) {
 					final FormContainerViewField componentContainer = new FormContainerViewField();
 					for (final Version version : beanItem.getAffectedVersions()) {
 						final Button versionLink = new Button(
@@ -610,7 +611,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				}
 			} else if (propertyId.equals("fixedVersions")) {
 				final List<Version> fixedVersions = beanItem.getFixedVersions();
-				if (fixedVersions != null && fixedVersions.size() > 0) {
+				if (CollectionUtils.isNotEmpty(fixedVersions)) {
 					final FormContainerViewField componentContainer = new FormContainerViewField();
 					for (final Version version : beanItem.getFixedVersions()) {
 						final Button versionLink = new Button(

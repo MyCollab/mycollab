@@ -18,6 +18,8 @@ package com.esofthead.mycollab.utils;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.domain.AuditChangeItem;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
@@ -40,7 +42,7 @@ public class AuditLogPrinter {
 		StringBuffer str = new StringBuffer("");
 		boolean isAppended = false;
 		List<AuditChangeItem> changeItems = auditLog.getChangeItems();
-		if (changeItems != null && changeItems.size() > 0) {
+		if (CollectionUtils.isNotEmpty(changeItems)) {
 			for (int i = 0; i < changeItems.size(); i++) {
 				AuditChangeItem item = changeItems.get(i);
 				String fieldName = item.getField();

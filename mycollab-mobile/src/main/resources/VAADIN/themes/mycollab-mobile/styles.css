@@ -1054,8 +1054,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .member-list .list-item.member-row .member-info .display-name {
   font-weight: bold;
   font-size: 1.4rem;
+  color: #e39241;
 }
 .mycollab-mobile .member-list .list-item.member-row .member-info .user-name {
   font-size: 1.2rem;
-  color: #bfbfbf;
+  color: #959595;
 }

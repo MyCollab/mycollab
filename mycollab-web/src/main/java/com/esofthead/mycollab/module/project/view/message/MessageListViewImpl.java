@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
@@ -92,7 +93,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class MessageListViewImpl extends AbstractPageView implements
 		MessageListView, HasEditFormHandlers<Message> {
 
@@ -279,7 +280,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 									message.getProjectid(),
 									AttachmentType.PROJECT_MESSAGE,
 									message.getId()));
-			if (attachments != null && !attachments.isEmpty()) {
+			if (CollectionUtils.isNotEmpty(attachments)) {
 				final HorizontalLayout attachmentNotification = new HorizontalLayout();
 				final Label attachmentCountLbl = new Label(
 						Integer.toString(attachments.size()));

@@ -19,10 +19,9 @@ package com.esofthead.mycollab.schedule.email.user.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
@@ -53,9 +52,6 @@ import com.esofthead.mycollab.schedule.jobs.GenericQuartzJobBean;
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
-	private static Logger log = LoggerFactory
-			.getLogger(UserSignUpEmailNotificationJob.class);
-
 	@Autowired
 	private UserService userService;
 
@@ -74,52 +70,44 @@ public class UserSignUpEmailNotificationJob extends GenericQuartzJobBean {
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setStatuses(new SetSearchField<String>(new String[] { null,
 				UserStatusConstants.EMAIL_NOT_VERIFIED }));
+
 		criteria.setSaccountid(null);
-		List<SimpleUser> lstSimpleUsers = userService
+		List<SimpleUser> users = userService
 				.findPagableListByCriteria(new SearchRequest<UserSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		if (lstSimpleUsers != null && lstSimpleUsers.size() > 0) {
-			for (SimpleUser user : lstSimpleUsers) {
-				contentGenerator.putVariable("user", user);
 
-				String siteUrl = GenericLinkUtils
-						.generateSiteUrlByAccountId(user.getAccountId());
-
-				contentGenerator.putVariable("siteUrl", siteUrl);
-
-				String linkComfirm = siteUrl
-						+ "user/confirm_signup/"
-						+ UrlEncodeDecoder.encode(user.getUsername() + "/"
-								+ user.getAccountId());
-				contentGenerator.putVariable("linkConfirm", linkComfirm);
-				try {
-					extMailService
-							.sendHTMLMail(
-									SiteConfiguration.getNoReplyEmail(),
-									SiteConfiguration.getSiteName(),
-									Arrays.asList(new MailRecipientField(user
-											.getEmail(), user.getDisplayName())),
-									null,
-									null,
-									contentGenerator
-											.generateSubjectContent(LocalizationHelper.getMessage(
-													SiteConfiguration
-															.getDefaultLocale(),
-													UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
-									contentGenerator
-											.generateBodyContent(LocalizationHelper
-													.templatePath(
-															CONFIRM_EMAIL_TEMPLATE,
-															SiteConfiguration
-																	.getDefaultLocale())),
-									null);
-
-					user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
-					userService.updateWithSession(user, user.getUsername());
-				} catch (Exception e) {
-					log.error("Error while generate template", e);
-				}
+		if (CollectionUtils.isNotEmpty(users)) {
+			for (SimpleUser user : users) {
+				sendConfirmEmailToUser(user);
+				user.setStatus(UserStatusConstants.EMAIL_VERIFIED_REQUEST);
+				userService.updateWithSession(user, user.getUsername());
 			}
 		}
+	}
+
+	void sendConfirmEmailToUser(SimpleUser user) {
+		contentGenerator.putVariable("user", user);
+
+		String siteUrl = GenericLinkUtils.generateSiteUrlByAccountId(user
+				.getAccountId());
+
+		contentGenerator.putVariable("siteUrl", siteUrl);
+
+		String linkComfirm = siteUrl
+				+ "user/confirm_signup/"
+				+ UrlEncodeDecoder.encode(user.getUsername() + "/"
+						+ user.getAccountId());
+		contentGenerator.putVariable("linkConfirm", linkComfirm);
+
+		extMailService.sendHTMLMail(SiteConfiguration.getNoReplyEmail(),
+				SiteConfiguration.getSiteName(), Arrays
+						.asList(new MailRecipientField(user.getEmail(), user
+								.getDisplayName())), null, null,
+				contentGenerator.generateSubjectContent(LocalizationHelper
+						.getMessage(SiteConfiguration.getDefaultLocale(),
+								UserI18nEnum.MAIL_CONFIRM_PASSWORD_SUBJECT)),
+				contentGenerator.generateBodyContent(LocalizationHelper
+						.templatePath(CONFIRM_EMAIL_TEMPLATE,
+								SiteConfiguration.getDefaultLocale())), null);
 	}
 }

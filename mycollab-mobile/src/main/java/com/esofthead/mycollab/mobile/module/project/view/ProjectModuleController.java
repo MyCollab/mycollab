@@ -41,6 +41,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScr
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
+import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
@@ -261,7 +262,8 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoAdd event) {
-				TaskScreenData.Add data = new TaskScreenData.Add();
+				TaskScreenData.Add data = new TaskScreenData.Add(
+						(Integer) event.getData());
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);
@@ -277,6 +279,35 @@ public class ProjectModuleController extends AbstractController {
 			public void handle(TaskEvent.GotoListView event) {
 				TaskGroupScreenData.Read data = new TaskGroupScreenData.Read(
 						(Integer) event.getData());
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoListAdd>() {
+
+			private static final long serialVersionUID = -3087445308221821731L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoListAdd event) {
+				TaskGroupScreenData.Add data = new TaskGroupScreenData.Add();
+				TaskPresenter presenter = PresenterResolver
+						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<TaskEvent.GotoListEdit>() {
+
+			private static final long serialVersionUID = -5526088325467106990L;
+
+			@Subscribe
+			@Override
+			public void handle(TaskEvent.GotoListEdit event) {
+				TaskGroupScreenData.Edit data = new TaskGroupScreenData.Edit(
+						(SimpleTaskList) event.getData());
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);

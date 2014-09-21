@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.domain.MailRecipientField;
@@ -177,7 +178,8 @@ public class FeedbackWindow extends Window {
 							.getSpringBean(ExtMailService.class);
 					List<File> listFile = attachments.getListFile();
 					List<EmailAttachementSource> emailAttachmentSource = null;
-					if (listFile != null && listFile.size() > 0) {
+
+					if (CollectionUtils.isNotEmpty(listFile)) {
 						emailAttachmentSource = new ArrayList<EmailAttachementSource>();
 						for (File file : listFile) {
 							emailAttachmentSource

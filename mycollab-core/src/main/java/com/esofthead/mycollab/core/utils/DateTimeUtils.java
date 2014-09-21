@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -64,7 +65,7 @@ public class DateTimeUtils {
 	}
 
 	public static Date convertDateByString(String strDate, String format) {
-		if (strDate != null && !strDate.equals("")) {
+		if (!StringUtils.isEmpty(strDate)) {
 			try {
 				SimpleDateFormat formatter = new SimpleDateFormat(format);
 				return formatter.parse(strDate);

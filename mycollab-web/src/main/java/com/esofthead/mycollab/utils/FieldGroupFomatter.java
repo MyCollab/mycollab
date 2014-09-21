@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +135,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public String toString(String value) {
-			if (value != null && !value.trim().equals("")) {
+			if (StringUtils.isNoneBlank(value)) {
 				return (value.length() > 200) ? (value.substring(0, 150) + "...")
 						: value;
 			} else {
@@ -152,7 +154,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public String toString(String value) {
-			if (value != null && !value.trim().equals("")) {
+			if (StringUtils.isNoneBlank(value)) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
 				return AppContext.formatDate(formatDate);
 			} else {
@@ -166,7 +168,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public Component toVaadinComponent(String value) {
-			if (value != null && !value.trim().equals("")) {
+			if (StringUtils.isNotBlank(value)) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
 				return new Label(AppContext.formatDateTime(formatDate));
 			} else {
@@ -176,7 +178,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public String toString(String value) {
-			if (value != null && !value.trim().equals("")) {
+			if (StringUtils.isNotBlank(value)) {
 				Date formatDate = DateTimeUtils.convertDateByFormatW3C(value);
 				return AppContext.formatDateTime(formatDate);
 			} else {
@@ -190,7 +192,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public Component toVaadinComponent(String value) {
-			if (value != null && !"".equals(value)) {
+			if (StringUtils.isNotBlank(value)) {
 				try {
 					Integer currencyid = Integer.parseInt(value);
 					CurrencyService currencyService = ApplicationContextUtil
@@ -208,7 +210,7 @@ public class FieldGroupFomatter {
 
 		@Override
 		public String toString(String value) {
-			if (value != null && !"".equals(value)) {
+			if (StringUtils.isNotBlank(value)) {
 				try {
 					Integer currencyid = Integer.parseInt(value);
 					CurrencyService currencyService = ApplicationContextUtil
@@ -236,7 +238,7 @@ public class FieldGroupFomatter {
 		@Override
 		public Component toVaadinComponent(String value) {
 			try {
-				if (value != null && !"".equals(value)) {
+				if (StringUtils.isNotBlank(value)) {
 					return new Label(AppContext.getMessage(Enum.valueOf(
 							enumCls, value)));
 				}
@@ -250,7 +252,7 @@ public class FieldGroupFomatter {
 		@Override
 		public String toString(String value) {
 			try {
-				if (value != null && !"".equals(value)) {
+				if (StringUtils.isNotBlank(value)) {
 					return AppContext.getMessage(Enum.valueOf(enumCls, value));
 				}
 

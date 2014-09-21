@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.project.service.ibatis;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,7 +91,7 @@ public class StandupReportServiceImpl
 		List reports = standupReportMapperExt.findPagableListByCriteria(
 				criteria, new RowBounds(0, Integer.MAX_VALUE));
 
-		if (reports != null && reports.size() > 0) {
+		if (CollectionUtils.isNotEmpty(reports)) {
 			return (SimpleStandupReport) reports.get(0);
 		}
 

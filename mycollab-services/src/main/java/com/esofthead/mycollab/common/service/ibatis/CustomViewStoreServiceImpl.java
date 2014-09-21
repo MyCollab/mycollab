@@ -19,6 +19,7 @@ package com.esofthead.mycollab.common.service.ibatis;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +57,7 @@ public class CustomViewStoreServiceImpl extends
 				.andViewidEqualTo(viewId).andSaccountidEqualTo(accountId);
 		List<CustomViewStore> views = customViewStoreMapper
 				.selectByExampleWithBLOBs(ex);
-		if (views != null && views.size() > 0) {
+		if (CollectionUtils.isNotEmpty(views)) {
 			return views.get(0);
 		}
 		return new NullCustomViewStore();

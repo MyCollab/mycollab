@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.ecm.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class DriveInfoServiceImpl extends
 		DriveInfoExample ex = new DriveInfoExample();
 		ex.createCriteria().andSaccountidEqualTo(sAccountId);
 		List<DriveInfo> driveInfos = driveInfoMapper.selectByExample(ex);
-		if (driveInfos != null && driveInfos.size() > 0) {
+		if (CollectionUtils.isNotEmpty(driveInfos)) {
 			return driveInfos.get(0);
 		} else {
 			DriveInfo driveInfo = new DriveInfo();

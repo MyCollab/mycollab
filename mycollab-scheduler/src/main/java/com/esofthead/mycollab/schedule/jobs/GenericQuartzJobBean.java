@@ -33,7 +33,7 @@ public abstract class GenericQuartzJobBean extends QuartzJobBean {
 			.getLogger(GenericQuartzJobBean.class);
 
 	@Override
-	protected void executeInternal(JobExecutionContext context)
+	final protected void executeInternal(JobExecutionContext context)
 			throws JobExecutionException {
 		try {
 			executeJob(context);

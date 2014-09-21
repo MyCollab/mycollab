@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.project.view.settings;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -61,7 +63,7 @@ public class ProjectMemberInvitePresenter extends
 				ProjectMemberService projectMemberService = ApplicationContextUtil
 						.getSpringBean(ProjectMemberService.class);
 				List<String> inviteEmails = inviteMembers.getInviteEmails();
-				if (inviteEmails != null && inviteEmails.size() > 0) {
+				if (CollectionUtils.isNotEmpty(inviteEmails)) {
 					projectMemberService.inviteProjectMembers(
 							inviteEmails.toArray(new String[0]),
 							CurrentProjectVariables.getProjectId(),

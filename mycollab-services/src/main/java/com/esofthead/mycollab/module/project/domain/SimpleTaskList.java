@@ -40,7 +40,11 @@ public class SimpleTaskList extends TaskList {
 
 	@NotBindable
 	private List<SimpleTask> subTasks = new ArrayList<SimpleTask>();
+
+	@NotBindable
 	private double percentageComplete;
+
+	@NotBindable
 	private int numOpenTasks;
 	private int numAllTasks;
 	private int numComments;

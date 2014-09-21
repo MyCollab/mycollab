@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.settings.component;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -43,7 +45,7 @@ public class ProjectUserLink extends LabelLink {
 		super(displayName, ProjectLinkBuilder.generateProjectMemberFullLink(
 				CurrentProjectVariables.getProjectId(), username));
 
-		if (isDisplayAvatar && username != null && !username.equals("")) {
+		if (isDisplayAvatar && StringUtils.isNotBlank(username)) {
 			String link = SiteConfiguration.getAvatarLink(userAvatarId, 16);
 
 			this.setIconLink(link);

@@ -20,21 +20,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.ui.AbstractListViewComp;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
+import com.esofthead.mycollab.module.project.service.ProjectTaskListService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.PreviewFormHandler;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.vaadin.navigationbarquickmenu.NavigationBarQuickMenu;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 
@@ -58,6 +64,7 @@ public class TaskListViewImpl extends
 
 	public TaskListViewImpl() {
 		this.addStyleName("task-list-view");
+		this.setToggleButton(false);
 	}
 
 	@Override
@@ -93,7 +100,46 @@ public class TaskListViewImpl extends
 		viewTaskList.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 
+		Button addNewTask = new Button(
+				AppContext.getMessage(TaskI18nEnum.BUTTON_NEW_TASK),
+				new Button.ClickListener() {
+
+					private static final long serialVersionUID = -8074297964143853121L;
+
+					@Override
+					public void buttonClick(Button.ClickEvent event) {
+						EventBusFactory.getInstance().post(
+								new TaskEvent.GotoAdd(this, currentTaskList
+										.getId()));
+					}
+				});
+		addNewTask.setWidth("100%");
+		addNewTask.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.TASKS));
+
+		Button closeBtn = new Button(
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void buttonClick(final ClickEvent event) {
+						currentTaskList.setStatus(StatusI18nEnum.Closed.name());
+						final ProjectTaskListService taskListService = ApplicationContextUtil
+								.getSpringBean(ProjectTaskListService.class);
+						taskListService.updateWithSession(currentTaskList,
+								AppContext.getUsername());
+						EventBusFactory.getInstance().post(
+								new ShellEvent.NavigateBack(this, null));
+					}
+				});
+		closeBtn.setWidth("100%");
+		closeBtn.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.TASKS));
+
+		controlsGenerator.insertToControlBlock(closeBtn);
 		controlsGenerator.insertToControlBlock(viewTaskList);
+		controlsGenerator.insertToControlBlock(addNewTask);
 		editBtn.setContent(menuContent);
 
 		return editBtn;
