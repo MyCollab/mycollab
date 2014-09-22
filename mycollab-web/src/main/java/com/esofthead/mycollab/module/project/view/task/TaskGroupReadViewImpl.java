@@ -73,7 +73,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 1.0
  */
-@ViewComponent(scope=ViewScope.PROTOTYPE)
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class TaskGroupReadViewImpl extends
 		AbstractPreviewItemComp2<SimpleTaskList> implements TaskGroupReadView {
 	private static final long serialVersionUID = 1L;
@@ -225,8 +225,7 @@ public class TaskGroupReadViewImpl extends
 
 			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
 			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
-			taskListFilterControl.setWidth(Sizeable.SIZE_UNDEFINED,
-					Sizeable.Unit.PIXELS);
+			taskListFilterControl.setWidthUndefined();
 
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
 

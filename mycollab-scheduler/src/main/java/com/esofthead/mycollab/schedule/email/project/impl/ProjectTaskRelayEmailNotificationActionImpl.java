@@ -119,13 +119,13 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		taskCode.put(
 				"webLink",
 				ProjectLinkGenerator.generateTaskPreviewFullLink(siteUrl,
-						bean.getProjectid(), bean.getId()));
+						bean.getTaskkey(), bean.getProjectShortname()));
 
 		listOfTitles.add(taskCode);
 
 		String summary = bean.getTaskname();
 		String summaryLink = ProjectLinkGenerator.generateTaskPreviewFullLink(
-				siteUrl, bean.getProjectid(), bean.getId());
+				siteUrl, bean.getTaskkey(), bean.getProjectShortname());
 
 		String avatarId = "";
 
@@ -418,7 +418,8 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 					Img img = TagBuilder.newImg("icon", taskgroupIconLink);
 
 					String tasklistlink = ProjectLinkGenerator
-							.generateTaskPreviewFullLink(context.getSiteUrl(),
+							.generateTaskGroupPreviewFullLink(
+									context.getSiteUrl(),
 									taskgroup.getProjectid(), taskgroup.getId());
 					A link = TagBuilder.newA(tasklistlink, taskgroup.getName());
 					return TagBuilder.newLink(img, link).write();

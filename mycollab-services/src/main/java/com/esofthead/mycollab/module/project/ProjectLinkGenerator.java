@@ -58,17 +58,22 @@ public class ProjectLinkGenerator {
 		return "project/task/dashboard/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateTaskPreviewLink(Integer projectId,
-			Integer taskId) {
-		return "project/task/task/preview/"
-				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, taskId });
+	public static String generateTaskPreviewLink(Integer taskkey,
+			String prjShortName) {
+		return String.format("project/task/task/preview/%s-%d", prjShortName,
+				taskkey);
 	}
 
 	public static String generateTaskPreviewFullLink(String siteUrl,
-			Integer projectId, Integer taskId) {
+			Integer taskKey, String prjShortName) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ generateTaskPreviewLink(projectId, taskId);
+				+ generateTaskPreviewLink(taskKey, prjShortName);
+	}
+
+	public static String generateTaskEditLink(Integer taskkey,
+			String prjShortName) {
+		return String.format("project/task/task/edit/%s-%d", prjShortName,
+				taskkey);
 	}
 
 	public static String generateMilestonesLink(int projectId) {
@@ -218,16 +223,18 @@ public class ProjectLinkGenerator {
 		return "project/bug/dashboard/" + UrlEncodeDecoder.encode(projectId);
 	}
 
-	public static String generateBugPreviewLink(int projectId, int bugId) {
-		return "project/bug/preview/"
-				+ GenericLinkUtils
-						.encodeParam(new Object[] { projectId, bugId });
+	public static String generateBugPreviewLink(int bugKey, String prjShortname) {
+		return String.format("project/bug/preview/%s-%d", prjShortname, bugKey);
 	}
 
-	public static String generateBugPreviewFullLink(String siteUrl,
-			int projectId, int bugId) {
+	public static String generateBugEditLink(int bugkey, String prjShortname) {
+		return String.format("project/bug/edit/%s-%d", prjShortname, bugkey);
+	}
+
+	public static String generateBugPreviewFullLink(String siteUrl, int bugKey,
+			String prjShortname) {
 		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM
-				+ generateBugPreviewLink(projectId, bugId);
+				+ generateBugPreviewLink(bugKey, prjShortname);
 	}
 
 	public static String generateFileDashboardLink(int projectId) {

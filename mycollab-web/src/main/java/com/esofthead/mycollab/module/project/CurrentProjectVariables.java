@@ -262,11 +262,11 @@ public class CurrentProjectVariables {
 
 	public static int getProjectId() {
 		SimpleProject project = getProject();
-		if (project != null) {
-			return project.getId();
-		} else {
-			return -1;
-		}
+		return (project != null) ? project.getId() : -1;
+	}
 
+	public static String getShortName() {
+		SimpleProject project = getProject();
+		return (project != null) ? project.getShortname() : "";
 	}
 }

@@ -25,7 +25,6 @@ import org.vaadin.risto.stylecalendar.DateOptionsGenerator;
 import org.vaadin.risto.stylecalendar.StyleCalendar;
 
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -52,7 +51,7 @@ public class StyleCalendarExp extends VerticalLayout {
 
 	public StyleCalendarExp() {
 		this.setWidth("230px");
-		this.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		this.setHeightUndefined();
 		this.setSpacing(false);
 		this.setStyleName("stylecalendar-ext");
 		this.setMargin(new MarginInfo(true, false, false, false));
@@ -195,8 +194,8 @@ public class StyleCalendarExp extends VerticalLayout {
 		c2.setTime(second);
 
 		return c1.get(Calendar.DATE) == c2.get(Calendar.DATE)
-				&& c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1
-				.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
+				&& c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+				&& c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR);
 	}
 
 	public void selectWeek(Date randomDay) {

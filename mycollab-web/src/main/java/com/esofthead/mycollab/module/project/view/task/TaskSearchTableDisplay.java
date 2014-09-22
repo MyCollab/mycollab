@@ -19,13 +19,13 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 
 import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -45,7 +45,6 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressPercentageIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CssLayout;
@@ -90,13 +89,13 @@ public class TaskSearchTableDisplay
 						.getProject().getShortname(), task.getTaskkey(), task
 						.getTaskname());
 				LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
-						.generateTaskPreviewFullLink(task.getProjectid(),
-								task.getId()));
+						.generateTaskPreviewFullLink(task.getTaskkey(),
+								task.getProjectShortname()));
 				b.setDescription(ProjectTooltipGenerator.generateToolTipTask(
 						AppContext.getUserLocale(), task,
 						AppContext.getSiteUrl(), AppContext.getTimezone()));
 
-				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
+				if (StringUtils.isNotBlank(task.getPriority())) {
 					b.setIconLink(ProjectResources
 							.getIconResourceLink12ByTaskPriority(task
 									.getPriority()));
@@ -123,7 +122,7 @@ public class TaskSearchTableDisplay
 
 				taskName.addComponent(b);
 				taskName.setWidth("100%");
-				taskName.setHeight(SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+				taskName.setHeightUndefined();
 				return taskName;
 
 			}

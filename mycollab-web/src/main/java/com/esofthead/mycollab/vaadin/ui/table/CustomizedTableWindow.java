@@ -104,6 +104,7 @@ public abstract class CustomizedTableWindow extends Window {
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public void buttonClick(ClickEvent event) {
 						List<TableViewField> defaultSelectedColumns = tableItem
@@ -142,6 +143,7 @@ public abstract class CustomizedTableWindow extends Window {
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public void buttonClick(final ClickEvent event) {
 						final List<TableViewField> selectedColumns = (List<TableViewField>) CustomizedTableWindow.this.listBuilder
@@ -183,6 +185,7 @@ public abstract class CustomizedTableWindow extends Window {
 				Alignment.MIDDLE_CENTER);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setSelectedViewColumns() {
 		final Collection<String> viewColumnIds = this.getViewColumns();
 

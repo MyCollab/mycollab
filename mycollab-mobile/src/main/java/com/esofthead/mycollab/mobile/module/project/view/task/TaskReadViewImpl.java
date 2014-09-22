@@ -16,9 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
@@ -207,7 +208,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				return new DefaultFormViewFieldFactory.FormViewField(
 						beanItem.getTaskListName());
 			} else if (propertyId.equals("priority")) {
-				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
+				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
 									.getIconResourceLink12ByTaskPriority(beanItem

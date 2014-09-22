@@ -100,6 +100,7 @@ public class ProjectTaskOverdueComponent extends Depot {
 
 			final LabelLink taskLink = new LabelLink(genericTask.getName(),
 					ProjectLinkBuilder.generateProjectItemLink(
+							CurrentProjectVariables.getShortName(),
 							genericTask.getProjectId(), genericTask.getType(),
 							genericTask.getTypeId()));
 			taskLink.setIconLink(ProjectResources.getResourceLink(genericTask

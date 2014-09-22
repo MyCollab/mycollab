@@ -49,6 +49,7 @@ public class DefaultBeanPagedList<SearchService extends ISearchableService<S>, S
 		return searchService.getTotalCount(searchRequest.getSearchCriteria());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected List<T> queryCurrentData() {
 		return searchService.findPagableListByCriteria(searchRequest);

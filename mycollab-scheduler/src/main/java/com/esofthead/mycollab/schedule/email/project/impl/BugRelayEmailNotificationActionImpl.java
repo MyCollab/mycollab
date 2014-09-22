@@ -122,13 +122,13 @@ public class BugRelayEmailNotificationActionImpl extends
 		bugCode.put(
 				"webLink",
 				ProjectLinkGenerator.generateBugPreviewFullLink(siteUrl,
-						bean.getProjectid(), bean.getId()));
+						bean.getBugkey(), bean.getProjectShortName()));
 
 		listOfTitles.add(bugCode);
 
 		String summary = bean.getSummary();
 		String summaryLink = ProjectLinkGenerator.generateBugPreviewFullLink(
-				siteUrl, bean.getProjectid(), bean.getId());
+				siteUrl, bean.getBugkey(), bean.getProjectShortName());
 
 		String avatarId = "";
 

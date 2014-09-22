@@ -75,7 +75,7 @@ public class DueBugWidget extends BugDisplayWidget {
 					+ CurrentProjectVariables.getProject().getShortname() + "-"
 					+ bug.getBugkey() + "]: " + bug.getSummary(),
 					ProjectLinkBuilder.generateBugPreviewFullLink(
-							bug.getProjectid(), bug.getId()));
+							bug.getBugkey(), bug.getProjectShortName()));
 			defectLink.setWidth("100%");
 			defectLink.setDescription(ProjectTooltipGenerator
 					.generateToolTipBug(AppContext.getUserLocale(), bug,

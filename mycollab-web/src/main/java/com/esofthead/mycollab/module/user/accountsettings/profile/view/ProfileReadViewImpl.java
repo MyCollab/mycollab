@@ -39,7 +39,6 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -203,8 +202,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 						AppContext
 								.getMessage(UserI18nEnum.SECTION_BASIC_INFORMATION));
 				basicInformationHeaderLbl.setStyleName("h2");
-				basicInformationHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
-						Sizeable.Unit.PIXELS);
+				basicInformationHeaderLbl.setWidthUndefined();
 				basicInformationHeader.addComponent(basicInformationHeaderLbl);
 
 				final CssLayout contactInformationHeader = new CssLayout();
@@ -214,8 +212,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 						AppContext
 								.getMessage(UserI18nEnum.SECTION_CONTACT_INFORMATION));
 				contactInformationHeaderLbl.setStyleName("h2");
-				contactInformationHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
-						Sizeable.Unit.PIXELS);
+				contactInformationHeaderLbl.setWidthUndefined();
 				contactInformationHeader
 						.addComponent(contactInformationHeaderLbl);
 
@@ -226,8 +223,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 						AppContext
 								.getMessage(UserI18nEnum.SECTION_ADVANCED_INFORMATION));
 				advanceInfoHeaderLbl.setStyleName("h2");
-				advanceInfoHeaderLbl.setWidth(Sizeable.SIZE_UNDEFINED,
-						Sizeable.Unit.PIXELS);
+				advanceInfoHeaderLbl.setWidthUndefined();
 				advanceInfoHeader.addComponent(advanceInfoHeaderLbl);
 
 				this.basicInformation = new GridFormLayoutHelper(1, 7, "100%",

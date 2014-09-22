@@ -44,6 +44,7 @@
         type="com.esofthead.mycollab.module.project.domain.ProjectActivityStream">
         <result column="projectId" jdbcType="INTEGER" property="projectId" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
+        <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -186,7 +187,7 @@
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
-               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName,
+               s_activitystream.extraTypeId AS projectId, m_prj_project.name AS projectName, m_prj_project.shortname AS projectShortName,
                m_audit_log.id AS log_id, m_audit_log.object_class AS log_object_class, m_audit_log.posteddate AS log_posteddate, m_audit_log.posteduser AS log_posteduser, 
                m_audit_log.sAccountId AS log_sAccountId, m_audit_log.type AS log_type, m_audit_log.typeid AS log_typeid, m_audit_log.module AS log_module, 
                m_audit_log.changeset AS log_changeset

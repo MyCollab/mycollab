@@ -18,7 +18,6 @@ package com.esofthead.mycollab.mobile.ui;
 
 import java.io.Serializable;
 
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -63,11 +62,11 @@ public class ConfirmDialog extends Window {
 		return d;
 	}
 
-	protected void constructUI(final String message, final String okCaption,
+	private void constructUI(final String message, final String okCaption,
 			final String cancelCaption) {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setWidth("100%");
-		layout.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		layout.setHeightUndefined();
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
 		VerticalLayout messageWrapper = new VerticalLayout();

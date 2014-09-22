@@ -16,12 +16,13 @@
  */
 package com.esofthead.mycollab.module.crm.view.account;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.module.user.ui.components.ActiveUserComboBox;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -106,11 +107,11 @@ public class AccountSimpleSearchPanel extends
 						SearchField.AND, AppContext.getAccountId()));
 
 				String searchType = (String) group.getValue();
-				if (StringUtils.isNotNullOrEmpty(searchType)) {
+				if (StringUtils.isNotBlank(searchType)) {
 
 					if (textValueField != null) {
 						String strSearch = textValueField.getValue();
-						if (StringUtils.isNotNullOrEmpty(strSearch)) {
+						if (StringUtils.isNotBlank(strSearch)) {
 
 							if (searchType.equals("Name")) {
 								searchCriteria
@@ -134,7 +135,7 @@ public class AccountSimpleSearchPanel extends
 
 					if (userBox != null) {
 						String user = (String) userBox.getValue();
-						if (StringUtils.isNotNullOrEmpty(user)) {
+						if (StringUtils.isNotBlank(user)) {
 							searchCriteria
 									.setAssignUsers(new SetSearchField<String>(
 											SearchField.AND,

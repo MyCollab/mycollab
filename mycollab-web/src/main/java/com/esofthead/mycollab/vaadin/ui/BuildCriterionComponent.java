@@ -23,11 +23,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.esofthead.mycollab.common.domain.SaveSearchResultWithBLOBs;
 import com.esofthead.mycollab.common.domain.criteria.SaveSearchResultCriteria;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.SaveSearchResultService;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -207,6 +210,11 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 	private void saveSearchCriteria(String queryText) {
 		List<SearchFieldInfo> fieldInfos = buildSearchFieldInfos();
 
+		if (CollectionUtils.isEmpty(fieldInfos)) {
+			throw new UserInvalidInputException(
+					"You must select at least one search criteria");
+		}
+
 		SaveSearchResultService saveSearchResultService = ApplicationContextUtil
 				.getSpringBean(SaveSearchResultService.class);
 		SaveSearchResultWithBLOBs searchResult = new SaveSearchResultWithBLOBs();
@@ -220,6 +228,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		buildFilterBox(queryText);
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<SearchFieldInfo> buildSearchFieldInfos() {
 		Iterator<Component> iterator = searchContainer.iterator();
 		List<SearchFieldInfo> fieldInfos = new ArrayList<SearchFieldInfo>();
@@ -238,6 +247,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public S fillupSearchCriteria() {
 		try {
 			S searchCriteria = type.newInstance();
@@ -311,6 +321,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			deleteBtn = new Button("", new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
+				@SuppressWarnings("unchecked")
 				@Override
 				public void buttonClick(ClickEvent event) {
 					int compIndex = searchContainer
@@ -344,6 +355,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			}
 		}
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		private void fillSearchFieldInfo(SearchFieldInfo searchFieldInfo) {
 			String width = "200px";
 			if (operatorSelectionBox != null) {
@@ -582,6 +594,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			return new SearchFieldInfo(prefixOper, param, compareOper, value);
 		}
 
+		@SuppressWarnings("rawtypes")
 		private SearchField buildSearchField() {
 			Param param = (Param) fieldSelectionBox.getValue();
 			String prefixOperation = (operatorSelectionBox != null) ? (String) operatorSelectionBox
@@ -701,8 +714,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 					default:
 						throw new MyCollabException("Not support yet");
 					}
-				}
-				else if (param instanceof PropertyParam) {
+				} else if (param instanceof PropertyParam) {
 					if (valueBox.getComponentCount() != 1) {
 						return null;
 					}
@@ -773,6 +785,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			this.addValueChangeListener(new ValueChangeListener() {
 				private static final long serialVersionUID = 1L;
 
+				@SuppressWarnings("unchecked")
 				@Override
 				public void valueChange(
 						com.vaadin.data.Property.ValueChangeEvent event) {
@@ -786,6 +799,10 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 								.fromJson(queryText);
 						// @HACK: === the library serialize with extra list
 						// wrapper
+						if (CollectionUtils.isEmpty(fieldInfos)) {
+							throw new UserInvalidInputException(
+									"There is no field in search criterion");
+						}
 						fieldInfos = (List<SearchFieldInfo>) fieldInfos.get(0);
 						fillSearchFieldInfo(fieldInfos);
 
@@ -863,6 +880,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 			this.setImmediate(true);
 		}
 
+		@SuppressWarnings("unchecked")
 		private void contructComboBox() {
 			SaveSearchResultCriteria searchCriteria = new SaveSearchResultCriteria();
 			searchCriteria.setType(new StringSearchField(searchCategory));

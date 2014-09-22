@@ -197,7 +197,7 @@
                 concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
                 s_user.avatarId as assignUserAvatarId,
                 m_tracker_bug.duedate AS dueDate, m_tracker_bug.projectid AS projectId, m_prj_project.name AS projectName,
-                'Project-Bug' AS type, m_tracker_bug.id AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
+                'Project-Bug' AS type, m_tracker_bug.bugkey AS typeId, m_tracker_bug.lastUpdatedTime AS lastUpdatedTime
                  
           FROM m_tracker_bug
               LEFT OUTER JOIN s_user ON (m_tracker_bug.assignuser=s_user.username)
@@ -212,7 +212,7 @@
             concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) AS assignUserFullName,
             s_user.avatarId as assignUserAvatarId,
             m_prj_task.deadline AS dueDate, m_prj_task.projectid AS projectId, m_prj_project.name AS projectName,
-            'Project-Task' AS type, m_prj_task.id AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
+            'Project-Task' AS type, m_prj_task.taskkey AS typeid, m_prj_task.lastUpdatedTime AS lastUpdatedTime
           
           FROM m_prj_task
             LEFT OUTER JOIN s_user ON (m_prj_task.assignUser=s_user.username)

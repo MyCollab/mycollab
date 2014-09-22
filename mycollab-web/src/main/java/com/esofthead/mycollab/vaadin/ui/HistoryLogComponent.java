@@ -33,7 +33,6 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.utils.FieldGroupFomatter;
 import com.esofthead.mycollab.utils.FieldGroupFomatter.FieldDisplayHandler;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
@@ -65,7 +64,7 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 				ApplicationContextUtil.getSpringBean(AuditLogService.class),
 				HistoryLogRowDisplay.class);
 		this.setWidth("100%");
-		this.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		this.setHeightUndefined();
 		this.setMargin(true);
 		this.setStyleName("historylog-component");
 

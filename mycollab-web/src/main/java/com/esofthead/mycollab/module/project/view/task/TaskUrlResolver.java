@@ -17,7 +17,9 @@
 package com.esofthead.mycollab.module.project.view.task;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.module.project.ProjectLinkParams;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
@@ -35,6 +37,7 @@ import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
  * 
  */
 public class TaskUrlResolver extends ProjectUrlResolver {
+
 	public TaskUrlResolver() {
 		this.addSubResolver("preview", new ReadUrlResolver());
 		this.addSubResolver("edit", new EditUrlResolver());
@@ -43,11 +46,30 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 	private static class ReadUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			int projectId, taskId;
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int taskId = Integer.parseInt(tokens[1]);
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+				ProjectTaskService taskService = ApplicationContextUtil
+						.getSpringBean(ProjectTaskService.class);
+				SimpleTask task = taskService.findByProjectAndTaskKey(itemKey,
+						prjShortName, AppContext.getAccountId());
+
+				if (task != null) {
+					projectId = task.getProjectid();
+					taskId = task.getId();
+				} else {
+					throw new ResourceNotFoundException();
+				}
+			} else {
+				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+				String[] tokens = decodeUrl.split("/");
+				projectId = Integer.parseInt(tokens[0]);
+				taskId = Integer.parseInt(tokens[1]);
+			}
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskScreenData.Read(taskId));
@@ -59,18 +81,28 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
-
-			int projectId = Integer.parseInt(tokens[0]);
-			int taskId = Integer.parseInt(tokens[1]);
-
+			SimpleTask task;
 			ProjectTaskService taskService = ApplicationContextUtil
 					.getSpringBean(ProjectTaskService.class);
-			SimpleTask task = taskService.findById(taskId,
-					AppContext.getAccountId());
+
+			if (ProjectLinkParams.isValidParam(params[0])) {
+				String prjShortName = ProjectLinkParams
+						.getProjectShortName(params[0]);
+				int itemKey = ProjectLinkParams.getItemKey(params[0]);
+
+				task = taskService.findByProjectAndTaskKey(itemKey,
+						prjShortName, AppContext.getAccountId());
+			} else {
+				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
+				String[] tokens = decodeUrl.split("/");
+
+				int taskId = Integer.parseInt(tokens[1]);
+
+				task = taskService.findById(taskId, AppContext.getAccountId());
+			}
+
 			PageActionChain chain = new PageActionChain(
-					new ProjectScreenData.Goto(projectId),
+					new ProjectScreenData.Goto(task.getProjectid()),
 					new TaskScreenData.Edit(task));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));

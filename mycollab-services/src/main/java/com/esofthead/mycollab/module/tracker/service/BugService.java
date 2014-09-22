@@ -40,6 +40,10 @@ public interface BugService extends
 	SimpleBug findById(int bugid, @CacheKey int sAccountId);
 
 	@Cacheable
+	SimpleBug findByProjectAndBugKey(int bugKey, String projectShortName,
+			@CacheKey int sAccountId);
+
+	@Cacheable
 	List<GroupItem> getStatusSummary(@CacheKey BugSearchCriteria criteria);
 
 	@Cacheable

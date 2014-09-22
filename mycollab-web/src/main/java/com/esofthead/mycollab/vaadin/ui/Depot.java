@@ -18,7 +18,6 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractOrderedLayout;
 import com.vaadin.ui.Alignment;
@@ -83,8 +82,7 @@ public class Depot extends VerticalLayout {
 		}
 
 		this.headerContent.setStyleName("header-elements");
-		this.headerContent.setWidth(Sizeable.SIZE_UNDEFINED,
-				Sizeable.Unit.PIXELS);
+		this.headerContent.setWidthUndefined();
 		// this.headerContent.setHeight("100%");
 		this.headerContent.setSizeUndefined();
 

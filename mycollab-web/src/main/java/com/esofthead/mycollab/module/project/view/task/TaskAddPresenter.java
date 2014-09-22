@@ -22,6 +22,7 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.Task;
 import com.esofthead.mycollab.module.project.events.TaskEvent;
 import com.esofthead.mycollab.module.project.events.TaskListEvent;
@@ -94,7 +95,7 @@ public class TaskAddPresenter extends AbstractPresenter<TaskAddView> {
 
 			taskContainer.addComponent(view.getWidget());
 
-			Task task = (Task) data.getParams();
+			SimpleTask task = (SimpleTask) data.getParams();
 			view.editItem(task);
 
 			ProjectBreadcrumb breadCrumb = ViewManager

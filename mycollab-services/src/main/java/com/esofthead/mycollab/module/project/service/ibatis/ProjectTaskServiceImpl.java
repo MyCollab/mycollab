@@ -110,7 +110,7 @@ public class ProjectTaskServiceImpl extends
 
 		return super.updateWithSession(record, username);
 	}
-	
+
 	private void beforeUpdate(Task record) {
 		if ((record.getPercentagecomplete() != null)
 				&& (record.getPercentagecomplete() == 100)) {
@@ -118,7 +118,7 @@ public class ProjectTaskServiceImpl extends
 		} else if (record.getStatus() == null) {
 			record.setStatus(StatusI18nEnum.Open.name());
 		}
-		
+
 		CacheUtils.cleanCaches(record.getSaccountid(), ProjectService.class,
 				ProjectGenericTaskService.class, ProjectTaskListService.class,
 				ProjectActivityStreamService.class, ProjectMemberService.class,
@@ -151,6 +151,13 @@ public class ProjectTaskServiceImpl extends
 	@Override
 	public List<GroupItem> getAssignedDefectsSummary(TaskSearchCriteria criteria) {
 		return taskMapperExt.getAssignedDefectsSummary(criteria);
+	}
+
+	@Override
+	public SimpleTask findByProjectAndTaskKey(int taskkey,
+			String projectShortName, int sAccountId) {
+		return taskMapperExt.findByProjectAndTaskKey(taskkey, projectShortName,
+				sAccountId);
 	}
 
 }

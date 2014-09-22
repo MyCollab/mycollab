@@ -247,6 +247,7 @@ public class ActivityStreamComponent extends CssLayout {
 			A itemLink = new A();
 			itemLink.setId("projectOverViewtagA" + uid);
 			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					activityStream.getProjectShortName(),
 					activityStream.getExtratypeid(), activityStream.getType(),
 					activityStream.getTypeid()));
 

@@ -53,11 +53,13 @@ Version 4.5.1
 * Project time logging is displayed in multiple layouts
 * User can add comment to project component and project version
 * Validate project shortname is unique in account
+* Make links of bug and task are readable
 
 **Bug Fixes**
 
 * Save task in task read view throws exception
 * Inconsistent time logging permission
+* Throws exception if user saves an empty search criteria
 
 Version 4.5.0
 -----------------------------

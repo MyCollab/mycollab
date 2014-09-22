@@ -30,6 +30,7 @@ public class SimpleTask extends Task {
 
 	private static final long serialVersionUID = 1L;
 	private String projectName;
+	private String projectShortname;
 	private String taskListName;
 	private String assignUserAvatarId;
 	private String assignUserFullName;
@@ -139,4 +140,11 @@ public class SimpleTask extends Task {
 		this.logByUserTimeZone = logByUserTimeZone;
 	}
 
+	public String getProjectShortname() {
+		return projectShortname;
+	}
+
+	public void setProjectShortname(String projectShortname) {
+		this.projectShortname = projectShortname;
+	}
 }

@@ -19,12 +19,10 @@ package com.esofthead.mycollab.module.project.view.bug;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 
-import org.vaadin.dialogs.ConfirmDialog;
+import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -43,7 +41,6 @@ import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.module.tracker.service.RelatedBugService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
@@ -315,10 +312,10 @@ public class BugRelatedField extends CustomComponent {
 						relatedItem.getRelatedid(), AppContext.getAccountId());
 
 				LabelLink b = new LabelLink(bugname, ProjectLinkBuilder
-						.generateBugPreviewFullLink(bug.getProjectid(),
-								bug.getId()));
+						.generateBugPreviewFullLink(bug.getBugkey(),
+								bug.getProjectShortName()));
 
-				if (StringUtils.isNotNullOrEmpty(bug.getPriority())) {
+				if (StringUtils.isNotBlank(bug.getPriority())) {
 					String iconPriority = ProjectResources
 							.getIconResourceLink12ByBugPriority(bug
 									.getPriority());

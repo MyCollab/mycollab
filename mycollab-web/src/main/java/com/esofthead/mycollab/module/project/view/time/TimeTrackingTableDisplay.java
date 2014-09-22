@@ -94,6 +94,7 @@ public class TimeTrackingTableDisplay
 
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectShortName(),
 									itemLogging.getProjectid(),
 									itemLogging.getType(),
 									itemLogging.getTypeid()));
@@ -113,6 +114,7 @@ public class TimeTrackingTableDisplay
 
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectShortName(),
 									itemLogging.getProjectid(),
 									itemLogging.getType(),
 									itemLogging.getTypeid()));
@@ -142,6 +144,7 @@ public class TimeTrackingTableDisplay
 
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
+									itemLogging.getProjectShortName(),
 									itemLogging.getProjectid(),
 									itemLogging.getType(),
 									itemLogging.getTypeid()));

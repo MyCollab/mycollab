@@ -30,13 +30,14 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
  * 
  */
 public class SimpleBug extends BugWithBLOBs {
-
 	private static final long serialVersionUID = 1L;
+
 	private String loguserFullName;
 	private String loguserAvatarId;
 	private String assignUserAvatarId;
 	private String assignuserFullName;
 	private String projectname;
+	private String projectShortName;
 
 	@NotBindable
 	private List<Version> affectedVersions;
@@ -162,5 +163,13 @@ public class SimpleBug extends BugWithBLOBs {
 		} else {
 			return false;
 		}
+	}
+
+	public String getProjectShortName() {
+		return projectShortName;
+	}
+
+	public void setProjectShortName(String projectShortName) {
+		this.projectShortName = projectShortName;
 	}
 }

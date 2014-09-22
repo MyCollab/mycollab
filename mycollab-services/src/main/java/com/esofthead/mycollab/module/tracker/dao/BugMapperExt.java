@@ -36,6 +36,10 @@ public interface BugMapperExt extends ISearchableDAO<BugSearchCriteria> {
 
 	SimpleBug getBugById(int bugid);
 
+	SimpleBug findByProjectAndBugKey(@Param("bugkey") int bugKey,
+			@Param("prjShortName") String projectShortName,
+			@Param("sAccountId") int sAccountId);
+
 	List<GroupItem> getStatusSummary(
 			@Param("searchCriteria") BugSearchCriteria criteria);
 

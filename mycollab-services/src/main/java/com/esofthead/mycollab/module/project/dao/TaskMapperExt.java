@@ -42,4 +42,8 @@ public interface TaskMapperExt extends ISearchableDAO<TaskSearchCriteria> {
 
 	List<GroupItem> getAssignedDefectsSummary(
 			@Param("searchCriteria") TaskSearchCriteria criteria);
+
+	SimpleTask findByProjectAndTaskKey(@Param("taskkey") int taskkey,
+			@Param("prjShortName") String projectShortName,
+			@Param("sAccountId") int sAccountId);
 }

@@ -55,15 +55,6 @@ public class StringUtils {
 	}
 
 	/**
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static boolean isNotNullOrEmpty(String str) {
-		return (str != null) && (!str.trim().equals(""));
-	}
-
-	/**
 	 * Check whether <code>text</code> is an Ascii string
 	 * 
 	 * @param text

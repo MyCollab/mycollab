@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.hene.popupbutton.PopupButton;
 
@@ -27,7 +28,6 @@ import com.esofthead.mycollab.common.TableViewField;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.LabelLink;
@@ -65,7 +65,7 @@ public class TaskTableDisplay extends
 		BeanTable<ProjectTaskService, TaskSearchCriteria, SimpleTask> {
 	private static final long serialVersionUID = 1L;
 
-	public TaskTableDisplay(List<TableViewField> displayColumns) {
+	TaskTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
 	}
 
@@ -91,13 +91,13 @@ public class TaskTableDisplay extends
 						.getTaskname());
 
 				LabelLink b = new LabelLink(taskname, ProjectLinkBuilder
-						.generateTaskPreviewFullLink(task.getProjectid(),
-								task.getId()));
+						.generateTaskPreviewFullLink(task.getTaskkey(),
+								task.getProjectShortname()));
 				b.setDescription(ProjectTooltipGenerator.generateToolTipTask(
 						AppContext.getUserLocale(), task,
 						AppContext.getSiteUrl(), AppContext.getTimezone()));
 
-				if (StringUtils.isNotNullOrEmpty(task.getPriority())) {
+				if (StringUtils.isNotBlank(task.getPriority())) {
 					b.setIconLink(ProjectResources
 							.getIconResourceLink12ByTaskPriority(task
 									.getPriority()));

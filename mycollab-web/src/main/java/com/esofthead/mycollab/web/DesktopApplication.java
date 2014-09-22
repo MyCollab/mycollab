@@ -31,6 +31,7 @@ import com.esofthead.mycollab.common.MyCollabSession;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.core.UnsupportedFeatureException;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -141,6 +142,13 @@ public class DesktopApplication extends MyCollabUI {
 		if (unsupportedException != null) {
 			NotificationUtil.showFeatureNotPresentInSubscription();
 			return;
+		}
+
+		ResourceNotFoundException resourceNotFoundException = (ResourceNotFoundException) getExceptionType(
+				e, ResourceNotFoundException.class);
+		if (resourceNotFoundException != null) {
+			NotificationUtil.showWarningNotification("Can not found resource.");
+			log.error("404", resourceNotFoundException);
 		}
 
 		UsageExceedBillingPlanException usageBillingException = (UsageExceedBillingPlanException) getExceptionType(

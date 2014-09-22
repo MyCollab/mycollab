@@ -92,9 +92,9 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				Integer taskid = reportParameters.getFieldValue("id");
-				return ProjectLinkBuilder.generateTaskPreviewFullLink(
-						CurrentProjectVariables.getProjectId(), taskid);
+				Integer taskid = reportParameters.getFieldValue("taskkey");
+				return ProjectLinkBuilder.generateTaskPreviewFullLink(taskid,
+						CurrentProjectVariables.getShortName());
 			}
 		};
 		map.put("taskname", new HyperlinkValue(taskNameTitleExpr,
@@ -137,9 +137,9 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 
 			@Override
 			public String evaluate(ReportParameters reportParameters) {
-				Integer bugid = reportParameters.getFieldValue("id");
-				return ProjectLinkBuilder.generateBugPreviewFullLink(
-						CurrentProjectVariables.getProjectId(), bugid);
+				Integer bugid = reportParameters.getFieldValue("bugkey");
+				return ProjectLinkBuilder.generateBugPreviewFullLink(bugid,
+						CurrentProjectVariables.getShortName());
 			}
 		};
 		map.put("summary",
@@ -486,10 +486,10 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 					return "";
 				} else if (type.equals(ProjectTypeConstants.BUG)) {
 					return ProjectLinkBuilder.generateBugPreviewFullLink(
-							CurrentProjectVariables.getProjectId(), typeid);
+							typeid, CurrentProjectVariables.getShortName());
 				} else if (type.equals(ProjectTypeConstants.TASK)) {
 					return ProjectLinkBuilder.generateTaskPreviewFullLink(
-							CurrentProjectVariables.getProjectId(), typeid);
+							typeid, CurrentProjectVariables.getShortName());
 				} else if (type.equals(ProjectTypeConstants.PROBLEM)) {
 					return ProjectLinkBuilder.generateProblemPreviewFullLink(
 							CurrentProjectVariables.getProjectId(), typeid);
@@ -523,10 +523,10 @@ public class ProjectColumnBuilderMapper implements InitializingBean {
 					return "";
 				} else if (type.equals(ProjectTypeConstants.BUG)) {
 					return ProjectLinkBuilder.generateBugPreviewFullLink(
-							CurrentProjectVariables.getProjectId(), typeid);
+							typeid, CurrentProjectVariables.getShortName());
 				} else if (type.equals(ProjectTypeConstants.TASK)) {
 					return ProjectLinkBuilder.generateTaskPreviewFullLink(
-							CurrentProjectVariables.getProjectId(), typeid);
+							typeid, CurrentProjectVariables.getShortName());
 				}
 				return type;
 			}

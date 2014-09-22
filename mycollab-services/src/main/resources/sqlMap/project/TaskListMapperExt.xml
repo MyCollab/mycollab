@@ -87,7 +87,7 @@
                     m_prj_task.remainEstimate AS subTask_remainEstimate, m_prj_task.tasklistid AS subTask_tasklistid, 
                     m_prj_task.createdTime AS subTask_createdTime, m_prj_task.lastUpdatedTime AS subTask_lastUpdatedTime, 
                     m_prj_task.assignUser AS subTask_assignUser, m_prj_task.sAccountId AS subTask_sAccountId, m_prj_task.status AS subTask_status,
-                    m_prj_task.taskkey AS subTask_taskkey, taskUser.avatarId AS subTask_assignUserAvatarId,
+                    m_prj_task.taskkey AS subTask_taskkey, taskUser.avatarId AS subTask_assignUserAvatarId, m_prj_project.shortname AS subTask_projectShortname,
                     concat(taskUser.firstname, ' ', LTRIM(concat(IFNULL(taskUser.middlename, ''), ' ')), taskUser.lastname) AS subTask_assignUserFullName,
                     (SELECT AVG(task.percentagecomplete) FROM m_prj_task AS task WHERE m_prj_task_list.id = task.tasklistid) AS percentageComplete,
                     (SELECT COUNT(task_all.id) FROM  m_prj_task AS task_all WHERE m_prj_task_list.id = task_all.tasklistid) AS numAllTasks,

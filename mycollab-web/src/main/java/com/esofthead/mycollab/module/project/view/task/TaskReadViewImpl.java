@@ -20,6 +20,7 @@ package com.esofthead.mycollab.module.project.view.task;
 import java.util.GregorianCalendar;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
@@ -342,7 +342,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp2<SimpleTask>
 						beanItem.getProjectid(),
 						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
 			} else if (propertyId.equals("priority")) {
-				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
+				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
 									.getIconResourceLink12ByTaskPriority(beanItem

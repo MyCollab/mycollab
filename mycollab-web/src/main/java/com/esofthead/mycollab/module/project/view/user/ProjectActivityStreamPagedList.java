@@ -109,7 +109,7 @@ public class ProjectActivityStreamPagedList
 
 		try {
 
-			for (final SimpleActivityStream activityStream : currentListData) {
+			for (final ProjectActivityStream activityStream : currentListData) {
 				final Date itemCreatedDate = activityStream.getCreatedtime();
 
 				if (!DateUtils.isSameDay(currentDate, itemCreatedDate)) {
@@ -204,7 +204,7 @@ public class ProjectActivityStreamPagedList
 		return div.write();
 	}
 
-	private String buildItemValue(SimpleActivityStream activityStream,
+	private String buildItemValue(ProjectActivityStream activityStream,
 			String uid) {
 		DivLessFormatter div = new DivLessFormatter();
 		Img image = new Img("", ProjectResources.getResourceLink(activityStream
@@ -212,6 +212,7 @@ public class ProjectActivityStreamPagedList
 		A itemLink = new A();
 		itemLink.setId("tagA" + uid);
 		itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+				activityStream.getProjectShortName(),
 				activityStream.getExtratypeid(), activityStream.getType(),
 				activityStream.getTypeid()));
 

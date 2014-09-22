@@ -112,7 +112,7 @@ public class BugAddPresenter extends AbstractPresenter<BugAddView> {
 		}
 	}
 
-	public void saveBug(SimpleBug bug) {
+	private void saveBug(SimpleBug bug) {
 		BugService bugService = ApplicationContextUtil
 				.getSpringBean(BugService.class);
 		bug.setProjectid(CurrentProjectVariables.getProjectId());

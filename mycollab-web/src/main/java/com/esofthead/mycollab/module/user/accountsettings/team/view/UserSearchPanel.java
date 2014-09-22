@@ -17,13 +17,14 @@
 
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.billing.RegisterStatusConstants;
 import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
@@ -164,7 +165,7 @@ public class UserSearchPanel extends GenericSearchPanel<UserSearchCriteria> {
 									RegisterStatusConstants.SENT_VERIFICATION_EMAIL,
 									RegisterStatusConstants.VERIFICATING }));
 
-			if (StringUtils.isNotNullOrEmpty(this.nameField.getValue())) {
+			if (StringUtils.isNotBlank(this.nameField.getValue())) {
 				UserSearchPanel.this.searchCriteria
 						.setDisplayName(new StringSearchField(SearchField.AND,
 								this.nameField.getValue()));

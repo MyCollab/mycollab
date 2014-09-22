@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,16 +66,19 @@ public class FieldGroupFomatter {
 				new CurrencyHistoryFieldFormat());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void generateFieldDisplayHandler(String fieldname, Enum displayName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
 			HistoryFieldFormat format) {
 		fieldsFormat.put(fieldname,
 				new FieldDisplayHandler(displayName, format));
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void generateFieldDisplayHandler(String fieldname, Enum displayName,
 			String formatName) {
 		fieldsFormat.put(fieldname, new FieldDisplayHandler(displayName,
@@ -87,6 +89,7 @@ public class FieldGroupFomatter {
 		return fieldsFormat.get(fieldname);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static class FieldDisplayHandler {
 
 		private Enum displayName;
@@ -227,6 +230,7 @@ public class FieldGroupFomatter {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static class I18nHistoryFieldFormat implements HistoryFieldFormat {
 
 		private Class<? extends Enum> enumCls;
@@ -235,6 +239,7 @@ public class FieldGroupFomatter {
 			this.enumCls = enumCls;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public Component toVaadinComponent(String value) {
 			try {
@@ -249,6 +254,7 @@ public class FieldGroupFomatter {
 			}
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public String toString(String value) {
 			try {

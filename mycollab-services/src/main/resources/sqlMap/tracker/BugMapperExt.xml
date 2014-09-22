@@ -19,6 +19,8 @@
             property="assignUserAvatarId" />
 
         <result column="projectname" jdbcType="VARCHAR" property="projectname" />
+        
+        <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
 
         <result column="milestoneName" jdbcType="VARCHAR"
             property="milestoneName" />
@@ -380,7 +382,7 @@
                  assignuserTbl.avatarId AS assignUserAvatarId,
                  concat(loguserTbl.firstname, ' ', LTRIM(concat(IFNULL(loguserTbl.middlename, ''), ' ')), loguserTbl.lastname) as loguserFullName,
                  loguserTbl.avatarId AS loguserAvatarId,
-                 m_prj_project.name as projectname, 
+                 m_prj_project.name as projectname, m_prj_project.shortname AS projectShortName,
                  affectedversion.id as affectedversion_id, affectedversion.projectid as affectedversion_projectid, 
                  affectedversion.description as affectedversion_description, affectedversion.duedate as affectedversion_duedate, 
                  affectedversion.versionname as affectedversion_versionname, affectedversion.createdUser as affectedversion_createdUser, 
@@ -412,6 +414,16 @@
 
         <include refid="selectBug" />
         WHERE m_tracker_bug.id = @{bugid,jdbcType=NUMERIC}
+
+    </select>
+    
+    <select id="findByProjectAndBugKey" resultMap="SimpleBugResult"
+        parameterType="map" lang="velocity">
+
+        <include refid="selectBug" />
+        WHERE m_tracker_bug.sAccountId = @{sAccountId,jdbcType=NUMERIC}
+            AND m_tracker_bug.bugkey = @{bugkey}
+            AND m_prj_project.shortname = @{prjShortName}
 
     </select>
 

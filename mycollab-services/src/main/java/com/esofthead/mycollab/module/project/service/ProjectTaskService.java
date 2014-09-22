@@ -39,6 +39,10 @@ public interface ProjectTaskService extends
 	SimpleTask findById(int taskId, @CacheKey int sAccountId);
 
 	@Cacheable
+	SimpleTask findByProjectAndTaskKey(int taskkey, String projectShortName,
+			@CacheKey int sAccountId);
+
+	@Cacheable
 	List<GroupItem> getPrioritySummary(@CacheKey TaskSearchCriteria criteria);
 
 	@Cacheable

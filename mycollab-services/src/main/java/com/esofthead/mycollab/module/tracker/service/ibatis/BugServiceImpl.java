@@ -170,4 +170,11 @@ public class BugServiceImpl extends
 			@CacheKey BugSearchCriteria criteria) {
 		return bugMapperExt.getBugStatusGroupItemBaseComponent(criteria);
 	}
+
+	@Override
+	public SimpleBug findByProjectAndBugKey(int bugKey,
+			String projectShortName, int sAccountId) {
+		return bugMapperExt.findByProjectAndBugKey(bugKey, projectShortName,
+				sAccountId);
+	}
 }

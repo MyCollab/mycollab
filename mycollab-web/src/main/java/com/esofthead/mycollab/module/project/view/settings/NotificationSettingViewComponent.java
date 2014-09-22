@@ -34,7 +34,6 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -53,6 +52,7 @@ import com.vaadin.ui.VerticalLayout;
  * @param <B>
  * @param <S>
  */
+@SuppressWarnings("rawtypes")
 public abstract class NotificationSettingViewComponent<B extends ValuedBean, S extends ICrudService>
 		extends BlockWidget {
 	private static final long serialVersionUID = 1L;
@@ -70,8 +70,8 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 
 		levels.put("Default", AppContext
 				.getMessage(ProjectSettingI18nEnum.OPT_DEFAULT_SETTING));
-		levels.put("None", AppContext
-				.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
+		levels.put("None",
+				AppContext.getMessage(ProjectSettingI18nEnum.OPT_NONE_SETTING));
 		levels.put("Minimal", AppContext
 				.getMessage(ProjectSettingI18nEnum.OPT_MINIMUM_SETTING));
 		levels.put("Full", AppContext
@@ -97,8 +97,7 @@ public abstract class NotificationSettingViewComponent<B extends ValuedBean, S e
 				AppContext.getMessage(ProjectSettingI18nEnum.EXT_LEVEL));
 		notificationLabel.addStyleName("h2");
 
-		notificationLabel.setHeight(Sizeable.SIZE_UNDEFINED,
-				Sizeable.Unit.PIXELS);
+		notificationLabel.setHeightUndefined();
 		notificationLabelWrapper.addComponent(notificationLabel);
 
 		bodyWrapper.addComponent(notificationLabelWrapper);

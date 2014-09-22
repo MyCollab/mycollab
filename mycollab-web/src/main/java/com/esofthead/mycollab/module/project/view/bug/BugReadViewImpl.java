@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vaadin.peter.buttongroup.ButtonGroup;
@@ -28,7 +29,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
@@ -47,9 +47,9 @@ import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.ui.components.AbstractPreviewItemComp2;
 import com.esofthead.mycollab.module.project.ui.components.CommentDisplay;
-import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.ui.components.DateInfoComp;
 import com.esofthead.mycollab.module.project.ui.components.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
+import com.esofthead.mycollab.module.project.ui.components.ProjectFollowersComp;
 import com.esofthead.mycollab.module.project.view.settings.component.ProjectUserFormLinkField;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -661,7 +661,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				return new I18nFormViewField(beanItem.getStatus(),
 						BugStatus.class);
 			} else if (propertyId.equals("priority")) {
-				if (StringUtils.isNotNullOrEmpty(beanItem.getPriority())) {
+				if (StringUtils.isNotBlank(beanItem.getPriority())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
 									.getIconResourceLink12ByBugPriority(beanItem
@@ -677,7 +677,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 					return containerField;
 				}
 			} else if (propertyId.equals("severity")) {
-				if (StringUtils.isNotNullOrEmpty(beanItem.getSeverity())) {
+				if (StringUtils.isNotBlank(beanItem.getSeverity())) {
 					final Resource iconPriority = new ExternalResource(
 							ProjectResources
 									.getIconResourceLink12ByBugSeverity(beanItem

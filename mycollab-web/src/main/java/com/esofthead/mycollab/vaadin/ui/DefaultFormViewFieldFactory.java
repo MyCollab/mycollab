@@ -41,6 +41,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author MyCollab Ltd.
  * @since 2.0
  */
+@SuppressWarnings("rawtypes")
 public class DefaultFormViewFieldFactory {
 	private static Logger log = LoggerFactory
 			.getLogger(DefaultFormViewFieldFactory.class);
@@ -426,6 +427,7 @@ public class DefaultFormViewFieldFactory {
 			return String.class;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected Component initContent() {
 			final Label label = new Label();

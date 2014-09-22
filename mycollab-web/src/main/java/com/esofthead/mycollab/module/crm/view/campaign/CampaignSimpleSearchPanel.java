@@ -16,11 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.view.campaign;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
-import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.DateSelectionField;
@@ -96,11 +97,11 @@ public class CampaignSimpleSearchPanel extends
 						SearchField.AND, AppContext.getAccountId()));
 
 				String searchType = (String) group.getValue();
-				if (StringUtils.isNotNullOrEmpty(searchType)) {
+				if (StringUtils.isNotBlank(searchType)) {
 
 					if (textValueField != null) {
 						String strSearch = (String) textValueField.getValue();
-						if (StringUtils.isNotNullOrEmpty(strSearch)) {
+						if (StringUtils.isNotBlank(strSearch)) {
 
 							if (searchType.equals("Campaign Name")) {
 								searchCriteria

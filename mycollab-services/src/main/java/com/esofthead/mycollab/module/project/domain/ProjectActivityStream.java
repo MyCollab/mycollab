@@ -28,6 +28,7 @@ public class ProjectActivityStream extends SimpleActivityStream {
 	private static final long serialVersionUID = 1L;
 	private int projectId;
 	private String projectName;
+	private String projectShortName;
 
 	public int getProjectId() {
 		return projectId;
@@ -43,5 +44,13 @@ public class ProjectActivityStream extends SimpleActivityStream {
 
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+
+	public String getProjectShortName() {
+		return projectShortName;
+	}
+
+	public void setProjectShortName(String projectShortName) {
+		this.projectShortName = projectShortName;
 	}
 }

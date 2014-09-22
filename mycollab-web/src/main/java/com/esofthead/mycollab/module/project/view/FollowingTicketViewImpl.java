@@ -53,7 +53,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.Sizeable;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -148,8 +147,7 @@ public class FollowingTicketViewImpl extends AbstractPageView implements
 			}
 		});
 		exportButtonControl = new SplitButton(exportBtn);
-		exportButtonControl.setWidth(Sizeable.SIZE_UNDEFINED,
-				Sizeable.Unit.PIXELS);
+		exportButtonControl.setWidthUndefined();
 		exportButtonControl.addStyleName(UIConstants.THEME_GRAY_LINK);
 		exportButtonControl.setIcon(MyCollabResource
 				.newResource("icons/16/export.png"));

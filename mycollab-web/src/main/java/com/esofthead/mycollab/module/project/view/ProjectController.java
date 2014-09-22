@@ -39,7 +39,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectRole;
 import com.esofthead.mycollab.module.project.domain.Risk;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.SimpleStandupReport;
-import com.esofthead.mycollab.module.project.domain.Task;
+import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.TaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
@@ -236,7 +236,8 @@ public class ProjectController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoAdd event) {
-				TaskScreenData.Add data = new TaskScreenData.Add(new Task());
+				TaskScreenData.Add data = new TaskScreenData.Add(
+						new SimpleTask());
 				projectView.gotoTaskList(data);
 			}
 		});
@@ -247,8 +248,8 @@ public class ProjectController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoEdit event) {
-				TaskScreenData.Edit data = new TaskScreenData.Edit((Task) event
-						.getData());
+				TaskScreenData.Edit data = new TaskScreenData.Edit(
+						(SimpleTask) event.getData());
 				projectView.gotoTaskList(data);
 			}
 		});

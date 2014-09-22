@@ -23,7 +23,6 @@ import com.esofthead.mycollab.events.SessionEvent.UserProfileChangeEvent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.google.common.eventbus.Subscribe;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -47,7 +46,7 @@ public class UserPanel extends HorizontalLayout {
 		setSpacing(true);
 		setMargin(true);
 		setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		setHeightUndefined();
 
 		userAvatar = new Image();
 		userAvatar.setWidth("24px");

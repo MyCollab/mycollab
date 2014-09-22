@@ -53,6 +53,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 
 	protected V view;
 
+	@SuppressWarnings("unchecked")
 	public AbstractPresenter(Class<V> viewClass) {
 		this.viewClass = viewClass;
 		implClass = (Class<V>) ViewManager.getViewImplCls(viewClass);
@@ -156,6 +157,7 @@ public abstract class AbstractPresenter<V extends PageView> implements
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleChain(ComponentContainer container,
 			PageActionChain pageActionChain) {

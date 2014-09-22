@@ -35,7 +35,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
+import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -49,7 +49,6 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
@@ -101,7 +100,7 @@ class GanttChartTaskContainer extends VerticalLayout {
 				TaskTableFieldDef.taskname, TaskTableFieldDef.startdate,
 				TaskTableFieldDef.duedate, TaskTableFieldDef.assignee));
 		taskTable.setWidth("100%");
-		taskTable.setHeight(Sizeable.SIZE_UNDEFINED, Sizeable.Unit.PIXELS);
+		taskTable.setHeightUndefined();
 		taskTable.addStyleName("gantt-table");
 
 		gantt = new Gantt();
@@ -273,8 +272,8 @@ class GanttChartTaskContainer extends VerticalLayout {
 		String arg0 = ProjectResources
 				.getResourceLink(ProjectTypeConstants.TASK);
 		String arg1 = idtagA;
-		String arg2 = ProjectLinkBuilder.generateProjectItemLink(
-				task.getProjectid(), ProjectTypeConstants.TASK, task.getId());
+		String arg2 = ProjectLinkGenerator.generateTaskPreviewLink(
+				task.getTaskkey(), task.getProjectShortname());
 		String arg3 = "'" + randomStrId + "'";
 		String arg4 = "'" + ProjectTypeConstants.TASK + "'";
 		String arg5 = "'" + task.getId() + "'";

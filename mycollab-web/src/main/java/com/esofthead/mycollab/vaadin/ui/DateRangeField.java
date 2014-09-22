@@ -35,7 +35,7 @@ import com.vaadin.ui.Label;
  * @since 2.0
  * 
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes" })
 public class DateRangeField extends CustomField {
 
 	private static final long serialVersionUID = 1L;
