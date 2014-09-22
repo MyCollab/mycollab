@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.ui;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
+import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
@@ -41,19 +42,19 @@ public class ProjectModuleNavigationMenu extends AbstractNavigationMenu {
 		final MenuButton prjListBtn = new MenuButton(
 				AppContext
 						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_LIST),
-				"&#xe614;");
+				IconConstants.PROJECT_DASHBOARD);
 		addMenu(prjListBtn);
 
 		final MenuButton activityBtn = new MenuButton(
 				AppContext
 						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_ACTIVITIES),
-				"&#xe610;");
+				IconConstants.PROJECT_ACTIVITIES);
 		addMenu(activityBtn);
 
 		final MenuButton ticketBtn = new MenuButton(
 				AppContext
 						.getMessage(ProjectCommonI18nEnum.M_VIEW_PROJECT_FOLLOWING_TICKETS),
-				"&#xe613;");
+				IconConstants.PROJECT_FOLLOWING);
 		addMenu(ticketBtn);
 	}
 

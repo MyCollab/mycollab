@@ -22,20 +22,20 @@ import com.esofthead.mycollab.common.domain.criteria.CommentSearchCriteria;
 import com.esofthead.mycollab.common.service.CommentService;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
-import com.esofthead.mycollab.core.utils.StringUtils;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.UrlDetectableLabel;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.schedule.email.SendingRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.BeanList;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -43,7 +43,7 @@ import com.vaadin.ui.VerticalLayout;
  * @since 4.4.0
  *
  */
-public class ProjectCommentListDisplay extends VerticalLayout implements
+public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 		ReloadableComponent {
 	private static final long serialVersionUID = 1L;
 
@@ -59,19 +59,21 @@ public class ProjectCommentListDisplay extends VerticalLayout implements
 			final boolean isDisplayCommentInput,
 			final boolean isSendingRelayEmail,
 			final Class<? extends SendingRelayEmailNotificationAction> emailHandler) {
-		this.setMargin(new MarginInfo(true, false, false, false));
-		this.setStyleName("comment-list");
+		this.addStyleName("comment-list");
+		this.setCaption(AppContext
+				.getMessage(ProjectCommonI18nEnum.TAB_COMMENT));
 		this.type = type;
 		if (isDisplayCommentInput) {
 			commentBox = new ProjectCommentInput(this, type, extraTypeId,
 					false, isSendingRelayEmail, emailHandler);
+			this.setToolbar(commentBox);
 		}
 
 		commentList = new BeanList<CommentService, CommentSearchCriteria, SimpleComment>(
 				ApplicationContextUtil.getSpringBean(CommentService.class),
 				CommentRowDisplayHandler.class);
 		commentList.setDisplayEmptyListText(false);
-		this.addComponent(commentList);
+		this.setContent(commentList);
 
 		displayCommentList();
 	}
@@ -145,8 +147,7 @@ public class ProjectCommentListDisplay extends VerticalLayout implements
 			metadataRow.addComponent(commentTimePost);
 			rightCol.addComponent(metadataRow);
 
-			Label commentContent = new Label(StringUtils.trim(
-					StringUtils.trimHtmlTags(comment.getComment()), 150, true));
+			Label commentContent = new UrlDetectableLabel(comment.getComment());
 			commentContent.setStyleName("comment-content");
 			rightCol.addComponent(commentContent);
 

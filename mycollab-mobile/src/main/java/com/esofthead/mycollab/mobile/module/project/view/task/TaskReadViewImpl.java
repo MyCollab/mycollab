@@ -18,22 +18,29 @@ package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormContainerHorizontalViewField;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAndDisplayUrlViewField;
+import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.TaskPriority;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.schedule.email.project.ProjectTaskRelayEmailNotificationAction;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
@@ -48,6 +55,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
@@ -64,6 +72,8 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	private static final long serialVersionUID = 9021783098267883004L;
 
 	private Button quickActionStatusBtn;
+
+	private ProjectCommentListDisplay associateComments;
 
 	public TaskReadViewImpl() {
 		super();
@@ -85,6 +95,7 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
 			this.addStyleName(UIConstants.STATUS_DISABLED);
 		}
+		associateComments.loadComments("" + beanItem.getId());
 	}
 
 	@Override
@@ -99,8 +110,9 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected void initRelatedComponents() {
-		// TODO Auto-generated method stub
-
+		associateComments = new ProjectCommentListDisplay(CommentType.PRJ_TASK,
+				CurrentProjectVariables.getProjectId(), true, true,
+				ProjectTaskRelayEmailNotificationAction.class);
 	}
 
 	@Override
@@ -168,8 +180,30 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		// TODO Auto-generated method stub
-		return null;
+		HorizontalLayout toolbarLayout = new HorizontalLayout();
+		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		toolbarLayout.setSpacing(true);
+
+		Button relatedComments = new Button();
+		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.PROJECT_MESSAGE
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+				+ "</div>");
+		relatedComments.setHtmlContentAllowed(true);
+		relatedComments.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = 4889821151518627676L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(this, associateComments));
+			}
+		});
+		toolbarLayout.addComponent(relatedComments);
+
+		return toolbarLayout;
 	}
 
 	private class ReadFormFieldFactory extends

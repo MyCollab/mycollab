@@ -16,20 +16,33 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.mobile.ui.AbstractPreviewItemComp;
 import com.esofthead.mycollab.mobile.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
+import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
+import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
+import com.esofthead.mycollab.schedule.email.project.ProjectTaskGroupRelayEmailNotificationAction;
+import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
+import com.vaadin.ui.HorizontalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -43,8 +56,11 @@ public class TaskGroupReadViewImpl extends
 
 	private static final long serialVersionUID = 8303226753169728418L;
 
+	private ProjectCommentListDisplay associateComments;
+
 	@Override
 	protected void afterPreviewItem() {
+		associateComments.loadComments("" + beanItem.getId());
 	}
 
 	@Override
@@ -59,7 +75,10 @@ public class TaskGroupReadViewImpl extends
 
 	@Override
 	protected void initRelatedComponents() {
-		// TODO Add related comments
+		associateComments = new ProjectCommentListDisplay(
+				CommentType.PRJ_TASK_LIST,
+				CurrentProjectVariables.getProjectId(), true, true,
+				ProjectTaskGroupRelayEmailNotificationAction.class);
 	}
 
 	@Override
@@ -81,7 +100,30 @@ public class TaskGroupReadViewImpl extends
 
 	@Override
 	protected ComponentContainer createBottomPanel() {
-		return null;
+		HorizontalLayout toolbarLayout = new HorizontalLayout();
+		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		toolbarLayout.setSpacing(true);
+
+		Button relatedComments = new Button();
+		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.PROJECT_MESSAGE
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(ProjectCommonI18nEnum.TAB_COMMENT)
+				+ "</div>");
+		relatedComments.setHtmlContentAllowed(true);
+		relatedComments.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = 2276465280812964681L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(this, associateComments));
+			}
+		});
+		toolbarLayout.addComponent(relatedComments);
+
+		return toolbarLayout;
 	}
 
 	private class TaskGroupBeanFieldGroupFactory extends

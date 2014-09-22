@@ -26,4 +26,18 @@ public class IconConstants {
 	public static final String CRM_CASE = "&#xE605;";
 	public static final String CRM_DOCUMENT = "&#xE607;";
 	public static final String CRM_SETTING = "&#xE608;";
+
+	public static final String PROJECT_DASHBOARD = "&#xe614;";
+	public static final String PROJECT_ACTIVITIES = "&#xe610;";
+	public static final String PROJECT_FOLLOWING = "&#xe613;";
+	public static final String PROJECT_MESSAGE = "&#xf04f;";
+	public static final String PROJECT_MILESTONE = "&#xf075;";
+	public static final String PROJECT_TASK = "&#xe60f;";
+	public static final String PROJECT_BUG = "&#xf188;";
+	public static final String PROJECT_FILE = "&#xf017;";
+	public static final String PROJECT_RISK = "&#xf02d;";
+	public static final String PROJECT_PROBLEM = "&#xf0d2;";
+	public static final String PROJECT_TIME = "&#xe612;";
+	public static final String PROJECT_STANDUP = "&#xf0c0;";
+	public static final String PROJECT_USER = "&#xe601;";
 }

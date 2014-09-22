@@ -78,7 +78,9 @@ public class BugUrlResolver extends ProjectUrlResolver {
 					projectId = bug.getProjectid();
 					bugId = bug.getId();
 				} else {
-					throw new ResourceNotFoundException();
+					throw new ResourceNotFoundException(
+							"Can not get bug with bugkey " + itemKey
+									+ " and project short name " + prjShortName);
 				}
 			} else {
 				String decodeUrl = UrlEncodeDecoder.decode(params[0]);

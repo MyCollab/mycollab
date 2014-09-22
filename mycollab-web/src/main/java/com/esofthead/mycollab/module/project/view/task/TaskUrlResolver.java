@@ -61,7 +61,9 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 					projectId = task.getProjectid();
 					taskId = task.getId();
 				} else {
-					throw new ResourceNotFoundException();
+					throw new ResourceNotFoundException(
+							"Can not find task with itemKey " + itemKey
+									+ " and project " + prjShortName);
 				}
 			} else {
 				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
