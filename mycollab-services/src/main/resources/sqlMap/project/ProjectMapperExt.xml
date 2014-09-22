@@ -45,6 +45,7 @@
         <result column="projectId" jdbcType="INTEGER" property="projectId" />
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
         <result column="projectShortName" jdbcType="VARCHAR" property="projectShortName" />
+        <result column="itemKey" jdbcType="VARCHAR" property="itemKey" />
     </resultMap>
 
     <sql id="querySearchCriteria">
@@ -183,7 +184,7 @@
 
     <select id="getProjectActivityStreams" parameterType="ActivityStreamSearchCriteria"
         resultMap="ActivityStreamResult" lang="velocity">
-         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, m_tracker_bug.bugkey AS typeId, 
+         (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_tracker_bug.bugkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
@@ -202,7 +203,7 @@
             #end
         #end)
         UNION
-        (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, m_prj_task.taskkey AS typeId, 
+        (SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, m_prj_task.taskkey AS itemKey, 
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,
@@ -220,7 +221,7 @@
                 <include refid="com.esofthead.mycollab.common.dao.ActivityStreamMapperExt.querySearchCriteria" />
             #end
         #end)
-        UNION(SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, 
+        UNION(SELECT s_activitystream.id, s_activitystream.sAccountId, s_activitystream.type, s_activitystream.typeId, null AS itemKey,
                s_activitystream.createdTime, s_activitystream.action, s_activitystream.createdUser, s_activitystream.nameField, s_activitystream.extraTypeId,
                s_activitystream.module, concat(s_user.firstname, ' ', LTRIM(concat(IFNULL(s_user.middlename, ''), ' ')), s_user.lastname) as createdUserFullName,
                s_user.avatarId AS createdUserAvatarId,

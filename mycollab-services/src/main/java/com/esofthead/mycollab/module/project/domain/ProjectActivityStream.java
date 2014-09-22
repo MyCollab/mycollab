@@ -26,9 +26,11 @@ import com.esofthead.mycollab.common.domain.SimpleActivityStream;
  */
 public class ProjectActivityStream extends SimpleActivityStream {
 	private static final long serialVersionUID = 1L;
+	
 	private int projectId;
 	private String projectName;
 	private String projectShortName;
+	private Integer itemKey;
 
 	public int getProjectId() {
 		return projectId;
@@ -52,5 +54,13 @@ public class ProjectActivityStream extends SimpleActivityStream {
 
 	public void setProjectShortName(String projectShortName) {
 		this.projectShortName = projectShortName;
+	}
+
+	public Integer getItemKey() {
+		return itemKey;
+	}
+
+	public void setItemKey(Integer itemKey) {
+		this.itemKey = itemKey;
 	}
 }

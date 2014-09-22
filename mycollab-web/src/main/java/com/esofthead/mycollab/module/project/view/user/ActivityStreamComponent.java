@@ -246,10 +246,20 @@ public class ActivityStreamComponent extends CssLayout {
 					ProjectResources.getResourceLink(activityStream.getType()));
 			A itemLink = new A();
 			itemLink.setId("projectOverViewtagA" + uid);
-			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-					activityStream.getProjectShortName(),
-					activityStream.getExtratypeid(), activityStream.getType(),
-					activityStream.getTypeid()));
+
+			if (ProjectTypeConstants.TASK.equals(activityStream.getType())
+					|| ProjectTypeConstants.BUG
+							.equals(activityStream.getType())) {
+				itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+						activityStream.getProjectShortName(),
+						activityStream.getExtratypeid(),
+						activityStream.getType(), activityStream.getItemKey()));
+			} else {
+				itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+						activityStream.getProjectShortName(),
+						activityStream.getExtratypeid(),
+						activityStream.getType(), activityStream.getTypeid()));
+			}
 
 			String arg17 = "'" + uid + "'";
 			String arg18 = "'" + activityStream.getType() + "'";

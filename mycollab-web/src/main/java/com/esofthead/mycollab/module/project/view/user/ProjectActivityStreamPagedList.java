@@ -37,6 +37,7 @@ import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.project.ProjectLinkBuilder;
 import com.esofthead.mycollab.module.project.ProjectResources;
+import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.service.ProjectActivityStreamService;
@@ -211,10 +212,18 @@ public class ProjectActivityStreamPagedList
 				.getType()));
 		A itemLink = new A();
 		itemLink.setId("tagA" + uid);
-		itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
-				activityStream.getProjectShortName(),
-				activityStream.getExtratypeid(), activityStream.getType(),
-				activityStream.getTypeid()));
+		if (ProjectTypeConstants.TASK.equals(activityStream.getType())
+				|| ProjectTypeConstants.BUG.equals(activityStream.getType())) {
+			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					activityStream.getProjectShortName(),
+					activityStream.getExtratypeid(), activityStream.getType(),
+					activityStream.getItemKey()));
+		} else {
+			itemLink.setHref(ProjectLinkBuilder.generateProjectItemLink(
+					activityStream.getProjectShortName(),
+					activityStream.getExtratypeid(), activityStream.getType(),
+					activityStream.getTypeid()));
+		}
 
 		String arg17 = "'" + uid + "'";
 		String arg18 = "'" + activityStream.getType() + "'";
