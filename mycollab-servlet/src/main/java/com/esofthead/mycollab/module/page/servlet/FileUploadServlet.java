@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.configuration.StorageConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
@@ -78,12 +79,12 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 			resourceService.saveContent(content, "", filecontent, 1);
 
 			String filePath = "";
-			StorageConfiguration storageConfiguration = SiteConfiguration
-					.getStorageConfiguration();
-			if (SiteConfiguration.isSupportFileStorage()) {
+			StorageConfiguration storageConfiguration = StorageManager
+					.getConfiguration();
+			if (StorageManager.isFileStorage()) {
 				filePath = SiteConfiguration.getAppUrl() + "file/"
 						+ content.getPath();
-			} else if (SiteConfiguration.isSupportS3Storage()) {
+			} else if (StorageManager.isS3Storage()) {
 				filePath = storageConfiguration.getResourcePath(content
 						.getPath());
 			}

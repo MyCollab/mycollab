@@ -29,7 +29,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import com.esofthead.mycollab.common.ActivityStreamConstants;
 import com.esofthead.mycollab.common.ModuleNameConstants;
 import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -192,7 +192,7 @@ public class ActivityStreamComponent extends CssLayout {
 		private String buildAssigneeValue(ProjectActivityStream activityStream,
 				String uid) {
 			DivLessFormatter div = new DivLessFormatter();
-			Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(
+			Img userAvatar = new Img("", StorageManager.getAvatarLink(
 					activityStream.getCreatedUserAvatarId(), 16));
 			A userLink = new A();
 			userLink.setId("projectusertagA" + uid);

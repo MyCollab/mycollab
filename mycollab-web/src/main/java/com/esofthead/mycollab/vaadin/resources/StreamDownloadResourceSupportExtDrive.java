@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-web.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.file.resource;
+package com.esofthead.mycollab.vaadin.resources;
 
 import java.io.IOException;
 import java.io.InputStream;

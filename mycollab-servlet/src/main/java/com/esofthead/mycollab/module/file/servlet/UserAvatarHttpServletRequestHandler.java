@@ -34,6 +34,7 @@ import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.configuration.FileStorageConfiguration;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.module.file.service.ContentService;
 import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
@@ -45,7 +46,8 @@ import com.esofthead.mycollab.servlet.GenericServletRequestHandler;
  * 
  */
 @Component("userAvatarFSServlet")
-public class UserAvatarHttpServletRequestHandler extends GenericServletRequestHandler {
+public class UserAvatarHttpServletRequestHandler extends
+		GenericServletRequestHandler {
 
 	private static Logger log = LoggerFactory
 			.getLogger(UserAvatarHttpServletRequestHandler.class);
@@ -56,7 +58,7 @@ public class UserAvatarHttpServletRequestHandler extends GenericServletRequestHa
 	@Override
 	protected void onHandleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		if (!SiteConfiguration.isSupportFileStorage()) {
+		if (!StorageManager.isFileStorage()) {
 			throw new MyCollabException(
 					"This servlet support file system setting only");
 		}
@@ -83,8 +85,8 @@ public class UserAvatarHttpServletRequestHandler extends GenericServletRequestHa
 			}
 		}
 
-		FileStorageConfiguration fileConfiguration = (FileStorageConfiguration) SiteConfiguration
-				.getStorageConfiguration();
+		FileStorageConfiguration fileConfiguration = (FileStorageConfiguration) StorageManager
+				.getConfiguration();
 		avatarFile = fileConfiguration.getAvatarFile(username, size);
 		InputStream avatarInputStream = null;
 		if (avatarFile != null) {

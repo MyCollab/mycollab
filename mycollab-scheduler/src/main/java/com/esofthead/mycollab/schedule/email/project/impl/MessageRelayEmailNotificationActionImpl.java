@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
@@ -56,7 +56,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 
 	@Autowired
 	private MessageService messageService;
-	
+
 	@Autowired
 	private ProjectService projectService;
 
@@ -97,8 +97,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 	@Override
 	protected SimpleMessage getBeanInContext(MailContext<SimpleMessage> context) {
 		return messageService.findMessageById(
-				Integer.parseInt(context.getTypeid()),
-				context.getSaccountid());
+				Integer.parseInt(context.getTypeid()), context.getSaccountid());
 	}
 
 	@Override
@@ -131,8 +130,7 @@ public class MessageRelayEmailNotificationActionImpl extends
 		if (projectMember != null) {
 			avatarId = projectMember.getMemberAvatarId();
 		}
-		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
-				16));
+		Img userAvatar = new Img("", StorageManager.getAvatarLink(avatarId, 16));
 		userAvatar.setWidth("16");
 		userAvatar.setHeight("16");
 		userAvatar.setStyle("display: inline-block; vertical-align: top;");

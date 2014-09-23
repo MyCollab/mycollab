@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
@@ -84,7 +84,7 @@ public class CommonTooltipGenerator {
 			Td trRow1_value = new Td().setStyle(
 					"width:150px;text-align: right; vertical-align: top;")
 					.appendChild(
-							new Img("", SiteConfiguration.getAvatarLink(
+							new Img("", StorageManager.getAvatarLink(
 									user.getAvatarid(), 100)));
 			trRow1_value.setAttribute("rowspan", "5");
 			trRow1.appendChild(new Td().setStyle(

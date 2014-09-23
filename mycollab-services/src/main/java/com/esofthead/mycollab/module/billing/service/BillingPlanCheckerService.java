@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.billing.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
 
@@ -25,6 +26,7 @@ import com.esofthead.mycollab.module.billing.UsageExceedBillingPlanException;
  * @since 4.1
  * 
  */
+@IgnoreCacheClass
 public interface BillingPlanCheckerService extends IService {
 	void validateAccountCanCreateMoreProject(Integer sAccountId)
 			throws UsageExceedBillingPlanException;

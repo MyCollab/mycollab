@@ -16,10 +16,12 @@
  */
 package com.esofthead.mycollab.module.tracker.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.tracker.domain.SimpleRelatedBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugRelatedSearchCriteria;
 
+@IgnoreCacheClass
 public interface RelatedBugService extends
 		IDefaultService<Integer, SimpleRelatedBug, BugRelatedSearchCriteria> {
 

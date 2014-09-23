@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
@@ -135,7 +135,7 @@ public class ProjectTaskRelayEmailNotificationActionImpl extends
 		if (projectMember != null) {
 			avatarId = projectMember.getMemberAvatarId();
 		}
-		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
+		Img userAvatar = new Img("", StorageManager.getAvatarLink(avatarId,
 				16));
 		userAvatar.setWidth("16");
 		userAvatar.setHeight("16");

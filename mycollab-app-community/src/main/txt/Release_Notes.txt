@@ -61,6 +61,7 @@ Version 4.5.1
 * Save task in task read view throws exception
 * Inconsistent time logging permission
 * Throws exception if user saves an empty search criteria
+* Return redundant task element for empty task list
 
 Version 4.5.0
 -----------------------------

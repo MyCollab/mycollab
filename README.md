@@ -101,13 +101,13 @@ Please take a look at MyCollab requirements:
 If you need to understand the more MyCollab advanced configuration settings, please visit the link http://community.mycollab.com/admin/configuration.html. You will finish reading and understanding in a matter of minutes.
 
 ## Document
-MyCollab is documented at http://community.mycollab.com. There are must read wiki articles if it is the first time you use MyCollab
+MyCollab is documented at http://community.mycollab.com. There are must read articles if it is the first time you use MyCollab
 * Installation http://community.mycollab.com/installation.html
 * Configuration http://community.mycollab.com/admin/configuration.html
 
 If you want to customize MyCollab, following links are useful to you:
-* Setup MyCollab in Eclipse workspace http://community.mycollab.com/dev/eclipse.html
-* Start customize MyCollab http://community.mycollab.com/dev/customize.html
+* Setup MyCollab in Eclipse http://community.mycollab.com/dev/eclipse.html
+* How to customize MyCollab http://community.mycollab.com/dev/customize.html
 
 ## Contact
 Contact the MyCollab team at:

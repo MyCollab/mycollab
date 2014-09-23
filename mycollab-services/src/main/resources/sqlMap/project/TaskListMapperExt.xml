@@ -34,7 +34,7 @@
 
         <result column="projectName" jdbcType="VARCHAR" property="projectName" />
 
-        <collection property="subTasks"
+        <collection property="subTasks" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.project.domain.SimpleTask"
             resultMap="com.esofthead.mycollab.module.project.dao.TaskMapperExt.TaskResult"
             columnPrefix="subTask_" />
@@ -96,10 +96,10 @@
                     FROM m_prj_task_list
                         LEFT OUTER JOIN s_user ON (s_user.username = m_prj_task_list.owner)
                         LEFT OUTER JOIN s_user AS createUserTbl ON (createUserTbl.username = m_prj_task_list.createduser)
-                        LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task_list.milestoneId)
-                        LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND (m_prj_task.status='Open'))
-                        LEFT OUTER JOIN s_user AS taskUser ON (taskUser.username = m_prj_task.assignUser)
                         LEFT OUTER JOIN m_prj_project ON (m_prj_project.id=m_prj_task_list.projectid)
+                        LEFT OUTER JOIN m_prj_milestone ON (m_prj_milestone.id = m_prj_task_list.milestoneId)
+                        LEFT OUTER JOIN m_prj_task ON (m_prj_task_list.id = m_prj_task.tasklistid AND m_prj_task.status='Open')
+                        LEFT OUTER JOIN s_user AS taskUser ON (taskUser.username = m_prj_task.assignUser)
         ]]>
     </sql>
 

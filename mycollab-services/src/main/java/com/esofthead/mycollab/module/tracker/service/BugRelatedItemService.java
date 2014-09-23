@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.tracker.service;
 
 import java.util.List;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.tracker.domain.Component;
 import com.esofthead.mycollab.module.tracker.domain.Version;
@@ -26,9 +27,11 @@ import com.esofthead.mycollab.module.tracker.domain.Version;
 /**
  * 
  * @author MyCollab Ltd.
+ * @since 1.0
  */
+@IgnoreCacheClass
 public interface BugRelatedItemService extends IService {
-	
+
 	void saveAffectedVersionsOfBug(int bugid, List<Version> versions);
 
 	void saveFixedVersionsOfBug(int bugid, List<Version> versions);

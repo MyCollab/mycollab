@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.common.TooltipBuilder;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.i18n.LocalizationHelper;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
@@ -137,7 +137,7 @@ public class CrmTooltipGenerator {
 			String userLink = (account.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURL,
 							account.getAssignuser()) : "";
-			String userAvatarLink = SiteConfiguration.getAvatarLink(
+			String userAvatarLink = StorageManager.getAvatarLink(
 					account.getAssignUserAvatarId(), 16);
 			Td cell32 = buildCellLink(userLink, userAvatarLink,
 					account.getAssignUserFullName());
@@ -221,7 +221,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (contact.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURL,
 							contact.getAssignuser()) : "";
-			String assignAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignAvatarLink = StorageManager.getAvatarLink(
 					contact.getAssignUserAvatarId(), 16);
 			Td cell44 = buildCellLink(assignUserLink, assignAvatarLink,
 					contact.getAssignUserFullName());
@@ -301,7 +301,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (campaign.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURl,
 							campaign.getAssignuser()) : "";
-			String assignUserAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignUserAvatarLink = StorageManager.getAvatarLink(
 					campaign.getAssignUserAvatarId(), 16);
 			Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					campaign.getAssignUserFullName());
@@ -416,7 +416,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (lead.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURl, lead.getAssignuser())
 					: "";
-			String assignUserAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignUserAvatarLink = StorageManager.getAvatarLink(
 					lead.getAssignUserAvatarId(), 16);
 			Td cell64 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					lead.getAssignUserFullName());
@@ -531,7 +531,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (opportunity.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURl,
 							opportunity.getAssignuser()) : "";
-			String assignUserAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignUserAvatarLink = StorageManager.getAvatarLink(
 					opportunity.getAssignUserAvatarId(), 16);
 			Td cell54 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					opportunity.getAssignUserFullName());
@@ -607,7 +607,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (cases.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURL, cases.getAssignuser())
 					: "";
-			String assignUserAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignUserAvatarLink = StorageManager.getAvatarLink(
 					cases.getAssignUserAvatarId(), 16);
 			Td cell44 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					cases.getAssignUserFullName());
@@ -795,7 +795,7 @@ public class CrmTooltipGenerator {
 			String assignUserLink = (task.getAssignuser() != null) ? AccountLinkGenerator
 					.generatePreviewFullUserLink(siteURL, task.getAssignuser())
 					: "";
-			String assignUserAvatarLink = SiteConfiguration.getAvatarLink(
+			String assignUserAvatarLink = StorageManager.getAvatarLink(
 					task.getAssignUserAvatarId(), 16);
 			Td cell34 = buildCellLink(assignUserLink, assignUserAvatarLink,
 					task.getAssignUserFullName());

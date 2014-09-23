@@ -34,7 +34,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.html.DivLessFormatter;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.domain.PageVersion;
@@ -354,9 +354,8 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 								AppContext.getAccountId());
 				if (member != null) {
 					DivLessFormatter div = new DivLessFormatter();
-					Img userAvatar = new Img("",
-							SiteConfiguration.getAvatarLink(
-									member.getMemberAvatarId(), 16));
+					Img userAvatar = new Img("", StorageManager.getAvatarLink(
+							member.getMemberAvatarId(), 16));
 					A userLink = new A();
 					userLink.setHref(ProjectLinkBuilder
 							.generateProjectMemberFullLink(

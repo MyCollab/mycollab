@@ -32,23 +32,13 @@ import com.esofthead.mycollab.core.utils.JsonDeSerializer;
 public class CacheUtils {
 	private static Logger log = LoggerFactory.getLogger(CacheUtils.class);
 
-	private static Class<IgnoreServiceEntity> ignoreCacheService = IgnoreServiceEntity.class;
-
 	public static String constructParamsKey(Object[] args) {
 		return JsonDeSerializer.toJson(args);
-	}
-
-	public static String getCachePrefix(Class<?> serviceClass, Integer accountId) {
-		return String.format("%s-%d",
-				getEnclosingServiceInterfaceName(serviceClass), accountId);
 	}
 
 	public static Class<?> getEnclosingServiceInterface(Class<?> serviceClass) {
 		Class<?> cls = ClassUtils.getInterfaceInstanceOf(serviceClass,
 				IService.class);
-		if (cls == null) {
-			return ignoreCacheService;
-		}
 
 		return cls;
 	}
@@ -66,5 +56,9 @@ public class CacheUtils {
 		for (Class<?> prefKey : classes) {
 			cleanCache(accountId, prefKey.getName());
 		}
+	}
+
+	public static boolean isInBlackList(Class<?> cls) {
+		return (cls.getAnnotation(IgnoreCacheClass.class) != null);
 	}
 }

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.common.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.common.domain.MonitorItem;
 import com.esofthead.mycollab.common.domain.criteria.MonitorSearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.core.persistence.service.ISearchableService;
  * @since 1.0
  * 
  */
+@IgnoreCacheClass
 public interface MonitorItemService extends ICrudService<Integer, MonitorItem>,
 		ISearchableService<MonitorSearchCriteria> {
 

@@ -16,8 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
+
 import com.esofthead.mycollab.common.GenericLinkUtils;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.html.DivLessFormatter;
@@ -40,8 +42,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
-
-import static com.esofthead.mycollab.html.DivLessFormatter.EMPTY_SPACE;
 
 /**
  * 
@@ -74,7 +74,7 @@ public class ProjectMessageListComponent extends Depot {
 
 		messageList.setSearchCriteria(searchCriteria);
 	}
-	
+
 	public static class MessageRowDisplayHandler implements
 			DefaultBeanPagedList.RowDisplayHandler<SimpleMessage> {
 
@@ -115,7 +115,7 @@ public class ProjectMessageListComponent extends Depot {
 
 		private String buildAssigneeValue(SimpleMessage message) {
 			DivLessFormatter div = new DivLessFormatter();
-			Img avatar = new Img("", SiteConfiguration.getAvatarLink(
+			Img avatar = new Img("", StorageManager.getAvatarLink(
 					message.getPostedUserAvatarId(), 16));
 			A assigneeLink = new A();
 			assigneeLink.setHref(ProjectLinkBuilder

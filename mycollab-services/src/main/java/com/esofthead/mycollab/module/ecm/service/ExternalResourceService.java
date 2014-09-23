@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.ecm.service;
 import java.io.InputStream;
 import java.util.List;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
@@ -32,6 +33,7 @@ import com.esofthead.mycollab.module.ecm.domain.Resource;
  * @since 1.0
  * 
  */
+@IgnoreCacheClass
 public interface ExternalResourceService extends IService {
 	/**
 	 * 

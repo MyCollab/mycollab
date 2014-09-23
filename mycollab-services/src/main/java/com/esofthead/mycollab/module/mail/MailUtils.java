@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.mail;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.DeploymentMode;
 import com.esofthead.mycollab.module.user.domain.BillingAccount;
 import com.esofthead.mycollab.module.user.service.BillingAccountService;
@@ -47,7 +48,6 @@ public class MailUtils {
 	}
 
 	public static String getAvatarLink(String userAvatarId, int size) {
-		return SiteConfiguration.getStorageConfiguration().getAvatarPath(
-				userAvatarId, size);
+		return StorageManager.getAvatarLink(userAvatarId, size);
 	}
 }

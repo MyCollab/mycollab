@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.common.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.common.domain.RelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
@@ -26,6 +27,7 @@ import com.esofthead.mycollab.core.persistence.service.IDefaultService;
  * @since 1.0
  * 
  */
+@IgnoreCacheClass
 public interface RelayEmailNotificationService
 		extends
 		IDefaultService<Integer, RelayEmailNotification, RelayEmailNotificationSearchCriteria> {

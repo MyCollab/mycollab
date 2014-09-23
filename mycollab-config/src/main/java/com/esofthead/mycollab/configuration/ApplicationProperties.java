@@ -33,7 +33,7 @@ import com.esofthead.mycollab.core.MyCollabException;
  * @since 1.0
  * 
  */
-class ApplicationProperties {
+public class ApplicationProperties {
 	private static final String RESOURCE_PROPERTIES = "mycollab.properties";
 	private static final String DECRYPT_PASS = "esofthead321";
 

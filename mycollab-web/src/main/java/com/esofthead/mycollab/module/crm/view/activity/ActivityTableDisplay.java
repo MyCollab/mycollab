@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.common.TableViewField;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
@@ -430,7 +430,7 @@ public class ActivityTableDisplay
 													.appendChild(
 															new Img(
 																	"",
-																	SiteConfiguration
+																	StorageManager
 																			.getAvatarLink(
 																					event.getAssignUserAvatarId(),
 																					16)))

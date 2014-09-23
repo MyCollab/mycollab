@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
 import com.esofthead.mycollab.module.project.domain.ProjectCustomizeView;
 
@@ -25,6 +26,7 @@ import com.esofthead.mycollab.module.project.domain.ProjectCustomizeView;
  * @since 4.4.0
  *
  */
+@IgnoreCacheClass
 public interface ProjectCustomizeViewService extends
 		ICrudService<Integer, ProjectCustomizeView> {
 

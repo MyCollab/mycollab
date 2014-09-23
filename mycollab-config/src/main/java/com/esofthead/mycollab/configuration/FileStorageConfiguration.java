@@ -25,7 +25,7 @@ import java.io.File;
  * @since 1.0
  * 
  */
-public class FileStorageConfiguration implements StorageConfiguration {
+public final class FileStorageConfiguration implements StorageConfiguration {
 
 	public static File baseContentFolder;
 
@@ -35,15 +35,11 @@ public class FileStorageConfiguration implements StorageConfiguration {
 		baseContentFolder.mkdirs();
 	}
 
-	private FileStorageConfiguration() {
+	FileStorageConfiguration() {
 		File avatarFolder = new File(baseContentFolder, "avatar");
 		File logoFolder = new File(baseContentFolder, "logo");
 		avatarFolder.mkdirs();
 		logoFolder.mkdirs();
-	}
-
-	public static FileStorageConfiguration build() {
-		return new FileStorageConfiguration();
 	}
 
 	@Override

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.service.ICrudService;
@@ -27,6 +28,7 @@ import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@IgnoreCacheClass
 public interface BillingAccountService extends
 		ICrudService<Integer, BillingAccount> {
 	SimpleBillingAccount getBillingAccountById(int accountId);

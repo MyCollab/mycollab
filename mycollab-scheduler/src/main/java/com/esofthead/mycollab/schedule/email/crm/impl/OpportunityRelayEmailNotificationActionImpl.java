@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import com.esofthead.mycollab.common.MonitorTypeConstants;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.configuration.StorageManager;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.crm.CrmLinkGenerator;
 import com.esofthead.mycollab.module.crm.CrmResources;
@@ -92,8 +92,7 @@ public class OpportunityRelayEmailNotificationActionImpl extends
 		if (user != null) {
 			avatarId = user.getAvatarid();
 		}
-		Img userAvatar = new Img("", SiteConfiguration.getAvatarLink(avatarId,
-				16));
+		Img userAvatar = new Img("", StorageManager.getAvatarLink(avatarId, 16));
 		userAvatar.setWidth("16");
 		userAvatar.setHeight("16");
 		userAvatar.setStyle("display: inline-block; vertical-align: top;");

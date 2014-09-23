@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.user.service;
 
 import java.util.List;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.cache.CacheEvict;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
@@ -30,6 +31,7 @@ import com.esofthead.mycollab.module.user.domain.criteria.UserSearchCriteria;
  * @author MyCollab Ltd.
  * @since 1.0
  */
+@IgnoreCacheClass
 public interface UserService extends
 		IDefaultService<String, User, UserSearchCriteria> {
 

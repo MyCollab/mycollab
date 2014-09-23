@@ -27,9 +27,9 @@ import com.esofthead.mycollab.core.utils.MimeTypesUtil;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.service.ResourceService;
-import com.esofthead.mycollab.module.file.resource.StreamDownloadResourceUtil;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -87,8 +87,9 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 
 				@Override
 				public void buttonClick(ClickEvent event) {
-					Resource previewResource = StreamDownloadResourceUtil
-							.getImagePreviewResource(attachment.getPath());
+					Resource previewResource = VaadinResourceManager
+							.getResourceManager().getImagePreviewResource(
+									attachment.getPath());
 					UI.getCurrent().addWindow(
 							new AttachmentPreviewWindow(previewResource));
 				}
@@ -138,8 +139,8 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 
 		Button downloadBtn = new Button();
 		FileDownloader fileDownloader = new FileDownloader(
-				StreamDownloadResourceUtil.getStreamResource(attachment
-						.getPath()));
+				VaadinResourceManager.getResourceManager().getStreamResource(
+						attachment.getPath()));
 		fileDownloader.extend(downloadBtn);
 
 		downloadBtn.setIcon(MyCollabResource

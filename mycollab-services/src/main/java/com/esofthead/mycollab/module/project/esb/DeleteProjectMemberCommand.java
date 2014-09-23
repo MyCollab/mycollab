@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.esb;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IService;
 
 /**
@@ -24,6 +25,7 @@ import com.esofthead.mycollab.core.persistence.service.IService;
  * @since 1.0
  * 
  */
+@IgnoreCacheClass
 public interface DeleteProjectMemberCommand extends IService {
 	void projectMemberRemoved(String username, Integer projectMemberId,
 			Integer projectId, Integer accountId);

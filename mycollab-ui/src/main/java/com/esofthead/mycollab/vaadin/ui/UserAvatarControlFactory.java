@@ -16,12 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.ui;
 
-import java.io.File;
-
-import com.esofthead.mycollab.configuration.FileStorageConfiguration;
-import com.esofthead.mycollab.configuration.SiteConfiguration;
-import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FileResource;
+import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Image;
@@ -41,33 +36,12 @@ public class UserAvatarControlFactory {
 	}
 
 	public static Resource createAvatarResource(String avatarId, int size) {
-		Resource avatarRes = null;
-
 		if (avatarId == null) {
 			return MyCollabResource.newResource("icons/default_user_avatar_"
 					+ size + ".png");
 		}
-
-		if (SiteConfiguration.isSupportFileStorage()) {
-			FileStorageConfiguration fileStorageConfiguration = (FileStorageConfiguration) SiteConfiguration
-					.getStorageConfiguration();
-			File avatarFile = fileStorageConfiguration.getAvatarFile(avatarId,
-					size);
-			if (avatarFile != null) {
-				avatarRes = new FileResource(avatarFile);
-			} else {
-				avatarRes = MyCollabResource
-						.newResource("icons/default_user_avatar_" + size
-								+ ".png");
-			}
-
-		} else if (SiteConfiguration.isSupportS3Storage()) {
-			avatarRes = new ExternalResource(SiteConfiguration
-					.getStorageConfiguration().getAvatarPath(avatarId,
-							size));
-		}
-
-		return avatarRes;
+		return VaadinResourceManager.getResourceManager().getAvatarResource(
+				avatarId, size);
 	}
 
 	public static Button createUserAvatarButtonLink(String userAvatarId,

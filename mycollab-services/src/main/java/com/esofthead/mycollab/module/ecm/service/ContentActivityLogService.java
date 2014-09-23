@@ -16,12 +16,20 @@
  */
 package com.esofthead.mycollab.module.ecm.service;
 
+import com.esofthead.mycollab.cache.IgnoreCacheClass;
 import com.esofthead.mycollab.core.persistence.service.IDefaultService;
 import com.esofthead.mycollab.module.ecm.domain.ContentActivityLogWithBLOBs;
 import com.esofthead.mycollab.module.ecm.domain.criteria.ContentActivityLogSearchCriteria;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
+@IgnoreCacheClass
 public interface ContentActivityLogService
 		extends
-		IDefaultService<Integer, ContentActivityLogWithBLOBs, ContentActivityLogSearchCriteria>{
+		IDefaultService<Integer, ContentActivityLogWithBLOBs, ContentActivityLogSearchCriteria> {
 
 }
