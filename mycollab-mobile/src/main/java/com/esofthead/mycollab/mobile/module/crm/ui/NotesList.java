@@ -239,7 +239,7 @@ public class NotesList extends AbstractMobilePageView {
 			messageHeader.setExpandRatio(username, 1.0f);
 
 			final Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(note.getCreatedtime(),
+					DateTimeUtils.getPrettyDateValue(note.getCreatedtime(),
 							AppContext.getUserLocale()));
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");

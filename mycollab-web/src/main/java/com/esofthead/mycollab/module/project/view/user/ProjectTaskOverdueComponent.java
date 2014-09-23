@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.user;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
@@ -103,6 +104,7 @@ public class ProjectTaskOverdueComponent extends Depot {
 							CurrentProjectVariables.getShortName(),
 							genericTask.getProjectId(), genericTask.getType(),
 							genericTask.getTypeId()));
+			
 			taskLink.setIconLink(ProjectResources.getResourceLink(genericTask
 					.getType()));
 			taskLink.setStyleName("overdue");
@@ -116,10 +118,14 @@ public class ProjectTaskOverdueComponent extends Depot {
 			body.setStyleName("activity-date");
 			body.setSpacing(true);
 
+			Date dueDate = genericTask.getDueDate();
+
 			final Label dateLbl = new Label(AppContext.getMessage(
-					TaskI18nEnum.OPT_DUE_DATE, DateTimeUtils.formatDate(
-							genericTask.getDueDate(),
-							AppContext.getUserDateFormat())));
+					TaskI18nEnum.OPT_DUE_DATE,
+					DateTimeUtils.getPrettyDateValue(dueDate,
+							AppContext.getUserLocale())));
+			dateLbl.setDescription(AppContext.formatDate(dueDate));
+
 			body.addComponent(dateLbl);
 
 			final Label assigneeLabel = new Label("&nbsp;&nbsp;&nbsp;&nbsp;"

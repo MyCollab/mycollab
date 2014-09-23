@@ -130,7 +130,7 @@ public class ProjectMembersWidget extends Depot {
 			}
 			textRole += AppContext.getMessage(
 					ProjectMemberI18nEnum.OPT_MEMBER_JOIN_DATE, DateTimeUtils
-							.getStringDateFromNow(member.getJoindate(),
+							.getPrettyDateValue(member.getJoindate(),
 									AppContext.getUserLocale()));
 			memberRole.setValue(textRole);
 

@@ -143,7 +143,7 @@ public class CommonTooltipGenerator {
 							new Td().setStyle(
 									"word-wrap: break-word; white-space: normal;vertical-align: top; word-break: break-all;")
 									.appendText(
-											DateTimeUtils.getStringDateFromNow(
+											DateTimeUtils.getPrettyDateValue(
 													user.getLastaccessedtime(),
 													locale)));
 			table.appendChild(trRow1);

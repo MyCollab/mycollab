@@ -64,6 +64,7 @@ public class DriveInfoServiceImpl extends
 			return driveInfos.get(0);
 		} else {
 			DriveInfo driveInfo = new DriveInfo();
+			driveInfo.setUsedvolume(0L);
 			driveInfo.setSaccountid(sAccountId);
 			return driveInfo;
 		}

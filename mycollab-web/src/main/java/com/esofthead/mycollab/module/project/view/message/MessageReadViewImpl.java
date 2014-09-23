@@ -290,7 +290,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			final Label timePostLbl = new Label(AppContext.getMessage(
 					MessageI18nEnum.USER_COMMENT_ADD, message
 							.getFullPostedUserName(), DateTimeUtils
-							.getStringDateFromNow(message.getPosteddate(),
+							.getPrettyDateValue(message.getPosteddate(),
 									AppContext.getUserLocale())),
 					ContentMode.HTML);
 			timePostLbl.setSizeUndefined();

@@ -54,6 +54,7 @@ Version 4.5.1
 * User can add comment to project component and project version
 * Validate project shortname is unique in account
 * Make links of bug and task are readable
+* Add tooltip to pretty time display
 
 **Bug Fixes**
 

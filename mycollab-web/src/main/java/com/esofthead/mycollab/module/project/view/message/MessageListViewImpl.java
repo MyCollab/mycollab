@@ -247,7 +247,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			rightHeader.setSpacing(true);
 
 			final Label timePostLbl = new Label(
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate(),
+					DateTimeUtils.getPrettyDateValue(message.getPosteddate(),
 							AppContext.getUserLocale()));
 			timePostLbl.setSizeUndefined();
 			timePostLbl.setStyleName("time-post");

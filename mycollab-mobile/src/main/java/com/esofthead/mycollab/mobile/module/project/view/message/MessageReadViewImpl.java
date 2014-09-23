@@ -84,7 +84,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements
 		metadataRow.addComponent(userNameLbl);
 		metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
-		Label messageTimePost = new Label(DateTimeUtils.getStringDateFromNow(
+		Label messageTimePost = new Label(DateTimeUtils.getPrettyDateValue(
 				message.getPosteddate(), AppContext.getUserLocale()));
 		messageTimePost.setStyleName("time-post");
 		messageTimePost.setWidthUndefined();

@@ -139,7 +139,7 @@ public class ProjectCommentListDisplay extends AbstractMobilePageView implements
 			metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
 			Label commentTimePost = new Label(
-					DateTimeUtils.getStringDateFromNow(
+					DateTimeUtils.getPrettyDateValue(
 							comment.getCreatedtime(),
 							AppContext.getUserLocale()));
 			commentTimePost.setStyleName("time-post");

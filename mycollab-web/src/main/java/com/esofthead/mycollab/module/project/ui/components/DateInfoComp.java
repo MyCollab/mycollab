@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import com.esofthead.mycollab.core.arguments.ValuedBean;
 import com.esofthead.mycollab.core.utils.BeanUtility;
+import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.MarginInfo;
@@ -55,15 +56,27 @@ public class DateInfoComp extends VerticalLayout {
 		layout.setSpacing(true);
 		layout.setMargin(new MarginInfo(false, false, false, true));
 		try {
-			String createdDate = AppContext.formatDate((Date) PropertyUtils
-					.getProperty(bean, "createdtime"));
-			layout.addComponent(new Label(AppContext.getMessage(
-					ProjectCommonI18nEnum.ITEM_CREATED_DATE, createdDate)));
+			Date createdDate = (Date) PropertyUtils.getProperty(bean,
+					"createdtime");
+			Label createdDateLbl = new Label(AppContext.getMessage(
+					ProjectCommonI18nEnum.ITEM_CREATED_DATE,
+					DateTimeUtils.getPrettyDateValue(createdDate,
+							AppContext.getUserLocale())));
+			createdDateLbl.setDescription(AppContext
+					.formatDateTime(createdDate));
 
-			String updatedDate = AppContext.formatDate((Date) PropertyUtils
-					.getProperty(bean, "lastupdatedtime"));
-			layout.addComponent(new Label(AppContext.getMessage(
-					ProjectCommonI18nEnum.ITEM_UPDATED_DATE, updatedDate)));
+			layout.addComponent(createdDateLbl);
+
+			Date updatedDate = (Date) PropertyUtils.getProperty(bean,
+					"lastupdatedtime");
+			Label updatedDateLbl = new Label(AppContext.getMessage(
+					ProjectCommonI18nEnum.ITEM_UPDATED_DATE,
+					DateTimeUtils.getPrettyDateValue(updatedDate,
+							AppContext.getUserLocale())));
+			updatedDateLbl.setDescription(AppContext
+					.formatDateTime(updatedDate));
+			layout.addComponent(updatedDateLbl);
+
 			this.addComponent(layout);
 		} catch (Exception e) {
 			log.error("Get date is failed {}", BeanUtility.printBeanObj(bean));

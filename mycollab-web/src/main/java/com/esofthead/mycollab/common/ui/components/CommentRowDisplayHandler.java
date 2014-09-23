@@ -106,8 +106,10 @@ public class CommentRowDisplayHandler extends
 
 		Label timePostLbl = new Label(AppContext.getMessage(
 				GenericI18Enum.EXT_ADDED_COMMENT, comment.getOwnerFullName(),
-				DateTimeUtils.getStringDateFromNow(comment.getCreatedtime(),
+				DateTimeUtils.getPrettyDateValue(comment.getCreatedtime(),
 						AppContext.getUserLocale())), ContentMode.HTML);
+		timePostLbl.setDescription(AppContext.formatDateTime(comment
+				.getCreatedtime()));
 
 		timePostLbl.setSizeUndefined();
 		timePostLbl.setStyleName("time-post");

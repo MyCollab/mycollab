@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.service;
 
 import static org.assertj.core.api.Assertions.*;
+
 import java.util.List;
 
 import org.junit.Assert;
@@ -24,11 +25,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.common.ModuleNameConstants;
+import com.esofthead.mycollab.common.domain.criteria.ActivityStreamSearchCriteria;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.Project;
+import com.esofthead.mycollab.module.project.domain.ProjectActivityStream;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
@@ -39,7 +44,10 @@ import com.esofthead.mycollab.test.service.ServiceTest;
 public class ProjectServiceTest extends ServiceTest {
 
 	@Autowired
-	protected ProjectService projectService;
+	private ProjectService projectService;
+
+	@Autowired
+	private ProjectActivityStreamService projectActivityStreamService;
 
 	@DataSet
 	@Test
@@ -106,5 +114,23 @@ public class ProjectServiceTest extends ServiceTest {
 		assertThat(projects.size()).isEqualTo(2);
 		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
 				tuple(2, "B"));
+	}
+
+	@DataSet
+	@Test
+	public void testGetActivityStreams() {
+		ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
+		criteria.setModuleSet(new SetSearchField<String>(
+				new String[] { ModuleNameConstants.PRJ }));
+		criteria.setExtraTypeIds(new SetSearchField<Integer>(4));
+		criteria.setSaccountid(new NumberSearchField(1));
+		List<ProjectActivityStream> streams = projectActivityStreamService
+				.getProjectActivityStreams(new SearchRequest<ActivityStreamSearchCriteria>(
+						criteria));
+
+		assertThat(streams.size()).isEqualTo(3);
+		assertThat(streams).extracting("type", "typeid", "itemKey").contains(
+				tuple("Project-Task", 1, 10), tuple("Project-Bug", 1, 20),
+				tuple("Project-Risk", 1, null));
 	}
 }

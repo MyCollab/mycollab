@@ -212,7 +212,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 			}
 			this.addComponent(taskName);
 			Label taskCreatedTime = new Label("Last updated on "
-					+ DateTimeUtils.getStringDateFromNow(
+					+ DateTimeUtils.getPrettyDateValue(
 							taskList.getLastupdatedtime(),
 							AppContext.getUserLocale()));
 			taskCreatedTime.setStyleName("created-time");

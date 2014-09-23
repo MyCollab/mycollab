@@ -77,7 +77,7 @@ public class MessageListDisplay
 			metadataRow.setExpandRatio(userNameLbl, 1.0f);
 
 			Label messageTimePost = new Label(
-					DateTimeUtils.getStringDateFromNow(message.getPosteddate(),
+					DateTimeUtils.getPrettyDateValue(message.getPosteddate(),
 							AppContext.getUserLocale()));
 			messageTimePost.setStyleName("time-post");
 			messageTimePost.setWidthUndefined();

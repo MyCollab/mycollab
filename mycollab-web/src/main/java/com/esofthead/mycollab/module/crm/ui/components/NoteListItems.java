@@ -255,7 +255,7 @@ public class NoteListItems extends VerticalLayout {
 			Label timePostLbl = new Label(AppContext.getMessage(
 					CrmCommonI18nEnum.EXT_ADDED_NOTED, note
 							.getCreateUserFullName(), DateTimeUtils
-							.getStringDateFromNow(note.getCreatedtime(),
+							.getPrettyDateValue(note.getCreatedtime(),
 									AppContext.getUserLocale())),
 					ContentMode.HTML);
 			timePostLbl.setSizeUndefined();

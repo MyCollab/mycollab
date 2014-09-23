@@ -73,7 +73,7 @@ public class RoleReadViewImpl extends AbstractPageView implements RoleReadView {
 		header.addComponent(new Image(null, MyCollabResource
 				.newResource("icons/24/project/user.png")));
 
-		Label headerText = new Label("Role Details");
+		Label headerText = new Label("Detail Role");
 		headerText.setSizeUndefined();
 		headerText.setStyleName(UIConstants.HEADER_TEXT);
 

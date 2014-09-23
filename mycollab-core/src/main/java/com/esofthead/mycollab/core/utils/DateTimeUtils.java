@@ -107,7 +107,7 @@ public class DateTimeUtils {
 		return formatDate(date, dateFormat, userTimeZone);
 	}
 
-	public static String getStringDateFromNow(Date dateTime, Locale locale) {
+	public static String getPrettyDateValue(Date dateTime, Locale locale) {
 		if (dateTime == null) {
 			return "";
 		}

@@ -105,7 +105,7 @@ public class ProjectMessageListComponent extends Depot {
 			body.setStyleName("activity-date");
 			final Label dateLbl = new Label(AppContext.getMessage(
 					MessageI18nEnum.OPT_FROM_TIME_ENTRY, DateTimeUtils
-							.getStringDateFromNow(message.getPosteddate(),
+							.getPrettyDateValue(message.getPosteddate(),
 									AppContext.getUserLocale())));
 			body.addComponent(dateLbl);
 

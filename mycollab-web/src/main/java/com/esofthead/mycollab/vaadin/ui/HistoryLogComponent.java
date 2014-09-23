@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.vaadin.ui;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -144,10 +145,12 @@ public abstract class HistoryLogComponent extends VerticalLayout {
 					header.setComponentAlignment(userLink,
 							Alignment.MIDDLE_LEFT);
 
+					Date changeDate = DateTimeUtils
+							.convertDateByFormatW3C(strDate);
 					Label lbDate = new Label("changed "
-							+ DateTimeUtils.getStringDateFromNow(DateTimeUtils
-									.convertDateByFormatW3C(strDate),
+							+ DateTimeUtils.getPrettyDateValue(changeDate,
 									AppContext.getUserLocale()));
+					lbDate.setDescription(AppContext.formatDateTime(changeDate));
 					header.addComponent(lbDate);
 					header.setComponentAlignment(lbDate, Alignment.MIDDLE_LEFT);
 					header.setExpandRatio(lbDate, 1.0f);

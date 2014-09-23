@@ -183,7 +183,7 @@ public class UserTableDisplay extends
 						final SimpleUser user = UserTableDisplay.this
 								.getBeanByIndex(itemId);
 						Label dateLbl = new Label(DateTimeUtils
-								.getStringDateFromNow(
+								.getPrettyDateValue(
 										user.getLastaccessedtime(),
 										AppContext.getUserLocale()));
 						return dateLbl;
