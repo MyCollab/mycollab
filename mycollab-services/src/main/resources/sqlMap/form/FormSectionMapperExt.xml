@@ -4,7 +4,7 @@
     <resultMap id="SimpleFormSectionResult"
         extends="com.esofthead.mycollab.form.dao.FormSectionMapper.BaseResultMap"
         type="com.esofthead.mycollab.form.domain.SimpleFormSection">
-        <collection columnPrefix="field_"
+        <collection columnPrefix="field_" notNullColumn="id"
             ofType="com.esofthead.mycollab.form.domain.FormSectionField"
             property="fields"
             resultMap="com.esofthead.mycollab.form.dao.FormSectionFieldMapper.BaseResultMap" />

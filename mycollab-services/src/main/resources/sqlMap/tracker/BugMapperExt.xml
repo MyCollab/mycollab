@@ -25,17 +25,17 @@
         <result column="milestoneName" jdbcType="VARCHAR"
             property="milestoneName" />
 
-        <collection columnPrefix="affectedversion_"
+        <collection columnPrefix="affectedversion_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Version"
             property="affectedVersions"
             resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
 
-        <collection columnPrefix="fixedversion_"
+        <collection columnPrefix="fixedversion_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Version"
             property="fixedVersions"
             resultMap="com.esofthead.mycollab.module.tracker.dao.VersionMapper.BaseResultMap" />
 
-        <collection columnPrefix="component_"
+        <collection columnPrefix="component_" notNullColumn="id"
             ofType="com.esofthead.mycollab.module.tracker.domain.Component"
             property="components"
             resultMap="com.esofthead.mycollab.module.tracker.dao.ComponentMapper.BaseResultMap" />

@@ -361,9 +361,10 @@ public class UserServiceDBImpl extends
 		UserSearchCriteria criteria = new UserSearchCriteria();
 		criteria.setUsername(new StringSearchField(username));
 		criteria.setSaccountid(new NumberSearchField(accountId));
+
 		List<SimpleUser> users = userMapperExt.findPagableListByCriteria(
 				criteria, new RowBounds(0, Integer.MAX_VALUE));
-		if (users == null || users.size() == 0) {
+		if (CollectionUtils.isEmpty(users)) {
 			return null;
 		} else {
 			return users.get(0);
@@ -431,8 +432,8 @@ public class UserServiceDBImpl extends
 	public User findUserByUserName(String username) {
 		UserExample ex = new UserExample();
 		ex.createCriteria().andUsernameEqualTo(username);
-		List<User> users = userMapper.selectByExampleWithBLOBs(ex);
-		if (users == null || users.size() == 0) {
+		List<User> users = userMapper.selectByExample(ex);
+		if (CollectionUtils.isEmpty(users)) {
 			return null;
 		} else {
 			return users.get(0);

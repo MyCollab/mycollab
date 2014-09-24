@@ -12,7 +12,7 @@
         <result column="createUserFullName" jdbcType="VARCHAR"
             property="createUserFullName" />
 
-        <collection property="comments"
+        <collection property="comments" notNullColumn="id"
             ofType="com.esofthead.mycollab.common.domain.SimpleComment"
             resultMap="com.esofthead.mycollab.common.dao.CommentMapperExt.BaseResultMap"
             columnPrefix="comment_" />

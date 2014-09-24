@@ -62,6 +62,7 @@ Version 4.5.1
 * Inconsistent time logging permission
 * Throws exception if user saves an empty search criteria
 * Return redundant task element for empty task list
+* Switch view causes the right widget in task, bug display in the wrong position
 
 Version 4.5.0
 -----------------------------
