@@ -47,7 +47,7 @@ public class ProjectCommentInput extends HorizontalLayout {
 	private String typeid;
 	private Integer extraTypeId;
 
-	ProjectCommentInput(
+	public ProjectCommentInput(
 			final ReloadableComponent component,
 			final CommentType typeVal,
 			final Integer extraTypeIdVal,

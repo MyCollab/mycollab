@@ -40,7 +40,7 @@ public abstract class AbstractNavigationMenu extends CssLayout {
 	public AbstractNavigationMenu() {
 		super();
 
-		setWidth("100%");
+		setWidth("250px");
 		setStyleName("navigation-menu");
 
 		defaultBtnClickListener = createDefaultButtonClickListener();

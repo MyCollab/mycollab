@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+
+<installation version="1.0">
+
+    <!-- The info section. The meaning of the tags should be natural ... -->
+    <info>
+        <appname>MyCollab, the Project and CRM tools</appname>
+        <appversion>4.5.2</appversion>
+        <appsubpath>mycollab</appsubpath>
+        <authors>
+            <author name="MyCollab Ltd" email="support@mycollab.com" />
+        </authors>
+        <url>https://www.mycollab.com/</url>
+    </info>
+
+    <!-- The gui preferences indication. Sets the installer window to 640x480. 
+        It will not be able to change the size. -->
+    <guiprefs width="640" height="480" resizable="no">
+    
+        <!--  <splash>images/peas_load.gif</splash>-->
+        <laf name="substance">
+            <os family="windows" />
+            <os family="unix" />
+            <param name="variant" value="mist-silver" />
+        </laf>
+        <laf name="substance">
+            <os family="mac" />
+            <param name="variant" value="mist-aqua" />
+        </laf>
+        <modifier key="useHeadingPanel" value="yes" />
+        <modifier key="layoutAnchor" value="CENTER"/>
+    </guiprefs>
+
+    <!-- The locale section. Asks here to include the English and French 
+        langpacks. -->
+    <locale>
+        <langpack iso3="eng" />
+    </locale>
+
+    <!-- The resources section. The ids must be these ones if you want to 
+        use the LicencePanel and/or the InfoPanel. -->
+    <resources>
+        <res id="LicencePanel.licence" src="txt/LICENSE.txt" />
+        <res id="InfoPanel.info" src="txt/Release_Notes.txt" />
+    </resources>
+
+    <!-- The panels section. We indicate here which panels we want to use. 
+        The order will be respected. -->
+    <panels>
+        <panel classname="InfoPanel" />
+        <panel classname="LicencePanel" />
+        <panel classname="TargetPanel" />
+        <panel classname="PacksPanel" />
+        <panel classname="InstallPanel" />
+        <panel classname="FinishPanel" />
+    </panels>
+
+    <!-- The packs section. We specify here our packs. -->
+    <packs>
+        <pack name="Base" required="yes">
+            <description>The MyCollab files</description>
+            <file src="conf" targetdir="$INSTALL_PATH" />
+            <file src="lib" targetdir="$INSTALL_PATH" />
+            <file src="logs" targetdir="$INSTALL_PATH" />
+            <fileset dir="scripts" includes="*" targetdir="$INSTALL_PATH" />
+            <fileset dir="txt" includes="*" targetdir="$INSTALL_PATH" />
+            <file src="webapp" targetdir="$INSTALL_PATH" />
+        </pack>
+    </packs>
+
+</installation>

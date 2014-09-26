@@ -112,7 +112,7 @@ If you want to customize MyCollab, following links are useful to you:
 ## Contact
 Contact the MyCollab team at:
 * Our email support@mycollab.com
-* Our web form https://www.mycollab.com/support/
+* Our web form https://www.mycollab.com/contact/
 
 ## License & Author
 

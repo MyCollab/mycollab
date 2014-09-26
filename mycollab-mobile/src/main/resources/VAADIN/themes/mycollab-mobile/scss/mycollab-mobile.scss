@@ -19,6 +19,10 @@
     .v-table-body {
     	border: none;
     }
+    
+    .v-mobilecomponent .v-touchkit-navpanel {
+    	box-shadow: none;
+    }
 
     .content-wrapper {
         margin: 0 auto;
@@ -100,7 +104,7 @@
     /* Navigation styles */
     
     .v-touchkit-navpanel-navigation {
-    	width: 100%;
+    	background: none no-repeat scroll 0px 0px rgb(33, 37, 41);
     	
     	.navigation-menu {
     		overflow-y: auto;
@@ -130,8 +134,8 @@
 	    	}
 	    	    	
 	    	.v-button.nav-btn {
-	    		background: none no-repeat 0 0 rgb(255, 255, 255);
-	    		border-bottom: 1px solid rgb(226, 226, 226);
+	    		background: none no-repeat scroll 0px 0px rgb(33, 37, 41);
+	    		border-bottom: 0.1rem solid rgb(60, 66, 73);
 	    		border-radius: 0px;
 	    		-webkit-tap-highlight-color: transparent;
 	    		
@@ -140,28 +144,28 @@
 	    			
 	    			.v-button-caption {
 	    				vertical-align: middle;
-	    				color: rgb(82, 82, 82);
+	    				color: rgb(130, 130, 130);
 	    				display: inline-block;
+	    				font-weight: bold;
 	    			}
 	    		}
 	    		.nav-btn-icon {
 	    			font-size: 20px;
 	    			vertical-align: middle;
-	    			color: rgb(0, 163, 232);
+	    			color: rgb(130, 130, 130);
 	    			padding-right: 10px;
 	    		}
 	    	}
 	    	
 	    	.v-button.nav-btn.isSelected {
-	    		background-color: rgba(0, 0, 0, 0.3);
 	    	
 	    		.v-button-caption {
-	    			color: rgb(255, 255, 255);
+	    			color: rgb(0, 163, 232);
 	    			position: relative;
 	    			z-index: 1;
 	    			
 	    			.nav-btn-icon {
-	    				color: rgb(255, 255, 255);
+	    				color: rgb(0, 163, 232);
 	    			}
 	    		}
 	    	}
@@ -256,7 +260,6 @@
 		    	}
 		    	
 		    	.v-touchkit-navbar-caption {
-		    		left: 7.5rem;
 	    			line-height: 4rem;
 	    			height: 4rem;
 	    			position: absolute;

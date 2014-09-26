@@ -20,7 +20,6 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.core.utils.DateTimeUtils;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
@@ -121,7 +120,7 @@ public class MessageReadViewImpl extends AbstractMobilePageView implements
 
 		mainLayout.addComponent(messageBlock);
 
-		ProjectCommentListDisplay commentDisplay = new ProjectCommentListDisplay(
+		MessageCommentListDisplay commentDisplay = new MessageCommentListDisplay(
 				CommentType.PRJ_MESSAGE,
 				CurrentProjectVariables.getProjectId(), true, true,
 				MessageRelayEmailNotificationAction.class);

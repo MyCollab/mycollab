@@ -213,6 +213,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-table-body {
   border: none;
 }
+.mycollab-mobile .v-mobilecomponent .v-touchkit-navpanel {
+  box-shadow: none;
+}
 .mycollab-mobile .content-wrapper {
   margin: 0 auto;
   display: block;
@@ -278,7 +281,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   background-image: url("icons/document_icon.png");
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation {
-  width: 100%;
+  background: none no-repeat scroll 0px 0px #212529;
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu {
   overflow-y: auto;
@@ -303,8 +306,8 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   padding-bottom: 6px;
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn {
-  background: none no-repeat 0 0 white;
-  border-bottom: 1px solid #e2e2e2;
+  background: none no-repeat scroll 0px 0px #212529;
+  border-bottom: 0.1rem solid #3c4249;
   border-radius: 0px;
   -webkit-tap-highlight-color: transparent;
 }
@@ -313,25 +316,23 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn .v-button-wrap .v-button-caption {
   vertical-align: middle;
-  color: #525252;
+  color: #828282;
   display: inline-block;
+  font-weight: bold;
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn .nav-btn-icon {
   font-size: 20px;
   vertical-align: middle;
-  color: #00a3e8;
+  color: #828282;
   padding-right: 10px;
 }
-.mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected {
-  background-color: rgba(0, 0, 0, 0.3);
-}
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected .v-button-caption {
-  color: white;
+  color: #00a3e8;
   position: relative;
   z-index: 1;
 }
 .mycollab-mobile .v-touchkit-navpanel-navigation .navigation-menu .v-button.nav-btn.isSelected .v-button-caption .nav-btn-icon {
-  color: white;
+  color: #00a3e8;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper {
   -webkit-tap-highlight-color: transparent;
@@ -443,7 +444,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   margin-top: -14px;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-caption {
-  left: 7.5rem;
   line-height: 4rem;
   height: 4rem;
   position: absolute;
