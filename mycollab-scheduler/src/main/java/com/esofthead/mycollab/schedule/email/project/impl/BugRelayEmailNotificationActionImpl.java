@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.common.MonitorTypeConstants;
+import com.esofthead.mycollab.common.NotificationType;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.configuration.StorageManager;
@@ -38,7 +39,6 @@ import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
-import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -218,8 +218,8 @@ public class BugRelayEmailNotificationActionImpl extends
 
 		if (notificationSettings != null) {
 			for (ProjectNotificationSetting notificationSetting : notificationSettings) {
-				if (ProjectNotificationSettingType.NONE
-						.equals(notificationSetting.getLevel())) {
+				if (NotificationType.None.name().equals(
+						notificationSetting.getLevel())) {
 					// remove users in list if he is already in list
 					for (int i = inListUsers.size() - 1; i >= 0; i--) {
 						SimpleUser inUser = inListUsers.get(i);
@@ -230,8 +230,8 @@ public class BugRelayEmailNotificationActionImpl extends
 							break;
 						}
 					}
-				} else if (ProjectNotificationSettingType.MINIMAL
-						.equals(notificationSetting.getLevel())) {
+				} else if (NotificationType.Minimal.name().equals(
+						notificationSetting.getLevel())) {
 					boolean isAlreadyInList = false;
 					for (SimpleUser user : inListUsers) {
 						if ((user.getUsername() != null)
@@ -261,8 +261,8 @@ public class BugRelayEmailNotificationActionImpl extends
 						}
 					}
 
-				} else if (ProjectNotificationSettingType.FULL
-						.equals(notificationSetting.getLevel())) {
+				} else if (NotificationType.Full.name().equals(
+						notificationSetting.getLevel())) {
 					boolean isAlreadyInList = false;
 					for (SimpleUser user : inListUsers) {
 						if ((user.getUsername() != null)

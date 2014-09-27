@@ -59,6 +59,7 @@ public class CacheUtils {
 	}
 
 	public static boolean isInBlackList(Class<?> cls) {
-		return (cls.getAnnotation(IgnoreCacheClass.class) != null);
+		return (cls != null)
+				&& (cls.getAnnotation(IgnoreCacheClass.class) != null);
 	}
 }

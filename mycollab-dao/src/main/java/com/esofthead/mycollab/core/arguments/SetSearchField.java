@@ -35,6 +35,8 @@ package com.esofthead.mycollab.core.arguments;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.esofthead.mycollab.core.UserInvalidInputException;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -44,10 +46,9 @@ import java.util.Collection;
  */
 public class SetSearchField<T> extends SearchField {
 	private static final long serialVersionUID = 1L;
-	public T[] values;
+	private T[] values;
 
 	public SetSearchField() {
-		this(AND, (Collection) Arrays.asList());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -60,6 +61,9 @@ public class SetSearchField<T> extends SearchField {
 	}
 
 	public SetSearchField(String oper, T... values) {
+		if (values == null || values.length == 0) {
+			throw new UserInvalidInputException("Field can not be null");
+		}
 		this.values = values;
 		this.operation = oper;
 	}

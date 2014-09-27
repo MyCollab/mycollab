@@ -460,7 +460,17 @@
 				font-size: 1.2rem;
 				color: #6B6A70;
 				padding: 2.0rem 0rem 0.9rem 1rem;
-				border-bottom: .1rem solid #dddddd;
+				border-bottom: .1rem solid $light-gray-border;
+			}
+		}
+		
+		.info-hdr {
+			font-size: 1.2rem;
+			color: #6B6A70;
+			padding: 2.0rem 0rem 0.9rem 1rem;
+			border-bottom: .1rem solid $light-gray-border;
+			.v-label {
+				font-size: 1.2rem;
 			}
 		}
 		
@@ -469,7 +479,7 @@
 			background-color: #FFFFFF;
 			
 			.gridform-caption, .gridform-field {
-				border-bottom: .1rem solid #dddddd;
+				border-bottom: .1rem solid $light-gray-border;
 				
 				&.v-horizontallayout{
 					&.v-margin-top {

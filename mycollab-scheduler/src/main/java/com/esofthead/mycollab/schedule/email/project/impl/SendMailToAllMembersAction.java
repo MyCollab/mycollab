@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.common.NotificationType;
 import com.esofthead.mycollab.common.domain.MailRecipientField;
 import com.esofthead.mycollab.common.domain.SimpleAuditLog;
 import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
@@ -30,7 +31,6 @@ import com.esofthead.mycollab.module.mail.IContentGenerator;
 import com.esofthead.mycollab.module.mail.MailUtils;
 import com.esofthead.mycollab.module.mail.service.ExtMailService;
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
-import com.esofthead.mycollab.module.project.domain.ProjectNotificationSettingType;
 import com.esofthead.mycollab.module.project.domain.ProjectRelayEmailNotification;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
@@ -78,10 +78,9 @@ public abstract class SendMailToAllMembersAction<B> implements
 						notification.getSaccountid());
 		if (notificationSettings != null && notificationSettings.size() > 0) {
 			for (ProjectNotificationSetting setting : notificationSettings) {
-				if (ProjectNotificationSettingType.NONE.equals(setting
-						.getLevel())
-						|| ProjectNotificationSettingType.MINIMAL
-								.equals(setting.getLevel())) {
+				if (NotificationType.None.name().equals(setting.getLevel())
+						|| NotificationType.Minimal.name().equals(
+								setting.getLevel())) {
 					for (SimpleUser user : usersInProject) {
 						if (user.getUsername().equals(setting.getUsername())) {
 							usersInProject.remove(user);

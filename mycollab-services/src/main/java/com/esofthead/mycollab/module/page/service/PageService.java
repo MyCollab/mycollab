@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.page.service;
 
 import java.util.List;
 
+import com.esofthead.mycollab.core.persistence.service.IService;
 import com.esofthead.mycollab.module.page.domain.Folder;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.domain.PageVersion;
@@ -29,7 +30,7 @@ import com.esofthead.mycollab.module.page.domain.PageResource;
  * @since 4.4.0
  *
  */
-public interface PageService {
+public interface PageService extends IService {
 	/**
 	 * 
 	 * @param page
@@ -66,7 +67,7 @@ public interface PageService {
 	 * @return
 	 */
 	Page getPageByVersion(String path, String versionName);
-	
+
 	/**
 	 * 
 	 * @param path

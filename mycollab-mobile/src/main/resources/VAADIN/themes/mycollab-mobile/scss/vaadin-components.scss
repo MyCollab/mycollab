@@ -116,6 +116,9 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
-		border: 1px solid #CFCFCF
+		border: 1px solid #CFCFCF;
+	}
+	.v-button-link, .v-button-link .v-button-wrap, .v-button-link .v-button-caption, .v-button-link:active, .v-button-link.v-pressed, .v-nativebutton-link {
+		font-size: inherit;
 	}
 }

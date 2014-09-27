@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.NotificationType;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.cache.Cacheable;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
@@ -62,7 +63,11 @@ public class CrmNotificationSettingServiceImpl extends
 		if (CollectionUtils.isNotEmpty(notifications)) {
 			return notifications.get(0);
 		} else {
-			return null;
+			CrmNotificationSetting notification = new CrmNotificationSetting();
+			notification.setSaccountid(sAccountId);
+			notification.setUsername(username);
+			notification.setLevel(NotificationType.Default.name());
+			return notification;
 		}
 	}
 

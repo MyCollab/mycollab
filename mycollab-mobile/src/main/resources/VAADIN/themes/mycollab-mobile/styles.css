@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?xt2ae9");
-  src: url("fonts/icomoon.eot?#iefixxt2ae9") format("embedded-opentype"), url("fonts/icomoon.woff?xt2ae9") format("woff"), url("fonts/icomoon.ttf?xt2ae9") format("truetype"), url("fonts/icomoon.svg?xt2ae9#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?pgg6hx");
+  src: url("fonts/icomoon.eot?#iefixpgg6hx") format("embedded-opentype"), url("fonts/icomoon.woff?pgg6hx") format("woff"), url("fonts/icomoon.ttf?pgg6hx") format("truetype"), url("fonts/icomoon.svg?pgg6hx#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -208,7 +208,10 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #cfcfcf;
+  border: 1px solid #CFCFCF;
+}
+.mycollab-mobile .v-button-link, .mycollab-mobile .v-button-link .v-button-wrap, .mycollab-mobile .v-button-link .v-button-caption, .mycollab-mobile .v-button-link:active, .mycollab-mobile .v-button-link.v-pressed, .mycollab-mobile .v-nativebutton-link {
+  font-size: inherit;
 }
 .mycollab-mobile .v-table-body {
   border: none;
@@ -650,14 +653,23 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.2rem;
   color: #6B6A70;
   padding: 2.0rem 0rem 0.9rem 1rem;
-  border-bottom: .1rem solid #dddddd;
+  border-bottom: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .readview-layout .info-hdr, .mycollab-mobile .editview-layout .info-hdr {
+  font-size: 1.2rem;
+  color: #6B6A70;
+  padding: 2.0rem 0rem 0.9rem 1rem;
+  border-bottom: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .readview-layout .info-hdr .v-label, .mycollab-mobile .editview-layout .info-hdr .v-label {
+  font-size: 1.2rem;
 }
 .mycollab-mobile .readview-layout .v-gridlayout, .mycollab-mobile .editview-layout .v-gridlayout {
   color: #060606;
   background-color: #FFFFFF;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field {
-  border-bottom: .1rem solid #dddddd;
+  border-bottom: 0.1rem solid #dddddd;
 }
 .mycollab-mobile .readview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .readview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-caption.v-horizontallayout.v-margin-top, .mycollab-mobile .editview-layout .v-gridlayout .gridform-field.v-horizontallayout.v-margin-top {
   padding-top: 1.3rem;

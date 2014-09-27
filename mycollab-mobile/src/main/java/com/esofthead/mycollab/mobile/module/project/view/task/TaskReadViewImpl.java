@@ -75,8 +75,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 
 	private ProjectCommentListDisplay associateComments;
 
+	private TaskTimeLogComp taskTimeLogComp;
+
 	public TaskReadViewImpl() {
 		super();
+		taskTimeLogComp = new TaskTimeLogComp();
 	}
 
 	@Override
@@ -96,6 +99,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 			this.addStyleName(UIConstants.STATUS_DISABLED);
 		}
 		associateComments.loadComments("" + beanItem.getId());
+
+		taskTimeLogComp.displayTime(beanItem);
+
+		this.previewForm.addComponent(taskTimeLogComp);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ package com.esofthead.mycollab.community.module.project.view.settings;
 
 import com.esofthead.mycollab.module.project.domain.ProjectNotificationSetting;
 import com.esofthead.mycollab.module.project.service.ProjectNotificationSettingService;
-import com.esofthead.mycollab.module.project.view.settings.NotificationSettingViewComponent;
+import com.esofthead.mycollab.module.project.view.settings.ProjectNotificationSettingViewComponent;
 import com.esofthead.mycollab.module.project.view.settings.ProjectSettingView;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -52,7 +52,7 @@ public class ProjectSettingViewImpl extends AbstractPageView implements
 		ProjectSettingView {
 	private static final long serialVersionUID = 1L;
 
-	private NotificationSettingViewComponent<ProjectNotificationSetting, ProjectNotificationSettingService> component;
+	private ProjectNotificationSettingViewComponent component;
 
 	private final HorizontalLayout mainBody;
 
@@ -73,16 +73,7 @@ public class ProjectSettingViewImpl extends AbstractPageView implements
 	@Override
 	public void showNotificationSettings(ProjectNotificationSetting notification) {
 		mainBody.removeAllComponents();
-
-		if (notification == null) {
-			notification = new ProjectNotificationSetting();
-		}
-		component = new NotificationSettingViewComponent<ProjectNotificationSetting, ProjectNotificationSettingService>(
-				notification,
-				ApplicationContextUtil
-						.getSpringBean(ProjectNotificationSettingService.class)) {
-			private static final long serialVersionUID = 1L;
-		};
+		component = new ProjectNotificationSettingViewComponent(notification);
 		mainBody.addComponent(component);
 	}
 }

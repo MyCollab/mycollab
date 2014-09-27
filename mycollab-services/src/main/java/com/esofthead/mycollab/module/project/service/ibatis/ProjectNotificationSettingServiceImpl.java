@@ -21,6 +21,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.esofthead.mycollab.common.NotificationType;
 import com.esofthead.mycollab.core.cache.CacheKey;
 import com.esofthead.mycollab.core.persistence.ICrudGenericDAO;
 import com.esofthead.mycollab.core.persistence.service.DefaultCrudService;
@@ -59,8 +60,14 @@ public class ProjectNotificationSettingServiceImpl extends
 				.selectByExample(ex);
 		if (settings.size() > 0) {
 			return settings.get(0);
+		} else {
+			ProjectNotificationSetting setting = new ProjectNotificationSetting();
+			setting.setLevel(NotificationType.Default.name());
+			setting.setProjectid(projectId);
+			setting.setSaccountid(sAccountId);
+			setting.setUsername(username);
+			return setting;
 		}
-		return null;
 	}
 
 	@Override

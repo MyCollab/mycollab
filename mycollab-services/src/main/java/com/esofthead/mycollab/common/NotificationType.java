@@ -14,20 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.module.project.domain;
+package com.esofthead.mycollab.common;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @since 4.5.2
+ *
  */
-public class ProjectNotificationSettingType {
-	public static final String NONE = "None";
-
-	public static final String DEFAULT = "Default";
-
-	public static final String MINIMAL = "Minimal";
-
-	public static final String FULL = "Full";
+public enum NotificationType {
+	None, Default, Minimal, Full;
 }
