@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -62,10 +63,11 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 			DbxClient client = new DbxClient(requestConfig,
 					drive.getAccesstoken());
 			WithChildren children = client.getMetadataWithChildren(path);
-			if (children.children != null) {
+			if (CollectionUtils.isNotEmpty(children.children)) {
 				for (DbxEntry entry : children.children) {
 					if (entry.isFile()) {
-						ExternalContent resource = new ExternalContent();
+						ExternalContent resource = new ExternalContent(
+								entry.path);
 						resource.setStorageName(StorageNames.DROPBOX);
 						resource.setExternalDrive(drive);
 						Date lastModifiedDate = ((File) entry).lastModified;
@@ -73,13 +75,11 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 						createdDate.setTime(lastModifiedDate);
 						resource.setSize(((File) entry).numBytes);
 						resource.setCreated(createdDate);
-						resource.setPath(entry.path);
 						resources.add(resource);
 					} else if (entry.isFolder()) {
-						ExternalFolder resource = new ExternalFolder();
+						ExternalFolder resource = new ExternalFolder(entry.path);
 						resource.setStorageName(StorageNames.DROPBOX);
 						resource.setExternalDrive(drive);
-						resource.setPath(entry.path);
 						resources.add(resource);
 					} else {
 						log.error("Do not support dropbox resource except file or folder");
@@ -105,12 +105,11 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 			DbxClient client = new DbxClient(requestConfig,
 					drive.getAccesstoken());
 			WithChildren children = client.getMetadataWithChildren(path);
-			if (children.children != null) {
+			if (CollectionUtils.isNotEmpty(children.children)) {
 				for (DbxEntry entry : children.children) {
 					if (entry.isFolder()) {
-						ExternalFolder resource = new ExternalFolder();
+						ExternalFolder resource = new ExternalFolder(entry.path);
 						resource.setStorageName(StorageNames.DROPBOX);
-						resource.setPath(entry.path);
 						resource.setExternalDrive(drive);
 						subFolders.add(resource);
 					}
@@ -139,7 +138,7 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 			}
 
 			if (entry.isFile()) {
-				ExternalContent resource = new ExternalContent();
+				ExternalContent resource = new ExternalContent(entry.path);
 				resource.setStorageName(StorageNames.DROPBOX);
 				resource.setExternalDrive(drive);
 				Date lastModifiedDate = ((File) entry).lastModified;
@@ -147,13 +146,11 @@ public class DropboxResourceServiceImpl implements DropboxResourceService {
 				createdDate.setTime(lastModifiedDate);
 				resource.setSize(((File) entry).numBytes);
 				resource.setCreated(createdDate);
-				resource.setPath(entry.path);
 				res = resource;
 			} else if (entry.isFolder()) {
-				ExternalFolder resource = new ExternalFolder();
+				ExternalFolder resource = new ExternalFolder(entry.path);
 				resource.setStorageName(StorageNames.DROPBOX);
 				resource.setExternalDrive(drive);
-				resource.setPath(entry.path);
 				res = resource;
 			}
 			return res;

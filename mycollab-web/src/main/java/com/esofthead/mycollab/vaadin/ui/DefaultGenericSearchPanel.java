@@ -26,7 +26,7 @@ import com.esofthead.mycollab.core.arguments.SearchCriteria;
  * @param <S>
  */
 public abstract class DefaultGenericSearchPanel<S extends SearchCriteria>
-extends GenericSearchPanel<S> {
+		extends GenericSearchPanel<S> {
 	private static final long serialVersionUID = 1L;
 
 	public DefaultGenericSearchPanel() {

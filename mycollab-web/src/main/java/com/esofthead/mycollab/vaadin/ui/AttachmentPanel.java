@@ -194,8 +194,7 @@ public class AttachmentPanel extends VerticalLayout implements
 	}
 
 	private Content constructContent(String fileName, String path) {
-		Content content = new Content();
-		content.setPath(path + "/" + fileName);
+		Content content = new Content(path + "/" + fileName);
 		content.setTitle(fileName);
 		content.setDescription("");
 		return content;

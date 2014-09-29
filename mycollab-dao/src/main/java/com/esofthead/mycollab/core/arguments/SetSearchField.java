@@ -32,7 +32,6 @@
  */
 package com.esofthead.mycollab.core.arguments;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import com.esofthead.mycollab.core.UserInvalidInputException;

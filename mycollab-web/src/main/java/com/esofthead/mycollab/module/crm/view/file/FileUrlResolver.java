@@ -20,6 +20,12 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.events.DocumentEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class FileUrlResolver extends CrmUrlResolver {
 	public FileUrlResolver() {
 		this.addSubResolver("dashboard", new FileDashboardUrlResolver());

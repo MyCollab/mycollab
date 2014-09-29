@@ -36,11 +36,10 @@ public class ContentJcrDaoTest extends ServiceTest {
 
 	@Before
 	public void setup() {
-		Content pageContent = new Content();
+		Content pageContent = new Content("example/a");
 		pageContent.setCreatedBy("hainguyen");
 		pageContent.setTitle("page example");
 		pageContent.setDescription("aaa");
-		pageContent.setPath("example/a");
 		contentJcrDao.saveContent(pageContent, "hainguyen");
 	}
 
@@ -64,11 +63,10 @@ public class ContentJcrDaoTest extends ServiceTest {
 
 	@Test
 	public void testSaveOverride() {
-		Content pageContent = new Content();
+		Content pageContent = new Content("a/b/xyz.mycollabtext");
 		pageContent.setCreatedBy("hainguyen");
 		pageContent.setTitle("page example");
 		pageContent.setDescription("aaa");
-		pageContent.setPath("a/b/xyz.mycollabtext");
 		contentJcrDao.saveContent(pageContent, "example/a/b");
 	}
 }

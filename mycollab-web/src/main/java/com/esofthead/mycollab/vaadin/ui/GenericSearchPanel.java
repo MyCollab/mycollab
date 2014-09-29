@@ -43,7 +43,7 @@ public class GenericSearchPanel<S extends SearchCriteria> extends
 
 	private List<SearchHandler<S>> handers;
 
-	Component headerRight;
+	private Component headerRight;
 
 	@Override
 	public void addSearchHandler(final SearchHandler<S> handler) {

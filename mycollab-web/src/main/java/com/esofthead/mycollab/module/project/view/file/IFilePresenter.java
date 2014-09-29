@@ -18,6 +18,12 @@ package com.esofthead.mycollab.module.project.view.file;
 
 import com.esofthead.mycollab.vaadin.mvp.IPresenter;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public interface IFilePresenter extends IPresenter<IFileContainer> {
 
 }

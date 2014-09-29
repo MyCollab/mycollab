@@ -184,7 +184,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 					lstRes.add(resource);
 
 					final StreamResource downloadResource = StreamDownloadResourceUtil
-							.getStreamResourceSupportExtDrive(lstRes, false);
+							.getStreamResourceSupportExtDrive(lstRes);
 					FileDownloader fileDownloader = new FileDownloader(
 							downloadResource);
 					fileDownloader.extend(downloadBtn);
@@ -368,6 +368,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 			this.setColumnWidth("created", UIConstants.TABLE_DATE_TIME_WIDTH);
 		}
 
+		@SuppressWarnings("unchecked")
 		private Resource getResource(final Object itemId) {
 			final Container container = this.getContainerDataSource();
 			final BeanItem<Resource> item = (BeanItem<Resource>) container
@@ -376,7 +377,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 		}
 	}
 
-	protected class RenameResourceWindow extends Window {
+	private class RenameResourceWindow extends Window {
 		private static final long serialVersionUID = 1L;
 		private final Resource resource;
 		private final ResourceService service;
@@ -399,7 +400,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 			topRename.setSpacing(true);
 			topRename.setMargin(true);
 
-			final Label label = new Label("Enter new name: ");
+			final Label label = new Label("New name: ");
 			UiUtils.addComponent(topRename, label, Alignment.MIDDLE_LEFT);
 
 			final TextField newName = new TextField();
@@ -410,7 +411,7 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 
 			final HorizontalLayout controlButton = new HorizontalLayout();
 			controlButton.setSpacing(true);
-			final Button save = new Button(
+			final Button saveBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -439,11 +440,12 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 							}
 						}
 					});
-			save.addStyleName(UIConstants.THEME_GREEN_LINK);
+			saveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 
-			UiUtils.addComponent(controlButton, save, Alignment.MIDDLE_CENTER);
+			UiUtils.addComponent(controlButton, saveBtn,
+					Alignment.MIDDLE_CENTER);
 
-			final Button cancel = new Button(
+			final Button cancelBtn = new Button(
 					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
@@ -453,8 +455,9 @@ public abstract class FileSearchResultComponent extends VerticalLayout {
 							RenameResourceWindow.this.close();
 						}
 					});
-			cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
-			UiUtils.addComponent(controlButton, cancel, Alignment.MIDDLE_CENTER);
+			cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
+			UiUtils.addComponent(controlButton, cancelBtn,
+					Alignment.MIDDLE_CENTER);
 			UiUtils.addComponent(layout, controlButton, Alignment.MIDDLE_CENTER);
 			this.setContent(layout);
 		}

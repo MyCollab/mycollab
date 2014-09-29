@@ -28,7 +28,6 @@ import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.MyCollabThread;
 import com.esofthead.mycollab.module.ecm.ResourceType;
 import com.esofthead.mycollab.module.ecm.ResourceUtils;
@@ -57,14 +56,10 @@ public class StreamDownloadResourceSupportExtDrive implements
 
 	private ResourceService resourceService;
 
-	private boolean isSearchAction;
-
-	public StreamDownloadResourceSupportExtDrive(List<Resource> lstRes,
-			boolean isSearchAction) {
+	public StreamDownloadResourceSupportExtDrive(List<Resource> lstRes) {
 		this.lstResource = lstRes;
 		resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
-		this.isSearchAction = isSearchAction;
 	}
 
 	@Override
@@ -99,11 +94,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 				try {
 					ZipOutputStream zipOutStream = new ZipOutputStream(
 							outStream);
-					if (isSearchAction) {
-						zipResourceWithSearchAction(zipOutStream, lstResource);
-					} else {
-						zipResource(zipOutStream, lstResource);
-					}
+					zipResource(zipOutStream, lstResource);
 					zipOutStream.close();
 					outStream.close();
 				} catch (Exception e) {
@@ -115,41 +106,6 @@ public class StreamDownloadResourceSupportExtDrive implements
 		threadExport.start();
 
 		return inStream;
-	}
-
-	private void zipResourceWithSearchAction(ZipOutputStream zip,
-			List<Resource> lstResource) {
-		try {
-			for (Resource res : lstResource) {
-				// because only support search for MyCollab drive. must fix it
-				// when support all drive
-				Folder resParentFolder = resourceService.getParentFolder(res
-						.getPath());
-				String currentResourcePath = "";
-				try {
-					currentResourcePath = resParentFolder.getPath().substring(
-							resParentFolder.getPath().indexOf("/", 2) + 1);
-				} catch (Exception e) {
-					currentResourcePath = "";
-				}
-				if (currentResourcePath.indexOf("/") != -1) {
-					currentResourcePath = currentResourcePath
-							.substring(currentResourcePath.indexOf("/") + 1);
-				}
-				currentResourcePath = currentResourcePath.replace("/", "");
-				byte[] buf = new byte[1024];
-				int len = -1;
-				InputStream contentStream = resourceService
-						.getContentStream(res.getPath());
-				zip.putNextEntry(new ZipEntry(currentResourcePath
-						+ res.getName()));
-				while ((len = contentStream.read(buf)) > 0) {
-					zip.write(buf, 0, len);
-				}
-			}
-		} catch (Exception e) {
-			throw new MyCollabException(e);
-		}
 	}
 
 	private void zipResource(ZipOutputStream zipOutputStream,

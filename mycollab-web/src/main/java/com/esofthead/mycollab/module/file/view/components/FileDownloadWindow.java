@@ -104,12 +104,13 @@ public class FileDownloadWindow extends Window {
 		final HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.setSpacing(true);
 		buttonControls.setMargin(new MarginInfo(true, false, true, false));
+
 		final Button downloadBtn = new Button("Download");
-		List<Resource> lstRes = new ArrayList<Resource>();
-		lstRes.add(content);
+		List<Resource> resources = new ArrayList<Resource>();
+		resources.add(content);
 
 		StreamResource downloadResource = StreamDownloadResourceUtil
-				.getStreamResourceSupportExtDrive(lstRes, false);
+				.getStreamResourceSupportExtDrive(resources);
 
 		FileDownloader fileDownloader = new FileDownloader(downloadResource);
 		fileDownloader.extend(downloadBtn);
@@ -118,7 +119,7 @@ public class FileDownloadWindow extends Window {
 		UiUtils.addComponent(buttonControls, downloadBtn,
 				Alignment.MIDDLE_CENTER);
 
-		final Button cancel = new Button(
+		final Button cancelBtn = new Button(
 				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
 				new ClickListener() {
 					private static final long serialVersionUID = 1L;
@@ -128,9 +129,9 @@ public class FileDownloadWindow extends Window {
 						FileDownloadWindow.this.close();
 					}
 				});
-		cancel.addStyleName(UIConstants.THEME_GRAY_LINK);
+		cancelBtn.addStyleName(UIConstants.THEME_GRAY_LINK);
 
-		UiUtils.addComponent(buttonControls, cancel, Alignment.MIDDLE_CENTER);
+		UiUtils.addComponent(buttonControls, cancelBtn, Alignment.MIDDLE_CENTER);
 		UiUtils.addComponent(layout, buttonControls, Alignment.MIDDLE_CENTER);
 		this.setContent(layout);
 	}

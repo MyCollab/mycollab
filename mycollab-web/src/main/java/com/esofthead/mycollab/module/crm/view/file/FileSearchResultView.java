@@ -19,6 +19,12 @@ package com.esofthead.mycollab.module.crm.view.file;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.PageView;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public interface FileSearchResultView extends PageView {
 	void displaySearchResult(FileSearchCriteria searchCriteria);
 }

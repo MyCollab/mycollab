@@ -28,6 +28,15 @@ import java.util.List;
 public class Folder extends Resource {
 	private List<Folder> childs = new ArrayList<Folder>();
 
+	public Folder() {
+		super();
+	}
+
+	public Folder(String path) {
+		super();
+		this.setPath(path);
+	}
+
 	public List<Folder> getChilds() {
 		return childs;
 	}

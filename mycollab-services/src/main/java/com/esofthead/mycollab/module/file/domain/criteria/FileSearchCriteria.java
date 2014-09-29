@@ -19,7 +19,15 @@ package com.esofthead.mycollab.module.file.domain.criteria;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.module.ecm.domain.ExternalDrive;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class FileSearchCriteria extends SearchCriteria {
+	private static final long serialVersionUID = 1L;
+
 	private String rootFolder;
 	private String fileName;
 	private String baseFolder;

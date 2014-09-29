@@ -67,12 +67,10 @@ public abstract class AbstractResourceMovingWindow extends Window {
 	protected String rootPath;
 	protected Folder baseFolder;
 	private Resource resourceEditting;
-	protected List<Resource> lstResEditting;
+	private List<Resource> lstResEditting;
 	private final ResourceMover resourceMover;
-	private final boolean isNeedLoadExternalDrive;
 
-	public AbstractResourceMovingWindow(Resource resource,
-			boolean isNeedLoadExternalDrive) {
+	public AbstractResourceMovingWindow(Resource resource) {
 		super("Move File/Foler");
 		center();
 		this.setResizable(false);
@@ -85,14 +83,12 @@ public abstract class AbstractResourceMovingWindow extends Window {
 				.getSpringBean(ExternalResourceService.class);
 		this.externalDriveService = ApplicationContextUtil
 				.getSpringBean(ExternalDriveService.class);
-		this.isNeedLoadExternalDrive = isNeedLoadExternalDrive;
 		this.resourceMover = ApplicationContextUtil
 				.getSpringBean(ResourceMover.class);
 		constructBody();
 	}
 
-	public AbstractResourceMovingWindow(List<Resource> lstRes,
-			boolean isNeedLoadExternalDrive) {
+	public AbstractResourceMovingWindow(List<Resource> lstRes) {
 		super("Move File/Foler");
 		center();
 		this.setWidth("600px");
@@ -106,7 +102,6 @@ public abstract class AbstractResourceMovingWindow extends Window {
 				.getSpringBean(ExternalDriveService.class);
 		this.resourceMover = ApplicationContextUtil
 				.getSpringBean(ResourceMover.class);
-		this.isNeedLoadExternalDrive = isNeedLoadExternalDrive;
 
 		constructBody();
 	}
@@ -141,16 +136,15 @@ public abstract class AbstractResourceMovingWindow extends Window {
 				final Folder expandFolder = (Folder) event.getItemId();
 				// load externalResource if currentExpandFolder is
 				// rootFolder
-				if (rootPath.equals(expandFolder.getPath())
-						&& AbstractResourceMovingWindow.this.isNeedLoadExternalDrive) {
+				if (rootPath.equals(expandFolder.getPath())) {
 					List<ExternalDrive> externalDrives = externalDriveService
 							.getExternalDrivesOfUser(AppContext.getUsername());
 					for (ExternalDrive externalDrive : externalDrives) {
-						ExternalFolder externalMapFolder = new ExternalFolder();
+						ExternalFolder externalMapFolder = new ExternalFolder(
+								"/");
 						externalMapFolder.setStorageName(externalDrive
 								.getStoragename());
 						externalMapFolder.setExternalDrive(externalDrive);
-						externalMapFolder.setPath("/");
 						externalMapFolder.setName(externalDrive.getFoldername());
 
 						Calendar cal = GregorianCalendar.getInstance();

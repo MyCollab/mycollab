@@ -40,6 +40,7 @@ public abstract class AbstractPageView extends VerticalLayout implements
 		return this;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void addViewListener(ViewListener listener) {
 		addListener(ViewEvent.VIEW_IDENTIFIER, ViewEvent.class, listener,

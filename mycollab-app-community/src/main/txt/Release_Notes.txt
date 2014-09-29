@@ -42,6 +42,13 @@ If you need to understand more MyCollab advanced configuration settings, please 
 Last changelog
 ==============
 
+Version 4.5.2
+-----------------------------
+**Improvements**
+
+**Bug Fixes**
+Project Notification can not be sent in some special cases
+
 Version 4.5.1
 -----------------------------
 **Improvements**

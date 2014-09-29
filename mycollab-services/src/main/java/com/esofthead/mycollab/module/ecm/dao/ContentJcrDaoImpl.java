@@ -379,7 +379,12 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 
 	private static Content convertNodeToContent(Node node) {
 		try {
-			Content content = new Content();
+			String contentPath = node.getPath();
+			if (contentPath.startsWith("/")) {
+				contentPath = contentPath.substring(1);
+			}
+
+			Content content = new Content(contentPath);
 			content.setCreated(node.getProperty("jcr:created").getDate());
 			content.setCreatedBy(NodesUtil.getString(node, "jcr:createdBy"));
 			content.setTitle(NodesUtil.getString(node, "jcr:title"));
@@ -389,11 +394,6 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 			content.setSize(node.getProperty("mycollab:size").getLong());
 			content.setCreatedUser(NodesUtil.getString(node,
 					"mycollab:createdUser"));
-			String contentPath = node.getPath();
-			if (contentPath.startsWith("/")) {
-				contentPath = contentPath.substring(1);
-			}
-			content.setPath(contentPath);
 
 			content.setLastModified(node.getProperty("jcr:lastModified")
 					.getDate());
@@ -405,17 +405,16 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 
 	private static Folder convertNodeToFolder(Node node) {
 		try {
-			Folder folder = new Folder();
-			folder.setCreated(node.getProperty("jcr:created").getDate());
-			folder.setCreatedBy(node.getProperty("jcr:createdBy").getString());
-			folder.setCreatedUser(node.getProperty("mycollab:createdUser")
-					.getString());
-
 			String folderPath = node.getPath();
 			if (folderPath.startsWith("/")) {
 				folderPath = folderPath.substring(1);
 			}
-			folder.setPath(folderPath);
+
+			Folder folder = new Folder(folderPath);
+			folder.setCreated(node.getProperty("jcr:created").getDate());
+			folder.setCreatedBy(node.getProperty("jcr:createdBy").getString());
+			folder.setCreatedUser(node.getProperty("mycollab:createdUser")
+					.getString());
 			return folder;
 		} catch (Exception e) {
 			throw new MyCollabException(e);
@@ -496,8 +495,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					if (index >= 0) {
 						String parentDestPath = destinationPath.substring(0,
 								index);
-						Folder folder = new Folder();
-						folder.setPath(parentDestPath);
+						Folder folder = new Folder(parentDestPath);
 						createFolder(folder, "");
 					}
 					session.move("/" + oldPath, "/" + destinationPath);

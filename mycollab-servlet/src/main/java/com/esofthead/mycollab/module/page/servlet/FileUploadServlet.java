@@ -74,8 +74,7 @@ public class FileUploadServlet extends GenericServletRequestHandler {
 		try {
 			filecontent = filePart.getInputStream();
 
-			Content content = new Content();
-			content.setPath(path + "/" + fileName);
+			Content content = new Content(path + "/" + fileName);
 			resourceService.saveContent(content, "", filecontent, 1);
 
 			String filePath = "";

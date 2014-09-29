@@ -32,7 +32,7 @@ import com.esofthead.mycollab.form.view.builder.type.DynaSection.LayoutType;
  * 
  */
 public class MeetingDefaultFormLayoutFactory {
-	public static final DynaForm defaultForm;
+	private static final DynaForm defaultForm;
 
 	static {
 		defaultForm = new DynaForm();

@@ -27,6 +27,14 @@ public class ExternalFolder extends Folder {
 
 	private ExternalDrive externalDrive;
 
+	public ExternalFolder() {
+		super();
+	}
+
+	public ExternalFolder(String path) {
+		super(path);
+	}
+
 	public String getStorageName() {
 		return storageName;
 	}

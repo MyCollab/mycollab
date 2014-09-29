@@ -26,6 +26,12 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.vaadin.ui.ComponentContainer;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class FileDashboardPresenter extends
 		CrmGenericPresenter<FileDashboardView> {
 	private static final long serialVersionUID = 1L;

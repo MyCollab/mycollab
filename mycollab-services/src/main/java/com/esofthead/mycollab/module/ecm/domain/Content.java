@@ -30,7 +30,15 @@ public class Content extends Resource {
 	private Calendar lastModified;
 	private String lastModifiedBy;
 	private String mimeType;
-	private String contentPath;
+
+	public Content() {
+		super();
+	}
+
+	public Content(String path) {
+		super();
+		this.setPath(path);
+	}
 
 	public String getTitle() {
 		return title;

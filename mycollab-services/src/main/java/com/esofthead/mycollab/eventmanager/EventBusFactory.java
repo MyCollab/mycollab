@@ -25,6 +25,7 @@ import com.google.common.eventbus.EventBus;
  * @since 1.0
  * 
  */
+@SuppressWarnings("unchecked")
 public abstract class EventBusFactory {
 	private static String eventbusFactoryImplClsName = "com.esofthead.mycollab.eventmanager.EventBusFactoryImpl";
 

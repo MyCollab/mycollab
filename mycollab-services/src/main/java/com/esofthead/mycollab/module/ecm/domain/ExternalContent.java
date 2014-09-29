@@ -27,6 +27,14 @@ public class ExternalContent extends Content {
 
 	private ExternalDrive externalDrive;
 
+	public ExternalContent() {
+		super();
+	}
+
+	public ExternalContent(String path) {
+		super(path);
+	}
+
 	public String getStorageName() {
 		return storageName;
 	}
