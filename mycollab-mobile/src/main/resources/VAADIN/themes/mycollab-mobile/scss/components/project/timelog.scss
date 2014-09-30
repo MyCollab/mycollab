@@ -1,12 +1,119 @@
 @mixin project-timelog {
-	.data-list-view {
-		.time-log-item {
-			padding: 1rem 2.5rem 1rem 1.4rem;
-			border-bottom: 0.1rem solid #DDDDDD;
-			color: #8C8C8C;
-			.log-user {
+	.timelog-edit-view {
+		div.v-vertical > .v-expand > .v-spacing {
+			display: block;
+			height: 1.2rem;
+		}
+		.summary-info-panel {
+			background-color: rgb(255, 255, 255);
+			border-bottom: 0.1rem solid $light-gray-border;
+			.total-time {
+				border-right: 0.1rem solid $light-gray-border;
+			}
+			.summary-block {
+				.block-label {
+					color: $gray-text;
+				}
+				.block-value {
+					color: $black-text;
+					font-size: 1.5rem;
+					font-weight: bold;
+				}
+			}
+		}
+		
+		.data-list-view {
+			border-top: 0.1rem solid $light-gray-border;
+			.log-day {
+				border-bottom: 2px solid $primary-orange;
+				padding: 1rem 0.5rem 0.5rem;
 				font-size: 1.1rem;
+				font-weight: bold;
+				color: $gray-text;
+			}
+			.time-log-item {
+				padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+				border-bottom: 0.1rem solid #DDDDDD;
+				color: $gray-text;
+				.log-value {
+					font-size: 1.4rem;
+					font-weight: bold;
+					color: $black-text;
+				}
+				.v-caption-on-top > .v-caption {
+					display: inline-block;
+				}
+				.log-user {
+					font-size: 1.1rem;
+				}
+				.is-billable {
+					text-align: center;
+					color: $primary-blue;
+				}
 			}
 		}
 	}
+	
+	.time-log-window {
+		.v-window-outerheader {
+			height: inherit;
+			.v-window-header {
+				text-align: center;
+				padding-bottom: 0.5rem;
+			}
+		}		
+		
+		&.new-time-entry-window {
+			.input-wrapper {
+				margin: 0px;
+				border-bottom: none;
+				box-shadow: none;
+				border-color: $light-gray-border;
+				font-size: 1.4rem;
+				.v-textfield {
+					border: none;
+					&:focus {
+						box-shadow: none;
+					}
+				}
+				.v-touchkit-componentgroup-row > .v-caption {
+					font-size: 1.4rem;
+				}
+				.v-select-select {
+					font-size: inherit;
+				}
+			}
+		}
+		
+		&.update-remain-time-window {
+			.input-wrapper {
+				padding: 0.5rem 1rem;
+				.v-textfield {
+					font-size: 1.5rem;
+					color: $gray-text;
+					line-height: 2rem;
+					border-radius: 0px;
+					border-color: $light-gray-border;
+				}
+			}
+		}
+		
+		.button-layout {
+			border-top: 0.1rem solid $light-gray-border;
+			.v-button {
+				background-color: transparent;
+				.v-button-wrap {
+					padding: 1rem;
+					.v-button-caption {
+						color: $primary-blue;
+						font-size: 1.4rem;
+					}
+				}
+				&.add-btn {
+					border-left: 0.1rem solid $light-gray-border;
+				}
+			}			
+		}
+	}
+	
 }

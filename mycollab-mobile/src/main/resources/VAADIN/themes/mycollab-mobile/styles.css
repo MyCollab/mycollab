@@ -908,7 +908,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   padding-right: 0.8rem;
 }
 .mycollab-mobile .message-list-view .message-block .user-name, .mycollab-mobile .message-read-view .message-block .user-name {
-  color: #e39241;
+  color: #f59330;
 }
 .mycollab-mobile .message-list-view .message-block .time-post, .mycollab-mobile .message-read-view .message-block .time-post {
   font-size: 1.1rem;
@@ -963,7 +963,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   border-radius: 0px;
 }
 .mycollab-mobile .comment-list .comment-block .right-col .user-name {
-  color: #e39241;
+  color: #f59330;
 }
 .mycollab-mobile .comment-list .comment-block .right-col .time-post {
   font-size: 1.1rem;
@@ -1066,17 +1066,110 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .member-list .list-item.member-row .member-info .display-name {
   font-weight: bold;
   font-size: 1.4rem;
-  color: #e39241;
+  color: #f59330;
 }
 .mycollab-mobile .member-list .list-item.member-row .member-info .user-name {
   font-size: 1.2rem;
   color: #959595;
 }
-.mycollab-mobile .data-list-view .time-log-item {
-  padding: 1rem 2.5rem 1rem 1.4rem;
-  border-bottom: 0.1rem solid #DDDDDD;
-  color: #8C8C8C;
+.mycollab-mobile .timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
+  display: block;
+  height: 1.2rem;
 }
-.mycollab-mobile .data-list-view .time-log-item .log-user {
+.mycollab-mobile .timelog-edit-view .summary-info-panel {
+  background-color: white;
+  border-bottom: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .timelog-edit-view .summary-info-panel .total-time {
+  border-right: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .timelog-edit-view .summary-info-panel .summary-block .block-label {
+  color: #959595;
+}
+.mycollab-mobile .timelog-edit-view .summary-info-panel .summary-block .block-value {
+  color: #414141;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view {
+  border-top: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .log-day {
+  border-bottom: 2px solid #f59330;
+  padding: 1rem 0.5rem 0.5rem;
   font-size: 1.1rem;
+  font-weight: bold;
+  color: #959595;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .time-log-item {
+  padding: 0.5rem 2.5rem 0.8rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
+  color: #959595;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .time-log-item .log-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #414141;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .time-log-item .v-caption-on-top > .v-caption {
+  display: inline-block;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .time-log-item .log-user {
+  font-size: 1.1rem;
+}
+.mycollab-mobile .timelog-edit-view .data-list-view .time-log-item .is-billable {
+  text-align: center;
+  color: #49a3e1;
+}
+.mycollab-mobile .time-log-window .v-window-outerheader {
+  height: inherit;
+}
+.mycollab-mobile .time-log-window .v-window-outerheader .v-window-header {
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+.mycollab-mobile .time-log-window.new-time-entry-window .input-wrapper {
+  margin: 0px;
+  border-bottom: none;
+  box-shadow: none;
+  border-color: #dddddd;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .time-log-window.new-time-entry-window .input-wrapper .v-textfield {
+  border: none;
+}
+.mycollab-mobile .time-log-window.new-time-entry-window .input-wrapper .v-textfield:focus {
+  box-shadow: none;
+}
+.mycollab-mobile .time-log-window.new-time-entry-window .input-wrapper .v-touchkit-componentgroup-row > .v-caption {
+  font-size: 1.4rem;
+}
+.mycollab-mobile .time-log-window.new-time-entry-window .input-wrapper .v-select-select {
+  font-size: inherit;
+}
+.mycollab-mobile .time-log-window.update-remain-time-window .input-wrapper {
+  padding: 0.5rem 1rem;
+}
+.mycollab-mobile .time-log-window.update-remain-time-window .input-wrapper .v-textfield {
+  font-size: 1.5rem;
+  color: #959595;
+  line-height: 2rem;
+  border-radius: 0px;
+  border-color: #dddddd;
+}
+.mycollab-mobile .time-log-window .button-layout {
+  border-top: 0.1rem solid #dddddd;
+}
+.mycollab-mobile .time-log-window .button-layout .v-button {
+  background-color: transparent;
+}
+.mycollab-mobile .time-log-window .button-layout .v-button .v-button-wrap {
+  padding: 1rem;
+}
+.mycollab-mobile .time-log-window .button-layout .v-button .v-button-wrap .v-button-caption {
+  color: #49a3e1;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .time-log-window .button-layout .v-button.add-btn {
+  border-left: 0.1rem solid #dddddd;
 }

@@ -16,7 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.crm.domain.SimpleCase;
 import com.esofthead.mycollab.module.crm.domain.criteria.CaseSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -37,19 +42,23 @@ public class CaseServiceTest extends ServiceTest {
 	@Autowired
 	protected CaseService caseService;
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetAll() {
 		CaseSearchCriteria criteria = new CaseSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
+		
+		List<SimpleCase> cases = caseService.findPagableListByCriteria(
+				new SearchRequest<CaseSearchCriteria>(null, 0,
+						Integer.MAX_VALUE));
 
-		Assert.assertEquals(
-				2,
-				caseService.findPagableListByCriteria(
-						new SearchRequest<CaseSearchCriteria>(null, 0,
-								Integer.MAX_VALUE)).size());
+		assertThat(cases.size()).isEqualTo(2);
+		assertThat(cases).extracting("id", "subject", "status")
+				.contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetSearchCriteria() {
@@ -59,14 +68,16 @@ public class CaseServiceTest extends ServiceTest {
 		criteria.setSubject(new StringSearchField(SearchField.AND, "a"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
 
-		Assert.assertEquals(
-				1,
-				caseService.findPagableListByCriteria(
-						new SearchRequest<CaseSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
-		Assert.assertEquals(1, caseService.getTotalCount(criteria));
+		List<SimpleCase> cases = caseService.findPagableListByCriteria(
+				new SearchRequest<CaseSearchCriteria>(null, 0,
+						Integer.MAX_VALUE));
+
+		assertThat(cases.size()).isEqualTo(2);
+		assertThat(cases).extracting("id", "subject", "status")
+		.contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAssignUsers() {
@@ -75,14 +86,16 @@ public class CaseServiceTest extends ServiceTest {
 				new String[] { "linh", "admin" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, caseService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				caseService.findPagableListByCriteria(
-						new SearchRequest<CaseSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleCase> cases = caseService.findPagableListByCriteria(
+				new SearchRequest<CaseSearchCriteria>(null, 0,
+						Integer.MAX_VALUE));
+
+		assertThat(cases.size()).isEqualTo(2);
+		assertThat(cases).extracting("id", "subject", "status")
+				.contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchPriorities() {
@@ -91,14 +104,16 @@ public class CaseServiceTest extends ServiceTest {
 				new String[] { "High", "Medium" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, caseService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				caseService.findPagableListByCriteria(
-						new SearchRequest<CaseSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleCase> cases = caseService.findPagableListByCriteria(
+				new SearchRequest<CaseSearchCriteria>(null, 0,
+						Integer.MAX_VALUE));
+
+		assertThat(cases.size()).isEqualTo(2);
+		assertThat(cases).extracting("id", "subject", "status")
+				.contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchStatuses() {
@@ -107,11 +122,12 @@ public class CaseServiceTest extends ServiceTest {
 				new String[] { "New", "Test Status" }));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, caseService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				caseService.findPagableListByCriteria(
-						new SearchRequest<CaseSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleCase> cases = caseService.findPagableListByCriteria(
+				new SearchRequest<CaseSearchCriteria>(null, 0,
+						Integer.MAX_VALUE));
+
+		assertThat(cases.size()).isEqualTo(2);
+		assertThat(cases).extracting("id", "subject", "status")
+				.contains(tuple(1, "abc", "New"), tuple(2, "a", "Test Status"));
 	}
 }

@@ -47,7 +47,6 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 
 	public AbstractPagedBeanList(RowDisplayHandler<B> rowDisplayHandler) {
 		super();
-		setWidth("100%");
 		setSizeFull();
 		InfiniteScrollLayout scrollLayout = InfiniteScrollLayout.extend(this);
 		scrollLayout
@@ -122,13 +121,16 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 
 		listContainer.removeAllComponents();
 
+		renderRows();
+	}
+
+	protected void renderRows() {
 		int i = 0;
 		for (final B item : currentListData) {
 			final Component row = rowDisplayHandler.generateRow(item, i);
 			listContainer.addComponent(row);
 			i++;
 		}
-
 	}
 
 	protected void loadMore() {

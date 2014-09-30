@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.project.domain.Risk;
+import com.esofthead.mycollab.module.project.domain.SimpleRisk;
 import com.esofthead.mycollab.module.project.domain.criteria.RiskSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -39,27 +42,33 @@ public class RiskServiceTest extends ServiceTest {
 	@Autowired
 	protected RiskService riskService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetListRisks() {
-		List risks = riskService
+		List<SimpleRisk> risks = riskService
 				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, risks.size());
+
+		assertThat(risks.size()).isEqualTo(3);
+		assertThat(risks).extracting("id", "riskname").contains(tuple(1, "a"),
+				tuple(2, "ab"), tuple(3, "c"));
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchRisksByName() {
 		RiskSearchCriteria criteria = new RiskSearchCriteria();
 		criteria.setRiskname(new StringSearchField(SearchField.AND, "a"));
 		criteria.setSaccountid(new NumberSearchField(1));
-		List risks = riskService
+		List<SimpleRisk> risks = riskService
 				.findPagableListByCriteria(new SearchRequest<RiskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(2, risks.size());
+
+		assertThat(risks.size()).isEqualTo(2);
+		assertThat(risks).extracting("id", "riskname").contains(tuple(1, "a"),
+				tuple(2, "ab"));
 	}
 
 	@DataSet
@@ -73,6 +82,6 @@ public class RiskServiceTest extends ServiceTest {
 		int newId = riskService.saveWithSession(record, "hainguyen");
 
 		Risk risk = riskService.findByPrimaryKey(newId, 1);
-		Assert.assertEquals("New projectMember", risk.getRiskname());
+		assertThat(risk.getRiskname()).isEqualTo("New projectMember");
 	}
 }

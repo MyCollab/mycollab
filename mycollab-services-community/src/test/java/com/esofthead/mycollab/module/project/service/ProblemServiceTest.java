@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +40,16 @@ public class ProblemServiceTest extends ServiceTest {
 	@Autowired
 	protected ProblemService problemService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetListIssues() {
-		List issues = problemService
+		List<SimpleProblem> problems = problemService
 				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, issues.size());
+		assertThat(problems.size()).isEqualTo(3);
+		assertThat(problems).extracting("id", "issuename").contains(
+				tuple(1, "a"), tuple(2, "b"), tuple(3, "c"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -59,15 +63,12 @@ public class ProblemServiceTest extends ServiceTest {
 		List<SimpleProblem> problems = problemService
 				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(1, problems.size());
-
-		SimpleProblem problem = problems.get(0);
-		Assert.assertEquals("a1 b1", problem.getAssignedUserFullName());
-		Assert.assertEquals("a2 b2", problem.getRaisedByUserFullName());
-		Assert.assertEquals("source", problem.getProblemsource());
-		Assert.assertEquals(1, problemService.getTotalCount(criteria));
+		assertThat(problems.size()).isEqualTo(1);
+		assertThat(problems).extracting("id", "issuename").contains(
+				tuple(1, "a"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testgetTotalCount() {
@@ -75,6 +76,11 @@ public class ProblemServiceTest extends ServiceTest {
 		criteria.setSaccountid(null);
 		criteria.setProblemname(new StringSearchField(StringSearchField.AND,
 				"a"));
-		Assert.assertEquals(1, problemService.getTotalCount(criteria));
+		List<SimpleProblem> problems = problemService
+				.findPagableListByCriteria(new SearchRequest<ProblemSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(problems.size()).isEqualTo(1);
+		assertThat(problems).extracting("id", "issuename").contains(
+				tuple(1, "a"));
 	}
 }

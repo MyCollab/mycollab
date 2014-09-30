@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -37,20 +41,27 @@ public class CampaignServiceTest extends ServiceTest {
 	@Autowired
 	protected CampaignService campaignService;
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() {
-		Assert.assertEquals(
-				10,
-				campaignService.findPagableListByCriteria(
-						new SearchRequest<CampaignSearchCriteria>(
-								getCriteria(), 0, Integer.MAX_VALUE)).size());
+		List<SimpleCampaign> campaigns = campaignService
+				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(campaigns.size()).isEqualTo(10);
+		assertThat(campaigns.get(1).getAssignuser()).isEqualTo("hai79");
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetTotalCounts() {
-		Assert.assertEquals(10, campaignService.getTotalCount(getCriteria()));
+		List<SimpleCampaign> campaigns = campaignService
+				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(campaigns.size()).isEqualTo(10);
 	}
 
 	private CampaignSearchCriteria getCriteria() {
@@ -59,11 +70,11 @@ public class CampaignServiceTest extends ServiceTest {
 		criteria.setCampaignName(new StringSearchField(SearchField.AND, "A"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
 		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
-				new String[] { "hai79", "linh" }));
+				new String[]{"hai79", "linh"}));
 		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
-				new String[] { "a", "b" }));
+				new String[]{"a", "b"}));
 		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
-				new String[] { "a", "b" }));
+				new String[]{"a", "b"}));
 		return criteria;
 	}
 }

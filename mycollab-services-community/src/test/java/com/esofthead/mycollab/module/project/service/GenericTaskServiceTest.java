@@ -16,13 +16,14 @@
  */
 package com.esofthead.mycollab.module.project.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
+import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -41,16 +43,17 @@ public class GenericTaskServiceTest extends ServiceTest {
 	@Autowired
 	protected ProjectGenericTaskService genericTaskService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGenericTaskListFindPageable() {
-		List task = genericTaskService
+		List<ProjectGenericTaskCount> tasks = genericTaskService
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(4, task.size());
+		assertThat(tasks.size()).isEqualTo(4);
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testCountTaskOverDue() throws ParseException {
@@ -61,7 +64,10 @@ public class GenericTaskServiceTest extends ServiceTest {
 		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
 		criteria.setProjectId(new NumberSearchField(1));
 		criteria.setSaccountid(new NumberSearchField(1));
-		Assert.assertEquals(2, genericTaskService.getTotalCount(criteria));
+		List<ProjectGenericTaskCount> tasks = genericTaskService
+				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(tasks.size()).isEqualTo(2);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,9 +86,9 @@ public class GenericTaskServiceTest extends ServiceTest {
 						criteria, 0, Integer.MAX_VALUE));
 
 		ProjectGenericTask task = taskList.get(0);
-		Assert.assertEquals(2, taskList.size());
+		assertThat(taskList.size()).isEqualTo(2);
 
 		Date d2 = df.parse("2013-01-23 10:49:49");
-		Assert.assertEquals(d2, task.getDueDate());
+		assertThat(task.getDueDate()).isEqualTo(d2);
 	}
 }

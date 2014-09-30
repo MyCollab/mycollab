@@ -16,12 +16,14 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ import com.esofthead.mycollab.core.arguments.DateTimeSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.module.crm.domain.SimpleActivity;
 import com.esofthead.mycollab.module.crm.domain.criteria.ActivitySearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -41,7 +44,7 @@ public class EventServiceTest extends ServiceTest {
 	@Autowired
 	protected EventService eventService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() throws ParseException {
@@ -55,10 +58,11 @@ public class EventServiceTest extends ServiceTest {
 				DateTimeSearchField.LESSTHANEQUAL, endDate));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List list = eventService
+		List<SimpleActivity> list = eventService
 				.findPagableListByCriteria(new SearchRequest<ActivitySearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(1, list.size());
-
+		assertThat(list.size()).isEqualTo(1);
+		assertThat(list).extracting("id", "subject").contains(
+				tuple(1, "aaa"));
 	}
 }

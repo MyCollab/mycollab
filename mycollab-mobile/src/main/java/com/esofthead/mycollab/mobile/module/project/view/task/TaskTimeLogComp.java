@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import java.util.Date;
+
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
@@ -94,26 +96,27 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 		}
 
 		@Override
-		protected void saveTimeInvest() {
+		protected void saveTimeInvest(double spentHours, boolean isBillable,
+				Date forDate) {
 			ItemTimeLogging item = new ItemTimeLogging();
 			item.setLoguser(AppContext.getUsername());
-			item.setLogvalue(getInvestValue());
+			item.setLogvalue(spentHours);
 			item.setTypeid(bean.getId());
 			item.setType(ProjectTypeConstants.TASK);
 			item.setSaccountid(AppContext.getAccountId());
 			item.setProjectid(CurrentProjectVariables.getProjectId());
-			item.setLogforday(forLogDate());
-			item.setIsbillable(isBillableHours());
+			item.setLogforday(forDate);
+			item.setIsbillable(isBillable);
 
 			itemTimeLoggingService.saveWithSession(item,
 					AppContext.getUsername());
 		}
 
 		@Override
-		protected void updateTimeRemain() {
+		protected void updateTimeRemain(double newValue) {
 			ProjectTaskService taskService = ApplicationContextUtil
 					.getSpringBean(ProjectTaskService.class);
-			bean.setRemainestimate(getUpdateRemainTime());
+			bean.setRemainestimate(newValue);
 			taskService.updateWithSession(bean, AppContext.getUsername());
 		}
 

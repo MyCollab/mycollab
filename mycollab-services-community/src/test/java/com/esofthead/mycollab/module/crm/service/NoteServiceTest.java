@@ -16,9 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,25 +45,23 @@ public class NoteServiceTest extends ServiceTest {
 	@Test
 	public void testGetTotalCount() {
 		NoteSearchCriteria criteria = getCriteria();
-		Assert.assertEquals(1, noteService.getTotalCount(criteria));
+		assertThat(noteService.getTotalCount(criteria)).isEqualTo(1);
 	}
 
 	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearch() {
-		NoteSearchCriteria criteria = getCriteria();
-
 		List<SimpleNote> noteList = noteService
 				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
-						criteria, 0, Integer.MAX_VALUE));
+						getCriteria(), 0, Integer.MAX_VALUE));
 
-		Assert.assertEquals(1, noteList.size());
-
-		SimpleNote note = noteList.get(0);
-		Assert.assertEquals(2, note.getComments().size());
+		assertThat(noteList.size()).isEqualTo(1);
+		assertThat(noteList).extracting("id", "subject").contains(
+				tuple(1, "aaa"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSaveNote() {
@@ -69,7 +69,14 @@ public class NoteServiceTest extends ServiceTest {
 		note.setSubject("subject");
 		note.setSaccountid(1);
 		noteService.saveWithSession(note, "admin");
-		Assert.assertNotNull(note.getId());
+
+		List<SimpleNote> noteList = noteService
+				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(noteList.size()).isEqualTo(2);
+		assertThat(noteList).extracting("subject").contains(
+				tuple("aaa"), tuple("subject"));
 	}
 
 	private NoteSearchCriteria getCriteria() {

@@ -16,13 +16,18 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.module.crm.domain.SimpleTask;
 import com.esofthead.mycollab.module.crm.domain.criteria.TodoSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -34,20 +39,28 @@ public class TaskServiceTest extends ServiceTest {
 	@Autowired
 	protected TaskService taskService;
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() {
-		Assert.assertEquals(
-				1,
-				taskService.findPagableListByCriteria(
-						new SearchRequest<TodoSearchCriteria>(getCriteria(), 0,
-								2)).size());
+		List<SimpleTask> tasks = taskService
+				.findPagableListByCriteria(new SearchRequest<TodoSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(tasks.size()).isEqualTo(1);
+		assertThat(tasks).extracting("id", "status", "subject").contains(
+				tuple(1, "Completed", "aaa"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetTotalCounts() {
-		Assert.assertEquals(1, taskService.getTotalCount(getCriteria()));
+		List<SimpleTask> tasks = taskService
+				.findPagableListByCriteria(new SearchRequest<TodoSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(tasks.size()).isEqualTo(1);
 	}
 
 	private TodoSearchCriteria getCriteria() {

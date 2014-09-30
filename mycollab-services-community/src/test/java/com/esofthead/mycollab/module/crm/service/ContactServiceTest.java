@@ -16,7 +16,11 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.module.crm.domain.SimpleContact;
 import com.esofthead.mycollab.module.crm.domain.criteria.ContactSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -37,31 +42,40 @@ public class ContactServiceTest extends ServiceTest {
 	@Autowired
 	protected ContactService contactService;
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetFindByCriteria() {
-		Assert.assertEquals(
-				1,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(getCriteria(),
-								0, 2)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(1);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetTotalCount() {
-		Assert.assertEquals(1, contactService.getTotalCount(getCriteria()));
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(1);
 	}
 
 	private ContactSearchCriteria getCriteria() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
 		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
-				new String[] { "linh" }));
+				new String[]{"linh"}));
 		criteria.setContactName(new StringSearchField(SearchField.AND, "Hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 		return criteria;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchContactName() {
@@ -70,46 +84,52 @@ public class ContactServiceTest extends ServiceTest {
 				"Nguyen Hai"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(1, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(1);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAssignUsers() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
 		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
-				new String[] { "linh", "hai" }));
+				new String[]{"linh", "hai"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(3, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				3,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(3);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchLeadSources() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
 		criteria.setLeadSources(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Email", "Campaign" }));
+				new String[]{"Email", "Campaign"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(2, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyPostalCode() {
@@ -118,14 +138,16 @@ public class ContactServiceTest extends ServiceTest {
 				"70000"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(2, "linh"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyCity() {
@@ -133,14 +155,16 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setAnyCity(new StringSearchField(SearchField.AND, "HCM"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(2, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyPhone() {
@@ -149,30 +173,34 @@ public class ContactServiceTest extends ServiceTest {
 				"(111)-(222)"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(2, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyCountries() {
 		ContactSearchCriteria criteria = new ContactSearchCriteria();
 		criteria.setCountries(new SetSearchField<String>(SearchField.AND,
-				new String[] { "Viet nam", "America" }));
+				new String[]{"Viet nam", "America"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyState() {
@@ -180,14 +208,16 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setAnyState(new StringSearchField(SearchField.AND, "abc"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyAddress() {
@@ -195,14 +225,16 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setAnyAddress(new StringSearchField(SearchField.AND, "ade"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(2, "linh"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchAnyEmail() {
@@ -210,14 +242,16 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setAnyEmail(new StringSearchField(SearchField.AND, "abc@y.co"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(2);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(3, "hai"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchLastname() {
@@ -225,14 +259,16 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setLastname(new StringSearchField(SearchField.AND, "Linh"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(1, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(1);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(2, "linh"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchFirstname() {
@@ -240,11 +276,12 @@ public class ContactServiceTest extends ServiceTest {
 		criteria.setFirstname(new StringSearchField(SearchField.AND, "Nguyen"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(3, contactService.getTotalCount(criteria));
-		Assert.assertEquals(
-				3,
-				contactService.findPagableListByCriteria(
-						new SearchRequest<ContactSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleContact> contacts = contactService
+				.findPagableListByCriteria(new SearchRequest<ContactSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(contacts.size()).isEqualTo(3);
+		assertThat(contacts).extracting("id", "assignuser").contains(
+				tuple(1, "linh"), tuple(2, "linh"), tuple(3, "hai"));
 	}
 }
