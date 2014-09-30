@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.module.project.events;
 
 import com.esofthead.mycollab.eventmanager.ApplicationEvent;
-import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 
 /**
  * 
@@ -32,14 +31,6 @@ public class ProjectContentEvent {
 
 		public GotoDashboard(Object source) {
 			super(source, null);
-		}
-	}
-
-	public static class Search extends ApplicationEvent {
-		private static final long serialVersionUID = 1L;
-
-		public Search(Object source, FileSearchCriteria data) {
-			super(source, data);
 		}
 	}
 }

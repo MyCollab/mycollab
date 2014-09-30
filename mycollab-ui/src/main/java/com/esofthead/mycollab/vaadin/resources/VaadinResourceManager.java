@@ -49,4 +49,5 @@ public class VaadinResourceManager {
 					"Do not support storage system setting. Accept file or s3 only");
 		}
 	}
+
 }

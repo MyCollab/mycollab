@@ -174,9 +174,8 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				TimeTrackingScreenData.Search.class)) {
 			presenter = PresenterResolver
 					.getPresenter(ITimeTrackingPresenter.class);
-		} else if (ClassUtils
-				.instanceOf(pageAction, FileScreenData.GotoDashboard.class,
-						FileScreenData.Search.class)) {
+		} else if (ClassUtils.instanceOf(pageAction,
+				FileScreenData.GotoDashboard.class)) {
 			presenter = PresenterResolver.getPresenter(IFilePresenter.class);
 		} else {
 			throw new UnsupportedOperationException(

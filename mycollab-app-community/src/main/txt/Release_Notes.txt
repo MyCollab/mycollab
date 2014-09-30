@@ -46,8 +46,14 @@ Version 4.5.2
 -----------------------------
 **Improvements**
 
+* Upgrade Vaadin to 7.3.2
+* Tweak the error handling while init view
+* Refactor the file module management
+* Add more unit tests for content service
+
 **Bug Fixes**
-Project Notification can not be sent in some special cases
+
+* Project Notification can not be sent in some special cases
 
 Version 4.5.1
 -----------------------------

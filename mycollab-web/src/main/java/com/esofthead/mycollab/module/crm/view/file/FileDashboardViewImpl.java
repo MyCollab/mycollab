@@ -16,9 +16,6 @@
  */
 package com.esofthead.mycollab.module.crm.view.file;
 
-import com.esofthead.mycollab.eventmanager.EventBusFactory;
-import com.esofthead.mycollab.module.crm.events.DocumentEvent;
-import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.module.file.view.components.FileDashboardComponent;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractPageView;
@@ -43,17 +40,7 @@ public class FileDashboardViewImpl extends AbstractPageView implements
 		this.setMargin(new MarginInfo(false, true, false, true));
 		String rootPath = String.format("%d/.crm", AppContext.getAccountId());
 		FileDashboardComponent dashboardComponent = new FileDashboardComponent(
-				rootPath) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void doSearch(FileSearchCriteria searchCriteria) {
-				EventBusFactory.getInstance().post(
-						new DocumentEvent.Search(FileDashboardViewImpl.this,
-								searchCriteria));
-			}
-
-		};
+				rootPath);
 		dashboardComponent.setWidth("100%");
 		this.addComponent(dashboardComponent);
 

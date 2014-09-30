@@ -16,10 +16,12 @@
  */
 package com.esofthead.mycollab.module.crm.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,22 +48,39 @@ public class AccountServiceTest extends ServiceTest {
 	@Autowired
 	protected AccountService accountService;
 
+	private AccountSearchCriteria getCriteria() {
+		AccountSearchCriteria criteria = new AccountSearchCriteria();
+		criteria.setAccountname(new StringSearchField(SearchField.AND, "xy"));
+		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+				new String[]{"hai79", "linhduong"}));
+		criteria.setIndustries(new SetSearchField<String>(SearchField.AND,
+				new String[]{"a", "b"}));
+		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
+				new String[]{"a", "b"}));
+		criteria.setSaccountid(new NumberSearchField(1));
+		return criteria;
+	}
+
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByCriteria() {
-		Assert.assertEquals(
-				2,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(getCriteria(),
-								0, Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						getCriteria(), 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
 	}
 
 	@DataSet
 	@Test
 	public void testGetTotalCounts() {
-		Assert.assertEquals(2, accountService.getTotalCount(getCriteria()));
+		assertThat(accountService.getTotalCount(getCriteria())).isEqualTo(2);
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchAnyPhoneField() {
@@ -69,9 +88,15 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAnyPhone(new StringSearchField(SearchField.AND, "111"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchAnyMailField() {
@@ -79,52 +104,60 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAnyMail(new StringSearchField(SearchField.AND, "abc"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
 	}
 
-	private AccountSearchCriteria getCriteria() {
-		AccountSearchCriteria criteria = new AccountSearchCriteria();
-		criteria.setAccountname(new StringSearchField(SearchField.AND, "xy"));
-		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
-				new String[] { "hai79", "linhduong" }));
-		criteria.setIndustries(new SetSearchField<String>(SearchField.AND,
-				new String[] { "a", "b" }));
-		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
-				new String[] { "a", "b" }));
-		criteria.setSaccountid(new NumberSearchField(1));
-		return criteria;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testRemoveAccounts() {
 		accountService.massRemoveWithSession(Arrays.asList(1, 2), "hai79", 1);
+
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(1);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(3, "xyz2", "c"));
 	}
 
 	@Test
 	@DataSet
 	public void testFindAccountById() {
 		SimpleAccount account = accountService.findById(1, 1);
-		Assert.assertEquals("xyz", account.getAccountname());
+		assertThat(account.getAccountname()).isEqualTo("xyz");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testRemoveAccountBySearchCriteria() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setIndustries(new SetSearchField<String>(SearchField.AND,
-				new String[] { "a" }));
+				new String[]{"a"}));
 		criteria.setSaccountid(new NumberSearchField(1));
 
 		accountService.removeByCriteria(criteria, 1);
 
 		criteria = new AccountSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
+
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(2, "xyz1", "b"), tuple(3, "xyz2", "c"));
 	}
 
 	@Test
@@ -136,10 +169,11 @@ public class AccountServiceTest extends ServiceTest {
 		account.setSaccountid(1);
 		accountService.updateWithSession(account, "hai79");
 
-		accountService.findById(1, 1);
-		Assert.assertEquals("abc", account.getAccountname());
+		SimpleAccount simpleAccount = accountService.findById(1, 1);
+		assertThat(simpleAccount.getAccountname()).isEqualTo("abc");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchWebsite() {
@@ -148,14 +182,17 @@ public class AccountServiceTest extends ServiceTest {
 				"http://www.esofthead.com"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(3, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				3,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(3);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"),
+						tuple(3, "xyz2", "c"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void tesSearchAnyAddress() {
@@ -163,14 +200,16 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAnyAddress(new StringSearchField(SearchField.AND, "123"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void tesSearchAnyCity() {
@@ -178,14 +217,16 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAnyCity(new StringSearchField(SearchField.AND, "ha noi"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testAssignUser() {
@@ -193,14 +234,16 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(1);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testSearchByAssignUserName() {
@@ -208,12 +251,13 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setAssignUser(new StringSearchField("hai79"));
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(accounts.size()).isEqualTo(1);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -229,15 +273,18 @@ public class AccountServiceTest extends ServiceTest {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
 
-		List<SimpleAccount> accountList = accountService
+		List<SimpleAccount> accounts = accountService
 				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, accountList.size());
-		for (SimpleAccount account1 : accountList) {
-			Assert.assertEquals("hai79", account1.getAssignuser());
-		}
+
+		assertThat(accounts.size()).isEqualTo(3);
+		assertThat(accounts).extracting("id", "accountname", "industry",
+				"assignuser").contains(tuple(1, "xyz", "aaa", "hai79"),
+				tuple(2, "xyz1", "aaa", "hai79"),
+				tuple(3, "xyz2", "aaa", "hai79"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testQueryAccountWithExtNoValueSearchField() {
@@ -245,14 +292,18 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.addExtraField(new NoValueSearchField(SearchField.AND,
 				"m_crm_account.accountName is not null"));
-		Assert.assertEquals(3, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				3,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		
+		assertThat(accounts.size()).isEqualTo(3);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"),
+						tuple(3, "xyz2", "c"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testQueryAccountWithExtOneValueSearchField() {
@@ -260,30 +311,36 @@ public class AccountServiceTest extends ServiceTest {
 		criteria.setSaccountid(new NumberSearchField(1));
 		criteria.addExtraField(new OneValueSearchField(SearchField.AND,
 				"m_crm_account.accountName = ", "xyz"));
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		
+		assertThat(accounts.size()).isEqualTo(1);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testQueryAccountWithExtCollectionValueSearchField() {
 		AccountSearchCriteria criteria = new AccountSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
-
 		criteria.addExtraField(new CollectionValueSearchField(SearchField.AND,
 				"m_crm_account.industry in ", Arrays.asList("a", "b")));
-		Assert.assertEquals(2, accountService.getTotalCount(criteria));
-		Assert.assertEquals(
-				2,
-				accountService.findPagableListByCriteria(
-						new SearchRequest<AccountSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		
+		
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		
+		assertThat(accounts.size()).isEqualTo(2);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"), tuple(2, "xyz1", "b"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	@DataSet
 	public void testQueryAccountWithCompositeValueSearchField() {
@@ -297,6 +354,13 @@ public class AccountServiceTest extends ServiceTest {
 		compoField.addField(new OneValueSearchField("",
 				"m_crm_account.shippingCity = ", "ha noi"));
 		criteria.addExtraField(compoField);
-		Assert.assertEquals(1, accountService.getTotalCount(criteria));
+		
+		List<SimpleAccount> accounts = accountService
+				.findPagableListByCriteria(new SearchRequest<AccountSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		
+		assertThat(accounts.size()).isEqualTo(1);
+		assertThat(accounts).extracting("id", "accountname", "industry")
+				.contains(tuple(1, "xyz", "a"));
 	}
 }

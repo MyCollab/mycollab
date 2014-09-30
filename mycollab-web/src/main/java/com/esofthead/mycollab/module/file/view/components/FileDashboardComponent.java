@@ -21,9 +21,13 @@ import com.esofthead.mycollab.module.ecm.service.ResourceService;
 import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.events.SearchHandler;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
 /**
  * 
@@ -31,51 +35,54 @@ import com.vaadin.ui.VerticalLayout;
  * @since 1.0
  * 
  */
-public abstract class FileDashboardComponent extends VerticalLayout {
+public class FileDashboardComponent extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
 	private String rootPath;
-	private Folder baseFolder;
-
-	private final FileSearchPanel fileSearchPanel;
+	private Folder rootFolder;
 	private ResourcesDisplayComponent resourceDisplayComponent;
-	private HorizontalLayout resourceContainer;
 
 	private final ResourceService resourceService;
 
 	public FileDashboardComponent(String rootPath) {
 		this.rootPath = rootPath;
 
-		this.baseFolder = new Folder(this.rootPath);
+		this.rootFolder = new Folder(this.rootPath);
 
 		this.setWidth("100%");
 		this.setSpacing(true);
 		this.resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
-		this.fileSearchPanel = new FileSearchPanel(rootPath);
 
-		this.addComponent(this.fileSearchPanel);
-
-		resourceContainer = new HorizontalLayout();
-		resourceContainer.setSizeFull();
+		this.addComponent(constructHeader());
 
 		this.resourceDisplayComponent = new ResourcesDisplayComponent(rootPath,
-				baseFolder);
-
-		this.resourceDisplayComponent.setSpacing(true);
-		resourceContainer.addComponent(resourceDisplayComponent);
-		resourceContainer.setComponentAlignment(resourceDisplayComponent,
-				Alignment.TOP_LEFT);
-		resourceContainer.setExpandRatio(resourceDisplayComponent, 1.0f);
-
-		this.addComponent(resourceContainer);
+				rootFolder);
+		this.addComponent(resourceDisplayComponent);
 
 	}
 
-	abstract protected void doSearch(FileSearchCriteria searchCriteria);
+	public HorizontalLayout constructHeader() {
+		final HorizontalLayout layout = new HorizontalLayout();
+		layout.setWidth("100%");
+		layout.setSpacing(true);
+		layout.setMargin(true);
+
+		final Image titleIcon = new Image(null,
+				MyCollabResource.newResource("icons/24/project/file.png"));
+		layout.addComponent(titleIcon);
+		layout.setComponentAlignment(titleIcon, Alignment.MIDDLE_LEFT);
+
+		final Label searchtitle = new Label("Files");
+		searchtitle.setStyleName(Reindeer.LABEL_H2);
+		layout.addComponent(searchtitle);
+		layout.setComponentAlignment(searchtitle, Alignment.MIDDLE_LEFT);
+		layout.setExpandRatio(searchtitle, 1.0f);
+		return layout;
+	}
 
 	public void displayResources() {
-		resourceDisplayComponent.displayComponent(baseFolder, rootPath,
+		resourceDisplayComponent.displayComponent(rootFolder, rootPath,
 				"Documents");
 
 		resourceDisplayComponent
@@ -87,7 +94,7 @@ public abstract class FileDashboardComponent extends VerticalLayout {
 								.getResource(criteria.getBaseFolder());
 						resourceDisplayComponent
 								.constructBodyItemContainer(selectedFolder);
-						FileDashboardComponent.this.baseFolder = selectedFolder;
+						FileDashboardComponent.this.rootFolder = selectedFolder;
 					}
 				});
 	}

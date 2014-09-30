@@ -28,7 +28,6 @@ import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
 import com.esofthead.mycollab.core.utils.StringUtils;
 import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
-import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
@@ -58,7 +57,6 @@ import com.esofthead.mycollab.module.project.events.PageEvent;
 import com.esofthead.mycollab.module.project.events.ProblemEvent;
 import com.esofthead.mycollab.module.project.events.ProjectContentEvent;
 import com.esofthead.mycollab.module.project.events.ProjectContentEvent.GotoDashboard;
-import com.esofthead.mycollab.module.project.events.ProjectContentEvent.Search;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.module.project.events.ProjectRoleEvent;
@@ -785,20 +783,6 @@ public class ProjectController extends AbstractController {
 				IFilePresenter presenter = PresenterResolver
 						.getPresenter(IFilePresenter.class);
 				presenter.go(projectView, new FileScreenData.GotoDashboard());
-			}
-
-		});
-
-		this.register(new ApplicationEventListener<ProjectContentEvent.Search>() {
-			private static final long serialVersionUID = 1L;
-
-			@Subscribe
-			@Override
-			public void handle(Search event) {
-				IFilePresenter presenter = PresenterResolver
-						.getPresenter(IFilePresenter.class);
-				presenter.go(projectView, new FileScreenData.Search(
-						(FileSearchCriteria) event.getData()));
 			}
 
 		});

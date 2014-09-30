@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.vaadin.resources;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -34,11 +35,11 @@ import com.vaadin.server.StreamResource.StreamSource;
  */
 public class StreamDownloadResourceUtil {
 
-	public static String getDownloadFileName(List<Resource> lstRes) {
+	public static String getDownloadFileName(Collection<Resource> lstRes) {
 		if (CollectionUtils.isEmpty(lstRes)) {
 			throw new UserInvalidInputException("No selected file to download");
 		} else if (lstRes.size() == 1) {
-			Resource resource = lstRes.get(0);
+			Resource resource = lstRes.iterator().next();
 			return (resource instanceof Folder) ? resource + ".zip" : resource
 					.getName();
 		} else {
@@ -55,7 +56,7 @@ public class StreamDownloadResourceUtil {
 	}
 
 	public static StreamSource getStreamSourceSupportExtDrive(
-			List<Resource> lstRes) {
+			Collection<Resource> lstRes) {
 		if (CollectionUtils.isEmpty(lstRes)) {
 			throw new UserInvalidInputException(
 					"You must select at least one file");

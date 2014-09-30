@@ -98,18 +98,6 @@
             <version>0.9.9-RC1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.dropbox.core</groupId>
-            <artifactId>dropbox-core-sdk</artifactId>
-            <version>[1.7,1.8)</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>

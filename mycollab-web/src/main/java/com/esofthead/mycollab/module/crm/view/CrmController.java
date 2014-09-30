@@ -74,7 +74,6 @@ import com.esofthead.mycollab.module.crm.view.contact.ContactAddPresenter;
 import com.esofthead.mycollab.module.crm.view.contact.ContactListPresenter;
 import com.esofthead.mycollab.module.crm.view.contact.ContactReadPresenter;
 import com.esofthead.mycollab.module.crm.view.file.FileDashboardPresenter;
-import com.esofthead.mycollab.module.crm.view.file.FileSearchResultPresenter;
 import com.esofthead.mycollab.module.crm.view.lead.LeadAddPresenter;
 import com.esofthead.mycollab.module.crm.view.lead.LeadConvertReadPresenter;
 import com.esofthead.mycollab.module.crm.view.lead.LeadListPresenter;
@@ -88,7 +87,6 @@ import com.esofthead.mycollab.module.crm.view.parameters.AssignmentScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.CallScreenData;
 import com.esofthead.mycollab.module.crm.view.parameters.MeetingScreenData;
 import com.esofthead.mycollab.module.crm.view.setting.CrmSettingPresenter;
-import com.esofthead.mycollab.module.file.domain.criteria.FileSearchCriteria;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractController;
@@ -458,19 +456,6 @@ public class CrmController extends AbstractController {
 				FileDashboardPresenter presenter = PresenterResolver
 						.getPresenter(FileDashboardPresenter.class);
 				presenter.go(container, null);
-			}
-		});
-
-		this.register(new ApplicationEventListener<DocumentEvent.Search>() {
-			private static final long serialVersionUID = 1L;
-
-			@Subscribe
-			@Override
-			public void handle(DocumentEvent.Search event) {
-				FileSearchResultPresenter presenter = PresenterResolver
-						.getPresenter(FileSearchResultPresenter.class);
-				presenter.go(container, new ScreenData<FileSearchCriteria>(
-						(FileSearchCriteria) event.getData()));
 			}
 		});
 	}

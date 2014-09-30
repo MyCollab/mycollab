@@ -79,8 +79,7 @@ public class ResourceUtils {
 	 * @return
 	 */
 	public static ResourceType getType(Resource resource) {
-		if (!(resource instanceof ExternalContent)
-				&& !(resource instanceof ExternalFolder)) {
+		if (!resource.isExternalResource()) {
 			return ResourceType.MyCollab;
 		} else {
 			try {

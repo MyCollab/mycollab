@@ -1072,3 +1072,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.2rem;
   color: #959595;
 }
+.mycollab-mobile .data-list-view .time-log-item {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #DDDDDD;
+  color: #8C8C8C;
+}
+.mycollab-mobile .data-list-view .time-log-item .log-user {
+  font-size: 1.1rem;
+}

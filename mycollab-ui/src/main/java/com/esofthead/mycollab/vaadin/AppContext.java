@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.cal10n.IMessageConveyor;
 
 import com.esofthead.mycollab.common.MyCollabSession;
+import com.esofthead.mycollab.common.i18n.DayI18nEnum;
 import com.esofthead.mycollab.common.i18n.SecurityI18nEnum;
 import com.esofthead.mycollab.common.i18n.WebExceptionI18nEnum;
 import com.esofthead.mycollab.configuration.LocaleHelper;
@@ -240,7 +241,7 @@ public class AppContext implements Serializable {
 		this.subdomain = domain;
 		BillingAccountService billingService = ApplicationContextUtil
 				.getSpringBean(BillingAccountService.class);
-		
+
 		BillingAccount account = billingService.getAccountByDomain(domain);
 
 		if (account == null) {
@@ -535,6 +536,36 @@ public class AppContext implements Serializable {
 		} else {
 			return formatDate(date);
 		}
+	}
+
+	/**
+	 * 
+	 * @param hour
+	 * @return
+	 */
+	public static String formatTime(double hour) {
+		long hourCount = (long) Math.floor(hour);
+		long minuteCount = (long) ((hourCount - hour) * 60);
+
+		String timeFormat = getMessage(DayI18nEnum.TIME_FORMAT);
+		String[] patterns = timeFormat.split(":");
+		String output = "";
+
+		String hourSuffix = getMessage(DayI18nEnum.HOUR_SUFFIX);
+		String hourPluralSuffix = getMessage(DayI18nEnum.HOUR_PLURAL_SUFFIX);
+
+		String minuteSuffix = getMessage(DayI18nEnum.MINUTE_SUFFIX);
+		String minutePluralSuffix = getMessage(DayI18nEnum.MINUTE_PLURAL_SUFFIX);
+		for (String pattern : patterns) {
+			if (pattern.equals("H") && hourCount > 0) {
+				output += hourCount;
+				output += (hourCount > 1 ? hourPluralSuffix : hourSuffix);
+			} else if (pattern.equals("m") && minuteCount > 0) {
+				output += minuteCount;
+				output += (minuteCount > 1 ? minutePluralSuffix : minuteSuffix);
+			}
+		}
+		return output;
 	}
 
 	/**

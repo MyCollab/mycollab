@@ -44,17 +44,19 @@ div.v-cache-loading-indicator {
     right: 6px;
 }
 
-.v-mobilecomponent .v-touchkit-navpanel-navigation, .v-mobilecomponent .v-touchkit-navpanel {
-    position: absolute;
+.v-mobilecomponent .v-touchkit-navpanel {
     top: 0px;
     left: 0px;
     height: 100%;
-    width: 100%;
     overflow: auto;
 }
 .v-mobilecomponent .v-touchkit-navpanel-navigation {
     z-index: 0;
-    width: 80%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    overflow: auto;
 }
 .v-mobilecomponent .v-touchkit-navpanel {
 	-webkit-transition: all 0.2s ease;
@@ -92,6 +94,11 @@ div.v-cache-loading-indicator {
 .mobilenavview .v-touchkit-navbar .v-touchkit-navbar-left {
     top: 0;
     left: 0;
+}
+.mobilenavview .v-touchkit-navbar .v-touchkit-navbar-caption {
+	position: absolute;
+	box-sizing: border-box;
+	left: 0;
 }
 .mobilenavview .toggle-nav-btn {
     height: 4rem;

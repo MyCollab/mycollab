@@ -143,12 +143,14 @@ public class ResourceServiceImpl implements ResourceService {
 			Integer sAccountId) {
 		Resource res = contentJcrDao.getResource(path);
 		ContentActivityLogAction deleteResourceAction;
-		if (res instanceof Folder)
+
+		if (res instanceof Folder) {
 			deleteResourceAction = ContentActivityLogBuilder
 					.makeDeleteFolder(path);
-		else
+		} else {
 			deleteResourceAction = ContentActivityLogBuilder
 					.makeDeleteContent(path);
+		}
 
 		contentJcrDao.removeResource(path);
 
@@ -173,12 +175,13 @@ public class ResourceServiceImpl implements ResourceService {
 	public void rename(String oldPath, String newPath, String userUpdate) {
 		Resource res = contentJcrDao.getResource(oldPath);
 		ContentActivityLogAction renameAction;
-		if (res instanceof Folder)
+		if (res instanceof Folder) {
 			renameAction = ContentActivityLogBuilder.makeRenameFolder(oldPath,
 					newPath);
-		else
+		} else {
 			renameAction = ContentActivityLogBuilder.makeRenameContent(oldPath,
 					newPath);
+		}
 
 		contentJcrDao.rename(oldPath, newPath);
 		rawContentService.renamePath(oldPath, newPath);

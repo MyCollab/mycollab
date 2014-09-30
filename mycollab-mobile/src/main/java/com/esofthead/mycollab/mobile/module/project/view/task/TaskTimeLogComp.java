@@ -20,12 +20,19 @@ import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.TimeLogComp;
+import com.esofthead.mycollab.mobile.module.project.ui.TimeLogEditView;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.ProjectTypeConstants;
+import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
+import com.esofthead.mycollab.module.project.service.ProjectTaskService;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
+import com.esofthead.mycollab.vaadin.AppContext;
 
 /**
  * @author MyCollab Ltd.
@@ -74,7 +81,66 @@ public class TaskTimeLogComp extends TimeLogComp<SimpleTask> {
 
 	@Override
 	protected void showEditTimeView(SimpleTask bean) {
-		// TODO Auto-generated method stub
+		EventBusFactory.getInstance().post(
+				new ShellEvent.PushView(this, new TaskTimeLogView(bean)));
+	}
+
+	private class TaskTimeLogView extends TimeLogEditView<SimpleTask> {
+
+		private static final long serialVersionUID = -5178708279456191875L;
+
+		protected TaskTimeLogView(SimpleTask bean) {
+			super(bean);
+		}
+
+		@Override
+		protected void saveTimeInvest() {
+			ItemTimeLogging item = new ItemTimeLogging();
+			item.setLoguser(AppContext.getUsername());
+			item.setLogvalue(getInvestValue());
+			item.setTypeid(bean.getId());
+			item.setType(ProjectTypeConstants.TASK);
+			item.setSaccountid(AppContext.getAccountId());
+			item.setProjectid(CurrentProjectVariables.getProjectId());
+			item.setLogforday(forLogDate());
+			item.setIsbillable(isBillableHours());
+
+			itemTimeLoggingService.saveWithSession(item,
+					AppContext.getUsername());
+		}
+
+		@Override
+		protected void updateTimeRemain() {
+			ProjectTaskService taskService = ApplicationContextUtil
+					.getSpringBean(ProjectTaskService.class);
+			bean.setRemainestimate(getUpdateRemainTime());
+			taskService.updateWithSession(bean, AppContext.getUsername());
+		}
+
+		@Override
+		protected ItemTimeLoggingSearchCriteria getItemSearchCriteria() {
+			ItemTimeLoggingSearchCriteria searchCriteria = new ItemTimeLoggingSearchCriteria();
+			searchCriteria.setProjectIds(new SetSearchField<Integer>(
+					CurrentProjectVariables.getProjectId()));
+			searchCriteria.setType(new StringSearchField(
+					ProjectTypeConstants.TASK));
+			searchCriteria.setTypeId(new NumberSearchField(bean.getId()));
+			return searchCriteria;
+		}
+
+		@Override
+		protected double getEstimateRemainTime() {
+			if (bean.getRemainestimate() != null) {
+				return bean.getRemainestimate();
+			}
+			return 0;
+		}
+
+		@Override
+		protected boolean isEnableAdd() {
+			return CurrentProjectVariables
+					.canWrite(ProjectRolePermissionCollections.TASKS);
+		}
 
 	}
 

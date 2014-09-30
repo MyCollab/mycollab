@@ -76,7 +76,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 										node.getPath(), node
 												.getPrimaryNodeType().getName());
 						throw new ContentException(errorStr);
-					} else if (isNodeMyCollabContent(node)) {
+					} else if (isNodeContent(node)) {
 						log.debug("Found existing resource. Override");
 
 					} else {
@@ -205,7 +205,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 		}
 	}
 
-	private static boolean isNodeMyCollabContent(Node node) {
+	private static boolean isNodeContent(Node node) {
 		try {
 			return node.isNodeType("mycollab:content");
 		} catch (RepositoryException e) {
@@ -231,7 +231,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 				Node node = getNode(rootNode, path);
 
 				if (node != null) {
-					if (isNodeMyCollabContent(node)) {
+					if (isNodeContent(node)) {
 						Content content = convertNodeToContent(node);
 						return content;
 					} else if (isNodeFolder(node)) {
@@ -257,6 +257,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 					RepositoryException {
 				Node rootNode = session.getRootNode();
 				Node node = getNode(rootNode, path);
+
 				if (node != null) {
 					node.remove();
 					session.save();
@@ -285,7 +286,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 							if (isNodeFolder(childNode)) {
 								Folder subFolder = convertNodeToFolder(childNode);
 								resources.add(subFolder);
-							} else if (isNodeMyCollabContent(childNode)) {
+							} else if (isNodeContent(childNode)) {
 								Content content = convertNodeToContent(childNode);
 								resources.add(content);
 							} else {
@@ -324,7 +325,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 						NodeIterator childNodes = node.getNodes();
 						while (childNodes.hasNext()) {
 							Node childNode = childNodes.nextNode();
-							if (isNodeMyCollabContent(childNode)) {
+							if (isNodeContent(childNode)) {
 								Content content = convertNodeToContent(childNode);
 								resources.add(content);
 							}
@@ -429,31 +430,7 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 			@Override
 			public List<Resource> doInJcr(Session session) throws IOException,
 					RepositoryException {
-				log.debug("WORDSPACE: " + session.getWorkspace().getName());
 				return new ArrayList<Resource>();
-				// QueryManager queryManager = session.getWorkspace()
-				// .getQueryManager();
-				//
-				// String expression =
-				// "select * from [nt:base] AS folder where ISDESCENDANTNODE(folder, [/"
-				// + baseFolderPath
-				// + "]) AND LOCALNAME(folder) LIKE '%"
-				// + resourceName + "%' ";
-				// Query query = queryManager.createQuery(expression,
-				// Query.JCR_SQL2);
-				// QueryResult result = query.execute();
-				// NodeIterator nodes = result.getNodes();
-				// List<Resource> resources = new ArrayList<Resource>();
-				// while (nodes.hasNext()) {
-				// Node node = nodes.nextNode();
-				// if (isNodeFolder(node)) {
-				// // do nothing
-				// } else if (isNodeMyCollabContent(node)) {
-				// Content content = convertNodeToContent(node);
-				// resources.add(content);
-				// }
-				// }
-				// return resources;
 			}
 		});
 	}
@@ -470,12 +447,15 @@ public class ContentJcrDaoImpl implements ContentJcrDao {
 				Node currentNode = getNode(rootNode, oldPath);
 				if (getNode(rootNode, newPath) != null) {
 					throw new ContentException(
-							"Folder/file has already existed.");
+							"Folder/file has already existed: " + newPath);
 				}
 				if (currentNode != null) {
 					currentNode.getSession().move(currentNode.getPath(),
 							"/" + newPath);
 					currentNode.getSession().save();
+				} else {
+					throw new MyCollabException("Resource path " + oldPath
+							+ " not found");
 				}
 				return null;
 			}

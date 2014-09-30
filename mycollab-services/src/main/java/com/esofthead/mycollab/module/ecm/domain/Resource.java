@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.ecm.domain;
 
 import java.util.Calendar;
 
+import com.esofthead.mycollab.core.arguments.NotBindable;
+
 /**
  * 
  * @author MyCollab Ltd.
@@ -25,15 +27,19 @@ import java.util.Calendar;
  *
  */
 public class Resource implements Comparable<Resource> {
-	protected String uuid = "";
-	protected String createdBy = "";
-	protected Calendar created;
-	protected String path = "";
+	
+	@NotBindable
+	private boolean selected = false;
+	
+	private String uuid = "";
+	private String createdBy = "";
+	private Calendar created;
+	private String path = "";
 
 	// length is Kilobyte value
-	protected Long size = 0L;
-	protected String createdUser;
-	protected String name;
+	private Long size = 0L;
+	private String createdUser;
+	private String name;
 
 	public String getCreatedBy() {
 		return createdBy;
@@ -96,6 +102,14 @@ public class Resource implements Comparable<Resource> {
 		this.name = name;
 	}
 
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
 	@Override
 	public int compareTo(Resource arg0) {
 		if (this instanceof Folder && arg0 instanceof Content) {
@@ -110,5 +124,9 @@ public class Resource implements Comparable<Resource> {
 		} else {
 			return 1;
 		}
+	}
+
+	public boolean isExternalResource() {
+		return ((this instanceof ExternalFolder) || (this instanceof ExternalContent));
 	}
 }

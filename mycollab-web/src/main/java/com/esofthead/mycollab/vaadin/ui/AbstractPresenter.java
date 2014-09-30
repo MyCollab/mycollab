@@ -85,8 +85,8 @@ public abstract class AbstractPresenter<V extends PageView> implements
 		try {
 			view = implClass.newInstance();
 			postInitView();
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new MyCollabException("Can not init view " + implClass, e);
+		} catch (Exception e) {
+			log.error("Can not init view " + implClass, e);
 		}
 
 	}

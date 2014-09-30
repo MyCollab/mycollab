@@ -1,0 +1,12 @@
+@mixin project-timelog {
+	.data-list-view {
+		.time-log-item {
+			padding: 1rem 2.5rem 1rem 1.4rem;
+			border-bottom: 0.1rem solid #DDDDDD;
+			color: #8C8C8C;
+			.log-user {
+				font-size: 1.1rem;
+			}
+		}
+	}
+}

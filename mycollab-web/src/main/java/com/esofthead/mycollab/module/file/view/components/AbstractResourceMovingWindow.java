@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.file.view.components;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -67,7 +68,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 	protected String rootPath;
 	protected Folder baseFolder;
 	private Resource resourceEditting;
-	private List<Resource> lstResEditting;
+	private Collection<Resource> lstResEditting;
 	private final ResourceMover resourceMover;
 
 	public AbstractResourceMovingWindow(Resource resource) {
@@ -88,7 +89,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		constructBody();
 	}
 
-	public AbstractResourceMovingWindow(List<Resource> lstRes) {
+	public AbstractResourceMovingWindow(Collection<Resource> lstRes) {
 		super("Move File/Foler");
 		center();
 		this.setWidth("600px");

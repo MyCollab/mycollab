@@ -20,11 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +53,11 @@ public class StreamDownloadResourceSupportExtDrive implements
 	private static Logger log = LoggerFactory
 			.getLogger(StreamDownloadResourceSupportExtDrive.class);
 
-	private List<Resource> lstResource;
+	private Collection<Resource> lstResource;
 
 	private ResourceService resourceService;
 
-	public StreamDownloadResourceSupportExtDrive(List<Resource> lstRes) {
+	public StreamDownloadResourceSupportExtDrive(Collection<Resource> lstRes) {
 		this.lstResource = lstRes;
 		resourceService = ApplicationContextUtil
 				.getSpringBean(ResourceService.class);
@@ -64,16 +65,15 @@ public class StreamDownloadResourceSupportExtDrive implements
 
 	@Override
 	public InputStream getStream() {
-		if (lstResource != null && lstResource.size() == 1
-				&& lstResource.get(0) instanceof Content) {
-			Resource res = lstResource.get(0);
-			if (ResourceUtils.getType(res) == ResourceType.MyCollab) {
-				return resourceService.getContentStream(res.getPath());
-			} else {
+		if (lstResource.size() == 1) {
+			Resource res = lstResource.iterator().next();
+			if (res.isExternalResource()) {
 				ExternalResourceService service = ResourceUtils
 						.getExternalResourceService(ResourceUtils.getType(res));
 				return service.download(ResourceUtils.getExternalDrive(res),
 						res.getPath());
+			} else {
+				return resourceService.getContentStream(res.getPath());
 			}
 		}
 
@@ -109,28 +109,29 @@ public class StreamDownloadResourceSupportExtDrive implements
 	}
 
 	private void zipResource(ZipOutputStream zipOutputStream,
-			List<Resource> lstRes) {
+			Collection<Resource> lstRes) {
 		try {
-			List<Resource> lstResource = new ArrayList<Resource>();
+			List<Resource> recurrResources;
 			for (Resource currentResource : lstRes) {
 				if (currentResource instanceof Folder) {
-					if (ResourceUtils.getType(currentResource) == ResourceType.MyCollab) {
-						lstResource = resourceService
+					if (!currentResource.isExternalResource()) {
+						recurrResources = resourceService
 								.getResources(currentResource.getPath());
 					} else {
 						ExternalResourceService service = ResourceUtils
 								.getExternalResourceService(ResourceUtils
 										.getType(currentResource));
-						lstResource = service
+						recurrResources = service
 								.getResources(ResourceUtils
 										.getExternalDrive(currentResource),
 										currentResource.getPath());
 					}
-					if (lstResource.size() == 0) {
+
+					if (CollectionUtils.isEmpty(recurrResources)) {
 						zipOutputStream.putNextEntry(new ZipEntry(
 								currentResource.getName() + "/"));
 					} else {
-						for (Resource res : lstResource) {
+						for (Resource res : recurrResources) {
 							if (res instanceof Content) {
 								addFileToZip(currentResource.getName(),
 										(Content) res, zipOutputStream);
@@ -154,7 +155,7 @@ public class StreamDownloadResourceSupportExtDrive implements
 		byte[] buf = new byte[1024];
 		int len = -1;
 		InputStream contentStream = null;
-		if (ResourceUtils.getType(res) == ResourceType.MyCollab) {
+		if (!res.isExternalResource()) {
 			contentStream = resourceService.getContentStream(res.getPath());
 		} else {
 			ExternalResourceService service = ResourceUtils
