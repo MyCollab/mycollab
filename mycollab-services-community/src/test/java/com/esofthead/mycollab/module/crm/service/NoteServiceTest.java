@@ -61,22 +61,16 @@ public class NoteServiceTest extends ServiceTest {
 				tuple(1, "aaa"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSaveNote() {
 		Note note = new Note();
 		note.setSubject("subject");
 		note.setSaccountid(1);
-		noteService.saveWithSession(note, "admin");
+		int noteId = noteService.saveWithSession(note, "admin");
 
-		List<SimpleNote> noteList = noteService
-				.findPagableListByCriteria(new SearchRequest<NoteSearchCriteria>(
-						getCriteria(), 0, Integer.MAX_VALUE));
-
-		assertThat(noteList.size()).isEqualTo(2);
-		assertThat(noteList).extracting("subject").contains(
-				tuple("aaa"), tuple("subject"));
+		Note note2 = noteService.findByPrimaryKey(noteId, 1);
+		assertThat(note2.getSubject()).isEqualTo("subject");
 	}
 
 	private NoteSearchCriteria getCriteria() {
