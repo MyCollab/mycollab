@@ -2,9 +2,7 @@
 [![License](http://img.shields.io/badge/License-GPL-orange.svg)](http://www.gnu.org/copyleft/gpl.html) [![Build Status](https://travis-ci.org/esofthead/mycollab.svg?branch=master)](https://travis-ci.org/esofthead/mycollab) [![Project Stats](https://www.openhub.net/p/mycollab/widgets/project_thin_badge.gif)](https://www.openhub.net/p/mycollab)
 
 ## Introduction
-The MyCollab Platform offers developers the exact business application platform they’ve been looking for, by combining the tools they need. Built in Java and bundles of open source frameworks and libraries, it seamlessly integrates into MyCollab CRM, MyCollab-Project or Document Management. Developing custom business applications has never been so easy.
-
-Developers can extend MyCollab modules in ways we can’t now imagine, technology partners can integrate in meaningful ways that deliver value for their customers, and System Integrators can deliver total solutions for their customers.
+The MyCollab Platform offers developers the exact business application platform they’ve been looking for, by combining the tools they need. Built in Java and bundles of open source frameworks and libraries, it seamlessly integrates into CRM, Project Management or Document Management. MyCollab is definitely suitable for the small and mid sized companies to manage their customers, projects etc because of its features, stableness, high performance, and intuitive UI.
 
 MyCollab has bundle three existing modules: Project Management, CRM and Document Management. In future, we can add more modules on MyCollab platform or we develop the marketplace allows developers can extend MyCollab and sell them to MyCollab users.
 
@@ -66,7 +64,7 @@ Pull requests and bug reports are always welcome!
 Visit our website at http://www.mycollab.com/
 
 ## History
-We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we believe that there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
+We started development MyCollab since November 2011. MyCollab is developed mainly by Java language with various excellent open sources frameworks/libraries, we can name some of them are Spring, Vaadin, MyBatis, JUnit, RestEasy, Infinispan, Jetty, Solr etc. We would love to build our own solution by Java while we can not find complete solution of Office Cloud Tools (CRM, Project and Document Management etc) or they are very expensive to buy. First, we build MyCollab for internal use. Then we believe that there are many companies would love to find a solution like us, so we publish our on demand service and open source part of our products and hope they are useful for interested companies and people.
 
 You can try MyCollab on-demand edition on site http://www.mycollab.com
 
