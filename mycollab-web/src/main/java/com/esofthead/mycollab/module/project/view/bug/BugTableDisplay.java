@@ -73,7 +73,7 @@ public class BugTableDisplay extends
 		implements IBugCallbackStatusComp {
 	private static final long serialVersionUID = 1L;
 
-	public BugTableDisplay(List<TableViewField> displayColumns) {
+	BugTableDisplay(List<TableViewField> displayColumns) {
 		this(null, displayColumns);
 	}
 

@@ -35,7 +35,11 @@ public class UrlTokenizer {
 
 	public int getInt() throws InvalidTokenException {
 		if (hasMoreTokens()) {
-			return Integer.parseInt(getNextToken());
+			try {
+				return Integer.parseInt(getNextToken());
+			} catch (NumberFormatException e) {
+				throw new InvalidTokenException("Invalid token " + internalVal);
+			}
 		} else {
 			throw new InvalidTokenException("Invalid token " + internalVal);
 		}

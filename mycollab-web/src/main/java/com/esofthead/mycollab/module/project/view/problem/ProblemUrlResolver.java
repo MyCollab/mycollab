@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.problem;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.Problem;
@@ -31,6 +31,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class ProblemUrlResolver extends ProjectUrlResolver {
 	public ProblemUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
@@ -42,8 +48,7 @@ public class ProblemUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			ProblemSearchCriteria problemSearchCriteria = new ProblemSearchCriteria();
 			problemSearchCriteria
@@ -60,11 +65,11 @@ public class ProblemUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int problemId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int problemId = token.getInt();
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new ProblemScreenData.Read(problemId));
@@ -76,8 +81,7 @@ public class ProblemUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -90,11 +94,10 @@ public class ProblemUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int problemId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int problemId = token.getInt();
 
 			ProblemService problemService = ApplicationContextUtil
 					.getSpringBean(ProblemService.class);

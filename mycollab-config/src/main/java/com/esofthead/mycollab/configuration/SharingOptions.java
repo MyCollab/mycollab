@@ -16,6 +16,8 @@
  */
 package com.esofthead.mycollab.configuration;
 
+import static com.esofthead.mycollab.configuration.ApplicationProperties.*;
+
 /**
  * MyCollab offers its social links in emails and all sharing options are kept
  * in this bean.
@@ -69,10 +71,15 @@ public class SharingOptions {
 
 	static {
 		instance = new SharingOptions();
-		instance.setFacebookUrl("https://www.facebook.com/mycollab2");
-		instance.setTwitterUrl("https://twitter.com/mycollabdotcom");
-		instance.setLinkedinUrl("http://www.linkedin.com/company/mycollab");
-		instance.setGoogleplusUrl("https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub");
+		instance.setFacebookUrl(ApplicationProperties.getString(FACEBOOK_URL,
+				"https://www.facebook.com/mycollab2"));
+		instance.setTwitterUrl(ApplicationProperties.getString(TWITTER_URL,
+				"https://twitter.com/mycollabdotcom"));
+		instance.setLinkedinUrl(ApplicationProperties.getString(LINKEDIN_URL,
+				"http://www.linkedin.com/company/mycollab"));
+		instance.setGoogleplusUrl(ApplicationProperties
+				.getString(GOOGLE_URL,
+						"https://plus.google.com/u/0/b/112053350736358775306/+Mycollab/about/p/pub"));
 	}
 
 	public static SharingOptions getDefaultSharingOptions() {

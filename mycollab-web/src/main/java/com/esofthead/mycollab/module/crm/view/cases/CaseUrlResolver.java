@@ -16,12 +16,18 @@
  */
 package com.esofthead.mycollab.module.crm.view.cases;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.events.CaseEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class CaseUrlResolver extends CrmUrlResolver {
 	public CaseUrlResolver() {
 		this.addSubResolver("list", new CaseListUrlResolver());
@@ -33,8 +39,8 @@ public class CaseUrlResolver extends CrmUrlResolver {
 	public static class CaseListUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			EventBusFactory.getInstance()
-					.post(new CaseEvent.GotoList(this, null));
+			EventBusFactory.getInstance().post(
+					new CaseEvent.GotoList(this, null));
 		}
 	}
 
@@ -49,8 +55,7 @@ public class CaseUrlResolver extends CrmUrlResolver {
 	public static class CaseEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int caseId = Integer.parseInt(decodeUrl);
+			int caseId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new CaseEvent.GotoEdit(this, caseId));
 		}
@@ -59,8 +64,7 @@ public class CaseUrlResolver extends CrmUrlResolver {
 	public static class CasePreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int caseId = Integer.parseInt(decodeUrl);
+			int caseId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new CaseEvent.GotoRead(this, caseId));
 		}

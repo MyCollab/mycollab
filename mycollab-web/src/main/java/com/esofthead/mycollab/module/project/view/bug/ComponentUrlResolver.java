@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -48,8 +48,7 @@ public class ComponentUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			ComponentSearchCriteria componentSearchCriteria = new ComponentSearchCriteria();
 			componentSearchCriteria.setProjectid(new NumberSearchField(
@@ -66,8 +65,7 @@ public class ComponentUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -80,11 +78,10 @@ public class ComponentUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int componentId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int componentId = token.getInt();
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new ComponentScreenData.Read(componentId));
@@ -96,11 +93,10 @@ public class ComponentUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int componentId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int componentId = token.getInt();
 
 			ComponentService componentService = ApplicationContextUtil
 					.getSpringBean(ComponentService.class);

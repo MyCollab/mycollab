@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.crm.view.lead;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Lead;
 import com.esofthead.mycollab.module.crm.events.LeadEvent;
@@ -55,8 +55,7 @@ public class LeadUrlResolver extends CrmUrlResolver {
 	public static class LeadEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int leadId = Integer.parseInt(decodeUrl);
+			int leadId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new LeadEvent.GotoEdit(this, leadId));
 		}
@@ -65,8 +64,7 @@ public class LeadUrlResolver extends CrmUrlResolver {
 	public static class LeadPreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int leadId = Integer.parseInt(decodeUrl);
+			int leadId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new LeadEvent.GotoRead(this, leadId));
 		}

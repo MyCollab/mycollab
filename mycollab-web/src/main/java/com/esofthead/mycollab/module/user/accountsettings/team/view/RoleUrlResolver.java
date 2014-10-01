@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountUrlResolver;
 import com.esofthead.mycollab.module.user.domain.SimpleRole;
@@ -55,7 +55,7 @@ public class RoleUrlResolver extends AccountUrlResolver {
 
 	private class EditUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			int roleId = Integer.parseInt(UrlEncodeDecoder.decode(params[0]));
+			int roleId = new UrlTokenizer(params[0]).getInt();
 			RoleService roleService = ApplicationContextUtil
 					.getSpringBean(RoleService.class);
 			SimpleRole role = roleService.findById(roleId,
@@ -67,7 +67,7 @@ public class RoleUrlResolver extends AccountUrlResolver {
 
 	private class PreviewUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			int roleId = Integer.parseInt(UrlEncodeDecoder.decode(params[0]));
+			int roleId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new RoleEvent.GotoRead(PreviewUrlResolver.this, roleId));
 		}

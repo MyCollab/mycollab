@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
@@ -44,8 +44,7 @@ public class UserUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			ProjectMemberSearchCriteria memberSearchCriteria = new ProjectMemberSearchCriteria();
 			memberSearchCriteria.setProjectId(new NumberSearchField(projectId));
@@ -63,11 +62,11 @@ public class UserUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			String memberName = tokens[1];
+			int projectId = token.getInt();
+			String memberName = token.getString();
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new ProjectMemberScreenData.Read(memberName));

@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ public abstract class UrlResolver {
 	 */
 	public void handle(String... params) {
 		try {
-			if (params != null && params.length > 0) {
+			if (ArrayUtils.isNotEmpty(params)) {
 				String key = params[0];
 				if (subResolvers == null) {
 					handlePage(params);

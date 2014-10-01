@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.risk;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.Risk;
@@ -31,6 +31,12 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class RiskUrlResolver extends ProjectUrlResolver {
 	public RiskUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
@@ -42,8 +48,7 @@ public class RiskUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			RiskSearchCriteria riskSearchCriteria = new RiskSearchCriteria();
 			riskSearchCriteria.setProjectId(new NumberSearchField(projectId));
@@ -59,11 +64,10 @@ public class RiskUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int riskId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int riskId = token.getInt();
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new RiskScreenData.Read(riskId));
@@ -75,8 +79,7 @@ public class RiskUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -89,11 +92,10 @@ public class RiskUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int riskId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int riskId = token.getInt();
 
 			RiskService riskService = ApplicationContextUtil
 					.getSpringBean(RiskService.class);

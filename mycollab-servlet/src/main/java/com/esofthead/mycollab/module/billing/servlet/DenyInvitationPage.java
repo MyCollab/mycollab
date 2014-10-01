@@ -71,7 +71,7 @@ public class DenyInvitationPage extends VelocityWebServletRequestHandler {
 				String inviterEmail = urlTokenizer.getString();
 				String subdomain = "";
 
-				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 					subdomain = urlTokenizer.getString();
 				}
 

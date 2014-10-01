@@ -17,12 +17,12 @@
 package com.esofthead.mycollab.core;
 
 /**
- * MyCollab has two mode: on cloud and local mode.
+ * MyCollab has three modes: on cloud, local and development mode.
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  * 
  */
 public enum DeploymentMode {
-	SITE, STANDALONE, DEV;
+	site, standalone, development;
 }

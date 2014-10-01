@@ -29,9 +29,6 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
  */
 public interface BugTableFieldDef {
 
-	public static TableViewField selected = new TableViewField(null,
-			"selected", UIConstants.TABLE_CONTROL_WIDTH);
-
 	public static TableViewField action = new TableViewField(null, "id",
 			UIConstants.TABLE_CONTROL_WIDTH);
 

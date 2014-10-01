@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.message;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -41,8 +41,7 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			MessageSearchCriteria messageSearchCriteria = new MessageSearchCriteria();
 			messageSearchCriteria.setProjectids(new SetSearchField<Integer>(
@@ -59,11 +58,11 @@ public class MessageUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int messageId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int messageId = token.getInt();
+			
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new MessageScreenData.Read(messageId));

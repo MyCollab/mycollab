@@ -29,7 +29,7 @@ public abstract class MyCollabAssets {
 
 	static {
 		DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
-		if (deploymentMode == DeploymentMode.SITE) {
+		if (deploymentMode == DeploymentMode.site) {
 			impl = new S3();
 		} else {
 			impl = new Local();

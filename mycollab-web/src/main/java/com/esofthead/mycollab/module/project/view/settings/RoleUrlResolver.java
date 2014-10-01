@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.settings;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectRoleSearchCriteria;
@@ -26,6 +26,12 @@ import com.esofthead.mycollab.module.project.view.parameters.ProjectRoleScreenDa
 import com.esofthead.mycollab.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.vaadin.mvp.PageActionChain;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class RoleUrlResolver extends ProjectUrlResolver {
 	public RoleUrlResolver() {
 		this.addSubResolver("list", new ListUrlResolver());
@@ -35,8 +41,7 @@ public class RoleUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			ProjectRoleSearchCriteria roleSearchCriteria = new ProjectRoleSearchCriteria();
 			roleSearchCriteria.setProjectId(new NumberSearchField(projectId));
@@ -52,11 +57,11 @@ public class RoleUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int roleId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int roleId = token.getInt();
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new ProjectRoleScreenData.Read(roleId));

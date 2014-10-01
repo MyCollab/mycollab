@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
@@ -47,8 +47,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			VersionSearchCriteria versionSearchCriteria = new VersionSearchCriteria();
 			versionSearchCriteria
@@ -65,11 +64,10 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int versionId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int versionId = token.getInt();
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new VersionScreenData.Read(versionId));
@@ -81,11 +79,10 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int versionId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int versionId = token.getInt();
 
 			VersionService versionService = ApplicationContextUtil
 					.getSpringBean(VersionService.class);
@@ -102,8 +99,7 @@ public class VersionUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),

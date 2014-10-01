@@ -171,6 +171,7 @@ public class AccountServiceTest extends ServiceTest {
 
 		SimpleAccount simpleAccount = accountService.findById(1, 1);
 		assertThat(simpleAccount.getAccountname()).isEqualTo("abc");
+		assertThat(simpleAccount.getIndustry()).isEqualTo(null);
 	}
 
 	@SuppressWarnings("unchecked")

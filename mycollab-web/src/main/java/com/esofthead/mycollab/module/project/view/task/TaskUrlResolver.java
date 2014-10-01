@@ -16,7 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.task;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectLinkParams;
@@ -66,10 +67,9 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 									+ " and project " + prjShortName);
 				}
 			} else {
-				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-				String[] tokens = decodeUrl.split("/");
-				projectId = Integer.parseInt(tokens[0]);
-				taskId = Integer.parseInt(tokens[1]);
+				UrlTokenizer tokenizer = new UrlTokenizer(params[0]);
+				projectId = tokenizer.getInt();
+				taskId = tokenizer.getInt();
 			}
 
 			PageActionChain chain = new PageActionChain(
@@ -95,12 +95,8 @@ public class TaskUrlResolver extends ProjectUrlResolver {
 				task = taskService.findByProjectAndTaskKey(itemKey,
 						prjShortName, AppContext.getAccountId());
 			} else {
-				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-				String[] tokens = decodeUrl.split("/");
-
-				int taskId = Integer.parseInt(tokens[1]);
-
-				task = taskService.findById(taskId, AppContext.getAccountId());
+				throw new MyCollabException("Can not find task link "
+						+ params[0]);
 			}
 
 			PageActionChain chain = new PageActionChain(

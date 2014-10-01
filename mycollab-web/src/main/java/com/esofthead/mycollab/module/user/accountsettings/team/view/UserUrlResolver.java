@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.module.user.accountsettings.team.view;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.user.accountsettings.view.AccountUrlResolver;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
@@ -55,7 +55,7 @@ public class UserUrlResolver extends AccountUrlResolver {
 
 	private class EditUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			String username = UrlEncodeDecoder.decode(params[0]);
+			String username = new UrlTokenizer(params[0]).getString();
 			UserService userService = ApplicationContextUtil
 					.getSpringBean(UserService.class);
 			SimpleUser user = userService.findUserByUserNameInAccount(username,
@@ -67,7 +67,7 @@ public class UserUrlResolver extends AccountUrlResolver {
 
 	private class PreviewUrlResolver extends AccountUrlResolver {
 		protected void handlePage(String... params) {
-			String username = UrlEncodeDecoder.decode(params[0]);
+			String username = new UrlTokenizer(params[0]).getString();
 			EventBusFactory.getInstance().post(
 					new UserEvent.GotoRead(PreviewUrlResolver.this, username));
 		}

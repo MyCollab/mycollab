@@ -70,12 +70,12 @@ public class BugSelectionWindow extends Window {
 
 				});
 		layout.addComponent(contactSimpleSearchPanel);
-		createAccountList();
+		createBugList();
 		layout.addComponent(tableItem);
 		this.setContent(layout);
 	}
 
-	public void show() {
+	 void show() {
 		searchCriteria = new BugSearchCriteria();
 		searchCriteria.setProjectId(new NumberSearchField(SearchField.AND,
 				CurrentProjectVariables.getProject().getId()));
@@ -83,7 +83,7 @@ public class BugSelectionWindow extends Window {
 		center();
 	}
 
-	private void createAccountList() {
+	private void createBugList() {
 
 		tableItem = new BugTableDisplay(Arrays.asList(BugTableFieldDef.summary,
 				BugTableFieldDef.severity, BugTableFieldDef.resolution,

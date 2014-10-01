@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
@@ -68,16 +68,15 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 	private static class ListUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
-			int projectId = Integer.parseInt(tokens[0]);
+			UrlTokenizer token = new UrlTokenizer(params[0]);
+			int projectId = token.getInt();
 
 			StandupReportSearchCriteria standupSearchCriteria = new StandupReportSearchCriteria();
 			standupSearchCriteria
 					.setProjectId(new NumberSearchField(projectId));
 
-			if (tokens.length > 1) {
-				Date date = parseDate(tokens[1]);
+			if (token.hasMoreTokens()) {
+				Date date = parseDate(token.getString());
 				standupSearchCriteria.setOnDate(new DateSearchField(
 						SearchField.AND, date));
 			} else {
@@ -96,11 +95,10 @@ public class StandupUrlResolver extends ProjectUrlResolver {
 	private static class PreviewUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			Date onDate = parseDate(tokens[2]);
+			int projectId = token.getInt();
+			Date onDate = parseDate(token.getString());
 
 			StandupReportService reportService = ApplicationContextUtil
 					.getSpringBean(StandupReportService.class);

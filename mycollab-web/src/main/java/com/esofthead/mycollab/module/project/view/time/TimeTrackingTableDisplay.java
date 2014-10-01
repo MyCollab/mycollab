@@ -91,7 +91,6 @@ public class TimeTrackingTableDisplay
 				}
 
 				if (type.equals(ProjectTypeConstants.BUG)) {
-
 					timeTrackingLink = new LabelLink(itemLogging.getSummary(),
 							ProjectLinkBuilder.generateProjectItemLink(
 									itemLogging.getProjectShortName(),

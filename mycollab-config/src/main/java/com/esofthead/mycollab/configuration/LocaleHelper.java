@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.LocaleUtils;
+
 import com.esofthead.mycollab.core.format.DefaultDateFormat;
 import com.esofthead.mycollab.core.format.IDateFormat;
 import com.esofthead.mycollab.core.format.JpDateFormat;
@@ -31,28 +33,12 @@ import com.esofthead.mycollab.core.format.JpDateFormat;
  * 
  */
 public class LocaleHelper {
-	private static final String JAPANESE = "Japanese";
-	private static final String ENGLISH = "English";
-
-	private static Map<String, Locale> languages = new HashMap<String, Locale>();
-
-	private static Map<String, Locale> languageBase = new HashMap<String, Locale>();
 
 	private static Map<Locale, IDateFormat> dateFormats = new HashMap<Locale, IDateFormat>();
 
 	static {
-		languages.put(JAPANESE, Locale.JAPAN);
-		languages.put(ENGLISH, Locale.US);
-
-		languageBase.put(Locale.JAPAN.toString(), Locale.JAPAN);
-		languageBase.put(Locale.US.toString(), Locale.US);
-
 		dateFormats.put(Locale.JAPAN, new JpDateFormat());
 		dateFormats.put(Locale.US, new DefaultDateFormat());
-	}
-
-	static Map<String, Locale> getNativeLanguages() {
-		return languages;
 	}
 
 	public static Locale toLocale(String language) {
@@ -60,26 +46,31 @@ public class LocaleHelper {
 			return Locale.US;
 		}
 
-		Locale locale = languages.get(language);
-		if (locale == null) {
-			locale = languageBase.get(language);
-		}
+		Locale locale = LocaleUtils.toLocale(language);
 		return (locale != null) ? locale : SiteConfiguration.getDefaultLocale();
 	}
 
 	public static String getShortDateFormatAssociateToLocale(Locale locale) {
-		return dateFormats.get(locale).getShortDateFormat();
+		return getDateFormatInstance(locale).getShortDateFormat();
 	}
 
 	public static String getDateFormatAssociateToLocale(Locale locale) {
-		return dateFormats.get(locale).getDateFormat();
+		return getDateFormatInstance(locale).getDateFormat();
 	}
 
 	public static String getDateTimeFormatAssociateToLocale(Locale locale) {
-		return dateFormats.get(locale).getDateTimeFormat();
+		return getDateFormatInstance(locale).getDateTimeFormat();
 	}
 
 	public static String getDayMonthFormatAssociateToLocale(Locale locale) {
-		return dateFormats.get(locale).getDayMonthFormat();
+		return getDateFormatInstance(locale).getDayMonthFormat();
+	}
+
+	private static IDateFormat getDateFormatInstance(Locale locale) {
+		IDateFormat dateFormat = dateFormats.get(locale);
+		if (dateFormat == null) {
+			dateFormat = dateFormats.get(Locale.US);
+		}
+		return dateFormat;
 	}
 }

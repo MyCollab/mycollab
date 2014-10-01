@@ -81,7 +81,7 @@ public class AcceptInvitationPage extends VelocityWebServletRequestHandler {
 
 				int accountId = urlTokenizer.getInt();
 				String username = urlTokenizer.getString();
-				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+				if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 					subdomain = urlTokenizer.getString();
 				}
 

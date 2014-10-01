@@ -61,18 +61,19 @@ public class ProjectServiceTest extends ServiceTest {
 		assertThat(projectId).isGreaterThan(0);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@DataSet
 	@Test
 	public void testGetListProjects() {
 		List projects = projectService
 				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(4, projects.size());
-		assertThat(projects).extracting("id").contains(1, 2, 3, 4);
+		Assert.assertEquals(projects.size(), 4);
+		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@DataSet
 	@Test
 	public void testGetListProjectsByCriteria() {
@@ -83,10 +84,11 @@ public class ProjectServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<ProjectSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(projects.size()).isEqualTo(4);
-		assertThat(projects).extracting("id").contains(1, 2, 3, 4);
+		assertThat(projects).extracting("id", "name").contains(tuple(1, "A"),
+				tuple(2, "B"), tuple(3, "C"), tuple(4, "D"));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@DataSet
 	@Test
 	public void testGetListProjectsByUsername() {
@@ -121,7 +123,7 @@ public class ProjectServiceTest extends ServiceTest {
 	public void testGetActivityStreams() {
 		ActivityStreamSearchCriteria criteria = new ActivityStreamSearchCriteria();
 		criteria.setModuleSet(new SetSearchField<String>(
-				new String[] { ModuleNameConstants.PRJ }));
+				new String[]{ModuleNameConstants.PRJ}));
 		criteria.setExtraTypeIds(new SetSearchField<Integer>(4));
 		criteria.setSaccountid(new NumberSearchField(1));
 		List<ProjectActivityStream> streams = projectActivityStreamService

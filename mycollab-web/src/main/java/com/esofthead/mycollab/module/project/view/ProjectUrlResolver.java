@@ -16,7 +16,10 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.view.bug.BugUrlResolver;
@@ -83,12 +86,11 @@ public class ProjectUrlResolver extends UrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			if (params == null || params.length == 0) {
+			if (ArrayUtils.isEmpty(params)) {
 				EventBusFactory.getInstance().post(
 						new ShellEvent.GotoProjectModule(this, null));
 			} else {
-				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-				int projectId = Integer.parseInt(decodeUrl);
+				int projectId = new UrlTokenizer(params[0]).getInt();
 				PageActionChain chain = new PageActionChain(
 						new ProjectScreenData.Goto(projectId));
 				EventBusFactory.getInstance().post(

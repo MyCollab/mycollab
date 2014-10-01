@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.project.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,7 +33,6 @@ import com.esofthead.mycollab.core.arguments.DateSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.module.project.domain.ProjectGenericTask;
-import com.esofthead.mycollab.module.project.domain.ProjectGenericTaskCount;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectGenericTaskSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -47,10 +47,15 @@ public class GenericTaskServiceTest extends ServiceTest {
 	@DataSet
 	@Test
 	public void testGenericTaskListFindPageable() {
-		List<ProjectGenericTaskCount> tasks = genericTaskService
+		List<ProjectGenericTask> tasks = genericTaskService
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
 		assertThat(tasks.size()).isEqualTo(4);
+		assertThat(tasks).extracting("type", "name")
+				.contains(tuple("Project-Problem", "a"),
+						tuple("Project-Problem", "problem a"),
+						tuple("Project-Risk", "b"),
+						tuple("Project-Bug", "summary 1"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -64,7 +69,7 @@ public class GenericTaskServiceTest extends ServiceTest {
 		criteria.setDueDate(new DateSearchField(DateSearchField.AND, d));
 		criteria.setProjectId(new NumberSearchField(1));
 		criteria.setSaccountid(new NumberSearchField(1));
-		List<ProjectGenericTaskCount> tasks = genericTaskService
+		List<ProjectGenericTask> tasks = genericTaskService
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(tasks.size()).isEqualTo(2);

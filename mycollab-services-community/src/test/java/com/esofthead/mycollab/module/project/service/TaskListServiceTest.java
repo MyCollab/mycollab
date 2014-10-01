@@ -50,10 +50,14 @@ public class TaskListServiceTest extends ServiceTest {
 		criteria.setStatus(new StringSearchField(StatusI18nEnum.Closed.name()));
 		criteria.setProjectId(new NumberSearchField(1));
 		criteria.setSaccountid(new NumberSearchField(1));
+
 		List<SimpleTaskList> taskLists = (List<SimpleTaskList>) projectTaskListService
 				.findPagableListByCriteria(new SearchRequest<TaskListSearchCriteria>(
 						criteria));
 		assertThat(taskLists.size()).isEqualTo(2);
+		assertThat(taskLists).extracting("id", "name").contains(
+				tuple(1, "tasklist1"), tuple(3, "tasklist3"));
+
 		List<SimpleTask> subTasks = taskLists.get(0).getSubTasks();
 		assertThat(subTasks.size()).isEqualTo(2);
 		assertThat(subTasks).extracting("id", "taskname").contains(

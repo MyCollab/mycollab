@@ -61,7 +61,7 @@ public class ResetPasswordUpdatePage extends VelocityWebServletRequestHandler {
 							username, request.getContextPath() + "/");
 					return;
 				} else {
-					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) ? ("https://www.mycollab.com/sign-in?username=" + username)
+					String loginURL = (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) ? ("https://www.mycollab.com/sign-in?username=" + username)
 							: (request.getContextPath() + "/");
 
 					String redirectURL = request.getContextPath() + "/"

@@ -16,11 +16,39 @@
  */
 package com.esofthead.mycollab.configuration;
 
-import java.util.HashMap;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.APP_URL;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.BI_ENDECRYPT_PASSWORD;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.CDN_URL;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_DRIVER_CLASS;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_PASSWORD;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_URL;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DB_USERNAME;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DEFAULT_LOCALE;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.DROPBOX_AUTH_LINK;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.ERROR_SENDTO;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.GOOGLE_DRIVE_LINK;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.LOCALES;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_IS_TLS;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_NOREPLY;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_PASSWORD;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_PORT;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_SMTPHOST;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.MAIL_USERNAME;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RELAYMAIL_IS_TLS;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RELAYMAIL_PASSWORD;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RELAYMAIL_PORT;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RELAYMAIL_SMTPHOST;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RELAYMAIL_USERNAME;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.RUNNING_MODE;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.SERVER_ADDRESS;
+import static com.esofthead.mycollab.configuration.ApplicationProperties.SITE_NAME;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
+import org.apache.commons.lang3.LocaleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,55 +77,47 @@ public class SiteConfiguration {
 	private EmailConfiguration relayEmailConfiguration;
 	private DatabaseConfiguration databaseConfiguration;
 	private String cdnUrl;
-	private Properties cacheProperties;
 	private String endecryptPassword;
 	private String dropboxCallbackUrl;
 	private String ggDriveCallbackUrl;
 	private String appUrl;
+
 	private Locale defaultLocale;
-	private Map<String, Locale> supportedLanguages;
+	private List<Locale> supportedLanguages;
 
 	public static void loadInstance(int serverPort) {
 		ApplicationProperties.loadProps();
 		instance = new SiteConfiguration();
 
-		instance.sentErrorEmail = ApplicationProperties.getString(
-				ApplicationProperties.ERROR_SENDTO, "hainguyen@mycollab.com");
+		instance.sentErrorEmail = ApplicationProperties.getString(ERROR_SENDTO,
+				"support@mycollab.com");
 
-		instance.siteName = ApplicationProperties.getString(
-				ApplicationProperties.SITE_NAME, "MyCollab");
+		instance.siteName = ApplicationProperties.getString(SITE_NAME,
+				"MyCollab");
 
 		instance.serverAddress = ApplicationProperties.getString(
-				ApplicationProperties.SERVER_ADDRESS, "localhost");
+				SERVER_ADDRESS, "localhost");
 
 		instance.defaultLocale = toLocale(ApplicationProperties.getString(
-				ApplicationProperties.DEFAULT_LOCALE, "English"));
+				DEFAULT_LOCALE, "en_US"));
 
 		instance.supportedLanguages = getSupportedLocales(ApplicationProperties
-				.getString(ApplicationProperties.LOCALES, "English, Japanese"));
+				.getString(LOCALES, "en_US, ja_JP"));
 
 		instance.serverPort = serverPort;
 
 		// load Deployment Mode
-		String runningMode = ApplicationProperties.getString(
-				ApplicationProperties.RUNNING_MODE, null);
-		if ("site".equals(runningMode)) {
-			log.debug("MyCollab is run under site mode");
-			instance.deploymentMode = DeploymentMode.SITE;
-		} else if ("standalone".equals(runningMode)) {
-			log.debug("MyCollab is run under standalone mode");
-			instance.deploymentMode = DeploymentMode.STANDALONE;
-		} else {
-			log.debug("MyCollab is run under development mode");
-			instance.deploymentMode = DeploymentMode.DEV;
-		}
+		String runningMode = ApplicationProperties
+				.getString(RUNNING_MODE, null);
+		instance.deploymentMode = DeploymentMode.valueOf(runningMode);
+		log.debug("Site is running under {0} mode", instance.deploymentMode);
 
 		instance.cdnUrl = String.format(
-				ApplicationProperties.getString(ApplicationProperties.CDN_URL),
+				ApplicationProperties.getString(CDN_URL),
 				instance.serverAddress, instance.serverPort);
 
 		instance.appUrl = String.format(
-				ApplicationProperties.getString(ApplicationProperties.APP_URL),
+				ApplicationProperties.getString(APP_URL),
 				instance.serverAddress, instance.serverPort);
 		if (!instance.appUrl.endsWith("/")) {
 			instance.appUrl += "/";
@@ -106,62 +126,48 @@ public class SiteConfiguration {
 		StorageManager.loadStorageConfig();
 
 		instance.endecryptPassword = ApplicationProperties.getString(
-				ApplicationProperties.BI_ENDECRYPT_PASSWORD, "esofthead321");
+				BI_ENDECRYPT_PASSWORD, "esofthead321");
 
 		// load email
-		String host = ApplicationProperties
-				.getString(ApplicationProperties.MAIL_SMTPHOST);
-		String user = ApplicationProperties
-				.getString(ApplicationProperties.MAIL_USERNAME);
-		String password = ApplicationProperties
-				.getString(ApplicationProperties.MAIL_PASSWORD);
+		String host = ApplicationProperties.getString(MAIL_SMTPHOST);
+		String user = ApplicationProperties.getString(MAIL_USERNAME);
+		String password = ApplicationProperties.getString(MAIL_PASSWORD);
 		Integer port = Integer.parseInt(ApplicationProperties.getString(
-				ApplicationProperties.MAIL_PORT, "-1"));
+				MAIL_PORT, "-1"));
 		Boolean isTls = Boolean.parseBoolean(ApplicationProperties.getString(
-				ApplicationProperties.MAIL_IS_TLS, "false"));
+				MAIL_IS_TLS, "false"));
 		instance.emailConfiguration = new EmailConfiguration(host, user,
 				password, port, isTls);
-		instance.noreplyEmail = ApplicationProperties.getString(
-				ApplicationProperties.MAIL_NOREPLY, "noreply@mycollab.com");
+		instance.noreplyEmail = ApplicationProperties.getString(MAIL_NOREPLY,
+				"noreply@mycollab.com");
 
 		// load relay email
-		String relayHost = ApplicationProperties.getString(
-				ApplicationProperties.RELAYMAIL_SMTPHOST, host);
+		String relayHost = ApplicationProperties.getString(RELAYMAIL_SMTPHOST,
+				host);
 		int relayPort = Integer.parseInt(ApplicationProperties.getString(
-				ApplicationProperties.RELAYMAIL_PORT, port + ""));
-		String relayUser = ApplicationProperties.getString(
-				ApplicationProperties.RELAYMAIL_USERNAME, user);
+				RELAYMAIL_PORT, port + ""));
+		String relayUser = ApplicationProperties.getString(RELAYMAIL_USERNAME,
+				user);
 		String relayPassword = ApplicationProperties.getString(
-				ApplicationProperties.RELAYMAIL_PASSWORD, password);
+				RELAYMAIL_PASSWORD, password);
 		boolean relayIsTls = Boolean.parseBoolean(ApplicationProperties
-				.getString(ApplicationProperties.RELAYMAIL_IS_TLS,
-						Boolean.toString(isTls)));
+				.getString(RELAYMAIL_IS_TLS, Boolean.toString(isTls)));
 		instance.relayEmailConfiguration = new EmailConfiguration(relayHost,
 				relayUser, relayPassword, relayPort, relayIsTls);
 
 		// load database configuration
-		String driverClass = ApplicationProperties
-				.getString(ApplicationProperties.DB_DRIVER_CLASS);
-		String dbUrl = ApplicationProperties
-				.getString(ApplicationProperties.DB_URL);
-		String dbUser = ApplicationProperties
-				.getString(ApplicationProperties.DB_USERNAME);
-		String dbPassword = ApplicationProperties
-				.getString(ApplicationProperties.DB_PASSWORD);
+		String driverClass = ApplicationProperties.getString(DB_DRIVER_CLASS);
+		String dbUrl = ApplicationProperties.getString(DB_URL);
+		String dbUser = ApplicationProperties.getString(DB_USERNAME);
+		String dbPassword = ApplicationProperties.getString(DB_PASSWORD);
 		instance.databaseConfiguration = new DatabaseConfiguration(driverClass,
 				dbUrl, dbUser, dbPassword);
 
-		// load cache properties
-		Properties props = new Properties();
-		props.put("infinispan.client.hotrod.server_list", ApplicationProperties
-				.getString("infinispan.client.hotrod.server_list", ""));
-		instance.cacheProperties = props;
-
 		instance.dropboxCallbackUrl = ApplicationProperties
-				.getString("dropbox.callbackUrl");
+				.getString(DROPBOX_AUTH_LINK);
 
 		instance.ggDriveCallbackUrl = ApplicationProperties
-				.getString("ggDrive.callbackUrl");
+				.getString(GOOGLE_DRIVE_LINK);
 	}
 
 	private static SiteConfiguration getInstance() {
@@ -169,10 +175,6 @@ public class SiteConfiguration {
 			loadInstance(8080);
 		}
 		return instance;
-	}
-
-	public static Properties getCacheProperties() {
-		return getInstance().cacheProperties;
 	}
 
 	public static String getCdnUrl() {
@@ -215,13 +217,13 @@ public class SiteConfiguration {
 		return getInstance().defaultLocale;
 	}
 
-	public static Map<String, Locale> getSupportedLanguages() {
+	public static List<Locale> getSupportedLanguages() {
 		return getInstance().supportedLanguages;
 	}
 
 	public static String getSiteUrl(String subdomain) {
 		String siteUrl = "";
-		if (getInstance().deploymentMode == DeploymentMode.SITE) {
+		if (getInstance().deploymentMode == DeploymentMode.site) {
 			siteUrl = String.format(ApplicationProperties
 					.getString(ApplicationProperties.APP_URL), subdomain);
 		} else {
@@ -257,23 +259,20 @@ public class SiteConfiguration {
 			return Locale.US;
 		}
 
-		Map<String, Locale> nativeLanguages = LocaleHelper.getNativeLanguages();
-		Locale locale = nativeLanguages.get(language);
-		return (locale != null) ? locale : Locale.US;
+		return LocaleUtils.toLocale(language);
 	}
 
-	private static Map<String, Locale> getSupportedLocales(String languageVal) {
-		Map<String, Locale> locales = new HashMap<String, Locale>();
-		Map<String, Locale> nativeLanguages = LocaleHelper.getNativeLanguages();
+	private static List<Locale> getSupportedLocales(String languageVal) {
+		List<Locale> locales = new ArrayList<Locale>();
 		String[] languages = languageVal.split(",");
 		for (String language : languages) {
-			Locale locale = nativeLanguages.get(language.trim());
+			Locale locale = toLocale(language.trim());
 			if (locale == null) {
 				log.error("Do not support native language {}", language);
 				continue;
 			}
 
-			locales.put(language.trim(), locale);
+			locales.add(locale);
 		}
 		return locales;
 	}

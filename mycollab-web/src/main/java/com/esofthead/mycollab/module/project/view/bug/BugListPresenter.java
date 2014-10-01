@@ -53,7 +53,6 @@ public class BugListPresenter extends
 
 	@Override
 	protected void postInitView() {
-
 		view.getSearchHandlers().addSearchHandler(
 				new SearchHandler<BugSearchCriteria>() {
 					@Override
@@ -61,7 +60,6 @@ public class BugListPresenter extends
 						doSearch(criteria);
 					}
 				});
-
 	}
 
 	@Override

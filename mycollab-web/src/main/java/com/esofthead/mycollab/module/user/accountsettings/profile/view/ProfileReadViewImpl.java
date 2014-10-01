@@ -20,6 +20,7 @@ import org.vaadin.easyuploads.UploadField;
 import org.vaadin.easyuploads.UploadField.FieldType;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.common.i18n.LangI18Enum;
 import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.core.utils.ImageUtil;
 import com.esofthead.mycollab.core.utils.TimezoneMapper;
@@ -382,6 +383,10 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				} else if (propertyId.equals("dateofbirth")) {
 					value = AppContext.formatDate(PreviewForm.this.user
 							.getDateofbirth());
+					return new DefaultFormViewFieldFactory.FormViewField(value);
+				} else if (propertyId.equals("language")) {
+					value = AppContext.getMessage(LangI18Enum.valueOf(user
+							.getLanguage()));
 					return new DefaultFormViewFieldFactory.FormViewField(value);
 				} else if (propertyId.equals("timezone")) {
 					value = TimezoneMapper.getTimezone(

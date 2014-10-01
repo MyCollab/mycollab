@@ -48,6 +48,21 @@ public class EventServiceTest extends ServiceTest {
 	@DataSet
 	@Test
 	public void testSearchByCriteria() throws ParseException {
+		ActivitySearchCriteria criteria = new ActivitySearchCriteria();
+		criteria.setSaccountid(new NumberSearchField(1));
+
+		List<SimpleActivity> list = eventService
+				.findPagableListByCriteria(new SearchRequest<ActivitySearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(list.size()).isEqualTo(1);
+		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
+	}
+
+	@SuppressWarnings("unchecked")
+	@DataSet
+	@Test
+	public void testSearchByTimeRange() throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date startDate = format.parse("2012-11-11 00:00:00");
 		Date endDate = format.parse("2012-11-15 00:00:00");
@@ -62,7 +77,6 @@ public class EventServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<ActivitySearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(list.size()).isEqualTo(1);
-		assertThat(list).extracting("id", "subject").contains(
-				tuple(1, "aaa"));
+		assertThat(list).extracting("id", "subject").contains(tuple(1, "aaa"));
 	}
 }

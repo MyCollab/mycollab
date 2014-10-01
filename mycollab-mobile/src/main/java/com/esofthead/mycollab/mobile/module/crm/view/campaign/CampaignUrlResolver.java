@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.crm.CrmModuleScreenData;
 import com.esofthead.mycollab.mobile.module.crm.CrmUrlResolver;
@@ -64,20 +64,18 @@ public class CampaignUrlResolver extends CrmUrlResolver {
 	public static class CampaignEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int accountId = Integer.parseInt(decodeUrl);
+			int campaignId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
-					new CampaignEvent.GotoEdit(this, accountId));
+					new CampaignEvent.GotoEdit(this, campaignId));
 		}
 	}
 
 	public static class CampaignPreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int accountId = Integer.parseInt(decodeUrl);
+			int campaignId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
-					new CampaignEvent.GotoRead(this, accountId));
+					new CampaignEvent.GotoRead(this, campaignId));
 		}
 	}
 }

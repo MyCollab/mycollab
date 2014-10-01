@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.module.crm.view.account;
 
 import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.events.AccountEvent;
@@ -55,8 +56,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 	private static class AccountEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int accountId = Integer.parseInt(decodeUrl);
+			int accountId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new AccountEvent.GotoEdit(this, accountId));
 		}
@@ -65,8 +65,7 @@ public class AccountUrlResolver extends CrmUrlResolver {
 	private static class AccountPreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int accountId = Integer.parseInt(decodeUrl);
+			int accountId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new AccountEvent.GotoRead(this, accountId));
 		}

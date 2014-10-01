@@ -26,6 +26,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.mvp.ViewManager;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
@@ -38,7 +39,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  */
 @SuppressWarnings("serial")
-@ViewComponent
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class CrmHomeViewImpl extends AbstractLazyPageView implements
 		CrmHomeView {
 	private IOpportunityPipelineFunnelChartDashlet opportunityChartDashlet;
@@ -57,8 +58,6 @@ public class CrmHomeViewImpl extends AbstractLazyPageView implements
 
 	@Override
 	protected void displayView() {
-		this.removeAllComponents();
-
 		HorizontalLayout contentLayout = new HorizontalLayout();
 		contentLayout.setSpacing(true);
 		contentLayout.setWidth("100%");

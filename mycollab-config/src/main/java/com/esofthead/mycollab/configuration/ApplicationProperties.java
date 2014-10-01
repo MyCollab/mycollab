@@ -68,14 +68,14 @@ public class ApplicationProperties {
 	public static final String ERROR_SENDTO = "error.sendTo";
 	public static final String STORAGE_SYSTEM = "storageSystem";
 
-	public static final String LOCALES = "site.locales";
-	public static final String DEFAULT_LOCALE = "site.defaultLocale";
+	public static final String LOCALES = "locale.list";
+	public static final String DEFAULT_LOCALE = "locale.default";
 	public static final String SITE_NAME = "site.name";
 	public static final String SERVER_ADDRESS = "server.address";
 	public static final String RUNNING_MODE = "running.mode";
 
-	public static final String DROPBOX_AUTH_LINK = "";
-	public static final String GOOGLE_DRIVE_LINK = "";
+	public static final String DROPBOX_AUTH_LINK = "dropbox.callbackUrl";
+	public static final String GOOGLE_DRIVE_LINK = "ggDrive.callbackUrl";
 
 	public static final String BI_ENDECRYPT_PASSWORD = "endecryptPassword";
 

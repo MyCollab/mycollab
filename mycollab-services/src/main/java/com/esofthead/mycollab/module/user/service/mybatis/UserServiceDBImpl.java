@@ -118,7 +118,7 @@ public class UserServiceDBImpl extends
 		// check if user email has already in this account yet
 		UserAccountExample userAccountEx = new UserAccountExample();
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			userAccountEx
 					.createCriteria()
 					.andUsernameEqualTo(record.getEmail())
@@ -197,7 +197,7 @@ public class UserServiceDBImpl extends
 
 		log.debug("Check whether user is already in this account with status different than ACTIVE, then change status of him");
 		userAccountEx = new UserAccountExample();
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			userAccountEx.createCriteria()
 					.andUsernameEqualTo(record.getEmail())
 					.andAccountidEqualTo(sAccountId);
@@ -305,7 +305,7 @@ public class UserServiceDBImpl extends
 		criteria.setUsername(new StringSearchField(username));
 		criteria.setSaccountid(null);
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			criteria.setSubdomain(new StringSearchField(subdomain));
 		}
 

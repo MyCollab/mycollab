@@ -16,12 +16,18 @@
  */
 package com.esofthead.mycollab.module.crm.view.activity;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.crm.domain.CallWithBLOBs;
 import com.esofthead.mycollab.module.crm.events.ActivityEvent;
 import com.esofthead.mycollab.module.crm.view.CrmUrlResolver;
 
+/**
+ * 
+ * @author MyCollab Ltd.
+ * @since 1.0
+ *
+ */
 public class CallUrlResolver extends CrmUrlResolver {
 	public CallUrlResolver() {
 		this.addSubResolver("add", new CallAddUrlResolver());
@@ -40,8 +46,7 @@ public class CallUrlResolver extends CrmUrlResolver {
 	public static class CallEditUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int meetingId = Integer.parseInt(decodeUrl);
+			int meetingId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new ActivityEvent.CallEdit(this, meetingId));
 		}
@@ -50,8 +55,7 @@ public class CallUrlResolver extends CrmUrlResolver {
 	public static class CallPreviewUrlResolver extends CrmUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int accountId = Integer.parseInt(decodeUrl);
+			int accountId = new UrlTokenizer(params[0]).getInt();
 			EventBusFactory.getInstance().post(
 					new ActivityEvent.CallRead(this, accountId));
 		}

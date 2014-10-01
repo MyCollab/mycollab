@@ -59,7 +59,7 @@ public class UrlEncodeDecoder {
 	 * @param str
 	 * @return
 	 */
-	public static String decode(String str) {
+	static String decode(String str) {
 		try {
 			String decodeStr = URLDecoder.decode(str, "UTF8");
 			decodeStr = new String(Base64.decodeBase64(decodeStr

@@ -81,7 +81,7 @@ public abstract class MyCollabUI extends UI {
 
 	protected void postSetupApp(VaadinRequest request) {
 		VaadinServletRequest servletRequest = (VaadinServletRequest) request;
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			initialSubDomain = servletRequest.getServerName().split("\\.")[0];
 		} else {
 			initialSubDomain = servletRequest.getServerName();

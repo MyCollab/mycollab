@@ -16,7 +16,8 @@
  */
 package com.esofthead.mycollab.module.project.view.bug;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.core.MyCollabException;
 import com.esofthead.mycollab.core.ResourceNotFoundException;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.ProjectLinkParams;
@@ -51,8 +52,7 @@ public class BugUrlResolver extends ProjectUrlResolver {
 	private static class DashboardUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new BugScreenData.GotoDashboard());
@@ -83,11 +83,7 @@ public class BugUrlResolver extends ProjectUrlResolver {
 									+ " and project short name " + prjShortName);
 				}
 			} else {
-				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-				String[] tokens = decodeUrl.split("/");
-
-				projectId = Integer.parseInt(tokens[0]);
-				bugId = Integer.parseInt(tokens[1]);
+				throw new MyCollabException("Invalid bug link " + params[0]);
 			}
 
 			PageActionChain chain = new PageActionChain(
@@ -113,14 +109,7 @@ public class BugUrlResolver extends ProjectUrlResolver {
 						AppContext.getAccountId());
 
 			} else {
-				String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-				String[] tokens = decodeUrl.split("/");
-
-				int bugId = Integer.parseInt(tokens[1]);
-
-				BugService bugService = ApplicationContextUtil
-						.getSpringBean(BugService.class);
-				bug = bugService.findById(bugId, AppContext.getAccountId());
+				throw new MyCollabException("Invalid bug link: " + params[0]);
 			}
 
 			if (bug == null) {
@@ -138,8 +127,7 @@ public class BugUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			int projectId = Integer.parseInt(decodeUrl);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),

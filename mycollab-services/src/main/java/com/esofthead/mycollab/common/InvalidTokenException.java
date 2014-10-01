@@ -16,13 +16,15 @@
  */
 package com.esofthead.mycollab.common;
 
+import com.esofthead.mycollab.core.MyCollabException;
+
 /**
  * 
  * @author MyCollab Ltd.
  * @since 4.0
  * 
  */
-public class InvalidTokenException extends Exception {
+public class InvalidTokenException extends MyCollabException {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidTokenException(Throwable e) {

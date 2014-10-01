@@ -64,7 +64,7 @@ public class BillingAccountServiceImpl extends
 	public BillingAccount getAccountByDomain(String domain) {
 		BillingAccountExample ex = new BillingAccountExample();
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			ex.createCriteria().andSubdomainEqualTo(domain);
 		}
 
@@ -81,7 +81,7 @@ public class BillingAccountServiceImpl extends
 	public BillingAccount getAccountById(@CacheKey Integer accountId) {
 		BillingAccountExample ex = new BillingAccountExample();
 
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			ex.createCriteria().andIdEqualTo(accountId);
 		}
 

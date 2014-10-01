@@ -16,8 +16,9 @@
     <!-- The gui preferences indication. Sets the installer window to 640x480. 
         It will not be able to change the size. -->
     <guiprefs width="640" height="480" resizable="no">
-    
-        <!--  <splash>images/peas_load.gif</splash>-->
+        <splash>flash_install_8.png</splash>
+
+        <!-- <splash>images/peas_load.gif</splash> -->
         <laf name="substance">
             <os family="windows" />
             <os family="unix" />
@@ -28,7 +29,7 @@
             <param name="variant" value="mist-aqua" />
         </laf>
         <modifier key="useHeadingPanel" value="yes" />
-        <modifier key="layoutAnchor" value="CENTER"/>
+        <modifier key="layoutAnchor" value="CENTER" />
     </guiprefs>
 
     <!-- The locale section. Asks here to include the English and French 

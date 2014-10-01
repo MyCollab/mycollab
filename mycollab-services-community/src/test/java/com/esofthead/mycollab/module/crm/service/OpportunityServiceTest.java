@@ -51,8 +51,8 @@ public class OpportunityServiceTest extends ServiceTest {
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(opportunities.size()).isEqualTo(2);
-		assertThat(opportunities).extracting("id", "salesstage").contains(
-				tuple(1, "1"), tuple(2, "2"));
+		assertThat(opportunities).extracting("id", "salesstage", "source").contains(
+				tuple(1, "1", "Cold Call"), tuple(2, "2", "Employee"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,7 +89,7 @@ public class OpportunityServiceTest extends ServiceTest {
 						criteria, 0, Integer.MAX_VALUE));
 
 		assertThat(opportunities.size()).isEqualTo(2);
-		assertThat(opportunities).extracting("id", "salesstage").contains(
-				tuple(1, "1"), tuple(2, "2"));
+		assertThat(opportunities).extracting("id", "salesstage", "source").contains(
+				tuple(1, "1", "Cold Call"), tuple(2, "2", "Employee"));
 	}
 }

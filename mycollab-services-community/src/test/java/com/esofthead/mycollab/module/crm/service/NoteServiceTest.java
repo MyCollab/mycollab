@@ -57,8 +57,8 @@ public class NoteServiceTest extends ServiceTest {
 						getCriteria(), 0, Integer.MAX_VALUE));
 
 		assertThat(noteList.size()).isEqualTo(1);
-		assertThat(noteList).extracting("id", "subject").contains(
-				tuple(1, "aaa"));
+		assertThat(noteList).extracting("id", "subject", "createduser").contains(
+				tuple(1, "aaa", "admin"));
 	}
 
 	@DataSet
@@ -71,6 +71,7 @@ public class NoteServiceTest extends ServiceTest {
 
 		Note note2 = noteService.findByPrimaryKey(noteId, 1);
 		assertThat(note2.getSubject()).isEqualTo("subject");
+		assertThat(note2.getCreateduser()).isEqualTo("admin");
 	}
 
 	private NoteSearchCriteria getCriteria() {

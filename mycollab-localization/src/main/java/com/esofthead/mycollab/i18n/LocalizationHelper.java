@@ -43,15 +43,9 @@ public class LocalizationHelper {
 	private static Logger log = LoggerFactory
 			.getLogger(LocalizationHelper.class);
 
-	private static final Map<Locale, IMessageConveyor> languageMap;
+	private static final Map<Locale, IMessageConveyor> languageMap = new HashMap<Locale, IMessageConveyor>();
 
 	public static final Locale defaultLocale = Locale.US;
-
-	static {
-		languageMap = new HashMap<Locale, IMessageConveyor>();
-		languageMap.put(Locale.US, new MessageConveyor(Locale.US));
-		languageMap.put(Locale.JAPAN, new MessageConveyor(Locale.JAPAN));
-	}
 
 	public static IMessageConveyor getMessageConveyor(Locale language) {
 		if (language == null) {
@@ -59,7 +53,8 @@ public class LocalizationHelper {
 		} else {
 			IMessageConveyor messageConveyor = languageMap.get(language);
 			if (messageConveyor == null) {
-				return languageMap.get(Locale.US);
+				messageConveyor = new MessageConveyor(language);
+				languageMap.put(language, messageConveyor);
 			}
 
 			return messageConveyor;

@@ -63,10 +63,6 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 	private VerticalLayout leftColumn, rightColumn;
 	private HorizontalLayout header;
 
-	public BugDashboardViewImpl() {
-		super();
-	}
-
 	private void initUI() {
 		this.setMargin(new MarginInfo(false, true, false, true));
 		header = new HorizontalLayout();
@@ -166,12 +162,12 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 	protected void displayView() {
 		initUI();
 
-		BugDashboardViewImpl.this.rightColumn.setWidth("400px");
+		this.rightColumn.setWidth("400px");
 
 		final SimpleProject project = CurrentProjectVariables.getProject();
 
 		final MyBugListWidget myBugListWidget = new MyBugListWidget();
-		BugDashboardViewImpl.this.leftColumn.addComponent(myBugListWidget);
+		this.leftColumn.addComponent(myBugListWidget);
 		final BugSearchCriteria myBugsSearchCriteria = new BugSearchCriteria();
 		myBugsSearchCriteria
 				.setProjectId(new NumberSearchField(project.getId()));
@@ -185,7 +181,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		myBugListWidget.setSearchCriteria(myBugsSearchCriteria);
 
 		final DueBugWidget dueBugWidget = new DueBugWidget();
-		BugDashboardViewImpl.this.leftColumn.addComponent(dueBugWidget);
+		this.leftColumn.addComponent(dueBugWidget);
 		final BugSearchCriteria dueDefectsCriteria = new BugSearchCriteria();
 		dueDefectsCriteria.setProjectId(new NumberSearchField(project.getId()));
 		dueDefectsCriteria.setDueDate(new DateSearchField(SearchField.AND,
@@ -198,7 +194,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 		dueBugWidget.setSearchCriteria(dueDefectsCriteria);
 
 		final RecentBugUpdateWidget updateBugWidget = new RecentBugUpdateWidget();
-		BugDashboardViewImpl.this.leftColumn.addComponent(updateBugWidget);
+		this.leftColumn.addComponent(updateBugWidget);
 
 		// Unresolved by assignee
 		final UnresolvedBugsByAssigneeWidget2 unresolvedByAssigneeWidget = new UnresolvedBugsByAssigneeWidget2();
@@ -212,8 +208,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 								BugStatus.ReOpened.name() }));
 		unresolvedByAssigneeWidget
 				.setSearchCriteria(unresolvedByAssigneeSearchCriteria);
-		BugDashboardViewImpl.this.rightColumn
-				.addComponent(unresolvedByAssigneeWidget);
+		this.rightColumn.addComponent(unresolvedByAssigneeWidget);
 
 		// Unresolve by priority widget
 		final UnresolvedBugsByPriorityWidget2 unresolvedByPriorityWidget = new UnresolvedBugsByPriorityWidget2();
@@ -227,8 +222,7 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 								BugStatus.ReOpened.name() }));
 		unresolvedByPriorityWidget
 				.setSearchCriteria(unresolvedByPrioritySearchCriteria);
-		BugDashboardViewImpl.this.rightColumn
-				.addComponent(unresolvedByPriorityWidget);
+		this.rightColumn.addComponent(unresolvedByPriorityWidget);
 
 		// bug chart
 		final BugSearchCriteria recentDefectsCriteria = new BugSearchCriteria();
@@ -241,6 +235,6 @@ public class BugDashboardViewImpl extends AbstractLazyPageView implements
 				CurrentProjectVariables.getProjectId()));
 		BugChartComponent bugChartComponent = null;
 		bugChartComponent = new BugChartComponent(chartSearchCriteria, 400, 200);
-		BugDashboardViewImpl.this.rightColumn.addComponent(bugChartComponent);
+		this.rightColumn.addComponent(bugChartComponent);
 	}
 }

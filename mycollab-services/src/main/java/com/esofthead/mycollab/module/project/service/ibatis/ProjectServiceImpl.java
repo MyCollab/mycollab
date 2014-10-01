@@ -261,7 +261,7 @@ public class ProjectServiceImpl extends
 
 	@Override
 	public String getSubdomainOfProject(int projectId) {
-		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.SITE) {
+		if (SiteConfiguration.getDeploymentMode() == DeploymentMode.site) {
 			return projectMapperExt.getSubdomainOfProject(projectId);
 		} else {
 			return SiteConfiguration.getSiteUrl("");

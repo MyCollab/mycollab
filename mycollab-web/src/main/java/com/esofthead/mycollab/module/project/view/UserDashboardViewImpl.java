@@ -40,6 +40,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.AbstractLazyPageView;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
@@ -61,7 +62,7 @@ import com.vaadin.ui.themes.Reindeer;
  * @since 1.0
  * 
  */
-@ViewComponent
+@ViewComponent(scope = ViewScope.PROTOTYPE)
 public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		UserDashboardView {
 	private static final long serialVersionUID = 1L;

@@ -41,7 +41,7 @@ public class MyCollabBootstrapListener implements BootstrapListener {
 				.append("<meta name=\"robots\" content=\"nofollow\" />");
 
 		DeploymentMode deploymentMode = SiteConfiguration.getDeploymentMode();
-		if (deploymentMode == DeploymentMode.SITE) {
+		if (deploymentMode == DeploymentMode.site) {
 			response.getDocument()
 					.head()
 					.append("<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>");

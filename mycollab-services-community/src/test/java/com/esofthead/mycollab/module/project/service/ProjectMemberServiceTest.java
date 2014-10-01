@@ -70,6 +70,7 @@ public class ProjectMemberServiceTest extends ServiceTest {
 				.getUsersNotInProject(1, 1);
 
 		assertThat(users.size()).isEqualTo(2);
+		assertThat(users).extracting("username").contains("user2", "user3");
 	}
 
 	@DataSet

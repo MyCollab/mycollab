@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
-import com.esofthead.mycollab.common.UrlEncodeDecoder;
+import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
@@ -47,10 +47,7 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
-
-			int projectId = Integer.parseInt(tokens[0]);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
@@ -64,11 +61,11 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 	private static class ReadUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int taskListId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int taskListId = token.getInt();
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskGroupScreenData.Read(taskListId));
@@ -80,10 +77,7 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 	private static class AddUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
-
-			int projectId = Integer.parseInt(tokens[0]);
+			int projectId = new UrlTokenizer(params[0]).getInt();
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
 					new TaskGroupScreenData.Add());
@@ -95,11 +89,10 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 	private static class EditUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
-			String decodeUrl = UrlEncodeDecoder.decode(params[0]);
-			String[] tokens = decodeUrl.split("/");
+			UrlTokenizer token = new UrlTokenizer(params[0]);
 
-			int projectId = Integer.parseInt(tokens[0]);
-			int taskListId = Integer.parseInt(tokens[1]);
+			int projectId = token.getInt();
+			int taskListId = token.getInt();
 
 			ProjectTaskListService service = ApplicationContextUtil
 					.getSpringBean(ProjectTaskListService.class);
