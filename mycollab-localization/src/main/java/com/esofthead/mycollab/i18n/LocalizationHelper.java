@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.cal10n.IMessageConveyor;
-import ch.qos.cal10n.MessageConveyor;
+import ch.qos.cal10n.MessageConveyorExt;
 
 import com.esofthead.mycollab.configuration.SiteConfiguration;
 import com.esofthead.mycollab.core.MyCollabException;
@@ -46,7 +46,8 @@ public class LocalizationHelper {
 	private static final Map<Locale, IMessageConveyor> languageMap;
 
 	public static final Locale defaultLocale = Locale.US;
-	private static IMessageConveyor defaultMessage = new MessageConveyor(
+
+	private static IMessageConveyor defaultMessage = new MessageConveyorExt(
 			Locale.US);
 
 	static {
@@ -60,7 +61,7 @@ public class LocalizationHelper {
 		} else {
 			IMessageConveyor messageConveyor = languageMap.get(language);
 			if (messageConveyor == null) {
-				messageConveyor = new MessageConveyor(language);
+				messageConveyor = new MessageConveyorExt(language);
 				languageMap.put(language, messageConveyor);
 			}
 

@@ -30,23 +30,21 @@
 	<m_prj_time_logging id="1" loguser="nghiemle"
 		sAccountId="1" isBillable="true" typeid="1" projectId="1"
 		createdTime="2014-05-10 13:29:23" logForDay="2014-05-10 13:29:23"
-		lastUpdatedTime="2014-05-10 13:29:23" summary="summary 1" type="Project-Task"
-		logValue="1" />
+		lastUpdatedTime="2014-05-10 13:29:23" type="Project-Task" logValue="1" />
 
 	<m_prj_time_logging id="2" loguser="nghiemle"
 		sAccountId="1" isBillable="false" typeid="1" projectId="1"
 		createdTime="2014-06-10 13:29:23" logForDay="2014-06-10 13:29:23"
-		lastUpdatedTime="2014-06-10 13:29:23" summary="summary 2" type="Project-Bug"
-		logValue="2" />
+		lastUpdatedTime="2014-06-10 13:29:23" type="Project-Bug" logValue="2" />
 
 	<m_prj_time_logging id="3" loguser="hai79" typeid="1"
 		sAccountId="1" isBillable="true" projectId="1" createdTime="2014-04-15 13:29:23"
 		logForDay="2014-04-15 13:29:23" lastUpdatedTime="2014-04-15 13:29:23"
-		summary="summary 3" type="Project-Risk" logValue="3" />
+		type="Project-Risk" logValue="3" />
 
 	<m_prj_time_logging id="4" loguser="hai79" typeid="1"
 		sAccountId="1" isBillable="false" projectId="1" createdTime="2014-04-19 13:29:23"
 		logForDay="2014-04-19 13:29:23" lastUpdatedTime="2014-04-19 13:29:23"
-		summary="summary 4" type="Project-Problem" logValue="4" />
+		logValue="4" />
 
 </dataset>

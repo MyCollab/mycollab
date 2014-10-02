@@ -48,38 +48,38 @@ public class OptionI18nEnum {
 			BugResolution.WaitforVerification, BugResolution.Newissue,
 			BugResolution.ReOpen };
 
-	@BaseName("localization/project_milestone_status")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-milestone-status")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum MilestoneStatus {
 		Future, Closed, InProgress
 	}
 
-	@BaseName("localization/project_task_priority")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-task-priority")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum TaskPriority {
 		Urgent, High, Medium, Low, None
 	}
 
-	@BaseName("localization/project_bug_status")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-bug-status")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum BugStatus {
 		Open, InProgress, Verified, Resolved, ReOpened
 	}
 
-	@BaseName("localization/project_bug_priority")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-bug-priority")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum BugPriority {
 		Blocker, Critical, Major, Minor, Trivial
 	}
 
-	@BaseName("localization/project_bug_severity")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-bug-severity")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum BugSeverity {
 		Critical, Major, Minor, Trivial
 	}
 
-	@BaseName("localization/project_bug_resolution")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/project-bug-resolution")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public static enum BugResolution {
 		Fixed,
 		Won_Fix,

@@ -51,7 +51,7 @@ public class ItemTimeLoggingServiceTest extends ServiceTest {
 	private ItemTimeLoggingSearchCriteria getCriteria() {
 		ItemTimeLoggingSearchCriteria criteria = new ItemTimeLoggingSearchCriteria();
 		criteria.setSaccountid(new NumberSearchField(1));
-		criteria.setIsBillable(new BooleanSearchField(true));
+		criteria.setIsBillable(new BooleanSearchField(false));
 		criteria.setLogUsers(new SetSearchField<String>(SearchField.AND,
 				new String[]{"hai79", "nghiemle"}));
 		return criteria;
@@ -67,11 +67,11 @@ public class ItemTimeLoggingServiceTest extends ServiceTest {
 
 		assertThat(itemTimeLoggings.size()).isEqualTo(2);
 		assertThat(itemTimeLoggings).extracting("id", "type", "logforday",
-				"loguser").contains(
-				tuple(3, "Project-Risk", DF.parse("2014-04-15 13:29:23"),
-						"hai79"),
-				tuple(1, "Project-Task", DF.parse("2014-05-10 13:29:23"),
-						"nghiemle"));
+				"loguser", "summary").contains(
+				tuple(4, null, DF.parse("2014-04-19 13:29:23"),
+						"hai79", ""),
+				tuple(2, "Project-Bug", DF.parse("2014-06-10 13:29:23"),
+						"nghiemle", "summary 2"));
 	}
 
 	@SuppressWarnings("unchecked")

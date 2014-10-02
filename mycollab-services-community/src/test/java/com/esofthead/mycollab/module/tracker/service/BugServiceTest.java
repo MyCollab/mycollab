@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,7 @@ public class BugServiceTest extends ServiceTest {
 				tuple(3, "detail 3", "summary 3"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchDefectsByUserCriteria() {
@@ -72,37 +72,39 @@ public class BugServiceTest extends ServiceTest {
 		criteria.setSummary(new StringSearchField("summary"));
 		criteria.setDetail(new StringSearchField("detail"));
 
-		Assert.assertEquals(1, bugService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				bugService.findPagableListByCriteria(
-						new SearchRequest<BugSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleBug> bugs = bugService
+				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+		assertThat(bugs.size()).isEqualTo(1);
+		assertThat(bugs).extracting("id", "detail", "summary").contains(
+				tuple(2, "detail 2", "summary 2"));
 	}
 
 	@DataSet
 	@Test
 	public void testGetExtBug() {
 		SimpleBug bug = bugService.findById(1, 1);
-		Assert.assertEquals("Nguyen Hai", bug.getLoguserFullName());
-		Assert.assertEquals("Nguyen Hai", bug.getAssignuserFullName());
-		Assert.assertEquals(1, bug.getAffectedVersions().size());
-		Assert.assertEquals(2, bug.getFixedVersions().size());
-		Assert.assertEquals(1, bug.getComponents().size());
+		assertThat(bug.getLoguserFullName()).isEqualTo("Nguyen Hai");
+		assertThat(bug.getAssignuserFullName()).isEqualTo("Nguyen Hai");
+		assertThat(bug.getAffectedVersions().size()).isEqualTo(1);
+		assertThat(bug.getFixedVersions().size()).isEqualTo(2);
+		assertThat(bug.getComponents().size()).isEqualTo(1);
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByComponents() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
 		criteria.setComponentids(new SetSearchField<Integer>(1, 2));
 
-		Assert.assertEquals(1, bugService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				bugService.findPagableListByCriteria(
-						new SearchRequest<BugSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+		List<SimpleBug> bugs = bugService
+				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
+
+		assertThat(bugs.size()).isEqualTo(1);
+		assertThat(bugs).extracting("id", "detail", "summary").contains(
+				tuple(1, "detail 1", "summary 1"));
 	}
 
 	@DataSet
@@ -113,6 +115,7 @@ public class BugServiceTest extends ServiceTest {
 		bugService.getComponentDefectsSummary(criteria);
 	}
 
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testSearchByVersions() {
@@ -120,29 +123,13 @@ public class BugServiceTest extends ServiceTest {
 		criteria.setFixedversionids(new SetSearchField<Integer>(1, 2, 3));
 		criteria.setAffectedversionids(new SetSearchField<Integer>(1, 2, 3));
 
-		Assert.assertEquals(1, bugService.getTotalCount(criteria));
-		Assert.assertEquals(
-				1,
-				bugService.findPagableListByCriteria(
-						new SearchRequest<BugSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
-	}
+		List<SimpleBug> bugs = bugService
+				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
+						criteria, 0, Integer.MAX_VALUE));
 
-	@DataSet
-	@Test
-	public void testSearchByVersions2() {
-		// BugSearchCriteria criteria = new BugSearchCriteria();
-		// criteria.setVersionids(new SetSearchField<Integer>(1, 2));
-		//
-		// Assert.assertEquals(1, bugService.getTotalCount(criteria));
-		//
-		// List<SimpleBug> bugList = (List<SimpleBug>) bugService
-		// .findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
-		// criteria, 0, Integer.MAX_VALUE));
-		// Assert.assertEquals(1, bugList.size());
-		// SimpleBug bug = bugList.get(0);
-		// Assert.assertEquals(1, bug.getAffectedVersions().size());
-		// Assert.assertEquals(2, bug.getFixedVersions().size());
+		assertThat(bugs.size()).isEqualTo(1);
+		assertThat(bugs).extracting("id", "detail", "summary").contains(
+				tuple(1, "detail 1", "summary 1"));
 	}
 
 	@DataSet
@@ -151,7 +138,11 @@ public class BugServiceTest extends ServiceTest {
 		BugSearchCriteria criteria = new BugSearchCriteria();
 		List<GroupItem> assignedDefectsSummary = bugService
 				.getAssignedDefectsSummary(criteria);
-		Assert.assertEquals(2, assignedDefectsSummary.size());
+
+		assertThat(assignedDefectsSummary.size()).isEqualTo(2);
+		assertThat(assignedDefectsSummary).extracting("groupid", "value",
+				"extraValue").contains(tuple("admin", 1, null),
+				tuple("user1", 2, null));
 	}
 
 	@DataSet
@@ -165,12 +156,11 @@ public class BugServiceTest extends ServiceTest {
 
 		criteria.setUpdatedDate(new DateSearchField(SearchField.AND, date
 				.getTime()));
-		Assert.assertEquals(0, bugService.getTotalCount(criteria));
-		Assert.assertEquals(
-				0,
+
+		assertThat(
 				bugService.findPagableListByCriteria(
 						new SearchRequest<BugSearchCriteria>(criteria, 0,
-								Integer.MAX_VALUE)).size());
+								Integer.MAX_VALUE)).size()).isEqualTo(0);
 	}
 
 	@DataSet
@@ -178,7 +168,9 @@ public class BugServiceTest extends ServiceTest {
 	public void testBugStatus() {
 		BugSearchCriteria criteria = new BugSearchCriteria();
 		List<GroupItem> groupitems = bugService.getStatusSummary(criteria);
-		Assert.assertEquals(1, groupitems.size());
+		assertThat(groupitems.size()).isEqualTo(1);
+		assertThat(groupitems).extracting("groupid", "value", "extraValue")
+				.contains(tuple("1", 3, null));
 	}
 
 	@Test
@@ -190,11 +182,8 @@ public class BugServiceTest extends ServiceTest {
 		bug.setProjectid(1);
 		bug.setSaccountid(1);
 		int bugId = bugService.saveWithSession(bug, "admin");
-		Assert.assertTrue((bugId > 0));
 
-		System.out.println("bugid: " + bugId);
-
-		bug = bugService.findById(bugId, 1);
-		Assert.assertEquals("summary4", bug.getSummary());
+		assertThat(bugService.findById(bugId, 1).getSummary()).isEqualTo(
+				"summary4");
 	}
 }

@@ -16,28 +16,30 @@
  */
 package com.esofthead.mycollab.common.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 
 //@RunWith(MyCollabClassRunner.class)
-//@ContextConfiguration(locations = { "classpath:META-INF/spring/service-context-test.xml" })
+//@ContextConfiguration(locations = {"classpath:META-INF/spring/service-context-test.xml"})
 public class RelayEmailNotificationServiceTest {
 	@Autowired
 	protected RelayEmailNotificationService relayEmailNotificationService;
 
-//	@Test
-//	@DataSet
+	//@Test
+	//@DataSet
+	@SuppressWarnings("unchecked")
 	public void testRemoveItems() {
 		RelayEmailNotificationSearchCriteria criteria = new RelayEmailNotificationSearchCriteria();
-		List items = relayEmailNotificationService
+		List<SimpleRelayEmailNotification> items = relayEmailNotificationService
 				.findPagableListByCriteria(new SearchRequest<RelayEmailNotificationSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(1, items.size());
-
+		assertThat(items.size()).isEqualTo(1);
 	}
 }

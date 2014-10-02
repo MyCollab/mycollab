@@ -16,7 +16,8 @@
  */
 package com.esofthead.mycollab.core.utils;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 
 import com.esofthead.mycollab.security.PermissionMap;
@@ -24,12 +25,12 @@ import com.esofthead.mycollab.security.PermissionMap;
 public class JSonDeSerializerTest {
 	@Test
 	public void testSerializeArray() {
-		String[][] twoArr = { { "Nguyen", "Hai" }, { "eSoftHead", "MyCollab" } };
+		String[][] twoArr = {{"Nguyen", "Hai"}, {"eSoftHead", "MyCollab"}};
 		String json = JsonDeSerializer.toJson(twoArr);
 
 		String[][] newVal = JsonDeSerializer.fromJson(json, String[][].class);
-		Assert.assertEquals(2, newVal.length);
-		Assert.assertEquals("Nguyen", newVal[0][0]);
+		assertThat(newVal.length).isEqualTo(2);
+		assertThat(newVal[0][0]).isEqualTo("Nguyen");
 
 	}
 
@@ -43,6 +44,6 @@ public class JSonDeSerializerTest {
 
 		PermissionMap permissionMap = JsonDeSerializer.fromJson(json,
 				PermissionMap.class);
-		Assert.assertEquals(new Integer(1), permissionMap.get("a"));
+		assertThat(permissionMap.get("a")).isEqualTo(new Integer(1));
 	}
 }

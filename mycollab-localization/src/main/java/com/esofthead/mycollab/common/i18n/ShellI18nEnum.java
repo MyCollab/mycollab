@@ -36,8 +36,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common_shell")
-@LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
+@BaseName("localization/common-shell")
+@LocaleData({ @Locale("en-US"), @Locale("ja-JP") })
 public enum ShellI18nEnum {
 	BUTTON_IGNORE_RESET_PASSWORD,
 	BUTTON_RESET_PASSWORD,

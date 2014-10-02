@@ -46,7 +46,7 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 	}
 
 	public String getProjectName() {
-		return projectName;
+		return projectName == null ? "" : projectName;
 	}
 
 	public void setProjectName(String projectName) {
@@ -54,7 +54,7 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 	}
 
 	public String getProjectShortName() {
-		return projectShortName;
+		return projectShortName == null ? "" : projectShortName;
 	}
 
 	public void setProjectShortName(String projectShortName) {
@@ -62,7 +62,7 @@ public class SimpleItemTimeLogging extends ItemTimeLogging {
 	}
 
 	public String getSummary() {
-		return summary;
+		return summary == null ? "" : summary;
 	}
 
 	public void setSummary(String summary) {

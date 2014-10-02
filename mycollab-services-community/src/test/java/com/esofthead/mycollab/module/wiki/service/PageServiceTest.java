@@ -16,12 +16,14 @@
  */
 package com.esofthead.mycollab.module.wiki.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.List;
 
 import javax.jcr.RepositoryException;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,9 +63,8 @@ public class PageServiceTest extends ServiceTest {
 	public void testGetWikiPages() {
 		List<Page> pages = wikiService.getPages("1/page",
 				"hainguyen@esofthead.com");
-		Assert.assertEquals(1, pages.size());
-		Page page = pages.get(0);
-		Assert.assertEquals("abc", page.getCategory());
+		assertThat(pages.size()).isEqualTo(1);
+		assertThat(pages.get(0).getCategory()).isEqualTo("abc");
 	}
 
 	private void savePage2() {
@@ -76,6 +77,11 @@ public class PageServiceTest extends ServiceTest {
 		page.setContent("My name is <b>Bao Han</b>");
 		page.setStatus(WikiI18nEnum.status_private.name());
 		wikiService.savePage(page, "hainguyen@esofthead.com");
+
+		assertThat(
+				wikiService.getPage("1/page/document_2",
+						"hainguyen@esofthead.com").getSubject()).isEqualTo(
+				"Hello world 2");
 	}
 
 	@Test
@@ -83,7 +89,10 @@ public class PageServiceTest extends ServiceTest {
 		savePage2();
 		List<Page> pages = wikiService.getPages("1/page",
 				"hainguyen@esofthead.com");
-		Assert.assertEquals(2, pages.size());
+		assertThat(pages.size()).isEqualTo(2);
+		assertThat(pages).extracting("subject", "status").contains(
+				tuple("Hello world", "status_public"),
+				tuple("Hello world 2", "status_private"));
 	}
 
 	@Test
@@ -99,9 +108,8 @@ public class PageServiceTest extends ServiceTest {
 		wikiService.savePage(page, "hainguyen@esofthead.com");
 		List<Page> pages = wikiService.getPages("1/page",
 				"hainguyen@esofthead.com");
-		Assert.assertEquals(1, pages.size());
-		page = pages.get(0);
-		Assert.assertEquals("Hello world 2", page.getSubject());
+		assertThat(pages.size()).isEqualTo(1);
+		assertThat(pages.get(0).getSubject()).isEqualTo("Hello world 2");
 	}
 
 	@Test
@@ -120,15 +128,15 @@ public class PageServiceTest extends ServiceTest {
 
 		List<PageVersion> versions = wikiService
 				.getPageVersions("1/page/document_1");
-		Assert.assertEquals(2, versions.size());
+		assertThat(versions.size()).isEqualTo(2);
 
 		page = wikiService.getPageByVersion("1/page/document_1", "1.0");
-		Assert.assertEquals("Hello world 2", page.getSubject());
+		assertThat(page.getSubject()).isEqualTo("Hello world 2");
 
 		Page restorePage = wikiService.restorePage("1/page/document_1", "1.0");
-		Assert.assertEquals("Hello world 2", restorePage.getSubject());
+		assertThat(restorePage.getSubject()).isEqualTo("Hello world 2");
 		Page page2 = wikiService.getPage("1/page/document_1",
 				"hainguyen@esofthead.com");
-		Assert.assertEquals("Hello world 2", page2.getSubject());
+		assertThat(page2.getSubject()).isEqualTo("Hello world 2");
 	}
 }

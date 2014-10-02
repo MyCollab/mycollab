@@ -443,7 +443,7 @@ public class ItemTimeLogging extends ValuedBean {
      * @mbggenerated Wed Sep 24 11:18:45 ICT 2014
      */
     public String getNote() {
-        return note;
+        return note == null ? "" : note;
     }
 
     /**

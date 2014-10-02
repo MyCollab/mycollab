@@ -30,6 +30,7 @@ import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriter
 import com.esofthead.mycollab.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.ProjectI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.module.project.view.parameters.MilestoneScreenData;
@@ -372,21 +373,26 @@ public class MyProjectListComponent extends Depot {
 											new MilestoneScreenData.Search(null))));
 				}
 			};
-			Button closePhaseBtn = new Button(project.getNumClosedPhase()
-					+ "<small>Closed</small>", goToPhaseListener);
+			Button closePhaseBtn = new Button(String.format(
+					"%d <small>%s</small>", project.getNumClosedPhase(),
+					AppContext.getMessage(MilestoneStatus.Closed)),
+					goToPhaseListener);
 			closePhaseBtn.setHtmlContentAllowed(true);
 			closePhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(closePhaseBtn);
 
-			Button inProgressPhaseBtn = new Button(
-					project.getNumInProgressPhase()
-							+ "<small>In Progress</small>", goToPhaseListener);
+			Button inProgressPhaseBtn = new Button(String.format(
+					"%d <small>%s</small>", project.getNumInProgressPhase(),
+					AppContext.getMessage(MilestoneStatus.InProgress)),
+					goToPhaseListener);
 			inProgressPhaseBtn.setHtmlContentAllowed(true);
 			inProgressPhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(inProgressPhaseBtn);
 
-			Button futurePhaseBtn = new Button(project.getNumFuturePhase()
-					+ "<small>Future</small>", goToPhaseListener);
+			Button futurePhaseBtn = new Button(String.format(
+					"%d <small>%s</small>", project.getNumFuturePhase(),
+					AppContext.getMessage(MilestoneStatus.Future)),
+					goToPhaseListener);
 			futurePhaseBtn.setHtmlContentAllowed(true);
 			futurePhaseBtn.setStyleName("phase-status-btn");
 			phaseStatus.addComponent(futurePhaseBtn);

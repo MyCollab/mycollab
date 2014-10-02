@@ -29,8 +29,8 @@ import ch.qos.cal10n.LocaleData;
 @SuppressWarnings("ucd")
 public class OptionI18nEnum {
 
-	@BaseName("localization/common_generic_status")
-	@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
+	@BaseName("localization/common-generic-status")
+	@LocaleData(value = { @Locale("en-US"), @Locale("ja-JP") }, defaultCharset = "UTF-8")
 	public enum StatusI18nEnum {
 		Open, Closed, Archived, Pending
 	}
