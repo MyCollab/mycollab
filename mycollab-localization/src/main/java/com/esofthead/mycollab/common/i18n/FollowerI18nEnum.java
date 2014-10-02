@@ -20,21 +20,21 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common/follower")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/common_follower")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum FollowerI18nEnum {
 	DIALOG_WATCHERS_TITLE,
-	LABEL_MY_FOLLOWING_TICKETS,
+	
 	BUTTON_BACK_TO_WORKBOARD,
-	FOLLOWER_NAME,
-	FOLLOWER_CREATE_DATE,
-	FORM_PROJECT_NAME,
-	FORM_SUMMARY,
-	
-	OPT_NUM_FOLLOWERS,
-	
 	BUTTON_FOLLOW,
 	BUTTON_UNFOLLOW,
 	
-	SUB_INFO_WATCHERS,
+	FORM_PROJECT_NAME,
+	FORM_SUMMARY,
+	
+	OPT_FOLLOWER_NAME,
+	OPT_FOLLOWER_CREATE_DATE,
+	OPT_MY_FOLLOWING_TICKETS,
+	OPT_NUM_FOLLOWERS,
+	OPT_SUB_INFO_WATCHERS,
 }

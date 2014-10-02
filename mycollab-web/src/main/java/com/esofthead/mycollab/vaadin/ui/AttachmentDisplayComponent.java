@@ -110,8 +110,8 @@ public class AttachmentDisplayComponent extends VerticalLayout {
 						GenericI18Enum.DIALOG_DELETE_TITLE,
 						SiteConfiguration.getSiteName()), AppContext
 						.getMessage(GenericI18Enum.CONFIRM_DELETE_ATTACHMENT),
-						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 

@@ -66,9 +66,9 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
-import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
@@ -308,9 +308,9 @@ public class MessageListViewImpl extends AbstractPageView implements
 							AppContext
 									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_YES),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 
@@ -331,7 +331,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 				}
 			});
 			deleteBtn.setIcon(MyCollabResource
-					.newResource("icons/12/project/icon_x.png"));
+					.newResource(WebResourceIds._12_project_icon_x));
 			deleteBtn.addStyleName("link");
 			deleteBtn.setEnabled(CurrentProjectVariables
 					.canAccess(ProjectRolePermissionCollections.MESSAGES));
@@ -425,7 +425,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 					Alignment.MIDDLE_LEFT);
 
 			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -534,7 +534,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.setComponentAlignment(chkIsStick, Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -549,7 +549,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			controls.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
 			final Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_POST_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_POST),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

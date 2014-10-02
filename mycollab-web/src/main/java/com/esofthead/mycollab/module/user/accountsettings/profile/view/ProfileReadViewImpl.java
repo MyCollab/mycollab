@@ -251,7 +251,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(basicInformationHeader);
 				layout.addComponent(this.basicInformation.getLayout());
 				final Button btnChangeBasicInfo = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -268,7 +268,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(contactInformationHeader);
 				layout.addComponent(this.contactInformation.getLayout());
 				final Button btnChangeContactInfo = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -285,7 +285,7 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 				layout.addComponent(advanceInfoHeader);
 				layout.addComponent(this.advanceInformation.getLayout());
 				final Button btnChangeAdvanceInfo = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 

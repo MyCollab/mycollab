@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -117,7 +118,7 @@ public class TaskGroupDisplayWidget
 
 					});
 			parentTaskListFilterButton.setIcon(MyCollabResource
-					.newResource("icons/12/project/task_filter.png"));
+					.newResource(WebResourceIds._12_project_task_filter));
 
 			taskListFilterControl = new SplitButton(parentTaskListFilterButton);
 			taskListFilterControl.addStyleName(UIConstants.THEME_BLANK_LINK);
@@ -241,7 +242,7 @@ public class TaskGroupDisplayWidget
 			actionBtnLayout.addComponent(readBtn);
 
 			final Button editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -260,7 +261,7 @@ public class TaskGroupDisplayWidget
 			actionBtnLayout.addComponent(editBtn);
 
 			final Button closeBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -292,7 +293,7 @@ public class TaskGroupDisplayWidget
 			actionBtnLayout.addComponent(closeBtn);
 
 			final Button deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -308,9 +309,9 @@ public class TaskGroupDisplayWidget
 									AppContext
 											.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_YES),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_NO),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;
 

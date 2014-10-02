@@ -99,7 +99,7 @@ class TaskAddPopup extends CustomComponent {
 		controlsLayout.setSpacing(true);
 
 		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -115,7 +115,7 @@ class TaskAddPopup extends CustomComponent {
 				.setComponentAlignment(cancelBtn, Alignment.MIDDLE_CENTER);
 
 		final Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

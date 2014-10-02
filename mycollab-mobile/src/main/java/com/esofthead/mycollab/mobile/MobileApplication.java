@@ -98,9 +98,9 @@ public class MobileApplication extends MyCollabUI {
 									AppContext
 											.getMessage(GenericI18Enum.EXCEED_BILLING_PLAN_MSG_FOR_ADMIN),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_YES),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_NO),
 									new ConfirmDialog.CloseListener() {
 										private static final long serialVersionUID = 1L;
 

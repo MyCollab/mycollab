@@ -20,20 +20,20 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/contact")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_contact")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ContactI18nEnum {
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,
-	
+
 	SECTION_INFORMATION,
 	SECTION_ADDRESS,
 	SECTION_DESCRIPTION,
-	
+
 	BUTTON_NEW_CONTACT,
-	
+
 	FORM_DECISION_ROLE,
 	FORM_FIRSTNAME,
 	FORM_LASTNAME,
@@ -51,7 +51,7 @@ public enum ContactI18nEnum {
 	FORM_IS_CALLABLE,
 	FORM_OFFICE_PHONE,
 	FORM_OTHER_PHONE,
-	FORM_LEAD_SOURCE, 
+	FORM_LEAD_SOURCE,
 	FORM_PRIMARY_ADDRESS,
 	FORM_PRIMARY_CITY,
 	FORM_PRIMARY_STATE,
@@ -65,14 +65,14 @@ public enum ContactI18nEnum {
 	FORM_ANY_PHONE,
 	FORM_ANY_EMAIL,
 	FORM_ANY_CITY,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	M_TITLE_SELECT_CONTACTS,
 	M_VIEW_CONTACT_NAME_LOOKUP,
 	M_TITLE_RELATED_CONTACTS

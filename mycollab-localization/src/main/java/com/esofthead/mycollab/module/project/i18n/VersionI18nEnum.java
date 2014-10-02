@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/version")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_version")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum VersionI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
@@ -29,14 +29,14 @@ public enum VersionI18nEnum {
 	VIEW_NEW_TITLE,
 	VIEW_EDIT_TITLE,
 	VIEW_READ_TITLE,
-	
+
 	FORM_NAME,
 	FORM_STATUS,
 	FORM_DUE_DATE,
 	FORM_VERSION_ERROR_MSG,
 
 	TAB_RELATED_BUGS,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,

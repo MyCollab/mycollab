@@ -87,7 +87,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 			final String permissionItem) {
 
 		optionParentBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -103,7 +103,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
 			addBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = 1L;
@@ -124,7 +124,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 			editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = 1L;
@@ -145,7 +145,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
 			deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = 1L;
@@ -166,7 +166,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
 			assignBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -185,7 +185,7 @@ public class ProjectPreviewFormControlsGenerator<T> implements Serializable {
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
 			cloneBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

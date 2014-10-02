@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/breadcrumb")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_breadcrumb")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum BreadcrumbI18nEnum {
 	DASHBOARD,
 	MESSAGES,
@@ -34,12 +34,12 @@ public enum BreadcrumbI18nEnum {
 	BUGS,
 	VERSIONS,
 	COMPONENTS,
-	TIME_TRACKING, 
+	TIME_TRACKING,
 	FILES,
 	STANDUP,
 	USERS,
 	ROLES,
-	
+
 	FRA_MESSAGE_READ,
 	FRA_TASK_DASHBOARD,
 	FRA_TASKGROUP_REORDER,

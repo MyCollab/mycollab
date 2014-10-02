@@ -148,7 +148,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 			headerText.setStyleName("hdr-text");
 
 			Button deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -162,9 +162,9 @@ public class MessageReadViewImpl extends AbstractPageView implements
 									AppContext
 											.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_YES),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_NO),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;
 

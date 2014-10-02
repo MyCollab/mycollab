@@ -394,9 +394,9 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 									AppContext
 											.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_ARCHIVE_MESSAGE),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_YES),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_NO),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;
 
@@ -452,9 +452,9 @@ public class ProjectViewImpl extends AbstractCssPageView implements ProjectView 
 										AppContext
 												.getMessage(ProjectCommonI18nEnum.DIALOG_CONFIRM_PROJECT_DELETE_MESSAGE),
 										AppContext
-												.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+												.getMessage(GenericI18Enum.BUTTON_YES),
 										AppContext
-												.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+												.getMessage(GenericI18Enum.BUTTON_NO),
 										new ConfirmDialog.Listener() {
 											private static final long serialVersionUID = 1L;
 

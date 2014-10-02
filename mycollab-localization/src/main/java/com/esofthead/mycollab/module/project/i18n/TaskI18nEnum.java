@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/task")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_task")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum TaskI18nEnum {
 	BUTTON_NEW_TASKGROUP,
 	BUTTON_NEW_TASK,
@@ -56,18 +56,18 @@ public enum TaskI18nEnum {
 
 	WIDGET_UNRESOLVED_BY_ASSIGNEE_TITLE,
 	WIDGET_UNRESOLVED_BY_PRIORITY_TITLE,
-	
+
 	OPT_UNDEFINED_USER,
 	OPT_FILTER_TASK_BY_ASSIGNEE,
 	OPT_DUE_DATE,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	M_VIEW_LIST_TITLE,
 	M_FORM_READ_TITLE
 }

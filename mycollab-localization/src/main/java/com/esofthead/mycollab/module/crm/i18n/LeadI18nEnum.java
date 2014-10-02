@@ -20,21 +20,21 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/lead")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_lead")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum LeadI18nEnum {
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
 	VIEW_NEW_TITLE,
 	VIEW_LIST_TITLE,
 	VIEW_CONVERTED_LEAD_TITLE,
-	
+
 	WINDOW_CONVERT_LEAD_TITLE,
-	
+
 	SECTION_LEAD_INFORMATION,
 	SECTION_ADDRESS,
 	SECTION_DESCRIPTION,
-	
+
 	BUTTON_NEW_LEAD,
 	BUTTON_CONVERT_LEAD,
 
@@ -69,14 +69,14 @@ public enum LeadI18nEnum {
 	FORM_ANY_CITY,
 	FORM_ANY_EMAIL,
 	FORM_ANY_PHONE,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	M_TITLE_SELECT_LEADS,
 	M_VIEW_LEAD_NAME_LOOKUP,
 	M_TITLE_RELATED_LEADS

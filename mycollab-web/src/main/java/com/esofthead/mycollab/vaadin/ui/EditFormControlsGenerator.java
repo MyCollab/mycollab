@@ -55,7 +55,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 
 		if (isSaveBtnVisible) {
 			final Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -76,7 +76,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 
 		if (isSaveAndNewBtnVisible) {
 			final Button saveAndNewBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_NEW),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -98,7 +98,7 @@ public class EditFormControlsGenerator<T> implements Serializable {
 
 		if (isCancelBtnVisible) {
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

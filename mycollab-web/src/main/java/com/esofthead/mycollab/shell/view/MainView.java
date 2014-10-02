@@ -49,6 +49,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationButton;
 import com.esofthead.mycollab.vaadin.ui.ServiceMenu;
 import com.esofthead.mycollab.vaadin.ui.ThemeManager;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
@@ -257,7 +258,7 @@ public final class MainView extends AbstractPageView {
 
 		serviceMenu.addService(
 				AppContext.getMessage(GenericI18Enum.MODULE_PEOPLE),
-				MyCollabResource.newResource("icons/16/account.png"),
+				MyCollabResource.newResource(WebResourceIds._16_account),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

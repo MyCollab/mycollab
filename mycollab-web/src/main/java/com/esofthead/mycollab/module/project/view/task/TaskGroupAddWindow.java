@@ -142,7 +142,7 @@ public class TaskGroupAddWindow extends Window {
 				layout.setMargin(true);
 				layout.setStyleName("control-buttons");
 				final Button saveBtn = new Button(
-						AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -164,7 +164,7 @@ public class TaskGroupAddWindow extends Window {
 
 				final Button saveAndNewBtn = new Button(
 						AppContext
-								.getMessage(GenericI18Enum.BUTTON_SAVE_NEW_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_SAVE_NEW),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -186,7 +186,7 @@ public class TaskGroupAddWindow extends Window {
 
 				final Button cancelBtn = new Button(
 						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 

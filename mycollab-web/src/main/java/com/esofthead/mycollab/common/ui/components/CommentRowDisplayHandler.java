@@ -39,6 +39,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UrlDetectableLabel;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -121,7 +122,7 @@ public class CommentRowDisplayHandler extends
 		// Message delete button
 		Button msgDeleteBtn = new Button();
 		msgDeleteBtn.setIcon(MyCollabResource
-				.newResource("icons/12/project/icon_x.png"));
+				.newResource(WebResourceIds._12_project_icon_x));
 		msgDeleteBtn.setStyleName("delete-btn");
 		messageHeader.addComponent(msgDeleteBtn);
 
@@ -140,9 +141,9 @@ public class CommentRowDisplayHandler extends
 							AppContext
 									.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_YES),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 

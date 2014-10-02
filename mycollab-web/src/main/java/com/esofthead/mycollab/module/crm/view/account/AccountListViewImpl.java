@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.ui.DefaultGenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -62,22 +63,19 @@ public class AccountListViewImpl extends
 						AccountTableFieldDef.email,
 						AccountTableFieldDef.assignUser));
 
-		accountTableDisplay
-				.addTableListener(new TableClickListener() {
-					private static final long serialVersionUID = 1L;
+		accountTableDisplay.addTableListener(new TableClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void itemClick(final TableClickEvent event) {
-						final SimpleAccount account = (SimpleAccount) event
-								.getData();
-						if ("accountname".equals(event.getFieldName())) {
-							EventBusFactory.getInstance().post(
-									new AccountEvent.GotoRead(
-											AccountListViewImpl.this, account
-													.getId()));
-						}
-					}
-				});
+			@Override
+			public void itemClick(final TableClickEvent event) {
+				final SimpleAccount account = (SimpleAccount) event.getData();
+				if ("accountname".equals(event.getFieldName())) {
+					EventBusFactory.getInstance().post(
+							new AccountEvent.GotoRead(AccountListViewImpl.this,
+									account.getId()));
+				}
+			}
+		});
 		return accountTableDisplay;
 
 	}
@@ -93,9 +91,10 @@ public class AccountListViewImpl extends
 
 		if (AppContext.canAccess(RolePermissionCollections.CRM_ACCOUNT)) {
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
-					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete",
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
+					MyCollabResource
+							.newResource(WebResourceIds._16_action_delete),
+					"delete", AppContext
+							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
@@ -110,13 +109,13 @@ public class AccountListViewImpl extends
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource("icons/16/action/excel.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_excel),
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource("icons/16/action/csv.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_csv),
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

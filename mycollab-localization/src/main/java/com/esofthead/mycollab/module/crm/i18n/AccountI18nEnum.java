@@ -20,20 +20,20 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/account")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_account")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum AccountI18nEnum {
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,
-	
+
 	BUTTON_NEW_ACCOUNT,
-	
+
 	SECTION_ACCOUNT_INFORMATION,
 	SECTION_ADDRESS_INFORMATION,
 	SECTION_DESCRIPTION,
-	
+
 	FORM_ACCOUNT_NAME,
 	FORM_WEBSITE,
 	FORM_FAX,
@@ -58,16 +58,16 @@ public enum AccountI18nEnum {
 	FORM_COPY_ADDRESS,
 	FORM_ANY_PHONE,
 	FORM_ANY_CITY,
-	
+
 	ERROR_ACCOUNT_NAME_IS_NULL,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	M_TITLE_SELECT_ACCOUNTS,
 	M_VIEW_ACCOUNT_NAME_LOOKUP,
 	M_TITLE_RELATED_ACCOUNTS

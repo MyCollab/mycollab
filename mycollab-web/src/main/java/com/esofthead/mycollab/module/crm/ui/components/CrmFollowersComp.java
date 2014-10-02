@@ -96,13 +96,13 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 		HorizontalLayout header = new HorizontalLayout();
 		header.setSpacing(true);
 		Label followerHeader = new Label(
-				AppContext.getMessage(FollowerI18nEnum.SUB_INFO_WATCHERS));
+				AppContext.getMessage(FollowerI18nEnum.OPT_SUB_INFO_WATCHERS));
 		followerHeader.setStyleName("info-hdr");
 		header.addComponent(followerHeader);
 
 		if (hasEditPermission()) {
 			Button editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -318,10 +318,10 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 							.getSpringBean(MonitorItemService.class),
 					SimpleMonitorItem.class,
 					Arrays.asList(
-							new TableViewField(FollowerI18nEnum.FOLLOWER_NAME,
+							new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME,
 									"user", UIConstants.TABLE_EX_LABEL_WIDTH),
 							new TableViewField(
-									FollowerI18nEnum.FOLLOWER_CREATE_DATE,
+									FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
 									"monitorDate", UIConstants.TABLE_DATE_WIDTH),
 							new TableViewField(null, "id",
 									UIConstants.TABLE_CONTROL_WIDTH)));

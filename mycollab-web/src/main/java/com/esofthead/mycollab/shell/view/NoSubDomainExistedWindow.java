@@ -51,11 +51,11 @@ public class NoSubDomainExistedWindow extends VerticalLayout {
 
 			final VerticalLayout warningContent = new VerticalLayout();
 			final Label warningMsg = new Label(AppContext.getMessage(
-					ShellI18nEnum.NO_SUB_DOMAIN_ERROR, domain));
+					ShellI18nEnum.ERROR_NO_SUB_DOMAIN, domain));
 			warningContent.addComponent(warningMsg);
 
 			final Button backToHome = new Button(
-					AppContext.getMessage(ShellI18nEnum.BACK_TO_HOME_PAGE),
+					AppContext.getMessage(ShellI18nEnum.BUTTON_BACK_TO_HOME_PAGE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

@@ -49,6 +49,7 @@ import com.esofthead.mycollab.vaadin.ui.ConfirmDialogExt;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -153,7 +154,7 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 		VerticalLayout memberInfo = new VerticalLayout();
 
 		Image btnDelete = new Image(null,
-				MyCollabResource.newResource("icons/12/project/icon_x.png"));
+				MyCollabResource.newResource(WebResourceIds._12_project_icon_x));
 		btnDelete.addClickListener(new MouseEvents.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -166,8 +167,8 @@ public class ProjectMemberListViewImpl extends AbstractPageView implements
 								SiteConfiguration.getSiteName()),
 						AppContext
 								.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 						new ConfirmDialog.Listener() {
 							private static final long serialVersionUID = 1L;
 

@@ -225,7 +225,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -244,7 +244,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -277,7 +277,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 			this.bugWorkflowControl.removeAllComponents();
 			final ButtonGroup navButton = new ButtonGroup();
 			final Button reopenBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -393,7 +393,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 						ProjectRolePermissionCollections.BUGS);
 
 		final Button assignBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

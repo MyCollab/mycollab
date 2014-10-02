@@ -74,7 +74,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 			editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT));
 			editBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -91,7 +91,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
 			deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -108,7 +108,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
 			cloneBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE));
 			cloneBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -125,7 +125,7 @@ public class ProjectPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & ASSIGN_BTN_PRESENTED) == ASSIGN_BTN_PRESENTED) {
 			assignBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_ASSIGN));
 			assignBtn.addClickListener(new Button.ClickListener() {
 
 				private static final long serialVersionUID = 6882405297466892069L;

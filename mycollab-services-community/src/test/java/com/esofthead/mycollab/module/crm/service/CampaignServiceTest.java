@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
+import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
 import com.esofthead.mycollab.module.crm.domain.criteria.CampaignSearchCriteria;
@@ -49,13 +50,9 @@ public class CampaignServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
-		assertThat(campaigns.size()).isEqualTo(10);
+		assertThat(campaigns.size()).isEqualTo(2);
 		assertThat(campaigns).extracting("id", "campaignname", "status")
-				.contains(tuple(1, "AAA", "a"), tuple(2, "BBB", "b"),
-						tuple(3, "CCC", "c"), tuple(4, "DDD", "d"),
-						tuple(5, "EEE", "e"), tuple(6, "FFF", "f"),
-						tuple(7, "GGG", "g"), tuple(8, "HHH", "h"),
-						tuple(9, "III", "i"), tuple(10, "JJJ", "j"));
+				.contains(tuple(1, "AAA", "a"), tuple(2, "ABB", "b"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,13 +63,20 @@ public class CampaignServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<CampaignSearchCriteria>(
 						getCriteria(), 0, Integer.MAX_VALUE));
 
-		assertThat(campaigns.size()).isEqualTo(10);
+		assertThat(campaigns.size()).isEqualTo(2);
 	}
 
 	private CampaignSearchCriteria getCriteria() {
 		CampaignSearchCriteria criteria = new CampaignSearchCriteria();
 		criteria.setAssignUser(new StringSearchField(SearchField.AND, "hai79"));
+		criteria.setCampaignName(new StringSearchField(SearchField.AND, "A"));
 		criteria.setSaccountid(new NumberSearchField(SearchField.AND, 1));
+		criteria.setAssignUsers(new SetSearchField<String>(SearchField.AND,
+				new String[]{"hai79", "linh"}));
+		criteria.setStatuses(new SetSearchField<String>(SearchField.AND,
+				new String[]{"a", "b"}));
+		criteria.setTypes(new SetSearchField<String>(SearchField.AND,
+				new String[]{"a", "b"}));
 		return criteria;
 	}
 }

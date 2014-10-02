@@ -266,7 +266,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		selectionLayout.addComponent(this.userField, 7, 0, 7, 1);
 
 		final Button queryBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SUBMIT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

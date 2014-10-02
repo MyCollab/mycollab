@@ -26,11 +26,11 @@ import ch.qos.cal10n.LocaleData;
  * @since 4.1.1
  * 
  */
-@BaseName("localization/common/day")
+@BaseName("localization/common_day")
 @LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum DayI18nEnum {
 	LAST_UPDATED_ON,
-	
+
 	TIME_FORMAT,
 	HOUR_SUFFIX,
 	HOUR_PLURAL_SUFFIX,

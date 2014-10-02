@@ -78,7 +78,7 @@ public class PreviewFormControlsGenerator<B> {
 		editButtons.setSpacing(true);
 
 		editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -94,7 +94,7 @@ public class PreviewFormControlsGenerator<B> {
 		popupButtonsControl.addComponent(editBtn);
 
 		deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -110,7 +110,7 @@ public class PreviewFormControlsGenerator<B> {
 		editButtons.setComponentAlignment(deleteBtn, Alignment.MIDDLE_CENTER);
 
 		cloneBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -20,20 +20,20 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/opportunity")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_opportunity")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum OpportunityI18nEnum {
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
-	
+
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,
-	
+
 	SECTION_OPPORTUNITY_INFORMATION,
 	SECTION_DESCRIPTION,
-	
+
 	BUTTON_NEW_OPPORTUNITY,
-	
+
 	FORM_AMOUNT,
 	FORM_SALE_STAGE,
 	FORM_EXPECTED_CLOSE_DATE,
@@ -46,14 +46,14 @@ public enum OpportunityI18nEnum {
 	FORM_LEAD_SOURCE,
 	FORM_CAMPAIGN_NAME,
 	FORM_NEXT_STEP,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	M_TITLE_SELECT_OPPORTUNITIES,
 	M_VIEW_OPPORTUNITY_NAME_LOOKUP,
 	M_TITLE_RELATED_OPPORTUNITIES

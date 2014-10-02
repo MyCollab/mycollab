@@ -188,7 +188,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 		// Alignment.MIDDLE_LEFT);
 		//
 		// this.btnAdd = new Button(
-		// AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+		// AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 		// new Button.ClickListener() {
 		// private static final long serialVersionUID = 1L;
 		//
@@ -418,7 +418,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 			buttonLayout.setWidth("100%");
 
 			this.btnAdd = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -448,7 +448,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 			this.btnAdd.setStyleName("add-btn");
 
 			Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = -5815617874202220414L;
@@ -545,7 +545,7 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 			this.btnAdd.setStyleName("add-btn");
 
 			Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 
 						private static final long serialVersionUID = -4046714950287134902L;

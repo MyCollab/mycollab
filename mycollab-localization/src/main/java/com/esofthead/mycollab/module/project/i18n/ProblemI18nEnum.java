@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/problem")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_problem")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProblemI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
@@ -29,9 +29,9 @@ public enum ProblemI18nEnum {
 	VIEW_READ_TITLE,
 	VIEW_NEW_TITLE,
 	VIEW_EDIT_TITLE,
-	
+
 	BUTTON_NEW_PROBLEM,
-	
+
 	FORM_NAME,
 	FORM_RAISED_BY,
 	FORM_DATE_DUE,
@@ -41,7 +41,7 @@ public enum ProblemI18nEnum {
 	FORM_RATING,
 	FORM_RELATED,
 	FORM_RESOLUTION,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,

@@ -262,7 +262,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 				Alignment.MIDDLE_LEFT);
 
 		TimeLogEditWindow.this.btnAdd = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

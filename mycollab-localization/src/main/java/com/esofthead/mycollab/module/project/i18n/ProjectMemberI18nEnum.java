@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/people")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_people")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProjectMemberI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_READ_TITLE,
@@ -34,21 +34,21 @@ public enum ProjectMemberI18nEnum {
 	FORM_MESSAGE,
 	FORM_INVITEES_EMAIL,
 	FORM_INFORMATION_SECTION,
-	
+
 	BUTTON_NEW_INVITEE,
 	BUTTON_NEW_INVITEES,
 	BUTTON_NEW_ROLE,
 	BUTTON_RESEND_INVITATION,
-	
+
 	CAN_NOT_DELETE_ROLE_MESSAGE,
 	WAITING_ACCEPT_INVITATION,
 	SENDING_EMAIL_INVITATION,
 	USER_TOKEN_INVITE_HINT,
 	ERROR_EMPTY_EMAILS_OF_USERS_TO_INVITE_MESSAGE,
 	MSG_DEFAULT_INVITATION_COMMENT,
-	
+
 	MAIL_INVITE_USERS_SUBJECT,
-	
+
 	OPT_MEMBER_JOIN_DATE,
 	M_VIEW_MEMBER_LOOKUP
 }

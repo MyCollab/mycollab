@@ -20,18 +20,16 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/accountsettings/billing")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/account_billing")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum BillingI18nEnum {
 	VIEW_CHANGE_BILLING_PLAN_TITLE,
-	
+
 	BUTTON_CANCEL_ACCOUNT,
-	
-	HELP_QUESTION,
-	HELP_INFO,
-	
+
+	HELP_QUESTION, HELP_INFO,
+
 	FORM_BILLING_PRICE,
-	
-	QUESTION_CHANGE_PLAN,
-	OPT_CANNOT_CHANGE_PLAN
+
+	QUESTION_CHANGE_PLAN, OPT_CANNOT_CHANGE_PLAN
 }

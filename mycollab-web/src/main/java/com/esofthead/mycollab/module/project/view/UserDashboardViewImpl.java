@@ -139,7 +139,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		final HorizontalLayout headerContentBottom = new HorizontalLayout();
 		headerContentBottom.setSpacing(true);
 		followingTicketsLink = new ButtonLink(AppContext.getMessage(
-				FollowerI18nEnum.LABEL_MY_FOLLOWING_TICKETS, 0));
+				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS, 0));
 
 		followingTicketsLink.setIcon(MyCollabResource
 				.newResource("icons/16/follow.png"));
@@ -237,7 +237,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 				.getSpringBean(MonitorItemService.class);
 		int followingItemsCount = monitorService.getTotalCount(searchCriteria);
 		followingTicketsLink.setCaption(AppContext.getMessage(
-				FollowerI18nEnum.LABEL_MY_FOLLOWING_TICKETS,
+				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
 				followingItemsCount));
 	}
 }

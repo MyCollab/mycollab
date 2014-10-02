@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.module.tracker.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -45,14 +48,19 @@ public class BugServiceTest extends ServiceTest {
 	@Autowired
 	protected BugService bugService;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unchecked")
 	@DataSet
 	@Test
 	public void testGetListBugs() {
-		List bugs = bugService
+		List<SimpleBug> bugs = bugService
 				.findPagableListByCriteria(new SearchRequest<BugSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
-		Assert.assertEquals(3, bugs.size());
+
+		assertThat(bugs.size()).isEqualTo(3);
+		assertThat(bugs).extracting("id", "detail", "summary").contains(
+				tuple(1, "detail 1", "summary 1"),
+				tuple(2, "detail 2", "summary 2"),
+				tuple(3, "detail 3", "summary 3"));
 	}
 
 	@DataSet

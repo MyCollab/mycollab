@@ -26,8 +26,8 @@ import ch.qos.cal10n.LocaleData;
  * @since 1.0
  * 
  */
-@BaseName("localization/project/prj_type")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_type")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProjectTypeI18nEnum {
 	PROJECT_ITEM,
 	MESSAGE_ITEM,

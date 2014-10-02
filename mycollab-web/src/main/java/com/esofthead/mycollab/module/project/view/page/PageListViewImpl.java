@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.SortButton;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.google.common.collect.Ordering;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MarginInfo;
@@ -332,7 +333,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		controlBtns.setSpacing(true);
 		controlBtns.setStyleName("control-btns");
 		Button editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 				new Button.ClickListener() {
 
 					private static final long serialVersionUID = -5387015552598157076L;
@@ -344,14 +345,14 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 					}
 				});
 		editBtn.setIcon(MyCollabResource
-				.newResource("icons/12/project/edit.png"));
+				.newResource(WebResourceIds._12_project_edit));
 		editBtn.setStyleName("link");
 		editBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
 		controlBtns.addComponent(editBtn);
 
 		Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 				new Button.ClickListener() {
 
 					private static final long serialVersionUID = -5387015552598157076L;
@@ -366,9 +367,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 								AppContext
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+										.getMessage(GenericI18Enum.BUTTON_YES),
 								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+										.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -390,7 +391,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		deleteBtn.setEnabled(CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.PAGES));
 		deleteBtn.setIcon(MyCollabResource
-				.newResource("icons/12/project/delete.png"));
+				.newResource(WebResourceIds._12_project_delete));
 		deleteBtn.setStyleName("link");
 		controlBtns.addComponent(deleteBtn);
 
@@ -453,7 +454,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		controlBtns.setSpacing(true);
 		controlBtns.setStyleName("control-btns");
 		Button editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 				new Button.ClickListener() {
 
 					private static final long serialVersionUID = -5387015552598157076L;
@@ -468,12 +469,12 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		editBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.PAGES));
 		editBtn.setIcon(MyCollabResource
-				.newResource("icons/12/project/edit.png"));
+				.newResource(WebResourceIds._12_project_edit));
 		editBtn.setStyleName("link");
 		controlBtns.addComponent(editBtn);
 
 		Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 				new Button.ClickListener() {
 
 					private static final long serialVersionUID = 2575434171770462361L;
@@ -488,9 +489,9 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 								AppContext
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
-										.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+										.getMessage(GenericI18Enum.BUTTON_YES),
 								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+										.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -512,7 +513,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 		deleteBtn.setEnabled(CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.PAGES));
 		deleteBtn.setIcon(MyCollabResource
-				.newResource("icons/12/project/delete.png"));
+				.newResource(WebResourceIds._12_project_delete));
 		deleteBtn.setStyleName("link");
 		controlBtns.addComponent(deleteBtn);
 
@@ -602,7 +603,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 					final Button cancelBtn = new Button(
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_CANCEL),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 
@@ -619,7 +620,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 
 					final Button saveBtn = new Button(
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_SAVE),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 

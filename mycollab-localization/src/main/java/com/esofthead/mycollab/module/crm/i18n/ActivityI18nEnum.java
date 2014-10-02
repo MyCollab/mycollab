@@ -20,8 +20,13 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/activity")
+@BaseName("localization/crm_activity")
 @LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ActivityI18nEnum {
-	TAB_CALENDAR_TITLE, TAB_ACTIVITY_TITLE, FORM_SUBJECT, FORM_STATUS, M_TITLE_RELATED_ACTIVITIES, M_VIEW_LIST_TITLE
+	TAB_CALENDAR_TITLE,
+	TAB_ACTIVITY_TITLE,
+	FORM_SUBJECT,
+	FORM_STATUS,
+	M_TITLE_RELATED_ACTIVITIES,
+	M_VIEW_LIST_TITLE
 }

@@ -113,7 +113,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setSizeUndefined();
 
 		Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 
 					@Override
@@ -128,7 +128,7 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 		controlBtns.setComponentAlignment(cancelBtn, Alignment.MIDDLE_LEFT);
 
 		Button acceptBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ACCEPT),
 				new Button.ClickListener() {
 
 					@Override

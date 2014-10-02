@@ -16,11 +16,11 @@
         type="b" assignUser="hai79" budget="12.1" expectedCost="2"
         sAccountId="1" startDate="2011-11-01 00:00:00" endDate="2011-11-05 00:00:00" />
 
-    <m_crm_campaign id="2" campaignName="BBB" status="b"
+    <m_crm_campaign id="2" campaignName="ABB" status="b"
         type="b" assignUser="hai79" budget="12.1" expectedCost="2"
         sAccountId="1" startDate="2012-11-01 00:00:00" endDate="2012-11-05 00:00:00" />
 
-    <m_crm_campaign id="3" campaignName="CCC" status="c"
+    <m_crm_campaign id="3" campaignName="ACC" status="c"
         type="b" assignUser="hai79" budget="12.1" expectedCost="2"
         sAccountId="1" startDate="2012-11-20 00:00:00" endDate="2012-11-25 00:00:00" />
 

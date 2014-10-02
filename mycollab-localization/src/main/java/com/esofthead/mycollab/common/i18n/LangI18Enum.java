@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common/lang")
+@BaseName("localization/common_lang")
 @LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum LangI18Enum {
-	en_US, es_ES, ja_JP, zh_CN, fr_FR,de_DE,it_IT,ko_KR
+	en_US, es_ES, ja_JP, zh_CN, fr_FR, de_DE, it_IT, ko_KR
 }

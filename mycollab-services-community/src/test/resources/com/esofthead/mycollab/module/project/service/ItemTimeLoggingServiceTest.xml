@@ -1,0 +1,52 @@
+<!DOCTYPE dataset PUBLIC "-//MyCollab/MyCollab Database Schema//EN" "http://www.mycollab.com/mycollab.dtd">
+<dataset>
+
+	<s_account id="1" createdTime="2013-04-10 13:29:23"
+		paymentMethod="Credit Card" status="Active" />
+
+	<m_prj_project id="1" name="a" sAccountId="1" shortname="aaa"
+		projectStatus="Open" />
+
+	<s_user firstname="Hai" lastname="Nguyen" username="hai79"
+		email="hainguyen@esofthead.com" />
+
+	<s_user firstname="Nghiem" lastname="Le" username="nghiemle"
+		email="nghiemle@esofthead.com" />
+
+	<m_prj_task sAccountId="1" projectid="1" id="1"
+		percentagecomplete="40" taskname="task1" taskkey="1" />
+
+	<m_prj_problem id="1" description="aaa" issuename="problem a"
+		projectid="1" status="Open" sAccountId="1" datedue="2013-01-23 10:49:49" />
+
+	<m_prj_risk id="1" description="aaa" riskname="b" projectid="1"
+		sAccountId="1" datedue="2013-05-30 15:01:52" />
+
+	<m_tracker_bug summary="summary 2" id="1" projectid="1"
+		detail="detail 1" status="1" resolution="1" assignuser="nghiemle"
+		logby="nghiemle" createdTime="2009-01-01 00:00:00" sAccountId="1"
+		duedate="2015-05-30 15:01:52" />
+
+	<m_prj_time_logging id="1" loguser="nghiemle"
+		sAccountId="1" isBillable="true" typeid="1" projectId="1"
+		createdTime="2014-05-10 13:29:23" logForDay="2014-05-10 13:29:23"
+		lastUpdatedTime="2014-05-10 13:29:23" summary="summary 1" type="Project-Task"
+		logValue="1" />
+
+	<m_prj_time_logging id="2" loguser="nghiemle"
+		sAccountId="1" isBillable="false" typeid="1" projectId="1"
+		createdTime="2014-06-10 13:29:23" logForDay="2014-06-10 13:29:23"
+		lastUpdatedTime="2014-06-10 13:29:23" summary="summary 2" type="Project-Bug"
+		logValue="2" />
+
+	<m_prj_time_logging id="3" loguser="hai79" typeid="1"
+		sAccountId="1" isBillable="true" projectId="1" createdTime="2014-04-15 13:29:23"
+		logForDay="2014-04-15 13:29:23" lastUpdatedTime="2014-04-15 13:29:23"
+		summary="summary 3" type="Project-Risk" logValue="3" />
+
+	<m_prj_time_logging id="4" loguser="hai79" typeid="1"
+		sAccountId="1" isBillable="false" projectId="1" createdTime="2014-04-19 13:29:23"
+		logForDay="2014-04-19 13:29:23" lastUpdatedTime="2014-04-19 13:29:23"
+		summary="summary 4" type="Project-Problem" logValue="4" />
+
+</dataset>

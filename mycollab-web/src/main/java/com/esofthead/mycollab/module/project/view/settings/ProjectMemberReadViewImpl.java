@@ -70,6 +70,7 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.shared.ui.MarginInfo;
@@ -195,7 +196,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		return tabContainer;
 	}
 
-	protected void initRelatedComponents() {
+	private void initRelatedComponents() {
 		userActivityComp = new UserActivityStream();
 		userTaskComp = new UserTaskComp();
 		userBugComp = new UserBugComp();
@@ -203,7 +204,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 
 	}
 
-	protected void onPreviewItem() {
+	private void onPreviewItem() {
 		userActivityComp.displayActivityStream();
 		userTaskComp.displayActiveTasksOnly();
 		userBugComp.displayOpenBugs();
@@ -451,7 +452,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			this.taskListFilterControl
 					.addStyleName(UIConstants.THEME_BLANK_LINK);
 			this.taskListFilterControl.setIcon(MyCollabResource
-					.newResource("icons/12/project/task_filter.png"));
+					.newResource(WebResourceIds._12_project_task_filter));
 			final VerticalLayout filterBtnLayout = new VerticalLayout();
 			filterBtnLayout.setMargin(true);
 			filterBtnLayout.setSpacing(true);
@@ -612,7 +613,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 			this.bugActionControl = new PopupButton("");
 			this.bugActionControl.addStyleName(UIConstants.THEME_BLANK_LINK);
 			this.bugActionControl.setIcon(MyCollabResource
-					.newResource("icons/12/project/task_filter.png"));
+					.newResource(WebResourceIds._12_project_task_filter));
 			headerLayout.addComponent(this.bugActionControl);
 
 			final VerticalLayout actionBtnLayout = new VerticalLayout();

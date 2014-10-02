@@ -111,7 +111,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_ADD_LABEL)));
+				.getMessage(GenericI18Enum.BUTTON_ADD)));
 		AppContext.addFragment("account/user/add", "Invite New User");
 	}
 
@@ -134,7 +134,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				}));
 		this.setLinkEnabled(true, 2);
 		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL)));
+				.getMessage(GenericI18Enum.BUTTON_EDIT)));
 		AppContext.addFragment(
 				"account/user/edit/"
 						+ UrlEncodeDecoder.encode(user.getUsername()),
@@ -174,7 +174,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				new GotoRoleListListener()));
 		this.setLinkEnabled(true, 1);
 		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_ADD_LABEL)));
+				.getMessage(GenericI18Enum.BUTTON_ADD)));
 		AppContext.addFragment("account/role/add", "New Role");
 	}
 
@@ -211,7 +211,7 @@ public class AccountSettingBreadcrumb extends Breadcrumb implements
 				}));
 		this.setLinkEnabled(true, 2);
 		this.addLink(new Button(AppContext
-				.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL)));
+				.getMessage(GenericI18Enum.BUTTON_EDIT)));
 		AppContext.addFragment(
 				"account/role/edit/" + UrlEncodeDecoder.encode(role.getId()),
 				"Edit Role: " + role.getRolename());

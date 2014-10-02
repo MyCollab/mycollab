@@ -147,7 +147,7 @@ public class ProjectAddWindow extends Window {
 			buttonControls.setStyleName("addNewControl");
 
 			final Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -181,7 +181,7 @@ public class ProjectAddWindow extends Window {
 					Alignment.MIDDLE_CENTER);
 
 			final Button closeBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

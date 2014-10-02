@@ -51,11 +51,10 @@ public class GenericTaskServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						null, 0, Integer.MAX_VALUE));
 		assertThat(tasks.size()).isEqualTo(4);
-		assertThat(tasks).extracting("type", "name")
-				.contains(tuple("Project-Problem", "a"),
-						tuple("Project-Problem", "problem a"),
-						tuple("Project-Risk", "b"),
-						tuple("Project-Bug", "summary 1"));
+		assertThat(tasks).extracting("type", "name").contains(
+				tuple("Project-Problem", "a"),
+				tuple("Project-Problem", "problem a"),
+				tuple("Project-Risk", "b"), tuple("Project-Bug", "summary 1"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,6 +72,9 @@ public class GenericTaskServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 		assertThat(tasks.size()).isEqualTo(2);
+		assertThat(tasks).extracting("type", "name").contains(
+				tuple("Project-Problem", "problem a"),
+				tuple("Project-Risk", "b"));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,10 +92,9 @@ public class GenericTaskServiceTest extends ServiceTest {
 				.findPagableListByCriteria(new SearchRequest<ProjectGenericTaskSearchCriteria>(
 						criteria, 0, Integer.MAX_VALUE));
 
-		ProjectGenericTask task = taskList.get(0);
 		assertThat(taskList.size()).isEqualTo(2);
-
-		Date d2 = df.parse("2013-01-23 10:49:49");
-		assertThat(task.getDueDate()).isEqualTo(d2);
+		assertThat(taskList).extracting("type", "name").contains(
+				tuple("Project-Problem", "problem a"),
+				tuple("Project-Risk", "b"));
 	}
 }

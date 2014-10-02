@@ -50,11 +50,11 @@ public abstract class AbstractMobileMainView extends VerticalLayout implements
 	private static final long serialVersionUID = 1L;
 
 	public static String SAVE_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL);
+			.getMessage(GenericI18Enum.BUTTON_SAVE);
 	public static String SAVE_AND_NEW_ACTION = "Save & New";
 	public static String EDIT_ACTION = "Edit";
 	public static String CANCEL_ACTION = AppContext
-			.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL);
+			.getMessage(GenericI18Enum.BUTTON_CANCEL);
 	public static String DELETE_ACTION = "Delete";
 	public static String CLONE_ACTION = "Clone";
 	protected ViewState viewState;

@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/crm")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_common")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum CrmCommonI18nEnum {
 	WIDGET_ACTIVITY_CREATE_ACTION,
 	WIDGET_ACTIVITY_UPDATE_ACTION,
@@ -63,8 +63,8 @@ public enum CrmCommonI18nEnum {
 	TAB_LEAD,
 	TAB_OPPORTUNITY,
 	TAB_NOTE,
-	
+
 	EXT_ADDED_NOTED,
-	
+
 	M_TITLE_RELATED_NOTES
 }

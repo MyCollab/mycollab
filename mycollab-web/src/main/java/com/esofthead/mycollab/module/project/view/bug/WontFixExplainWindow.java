@@ -120,7 +120,7 @@ class WontFixExplainWindow extends Window {
 
 				final Button cancelBtn = new Button(
 						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							@Override
 							public void buttonClick(final ClickEvent event) {

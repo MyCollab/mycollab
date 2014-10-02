@@ -52,7 +52,7 @@ public class AccountLeadSelectionWindow extends
 						LeadTableFieldDef.email, LeadTableFieldDef.phoneoffice));
 
 		Button selectBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SELECT_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SELECT),
 				new Button.ClickListener() {
 
 					@Override

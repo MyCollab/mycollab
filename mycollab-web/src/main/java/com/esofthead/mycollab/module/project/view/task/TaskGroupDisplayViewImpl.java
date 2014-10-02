@@ -490,7 +490,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		control.setMargin(new MarginInfo(true, false, true, false));
 
 		final Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.addClickListener(new Button.ClickListener() {

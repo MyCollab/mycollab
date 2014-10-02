@@ -310,6 +310,13 @@
             <artifactId>ckeditor-wrapper-for-vaadin</artifactId>
             <version>7.9.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javawriter</artifactId>
+            <version>2.5.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <repositories>

@@ -81,6 +81,10 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 		return this.totalCount;
 	}
 
+	public void setDisplayNumItems(int value) {
+		this.displayNumItems = value;
+	}
+
 	@Override
 	public List<B> getCurrentDataList() {
 		return currentListData;
@@ -88,6 +92,7 @@ public abstract class AbstractPagedBeanList<S extends SearchCriteria, B>
 
 	@Override
 	public void setSearchCriteria(final S searchCriteria) {
+		this.currentPage = 1;
 		this.searchRequest = new SearchRequest<S>(searchCriteria,
 				this.currentPage, this.displayNumItems);
 		this.doSearch();

@@ -57,9 +57,9 @@ public abstract class DefaultMassEditActionHandler implements
 							AppContext
 									.getMessage(GenericI18Enum.DIALOG_DELETE_MULTIPLE_ITEMS_MESSAGE),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_YES),
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_NO),
 							new ConfirmDialog.Listener() {
 								private static final long serialVersionUID = 1L;
 

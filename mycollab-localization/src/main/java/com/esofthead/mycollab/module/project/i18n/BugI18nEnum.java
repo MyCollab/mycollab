@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/bug")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_bug")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum BugI18nEnum {
 	BUTTON_RESOLVED,
 	BUTTON_WONT_FIX,
@@ -32,9 +32,9 @@ public enum BugI18nEnum {
 	BUTTON_NEW_BUG,
 	BUTTON_NEW_COMPONENT,
 	BUTTON_NEW_VERSION,
-	
+
 	ERROR_WONT_FIX_EXPLAIN_REQUIRE_MSG,
-	
+
 	WIDGET_RECENT_BUGS_TITLE,
 	WIDGET_MY_BUGS_TITLE,
 	WIDGET_MY_OPEN_BUGS_TITLE,
@@ -46,13 +46,13 @@ public enum BugI18nEnum {
 	WIDGET_CHART_RESOLUTION_TITLE,
 	WIDGET_CHART_STATUS_TITLE,
 	WIDGET_CHART_PRIORIY_TITLE,
-	
+
 	VIEW_BUG_DASHBOARD_TITLE,
 	VIEW_READ_TITLE,
 	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
-	
+
 	FORM_READ_TITLE,
 	FORM_NEW_BUG_TITLE,
 	FORM_EDIT_BUG_TITLE,
@@ -75,11 +75,11 @@ public enum BugI18nEnum {
 	FORM_COMMENT,
 	FORM_RESOLVED_DATE,
 	FORM_ANY_TEXT,
-	
+
 	RELATED_BUG_NAME,
 	RELATED_BUG_TYPE,
 	RELATED_BUG_COMMENT,
-	
+
 	TAB_DASHBOARD,
 	TAB_BUG,
 	TAB_COMPONENT,
@@ -87,14 +87,14 @@ public enum BugI18nEnum {
 	TAB_RELATED_BUGS,
 	TAB_TIME,
 	TAB_FOLLOWERS,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
-	
+
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	OPT_UNDEFINED_USER
 }

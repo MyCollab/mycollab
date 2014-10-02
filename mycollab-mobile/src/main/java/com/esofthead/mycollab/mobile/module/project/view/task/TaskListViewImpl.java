@@ -118,7 +118,7 @@ public class TaskListViewImpl extends
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 
 		Button closeBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

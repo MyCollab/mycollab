@@ -33,6 +33,7 @@ import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.GenericSearchPanel;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 
 /**
@@ -86,9 +87,10 @@ public class ActivityListViewImpl extends
 				|| AppContext.canAccess(RolePermissionCollections.CRM_TASK)) {
 
 			container.addActionItem(MassItemActionHandler.DELETE_ACTION,
-					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete",
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
+					MyCollabResource
+							.newResource(WebResourceIds._16_action_delete),
+					"delete", AppContext
+							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
@@ -103,13 +105,13 @@ public class ActivityListViewImpl extends
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource("icons/16/action/excel.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_excel),
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource("icons/16/action/csv.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_csv),
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

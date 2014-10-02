@@ -220,7 +220,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		ButtonGroup navButton = new ButtonGroup();
 		navButton.addStyleName(UIConstants.THEME_BROWN_LINK);
 		Button createBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -311,7 +311,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		navButton.addButton(moveToBtn);
 
 		Button deleteBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -364,8 +364,8 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				GenericI18Enum.DIALOG_DELETE_TITLE,
 				SiteConfiguration.getSiteName()), AppContext
 				.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-				AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL),
-				AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_YES),
+				AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 				new ConfirmDialog.Listener() {
 					private static final long serialVersionUID = 1L;
 
@@ -698,7 +698,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			filterBtnLayout.addComponent(moveBtn);
 
 			final Button deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -771,7 +771,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			final HorizontalLayout controlButtons = new HorizontalLayout();
 			controlButtons.setSpacing(true);
 			final Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -806,7 +806,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 					Alignment.MIDDLE_CENTER);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -862,7 +862,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			controlsLayout.setMargin(new MarginInfo(true, false, false, false));
 
 			final Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -905,7 +905,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			controlsLayout.addComponent(saveBtn);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -1022,7 +1022,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			controlsLayout.addComponent(uploadBtn);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

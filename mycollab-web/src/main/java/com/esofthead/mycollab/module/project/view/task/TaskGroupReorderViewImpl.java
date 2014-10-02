@@ -102,7 +102,7 @@ public class TaskGroupReorderViewImpl extends AbstractPageView implements
 		header.setComponentAlignment(backToListBtn, Alignment.MIDDLE_RIGHT);
 
 		saveOrderBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

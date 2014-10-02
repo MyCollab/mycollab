@@ -91,11 +91,11 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 	protected void afterPreviewItem() {
 		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
 			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
+					.getMessage(GenericI18Enum.BUTTON_CLOSE));
 			this.removeStyleName(UIConstants.STATUS_DISABLED);
 		} else {
 			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
+					.getMessage(GenericI18Enum.BUTTON_REOPEN));
 			this.addStyleName(UIConstants.STATUS_DISABLED);
 		}
 		associateComments.loadComments("" + beanItem.getId());
@@ -157,14 +157,14 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 					TaskReadViewImpl.this
 							.removeStyleName(UIConstants.STATUS_DISABLED);
 					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
+							.getMessage(GenericI18Enum.BUTTON_CLOSE));
 				} else {
 					beanItem.setStatus(StatusI18nEnum.Closed.name());
 					beanItem.setPercentagecomplete(100d);
 					TaskReadViewImpl.this
 							.addStyleName(UIConstants.STATUS_DISABLED);
 					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
+							.getMessage(GenericI18Enum.BUTTON_REOPEN));
 				}
 
 				ProjectTaskService service = ApplicationContextUtil

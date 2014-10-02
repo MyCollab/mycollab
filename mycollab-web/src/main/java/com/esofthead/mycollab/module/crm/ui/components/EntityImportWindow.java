@@ -153,7 +153,7 @@ public abstract class EntityImportWindow<E> extends Window {
 									AppContext
 											.getMessage(FileI18nEnum.IMPORT_FILE),
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_CANCEL),
 									new ConfirmDialog.Listener() {
 										private static final long serialVersionUID = 1L;
 
@@ -224,7 +224,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					Alignment.MIDDLE_CENTER);
 
 			Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL));
 			cancelBtn.addClickListener(new ClickListener() {
 				private static final long serialVersionUID = 1L;
 
@@ -457,7 +457,7 @@ public abstract class EntityImportWindow<E> extends Window {
 					Alignment.MIDDLE_CENTER);
 
 			Button saveBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 					new ClickListener() {
 						private static final long serialVersionUID = 1L;
 

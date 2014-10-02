@@ -101,7 +101,7 @@ public class ProjectRoleSearchPanel extends
 			basicSearchBody.addComponent(this.myItemCheckbox);
 
 			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -117,7 +117,7 @@ public class ProjectRoleSearchPanel extends
 			basicSearchBody.addComponent(searchBtn);
 
 			final Button clearBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

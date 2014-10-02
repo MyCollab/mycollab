@@ -46,7 +46,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 		editBtn = new NavigationBarQuickMenu();
 		editBtn.setButtonCaption(AppContext
-				.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL));
+				.getMessage(GenericI18Enum.BUTTON_EDIT));
 		editBtn.setStyleName("edit-btn");
 		editBtn.setContent(createButtonControls());
 		this.setRightComponent(editBtn);

@@ -20,33 +20,33 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/message")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_message")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum MessageI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
-	
+
 	WIDGET_LASTEST_NEWS,
-	
+
 	BUTTON_NEW_MESSAGE,
-	
+
 	FORM_TITLE,
 	FORM_IS_STICK,
 	FORM_ATTACHMENT_FIELD,
 	FORM_TITLE_REQUIRED_ERROR,
-	
+
 	USER_COMMENT_ADD,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,
 	MAIL_CREATE_ITEM_HEADING,
 	MAIL_UPDATE_ITEM_HEADING,
 	MAIL_COMMENT_ITEM_HEADING,
-	
+
 	OPT_FROM_TIME_ENTRY,
-	
+
 	M_VIEW_READ_TITLE,
 	M_VIEW_ADD_TITLE,
 	M_FORM_CONTENT_FIELD_PROMPT

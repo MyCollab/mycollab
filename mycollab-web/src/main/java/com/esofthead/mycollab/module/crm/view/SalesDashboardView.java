@@ -28,6 +28,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewManager;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -87,7 +88,7 @@ public class SalesDashboardView extends Depot {
 		final PopupButton saleChartPopup = new PopupButton("");
 		saleChartPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
 		saleChartPopup.setIcon(MyCollabResource
-				.newResource("icons/12/filter.png"));
+				.newResource(WebResourceIds._12_filter));
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);

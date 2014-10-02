@@ -20,17 +20,14 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/prj_role")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_role")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProjectRoleI18nEnum {
 	VIEW_LIST_TITLE,
-	
-	FORM_READ_TITLE,
-	FORM_NEW_TITLE,
-	FORM_EDIT_TITLE,
-	FORM_NAME,
-	
+
+	FORM_READ_TITLE, FORM_NEW_TITLE, FORM_EDIT_TITLE, FORM_NAME,
+
 	SECTION_PERMISSIONS,
-	
+
 	OPT_ADMIN_ROLE_DISPLAY
 }

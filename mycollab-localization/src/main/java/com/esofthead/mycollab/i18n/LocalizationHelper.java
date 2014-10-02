@@ -43,9 +43,16 @@ public class LocalizationHelper {
 	private static Logger log = LoggerFactory
 			.getLogger(LocalizationHelper.class);
 
-	private static final Map<Locale, IMessageConveyor> languageMap = new HashMap<Locale, IMessageConveyor>();
+	private static final Map<Locale, IMessageConveyor> languageMap;
 
 	public static final Locale defaultLocale = Locale.US;
+	private static IMessageConveyor defaultMessage = new MessageConveyor(
+			Locale.US);
+
+	static {
+		languageMap = new HashMap<Locale, IMessageConveyor>();
+		languageMap.put(Locale.US, defaultMessage);
+	}
 
 	public static IMessageConveyor getMessageConveyor(Locale language) {
 		if (language == null) {
@@ -67,21 +74,31 @@ public class LocalizationHelper {
 			IMessageConveyor messageConveyor = getMessageConveyor(locale);
 			return messageConveyor.getMessage(key, objects);
 		} catch (Exception e) {
-			log.error("Can not find resource key " + key, e);
-			return "Undefined";
+			try {
+				return defaultMessage.getMessage(key, objects);
+			} catch (Exception e1) {
+				log.error("Can not find resource key " + key, e);
+				return "Undefined";
+			}
+
 		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String getMessage(Locale locale, Class<? extends Enum> cls,
 			String option, Object... objects) {
+		Enum key = Enum.valueOf(cls, option);
 		try {
-			Enum key = Enum.valueOf(cls, option);
 			IMessageConveyor messageConveyor = getMessageConveyor(locale);
 			return messageConveyor.getMessage(key, objects);
 		} catch (Exception e) {
-			log.error("Can not find resource key " + cls + "---" + option, e);
-			return "Undefined";
+			try {
+				return defaultMessage.getMessage(key, objects);
+			} catch (Exception e1) {
+				log.error("Can not find resource key " + cls + "---" + option,
+						e);
+				return "Undefined";
+			}
 		}
 	}
 

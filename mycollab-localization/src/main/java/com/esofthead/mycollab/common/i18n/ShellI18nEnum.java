@@ -36,18 +36,21 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/common/shell")
+@BaseName("localization/common_shell")
 @LocaleData({ @Locale("en_US"), @Locale("ja_JP") })
 public enum ShellI18nEnum {
-	BUTTON_BACK_HOME_PAGE,
+	BUTTON_IGNORE_RESET_PASSWORD,
 	BUTTON_RESET_PASSWORD,
 	BUTTON_LOG_IN,
 	BUTTON_FORGOT_PASSWORD,
-	NO_SUB_DOMAIN_ERROR,
-	BACK_TO_HOME_PAGE,
+	BUTTON_BACK_TO_HOME_PAGE,
+	
+	ERROR_NO_SUB_DOMAIN,
+	
 	OPT_FORGOT_PASSWORD_VIEW_TITLE,
 	OPT_EMAIL_SENDER_NOTIFICATION,
 	OPT_REMEMBER_PASSWORD,
+	
 	FORM_EMAIL,
 	FORM_PASSWORD
 }

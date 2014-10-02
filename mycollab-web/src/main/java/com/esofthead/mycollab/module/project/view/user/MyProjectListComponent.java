@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.ButtonLink;
 import com.esofthead.mycollab.vaadin.ui.Depot;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -77,7 +78,7 @@ public class MyProjectListComponent extends Depot {
 		final PopupButton projectsPopup = new PopupButton("");
 		projectsPopup.addStyleName(UIConstants.THEME_BLANK_LINK);
 		projectsPopup.setIcon(MyCollabResource
-				.newResource("icons/12/project/task_filter.png"));
+				.newResource(WebResourceIds._12_project_task_filter));
 
 		final VerticalLayout filterBtnLayout = new VerticalLayout();
 		filterBtnLayout.setMargin(true);

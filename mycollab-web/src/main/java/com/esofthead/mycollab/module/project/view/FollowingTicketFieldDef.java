@@ -41,6 +41,6 @@ public class FollowingTicketFieldDef {
 			UIConstants.TABLE_X_LABEL_WIDTH);
 
 	public static TableViewField createdDate = new TableViewField(
-			FollowerI18nEnum.FOLLOWER_CREATE_DATE, "monitorDate",
+			FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE, "monitorDate",
 			UIConstants.TABLE_DATE_WIDTH);
 }

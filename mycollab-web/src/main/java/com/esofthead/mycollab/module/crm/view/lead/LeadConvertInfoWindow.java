@@ -146,7 +146,7 @@ public class LeadConvertInfoWindow extends Window {
 		layout.setComponentAlignment(convertButton, Alignment.MIDDLE_CENTER);
 
 		Button cancelButton = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

@@ -94,7 +94,7 @@ public class LeadSimpleSearchPanel extends
 		addTextFieldSearch();
 
 		Button searchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+				AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 		searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 		searchBtn.addClickListener(new Button.ClickListener() {

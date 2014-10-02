@@ -20,11 +20,11 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/project")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProjectI18nEnum {
 	VIEW_NEW_TITLE,
-	
+
 	FORM_HOME_PAGE,
 	FORM_NAME,
 	FORM_SHORT_NAME,
@@ -39,10 +39,10 @@ public enum ProjectI18nEnum {
 	FORM_CURRENCY,
 	FORM_TARGET_BUDGET,
 	FORM_ACTUAL_BUDGET,
-	
+
 	SECTION_PROJECT_INFO,
 	SECTION_FINANCE_SCHEDULE,
 	SECTION_DESCRIPTION,
-	
+
 	OPT_CREATED_ON
 }

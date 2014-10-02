@@ -117,13 +117,13 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 				|| beanItem.getStatus().equals(StatusI18nEnum.Open.name())) {
 			removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
+					.getMessage(GenericI18Enum.BUTTON_CLOSE));
 			quickActionStatusBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/closeTask.png"));
 		} else {
 			addLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
-					.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
+					.getMessage(GenericI18Enum.BUTTON_REOPEN));
 			quickActionStatusBtn.setIcon(MyCollabResource
 					.newResource("icons/16/project/reopenTask.png"));
 
@@ -181,7 +181,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 					VersionReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL));
+							.getMessage(GenericI18Enum.BUTTON_CLOSE));
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/closeTask.png"));
 				} else {
@@ -190,7 +190,7 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 					VersionReadViewImpl.this
 							.addLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption(AppContext
-							.getMessage(GenericI18Enum.BUTTON_REOPEN_LABEL));
+							.getMessage(GenericI18Enum.BUTTON_REOPEN));
 					quickActionStatusBtn.setIcon(MyCollabResource
 							.newResource("icons/16/project/reopenTask.png"));
 				}

@@ -100,7 +100,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 				.setComponentAlignment(updateBtn, Alignment.MIDDLE_CENTER);
 
 		closeBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLOSE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

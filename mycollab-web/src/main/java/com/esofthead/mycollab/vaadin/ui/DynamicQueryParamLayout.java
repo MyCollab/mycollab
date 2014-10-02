@@ -89,7 +89,7 @@ public abstract class DynamicQueryParamLayout<S extends SearchCriteria> extends
 		searchBtn.setIcon(MyCollabResource.newResource("icons/16/search.png"));
 
 		final Button clearBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

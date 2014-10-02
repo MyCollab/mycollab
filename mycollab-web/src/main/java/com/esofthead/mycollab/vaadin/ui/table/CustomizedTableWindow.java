@@ -139,7 +139,7 @@ public abstract class CustomizedTableWindow extends Window {
 		final HorizontalLayout buttonControls = new HorizontalLayout();
 		buttonControls.setSpacing(true);
 		final Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -168,7 +168,7 @@ public abstract class CustomizedTableWindow extends Window {
 		buttonControls.addComponent(saveBtn);
 
 		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

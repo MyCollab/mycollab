@@ -36,19 +36,19 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/accountsettings/role")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/account_role")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum RoleI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NEW_TITLE,
 	VIEW_EDIT_TITLE,
-	
+
 	SECTION_INFORMATION,
 	FORM_PERMISSION_HEADER,
 	SECTION_PROJECT_MANAGEMENT_TITLE,
 	SECTION_CRM_TITLE,
 	SECTION_DOCUMENT_TITLE,
 	SECTION_ACCOUNT_MANAGEMENT_TITLE,
-	
+
 	FORM_NAME
 }

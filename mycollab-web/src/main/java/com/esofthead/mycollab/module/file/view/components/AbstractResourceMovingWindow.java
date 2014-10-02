@@ -330,7 +330,7 @@ public abstract class AbstractResourceMovingWindow extends Window {
 		moveBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
 		controlGroupBtnLayout.addComponent(moveBtn);
 		Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new ClickListener() {
 					private static final long serialVersionUID = 1L;
 

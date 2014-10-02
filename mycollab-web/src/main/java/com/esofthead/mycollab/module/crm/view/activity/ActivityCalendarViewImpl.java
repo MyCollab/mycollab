@@ -114,7 +114,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 		this.addStyleName("activityCalendar");
 
 		calendarActionBtn = new PopupButton(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE_LABEL));
+				AppContext.getMessage(GenericI18Enum.BUTTON_CREATE));
 		calendarActionBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		calendarActionBtn.addStyleName("esofthead");
 
@@ -851,7 +851,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 					layout.setStyleName("addNewControl");
 					Button saveBtn = new Button(
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_SAVE),
 							new Button.ClickListener() {
 								private static final long serialVersionUID = 1L;
 
@@ -878,7 +878,7 @@ public class ActivityCalendarViewImpl extends AbstractCssPageView implements
 							Alignment.MIDDLE_CENTER);
 					Button cancelBtn = new Button(
 							AppContext
-									.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+									.getMessage(GenericI18Enum.BUTTON_CANCEL),
 							new ClickListener() {
 								private static final long serialVersionUID = 1L;
 

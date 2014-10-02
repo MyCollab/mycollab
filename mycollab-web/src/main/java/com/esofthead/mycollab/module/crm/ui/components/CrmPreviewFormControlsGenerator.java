@@ -62,7 +62,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 		layout = new HorizontalLayout();
 
 		Button editButtons = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_OPTION),
 				new Button.ClickListener() {
 
 					private static final long serialVersionUID = 1L;
@@ -114,7 +114,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & ADD_BTN_PRESENTED) == ADD_BTN_PRESENTED) {
 			addBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_ADD_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -134,7 +134,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & EDIT_BTN_PRESENTED) == EDIT_BTN_PRESENTED) {
 			editBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -154,7 +154,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & DELETE_BTN_PRESENTED) == DELETE_BTN_PRESENTED) {
 			deleteBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -173,7 +173,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & CLONE_BTN_PRESENTED) == CLONE_BTN_PRESENTED) {
 			cloneBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLONE),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 
@@ -191,7 +191,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 
 		if ((buttonEnableFlags & HISTORY_BTN_PRESENTED) == HISTORY_BTN_PRESENTED) {
 			historyBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_HISTORY_LABEL),
+					AppContext.getMessage(GenericI18Enum.BUTTON_HISTORY),
 					new Button.ClickListener() {
 						private static final long serialVersionUID = 1L;
 

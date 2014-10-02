@@ -20,8 +20,8 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/prj_common")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_common")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum ProjectCommonI18nEnum {
 	WIDGET_ACTIVE_PROJECTS_TITLE,
 	WIDGET_ARCHIVE_PROJECTS_TITLE,
@@ -38,7 +38,7 @@ public enum ProjectCommonI18nEnum {
 	FEED_PROJECT_USER_ACTIVITY_UPDATE_ACTION_TITLE,
 
 	TOOLTIP_GANTT_CHART_TITLE,
-	
+
 	BUTTON_NEW_PROJECT,
 	BUTTON_EDIT_PROJECT,
 	BUTTON_DELETE_PROJECT,
@@ -69,14 +69,14 @@ public enum ProjectCommonI18nEnum {
 
 	TAB_COMMENT,
 	TAB_HISTORY,
-	
+
 	SUB_INFO_PEOPLE,
 	ITEM_CREATED_DATE,
 	ITEM_UPDATED_DATE,
 	SUB_INFO_DATES,
 	ITEM_CREATED_PEOPLE,
 	ITEM_ASSIGN_PEOPLE,
-	
+
 	M_VIEW_PROJECT_LIST,
 	M_VIEW_PROJECT_ACTIVITIES,
 	M_VIEW_PROJECT_FOLLOWING_TICKETS

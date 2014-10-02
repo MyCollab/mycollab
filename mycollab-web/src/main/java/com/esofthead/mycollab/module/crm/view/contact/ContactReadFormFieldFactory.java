@@ -73,10 +73,10 @@ public class ContactReadFormFieldFactory extends
 			if (attachForm.getBean().getIscallable() == null
 					|| Boolean.FALSE == attachForm.getBean().getIscallable()) {
 				return new FormViewField(
-						AppContext.getMessage(GenericI18Enum.BUTTON_NO_LABEL));
+						AppContext.getMessage(GenericI18Enum.BUTTON_NO));
 			} else {
 				return new FormViewField(
-						AppContext.getMessage(GenericI18Enum.BUTTON_YES_LABEL));
+						AppContext.getMessage(GenericI18Enum.BUTTON_YES));
 			}
 		} else if (propertyId.equals("birthday")) {
 			return new FormViewField(AppContext.formatDate(attachForm.getBean()

@@ -49,6 +49,7 @@ import com.esofthead.mycollab.vaadin.ui.DefaultMassItemActionHandlersContainer;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SelectionOptionButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -215,10 +216,10 @@ public class VersionListViewImpl extends AbstractPageView implements
 		if (CurrentProjectVariables
 				.canAccess(ProjectRolePermissionCollections.VERSIONS)) {
 			tableActionControls.addActionItem(
-					MassItemActionHandler.DELETE_ACTION,
-					MyCollabResource.newResource("icons/16/action/delete.png"),
-					"delete",
-					AppContext.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL));
+					MassItemActionHandler.DELETE_ACTION, MyCollabResource
+							.newResource(WebResourceIds._16_action_delete),
+					"delete", AppContext
+							.getMessage(GenericI18Enum.BUTTON_DELETE));
 		}
 
 		tableActionControls.addActionItem(MassItemActionHandler.MAIL_ACTION,
@@ -233,13 +234,13 @@ public class VersionListViewImpl extends AbstractPageView implements
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_EXCEL_ACTION,
-				MyCollabResource.newResource("icons/16/action/excel.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_excel),
 				"export", "export.xlsx",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_EXCEL));
 
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_CSV_ACTION,
-				MyCollabResource.newResource("icons/16/action/csv.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_csv),
 				"export", "export.csv",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_CSV));
 

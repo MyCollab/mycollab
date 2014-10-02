@@ -180,7 +180,7 @@ public class AccountSearchPanel extends
 					Alignment.MIDDLE_CENTER);
 
 			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
@@ -195,7 +195,7 @@ public class AccountSearchPanel extends
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 			cancelBtn.addStyleName("cancel-button");
 			cancelBtn.addClickListener(new Button.ClickListener() {

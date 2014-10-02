@@ -139,7 +139,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 		buttonWrapper.addComponent(updateBtn);
 
 		Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 

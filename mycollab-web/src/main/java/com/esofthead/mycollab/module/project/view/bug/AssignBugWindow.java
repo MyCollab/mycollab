@@ -112,7 +112,7 @@ class AssignBugWindow extends Window {
 
 				final Button cancelBtn = new Button(
 						AppContext
-								.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_CANCEL),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 
@@ -129,7 +129,7 @@ class AssignBugWindow extends Window {
 
 				final Button approveBtn = new Button(
 						AppContext
-								.getMessage(GenericI18Enum.BUTTON_ASSIGN_LABEL),
+								.getMessage(GenericI18Enum.BUTTON_ASSIGN),
 						new Button.ClickListener() {
 							private static final long serialVersionUID = 1L;
 

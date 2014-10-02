@@ -122,7 +122,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		controlsBtn.setMargin(true);
 
 		Button addCriteriaBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_ADD_CRITERIA),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -152,7 +152,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		filterBox.addComponent(filterComboBox);
 
 		Button saveSearchBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_NEW_FILTER),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -179,7 +179,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		filterBox.addComponent(queryTextField);
 
 		Button saveBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_SAVE),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -194,7 +194,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 		filterBox.addComponent(saveBtn);
 
 		Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL_LABEL),
+				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -838,7 +838,7 @@ public class BuildCriterionComponent<S extends SearchCriteria> extends
 
 							Button deleteBtn = new Button(
 									AppContext
-											.getMessage(GenericI18Enum.BUTTON_DELETE_LABEL),
+											.getMessage(GenericI18Enum.BUTTON_DELETE),
 									new Button.ClickListener() {
 										private static final long serialVersionUID = 1L;
 

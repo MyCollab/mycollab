@@ -150,7 +150,7 @@ public class ComponentSearchPanel extends
 			UiUtils.addComponent(basicSearchBody, this.myItemCheckbox,
 					Alignment.MIDDLE_CENTER);
 			final Button searchBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_SEARCH));
 			searchBtn.setIcon(MyCollabResource
 					.newResource("icons/16/search.png"));
 			searchBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -168,7 +168,7 @@ public class ComponentSearchPanel extends
 					Alignment.MIDDLE_LEFT);
 
 			final Button cancelBtn = new Button(
-					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR_LABEL));
+					AppContext.getMessage(GenericI18Enum.BUTTON_CLEAR));
 			cancelBtn.addClickListener(new Button.ClickListener() {
 				private static final long serialVersionUID = 1L;
 

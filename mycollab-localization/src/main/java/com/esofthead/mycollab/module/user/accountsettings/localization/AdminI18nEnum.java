@@ -20,14 +20,10 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/accountsettings/admin")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/account_admin")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum AdminI18nEnum {
-	VIEW_PROFILE,
-	VIEW_BILLING,
-	VIEW_CUSTOMIZE,
-	VIEW_USERS_AND_ROLES,
-	
-	TAB_USER,
-	TAB_ROLE
+	VIEW_PROFILE, VIEW_BILLING, VIEW_CUSTOMIZE, VIEW_USERS_AND_ROLES,
+
+	TAB_USER, TAB_ROLE
 }

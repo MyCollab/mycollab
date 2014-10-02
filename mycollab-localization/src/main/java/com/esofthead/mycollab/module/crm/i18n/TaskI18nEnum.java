@@ -20,12 +20,12 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/crm/assignment")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/crm_assignment")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum TaskI18nEnum {
 	VIEW_NEW_TITLE,
 	BUTTON_NEW_TASK,
-	
+
 	FORM_SUBJECT,
 	FORM_START_DATE,
 	FORM_STATUS,
@@ -34,7 +34,7 @@ public enum TaskI18nEnum {
 	FORM_PRIORITY,
 	TABLE_TYPE_HEADER,
 	TABLE_END_DATE_HEADER,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,

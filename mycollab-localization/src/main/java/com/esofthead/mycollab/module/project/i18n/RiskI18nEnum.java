@@ -20,17 +20,17 @@ import ch.qos.cal10n.BaseName;
 import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
-@BaseName("localization/project/risk")
-@LocaleData(value={ @Locale("en_US"), @Locale("ja_JP") }, defaultCharset="UTF-8")
+@BaseName("localization/project_risk")
+@LocaleData(value = { @Locale("en_US"), @Locale("ja_JP") }, defaultCharset = "UTF-8")
 public enum RiskI18nEnum {
 	VIEW_LIST_TITLE,
 	VIEW_NO_ITEM_TITLE,
 	VIEW_NO_ITEM_HINT,
 	VIEW_NEW_TITLE,
 	VIEW_EDIT_TITLE,
-	
+
 	BUTTON_NEW_RISK,
-	
+
 	FORM_READ_TITLE,
 	FORM_NAME,
 	FORM_DESCRIPTION,
@@ -42,7 +42,7 @@ public enum RiskI18nEnum {
 	FORM_CONSEQUENCE,
 	FORM_PROBABILITY,
 	FORM_RATING,
-	
+
 	MAIL_CREATE_ITEM_SUBJECT,
 	MAIL_UPDATE_ITEM_SUBJECT,
 	MAIL_COMMENT_ITEM_SUBJECT,

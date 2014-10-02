@@ -49,11 +49,13 @@ Version 4.5.2
 * Upgrade Vaadin to 7.3.2
 * Tweak the error handling while init view
 * Refactor the file module management
-* Add more unit tests for content service
+* Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements.
+* Revise the localization and date format associate to locale. It helps external developers can translate MyCollab to other languages easily.
 
 **Bug Fixes**
 
 * Project Notification can not be sent in some special cases
+* Search time logging throws exception in several special input cases
 
 Version 4.5.1
 -----------------------------
