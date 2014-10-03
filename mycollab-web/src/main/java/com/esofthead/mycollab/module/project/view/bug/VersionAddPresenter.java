@@ -82,7 +82,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 				});
 	}
 
-	public void save(Version item) {
+	private void save(Version item) {
 		VersionService versionService = ApplicationContextUtil
 				.getSpringBean(VersionService.class);
 		item.setSaccountid(AppContext.getAccountId());

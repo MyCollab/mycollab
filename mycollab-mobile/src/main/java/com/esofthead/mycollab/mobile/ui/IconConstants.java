@@ -35,6 +35,9 @@ public class IconConstants {
 	public static final String PROJECT_FOLLOWING = "&#xe613;";
 	public static final String PROJECT_MESSAGE = "&#xf04f;";
 	public static final String PROJECT_MILESTONE = "&#xf075;";
+	public static final String PROJECT_MILESTONE_CLOSED = "&#xE617;";
+	public static final String PROJECT_MILESTONE_INPROGRESS = "&#xE615;";
+	public static final String PROJECT_MILESTONE_FUTURE = "&#xE616;";
 	public static final String PROJECT_TASK = "&#xe60f;";
 	public static final String PROJECT_BUG = "&#xf188;";
 	public static final String PROJECT_FILE = "&#xf017;";

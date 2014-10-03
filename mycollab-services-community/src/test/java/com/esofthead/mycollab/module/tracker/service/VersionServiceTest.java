@@ -19,6 +19,7 @@ package com.esofthead.mycollab.module.tracker.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -29,6 +30,7 @@ import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.module.tracker.domain.SimpleVersion;
+import com.esofthead.mycollab.module.tracker.domain.Version;
 import com.esofthead.mycollab.module.tracker.domain.criteria.VersionSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
 import com.esofthead.mycollab.test.MyCollabClassRunner;
@@ -106,5 +108,21 @@ public class VersionServiceTest extends ServiceTest {
 		assertThat(versions).extracting("id", "description", "status",
 				"versionname", "numBugs", "numOpenBugs").contains(
 				tuple(2, "Version 2.0.0", "Closed", "2.0.0", 2, 1));
+	}
+
+	@DataSet
+	@Test
+	public void testSaveVersion() {
+		Version version = new Version();
+		version.setProjectid(1);
+		version.setDuedate(new GregorianCalendar(2014, 10, 6).getTime());
+		version.setVersionname("sss");
+		version.setCreateduser("hai79");
+		version.setSaccountid(1);
+		version.setDescription("a");
+		version.setStatus("Open");
+
+		int versionId = versionService.saveWithSession(version, "hai79");
+		assertThat(versionId > 0).isEqualTo(true);
 	}
 }

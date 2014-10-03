@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
+import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -141,6 +142,12 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 							.equals(buttonId)) {
 						EventBusFactory.getInstance().post(
 								new MessageEvent.GotoList(this, null));
+					} else if (AppContext.getMessage(
+							ProjectCommonI18nEnum.VIEW_MILESTONE).equals(
+							buttonId)) {
+						EventBusFactory.getInstance().post(
+								new MilestoneEvent.GotoList(this, null));
+
 					} else if (AppContext.getMessage(
 							ProjectCommonI18nEnum.VIEW_TASK).equals(buttonId)) {
 						EventBusFactory.getInstance().post(

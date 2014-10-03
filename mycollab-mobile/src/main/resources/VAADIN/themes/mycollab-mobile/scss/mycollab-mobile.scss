@@ -10,6 +10,7 @@
 @import "components/project/message.scss";
 @import "components/project/task.scss";
 @import "components/project/member.scss";
+@import "components/project/milestone.scss";
 @import "components/project/timelog.scss";
 
 @mixin mycollab-mobile {
@@ -702,6 +703,7 @@
     @include project-message;
     @include project-task;
     @include project-member;
+    @include project-milestone;
     @include project-timelog;
     
 }

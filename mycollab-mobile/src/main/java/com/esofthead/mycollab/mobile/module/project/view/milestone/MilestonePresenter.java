@@ -55,7 +55,7 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 
 		AbstractPresenter<?> presenter = null;
 
-		if (data instanceof MilestoneScreenData.Search) {
+		if (data instanceof MilestoneScreenData.List) {
 			presenter = PresenterResolver
 					.getPresenter(MilestoneListPresenter.class);
 		} /*
@@ -68,7 +68,7 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 			throw new MyCollabException("Do not support screen data " + data);
 		}
 
-		presenter.go(view, data);
+		presenter.go(container, data);
 	}
 
 }

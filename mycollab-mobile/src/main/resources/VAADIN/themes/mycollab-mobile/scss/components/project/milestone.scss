@@ -1,0 +1,16 @@
+@mixin project-milestone {
+	.milestones-list {
+		.list-item {
+			padding: 1rem 2.5rem 1rem 1.4rem;
+			border-bottom: 0.1rem solid $light-gray-border;
+			color: $gray-text;
+			.milestone-icon {
+				color: $primary-orange;
+				font-size: 1.4rem;
+			}
+			.milestone-name {
+				color: $black-text;
+			}
+		}
+	}
+}

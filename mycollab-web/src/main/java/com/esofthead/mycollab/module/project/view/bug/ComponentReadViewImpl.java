@@ -149,8 +149,7 @@ public class ComponentReadViewImpl extends
 		dateInfoComp.displayEntryDateTime(beanItem);
 		peopleInfoComp.displayEntryPeople(beanItem);
 
-		if (beanItem.getStatus() == null
-				|| beanItem.getStatus().equals(StatusI18nEnum.Open.name())) {
+		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
 			removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_CLOSE));
@@ -201,9 +200,7 @@ public class ComponentReadViewImpl extends
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (beanItem.getStatus() != null
-						&& beanItem.getStatus().equals(
-								StatusI18nEnum.Closed.name())) {
+				if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
 					beanItem.setStatus(StatusI18nEnum.Open.name());
 					ComponentReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
@@ -224,7 +221,8 @@ public class ComponentReadViewImpl extends
 
 				ComponentService service = ApplicationContextUtil
 						.getSpringBean(ComponentService.class);
-				service.updateWithSession(beanItem, AppContext.getUsername());
+				service.updateSelectiveWithSession(beanItem,
+						AppContext.getUsername());
 
 			}
 		});

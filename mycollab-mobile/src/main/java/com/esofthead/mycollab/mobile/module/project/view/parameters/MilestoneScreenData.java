@@ -16,7 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.parameters;
 
-import com.esofthead.mycollab.module.project.domain.Milestone;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
@@ -34,17 +34,23 @@ public class MilestoneScreenData {
 		}
 	}
 
-	public static class Edit extends ScreenData<Milestone> {
+	public static class Edit extends ScreenData<SimpleMilestone> {
 
-		public Edit(Milestone params) {
+		public Edit(SimpleMilestone params) {
 			super(params);
 		}
 	}
 
-	public static class Add extends ScreenData<Milestone> {
+	public static class Add extends ScreenData<SimpleMilestone> {
 
-		public Add(Milestone params) {
+		public Add(SimpleMilestone params) {
 			super(params);
+		}
+	}
+
+	public static class List extends ScreenData<Object> {
+		public List() {
+			super(null);
 		}
 	}
 

@@ -52,6 +52,7 @@ import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.TabsheetLazyLoadComp;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -82,7 +83,8 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 	public VersionReadViewImpl() {
 		super(AppContext.getMessage(VersionI18nEnum.VIEW_READ_TITLE),
-				MyCollabResource.newResource("icons/22/project/version.png"));
+				MyCollabResource
+						.newResource(WebResourceIds._22_project_version));
 	}
 
 	@Override
@@ -113,19 +115,18 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 		historyLogList.loadHistory(beanItem.getId());
 		dateInfoComp.displayEntryDateTime(beanItem);
 
-		if (beanItem.getStatus() == null
-				|| beanItem.getStatus().equals(StatusI18nEnum.Open.name())) {
+		if (StatusI18nEnum.Open.name().equals(beanItem.getStatus())) {
 			removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_CLOSE));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/closeTask.png"));
+					.newResource(WebResourceIds._16_project_closeTask));
 		} else {
 			addLayoutStyleName(UIConstants.LINK_COMPLETED);
 			quickActionStatusBtn.setCaption(AppContext
 					.getMessage(GenericI18Enum.BUTTON_REOPEN));
 			quickActionStatusBtn.setIcon(MyCollabResource
-					.newResource("icons/16/project/reopenTask.png"));
+					.newResource(WebResourceIds._16_project_reopenTask));
 
 		}
 
@@ -174,16 +175,14 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if (beanItem.getStatus() != null
-						&& beanItem.getStatus().equals(
-								StatusI18nEnum.Closed.name())) {
+				if (StatusI18nEnum.Closed.name().equals(beanItem.getStatus())) {
 					beanItem.setStatus(StatusI18nEnum.Open.name());
 					VersionReadViewImpl.this
 							.removeLayoutStyleName(UIConstants.LINK_COMPLETED);
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_CLOSE));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/closeTask.png"));
+							.newResource(WebResourceIds._16_project_closeTask));
 				} else {
 					beanItem.setStatus(StatusI18nEnum.Closed.name());
 
@@ -192,12 +191,13 @@ public class VersionReadViewImpl extends AbstractPreviewItemComp2<Version>
 					quickActionStatusBtn.setCaption(AppContext
 							.getMessage(GenericI18Enum.BUTTON_REOPEN));
 					quickActionStatusBtn.setIcon(MyCollabResource
-							.newResource("icons/16/project/reopenTask.png"));
+							.newResource(WebResourceIds._16_project_reopenTask));
 				}
 
 				VersionService service = ApplicationContextUtil
 						.getSpringBean(VersionService.class);
-				service.updateWithSession(beanItem, AppContext.getUsername());
+				service.updateSelectiveWithSession(beanItem,
+						AppContext.getUsername());
 
 			}
 		});

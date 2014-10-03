@@ -32,11 +32,15 @@ import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
+import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent.GotoList;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
@@ -80,6 +84,7 @@ public class ProjectModuleController extends AbstractController {
 
 		bindProjectEvents();
 		bindMessageEvents();
+		bindMilestoneEvents();
 		bindTaskEvents();
 	}
 
@@ -190,6 +195,22 @@ public class ProjectModuleController extends AbstractController {
 						(Integer) event.getData());
 				MessagePresenter presenter = PresenterResolver
 						.getPresenter(MessagePresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
+	}
+
+	private void bindMilestoneEvents() {
+		this.register(new ApplicationEventListener<MilestoneEvent.GotoList>() {
+
+			private static final long serialVersionUID = -4211546107827460336L;
+
+			@Subscribe
+			@Override
+			public void handle(GotoList event) {
+				MilestoneScreenData.List data = new MilestoneScreenData.List();
+				MilestonePresenter presenter = PresenterResolver
+						.getPresenter(MilestonePresenter.class);
 				presenter.go(navManager, data);
 			}
 		});

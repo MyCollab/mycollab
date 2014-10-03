@@ -34,6 +34,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ReloadableComponent;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.addon.touchkit.settings.ApplicationCacheSettings;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -53,6 +54,10 @@ public class CommentInput extends VerticalLayout {
 	private CommentType type;
 	private String typeid;
 	private Integer extraTypeId;
+	
+	com.vaadin.shared.VBrowserDetails a;
+	
+	ApplicationCacheSettings b;
 
 	public CommentInput(final ReloadableComponent component,
 			final CommentType typeVal, final String typeidVal,

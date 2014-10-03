@@ -40,8 +40,8 @@ public class MyCollabUIProvider extends UIProvider {
 			userAgent = event.getRequest().getHeader("user-agent")
 					.toLowerCase();
 		} catch (Exception e) {
-			// exception is thrown when request is bot that can not detect
-			// user-agent
+			return null;
+
 		}
 
 		String uiClass = "";

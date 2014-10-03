@@ -58,6 +58,8 @@ public class TaskGroupListViewImpl extends
 	protected Component createRightComponent() {
 		Button addTaskList = new Button("", new Button.ClickListener() {
 
+			private static final long serialVersionUID = 2067641610209145531L;
+
 			@Override
 			public void buttonClick(Button.ClickEvent event) {
 				EventBusFactory.getInstance().post(

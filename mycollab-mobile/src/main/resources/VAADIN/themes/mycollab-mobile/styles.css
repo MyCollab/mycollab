@@ -27,8 +27,8 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url("fonts/icomoon.eot?pgg6hx");
-  src: url("fonts/icomoon.eot?#iefixpgg6hx") format("embedded-opentype"), url("fonts/icomoon.woff?pgg6hx") format("woff"), url("fonts/icomoon.ttf?pgg6hx") format("truetype"), url("fonts/icomoon.svg?pgg6hx#icomoon") format("svg");
+  src: url("fonts/icomoon.eot?8jh7gu");
+  src: url("fonts/icomoon.eot?#iefix8jh7gu") format("embedded-opentype"), url("fonts/icomoon.woff?8jh7gu") format("woff"), url("fonts/icomoon.ttf?8jh7gu") format("truetype"), url("fonts/icomoon.svg?8jh7gu#icomoon") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -1071,6 +1071,18 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .member-list .list-item.member-row .member-info .user-name {
   font-size: 1.2rem;
   color: #959595;
+}
+.mycollab-mobile .milestones-list .list-item {
+  padding: 1rem 2.5rem 1rem 1.4rem;
+  border-bottom: 0.1rem solid #dddddd;
+  color: #959595;
+}
+.mycollab-mobile .milestones-list .list-item .milestone-icon {
+  color: #f59330;
+  font-size: 1.4rem;
+}
+.mycollab-mobile .milestones-list .list-item .milestone-name {
+  color: #414141;
 }
 .mycollab-mobile .timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
   display: block;
