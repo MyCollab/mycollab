@@ -1,16 +1,41 @@
 @mixin project-milestone {
-	.milestones-list {
-		.list-item {
-			padding: 1rem 2.5rem 1rem 1.4rem;
-			border-bottom: 0.1rem solid $light-gray-border;
-			color: $gray-text;
-			.milestone-icon {
-				color: $primary-orange;
-				font-size: 1.4rem;
+	.milestones-list-view {
+		.milestones-list {
+			.list-item {
+				padding: 1rem 1.4rem;
+				border-bottom: 0.1rem solid $light-gray-border;
+				color: $gray-text;
+				.milestone-icon {
+					color: $primary-orange;
+					font-size: 1.8rem;
+					span[data-icon]:before {
+						font-weight: bold;
+					}
+				}
+				.milestone-name {
+					color: $black-text;
+					font-size: 1.4rem;
+					font-weight: bold;
+					line-height: 1;
+				}
+				.milestone-meta-info {
+					font-size: 1.2rem;
+					.milestone-assignee {
+						color: $primary-blue;
+					}
+					span[data-icon]:before {
+						font-size: 1.5rem;
+						vertical-align: top;
+					}
+				}
 			}
-			.milestone-name {
-				color: $black-text;
+		}
+		.v-touchkit-toolbar {
+			width: 100%;
+			.v-button {
+				width: 33%;
 			}
 		}
 	}
+	
 }

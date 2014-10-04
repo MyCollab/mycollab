@@ -1,0 +1,11 @@
+/*
+ * Script which increases the delay on each restart
+ * Input argument is the delay in seconds
+ *
+ * Configuration Example:
+ * 
+ * wrapper.restart.delay.script=scripts/linearRestartDelay.gv
+ * wrapper.restart.delay.script.args=10
+ */
+  return count*Long.parseLong(args[0])
+

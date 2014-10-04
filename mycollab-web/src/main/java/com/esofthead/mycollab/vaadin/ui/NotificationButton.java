@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.vaadin.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.vaadin.hene.popupbutton.PopupButton;
@@ -54,7 +53,7 @@ public class NotificationButton extends PopupButton implements
 		notificationContainer.setMargin(true);
 		this.setContent(notificationContainer);
 		this.setIcon(MyCollabResource
-				.newResource("icons/16/notification-indicator.png"));
+				.newResource(WebResourceIds._16_notification_indicator));
 		this.setStyleName("notification-button");
 
 		addPopupVisibilityListener(this);
@@ -66,12 +65,9 @@ public class NotificationButton extends PopupButton implements
 		notificationContainer.removeAllComponents();
 
 		if (notificationItems.size() > 0) {
-			Iterator<AbstractNotification> iterator = notificationItems
-					.iterator();
-			while (iterator.hasNext()) {
+			for (AbstractNotification item : notificationItems) {
 				HorizontalLayout notificationItem = new HorizontalLayout();
 				notificationItem.setSpacing(true);
-				AbstractNotification item = iterator.next();
 				Label notificationType = new Label(item.getType() + ":");
 				notificationType.setStyleName("notification-type");
 				notificationType.addStyleName("notification-type-"
@@ -85,7 +81,7 @@ public class NotificationButton extends PopupButton implements
 				notificationContainer.addComponent(notificationItem);
 			}
 		} else {
-			Label noItemLbl = new Label("No notification right now");
+			Label noItemLbl = new Label("There is no notification right now");
 			notificationContainer.addComponent(noItemLbl);
 			notificationContainer.setComponentAlignment(noItemLbl,
 					Alignment.MIDDLE_CENTER);

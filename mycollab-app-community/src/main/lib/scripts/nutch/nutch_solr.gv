@@ -1,0 +1,53 @@
+/*  
+Original script:
+http://www.lucidimagination.com/blog/2009/03/09/nutch-solr/
+
+
+*/
+// basic initializations
+evaluate(new File("scripts/nutch_base.gv"))
+
+solr_url = "http://127.0.0.1:8983/solr/"
+steps = 4
+
+try
+{
+// start the script
+echo "----- Inject (Step 1 of $steps) -----"
+execNutch (["inject", "${crawl_dir}/crawldb", "urls"])
+
+echo "----- Generate, Fetch, Parse, Update (Step 2 of $steps) -----"
+for(i=0; i <depth; i++)
+{
+        echo "--- Beginning crawl at depth ${i + 1} of ${depth} ---"
+        execNutch(["generate", "$crawl_dir/crawldb", "$crawl_dir/segments", "-adddays", "$adddays"])
+        if (err != 0)
+        {
+         echo "runbot: Stopping at depth ${i +1}. No more URLs to fetch."
+          break
+        }
+         segment=lastSegment( "$crawl_dir/segments/")
+         execNutch (["fetch", "$segment", "-threads ${threads}", "-noParsing"])
+         if (err != 0)
+         {
+         echo "runbot: fetch $segment at depth ${depth} failed. Deleting it."
+         rm_rf("$segment")
+         continue
+         }
+        echo "--- Parsing Segment $segment ---"
+        execNutch (["parse", "$segment"])
+        execNutch (["updatedb", "$crawl_dir/crawldb", "$segment", "-filter", "-normalize"])
+}
+
+echo "----- Invert Links (Step 3 of $steps) -----"
+execNutch (["invertlinks", "$crawl_dir/linkdb", "$crawl_dir/segments/*"])
+
+echo "----- index all content from all segments to Solr (Step 4 of $steps) -----"
+execNutch (["solrindex", "$solr_url", "$crawl_dir/crawldb", "$crawl_dir/linkdb", "$crawl_dir/segments/*"])
+
+echo "runbot: FINISHED: Crawl completed!"
+}
+catch (Throwable ex)
+{
+	ex.printStackTrace()
+}

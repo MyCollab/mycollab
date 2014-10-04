@@ -32,6 +32,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -256,7 +257,7 @@ public class TimeTrackingTableDisplay
 				});
 				editBtn.setStyleName("link");
 				editBtn.setIcon(MyCollabResource
-						.newResource("icons/16/edit.png"));
+						.newResource(WebResourceIds._16_edit));
 				layout.addComponent(editBtn);
 
 				Button deleteBtn = new Button("", new Button.ClickListener() {

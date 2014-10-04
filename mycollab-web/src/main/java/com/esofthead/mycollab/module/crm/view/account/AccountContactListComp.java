@@ -80,7 +80,7 @@ public class AccountContactListComp extends
 		controlsBtn.setCaption(AppContext
 				.getMessage(ContactI18nEnum.BUTTON_NEW_CONTACT));
 		controlsBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 		controlsBtn
 				.addClickListener(new SplitButton.SplitButtonClickListener() {
 					private static final long serialVersionUID = 1L;

@@ -1,0 +1,5 @@
+import org.eclipse.core.runtime.adaptor.EclipseStarter;
+
+println 'calling EclipseStarter.shutdown'
+EclipseStarter.shutdown()
+println 'shutdown terminated'

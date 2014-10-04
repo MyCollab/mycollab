@@ -29,6 +29,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -89,7 +90,7 @@ public class CallTableDisplay extends
 								CallTableDisplay.this, call, "isClosed"));
 					}
 				});
-				b.setIcon(MyCollabResource.newResource("icons/16/close.png"));
+				b.setIcon(MyCollabResource.newResource(WebResourceIds._16_close));
 				b.setStyleName("link");
 				b.setDescription("Close this call");
 				return b;

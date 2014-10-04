@@ -1,0 +1,13 @@
+/*
+ * Script for executing a thread dump.
+ * This can be set as a shutdown hook in the application 
+ *
+ * Arguments: 
+ * - none
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.app.shutdown.script = threadDump.gv
+ */
+println "Thead Dump YAJSW shutdown hook"
+new org.rzo.yajsw.action.ThreadDumpImpl5().execute(null, null, System.out, null)

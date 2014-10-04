@@ -21,6 +21,7 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.EnumSet;
@@ -52,8 +53,8 @@ public class WebResourceGenerator {
 						+ filePath.substring(0, index).replace('/', '_')
 								.replace('-', '_');
 				jw.emitField("String", resourceName,
-						EnumSet.of(PUBLIC, STATIC, FINAL), "\"icons/" + filePath
-								+ "\"");
+						EnumSet.of(PUBLIC, STATIC, FINAL), "\"icons/"
+								+ filePath + "\"");
 			} else {
 				emitFieldResources(jw, file);
 			}
@@ -62,7 +63,7 @@ public class WebResourceGenerator {
 
 	public static void main(String[] args) throws IOException {
 		File imagesFolder = new File(ROOT_PATH);
-		
+
 		StringWriter w = new StringWriter();
 		JavaWriter jw = new JavaWriter(w);
 		jw.emitPackage("com.esofthead.mycollab.vaadin.ui").beginType(
@@ -71,6 +72,12 @@ public class WebResourceGenerator {
 
 		emitFieldResources(jw, imagesFolder);
 		jw.endType();
-		System.out.println(w);
+
+		FileWriter fileWriter = new FileWriter(
+				new File(
+						"src/main/java/com/esofthead/mycollab/vaadin/ui/WebResourceIds.java"));
+		fileWriter.write(w.toString());
+		fileWriter.flush();
+		fileWriter.close();
 	}
 }

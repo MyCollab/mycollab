@@ -1,0 +1,13 @@
+import javax.management.*
+
+servers = MBeanServerFactory.findMBeanServer(null)
+beanName = "org.wso2.carbon:type=ServerAdmin"
+println 'executing wso2 shutdown script'
+servers.each(){
+	try{
+		new GroovyMBean(it, beanName).shutdownGracefully(); 
+		println 'shutdownGracefully invoked, waiting for wso2 shutdown'; 
+		Thread.sleep(20000); 
+		return;
+		} 
+		catch (Exception ex){ex.printStackTrace()}}

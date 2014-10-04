@@ -139,7 +139,7 @@ public class RoleListViewImpl extends AbstractPageView implements RoleListView {
 		}
 		tableActionControls.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
-				MyCollabResource.newResource("icons/16/action/pdf.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_pdf),
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 

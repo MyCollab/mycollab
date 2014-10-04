@@ -37,6 +37,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -291,7 +292,7 @@ public abstract class TimeLogEditWindow<V extends ValuedBean> extends Window {
 		TimeLogEditWindow.this.btnAdd
 				.setStyleName(UIConstants.THEME_GREEN_LINK);
 		TimeLogEditWindow.this.btnAdd.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 		addLayout.addComponent(TimeLogEditWindow.this.btnAdd);
 		addLayout.setComponentAlignment(TimeLogEditWindow.this.btnAdd,
 				Alignment.MIDDLE_LEFT);

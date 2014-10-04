@@ -1,0 +1,20 @@
+/*
+ * In-Configurtion Script for encrypting configuration data
+ * 
+ * Dependency: http://www.jasypt.org/
+ *             Download jasypt-*.jar to <yajsw>/lib/groovy/jasypt/
+ * 
+ * Example Configuration:
+ * # definition of the In-Configuration script
+ * wrapper.config.script.decryptor = scripts/decryptor.gv
+ * # invocation of the script
+ * wrapper.java.additional.15 = ${decryptor.invoke('decrypt'\, 'aplasdfjlk')} 
+ */
+import org.jasypt.util.text.*
+
+public String decrypt(String text)
+{
+   textEncryptor = new BasicTextEncryptor();
+   textEncryptor.setPassword('asdfasdf');
+   return textEncryptor.decrypt(textEncryptor.encrypt(text));
+}

@@ -1,0 +1,110 @@
+/*  
+Original script:
+http://www.adick.at/2008-10-15,recrawl-script-for-nutch/
+
+*/
+// basic initializations
+evaluate(new File("scripts/nutch_base.gv"))
+try
+{
+// start the script
+echo "----- Inject (Step 1 of $steps) -----"
+execNutch (["inject", "${crawl_dir}/crawldb", "urls"])
+
+echo "----- Generate, Fetch, Parse, Update (Step 2 of $steps) -----"
+for(i=0; i <depth; i++)
+{
+        echo "--- Beginning crawl at depth ${i + 1} of ${depth} ---"
+        execNutch(["generate", "$crawl_dir/crawldb", "$crawl_dir/segments", "-adddays", "$adddays"])
+        if (err != 0)
+        {
+         echo "runbot: Stopping at depth ${i +1}. No more URLs to fetch."
+          break
+        }
+         segment=lastSegment( "$crawl_dir/segments/")
+         execNutch (["fetch", "$segment", "-threads ${threads}"])
+         if (err != 0)
+         {
+         echo "runbot: fetch $segment at depth ${depth} failed. Deleting it."
+         rm_rf("$segment")
+         continue
+         }
+        echo "--- Parsing Segment $segment ---"
+        execNutch (["parse", "$segment"])
+        execNutch (["updatedb", "$crawl_dir/crawldb", "$segment"])
+}
+         
+echo "----- Stopping Tomcat (Step 3 of $steps) -----"
+tomcat.stop()
+
+echo "----- Merge Segments (Step 4 of $steps) -----"
+rm_rf("$crawl_dir/MERGEDsegments")
+execNutch (["mergesegs", "$crawl_dir/MERGEDsegments", "-dir", "$crawl_dir/segments/"])
+println "err $err"
+if (err == 0)
+{
+          if (!safe)
+            rm_rf ("$crawl_dir/segments/*")
+           else
+         {
+            new File("$crawl_dir/FETCHEDsegments").mkdir()
+            mv ("$crawl_dir/segments/*", "$crawl_dir/FETCHEDsegments")
+         }
+          mv ("$crawl_dir/MERGEDsegments/*", "$crawl_dir/segments")
+          rm_rf ("$crawl_dir/MERGEDsegments")
+      }
+else
+{
+	      println "error in merge -> abort"
+          System.exit(err)
+}
+
+echo "----- Invert Links (Step 5 of $steps) -----"
+execNutch (["invertlinks", "$crawl_dir/linkdb", "$crawl_dir/segments/*"])
+
+echo "----- Index (Step 6 of $steps) -----"
+rm_rf("$crawl_dir/NEWindexes")
+rm_rf ("$crawl_dir/OLDindexes")
+execNutch (["index", "$crawl_dir/NEWindexes", "$crawl_dir/crawldb", "$crawl_dir/linkdb", "$crawl_dir/segments/*"])
+
+echo "----- Dedup (Step 7 of $steps) -----"
+execNutch (["dedup", "$crawl_dir/NEWindexes"])
+         
+echo "----- Merge Indexes (Step 8 of $steps) -----"
+execNutch (["merge", "$crawl_dir/MERGEDindexes", "$crawl_dir/NEWindexes"])
+// in nutch-site, hadoop.tmp.dir points to crawl/tmp
+rm_rf ("$crawl_dir/tmp/*")
+// replace indexes with indexes_merged
+file = new File("$crawl_dir/OLDindexes")
+if (!file.exists()) file.mkdir()
+mv ("$crawl_dir/index/*", "$crawl_dir/OLDindexes")
+mv ("$crawl_dir/MERGEDindexes/*", "$crawl_dir/index")
+// clean up old indexes directories
+if(!safe)
+         {
+         rm_rf ("$crawl_dir/NEWindexes")
+         rm_rf ("$crawl_dir/OLDindexes")
+         }
+         
+echo "----- Reloading index on the search site (Step 9 of $steps) -----"
+ if(safe)
+         {
+        touch ("${CATALINA_HOME}/webapps/ROOT/WEB-INF/web.xml")
+        echo "Done!"
+         }
+      else
+         {
+        echo "runbot: Can not reload index in safe mode."
+        echo "runbot: Please reload it manually using the following command:"
+        echo "runbot: touch ${CATALINA_HOME}/webapps/ROOT/WEB-INF/web.xml"
+         }
+
+echo "----- Restarting Tomcat (Step 10 of $steps) -----"
+tomcat.stop()
+tomcat.start()
+echo "runbot: FINISHED: Crawl completed!"
+}
+catch (Throwable ex)
+{
+	ex.printStackTrace()
+}

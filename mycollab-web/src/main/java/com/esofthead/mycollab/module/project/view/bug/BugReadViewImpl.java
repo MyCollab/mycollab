@@ -77,6 +77,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
@@ -406,7 +407,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 				});
 		assignBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.BUGS));
-		assignBtn.setIcon(MyCollabResource.newResource("icons/16/assign.png"));
+		assignBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_assign));
 
 		assignBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 

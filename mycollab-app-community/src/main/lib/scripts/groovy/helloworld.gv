@@ -1,0 +1,13 @@
+/*
+ * Sample script to test wrapping of a groovy script
+ * Just loops forever and prints to file and console
+ */
+writer=new File("FileWrite.out").newWriter()
+
+while (true)
+{
+	println "hello world"
+	writer.writeLine("hello world")
+	writer.flush()
+	Thread.sleep(1000);
+}

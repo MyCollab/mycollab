@@ -44,7 +44,7 @@ public class SelectionOptionButton extends SplitButton implements
 	private final HasSelectableItemHandlers selectableItemHandlers;
 
 	private static Resource selectIcon = MyCollabResource
-			.newResource("icons/16/checkbox.png");
+			.newResource(WebResourceIds._16_checkbox);
 	private static Resource unSelectIcon = MyCollabResource
 			.newResource("icons/16/checkbox_empty.png");
 
@@ -96,7 +96,7 @@ public class SelectionOptionButton extends SplitButton implements
 				SelectionOptionButton.this
 						.setIcon(SelectionOptionButton.selectIcon);
 				fireSelectAll();
-                SelectionOptionButton.this.setPopupVisible(false);
+				SelectionOptionButton.this.setPopupVisible(false);
 			}
 		});
 		selectContent.addComponent(selectAllBtn);
@@ -108,7 +108,7 @@ public class SelectionOptionButton extends SplitButton implements
 				SelectionOptionButton.this
 						.setIcon(SelectionOptionButton.selectIcon);
 				fireSelectCurrentPage();
-                SelectionOptionButton.this.setPopupVisible(false);
+				SelectionOptionButton.this.setPopupVisible(false);
 			}
 		});
 		selectContent.addComponent(selectThisPageBtn);
@@ -121,7 +121,7 @@ public class SelectionOptionButton extends SplitButton implements
 						SelectionOptionButton.this
 								.setIcon(SelectionOptionButton.unSelectIcon);
 						fireDeselect();
-                        SelectionOptionButton.this.setPopupVisible(false);
+						SelectionOptionButton.this.setPopupVisible(false);
 					}
 				});
 		selectContent.addComponent(deSelectBtn);

@@ -51,6 +51,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ProgressBarIndicator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.vaadin.ui.Alignment;
@@ -155,7 +156,7 @@ public class MilestoneListViewImpl extends AbstractLazyPageView implements
 				});
 
 		this.createBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 		this.createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		this.createBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.MILESTONES));

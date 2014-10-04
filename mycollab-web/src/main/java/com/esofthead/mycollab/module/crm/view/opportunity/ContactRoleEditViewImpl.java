@@ -50,6 +50,7 @@ import com.esofthead.mycollab.vaadin.ui.AddViewLayout2;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
@@ -155,7 +156,7 @@ public class ContactRoleEditViewImpl extends AbstractPageView implements
 					}
 				});
 		cancelBtn.setIcon(MyCollabResource
-				.newResource("icons/16/cancel_black.png"));
+				.newResource(WebResourceIds._16_cancel_black));
 		cancelBtn.setStyleName(UIConstants.THEME_GRAY_LINK);
 		buttonWrapper.addComponent(cancelBtn);
 

@@ -46,6 +46,7 @@ public class MilestoneListViewImpl extends AbstractMobileTabPageView implements
 	private MilestoneListChildView futureMilestonesList;
 
 	public MilestoneListViewImpl() {
+		this.addStyleName("milestones-list-view");
 
 		this.closedMilestonesList = new MilestoneListChildView();
 		this.closedMilestonesList.addStyleName("milestones-list");

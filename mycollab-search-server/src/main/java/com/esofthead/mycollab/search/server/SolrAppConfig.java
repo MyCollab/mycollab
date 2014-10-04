@@ -47,11 +47,6 @@ public class SolrAppConfig {
 	@Bean
 	public SolrServer solrServer() throws ParserConfigurationException,
 			IOException, SAXException {
-//		EmbeddedSolrServerFactoryBean factory = new EmbeddedSolrServerFactoryBean();
-//		String userHome = System.getProperty("user.home");
-//		File solrHome = new File(userHome + "/.solr");
-//		factory.setSolrHome(solrHome.getAbsolutePath());
-//		return factory.getSolrServer();
 		return new HttpSolrServer("http://localhost:8983/solr");
 	}
 

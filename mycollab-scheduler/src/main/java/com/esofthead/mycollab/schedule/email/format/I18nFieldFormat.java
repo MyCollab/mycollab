@@ -36,14 +36,17 @@ import com.hp.gagawa.java.elements.Span;
 public class I18nFieldFormat extends FieldFormat {
 	private static Logger log = LoggerFactory.getLogger(I18nFieldFormat.class);
 
+	@SuppressWarnings("rawtypes")
 	private Class<? extends Enum> enumKey;
 
+	@SuppressWarnings("rawtypes")
 	public I18nFieldFormat(String fieldName, Enum displayName,
 			Class<? extends Enum> enumKey) {
 		super(fieldName, displayName);
 		this.enumKey = enumKey;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public String formatField(MailContext<?> context) {
 		Object wrappedBean = context.getWrappedBean();
@@ -68,6 +71,7 @@ public class I18nFieldFormat extends FieldFormat {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public String formatField(MailContext<?> context, String value) {
 		try {

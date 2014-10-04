@@ -42,6 +42,7 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserLink;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.DefaultPagedBeanTable;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
@@ -299,7 +300,7 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 
 				btnSave.setStyleName(UIConstants.THEME_GREEN_LINK);
 				btnSave.setIcon(MyCollabResource
-						.newResource("icons/16/addRecord.png"));
+						.newResource(WebResourceIds._16_addRecord));
 
 				headerPanel.addComponent(btnSave);
 
@@ -318,8 +319,9 @@ public class CrmFollowersComp<V extends ValuedBean> extends VerticalLayout {
 							.getSpringBean(MonitorItemService.class),
 					SimpleMonitorItem.class,
 					Arrays.asList(
-							new TableViewField(FollowerI18nEnum.OPT_FOLLOWER_NAME,
-									"user", UIConstants.TABLE_EX_LABEL_WIDTH),
+							new TableViewField(
+									FollowerI18nEnum.OPT_FOLLOWER_NAME, "user",
+									UIConstants.TABLE_EX_LABEL_WIDTH),
 							new TableViewField(
 									FollowerI18nEnum.OPT_FOLLOWER_CREATE_DATE,
 									"monitorDate", UIConstants.TABLE_DATE_WIDTH),

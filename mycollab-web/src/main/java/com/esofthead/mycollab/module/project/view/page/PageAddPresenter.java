@@ -56,11 +56,8 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 			@Override
 			public void onSave(final Page page) {
 				savePage(page);
-				ViewState viewState = HistoryViewManager.back();
-				if (viewState instanceof NullViewState) {
-					EventBusFactory.getInstance().post(
-							new PageEvent.GotoList(this, null));
-				}
+				EventBusFactory.getInstance().post(
+						new PageEvent.GotoRead(this, page));
 			}
 
 			@Override
@@ -106,9 +103,9 @@ public class PageAddPresenter extends AbstractPresenter<PageAddView> {
 	}
 
 	private void savePage(Page page) {
-		PageService wikiService = ApplicationContextUtil
+		PageService pageService = ApplicationContextUtil
 				.getSpringBean(PageService.class);
 
-		wikiService.savePage(page, AppContext.getUsername());
+		pageService.savePage(page, AppContext.getUsername());
 	}
 }

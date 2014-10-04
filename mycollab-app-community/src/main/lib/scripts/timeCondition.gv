@@ -1,0 +1,82 @@
+/*
+ * Condition Script to check that the application is running during an interval
+ * 
+ * Starts the process if it is not running
+ * Stops the process outside of the interval
+ * 
+ * Arguments: 
+ * - interval begin 
+ * - interval end
+ * 
+ * Time format <hh>[:<mm>[:<ss>]]
+ * Example: 25 -> 1:00 next day
+ * Example: 3, 1 -> 3:00 -> 1:00 next day
+ * 
+ * Configuration Example:
+ * 
+ * wrapper.condition.script=scripts/timeCondition.gv
+ * wrapper.condition.script.args=13,13:50
+ */
+
+import org.joda.time.*
+
+if (this.args == null || this.args.length != 2)
+{
+	println "error in script timeCondition.gv missing arguments. check configuration"
+	return;
+}
+
+
+getTime = { strTime ->
+			hours = 0
+			minutes = 0
+			seconds = 0
+			try
+			{
+				times = strTime.split(":")
+				hours = Integer.parseInt(times[0])
+				minutes = Integer.parseInt(times[1])
+				seconds = Integer.parseInt(times[2])
+			}
+			catch (Exception ex){}
+			now = new DateTime();
+			result = now.withTime(0, 0, 0, 0)
+			result = result.plusHours(hours)
+			result = result.plusMinutes(minutes)
+			result = result.plusSeconds(seconds)
+			return result
+        }
+
+createInterval = { ->
+	begin = getTime(args[0])
+	end   = getTime(args[1])
+	if (end.isBefore(begin))
+	   end = end.plusDays(1)
+	interval = new Interval(begin, end);
+	return interval;
+	
+}
+
+getInterval = { ->
+// on first call intervall is not bound 
+		if (callCount == 0 || interval.isAfterNow())
+			{
+				return createInterval()
+			}
+			else
+				return interval
+}
+
+
+processState = process.getStringState()
+
+if (getInterval().containsNow() && "IDLE".equals(processState))
+{
+	println "starting process"
+	process.start();
+}
+else if (!getInterval().containsNow() && !"IDLE".equals(processState))
+{
+	println "stopping process"
+	process.stop();
+}

@@ -53,6 +53,7 @@ import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.ToggleButtonGroup;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.AbstractPagedBeanTable;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
@@ -285,7 +286,7 @@ public class TaskGroupDisplayViewImpl extends AbstractLazyPageView implements
 		newTaskListBtn.setEnabled(CurrentProjectVariables
 				.canWrite(ProjectRolePermissionCollections.TASKS));
 		newTaskListBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 		newTaskListBtn.setDescription(AppContext
 				.getMessage(TaskI18nEnum.BUTTON_NEW_TASKGROUP));
 		newTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);

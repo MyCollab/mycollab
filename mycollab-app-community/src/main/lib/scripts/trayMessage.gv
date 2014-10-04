@@ -1,0 +1,29 @@
+/*
+ * Script for displaying a system tray message.
+ * 
+ * Arguments: 
+ * - toMail
+ * - subject
+ * - message
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.filter.trigger.exception.tray=Exception
+ * wrapper.filter.script.exception.tray=scripts/trayMessage.gv
+ * wrapper.filter.script.exception.tray.args=Exception
+ */
+
+if (this.args == null || this.args.length != 1)
+{
+	println "error in script trayMessage.gv: missing arguments. check configuration"
+	return;
+}
+
+if (process == null || process.getTrayIcon() == null)
+{
+	println "error in script trayMessage.gv: no process or process not configured for tray icon"
+	return; 
+}
+
+ 
+ process.getTrayIcon().error(this.args[0], "$line")

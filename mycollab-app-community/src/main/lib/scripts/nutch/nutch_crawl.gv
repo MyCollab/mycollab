@@ -1,0 +1,8 @@
+// basic initializations
+evaluate(new File("scripts/nutch_base.gv"))
+
+// start the script
+// bin/nutch crawl urls -dir crawl -depth 3 -topN 50
+echo "----- crawl -----"
+execNutch (["crawl", "$urls", "-dir", "${crawl_dir}", "-depth", "$depth"])
+echo "----- done -----"

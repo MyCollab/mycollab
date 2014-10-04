@@ -24,7 +24,7 @@
 	    .project-modules-layout {
 	    	display: block;
 	    	margin: 0 auto;
-	    	padding-top: 2rem;
+	    	padding: 2rem 1rem 0rem;
 	    	
 	    	.v-gridlayout-spacing-on {
 	    		padding-top: 1rem;
@@ -33,16 +33,24 @@
 	    	
 		    .v-button {
 				background-color: transparent;
+				border-radius: 0rem;
+				overflow: visible;
 				.v-button-wrap {
-					padding-top: 0.3rem;
+					padding: 0.5rem 0rem 0.3rem;
+					border: 0.1rem solid rgb(210, 210, 210);
+					@include box-shadow (0px 1px 1px rgba(0, 0, 0, 0.1));
 					.v-button-caption {
+						display: inline-block;
+						box-sizing: border-box;
 						span {
-							font-size: 3.8rem;
-							line-height: 4rem;
+							font-size: 5.8rem;
+							line-height: 1;
+							display: inline-block;
 						}
 						div {
-							color: rgb(82, 82, 82);
+							color: $gray-text;
 							font-size: 1.1rem;
+							font-weight: bold;
 							text-transform: uppercase;
 						}
 					}

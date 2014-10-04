@@ -42,8 +42,8 @@ public class LanguageComboBox extends ComboBox {
 		for (Locale locale : supportedLanguage) {
 			String language = locale.toString();
 			this.addItem(language);
-			this.setItemCaption(language, AppContext.getMessage(Enum.valueOf(
-					LangI18Enum.class, language)));
+			this.setItemCaption(language,
+					AppContext.getMessage(LangI18Enum.class, language));
 		}
 	}
 }

@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -57,7 +58,7 @@ public class MilestoneListDisplay
 			layout.setStyleName("list-item");
 			layout.setSpacing(true);
 			Label milestoneIconLbl = new Label(
-					"<span class=\"nav-btn-icon\" aria-hidden=\"true\" data-icon=\""
+					"<span aria-hidden=\"true\" data-icon=\""
 							+ IconConstants.PROJECT_MILESTONE + "\"></span>");
 			milestoneIconLbl.setStyleName("milestone-icon");
 			milestoneIconLbl.setWidthUndefined();
@@ -78,6 +79,28 @@ public class MilestoneListDisplay
 					AppContext.formatDate(milestone.getEnddate())));
 			milestoneDatesInfo.setStyleName("milestone-meta-info");
 			milestoneInfoLayout.addComponent(milestoneDatesInfo);
+
+			Label assigneeLbl = new Label();
+			assigneeLbl.setValue(AppContext
+					.getMessage(GenericI18Enum.FORM_ASSIGNEE)
+					+ ":&nbsp;<span class='milestone-assignee'>"
+					+ milestone.getOwnerFullName() + "</span>");
+			assigneeLbl.setStyleName("milestone-meta-info");
+			assigneeLbl.setContentMode(ContentMode.HTML);
+			milestoneInfoLayout.addComponent(assigneeLbl);
+
+			Label taskBugLbl = new Label();
+			taskBugLbl.setValue(AppContext.getMessage(
+					MilestoneI18nEnum.M_LIST_TASK_BUG_INFO,
+					"<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_TASK + "\"></span>",
+					milestone.getNumOpenTasks(), milestone.getNumTasks(),
+					"<span aria-hidden=\"true\" data-icon=\""
+							+ IconConstants.PROJECT_BUG + "\"></span>",
+					milestone.getNumOpenBugs(), milestone.getNumOpenBugs()));
+			taskBugLbl.setStyleName("milestone-meta-info");
+			taskBugLbl.setContentMode(ContentMode.HTML);
+			milestoneInfoLayout.addComponent(taskBugLbl);
 
 			layout.addComponent(milestoneInfoLayout);
 			layout.setExpandRatio(milestoneInfoLayout, 1.0f);

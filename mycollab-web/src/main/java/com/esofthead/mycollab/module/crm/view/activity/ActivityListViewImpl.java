@@ -94,12 +94,12 @@ public class ActivityListViewImpl extends
 		}
 
 		container.addActionItem(MassItemActionHandler.MAIL_ACTION,
-				MyCollabResource.newResource("icons/16/action/mail.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_mail),
 				"mail", AppContext.getMessage(GenericI18Enum.BUTTON_MAIL));
 
 		container.addDownloadActionItem(
 				MassItemActionHandler.EXPORT_PDF_ACTION,
-				MyCollabResource.newResource("icons/16/action/pdf.png"),
+				MyCollabResource.newResource(WebResourceIds._16_action_pdf),
 				"export", "export.pdf",
 				AppContext.getMessage(GenericI18Enum.BUTTON_EXPORT_PDF));
 

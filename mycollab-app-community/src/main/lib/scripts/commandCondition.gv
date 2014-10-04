@@ -1,0 +1,103 @@
+/*
+ * Condition Script for implementing the wrapper.commandfile option
+ * 
+ * On first call the application is started
+ * With each call the script check for the existance of a command file
+ * This is a text file with one command per line
+ * All commands in the file are executed and the file is deleted
+ * The following commands are supported:
+ * 
+ * START 	      : start the application if it is not running
+ * STOP  	      : stop the applicaiton if it is running
+ * RESTART 	    : restart the application if it is running
+ * DUMP  	      : request a thread dump
+ * SHUTDOWN     : stop the wrapper and the application
+ * STATE <file> : writes the current state of the application to the given file
+ * STARTDUMP    : start of cyclic thread dump
+ * STOPDUMP     : stop of cyclic thread dump
+ * 
+ * Arguments: 
+ * - fileName
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.condition.script=scripts/commandCondition.gv 
+ * wrapper.condition.script.args=cmd.txt 
+ * wrapper.condition.cycle=1 
+ */
+
+// on first call file is bound
+// set the file and start the process
+if (callCount == 0)
+{
+	file = new File(this.args[0])
+	process.start()
+	// at start no cyclic thread dump
+	nextDumpTime = -1
+	// uncomment to start cyclic thread dump on start
+	// nextDumpTime = System.currentTimeMillis()
+}
+
+// execute a command
+doCommand = { cmd ->
+	logger.info("executing file command "+cmd);
+	if ("START".equals(cmd))
+		process.start();
+	else if ("STOP".equals(cmd))
+		process.stop();
+	else if ("RESTART".equals(cmd))
+		process.restart();
+	else if ("DUMP".equals(cmd))
+		process.threadDump();
+	else if ("STARTDUMP".equals(cmd))
+	  	nextDumpTime = System.currentTimeMillis()
+	else if ("STOPDUMP".equals(cmd))
+	  	nextDumpTime = -1
+	else if ("SHUTDOWN".equals(cmd))
+	{
+		process.stop();
+		shutdown = true;
+	}
+	else if (cmd.startsWith("STATE "))
+	{
+		String fName = cmd.substring(6)
+		writer = new File(fName).newWriter(false) // no append
+		writer.write(process.getStringState())
+		writer.close()
+	}
+	else
+		logger.info("unknown command");
+}
+
+if (file.exists())
+// do the file
+try
+{
+	shutdown = false;
+	logger.info("command file found")
+	file.eachLine {cmd -> doCommand(cmd)}
+	file.delete();
+	logger.info("command file deleted")
+	if (shutdown)
+	{
+		Thread.sleep(5000)
+		Runtime.getRuntime().halt(0);
+	}
+}
+catch (Exception ex)
+{
+	logger.info("Error executing command file "+ex.getMessage())
+}
+
+try
+{
+if (nextDumpTime != -1 && nextDumpTime <= System.currentTimeMillis()) 
+	{ 
+		doCommand("DUMP")
+		nextDumpTime = System.currentTimeMillis()+30000 
+	}
+}
+catch (Exception ex)
+{
+	logger.info("Error executing cyclic thread dump "+ex.getMessage())
+}

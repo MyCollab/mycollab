@@ -1,0 +1,187 @@
+/*
+*
+* Base script for running nutch
+* Sets global properties
+* Defines execNutch for executing nutch in a sub-process
+* Diverse shell functions
+*/
+
+
+import org.rzo.yajsw.groovy.*
+
+// properties
+//NUTCH_HOME = "."
+crawl_dir = "$NUTCH_HOME/crawl_dir"
+//CATALINA_HOME = "."
+depth = 5
+threads = 50
+adddays = 7
+//rank = 10000 // Comment this statement if you don't want to set topN value
+safe = true
+urls = "urls"
+
+
+//
+steps=10
+try
+{
+if (rank instanceof Integer)
+	topN="--topN $rank"
+else
+  topN=""
+}
+catch (Exception ex)
+{
+	topN = ""
+}
+
+// nutch command -> main class
+getMainClass = { COMMAND ->
+if (COMMAND.equals("crawl"))
+  return "org.apache.nutch.crawl.Crawl"
+else if (COMMAND.equals("inject"))
+   return "org.apache.nutch.crawl.Injector"
+else if (COMMAND.equals("generate"))
+   return "org.apache.nutch.crawl.Generator"
+else if (COMMAND.equals("freegen"))
+   return "org.apache.nutch.tools.FreeGenerator"
+else if (COMMAND.equals("fetch"))
+   return "org.apache.nutch.fetcher.Fetcher"
+else if (COMMAND.equals("fetch2"))
+   return "org.apache.nutch.fetcher.Fetcher2"
+else if (COMMAND.equals("parse"))
+   return "org.apache.nutch.parse.ParseSegment"
+else if (COMMAND.equals("readdb"))
+   return "org.apache.nutch.crawl.CrawlDbReader"
+else if (COMMAND.equals("convdb"))
+   return "org.apache.nutch.tools.compat.CrawlDbConverter"
+else if (COMMAND.equals("mergedb"))
+   return "org.apache.nutch.crawl.CrawlDbMerger"
+else if (COMMAND.equals("readlinkdb"))
+   return "org.apache.nutch.crawl.LinkDbReader"
+else if (COMMAND.equals("readseg"))
+   return "org.apache.nutch.segment.SegmentReader"
+else if (COMMAND.equals("segread"))
+{
+	echo "[DEPRECATED] Command 'segread' is deprecated, use 'readseg' instead."
+   return "org.apache.nutch.segment.SegmentReader"
+}
+else if (COMMAND.equals("mergesegs"))
+   return "org.apache.nutch.segment.SegmentMerger"
+else if (COMMAND.equals("updatedb"))
+   return "org.apache.nutch.crawl.CrawlDb"
+else if (COMMAND.equals("invertlinks"))
+   return "org.apache.nutch.crawl.LinkDb"
+else if (COMMAND.equals("mergelinkdb"))
+   return "org.apache.nutch.crawl.LinkDbMerger"
+else if (COMMAND.equals("index"))
+   return "org.apache.nutch.indexer.Indexer"
+else if (COMMAND.equals("solrindex"))
+   return "org.apache.nutch.indexer.solr.SolrIndexer"
+else if (COMMAND.equals("dedup"))
+   return "org.apache.nutch.indexer.DeleteDuplicates"
+else if (COMMAND.equals("solrdedup"))
+   return "org.apache.nutch.indexer.solr.SolrDeleteDuplicates"
+else if (COMMAND.equals("merge"))
+   return "org.apache.nutch.indexer.IndexMerger"
+else if (COMMAND.equals("plugin"))
+   return "org.apache.nutch.plugin.PluginRepository"
+else if (COMMAND.equals("server"))
+   return 'org.apache.nutch.searcher.DistributedSearch$Server'
+   else
+	   return null
+}
+
+// run nutch set exit code into err
+err = 0
+execNutch = { args ->
+	    println "exec nutch $args"
+		builder = new WrapperBuilder()
+		// get full path to conf file
+		builder."wrapper.config" = new File("conf/wrapper.nutch.conf").getCanonicalPath()
+		// set the java application args starting with args[1]
+		args.eachWithIndex {arg, i -> if (i>0) builder."wrapper.app.parameter.$i" = arg}
+		// working dir of nutch
+		builder."NUTCH_HOME" = NUTCH_HOME
+		// get the main class depending on the nutch command in args[0]
+		builder."wrapper.java.app.mainclass" = getMainClass(args[0])
+		process = builder.process();
+		process.start()
+		process.waitFor()
+		err = process.exitCode
+		println "nutch terminated with exit code $err"
+		return err
+		}
+
+// echo command
+echo = {println it}
+
+// tomcat service
+builder = new WrapperBuilder()
+builder."wrapper.config" = "conf/wrapper.nutch_tomcat.conf"
+builder."CATALINA_HOME" = CATALINA_HOME
+tomcat = builder.service()
+// install if not already installed
+if (!tomcat.isInstalled())
+	tomcat.install()
+
+// some sh commands implemented in groovy
+delClos = { file ->
+		println "del ${file.getCanonicalPath()} ${file.isDirectory()}"
+		if (file.isDirectory())
+		{
+			file.eachDir {delClos(it)}
+			file.eachFile {if (!it.delete()) println "error deleting $it"}
+		}
+		else
+			if (!file.delete()) println "error deleting $file"
+}
+// rm -rf
+rm_rf = { file -> 
+		println "rm -rf $file"
+		removeSelf = true
+		if (file.endsWith("*"))
+		{
+			file = file.replace( "*", "")
+			removeSelf = false
+		}
+		delClos(new File(file))
+		if (removeSelf)
+		{
+			new File(file).delete()
+		}
+}
+// mv
+mvSingle = {from, to -> println "mv $from $to"; if (!from.renameTo(new File(to, from.getName()))) println "error moving $from -> $to"}
+mv = {from , to ->
+    println "mv $from $to"
+    moveDir = false
+    if (from.endsWith( "*"))
+    {
+    	from = from.replace("*", "")
+    	moveDir = true
+    }
+    from = new File(from)
+    to = new File(to)
+	success = false
+     if (moveDir)
+			{
+        from.eachFile(){mvSingle( it, to)}
+        from.eachDir(){mvSingle (it, to)}
+			}
+			else
+				mvSingle (from, to)
+}
+
+//`ls -d crawl/segments/* | tail -1`
+lastSegment = {dir = "$it"; files = new File(dir).list(); return "$dir/${files[files.length-1]}"}
+
+// touch
+touch = {
+		file = new File(it)
+	if (file.exists())
+		file.setLastModified(System.currentTimeMillis())
+	else
+		println "touch error: file does not exist ${file.getCanonicalPath()}"
+}
+

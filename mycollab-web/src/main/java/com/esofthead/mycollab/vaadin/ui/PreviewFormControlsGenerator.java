@@ -77,8 +77,7 @@ public class PreviewFormControlsGenerator<B> {
 		editButtons = new HorizontalLayout();
 		editButtons.setSpacing(true);
 
-		editBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
+		editBtn = new Button(AppContext.getMessage(GenericI18Enum.BUTTON_EDIT),
 				new Button.ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -89,7 +88,7 @@ public class PreviewFormControlsGenerator<B> {
 						previewForm.fireEditForm(item);
 					}
 				});
-		editBtn.setIcon(MyCollabResource.newResource("icons/16/edit.png"));
+		editBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_edit));
 		editBtn.setStyleName("link");
 		popupButtonsControl.addComponent(editBtn);
 
@@ -121,7 +120,7 @@ public class PreviewFormControlsGenerator<B> {
 						previewForm.fireCloneForm(item);
 					}
 				});
-		cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
+		cloneBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clone));
 		cloneBtn.setStyleName("link");
 		popupButtonsControl.addComponent(cloneBtn);
 

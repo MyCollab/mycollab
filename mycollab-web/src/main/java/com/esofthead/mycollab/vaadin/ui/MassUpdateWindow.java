@@ -94,7 +94,7 @@ public abstract class MassUpdateWindow<B> extends Window {
 				});
 		updateBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		updateBtn.setIcon(MyCollabResource
-				.newResource("icons/16/action/massupdate.png"));
+				.newResource(WebResourceIds._16_action_massupdate));
 		controlsLayout.addComponent(updateBtn);
 		controlsLayout
 				.setComponentAlignment(updateBtn, Alignment.MIDDLE_CENTER);

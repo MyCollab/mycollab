@@ -878,7 +878,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .project-dashboard .project-modules-layout {
   display: block;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding: 2rem 1rem 0rem;
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-gridlayout-spacing-on {
   padding-top: 1rem;
@@ -886,17 +886,29 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-button {
   background-color: transparent;
+  border-radius: 0rem;
+  overflow: visible;
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap {
-  padding-top: 0.3rem;
+  padding: 0.5rem 0rem 0.3rem;
+  border: 0.1rem solid #d2d2d2;
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption {
+  display: inline-block;
+  box-sizing: border-box;
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption span {
-  font-size: 3.8rem;
-  line-height: 4rem;
+  font-size: 5.8rem;
+  line-height: 1;
+  display: inline-block;
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption div {
-  color: #525252;
+  color: #959595;
   font-size: 1.1rem;
+  font-weight: bold;
   text-transform: uppercase;
 }
 .mycollab-mobile .message-list-view .message-block, .mycollab-mobile .message-read-view .message-block {
@@ -1072,17 +1084,39 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-size: 1.2rem;
   color: #959595;
 }
-.mycollab-mobile .milestones-list .list-item {
-  padding: 1rem 2.5rem 1rem 1.4rem;
+.mycollab-mobile .milestones-list-view .milestones-list .list-item {
+  padding: 1rem 1.4rem;
   border-bottom: 0.1rem solid #dddddd;
   color: #959595;
 }
-.mycollab-mobile .milestones-list .list-item .milestone-icon {
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-icon {
   color: #f59330;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 }
-.mycollab-mobile .milestones-list .list-item .milestone-name {
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-icon span[data-icon]:before {
+  font-weight: bold;
+}
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-name {
   color: #414141;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1;
+}
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info {
+  font-size: 1.2rem;
+}
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info .milestone-assignee {
+  color: #49a3e1;
+}
+.mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info span[data-icon]:before {
+  font-size: 1.5rem;
+  vertical-align: top;
+}
+.mycollab-mobile .milestones-list-view .v-touchkit-toolbar {
+  width: 100%;
+}
+.mycollab-mobile .milestones-list-view .v-touchkit-toolbar .v-button {
+  width: 33%;
 }
 .mycollab-mobile .timelog-edit-view div.v-vertical > .v-expand > .v-spacing {
   display: block;

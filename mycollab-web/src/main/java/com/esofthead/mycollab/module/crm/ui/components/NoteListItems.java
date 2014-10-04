@@ -171,7 +171,7 @@ public class NoteListItems extends VerticalLayout {
 
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 		noteWrapper.addComponent(createBtn);
 		noteWrapper.setComponentAlignment(createBtn, Alignment.TOP_RIGHT);
 

@@ -17,14 +17,12 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
-import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
-import com.esofthead.mycollab.module.project.domain.criteria.MilestoneSearchCriteria;
 import com.esofthead.mycollab.module.project.service.MilestoneService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -49,13 +47,9 @@ public class MilestoneUrlResolver extends ProjectUrlResolver {
 		protected void handlePage(String... params) {
 			int projectId = new UrlTokenizer(params[0]).getInt();
 
-			MilestoneSearchCriteria milestoneSearchCriteria = new MilestoneSearchCriteria();
-			milestoneSearchCriteria.setProjectId(new NumberSearchField(
-					projectId));
-
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new MilestoneScreenData.Search(milestoneSearchCriteria));
+					new MilestoneScreenData.List());
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

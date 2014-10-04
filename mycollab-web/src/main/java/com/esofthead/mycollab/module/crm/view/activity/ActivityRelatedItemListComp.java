@@ -31,6 +31,7 @@ import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.ui.Button;
@@ -67,7 +68,7 @@ public class ActivityRelatedItemListComp extends
 						}
 					});
 			newTaskBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
+					.newResource(WebResourceIds._16_addRecord));
 			newTaskBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_TASK));
 			newTaskBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
@@ -83,7 +84,7 @@ public class ActivityRelatedItemListComp extends
 						}
 					});
 			newCallBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
+					.newResource(WebResourceIds._16_addRecord));
 			newCallBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_CALL));
 			newCallBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
@@ -99,7 +100,7 @@ public class ActivityRelatedItemListComp extends
 						}
 					});
 			newMeetingBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
+					.newResource(WebResourceIds._16_addRecord));
 			newMeetingBtn.setEnabled(AppContext
 					.canWrite(RolePermissionCollections.CRM_MEETING));
 			newMeetingBtn.addStyleName(UIConstants.THEME_GREEN_LINK);

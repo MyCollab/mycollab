@@ -1,0 +1,56 @@
+/*
+ * Script for sending SNMP traps
+ * 
+ * arguments:
+ * - ip address of the NMS
+ * - id the OID of the trap is: 1.3.6.1.2.1.1.1.id
+ * - message of the trap
+ * 
+ * required libs:
+ * - snmp4j
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.filter.script = scripts/snmpTrap.gv
+ * wrapper.filter.script.args = 192.168.0.1, 1, out of memory exception 
+ */
+
+import java.io.IOException;
+
+import org.snmp4j.*
+import org.snmp4j.smi.*
+import org.snmp4j.transport.*
+
+if (this.args == null || this.args.length != 3)
+{
+	logger.info("error in script snmpTrap.gv missing arguments. check configuration")
+	return;
+}
+
+
+nmsIp = this.args[0];
+id = this.args[1];
+msg = this.args[2];
+
+target = new CommunityTarget();
+port = 162;
+targetAddress = GenericAddress.parse("udp:"+nmsIp+"/"+port);
+target.setAddress(targetAddress);
+target.setTimeout(5000);
+target.setRetries(1);
+target.setCommunity(new OctetString("Public"));
+transport = new DefaultUdpTransportMapping();
+snmp = new Snmp(transport);
+v = new OctetString(msg);
+oid = new OID([1, 3, 6, 1, 2, 1, 1, 1, id] as int[]);
+vb = new VariableBinding(oid, v);
+p = new PDUv1();
+p.add(vb);
+snmp.trap(p, target);
+
+logger.info("sent trap to nmsIp: "+ id + " "+msg)
+
+
+
+
+

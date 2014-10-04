@@ -1,0 +1,84 @@
+/*
+ * Script for sending an email.
+ * 
+ * Arguments: 
+ * - toMail
+ * - subject
+ * - message
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.filter.trigger.exception.mail=Exception
+ * wrapper.filter.script.exception.mail=scripts/sendMail.gv
+ * wrapper.filter.script.exception.mail.args=mailto@me.com, YAJSW exception, exception found in console output please check the log file
+ */
+import javax.mail.*
+import javax.mail.internet.*
+
+port = 25
+
+mailHost='smtp.mailhost.net' // set your mail provider  
+mailFrom='me@mailhost.net'   // set your mail from
+
+mailUser=null                // set your user if you require authentication
+mailPassword=null            // set your password if you require authentication
+useSSL=false             		 // set to true to use SSL
+  
+
+if (this.args == null || this.args.length != 3)
+{
+	logger.info("error in script sendMail.gv missing arguments. check configuration")
+	return;
+}
+
+mailTo=this.args[0]
+
+subject=this.args[1]
+message=this.args[2]
+
+logger.info("sending mail to " +mailTo)
+
+try
+{
+props = new Properties()
+props.put('mail.smtp.host', mailHost)
+props.put('mail.smtp.port', port.toString())
+
+if (mailPassword != null)
+{
+	props.put('mail.smtp.user', mailUser); 
+	props.put('mail.smtp.password', mailPassword) 
+	props.put('mail.smtp.auth', 'true') 
+	mailSession = Session.getDefaultInstance(props, 
+		new javax.mail.Authenticator() 
+		{ protected PasswordAuthentication getPasswordAuthentication() 
+			{ return new PasswordAuthentication(mailUser, mailPassword); 
+			} 
+		})
+}
+else
+	mailSession = Session.getDefaultInstance(props, null)
+
+
+// Construct the message
+msg = new MimeMessage(mailSession)
+msg.from = new InternetAddress(mailFrom)
+msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailTo))
+msg.subject = subject
+msg.text = message
+
+// Send the message
+if (useSSL)
+	SMTPSSLTransport.send(msg)
+else
+	Transport.send(msg)
+
+logger.info("mail sent " +mailTo)
+}
+catch (Exception ex)
+{
+logger.throwing("sendMail.gv", "run", ex)
+}
+
+
+

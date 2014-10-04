@@ -77,9 +77,9 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 		projectName.setStyleName("project-name");
 		projectInfo.addComponent(projectName);
 
-		GridLayout projectModulesList = new GridLayout(3, 4);
+		GridLayout projectModulesList = new GridLayout(2, 3);
 		projectModulesList.setStyleName("project-modules-layout");
-		projectModulesList.setWidthUndefined();
+		projectModulesList.setWidth("100%");
 		projectModulesList.setSpacing(true);
 		projectModulesList.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 
@@ -95,25 +95,25 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 		projectModulesList.addComponent(new ProjectModuleButton(AppContext
 				.getMessage(ProjectCommonI18nEnum.VIEW_BUG), "&#xf188;"));
 
-		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;"));
-
-		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;"));
-
-		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;"));
-
-		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;"));
-
-		projectModulesList.addComponent(new ProjectModuleButton(AppContext
-				.getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;"));
+		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
+		// .getMessage(ProjectCommonI18nEnum.VIEW_FILE), "&#xf017;"));
+		//
+		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
+		// .getMessage(ProjectCommonI18nEnum.VIEW_RISK), "&#xf02d;"));
+		//
+		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
+		// .getMessage(ProjectCommonI18nEnum.VIEW_PROBLEM), "&#xf0d2;"));
+		//
+		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
+		// .getMessage(ProjectCommonI18nEnum.VIEW_TIME), "&#xe612;"));
+		//
+		// projectModulesList.addComponent(new ProjectModuleButton(AppContext
+		// .getMessage(ProjectCommonI18nEnum.VIEW_STANDAUP), "&#xf0c0;"));
 
 		projectModulesList.addComponent(
 				new ProjectModuleButton(AppContext
 						.getMessage(ProjectCommonI18nEnum.VIEW_USERS),
-						"&#xe601;"), 1, 3);
+						"&#xe601;"), 0, 2, 1, 2);
 
 		mainLayout.addComponent(projectInfo);
 		mainLayout.addComponent(projectModulesList);
@@ -127,6 +127,8 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 			super("<span aria-hidden=\"true\" data-icon=\"" + iconCode
 					+ "\"></span><div class=\"screen-reader-text\">" + id
 					+ "</div>");
+			this.setWidth("100%");
+			this.setStyleName("project-module-btn");
 			this.buttonId = id;
 			this.setHtmlContentAllowed(true);
 			this.addClickListener(new Button.ClickListener() {

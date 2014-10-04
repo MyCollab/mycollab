@@ -1,0 +1,99 @@
+/*
+ * Condition Script for implementing the wrapper.commandfile option
+ * Command file can be any VFS supported text file.
+ * This allows for remote control of a server farm.
+ *
+ * On first call the application is started
+ * With each call the script checks for update of the command file
+ * This is a text file with one command per line
+ * All commands in the file are executed
+ * The following commands are supported:
+ * 
+ * START 	: start the application if it is not running
+ * STOP  	: stop the applicaiton if it is running
+ * RESTART 	: restart the application if it is running
+ * DUMP  	: request a thread dump
+ * SHUTDOWN : stop the wrapper and the application
+ * STATE <file> : writes the current state of the application to the given file on the local hd
+ * 
+ * Arguments: 
+ * - fileName
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.condition.script=scripts/vfsCommandCondition.gv 
+ * wrapper.condition.script.args=http://localhost/cmd.txt 
+ * wrapper.condition.cycle=1 
+ */
+ 
+import org.apache.commons.vfs2.VFS
+import org.apache.commons.vfs2.FileObject;
+
+// on first call file is bound
+// set the file and start the process
+if (callCount == 0)
+{
+	process.start()
+	
+	file = VFS.getManager().resolveFile(args[0]) 
+	lastmodified = 0 
+	if (file != null && file.exists()) 
+		lastmodified = file.getContent().getLastModifiedTime() 
+
+}
+
+
+// execute a command
+doCommand = { cmd ->
+	logger.info("executing file command "+cmd);
+	if ("START".equals(cmd))
+		process.start();
+	else if ("STOP".equals(cmd))
+		process.stop();
+	else if ("RESTART".equals(cmd))
+		process.restart();
+	else if ("DUMP".equals(cmd))
+		process.threadDump();
+	else if ("SHUTDOWN".equals(cmd))
+	{
+		process.stop();
+		shutdown = true;
+	}
+	else if (cmd.startsWith("STATE "))
+	{
+		String fName = cmd.substring(6)
+		writer = new File(fName).newWriter(false) // no append
+		writer.write(process.getStringState())
+		writer.close()
+	}
+	else
+		logger.info("unknown command");
+}
+
+	VFS.getManager().getFilesCache().close()
+	file = VFS.getManager().resolveFile(args[0]) 
+	
+if (file != null && file.exists() && lastmodified < file.getContent().getLastModifiedTime())
+// do the file
+try
+{
+	lastmodified = file.getContent().getLastModifiedTime() 
+	shutdown = false;
+	logger.info("new command file found " + file)
+	instream = new BufferedReader(new InputStreamReader(file.getContent().getInputStream()))
+	for (s = instream.readLine(); s != null; s = instream.readLine())
+	  doCommand(s)
+	instream.close()
+	
+	if (shutdown)
+	{
+		Thread.sleep(5000)
+		Runtime.getRuntime().halt(0);
+	}
+}
+catch (Exception ex)
+{
+	logger.info("Error executing command file "+ex.getMessage())
+	if (instream != null)
+	  instream.close()
+}

@@ -71,6 +71,7 @@ import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
 import com.esofthead.mycollab.vaadin.ui.ValueComboBox;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
 import com.vaadin.server.FileDownloader;
@@ -176,7 +177,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 		});
 
 		backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
-		backBtn.setIcon(MyCollabResource.newResource("icons/16/back.png"));
+		backBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_back));
 
 		controlBtns.setMargin(new MarginInfo(true, false, true, false));
 		controlBtns.addComponent(backBtn);

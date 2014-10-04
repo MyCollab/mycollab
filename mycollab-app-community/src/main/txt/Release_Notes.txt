@@ -46,7 +46,7 @@ Version 4.5.2
 -----------------------------
 **Improvements**
 
-* Upgrade Vaadin to 7.3.2
+* Upgrade libraries versions
 * Tweak the error handling while init view
 * Refactor the file module management
 * Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements.
@@ -56,6 +56,7 @@ Version 4.5.2
 
 * Project Notification can not be sent in some special cases
 * Search time logging throws exception in several special input cases
+* Fix NPE exception when there is several options has null value
 
 Version 4.5.1
 -----------------------------

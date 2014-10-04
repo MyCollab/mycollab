@@ -1,0 +1,52 @@
+/*
+ * Script for checking that an application does not run
+ * longer than a max duration
+ * 
+ * An instance of the script is invoked on startup of the application
+ * Another instance is invoked when the application returns to idle state
+ * 
+ * On first call a timer is set. We are using a timer implementation from the netty framework.
+ * The timer is stored in the context map so that it can be retrieved when the application terminates.
+ * 
+ * Arguments: 
+ * - maximal duration in seconds
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.script.RUN = scripts/maxDuration.gv
+ * wrapper.script.RUN.args = ${1*60*60} // 1 hour
+ * wrapper.script.IDLE = scripts/maxDuration.gv
+ *
+ */
+
+import org.jboss.netty.util.*
+import java.util.concurrent.TimeUnit
+
+
+// on first call create a timer task
+if (callCount == 0 && process.isOSProcessRunning())
+{
+	Timer timer = new HashedWheelTimer();
+	final myProcess = process;
+	TimerTask task = 
+	{ Object[] timeout ->
+			if (myProcess.isOSProcessRunning())
+			{
+				System.out.println("Script maxDuration.gv: application running too long -> stopping");
+				myProcess.stop();
+			}
+	} as TimerTask;
+		long duration = Long.parseLong(args[0])
+		Timeout timeout = timer.newTimeout(task, duration, TimeUnit.SECONDS)
+		context.put("timeout", timeout);
+		System.out.println("Script maxDuration.gv: timeout set")
+}
+else if (!process.isOSProcessRunning())
+{
+	Timeout timeout = context.remove("timeout");
+	if (timeout != null && !timeout.isExpired())
+		timeout.cancel();
+	System.out.println("Script maxDuration.gv: timeout removed")
+}
+
+

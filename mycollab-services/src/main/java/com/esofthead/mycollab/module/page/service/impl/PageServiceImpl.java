@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.page.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.jcr.Node;
@@ -78,6 +79,8 @@ public class PageServiceImpl implements PageService {
 			@Override
 			public Object doInJcr(Session session) throws IOException,
 					RepositoryException {
+				page.setCreatedTime(new GregorianCalendar());
+				page.setCreatedUser(createdUser);
 				Node rootNode = session.getRootNode();
 				Node node = JcrUtils.getNodeIfExists(rootNode, page.getPath());
 				// forward to current path

@@ -32,6 +32,7 @@ import com.esofthead.mycollab.vaadin.mvp.ViewScope;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickEvent;
 import com.esofthead.mycollab.vaadin.ui.table.IPagedBeanTable.TableClickListener;
@@ -100,7 +101,7 @@ public class TaskSearchViewImpl extends AbstractPageView implements
 				});
 		backtoTaskListBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		backtoTaskListBtn.setIcon(MyCollabResource
-				.newResource("icons/16/back.png"));
+				.newResource(WebResourceIds._16_back));
 
 		UiUtils.addComponent(header, titleIcon, Alignment.TOP_LEFT);
 		UiUtils.addComponent(header, headerText, Alignment.MIDDLE_LEFT);

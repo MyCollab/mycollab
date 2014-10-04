@@ -1,0 +1,12 @@
+/*
+ * Sample script for mapping a network before an application starts on windows
+ * 
+ * Arguments: -
+ * 
+ * Configuration Example:
+ * 
+ * wrapper.app.pre.script=scripts/mapNetworkDrive.gv
+ *
+ */
+
+'net use k: \\\\myserver\\$c'.execute().text

@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.esofthead.vaadin.popupbutton.PopupButtonExt;
-import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;

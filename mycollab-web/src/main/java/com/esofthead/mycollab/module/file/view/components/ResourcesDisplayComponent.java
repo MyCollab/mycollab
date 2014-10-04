@@ -70,6 +70,7 @@ import com.esofthead.mycollab.vaadin.ui.NotificationUtil;
 import com.esofthead.mycollab.vaadin.ui.Separator;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UiUtils;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -166,7 +167,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 			public void buttonClick(ClickEvent event) {
 				if (!(Boolean) selectAllBtn.getData()) {
 					selectAllBtn.setIcon(MyCollabResource
-							.newResource("icons/16/checkbox.png"));
+							.newResource(WebResourceIds._16_checkbox));
 					selectAllBtn.setData(true);
 					resourcesContainer.setAllValues(true);
 				} else {

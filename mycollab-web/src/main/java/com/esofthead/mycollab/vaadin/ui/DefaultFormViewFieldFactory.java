@@ -427,17 +427,15 @@ public class DefaultFormViewFieldFactory {
 			return String.class;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		protected Component initContent() {
 			final Label label = new Label();
 			label.setWidth("100%");
 			label.setContentMode(ContentMode.TEXT);
 
-			if (key != null && (!key.equals(""))) {
+			if (org.apache.commons.lang3.StringUtils.isNotBlank(key)) {
 				try {
-					String value = AppContext.getMessage(Enum.valueOf(
-							enumClass, key));
+					String value = AppContext.getMessage(enumClass, key);
 					label.setValue(value);
 				} catch (Exception e) {
 					label.setValue("");

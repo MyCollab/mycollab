@@ -102,7 +102,7 @@ public class UserListViewImpl extends AbstractPageView implements UserListView {
 				.canWrite(RolePermissionCollections.ACCOUNT_USER));
 		createBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 		createBtn.setIcon(MyCollabResource
-				.newResource("icons/16/addRecord.png"));
+				.newResource(WebResourceIds._16_addRecord));
 
 		header.addComponent(createBtn);
 		header.setComponentAlignment(createBtn, Alignment.MIDDLE_RIGHT);

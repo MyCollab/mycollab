@@ -1,0 +1,60 @@
+/*
+ * Script for checking that an application reports that it is up and running 
+ * within a timeout after it is in state running.
+ *
+ * The application reports that it is up by logging a text to the console
+ * The logged text is defined as a filter trigger.
+ * 
+ * An instance of the script is invoked on startup of the application
+ * Another instance is invoked when the expected text has been printed to the console
+ * 
+ * If we have been invoked by a text match (line == null) a timer is set. We are using a timer implementation from the netty framework.
+ * The timer is stored in the context map so that it can be retrieved when the application terminates.
+ * 
+ * Arguments: 
+ * - maximal duration in seconds
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.script.RUN = scripts/maxStartup.gv
+ * wrapper.script.RUN.args = ${2*60} // 2 minutes
+ * wrapper.filter.trigger.systemStarted=System started
+ * wrapper.filter.script.systemStarted=scripts/maxStartup.gv
+ *
+ */
+
+import org.jboss.netty.util.*
+import java.util.concurrent.TimeUnit
+
+println "maxStartup.gv invoked: $line"
+
+	Timeout timeout = context.remove("timeout");
+// if a timeout has been set: remove it.
+	if (timeout != null && !timeout.isExpired())
+	{
+		timeout.cancel();
+		println "Script maxStartup.gv: timeout removed"
+		}
+
+// if we are not invoked by a trigger
+if (line == null || "".equals(line))
+{
+	Timer timer = new HashedWheelTimer();
+	final myProcess = process;
+	TimerTask task = 
+	{ Object[] tt ->
+			if (myProcess.isOSProcessRunning())
+			{
+			println "Script maxStartup.gv: took too long to startup -> restart"
+				myProcess.restart();
+			}
+	} as TimerTask;
+		long duration = Long.parseLong(args[0])
+		timeout = timer.newTimeout(task, duration, TimeUnit.SECONDS)
+		context.put("timeout", timeout);
+		println "Script maxStartup.gv: timeout set"
+}
+// else: nothing to do: timeout has already been removed
+
+
+

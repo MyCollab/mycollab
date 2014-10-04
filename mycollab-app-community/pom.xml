@@ -17,6 +17,43 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>yajsw-wrapper</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>yajsw-wrapperApp</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.rzo.yajsw</groupId>
+            <artifactId>hessian4</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.rzo.yajsw</groupId>
+            <artifactId>ahessian</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-vfs2</artifactId>
+            <version>2.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
@@ -172,6 +209,13 @@
                                 <copy todir="${staging.dir}/webapp">
                                     <fileset
                                         dir="${basedir}/src/main/webapp" />
+                                </copy>
+                                <copy todir="${staging.dir}/webapp">
+                                    <fileset
+                                        dir="${basedir}/src/main/webapp" />
+                                </copy>
+                                <copy todir="${staging.dir}/lib">
+                                    <fileset dir="${basedir}/src/main/lib" />
                                 </copy>
                             </tasks>
                         </configuration>

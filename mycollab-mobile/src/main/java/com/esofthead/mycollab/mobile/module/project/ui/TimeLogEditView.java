@@ -163,60 +163,6 @@ public abstract class TimeLogEditView<V extends ValuedBean> extends
 				});
 
 		headerPanel.addComponent(totalLayout);
-
-		// final HorizontalLayout addLayout = new HorizontalLayout();
-		// addLayout.setSpacing(true);
-		// addLayout.setSizeUndefined();
-		// spentTimePanel.addComponent(addLayout);
-		//
-		// this.newTimeInputField = new NumbericTextField();
-		// this.newTimeInputField.setWidth("80px");
-		// addLayout.addComponent(this.newTimeInputField);
-		// addLayout.setComponentAlignment(this.newTimeInputField,
-		// Alignment.MIDDLE_LEFT);
-		//
-		// this.forDate = new DateField();
-		// this.forDate.setValue(new GregorianCalendar().getTime());
-		// addLayout.addComponent(this.forDate);
-		// addLayout.setComponentAlignment(this.forDate, Alignment.MIDDLE_LEFT);
-		//
-		// this.isBillableField = new CheckBox(
-		// AppContext.getMessage(TimeTrackingI18nEnum.FORM_IS_BILLABLE),
-		// true);
-		// addLayout.addComponent(this.isBillableField);
-		// addLayout.setComponentAlignment(this.isBillableField,
-		// Alignment.MIDDLE_LEFT);
-		//
-		// this.btnAdd = new Button(
-		// AppContext.getMessage(GenericI18Enum.BUTTON_ADD),
-		// new Button.ClickListener() {
-		// private static final long serialVersionUID = 1L;
-		//
-		// @Override
-		// public void buttonClick(final ClickEvent event) {
-		// double d = 0;
-		// try {
-		// d = Double.parseDouble(newTimeInputField.getValue()
-		// .toString());
-		// } catch (NumberFormatException e) {
-		// NotificationUtil
-		// .showWarningNotification("You must enter a positive number value");
-		// }
-		// if (d > 0) {
-		// TimeLogEditView.this.saveTimeInvest();
-		// TimeLogEditView.this.loadTimeValue();
-		// TimeLogEditView.this.newTimeInputField
-		// .setValue("0.0");
-		// }
-		// }
-		//
-		// });
-		//
-		// this.btnAdd.setEnabled(TimeLogEditView.this.isEnableAdd());
-		// this.btnAdd.setIcon(MyCollabResource
-		// .newResource("icons/16/addRecord.png"));
-		// addLayout.addComponent(this.btnAdd);
-		// addLayout.setComponentAlignment(this.btnAdd, Alignment.MIDDLE_LEFT);
 	}
 
 	private void constructRemainTimeEntryPanel() {

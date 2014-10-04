@@ -1,0 +1,48 @@
+/*
+ * Script for changing the status color on the system tray icon.
+ * 
+ * Arguments: 
+ * - color [RED|YELLOW|GREEN|BLUE|BLACK|CYAN|GRAY|MAGENTA|ORANGE|PINK|NULL]
+ * 
+ * Example Configuration:
+ * 
+ * wrapper.filter.trigger.nok.tray=not OK
+ * wrapper.filter.script.nok.tray=scripts/trayColor.gv
+ * wrapper.filter.script.nok.tray.args=RED
+ * wrapper.filter.trigger.ok.tray=OK
+ * wrapper.filter.script.ok.tray=scripts/trayColor.gv
+ * wrapper.filter.script.ok.tray.args=NULL
+ */
+ 
+ import java.awt.Color
+ 
+if (this.args == null || this.args.length != 1)
+{
+	println "error in script trayMessage.gv missing arguments. check configuration"
+	return;
+}
+
+color = null;
+ if (args[0].equals('RED'))
+ 		color = Color.RED
+else  if (args[0].equals('NULL'))
+ 		color = null
+else if (args[0].equals('GREEN'))
+ 		color = Color.GREEN
+else  if (args[0].equals('BLUE'))
+ 		color = Color.BLUE
+else  if (args[0].equals('BLACK'))
+ 		color = Color.BLACK
+else  if (args[0].equals('CYAN'))
+ 		color = Color.CYAN
+else  if (args[0].equals('GRAY'))
+ 		color = Color.GRAY
+else  if (args[0].equals('MAGENTA'))
+ 		color = Color.MAGENTA
+else  if (args[0].equals('ORANGE'))
+ 		color = Color.ORANGE
+else  if (args[0].equals('PINK'))
+ 		color = Color.PINK
+ 		
+   
+ process.getTrayIcon().setUserColor(color)

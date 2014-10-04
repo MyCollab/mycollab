@@ -385,8 +385,8 @@ public class ProfileReadViewImpl extends AbstractPageView implements
 							.getDateofbirth());
 					return new DefaultFormViewFieldFactory.FormViewField(value);
 				} else if (propertyId.equals("language")) {
-					value = AppContext.getMessage(LangI18Enum.valueOf(user
-							.getLanguage()));
+					value = AppContext.getMessage(LangI18Enum.class,
+							user.getLanguage());
 					return new DefaultFormViewFieldFactory.FormViewField(value);
 				} else if (propertyId.equals("timezone")) {
 					value = TimezoneMapper.getTimezone(

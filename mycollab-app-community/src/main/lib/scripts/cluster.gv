@@ -1,0 +1,22 @@
+/*
+ * Sample for Cluster aware script 
+ * 
+ * Starts the process if current node is active
+ * Stops the process otherwise
+ * 
+ * Arguments: -
+ * 
+ * Configuration Example:
+ * 
+ * wrapper.windows.cluster.script=scripts/cluster.gv
+ * 
+ * current cluster information may be accessed by:
+ *
+ * process.cluster.activeNode: returns as string the current active node for the first group found
+ * process.cluster.groupInfo: returns a Map<String, String> with <group-name, current-node-of-group>
+ */
+ 
+if (System.getenv("COMPUTERNAME").equals(process.cluster.activeNode))
+    process.start()
+else
+    process.stop()

@@ -23,6 +23,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.FieldSelection;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.data.Property;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.event.MouseEvents.ClickEvent;
@@ -58,7 +59,7 @@ public class ContactSelectionField extends CustomField<Integer> implements
 		contactName.setNullRepresentation("");
 		contactName.setWidth("100%");
 		browseBtn = new Image(null,
-				MyCollabResource.newResource("icons/16/browseItem.png"));
+				MyCollabResource.newResource(WebResourceIds._16_browseItem));
 		browseBtn.addClickListener(new MouseEvents.ClickListener() {
 			private static final long serialVersionUID = 1L;
 

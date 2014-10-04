@@ -239,13 +239,11 @@ public class FieldGroupFomatter {
 			this.enumCls = enumCls;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public Component toVaadinComponent(String value) {
 			try {
 				if (StringUtils.isNotBlank(value)) {
-					return new Label(AppContext.getMessage(Enum.valueOf(
-							enumCls, value)));
+					return new Label(AppContext.getMessage(enumCls, value));
 				}
 
 				return new Label("");
@@ -254,12 +252,11 @@ public class FieldGroupFomatter {
 			}
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public String toString(String value) {
 			try {
 				if (StringUtils.isNotBlank(value)) {
-					return AppContext.getMessage(Enum.valueOf(enumCls, value));
+					return AppContext.getMessage(enumCls, value);
 				}
 
 				return "";

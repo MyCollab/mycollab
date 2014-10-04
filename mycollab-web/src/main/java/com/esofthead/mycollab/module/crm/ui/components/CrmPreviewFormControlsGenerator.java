@@ -24,7 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.AdvancedPreviewBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.SplitButton;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
-import com.vaadin.server.Sizeable;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -126,7 +126,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 						}
 					});
 			addBtn.setIcon(MyCollabResource
-					.newResource("icons/16/addRecord.png"));
+					.newResource(WebResourceIds._16_addRecord));
 			addBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			addBtn.setEnabled(canWrite);
 			layout.addComponent(addBtn);
@@ -146,7 +146,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 						}
 					});
 			editBtn.setIcon(MyCollabResource
-					.newResource("icons/16/edit_white.png"));
+					.newResource(WebResourceIds._16_edit_white));
 			editBtn.setStyleName(UIConstants.THEME_GREEN_LINK);
 			editBtn.setEnabled(canWrite);
 			layout.addComponent(editBtn);
@@ -184,7 +184,7 @@ public class CrmPreviewFormControlsGenerator<T> {
 							previewForm.fireCloneForm(item);
 						}
 					});
-			cloneBtn.setIcon(MyCollabResource.newResource("icons/16/clone.png"));
+			cloneBtn.setIcon(MyCollabResource.newResource(WebResourceIds._16_clone));
 			cloneBtn.setStyleName("link");
 			popupButtonsControl.addComponent(cloneBtn);
 		}

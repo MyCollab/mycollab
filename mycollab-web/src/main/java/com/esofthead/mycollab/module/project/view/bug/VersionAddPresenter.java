@@ -17,6 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug;
 
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
@@ -87,7 +88,7 @@ public class VersionAddPresenter extends AbstractPresenter<VersionAddView> {
 				.getSpringBean(VersionService.class);
 		item.setSaccountid(AppContext.getAccountId());
 		item.setProjectid(CurrentProjectVariables.getProjectId());
-		item.setStatus("Open");
+		item.setStatus(StatusI18nEnum.Open.name());
 		if (item.getId() == null) {
 			versionService.saveWithSession(item, AppContext.getUsername());
 		} else {
