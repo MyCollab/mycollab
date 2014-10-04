@@ -74,12 +74,6 @@
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
-            <artifactId>mycollab-search-server</artifactId>
-            <version>4.5.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
             <version>4.5.1</version>
         </dependency>
