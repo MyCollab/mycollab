@@ -19,8 +19,6 @@
         <module>../mycollab-migration</module>
         <module>../mycollab-services</module>
         <module>../mycollab-server-runner</module>
-        <module>../mycollab-search</module>
-        <module>../mycollab-search-server</module>
         <module>../mycollab-esb</module>
         <module>../mycollab-reporting</module>
         <module>../mycollab-scheduler</module>
