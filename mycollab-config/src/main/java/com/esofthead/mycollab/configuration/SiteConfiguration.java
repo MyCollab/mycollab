@@ -110,7 +110,7 @@ public class SiteConfiguration {
 		String runningMode = ApplicationProperties
 				.getString(RUNNING_MODE, null);
 		instance.deploymentMode = DeploymentMode.valueOf(runningMode);
-		log.debug("Site is running under {0} mode", instance.deploymentMode);
+		log.debug("Site is running under {} mode", instance.deploymentMode);
 
 		instance.cdnUrl = String.format(
 				ApplicationProperties.getString(CDN_URL),

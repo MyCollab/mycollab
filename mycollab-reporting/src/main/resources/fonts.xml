@@ -9,7 +9,7 @@
         <pdfEncoding>UTF-8</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
-    
+    <!-- 
     <fontFamily name="Takao">
         <normal>com/esofthead/mycollab/reporting/resources/fonts/TakaoExMincho.ttf</normal>
         <bold>com/esofthead/mycollab/reporting/resources/fonts/TakaoExGothic.ttf</bold>
@@ -18,5 +18,5 @@
         <pdfEncoding>Identity-H</pdfEncoding>
         <pdfEmbedded>true</pdfEmbedded>
     </fontFamily>
-
+-->
 </fontFamilies>
