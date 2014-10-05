@@ -54,6 +54,10 @@
             <version>${jackrabbitVersion}</version>
             <exclusions>
                 <exclusion>
+                    <groupId>commons-dbcp</groupId>
+                    <artifactId>commons-dbcp</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.apache.derby</groupId>
                     <artifactId>derby</artifactId>
                 </exclusion>
@@ -75,6 +79,6 @@
             <artifactId>jackrabbit-spi-commons</artifactId>
             <version>${jackrabbitVersion}</version>
         </dependency>
-        
+
     </dependencies>
 </project>

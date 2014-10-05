@@ -16,7 +16,9 @@
  */
 package com.esofthead.mycollab.reporting;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 
@@ -25,14 +27,34 @@ import java.util.Locale;
  * 
  */
 public class ReportTemplateFactory {
-	private static final AbstractReportTemplate jpReport = new ReportTemplateJp();
-	private static final AbstractReportTemplate enReport = new ReportTemplateEn();
+	private static String baseCls = "com.esofthead.mycollab.reporting.ReportTemplate_%s";
 
+	private static final AbstractReportTemplate enReport = new ReportTemplate_en_US();
+
+	private static final Map<Locale, AbstractReportTemplate> reportMap;
+
+	static {
+		reportMap = new HashMap<>();
+		reportMap.put(Locale.US, enReport);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static AbstractReportTemplate getTemplate(Locale language) {
-		if (Locale.JAPAN.equals(language)) {
-			return jpReport;
+		AbstractReportTemplate reportTemplate = reportMap.get(language);
+		if (reportTemplate != null) {
+			return reportTemplate;
 		} else {
-			return enReport;
+			String intendedCls = String.format(baseCls, language.toString());
+			try {
+				Class<AbstractReportTemplate> cls = (Class<AbstractReportTemplate>) Class
+						.forName(intendedCls);
+				reportTemplate = cls.newInstance();
+				reportMap.put(language, reportTemplate);
+				return reportTemplate;
+			} catch (Exception e) {
+				return enReport;
+			}
 		}
+
 	}
 }

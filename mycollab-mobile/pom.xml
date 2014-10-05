@@ -12,11 +12,6 @@
     </parent>
     <packaging>jar</packaging>
     <dependencies>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-            <version>${vaadinVersion}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
@@ -41,11 +36,11 @@
             <artifactId>mobilecomponent</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        
+
         <dependency>
-        	<groupId>com.esofthead.vaadin</groupId>
-        	<artifactId>navigationbar-quickmenu</artifactId>
-        	<version>1.0.0-SNAPSHOT</version>
+            <groupId>com.esofthead.vaadin</groupId>
+            <artifactId>navigationbar-quickmenu</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <!-- <build> <plugins> <plugin> <groupId>org.jasig.maven</groupId> <artifactId>sass-maven-plugin</artifactId> 
@@ -55,10 +50,4 @@
         </source> <destination>${basedir}/src/main/resources/VAADIN/themes/mycollab-mobile/</destination> 
         </resource> </resources> </configuration> </plugin> </plugins> </build> -->
 
-    <repositories>
-        <repository>
-            <id>mycollab-repo</id>
-            <url>https://raw.githubusercontent.com/esofthead/mycollab-maven-repo/master</url>
-        </repository>
-    </repositories>
 </project>
