@@ -6,6 +6,10 @@ jdk:
 before_script:
   - mysql -e 'create database mycollab_test;'
   - cd mycollab-deployer-community
+before_install:
+  sudo pip install codecov
+after_success:
+  codecov    
 notifications:
   email:
     - hainguyen@esofthead.com

@@ -26,6 +26,11 @@ import com.esofthead.mycollab.common.UrlEncodeDecoder;
  * 
  */
 public class AccountLinkGenerator {
+
+	public static String generateFullProfileLink(String siteUrl) {
+		return siteUrl + GenericLinkUtils.URL_PREFIX_PARAM + "account/preview";
+	}
+
 	public static String generateRoleLink(Integer userRoleId) {
 		return "account/role/preview/" + UrlEncodeDecoder.encode(userRoleId);
 	}

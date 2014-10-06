@@ -217,8 +217,8 @@ public class AppContext implements Serializable {
 			return getMessage(key, objects);
 		} catch (Exception e) {
 			log.error("Can not find resource key " + option
-					+ " and enum class " + enumCls, e);
-			return "Undefined";
+					+ " and enum class " + enumCls.getName(), e);
+			return "";
 		}
 	}
 

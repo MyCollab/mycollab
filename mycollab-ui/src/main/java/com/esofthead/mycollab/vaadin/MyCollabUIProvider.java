@@ -60,5 +60,4 @@ public class MyCollabUIProvider extends UIProvider {
 			throw new MyCollabException(e);
 		}
 	}
-
 }

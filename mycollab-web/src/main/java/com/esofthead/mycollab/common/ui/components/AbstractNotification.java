@@ -26,8 +26,8 @@ public abstract class AbstractNotification {
 	private String message;
 	private String type;
 
-	public static String WARNING = "warning";
-	public static String NEWS = "news";
+	public static final String WARNING = "warning";
+	public static final String NEWS = "news";
 
 	public AbstractNotification(String message, String type) {
 		this.message = message;

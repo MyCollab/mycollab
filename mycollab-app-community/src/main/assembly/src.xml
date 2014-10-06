@@ -56,6 +56,7 @@
             <outputDirectory>conf</outputDirectory>
             <includes>
                 <include>**/*.template</include>
+                <include>wrapper.conf</include>
             </includes>
         </fileSet>
 
