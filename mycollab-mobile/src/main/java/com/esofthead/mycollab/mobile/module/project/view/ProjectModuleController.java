@@ -33,7 +33,6 @@ import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
-import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent.GotoList;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
@@ -207,8 +206,22 @@ public class ProjectModuleController extends AbstractController {
 
 			@Subscribe
 			@Override
-			public void handle(GotoList event) {
+			public void handle(MilestoneEvent.GotoList event) {
 				MilestoneScreenData.List data = new MilestoneScreenData.List();
+				MilestonePresenter presenter = PresenterResolver
+						.getPresenter(MilestonePresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
+		this.register(new ApplicationEventListener<MilestoneEvent.GotoRead>() {
+
+			private static final long serialVersionUID = -1560535564437953348L;
+
+			@Subscribe
+			@Override
+			public void handle(MilestoneEvent.GotoRead event) {
+				MilestoneScreenData.Read data = new MilestoneScreenData.Read(
+						(Integer) event.getData());
 				MilestonePresenter presenter = PresenterResolver
 						.getPresenter(MilestonePresenter.class);
 				presenter.go(navManager, data);

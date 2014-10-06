@@ -23,7 +23,7 @@
         username="huynguyen@esofthead.com" lastAccessedTime="2014-02-19 10:17:06" />
 
     <s_user_account id="1" username="hainguyen@esofthead.com"
-        accountId="1" isAccountOwner="2" roleId="1" registeredTime="2013-08-08 00:00:00"
+        accountId="1" isAccountOwner="1" roleId="1" registeredTime="2013-08-08 00:00:00"
         registerStatus="Active" />
 
     <s_user_account id="2" username="linhduong@esofthead.com"

@@ -901,7 +901,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   box-sizing: border-box;
 }
 .mycollab-mobile .project-dashboard .project-modules-layout .v-button .v-button-wrap .v-button-caption span {
-  font-size: 5.8rem;
+  font-size: 5.3rem;
   line-height: 1;
   display: inline-block;
 }
@@ -1100,7 +1100,6 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   color: #414141;
   font-size: 1.4rem;
   font-weight: bold;
-  line-height: 1;
 }
 .mycollab-mobile .milestones-list-view .milestones-list .list-item .milestone-meta-info {
   font-size: 1.2rem;

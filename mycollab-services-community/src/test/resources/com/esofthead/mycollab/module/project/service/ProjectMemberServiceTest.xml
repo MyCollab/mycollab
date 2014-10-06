@@ -38,19 +38,19 @@
     <m_prj_role projectid="1" rolename="test" sAccountId="1"
         id="1" />
 
-    <m_prj_member status="Active" isAdmin="true" projectId="1"
+    <m_prj_member status="Active" isAdmin="1" projectId="1"
         sAccountId="1" joinDate="2013-04-10 13:29:23" username="user1"
         id="1" />
 
-    <m_prj_member status="InActive" isAdmin="true"
-        projectId="1" sAccountId="1" joinDate="2013-04-10 13:29:23"
-        username="user2" id="2" />
+    <m_prj_member status="InActive" isAdmin="1" projectId="1"
+        sAccountId="1" joinDate="2013-04-10 13:29:23" username="user2"
+        id="2" />
 
-    <m_prj_member status="Active" isAdmin="true" projectId="2"
+    <m_prj_member status="Active" isAdmin="1" projectId="2"
         sAccountId="1" joinDate="2013-04-10 13:29:23" username="user2"
         id="3" />
 
-    <m_prj_member status="Active" isAdmin="true" projectId="2"
+    <m_prj_member status="Active" isAdmin="1" projectId="2"
         sAccountId="1" joinDate="2013-04-10 13:29:23" username="user3"
         id="4" />
 </dataset>

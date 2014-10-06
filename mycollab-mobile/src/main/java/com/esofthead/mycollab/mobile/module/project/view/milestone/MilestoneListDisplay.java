@@ -17,6 +17,8 @@
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
@@ -27,6 +29,7 @@ import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -46,14 +49,14 @@ public class MilestoneListDisplay
 	public MilestoneListDisplay() {
 		super(ApplicationContextUtil.getSpringBean(MilestoneService.class),
 				new MilestoneRowDisplayHandler());
-		this.setDisplayNumItems(Integer.MAX_VALUE);
 	}
 
 	private static class MilestoneRowDisplayHandler implements
 			RowDisplayHandler<SimpleMilestone> {
 
 		@Override
-		public Component generateRow(SimpleMilestone milestone, int rowIndex) {
+		public Component generateRow(final SimpleMilestone milestone,
+				int rowIndex) {
 			HorizontalLayout layout = new HorizontalLayout();
 			layout.setStyleName("list-item");
 			layout.setSpacing(true);
@@ -68,15 +71,27 @@ public class MilestoneListDisplay
 			VerticalLayout milestoneInfoLayout = new VerticalLayout();
 			milestoneInfoLayout.setWidth("100%");
 
-			Button milestoneNameBtn = new Button(milestone.getName());
+			Button milestoneNameBtn = new Button(milestone.getName(),
+					new Button.ClickListener() {
+
+						private static final long serialVersionUID = 1222533996695304038L;
+
+						@Override
+						public void buttonClick(ClickEvent evt) {
+							EventBusFactory.getInstance().post(
+									new MilestoneEvent.GotoRead(this, milestone
+											.getId()));
+						}
+
+					});
 			milestoneNameBtn.setStyleName("milestone-name");
 			milestoneInfoLayout.addComponent(milestoneNameBtn);
 
 			Label milestoneDatesInfo = new Label();
 			milestoneDatesInfo.setValue(AppContext.getMessage(
 					MilestoneI18nEnum.M_LIST_DATE_INFO,
-					AppContext.formatDate(milestone.getStartdate()),
-					AppContext.formatDate(milestone.getEnddate())));
+					AppContext.formatDate(milestone.getStartdate(), " N/A "),
+					AppContext.formatDate(milestone.getEnddate(), " N/A ")));
 			milestoneDatesInfo.setStyleName("milestone-meta-info");
 			milestoneInfoLayout.addComponent(milestoneDatesInfo);
 

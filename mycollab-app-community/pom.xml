@@ -193,123 +193,6 @@
                 </executions>
             </plugin>
             <!-- END SNIPPET: assembly -->
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>create-staging-area</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <copy todir="${staging.dir}">
-                                    <fileset dir="${basedir}/src/izpack" />
-
-                                </copy>
-                                <copy todir="${staging.dir}/conf">
-                                    <fileset dir="${basedir}/src/main/conf" />
-                                </copy>
-                                <copy todir="${staging.dir}/logs">
-                                    <fileset dir="${basedir}/src/main/logs" />
-                                </copy>
-                                <copy todir="${staging.dir}/scripts">
-                                    <fileset
-                                        dir="${basedir}/src/main/scripts" />
-                                </copy>
-                                <copy todir="${staging.dir}/txt">
-                                    <fileset dir="${basedir}/src/main/txt" />
-                                </copy>
-                                <copy todir="${staging.dir}/webapp">
-                                    <fileset
-                                        dir="${basedir}/src/main/webapp" />
-                                </copy>
-                                <copy todir="${staging.dir}/webapp">
-                                    <fileset
-                                        dir="${basedir}/src/main/webapp" />
-                                </copy>
-                                <copy todir="${staging.dir}/lib">
-                                    <fileset dir="${basedir}/src/main/lib" />
-                                </copy>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <excludeTransitive>false</excludeTransitive>
-                    <stripVersion>false</stripVersion>
-                    <overWriteReleases>true</overWriteReleases>
-                    <overWriteSnapshots>true</overWriteSnapshots>
-                    <overWriteIfNewer>true</overWriteIfNewer>
-                </configuration>
-                <executions>
-                    <execution>
-                        <!-- copy *application* jars to izpack staging lib -->
-                        <id>copy-product-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${staging.dir}/lib</outputDirectory>
-                            <excludeScope>system</excludeScope>
-                            <!-- this excludes tools.jar, e.g. -->
-                            <excludeArtifactIds>mycustompanels</excludeArtifactIds>
-                            <!-- IMPORTANT: don't copy custom panels where 
-                                our application jars live -->
-                            <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
-                            <!-- IMPORTANT: we don't want to copy the izpack 
-                                dependency where our application jars live -->
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- copy izpack custom (custom panels, etc.) jars 
-                            to izpack staging custom -->
-                        <id>copy-izpack-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${staging.dir}/custom</outputDirectory>
-                            <includeArtifactIds>mycustompanels</includeArtifactIds>
-                            <!-- IMPORTANT: this causes *only* our custom 
-                                panels to be copied -->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.izpack</groupId>
-                <artifactId>izpack-maven-plugin</artifactId>
-                <version>1.0-alpha-5</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>izpack</goal>
-                        </goals>
-                        <configuration>
-                            <izpackBasedir>${staging.dir}</izpackBasedir>
-                            <installFile>${basedir}/src/izpack/install.xml</installFile>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.izpack</groupId>
-                        <artifactId>izpack-standalone-compiler</artifactId>
-                        <version>${izpackVersion}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
 
         <pluginManagement>
@@ -324,4 +207,153 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!environment</name>
+                </property>
+            </activation>
+            <build>
+            </build>
+        </profile>
+        <profile>
+            <id>production</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>production</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>create-staging-area</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy todir="${staging.dir}">
+                                            <fileset
+                                                dir="${basedir}/src/izpack" />
+
+                                        </copy>
+                                        <copy todir="${staging.dir}/conf">
+                                            <fileset
+                                                dir="${basedir}/src/main/conf" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/logs">
+                                            <fileset
+                                                dir="${basedir}/src/main/logs" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/scripts">
+                                            <fileset
+                                                dir="${basedir}/src/main/scripts" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/txt">
+                                            <fileset
+                                                dir="${basedir}/src/main/txt" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/webapp">
+                                            <fileset
+                                                dir="${basedir}/src/main/webapp" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/webapp">
+                                            <fileset
+                                                dir="${basedir}/src/main/webapp" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/lib">
+                                            <fileset
+                                                dir="${basedir}/src/main/lib" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <configuration>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <!-- copy *application* jars to izpack staging 
+                                    lib -->
+                                <id>copy-product-dependencies</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${staging.dir}/lib</outputDirectory>
+                                    <excludeScope>system</excludeScope>
+                                    <!-- this excludes tools.jar, e.g. -->
+                                    <excludeArtifactIds>mycustompanels</excludeArtifactIds>
+                                    <!-- IMPORTANT: don't copy custom panels 
+                                        where our application jars live -->
+                                    <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
+                                    <!-- IMPORTANT: we don't want to copy 
+                                        the izpack dependency where our application jars live -->
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- copy izpack custom (custom panels, etc.) 
+                                    jars to izpack staging custom -->
+                                <id>copy-izpack-dependencies</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${staging.dir}/custom</outputDirectory>
+                                    <includeArtifactIds>mycustompanels</includeArtifactIds>
+                                    <!-- IMPORTANT: this causes *only* our 
+                                        custom panels to be copied -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.izpack</groupId>
+                        <artifactId>izpack-maven-plugin</artifactId>
+                        <version>1.0-alpha-5</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>izpack</goal>
+                                </goals>
+                                <configuration>
+                                    <izpackBasedir>${staging.dir}</izpackBasedir>
+                                    <installFile>${basedir}/src/izpack/install.xml</installFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.izpack</groupId>
+                                <artifactId>izpack-standalone-compiler</artifactId>
+                                <version>${izpackVersion}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

@@ -34,11 +34,11 @@
     <m_prj_project id="4" name="D" sAccountId="1"
         shortname="aaa" projectStatus="Open" />
 
-    <m_prj_member status="Active" isAdmin="true" projectId="1"
+    <m_prj_member status="Active" isAdmin="1" projectId="1"
         sAccountId="1" joinDate="2013-04-10 13:29:23" username="admin"
         id="1" />
 
-    <m_prj_member status="Active" isAdmin="true" projectId="2"
+    <m_prj_member status="Active" isAdmin="1" projectId="2"
         sAccountId="1" joinDate="2013-04-10 13:29:23" username="admin"
         id="2" />
 

@@ -61,10 +61,11 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 		} /*
 		 * else if (data instanceof MilestoneScreenData.Add || data instanceof
 		 * MilestoneScreenData.Edit) { presenter = PresenterResolver
-		 * .getPresenter(MilestoneAddPresenter.class); } else if (data
-		 * instanceof MilestoneScreenData.Read) { presenter = PresenterResolver
-		 * .getPresenter(MilestoneReadPresenter.class); }
-		 */else {
+		 * .getPresenter(MilestoneAddPresenter.class); }
+		 */else if (data instanceof MilestoneScreenData.Read) {
+			presenter = PresenterResolver
+					.getPresenter(MilestoneReadPresenter.class);
+		} else {
 			throw new MyCollabException("Do not support screen data " + data);
 		}
 

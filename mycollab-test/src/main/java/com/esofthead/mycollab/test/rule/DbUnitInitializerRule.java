@@ -131,12 +131,13 @@ public class DbUnitInitializerRule implements TestRule {
 		}
 
 		private void tearDown() {
-			try {
-				this.databaseTester.onTearDown();
-			} catch (Exception e) {
-				throw new TestException(e);
+			if (databaseTester != null) {
+				try {
+					this.databaseTester.onTearDown();
+				} catch (Exception e) {
+					throw new TestException(e);
+				}
 			}
-
 		}
 	}
 
