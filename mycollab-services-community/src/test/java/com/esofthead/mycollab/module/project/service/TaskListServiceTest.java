@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -33,11 +34,10 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.MyCollabClassRunner;
-import com.esofthead.mycollab.test.service.ServiceTest;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 
-@RunWith(MyCollabClassRunner.class)
-public class TaskListServiceTest extends ServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class TaskListServiceTest extends IntergrationServiceTest {
 
 	@Autowired
 	private ProjectTaskListService projectTaskListService;

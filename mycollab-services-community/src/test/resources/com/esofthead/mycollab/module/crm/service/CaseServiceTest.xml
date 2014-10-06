@@ -8,11 +8,11 @@
     <s_user username="admin" firstname="Nguyen" lastname="Hai"
         email="hainguyen@esofthead.com" avatarId="avatar" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="linh" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_user_account id="2" isAccountOwner="true"
+    <s_user_account id="2" isAccountOwner="1"
         registerStatus="Active" username="admin" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 

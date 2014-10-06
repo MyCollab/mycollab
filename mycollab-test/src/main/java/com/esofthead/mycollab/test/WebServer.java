@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-test.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.test.module;
+package com.esofthead.mycollab.test;
 
-import com.esofthead.mycollab.test.MyCollabTestModule;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * 
  * @author MyCollab Ltd.
- * @since 1.0
- * 
+ * @since 4.5.2
+ *
  */
-public abstract class AbstractMyCollabTestModule implements MyCollabTestModule {
-	protected Class<?> host;
+@Target({ ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface WebServer {
 
-	public void setHost(Class<?> host) {
-		this.host = host;
-	}
 }

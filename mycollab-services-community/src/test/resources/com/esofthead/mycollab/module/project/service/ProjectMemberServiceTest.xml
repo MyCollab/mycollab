@@ -21,15 +21,15 @@
     <s_user firstname="a4" lastname="b4" username="user4"
         email="test@esofthead.com" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="user1" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_user_account id="2" isAccountOwner="true"
+    <s_user_account id="2" isAccountOwner="1"
         registerStatus="Active" username="user2" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_user_account id="3" isAccountOwner="true"
+    <s_user_account id="3" isAccountOwner="1"
         registerStatus="Active" username="user3" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 

@@ -13,11 +13,11 @@
     <s_user firstname="a2" lastname="b2" username="linhduong@esofthead.com"
         email="linhduong@esofthead.com" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="hainguyen@esofthead.com" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_user_account id="2" isAccountOwner="false"
+    <s_user_account id="2" isAccountOwner="0"
         registerStatus="Active" username="linhduong@esofthead.com"
         accountId="1" registeredTime="2013-04-10 13:29:23" />
 

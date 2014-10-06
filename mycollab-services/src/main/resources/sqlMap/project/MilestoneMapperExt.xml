@@ -116,7 +116,7 @@
         #end
     </select>
 
-    <select id="findPagableListByCriteria" parameterType="ProblemSearchCriteria"
+    <select id="findPagableListByCriteria" parameterType="MilestoneSearchCriteria"
         resultMap="MilestoneResult" lang="velocity">
 
         <include refid="selectMilestone" />

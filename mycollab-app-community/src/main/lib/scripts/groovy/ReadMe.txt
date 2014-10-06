@@ -1,1 +1,0 @@
-Sample groovy script used in conf/sample/wrapper.groovy_helloworld.conf showing how groovy scripts are wrapped

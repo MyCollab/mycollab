@@ -10,11 +10,11 @@
     <s_user firstname="Hai" lastname="Nguyen" username="hai"
         avatarId="2" email="hainguyen@esofthead.com" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="linh" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
-    <s_user_account id="2" isAccountOwner="true"
+    <s_user_account id="2" isAccountOwner="1"
         registerStatus="Active" username="hai" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 

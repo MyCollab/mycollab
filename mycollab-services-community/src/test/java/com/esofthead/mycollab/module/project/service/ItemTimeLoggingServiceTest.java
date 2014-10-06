@@ -27,6 +27,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.BooleanSearchField;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
@@ -36,11 +37,10 @@ import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.module.project.domain.ItemTimeLogging;
 import com.esofthead.mycollab.module.project.domain.criteria.ItemTimeLoggingSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.MyCollabClassRunner;
-import com.esofthead.mycollab.test.service.ServiceTest;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 
-@RunWith(MyCollabClassRunner.class)
-public class ItemTimeLoggingServiceTest extends ServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class ItemTimeLoggingServiceTest extends IntergrationServiceTest {
 
 	private static final DateFormat DF = new SimpleDateFormat(
 			"yyyy-MM-dd hh:mm:ss");

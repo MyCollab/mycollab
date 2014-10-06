@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-test.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.test.module;
+package com.esofthead.mycollab.test.module.db;
 
 import java.io.File;
 import java.io.FileOutputStream;

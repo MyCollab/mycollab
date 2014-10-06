@@ -26,7 +26,7 @@ import com.esofthead.mycollab.common.domain.SimpleRelayEmailNotification;
 import com.esofthead.mycollab.common.domain.criteria.RelayEmailNotificationSearchCriteria;
 import com.esofthead.mycollab.core.arguments.SearchRequest;
 
-//@RunWith(MyCollabClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = {"classpath:META-INF/spring/service-context-test.xml"})
 public class RelayEmailNotificationServiceTest {
 	@Autowired

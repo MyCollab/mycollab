@@ -8,7 +8,7 @@
     <s_user username="hai79" password="abc" firstname="Nguyen"
         lastname="Hai" email="hainguyen@esofthead.com" avatarId="1" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="hai79" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 

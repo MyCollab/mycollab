@@ -14,25 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with mycollab-services-community.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.esofthead.mycollab.form.service;
+package com.esofthead.mycollab.module.project.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+public class MilestoneServiceTest {
 
-import com.esofthead.mycollab.test.service.IntergrationServiceTest;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-public class MasterFormServiceTest extends IntergrationServiceTest {
-
-	@Autowired
-	private MasterFormService masterFormService;
-
-//	@DataSet
-	@Test
-	public void testGetForm() {
-//		DynaForm form = masterFormService.findCustomForm(1, "Account");
-//		Assert.assertNotNull(form);
-	}
 }

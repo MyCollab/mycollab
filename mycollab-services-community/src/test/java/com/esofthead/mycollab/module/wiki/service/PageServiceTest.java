@@ -28,16 +28,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.common.i18n.WikiI18nEnum;
 import com.esofthead.mycollab.module.page.domain.Page;
 import com.esofthead.mycollab.module.page.domain.PageVersion;
 import com.esofthead.mycollab.module.page.service.PageService;
-import com.esofthead.mycollab.test.MyCollabClassRunner;
-import com.esofthead.mycollab.test.service.ServiceTest;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 
-@RunWith(MyCollabClassRunner.class)
-public class PageServiceTest extends ServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class PageServiceTest extends IntergrationServiceTest {
 
 	@Autowired
 	private PageService wikiService;

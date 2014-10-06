@@ -34,18 +34,7 @@
             class="com.esofthead.mycollab.module.ecm.BundleDbPersistenceManagerExt">
             <param name="schemaObjectPrefix" value="ecm_p_workspace" />
         </PersistenceManager>
-        <!-- 
-        <SearchIndex
-            class='org.apache.jackrabbit.core.query.lucene.SearchIndex'>
-            <param name='path' value='${wsp.home}/index' />
-            <param name='extractorPoolSize' value='2' />
-            <param name='supportHighlighting' value='true' />
-            <FileSystem
-                class="com.esofthead.mycollab.module.ecm.DbFileSystemExt">
-                <param name="schemaObjectPrefix" value="ecm_s_" />
-            </FileSystem>
-        </SearchIndex>
-        -->
+
     </Workspace>
     <!-- Configures the versioning -->
 
@@ -59,14 +48,6 @@
         </PersistenceManager>
 
     </Versioning>
-
-    <!-- Search index for content that is shared repository wide (/jcr:system 
-        tree, contains mainly versions) -->
-    <!-- <SearchIndex class='org.apache.jackrabbit.core.query.lucene.SearchIndex'> 
-        <param name='path' value='mycollab/target/repository/index' /> <param name='textFilterClasses' 
-        value='org.apache.jackrabbit.extractor.HTMLTextExtractor,org.apache.jackrabbit.extractor.XMLTextExtractor' 
-        /> <param name='extractorPoolSize' value='2' /> <param name='supportHighlighting' 
-        value='true' /> </SearchIndex> -->
 
     <!-- Cluster configuration with system variables. -->
     <Cluster>

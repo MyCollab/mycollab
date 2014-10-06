@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.esofthead.mycollab.core.arguments.CollectionValueSearchField;
 import com.esofthead.mycollab.core.arguments.CompositionSearchField;
@@ -39,11 +40,10 @@ import com.esofthead.mycollab.module.crm.domain.Account;
 import com.esofthead.mycollab.module.crm.domain.SimpleAccount;
 import com.esofthead.mycollab.module.crm.domain.criteria.AccountSearchCriteria;
 import com.esofthead.mycollab.test.DataSet;
-import com.esofthead.mycollab.test.MyCollabClassRunner;
-import com.esofthead.mycollab.test.service.ServiceTest;
+import com.esofthead.mycollab.test.service.IntergrationServiceTest;
 
-@RunWith(MyCollabClassRunner.class)
-public class AccountServiceTest extends ServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class AccountServiceTest extends IntergrationServiceTest {
 
 	@Autowired
 	protected AccountService accountService;

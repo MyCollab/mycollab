@@ -4,7 +4,7 @@
         paymentMethod="Credit Card" status="Active" />
     <s_user username="hainguyen" firstname="Nguyen" lastname="Hai"
         email="hainguyen@esofthead.com" />
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="hainguyen" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 

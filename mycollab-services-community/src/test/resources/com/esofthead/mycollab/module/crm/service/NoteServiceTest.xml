@@ -10,7 +10,7 @@
     <s_user firstname="Nguyen" middlename="Phuc" lastname="Hai"
         username="admin" avatarId="avatar" email="hainguyen@esofthead.com" />
 
-    <s_user_account id="1" isAccountOwner="true"
+    <s_user_account id="1" isAccountOwner="1"
         registerStatus="Active" username="admin" accountId="1"
         registeredTime="2013-04-10 13:29:23" />
 
