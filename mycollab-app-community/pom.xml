@@ -210,14 +210,90 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>widgetset</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
-                    <name>!environment</name>
+                    <name>environment</name>
+                    <value>widgetset</value>
                 </property>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                    <version>${vaadinVersion}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client</artifactId>
+                    <version>${vaadinVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
             <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>src/main/webapp/VAADIN/widgetsets</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>${vaadinVersion}</version>
+                        <configuration>
+                            <extraJvmArgs>-Xmx1024M -Xss2048k</extraJvmArgs>
+                            <!-- <runTarget>mobilemail</runTarget> -->
+                            <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. 
+                                This way compatible with Vaadin eclipse plugin. -->
+                            <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
+                            </webappDirectory>
+                            <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
+                            </hostedWebapp>
+                            <!-- Most Vaadin apps don't need this stuff, 
+                                guide that to target -->
+                            <persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
+                            <deploy>${project.build.directory}/gwt-deploy</deploy>
+                            <!-- Compile report is not typically needed either, 
+                                saves hunreds of mb disk -->
+                            <compileReport>false</compileReport>
+                            <noServer>true</noServer>
+                            <!-- Remove draftCompile when project is ready -->
+                            <draftCompile>false</draftCompile>
+
+                            <style>OBF</style>
+                            <strict>true</strict>
+                            <runTarget>http://localhost:8080/</runTarget>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <!-- if you don't specify any modules, 
+                                        the plugin will find them -->
+                                    <modules>
+                                        <module>com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet</module>
+                                        <module>com.esofthead.mycollab.widgetset.MyCollabWidgetSet</module>
+                                    </modules>
+                                </configuration>
+                                <goals>
+                                    <goal>clean</goal>
+                                    <goal>resources</goal>
+                                    <goal>update-theme</goal>
+                                    <goal>update-widgetset</goal>
+                                    <goal>compile-theme</goal>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
         <profile>

@@ -36,26 +36,6 @@
 
         <dependency>
             <groupId>net.sourceforge.dynamicreports</groupId>
-            <artifactId>dynamicreports-core</artifactId>
-            <version>${reportVersion}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>jfree</groupId>
-                    <artifactId>jcommon</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jfree</groupId>
-                    <artifactId>jfreechart</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.dynamicreports</groupId>
             <artifactId>dynamicreports-adhoc</artifactId>
             <version>${reportVersion}</version>
         </dependency>
@@ -67,4 +47,71 @@
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>widgetset</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>widgetset</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>net.sourceforge.dynamicreports</groupId>
+                    <artifactId>dynamicreports-core</artifactId>
+                    <version>${reportVersion}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>jfree</groupId>
+                            <artifactId>jcommon</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>jfree</groupId>
+                            <artifactId>jfreechart</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>javax.servlet</groupId>
+                            <artifactId>servlet-api</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>eclipse</groupId>
+                            <artifactId>jdtcore</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>other</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>!widgetset</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>net.sourceforge.dynamicreports</groupId>
+                    <artifactId>dynamicreports-core</artifactId>
+                    <version>${reportVersion}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>jfree</groupId>
+                            <artifactId>jcommon</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>jfree</groupId>
+                            <artifactId>jfreechart</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>javax.servlet</groupId>
+                            <artifactId>servlet-api</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

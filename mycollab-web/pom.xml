@@ -128,7 +128,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>dragdroplayouts</artifactId>
-            <version>1.0.1</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.addons</groupId>
@@ -332,7 +332,6 @@
         <profile>
             <id>dev</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>!environment</name>
                 </property>
