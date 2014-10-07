@@ -55,12 +55,13 @@ done
 PRGDIR=`dirname "$PRG"`
 
 # Only set MYCOLLAB_HOME if not already set
-[ -z "$MYCOLLAB_HOME" ] && MYCOLLAB_HOME=`cd "$PRGDIR" >/dev/null; pwd`
+[ -z "$MYCOLLAB_HOME" ] && MYCOLLAB_HOME=`cd "$PRGDIR/.." >/dev/null; pwd`
 
 if [ -z "$MYCOLLAB_OUT" ] ; then
   MYCOLLAB_OUT="$MYCOLLAB_HOME"/logs/mycollab.out
 fi
 
+echo $MYCOLLAB_HOME
 echo Log $MYCOLLAB_OUT
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
@@ -158,8 +159,9 @@ if [ "$1" = "start" ] ; then
 
   shift
   touch "$MYCOLLAB_OUT"
+  cd ..
   eval \"$_RUNJAVA\" $MYCOLLAB_OPTS \
-      -jar runner.jar --port $MYCOLLAB_PORT --stop-port 8079 --stop-key esoftheadsecretkey  
+      -jar $MYCOLLAB_HOME/runner.jar --port $MYCOLLAB_PORT --stop-port 8079 --stop-key esoftheadsecretkey  
  ####>> "$MYCOLLAB_OUT" 2>&1 "&"
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
@@ -202,7 +204,8 @@ elif [ "$1" = "stop" ] ; then
     fi
   fi
 
-  eval \"$_RUNJAVA\" -jar runner.jar  --stop-port 8079 --stop-key esoftheadsecretkey --stop 
+  cd ..
+  eval \"$_RUNJAVA\" -jar $MYCOLLAB_HOME/runner.jar  --stop-port 8079 --stop-key esoftheadsecretkey --stop 
 
   if [ ! -z "$MYCOLLAB_PID" ]; then
     if [ -f "$MYCOLLAB_PID" ]; then

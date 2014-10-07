@@ -42,4 +42,4 @@ else
   fi
 fi
 
-exec "$PRGDIR"/"$EXECUTABLE" start "$@"
+echo exec "$PRGDIR"/"$EXECUTABLE" start "$@"

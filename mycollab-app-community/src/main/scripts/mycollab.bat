@@ -44,7 +44,7 @@ del /Q "%TEMP%\%~nx0.run" >NUL 2>&1
 rem Guess MYCOLLAB_HOME if not defined
 set "CURRENT_DIR=%cd%"
 if not "%MYCOLLAB_HOME%" == "" goto gotHome
-set "MYCOLLAB_HOME=%CURRENT_DIR%"
+set "MYCOLLAB_HOME=%CURRENT_DIR%\.."
 if exist "%MYCOLLAB_HOME%\mycollab.bat" goto okHome
 cd ..
 set "MYCOLLAB_HOME=%cd%"
@@ -103,6 +103,7 @@ goto setArgs
 :doneSetArgs
 
 rem Execute Java with the applicable properties
+cd ..
 %_EXECJAVA% %MYCOLLAB_OPTS% -jar runner.jar  %ACTION%
 goto end
 

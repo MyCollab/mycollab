@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.campaign;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleCampaign;
-import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
@@ -26,6 +25,4 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  * @since 4.1
  */
 public interface CampaignAddview extends IFormAddView<SimpleCampaign> {
-	@Override
-	HasEditFormHandlers<SimpleCampaign> getEditFormHandlers();
 }

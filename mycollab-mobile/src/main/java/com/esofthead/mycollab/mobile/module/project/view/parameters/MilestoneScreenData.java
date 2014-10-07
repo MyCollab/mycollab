@@ -43,8 +43,8 @@ public class MilestoneScreenData {
 
 	public static class Add extends ScreenData<SimpleMilestone> {
 
-		public Add(SimpleMilestone params) {
-			super(params);
+		public Add(SimpleMilestone param) {
+			super(param);
 		}
 	}
 

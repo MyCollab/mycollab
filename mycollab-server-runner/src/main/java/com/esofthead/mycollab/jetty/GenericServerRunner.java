@@ -276,6 +276,7 @@ public abstract class GenericServerRunner {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private WebAppContext initWebAppContext() {
 		String webappDirLocation = detectWebApp();
 		WebAppContext appContext = buildContext(webappDirLocation);

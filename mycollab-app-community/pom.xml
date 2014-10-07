@@ -17,7 +17,7 @@
     </properties>
 
     <dependencies>
-
+        <!-- START ADD DEPENDENCIES FOR RUNNING SERVICES -->
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>yajsw-wrapper</artifactId>
@@ -31,15 +31,27 @@
         </dependency>
 
         <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>abeille-formsrt</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.esofthead.mycollab</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.rzo.yajsw</groupId>
+            <artifactId>srvmgr</artifactId>
+            <version>11.11</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.rzo.yajsw</groupId>
             <artifactId>hessian4</artifactId>
             <version>11.11</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -75,6 +87,50 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty</artifactId>
+            <version>3.6.6.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.3.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>platform</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jrexx</groupId>
+            <artifactId>jrexx</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.glazedlists</groupId>
+            <artifactId>glazedlists_java15</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <!-- END ADD DEPENDENCIES FOR RUNNING SERVICES -->
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
@@ -210,90 +266,13 @@
 
     <profiles>
         <profile>
-            <id>widgetset</id>
+            <id>dev</id>
             <activation>
                 <property>
-                    <name>environment</name>
-                    <value>widgetset</value>
+                    <name>!environment</name>
                 </property>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client-compiled</artifactId>
-                    <version>${vaadinVersion}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-client</artifactId>
-                    <version>${vaadinVersion}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
             <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <version>2.4.1</version>
-                        <configuration>
-                            <filesets>
-                                <fileset>
-                                    <directory>src/main/webapp/VAADIN/widgetsets</directory>
-                                </fileset>
-                            </filesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>${vaadinVersion}</version>
-                        <configuration>
-                            <extraJvmArgs>-Xmx1024M -Xss2048k</extraJvmArgs>
-                            <!-- <runTarget>mobilemail</runTarget> -->
-                            <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. 
-                                This way compatible with Vaadin eclipse plugin. -->
-                            <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
-                            </webappDirectory>
-                            <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
-                            </hostedWebapp>
-                            <!-- Most Vaadin apps don't need this stuff, 
-                                guide that to target -->
-                            <persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
-                            <deploy>${project.build.directory}/gwt-deploy</deploy>
-                            <!-- Compile report is not typically needed either, 
-                                saves hunreds of mb disk -->
-                            <compileReport>false</compileReport>
-                            <noServer>true</noServer>
-                            <!-- Remove draftCompile when project is ready -->
-                            <draftCompile>false</draftCompile>
-
-                            <style>OBF</style>
-                            <strict>true</strict>
-                            <runTarget>http://localhost:8080/</runTarget>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <!-- if you don't specify any modules, 
-                                        the plugin will find them -->
-                                    <modules>
-                                        <module>com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet</module>
-                                        <module>com.esofthead.mycollab.widgetset.MyCollabWidgetSet</module>
-                                    </modules>
-                                </configuration>
-                                <goals>
-                                    <goal>clean</goal>
-                                    <goal>resources</goal>
-                                    <goal>update-theme</goal>
-                                    <goal>update-widgetset</goal>
-                                    <goal>compile-theme</goal>
-                                    <goal>compile</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>
@@ -427,6 +406,93 @@
                                 <version>${izpackVersion}</version>
                             </dependency>
                         </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>widgetset</id>
+            <activation>
+                <property>
+                    <name>environment</name>
+                    <value>widgetset</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                    <version>${vaadinVersion}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client</artifactId>
+                    <version>${vaadinVersion}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>src/main/webapp/VAADIN/widgetsets</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>${vaadinVersion}</version>
+                        <configuration>
+                            <extraJvmArgs>-Xmx1024M -Xss2048k</extraJvmArgs>
+                            <!-- <runTarget>mobilemail</runTarget> -->
+                            <!-- We are doing "inplace" but into subdir VAADIN/widgetsets. 
+                                This way compatible with Vaadin eclipse plugin. -->
+                            <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets
+                            </webappDirectory>
+                            <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets
+                            </hostedWebapp>
+                            <!-- Most Vaadin apps don't need this stuff, 
+                                guide that to target -->
+                            <persistentunitcachedir>${project.build.directory}</persistentunitcachedir>
+                            <deploy>${project.build.directory}/gwt-deploy</deploy>
+                            <!-- Compile report is not typically needed either, 
+                                saves hunreds of mb disk -->
+                            <compileReport>false</compileReport>
+                            <noServer>true</noServer>
+                            <!-- Remove draftCompile when project is ready -->
+                            <draftCompile>false</draftCompile>
+
+                            <style>OBF</style>
+                            <strict>true</strict>
+                            <runTarget>http://localhost:8080/</runTarget>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <!-- if you don't specify any modules, 
+                                        the plugin will find them -->
+                                    <modules>
+                                        <module>com.esofthead.mycollab.widgetset.MyCollabMobileWidgetSet</module>
+                                        <module>com.esofthead.mycollab.widgetset.MyCollabWidgetSet</module>
+                                    </modules>
+                                </configuration>
+                                <goals>
+                                    <goal>clean</goal>
+                                    <goal>resources</goal>
+                                    <goal>update-theme</goal>
+                                    <goal>update-widgetset</goal>
+                                    <goal>compile-theme</goal>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

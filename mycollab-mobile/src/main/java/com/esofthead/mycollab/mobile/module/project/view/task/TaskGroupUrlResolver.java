@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
 import com.esofthead.mycollab.common.UrlTokenizer;
+import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.ProjectUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
@@ -78,9 +79,12 @@ public class TaskGroupUrlResolver extends ProjectUrlResolver {
 		@Override
 		protected void handlePage(String... params) {
 			int projectId = new UrlTokenizer(params[0]).getInt();
+			SimpleTaskList taskList = new SimpleTaskList();
+			taskList.setProjectid(projectId);
+			taskList.setStatus(StatusI18nEnum.Open.name());
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new TaskGroupScreenData.Add());
+					new TaskGroupScreenData.Add(taskList));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

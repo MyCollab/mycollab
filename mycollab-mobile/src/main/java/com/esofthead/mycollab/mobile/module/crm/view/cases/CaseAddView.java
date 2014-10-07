@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.cases;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleCase;
-import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
@@ -27,6 +26,4 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  * 
  */
 public interface CaseAddView extends IFormAddView<SimpleCase> {
-	@Override
-	HasEditFormHandlers<SimpleCase> getEditFormHandlers();
 }

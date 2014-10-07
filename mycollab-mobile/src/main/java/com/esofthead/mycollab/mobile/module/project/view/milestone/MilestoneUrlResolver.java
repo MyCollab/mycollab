@@ -60,9 +60,12 @@ public class MilestoneUrlResolver extends ProjectUrlResolver {
 		protected void handlePage(String... params) {
 			int projectId = new UrlTokenizer(params[0]).getInt();
 
+			SimpleMilestone milestone = new SimpleMilestone();
+			milestone.setProjectid(projectId);
+
 			PageActionChain chain = new PageActionChain(
 					new ProjectScreenData.Goto(projectId),
-					new MilestoneScreenData.Add(new SimpleMilestone()));
+					new MilestoneScreenData.Add(milestone));
 			EventBusFactory.getInstance().post(
 					new ProjectEvent.GotoMyProject(this, chain));
 		}

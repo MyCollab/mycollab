@@ -109,10 +109,14 @@ public class ApplicationProperties {
 	}
 
 	public static String getString(String key) {
-		return properties.getProperty(key, "");
+		return getString(key, "");
 	}
 
 	public static String getString(String key, String defaultValue) {
-		return properties.getProperty(key, defaultValue);
+		if (properties != null) {
+			return properties.getProperty(key, defaultValue);
+		} else {
+			return defaultValue;
+		}
 	}
 }

@@ -17,7 +17,6 @@
 package com.esofthead.mycollab.mobile.module.crm.view.opportunity;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.vaadin.events.HasEditFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
 
 /**
@@ -27,6 +26,4 @@ import com.esofthead.mycollab.vaadin.mvp.IFormAddView;
  * 
  */
 public interface OpportunityAddView extends IFormAddView<SimpleOpportunity> {
-	@Override
-	HasEditFormHandlers<SimpleOpportunity> getEditFormHandlers();
 }

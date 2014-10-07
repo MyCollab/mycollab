@@ -43,6 +43,7 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScr
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
+import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
@@ -227,6 +228,36 @@ public class ProjectModuleController extends AbstractController {
 				presenter.go(navManager, data);
 			}
 		});
+		this.register(new ApplicationEventListener<MilestoneEvent.GotoAdd>() {
+
+			private static final long serialVersionUID = 7789241658397524718L;
+
+			@Subscribe
+			@Override
+			public void handle(MilestoneEvent.GotoAdd event) {
+				SimpleMilestone milestone = new SimpleMilestone();
+				milestone.setProjectid(CurrentProjectVariables.getProjectId());
+				MilestoneScreenData.Add data = new MilestoneScreenData.Add(
+						milestone);
+				MilestonePresenter presenter = PresenterResolver
+						.getPresenter(MilestonePresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
+		this.register(new ApplicationEventListener<MilestoneEvent.GotoEdit>() {
+
+			private static final long serialVersionUID = 150839801764244450L;
+
+			@Subscribe
+			@Override
+			public void handle(MilestoneEvent.GotoEdit event) {
+				MilestoneScreenData.Edit data = new MilestoneScreenData.Edit(
+						(SimpleMilestone) event.getData());
+				MilestonePresenter presenter = PresenterResolver
+						.getPresenter(MilestonePresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
 	}
 
 	private void bindTaskEvents() {
@@ -326,7 +357,11 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(TaskEvent.GotoListAdd event) {
-				TaskGroupScreenData.Add data = new TaskGroupScreenData.Add();
+				SimpleTaskList taskList = new SimpleTaskList();
+				taskList.setProjectid(CurrentProjectVariables.getProjectId());
+				taskList.setStatus(StatusI18nEnum.Open.name());
+				TaskGroupScreenData.Add data = new TaskGroupScreenData.Add(
+						taskList);
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
 				presenter.go(navManager, data);

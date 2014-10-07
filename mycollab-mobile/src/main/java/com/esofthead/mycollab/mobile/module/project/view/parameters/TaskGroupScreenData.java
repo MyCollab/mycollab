@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.parameters;
 
-import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
-import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.TaskListSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
@@ -42,12 +40,8 @@ public class TaskGroupScreenData {
 	}
 
 	public static class Add extends ScreenData<SimpleTaskList> {
-		public Add() {
-			super(null);
-			SimpleTaskList taskList = new SimpleTaskList();
-			taskList.setProjectid(CurrentProjectVariables.getProjectId());
-			taskList.setStatus(StatusI18nEnum.Open.name());
-			this.setParams(taskList);
+		public Add(SimpleTaskList param) {
+			super(param);
 		}
 	}
 

@@ -42,11 +42,6 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 	}
 
 	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
-
-	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
 				.getCurrent().getContent()).getNavigationMenu();
@@ -58,11 +53,11 @@ public class MilestonePresenter extends AbstractPresenter<MilestoneContainer> {
 		if (data instanceof MilestoneScreenData.List) {
 			presenter = PresenterResolver
 					.getPresenter(MilestoneListPresenter.class);
-		} /*
-		 * else if (data instanceof MilestoneScreenData.Add || data instanceof
-		 * MilestoneScreenData.Edit) { presenter = PresenterResolver
-		 * .getPresenter(MilestoneAddPresenter.class); }
-		 */else if (data instanceof MilestoneScreenData.Read) {
+		} else if (data instanceof MilestoneScreenData.Add
+				|| data instanceof MilestoneScreenData.Edit) {
+			presenter = PresenterResolver
+					.getPresenter(MilestoneAddPresenter.class);
+		} else if (data instanceof MilestoneScreenData.Read) {
 			presenter = PresenterResolver
 					.getPresenter(MilestoneReadPresenter.class);
 		} else {

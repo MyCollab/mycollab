@@ -19,7 +19,9 @@ package com.esofthead.mycollab.mobile.module.project.view.milestone;
 import com.esofthead.mycollab.core.arguments.NumberSearchField;
 import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileTabPageView;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -28,6 +30,7 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.MilestoneStatus;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 
 /**
@@ -138,10 +141,27 @@ public class MilestoneListViewImpl extends AbstractMobileTabPageView implements
 			this.milestoneList = new MilestoneListDisplay();
 			this.setContent(milestoneList);
 			this.setToggleButton(true);
+			this.setRightComponent(createRightComponent());
 		}
 
 		public void setSearchCriteria(MilestoneSearchCriteria searchCriteria) {
 			this.milestoneList.setSearchCriteria(searchCriteria);
+		}
+
+		private Component createRightComponent() {
+			Button addMilestone = new Button();
+			addMilestone.addClickListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = 1336922660536188779L;
+
+				@Override
+				public void buttonClick(Button.ClickEvent event) {
+					EventBusFactory.getInstance().post(
+							new MilestoneEvent.GotoAdd(this, null));
+				}
+			});
+			addMilestone.setStyleName("add-btn");
+			return addMilestone;
 		}
 	}
 
