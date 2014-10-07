@@ -3,13 +3,13 @@ jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk7
+before_install:
+    sudo pip install codecov
 before_script:
   - mysql -e 'create database mycollab_test;'
   - cd mycollab-deployer-community
-before_install:
-  sudo pip install codecov
 after_success:
-  codecov    
+  codecov
 notifications:
   email:
     - hainguyen@esofthead.com

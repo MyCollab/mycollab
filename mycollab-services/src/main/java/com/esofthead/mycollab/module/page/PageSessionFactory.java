@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.page;
 
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.nodetype.NodeTypeManager;
@@ -43,7 +44,8 @@ public class PageSessionFactory extends JcrSessionFactory {
 	@Override
 	protected void registerNodeTypes() throws Exception {
 		log.info("Register node types");
-		final String[] jcrNamespaces = getSession().getWorkspace()
+		Session session = getSession();
+		final String[] jcrNamespaces = session.getWorkspace()
 				.getNamespaceRegistry().getPrefixes();
 		boolean createNamespace = true;
 		for (int i = 0; i < jcrNamespaces.length; i++) {
@@ -53,20 +55,22 @@ public class PageSessionFactory extends JcrSessionFactory {
 			}
 		}
 		if (createNamespace) {
-			getSession().getWorkspace().getNamespaceRegistry()
+			session.getWorkspace().getNamespaceRegistry()
 					.registerNamespace("wiki", "http://www.esofthead.com/wiki");
 			log.debug("Successfully created Mycollab content namespace.");
 		}
-		if (getSession().getRootNode() == null) {
+		if (session.getRootNode() == null) {
 			throw new ContentException("Jcr session setup not successful.");
 		}
 
-		NodeTypeManager manager = (NodeTypeManager) getSession().getWorkspace()
+		NodeTypeManager manager = (NodeTypeManager) session.getWorkspace()
 				.getNodeTypeManager();
 		manager.registerNodeType(createWikiPageType(manager), true);
 		manager.registerNodeType(createWikiFolderType(manager), true);
+		session.logout();
 	}
 
+	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createWikiPageType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
 		log.info("Register mycollab content type");
@@ -144,6 +148,7 @@ public class PageSessionFactory extends JcrSessionFactory {
 		return pageTypeTemplate;
 	}
 
+	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createWikiFolderType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
 		// Create content node type

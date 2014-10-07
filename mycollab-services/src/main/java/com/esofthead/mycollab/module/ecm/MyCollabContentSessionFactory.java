@@ -18,6 +18,7 @@ package com.esofthead.mycollab.module.ecm;
 
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.nodetype.NodeTypeManager;
@@ -42,7 +43,8 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 	@Override
 	protected void registerNodeTypes() throws Exception {
 		log.info("Register node types");
-		final String[] jcrNamespaces = getSession().getWorkspace()
+		Session session = getSession();
+		final String[] jcrNamespaces = session.getWorkspace()
 				.getNamespaceRegistry().getPrefixes();
 		boolean createNamespace = true;
 		for (int i = 0; i < jcrNamespaces.length; i++) {
@@ -52,23 +54,24 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 			}
 		}
 		if (createNamespace) {
-			getSession()
-					.getWorkspace()
+			session.getWorkspace()
 					.getNamespaceRegistry()
 					.registerNamespace("mycollab",
 							"http://www.esofthead.com/mycollab");
 			log.debug("Successfully created Mycollab content namespace.");
 		}
-		if (getSession().getRootNode() == null) {
+		if (session.getRootNode() == null) {
 			throw new ContentException("Jcr session setup not successful.");
 		}
 
-		NodeTypeManager manager = (NodeTypeManager) getSession().getWorkspace()
+		NodeTypeManager manager = (NodeTypeManager) session.getWorkspace()
 				.getNodeTypeManager();
 		manager.registerNodeType(createMyCollabContentType(manager), true);
 		manager.registerNodeType(createMyCollabFolderType(manager), true);
+		session.logout();
 	}
 
+	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createMyCollabContentType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
 		log.info("Register mycollab content type");
@@ -137,6 +140,7 @@ public class MyCollabContentSessionFactory extends JcrSessionFactory {
 		return contentTypeTemplate;
 	}
 
+	@SuppressWarnings("unchecked")
 	private NodeTypeTemplate createMyCollabFolderType(NodeTypeManager manager)
 			throws NoSuchNodeTypeException, RepositoryException {
 		// Create content node type

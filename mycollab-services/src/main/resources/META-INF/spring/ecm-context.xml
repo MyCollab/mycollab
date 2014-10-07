@@ -8,7 +8,8 @@
         p:configuration="classpath:/jackrabbit-repo.xml" p:homeDir="file:repo2/content-workspace">
     </bean>
     <bean id="jcrSessionFactory"
-        class="com.esofthead.mycollab.module.ecm.MyCollabContentSessionFactory">
+        class="com.esofthead.mycollab.module.ecm.MyCollabContentSessionFactory"
+        destroy-method="destroy">
         <property name="repository" ref="repository" />
         <property name="credentials">
             <bean class="javax.jcr.SimpleCredentials">
