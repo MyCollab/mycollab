@@ -1,0 +1,28 @@
+@mixin project-bug {
+		.bugs-list {
+			.list-item {
+				padding: 1rem 1.4rem;
+				border-bottom: 0.1rem solid $light-gray-border;
+				color: $gray-text;
+				.bug-icon {
+					color: $primary-orange;
+					font-size: 1.8rem;
+					span[data-icon]:before {
+						font-weight: bold;
+					}
+				}
+				.bug-name {
+					color: $black-text;
+					font-size: 1.4rem;
+					font-weight: bold;
+				}
+				.bug-meta-info {
+					font-size: 1.2rem;
+					.bug-assignee {
+						color: $primary-blue;
+					}
+				}
+			}
+		}
+	
+}

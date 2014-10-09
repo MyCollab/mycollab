@@ -26,9 +26,9 @@ import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -67,7 +67,7 @@ public class MilestoneAddViewImpl extends AbstractEditItemComp<SimpleMilestone>
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			layout.setMargin(false);
 			Label header = new Label(

@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -47,7 +48,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		final AddViewLayout projectAddLayout = new AddViewLayout(this.title,
 				MyCollabResource.newResource("icons/24/project/project.png"));
 
@@ -84,7 +85,7 @@ public abstract class ProjectFormLayoutFactory implements IFormLayoutFactory {
 		private GridFormLayoutHelper descriptionLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 
 			final Label organizationHeader = new Label(

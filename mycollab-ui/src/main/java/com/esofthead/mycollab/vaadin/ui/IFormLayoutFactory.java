@@ -18,8 +18,8 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import java.io.Serializable;
 
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 /**
  * 
@@ -28,7 +28,7 @@ import com.vaadin.ui.Layout;
  * 
  */
 public interface IFormLayoutFactory extends Serializable {
-	Layout getLayout();
+	ComponentContainer getLayout();
 
 	void attachField(Object propertyId, Field<?> field);
 }

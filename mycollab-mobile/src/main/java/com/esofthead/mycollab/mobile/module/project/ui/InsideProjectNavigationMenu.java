@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.ui;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
@@ -138,6 +139,11 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 						ProjectCommonI18nEnum.VIEW_TASK).equals(caption)) {
 					EventBusFactory.getInstance().post(
 							new TaskEvent.GotoList(this, null));
+				} else if (AppContext
+						.getMessage(ProjectCommonI18nEnum.VIEW_BUG).equals(
+								caption)) {
+					EventBusFactory.getInstance().post(
+							new BugEvent.GotoList(this, null));
 				}
 
 			}

@@ -84,7 +84,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -228,7 +227,7 @@ public class ProjectMemberReadViewImpl extends AbstractProjectPageView
 		private static final long serialVersionUID = 8833593761607165873L;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			CssLayout memberBlock = new CssLayout();
 			memberBlock.addStyleName("member-block");
 

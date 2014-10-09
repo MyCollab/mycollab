@@ -90,7 +90,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -513,7 +512,7 @@ public class BugReadViewImpl extends AbstractPreviewItemComp2<SimpleBug>
 		}
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			layout.setMargin(false);
 			this.informationLayout = new GridFormLayoutHelper(2, 12, "100%",

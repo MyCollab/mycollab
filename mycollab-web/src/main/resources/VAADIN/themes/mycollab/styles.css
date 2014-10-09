@@ -498,6 +498,7 @@ div.v-button-link, div.v-button-link:focus, .v-button-link:active, div.v-disable
 .v-buttongroup .v-button.v-button-middle {
    /*  border-width: 1px 0px 1px 0px; */
     border-radius: 0px;
+    width: 100%;
 }
 .v-buttongroup .v-button.v-button-middle .v-button-wrap{
     border-left:1px solid #8F8F8F;
@@ -833,6 +834,13 @@ input.v-textfield-pagedtable-pagefield {
         direction=45); */
 }
 
+.topNavigation .subdomain {
+	font-weight: bold;
+    font-size: 13px;
+    color: white;
+    padding: 0 6px 0 3px;
+}
+
 .topNavigation .v-button-wrap,.topNavigation .v-button:active .v-button-wrap, .topNavigation .v-button span.v-button-wrap,
  .topNavigation .v-button:active span.v-button-wrap, .topNavigation .v-button:hover span.v-button-wrap,
  .topNavigation .v-buttongroup .v-button span.v-button-wrap
@@ -874,7 +882,7 @@ input.v-textfield-pagedtable-pagefield {
 #mainLogo {
     float: left;
     width: 150px;
-    margin: 6px 15px 1px 0px;
+    margin: 2px 15px 1px 0px;
     display: block;
 }
 

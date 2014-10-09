@@ -45,6 +45,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
@@ -113,7 +114,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 		private GridFormLayoutHelper basicInformationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			String title = (user.getUsername() == null) ? AppContext
 					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();
@@ -220,7 +221,7 @@ public class UserAddViewImpl extends AbstractPageView implements UserAddView {
 		private UserInformationLayout userInformationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			String title = (user.getUsername() == null) ? AppContext
 					.getMessage(UserI18nEnum.VIEW_NEW_USER) : user
 					.getDisplayName();

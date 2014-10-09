@@ -44,6 +44,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
@@ -113,7 +114,7 @@ public class TaskGroupAddWindow extends Window {
 			private GridFormLayoutHelper informationLayout;
 
 			@Override
-			public Layout getLayout() {
+			public ComponentContainer getLayout() {
 				final VerticalLayout taskListAddLayout = new VerticalLayout();
 				taskListAddLayout.setMargin(false);
 				taskListAddLayout.setWidth("100%");

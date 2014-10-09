@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.arguments.NumberSearchField;
+import com.esofthead.mycollab.core.arguments.SearchField;
 import com.esofthead.mycollab.core.arguments.SetSearchField;
 import com.esofthead.mycollab.core.arguments.StringSearchField;
 import com.esofthead.mycollab.core.utils.BeanUtility;
@@ -31,13 +33,17 @@ import com.esofthead.mycollab.eventmanager.ApplicationEventListener;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.MobileApplication;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
+import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessagePresenter;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePresenter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.BugFilterParameter;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
@@ -48,6 +54,9 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
+import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
 import com.esofthead.mycollab.module.user.domain.SimpleUser;
 import com.esofthead.mycollab.module.user.domain.UserPreference;
@@ -83,6 +92,7 @@ public class ProjectModuleController extends AbstractController {
 		this.navManager = navigationManager;
 
 		bindProjectEvents();
+		bindBugEvents();
 		bindMessageEvents();
 		bindMilestoneEvents();
 		bindTaskEvents();
@@ -147,6 +157,82 @@ public class ProjectModuleController extends AbstractController {
 						.getPresenter(ProjectViewPresenter.class);
 				presenter.handleChain(navManager,
 						(PageActionChain) event.getData());
+			}
+		});
+	}
+
+	private void bindBugEvents() {
+		this.register(new ApplicationEventListener<BugEvent.GotoList>() {
+
+			private static final long serialVersionUID = 4076325106652853379L;
+
+			@Subscribe
+			@Override
+			public void handle(BugEvent.GotoList event) {
+				Object params = event.getData();
+				BugPresenter presenter = PresenterResolver
+						.getPresenter(BugPresenter.class);
+				if (params == null) {
+					BugSearchCriteria criteria = new BugSearchCriteria();
+
+					criteria.setProjectId(new NumberSearchField(
+							SearchField.AND, CurrentProjectVariables
+									.getProjectId()));
+					criteria.setStatuses(new SetSearchField<String>(
+							SearchField.AND, new String[] {
+									BugStatus.InProgress.name(),
+									BugStatus.Open.name(),
+									BugStatus.ReOpened.name() }));
+					BugFilterParameter parameter = new BugFilterParameter(
+							"Open Bugs", criteria);
+					presenter.go(navManager,
+							new BugScreenData.Search(parameter));
+				} else if (params instanceof BugScreenData.Search) {
+					presenter.go(navManager, (BugScreenData.Search) params);
+				} else {
+					throw new MyCollabException("Invalid search parameter: "
+							+ BeanUtility.printBeanObj(params));
+				}
+			}
+
+		});
+		this.register(new ApplicationEventListener<BugEvent.GotoRead>() {
+			private static final long serialVersionUID = -7074159798708000630L;
+
+			@Subscribe
+			@Override
+			public void handle(BugEvent.GotoRead event) {
+				BugScreenData.Read data = new BugScreenData.Read(
+						(Integer) event.getData());
+				BugPresenter presenter = PresenterResolver
+						.getPresenter(BugPresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
+		this.register(new ApplicationEventListener<BugEvent.GotoAdd>() {
+			private static final long serialVersionUID = 4397575911576124923L;
+
+			@Subscribe
+			@Override
+			public void handle(BugEvent.GotoAdd event) {
+				BugScreenData.Add data = new BugScreenData.Add(new SimpleBug());
+				BugPresenter presenter = PresenterResolver
+						.getPresenter(BugPresenter.class);
+				presenter.go(navManager, data);
+			}
+		});
+
+		this.register(new ApplicationEventListener<BugEvent.GotoEdit>() {
+			private static final long serialVersionUID = 1211187276122156430L;
+
+			@Subscribe
+			@Override
+			public void handle(BugEvent.GotoEdit event) {
+				BugScreenData.Edit data = new BugScreenData.Edit(
+						(SimpleBug) event.getData());
+				BugPresenter presenter = PresenterResolver
+						.getPresenter(BugPresenter.class);
+				presenter.go(navManager, data);
 			}
 		});
 	}
@@ -235,10 +321,8 @@ public class ProjectModuleController extends AbstractController {
 			@Subscribe
 			@Override
 			public void handle(MilestoneEvent.GotoAdd event) {
-				SimpleMilestone milestone = new SimpleMilestone();
-				milestone.setProjectid(CurrentProjectVariables.getProjectId());
 				MilestoneScreenData.Add data = new MilestoneScreenData.Add(
-						milestone);
+						new SimpleMilestone());
 				MilestonePresenter presenter = PresenterResolver
 						.getPresenter(MilestonePresenter.class);
 				presenter.go(navManager, data);

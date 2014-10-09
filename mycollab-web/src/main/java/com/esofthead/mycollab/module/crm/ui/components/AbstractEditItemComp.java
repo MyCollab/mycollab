@@ -27,7 +27,6 @@ import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 /**
  * 
@@ -70,7 +69,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		private IFormLayoutFactory informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			AddViewLayout2 formAddLayout = new AddViewLayout2(initFormTitle(),
 					initFormIconResource());
 

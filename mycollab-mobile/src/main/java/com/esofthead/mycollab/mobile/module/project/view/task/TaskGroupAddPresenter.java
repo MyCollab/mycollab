@@ -124,6 +124,7 @@ public class TaskGroupAddPresenter extends
 				.getSpringBean(ProjectTaskListService.class);
 
 		item.setSaccountid(AppContext.getAccountId());
+		item.setProjectid(CurrentProjectVariables.getProjectId());
 
 		if (item.getId() == null) {
 			item.setCreateduser(AppContext.getUsername());

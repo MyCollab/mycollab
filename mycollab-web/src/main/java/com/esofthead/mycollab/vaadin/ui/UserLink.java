@@ -111,6 +111,7 @@ public class UserLink extends Button {
 
 			// ---------define top layout
 			topLayout.setSpacing(true);
+			
 			topLayout.addComponent(new Label("View full profile at: "));
 
 			String userFullLinkStr = AccountLinkGenerator
@@ -119,9 +120,9 @@ public class UserLink extends Button {
 			LabelLink userFullLinkBtn = new LabelLink(userFullLinkStr,
 					userFullLinkStr);
 
-			userFullLinkBtn.setWidth("100%");
+			userFullLinkBtn.setWidth("370px");
 			topLayout.addComponent(userFullLinkBtn);
-			topLayout.setExpandRatio(userFullLinkBtn, 1.0f);
+			//topLayout.setExpandRatio(userFullLinkBtn, 1.0f);
 			// -----------------------------------
 			CssLayout mainBodyWapper = new CssLayout();
 			mainBodyWapper.addStyleName("border-box2-color");

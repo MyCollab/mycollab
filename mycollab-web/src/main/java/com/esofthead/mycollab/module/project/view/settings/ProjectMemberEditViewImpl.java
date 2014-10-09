@@ -50,7 +50,6 @@ import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -142,7 +141,7 @@ public class ProjectMemberEditViewImpl extends
 		}
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			VerticalLayout layout = new VerticalLayout();
 			layout.addComponent(formLayoutFactory.getLayout());
 

@@ -97,13 +97,8 @@ public class ActivityListPresenter
 					.getMessage(CrmCommonI18nEnum.TOOLBAR_ACTIVITIES_HEADER));
 
 			searchCriteria = (ActivitySearchCriteria) data.getParams();
-			int totalCount = eventService.getTotalCount(searchCriteria);
-			if (totalCount > 0) {
-				this.displayListView(container, data);
-				doSearch(searchCriteria);
-			} else {
-				this.displayNoExistItems(container, data);
-			}
+			this.displayListView(container, data);
+			doSearch(searchCriteria);
 
 			AppContext.addFragment("crm/activity/todo", "Assignments");
 		} else {

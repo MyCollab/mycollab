@@ -45,9 +45,9 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -102,7 +102,7 @@ class ResolvedInputWindow extends Window {
 			private GridFormLayoutHelper informationLayout;
 
 			@Override
-			public Layout getLayout() {
+			public ComponentContainer getLayout() {
 				final VerticalLayout layout = new VerticalLayout();
 				this.informationLayout = new GridFormLayoutHelper(2, 6, "100%",
 						"150px", Alignment.TOP_LEFT);

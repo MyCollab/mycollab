@@ -106,7 +106,7 @@ public class RoleAddViewImpl extends AbstractPageView implements RoleAddView {
 			}
 
 			@Override
-			public Layout getLayout() {
+			public ComponentContainer getLayout() {
 				final AddViewLayout formAddLayout = new AddViewLayout(
 						initFormHeader(),
 						MyCollabResource

@@ -22,9 +22,9 @@ import com.esofthead.mycollab.module.project.i18n.MilestoneI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -72,7 +72,7 @@ public class MilestoneFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setMargin(false);
 		Label header = new Label(

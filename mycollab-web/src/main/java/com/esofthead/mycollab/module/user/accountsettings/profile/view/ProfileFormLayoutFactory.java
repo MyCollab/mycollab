@@ -27,6 +27,7 @@ import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -54,7 +55,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		if (userAvatarIcon == null) {
 			userAvatarIcon = MyCollabResource
 					.newResource("icons/24/project/user.png");
@@ -87,7 +88,7 @@ public abstract class ProfileFormLayoutFactory implements IFormLayoutFactory {
 		private GridFormLayoutHelper contactInformationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			final Label organizationHeader = new Label(
 					AppContext

@@ -23,8 +23,8 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 /**
  * 
@@ -95,7 +95,7 @@ class ProjectInformationLayout implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		this.moreInfoLayout = new GridFormLayoutHelper(2, 7, "100%", "167px",
 				Alignment.TOP_LEFT);
 		this.moreInfoLayout.getLayout().setWidth("100%");

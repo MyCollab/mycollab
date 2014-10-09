@@ -55,10 +55,10 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -100,7 +100,7 @@ class TaskDisplayComponent extends CssLayout {
 				private GridFormLayoutHelper layoutHelper;
 
 				@Override
-				public Layout getLayout() {
+				public ComponentContainer getLayout() {
 					this.layoutHelper = new GridFormLayoutHelper(2, 3, "100%",
 							"180px", Alignment.TOP_LEFT);
 					this.layoutHelper.getLayout().setWidth("100%");

@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -43,7 +44,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		final AddViewLayout userAddLayout = new AddViewLayout(this.title,
 				MyCollabResource.newResource("icons/48/user/group.png"));
 
@@ -78,7 +79,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			final Label organizationHeader = new Label("Role Information");
 			organizationHeader.setStyleName("h2");

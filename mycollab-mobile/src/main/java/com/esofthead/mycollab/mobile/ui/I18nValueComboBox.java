@@ -16,6 +16,7 @@
  */
 package com.esofthead.mycollab.mobile.ui;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -29,6 +30,16 @@ import com.esofthead.mycollab.vaadin.AppContext;
 public class I18nValueComboBox extends ValueComboBox {
 
 	private static final long serialVersionUID = 7466956429723924052L;
+
+	public I18nValueComboBox() {
+		super();
+	}
+
+	public I18nValueComboBox(boolean nullIsAllowable, Enum<?>... keys) {
+		super();
+		setNullSelectionAllowed(nullIsAllowable);
+		loadData(Arrays.asList(keys));
+	}
 
 	public final void loadData(List<? extends Enum<?>> values) {
 		this.setItemCaptionMode(ItemCaptionMode.EXPLICIT_DEFAULTS_ID);

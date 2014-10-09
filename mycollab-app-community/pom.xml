@@ -231,23 +231,10 @@
             </plugin>
 
             <!-- START SNIPPET: assembly -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/src.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-assembly-plugin</artifactId> 
+                <configuration> <descriptors> <descriptor>src/main/assembly/src.xml</descriptor> 
+                </descriptors> </configuration> <executions> <execution> <phase>package</phase> 
+                <goals> <goal>single</goal> </goals> </execution> </executions> </plugin> -->
             <!-- END SNIPPET: assembly -->
         </plugins>
 
@@ -286,57 +273,9 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>create-staging-area</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <copy todir="${staging.dir}">
-                                            <fileset
-                                                dir="${basedir}/src/izpack" />
-
-                                        </copy>
-                                        <copy todir="${staging.dir}/conf">
-                                            <fileset
-                                                dir="${basedir}/src/main/conf" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/logs">
-                                            <fileset
-                                                dir="${basedir}/src/main/logs" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/scripts">
-                                            <fileset
-                                                dir="${basedir}/src/main/scripts" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/txt">
-                                            <fileset
-                                                dir="${basedir}/src/main/txt" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/webapp">
-                                            <fileset
-                                                dir="${basedir}/src/main/webapp" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/webapp">
-                                            <fileset
-                                                dir="${basedir}/src/main/webapp" />
-                                        </copy>
-                                        <copy todir="${staging.dir}/lib">
-                                            <fileset
-                                                dir="${basedir}/src/main/lib" />
-                                        </copy>
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.9</version>
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
                             <stripVersion>false</stripVersion>
@@ -382,7 +321,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <plugin>
                         <groupId>org.codehaus.izpack</groupId>
                         <artifactId>izpack-maven-plugin</artifactId>
@@ -396,6 +334,7 @@
                                 <configuration>
                                     <izpackBasedir>${staging.dir}</izpackBasedir>
                                     <installFile>${basedir}/src/izpack/install.xml</installFile>
+                                    <customPanelDirectory>${staging.dir}</customPanelDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -404,6 +343,130 @@
                                 <groupId>org.codehaus.izpack</groupId>
                                 <artifactId>izpack-standalone-compiler</artifactId>
                                 <version>${izpackVersion}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>l4j-clui</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <configuration>
+                                    <headerType>gui</headerType>
+                                    <jar>target/mycollab-app-community-4.5.1-standard.jar</jar>
+                                    <outfile>target/MyCollab-Installer.exe</outfile>
+                                    <downloadUrl>http://java.com/download</downloadUrl>
+                                    <classPath>
+                                        <mainClass>com.izforge.izpack.installer.Installer</mainClass>
+                                        <preCp>anything</preCp>
+                                    </classPath>
+                                    <icon>application.ico</icon>
+                                    <jre>
+                                        <minVersion>1.7.0</minVersion>
+                                        <jdkPreference>preferJre</jdkPreference>
+                                    </jre>
+                                    <versionInfo>
+                                        <fileVersion>4.5.2</fileVersion>
+                                        <txtFileVersion>4.5.2</txtFileVersion>
+                                        <fileDescription>${project.name}</fileDescription>
+                                        <copyright>©2014, MyCollab</copyright>
+                                        <productVersion>4.5.2</productVersion>
+                                        <txtProductVersion>4.5.2</txtProductVersion>
+                                        <productName>MyCollab</productName>
+                                        <companyName>MyCollab</companyName>
+                                        <internalName>MyCollab</internalName>
+                                        <originalFilename>MyCollab</originalFilename>
+                                    </versionInfo>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>create-staging-area</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <copy todir="${staging.dir}">
+                                            <fileset
+                                                dir="${basedir}/src/izpack" />
+
+                                        </copy>
+                                        <copy todir="${staging.dir}/conf">
+                                            <fileset
+                                                dir="${basedir}/src/main/conf" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/logs">
+                                            <fileset
+                                                dir="${basedir}/src/main/logs" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/scripts">
+                                            <fileset
+                                                dir="${basedir}/src/main/scripts" />
+                                        </copy>
+
+                                        <copy todir="${staging.dir}/txt">
+                                            <fileset
+                                                dir="${basedir}/src/main/txt" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/webapp">
+                                            <fileset
+                                                dir="${basedir}/src/main/webapp" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/webapp">
+                                            <fileset
+                                                dir="${basedir}/src/main/webapp" />
+                                        </copy>
+                                        <copy todir="${staging.dir}/lib">
+                                            <fileset
+                                                dir="${basedir}/src/main/lib" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>create-macos-bundle</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <taskdef name="jarbundler"
+                                            classname="net.sourceforge.jarbundler.JarBundler"
+                                            classpathref="maven.plugin.classpath" />
+                                        <jarbundler dir="target"
+                                            name="MyCollab"
+                                            mainclass="com.izforge.izpack.installer.Installer"
+                                            jar="target/mycollab-app-community-4.5.1-standard.jar"
+                                            copyright="©2014, MyCollab"
+                                            icon="src/main/macos-resources/mycollab.icns"
+                                            version="4.5.2" build="GA"
+                                            infostring="MyCollab - the stable, rich features, and high performance platform of Project Management and CRM" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.esofthead.mycollab</groupId>
+                                <artifactId>jarbundler</artifactId>
+                                <version>2.3.1</version>
                             </dependency>
                         </dependencies>
                     </plugin>

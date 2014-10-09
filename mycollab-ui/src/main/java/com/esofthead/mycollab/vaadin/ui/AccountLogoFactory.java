@@ -18,7 +18,8 @@ package com.esofthead.mycollab.vaadin.ui;
 
 import com.esofthead.mycollab.vaadin.resources.VaadinResourceManager;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Image;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.themes.BaseTheme;
 
 /**
  * 
@@ -27,8 +28,10 @@ import com.vaadin.ui.Image;
  * 
  */
 public class AccountLogoFactory {
-	public static Image createAccountLogoImageComponent(String logoId, int size) {
-		Image logo = new Image(null, createLogoResource(logoId, size));
+	public static Button createAccountLogoImageComponent(String logoId, int size) {
+		Button logo = new Button();
+		logo.setStyleName(BaseTheme.BUTTON_LINK);
+		logo.setIcon(createLogoResource(logoId, size));
 		return logo;
 
 	}

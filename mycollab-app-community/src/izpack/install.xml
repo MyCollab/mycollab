@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
-
 <installation version="1.0">
 
     <!-- The info section. The meaning of the tags should be natural ... -->
@@ -19,15 +18,6 @@
         <splash>flash_install_8.png</splash>
 
         <!-- <splash>images/peas_load.gif</splash> -->
-        <laf name="substance">
-            <os family="windows" />
-            <os family="unix" />
-            <param name="variant" value="mist-silver" />
-        </laf>
-        <laf name="substance">
-            <os family="mac" />
-            <param name="variant" value="mist-aqua" />
-        </laf>
         <modifier key="useHeadingPanel" value="yes" />
         <modifier key="layoutAnchor" value="CENTER" />
     </guiprefs>
@@ -63,10 +53,52 @@
             <file src="conf" targetdir="$INSTALL_PATH" />
             <file src="lib" targetdir="$INSTALL_PATH" />
             <file src="logs" targetdir="$INSTALL_PATH" />
-            <fileset dir="scripts" includes="*" targetdir="$INSTALL_PATH" />
+            <fileset dir="scripts" includes="*.gv" targetdir="$INSTALL_PATH/bin" />
+            <fileset dir="scripts" includes="*.sh" targetdir="$INSTALL_PATH/bin">
+                <os family="unix|mac" />
+            </fileset>
+            <fileset dir="scripts" includes="*.bat" targetdir="$INSTALL_PATH/bin">
+                <os family="windows" />
+            </fileset>
             <fileset dir="txt" includes="*" targetdir="$INSTALL_PATH" />
             <file src="webapp" targetdir="$INSTALL_PATH" />
+
+            <executable targetfile="$INSTALL_PATH/bin/installDaemon.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/installDaemonNoPriv.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/mycollab.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/setenv.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/shutdown.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/startup.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/uninstallDaemon.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/uninstallDaemonNoPriv.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
+            <executable targetfile="$INSTALL_PATH/bin/wrapper.sh"
+                stage="never" keep="true">
+                <os family="unix|mac" />
+            </executable>
         </pack>
     </packs>
-
 </installation>

@@ -26,7 +26,6 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 
 /**
  * 
@@ -68,7 +67,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractPageView
 		private IFormLayoutFactory informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final AddViewLayout formAddLayout = new AddViewLayout(
 					initFormHeader(), initFormIconResource());
 

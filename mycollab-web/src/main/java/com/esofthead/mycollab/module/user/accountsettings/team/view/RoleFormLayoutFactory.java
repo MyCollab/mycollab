@@ -25,6 +25,7 @@ import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.ReadViewLayout;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
@@ -45,7 +46,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 	}
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		final ReadViewLayout userAddLayout = new ReadViewLayout(this.title);
 
 		this.userInformationLayout = new RoleInformationLayout();
@@ -72,7 +73,7 @@ public abstract class RoleFormLayoutFactory implements IFormLayoutFactory {
 		private GridFormLayoutHelper informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 			final Label organizationHeader = new Label(
 					AppContext.getMessage(RoleI18nEnum.SECTION_INFORMATION));

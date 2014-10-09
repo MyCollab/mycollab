@@ -17,7 +17,7 @@
 
 package com.esofthead.mycollab.module.project.view.bug.components;
 
-import com.esofthead.mycollab.module.project.view.bug.BugRelationConstants;
+import com.esofthead.mycollab.module.tracker.BugRelationConstants;
 import com.vaadin.ui.ComboBox;
 
 /**

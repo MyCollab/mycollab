@@ -59,6 +59,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -584,7 +585,7 @@ public class PageListViewImpl extends AbstractPageView implements PageListView {
 				private GridFormLayoutHelper informationLayout;
 
 				@Override
-				public Layout getLayout() {
+				public ComponentContainer getLayout() {
 					final VerticalLayout layout = new VerticalLayout();
 					this.informationLayout = new GridFormLayoutHelper(2, 2,
 							"100%", "167px", Alignment.TOP_LEFT);

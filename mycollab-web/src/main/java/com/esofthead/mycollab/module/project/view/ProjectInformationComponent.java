@@ -36,11 +36,11 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -169,7 +169,7 @@ public class ProjectInformationComponent extends VerticalLayout {
 				}
 
 				@Override
-				public Layout getLayout() {
+				public ComponentContainer getLayout() {
 					this.informationLayout = new GridFormLayoutHelper(2, 3,
 							"100%", "167px", Alignment.TOP_LEFT);
 					this.informationLayout.getLayout().setWidth("100%");

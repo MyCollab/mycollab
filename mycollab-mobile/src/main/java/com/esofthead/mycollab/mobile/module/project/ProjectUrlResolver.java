@@ -21,6 +21,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.esofthead.mycollab.common.UrlTokenizer;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.view.bug.BugUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.view.message.MessageUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestoneUrlResolver;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectScreenData;
@@ -43,6 +44,7 @@ public class ProjectUrlResolver extends UrlResolver {
 		this.addSubResolver("message", new MessageUrlResolver());
 		this.addSubResolver("milestone", new MilestoneUrlResolver());
 		this.addSubResolver("task", new TaskUrlResolver());
+		this.addSubResolver("bug", new BugUrlResolver());
 		return this;
 	}
 

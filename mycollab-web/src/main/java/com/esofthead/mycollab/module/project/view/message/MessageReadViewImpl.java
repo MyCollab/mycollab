@@ -65,12 +65,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -138,7 +138,7 @@ public class MessageReadViewImpl extends AbstractPageView implements
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			VerticalLayout messageAddLayout = new VerticalLayout();
 			messageAddLayout.setSpacing(true);
 

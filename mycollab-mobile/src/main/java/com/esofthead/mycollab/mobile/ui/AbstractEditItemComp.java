@@ -24,8 +24,8 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -87,7 +87,7 @@ public abstract class AbstractEditItemComp<B> extends AbstractMobilePageView
 		private IFormLayoutFactory informationLayout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			VerticalLayout formAddLayout = new VerticalLayout();
 			informationLayout = initFormLayoutFactory();
 

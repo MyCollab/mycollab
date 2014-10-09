@@ -22,9 +22,9 @@ import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -37,7 +37,7 @@ public class ProjectMemberFormLayoutFactory implements IFormLayoutFactory {
 	private GridFormLayoutHelper informationLayout;
 
 	@Override
-	public Layout getLayout() {
+	public ComponentContainer getLayout() {
 		final VerticalLayout layout = new VerticalLayout();
 		final Label organizationHeader = new Label(
 				AppContext

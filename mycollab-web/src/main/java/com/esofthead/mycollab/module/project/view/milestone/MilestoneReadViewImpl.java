@@ -72,7 +72,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -294,7 +293,7 @@ public class MilestoneReadViewImpl extends
 		}
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			final VerticalLayout layout = new VerticalLayout();
 
 			this.informationLayout = new GridFormLayoutHelper(2, 4, "100%",

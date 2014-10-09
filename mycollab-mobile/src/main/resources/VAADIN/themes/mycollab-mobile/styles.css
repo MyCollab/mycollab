@@ -911,6 +911,29 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   font-weight: bold;
   text-transform: uppercase;
 }
+.mycollab-mobile .bugs-list .list-item {
+  padding: 1rem 1.4rem;
+  border-bottom: 0.1rem solid #dddddd;
+  color: #959595;
+}
+.mycollab-mobile .bugs-list .list-item .bug-icon {
+  color: #f59330;
+  font-size: 1.8rem;
+}
+.mycollab-mobile .bugs-list .list-item .bug-icon span[data-icon]:before {
+  font-weight: bold;
+}
+.mycollab-mobile .bugs-list .list-item .bug-name {
+  color: #414141;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+.mycollab-mobile .bugs-list .list-item .bug-meta-info {
+  font-size: 1.2rem;
+}
+.mycollab-mobile .bugs-list .list-item .bug-meta-info .bug-assignee {
+  color: #49a3e1;
+}
 .mycollab-mobile .message-list-view .message-block, .mycollab-mobile .message-read-view .message-block {
   padding: 1.2rem 0.8rem;
   border-bottom: 1px solid #cbcbcb;

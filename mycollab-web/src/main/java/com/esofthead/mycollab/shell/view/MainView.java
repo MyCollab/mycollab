@@ -56,7 +56,6 @@ import com.esofthead.mycollab.web.CustomLayoutLoader;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.MouseEvents;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -160,7 +159,7 @@ public final class MainView extends AbstractPageView {
 		forumLink.setTargetName("_blank");
 
 		Link wikiLink = new Link("Knowledge Base", new ExternalResource(
-				"http://wiki.mycollab.com"));
+				"https://www.mycollab.com/help/"));
 		wikiLink.setTargetName("_blank");
 
 		footerRight.addComponent(blogLink);
@@ -172,6 +171,7 @@ public final class MainView extends AbstractPageView {
 		return footer;
 	}
 
+	@SuppressWarnings("deprecation")
 	private CustomLayout createTopMenu() {
 		final CustomLayout layout = CustomLayoutLoader
 				.createLayout("topNavigation");
@@ -179,15 +179,15 @@ public final class MainView extends AbstractPageView {
 		layout.setHeight("40px");
 		layout.setWidth("100%");
 
-		Image accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
+		Button accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
 				ThemeManager.loadLogoPath(AppContext.getAccountId()), 150);
 
-		accountLogo.addClickListener(new MouseEvents.ClickListener() {
+		accountLogo.addListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
-				UserPreference pref = AppContext.getUserPreference();
+			public void buttonClick(final ClickEvent event) {
+				final UserPreference pref = AppContext.getUserPreference();
 				if (pref.getLastmodulevisit() == null
 						|| ModuleNameConstants.PRJ.equals(pref
 								.getLastmodulevisit())) {
@@ -278,6 +278,10 @@ public final class MainView extends AbstractPageView {
 		accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		accountLayout.setMargin(new MarginInfo(false, true, false, false));
 		accountLayout.setSpacing(true);
+		
+		final Label accountNameLabel = new Label(AppContext.getSubDomain());
+		accountNameLabel.setStyleName("subdomain");
+		accountLayout.addComponent(accountNameLabel);
 
 		// display trial box if user in trial mode
 		SimpleBillingAccount billingAccount = AppContext.getBillingAccount();

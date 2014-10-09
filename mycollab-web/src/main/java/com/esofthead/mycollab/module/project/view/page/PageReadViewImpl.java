@@ -83,7 +83,6 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -287,7 +286,7 @@ public class PageReadViewImpl extends AbstractPreviewItemComp2<Page> implements
 		private VerticalLayout layout;
 
 		@Override
-		public Layout getLayout() {
+		public ComponentContainer getLayout() {
 			layout = new VerticalLayout();
 			layout.setStyleName("page-read-layout");
 			layout.setMargin(true);

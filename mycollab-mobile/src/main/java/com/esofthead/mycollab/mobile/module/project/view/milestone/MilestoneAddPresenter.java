@@ -16,12 +16,10 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.milestone;
 
-import org.apache.log4j.Logger;
-
 import com.esofthead.mycollab.common.GenericLinkUtils;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
-import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.Milestone;
@@ -48,8 +46,6 @@ public class MilestoneAddPresenter extends
 
 	private static final long serialVersionUID = 1L;
 
-	Logger log = Logger.getLogger(MilestoneAddPresenter.class);
-
 	public MilestoneAddPresenter() {
 		super(MilestoneAddView.class);
 	}
@@ -66,24 +62,16 @@ public class MilestoneAddPresenter extends
 						ViewState viewState = HistoryViewManager.back();
 						if (viewState instanceof NullViewState) {
 							EventBusFactory.getInstance().post(
-									new MilestoneEvent.GotoList(this, null));
+									new ShellEvent.NavigateBack(this, null));
 						}
 					}
 
 					@Override
 					public void onCancel() {
-						ViewState viewState = HistoryViewManager.back();
-						if (viewState instanceof NullViewState) {
-							EventBusFactory.getInstance().post(
-									new MilestoneEvent.GotoList(this, null));
-						}
 					}
 
 					@Override
 					public void onSaveAndNew(final SimpleMilestone milestone) {
-						saveMilestone(milestone);
-						EventBusFactory.getInstance().post(
-								new MilestoneEvent.GotoAdd(this, null));
 					}
 				});
 	}
@@ -98,10 +86,6 @@ public class MilestoneAddPresenter extends
 			super.onGo(container, data);
 
 			if (milestone.getId() == null) {
-				log.info("URLFragment: "
-						+ GenericLinkUtils
-								.encodeParam(new Object[] { CurrentProjectVariables
-										.getProjectId() }));
 				AppContext
 						.addFragment(
 								"project/milestone/add/"

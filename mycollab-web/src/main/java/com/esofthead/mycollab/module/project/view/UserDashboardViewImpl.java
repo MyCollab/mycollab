@@ -35,6 +35,7 @@ import com.esofthead.mycollab.module.project.service.ProjectService;
 import com.esofthead.mycollab.module.project.view.user.ActivityStreamComponent;
 import com.esofthead.mycollab.module.project.view.user.MyProjectListComponent;
 import com.esofthead.mycollab.module.project.view.user.TaskStatusComponent;
+import com.esofthead.mycollab.module.user.AccountLinkGenerator;
 import com.esofthead.mycollab.security.RolePermissionCollections;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
@@ -50,6 +51,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -64,8 +66,9 @@ import com.vaadin.ui.themes.Reindeer;
  * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class UserDashboardViewImpl extends AbstractLazyPageView implements
-		UserDashboardView {
+public class UserDashboardViewImpl extends AbstractLazyPageView
+		implements
+			UserDashboardView {
 	private static final long serialVersionUID = 1L;
 
 	private ButtonLink followingTicketsLink;
@@ -80,6 +83,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 
 	private List<Integer> prjKeys;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void displayView() {
 		this.removeAllComponents();
@@ -97,9 +101,22 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		header.setSpacing(true);
 		header.addStyleName("projectfeed-hdr");
 
-		header.addComponent(UserAvatarControlFactory
-				.createUserAvatarEmbeddedComponent(
-						AppContext.getUserAvatarId(), 64));
+		Button avatar = UserAvatarControlFactory
+				.createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(),
+						64);
+		avatar.addListener(new ClickListener() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void buttonClick(final ClickEvent event) {
+				String userFullLinkStr = AccountLinkGenerator
+						.generatePreviewFullUserLink(AppContext.getSiteUrl(),
+								AppContext.getUsername());
+				getUI().getPage().open(userFullLinkStr, null);
+			}
+		});
+
+		header.addComponent(avatar);
 
 		final VerticalLayout headerContent = new VerticalLayout();
 		headerContent.addStyleName("projectfeed-hdr-content");
@@ -237,8 +254,9 @@ public class UserDashboardViewImpl extends AbstractLazyPageView implements
 		MonitorItemService monitorService = ApplicationContextUtil
 				.getSpringBean(MonitorItemService.class);
 		int followingItemsCount = monitorService.getTotalCount(searchCriteria);
-		followingTicketsLink.setCaption(AppContext.getMessage(
-				FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
-				followingItemsCount));
+		followingTicketsLink
+				.setCaption(AppContext.getMessage(
+						FollowerI18nEnum.OPT_MY_FOLLOWING_TICKETS,
+						followingItemsCount));
 	}
 }
