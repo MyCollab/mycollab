@@ -367,22 +367,22 @@
                                         <mainClass>com.izforge.izpack.installer.Installer</mainClass>
                                         <preCp>anything</preCp>
                                     </classPath>
-                                    <icon>application.ico</icon>
+                                    <icon>src/main/windows-resources/MyCollab.ico</icon>
                                     <jre>
                                         <minVersion>1.7.0</minVersion>
                                         <jdkPreference>preferJre</jdkPreference>
                                     </jre>
                                     <versionInfo>
-                                        <fileVersion>4.5.2</fileVersion>
+                                        <fileVersion>4.5.2.0</fileVersion>
                                         <txtFileVersion>4.5.2</txtFileVersion>
                                         <fileDescription>${project.name}</fileDescription>
                                         <copyright>©2014, MyCollab</copyright>
-                                        <productVersion>4.5.2</productVersion>
+                                        <productVersion>4.5.2.0</productVersion>
                                         <txtProductVersion>4.5.2</txtProductVersion>
                                         <productName>MyCollab</productName>
                                         <companyName>MyCollab</companyName>
                                         <internalName>MyCollab</internalName>
-                                        <originalFilename>MyCollab</originalFilename>
+                                        <originalFilename>MyCollab.exe</originalFilename>
                                     </versionInfo>
                                 </configuration>
                             </execution>
