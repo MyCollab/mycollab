@@ -45,6 +45,12 @@ Last changelog
 Version 4.5.2
 -----------------------------
 
+** Library Upgrades
+
+* Upgrade Spring framework to 4.1.1.RELEASE
+* Upgrade Vaadin to 7.3.2
+* Upgrade Camel to 2.14.0
+
 **New Features**
 
 * Make the new MyCollab installer for every platform: Windows, MacOS, Linux
@@ -53,7 +59,7 @@ Version 4.5.2
 
 **Improvements**
 
-* Upgrade libraries versions
+* Remove unused libraries for the community edition such as Dropbox, Solr to reduce the size of installer 
 * Tweak the error handling while init view
 * Refactor the file module management
 * Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements

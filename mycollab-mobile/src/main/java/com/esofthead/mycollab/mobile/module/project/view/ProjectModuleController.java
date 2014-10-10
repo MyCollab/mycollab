@@ -54,7 +54,6 @@ import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
-import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.user.domain.SimpleBillingAccount;
@@ -178,11 +177,11 @@ public class ProjectModuleController extends AbstractController {
 					criteria.setProjectId(new NumberSearchField(
 							SearchField.AND, CurrentProjectVariables
 									.getProjectId()));
-					criteria.setStatuses(new SetSearchField<String>(
-							SearchField.AND, new String[] {
-									BugStatus.InProgress.name(),
-									BugStatus.Open.name(),
-									BugStatus.ReOpened.name() }));
+					// criteria.setStatuses(new SetSearchField<String>(
+					// SearchField.AND, new String[] {
+					// BugStatus.InProgress.name(),
+					// BugStatus.Open.name(),
+					// BugStatus.ReOpened.name() }));
 					BugFilterParameter parameter = new BugFilterParameter(
 							"Open Bugs", criteria);
 					presenter.go(navManager,

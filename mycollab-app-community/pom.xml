@@ -402,6 +402,7 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
+
                                         <copy todir="${staging.dir}">
                                             <fileset
                                                 dir="${basedir}/src/izpack" />

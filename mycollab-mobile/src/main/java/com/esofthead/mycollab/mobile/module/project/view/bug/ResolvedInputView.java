@@ -22,9 +22,14 @@ import com.esofthead.mycollab.common.CommentType;
 import com.esofthead.mycollab.common.domain.Comment;
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.service.CommentService;
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
+import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
+import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
+import com.esofthead.mycollab.mobile.ui.GridFormLayoutHelper;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.BugWithBLOBs;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
@@ -35,14 +40,11 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.AdvancedEditBeanForm;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
-import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 
 /**
  * 
@@ -53,64 +55,42 @@ import com.vaadin.ui.Window;
 /*
  * TODO: Add support BugVersion when it's ready in the next version
  */
+class ResolvedInputView extends AbstractMobilePageView {
+	private static final long serialVersionUID = 1L;
 
-@SuppressWarnings("serial")
-class ReOpenWindow extends Window {
 	private final SimpleBug bug;
 	private final EditForm editForm;
 	private final BugReadView callbackForm;
 
-	ReOpenWindow(final BugReadView callbackForm, final SimpleBug bug) {
-		super("Reopen bug '" + bug.getSummary() + "'");
-		this.setResizable(false);
-		this.setClosable(false);
-		this.setDraggable(false);
-		this.setModal(true);
+	ResolvedInputView(final BugReadView callbackForm, final SimpleBug bug) {
+		this.setCaption("Resolve ["
+				+ CurrentProjectVariables.getProject().getShortname() + "-"
+				+ bug.getBugkey() + "]");
 		this.bug = bug;
 		this.callbackForm = callbackForm;
 
-		this.setWidth("100%");
 		this.editForm = new EditForm();
 		this.editForm.setBean(bug);
-
 		constructUI();
-
-		this.center();
 	}
 
 	private void constructUI() {
-		VerticalLayout contentLayout = new VerticalLayout();
-		contentLayout.setWidth("100%");
-		contentLayout.addComponent(this.editForm);
-
-		final HorizontalLayout controlsBtn = new HorizontalLayout();
-		controlsBtn.setWidth("100%");
-
-		final Button cancelBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_CANCEL),
+		final Button resolvedBtn = new Button(
+				AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
 				new Button.ClickListener() {
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
-						ReOpenWindow.this.close();
-					}
-				});
-		controlsBtn.addComponent(cancelBtn);
-
-		final Button reOpenBtn = new Button(
-				AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
-				new Button.ClickListener() {
-					@Override
-					public void buttonClick(final Button.ClickEvent event) {
-
 						if (editForm.validateForm()) {
-							ReOpenWindow.this.bug.setStatus(BugStatus.ReOpened
-									.name());
+							ResolvedInputView.this.bug
+									.setStatus(BugStatus.Resolved.name());
 
 							// Save bug status and assignee
 							final BugService bugService = ApplicationContextUtil
 									.getSpringBean(BugService.class);
 							bugService.updateSelectiveWithSession(
-									ReOpenWindow.this.bug,
+									ResolvedInputView.this.bug,
 									AppContext.getUsername());
 
 							// Save comment
@@ -126,7 +106,7 @@ class ReOpenWindow extends Window {
 								comment.setSaccountid(AppContext.getAccountId());
 								comment.setType(CommentType.PRJ_BUG.toString());
 								comment.setTypeid(""
-										+ ReOpenWindow.this.bug.getId());
+										+ ResolvedInputView.this.bug.getId());
 								comment.setExtratypeid(CurrentProjectVariables
 										.getProjectId());
 
@@ -135,23 +115,27 @@ class ReOpenWindow extends Window {
 								commentService.saveWithSession(comment,
 										AppContext.getUsername());
 							}
-
-							ReOpenWindow.this.close();
-							ReOpenWindow.this.callbackForm.previewItem(bug);
+							ResolvedInputView.this.callbackForm
+									.previewItem(bug);
+							EventBusFactory.getInstance().post(
+									new ShellEvent.NavigateBack(this, null));
 						}
 
 					}
 				});
-		controlsBtn.addComponent(reOpenBtn);
-		contentLayout.addComponent(controlsBtn);
-
-		this.setContent(contentLayout);
+		resolvedBtn.setStyleName("save-btn");
+		this.setRightComponent(resolvedBtn);
+		this.setContent(this.editForm);
 	}
 
 	private class EditForm extends AdvancedEditBeanForm<BugWithBLOBs> {
 
 		private static final long serialVersionUID = 1L;
 		private TextArea commentArea;
+
+		public EditForm() {
+			this.addStyleName("editview-layout");
+		}
 
 		@Override
 		public void setBean(final BugWithBLOBs newDataSource) {
@@ -163,34 +147,34 @@ class ReOpenWindow extends Window {
 		class FormLayoutFactory implements IFormLayoutFactory {
 
 			private static final long serialVersionUID = 1L;
-			private VerticalComponentGroup informationLayout;
+			private GridFormLayoutHelper informationLayout;
 
 			@Override
 			public ComponentContainer getLayout() {
-				this.informationLayout = new VerticalComponentGroup();
+				informationLayout = new GridFormLayoutHelper(1, 3, "100%",
+						"140px", Alignment.TOP_LEFT);
+				this.informationLayout.getLayout().setWidth("100%");
+				this.informationLayout.getLayout().setMargin(false);
 
-				return informationLayout;
+				return informationLayout.getLayout();
 			}
 
 			@Override
 			public void attachField(final Object propertyId,
 					final Field<?> field) {
 				if (propertyId.equals("resolution")) {
-					field.setCaption(AppContext
-							.getMessage(BugI18nEnum.FORM_RESOLUTION));
-					this.informationLayout.addComponent(field);
+					this.informationLayout.addComponent(field,
+							AppContext.getMessage(BugI18nEnum.FORM_RESOLUTION),
+							0, 0);
 				} else if (propertyId.equals("assignuser")) {
-					field.setCaption(AppContext
-							.getMessage(GenericI18Enum.FORM_ASSIGNEE));
-					this.informationLayout.addComponent(field);
-				} else if (propertyId.equals("fixedVersions")) {
-					field.setCaption(AppContext
-							.getMessage(BugI18nEnum.FORM_FIXED_VERSIONS));
-					this.informationLayout.addComponent(field);
+					this.informationLayout
+							.addComponent(field, AppContext
+									.getMessage(GenericI18Enum.FORM_ASSIGNEE),
+									0, 1);
 				} else if (propertyId.equals("comment")) {
-					field.setCaption(AppContext
-							.getMessage(BugI18nEnum.FORM_COMMENT));
-					this.informationLayout.addComponent(field);
+					this.informationLayout.addComponent(field,
+							AppContext.getMessage(BugI18nEnum.FORM_COMMENT), 0,
+							2);
 				}
 			}
 		}
@@ -207,8 +191,14 @@ class ReOpenWindow extends Window {
 			@Override
 			protected Field<?> onCreateField(final Object propertyId) {
 				if (propertyId.equals("resolution")) {
-					return BugResolutionComboBox.getInstanceForValidBugWindow();
+					ResolvedInputView.this.bug
+							.setResolution(BugResolution.Fixed.name());
+					return BugResolutionComboBox
+							.getInstanceForResolvedBugWindow();
 				} else if (propertyId.equals("assignuser")) {
+					ResolvedInputView.this.bug
+							.setAssignuser(ResolvedInputView.this.bug
+									.getLogby());
 					return new ProjectMemberSelectionField();
 				} else if (propertyId.equals("comment")) {
 					EditForm.this.commentArea = new TextArea();

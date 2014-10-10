@@ -19,6 +19,7 @@ package com.esofthead.mycollab.mobile.module.project.view.bug;
 import org.apache.commons.lang3.StringUtils;
 
 import com.esofthead.mycollab.common.CommentType;
+import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
@@ -32,13 +33,16 @@ import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormContaine
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugPriority;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugSeverity;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.project.i18n.ProjectCommonI18nEnum;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
+import com.esofthead.mycollab.module.tracker.service.BugService;
 import com.esofthead.mycollab.schedule.email.project.BugRelayEmailNotificationAction;
+import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.events.HasPreviewFormHandlers;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
@@ -54,6 +58,7 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author MyCollab Ltd.
@@ -68,14 +73,172 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 	private ProjectCommentListDisplay associateComments;
 
+	private VerticalLayout bugWorkFlowControl;
+
 	@Override
 	public HasPreviewFormHandlers<SimpleBug> getPreviewFormHandlers() {
 		return this.previewForm;
 	}
 
+	private void displayWorkflowControl() {
+		this.bugWorkFlowControl.removeAllComponents();
+		if (BugStatus.Open.name().equals(this.beanItem.getStatus())
+				|| BugStatus.ReOpened.name().equals(this.beanItem.getStatus())) {
+			final Button startProgressBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_START_PROGRESS),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							beanItem.setStatus(BugStatus.InProgress.name());
+							final BugService bugService = ApplicationContextUtil
+									.getSpringBean(BugService.class);
+							bugService.updateSelectiveWithSession(beanItem,
+									AppContext.getUsername());
+							displayWorkflowControl();
+						}
+					});
+			bugWorkFlowControl.addComponent(startProgressBtn);
+
+			final Button resolveBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ResolvedInputView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(resolveBtn);
+
+			final Button wontFixBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_WONTFIX),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new WontFixExplainView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(wontFixBtn);
+		} else if (BugStatus.InProgress.name()
+				.equals(this.beanItem.getStatus())) {
+			final Button stopProgressBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_STOP_PROGRESS),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							beanItem.setStatus(BugStatus.Open.name());
+							final BugService bugService = ApplicationContextUtil
+									.getSpringBean(BugService.class);
+							bugService.updateSelectiveWithSession(beanItem,
+									AppContext.getUsername());
+							displayWorkflowControl();
+						}
+					});
+			bugWorkFlowControl.addComponent(stopProgressBtn);
+
+			final Button resolveBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_RESOLVED),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ResolvedInputView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(resolveBtn);
+		} else if (BugStatus.Verified.name().equals(this.beanItem.getStatus())) {
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ReOpenView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(reopenBtn);
+		} else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ReOpenView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(reopenBtn);
+
+			final Button approveNCloseBtn = new Button(
+					AppContext.getMessage(BugI18nEnum.BUTTON_APPROVE_CLOSE),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ApproveInputView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(approveNCloseBtn);
+		} else if (BugStatus.Resolved.name().equals(this.beanItem.getStatus())) {
+			final Button reopenBtn = new Button(
+					AppContext.getMessage(GenericI18Enum.BUTTON_REOPEN),
+					new Button.ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(final ClickEvent event) {
+							EventBusFactory.getInstance().post(
+									new ShellEvent.PushView(this,
+											new ReOpenView(
+													BugReadViewImpl.this,
+													beanItem)));
+						}
+					});
+			bugWorkFlowControl.addComponent(reopenBtn);
+		}
+		this.bugWorkFlowControl.setEnabled(CurrentProjectVariables
+				.canWrite(ProjectRolePermissionCollections.BUGS));
+	}
+
 	@Override
 	protected void afterPreviewItem() {
 		associateComments.loadComments("" + beanItem.getId());
+		displayWorkflowControl();
 	}
 
 	@Override
@@ -108,9 +271,16 @@ public class BugReadViewImpl extends AbstractPreviewItemComp<SimpleBug>
 
 	@Override
 	protected ComponentContainer createButtonControls() {
-		return new ProjectPreviewFormControlsGenerator<SimpleBug>(
-				this.previewForm)
+		ProjectPreviewFormControlsGenerator<SimpleBug> formControlsGenerator = new ProjectPreviewFormControlsGenerator<SimpleBug>(
+				this.previewForm);
+		VerticalLayout controlsLayout = formControlsGenerator
 				.createButtonControls(ProjectRolePermissionCollections.BUGS);
+		bugWorkFlowControl = new VerticalLayout();
+		bugWorkFlowControl.setWidth("100%");
+		bugWorkFlowControl.setSpacing(true);
+		formControlsGenerator.insertToControlBlock(bugWorkFlowControl);
+		return controlsLayout;
+
 	}
 
 	@Override
