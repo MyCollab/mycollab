@@ -70,7 +70,6 @@ public abstract class GenericServerRunner {
 	private InstallationServlet install;
 
 	private ServletContextHandler installationContextHandler;
-	private ContextHandlerCollection contexts;
 
 	public abstract WebAppContext buildContext(String baseDir);
 
@@ -172,10 +171,9 @@ public abstract class GenericServerRunner {
 
 	}
 
-	public void execute() throws Exception {
+	private void execute() throws Exception {
 		server = new Server((port > 0) ? port : 8080);
-
-		contexts = new ContextHandlerCollection();
+		ContextHandlerCollection contexts = new ContextHandlerCollection();
 
 		if (!checkConfigFileExist()) {
 			System.err
@@ -224,7 +222,7 @@ public abstract class GenericServerRunner {
 
 	}
 
-	public void usage(String error) {
+	private void usage(String error) {
 		if (error != null)
 			System.err.println("ERROR: " + error);
 		System.err
@@ -279,6 +277,7 @@ public abstract class GenericServerRunner {
 	@SuppressWarnings("unused")
 	private WebAppContext initWebAppContext() {
 		String webappDirLocation = detectWebApp();
+		log.debug("Detect web location: {}", webappDirLocation);
 		WebAppContext appContext = buildContext(webappDirLocation);
 		appContext.setServer(server);
 		appContext.setConfigurations(new Configuration[] {
@@ -298,6 +297,7 @@ public abstract class GenericServerRunner {
 		// At runtime the webapp accesses this as
 		// java:comp/env/jdbc/mydatasource
 		try {
+			log.debug("Init the datasource");
 			org.eclipse.jetty.plus.jndi.Resource mydatasource = new org.eclipse.jetty.plus.jndi.Resource(
 					appContext, "jdbc/mycollabdatasource", buildDataSource());
 		} catch (NamingException e) {
@@ -345,10 +345,17 @@ public abstract class GenericServerRunner {
 							}
 						}
 
-						WebAppContext appContext = initWebAppContext();
-						contexts.removeHandler(installationContextHandler);
-						contexts.addHandler(appContext);
 						install.setWaitFlag(false);
+						ContextHandlerCollection newContexts = new ContextHandlerCollection();
+						WebAppContext appContext = initWebAppContext();
+						newContexts.addHandler(appContext);
+						try {
+							server.stop();
+							server.setHandler(newContexts);
+							server.start();
+						} catch (Exception e) {
+							log.error("Error while restarting server", e);
+						}
 					}
 				}
 			};

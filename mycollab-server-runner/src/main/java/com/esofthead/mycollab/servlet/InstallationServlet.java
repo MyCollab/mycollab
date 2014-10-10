@@ -55,16 +55,6 @@ public class InstallationServlet extends HttpServlet {
 		this.waitFlag = flag;
 	}
 
-	public void threadWait() {
-		while (waitFlag == true) {
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				throw new MyCollabException(e);
-			}
-		}
-	}
-
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String sitename = request.getParameter("sitename");
@@ -140,7 +130,13 @@ public class InstallationServlet extends HttpServlet {
 				outStream.flush();
 				outStream.close();
 
-				threadWait();
+				while (waitFlag == true) {
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						throw new MyCollabException(e);
+					}
+				}
 
 			} catch (Exception e) {
 				log.error("Error while set up MyCollab", e);

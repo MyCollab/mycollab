@@ -12,7 +12,6 @@ locale.list=en_US, es_ES, ja_JP, zh_CN, fr_FR, de_DE, it_IT, ko_KR
 site.name=${sitename}
 running.mode=standalone
 server.address=${serveraddress}
-server.port=${serverport}
 
 
 #=====================================================

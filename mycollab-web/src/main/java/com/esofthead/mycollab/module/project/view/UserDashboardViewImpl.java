@@ -66,9 +66,8 @@ import com.vaadin.ui.themes.Reindeer;
  * 
  */
 @ViewComponent(scope = ViewScope.PROTOTYPE)
-public class UserDashboardViewImpl extends AbstractLazyPageView
-		implements
-			UserDashboardView {
+public class UserDashboardViewImpl extends AbstractLazyPageView implements
+		UserDashboardView {
 	private static final long serialVersionUID = 1L;
 
 	private ButtonLink followingTicketsLink;
@@ -83,7 +82,6 @@ public class UserDashboardViewImpl extends AbstractLazyPageView
 
 	private List<Integer> prjKeys;
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void displayView() {
 		this.removeAllComponents();
@@ -104,7 +102,7 @@ public class UserDashboardViewImpl extends AbstractLazyPageView
 		Button avatar = UserAvatarControlFactory
 				.createUserAvatarEmbeddedButton(AppContext.getUserAvatarId(),
 						64);
-		avatar.addListener(new ClickListener() {
+		avatar.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

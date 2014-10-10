@@ -84,7 +84,7 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		SimpleJdbcInsert userJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
 				.withTableName("s_user").usingColumns("username", "firstname",
 						"lastname", "email", "status", "registeredTime",
-						"password", "avatarId", "timezone");
+						"password", "timezone");
 
 		Map<String, Object> userParameters = new HashMap<String, Object>();
 		userParameters.put("username", "admin@mycollab.com");
@@ -95,7 +95,6 @@ public class V20131101_3__Insert_Default_Values implements SpringJdbcMigration {
 		userParameters.put("registeredTime", new Date());
 		userParameters.put("password",
 				PasswordEncryptHelper.encryptSaltPassword("admin123"));
-		userParameters.put("avatarId", "null");
 		userParameters.put("timezone",
 				TimezoneMapper.getTimezoneDbId(TimeZone.getDefault()));
 		userJdbcInsert.execute(userParameters);

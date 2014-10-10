@@ -171,7 +171,6 @@ public final class MainView extends AbstractPageView {
 		return footer;
 	}
 
-	@SuppressWarnings("deprecation")
 	private CustomLayout createTopMenu() {
 		final CustomLayout layout = CustomLayoutLoader
 				.createLayout("topNavigation");
@@ -179,10 +178,12 @@ public final class MainView extends AbstractPageView {
 		layout.setHeight("40px");
 		layout.setWidth("100%");
 
-		Button accountLogo = AccountLogoFactory.createAccountLogoImageComponent(
-				ThemeManager.loadLogoPath(AppContext.getAccountId()), 150);
+		Button accountLogo = AccountLogoFactory
+				.createAccountLogoImageComponent(
+						ThemeManager.loadLogoPath(AppContext.getAccountId()),
+						150);
 
-		accountLogo.addListener(new ClickListener() {
+		accountLogo.addClickListener(new ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -278,7 +279,7 @@ public final class MainView extends AbstractPageView {
 		accountLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		accountLayout.setMargin(new MarginInfo(false, true, false, false));
 		accountLayout.setSpacing(true);
-		
+
 		final Label accountNameLabel = new Label(AppContext.getSubDomain());
 		accountNameLabel.setStyleName("subdomain");
 		accountLayout.addComponent(accountNameLabel);

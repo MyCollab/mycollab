@@ -69,7 +69,9 @@ public class MyProjectListComponent extends Depot {
 	private ProjectPagedList projectList;
 
 	public MyProjectListComponent() {
-		super("", null, new VerticalLayout(), "565", "200");
+		super(AppContext.getMessage(
+				ProjectCommonI18nEnum.WIDGET_ACTIVE_PROJECTS_TITLE, 0), null,
+				new VerticalLayout(), "565", "200");
 
 		this.projectList = new ProjectPagedList();
 		this.addStyleName("activity-panel");
@@ -86,9 +88,12 @@ public class MyProjectListComponent extends Depot {
 		filterBtnLayout.setSpacing(true);
 		filterBtnLayout.setWidth("200px");
 
-		Button allProjectsBtn = new Button(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS),
+		ProjectService projectService = ApplicationContextUtil
+				.getSpringBean(ProjectService.class);
+		int allProjectCount = projectService
+				.getTotalCount(getAllProjectsSearchCriteria());
+		Button allProjectsBtn = new Button(AppContext.getMessage(
+				ProjectCommonI18nEnum.BUTTON_ALL_PROJECTS, allProjectCount),
 				new ClickListener() {
 					private static final long serialVersionUID = 1L;
 
@@ -101,33 +106,35 @@ public class MyProjectListComponent extends Depot {
 		allProjectsBtn.setStyleName("link");
 		filterBtnLayout.addComponent(allProjectsBtn);
 
-		Button activeProjectsBtn = new Button(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS),
-				new ClickListener() {
-					private static final long serialVersionUID = 1L;
+		int activeProjectsCount = projectService
+				.getTotalCount(getActiveProjectsSearchCriteria());
+		Button activeProjectsBtn = new Button(AppContext.getMessage(
+				ProjectCommonI18nEnum.BUTTON_ACTIVE_PROJECTS,
+				activeProjectsCount), new ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						displayActiveProjects();
-						projectsPopup.setPopupVisible(false);
-					}
-				});
+			@Override
+			public void buttonClick(ClickEvent event) {
+				displayActiveProjects();
+				projectsPopup.setPopupVisible(false);
+			}
+		});
 		activeProjectsBtn.setStyleName("link");
 		filterBtnLayout.addComponent(activeProjectsBtn);
 
-		Button archiveProjectsBtn = new Button(
-				AppContext
-						.getMessage(ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS),
-				new ClickListener() {
-					private static final long serialVersionUID = 1L;
+		int archiveProjectsCount = projectService
+				.getTotalCount(getArchievedProjectsSearchCriteria());
+		Button archiveProjectsBtn = new Button(AppContext.getMessage(
+				ProjectCommonI18nEnum.BUTTON_ARCHIVE_PROJECTS,
+				archiveProjectsCount), new ClickListener() {
+			private static final long serialVersionUID = 1L;
 
-					@Override
-					public void buttonClick(ClickEvent event) {
-						displayArchiveProjects();
-						projectsPopup.setPopupVisible(false);
-					}
-				});
+			@Override
+			public void buttonClick(ClickEvent event) {
+				displayArchiveProjects();
+				projectsPopup.setPopupVisible(false);
+			}
+		});
 		archiveProjectsBtn.setStyleName("link");
 		filterBtnLayout.addComponent(archiveProjectsBtn);
 
@@ -141,10 +148,33 @@ public class MyProjectListComponent extends Depot {
 		displayActiveProjects();
 	}
 
-	private void displayAllProjects() {
+	private ProjectSearchCriteria getAllProjectsSearchCriteria() {
 		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
 		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
 				AppContext.getUsername()));
+		return searchCriteria;
+	}
+
+	private ProjectSearchCriteria getActiveProjectsSearchCriteria() {
+		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+				AppContext.getUsername()));
+		searchCriteria.setProjectStatuses(new SetSearchField<String>(
+				new String[] { StatusI18nEnum.Open.name() }));
+		return searchCriteria;
+	}
+
+	private ProjectSearchCriteria getArchievedProjectsSearchCriteria() {
+		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
+		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
+				AppContext.getUsername()));
+		searchCriteria.setProjectStatuses(new SetSearchField<String>(
+				new String[] { StatusI18nEnum.Archived.name() }));
+		return searchCriteria;
+	}
+
+	private void displayAllProjects() {
+		final ProjectSearchCriteria searchCriteria = getAllProjectsSearchCriteria();
 		this.projectList.setSearchCriteria(searchCriteria);
 
 		int totalCount = this.projectList.getTotalCount(searchCriteria);
@@ -153,11 +183,7 @@ public class MyProjectListComponent extends Depot {
 	}
 
 	private void displayActiveProjects() {
-		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-				AppContext.getUsername()));
-		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { StatusI18nEnum.Open.name() }));
+		final ProjectSearchCriteria searchCriteria = getActiveProjectsSearchCriteria();
 		this.projectList.setSearchCriteria(searchCriteria);
 
 		int totalCount = this.projectList.getTotalCount(searchCriteria);
@@ -166,11 +192,7 @@ public class MyProjectListComponent extends Depot {
 	}
 
 	private void displayArchiveProjects() {
-		final ProjectSearchCriteria searchCriteria = new ProjectSearchCriteria();
-		searchCriteria.setInvolvedMember(new StringSearchField(SearchField.AND,
-				AppContext.getUsername()));
-		searchCriteria.setProjectStatuses(new SetSearchField<String>(
-				new String[] { StatusI18nEnum.Archived.name() }));
+		ProjectSearchCriteria searchCriteria = getArchievedProjectsSearchCriteria();
 		this.projectList.setSearchCriteria(searchCriteria);
 
 		int totalCount = this.projectList.getTotalCount(searchCriteria);

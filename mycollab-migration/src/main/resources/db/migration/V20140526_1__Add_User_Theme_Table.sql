@@ -33,8 +33,9 @@ CREATE TABLE `s_account_theme` (
   `toggleBtnTextSelected` VARCHAR(6) NULL,
   `isDefault` BIT(1) DEFAULT 0,
   CONSTRAINT `PK_s_account_theme_1` PRIMARY KEY (`id`));
+  
 ALTER TABLE `s_account_settings` 
-ADD COLUMN `defaultThemeId` INT(11) NULL AFTER `defaultTimezone`,
+ADD COLUMN `defaultThemeId` INT(11) NULL,
 ADD INDEX `FK_s_account_settings_2_idx` (`defaultThemeId` ASC);
 ALTER TABLE `s_account_settings` 
 ADD CONSTRAINT `FK_s_account_settings_2`

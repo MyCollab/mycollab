@@ -43,6 +43,7 @@ import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
 import com.esofthead.vaadin.cropField.CropField;
 import com.esofthead.vaadin.cropField.client.VCropSelection;
 import com.vaadin.data.Property;
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -144,11 +145,8 @@ public class ProfilePhotoUploadViewImpl extends AbstractPageView implements
 								userAvatarService.uploadAvatar(image,
 										AppContext.getUsername(),
 										AppContext.getUserAvatarId());
-								EventBusFactory
-										.getInstance()
-										.post(new ProfileEvent.GotoProfileView(
-												ProfilePhotoUploadViewImpl.this,
-												null));
+								Page.getCurrent().getJavaScript()
+										.execute("window.location.reload();");
 							} catch (IOException e) {
 								throw new MyCollabException(
 										"Error when saving user avatar", e);
