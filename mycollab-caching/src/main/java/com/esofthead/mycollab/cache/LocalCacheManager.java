@@ -19,6 +19,7 @@ package com.esofthead.mycollab.cache;
 import java.io.InputStream;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.infinispan.AdvancedCache;
 import org.infinispan.commons.api.BasicCache;
 import org.infinispan.context.Flag;
@@ -83,7 +84,7 @@ public class LocalCacheManager {
 		BasicCache<String, Object> cache = instance.getCache(id);
 		log.debug("Remove cache has prefix {} in group {}", prefixKey, id);
 		Set<String> keys = cache.keySet();
-		if (keys != null && keys.size() > 0) {
+		if (CollectionUtils.isNotEmpty(keys)) {
 
 			String[] keyArr = keys.toArray(new String[0]);
 			for (int i = 0; i < keyArr.length; i++) {

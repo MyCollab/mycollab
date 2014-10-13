@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.esofthead.mycollab.core.utils.BeanUtility;
-import com.esofthead.mycollab.jgroups.DistributionLockUtil;
+import com.esofthead.mycollab.jgroups.service.DistributionLockUtil;
 import com.esofthead.mycollab.module.ecm.domain.Content;
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo;
 import com.esofthead.mycollab.module.ecm.esb.SaveContentCommand;

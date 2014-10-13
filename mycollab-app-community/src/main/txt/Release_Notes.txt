@@ -66,6 +66,7 @@ Version 4.5.2
 * Revise the localization and date format associate to locale. It helps external developers can translate MyCollab to other languages easily
 * Refactor the test module, using assertJ and JUnit TestRule instead of the custom JUnitClassRunner to make unit tests more flexible in enhancements
 * Minor bug fixes and new features for mobile
+* Remove remote resources in setup assets. User can install MyCollab in their LAN network, we do not need an internet connection requires
 
 **Bug Fixes**
 
@@ -73,6 +74,7 @@ Version 4.5.2
 * Search time logging throws exception in several special input cases
 * Fix NPE exception when there is several options has null value
 * Minor bug fixes for file module
+* Fix issue of can not reload the web context when we upgrade Jetty to 9.2.3
 
 Version 4.5.1
 -----------------------------

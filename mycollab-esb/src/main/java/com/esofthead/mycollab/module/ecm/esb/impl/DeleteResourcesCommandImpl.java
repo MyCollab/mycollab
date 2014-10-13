@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.esofthead.mycollab.jgroups.DistributionLockUtil;
+import com.esofthead.mycollab.jgroups.service.DistributionLockUtil;
 import com.esofthead.mycollab.module.ecm.domain.DriveInfo;
 import com.esofthead.mycollab.module.ecm.esb.DeleteResourcesCommand;
 import com.esofthead.mycollab.module.ecm.service.DriveInfoService;

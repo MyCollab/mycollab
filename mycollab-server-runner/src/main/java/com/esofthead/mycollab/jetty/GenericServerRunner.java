@@ -69,28 +69,11 @@ public abstract class GenericServerRunner {
 
 	private InstallationServlet install;
 
+	private ContextHandlerCollection contexts;
+
 	private ServletContextHandler installationContextHandler;
 
 	public abstract WebAppContext buildContext(String baseDir);
-
-	/**
-	 * Start server
-	 * 
-	 * @throws Exception
-	 */
-	public void start() throws Exception {
-		server.start();
-		server.join();
-	}
-
-	/**
-	 * Stop server
-	 * 
-	 * @throws Exception
-	 */
-	public void stop() throws Exception {
-		server.stop();
-	}
 
 	/**
 	 * Detect web app folder
@@ -118,7 +101,7 @@ public abstract class GenericServerRunner {
 	 * @param args
 	 * @throws Exception
 	 */
-	public void run(String[] args) throws Exception {
+	void run(String[] args) throws Exception {
 		int stopPort = 0;
 		String stopKey = null;
 		boolean isStop = false;
@@ -173,7 +156,7 @@ public abstract class GenericServerRunner {
 
 	private void execute() throws Exception {
 		server = new Server((port > 0) ? port : 8080);
-		ContextHandlerCollection contexts = new ContextHandlerCollection();
+		contexts = new ContextHandlerCollection();
 
 		if (!checkConfigFileExist()) {
 			System.err
@@ -316,7 +299,6 @@ public abstract class GenericServerRunner {
 
 		@Override
 		public void lifeCycleStarted(LifeCycle event) {
-			System.out.println("Started");
 
 			Runnable thread = new Runnable() {
 
@@ -345,17 +327,15 @@ public abstract class GenericServerRunner {
 							}
 						}
 
-						install.setWaitFlag(false);
-						ContextHandlerCollection newContexts = new ContextHandlerCollection();
 						WebAppContext appContext = initWebAppContext();
-						newContexts.addHandler(appContext);
+						contexts.addHandler(appContext);
 						try {
-							server.stop();
-							server.setHandler(newContexts);
-							server.start();
+							appContext.start();
 						} catch (Exception e) {
-							log.error("Error while restarting server", e);
+							log.error("Error while starting server", e);
 						}
+						install.setWaitFlag(false);
+						contexts.removeHandler(installationContextHandler);
 					}
 				}
 			};

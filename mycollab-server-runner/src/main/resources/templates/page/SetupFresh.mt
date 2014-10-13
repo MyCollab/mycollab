@@ -3,8 +3,8 @@
 <html style="height: 100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="https://www.mycollab.com/favicon.ico" type="image/x-icon">
+<link rel="icon" href="${defaultUrls.app_url}assets/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="${defaultUrls.app_url}assets/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="${defaultUrls.app_url}assets/css/cssVelocityPage.css">
 <style media="screen" type="text/css">
 #container {
@@ -46,7 +46,7 @@ h3 {
 					  	 <tr>
 					   		<td>
 					  			<a href="https://www.mycollab.com">
-					       			<img src="${defaultUrls.cdn_url}logo_mycollab_2.png" alt="Logo MyCollab">
+					       			<img src="${defaultUrls.cdn_url}logo_mycollab_2.png" alt="MyCollab">
 						   		</a>
 					   		</td>
 					   		<td>
@@ -228,7 +228,7 @@ h3 {
 	</div>
 	<input type="hidden" id="postUrl" value=$!postUrl>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="/assets/js/jquery-1.10.2.min.js"></script>
 <script>
 	
 	$(document).ready(function(){
@@ -403,7 +403,7 @@ h3 {
 		      	 	if(data.length > 0){
 		      	 		if (data == "smtpError")
 		      	 		{
-		      	 			alert("Something was WRONG with SMTP. You can change your config later in mycollab.properties.");
+		      	 			alert("Something was wrong with SMTP parameters. You should check them again or You can change your config later in mycollab.properties.");
 		      	 			$('#post').html('<span>Update & Go</span>');
 		      	 			window.location.assign("/");
 		      	 		}
@@ -413,7 +413,7 @@ h3 {
 		      	 		}
 		      	 		
 		      	 	}else{
-		      	 		alert("Setting up finished. Redirect to app.");
+		      	 		alert("Setup finished. Redirect to app?");
 		      	 		$('#post').html('<span>Update & Go</span>');
 		      	 		window.location.assign("/");
 		      	 	}
