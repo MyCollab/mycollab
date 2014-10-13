@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.esofthead.mycollab</groupId>
         <artifactId>parent-community</artifactId>
-        <version>4.5.1</version>
+        <version>4.5.2</version>
         <relativePath>../mycollab-parent-community/pom.xml</relativePath>
     </parent>
     <packaging>war</packaging>
@@ -135,7 +135,7 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-server-runner</artifactId>
-            <version>4.5.1</version>
+            <version>4.5.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.esofthead.mycollab</groupId>
@@ -147,25 +147,25 @@
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-servlet</artifactId>
-            <version>4.5.1</version>
+            <version>4.5.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-services-community</artifactId>
-            <version>4.5.1</version>
+            <version>4.5.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-mobile</artifactId>
-            <version>4.5.1</version>
+            <version>4.5.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.esofthead.mycollab</groupId>
             <artifactId>mycollab-web-community</artifactId>
-            <version>4.5.1</version>
+            <version>4.5.2</version>
         </dependency>
 
         <dependency>
@@ -360,7 +360,7 @@
                                 </goals>
                                 <configuration>
                                     <headerType>gui</headerType>
-                                    <jar>target/mycollab-app-community-4.5.1-standard.jar</jar>
+                                    <jar>target/mycollab-app-community-4.5.2-standard.jar</jar>
                                     <outfile>target/MyCollab-Installer.exe</outfile>
                                     <downloadUrl>http://java.com/download</downloadUrl>
                                     <classPath>
@@ -382,7 +382,7 @@
                                         <productName>MyCollab</productName>
                                         <companyName>MyCollab</companyName>
                                         <internalName>MyCollab</internalName>
-                                        <originalFilename>MyCollab.exe</originalFilename>
+                                        <originalFilename>MyCollab-4.5.2.exe</originalFilename>
                                     </versionInfo>
                                 </configuration>
                             </execution>
@@ -452,9 +452,9 @@
                                             classname="net.sourceforge.jarbundler.JarBundler"
                                             classpathref="maven.plugin.classpath" />
                                         <jarbundler dir="target"
-                                            name="MyCollab"
+                                            name="MyCollab-4.5.2"
                                             mainclass="com.izforge.izpack.installer.Installer"
-                                            jar="target/mycollab-app-community-4.5.1-standard.jar"
+                                            jar="target/mycollab-app-community-4.5.2-standard.jar"
                                             copyright="©2014, MyCollab"
                                             icon="src/main/macos-resources/mycollab.icns"
                                             version="4.5.2" build="GA"

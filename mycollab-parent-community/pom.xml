@@ -6,7 +6,7 @@
     <name>mycollab-parent-community</name>
     <groupId>com.esofthead.mycollab</groupId>
     <artifactId>parent-community</artifactId>
-    <version>4.5.1</version>
+    <version>4.5.2</version>
     <packaging>pom</packaging>
     <properties>
         <springVersion>4.1.1.RELEASE</springVersion>
@@ -265,7 +265,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- 
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -274,7 +274,7 @@
                     <argLine>${argLine}</argLine>
                 </configuration>
             </plugin>
-            -->
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>

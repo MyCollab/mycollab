@@ -67,6 +67,7 @@ Version 4.5.2
 * Refactor the test module, using assertJ and JUnit TestRule instead of the custom JUnitClassRunner to make unit tests more flexible in enhancements
 * Minor bug fixes and new features for mobile
 * Remove remote resources in setup assets. User can install MyCollab in their LAN network, we do not need an internet connection requires
+* Remove the warning message of Jackrabbit
 
 **Bug Fixes**
 
