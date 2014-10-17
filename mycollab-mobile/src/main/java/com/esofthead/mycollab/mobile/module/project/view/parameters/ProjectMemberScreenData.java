@@ -17,6 +17,7 @@
 package com.esofthead.mycollab.mobile.module.project.view.parameters;
 
 import com.esofthead.mycollab.module.project.domain.ProjectMember;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 
@@ -51,6 +52,13 @@ public class ProjectMemberScreenData {
 	public static class Read extends ScreenData<Object> {
 
 		public Read(Object params) {
+			super(params);
+		}
+	}
+
+	public static class Edit extends ScreenData<SimpleProjectMember> {
+
+		public Edit(SimpleProjectMember params) {
 			super(params);
 		}
 	}

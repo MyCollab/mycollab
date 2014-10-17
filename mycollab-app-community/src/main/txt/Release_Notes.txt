@@ -48,7 +48,7 @@ Version 4.5.2
 ** Library Upgrades
 
 * Upgrade Spring framework to 4.1.1.RELEASE
-* Upgrade Vaadin to 7.3.2
+* Upgrade Vaadin to 7.3.3
 * Upgrade Camel to 2.14.0
 
 **New Features**
@@ -76,6 +76,7 @@ Version 4.5.2
 * Fix NPE exception when there is several options has null value
 * Minor bug fixes for file module
 * Fix issue of can not reload the web context when we upgrade Jetty to 9.2.3
+* Fix migration scripts could be failed with several MySQL versions
 
 Version 4.5.1
 -----------------------------

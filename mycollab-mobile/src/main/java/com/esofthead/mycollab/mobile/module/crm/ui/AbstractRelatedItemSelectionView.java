@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.core.arguments.SearchCriteria;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.vaadin.ui.Button;
 

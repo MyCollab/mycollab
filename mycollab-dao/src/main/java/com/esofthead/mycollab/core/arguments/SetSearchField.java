@@ -34,6 +34,8 @@ package com.esofthead.mycollab.core.arguments;
 
 import java.util.Collection;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.esofthead.mycollab.core.UserInvalidInputException;
 
 /**
@@ -60,7 +62,7 @@ public class SetSearchField<T> extends SearchField {
 	}
 
 	public SetSearchField(String oper, T... values) {
-		if (values == null || values.length == 0) {
+		if (ArrayUtils.isEmpty(values)) {
 			throw new UserInvalidInputException("Field can not be null");
 		}
 		this.values = values;

@@ -25,8 +25,10 @@ import com.esofthead.mycollab.mobile.module.project.view.milestone.MilestonePres
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
 import com.esofthead.mycollab.mobile.mvp.AbstractPresenter;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -111,6 +113,14 @@ public class ProjectViewPresenter extends AbstractPresenter<ProjectView> {
 				BugScreenData.Search.class, BugScreenData.Add.class,
 				BugScreenData.Read.class, BugScreenData.Edit.class)) {
 			presenter = PresenterResolver.getPresenter(BugPresenter.class);
+		} else if (ClassUtils.instanceOf(pageAction,
+				ProjectMemberScreenData.Search.class,
+				ProjectMemberScreenData.Add.class,
+				ProjectMemberScreenData.InviteProjectMembers.class,
+				ProjectMemberScreenData.Read.class,
+				ProjectMemberScreenData.Edit.class)) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectUserPresenter.class);
 		} else {
 			throw new UnsupportedOperationException(
 					"Not support page action chain " + pageAction);

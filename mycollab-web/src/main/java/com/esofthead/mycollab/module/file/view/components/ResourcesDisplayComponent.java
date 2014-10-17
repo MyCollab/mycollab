@@ -365,8 +365,8 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 				GenericI18Enum.DIALOG_DELETE_TITLE,
 				SiteConfiguration.getSiteName()), AppContext
 				.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
-				AppContext.getMessage(GenericI18Enum.BUTTON_YES),
-				AppContext.getMessage(GenericI18Enum.BUTTON_NO),
+				AppContext.getMessage(GenericI18Enum.BUTTON_YES), AppContext
+						.getMessage(GenericI18Enum.BUTTON_NO),
 				new ConfirmDialog.Listener() {
 					private static final long serialVersionUID = 1L;
 
@@ -535,10 +535,7 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 
 				@Override
 				public void layoutClick(LayoutClickEvent event) {
-					if (checkbox.getValue())
-						checkbox.setValue(false);
-					else
-						checkbox.setValue(true);
+					checkbox.setValue(!checkbox.getValue());
 				}
 			});
 
@@ -729,14 +726,19 @@ public class ResourcesDisplayComponent extends VerticalLayout {
 		}
 
 		Collection<Resource> getSelectedResourceCollection() {
-			Collection<Resource> selectedResources = Collections2.filter(
-					resources, new Predicate<Resource>() {
-						@Override
-						public boolean apply(Resource input) {
-							return (input.isSelected() == true);
-						}
-					});
-			return selectedResources;
+			if (CollectionUtils.isNotEmpty(resources)) {
+				Collection<Resource> selectedResources = Collections2.filter(
+						resources, new Predicate<Resource>() {
+							@Override
+							public boolean apply(Resource input) {
+								return (input.isSelected() == true);
+							}
+						});
+				return selectedResources;
+			} else {
+				return new ArrayList<Resource>();
+			}
+
 		}
 	}
 

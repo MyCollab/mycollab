@@ -57,6 +57,8 @@ public class MilestoneReadViewImpl extends
 	private static final long serialVersionUID = -2466318105833801922L;
 
 	private ProjectCommentListDisplay associateComments;
+	private MilestoneRelatedBugView associateBugs;
+	private MilestoneRelatedTaskView associateTasks;
 
 	@Override
 	public HasPreviewFormHandlers<SimpleMilestone> getPreviewFormHandlers() {
@@ -110,6 +112,44 @@ public class MilestoneReadViewImpl extends
 		toolbarLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		toolbarLayout.setSpacing(true);
 
+		Button relatedBugs = new Button();
+		relatedBugs.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.PROJECT_BUG
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(ProjectCommonI18nEnum.VIEW_BUG)
+				+ "</div>");
+		relatedBugs.setHtmlContentAllowed(true);
+		relatedBugs.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = 2113811477874305745L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(this, getRelatedBugs()));
+			}
+		});
+		toolbarLayout.addComponent(relatedBugs);
+
+		Button relatedTasks = new Button();
+		relatedTasks.setCaption("<span aria-hidden=\"true\" data-icon=\""
+				+ IconConstants.PROJECT_TASK
+				+ "\"></span><div class=\"screen-reader-text\">"
+				+ AppContext.getMessage(ProjectCommonI18nEnum.VIEW_TASK)
+				+ "</div>");
+		relatedTasks.setHtmlContentAllowed(true);
+		relatedTasks.addClickListener(new Button.ClickListener() {
+
+			private static final long serialVersionUID = -9171495386840452500L;
+
+			@Override
+			public void buttonClick(ClickEvent arg0) {
+				EventBusFactory.getInstance().post(
+						new ShellEvent.PushView(this, getRelatedTasks()));
+			}
+		});
+		toolbarLayout.addComponent(relatedTasks);
+
 		Button relatedComments = new Button();
 		relatedComments.setCaption("<span aria-hidden=\"true\" data-icon=\""
 				+ IconConstants.PROJECT_MESSAGE
@@ -130,6 +170,20 @@ public class MilestoneReadViewImpl extends
 		toolbarLayout.addComponent(relatedComments);
 
 		return toolbarLayout;
+	}
+
+	private MilestoneRelatedBugView getRelatedBugs() {
+		if (associateBugs == null)
+			associateBugs = new MilestoneRelatedBugView();
+		associateBugs.displayBugs(beanItem);
+		return associateBugs;
+	}
+
+	private MilestoneRelatedTaskView getRelatedTasks() {
+		if (associateTasks == null)
+			associateTasks = new MilestoneRelatedTaskView();
+		associateTasks.displayTasks(beanItem);
+		return associateTasks;
 	}
 
 	private class MilestoneFormFieldFactory extends

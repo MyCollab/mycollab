@@ -6,11 +6,9 @@
 	box-shadow: none;
 	border-top: 1px solid $light-gray-border;
 	background-color: #F7F7F7;
-	position: absolute;
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
-	height: 4.8rem;
 	-webkit-overflow-scrolling: touch;
 	
 	.v-button  {
@@ -19,7 +17,7 @@
  			
  		.v-button-wrap {
  			font-size: 1.3rem;
- 			line-height: 1;
+ 			line-height: 1.6rem;
  				
  			span[data-icon]:before {
 	  			font-size: 2.1rem;

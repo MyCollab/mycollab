@@ -161,6 +161,7 @@
     <select id="getTotalCount" resultType="int" parameterType="TaskSearchCriteria"
         lang="velocity">
         SELECT count(*) as totalCount FROM m_prj_task
+        	LEFT OUTER JOIN m_prj_task_list ON (m_prj_task_list.id = m_prj_task.tasklistid)
         #ifnotnull($_parameter.searchCriteria)
         #trimext("WHERE" "AND|OR")
         <include refid="queryTotalCountSearchCriteria" />

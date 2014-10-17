@@ -361,7 +361,7 @@
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <jar>target/mycollab-app-community-4.5.2-standard.jar</jar>
-                                    <outfile>target/MyCollab-Installer.exe</outfile>
+                                    <outfile>target/MyCollab-Installer-4.5.2.exe</outfile>
                                     <downloadUrl>http://java.com/download</downloadUrl>
                                     <classPath>
                                         <mainClass>com.izforge.izpack.installer.Installer</mainClass>

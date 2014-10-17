@@ -16,12 +16,15 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.settings;
 
+import com.esofthead.mycollab.eventmanager.EventBusFactory;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.service.ProjectMemberService;
 import com.esofthead.mycollab.spring.ApplicationContextUtil;
 import com.esofthead.mycollab.vaadin.ui.UserAvatarControlFactory;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
@@ -62,14 +65,36 @@ public class ProjectMemberListDisplay
 			VerticalLayout memberInfoLayout = new VerticalLayout();
 			memberInfoLayout.setWidth("100%");
 			memberInfoLayout.setStyleName("member-info");
-			Label memberDisplayName = new Label(member.getDisplayName());
+			Button memberDisplayName = new Button(member.getDisplayName());
 			memberDisplayName.setStyleName("display-name");
-			memberDisplayName.addStyleName("fake-button");
+			memberDisplayName.addClickListener(new Button.ClickListener() {
+
+				private static final long serialVersionUID = -1689918040423397195L;
+
+				@Override
+				public void buttonClick(Button.ClickEvent event) {
+					EventBusFactory.getInstance().post(
+							new ProjectMemberEvent.GotoRead(this, member
+									.getUsername()));
+				}
+			});
 			memberInfoLayout.addComponent(memberDisplayName);
 
 			Label memberUserName = new Label(member.getUsername());
-			memberUserName.setStyleName("user-name");
 			memberInfoLayout.addComponent(memberUserName);
+
+			String bugStatus = member.getNumOpenBugs() + " open bug";
+			if (member.getNumOpenBugs() > 1) {
+				bugStatus += "s";
+			}
+
+			String taskStatus = member.getNumOpenTasks() + " open task";
+			if (member.getNumOpenTasks() > 1) {
+				taskStatus += "s";
+			}
+
+			Label memberWorkStatus = new Label(bugStatus + " - " + taskStatus);
+			memberInfoLayout.addComponent(memberWorkStatus);
 
 			mainLayout.addComponent(memberInfoLayout);
 			mainLayout.setExpandRatio(memberInfoLayout, 1.0f);

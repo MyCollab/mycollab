@@ -20,9 +20,9 @@
 package com.esofthead.mycollab.mobile.module.crm.view.contact;
 
 import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedItemSelectionView;
-import com.esofthead.mycollab.mobile.module.crm.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.mobile.module.crm.view.opportunity.OpportunityListDisplay;
 import com.esofthead.mycollab.mobile.ui.AbstractPagedBeanList;
+import com.esofthead.mycollab.mobile.ui.AbstractRelatedListView;
 import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
 import com.esofthead.mycollab.module.crm.domain.criteria.OpportunitySearchCriteria;
 import com.esofthead.mycollab.module.crm.i18n.OpportunityI18nEnum;

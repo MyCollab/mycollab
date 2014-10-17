@@ -6,13 +6,13 @@
 </head>
 <body style="background-color: rgb(235, 236, 237); color: #4e4e4e; padding: 20px 0px;">
 	#macro( linkBlock $webLink )
-		<div style="width: 100%; padding: 20px 15px; background-color: rgb(237, 248, 255);">
+		<div style="width: 100%; padding: 20px 15px; background-color: rgb(237, 248, 255); box-sizing: border-box;">
 			<a href="$webLink" style="color: rgb(76, 131, 182); font-size: 12px; text-decoration: underline; width: 100%; display: inline-block; word-wrap: break-word; white-space: normal; word-break: break-all;">$webLink</a>
 		</div>
 	#end
 	
 	#macro( messageBlock $messageContent )
-        <div style="padding: 20px 15px; background-color: rgb(237, 248, 255); position: relative; color: rgb(71, 87, 116); text-align: left; word-wrap: break-word; white-space: normal; word-break: break-all;">
+        <div style="padding: 20px 15px; background-color: rgb(237, 248, 255); position: relative; color: rgb(71, 87, 116); text-align: left; word-wrap: break-word; white-space: normal;">
             <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: left;">&ldquo;</div>
             <div style="padding:0px 20px; font-size: 12px; line-height: 1.6em;">$messageContent</div>
             <div style="color: rgb(167, 221, 249); font-size: 35px; line-height: 10px; text-align: right;">&bdquo;</div>
@@ -37,7 +37,7 @@
 			</td>
 		</tr>
 		<tr>
-		<td>
+		<td style="padding: 10px 50px;">
         #messageBlock( $inviteMessage )
         </td>
         </tr>

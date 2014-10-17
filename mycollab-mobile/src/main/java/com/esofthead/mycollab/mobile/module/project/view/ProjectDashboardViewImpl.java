@@ -21,6 +21,7 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobileSwipeView;
 import com.esofthead.mycollab.module.project.domain.SimpleProject;
@@ -159,6 +160,10 @@ public class ProjectDashboardViewImpl extends AbstractMobileSwipeView implements
 							ProjectCommonI18nEnum.VIEW_BUG).equals(buttonId)) {
 						EventBusFactory.getInstance().post(
 								new BugEvent.GotoList(this, null));
+					} else if (AppContext.getMessage(
+							ProjectCommonI18nEnum.VIEW_USERS).equals(buttonId)) {
+						EventBusFactory.getInstance().post(
+								new ProjectMemberEvent.GotoList(this, null));
 					}
 				}
 			});

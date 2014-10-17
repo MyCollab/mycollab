@@ -42,11 +42,6 @@ public class ProjectUserPresenter extends
 	}
 
 	@Override
-	public void go(ComponentContainer container, ScreenData<?> data) {
-		super.go(container, data, false);
-	}
-
-	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		InsideProjectNavigationMenu projectModuleMenu = (InsideProjectNavigationMenu) ((MobileNavigationManager) UI
 				.getCurrent().getContent()).getNavigationMenu();
@@ -62,15 +57,17 @@ public class ProjectUserPresenter extends
 		// ProjectMemberScreenData.InviteProjectMembers) {
 		// presenter = PresenterResolver
 		// .getPresenter(ProjectMemberInvitePresenter.class);
-		// } else if (data instanceof
-		// ProjectMemberScreenData.InviteProjectMembers) {
-		// presenter = PresenterResolver
-		// .getPresenter(ProjectMemberInvitePresenter.class);
-		// } else if (data instanceof ProjectMemberScreenData.Read) {
-		// presenter = PresenterResolver
-		// .getPresenter(ProjectMemberReadPresenter.class);
 		// } else
-		if (data instanceof ProjectMemberScreenData.Search) {
+		if (data instanceof ProjectMemberScreenData.InviteProjectMembers) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectMemberInvitePresenter.class);
+		} else if (data instanceof ProjectMemberScreenData.Read) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectMemberReadPresenter.class);
+		} else if (data instanceof ProjectMemberScreenData.Edit) {
+			presenter = PresenterResolver
+					.getPresenter(ProjectMemberEditPresenter.class);
+		} else if (data instanceof ProjectMemberScreenData.Search) {
 			presenter = PresenterResolver
 					.getPresenter(ProjectMemberListPresenter.class);
 		} else {
@@ -78,6 +75,6 @@ public class ProjectUserPresenter extends
 					.getPresenter(ProjectMemberListPresenter.class);
 		}
 
-		presenter.go(view, data);
+		presenter.go(container, data);
 	}
 }

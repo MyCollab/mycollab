@@ -37,6 +37,7 @@ import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent.GoInsideList;
 import com.esofthead.mycollab.mobile.module.project.view.bug.BugPresenter;
@@ -46,13 +47,18 @@ import com.esofthead.mycollab.mobile.module.project.view.parameters.BugFilterPar
 import com.esofthead.mycollab.mobile.module.project.view.parameters.BugScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MessageScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.MilestoneScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.parameters.ProjectMemberScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskGroupScreenData;
 import com.esofthead.mycollab.mobile.module.project.view.parameters.TaskScreenData;
+import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectUserPresenter;
 import com.esofthead.mycollab.mobile.module.project.view.task.TaskPresenter;
+import com.esofthead.mycollab.module.project.ProjectMemberStatusConstants;
 import com.esofthead.mycollab.module.project.domain.SimpleMilestone;
+import com.esofthead.mycollab.module.project.domain.SimpleProjectMember;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.domain.SimpleTaskList;
 import com.esofthead.mycollab.module.project.domain.criteria.MessageSearchCriteria;
+import com.esofthead.mycollab.module.project.domain.criteria.ProjectMemberSearchCriteria;
 import com.esofthead.mycollab.module.project.domain.criteria.ProjectSearchCriteria;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
@@ -95,6 +101,7 @@ public class ProjectModuleController extends AbstractController {
 		bindMessageEvents();
 		bindMilestoneEvents();
 		bindTaskEvents();
+		bindMemberEvents();
 	}
 
 	private void bindProjectEvents() {
@@ -177,11 +184,6 @@ public class ProjectModuleController extends AbstractController {
 					criteria.setProjectId(new NumberSearchField(
 							SearchField.AND, CurrentProjectVariables
 									.getProjectId()));
-					// criteria.setStatuses(new SetSearchField<String>(
-					// SearchField.AND, new String[] {
-					// BugStatus.InProgress.name(),
-					// BugStatus.Open.name(),
-					// BugStatus.ReOpened.name() }));
 					BugFilterParameter parameter = new BugFilterParameter(
 							"Open Bugs", criteria);
 					presenter.go(navManager,
@@ -462,6 +464,73 @@ public class ProjectModuleController extends AbstractController {
 						(SimpleTaskList) event.getData());
 				TaskPresenter presenter = PresenterResolver
 						.getPresenter(TaskPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+	}
+
+	private void bindMemberEvents() {
+		this.register(new ApplicationEventListener<ProjectMemberEvent.GotoList>() {
+
+			private static final long serialVersionUID = 976165067913682631L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectMemberEvent.GotoList event) {
+				ProjectMemberSearchCriteria criteria = new ProjectMemberSearchCriteria();
+				criteria.setProjectId(new NumberSearchField(
+						CurrentProjectVariables.getProjectId()));
+				criteria.setSaccountid(new NumberSearchField(AppContext
+						.getAccountId()));
+				criteria.setStatus(new StringSearchField(
+						ProjectMemberStatusConstants.ACTIVE));
+				ProjectUserPresenter presenter = PresenterResolver
+						.getPresenter(ProjectUserPresenter.class);
+				presenter.go(navManager, new ProjectMemberScreenData.Search(
+						criteria));
+			}
+		});
+		this.register(new ApplicationEventListener<ProjectMemberEvent.GotoRead>() {
+
+			private static final long serialVersionUID = 1295333471939691673L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectMemberEvent.GotoRead event) {
+				ProjectMemberScreenData.Read data = new ProjectMemberScreenData.Read(
+						event.getData());
+				ProjectUserPresenter presenter = PresenterResolver
+						.getPresenter(ProjectUserPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<ProjectMemberEvent.GotoEdit>() {
+
+			private static final long serialVersionUID = 819995009295850294L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectMemberEvent.GotoEdit event) {
+				ProjectMemberScreenData.Edit data = new ProjectMemberScreenData.Edit(
+						(SimpleProjectMember) event.getData());
+				ProjectUserPresenter presenter = PresenterResolver
+						.getPresenter(ProjectUserPresenter.class);
+				presenter.go(navManager, data);
+			}
+
+		});
+		this.register(new ApplicationEventListener<ProjectMemberEvent.GotoInviteMembers>() {
+
+			private static final long serialVersionUID = -5406170172080742351L;
+
+			@Subscribe
+			@Override
+			public void handle(ProjectMemberEvent.GotoInviteMembers event) {
+				ProjectMemberScreenData.InviteProjectMembers data = new ProjectMemberScreenData.InviteProjectMembers();
+				ProjectUserPresenter presenter = PresenterResolver
+						.getPresenter(ProjectUserPresenter.class);
 				presenter.go(navManager, data);
 			}
 

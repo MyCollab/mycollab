@@ -181,6 +181,7 @@
 		
 		.v-touchkit-tabbar-toolbar {
 			@include toolbar;
+			height: 4.8rem;
 			
 			.v-touchkit-toolbar {
 				height: 100%;
@@ -320,6 +321,7 @@
 	    	
 	    	.v-touchkit-navview-toolbar {
 	    		@include toolbar;
+	    		height: auto;
 	    		
 		    	.v-mobileview-toolbar {
 	    			.v-mobileview-toolbar-prevBtn, .v-mobileview-toolbar-nextBtn {
@@ -330,6 +332,7 @@
 		    	.comment-box {
     				padding: 0.6rem 0rem 0.6rem 0.6rem;
     				background-color: rgb(255, 255, 255);
+    				height: 4.8rem !important;
     				.v-textarea {
     					padding: 0.6rem;
 						border: none;
@@ -350,6 +353,9 @@
     						padding: 1.1rem;
     					}
     				}
+    			}
+    			.related-items {
+    				height: 4.8rem !important;
     			}
 			}
 	    }
@@ -514,6 +520,47 @@
 						display: inline-block;
 					}
 				}				
+			}
+		}
+		
+		.v-touchkit-verticalcomponentgroup {
+			box-shadow: none;
+			border-color: $light-gray-border;
+			border-top: none;
+			margin: 0px;
+			.v-touchkit-componentgroup-row { 
+				&:before {
+					border-color: $light-gray-border;
+					left: 0px;
+					right: 0px;
+				}
+				.v-caption {
+					margin: 1.3rem 0rem;
+				}
+				&.v-touchkit-componentgroup-row-full {
+					& > .v-caption {
+						color: $black-caption;
+						text-align: right;
+						line-height: 2rem;
+						padding-right: 1rem;
+						overflow: hidden;
+					}
+					& > .v-touchkit-componentgroup-cell {
+						flex: 2 1 0%;
+					}
+				}
+			}
+			.v-touchkit-componentgroup-cell > * {
+				margin: 1.3rem 0rem;
+			}
+			.v-textfield {
+				height: auto;
+			}
+			.v-textfield:focus,
+			.v-textarea:focus,
+			.v-touchkit-numberfield:focus,
+			.v-filterselect-input:focus {
+				box-shadow: none;
 			}
 		}
 	}

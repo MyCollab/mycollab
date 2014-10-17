@@ -16,8 +16,6 @@
  */
 package com.esofthead.mycollab.module.project.view;
 
-import java.util.Collection;
-
 import com.esofthead.mycollab.vaadin.mvp.ScreenData;
 import com.esofthead.mycollab.vaadin.ui.AbstractPresenter;
 import com.vaadin.ui.Alignment;
@@ -38,13 +36,12 @@ public class TimeTrackingSummaryPresenter extends
 		super(TimeTrackingSummaryView.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void onGo(ComponentContainer container, ScreenData<?> data) {
 		ProjectModule prjContainer = (ProjectModule) container;
 		prjContainer.removeAllComponents();
 		prjContainer.addComponent((Component) view);
 		prjContainer.setComponentAlignment(view, Alignment.TOP_CENTER);
-		view.display((Collection<Integer>) data.getParams());
+		view.display();
 	}
 }

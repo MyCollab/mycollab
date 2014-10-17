@@ -55,7 +55,7 @@ public abstract class AbstractPreviewItemComp<B> extends AbstractMobilePageView 
 
 		ComponentContainer toolbarContent = createBottomPanel();
 		if (toolbarContent != null) {
-			toolbarContent.setStyleName("related-items");
+			toolbarContent.addStyleName("related-items");
 			toolbarContent.setHeight("100%");
 			toolbarContent.setWidthUndefined();
 

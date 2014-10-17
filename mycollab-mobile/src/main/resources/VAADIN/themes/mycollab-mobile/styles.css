@@ -58,12 +58,18 @@ html {
 .v-app input,
 .v-app button,
 .v-app textarea,
+.v-app select,
+.v-app option,
 .v-window input,
 .v-window button,
 .v-window textarea,
+.v-window select,
+.v-window option,
 .v-popupview-popup input,
 .v-popupview-popup button,
 .v-popupview-popup textarea,
+.v-popupview-popup select,
+.v-popupview-popup option,
 .v-filterselect-suggestpopup,
 .v-datefield-popup,
 .v-datefield-calendarpanel-header button,
@@ -346,12 +352,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   box-shadow: none;
   border-top: 1px solid #dddddd;
   background-color: #F7F7F7;
-  position: absolute;
   bottom: 0px;
   right: 0px;
   left: 0px;
-  height: 4.8rem;
   -webkit-overflow-scrolling: touch;
+  height: 4.8rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button {
   color: #6a6a6a;
@@ -359,7 +364,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap {
   font-size: 1.3rem;
-  line-height: 1;
+  line-height: 1.6rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .v-touchkit-tabbar-toolbar .v-button .v-button-wrap span[data-icon]:before {
   font-size: 2.1rem;
@@ -513,12 +518,11 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   box-shadow: none;
   border-top: 1px solid #dddddd;
   background-color: #F7F7F7;
-  position: absolute;
   bottom: 0px;
   right: 0px;
   left: 0px;
-  height: 4.8rem;
   -webkit-overflow-scrolling: touch;
+  height: auto;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button {
   color: #6a6a6a;
@@ -526,7 +530,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap {
   font-size: 1.3rem;
-  line-height: 1;
+  line-height: 1.6rem;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .v-button .v-button-wrap span[data-icon]:before {
   font-size: 2.1rem;
@@ -541,6 +545,7 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box {
   padding: 0.6rem 0rem 0.6rem 0.6rem;
   background-color: white;
+  height: 4.8rem !important;
 }
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-textarea {
   padding: 0.6rem;
@@ -561,6 +566,9 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .comment-box .v-button.submit-btn .v-button-wrap {
   font-size: 1.4rem;
   padding: 1.1rem;
+}
+.mycollab-mobile .v-touchkit-navpanel-wrapper .mobilenavview .v-touchkit-navview-toolbar .related-items {
+  height: 4.8rem !important;
 }
 .mycollab-mobile .v-navbar-quickmenu-content {
   width: 100%;
@@ -694,6 +702,45 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
   content: "";
   position: relative;
   display: inline-block;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup {
+  box-shadow: none;
+  border-color: #dddddd;
+  border-top: none;
+  margin: 0px;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row:before, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row:before {
+  border-color: #dddddd;
+  left: 0px;
+  right: 0px;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row .v-caption, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row .v-caption {
+  margin: 1.3rem 0rem;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row.v-touchkit-componentgroup-row-full > .v-caption, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row.v-touchkit-componentgroup-row-full > .v-caption {
+  color: #060606;
+  text-align: right;
+  line-height: 2rem;
+  padding-right: 1rem;
+  overflow: hidden;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row.v-touchkit-componentgroup-row-full > .v-touchkit-componentgroup-cell, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-row.v-touchkit-componentgroup-row-full > .v-touchkit-componentgroup-cell {
+  flex: 2 1 0%;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-cell > *, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-componentgroup-cell > * {
+  margin: 1.3rem 0rem;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-textfield, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-textfield {
+  height: auto;
+}
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-textfield:focus,
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-textarea:focus,
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-numberfield:focus,
+.mycollab-mobile .readview-layout .v-touchkit-verticalcomponentgroup .v-filterselect-input:focus, .mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-textfield:focus,
+.mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-textarea:focus,
+.mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-touchkit-numberfield:focus,
+.mycollab-mobile .editview-layout .v-touchkit-verticalcomponentgroup .v-filterselect-input:focus {
+  box-shadow: none;
 }
 .mycollab-mobile .readview-layout .gridform-field .v-button-wrap {
   text-align: left;

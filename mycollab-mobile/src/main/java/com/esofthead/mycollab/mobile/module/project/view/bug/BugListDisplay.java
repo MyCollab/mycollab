@@ -23,6 +23,8 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.ui.DefaultPagedBeanList;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
+import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
+import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugStatus;
 import com.esofthead.mycollab.module.tracker.domain.SimpleBug;
 import com.esofthead.mycollab.module.tracker.domain.criteria.BugSearchCriteria;
 import com.esofthead.mycollab.module.tracker.service.BugService;
@@ -104,6 +106,15 @@ public class BugListDisplay extends
 			assigneeLbl.setStyleName("bug-meta-info");
 			assigneeLbl.setContentMode(ContentMode.HTML);
 			bugInfoLayout.addComponent(assigneeLbl);
+
+			Label statusLbl = new Label(
+					AppContext.getMessage(BugI18nEnum.FORM_STATUS)
+							+ ":&nbsp;<span class='bug-status'>"
+							+ AppContext.getMessage(BugStatus.class,
+									bug.getStatus()) + "</span>");
+			statusLbl.setContentMode(ContentMode.HTML);
+			statusLbl.setStyleName("bug-meta-info");
+			bugInfoLayout.addComponent(statusLbl);
 
 			bugRowLayout.addComponent(bugInfoLayout);
 			bugRowLayout.setExpandRatio(bugInfoLayout, 1.0f);

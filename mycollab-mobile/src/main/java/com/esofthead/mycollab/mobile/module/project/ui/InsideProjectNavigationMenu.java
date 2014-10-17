@@ -21,6 +21,7 @@ import com.esofthead.mycollab.mobile.module.project.events.BugEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MessageEvent;
 import com.esofthead.mycollab.mobile.module.project.events.MilestoneEvent;
 import com.esofthead.mycollab.mobile.module.project.events.ProjectEvent;
+import com.esofthead.mycollab.mobile.module.project.events.ProjectMemberEvent;
 import com.esofthead.mycollab.mobile.module.project.events.TaskEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractNavigationMenu;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
@@ -144,6 +145,10 @@ public class InsideProjectNavigationMenu extends AbstractNavigationMenu {
 								caption)) {
 					EventBusFactory.getInstance().post(
 							new BugEvent.GotoList(this, null));
+				} else if (AppContext.getMessage(
+						ProjectCommonI18nEnum.VIEW_USERS).equals(caption)) {
+					EventBusFactory.getInstance().post(
+							new ProjectMemberEvent.GotoList(this, null));
 				}
 
 			}
