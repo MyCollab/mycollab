@@ -126,8 +126,7 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 	private VerticalLayout timeTrackingWrapper;
 
 	public TimeTrackingSummaryViewImpl() {
-		this.setWidth("100%");
-
+		this.setSizeFull();
 	}
 
 	private void initListSelectStyle(ListSelect listSelect) {
@@ -442,8 +441,39 @@ public class TimeTrackingSummaryViewImpl extends AbstractPageView implements
 			searchCriteria.setRangeDate(new RangeDateSearchField(fromDate,
 					toDate));
 		} else {
-			this.addComponent(new Label(
-					"You do not have any project to track time working yet"));
+			final Button backBtn = new Button("Back to Workboard");
+			backBtn.addClickListener(new Button.ClickListener() {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void buttonClick(final ClickEvent event) {
+					EventBusFactory.getInstance().post(
+							new ShellEvent.GotoProjectModule(
+									TimeTrackingSummaryViewImpl.this, null));
+
+				}
+			});
+
+			backBtn.addStyleName(UIConstants.THEME_GREEN_LINK);
+			backBtn.setIcon(MyCollabResource
+					.newResource(WebResourceIds._16_back));
+
+			VerticalLayout contentWrapper = new VerticalLayout();
+			contentWrapper.setSpacing(true);
+
+			Label infoLbl = new Label(
+					"You are not involved in any project yet to track time working");
+			infoLbl.setWidthUndefined();
+			contentWrapper.setMargin(true);
+			contentWrapper.addComponent(infoLbl);
+			contentWrapper.setComponentAlignment(infoLbl,
+					Alignment.MIDDLE_CENTER);
+
+			contentWrapper.addComponent(backBtn);
+			contentWrapper.setComponentAlignment(backBtn,
+					Alignment.MIDDLE_CENTER);
+			this.addComponent(contentWrapper);
+			this.setComponentAlignment(contentWrapper, Alignment.MIDDLE_CENTER);
 		}
 	}
 

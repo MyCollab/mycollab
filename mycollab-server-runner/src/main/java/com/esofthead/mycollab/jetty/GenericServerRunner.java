@@ -328,6 +328,8 @@ public abstract class GenericServerRunner {
 						}
 
 						WebAppContext appContext = initWebAppContext();
+						appContext.setClassLoader(GenericServerRunner.class
+								.getClassLoader());
 						contexts.addHandler(appContext);
 						try {
 							appContext.start();

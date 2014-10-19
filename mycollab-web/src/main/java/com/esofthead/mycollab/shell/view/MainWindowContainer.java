@@ -18,11 +18,10 @@ package com.esofthead.mycollab.shell.view;
 
 import javax.servlet.http.Cookie;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.esofthead.mycollab.configuration.PasswordEncryptHelper;
 import com.esofthead.mycollab.configuration.SiteConfiguration;
+import com.esofthead.mycollab.core.MyCollabException;
+import com.esofthead.mycollab.core.UserInvalidInputException;
 import com.esofthead.mycollab.module.user.view.LoginPresenter;
 import com.esofthead.mycollab.module.user.view.LoginView;
 import com.esofthead.mycollab.shell.ShellController;
@@ -43,8 +42,6 @@ import com.vaadin.ui.CssLayout;
 public class MainWindowContainer extends CssLayout {
 
 	private static final long serialVersionUID = 1L;
-	private static Logger log = LoggerFactory
-			.getLogger(MainWindowContainer.class);
 
 	private boolean isAutoLogin;
 
@@ -88,8 +85,10 @@ public class MainWindowContainer extends CssLayout {
 											PasswordEncryptHelper
 													.decryptText(loginParams[1]),
 											false);
+						} catch (UserInvalidInputException e) {
+							// do nothing
 						} catch (Exception e) {
-							log.error("Login error", e);
+							throw new MyCollabException(e);
 						}
 					}
 				}

@@ -220,6 +220,7 @@
                                         This configuration option is used to specify that all needed libraries are 
                                         found under lib/ directory. -->
                                     <classpathPrefix>lib/</classpathPrefix>
+                                    <useUniqueVersions>false</useUniqueVersions>
                                     <!-- Specifies the main class of the 
                                         application -->
                                     <mainClass>com.esofthead.mycollab.jetty.CommunityServerRunner</mainClass>
@@ -278,6 +279,7 @@
                         <version>2.9</version>
                         <configuration>
                             <excludeTransitive>false</excludeTransitive>
+                            <useBaseVersion>true</useBaseVersion>
                             <stripVersion>false</stripVersion>
                             <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>

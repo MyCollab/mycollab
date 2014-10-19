@@ -1,4 +1,4 @@
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -6,7 +6,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -27,11 +27,11 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent gecko1_8
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -39,7 +39,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -60,11 +60,11 @@ modernie yes
 superdevmode off
 touchEventSupport maybe
 user.agent gecko1_8
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -72,7 +72,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -93,11 +93,11 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent ie10
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport no
 canvasElementSupport no
@@ -105,7 +105,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport no
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -126,11 +126,11 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent ie8
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport no
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -138,7 +138,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -159,11 +159,11 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent ie9
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -171,7 +171,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -192,11 +192,11 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent opera
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 
-32F4409C6F0F2D0B4C288903DA8E5262.cache.js
+288C2BD11403F5E03D15598D99ECC474.cache.js
 ClientBundle.enableInlining true
 audioElementSupport maybe
 canvasElementSupport maybe
@@ -204,7 +204,7 @@ compiler.emulatedStack false
 compiler.predeclare.cross.fragment.references false
 compiler.stackMode native
 compiler.useSourceMaps false
-compiler.useSymbolMaps false
+compiler.useSymbolMaps true
 dragEventSupport maybe
 geolocationSupport maybe
 gwt.enableDebugId false
@@ -225,7 +225,7 @@ modernie none
 superdevmode off
 touchEventSupport maybe
 user.agent safari
-vaadin.profiler true
+vaadin.profiler false
 videoElementSupport maybe
 webApiUsage modern
 

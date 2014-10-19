@@ -59,8 +59,8 @@ div.v-cache-loading-indicator {
     overflow: auto;
 }
 .v-mobilecomponent .v-touchkit-navpanel {
-	-webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;    
+	-webkit-transition: -webkit-transform 0.2s ease;
+    transition: transform 0.2s ease;    
     -moz-box-shadow: 0px 0px 15px 5px #444;
     -webkit-box-shadow: 0px 0px 15px 5px #444;    
     box-shadow: 0px 0px 15px 5px #444;    
