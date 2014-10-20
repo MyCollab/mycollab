@@ -412,7 +412,10 @@
                                         </copy>
                                         <copy todir="${staging.dir}/conf">
                                             <fileset
-                                                dir="${basedir}/src/main/conf" />
+                                                dir="${basedir}/src/main/conf">
+                                                <exclude
+                                                    name="mycollab.properties" />
+                                            </fileset>
                                         </copy>
                                         <copy todir="${staging.dir}/logs">
                                             <fileset

@@ -82,11 +82,19 @@ public class AuditLogServiceImpl extends
 
 				for (PropertyDescriptor propertyDescriptor : beanInfo
 						.getPropertyDescriptors()) {
+
 					String fieldname = propertyDescriptor.getName();
 					String oldProp = getValue(PropertyUtils.getProperty(oldObj,
 							fieldname));
-					String newProp = getValue(PropertyUtils.getProperty(newObj,
-							fieldname));
+
+					Object newPropVal = null;
+					try {
+						newPropVal = PropertyUtils.getProperty(newObj,
+								fieldname);
+					} catch (Exception e) {
+						continue;
+					}
+					String newProp = getValue(newPropVal);
 
 					if (!oldProp.equals(newProp)) {
 						AuditChangeItem changeItem = new AuditChangeItem();
@@ -94,6 +102,7 @@ public class AuditLogServiceImpl extends
 						changeItem.setNewvalue(newProp);
 						changeItem.setOldvalue(oldProp);
 						changeItems.add(changeItem);
+
 					}
 				}
 			} catch (Exception e) {
@@ -104,7 +113,7 @@ public class AuditLogServiceImpl extends
 			return JsonDeSerializer.toJson(changeItems);
 		}
 
-		static String getValue(Object obj) {
+		private static String getValue(Object obj) {
 			if (obj != null) {
 				if (obj instanceof Date) {
 					return formatDateW3C((Date) obj);

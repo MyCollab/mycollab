@@ -65,7 +65,7 @@ Version 4.5.2
 * Add more unit tests for crm, content, project services and use assertj instead of standard junit assert statements
 * Revise the localization and date format associate to locale. It helps external developers can translate MyCollab to other languages easily
 * Refactor the test module, using assertJ and JUnit TestRule instead of the custom JUnitClassRunner to make unit tests more flexible in enhancements
-* Minor bug fixes and new features for mobile
+* Minor bug fixes and new features for mobile edition
 * Remove remote resources in setup assets. User can install MyCollab in their LAN network, we do not need an internet connection requires
 * Remove the warning message of Jackrabbit
 
