@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,6 +89,9 @@ public class LocalizationHelper {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String getMessage(Locale locale, Class<? extends Enum> cls,
 			String option, Object... objects) {
+		if (StringUtils.isBlank(option)) {
+			return "";
+		}
 		Enum key = Enum.valueOf(cls, option);
 		try {
 			IMessageConveyor messageConveyor = getMessageConveyor(locale);

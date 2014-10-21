@@ -65,40 +65,31 @@
             <file src="webapp" targetdir="$INSTALL_PATH" />
 
             <executable targetfile="$INSTALL_PATH/bin/installDaemon.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/installDaemonNoPriv.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/mycollab.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/setenv.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/shutdown.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/startup.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/uninstallDaemon.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/uninstallDaemonNoPriv.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
             <executable targetfile="$INSTALL_PATH/bin/wrapper.sh"
-                stage="never" keep="true">
-                <os family="unix|mac" />
+                stage="never" keep="true" os="unix|mac">
             </executable>
         </pack>
     </packs>
