@@ -898,7 +898,24 @@ div.v-vertical > .v-spacing, div.v-vertical > .v-expand > .v-spacing {
 .mycollab-mobile .editview-layout .v-upload .v-button .v-button-wrap {
   padding: 0px;
 }
-.mycollab-mobile .editview-layout .attachment-row .v-button {
+.mycollab-mobile .attachment-view-panel .v-label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mycollab-mobile .attachment-field .v-upload .v-button {
+  font-size: 1.5rem;
+  min-height: inherit;
+  line-height: normal;
+}
+.mycollab-mobile .attachment-field .v-upload .v-button .v-button-wrap {
+  padding: 0px;
+}
+.mycollab-mobile .attachment-field .attachment-row .v-label {
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+.mycollab-mobile .attachment-field .attachment-row .v-button {
+  display: inline-block;
   font-size: 1.5rem;
 }
 .mycollab-mobile .noteList {

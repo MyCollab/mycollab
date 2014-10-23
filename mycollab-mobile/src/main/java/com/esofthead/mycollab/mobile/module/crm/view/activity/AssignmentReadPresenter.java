@@ -75,8 +75,7 @@ public class AssignmentReadPresenter extends
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
 
@@ -168,9 +167,9 @@ public class AssignmentReadPresenter extends
 			} else {
 				throw new MyCollabException("Invalid data " + data);
 			}
-
-			super.onGo(container, data);
 			view.previewItem(task);
+			super.onGo(container, data);
+
 			AppContext.addFragment(CrmLinkGenerator
 					.generateTaskPreviewLink(task.getId()), AppContext
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,

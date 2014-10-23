@@ -16,13 +16,21 @@
  */
 package com.esofthead.mycollab.mobile.module.project.view.task;
 
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
+import com.esofthead.mycollab.mobile.module.project.view.settings.ProjectMemberSelectionField;
 import com.esofthead.mycollab.mobile.ui.AbstractEditItemComp;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
 import com.esofthead.mycollab.module.project.i18n.TaskI18nEnum;
 import com.esofthead.mycollab.vaadin.AppContext;
 import com.esofthead.mycollab.vaadin.mvp.ViewComponent;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupEditFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
+import com.vaadin.addon.touchkit.ui.DatePicker;
+import com.vaadin.ui.Field;
+import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 
 /**
  * @author MyCollab Ltd.
@@ -35,6 +43,8 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 		TaskAddView {
 
 	private static final long serialVersionUID = 6835605062072536907L;
+
+	private ProjectFormAttachmentUploadField attachmentUploadField;
 
 	@Override
 	protected String initFormTitle() {
@@ -51,6 +61,60 @@ public class TaskAddViewImpl extends AbstractEditItemComp<SimpleTask> implements
 	@Override
 	protected AbstractBeanFieldGroupEditFieldFactory<SimpleTask> initBeanFormFieldFactory() {
 		return new TaskEditFormFieldFactory(this.editForm);
+	}
+
+	public class TaskEditFormFieldFactory extends
+			AbstractBeanFieldGroupEditFieldFactory<SimpleTask> {
+
+		private static final long serialVersionUID = -1508613237858970400L;
+
+		public TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form) {
+			super(form);
+		}
+
+		public TaskEditFormFieldFactory(GenericBeanForm<SimpleTask> form,
+				boolean isValidateForm) {
+			super(form, isValidateForm);
+		}
+
+		@Override
+		protected Field<?> onCreateField(Object propertyId) {
+			if (propertyId.equals("assignuser")) {
+				return new ProjectMemberSelectionField();
+			} else if (propertyId.equals("tasklistid")) {
+				return new TaskListSelectionField();
+			} else if (propertyId.equals("notes")) {
+				final TextArea textArea = new TextArea();
+				textArea.setNullRepresentation("");
+				return textArea;
+			} else if ("name".equals(propertyId)) {
+				final TextField tf = new TextField();
+				tf.setNullRepresentation("");
+				tf.setRequired(true);
+				tf.setRequiredError("Please enter a Name");
+				return tf;
+			} else if ("percentagecomplete".equals(propertyId)) {
+				return new TaskPercentageCompleteComboBox();
+			} else if ("priority".equals(propertyId)) {
+				return new TaskPriorityComboBox();
+			} else if (propertyId.equals("id")) {
+				attachmentUploadField = new ProjectFormAttachmentUploadField();
+				if (beanItem.getId() != null) {
+					attachmentUploadField.getAttachments(
+							beanItem.getProjectid(),
+							AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
+				}
+				return attachmentUploadField;
+			} else if (propertyId.equals("startdate")
+					|| propertyId.equals("actualstartdate")
+					|| propertyId.equals("enddate")
+					|| propertyId.equals("actualenddate")
+					|| propertyId.equals("deadline")) {
+				return new DatePicker();
+			}
+			return null;
+		}
+
 	}
 
 }

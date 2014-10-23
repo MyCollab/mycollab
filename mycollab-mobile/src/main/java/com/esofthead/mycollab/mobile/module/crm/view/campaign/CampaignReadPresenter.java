@@ -95,8 +95,7 @@ public class CampaignReadPresenter extends
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
 
@@ -320,8 +319,9 @@ public class CampaignReadPresenter extends
 				SimpleCampaign campaign = campaignService.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (campaign != null) {
-					super.onGo(container, data);
 					view.previewItem(campaign);
+					super.onGo(container, data);
+
 					AppContext.addFragment(CrmLinkGenerator
 							.generateCampaignPreviewLink(campaign.getId()),
 							AppContext.getMessage(

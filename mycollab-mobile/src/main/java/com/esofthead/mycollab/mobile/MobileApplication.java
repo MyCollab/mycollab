@@ -147,6 +147,10 @@ public class MobileApplication extends MyCollabUI {
 			return;
 		}
 
+		this.getLoadingIndicatorConfiguration().setFirstDelay(0);
+		this.getLoadingIndicatorConfiguration().setSecondDelay(300);
+		this.getLoadingIndicatorConfiguration().setThirdDelay(500);
+
 		final MobileNavigationManager manager = new MobileNavigationManager();
 		manager.addNavigationListener(new NavigationManager.NavigationListener() {
 			private static final long serialVersionUID = -2317588983851761998L;

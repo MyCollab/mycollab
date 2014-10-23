@@ -23,6 +23,7 @@ import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.common.i18n.OptionI18nEnum.StatusI18nEnum;
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentDisplayField;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectCommentListDisplay;
 import com.esofthead.mycollab.mobile.module.project.ui.ProjectPreviewFormControlsGenerator;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
@@ -34,6 +35,7 @@ import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormDetectAn
 import com.esofthead.mycollab.mobile.ui.DefaultFormViewFieldFactory.FormViewField;
 import com.esofthead.mycollab.mobile.ui.IconConstants;
 import com.esofthead.mycollab.mobile.ui.UIConstants;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectResources;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleTask;
@@ -270,6 +272,10 @@ public class TaskReadViewImpl extends AbstractPreviewItemComp<SimpleTask>
 				}
 			} else if (propertyId.equals("notes")) {
 				return new FormDetectAndDisplayUrlViewField(beanItem.getNotes());
+			} else if (propertyId.equals("id")) {
+				return new ProjectFormAttachmentDisplayField(
+						beanItem.getProjectid(),
+						AttachmentType.PROJECT_TASK_TYPE, beanItem.getId());
 			}
 			return null;
 		}

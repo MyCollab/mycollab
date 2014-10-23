@@ -31,9 +31,11 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.UIConstants;
 import com.esofthead.mycollab.vaadin.ui.form.field.ContainerHorizontalViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.server.StreamResource.StreamSource;
 import com.vaadin.ui.Alignment;
@@ -57,21 +59,21 @@ public class ContactReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
+		SimpleContact contact = attachForm.getBean();
+
 		if (propertyId.equals("accountid")) {
-			return new LinkViewField(attachForm.getBean().getAccountName(),
-					CrmLinkBuilder.generateAccountPreviewLinkFull(attachForm
-							.getBean().getAccountid()),
+			return new LinkViewField(contact.getAccountName(),
+					CrmLinkBuilder.generateAccountPreviewLinkFull(contact.getAccountid()),
 					MyCollabResource
 							.newResourceLink("icons/16/crm/account.png"));
 		} else if (propertyId.equals("email")) {
 			return new EmailViewField(attachForm.getBean().getEmail());
 		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(attachForm.getBean().getAssignuser(),
-					attachForm.getBean().getAssignUserAvatarId(), attachForm
-							.getBean().getAssignUserFullName());
+			return new UserLinkViewField(contact.getAssignuser(),
+					contact.getAssignUserAvatarId(), contact.getAssignUserFullName());
 		} else if (propertyId.equals("iscallable")) {
-			if (attachForm.getBean().getIscallable() == null
-					|| Boolean.FALSE == attachForm.getBean().getIscallable()) {
+			if (contact.getIscallable() == null
+					|| Boolean.FALSE == contact.getIscallable()) {
 				return new DefaultViewField(
 						AppContext.getMessage(GenericI18Enum.BUTTON_NO));
 			} else {
@@ -79,11 +81,9 @@ public class ContactReadFormFieldFactory extends
 						AppContext.getMessage(GenericI18Enum.BUTTON_YES));
 			}
 		} else if (propertyId.equals("birthday")) {
-			return new DefaultViewField(AppContext.formatDate(attachForm.getBean()
-					.getBirthday()));
+			return new DateViewField(contact.getBirthday());
 		} else if (propertyId.equals("firstname")) {
 			final ContainerHorizontalViewField containerField = new ContainerHorizontalViewField();
-			SimpleContact contact = attachForm.getBean();
 			String displayName = "";
 			if (contact.getPrefix() != null) {
 				displayName = contact.getPrefix();
@@ -108,6 +108,8 @@ public class ContactReadFormFieldFactory extends
 			containerField.getLayout().setComponentAlignment(vcardDownloadBtn,
 					Alignment.TOP_RIGHT);
 			return containerField;
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(contact.getDescription());
 		}
 
 		return null;

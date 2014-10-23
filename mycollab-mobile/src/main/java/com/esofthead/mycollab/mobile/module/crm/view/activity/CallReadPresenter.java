@@ -68,8 +68,7 @@ public class CallReadPresenter extends AbstractMobilePresenter<CallReadView> {
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
 
@@ -161,10 +160,9 @@ public class CallReadPresenter extends AbstractMobilePresenter<CallReadView> {
 			} else {
 				throw new MyCollabException("Invalid data: " + data);
 			}
-
+			view.previewItem(call);
 			super.onGo(container, data);
 
-			view.previewItem(call);
 			AppContext.addFragment(CrmLinkGenerator
 					.generateCallPreviewLink(call.getId()), AppContext
 					.getMessage(GenericI18Enum.BROWSER_PREVIEW_ITEM_TITLE,

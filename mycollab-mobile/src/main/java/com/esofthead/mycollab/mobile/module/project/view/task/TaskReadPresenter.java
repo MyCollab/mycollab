@@ -68,8 +68,7 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
 
@@ -115,8 +114,8 @@ public class TaskReadPresenter extends AbstractMobilePresenter<TaskReadView> {
 						(Integer) data.getParams(), AppContext.getAccountId());
 
 				if (task != null) {
-					super.onGo(container, data);
 					this.view.previewItem(task);
+					super.onGo(container, data);
 
 					AppContext.addFragment(
 							"project/task/preview/"

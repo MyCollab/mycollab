@@ -21,6 +21,7 @@ import com.esofthead.mycollab.module.crm.i18n.OptionI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.I18nFormViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
@@ -42,17 +43,21 @@ public class AccountReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
+		SimpleAccount account = attachForm.getBean();
+
 		if (propertyId.equals("email")) {
-			return new EmailViewField(attachForm.getBean().getEmail());
+			return new EmailViewField(account.getEmail());
 		} else if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(attachForm.getBean().getAssignuser(),
-					attachForm.getBean().getAssignUserAvatarId(), attachForm
-							.getBean().getAssignUserFullName());
+			return new UserLinkViewField(account.getAssignuser(),
+					account.getAssignUserAvatarId(),
+					account.getAssignUserFullName());
 		} else if (propertyId.equals("website")) {
-			return new UrlLinkViewField(attachForm.getBean().getWebsite());
+			return new UrlLinkViewField(account.getWebsite());
 		} else if (propertyId.equals("type")) {
-			return new I18nFormViewField(attachForm.getBean().getType(),
+			return new I18nFormViewField(account.getType(),
 					OptionI18nEnum.AccountType.class);
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(account.getDescription());
 		}
 
 		return null;

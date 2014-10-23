@@ -30,6 +30,6 @@ public class UrlDetectableLabel extends Label {
 	private static final long serialVersionUID = 1L;
 
 	public UrlDetectableLabel(String value) {
-		super(StringUtils.formatExtraLink(value), ContentMode.HTML);
+		super(StringUtils.formatRichText(value), ContentMode.HTML);
 	}
 }

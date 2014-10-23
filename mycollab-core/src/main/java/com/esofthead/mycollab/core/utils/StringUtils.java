@@ -21,6 +21,7 @@ import java.util.Random;
 
 import org.apache.commons.validator.EmailValidator;
 import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 /**
  * Utility class to process string
@@ -69,14 +70,17 @@ public class StringUtils {
 	 * @param value
 	 * @return
 	 */
-	public static String formatExtraLink(String value) {
+	public static String formatRichText(String value) {
 		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 			return "&nbsp;";
 		}
-		return value
+
+		value = Jsoup.clean(value, Whitelist.relaxed());
+		value = value
 				.replaceAll(
 						"(?:https?|ftps?)://[\\w/%.-][/\\??\\w=?\\w?/%.-]?[/\\?&\\w=?\\w?/%.-]*",
 						"<a href=\"$0\">$0</a>");
+		return value;
 	}
 
 	public static String trimHtmlTags(String value) {

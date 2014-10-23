@@ -20,6 +20,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
@@ -283,8 +285,7 @@ public class NoteListItems extends VerticalLayout {
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.Listener() {
 									private static final long serialVersionUID = 1L;
 
@@ -497,7 +498,8 @@ public class NoteListItems extends VerticalLayout {
 						public void buttonClick(final ClickEvent event) {
 							final Note note = new Note();
 							note.setCreateduser(AppContext.getUsername());
-							note.setNote(noteArea.getValue());
+							note.setNote(Jsoup.clean(noteArea.getValue(),
+									Whitelist.relaxed()));
 							note.setSaccountid(AppContext.getAccountId());
 							note.setSubject("");
 							note.setType(type);

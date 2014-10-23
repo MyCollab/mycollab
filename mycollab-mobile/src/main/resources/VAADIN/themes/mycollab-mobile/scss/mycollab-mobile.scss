@@ -719,13 +719,38 @@
 				}
 			}
 		}
-		
-		.attachment-row {
+	}
+	
+	.attachment-view-panel {
+		.v-label {
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+	
+	.attachment-field {
+		.v-upload {
 			.v-button {
+				font-size: 1.5rem;
+				min-height: inherit;
+				line-height: normal;
+				.v-button-wrap {
+					padding: 0px;
+				}
+			}
+		}
+		.attachment-row {
+			.v-label {
+				font-size: 1.5rem;
+				white-space: nowrap;
+			}
+			.v-button {
+				display: inline-block;
 				font-size: 1.5rem;
 			}
 		}
 	}
+	
 	
 	/* Note List */
 	.noteList {

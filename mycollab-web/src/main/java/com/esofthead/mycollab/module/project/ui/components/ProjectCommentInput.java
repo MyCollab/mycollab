@@ -18,6 +18,8 @@ package com.esofthead.mycollab.module.project.ui.components;
 
 import java.util.GregorianCalendar;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -156,7 +158,8 @@ public class ProjectCommentInput extends HorizontalLayout {
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
 						final Comment comment = new Comment();
-						comment.setComment(commentArea.getValue());
+						comment.setComment(Jsoup.clean(commentArea.getValue(),
+								Whitelist.relaxed()));
 						comment.setCreatedtime(new GregorianCalendar()
 								.getTime());
 						comment.setCreateduser(AppContext.getUsername());

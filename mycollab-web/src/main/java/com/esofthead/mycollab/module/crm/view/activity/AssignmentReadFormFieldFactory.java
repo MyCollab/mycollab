@@ -24,6 +24,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
@@ -43,29 +44,26 @@ class AssignmentReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
+		SimpleTask task = attachForm.getBean();
+
 		if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(attachForm.getBean().getAssignuser(),
-					attachForm.getBean().getAssignUserAvatarId(), attachForm
-							.getBean().getAssignUserFullName());
+			return new UserLinkViewField(task.getAssignuser(),
+					task.getAssignUserAvatarId(), task.getAssignUserFullName());
 		} else if (propertyId.equals("startdate")) {
-			if (attachForm.getBean().getStartdate() == null)
-				return null;
-			return new DateTimeViewField(attachForm.getBean()
-					.getStartdate());
+			return new DateTimeViewField(task.getStartdate());
 		} else if (propertyId.equals("duedate")) {
-			if (attachForm.getBean().getDuedate() == null)
-				return null;
-			return new DateTimeViewField(attachForm.getBean()
-					.getDuedate());
+			return new DateTimeViewField(task.getDuedate());
 		} else if (propertyId.equals("contactid")) {
-			return new LinkViewField(attachForm.getBean().getContactName(),
-					CrmLinkBuilder.generateContactPreviewLinkFull(attachForm
-							.getBean().getContactid()),
+			return new LinkViewField(task.getContactName(),
+					CrmLinkBuilder.generateContactPreviewLinkFull(task
+							.getContactid()),
 					MyCollabResource
 							.newResourceLink("icons/16/crm/contact.png"));
 		} else if (propertyId.equals("type")) {
-			return new RelatedReadItemField(attachForm.getBean());
+			return new RelatedReadItemField(task);
 
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(task.getDescription());
 		}
 
 		return null;

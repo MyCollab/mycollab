@@ -54,8 +54,8 @@ public class MessageReadPresenter extends
 						.getSpringBean(MessageService.class);
 				SimpleMessage message = messageService.findMessageById(
 						(Integer) data.getParams(), AppContext.getAccountId());
-				super.onGo(container, data);
 				view.previewItem(message);
+				super.onGo(container, data);
 
 				AppContext.addFragment(ProjectLinkGenerator
 						.generateMessagePreviewLink(

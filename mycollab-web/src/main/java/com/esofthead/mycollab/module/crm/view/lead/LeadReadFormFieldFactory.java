@@ -17,13 +17,13 @@
 package com.esofthead.mycollab.module.crm.view.lead;
 
 import com.esofthead.mycollab.module.crm.domain.SimpleLead;
-import com.esofthead.mycollab.module.crm.i18n.AccountI18nEnum;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UrlLinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
@@ -61,13 +61,15 @@ class LeadReadFormFieldFactory extends
 		} else if (propertyId.equals("email")) {
 			return new EmailViewField(lead.getEmail());
 		} else if (propertyId.equals("accountid")) {
-			LinkViewField field = new LinkViewField(
-					lead.getAccountname(), null, null);
+			LinkViewField field = new LinkViewField(lead.getAccountname(),
+					null, null);
 
 			return field;
 		} else if (propertyId.equals("assignuser")) {
 			return new UserLinkViewField(lead.getAssignuser(),
 					lead.getAssignUserAvatarId(), lead.getAssignUserFullName());
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(lead.getDescription());
 		}
 
 		return null;

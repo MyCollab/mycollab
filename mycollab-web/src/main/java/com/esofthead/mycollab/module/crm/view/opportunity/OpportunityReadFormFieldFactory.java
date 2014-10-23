@@ -16,25 +16,25 @@
  */
 package com.esofthead.mycollab.module.crm.view.opportunity;
 
+import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
+import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
+import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
+import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
+import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
+import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
+import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
+import com.vaadin.ui.Field;
+
 /**
  * 
  * @author MyCollab Ltd.
  * @since 1.0
  * 
  */
-import com.esofthead.mycollab.module.crm.data.CrmLinkBuilder;
-import com.esofthead.mycollab.module.crm.domain.SimpleOpportunity;
-import com.esofthead.mycollab.vaadin.AppContext;
-import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
-import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
-import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
-import com.esofthead.mycollab.vaadin.ui.WebResourceIds;
-import com.esofthead.mycollab.vaadin.ui.form.field.DateViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
-import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
-import com.vaadin.ui.Field;
-
 public class OpportunityReadFormFieldFactory extends
 		AbstractBeanFieldGroupViewFieldFactory<SimpleOpportunity> {
 	private static final long serialVersionUID = 1L;
@@ -71,7 +71,10 @@ public class OpportunityReadFormFieldFactory extends
 			String currency = (opportunity.getCurrency() != null) ? opportunity
 					.getCurrency().getShortname() : "";
 			return new DefaultViewField(currency);
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(opportunity.getDescription());
 		}
+
 		return field;
 	}
 

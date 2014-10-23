@@ -44,12 +44,12 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.IFormLayoutFactory;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.NumberField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextEditField;
 import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Layout;
-import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 
 /**
@@ -106,13 +106,9 @@ public class BugAddViewImpl extends AbstractEditItemComp<SimpleBug> implements
 		protected Field<?> onCreateField(final Object propertyId) {
 
 			if (propertyId.equals("environment")) {
-				final RichTextArea field = new RichTextArea("", "");
-				field.setNullRepresentation("");
-				return field;
+				return new RichTextEditField();
 			} else if (propertyId.equals("description")) {
-				final RichTextArea field = new RichTextArea("", "");
-				field.setNullRepresentation("");
-				return field;
+				return new RichTextEditField();
 			} else if (propertyId.equals("priority")) {
 				if (beanItem.getPriority() == null) {
 					beanItem.setPriority(BugPriority.Major.name());

@@ -222,7 +222,7 @@ public class DefaultFormViewFieldFactory {
 				lbl.setWidth("100%");
 				return lbl;
 			} else {
-				final Label link = new Label(StringUtils.formatExtraLink(url),
+				final Label link = new Label(StringUtils.formatRichText(url),
 						ContentMode.HTML);
 				return link;
 			}

@@ -19,6 +19,8 @@ package com.esofthead.mycollab.module.crm.ui.components;
 
 import java.util.GregorianCalendar;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.vaadin.easyuploads.MultiFileUploadExt;
 
 import com.esofthead.mycollab.common.CommentType;
@@ -54,9 +56,9 @@ public class CommentInput extends VerticalLayout {
 	private CommentType type;
 	private String typeid;
 	private Integer extraTypeId;
-	
+
 	com.vaadin.shared.VBrowserDetails a;
-	
+
 	ApplicationCacheSettings b;
 
 	public CommentInput(final ReloadableComponent component,
@@ -122,7 +124,8 @@ public class CommentInput extends VerticalLayout {
 					@Override
 					public void buttonClick(final Button.ClickEvent event) {
 						final Comment comment = new Comment();
-						comment.setComment(commentArea.getValue());
+						comment.setComment(Jsoup.clean(commentArea.getValue(),
+								Whitelist.relaxed()));
 						comment.setCreatedtime(new GregorianCalendar()
 								.getTime());
 						comment.setCreateduser(AppContext.getUsername());

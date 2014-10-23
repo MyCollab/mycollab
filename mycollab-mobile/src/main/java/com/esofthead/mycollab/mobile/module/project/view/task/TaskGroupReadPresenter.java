@@ -69,8 +69,7 @@ public class TaskGroupReadPresenter extends
 										.getMessage(GenericI18Enum.DIALOG_DELETE_SINGLE_ITEM_MESSAGE),
 								AppContext
 										.getMessage(GenericI18Enum.BUTTON_YES),
-								AppContext
-										.getMessage(GenericI18Enum.BUTTON_NO),
+								AppContext.getMessage(GenericI18Enum.BUTTON_NO),
 								new ConfirmDialog.CloseListener() {
 									private static final long serialVersionUID = 1L;
 
@@ -115,8 +114,9 @@ public class TaskGroupReadPresenter extends
 				SimpleTaskList taskList = service.findById(
 						(Integer) data.getParams(), AppContext.getAccountId());
 				if (taskList != null) {
-					super.onGo(navigator, data);
 					this.view.previewItem(taskList);
+					super.onGo(navigator, data);
+
 					AppContext.addFragment(
 							"project/task/group/preview/"
 									+ GenericLinkUtils

@@ -32,10 +32,10 @@ import com.vaadin.ui.Label;
 public class RichTextViewField extends CustomField {
 	private static final long serialVersionUID = 1L;
 
-	private String url;
+	private String value;
 
-	public RichTextViewField(String url) {
-		this.url = url;
+	public RichTextViewField(String value) {
+		this.value = value;
 	}
 
 	@Override
@@ -45,13 +45,13 @@ public class RichTextViewField extends CustomField {
 
 	@Override
 	protected Component initContent() {
-		if (org.apache.commons.lang3.StringUtils.isBlank(url)) {
+		if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 			Label lbl = new Label("&nbsp;");
 			lbl.setContentMode(ContentMode.HTML);
 			lbl.setWidth("100%");
 			return lbl;
 		} else {
-			final Label link = new Label(StringUtils.formatExtraLink(url),
+			final Label link = new Label(StringUtils.formatRichText(value),
 					ContentMode.HTML);
 			return link;
 		}

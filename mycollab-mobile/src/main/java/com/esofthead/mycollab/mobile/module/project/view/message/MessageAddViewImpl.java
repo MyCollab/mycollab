@@ -22,6 +22,7 @@ import java.util.Set;
 
 import com.esofthead.mycollab.common.i18n.GenericI18Enum;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePageView;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
 import com.esofthead.mycollab.module.project.i18n.MessageI18nEnum;
@@ -34,7 +35,6 @@ import com.vaadin.addon.touchkit.ui.Switch;
 import com.vaadin.addon.touchkit.ui.VerticalComponentGroup;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -56,6 +56,8 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 	private final TextField subjectField;
 	private final TextArea contentField;
 	private final Switch isStickField;
+
+	private ProjectFormAttachmentUploadField attachment;
 
 	private Set<EditFormHandler<SimpleMessage>> handlers = new HashSet<EditFormHandler<SimpleMessage>>();
 
@@ -93,7 +95,8 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 				AppContext.getMessage(MessageI18nEnum.FORM_IS_STICK), false);
 		bottomRow.addComponent(isStickField);
 
-		Label attachment = new Label("No file selected");
+		attachment = new ProjectFormAttachmentUploadField();
+
 		attachment.setCaption(AppContext
 				.getMessage(MessageI18nEnum.FORM_ATTACHMENT_FIELD));
 		bottomRow.addComponent(attachment);
@@ -161,6 +164,11 @@ public class MessageAddViewImpl extends AbstractMobilePageView implements
 	protected void onBecomingVisible() {
 		super.onBecomingVisible();
 		initView();
+	}
+
+	@Override
+	public ProjectFormAttachmentUploadField getUploadField() {
+		return attachment;
 	}
 
 }

@@ -118,8 +118,9 @@ public class ProjectMemberReadPresenter extends
 						AppContext.getAccountId());
 			}
 			if (prjMember != null) {
-				super.onGo(container, data);
 				this.view.previewItem(prjMember);
+				super.onGo(container, data);
+
 				AppContext.addFragment(
 						"project/user/preview/"
 								+ GenericLinkUtils.encodeParam(new Object[] {

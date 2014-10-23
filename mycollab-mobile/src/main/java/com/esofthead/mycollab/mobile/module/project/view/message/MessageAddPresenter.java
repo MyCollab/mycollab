@@ -18,8 +18,10 @@ package com.esofthead.mycollab.mobile.module.project.view.message;
 
 import com.esofthead.mycollab.eventmanager.EventBusFactory;
 import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
+import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectLinkGenerator;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.domain.SimpleMessage;
@@ -66,6 +68,11 @@ public class MessageAddPresenter extends
 								.getSpringBean(MessageService.class);
 						messageService.saveWithSession(bean,
 								AppContext.getUsername());
+						ProjectFormAttachmentUploadField uploadField = view
+								.getUploadField();
+						uploadField.saveContentsToRepo(
+								CurrentProjectVariables.getProjectId(),
+								AttachmentType.PROJECT_MESSAGE, bean.getId());
 						EventBusFactory.getInstance().post(
 								new ShellEvent.NavigateBack(this, null));
 					}

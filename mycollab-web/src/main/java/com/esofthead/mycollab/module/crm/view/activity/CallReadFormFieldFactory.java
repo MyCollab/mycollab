@@ -22,6 +22,7 @@ import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.DefaultViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
@@ -41,20 +42,19 @@ class CallReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
+		SimpleCall call = attachForm.getBean();
+
 		if (propertyId.equals("assignuser")) {
-			return new UserLinkViewField(attachForm.getBean().getAssignuser(),
-					attachForm.getBean().getAssignUserAvatarId(), attachForm
-							.getBean().getAssignUserFullName());
+			return new UserLinkViewField(call.getAssignuser(),
+					call.getAssignUserAvatarId(), call.getAssignUserFullName());
 		} else if (propertyId.equals("type")) {
-			return new RelatedReadItemField(attachForm.getBean());
+			return new RelatedReadItemField(call);
 		} else if (propertyId.equals("status")) {
-			final String value = attachForm.getBean().getStatus() + " "
-					+ attachForm.getBean().getCalltype();
+			final String value = call.getStatus() + " " + call.getCalltype();
 			final DefaultViewField field = new DefaultViewField(value);
 			return field;
 		} else if (propertyId.equals("durationinseconds")) {
-			final Integer duration = attachForm.getBean()
-					.getDurationinseconds();
+			final Integer duration = call.getDurationinseconds();
 			if (duration != null) {
 				final int hours = duration / 3600;
 				final int minutes = (duration % 3600) / 60;
@@ -74,12 +74,9 @@ class CallReadFormFieldFactory extends
 				return new DefaultViewField("");
 			}
 		} else if (propertyId.equals("startdate")) {
-			if (attachForm.getBean().getStartdate() == null) {
-				return new DefaultViewField("");
-			} else {
-				return new DateTimeViewField(attachForm.getBean()
-						.getStartdate());
-			}
+			return new DateTimeViewField(call.getStartdate());
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(call.getDescription());
 		}
 
 		return null;

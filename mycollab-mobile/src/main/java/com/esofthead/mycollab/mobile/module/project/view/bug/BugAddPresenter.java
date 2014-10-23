@@ -23,6 +23,7 @@ import com.esofthead.mycollab.mobile.module.project.CurrentProjectVariables;
 import com.esofthead.mycollab.mobile.module.project.ui.DefaultProjectFormViewFieldFactory.ProjectFormAttachmentUploadField;
 import com.esofthead.mycollab.mobile.shell.events.ShellEvent;
 import com.esofthead.mycollab.mobile.ui.AbstractMobilePresenter;
+import com.esofthead.mycollab.module.file.AttachmentType;
 import com.esofthead.mycollab.module.project.ProjectRolePermissionCollections;
 import com.esofthead.mycollab.module.project.i18n.BugI18nEnum;
 import com.esofthead.mycollab.module.project.i18n.OptionI18nEnum.BugResolution;
@@ -113,6 +114,8 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 				.getSpringBean(BugService.class);
 		bug.setProjectid(CurrentProjectVariables.getProjectId());
 		bug.setSaccountid(AppContext.getAccountId());
+		ProjectFormAttachmentUploadField uploadField = view
+				.getAttachUploadField();
 		if (bug.getId() == null) {
 			bug.setStatus(BugStatus.Open.name());
 			bug.setResolution(BugResolution.Newissue.name());
@@ -120,13 +123,14 @@ public class BugAddPresenter extends AbstractMobilePresenter<BugAddView> {
 			bug.setSaccountid(AppContext.getAccountId());
 			int bugId = bugService.saveWithSession(bug,
 					AppContext.getUsername());
+			uploadField.saveContentsToRepo(
+					CurrentProjectVariables.getProjectId(),
+					AttachmentType.PROJECT_BUG_TYPE, bugId);
 		} else {
 			bugService.updateWithSession(bug, AppContext.getUsername());
-
+			uploadField.saveContentsToRepo();
 		}
-		ProjectFormAttachmentUploadField uploadField = view
-				.getAttachUploadField();
-		uploadField.saveContentsToRepo();
+
 		CacheUtils.cleanCache(AppContext.getAccountId(),
 				BugService.class.getName());
 

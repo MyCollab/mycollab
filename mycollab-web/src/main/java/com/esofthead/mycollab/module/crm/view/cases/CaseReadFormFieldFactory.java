@@ -23,6 +23,7 @@ import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.MyCollabResource;
 import com.esofthead.mycollab.vaadin.ui.form.field.EmailViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.LinkViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.esofthead.mycollab.vaadin.ui.form.field.UserLinkViewField;
 import com.vaadin.ui.Field;
 
@@ -45,7 +46,8 @@ class CaseReadFormFieldFactory extends
 		final SimpleCase cases = attachForm.getBean();
 		if (propertyId.equals("accountid")) {
 			return new LinkViewField(cases.getAccountName(),
-					CrmLinkBuilder.generateAccountPreviewLinkFull(cases.getAccountid()),
+					CrmLinkBuilder.generateAccountPreviewLinkFull(cases
+							.getAccountid()),
 					MyCollabResource
 							.newResourceLink("icons/16/crm/account.png"));
 		} else if (propertyId.equals("email")) {
@@ -54,6 +56,8 @@ class CaseReadFormFieldFactory extends
 			return new UserLinkViewField(cases.getAssignuser(),
 					cases.getAssignUserAvatarId(),
 					cases.getAssignUserFullName());
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(cases.getDescription());
 		}
 
 		return null;

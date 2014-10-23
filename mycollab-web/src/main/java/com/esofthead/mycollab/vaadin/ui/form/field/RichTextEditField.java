@@ -16,6 +16,9 @@
  */
 package com.esofthead.mycollab.vaadin.ui.form.field;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
+
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Component;
@@ -52,8 +55,14 @@ public class RichTextEditField extends CustomField<String> {
 	}
 
 	@Override
+	public String getValue() {
+		return textArea.getValue();
+	}
+
+	@Override
 	public void commit() throws SourceException, InvalidValueException {
 		String value = textArea.getValue();
+		value = Jsoup.clean(value, Whitelist.relaxed());
 		this.setInternalValue(value);
 		super.commit();
 	}

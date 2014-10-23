@@ -21,6 +21,7 @@ import com.esofthead.mycollab.module.crm.ui.components.RelatedReadItemField;
 import com.esofthead.mycollab.vaadin.ui.AbstractBeanFieldGroupViewFieldFactory;
 import com.esofthead.mycollab.vaadin.ui.GenericBeanForm;
 import com.esofthead.mycollab.vaadin.ui.form.field.DateTimeViewField;
+import com.esofthead.mycollab.vaadin.ui.form.field.RichTextViewField;
 import com.vaadin.ui.Field;
 
 /**
@@ -39,20 +40,18 @@ class MeetingReadFormFieldFactory extends
 
 	@Override
 	protected Field<?> onCreateField(Object propertyId) {
+		SimpleMeeting meeting = attachForm.getBean();
+
 		if (propertyId.equals("type")) {
-			return new RelatedReadItemField(attachForm.getBean());
+			return new RelatedReadItemField(meeting);
 		} else if (propertyId.equals("startdate")) {
-			if (attachForm.getBean().getStartdate() == null)
-				return null;
-			return new DateTimeViewField(attachForm.getBean()
-					.getStartdate());
+			return new DateTimeViewField(meeting.getStartdate());
 		} else if (propertyId.equals("enddate")) {
-			if (attachForm.getBean().getEnddate() == null)
-				return null;
-			return new DateTimeViewField(attachForm.getBean()
-					.getEnddate());
+			return new DateTimeViewField(meeting.getEnddate());
 		} else if (propertyId.equals("isrecurrence")) {
 			return null;
+		} else if (propertyId.equals("description")) {
+			return new RichTextViewField(meeting.getDescription());
 		}
 		return null;
 	}

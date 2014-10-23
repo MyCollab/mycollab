@@ -120,8 +120,9 @@ public class BugReadPresenter extends AbstractMobilePresenter<BugReadView> {
 				SimpleBug bug = bugService.findById((Integer) data.getParams(),
 						AppContext.getAccountId());
 				if (bug != null) {
-					super.onGo(container, data);
 					view.previewItem(bug);
+					super.onGo(container, data);
+
 					AppContext.addFragment(
 							"project/bug/preview/"
 									+ GenericLinkUtils

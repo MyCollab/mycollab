@@ -348,7 +348,7 @@ public class MessageListViewImpl extends AbstractPageView implements
 			rowLayout.addComponent(messageHeader);
 
 			final Label messageContent = new Label(
-					StringUtils.formatExtraLink(message.getMessage()),
+					StringUtils.formatRichText(message.getMessage()),
 					ContentMode.HTML);
 			messageContent.setStyleName("message-body");
 			rowLayout.addComponent(messageContent);
